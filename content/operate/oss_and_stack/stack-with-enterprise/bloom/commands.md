@@ -16,7 +16,7 @@ The following tables list probabilistic data structure commands. See the command
 
 ## Bloom filter commands
 
-| Command | Redis<br />Enterprise | Redis<br />Cloud | Description |
+| Command | Redis<br />Software | Redis<br />Cloud | Description |
 |:--------|:----------------------|:-----------------|:------|
 | [BF.ADD]({{< relref "commands/bf.add" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> | Adds an item to the filter. |
 | [BF.EXISTS]({{< relref "commands/bf.exists" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> | Checks if an item exists in the filter. |
@@ -30,7 +30,7 @@ The following tables list probabilistic data structure commands. See the command
 
 ## Cuckoo filter commands
 
-| Command | Redis<br />Enterprise | Redis<br />Cloud | Description |
+| Command | Redis<br />Software | Redis<br />Cloud | Description |
 |:--------|:----------------------|:-----------------|:------|
 | [CF.ADD]({{< relref "commands/cf.add" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> | Adds an item to a filter. |
 | [CF.ADDNX]({{< relref "commands/cf.addnx" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> | Adds an item to a filter only if the item does not already exist. |
@@ -47,7 +47,7 @@ The following tables list probabilistic data structure commands. See the command
 
 ## Count-min sketch commands
 
-| Command | Redis<br />Enterprise | Redis<br />Cloud | Description |
+| Command | Redis<br />Software | Redis<br />Cloud | Description |
 |:--------|:----------------------|:-----------------|:------|
 | [CMS.INCRBY]({{< relref "commands/cms.incrby" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> | Increases item counts. |
 | [CMS.INFO]({{< relref "commands/cms.info" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> | Returns width, depth, and total count of the sketch. |
@@ -58,7 +58,7 @@ The following tables list probabilistic data structure commands. See the command
 
 ## Top-k commands
 
-| Command | Redis<br />Enterprise | Redis<br />Cloud | Description |
+| Command | Redis<br />Software | Redis<br />Cloud | Description |
 |:--------|:----------------------|:-----------------|:------|
 | [TOPK.ADD]({{< relref "commands/topk.add" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> | Adds an item to the data structure. |
 | [TOPK.COUNT]({{< relref "commands/topk.count" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> | Returns probable item counts. |
@@ -70,7 +70,7 @@ The following tables list probabilistic data structure commands. See the command
 
 ## T-digest sketch commands
 
-| Command | Redis<br />Enterprise | Redis<br />Cloud | Description |
+| Command | Redis<br />Software | Redis<br />Cloud | Description |
 |:--------|:----------------------|:-----------------|:------|
 | [TDIGEST.ADD]({{< relref "commands/tdigest.add" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> | Adds one or more samples to a t-digest sketch. |
 | [TDIGEST.CDF]({{< relref "commands/tdigest.cdf" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> | Estimates the fraction of all observations which are less than or equal to the specified value. |

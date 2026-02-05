@@ -1,17 +1,17 @@
 ---
-Title: Prepare to install Redis Enterprise Software
+Title: Prepare to install Redis Software
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Prepare to install Redis Enterprise Software.
+description: Prepare to install Redis Software.
 hideListLinks: true
 linkTitle: Prepare to install
 weight: 6
 ---
 
-Before you install Redis Enterprise Software:
+Before you install Redis Software:
 
 - [Download an installation package]({{< relref "/operate/rs/installing-upgrading/install/prepare-install/download-install-package" >}}).
 
@@ -33,4 +33,4 @@ Before you install Redis Enterprise Software:
 
 - View [installation script options]({{< relref "/operate/rs/installing-upgrading/install/install-script" >}}) before starting the installation.
 
-- [Install Redis Enterprise Software]({{< relref "/operate/rs/installing-upgrading/install" >}}).
+- [Install Redis Software]({{< relref "/operate/rs/installing-upgrading/install" >}}).

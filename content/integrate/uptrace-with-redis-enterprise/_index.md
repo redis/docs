@@ -1,17 +1,17 @@
 ---
-LinkTitle: Uptrace with Redis Enterprise
-Title: Uptrace with Redis Enterprise
+LinkTitle: Uptrace with Redis Software
+Title: Uptrace with Redis Software
 alwaysopen: false
 categories:
 - docs
 - integrate
 - rs
 description: To collect, view, and monitor metrics data from your databases and other
-  cluster components, you can connect Uptrace to your Redis Enterprise cluster using
+  cluster components, you can connect Uptrace to your Redis Software cluster using
   OpenTelemetry Collector.
 group: observability
 summary: To collect, view, and monitor metrics data from your databases and other
-  cluster components, you can connect Uptrace to your Redis Enterprise cluster using
+  cluster components, you can connect Uptrace to your Redis Software cluster using
   OpenTelemetry Collector.
 type: integration
 weight: 7
@@ -34,7 +34,7 @@ You can use Uptrace to:
 
 ## Install Collector and Uptrace
 
-Because installing OpenTelemetry Collector and Uptrace can take some time, you can use the [docker-compose](https://github.com/uptrace/uptrace/tree/master/example/redis-enterprise) example that also comes with Redis Enterprise cluster.
+Because installing OpenTelemetry Collector and Uptrace can take some time, you can use the [docker-compose](https://github.com/uptrace/uptrace/tree/master/example/redis-enterprise) example that also comes with Redis Software cluster.
 
 After you download the Docker example, you can edit the following configuration files in the `uptrace/example/redis-enterprise` directory before you start the Docker containers:
 
@@ -50,7 +50,7 @@ After you install Uptrace, you can access the Uptrace UI at [http://localhost:14
 
 ## Scrape Prometheus metrics
 
-Redis Enterprise cluster exposes a Prometheus scraping endpoint on `http://localhost:8070/`. You can scrape that endpoint by adding the following lines to the OpenTelemetry Collector config:
+Redis Software cluster exposes a Prometheus scraping endpoint on `http://localhost:8070/`. You can scrape that endpoint by adding the following lines to the OpenTelemetry Collector config:
 
 ```yaml
 # /etc/otelcol-contrib/config.yaml
@@ -113,7 +113,7 @@ You can also check the full OpenTelemetry Collector config [here](https://github
 
 ## View metrics
 
-When metrics start arriving to Uptrace, you should see a couple of dashboards in the Metrics tab. In total, Uptrace should create 3 dashboards for Redis Enterprise metrics:
+When metrics start arriving to Uptrace, you should see a couple of dashboards in the Metrics tab. In total, Uptrace should create 3 dashboards for Redis Software metrics:
 
 - "Redis: Nodes" dashboard displays a list of cluster nodes. You can select a node to view its metrics.
 

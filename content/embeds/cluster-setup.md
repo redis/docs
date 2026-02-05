@@ -6,7 +6,7 @@
 
 1. Select **Create new cluster**.
 
-    {{<image filename="images/rs/screenshots/cluster/setup/create-cluster.png" alt="When you first install Redis Enterprise Software, you need to set up a cluster." >}}
+    {{<image filename="images/rs/screenshots/cluster/setup/create-cluster.png" alt="When you first install Redis Software, you need to set up a cluster." >}}
 
 2. Enter an email and password for the administrator account, then select **Next** to proceed to cluster setup.
 

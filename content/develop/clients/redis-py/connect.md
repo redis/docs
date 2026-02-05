@@ -256,7 +256,7 @@ for more information about custom retry strategies, with example code.
 ## Connect using Smart client handoffs (SCH)
 
 *Smart client handoffs (SCH)* is a feature of Redis Cloud and
-Redis Enterprise servers that lets them actively notify clients
+Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
 See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})

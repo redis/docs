@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: The call home client sends your Redis Enterprise Software cluster's daily usage statistics to Redis.
+description: The call home client sends your Redis Software cluster's daily usage statistics to Redis.
 linkTitle: Call home client
 weight: 80
 ---

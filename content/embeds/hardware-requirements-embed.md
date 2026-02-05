@@ -1,4 +1,4 @@
-The hardware requirements for Redis Enterprise Software are different for development and production environments.
+The hardware requirements for Redis Software are different for development and production environments.
 
 - In a development environment, you can test your application with a live database.
 
@@ -24,11 +24,11 @@ We recommend these hardware requirements for production systems or for developme
 | Item | Description | Minimum requirements | Recommended |
 |------------|-----------------|------------|-----------------|
 | Nodes<sup>[1](#table-note-1)</sup> per cluster | At least three nodes are required to support a reliable, highly available deployment that handles process failure, node failure, and network split events in a consistent manner. | 3 nodes | >= 3 nodes (Must be an odd number of nodes) |
-| Cores<sup>[2](#table-note-2)</sup> per node | Redis Enterprise Software is based on a multi-tenant architecture and can run multiple Redis processes (or shards) on the same core without significant performance degradation. | 2 cores | >=8 cores |
+| Cores<sup>[2](#table-note-2)</sup> per node | Redis Software is based on a multi-tenant architecture and can run multiple Redis processes (or shards) on the same core without significant performance degradation. | 2 cores | >=8 cores |
 | RAM<sup>[3](#table-note-3)</sup> per node | Defining your RAM size must be part of the capacity planning for your Redis usage. | 8GB | >=32GB |
 | Ephemeral storage | Used for storing [replication files (RDB format) and cluster log files]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}). | RAM x 2 | >= RAM x 4 |
 | Persistent storage<sup>[4](#table-note-4)</sup> | Used for storing [snapshot (RDB format) and AOF files]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}) over a persistent storage media, such as AWS Elastic Block Storage (EBS) or Azure Data Disk. | RAM x 3 | In-memory >= RAM x 4 (except for [extreme 'write' scenarios]({{< relref "/operate/rs/clusters/optimize/disk-sizing-heavy-write-scenarios" >}}))<br /><br /> [Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}) >= (RAM + Flash) x 4. |
-| Network<sup>[5](#table-note-5)</sup> | We recommend using multiple NICs per node where each NIC is >1Gbps, but Redis Enterprise Software can also run over a single 1Gbps interface network used for processing application requests, inter-cluster communication, and storage access. | 1G | >=10G |
+| Network<sup>[5](#table-note-5)</sup> | We recommend using multiple NICs per node where each NIC is >1Gbps, but Redis Software can also run over a single 1Gbps interface network used for processing application requests, inter-cluster communication, and storage access. | 1G | >=10G |
 | Local disk for [Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}) | used to to extend databases DRAM capacity with solid state drives (SSDs). Flash memory must be locally attached. [Read more]({{< relref "/operate/rs/databases/flash/" >}}) | (RAM+Flash) x 1.6 | (RAM+Flash) x 2.5 |
 
 
@@ -44,7 +44,7 @@ Additional considerations:
 
 2. <a name="table-note-2"></a>Cores:
 
-    - When the CPU load reaches a certain level, Redis Enterprise Software sends an alert to the operator.  
+    - When the CPU load reaches a certain level, Redis Software sends an alert to the operator.  
 
     - If your application is designed to put a lot of load on your Redis database, make sure that you have at least one available core for each shard of your database.
 
@@ -60,11 +60,11 @@ Additional considerations:
 
     - If all cluster nodes are utilizing more than 70% of available RAM, highly consider [adding a node]({{< relref "/operate/rs/clusters/add-node" >}}).
 
-    - Do not run any other memory-intensive processes on the Redis Enterprise Software node.
+    - Do not run any other memory-intensive processes on the Redis Software node.
 
 4. <a name="table-note-4"></a>Persistent storage:
 
-    - If no databases on the cluster have [persistence]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}) enabled, minimum persistent storage is RAM x 1.1 and the recommended persistent storage is RAM x 2. Persistent storage is essential because Redis Enterprise also uses it to maintain the cluster and database health, configurations, recovery procedures, and more.
+    - If no databases on the cluster have [persistence]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}) enabled, minimum persistent storage is RAM x 1.1 and the recommended persistent storage is RAM x 2. Persistent storage is essential because Redis Software also uses it to maintain the cluster and database health, configurations, recovery procedures, and more.
   
 5. <a name="table-note-5"></a>Network:
 

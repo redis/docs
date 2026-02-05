@@ -40,14 +40,14 @@ mod cmds_hash_tests {
             }
         }
 
-        match r.hget("myhash", "field1") {
+        match r.hdel("myhash", "field1") {
             Ok(hdel2) => {
-                let hdel2: Option<String> = hdel2;
+                let hdel2: Option<i32> = hdel2;
                 match hdel2 {
                     Some(value) => {
-                        println!("{value}");    // >>> foo
+                        println!("{value}");    // >>> 1
                         // REMOVE_START
-                        assert_eq!(value, "foo");
+                        assert_eq!(value, 1);
                         // REMOVE_END
                     },
                     None => {
@@ -64,20 +64,20 @@ mod cmds_hash_tests {
             }
         }
 
-        match r.hget("myhash", "field2") {
+        match r.hdel("myhash", "field2") {
             Ok(hdel3) => {
-                let hdel3: Option<String> = hdel3;
+                let hdel3: Option<i32> = hdel3;
                 match hdel3 {
-                    Some(_) => {
-                        println!("Some value");
+                    Some(value) => {
+                        println!("{value}");    // >>> 0
                         // REMOVE_START
-                        panic!("Expected None but got Some");
+                        assert_eq!(value, 0);
                         // REMOVE_END
                     },
                     None => {
-                        println!("None");    // >>> None
+                        println!("None");
                         // REMOVE_START
-                        assert!(hdel3.is_none());
+                        panic!("Expected value but got None");
                         // REMOVE_END
                     }
                 }

@@ -1,23 +1,23 @@
 ---
-Title: Redis Enterprise and Redis Open Source feature compatibility
+Title: Redis Software and Redis Open Source feature compatibility
 alwaysopen: false
 categories:
 - docs
 - operate
 - stack
-description: Describes the Redis Enterprise features supported by each Redis Open Source
+description: Describes the Redis Software features supported by each Redis Open Source
   feature.
 linkTitle: Enterprise feature compatibility
 weight: 8
 ---
 
-This article describes compatibility between Redis Enterprise features and Redis Open Source features. Version numbers indicate the minimum module version required for feature support.
+This article describes compatibility between Redis Software features and Redis Open Source features. Version numbers indicate the minimum module version required for feature support.
 
 ## Supported Redis Open Source features
 
-The following table shows which Redis Open Source features are supported by Redis Enterprise Software and Redis Cloud.
+The following table shows which Redis Open Source features are supported by Redis Software and Redis Cloud.
 
-| Feature | Redis Enterprise<br/>Software | Redis Enterprise<br/>Cloud |
+| Feature | Redis<br/>Software | Redis<br/>Cloud |
 |:-------|:-------------------------|:-----------------------|
 | [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) | &#x2705; Supported | &#x2705; Supported |
 | [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}})   | &#x2705; Supported | &#x2705; Supported |
@@ -30,7 +30,7 @@ The following table shows which Redis Open Source features are supported by Redi
 
 ## Feature compatibility
 
-The following tables show Redis Enterprise feature support for each Redis Open Source feature. 
+The following tables show Redis Software feature support for each Redis Open Source feature. 
 
 Version numbers indicate when the feature was first supported.  If you're using an earlier version than what's shown in the table, the feature is not supported.
 
@@ -57,7 +57,7 @@ For details about individual features, see the corresponding documentation.
 
 [^2]: RediSearch version 1.6 supported Replica Of only between databases with the same number of shards.  This limitation was fixed in v2.0. 
 
-[^3]: You cannot use search and query with the [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). This limitation was fixed in Redis Enterprise Software version 8.0.
+[^3]: You cannot use search and query with the [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). This limitation was fixed in Redis Software version 8.0.
 
 [^4]: You currently cannot combine Auto Tiering with Redis Open Source features in Redis Cloud. 
 

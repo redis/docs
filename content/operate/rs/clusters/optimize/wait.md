@@ -5,12 +5,12 @@ categories:
 - docs
 - operate
 - rs
-description: Use the wait command to take full advantage of Redis Enterprise Software's
+description: Use the wait command to take full advantage of Redis Software's
   replication-based durability.
 linkTitle: WAIT command
 weight: $weight
 ---
-Redis Enterprise Software comes with the ability to replicate data
+Redis Software comes with the ability to replicate data
 to another replica for high availability and persist in-memory data on
 disk permanently for durability. With the [`WAIT`]({{<relref "/commands/wait">}}) command, you can
 control the consistency and durability guarantees for the replicated and
@@ -49,6 +49,6 @@ The application only gets the acknowledgment from the write after durability is 
 
 {{< image filename="/images/rs/strong-consistency.png" >}}
 
-The `WAIT` command always returns the number of replicas that acknowledged the write commands sent by the current client before the `WAIT` command, both in the case where the specified number of replicas are reached, or when the timeout is reached. In Redis Enterprise Software, the number of replicas is always 1 for databases with high availability enabled.
+The `WAIT` command always returns the number of replicas that acknowledged the write commands sent by the current client before the `WAIT` command, both in the case where the specified number of replicas are reached, or when the timeout is reached. In Redis Software, the number of replicas is always 1 for databases with high availability enabled.
 
 See the [`WAITAOF`]({{<relref "/commands/waitaof">}}) command for details for enhanced data safety and durability capabilities introduced with Redis 7.2.

@@ -41,14 +41,14 @@ When a Redis version reaches **End-of-Life (EOL)**, Redis Cloud will automatical
 **We strongly recommend using the latest available database version** to benefit from the newest features, performance improvements, and security updates.
 {{< /note >}}
 
-| Version | Support model | Status | EOL Date | Plans |
-|---------|--------|--------|----------|-------|
-| **Redis 8.4** | STS | GA | TBD | Essentials, Pro | 
-| **Redis 8.2** | LTS | GA | TBD | Essentials, Pro |
-| **Redis 8.0** | STS | Preview | TBD | Essentials<sup>[1](#table-note-1)</sup> |
-| **Redis 7.4** | LTS | GA | December 1, 2029 | Essentials, Pro |
-| **Redis 7.2** | LTS | GA | December 1, 2029 | Essentials, Pro |
-| **Redis 6.2** | LTS | GA | April 1, 2027 | Pro |
+| Version | Status | EOL Date | Plans |
+|---------|--------|----------|-------|
+| **Redis 8.4** | GA | TBD | Essentials, Pro |
+| **Redis 8.2** | GA | TBD | Essentials, Pro |
+| **Redis 8.0** | Preview | TBD | Essentials<sup>[1](#table-note-1)</sup> |
+| **Redis 7.4** | GA | December 1, 2029 | Essentials, Pro |
+| **Redis 7.2** | GA | December 1, 2029 | Essentials, Pro |
+| **Redis 6.2** | GA | April 1, 2027 | Pro |
 
 1. <a name="table-note-1" style="display: block; height: 80px; margin-top: -80px;"></a> Redis 8.0 is not available for new databases.
 

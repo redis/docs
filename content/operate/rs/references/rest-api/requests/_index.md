@@ -1,11 +1,11 @@
 ---
-Title: Redis Enterprise REST API requests
+Title: Redis Software REST API requests
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Documents the requests supported by the Redis Enterprise Software REST
+description: Documents the requests supported by the Redis Software REST
   API calls.
 hideListLinks: true
 linkTitle: Requests

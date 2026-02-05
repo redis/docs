@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the call_home_agent object used with Redis Enterprise Software REST API calls.
+description: Documents the call_home_agent object used with Redis Software REST API calls.
 linkTitle: call_home_agent
 weight: $weight
 ---
