@@ -39,7 +39,7 @@ The default policy for [Active-Active databases]({{< relref "/operate/rs/databas
 
 The eviction policy mechanism for Active-Active databases kicks in earlier than for standalone databases because it requires propagation to all participating clusters. 
 The eviction policy starts to evict keys when one of the Active-Active instances reaches 80% of its memory limit. If memory usage continues to rise while the keys are being evicted, the rate of eviction will increase to prevent reaching the Out-of-Memory state.
-As with standalone Redis Enterprise databases, Active-Active eviction is calculated per shard.
+As with standalone Redis Software databases, Active-Active eviction is calculated per shard.
 To prevent over eviction, internal heuristics might prevent keys from being evicted when the shard reaches the 80% memory limit.  In such cases, keys will get evicted only when shard memory reaches 100%.
 
 In case of network issues between Active-Active instances, memory can be freed only when all instances are in sync. If there is no communication between participating clusters, it can result in eviction of all keys and the instance reaching an Out-of-Memory state.

@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the alert_settings object used with Redis Enterprise Software
+description: Documents the alert_settings object used with Redis Software
   REST API calls.
 linkTitle: alert_settings
 weight: $weight
@@ -16,7 +16,7 @@ weight: $weight
 | cluster_certs_about_to_expire | <span class="break-all">[cluster_alert_settings_with_threshold]({{< relref "/operate/rs/references/rest-api/objects/cluster/cluster_alert_settings_with_threshold" >}})</span> object | Cluster certificate will expire in x days |
 | cluster_even_node_count | boolean (default: false) | True high availability requires an odd number of nodes in the cluster |
 | cluster_flash_overcommit | boolean (default: false) | Flash memory committed to databases is larger than cluster total flash memory |
-| cluster_inconsistent_rl_sw | boolean (default: false) | Some nodes in the cluster are running different versions of Redis Enterprise software |
+| cluster_inconsistent_rl_sw | boolean (default: false) | Some nodes in the cluster are running different versions of Redis Software |
 | cluster_internal_bdb | boolean (default: false) | Issues with internal cluster databases |
 | cluster_license_about_to_expire | <span class="break-all">[cluster_alert_settings_with_threshold]({{<relref "/operate/rs/references/rest-api/objects/cluster/cluster_alert_settings_with_threshold">}})</span> object | Cluster license will expire in x days. This alert is enabled by default. Its default threshold is 7 days before license expiration. |
 | cluster_multiple_nodes_down | boolean (default: false) | Multiple cluster nodes are down (this might cause data loss) |

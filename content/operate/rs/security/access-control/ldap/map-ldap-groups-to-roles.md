@@ -5,14 +5,14 @@ categories:
 - docs
 - operate
 - rs
-description: Describes how to map LDAP authorization groups to Redis Enterprise roles
+description: Describes how to map LDAP authorization groups to Redis Software roles
   using the Cluster Manager UI.
 weight: 35
 ---
 
-Redis Enterprise Software uses a role-based mechanism to enable LDAP authentication and authorization.  
+Redis Software uses a role-based mechanism to enable LDAP authentication and authorization.  
 
-Once LDAP is enabled, you need to map LDAP groups to Redis Enterprise access control roles.
+Once LDAP is enabled, you need to map LDAP groups to Redis Software access control roles.
 
 ## Map LDAP groups to roles
 
@@ -40,7 +40,7 @@ You can map LDAP roles when LDAP configuration is not enabled, but they won't ha
 
 1.  When finished, select the **Save** button.
 
-Create a mapping for each LDAP group used to authenticate and/or authorize access to Redis Enterprise Software resources.
+Create a mapping for each LDAP group used to authenticate and/or authorize access to Redis Software resources.
 
 The scope of the authorization depends on the access control role:
 
@@ -54,4 +54,4 @@ The scope of the authorization depends on the access control role:
 
 - Enable and configure [role-based LDAP]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap" >}})
 - Update database ACLs to [authorize LDAP access]({{< relref "/operate/rs/security/access-control/ldap/update-database-acls" >}})
-- Learn more about Redis Enterprise Software [security and practices]({{< relref "/operate/rs/security/" >}})
+- Learn more about Redis Software [security and practices]({{< relref "/operate/rs/security/" >}})

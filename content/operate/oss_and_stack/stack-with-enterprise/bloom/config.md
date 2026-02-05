@@ -1,11 +1,11 @@
 ---
-Title: Probabilistic data structure configuration compatibility with Redis Enterprise
+Title: Probabilistic data structure configuration compatibility with Redis Software
 alwaysopen: false
 categories:
 - docs
 - operate
 - stack
-description: Probabilistic data structure configuration settings supported by Redis Enterprise Software and Redis Cloud.
+description: Probabilistic data structure configuration settings supported by Redis Software and Redis Cloud.
 linkTitle: Configuration
 toc: 'false'
 weight: 30
@@ -13,7 +13,7 @@ weight: 30
 
 ## Configure probabilistic data structures in Redis Software
 
-[Redis Enterprise Software]({{< relref "/operate/rs" >}}) lets you manually change any [RedisBloom configuration setting]({{< relref "/develop/data-types/probabilistic/" >}}configuration/#redisbloom-configuration-parameters).
+[Redis Software]({{< relref "/operate/rs" >}}) lets you manually change any [RedisBloom configuration setting]({{< relref "/develop/data-types/probabilistic/" >}}configuration/#redisbloom-configuration-parameters).
 
 To change the RedisBloom configuration using the Redis Software Cluster Manager UI:
 

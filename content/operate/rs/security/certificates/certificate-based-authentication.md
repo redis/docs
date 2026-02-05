@@ -10,7 +10,7 @@ linkTitle: Certificate-based authentication
 weight: 70
 ---
 
-You can set up certificate-based authentication for specific users to enable secure, passwordless access to the Redis Enterprise Software [REST API]({{<relref "/operate/rs/references/rest-api">}}) and databases.
+You can set up certificate-based authentication for specific users to enable secure, passwordless access to the Redis Software [REST API]({{<relref "/operate/rs/references/rest-api">}}) and databases.
 
 ## Set up certificate-based authentication
 
@@ -28,7 +28,7 @@ To set up certificate-based authentication:
 
 To add a trusted CA certificate `mtls_trusted_ca` to the cluster, use an [update cluster certificates]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates">}}) request.
 
-For Redis Enterprise Software versions 7.22.2 and later, use:
+For Redis Software versions 7.22.2 and later, use:
 
 ```sh
 PUT /v1/cluster/certificates
@@ -42,7 +42,7 @@ PUT /v1/cluster/certificates
 }
 ```
 
-For Redis Enterprise Software versions 7.22.0 and earlier, use:
+For Redis Software versions 7.22.0 and earlier, use:
 
 ```sh
 PUT /v1/cluster/update_cert

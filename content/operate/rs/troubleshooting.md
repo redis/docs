@@ -1,11 +1,11 @@
 ---
-Title: Troubleshooting Redis Enterprise Software
+Title: Troubleshooting Redis Software
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Resources for troubleshooting Redis Enterprise Software
+description: Resources for troubleshooting Redis Software
 linkTitle: Troubleshooting
 weight: 75
 ---

@@ -11,7 +11,7 @@ toc: 'true'
 weight: 30
 ---
 
-Redis Enterprise Software provides optional password complexity rules that meet common requirements.  When enabled, these rules require the password to have:
+Redis Software provides optional password complexity rules that meet common requirements.  When enabled, these rules require the password to have:
 
 - At least 8 characters
 - At least one uppercase character

@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Networking features and considerations for designing your Redis Enterprise Software deployment.
+description: Networking features and considerations for designing your Redis Software deployment.
 hideListLinks: false
 linktitle: Networking
 weight: 39

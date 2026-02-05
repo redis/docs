@@ -5,11 +5,11 @@ categories:
 - docs
 - operate
 - rs
-description: Remove a node from your Redis Enterprise cluster.
+description: Remove a node from your Redis Software cluster.
 linkTitle: Remove node
 weight: 80
 ---
-You might want to remove a node from a Redis Enterprise cluster for one of the following reasons:
+You might want to remove a node from a Redis Software cluster for one of the following reasons:
 
 - To [permanently remove a node](#permanently-remove-a-node) if you no longer need the extra capacity.
 - To [replace a faulty node](#replace-a-faulty-node) with a healthy node.
@@ -87,7 +87,7 @@ To remove a node using the Cluster Manager UI:
 
 1. Click **Remove**.
 
-    Redis Enterprise Software examines the node and the cluster, then takes the actions required to remove the node, such as migrating shards to other nodes. After the process finishes, the node is no longer shown in the UI.
+    Redis Software examines the node and the cluster, then takes the actions required to remove the node, such as migrating shards to other nodes. After the process finishes, the node is no longer shown in the UI.
 
     {{<note>}}
 At any point, you can click the **Cancel removal** button to stop the process. When cancelled, the current internal action is completed, and then the process stops.

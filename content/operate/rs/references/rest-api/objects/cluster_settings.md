@@ -60,16 +60,16 @@ Cluster resources management policy
 | <span class="break-all">redis_migrate_node_threshold_p</span> | integer | Minimum free memory (excluding reserved memory) allowed on a node before automatic migration of shards from it to free more memory |
 | <span class="break-all">redis_provision_node_threshold</span> | integer | Minimum free memory (excluding reserved memory) allowed on a node before new shards can no longer be added to it |
 | <span class="break-all">redis_provision_node_threshold_p</span> | integer | Minimum free memory (excluding reserved memory) allowed on a node before new shards can no longer be added to it |
-| redis_upgrade_policy | **`major`** <br />`latest` | Create/upgrade Redis Enterprise software on databases in the cluster by compatibility with major versions or latest versions of Redis Open Source |
+| redis_upgrade_policy | **`major`** <br />`latest` | Create/upgrade Redis Software on databases in the cluster by compatibility with major versions or latest versions of Redis Open Source |
 | repl_diskless | boolean (default: true) | If true, enables the default Redis diskless replication mechanism |
 | resp3_default | boolean (default: true) | Determines the default value of the `resp3` option upon upgrading a database to version 7.2 |
 | shards_overbooking | boolean | If true, all databases' memory_size is ignored during shards placement |
 | show_internals | boolean | Show internal databases (and their shards and endpoints) REST APIs |
 | <span class="break-all">show_metrics_during_state_machine</span> | boolean | Show metrics during state machine operations |
-| slave_ha | boolean | Enable the replica high-availability mechanism. Deprecated as of Redis Enterprise Software v7.2.4. |
+| slave_ha | boolean | Enable the replica high-availability mechanism. Deprecated as of Redis Software v7.2.4. |
 | <span class="break-all">slave_ha_bdb_cooldown_period</span> | integer | Time in seconds between runs of the replica high-availability mechanism on different nodes on the same database |
 | <span class="break-all">slave_ha_cooldown_period</span> | integer | Time in seconds between runs of the replica high-availability mechanism on different nodes on the same database |
 | slave_ha_grace_period | integer | Time in seconds between a node failure and when the replica high-availability mechanism starts relocating shards |
 | slow_log_max_len | integer (default: 1024) | Set max slow log entries in debug info |
 | use_librdb | boolean | If true, new databases use the new RDB parser instead of the old one |
-| <span class="break-all">witness_disk_update_frequency_divisor</span> | integer (default: 3) | Redis Enterprise Software updates the witness disk every <span class="break-all">`node_max_update_time / witness_disk_update_frequency_divisor`</span> seconds |
+| <span class="break-all">witness_disk_update_frequency_divisor</span> | integer (default: 3) | Redis Software updates the witness disk every <span class="break-all">`node_max_update_time / witness_disk_update_frequency_divisor`</span> seconds |

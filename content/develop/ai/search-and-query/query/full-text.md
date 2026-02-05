@@ -121,6 +121,36 @@ If you want to increase the maximum word distance to two, you can use the follow
 FT.SEARCH idx:bicycle "%%optamised%%"
 {{< /clients-example >}}
 
+### Fuzzy search on a specific attribute
+
+To perform a fuzzy search on a specific text field, use the `@field:(...)` syntax with the fuzzy term inside parentheses.
+
+```
+FT.SEARCH index "@field:(%word%)"
+```
+
+{{% alert title="Important" %}}
+Do not use quotes around the fuzzy term when targeting a specific field. Wrapping the term in quotes (for example, `@field:("%word%")`) converts the query into an exact match search, and the `%` characters are treated as literal characters rather than fuzzy operators.
+{{% /alert  %}}
+
+The following example shows the correct way to perform a fuzzy search with distance one on the `description` field:
+
+```
+FT.SEARCH idx:bicycle "@description:(%optamized%)"
+```
+
+For a fuzzy search with distance two on a specific field:
+
+```
+FT.SEARCH idx:bicycle "@description:(%%optamised%%)"
+```
+
+You can also combine fuzzy searches on multiple fields using boolean operators:
+
+```
+FT.SEARCH idx:bicycle "@description:(%optamized%) | @model:(%jigar%)"
+```
+
 ## Unicode considerations
 
 Redis Query Engine only supports Unicode characters in the [basic multilingual plane](https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane); U+0000 to U+FFFF. Unicode characters beyond U+FFFF, such as Emojis, are not supported and would not be retrieved by queries including such characters in the following use cases:

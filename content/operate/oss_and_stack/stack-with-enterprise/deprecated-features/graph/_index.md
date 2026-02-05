@@ -29,7 +29,7 @@ RedisGraph is the first queryable [Property Graph](https://github.com/opencypher
 
 ## Commands
 
-See [Graph commands]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph/commands" >}}) for a list of graph commands that are supported in Redis Enterprise.
+See [Graph commands]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph/commands" >}}) for a list of graph commands that are supported in Redis Software.
 
 ## Clients
 
@@ -39,7 +39,7 @@ For a list of available RedisGraph clients, see [RedisGraph client libraries](ht
 
 See [Configuration parameters](https://github.com/RedisGraph/RedisGraph/blob/master/docs/docs/configuration.md) for the complete list of RedisGraph configuration parameters.
 
-To learn which configuration parameters are supported in Redis Enterprise, see [Graph configuration compatibility with Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph/config" >}}).
+To learn which configuration parameters are supported in Redis Software, see [Graph configuration compatibility with Redis Software]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph/config" >}}).
 
 ## Design
 

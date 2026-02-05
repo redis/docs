@@ -60,7 +60,7 @@ Returns a gzip file that contains Newline Delimited JSON (NDJSON), which represe
 | persistence | boolean | Indicates if persistence is enabled |
 | provisioned_memory | number | Provisioned memory in bytes |
 | replication | boolean | Indicates if replication is enabled |
-| software_version | string | The Redis Enterprise Software version |
+| software_version | string | The Redis Software version |
 | used_memory | number | Used memory in bytes |
 | using_redis_search | boolean | Indicates if RediSearch is in use |
 | master_shards_count | number | Amount of primary shards |

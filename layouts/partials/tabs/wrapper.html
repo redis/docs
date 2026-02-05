@@ -8,6 +8,7 @@
 {{ $exampleId := .exampleId }}
 {{ $description := .description }}
 {{ $difficulty := .difficulty }}
+{{ $buildsUpon := .buildsUpon }}
 
 {{- /* Build metadata map for each language/client combination */ -}}
 {{- $codetabsMeta := dict -}}
@@ -70,7 +71,7 @@
 
 <!-- spellchecker-disable -->
 {{- if $exampleId -}}
-<a id="{{ $exampleId }}" class="relative"{{ if $description }} data-description="{{ $description | htmlEscape }}"{{ end }}{{ if $difficulty }} data-difficulty="{{ $difficulty | htmlEscape }}"{{ end }} data-codetabs-id="{{ $id }}"></a>
+<a id="{{ $exampleId }}" class="relative"{{ if $description }} data-description="{{ $description | htmlEscape }}"{{ end }}{{ if $difficulty }} data-difficulty="{{ $difficulty | htmlEscape }}"{{ end }}{{ if $buildsUpon }} data-builds-upon="{{ delimit $buildsUpon "," }}"{{ end }} data-codetabs-id="{{ $id }}"></a>
 {{- end -}}
 <div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}" data-codetabs-meta="{{ $codetabsMetaJson | htmlEscape }}">
     <!-- Language selector dropdown with controls -->

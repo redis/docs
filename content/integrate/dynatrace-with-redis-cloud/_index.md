@@ -48,7 +48,7 @@ You'll also need the [Prometheus endpoint for your database]({{< relref "/operat
 
 ## View metrics
 
-The Redis Cloud Integration for Dynatrace contains pre-defined dashboards to aid in monitoring your Redis Enterprise deployment.
+The Redis Cloud Integration for Dynatrace contains pre-defined dashboards to aid in monitoring your Redis Software deployment.
 
 The following dashboards are currently available:
 

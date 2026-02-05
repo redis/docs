@@ -1,4 +1,4 @@
-To make sure that Redis Enterprise Software (RS) servers can pass necessary communications between them,
+To make sure that Redis Software (RS) servers can pass necessary communications between them,
 we recommend that all RS servers have all of the ports listed here open
 between them.
 
@@ -8,7 +8,7 @@ you create it, even outside of this range, the cluster only verifies
 that the assigned port is not already in use. You must manually
 update your firewall with the port for that new database endpoint.
 
-## Ports and port ranges used by Redis Enterprise Software
+## Ports and port ranges used by Redis Software
 
 | Protocol | Port | Connection Source | Description |
 |------------|-----------------|-----------------|-----------------|

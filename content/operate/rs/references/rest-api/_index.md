@@ -5,11 +5,11 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the REST API available to Redis Enterprise Software deployments.
+description: Documents the REST API available to Redis Software deployments.
 hideListLinks: true
 weight: $weight
 ---
-Redis Enterprise Software provides a REST API to help you automate common tasks.
+Redis Software provides a REST API to help you automate common tasks.
 
 Here, you'll find the details of the API and how to use it.  
 
@@ -18,11 +18,11 @@ For more info, see:
 - Supported [request endpoints]({{< relref "/operate/rs/references/rest-api/requests" >}}), organized by path
 - Supported [objects]({{< relref "/operate/rs/references/rest-api/objects" >}}), both request and response
 - Built-in roles and associated [permissions]({{< relref "/operate/rs/references/rest-api/permissions" >}})
-- [Redis Enterprise Software REST API quick start]({{< relref "/operate/rs/references/rest-api/quick-start" >}}) with examples
+- [Redis Software REST API quick start]({{< relref "/operate/rs/references/rest-api/quick-start" >}}) with examples
 
 ## Authentication
 
-Authentication to the Redis Enterprise Software API occurs via [Basic Auth](https://en.wikipedia.org/wiki/Basic_access_authentication). Provide your username and password as the basic auth credentials.
+Authentication to the Redis Software API occurs via [Basic Auth](https://en.wikipedia.org/wiki/Basic_access_authentication). Provide your username and password as the basic auth credentials.
 
 If the username and password is incorrect or missing, the request will fail with a [`401 Unauthorized`](https://www.rfc-editor.org/rfc/rfc9110.html#name-401-unauthorized) status code.
 
@@ -33,7 +33,7 @@ curl -u "demo@redislabs.com:password" \
     https://localhost:9443/v1/bdbs
 ```
 
-For more examples, see the [Redis Enterprise Software REST API quick start]({{< relref "/operate/rs/references/rest-api/quick-start" >}}).
+For more examples, see the [Redis Software REST API quick start]({{< relref "/operate/rs/references/rest-api/quick-start" >}}).
 
 ### Permissions
 
@@ -43,13 +43,13 @@ If a user attempts to access an endpoint that is not allowed in their role, the 
 
 ### Certificates
 
-The Redis Enterprise Software REST API uses [Self-signed certificates]({{< relref "/operate/rs/security/certificates" >}}) to ensure the product is secure. When you use the default self-signed certificates, the HTTPS requests will fail with `SSL certificate problem: self signed certificate` unless you turn off SSL certificate verification.
+The Redis Software REST API uses [Self-signed certificates]({{< relref "/operate/rs/security/certificates" >}}) to ensure the product is secure. When you use the default self-signed certificates, the HTTPS requests will fail with `SSL certificate problem: self signed certificate` unless you turn off SSL certificate verification.
 
 ## Ports
 
 All calls must be made over SSL to port 9443. For the API to work, port 9443 must be exposed to incoming traffic or mapped to a different port.
 
-If you are using a [Redis Enterprise Software Docker image]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}), run the following command to start the Docker image with port 9443 exposed:
+If you are using a [Redis Software Docker image]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}), run the following command to start the Docker image with port 9443 exposed:
 
 ```sh
 docker run -p 9443:9443 redislabs/redis
@@ -72,7 +72,7 @@ When an endpoint supports multiple versions, each version is documented on the c
 
 ### Requests
 
-Redis Enterprise REST API requests support the following HTTP headers:
+Redis Software REST API requests support the following HTTP headers:
 
 | Header | Supported/Required Values |
 |--------|---------------------------|
@@ -84,7 +84,7 @@ If the client specifies an invalid header, the request will fail with a [`400 Ba
 
 ### Responses
 
-Redis Enterprise REST API responses support the following HTTP headers:
+Redis Software REST API responses support the following HTTP headers:
 
 | Header | Supported/Required Values |
 |--------|---------------------------|
@@ -93,7 +93,7 @@ Redis Enterprise REST API responses support the following HTTP headers:
 
 ## JSON requests and responses
 
-The Redis Enterprise Software REST API uses [JavaScript Object Notation (JSON)](http://www.json.org) for requests and responses. See the [RFC 4627 technical specifications](http://www.ietf.org/rfc/rfc4627.txt) for additional information about JSON.
+The Redis Software REST API uses [JavaScript Object Notation (JSON)](http://www.json.org) for requests and responses. See the [RFC 4627 technical specifications](http://www.ietf.org/rfc/rfc4627.txt) for additional information about JSON.
 
 Some responses may have an empty body but indicate the response with standard [HTTP codes](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html).
 
@@ -107,7 +107,7 @@ If you omit certain JSON object fields from a request, they may be assigned defa
 
 [HTTP status codes](https://www.rfc-editor.org/rfc/rfc9110.html#name-status-codes) indicate the result of an API request. This can be `200 OK` if the server accepted the request, or it can be one of many error codes.
 
-The most common responses for a Redis Enterprise API request are:
+The most common responses for a Redis Software API request are:
 
 | Response | Condition/Required handling |
 |----------|-----------------------------|

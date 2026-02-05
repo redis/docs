@@ -12,7 +12,7 @@ toc: 'true'
 weight: 20
 ---
 
-You can manage your Redis Enterprise Software databases with several tools:
+You can manage your Redis Software databases with several tools:
 
 - [Cluster Manager UI](#edit-database-settings) (the web-based user interface)
 
@@ -28,7 +28,7 @@ You can manage your Redis Enterprise Software databases with several tools:
 
 ## Edit database settings
 
-You can change the configuration of a Redis Enterprise Software database at any time.<!--more-->
+You can change the configuration of a Redis Software database at any time.<!--more-->
 
 To edit the configuration of a database using the Cluster Manager UI:
 
@@ -83,11 +83,11 @@ after the database is created.
 
 When you create a new in-memory database, you can enable multiple Redis Stack [**Capabilities**]({{<relref "/operate/oss_and_stack/stack-with-enterprise">}}).
 
-Databases created with or upgraded to Redis version 8 or later automatically enable the capabilities (modules) bundled with Redis Enterprise Software as follows:
+Databases created with or upgraded to Redis version 8 or later automatically enable the capabilities (modules) bundled with Redis Software as follows:
 
 {{<embed-md "rs-8-enabled-modules.md">}}
 
-For Auto Tiering databases, you can enable capabilities that support Auto Tiering. See [Redis Enterprise and Redis Stack feature compatibility 
+For Auto Tiering databases, you can enable capabilities that support Auto Tiering. See [Redis Software and Redis Stack feature compatibility 
 ]({{< relref "/operate/oss_and_stack/stack-with-enterprise/enterprise-capabilities" >}}) for compatibility details.
 
 {{<note>}}
@@ -195,7 +195,7 @@ With [**Replica Of**]({{<relref "/operate/rs/databases/import-export/replica-of/
 
 [RESP]({{<relref "/develop/reference/protocol-spec">}})  (Redis Serialization Protocol) is the protocol clients use to communicate with Redis databases. If you enable RESP3 support, the database will support the RESP3 protocol in addition to RESP2.
 
-For more information about Redis Software's compatibility with RESP3, see [RESP compatibility with Redis Enterprise]({{<relref "/operate/rs/references/compatibility/resp">}}).
+For more information about Redis Software's compatibility with RESP3, see [RESP compatibility with Redis Software]({{<relref "/operate/rs/references/compatibility/resp">}}).
 
 ### Internode encryption
 

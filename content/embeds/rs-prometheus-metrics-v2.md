@@ -43,6 +43,7 @@
 | <span class="break-all">endpoint_write_requests_latency_histogram_bucket</span> | histogram | Latency histograms for write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_write_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
 | endpoint_write_responses | counter | Number of write responses |
 | db_config | counter | This is an information metric that holds database configuration within labels such as: db_name, db_version, db_port, tls_mode |
+| db_status | gauge | This is a status metric that reports on various database statuses: 0 = active, 1 = active-change-pending, 2 = pending, 3 = import-pending, 4 = delete-pending, 5 = recovery |
 
 ## Node metrics
 
@@ -53,7 +54,7 @@
 | <span class="break-all">node_available_memory_bytes</span> | gauge | Amount of free memory in the node (bytes) |
 | <span class="break-all">node_available_memory_no_overbooking_bytes</span> | gauge | Available RAM in the node (bytes) without taking into account overbooking |
 | node_bigstore_free_bytes | gauge | Sum of free space of back-end flash (used by flash database's [BigRedis]) on all cluster nodes (bytes); returned only when BigRedis is enabled |
-| <span class="break-all">node_cert_expires_in_seconds</span> | gauge | Certificate expiration (in seconds) per given node; read more about [certificates in Redis Enterprise]({{< relref "/operate/rs/security/certificates" >}}) and [monitoring certificates]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) |
+| <span class="break-all">node_cert_expires_in_seconds</span> | gauge | Certificate expiration (in seconds) per given node; read more about [certificates in Redis Software]({{< relref "/operate/rs/security/certificates" >}}) and [monitoring certificates]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) |
 | <span class="break-all">customer_managed_ine_certificates</span> | gauge | Indicates whether customer-provided internode encryption certificates are in use<br />0=No<br />1=Yes |
 | <span class="break-all">node_ephemeral_storage_avail_bytes</span> | gauge | Disk space available to RLEC processes on configured ephemeral disk (bytes) |
 | <span class="break-all">node_ephemeral_storage_free_bytes</span> | gauge | Free disk space on configured ephemeral disk (bytes) |
