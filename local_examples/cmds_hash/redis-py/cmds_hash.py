@@ -10,18 +10,18 @@ hdel1 = r.hset("myhash", "field1", "foo")
 print(hdel1)
 # >>> 1
 
-hdel2 = r.hget("myhash", "field1")
+hdel2 = r.hdel("myhash", "field1")
 print(hdel2)
 # >>> 1
 
-hdel3 = r.hget("myhash", "field2")
+hdel3 = r.hdel("myhash", "field2")
 print(hdel3)
 # >>> 0
 
 # REMOVE_START
 assert hdel1 == 1
-assert hdel2 == "foo"
-assert hdel3 == None
+assert hdel2 == 1
+assert hdel3 == 0
 r.delete("myhash")
 # REMOVE_END
 # STEP_END

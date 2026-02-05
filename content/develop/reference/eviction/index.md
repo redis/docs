@@ -202,12 +202,14 @@ From Redis 3.0 onwards, the algorithm also tracks a pool of good
 candidates for eviction. This improves the performance of the algorithm, making
 it a close approximation to a true LRU algorithm.
 
-You can tune the performance of the algorithm by changing the number of samples to check
+(Redis Open Source only) You can tune the performance of the algorithm by changing the number of samples to check
 before every eviction with the `maxmemory-samples` configuration directive:
 
 ```
 maxmemory-samples 5
 ```
+
+See these pages for information on eviction policies in: (1) [Redis Software]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) and (2) [Redis Cloud]({{< relref "/operate/rc/databases/configuration/data-eviction-policies" >}}).
 
 The reason Redis does not use a true LRU implementation is because it
 costs more memory. However, the approximation is virtually equivalent for an
