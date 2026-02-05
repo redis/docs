@@ -224,7 +224,7 @@ global:
   openShift: true
 ```
 
-You should also set `global.securityContext.runAsUser` and
+Set `global.securityContext.runAsUser` and
 `global.securityContext.runAsGroup` to the appropriate values for your
 OpenShift environment.
 
@@ -256,6 +256,20 @@ oc get projects <rid-project-name> -o yaml | grep "openshift.io/sa.scc"
 ```
 {{< /warning >}}
 
+You should also set `reloader.reloader.deployment.image.name` to the name of the
+reloader image in your registry:
+
+```yaml
+# Configuration of the reloader.
+# Set `isOpenshift` to `true` if deploying on OpenShift.
+reloader:
+  reloader:
+    # ...
+    deployment:
+      image:
+        name: my-registry.com/my-repo/reloader
+        #...
+```
 
 ## Check the installation
 
