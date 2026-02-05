@@ -151,3 +151,13 @@ Once the databases are synced, you can disable Active-Passive for the target dat
 
 ## Migrate database endpoints
 
+You can migrate your database endpoints to any Redis Cloud Pro database in the same account. Migrating your database endpoints after migrating your data lets you direct connections to your new database without any code changes.
+
+{{< note >}}
+Be aware of the following limitations to database endpoint migration:
+- The following steps migrate the **database endpoints only**. They do not migrate the data in the database. Use the [Transfer via import](#transfer-via-import) or [Sync using Active-Passive](#sync-using-active-passive) methods to migrate the data in your database.
+- The target database must be a Redis Cloud Pro database.
+- The target database must have the same port number as the source database.
+- The target database must use the same connectivity method (such as TLS, VPC Peering, and other connectivity options) as the source database. 
+- Databases created before {{RELEASE DATE}} have both dynamic and static endpoints. You can only migrate the dynamic endpoints to point to a new database. If your application uses the static endpoints, you must update your application to use the dynamic endpoints before you can migrate the endpoints.
+{{< /note >}}

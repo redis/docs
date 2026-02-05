@@ -38,7 +38,7 @@ To upgrade your Essentials database to Redis Cloud Pro:
 - In the [**Sizing tab**]({{< relref "/operate/rc/databases/create-database/create-pro-database-new#sizing-tab" >}}), create your databases with the following specifications:
     - Set the memory limit to comply with [Active-Passive memory requirements]({{< relref "/operate/rc/databases/migrate-databases#active-passive-memory-requirements" >}}) if you want to migrate your database using [Active-Passive]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}).
     - Select any advanced capabilities that your Essentials database offers. You can find a list of enabled advanced capabilities in the [Configuration tab]({{< relref "/operate/rc/databases/view-edit-database#configuration-details-tab" >}}) of your database.
-    - In **More options**, set the **Port** to match the port of your Essentials database.
+    - In **More options**, set the **Port** to **Manually assign**, and enter the port of your Essentials database. You must set the port number to match the port of your Essentials database if you want to migrate your database endpoints.
 
 ### Migrate database
 
@@ -89,10 +89,6 @@ Before you follow this guide, be aware of the following limitations:
     {{<image filename="images/rc/migrate-data-status-synced.png" alt="When the data is migrated, the target database status displays `Synced`." width=100px >}}
 
     Active-Passive sync lets you migrate data while apps and other connections are using the source database. Once the data is migrated, you should migrate active connections to the target database before you move on.
-
-1. After your data and connections are migrated, turn off **Active-Passive Redis** from the target database.
-
-1. [Delete the source database]({{< relref "/operate/rc/databases/delete-database" >}}).
 
 ### Migrate endpoints
 
