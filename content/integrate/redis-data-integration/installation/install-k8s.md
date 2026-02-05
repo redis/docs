@@ -115,6 +115,18 @@ global:
   # Image pull secrets to be used when using a private image registry.
   imagePullSecrets:
     - name: your-secret-name
+
+# ...
+
+# Configuration of the reloader.
+# Set `isOpenshift` to `true` if deploying on OpenShift.
+reloader:
+  reloader:
+    # ...
+    deployment:
+      image:
+        name: my-registry.com/my-repo/reloader
+        #...
 ```
 
 To pull images from a private image registry, you must provide the image pull secret and in some cases also set the permissions. Follow the links below to learn how to use a private registry with:
@@ -255,21 +267,6 @@ to find the user and group ranges for your project:
 oc get projects <rid-project-name> -o yaml | grep "openshift.io/sa.scc"
 ```
 {{< /warning >}}
-
-You should also set `reloader.reloader.deployment.image.name` to the name of the
-reloader image in your registry:
-
-```yaml
-# Configuration of the reloader.
-# Set `isOpenshift` to `true` if deploying on OpenShift.
-reloader:
-  reloader:
-    # ...
-    deployment:
-      image:
-        name: my-registry.com/my-repo/reloader
-        #...
-```
 
 ## Check the installation
 
