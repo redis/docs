@@ -33,7 +33,7 @@ Redis Cloud supports the following version support models:
 - **Long-Term Support (LTS)** versions are the second and last minor versions in a major version. LTS versions on Redis Cloud get 5 years of extended support, including security updates and major bug fixes.
 - **Short-Term Support (STS)** versions are all minor releases except the second and last minor versions in a major version. STS versions on Redis Cloud are supported for 6 months after the release of the following version.
 
-When a Redis version reaches **End-of-Life (EOL)**, Redis Cloud will automatically upgrade your database to the latest minor version during maintenance windows if you do not manually upgrade before EOL.
+When a Redis version reaches **End-of-Life (EOL)**, Redis Cloud will automatically upgrade your database to the next minor version during maintenance windows if you do not manually upgrade before EOL.
 
 ## Supported database versions
 
@@ -43,7 +43,7 @@ When a Redis version reaches **End-of-Life (EOL)**, Redis Cloud will automatical
 
 | Version | Support model | Status | EOL Date | Plans |
 |---------|--------|--------|----------|-------|
-| **Redis 8.4** | STS | Preview | TBD | Essentials | 
+| **Redis 8.4** | STS | GA | TBD | Essentials, Pro | 
 | **Redis 8.2** | LTS | GA | TBD | Essentials, Pro |
 | **Redis 8.0** | STS | Preview | TBD | Essentials<sup>[1](#table-note-1)</sup> |
 | **Redis 7.4** | LTS | GA | December 1, 2029 | Essentials, Pro |
@@ -67,7 +67,7 @@ For existing databases:
 
 | Feature | Essentials | Pro |
 |---------|------------|-----|
-| Minor version auto-upgrades (Redis 8+) | Always enabled, upgrades to latest minor version | Default enabled, can disable |
+| Minor version auto-upgrades (Redis 8.4+) | Always enabled, upgrades to latest minor version | Default enabled, can disable |
 | Major version upgrades | Customer controlled | Customer controlled |
 | Manual upgrades | Yes | Yes |
 | [Automatic upgrade time]({{< relref "/operate/rc/subscriptions/maintenance" >}}) | Standard - between 12 AM and 6 AM region time | Configurable - [Set maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}) |
