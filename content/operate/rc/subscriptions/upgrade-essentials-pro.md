@@ -90,7 +90,47 @@ Before you follow this guide, be aware of the following limitations:
 
     Active-Passive sync lets you migrate data while apps and other connections are using the source database. Once the data is migrated, you should migrate active connections to the target database before you move on.
 
-### Migrate endpoints
+### Migrate database endpoints
 
+Migrating your database endpoints after migrating your data lets you direct connections to your new database without any code changes.
 
+{{< note >}}
+Be aware of the following limitations to database endpoint migration:
+- The following steps migrate the **database endpoints only**. They do not migrate the data in the database.
+- The target database must have the same port number and default user settings as the source database.
+- Databases created before {{RELEASE DATE}} have both dynamic and static endpoints. You can only migrate the dynamic endpoints to point to a new database. If your application uses the static endpoints, it will connect to the source database instead of the target database. You must update your application to use the dynamic endpoints before you can migrate the endpoints.
+{{< /note >}}
 
+To migrate your database endpoints:
+
+1. From the Redis Cloud console, select **Databases** from the menu and select the source database in the list.
+
+1. In the **General** section of the **Configuration** tab, select **Redirect endpoints**.
+
+    {{<image filename="images/rc/databases-configuration-redirect-endpoints.png" alt="Use the **Redirect endpoints** button to change the target database for the source database endpoints." >}}
+
+1. Select the target Redis Cloud Pro database from the **Target database** list. You can type in the database's name to find it.
+
+    You can choose whether to map the original endpoint to the **Public** or the **Private** endpoint.
+
+    {{<image filename="images/rc/migrate-data-redirect-essentials-endpoints.png" alt="Choose whether to map the original endpoint to the Public or Private endpoint." >}}
+
+1. If you want to assign the same [Role-based Access Control (RBAC) roles]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to the target database that are assigned to the source database, select **Assign the same ACLs to the target database**.
+
+    {{<image filename="images/rc/migrate-data-redirect-assign-acls.png" alt="Select **Assign the same ACLs to the target database** to assign the same roles to the target database." >}}
+
+1. Select **I acknowledge this action will redirect my database endpoints** to confirm that you understand that this action will redirect your database endpoints. Then select **Redirect endpoints**.
+
+    {{<image filename="images/rc/migrate-data-redirect-acknowledge.png" alt="The **Redirect endpoints** button redirects the source database endpoints to the target database." >}}
+
+After you redirect your database endpoints, you can go to the **Configuration** tab of the target database to verify that the endpoints now point to the target database. 
+
+You can revert endpoint migration within 24 hours to restore the original endpoints. Select **Revert** to revert endpoint migration.
+
+{{<image filename="images/rc/migrate-data-redirect-revert.png" alt="The **Revert** button reverts endpoint migration." >}}
+
+After the 24-hour window, you can no longer revert to the original endpoints.
+
+### Delete Essentials database
+
+After your data and connections are migrated, turn off **Active-Passive Redis** from the target database, and then [delete the source database]({{< relref "/operate/rc/databases/delete-database" >}}).
