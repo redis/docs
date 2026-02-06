@@ -119,7 +119,6 @@ global:
 # ...
 
 # Configuration of the reloader.
-# Set `isOpenshift` to `true` if deploying on OpenShift.
 reloader:
   reloader:
     # ...
