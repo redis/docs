@@ -44,7 +44,7 @@ and follow the instructions for the cloud platform of your choice.
 
 You'll also need the [Prometheus endpoint for your database]({{< relref "/operate/rc/databases/monitor-performance#connect-to-prometheus" >}}) from the [Redis Cloud console](https://cloud.redis.io/).
 
-{{< embed-md "content/embeds/rc-get-prometheus-endpoint.md" >}}
+{{< embed-md "rc-get-prometheus-endpoint.md" >}}
 
 ## View metrics
 

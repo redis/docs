@@ -64,7 +64,7 @@ Get metrics from Redis Cloud:
 
 Replace `REDIS_CLOUD_HOST` with the [Prometheus endpoint for your database]({{< relref "/operate/rc/databases/monitor-performance#connect-to-prometheus" >}}), which you can get from the [Redis Cloud console](https://cloud.redis.io/). 
 
-{{< embed-md "content/embeds/rc-get-prometheus-endpoint.md" >}}
+{{< embed-md "rc-get-prometheus-endpoint.md" >}}
 
 Write them to New Relic:
 

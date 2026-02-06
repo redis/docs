@@ -45,7 +45,7 @@ You can quickly set up Prometheus and Grafana for testing using the Prometheus a
 
 1. Get the prometheus endpoint for your database from the [Redis Cloud console]({{< relref "/operate/rc/databases/monitor-performance#connect-to-prometheus" >}}).
 
-    {{< embed-md "content/embeds/rc-get-prometheus-endpoint.md" >}}
+    {{< embed-md "rc-get-prometheus-endpoint.md" >}}
 
 1. Create an instance to run Prometheus and Grafana on the same cloud provider as your Redis Cloud subscription (for example, Amazon Web Services or Google Cloud). This instance must:
     - Exist in the same region as your Redis Cloud subscription.
