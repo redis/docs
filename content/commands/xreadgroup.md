@@ -180,11 +180,15 @@ When `CLAIM min-idle-time` is used, additional information is provided for each 
 
 ### Ordering guarantees
 
-When using `CLAIM`, the following ordering guarantees apply:
+Within each stream, entries are reported in the same order they were added by `XADD` (older first).
+
+When not blocked, across streams, entries are reported in the order the streams were specified.
+
+When using `CLAIM`, the following ordering guarantees apply per stream:
 
 - Idle pending entries are reported first, then incoming entries
 - Idle pending entries are ordered by idle time (longer first)
-- Incoming entries are ordered by the order they were appended to the stream (older first)
+- Incoming entries are reported in the order they were added by `XADD` (older first)
 
 For example, if there are 20 idle pending entries and 200 incoming entries (in all the specified streams together):
 - When calling `XREADGROUP ... CLAIM ...`, you would retrieve 220 entries in the reply
