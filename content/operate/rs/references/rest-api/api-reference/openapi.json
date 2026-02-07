@@ -720,9 +720,9 @@
             "type": "object"
           }
         ],
-        "description": "An API object that represents a Redis Enterprise role.",
+        "description": "An API object that represents a Redis Software role.",
         "example": {
-          "management": "admin",
+          "management": "cluster_member",
           "name": "DBA",
           "uid": 1
         }
@@ -909,7 +909,7 @@
         "type": "object"
       },
       "User": {
-        "description": "An API object that represents an Redis Enterprise Cluster user.",
+        "description": "An API object that represents an Redis Software Cluster user.",
         "example": {
           "auth_method": "regular",
           "email": "user@redis.com",
@@ -1166,8 +1166,8 @@
     }
   },
   "info": {
-    "description": "Redis Enterprise Software REST API reference. This API reference is still a work in progress. For more API paths, see the [REST API requests](https://redis.io/docs/latest/operate/rs/references/rest-api/requests/) reference pages.",
-    "title": "Redis Enterprise Software REST API",
+    "description": "Redis Software REST API reference. This API reference is still a work in progress. For more API paths, see the [REST API requests](https://redis.io/docs/latest/operate/rs/references/rest-api/requests/) reference pages.",
+    "title": "Redis Software REST API",
     "version": "1.0.0"
   },
   "openapi": "3.0.0",
@@ -1722,7 +1722,7 @@
     },
     "/v1/roles": {
       "get": {
-        "description": "Get all Redis Enterprise roles configured in the cluster.",
+        "description": "Get all Redis Software roles configured in the cluster.",
         "operationId": "cluster_get_roles",
         "responses": {
           "200": {
@@ -1749,7 +1749,7 @@
             ]
           }
         ],
-        "summary": "Get all Redis Enterprise roles",
+        "summary": "Get all Redis Software roles",
         "tags": [
           "Roles"
         ],
@@ -1821,7 +1821,7 @@
             ]
           }
         ],
-        "summary": "Create a new Redis Enterprise role",
+        "summary": "Create a new Redis Software role",
         "tags": [
           "Roles"
         ],
@@ -1893,7 +1893,7 @@
             ]
           }
         ],
-        "summary": "Delete a Redis Enterprise role",
+        "summary": "Delete a Redis Software role",
         "tags": [
           "Roles"
         ],
@@ -1941,7 +1941,7 @@
             ]
           }
         ],
-        "summary": "Get a single Redis Enterprise role",
+        "summary": "Get a single Redis Software role",
         "tags": [
           "Roles"
         ],
@@ -2022,7 +2022,7 @@
             ]
           }
         ],
-        "summary": "Update a Redis Enterprise role",
+        "summary": "Update a Redis Software role",
         "tags": [
           "Roles"
         ],
@@ -2032,7 +2032,7 @@
     },
     "/v1/users": {
       "get": {
-        "description": "Get all Redis Enterprise Cluster users in the cluster",
+        "description": "Get all Redis Software users in the cluster",
         "operationId": "cluster_get_users",
         "responses": {
           "200": {
@@ -2059,7 +2059,7 @@
             ]
           }
         ],
-        "summary": "Get all Redis Enterprise Cluster users",
+        "summary": "Get all Redis Software users",
         "tags": [
           "Users"
         ],
@@ -2127,7 +2127,7 @@
             ]
           }
         ],
-        "summary": "Create a new Redis Enterprise Cluster user",
+        "summary": "Create a new Redis Software user",
         "tags": [
           "Users"
         ],
@@ -2529,7 +2529,7 @@
             ]
           }
         ],
-        "summary": "Delete a Redis Enterprise Cluster user",
+        "summary": "Delete a Redis Software user",
         "tags": [
           "Users"
         ],
@@ -2575,7 +2575,7 @@
             "Auth": []
           }
         ],
-        "summary": "Get a single Redis Enterprise Cluster user",
+        "summary": "Get a single Redis Software user",
         "tags": [
           "Users"
         ],
@@ -2652,7 +2652,7 @@
             "Auth": []
           }
         ],
-        "summary": "Update a Redis Enterprise Cluster user",
+        "summary": "Update a Redis Software user",
         "tags": [
           "Users"
         ],
