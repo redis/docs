@@ -31,7 +31,7 @@ Update urgency: `SECURITY`: There are security fixes in the release.
 - RediSearch/RediSearch[#6973](https://github.com/redisearch/redisearch/pull/6973) Correct empty string token counting in `byteOffset` calculations to ensure accurate text position tracking (MOD-11233).
 - RediSearch/RediSearch[#6995](https://github.com/redisearch/redisearch/pull/6995) Prevent `FT.INFO` command fanout to replicas to reduce unnecessary cluster traffic.
 - RediSearch/RediSearch[#7154](https://github.com/redisearch/redisearch/pull/7154) Display Background Indexing OOM warning in `FT.AGGREGATE` when memory limits are approached (MOD-11817).
-- RediSearch/RediSearch[#7219](https://github.com/redisearch/redisearch/pull/7219) Resolve concurrency issue in `FT.AGGREGATE`reducer that caused intermittent errors (MOD-12243).
+- RediSearch/RediSearch[#7219](https://github.com/redisearch/redisearch/pull/7219) Resolve concurrency issue in `FT.AGGREGATE `reducer that caused intermittent errors (MOD-12243).
 - RediSearch/RediSearch[#7255](https://github.com/redisearch/redisearch/pull/7255) Correct `BM25STD` underflow wraparound to prevent incorrect scoring (MOD-12223).
 - RediSearch/RediSearch[#7264](https://github.com/redisearch/redisearch/pull/7264) Ensure accurate `totalDocsLen` updates to maintain correct document statistics (MOD-12234).
 - RediSearch/RediSearch[#7275](https://github.com/redisearch/redisearch/pull/7275) Report used memory as `unsigned long` to prevent overflow (RED-169833).
