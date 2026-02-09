@@ -10924,7 +10924,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -11004,7 +11004,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -11312,7 +11312,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -11330,7 +11330,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -11586,7 +11586,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           },
@@ -12235,7 +12235,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -12538,7 +12538,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -12678,7 +12678,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -12850,7 +12850,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -13060,7 +13060,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           },
@@ -13180,7 +13180,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -13330,7 +13330,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -13794,7 +13794,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           },
@@ -13838,7 +13838,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -13962,7 +13962,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           },
@@ -14077,7 +14077,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14288,7 +14288,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14325,7 +14325,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14363,7 +14363,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14724,7 +14724,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14805,7 +14805,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14858,7 +14858,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14939,7 +14939,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -15244,7 +15244,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -15450,7 +15450,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -15501,7 +15501,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -16986,7 +16986,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           },
@@ -17110,7 +17110,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -17805,7 +17805,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
