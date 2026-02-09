@@ -102,7 +102,7 @@ client.shutdown();
 ### Database configuration
 
 Use the `DatabaseConfig` builder to configure each database in the list.
-The builder provides the following options:
+The builder provides the following methods:
 
 | Method | Default | Description |
 | --- | --- | --- |
@@ -122,10 +122,10 @@ including failback configuration:
 | `failbackCheckInterval()` | `Duration.ofSeconds(120)` | Interval for checking if failed databases have recovered. |
 | `gracePeriod()` | `Duration.ofSeconds(60)` | Time to wait before allowing failback to a recovered database. |
 | `delayInBetweenFailoverAttempts()` | `Duration.ofSeconds(12)` | Delay between failover attempts when no healthy database is available. |
-| `initializationPolicy()` | `MAJORITY_AVAILABLE` | `InitializationPolicy` for connection initialization. |
+| `initializationPolicy()` | `MAJORITY_AVAILABLE` | `InitializationPolicy` enum value for connection initialization. |
 
 The initialization policy is used to decide if the number of healthy databases available
-at startup is sufficient to consider the client initialized and ready to use. The available
+at startup is sufficient to consider the client initialized and ready to use. The
 policies are:
 
 - `ALL_AVAILABLE` - All databases must be available.
@@ -174,7 +174,7 @@ DatabaseConfig db = DatabaseConfig.builder(redisUri)
 
 The builder provides the following methods:
 
-| Builder method | Default value | Description|
+| Method | Default value | Description|
 | --- | --- | --- |
 | `metricsWindowSize()` | `2` | Duration in seconds to keep failures and successes in the sliding window. |
 | `minimumNumberOfFailures()` | `1000` | Minimum number of failures that must occur before the circuit breaker is tripped. |
@@ -249,7 +249,7 @@ The methods of the base `HealthCheckStrategy` builder are shown in the table bel
 Note that some strategies (including your own custom strategies) may use a
 subclass of `HealthCheckStrategy.Config` to provide extra options.
 
-| Builder method | Default value | Description |
+| Method | Default value | Description |
 | --- | --- | --- |
 | `interval()` | `1000` | Interval in milliseconds between health checks. |
 | `timeout()` | `1000` | Timeout in milliseconds for health check requests. |
@@ -320,7 +320,7 @@ DatabaseConfig db = DatabaseConfig.builder(redisUri)
 The `LagAwareStrategy.Config` builder has the following options in
 addition to the standard options provided by `HealthCheckStrategy.Config`:
 
-| Builder method | Default value | Description|
+| Method | Default value | Description|
 | --- | --- | --- |
 | `restApiUri()` | (required) | URI of the Redis Software REST API. |
 | `credentials()` | (required) | Credentials for accessing the REST API. |
