@@ -67,9 +67,9 @@ is a new key to create or an existing JSON key to modify.
 A JSONPath expression that resolves to zero or more locations within the JSON document.
 
 - The root of the document is specified as `$` or `.`.
-- If` path` resolves to one or more existing locations, the value at each matched location is replaced with `value`.
+- If `path` resolves to one or more existing locations, the value at each matched location is replaced with `value`.
 - If the final token of `path` is a non-existing object member and the parent location exists and is an object, the member is created and set to `value`.
-- If any intermediate path element does not exist, the path cannot be created, and the command returns (nil).
+- If any intermediate path element does not exist, the path cannot be created, and the command returns nil.
 
 Optional arguments `NX` and `XX` modify this behavior for both new keys and existing JSON keys.
 </details>
@@ -180,7 +180,7 @@ redis> JSON.SET nonexistentkey $.x 5
 One of the following:
 * [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
 * [Null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}): if `key` exists but `path` does not exist and cannot be created, or if an `NX` or `XX` condition is unmet.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) expected ...}` - if the value is invalid.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) expected ...` - if the value is invalid.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) Error occurred on position ... expected ...` - if the path is invalid.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR new objects must be created at the root` - if `key` does not exist and `path` is not root (`$` or `.`).
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR wrong static path` - if a dynamic path expression has no matching locations.
@@ -191,7 +191,7 @@ One of the following:
 One of the following:
 * [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
 * [Null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}): if `key` exists but `path` does not exist and cannot be created, or if an `NX` or `XX` condition is unmet.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) expected ...}` - if the value is invalid.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) expected ...` - if the value is invalid.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) Error occurred on position ... expected ...` - if the path is invalid.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR new objects must be created at the root` - if `key` does not exist and `path` is not root (`$` or `.`).
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR wrong static path` - if a dynamic path expression has no matching locations.
