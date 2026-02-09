@@ -90,18 +90,15 @@ Before you follow this guide, be aware of the following limitations:
 
     Active-Passive sync lets you migrate data while apps and other connections are using the source database. Once the data is migrated, you should migrate active connections to the target database before you move on.
 
-### Migrate database endpoints
+### Redirect database endpoints
 
-Migrating your database endpoints after migrating your data lets you direct connections to your new database without any code changes.
+Redirecting your database endpoints after migrating your data lets you direct connections to your new database without any code changes.
 
 {{< note >}}
-Be aware of the following limitations to database endpoint migration:
-- The following steps migrate the **database endpoints only**. They do not migrate the data in the database.
-- The target database must have the same port number and default user settings as the source database.
-- Databases created before {{RELEASE DATE}} have both dynamic and static endpoints. You can only migrate the dynamic endpoints to point to a new database. If your application uses the static endpoints, it will connect to the source database instead of the target database. You must update your application to use the dynamic endpoints before you can migrate the endpoints.
+See [Redirect dynamic endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) for more information on the limitations and requirements for endpoint redirection.
 {{< /note >}}
 
-To migrate your database endpoints:
+To redirect your database endpoints:
 
 1. From the Redis Cloud console, select **Databases** from the menu and select the source database in the list.
 

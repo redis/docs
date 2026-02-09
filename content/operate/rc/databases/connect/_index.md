@@ -99,7 +99,7 @@ If the username and password are not already filled in, replace `<username>` and
 See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients.
 
 {{< note >}}
-Databases created before {{RELEASE DATE}} have a set of default static endpoints and dynamic endpoints that can be redirected to a Redis Cloud Pro database. We recommend using the dynamic endpoints for your application so that you can migrate your database endpoints to a different database in the future without any code changes. See [Migrate databases]({{< relref "/operate/rc/databases/migrate-databases#redirect-database-endpoints" >}}) for more information.
+Databases created before {{RELEASE DATE}} have a set of default static endpoints and dynamic endpoints that can be redirected to a Redis Cloud Pro database. We recommend using the dynamic endpoints for your application so that you can migrate your database endpoints to a different database in the future without any code changes. See [Redirect dynamic endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) for more information.
 
 Databases created after {{RELEASE DATE}} only have dynamic endpoints. You can redirect those endpoints at any time.
 {{< /note >}}
