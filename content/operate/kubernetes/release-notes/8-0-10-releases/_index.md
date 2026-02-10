@@ -11,7 +11,7 @@ title: Redis Enterprise for Kubernetes 8.0.10 release notes
 weight: 1
 ---
 
-Redis Enterprise for Kubernetes 8.0.10 includes bug fixes, enhancements, and support for Redis Enterprise Software 8.0.10. The latest release is 8.0.10-15 with support for Redis Enterprise Software version 8.0.10-43.
+Redis Enterprise for Kubernetes 8.0.10 includes bug fixes, enhancements, and support for Redis Enterprise Software 8.0.10. The latest release is 8.0.10-21 with support for Redis Enterprise Software version 8.0.10-43.
 
 ## Detailed release notes
 
@@ -25,7 +25,7 @@ Redis Enterprise for Kubernetes 8.0.10 includes bug fixes, enhancements, and sup
 
 ### Existing limitations
 
-- **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 8.0.10-15.
+- **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 8.0.10-21.
 
 - **Missing endpoint for admission endpoint (rare) (RED-119469)** Restart the operator pod.
 
