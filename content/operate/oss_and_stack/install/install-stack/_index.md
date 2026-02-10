@@ -14,7 +14,7 @@ weight: 2
 The latest version of Redis Open Source has been tested on the following platforms:
 
 - Ubuntu 22.04 (Jammy Jellyfish) and 24.04 (Noble Numbat).
-- Rocky Linux 8.10, 9.5, and 10.1.
+- Rocky Linux 8.10, 9.5.
 - AlmaLinux 8.10, 9.5, and 10.1.
 - Debian 12 (Bookworm) and 13 (Trixie).
 - macOS 14 (Sonoma), and 15 (Sequoia).
