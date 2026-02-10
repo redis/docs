@@ -6,11 +6,70 @@ categories:
 - operate
 - stack
 description: Redis Open Source 8.6 release notes.
-linkTitle: v8.6.0 (January 2026)
+linkTitle: v8.6.0 (February 2026)
 min-version-db: blah
 min-version-rs: blah
 weight: 20
 ---
+
+## Redis Open Source 8.6.0 (February 2026)
+
+This is the General Availability release of Redis 8.6 in Redis Open Source.
+
+### Major changes compared to 8.4
+
+- Substantial performance improvements.
+- Substantial memory reduction for hashes (hashtable-encoded) and sorted sets (skiplist-encoded).
+- Streams: `XADD` idempotency (at-most-once guarantee) with new `IDMPAUTO` and `IDMP` arguments.
+- New eviction policies - least recently modified: `volatile-lrm` and `allkeys-lrm`.
+- Hot keys detection and reporting; new command: `HOTKEYS`.
+- TLS certificate-based automatic client authentication.
+- Time series: support NaN values; new aggregators: `COUNTNAN` and `COUNTALL`.
+
+### Binary distributions
+
+- Alpine and Debian Docker images - https://hub.docker.com/_/redis
+- Install using snap - see https://github.com/redis/redis-snap
+- Install using brew - see https://github.com/redis/homebrew-redis
+- Install using RPM - see https://github.com/redis/redis-rpm
+- Install using Debian APT - see https://github.com/redis/redis-debian
+
+### Operating systems we test Redis 8.6 on
+
+- Ubuntu 22.04 (Jammy Jellyfish), 24.04 (Noble Numbat)
+- Rocky Linux 8.10, 9.5
+- AlmaLinux 8.10, 9.5, 10.1
+- Debian 12 (Bookworm), Debian 13 (Trixie)
+- macOS 14 (Sonoma), 15 (Sequoia)
+
+### New Features (compared to 8.6-RC1)
+
+- [#14695](https://github.com/redis/redis/pull/14695) Keys memory size histograms.
+
+### Performance and resource utilization improvements (compared to 8.6-RC1)
+
+- [#14714](https://github.com/redis/redis/pull/14714) Optimize user ACL permission verification.
+- [#14692](https://github.com/redis/redis/pull/14692) Optimize peak memory metric collection.
+- [#14739](https://github.com/redis/redis/pull/14739) Avoid allocating and releasing list node in reply copy avoidance.
+- [#14713](https://github.com/redis/redis/pull/14713) Reduce per command syscalls by reusing cached time when hardware monotonic clock is available.
+- [#14726](https://github.com/redis/redis/pull/14726) Optimize `XREADGROUP CLAIM`.
+- [#13962](https://github.com/redis/redis/pull/13962) Vector set: replace manual popcount with __builtin_popcountll for binary vector distance (Intel, AMD, ARM).
+- [#14474](https://github.com/redis/redis/pull/14474) Vector set: vectorized the quantized 8-bit vector distance calculation (Intel, AMD).
+- [#14492](https://github.com/redis/redis/pull/14492) Vector set: vectorize binary quantization path for vectorsets distance calculation (Intel, AMD).
+
+### Configuration parameters
+
+- [#14719](https://github.com/redis/redis/pull/14719) `cluster-slot-stats-enabled` - per-slot resource consumptions statistics to collect.
+- [#14695](https://github.com/redis/redis/pull/14695) `key-memory-histograms` collect memory consumption histograms per data type.
+
+### Metrics
+
+- [#14695](https://github.com/redis/redis/pull/14695) `db0_distrib_lists_sizes`, `db0_distrib_sets_sizes`, `db0_distrib_hashes_sizes`, `db0_distrib_zsets_sizes`.
+
+### Known bugs and limitations
+
+- Streams: avoid using `XADD` with the new `IDMP` or `IDMPAUTO` options when using `appendonly yes` with `aof-use-rdb-preamble no` (non default).
+  This limitation will be removed in the next patch.
 
 ## Redis Open Source 8.6-RC1 (January 2026)
 
