@@ -1,7 +1,7 @@
 ---
-Title: redis-di dump-support-package
-linkTitle: redis-di dump-support-package
-description: Dumps RDI support package
+Title: redis-di monitor
+linkTitle: redis-di monitor
+description: Monitors RDI by collecting metrics and exporting to Prometheus
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
@@ -11,7 +11,7 @@ aliases:
 ## Usage
 
 ```
-Usage: redis-di dump-support-package [OPTIONS]
+Usage: redis-di monitor [OPTIONS]
 ```
 
 ## Options
@@ -85,47 +85,19 @@ Usage: redis-di dump-support-package [OPTIONS]
 
   Password for unlocking an encrypted private key
 
-- `directory`:
-  - Type: STRING
-  - Default: `.`
-  - Usage: `--dir`
+- `exporter_port`:
+  - Type: <IntRange 1<=x<=65535>
+  - Default: `9121`
+  - Usage: `--exporter-port`
 
-  Directory where the support file should be generated
+  HTTP port to start the exporter on
 
-- `dump_rejected`:
-  - Type: INT
-  - Default: `none`
-  - Usage: `--dump-rejected`
+- `collect_interval`:
+  - Type: <IntRange 1<=x<=60>
+  - Default: `5`
+  - Usage: `--collect-interval`
 
-  Dumps rejected records
-
-- `trace_timeout`:
-  - Type: <IntRange 1<=x<=600>
-  - Default: `none`
-  - Usage: `--trace-timeout`
-
-  Stops the trace after exceeding this timeout (in seconds)
-
-- `max_change_records`:
-  - Type: <IntRange x>=1>
-  - Default: `10`
-  - Usage: `--max-change-records`
-
-  Maximum traced change records
-
-- `trace_only_rejected`:
-  - Type: BOOL
-  - Default: `false`
-  - Usage: `--trace-only-rejected`
-
-  Trace only rejected change records
-
-- `log_days`:
-  - Type: <IntRange x>=0>
-  - Default: `2`
-  - Usage: `--log-days`
-
-  Number of days to look back for log files
+  Metrics collection interval (seconds)
 
 - `help`:
   - Type: BOOL
@@ -137,9 +109,9 @@ Usage: redis-di dump-support-package [OPTIONS]
 ## CLI help
 
 ```
-Usage: redis-di dump-support-package [OPTIONS]
+Usage: redis-di monitor [OPTIONS]
 
-  Dumps RDI support package
+  Monitors RDI by collecting metrics and exporting to Prometheus
 
 Options:
   -l, --log-level [TRACE|DEBUG|INFO|WARNING|ERROR|CRITICAL]
@@ -155,15 +127,10 @@ Options:
   --rdi-cacert TEXT               CA certificate file to verify with
   --rdi-key-password TEXT         Password for unlocking an encrypted private
                                   key
-  --dir TEXT                      Directory where the support file should be
-                                  generated  [default: .]
-  --dump-rejected INTEGER         Dumps rejected records
-  --trace-timeout INTEGER RANGE   Stops the trace after exceeding this timeout
-                                  (in seconds)  [1<=x<=600]
-  --max-change-records INTEGER RANGE
-                                  Maximum traced change records  [x>=1]
-  --trace-only-rejected           Trace only rejected change records
-  --log-days INTEGER RANGE        Number of days to look back for log files
-                                  [default: 2; x>=0]
+  --exporter-port INTEGER RANGE   HTTP port to start the exporter on
+                                  [1<=x<=65535]
+  --collect-interval INTEGER RANGE
+                                  Metrics collection interval (seconds)
+                                  [1<=x<=60]
   --help                          Show this message and exit.
 ```
