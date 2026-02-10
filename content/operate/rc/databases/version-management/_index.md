@@ -87,7 +87,7 @@ See [Upgrade database version]({{< relref "/operate/rc/databases/version-managem
 ## FAQ
 
 **Can I prevent minor version auto-upgrades?**
-Pro users can opt out of minor version auto-upgrades for Redis 8+. If disabled and a version reaches EOL, Redis Cloud will force upgrade during maintenance windows. Major upgrades always require your action.
+Pro users can opt out of minor version auto-upgrades for Redis 8.4+. 
 
 **What if I don't upgrade before EOL?**
 Redis Cloud will force upgrade after notifications during your next maintenance window to ensure security and support.
