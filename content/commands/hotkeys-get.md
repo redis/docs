@@ -124,14 +124,14 @@ HOTKEYS GET
 
 One of the following:
 
-**[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}})** when tracking data is available, containing an array of pairs of field names and values.
-**[Null reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})** when no tracking has been started or data has been reset.
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) when tracking data is available, containing an array of pairs of field names and values.
+- [Null reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) when no tracking has been started or data has been reset.
 
 -tab-sep-
 
 One of the following:
 
-**[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}})** when tracking data is available, containing a [map]({{< relref "/develop/reference/protocol-spec#maps" >}}) of field names and values:
-**[Null reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})** when no tracking has been started or data has been reset.
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) when tracking data is available, containing a [map]({{< relref "/develop/reference/protocol-spec#maps" >}}) of field names and values.
+- [Null reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) when no tracking has been started or data has been reset.
 
 {{< /multitabs >}}
