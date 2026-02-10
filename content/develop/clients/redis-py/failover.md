@@ -392,6 +392,21 @@ Note that `set_active_database()` is thread-safe.
 
 If you decide to implement manual failback, you will need a way for external systems to trigger this method in your application. For example, if your application exposes a REST API, you might consider creating a REST endpoint to call `set_active_database()`.
 
+## Behavior when all endpoints are unhealthy
+
+In the extreme case where no endpoint is healthy, a command will throw a `TemporaryUnavailableException`.
+This indicates that the client is periodically checking to see if any endpoint becomes healthy again. The number of
+times it will keep checking is configured by the `failover_attempts` option in `MultiDbConfig` and
+the delay between attempts is configured by the `failover_delay` option (see [General failover configuration](#general-failover-configuration)). With the default settings, `failover_attempts` * `failover_delay` 
+gives a period of 120 seconds to find a healthy endpoint.
+
+You can still keep retrying commands after a `TemporaryUnavailableException` is thrown (for example,
+you could add this exception to the `supported_errors` list in your `Retry` configuration, as described
+in [Retries]({{< relref "/develop/clients/redis-py/produsage#retries" >}})). However, if the client exhausts
+all the available failover attempts before any endpoint becomes healthy again, commands will throw a `NoValidDatabaseException`. The client won't recover automatically from this situation, so you
+should handle it by reconnecting with the `MultiDBClient` constructor after a suitable delay (see
+[Failover configuration](#failover-configuration) for a connection example).
+
 ## Troubleshooting
 
 This section lists some common problems and their solutions.
