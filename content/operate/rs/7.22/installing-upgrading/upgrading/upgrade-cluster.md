@@ -35,7 +35,25 @@ Redis Enterprise for Kubernetes has its own support lifecycle, which accounts fo
 
 Before upgrading a cluster:
 
-- Verify access to [rlcheck]({{< relref "/operate/rs/7.22/references/cli-utilities/rlcheck/" >}}) and [rladmin]({{< relref "/operate/rs/7.22/references/cli-utilities/rladmin/#use-the-rladmin-shell" >}}) commands
+- Verify access to [rlcheck]({{< relref "/operate/rs/7.22/references/cli-utilities/rlcheck/" >}}) and [rladmin]({{< relref "/operate/rs/7.22/references/cli-utilities/rladmin/#use-the-rladmin-shell" >}}) commands.
+
+- Verify [maintenance mode]({{< relref "/operate/rs/7.22/clusters/maintenance-mode" >}}) is not enabled:
+
+    1. On a node in the cluster, run [`rladmin status`]({{< relref "/operate/rs/7.22/references/cli-utilities/rladmin/status" >}}):
+
+        ```sh
+        rladmin status
+        ```
+
+    1. Review each node's `SHARDS` field. If the value is yellow, the node is in maintenance mode.
+
+        {{< image filename="/images/rs/maintenance_mode.png" >}}
+
+    1. To deactivate maintenance mode on a node, run the following [`rladmin node maintenance_mode off`]({{<relref "/operate/rs/7.22/references/cli-utilities/rladmin/node/maintenance-mode#node-maintenance_mode-off">}}) command. See [Deactivate maintenance mode]({{<relref "/operate/rs/7.22/clusters/maintenance-mode#deactivate-maintenance-mode">}}) for additional details.
+
+        ```sh
+        rladmin node <node_id> maintenance_mode off
+        ```
 
 - Verify that you meet the upgrade path requirements for the target cluster version and review the relevant [release notes]({{< relref "/operate/rs/release-notes" >}}) for any preparation instructions.
 
