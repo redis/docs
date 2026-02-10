@@ -106,7 +106,7 @@ One of the following:
 - `tracking-active` (integer): 1 if tracking is active, 0 if stopped
 - `sample-ratio` (integer): The sampling ratio used during tracking
 - `selected-slots` (array): Array of slot numbers being tracked (empty if all slots)
-- `sampled-command-selected-slots-us` (integer): Time in microseconds for sampled commands on selected slots (conditional)
+- `sampled-commands-selected-slots-us` (integer): Time in microseconds for sampled commands on selected slots (conditional)
 - `all-commands-selected-slots-us` (integer): Time in microseconds for all commands on selected slots (conditional)
 - `all-commands-all-slots-us` (integer): Time in microseconds for all commands on all slots
 - `net-bytes-sampled-commands-selected-slots` (integer): Network bytes for sampled commands on selected slots (conditional)
@@ -131,7 +131,7 @@ One of the following:
 - `tracking-active` (integer): 1 if tracking is active, 0 if stopped
 - `sample-ratio` (integer): The sampling ratio used during tracking
 - `selected-slots` (array): Array of slot numbers being tracked (empty if all slots)
-- `sampled-command-selected-slots-us` (integer): Time in microseconds for sampled commands on selected slots (conditional)
+- `sampled-commands-selected-slots-us` (integer): Time in microseconds for sampled commands on selected slots (conditional)
 - `all-commands-selected-slots-us` (integer): Time in microseconds for all commands on selected slots (conditional)
 - `all-commands-all-slots-us` (integer): Time in microseconds for all commands on all slots
 - `net-bytes-sampled-commands-selected-slots` (integer): Network bytes for sampled commands on selected slots (conditional)
