@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-compatibleOSSVersion: Redis 8.2, 8.0, 7.4, 7.2, 6.2
+compatibleOSSVersion: Redis 8.4, 8.2, 8.0, 7.4, 7.2, 6.2
 description: Redis Software 8! The most performant, most secure, and richest version so far. Built for performance, scale, and reliability to power modern ML and AI applications.
 hideListLinks: true
 linkTitle: 8.0.x releases
@@ -19,7 +19,7 @@ weight: 67
 
 This version offers:
 
-- Redis 8.0 and 8.2 feature set versions
+- Redis 8.0, 8.2, and 8.4 feature set versions
 
 - Performance improvements and memory reduction
 
@@ -127,7 +127,7 @@ Ports reserved as of Redis Software version 7.8.2:
 | 9091 | node_exporter | Reports host node metrics related to CPU, memory, disk, and more |
 | 9125 | statsd_exporter | Reports push metrics related to the DMC and syncer, and some cluster and node metrics |
 
-See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networking/port-configurations#ports-and-port-ranges-used-by-redis-enterprise-software">}}) for a complete list.
+See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networking/port-configurations#ports-and-port-ranges-used-by-redis-software">}}) for a complete list.
 
 ### Deprecations
 
@@ -173,13 +173,13 @@ The following table provides a snapshot of supported platforms as of this Redis 
 | RHEL 9 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – |
 | RHEL 9<br />FIPS mode<sup>[5](#table-note-5)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – | – |
 | RHEL 8 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
-| RHEL 7 &<br />compatible distros<sup>[1](#table-note-1)</sup> | – | – | – | – | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| RHEL 7 &<br />compatible distros<sup>[1](#table-note-1)</sup> | – | – | – | – | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> |
 | Ubuntu 22.04<sup>[2](#table-note-2)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – | – |
 | Ubuntu 20.04<sup>[2](#table-note-2)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – |
-| Ubuntu 18.04<sup>[2](#table-note-2)</sup> | – | – | – | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
-| Ubuntu 16.04<sup>[2](#table-note-2)</sup> | – | – | – | – | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| Ubuntu 18.04<sup>[2](#table-note-2)</sup> | – | – | – | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> |
+| Ubuntu 16.04<sup>[2](#table-note-2)</sup> | – | – | – | – | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> |
 | Amazon Linux 2 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – |
-| Amazon Linux 1 | – | – | – | – | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| Amazon Linux 1 | – | – | – | – | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> |
 | Kubernetes<sup>[3](#table-note-3)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | Docker<sup>[4](#table-note-4)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 
@@ -199,11 +199,17 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
     As a workaround, use an IPv4-based address for the SSO service base address, or register a DNS name that resolves to the IPv6 address.
 
+    This issue was fixed in Redis Software version 8.0.10.
+
 - RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors. This issue was fixed in Redis Software version 8.0.6.
 
 - RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
 
 ## Known limitations
+
+#### Trim ACKED not supported for Active-Active 8.4 databases
+
+For Active-Active databases running Redis database version 8.4, the `ACKED` option is not supported for trimming commands.
 
 #### Rolling upgrade limitation for clusters with custom or deprecated modules
 
