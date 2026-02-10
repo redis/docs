@@ -93,12 +93,17 @@ Before trying to overcome the limitation of the single instance setup described 
 
 To acquire the lock, the way to go is the following:
 
-        SET resource_name my_random_value NX PX 30000
+    SET resource_name my_random_value NX PX 30000
 
 The command will set the key only if it does not already exist (`NX` option), with an expire of 30000 milliseconds (`PX` option).
 The key is set to a value "my\_random\_value". This value must be unique across all clients and all lock requests.
 
-Basically the random value is used in order to release the lock in a safe way, with a script that tells Redis: remove the key only if it exists and the value stored at the key is exactly the one I expect to be. This is accomplished by the following Lua script:
+Basically the random value is used in order to release the lock in a safe way, with a script that tells Redis: remove the key only if it exists and the value stored at the key is exactly the one I expect to be. 
+This is accomplished with the following command:
+
+    DELEX key IFEQ my_random_value
+
+The `DELEX` command was introduced in Redis 8.4. On previous Redis versions, this could be accomplished with the following Lua script:
 
     if redis.call("get",KEYS[1]) == ARGV[1] then
         return redis.call("del",KEYS[1])
@@ -107,7 +112,7 @@ Basically the random value is used in order to release the lock in a safe way, w
     end
 
 This is important in order to avoid removing a lock that was created by another client. For example a client may acquire the lock, get blocked performing some operation for longer than the lock validity time (the time at which the key will expire), and later remove the lock, that was already acquired by some other client.
-Using just [`DEL`]({{< relref "/commands/del" >}}) is not safe as a client may remove another client's lock. With the above script instead every lock is "signed" with a random string, so the lock will be removed only if it is still the one that was set by the client trying to remove it.
+Using just [`DEL`]({{< relref "/commands/del" >}}) is not safe as a client may remove another client's lock. With the `DELEX` command or the above script instead every lock is "signed" with a random string, so the lock will be removed only if it is still the one that was set by the client trying to remove it.
 
 What should this random string be? We assume it’s 20 bytes from `/dev/urandom`, but you can find cheaper ways to make it unique enough for your tasks.
 For example a safe pick is to seed RC4 with `/dev/urandom`, and generate a pseudo random stream from that.
