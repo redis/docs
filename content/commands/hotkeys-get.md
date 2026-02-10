@@ -54,7 +54,30 @@ This command returns comprehensive information about the hotkeys tracking sessio
 
 - Tracking metadata (start time, duration, sample ratio, etc.)
 - Performance statistics (CPU time, network bytes)
-- Lists of top K hotkeys sorted by the metrics specified in `HOTKEYS START`
+- Lists of top K hot keys sorted by the metrics specified in `HOTKEYS START`
+
+The following metrics are collected for non-clustered as well as clustered Redis environments:
+
+- `tracking-active` (integer): 1 if tracking is active, 0 if stopped
+- `sample-ratio` (integer): The sampling ratio used during tracking
+- `collection-start-time-unix-ms` (integer): Unix timestamp in milliseconds when tracking started
+- `collection-duration-ms` (integer): Duration of tracking in milliseconds
+- `used-cpu-sys-ms` (integer): System CPU time used in milliseconds
+- `used-cpu-user-ms` (integer): User CPU time used in milliseconds
+- `total-net-bytes` (integer): Total network bytes processed
+- `by-cpu-time-us` (array): Array of key-time pairs sorted by CPU time in microseconds (if CPU tracking enabled)
+- `by-net-bytes` (array): Array of key-bytes pairs sorted by network bytes (if NET tracking enabled)
+- `all-commands-all-slots-us` (integer): CPU time in microseconds for all commands on all slots
+- `net-bytes-all-commands-all-slots` (integer): Network bytes for all commands on all slots
+
+The following additional results are collected only on clustered Redis environments, when `SLOTS` was used with `HOTKEYS START`:
+
+- `selected-slots` (array): Array of select slots and slot ranges
+- `sampled-commands-selected-slots-us` (integer): CPU time in milliseconds for sampled commands in selected slots, when `SAMPLE` was used with `HOTKEYS START`
+- `all-commands-selected-slots-us` (integer): CPU time in milliseconds for all commands in selected slots
+- `net-bytes-sampled-commands-selected-slots` (integer): Network bytes for sampled commands in selected slots, when `SAMPLE` was used with `HOTKEYS START`
+- `net-bytes-all-commands-selected-slots` (integer): Network bytes for all commands on selected slots
+
 
 ## Example
 
@@ -101,50 +124,14 @@ HOTKEYS GET
 
 One of the following:
 
-**[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}})** when tracking data is available, containing pairs of field names and values:
-
-- `tracking-active` (integer): 1 if tracking is active, 0 if stopped
-- `sample-ratio` (integer): The sampling ratio used during tracking
-- `selected-slots` (array): Array of slot numbers being tracked (empty if all slots)
-- `sampled-commands-selected-slots-us` (integer): Time in microseconds for sampled commands on selected slots (conditional)
-- `all-commands-selected-slots-us` (integer): Time in microseconds for all commands on selected slots (conditional)
-- `all-commands-all-slots-us` (integer): Time in microseconds for all commands on all slots
-- `net-bytes-sampled-commands-selected-slots` (integer): Network bytes for sampled commands on selected slots (conditional)
-- `net-bytes-all-commands-selected-slots` (integer): Network bytes for all commands on selected slots (conditional)
-- `net-bytes-all-commands-all-slots` (integer): Network bytes for all commands on all slots
-- `collection-start-time-unix-ms` (integer): Unix timestamp in milliseconds when tracking started
-- `collection-duration-ms` (integer): Duration of tracking in milliseconds
-- `used-cpu-sys-ms` (integer): System CPU time used in milliseconds
-- `used-cpu-user-ms` (integer): User CPU time used in milliseconds
-- `total-net-bytes` (integer): Total network bytes processed
-- `by-cpu-time-us` (array): Array of key-time pairs sorted by CPU time in microseconds (if CPU tracking enabled)
-- `by-net-bytes` (array): Array of key-bytes pairs sorted by network bytes (if NET tracking enabled)
-
+**[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}})** when tracking data is available, containing an array pairs of field names and values.
 **[Null reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})** when no tracking has been started or data has been reset.
 
 -tab-sep-
 
 One of the following:
 
-**[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}})** when tracking data is available, containing pairs of field names and values:
-
-- `tracking-active` (integer): 1 if tracking is active, 0 if stopped
-- `sample-ratio` (integer): The sampling ratio used during tracking
-- `selected-slots` (array): Array of slot numbers being tracked (empty if all slots)
-- `sampled-commands-selected-slots-us` (integer): Time in microseconds for sampled commands on selected slots (conditional)
-- `all-commands-selected-slots-us` (integer): Time in microseconds for all commands on selected slots (conditional)
-- `all-commands-all-slots-us` (integer): Time in microseconds for all commands on all slots
-- `net-bytes-sampled-commands-selected-slots` (integer): Network bytes for sampled commands on selected slots (conditional)
-- `net-bytes-all-commands-selected-slots` (integer): Network bytes for all commands on selected slots (conditional)
-- `net-bytes-all-commands-all-slots` (integer): Network bytes for all commands on all slots
-- `collection-start-time-unix-ms` (integer): Unix timestamp in milliseconds when tracking started
-- `collection-duration-ms` (integer): Duration of tracking in milliseconds
-- `used-cpu-sys-ms` (integer): System CPU time used in milliseconds
-- `used-cpu-user-ms` (integer): User CPU time used in milliseconds
-- `total-net-bytes` (integer): Total network bytes processed
-- `by-cpu-time-us` (array): Array of key-time pairs sorted by CPU time in microseconds (if CPU tracking enabled)
-- `by-net-bytes` (array): Array of key-bytes pairs sorted by network bytes (if NET tracking enabled)
-
+**[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}})** when tracking data is available, containing a [map]({{< relref "/develop/reference/protocol-spec#maps" >}}) of field names and values:
 **[Null reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})** when no tracking has been started or data has been reset.
 
 {{< /multitabs >}}
