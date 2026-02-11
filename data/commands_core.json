@@ -8262,6 +8262,11 @@
         "command_flags": [
             "admin",
             "noscript"
+        ],
+        "hints": [
+            "nondeterministic_output",
+            "request_policy:special",
+            "response_policy:special"
         ]
     },
     "HOTKEYS RESET": {
@@ -8278,6 +8283,9 @@
         "command_flags": [
             "admin",
             "noscript"
+        ],
+        "hints": [
+            "request_policy:special"
         ]
     },
     "HOTKEYS START": {
@@ -8362,6 +8370,9 @@
         "command_flags": [
             "admin",
             "noscript"
+        ],
+        "hints": [
+            "request_policy:special"
         ]
     },
     "HOTKEYS STOP": {
@@ -8378,6 +8389,9 @@
         "command_flags": [
             "admin",
             "noscript"
+        ],
+        "hints": [
+            "request_policy:special"
         ]
     },
     "HPERSIST": {

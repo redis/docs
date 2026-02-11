@@ -2454,7 +2454,7 @@ the key was not open for writing or is an empty key.
 
     RedisModuleKeyMetaClassId RedisModule_CreateKeyMetaClass(RedisModuleCtx *ctx,;
 
-**Available since:** unreleased
+**Available since:** 8.6.0
 
 Register a new key metadata class exported by the module.
 
@@ -2629,7 +2629,7 @@ Example code fragment:
 
     int RedisModule_ReleaseKeyMetaClass(RedisModuleKeyMetaClassId id);
 
-**Available since:** unreleased
+**Available since:** 8.6.0
 
 Release a class by its ID. Returns 1 on success, 0 on failure.
 
@@ -2641,7 +2641,7 @@ Release a class by its ID. Returns 1 on success, 0 on failure.
                                RedisModuleKey *key,
                                uint64_t metadata);
 
-**Available since:** unreleased
+**Available since:** 8.6.0
 
 Set metadata of class id on an opened key. If metadata is already attached,
 it will be overwritten. The caller is responsible for retrieving and freeing
@@ -2655,7 +2655,7 @@ any existing pointer-based metadata before setting a new value.
                                RedisModuleKey *key,
                                uint64_t *metadata);
 
-**Available since:** unreleased
+**Available since:** 8.6.0
 
 Get metadata of class id from an opened key.
 
@@ -5553,7 +5553,7 @@ With the following effects:
 
     int RedisModule_ClusterDisableTrim(RedisModuleCtx *ctx);
 
-**Available since:** unreleased
+**Available since:** 8.4.1
 
 [`RedisModule_ClusterDisableTrim`](#RedisModule_ClusterDisableTrim) allows a module to temporarily prevent slot trimming
 after a slot migration. This is useful when the module has asynchronous
@@ -5574,7 +5574,7 @@ Disable automatic slot trimming.
 
     int RedisModule_ClusterEnableTrim(RedisModuleCtx *ctx);
 
-**Available since:** unreleased
+**Available since:** 8.4.1
 
 Enable automatic slot trimming. See also comments on [`RedisModule_ClusterDisableTrim`](#RedisModule_ClusterDisableTrim).
 
@@ -9089,3 +9089,4 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_ZsetRem`](#RedisModule_ZsetRem)
 * [`RedisModule_ZsetScore`](#RedisModule_ZsetScore)
 * [`RedisModule__Assert`](#RedisModule__Assert)
+
