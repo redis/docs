@@ -37,6 +37,12 @@ Before upgrading a cluster:
 
 - Verify access to [rlcheck]({{< relref "/operate/rs/7.22/references/cli-utilities/rlcheck/" >}}) and [rladmin]({{< relref "/operate/rs/7.22/references/cli-utilities/rladmin/#use-the-rladmin-shell" >}}) commands.
 
+- Run [rlcheck]({{< relref "/operate/rs/7.22/references/cli-utilities/rlcheck/" >}}) on each node and verify there are no issues:
+
+    ```sh
+    rlcheck
+    ```
+
 - Verify [maintenance mode]({{< relref "/operate/rs/7.22/clusters/maintenance-mode" >}}) is not enabled:
 
     1. On a node in the cluster, run [`rladmin status`]({{< relref "/operate/rs/7.22/references/cli-utilities/rladmin/status" >}}):
