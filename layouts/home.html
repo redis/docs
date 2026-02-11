@@ -65,7 +65,7 @@
             <a href="./develop/" class="px-8 py-4 bg-redis-red-500 hover:bg-redis-red-600 text-white font-medium rounded-md transition-colors">
               Develop with Redis Open Source
             </a>
-            <a href="https://redis.io/docs/latest/operate/rc/" class="px-8 py-4 border-2 border-white hover:bg-white hover:text-redis-ink-900 text-white font-medium rounded-md transition-colors">
+            <a href="./operate/rc/" class="px-8 py-4 border-2 border-white hover:bg-white hover:text-redis-ink-900 text-white font-medium rounded-md transition-colors">
               Run Redis in production
             </a>
           </div>
@@ -84,25 +84,25 @@
             <!-- Use Cases Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1">
               <!-- Vector Search -->
-              <a href="https://redis.io/docs/latest/develop/ai/search-and-query/vectors/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
+              <a href="./develop/ai/search-and-query/vectors/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
                 <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">Vector search</h3>
                 <p class="text-sm text-gray-300">Real-time retrieval for RAG</p>
               </a>
 
               <!-- Semantic Cache -->
-              <a href="https://redis.io/docs/latest/develop/ai/langcache/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
+              <a href="./develop/ai/langcache/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
                 <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">Semantic cache</h3>
                 <p class="text-sm text-gray-300">Reduce latency and LLM cost</p>
               </a>
 
               <!-- RAG -->
-              <a href="https://redis.io/docs/latest/develop/get-started/rag/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
+              <a href="./develop/get-started/rag/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
                 <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">RAG</h3>
                 <p class="text-sm text-gray-300">Retrieval augmented generation</p>
               </a>
 
               <!-- Streaming -->
-              <a href="https://redis.io/docs/latest/develop/data-types/streams/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
+              <a href="./develop/data-types/streams/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
                 <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">Streaming</h3>
                 <p class="text-sm text-gray-300">Pipelines and coordination</p>
               </a>
@@ -173,9 +173,9 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
             <!-- Redis Open Source -->
             <div class="flex flex-col bg-redis-pen-700 border border-redis-pen-400 rounded-md overflow-hidden">
-              <div class="px-4 py-2 border-b border-redis-pen-400">
+              <a class="px-4 py-2 border-b border-redis-pen-400 hover:bg-redis-pen-600 transition-colors" href="./operate/oss_and_stack/">
                 <h3 class="text-base font-medium">Redis Open Source</h3>
-              </div>
+              </a>
               <div class="p-4 flex-1">
                 <p class="text-sm text-gray-300 mb-3">Experimentation and local development</p>
                 <ul class="space-y-1 text-xs text-gray-400">
@@ -186,16 +186,16 @@
                 </ul>
               </div>
               <div class="flex border-t border-redis-pen-400">
-                <a class="flex-1 px-3 py-2 text-sm text-center border-r border-redis-pen-400 hover:bg-redis-pen-600 transition-colors" href="https://redis.io/docs/latest/operate/oss_and_stack/">Get started</a>
+                <a class="flex-1 px-3 py-2 text-sm text-center border-r border-redis-pen-400 hover:bg-redis-pen-600 transition-colors" href="./operate/oss_and_stack/install/install-stack/">Install</a>
                 <a class="flex-1 px-3 py-2 text-sm text-center hover:bg-redis-pen-600 transition-colors" href="https://redis.io/docs/develop/data-types/">Data types</a>
               </div>
             </div>
 
             <!-- Redis Software -->
             <div class="flex flex-col bg-redis-pen-800 border border-redis-pen-400 rounded-md overflow-hidden">
-              <div class="px-4 py-2 border-b border-redis-pen-400">
+              <a class="px-4 py-2 border-b border-redis-pen-400 hover:bg-redis-pen-700 transition-colors" href="./operate/rs/">
                 <h3 class="text-base font-medium">Redis Software</h3>
-              </div>
+              </a>
               <div class="p-4 flex-1">
                 <p class="text-sm text-gray-300 mb-3">Enterprise on-prem / hybrid</p>
                 <ul class="space-y-1 text-xs text-gray-400">
@@ -206,18 +206,19 @@
                 </ul>
               </div>
               <div class="flex border-t border-redis-pen-400">
-                <a class="flex-1 px-3 py-2 text-sm text-center border-r border-redis-pen-400 hover:bg-redis-pen-700 transition-colors" href="https://redis.io/docs/latest/operate/rs/">Learn more</a>
-                <a class="flex-1 px-3 py-2 text-sm text-center hover:bg-redis-pen-700 transition-colors" href="https://redis.io/docs/latest/operate/rs/installing-upgrading/quickstarts/docker-quickstart/#run-the-container">Quick start</a>
+                <a class="flex-1 px-3 py-2 text-sm text-center border-r border-redis-pen-400 hover:bg-redis-pen-700 transition-colors" href="./operate/rs/installing-upgrading/">Install</a>
+                <a class="flex-1 px-3 py-2 text-sm text-center hover:bg-redis-pen-700 transition-colors" href="./operate/rs/installing-upgrading/quickstarts/docker-quickstart/#run-the-container">Quick start</a>
               </div>
             </div>
 
             <!-- Redis Cloud -->
-            <div class="flex flex-col bg-redis-ink-900 border-2 border-redis-red-500 rounded-md overflow-hidden">
-              <div class="px-4 py-2 border-b border-redis-pen-400">
-                <h3 class="text-base font-medium text-redis-red-500">Redis Cloud</h3>
-              </div>
+            <div class="flex flex-col bg-redis-pen-800 border-2 border-redis-red-500 rounded-md overflow-hidden">
+              <a class="px-4 py-2 border-b border-redis-pen-400 hover:bg-redis-pen-700 transition-colors" href="./operate/rc/">
+                <h3 class="text-base font-medium">Redis Cloud</h3>
+                
+              </a>
               <div class="p-4 flex-1">
-                <p class="text-sm text-gray-300 mb-3">Global, managed, production AI workloads</p>
+                <p class="text-sm text-gray-300 mb-3">Global, managed, production workloads</p>
                 <ul class="space-y-1 text-xs text-gray-400">
                   <li>• Fully managed service</li>
                   <li>• Fast cloud deployment</li>
@@ -226,8 +227,8 @@
                 </ul>
               </div>
               <div class="flex border-t border-redis-pen-400">
-                <a class="flex-1 px-3 py-2 text-sm text-center border-r border-redis-pen-400 hover:bg-redis-pen-800 transition-colors" href="https://redis.io/docs/latest/operate/rc/subscriptions/">Subscriptions</a>
-                <a class="flex-1 px-3 py-2 text-sm text-center hover:bg-redis-pen-800 transition-colors" href="https://redis.io/docs/latest/operate/rc/rc-quickstart/">Quick start</a>
+                <a class="flex-1 px-3 py-2 text-sm text-center border-r border-redis-pen-400 hover:bg-redis-pen-700 transition-colors" href="https://redis.io/try-free/">Try Redis</a>
+                <a class="flex-1 px-3 py-2 text-sm text-center hover:bg-redis-pen-700 transition-colors" href="./operate/rc/rc-quickstart/">Quick start</a>
               </div>
             </div>
           </div>
@@ -252,10 +253,10 @@
                 <h3 class="text-sm font-medium mb-2">Build AI apps</h3>
                 <p class="text-xs text-gray-300 mb-3">Start building with vector search, semantic caching, and agent memory</p>
                 <ul class="space-y-1 text-xs">
-                  <li><a href="https://redis.io/docs/latest/develop/get-started/rag/" class="text-redis-yellow-500 hover:underline">→ RAG quick start</a></li>
-                  <li><a href="https://redis.io/docs/latest/develop/ai/search-and-query/vectors/" class="text-redis-yellow-500 hover:underline">→ Vector search</a></li>
-                  <li><a href="https://redis.io/docs/latest/develop/ai/langcache/" class="text-redis-yellow-500 hover:underline">→ Semantic cache</a></li>
-                  <li><a href="https://redis.io/docs/latest/develop/clients/" class="text-redis-yellow-500 hover:underline">→ Client libraries</a></li>
+                  <li><a href="./develop/get-started/rag/" class="text-redis-yellow-500 hover:underline">→ RAG quick start</a></li>
+                  <li><a href="./develop/ai/search-and-query/vectors/" class="text-redis-yellow-500 hover:underline">→ Vector search</a></li>
+                  <li><a href="./develop/ai/langcache/" class="text-redis-yellow-500 hover:underline">→ Semantic cache</a></li>
+                  <li><a href="./develop/clients/" class="text-redis-yellow-500 hover:underline">→ Client libraries</a></li>
                 </ul>
               </div>
             </div>
@@ -267,9 +268,9 @@
                 <p class="text-xs text-gray-300 mb-3">Deploy and scale Redis for production AI workloads</p>
                 <ul class="space-y-1 text-xs">
                   <li><a href="https://redis.io/cloud/" class="text-redis-yellow-500 hover:underline">→ Redis Cloud</a></li>
-                  <li><a href="https://redis.io/docs/latest/operate/" class="text-redis-yellow-500 hover:underline">→ Operate Redis</a></li>
-                  <li><a href="https://redis.io/docs/latest/operate/kubernetes/" class="text-redis-yellow-500 hover:underline">→ Kubernetes</a></li>
-                  <li><a href="https://redis.io/docs/latest/operate/#security" class="text-redis-yellow-500 hover:underline">→ Security & Compliance</a></li>
+                  <li><a href="./operate/" class="text-redis-yellow-500 hover:underline">→ Operate Redis</a></li>
+                  <li><a href="./operate/kubernetes/" class="text-redis-yellow-500 hover:underline">→ Kubernetes</a></li>
+                  <li><a href="./operate/#security" class="text-redis-yellow-500 hover:underline">→ Security & Compliance</a></li>
                 </ul>
               </div>
             </div>
@@ -308,7 +309,7 @@
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-            <a href="https://redis.io/docs/latest/ai-agent-resources/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-3 hover:bg-redis-pen-600 transition-colors group">
+            <a href="./ai-agent-resources/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-3 hover:bg-redis-pen-600 transition-colors group">
               <h3 class="text-xs font-medium mb-1 group-hover:text-redis-yellow-500">AI Agent Resources</h3>
               <p class="text-xs text-gray-400">Documentation for AI agents</p>
             </a>
