@@ -422,6 +422,20 @@ systems to trigger this method in your application. For example, if your applica
 exposes a REST API, you might consider creating a REST endpoint to call
 `switchTo()`.
 
+## Behavior when all endpoints are unhealthy
+
+In the extreme case where no endpoint is healthy, Lettuce will keep trying
+indefinitely to reconnect to a healthy endpoint. The frequency of these attempts
+is configured by the `delayInBetweenFailoverAttempts()` option in the `MultiDbConfig`
+builder (see [Client configuration](#client-configuration)) with
+a default value of 12 seconds.
+
+Note that you can subscribe to the `AllDatabasesUnhealthyEvent` event to be notified when
+all endpoints become unhealthy (see [Failover events](#failover-events) for more information). Your
+event handler could include code to close the connection if the indefinite search for
+a healthy endpoint is not suitable for your application (see
+[Connection configuration](#connection-configuration) to learn how to close a connection).
+
 ## Troubleshooting
 
 This section lists some common problems and their solutions. Note that you can
