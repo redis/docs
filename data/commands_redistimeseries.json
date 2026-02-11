@@ -523,18 +523,6 @@
                         "type": "pure-token",
                         "token": "TWA",
                         "since": "1.8.0"
-                    },
-                    {
-                        "name": "countnan",
-                        "type": "pure-token",
-                        "token": "COUNTNAN",
-                        "since": "8.6.0"
-                    },
-                    {
-                        "name": "countall",
-                        "type": "pure-token",
-                        "token": "COUNTALL",
-                        "since": "8.6.0"
                     }
                 ]
             },
@@ -704,18 +692,6 @@
                                 "type": "pure-token",
                                 "token": "TWA",
                                 "since": "1.8.0"
-                            },
-                            {
-                                "name": "countnan",
-                                "type": "pure-token",
-                                "token": "COUNTNAN",
-                                "since": "8.6.0"
-                            },
-                            {
-                                "name": "countall",
-                                "type": "pure-token",
-                                "token": "COUNTALL",
-                                "since": "8.6.0"
                             }
                         ]
                     },
@@ -879,18 +855,6 @@
                                 "type": "pure-token",
                                 "token": "TWA",
                                 "since": "1.8.0"
-                            },
-                            {
-                                "name": "countnan",
-                                "type": "pure-token",
-                                "token": "COUNTNAN",
-                                "since": "8.6.0"
-                            },
-                            {
-                                "name": "countall",
-                                "type": "pure-token",
-                                "token": "COUNTALL",
-                                "since": "8.6.0"
                             }
                         ]
                     },
@@ -900,41 +864,9 @@
                     },
                     {
                         "name": "buckettimestamp",
-                        "type": "oneof",
+                        "type": "pure-token",
                         "token": "BUCKETTIMESTAMP",
                         "optional": true,
-                        "arguments": [
-                            {
-                                "name": "-",
-                                "type": "pure-token",
-                                "token": "-"
-                            },
-                            {
-                                "name": "start",
-                                "type": "pure-token",
-                                "token": "start"
-                            },
-                            {
-                                "name": "+",
-                                "type": "pure-token",
-                                "token": "+"
-                            },
-                            {
-                                "name": "end",
-                                "type": "pure-token",
-                                "token": "end"
-                            },
-                            {
-                                "name": "~",
-                                "type": "pure-token",
-                                "token": "~"
-                            },
-                            {
-                                "name": "mid",
-                                "type": "pure-token",
-                                "token": "mid"
-                            }
-                        ],
                         "since": "1.8.0"
                     },
                     {
@@ -1110,18 +1042,6 @@
                                 "type": "pure-token",
                                 "token": "TWA",
                                 "since": "1.8.0"
-                            },
-                            {
-                                "name": "countnan",
-                                "type": "pure-token",
-                                "token": "COUNTNAN",
-                                "since": "8.6.0"
-                            },
-                            {
-                                "name": "countall",
-                                "type": "pure-token",
-                                "token": "COUNTALL",
-                                "since": "8.6.0"
                             }
                         ]
                     },
@@ -1219,10 +1139,9 @@
                 "type": "string"
             },
             {
-                "name": "latest",
-                "type": "pure-token",
+                "name": "LATEST",
+                "type": "string",
                 "optional": true,
-                "token": "LATEST",
                 "since": "1.8.0"
             },
             {
@@ -1367,18 +1286,6 @@
                                 "type": "pure-token",
                                 "token": "TWA",
                                 "since": "1.8.0"
-                            },
-                            {
-                                "name": "countnan",
-                                "type": "pure-token",
-                                "token": "COUNTNAN",
-                                "since": "8.6.0"
-                            },
-                            {
-                                "name": "countall",
-                                "type": "pure-token",
-                                "token": "COUNTALL",
-                                "since": "8.6.0"
                             }
                         ]
                     },
@@ -1459,7 +1366,7 @@
                 ]
             }
         ],
-        "group": "timeseries"
+            "group": "timeseries"
     },
     "TS.GET": {
         "summary": "Get the sample with the highest timestamp from a given time series",
