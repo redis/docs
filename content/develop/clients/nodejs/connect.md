@@ -375,12 +375,12 @@ The available options are:
 -   `maintRelaxedSocketTimeout`: (`number`) The socket timeout to use while the server is 
     performing maintenance. The default is 10000 (10 seconds). If a timeout happens during the maintenance period, the client receives a `SocketTimeoutDuringMaintenance` error.
 
-{{< note >}} Redis Cloud only supports relaxed timeouts (and not pre-handoffs) for SCH if you are using
+{{< note >}} Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
 either [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) or
 [Google Cloud Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}})
 (see [Smart client handoffs]({{< relref "/develop/clients/sch#redis-cloud" >}}) for more information).
 To use relaxed timeouts with these services, you should set `maintEndpointType: 'none'`
-when you connect.
+when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.
 {{< /note >}}
 
 ## Connection events

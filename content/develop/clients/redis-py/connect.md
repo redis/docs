@@ -306,10 +306,10 @@ The `MaintNotificationsConfig` constructor accepts the following parameters:
 | `endpoint_type` | `EndpointType` | Auto-detect | The type of endpoint to use for the connection. The options are `EndpointType.EXTERNAL_IP`, `EndpointType.INTERNAL_IP`, `EndpointType.EXTERNAL_FQDN`, `EndpointType.INTERNAL_FQDN`, and `EndpointType.NONE`. |
 | `relaxed_timeout` | `int` | `20` | The timeout (in seconds) to use while the server is performing maintenance. A value of `-1` disables the relax timeout and just uses the normal timeout during maintenance. |
 
-{{< note >}} Redis Cloud only supports relaxed timeouts (and not pre-handoffs) for SCH if you are using
+{{< note >}} Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
 either [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) or
 [Google Cloud Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}})
 (see [Smart client handoffs]({{< relref "/develop/clients/sch#redis-cloud" >}}) for more information).
 To use relaxed timeouts with these services, you should set `endpoint_type=EndpointType.NONE`
-when you connect.
+when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.
 {{< /note >}}
