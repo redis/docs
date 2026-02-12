@@ -36,9 +36,9 @@ Stops hotkeys tracking but preserves the collected data.
 
 After stopping, the tracking data remains available through [`HOTKEYS GET`]({{< relref "/commands/hotkeys-get" >}}) until [`HOTKEYS RESET`]({{< relref "/commands/hotkeys-reset" >}}) is called or a new tracking session is started.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
