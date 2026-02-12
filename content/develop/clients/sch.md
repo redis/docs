@@ -37,12 +37,13 @@ client avoid disruptions in service during the maintenance period:
 -   **Relaxed timeouts**: Upgrades tend to impact the general performance of the server.
     Advance notification of the upgrade lets a client adjust its command
     timeouts to take this into account and avoid aborting commands too soon.
--   **Transparent reconnection**: Upgrades also involve migrating
+-   **Pre-handoffs**: Upgrades also involve migrating
     Redis shards to new nodes, which inevitably disconnects clients from
     existing nodes. However, with some advance warning of the disconnection,
     a client can buffer commands, connect to a new node, and then resume
     the buffered commands without aborting any of them. As a result, users
-    see no disruption in service.
+    see no disruption in service. These transparent reconnections to new endpoints
+    are known as *pre-handoffs*.
 
 {{< note >}}SCH does not work with blocking connections.
 These include connections used for blocking operations like
@@ -69,11 +70,15 @@ See the pages linked below to learn how to configure SCH for:
 
 ### Redis Cloud
 
-SCH is fully supported and enabled by default on Redis Cloud. When a cluster
-upgrade begins, clients are alerted to perform pre-handoffs, and the relaxed
-timeouts prevent commands failing due to reduced performance during the upgrade.
-With database version upgrades, no handoffs are required but relaxed timeouts
-are still used to avoid command failures.
+SCH is fully supported and enabled by default on Redis Cloud, except when you
+are using one of the following options:
+
+- [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}})
+- [Google Cloud Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}})
+
+These services don't currently allow for pre-handoffs, but you still get the
+benefit of relaxed timeouts during database version upgrades. All other
+configurations have full support for both relaxed timeouts and pre-handoffs.
 
 ### Redis Software
 
@@ -107,4 +112,4 @@ SCH is not currently supported for [Kubernetes]({{< relref "/operate/kubernetes"
 
 ### Redis Open Source
 
-SCH is not currently supported for Redis Open Source.
+SCH is not currently supported for [Redis Open Source]({{< relref "/operate/oss_and_stack" >}}).
