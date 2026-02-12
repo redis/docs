@@ -343,3 +343,11 @@ that is relevant to SCH:
 |--------|-------------|
 | `relaxedTimeoutsDuringMaintenance(Duration duration)` | Set the timeout to use while the server is performing maintenance. The default is 10 seconds. |
 |
+
+{{< note >}} Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
+either [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) or
+[Google Cloud Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}})
+(see [Smart client handoffs]({{< relref "/develop/clients/sch#redis-cloud" >}}) for more information).
+To use relaxed timeouts with these services, you should set `endpointType(EndpointType.NONE)`
+when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.
+{{< /note >}}
