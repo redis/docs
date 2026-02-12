@@ -273,6 +273,13 @@ The Active-Active database global configurations, contains the global properties
         </td>
         <td>false</td>
       </tr><tr>
+        <td><a href="#specglobalconfigurationsossclustersettings">ossClusterSettings</a></td>
+        <td>object</td>
+        <td>
+          Additional OSS cluster settings that may be provided to tweak OSS cluster behavior.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>persistence</td>
         <td>enum</td>
         <td>
@@ -1422,6 +1429,31 @@ Redis Enterprise module (see https://redis.io/docs/latest/develop/reference/modu
 </table>
 
 
+### spec.globalConfigurations.ossClusterSettings
+<sup><sup>[↩ Parent](#specglobalconfigurations)</sup></sup>
+
+Additional OSS cluster settings that may be provided to tweak OSS cluster behavior.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enableExternalAccess</td>
+        <td>boolean</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
 ### spec.globalConfigurations.redisEnterpriseCluster
 <sup><sup>[↩ Parent](#specglobalconfigurations)</sup></sup>
 
@@ -1617,7 +1649,7 @@ RedisEnterpriseActiveActiveDatabaseStatus defines the observed state of RedisEnt
         <td>clusterCertificatesGeneration</td>
         <td>integer</td>
         <td>
-          Versions of the cluster's Proxy and Syncer certificates. In Active-Active databases, these are used to detect updates to the certificates, and trigger synchronization across the participating clusters. .<br/>
+          Tracks the certificate generation from the participating cluster's REC.Status.CertificatesStatus.Generation. The operator automatically monitors this field to detect when proxy or syncer certificates are updated on the local participating cluster. When a change is detected, the operator automatically executes a CRDB force update (equivalent to 'crdb-cli crdb update --force'), which synchronizes the certificate changes to all participating clusters, preventing sync issues. This eliminates the manual step of running crdb-cli commands when rotating certificates in Active-Active deployments on Kubernetes.<br/>
           <br/>
             <i>Format</i>: int64<br/>
         </td>
