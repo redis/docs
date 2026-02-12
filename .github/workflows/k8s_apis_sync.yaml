@@ -16,6 +16,7 @@ jobs:
   k8s_apis_sync:
     runs-on: ubuntu-latest
     permissions:
+      id-token: write
       contents: write
       pull-requests: write
       actions: write
