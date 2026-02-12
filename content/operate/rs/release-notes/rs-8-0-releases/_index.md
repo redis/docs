@@ -55,6 +55,12 @@ For more detailed release notes, select a build version from the following table
 
 ### Breaking changes
 
+- Redis Software installation script changes:
+
+    - Changed the `--skip-updating-env-path` option to `--update-env-path` when running [`install.sh`]({{<relref "/operate/rs/installing-upgrading/install/install-script">}}).
+
+    - Changed the `skip_updating_env_path` parameter to `update_env_path` in the [installation answers file]({{<relref "/operate/rs/installing-upgrading/install/manage-installation-questions#configure-file-to-answer">}}).
+
 ### Redis database version 8 breaking changes {#redis-8-breaking-changes}
 
 When new major versions of Redis Open Source change existing commands, upgrading your database to a new version can potentially break some functionality. Before you upgrade, read the provided list of breaking changes that affect Redis Software and update any applications that connect to your database to handle these changes.
