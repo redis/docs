@@ -27,7 +27,7 @@ spec:
 
   redisEnterpriseImageSpec:
     repository: registry.connect.redhat.com/redislabs/redis-enterprise
-    versionTag: 8.0.6-50
+    versionTag: 8.0.10-64
   redisEnterpriseServicesRiggerImageSpec:
     repository: registry.connect.redhat.com/redislabs/services-manager
   bootstrapperImageSpec:
