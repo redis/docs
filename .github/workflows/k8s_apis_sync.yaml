@@ -38,11 +38,17 @@ jobs:
           tar -xvzf crdoc_Linux_x86_64.tar.gz
           sudo mv crdoc /bin/crdoc
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::022044324644:role/GitHubRedisDocsS3Access
+          aws-region: us-east-1
+
       - name: 'Fetch release'
         run: |-
           RELEASE="${{ github.event.inputs.release }}"
           BUCKET_FOLDER="${{ github.event.inputs.bucket_folder }}"
-          aws s3 cp "s3://redislabs-k8s/${BUCKET_FOLDER}/redis-enterprise-operator-${RELEASE}.tar.gz" --no-sign-request . --region us-east-1
+          aws s3 cp "s3://redislabs-k8s/${BUCKET_FOLDER}/redis-enterprise-operator-${RELEASE}.tar.gz" .
 
           tar xf "redis-enterprise-operator-${RELEASE}.tar.gz"
 
