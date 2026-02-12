@@ -51,10 +51,33 @@ These include connections used for blocking operations like
 All non-blocking operations are safe to use with SCH.
 {{< /note >}}
 
-## Enable SCH
+## SCH support in Redis client libraries
 
-SCH is enabled by default on Redis Cloud, but you must enable it
-explicitly on Redis Software servers by using the
+SCH is enabled automatically on the client side during connection
+if you select the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+protocol, which is a requirement for SCH. However, you can
+configure some parameters, such as the timeouts to use
+during maintenance.
+See the pages linked below to learn how to configure SCH for:
+
+- [redis-py]({{< relref "/develop/clients/redis-py/connect#connect-using-smart-client-handoffs-sch" >}})
+- [node-redis]({{< relref "/develop/clients/nodejs/connect#connect-using-smart-client-handoffs-sch" >}})
+- [Lettuce]({{< relref "/develop/clients/lettuce/connect#connect-using-smart-client-handoffs-sch" >}})
+- [go-redis]({{< relref "/develop/clients/go/connect#connect-using-smart-client-handoffs-sch" >}})
+
+## SCH support in Redis server products
+
+### Redis Cloud
+
+SCH is fully supported and enabled by default on Redis Cloud. When a cluster
+upgrade begins, clients are alerted to perform pre-handoffs, and the relaxed
+timeouts prevent commands failing due to reduced performance during the upgrade.
+With database version upgrades, no handoffs are required but relaxed timeouts
+are still used to avoid command failures.
+
+### Redis Software
+
+You must enable SCH explicitly on self-managed Redis Software servers by using the
 [v1/cluster]({{< relref "/operate/rs/references/rest-api/requests/cluster" >}})
 REST API request to set the `client_maint_notifications` option to `true`.
 The example below shows how to do this using the
@@ -68,20 +91,20 @@ curl -k -X PUT -H "accept: application/json" \
     https://localhost:9443/v1/cluster
 ```
 
-{{< note >}}SCH is not supported for
-[Kubernetes]({{< relref "/operate/kubernetes" >}}) clusters
-and is supported on Redis Software only for
-[rolling upgrades]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#rolling-upgrade" >}}).
-{{< /note >}}
+Redis Software uses relaxed timeouts to avoid command failures during
+database version upgrades. The support for pre-handoffs depends on
+the specific upgrade method you use, as detailed in the table below.
 
-SCH is enabled automatically on the client side during connection
-if you select the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
-protocol, which is a requirement for SCH. However, you can
-configure some parameters, such as the timeouts to use
-during maintenance.
-See the pages linked below to learn how to configure SCH for:
+| Upgrade method | SCH support | Expected behavior |
+| --- | --- | --- |
+| [Rolling upgrade]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#rolling-upgrade" >}}) | Full | New nodes and old ones removed sequentially. SCH pre-handoffs and relaxed timeouts greatly reduce disruptions during the upgrade. |
+| [In-place upgrade]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#in-place-upgrade" >}}) | Partial | Relaxed timeouts reduce errors but there are no pre-handoffs. Disconnections occur when processes are replaced during the upgrade, so clients should rely on auto-reconnect, which will cause brief lapses in service. |
+| [Maintenance mode]({{< relref "/operate/rs/clusters/maintenance-mode" >}}) | Full | SCH is fully supported during hardware or OS patching operations. Pre-handoffs and relaxed timeouts minimize application impact. |
 
-- [redis-py]({{< relref "/develop/clients/redis-py/connect#connect-using-smart-client-handoffs-sch" >}})
-- [node-redis]({{< relref "/develop/clients/nodejs/connect#connect-using-smart-client-handoffs-sch" >}})
-- [Lettuce]({{< relref "/develop/clients/lettuce/connect#connect-using-smart-client-handoffs-sch" >}})
-- [go-redis]({{< relref "/develop/clients/go/connect#connect-using-smart-client-handoffs-sch" >}})
+### Redis Enterprise for Kubernetes
+
+SCH is not currently supported for [Kubernetes]({{< relref "/operate/kubernetes" >}}) clusters.
+
+### Redis Open Source
+
+SCH is not currently supported for Redis Open Source.
