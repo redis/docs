@@ -115,6 +115,12 @@ jobs:
           rm -rf "content/develop/ai/redisvl/${version}"
         done
 
+        # Create version files for docs-nav.html dropdowns
+        echo "$kubernetes_versions" | jq -r '.[]' > kubernetes-versions
+        echo "$rs_versions" | jq -r '.[]' > rs-versions
+        echo "$rdi_versions" | jq -r '.[]' > rdi-versions
+        echo "$redisvl_versions" | jq -r '.[]' > redisvl-versions
+
         make all
 
     - name: List client examples
