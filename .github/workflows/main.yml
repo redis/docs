@@ -406,16 +406,10 @@ jobs:
         path: output/
         retention-days: 1
 
-  # Deploy all artifacts to GCS
-  deploy:
-    name: Deploy to GCS
-    needs:
-      - setup_and_build_latest
-      - build_kubernetes
-      - build_rs
-      - build_rdi
-      - build_redisvl
-    if: ${{ always() && needs.setup_and_build_latest.result == 'success' }}
+  # Deploy latest build to GCS
+  deploy_latest:
+    name: Deploy latest
+    needs: setup_and_build_latest
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -426,68 +420,11 @@ jobs:
       PROD_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.PROD_WORKLOAD_IDENTITY_PROVIDER }}
 
     steps:
-    - name: Check the branch out
-      uses: actions/checkout@v4
-
-    - name: Free up disk space
-      run: |
-        sudo rm -rf /usr/share/dotnet
-        sudo rm -rf /usr/local/lib/android
-        sudo rm -rf /opt/ghc
-        sudo rm -rf /opt/hostedtoolcache/CodeQL
-
-    - name: Install Hugo (for 404 page)
-      run: |
-        wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-        && sudo dpkg -i ${{ runner.temp }}/hugo.deb
-
-    - name: Install dependencies (for 404 page)
-      run: make deps
-
-    - name: Download all artifacts
+    - name: Download latest artifact
       uses: actions/download-artifact@v4
       with:
-        path: artifacts/
-
-    - name: List downloaded artifacts
-      run: ls -la artifacts/
-
-    - name: Organize artifacts
-      run: |
-        set -x
-        bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
-
-        # Move latest build to public/
-        mv artifacts/build-latest public
-
-        # Move versioned builds
-        for dir in artifacts/build-kubernetes-*; do
-          if [[ -d "$dir" ]]; then
-            version=$(basename "$dir" | sed 's/build-kubernetes-//')
-            mv "$dir" "kubernetes-${version}"
-          fi
-        done
-
-        for dir in artifacts/build-rs-*; do
-          if [[ -d "$dir" ]]; then
-            version=$(basename "$dir" | sed 's/build-rs-//')
-            mv "$dir" "rs-${version}"
-          fi
-        done
-
-        for dir in artifacts/build-rdi-*; do
-          if [[ -d "$dir" ]]; then
-            version=$(basename "$dir" | sed 's/build-rdi-//')
-            mv "$dir" "redis-data-integration-${version}"
-          fi
-        done
-
-        for dir in artifacts/build-redisvl-*; do
-          if [[ -d "$dir" ]]; then
-            version=$(basename "$dir" | sed 's/build-redisvl-//')
-            mv "$dir" "redisvl-${version}"
-          fi
-        done
+        name: build-latest
+        path: public/
 
     - name: 'Google auth'
       uses: 'google-github-actions/auth@v2'
@@ -502,60 +439,270 @@ jobs:
         project_id: '${{ env.PROD_PROJECT_ID }}'
         version: '>= 363.0.0'
 
-    - name: Sync the branch to the bucket
+    - name: Deploy latest to GCS
       run: |
         bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
+        gsutil -m rsync -r -c -j html -d public gs://$BUCKET/$bucket_path
+        gsutil -m rsync -r -c -j html -d public gs://$BUCKET/docs/$bucket_path
 
-        gsutil -m rsync -r -c -j html -d ${{ github.workspace }}/public gs://$BUCKET/$bucket_path
-        gsutil -m rsync -r -c -j html -d ${{ github.workspace }}/public gs://$BUCKET/docs/$bucket_path
+  # Deploy Kubernetes versions to GCS
+  deploy_kubernetes:
+    name: Deploy Kubernetes ${{ matrix.version }}
+    needs:
+      - setup_and_build_latest
+      - build_kubernetes
+    if: ${{ needs.setup_and_build_latest.outputs.kubernetes_versions != '[]' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJson(needs.setup_and_build_latest.outputs.kubernetes_versions) }}
+    env:
+      PROD_PROJECT_ID: ${{ secrets.GCP_PROJECT_PROD }}
+      PROD_SERVICE_ACCOUNT: ${{ secrets.PROD_SERVICE_ACCOUNT }}
+      PROD_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.PROD_WORKLOAD_IDENTITY_PROVIDER }}
 
-        if [[ "${{ github.ref_name }}" == "latest" ]]
-        then
-          versioned_builds=($(find . -type d -regex ".*[0-9-]" -maxdepth 1 | sed -E 's/^.\///'))
-          for versioned_build in "${versioned_builds[@]}"; do
-            version="${versioned_build##*-}"
-            product="${versioned_build%-*}"
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: build-kubernetes-${{ matrix.version }}
+        path: output/
 
-            if [[ "${product}" == "redis-data-integration" ]]; then
-              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}" "gs://${BUCKET}/${versioned_build}/integrate/${product}"
-              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}/${version}" "gs://${BUCKET}/docs/$bucket_path/integrate/${product}/${version}"
-            elif [[ "${product}" == "redisvl" ]]; then
-              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/develop/ai/${product}" "gs://${BUCKET}/${versioned_build}/develop/ai/${product}"
-              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/develop/ai/${product}/${version}" "gs://${BUCKET}/docs/$bucket_path/develop/ai/${product}/${version}"
-            else
-              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}" "gs://${BUCKET}/${versioned_build}/operate/${product}"
-              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}/${version}" "gs://${BUCKET}/docs/$bucket_path/operate/${product}/${version}"
-            fi
-          done
+    - name: 'Google auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        project_id: '${{ env.PROD_PROJECT_ID }}'
+        service_account: '${{ env.PROD_SERVICE_ACCOUNT }}'
+        workload_identity_provider: '${{ env.PROD_WORKLOAD_IDENTITY_PROVIDER }}'
 
-          # Prepare custom 404 page for Cloud Connector
-          hugo_root_path="docs/latest"
-          sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/$hugo_root_path\"#g" config.toml
-          make hugo
-          sed -i "s#/docs/latest/scss/#https://storage.googleapis.com/$BUCKET/docs/latest/scss/#g" public/404.html
-          sed -i "s#/docs/latest/css/#https://storage.googleapis.com/$BUCKET/docs/latest/css/#g" public/404.html
-          gsutil cp public/404.html gs://$BUCKET/docs/
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+      with:
+        project_id: '${{ env.PROD_PROJECT_ID }}'
+        version: '>= 363.0.0'
+
+    - name: Deploy Kubernetes ${{ matrix.version }} to GCS
+      run: |
+        version="${{ matrix.version }}"
+        bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
+
+        if [[ "${{ github.ref_name }}" == "latest" ]]; then
+          gsutil -m rsync -r -c -j html -d output/operate/kubernetes "gs://${BUCKET}/kubernetes-${version}/operate/kubernetes"
+          gsutil -m rsync -r -c -j html -d "output/operate/kubernetes/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/kubernetes/${version}"
+        elif [[ "$bucket_path" == staging/* ]]; then
+          gsutil -m rsync -r -c -j html -d output/operate/kubernetes "gs://${BUCKET}/${bucket_path}/kubernetes-${version}/operate/kubernetes"
+          gsutil -m rsync -r -c -j html -d "output/operate/kubernetes/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/kubernetes/${version}"
         fi
 
-        if [[ "$bucket_path" == staging/* ]]
-        then
-          versioned_builds=($(find . -type d -regex ".*[0-9-]" -maxdepth 1 | sed -E 's/^.\///'))
-          for versioned_build in "${versioned_builds[@]}"; do
-            version="${versioned_build##*-}"
-            product="${versioned_build%-*}"
+  # Deploy RS versions to GCS
+  deploy_rs:
+    name: Deploy RS ${{ matrix.version }}
+    needs:
+      - setup_and_build_latest
+      - build_rs
+    if: ${{ needs.setup_and_build_latest.outputs.rs_versions != '[]' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJson(needs.setup_and_build_latest.outputs.rs_versions) }}
+    env:
+      PROD_PROJECT_ID: ${{ secrets.GCP_PROJECT_PROD }}
+      PROD_SERVICE_ACCOUNT: ${{ secrets.PROD_SERVICE_ACCOUNT }}
+      PROD_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.PROD_WORKLOAD_IDENTITY_PROVIDER }}
 
-            if [[ "${product}" == "redis-data-integration" ]]; then
-              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}" "gs://${BUCKET}/${bucket_path}/${versioned_build}/integrate/${product}"
-              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}/${version}" "gs://${BUCKET}/docs/${bucket_path}/integrate/${product}/${version}"
-            elif [[ "${product}" == "redisvl" ]]; then
-              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/develop/ai/${product}" "gs://${BUCKET}/${bucket_path}/${versioned_build}/develop/ai/${product}"
-              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/develop/ai/${product}/${version}" "gs://${BUCKET}/docs/${bucket_path}/develop/ai/${product}/${version}"
-            else
-              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}" "gs://${BUCKET}/${bucket_path}/${versioned_build}/operate/${product}"
-              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/${product}/${version}"
-            fi
-          done
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: build-rs-${{ matrix.version }}
+        path: output/
+
+    - name: 'Google auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        project_id: '${{ env.PROD_PROJECT_ID }}'
+        service_account: '${{ env.PROD_SERVICE_ACCOUNT }}'
+        workload_identity_provider: '${{ env.PROD_WORKLOAD_IDENTITY_PROVIDER }}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+      with:
+        project_id: '${{ env.PROD_PROJECT_ID }}'
+        version: '>= 363.0.0'
+
+    - name: Deploy RS ${{ matrix.version }} to GCS
+      run: |
+        version="${{ matrix.version }}"
+        bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
+
+        if [[ "${{ github.ref_name }}" == "latest" ]]; then
+          gsutil -m rsync -r -c -j html -d output/operate/rs "gs://${BUCKET}/rs-${version}/operate/rs"
+          gsutil -m rsync -r -c -j html -d "output/operate/rs/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/rs/${version}"
+        elif [[ "$bucket_path" == staging/* ]]; then
+          gsutil -m rsync -r -c -j html -d output/operate/rs "gs://${BUCKET}/${bucket_path}/rs-${version}/operate/rs"
+          gsutil -m rsync -r -c -j html -d "output/operate/rs/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/rs/${version}"
         fi
 
-    - name: End
-      run: echo "This job's status is ${{ job.status }}."
+  # Deploy RDI versions to GCS
+  deploy_rdi:
+    name: Deploy RDI ${{ matrix.version }}
+    needs:
+      - setup_and_build_latest
+      - build_rdi
+    if: ${{ needs.setup_and_build_latest.outputs.rdi_versions != '[]' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJson(needs.setup_and_build_latest.outputs.rdi_versions) }}
+    env:
+      PROD_PROJECT_ID: ${{ secrets.GCP_PROJECT_PROD }}
+      PROD_SERVICE_ACCOUNT: ${{ secrets.PROD_SERVICE_ACCOUNT }}
+      PROD_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.PROD_WORKLOAD_IDENTITY_PROVIDER }}
+
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: build-rdi-${{ matrix.version }}
+        path: output/
+
+    - name: 'Google auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        project_id: '${{ env.PROD_PROJECT_ID }}'
+        service_account: '${{ env.PROD_SERVICE_ACCOUNT }}'
+        workload_identity_provider: '${{ env.PROD_WORKLOAD_IDENTITY_PROVIDER }}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+      with:
+        project_id: '${{ env.PROD_PROJECT_ID }}'
+        version: '>= 363.0.0'
+
+    - name: Deploy RDI ${{ matrix.version }} to GCS
+      run: |
+        version="${{ matrix.version }}"
+        bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
+
+        if [[ "${{ github.ref_name }}" == "latest" ]]; then
+          gsutil -m rsync -r -c -j html -d output/integrate/redis-data-integration "gs://${BUCKET}/redis-data-integration-${version}/integrate/redis-data-integration"
+          gsutil -m rsync -r -c -j html -d "output/integrate/redis-data-integration/${version}" "gs://${BUCKET}/docs/${bucket_path}/integrate/redis-data-integration/${version}"
+        elif [[ "$bucket_path" == staging/* ]]; then
+          gsutil -m rsync -r -c -j html -d output/integrate/redis-data-integration "gs://${BUCKET}/${bucket_path}/redis-data-integration-${version}/integrate/redis-data-integration"
+          gsutil -m rsync -r -c -j html -d "output/integrate/redis-data-integration/${version}" "gs://${BUCKET}/docs/${bucket_path}/integrate/redis-data-integration/${version}"
+        fi
+
+  # Deploy RedisVL versions to GCS
+  deploy_redisvl:
+    name: Deploy RedisVL ${{ matrix.version }}
+    needs:
+      - setup_and_build_latest
+      - build_redisvl
+    if: ${{ needs.setup_and_build_latest.outputs.redisvl_versions != '[]' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJson(needs.setup_and_build_latest.outputs.redisvl_versions) }}
+    env:
+      PROD_PROJECT_ID: ${{ secrets.GCP_PROJECT_PROD }}
+      PROD_SERVICE_ACCOUNT: ${{ secrets.PROD_SERVICE_ACCOUNT }}
+      PROD_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.PROD_WORKLOAD_IDENTITY_PROVIDER }}
+
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: build-redisvl-${{ matrix.version }}
+        path: output/
+
+    - name: 'Google auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        project_id: '${{ env.PROD_PROJECT_ID }}'
+        service_account: '${{ env.PROD_SERVICE_ACCOUNT }}'
+        workload_identity_provider: '${{ env.PROD_WORKLOAD_IDENTITY_PROVIDER }}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+      with:
+        project_id: '${{ env.PROD_PROJECT_ID }}'
+        version: '>= 363.0.0'
+
+    - name: Deploy RedisVL ${{ matrix.version }} to GCS
+      run: |
+        version="${{ matrix.version }}"
+        bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
+
+        if [[ "${{ github.ref_name }}" == "latest" ]]; then
+          gsutil -m rsync -r -c -j html -d output/develop/ai/redisvl "gs://${BUCKET}/redisvl-${version}/develop/ai/redisvl"
+          gsutil -m rsync -r -c -j html -d "output/develop/ai/redisvl/${version}" "gs://${BUCKET}/docs/${bucket_path}/develop/ai/redisvl/${version}"
+        elif [[ "$bucket_path" == staging/* ]]; then
+          gsutil -m rsync -r -c -j html -d output/develop/ai/redisvl "gs://${BUCKET}/${bucket_path}/redisvl-${version}/develop/ai/redisvl"
+          gsutil -m rsync -r -c -j html -d "output/develop/ai/redisvl/${version}" "gs://${BUCKET}/docs/${bucket_path}/develop/ai/redisvl/${version}"
+        fi
+
+  # Deploy custom 404 page (only on latest branch)
+  deploy_404:
+    name: Deploy 404 page
+    needs: setup_and_build_latest
+    if: ${{ github.ref_name == 'latest' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    env:
+      PROD_PROJECT_ID: ${{ secrets.GCP_PROJECT_PROD }}
+      PROD_SERVICE_ACCOUNT: ${{ secrets.PROD_SERVICE_ACCOUNT }}
+      PROD_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.PROD_WORKLOAD_IDENTITY_PROVIDER }}
+
+    steps:
+    - name: Check the branch out
+      uses: actions/checkout@v4
+
+    - name: Install Hugo
+      run: |
+        wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
+        && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+
+    - name: Install dependencies
+      run: make deps
+
+    - name: Build 404 page
+      run: |
+        hugo_root_path="docs/latest"
+        sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/${hugo_root_path}\"#g" config.toml
+        make hugo
+        sed -i "s#/docs/latest/scss/#https://storage.googleapis.com/$BUCKET/docs/latest/scss/#g" public/404.html
+        sed -i "s#/docs/latest/css/#https://storage.googleapis.com/$BUCKET/docs/latest/css/#g" public/404.html
+
+    - name: 'Google auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        project_id: '${{ env.PROD_PROJECT_ID }}'
+        service_account: '${{ env.PROD_SERVICE_ACCOUNT }}'
+        workload_identity_provider: '${{ env.PROD_WORKLOAD_IDENTITY_PROVIDER }}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+      with:
+        project_id: '${{ env.PROD_PROJECT_ID }}'
+        version: '>= 363.0.0'
+
+    - name: Deploy 404 page to GCS
+      run: gsutil cp public/404.html gs://$BUCKET/docs/
