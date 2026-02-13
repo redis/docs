@@ -1,29 +1,151 @@
+name: build_docs
+
 on:
   push:
     branches:
     - '**'
+
+env:
+  HUGO_VERSION: 0.143.1
+  BUCKET: docs-prod-learn-redis-com
+
 jobs:
-  build_docs:
-    name: Build the production documentation site
+  # Discover versions and build the latest docs
+  setup_and_build_latest:
+    name: Setup and build latest docs
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
-      id-token: 'write'
-    env:
-      HUGO_VERSION: 0.143.1
-      GCLOUD_VERSION: 458.0.1-linux-x86_64
-      BUCKET: docs-prod-learn-redis-com
-      PROD_PROJECT_ID: ${{ secrets.GCP_PROJECT_PROD }}
-      PROD_SERVICE_ACCOUNT: ${{ secrets.PROD_SERVICE_ACCOUNT }}
-      PROD_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.PROD_WORKLOAD_IDENTITY_PROVIDER }}
+    outputs:
+      kubernetes_versions: ${{ steps.discover.outputs.kubernetes_versions }}
+      rs_versions: ${{ steps.discover.outputs.rs_versions }}
+      rdi_versions: ${{ steps.discover.outputs.rdi_versions }}
+      redisvl_versions: ${{ steps.discover.outputs.redisvl_versions }}
+      hugo_root_path: ${{ steps.set-paths.outputs.hugo_root_path }}
+      bucket_path: ${{ steps.set-paths.outputs.bucket_path }}
 
     steps:
-    - name: Start
-      run: echo "The name of the branch is ${{ github.ref }} on ${{ github.repository }}"
-
     - name: Free up disk space
       run: |
-        # Remove unnecessary pre-installed software to free up space
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /usr/local/lib/android
+        sudo rm -rf /opt/ghc
+        sudo rm -rf /opt/hostedtoolcache/CodeQL
+
+    - name: Validate the branch name
+      run: |
+        if [[ "${{ github.ref_name }}" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
+          echo "The branch name ${{ github.ref_name }} is valid."
+        else
+          echo "ERROR: Invalid branch name ${{ github.ref_name }}!"
+          exit 1
+        fi
+
+    - name: Install Hugo
+      run: |
+        wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
+        && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+
+    - name: Check the branch out
+      uses: actions/checkout@v4
+
+    - name: Set paths
+      id: set-paths
+      run: |
+        if [[ "${{ github.ref_name }}" == "main" ]]; then
+          echo "hugo_root_path=docs/staging/dev" >> $GITHUB_OUTPUT
+          echo "bucket_path=staging/dev" >> $GITHUB_OUTPUT
+        elif [[ "${{ github.ref_name }}" == "latest" ]]; then
+          echo "hugo_root_path=docs/latest" >> $GITHUB_OUTPUT
+          echo "bucket_path=latest" >> $GITHUB_OUTPUT
+        elif [[ "${{ endsWith(github.ref_name, '-build') }}" == "true" ]]; then
+          path=$(echo "docs/version/${{ github.ref_name }}" | sed 's/-build$//')
+          bucket=$(echo "version/${{ github.ref_name }}" | sed 's/-build$//')
+          echo "hugo_root_path=${path}" >> $GITHUB_OUTPUT
+          echo "bucket_path=${bucket}" >> $GITHUB_OUTPUT
+        else
+          echo "hugo_root_path=docs/staging/${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          echo "bucket_path=staging/${{ github.ref_name }}" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Discover versions
+      id: discover
+      run: |
+        kubernetes_versions=$(find content/operate/kubernetes/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}' | jq -R -s -c 'split("\n") | map(select(length > 0))')
+        rs_versions=$(find content/operate/rs/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}' | jq -R -s -c 'split("\n") | map(select(length > 0))')
+        rdi_versions=$(find content/integrate/redis-data-integration/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}' | jq -R -s -c 'split("\n") | map(select(length > 0))')
+        redisvl_versions=$(find content/develop/ai/redisvl/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}' | jq -R -s -c 'split("\n") | map(select(length > 0))')
+
+        echo "kubernetes_versions=${kubernetes_versions}" >> $GITHUB_OUTPUT
+        echo "rs_versions=${rs_versions}" >> $GITHUB_OUTPUT
+        echo "rdi_versions=${rdi_versions}" >> $GITHUB_OUTPUT
+        echo "redisvl_versions=${redisvl_versions}" >> $GITHUB_OUTPUT
+
+        echo "Discovered versions:"
+        echo "  Kubernetes: ${kubernetes_versions}"
+        echo "  RS: ${rs_versions}"
+        echo "  RDI: ${rdi_versions}"
+        echo "  RedisVL: ${redisvl_versions}"
+
+    - name: Install dependencies
+      run: make deps
+
+    - name: Build latest (without versioned content)
+      run: |
+        set -x
+        hugo_root_path="${{ steps.set-paths.outputs.hugo_root_path }}"
+        sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/${hugo_root_path}\"#g" config.toml
+
+        # Remove all versioned directories for the latest build
+        kubernetes_versions='${{ steps.discover.outputs.kubernetes_versions }}'
+        rs_versions='${{ steps.discover.outputs.rs_versions }}'
+        rdi_versions='${{ steps.discover.outputs.rdi_versions }}'
+        redisvl_versions='${{ steps.discover.outputs.redisvl_versions }}'
+
+        for version in $(echo "$kubernetes_versions" | jq -r '.[]'); do
+          rm -rf "content/operate/kubernetes/${version}"
+        done
+        for version in $(echo "$rs_versions" | jq -r '.[]'); do
+          rm -rf "content/operate/rs/${version}"
+        done
+        for version in $(echo "$rdi_versions" | jq -r '.[]'); do
+          rm -rf "content/integrate/redis-data-integration/${version}"
+        done
+        for version in $(echo "$redisvl_versions" | jq -r '.[]'); do
+          rm -rf "content/develop/ai/redisvl/${version}"
+        done
+
+        make all
+
+    - name: List client examples
+      run: ls "${{ github.workspace }}/examples"
+
+    - name: List files to be published
+      run: ls "${{ github.workspace }}/public"
+
+    - name: Upload latest artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-latest
+        path: public/
+        retention-days: 1
+
+  # Build Kubernetes versions in parallel
+  build_kubernetes:
+    name: Build Kubernetes ${{ matrix.version }}
+    needs: setup_and_build_latest
+    if: ${{ needs.setup_and_build_latest.outputs.kubernetes_versions != '[]' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJson(needs.setup_and_build_latest.outputs.kubernetes_versions) }}
+
+    steps:
+    - name: Free up disk space
+      run: |
         sudo rm -rf /usr/share/dotnet
         sudo rm -rf /usr/local/lib/android
         sudo rm -rf /opt/ghc
@@ -31,186 +153,341 @@ jobs:
 
     - name: Install Hugo
       run: |
-          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+        wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
+        && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+
     - name: Check the branch out
       uses: actions/checkout@v4
-    - name: List repository files
-      run: ls ${{ github.workspace }}
-    - name: Validate the branch name before using it
-      run: |
-          if [[ "${{ github.ref_name }}" =~ ^[a-zA-Z0-9_.-]+$ ]]
-          then
-            echo "The branch name ${{ github.ref_name }} is valid."
-          else
-            echo "ERROR: Invalid branch name ${{ github.ref_name }}!"
-            exit 1
-          fi
 
     - name: Install dependencies
       run: make deps
 
-    - name: Build out all versions
+    - name: Build Kubernetes ${{ matrix.version }}
       run: |
         set -x
+        version="${{ matrix.version }}"
+        hugo_root_path="${{ needs.setup_and_build_latest.outputs.hugo_root_path }}"
 
-        function setBaseUrl() {
-          if [[ "${{ github.ref_name }}" == "main" ]]
-          then
-            hugo_root_path=docs/staging/dev
-          elif [[ "${{ github.ref_name }}" == "latest" ]]
-          then
-            hugo_root_path="docs/latest"
-          elif [[ "${{ endsWith(github.ref_name, '-build') }}" == "true" ]]
-          then
-            hugo_root_path=`echo docs/version/${{ github.ref_name }} | sed 's/-build$//'`
-          else
-            hugo_root_path=docs/staging/${{ github.ref_name }}
-          fi \
-          && sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/$hugo_root_path\"#g" config.toml
-        }
+        sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/${hugo_root_path}\"#g" config.toml
 
-        setBaseUrl
-        kubernetes_versions=($(find content/operate/kubernetes/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}'))
-        rs_versions=($(find content/operate/rs/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}'))
-        rdi_versions=($(find content/integrate/redis-data-integration/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}'))
-        redisvl_versions=($(find content/develop/ai/redisvl/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}'))
-
-        printf "%s\n" "${kubernetes_versions[@]}" > kubernetes-versions
-        printf "%s\n" "${rs_versions[@]}" > rs-versions
-        printf "%s\n" "${rdi_versions[@]}" > rdi-versions
-        printf "%s\n" "${redisvl_versions[@]}" > redisvl-versions
-
-        # build latest
-        for version in "${kubernetes_versions[@]}"; do
-          rm -r "content/operate/kubernetes/${version}"
-        done
-        for version in "${rs_versions[@]}"; do
-          rm -r "content/operate/rs/${version}"
-        done
-        for version in "${rdi_versions[@]}"; do
-          rm -r "content/integrate/redis-data-integration/${version}"
-        done
-        for version in "${redisvl_versions[@]}"; do
-          rm -r "content/develop/ai/redisvl/${version}"
-        done
-        make all
-
-        git checkout .
-
-        # build all versions
-        for version in "${kubernetes_versions[@]}"; do
-
-          setBaseUrl
-
-          # for each version, remove all other versions before building
-          versions_to_remove=($(echo "${kubernetes_versions[@]}" "${version}" | tr ' ' '\n' | sort | uniq -u))
-          for version_to_remove in "${versions_to_remove[@]}"; do
-            rm -r "content/operate/kubernetes/${version_to_remove}"
-          done
-
-          # relrefs should not include version
-          find "content/operate/kubernetes/${version}" -type f | while read file; do
-              awk '{gsub(/\(\{\{< ?relref "\/operate\/kubernetes\/'${version}'/, "({{< relref \"/operate/kubernetes") }1' "$file" > tmpfile && mv tmpfile "$file"
-          done
-
-          rsync -a --delete-after "content/operate/kubernetes/${version}"/ content/operate/kubernetes/
-          sed -i 's/id="versionSelectorKubernetesValue" class="version-selector-control">latest/id="versionSelectorKubernetesValue" class="version-selector-control">v'"${version}"'/' layouts/partials/docs-nav.html
-          sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis for Kubernetes/' content/operate/kubernetes/_index.md
-
-          # inject replace command in meta-links to make sure editURL and issuesURL point to right version
-          sed -i "12i \{\{ \$gh_path = replaceRE \`\^operate\/kubernetes\/\` \"operate\/kubernetes\/$version\/\" \$gh_path }}" layouts/partials/meta-links.html
-
-          hugo -d "kubernetes-${version}"
-
-          git checkout .
+        # Remove all other kubernetes versions
+        kubernetes_versions='${{ needs.setup_and_build_latest.outputs.kubernetes_versions }}'
+        for v in $(echo "$kubernetes_versions" | jq -r '.[]'); do
+          if [[ "$v" != "$version" ]]; then
+            rm -rf "content/operate/kubernetes/${v}"
+          fi
         done
 
-        for version in "${rs_versions[@]}"; do
-
-          setBaseUrl
-
-          # for each version, remove all other versions before building
-          versions_to_remove=($(echo "${rs_versions[@]}" "${version}" | tr ' ' '\n' | sort | uniq -u))
-          for version_to_remove in "${versions_to_remove[@]}"; do
-            rm -r "content/operate/rs/${version_to_remove}"
-          done
-
-          # relrefs should not include version
-          find "content/operate/rs/${version}" -type f | while read file; do
-              awk '{gsub(/\(\{\{< ?relref "\/operate\/rs\/'${version}'/, "({{< relref \"/operate/rs") }1' "$file" > tmpfile && mv tmpfile "$file"
-          done
-
-          rsync -a --delete-after "content/operate/rs/${version}"/ content/operate/rs/
-          sed -i 's/id="versionSelectorRsValue" class="version-selector-control">latest/id="versionSelectorRsValue" class="version-selector-control">v'"${version}"'/' layouts/partials/docs-nav.html
-          sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis Software/' content/operate/rs/_index.md
-
-          # inject replace command in meta-links to make sure editURL and issuesURL point to right version
-          sed -i "12i \{\{ \$gh_path = replaceRE \`\^operate\/rs\/\` \"operate\/rs\/$version\/\" \$gh_path }}" layouts/partials/meta-links.html
-
-          hugo -d "rs-${version}"
-
-          git checkout .
+        # relrefs should not include version
+        find "content/operate/kubernetes/${version}" -type f | while read file; do
+          awk '{gsub(/\(\{\{< ?relref "\/operate\/kubernetes\/'"${version}"'/, "({{< relref \"/operate/kubernetes") }1' "$file" > tmpfile && mv tmpfile "$file"
         done
 
-        for version in "${rdi_versions[@]}"; do
+        rsync -a --delete-after "content/operate/kubernetes/${version}"/ content/operate/kubernetes/
+        sed -i 's/id="versionSelectorKubernetesValue" class="version-selector-control">latest/id="versionSelectorKubernetesValue" class="version-selector-control">v'"${version}"'/' layouts/partials/docs-nav.html
+        sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis for Kubernetes/' content/operate/kubernetes/_index.md
 
-          setBaseUrl
+        # inject replace command in meta-links
+        sed -i "12i \{\{ \$gh_path = replaceRE \`\^operate\/kubernetes\/\` \"operate\/kubernetes\/${version}\/\" \$gh_path }}" layouts/partials/meta-links.html
 
-          # for each version, remove all other versions before building
-          versions_to_remove=($(echo "${rdi_versions[@]}" "${version}" | tr ' ' '\n' | sort | uniq -u))
-          for version_to_remove in "${versions_to_remove[@]}"; do
-            rm -r "content/integrate/redis-data-integration/${version_to_remove}"
-          done
+        hugo -d "output"
 
-          # relrefs should not include version
-          find "content/operate/redis-data-integration/${version}" -type f | while read file; do
-              awk '{gsub(/\(\{\{< ?relref "\/operate\/redis-data-integration\/'${version}'/, "({{< relref \"/operate/redis-data-integration") }1' "$file" > tmpfile && mv tmpfile "$file"
-          done
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-kubernetes-${{ matrix.version }}
+        path: output/
+        retention-days: 1
 
-          rsync -a --delete-after "content/operate/redis-data-integration/${version}"/ content/operate/redis-data-integration/
-          sed -i 's/id="versionSelectorRedis-Data-IntegrationValue" class="version-selector-control">latest/id="versionSelectorRedis-Data-IntegrationValue" class="version-selector-control">v'"${version}"'/' layouts/partials/docs-nav.html
-          sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis Data Integration/' content/integrate/redis-data-integration/_index.md
+  # Build RS versions in parallel
+  build_rs:
+    name: Build RS ${{ matrix.version }}
+    needs: setup_and_build_latest
+    if: ${{ needs.setup_and_build_latest.outputs.rs_versions != '[]' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJson(needs.setup_and_build_latest.outputs.rs_versions) }}
 
-          # inject replace command in meta-links to make sure editURL and issuesURL point to right version
-          sed -i "12i \{\{ \$gh_path = replaceRE \`\^integrate\/redis-data-integration\/\` \"integrate\/redis-data-integration\/$version\/\" \$gh_path }}" layouts/partials/meta-links.html
+    steps:
+    - name: Free up disk space
+      run: |
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /usr/local/lib/android
+        sudo rm -rf /opt/ghc
+        sudo rm -rf /opt/hostedtoolcache/CodeQL
 
-          hugo -d "redis-data-integration-${version}"
+    - name: Install Hugo
+      run: |
+        wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
+        && sudo dpkg -i ${{ runner.temp }}/hugo.deb
 
-          git checkout .
+    - name: Check the branch out
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: make deps
+
+    - name: Build RS ${{ matrix.version }}
+      run: |
+        set -x
+        version="${{ matrix.version }}"
+        hugo_root_path="${{ needs.setup_and_build_latest.outputs.hugo_root_path }}"
+
+        sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/${hugo_root_path}\"#g" config.toml
+
+        # Remove all other rs versions
+        rs_versions='${{ needs.setup_and_build_latest.outputs.rs_versions }}'
+        for v in $(echo "$rs_versions" | jq -r '.[]'); do
+          if [[ "$v" != "$version" ]]; then
+            rm -rf "content/operate/rs/${v}"
+          fi
         done
 
-        for version in "${redisvl_versions[@]}"; do
-
-          setBaseUrl
-
-          # for each version, remove all other versions before building
-          versions_to_remove=($(echo "${redisvl_versions[@]}" "${version}" | tr ' ' '\n' | sort | uniq -u))
-          for version_to_remove in "${versions_to_remove[@]}"; do
-            rm -r "content/develop/ai/redisvl/${version_to_remove}"
-          done
-
-          # relrefs should not include version
-          find "content/develop/ai/redisvl/${version}" -type f | while read file; do
-              awk '{gsub(/\(\{\{< ?relref "\/develop\/ai\/redisvl\/'${version}'/, "({{< relref \"/develop/ai/redisvl") }1' "$file" > tmpfile && mv tmpfile "$file"
-          done
-
-          rsync -a --delete-after "content/develop/ai/redisvl/${version}"/ content/develop/ai/redisvl/
-          sed -i 's/id="versionSelectorRedisvlValue" class="version-selector-control">latest/id="versionSelectorRedisvlValue" class="version-selector-control">v'"${version}"'/' layouts/partials/docs-nav.html
-          sed -i 's/linkTitle: '"${version}"'/linkTitle: RedisVL/' content/develop/ai/redisvl/_index.md
-
-          # inject replace command in meta-links to make sure editURL and issuesURL point to right version
-          sed -i "12i \{\{ \$gh_path = replaceRE \`\^develop\/ai\/redisvl\/\` \"develop\/ai\/redisvl\/$version\/\" \$gh_path }}" layouts/partials/meta-links.html
-
-          hugo -d "redisvl-${version}"
-
-          git checkout .
+        # relrefs should not include version
+        find "content/operate/rs/${version}" -type f | while read file; do
+          awk '{gsub(/\(\{\{< ?relref "\/operate\/rs\/'"${version}"'/, "({{< relref \"/operate/rs") }1' "$file" > tmpfile && mv tmpfile "$file"
         done
 
-    - name: List client examples
-      run: ls "${{ github.workspace }}/examples"
-    - name: List files to be published
-      run: ls "${{ github.workspace }}/public"    
+        rsync -a --delete-after "content/operate/rs/${version}"/ content/operate/rs/
+        sed -i 's/id="versionSelectorRsValue" class="version-selector-control">latest/id="versionSelectorRsValue" class="version-selector-control">v'"${version}"'/' layouts/partials/docs-nav.html
+        sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis Software/' content/operate/rs/_index.md
+
+        # inject replace command in meta-links
+        sed -i "12i \{\{ \$gh_path = replaceRE \`\^operate\/rs\/\` \"operate\/rs\/${version}\/\" \$gh_path }}" layouts/partials/meta-links.html
+
+        hugo -d "output"
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-rs-${{ matrix.version }}
+        path: output/
+        retention-days: 1
+
+  # Build RDI versions in parallel
+  build_rdi:
+    name: Build RDI ${{ matrix.version }}
+    needs: setup_and_build_latest
+    if: ${{ needs.setup_and_build_latest.outputs.rdi_versions != '[]' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJson(needs.setup_and_build_latest.outputs.rdi_versions) }}
+
+    steps:
+    - name: Free up disk space
+      run: |
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /usr/local/lib/android
+        sudo rm -rf /opt/ghc
+        sudo rm -rf /opt/hostedtoolcache/CodeQL
+
+    - name: Install Hugo
+      run: |
+        wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
+        && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+
+    - name: Check the branch out
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: make deps
+
+    - name: Build RDI ${{ matrix.version }}
+      run: |
+        set -x
+        version="${{ matrix.version }}"
+        hugo_root_path="${{ needs.setup_and_build_latest.outputs.hugo_root_path }}"
+
+        sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/${hugo_root_path}\"#g" config.toml
+
+        # Remove all other rdi versions
+        rdi_versions='${{ needs.setup_and_build_latest.outputs.rdi_versions }}'
+        for v in $(echo "$rdi_versions" | jq -r '.[]'); do
+          if [[ "$v" != "$version" ]]; then
+            rm -rf "content/integrate/redis-data-integration/${v}"
+          fi
+        done
+
+        # relrefs should not include version
+        find "content/integrate/redis-data-integration/${version}" -type f | while read file; do
+          awk '{gsub(/\(\{\{< ?relref "\/integrate\/redis-data-integration\/'"${version}"'/, "({{< relref \"/integrate/redis-data-integration") }1' "$file" > tmpfile && mv tmpfile "$file"
+        done
+
+        rsync -a --delete-after "content/integrate/redis-data-integration/${version}"/ content/integrate/redis-data-integration/
+        sed -i 's/id="versionSelectorRedis-Data-IntegrationValue" class="version-selector-control">latest/id="versionSelectorRedis-Data-IntegrationValue" class="version-selector-control">v'"${version}"'/' layouts/partials/docs-nav.html
+        sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis Data Integration/' content/integrate/redis-data-integration/_index.md
+
+        # inject replace command in meta-links
+        sed -i "12i \{\{ \$gh_path = replaceRE \`\^integrate\/redis-data-integration\/\` \"integrate\/redis-data-integration\/${version}\/\" \$gh_path }}" layouts/partials/meta-links.html
+
+        hugo -d "output"
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-rdi-${{ matrix.version }}
+        path: output/
+        retention-days: 1
+
+  # Build RedisVL versions in parallel
+  build_redisvl:
+    name: Build RedisVL ${{ matrix.version }}
+    needs: setup_and_build_latest
+    if: ${{ needs.setup_and_build_latest.outputs.redisvl_versions != '[]' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJson(needs.setup_and_build_latest.outputs.redisvl_versions) }}
+
+    steps:
+    - name: Free up disk space
+      run: |
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /usr/local/lib/android
+        sudo rm -rf /opt/ghc
+        sudo rm -rf /opt/hostedtoolcache/CodeQL
+
+    - name: Install Hugo
+      run: |
+        wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
+        && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+
+    - name: Check the branch out
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: make deps
+
+    - name: Build RedisVL ${{ matrix.version }}
+      run: |
+        set -x
+        version="${{ matrix.version }}"
+        hugo_root_path="${{ needs.setup_and_build_latest.outputs.hugo_root_path }}"
+
+        sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/${hugo_root_path}\"#g" config.toml
+
+        # Remove all other redisvl versions
+        redisvl_versions='${{ needs.setup_and_build_latest.outputs.redisvl_versions }}'
+        for v in $(echo "$redisvl_versions" | jq -r '.[]'); do
+          if [[ "$v" != "$version" ]]; then
+            rm -rf "content/develop/ai/redisvl/${v}"
+          fi
+        done
+
+        # relrefs should not include version
+        find "content/develop/ai/redisvl/${version}" -type f | while read file; do
+          awk '{gsub(/\(\{\{< ?relref "\/develop\/ai\/redisvl\/'"${version}"'/, "({{< relref \"/develop/ai/redisvl") }1' "$file" > tmpfile && mv tmpfile "$file"
+        done
+
+        rsync -a --delete-after "content/develop/ai/redisvl/${version}"/ content/develop/ai/redisvl/
+        sed -i 's/id="versionSelectorRedisvlValue" class="version-selector-control">latest/id="versionSelectorRedisvlValue" class="version-selector-control">v'"${version}"'/' layouts/partials/docs-nav.html
+        sed -i 's/linkTitle: '"${version}"'/linkTitle: RedisVL/' content/develop/ai/redisvl/_index.md
+
+        # inject replace command in meta-links
+        sed -i "12i \{\{ \$gh_path = replaceRE \`\^develop\/ai\/redisvl\/\` \"develop\/ai\/redisvl\/${version}\/\" \$gh_path }}" layouts/partials/meta-links.html
+
+        hugo -d "output"
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-redisvl-${{ matrix.version }}
+        path: output/
+        retention-days: 1
+
+  # Deploy all artifacts to GCS
+  deploy:
+    name: Deploy to GCS
+    needs:
+      - setup_and_build_latest
+      - build_kubernetes
+      - build_rs
+      - build_rdi
+      - build_redisvl
+    if: ${{ always() && needs.setup_and_build_latest.result == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    env:
+      PROD_PROJECT_ID: ${{ secrets.GCP_PROJECT_PROD }}
+      PROD_SERVICE_ACCOUNT: ${{ secrets.PROD_SERVICE_ACCOUNT }}
+      PROD_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.PROD_WORKLOAD_IDENTITY_PROVIDER }}
+
+    steps:
+    - name: Check the branch out
+      uses: actions/checkout@v4
+
+    - name: Free up disk space
+      run: |
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /usr/local/lib/android
+        sudo rm -rf /opt/ghc
+        sudo rm -rf /opt/hostedtoolcache/CodeQL
+
+    - name: Install Hugo (for 404 page)
+      run: |
+        wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
+        && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+
+    - name: Install dependencies (for 404 page)
+      run: make deps
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts/
+
+    - name: List downloaded artifacts
+      run: ls -la artifacts/
+
+    - name: Organize artifacts
+      run: |
+        set -x
+        bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
+
+        # Move latest build to public/
+        mv artifacts/build-latest public
+
+        # Move versioned builds
+        for dir in artifacts/build-kubernetes-*; do
+          if [[ -d "$dir" ]]; then
+            version=$(basename "$dir" | sed 's/build-kubernetes-//')
+            mv "$dir" "kubernetes-${version}"
+          fi
+        done
+
+        for dir in artifacts/build-rs-*; do
+          if [[ -d "$dir" ]]; then
+            version=$(basename "$dir" | sed 's/build-rs-//')
+            mv "$dir" "rs-${version}"
+          fi
+        done
+
+        for dir in artifacts/build-rdi-*; do
+          if [[ -d "$dir" ]]; then
+            version=$(basename "$dir" | sed 's/build-rdi-//')
+            mv "$dir" "redis-data-integration-${version}"
+          fi
+        done
+
+        for dir in artifacts/build-redisvl-*; do
+          if [[ -d "$dir" ]]; then
+            version=$(basename "$dir" | sed 's/build-redisvl-//')
+            mv "$dir" "redisvl-${version}"
+          fi
+        done
 
     - name: 'Google auth'
       uses: 'google-github-actions/auth@v2'
@@ -227,67 +504,58 @@ jobs:
 
     - name: Sync the branch to the bucket
       run: |
-          if [[ "${{ github.ref_name }}" == "main" ]]
-          then
-            bucket_path=staging/dev
-          elif [[ "${{ github.ref_name }}" == "latest" ]]
-          then
-            bucket_path=${{ github.ref_name }}
-          elif [[ "${{ endsWith(github.ref_name, '-build') }}" == "true" ]]
-          then
-            bucket_path=`echo "version/${{ github.ref_name }}" | sed 's/-build$//'`
-          else
-            bucket_path=staging/${{ github.ref_name }}
-          fi
-          
-          gsutil -m rsync -r -c -j html -d ${{ github.workspace }}/public gs://$BUCKET/$bucket_path
-          gsutil -m rsync -r -c -j html -d ${{ github.workspace }}/public gs://$BUCKET/docs/$bucket_path
+        bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
 
-          if [[ "${{ github.ref_name }}" == "latest" ]]
-          then
-            versioned_builds=($(find . -type d -regex ".*[0-9-]" -maxdepth 1 | sed -E 's/^.\///'))
-            for versioned_build in "${versioned_builds[@]}"; do
-              read product version <<< "$(awk -F- '{print $1 " " $2}' <<<"$versioned_build")"
+        gsutil -m rsync -r -c -j html -d ${{ github.workspace }}/public gs://$BUCKET/$bucket_path
+        gsutil -m rsync -r -c -j html -d ${{ github.workspace }}/public gs://$BUCKET/docs/$bucket_path
 
-              if [[ "${product}" == "redis-data-integration" ]]; then
-                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}" "gs://${BUCKET}/${versioned_build}/integrate/${product}"
-                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}/${version}" "gs://${BUCKET}/docs/$bucket_path/integrate/${product}/${version}"
-              elif [[ "${product}" == "redisvl" ]]; then
-                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/develop/ai/${product}" "gs://${BUCKET}/${versioned_build}/develop/ai/${product}"
-                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/develop/ai/${product}/${version}" "gs://${BUCKET}/docs/$bucket_path/develop/ai/${product}/${version}"
-              else
-                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}" "gs://${BUCKET}/${versioned_build}/operate/${product}"
-                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}/${version}" "gs://${BUCKET}/docs/$bucket_path/operate/${product}/${version}"
-              fi
-            done
+        if [[ "${{ github.ref_name }}" == "latest" ]]
+        then
+          versioned_builds=($(find . -type d -regex ".*[0-9-]" -maxdepth 1 | sed -E 's/^.\///'))
+          for versioned_build in "${versioned_builds[@]}"; do
+            version="${versioned_build##*-}"
+            product="${versioned_build%-*}"
 
-            # Prepare custom 404 page for Cloud Connector
-            hugo_root_path="docs/latest"
-            sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/$hugo_root_path\"#g" config.toml
-            make hugo
-            sed -i "s#/docs/latest/scss/#https://storage.googleapis.com/$BUCKET/docs/latest/scss/#g" public/404.html
-            sed -i "s#/docs/latest/css/#https://storage.googleapis.com/$BUCKET/docs/latest/css/#g" public/404.html
-            gsutil cp public/404.html gs://$BUCKET/docs/
-          fi
+            if [[ "${product}" == "redis-data-integration" ]]; then
+              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}" "gs://${BUCKET}/${versioned_build}/integrate/${product}"
+              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}/${version}" "gs://${BUCKET}/docs/$bucket_path/integrate/${product}/${version}"
+            elif [[ "${product}" == "redisvl" ]]; then
+              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/develop/ai/${product}" "gs://${BUCKET}/${versioned_build}/develop/ai/${product}"
+              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/develop/ai/${product}/${version}" "gs://${BUCKET}/docs/$bucket_path/develop/ai/${product}/${version}"
+            else
+              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}" "gs://${BUCKET}/${versioned_build}/operate/${product}"
+              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}/${version}" "gs://${BUCKET}/docs/$bucket_path/operate/${product}/${version}"
+            fi
+          done
 
-          if [[ "$bucket_path" == staging/* ]]
-          then
-            versioned_builds=($(find . -type d -regex ".*[0-9-]" -maxdepth 1 | sed -E 's/^.\///'))
-            for versioned_build in "${versioned_builds[@]}"; do
-              read product version <<< "$(awk -F- '{print $1 " " $2}' <<<"$versioned_build")"
+          # Prepare custom 404 page for Cloud Connector
+          hugo_root_path="docs/latest"
+          sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/$hugo_root_path\"#g" config.toml
+          make hugo
+          sed -i "s#/docs/latest/scss/#https://storage.googleapis.com/$BUCKET/docs/latest/scss/#g" public/404.html
+          sed -i "s#/docs/latest/css/#https://storage.googleapis.com/$BUCKET/docs/latest/css/#g" public/404.html
+          gsutil cp public/404.html gs://$BUCKET/docs/
+        fi
 
-              if [[ "${product}" == "redis-data-integration" ]]; then
-                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}" "gs://${BUCKET}/${bucket_path}/${versioned_build}/integrate/${product}"
-                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}/${version}" "gs://${BUCKET}/docs/${bucket_path}/integrate/${product}/${version}"
-              elif [[ "${product}" == "redisvl" ]]; then
-                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/develop/ai/${product}" "gs://${BUCKET}/${bucket_path}/${versioned_build}/develop/ai/${product}"
-                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/develop/ai/${product}/${version}" "gs://${BUCKET}/docs/${bucket_path}/develop/ai/${product}/${version}"
-              else
-                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}" "gs://${BUCKET}/${bucket_path}/${versioned_build}/operate/${product}"
-                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/${product}/${version}"
-              fi
-            done
-          fi
+        if [[ "$bucket_path" == staging/* ]]
+        then
+          versioned_builds=($(find . -type d -regex ".*[0-9-]" -maxdepth 1 | sed -E 's/^.\///'))
+          for versioned_build in "${versioned_builds[@]}"; do
+            version="${versioned_build##*-}"
+            product="${versioned_build%-*}"
+
+            if [[ "${product}" == "redis-data-integration" ]]; then
+              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}" "gs://${BUCKET}/${bucket_path}/${versioned_build}/integrate/${product}"
+              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}/${version}" "gs://${BUCKET}/docs/${bucket_path}/integrate/${product}/${version}"
+            elif [[ "${product}" == "redisvl" ]]; then
+              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/develop/ai/${product}" "gs://${BUCKET}/${bucket_path}/${versioned_build}/develop/ai/${product}"
+              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/develop/ai/${product}/${version}" "gs://${BUCKET}/docs/${bucket_path}/develop/ai/${product}/${version}"
+            else
+              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}" "gs://${BUCKET}/${bucket_path}/${versioned_build}/operate/${product}"
+              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/${product}/${version}"
+            fi
+          done
+        fi
 
     - name: End
       run: echo "This job's status is ${{ job.status }}."
