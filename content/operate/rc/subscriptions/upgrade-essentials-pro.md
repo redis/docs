@@ -27,6 +27,8 @@ To upgrade your Essentials database to Redis Cloud Pro:
 
 1. [Migrate your Essentials database](#migrate-database) to your new Redis Cloud Pro database.
 
+1. [Migrate your endpoints](#migrate-endpoints) to your new Redis Cloud Pro database.
+
 ### Create Redis Cloud Pro database {#create-rcp}
 
 [Create a new database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) with the following specifications:
@@ -36,6 +38,7 @@ To upgrade your Essentials database to Redis Cloud Pro:
 - In the [**Sizing tab**]({{< relref "/operate/rc/databases/create-database/create-pro-database-new#sizing-tab" >}}), create your databases with the following specifications:
     - Set the memory limit to comply with [Active-Passive memory requirements]({{< relref "/operate/rc/databases/migrate-databases#active-passive-memory-requirements" >}}) if you want to migrate your database using [Active-Passive]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}).
     - Select any advanced capabilities that your Essentials database offers. You can find a list of enabled advanced capabilities in the [Configuration tab]({{< relref "/operate/rc/databases/view-edit-database#configuration-details-tab" >}}) of your database.
+    - In **More options**, set the **Port** to **Manually assign**, and enter the port of your Essentials database. You must set the port number to match the port of your Essentials database if you want to migrate your database endpoints.
 
 ### Migrate database
 
@@ -87,9 +90,44 @@ Before you follow this guide, be aware of the following limitations:
 
     Active-Passive sync lets you migrate data while apps and other connections are using the source database. Once the data is migrated, you should migrate active connections to the target database before you move on.
 
-1. After your data and connections are migrated, turn off **Active-Passive Redis** from the target database.
+### Redirect database endpoints
 
-1. [Delete the source database]({{< relref "/operate/rc/databases/delete-database" >}}).
+Redirecting your database endpoints after migrating your data lets you direct connections to your new database without any code changes.
 
+{{< note >}}
+See [Redirect dynamic endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) for more information on the limitations and requirements for endpoint redirection.
+{{< /note >}}
 
+To redirect your database endpoints:
 
+1. From the Redis Cloud console, select **Databases** from the menu and select the source database in the list.
+
+1. In the **General** section of the **Configuration** tab, select **Redirect endpoints**.
+
+    {{<image filename="images/rc/databases-configuration-redirect-endpoints.png" alt="Use the **Redirect endpoints** button to change the target database for the source database endpoints." >}}
+
+1. Select the target Redis Cloud Pro database from the **Target database** list. You can type in the database's name to find it.
+
+    You can choose whether to map the original endpoint to the **Public** or the **Private** endpoint.
+
+    {{<image filename="images/rc/migrate-data-redirect-essentials-endpoints.png" alt="Choose whether to map the original endpoint to the Public or Private endpoint." >}}
+
+1. If you want to assign the same [Role-based Access Control (RBAC) roles]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to the target database that are assigned to the source database, select **Assign the same ACLs to the target database**.
+
+    {{<image filename="images/rc/migrate-data-redirect-assign-acls.png" alt="Select **Assign the same ACLs to the target database** to assign the same roles to the target database." >}}
+
+1. Select **I acknowledge this action will redirect my database endpoints** to confirm that you understand that this action will redirect your database endpoints. Then select **Redirect endpoints**.
+
+    {{<image filename="images/rc/migrate-data-redirect-acknowledge.png" alt="The **Redirect endpoints** button redirects the source database endpoints to the target database." >}}
+
+After you redirect your database endpoints, you can go to the **Configuration** tab of the target database to verify that the endpoints now point to the target database. 
+
+You can revert endpoint migration within 24 hours to restore the original endpoints. Select **Revert** to revert endpoint migration.
+
+{{<image filename="images/rc/migrate-data-redirect-revert.png" alt="The **Revert** button reverts endpoint migration." >}}
+
+After the 24-hour window, you can no longer revert to the original endpoints.
+
+### Delete Essentials database
+
+After your data and connections are migrated, turn off **Active-Passive Redis** from the target database, and then [delete the source database]({{< relref "/operate/rc/databases/delete-database" >}}).
