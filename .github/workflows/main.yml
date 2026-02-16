@@ -196,6 +196,12 @@ jobs:
         # inject replace command in meta-links
         sed -i "12i \{\{ \$gh_path = replaceRE \`\^operate\/kubernetes\/\` \"operate\/kubernetes\/${version}\/\" \$gh_path }}" layouts/partials/meta-links.html
 
+        # Create version files for docs-nav.html dropdowns
+        echo '${{ needs.setup_and_build_latest.outputs.kubernetes_versions }}' | jq -r '.[]' > kubernetes-versions
+        echo '${{ needs.setup_and_build_latest.outputs.rs_versions }}' | jq -r '.[]' > rs-versions
+        echo '${{ needs.setup_and_build_latest.outputs.rdi_versions }}' | jq -r '.[]' > rdi-versions
+        echo '${{ needs.setup_and_build_latest.outputs.redisvl_versions }}' | jq -r '.[]' > redisvl-versions
+
         hugo -d "output"
 
     - name: Upload artifact
@@ -264,6 +270,12 @@ jobs:
 
         # inject replace command in meta-links
         sed -i "12i \{\{ \$gh_path = replaceRE \`\^operate\/rs\/\` \"operate\/rs\/${version}\/\" \$gh_path }}" layouts/partials/meta-links.html
+
+        # Create version files for docs-nav.html dropdowns
+        echo '${{ needs.setup_and_build_latest.outputs.kubernetes_versions }}' | jq -r '.[]' > kubernetes-versions
+        echo '${{ needs.setup_and_build_latest.outputs.rs_versions }}' | jq -r '.[]' > rs-versions
+        echo '${{ needs.setup_and_build_latest.outputs.rdi_versions }}' | jq -r '.[]' > rdi-versions
+        echo '${{ needs.setup_and_build_latest.outputs.redisvl_versions }}' | jq -r '.[]' > redisvl-versions
 
         hugo -d "output"
 
@@ -334,6 +346,12 @@ jobs:
         # inject replace command in meta-links
         sed -i "12i \{\{ \$gh_path = replaceRE \`\^integrate\/redis-data-integration\/\` \"integrate\/redis-data-integration\/${version}\/\" \$gh_path }}" layouts/partials/meta-links.html
 
+        # Create version files for docs-nav.html dropdowns
+        echo '${{ needs.setup_and_build_latest.outputs.kubernetes_versions }}' | jq -r '.[]' > kubernetes-versions
+        echo '${{ needs.setup_and_build_latest.outputs.rs_versions }}' | jq -r '.[]' > rs-versions
+        echo '${{ needs.setup_and_build_latest.outputs.rdi_versions }}' | jq -r '.[]' > rdi-versions
+        echo '${{ needs.setup_and_build_latest.outputs.redisvl_versions }}' | jq -r '.[]' > redisvl-versions
+
         hugo -d "output"
 
     - name: Upload artifact
@@ -402,6 +420,12 @@ jobs:
 
         # inject replace command in meta-links
         sed -i "12i \{\{ \$gh_path = replaceRE \`\^develop\/ai\/redisvl\/\` \"develop\/ai\/redisvl\/${version}\/\" \$gh_path }}" layouts/partials/meta-links.html
+
+        # Create version files for docs-nav.html dropdowns
+        echo '${{ needs.setup_and_build_latest.outputs.kubernetes_versions }}' | jq -r '.[]' > kubernetes-versions
+        echo '${{ needs.setup_and_build_latest.outputs.rs_versions }}' | jq -r '.[]' > rs-versions
+        echo '${{ needs.setup_and_build_latest.outputs.rdi_versions }}' | jq -r '.[]' > rdi-versions
+        echo '${{ needs.setup_and_build_latest.outputs.redisvl_versions }}' | jq -r '.[]' > redisvl-versions
 
         hugo -d "output"
 
