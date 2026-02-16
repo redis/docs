@@ -10,6 +10,9 @@ import { parsePythonDocComments, getDocumentedMethods } from "../parsers/python-
 import { parsePythonSignatures } from "../parsers/python-parser.js";
 import { parseJavaDocComments, parseJavaSignatures } from "../parsers/java-parser.js";
 import { parseGoDocComments, parseGoSignatures } from "../parsers/go-parser.js";
+import { parseTypeScriptDocComments, parseTypeScriptSignatures } from "../parsers/typescript-parser.js";
+import { parseRustDocComments, parseRustSignatures } from "../parsers/rust-parser.js";
+import { parseCSharpDocComments, parseCSharpSignatures } from "../parsers/csharp-parser.js";
 
 /**
  * Extract documentation comments from source code.
@@ -104,6 +107,72 @@ export async function extractDocComments(
         const allFunctions = parseGoSignatures(code).map(sig => sig.method_name);
         const documentedFunctions = Object.keys(allDocComments);
         missingDocs = allFunctions.filter(name => !documentedFunctions.includes(name));
+      }
+    } else if (validatedInput.language === "typescript") {
+      // Parse TypeScript JSDoc comments
+      const allDocComments = parseTypeScriptDocComments(code);
+
+      // If method_names filter is provided, only include those
+      if (validatedInput.method_names && validatedInput.method_names.length > 0) {
+        validatedInput.method_names.forEach(methodName => {
+          if (allDocComments[methodName]) {
+            docComments[methodName] = allDocComments[methodName];
+          }
+        });
+        missingDocs = validatedInput.method_names.filter(
+          name => !allDocComments[name]
+        );
+      } else {
+        docComments = allDocComments;
+
+        // Find all functions and identify which ones are missing docs
+        const allFunctions = parseTypeScriptSignatures(code).map(sig => sig.method_name);
+        const documentedFunctions = Object.keys(allDocComments);
+        missingDocs = allFunctions.filter(name => !documentedFunctions.includes(name));
+      }
+    } else if (validatedInput.language === "rust") {
+      // Parse Rust doc comments
+      const allDocComments = parseRustDocComments(code);
+
+      // If method_names filter is provided, only include those
+      if (validatedInput.method_names && validatedInput.method_names.length > 0) {
+        validatedInput.method_names.forEach(methodName => {
+          if (allDocComments[methodName]) {
+            docComments[methodName] = allDocComments[methodName];
+          }
+        });
+        missingDocs = validatedInput.method_names.filter(
+          name => !allDocComments[name]
+        );
+      } else {
+        docComments = allDocComments;
+
+        // Find all functions and identify which ones are missing docs
+        const allFunctions = parseRustSignatures(code).map(sig => sig.method_name);
+        const documentedFunctions = Object.keys(allDocComments);
+        missingDocs = allFunctions.filter(name => !documentedFunctions.includes(name));
+      }
+    } else if (validatedInput.language === "csharp") {
+      // Parse C# XML doc comments
+      const allDocComments = parseCSharpDocComments(code);
+
+      // If method_names filter is provided, only include those
+      if (validatedInput.method_names && validatedInput.method_names.length > 0) {
+        validatedInput.method_names.forEach(methodName => {
+          if (allDocComments[methodName]) {
+            docComments[methodName] = allDocComments[methodName];
+          }
+        });
+        missingDocs = validatedInput.method_names.filter(
+          name => !allDocComments[name]
+        );
+      } else {
+        docComments = allDocComments;
+
+        // Find all methods and identify which ones are missing docs
+        const allMethods = parseCSharpSignatures(code).map(sig => sig.method_name);
+        const documentedMethods = Object.keys(allDocComments);
+        missingDocs = allMethods.filter(name => !documentedMethods.includes(name));
       }
     } else {
       // Other languages not yet implemented

@@ -69,6 +69,71 @@ pub struct GoDocComment {
     pub line_number: usize,
 }
 
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct TypeScriptSignature {
+    pub method_name: String,
+    pub signature: String,
+    pub parameters: Vec<String>,
+    pub return_type: Option<String>,
+    pub line_number: usize,
+    pub is_async: bool,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct TypeScriptDocComment {
+    pub method_name: String,
+    pub raw_comment: String,
+    pub summary: Option<String>,
+    pub description: Option<String>,
+    pub parameters: std::collections::HashMap<String, String>,
+    pub returns: Option<String>,
+    pub line_number: usize,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct RustSignature {
+    pub method_name: String,
+    pub signature: String,
+    pub parameters: Vec<String>,
+    pub return_type: Option<String>,
+    pub line_number: usize,
+    pub is_async: bool,
+    pub is_unsafe: bool,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct RustDocComment {
+    pub method_name: String,
+    pub raw_comment: String,
+    pub summary: Option<String>,
+    pub description: Option<String>,
+    pub parameters: std::collections::HashMap<String, String>,
+    pub returns: Option<String>,
+    pub line_number: usize,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct CSharpSignature {
+    pub method_name: String,
+    pub signature: String,
+    pub parameters: Vec<String>,
+    pub return_type: Option<String>,
+    pub line_number: usize,
+    pub modifiers: Vec<String>,
+    pub is_async: bool,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct CSharpDocComment {
+    pub method_name: String,
+    pub raw_comment: String,
+    pub summary: Option<String>,
+    pub description: Option<String>,
+    pub parameters: std::collections::HashMap<String, String>,
+    pub returns: Option<String>,
+    pub line_number: usize,
+}
+
 #[wasm_bindgen]
 pub fn add(a: i32, b: i32) -> i32 {
     a + b
@@ -255,6 +320,200 @@ pub fn parse_go_signatures(code: &str) -> JsValue {
 #[wasm_bindgen]
 pub fn parse_go_doc_comments(code: &str) -> JsValue {
     match extract_go_doc_comments(code) {
+        Ok(doc_comments) => {
+            let mut doc_map = serde_json::Map::new();
+            for doc in doc_comments {
+                let params_json: serde_json::Map<String, Value> = doc
+                    .parameters
+                    .iter()
+                    .map(|(k, v)| (k.clone(), Value::String(v.clone())))
+                    .collect();
+
+                let doc_obj = json!({
+                    "raw_comment": doc.raw_comment,
+                    "summary": doc.summary,
+                    "description": doc.description,
+                    "parameters": params_json,
+                    "returns": doc.returns,
+                    "line_number": doc.line_number,
+                });
+
+                doc_map.insert(doc.method_name, doc_obj);
+            }
+            serde_wasm_bindgen::to_value(&doc_map).unwrap_or_else(|_| JsValue::NULL)
+        }
+        Err(e) => {
+            let error_obj = json!({
+                "error": e,
+                "doc_comments": {}
+            });
+            serde_wasm_bindgen::to_value(&error_obj).unwrap_or_else(|_| JsValue::NULL)
+        }
+    }
+}
+
+#[wasm_bindgen]
+pub fn parse_typescript_signatures(code: &str) -> JsValue {
+    match extract_typescript_signatures(code) {
+        Ok(signatures) => {
+            let json_array: Vec<Value> = signatures
+                .iter()
+                .map(|sig| {
+                    json!({
+                        "method_name": sig.method_name,
+                        "signature": sig.signature,
+                        "parameters": sig.parameters,
+                        "return_type": sig.return_type,
+                        "line_number": sig.line_number,
+                        "is_async": sig.is_async,
+                    })
+                })
+                .collect();
+            serde_wasm_bindgen::to_value(&json_array).unwrap_or_else(|_| JsValue::NULL)
+        }
+        Err(e) => {
+            let error_obj = json!({
+                "error": e,
+                "signatures": []
+            });
+            serde_wasm_bindgen::to_value(&error_obj).unwrap_or_else(|_| JsValue::NULL)
+        }
+    }
+}
+
+#[wasm_bindgen]
+pub fn parse_typescript_doc_comments(code: &str) -> JsValue {
+    match extract_typescript_doc_comments(code) {
+        Ok(doc_comments) => {
+            let mut doc_map = serde_json::Map::new();
+            for doc in doc_comments {
+                let params_json: serde_json::Map<String, Value> = doc
+                    .parameters
+                    .iter()
+                    .map(|(k, v)| (k.clone(), Value::String(v.clone())))
+                    .collect();
+
+                let doc_obj = json!({
+                    "raw_comment": doc.raw_comment,
+                    "summary": doc.summary,
+                    "description": doc.description,
+                    "parameters": params_json,
+                    "returns": doc.returns,
+                    "line_number": doc.line_number,
+                });
+
+                doc_map.insert(doc.method_name, doc_obj);
+            }
+            serde_wasm_bindgen::to_value(&doc_map).unwrap_or_else(|_| JsValue::NULL)
+        }
+        Err(e) => {
+            let error_obj = json!({
+                "error": e,
+                "doc_comments": {}
+            });
+            serde_wasm_bindgen::to_value(&error_obj).unwrap_or_else(|_| JsValue::NULL)
+        }
+    }
+}
+
+#[wasm_bindgen]
+pub fn parse_rust_signatures(code: &str) -> JsValue {
+    match extract_rust_signatures(code) {
+        Ok(signatures) => {
+            let json_array: Vec<Value> = signatures
+                .iter()
+                .map(|sig| {
+                    json!({
+                        "method_name": sig.method_name,
+                        "signature": sig.signature,
+                        "parameters": sig.parameters,
+                        "return_type": sig.return_type,
+                        "line_number": sig.line_number,
+                        "is_async": sig.is_async,
+                        "is_unsafe": sig.is_unsafe,
+                    })
+                })
+                .collect();
+            serde_wasm_bindgen::to_value(&json_array).unwrap_or_else(|_| JsValue::NULL)
+        }
+        Err(e) => {
+            let error_obj = json!({
+                "error": e,
+                "signatures": []
+            });
+            serde_wasm_bindgen::to_value(&error_obj).unwrap_or_else(|_| JsValue::NULL)
+        }
+    }
+}
+
+#[wasm_bindgen]
+pub fn parse_rust_doc_comments(code: &str) -> JsValue {
+    match extract_rust_doc_comments(code) {
+        Ok(doc_comments) => {
+            let mut doc_map = serde_json::Map::new();
+            for doc in doc_comments {
+                let params_json: serde_json::Map<String, Value> = doc
+                    .parameters
+                    .iter()
+                    .map(|(k, v)| (k.clone(), Value::String(v.clone())))
+                    .collect();
+
+                let doc_obj = json!({
+                    "raw_comment": doc.raw_comment,
+                    "summary": doc.summary,
+                    "description": doc.description,
+                    "parameters": params_json,
+                    "returns": doc.returns,
+                    "line_number": doc.line_number,
+                });
+
+                doc_map.insert(doc.method_name, doc_obj);
+            }
+            serde_wasm_bindgen::to_value(&doc_map).unwrap_or_else(|_| JsValue::NULL)
+        }
+        Err(e) => {
+            let error_obj = json!({
+                "error": e,
+                "doc_comments": {}
+            });
+            serde_wasm_bindgen::to_value(&error_obj).unwrap_or_else(|_| JsValue::NULL)
+        }
+    }
+}
+
+#[wasm_bindgen]
+pub fn parse_csharp_signatures(code: &str) -> JsValue {
+    match extract_csharp_signatures(code) {
+        Ok(signatures) => {
+            let json_array: Vec<Value> = signatures
+                .iter()
+                .map(|sig| {
+                    json!({
+                        "method_name": sig.method_name,
+                        "signature": sig.signature,
+                        "parameters": sig.parameters,
+                        "return_type": sig.return_type,
+                        "line_number": sig.line_number,
+                        "modifiers": sig.modifiers,
+                        "is_async": sig.is_async,
+                    })
+                })
+                .collect();
+            serde_wasm_bindgen::to_value(&json_array).unwrap_or_else(|_| JsValue::NULL)
+        }
+        Err(e) => {
+            let error_obj = json!({
+                "error": e,
+                "signatures": []
+            });
+            serde_wasm_bindgen::to_value(&error_obj).unwrap_or_else(|_| JsValue::NULL)
+        }
+    }
+}
+
+#[wasm_bindgen]
+pub fn parse_csharp_doc_comments(code: &str) -> JsValue {
+    match extract_csharp_doc_comments(code) {
         Ok(doc_comments) => {
             let mut doc_map = serde_json::Map::new();
             for doc in doc_comments {
@@ -867,6 +1126,680 @@ fn parse_go_comment(comment: &str) -> (Option<String>, Option<String>, std::coll
     (summary, description, parameters, returns)
 }
 
+fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>, String> {
+    let mut signatures = Vec::new();
+
+    // Regex patterns for TypeScript function/method definitions
+    // Matches: function name(params): return_type
+    // Also matches: async function name(params): return_type
+    // Also matches: export function name(params): return_type
+    // Also matches: method(params): return_type (for class methods)
+    // Also matches: generic functions like function<T>(params): return_type
+    let func_pattern = Regex::new(
+        r"(?m)^(\s*)(?:export\s+)?(?:async\s+)?(?:function\s+)?([a-zA-Z_$][a-zA-Z0-9_$]*)(?:<[^>]+>)?\s*\((.*?)\)(?:\s*:\s*([^{=;]+?))?(?:\s*[{=;]|$)"
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
+    for (line_num, line) in code.lines().enumerate() {
+        if let Some(caps) = func_pattern.captures(line) {
+            let method_name = caps.get(2).map(|m| m.as_str().to_string()).unwrap_or_default();
+            let params_str = caps.get(3).map(|m| m.as_str()).unwrap_or("");
+            let return_type = caps.get(4).map(|m| m.as_str().trim().to_string());
+
+            // Skip if it looks like a variable assignment or property
+            if method_name.is_empty() || method_name.chars().next().map_or(false, |c| c.is_uppercase()) {
+                continue;
+            }
+
+            let is_async = line.contains("async");
+            let parameters = parse_parameters(params_str);
+
+            let signature = format!("{}({})", method_name, params_str);
+
+            signatures.push(TypeScriptSignature {
+                method_name,
+                signature,
+                parameters,
+                return_type,
+                line_number: line_num + 1,
+                is_async,
+            });
+        }
+    }
+
+    Ok(signatures)
+}
+
+fn extract_rust_signatures(code: &str) -> Result<Vec<RustSignature>, String> {
+    let mut signatures = Vec::new();
+
+    // Regex pattern for Rust function/method definitions
+    // Matches: fn name(params) -> return_type
+    // Also matches: async fn name(params) -> return_type
+    // Also matches: unsafe fn name(params) -> return_type
+    // Also matches: pub fn, pub async fn, pub unsafe fn, etc.
+    // Also matches: generic functions like fn<T>(params) -> return_type
+    let func_pattern = Regex::new(
+        r"(?m)^(\s*)(?:pub(?:\([^)]*\))?\s+)?(?:async\s+)?(?:unsafe\s+)?(?:extern\s+[a-zA-Z0-9_]*\s+)?fn\s+([a-zA-Z_][a-zA-Z0-9_]*)(?:<[^>]+>)?\s*\((.*?)\)(?:\s*->\s*([^{;]+?))?(?:\s*[{;]|$)"
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
+    for (line_num, line) in code.lines().enumerate() {
+        if let Some(caps) = func_pattern.captures(line) {
+            let method_name = caps.get(2).map(|m| m.as_str().to_string()).unwrap_or_default();
+            let params_str = caps.get(3).map(|m| m.as_str()).unwrap_or("");
+            let return_type = caps.get(4).map(|m| m.as_str().trim().to_string());
+
+            if !method_name.is_empty() {
+                let is_async = line.contains("async");
+                let is_unsafe = line.contains("unsafe");
+                let parameters = parse_parameters(params_str);
+
+                let signature = format!("fn {}({})", method_name, params_str);
+
+                signatures.push(RustSignature {
+                    method_name,
+                    signature,
+                    parameters,
+                    return_type,
+                    line_number: line_num + 1,
+                    is_async,
+                    is_unsafe,
+                });
+            }
+        }
+    }
+
+    Ok(signatures)
+}
+
+fn extract_typescript_doc_comments(code: &str) -> Result<Vec<TypeScriptDocComment>, String> {
+    let mut doc_comments = Vec::new();
+    let lines: Vec<&str> = code.lines().collect();
+
+    // Regex to find function/method definitions
+    let func_pattern = Regex::new(
+        r"(?m)^(\s*)(?:export\s+)?(?:async\s+)?(?:function\s+)?([a-zA-Z_$][a-zA-Z0-9_$]*)(?:<[^>]+>)?\s*\("
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
+    for (line_num, line) in lines.iter().enumerate() {
+        if let Some(caps) = func_pattern.captures(line) {
+            let method_name = caps.get(2).map(|m| m.as_str().to_string()).unwrap_or_default();
+            let indent = caps.get(1).map(|m| m.as_str()).unwrap_or("");
+
+            if !method_name.is_empty() {
+                // Look for JSDoc comment before the function
+                if let Some(doc_comment) = extract_jsdoc_comment(&lines, line_num, indent) {
+                    let (summary, description, parameters, returns) = parse_jsdoc_comment(&doc_comment);
+                    doc_comments.push(TypeScriptDocComment {
+                        method_name,
+                        raw_comment: doc_comment,
+                        summary,
+                        description,
+                        parameters,
+                        returns,
+                        line_number: line_num + 1,
+                    });
+                }
+            }
+        }
+    }
+
+    Ok(doc_comments)
+}
+
+fn extract_rust_doc_comments(code: &str) -> Result<Vec<RustDocComment>, String> {
+    let mut doc_comments = Vec::new();
+    let lines: Vec<&str> = code.lines().collect();
+
+    // Regex to find function/method definitions
+    let func_pattern = Regex::new(
+        r"(?m)^(\s*)(?:pub(?:\([^)]*\))?\s+)?(?:async\s+)?(?:unsafe\s+)?(?:extern\s+[a-zA-Z0-9_]*\s+)?fn\s+([a-zA-Z_][a-zA-Z0-9_]*)(?:<[^>]+>)?\s*\("
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
+    for (line_num, line) in lines.iter().enumerate() {
+        if let Some(caps) = func_pattern.captures(line) {
+            let method_name = caps.get(2).map(|m| m.as_str().to_string()).unwrap_or_default();
+            let indent = caps.get(1).map(|m| m.as_str()).unwrap_or("");
+
+            if !method_name.is_empty() {
+                // Look for Rust doc comment before the function (///)
+                if let Some(doc_comment) = extract_rust_doc_comment(&lines, line_num, indent) {
+                    let (summary, description, parameters, returns) = parse_rust_doc_comment(&doc_comment);
+                    doc_comments.push(RustDocComment {
+                        method_name,
+                        raw_comment: doc_comment,
+                        summary,
+                        description,
+                        parameters,
+                        returns,
+                        line_number: line_num + 1,
+                    });
+                }
+            }
+        }
+    }
+
+    Ok(doc_comments)
+}
+
+fn extract_csharp_signatures(code: &str) -> Result<Vec<CSharpSignature>, String> {
+    let mut signatures = Vec::new();
+
+    // Regex pattern for C# method definitions
+    // Matches: [modifiers] return_type method_name(params)
+    // Handles: public, private, protected, static, async, virtual, override, etc.
+    // Also handles generic methods like GetList<T> and generic return types like List<T>
+    let method_pattern = Regex::new(
+        r"(?m)^(\s*)(?:(public|private|protected|internal|static|async|virtual|override|abstract|sealed|partial)\s+)*([a-zA-Z_][a-zA-Z0-9_]*(?:<[^>]*>)?(?:\?)?(?:\[\])*)\s+([a-zA-Z_][a-zA-Z0-9_<>]*)\s*\((.*?)\)(?:\s*[{;])?"
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
+    for (line_num, line) in code.lines().enumerate() {
+        if let Some(caps) = method_pattern.captures(line) {
+            let modifiers_str = caps.get(2).map(|m| m.as_str()).unwrap_or("");
+            let return_type = caps.get(3).map(|m| m.as_str().trim().to_string());
+            let method_name_with_generics = caps.get(4).map(|m| m.as_str()).unwrap_or_default();
+            let params_str = caps.get(5).map(|m| m.as_str()).unwrap_or("");
+
+            if !method_name_with_generics.is_empty() {
+                // Extract method name without generic parameters (e.g., "GetList<T>" -> "GetList")
+                let method_name = method_name_with_generics
+                    .split('<')
+                    .next()
+                    .unwrap_or(method_name_with_generics)
+                    .to_string();
+
+                let modifiers: Vec<String> = modifiers_str
+                    .split_whitespace()
+                    .map(|s| s.to_string())
+                    .collect();
+                let is_async = line.contains("async");
+                let parameters = parse_parameters(params_str);
+
+                let signature = format!("{}({})", method_name_with_generics, params_str);
+
+                signatures.push(CSharpSignature {
+                    method_name,
+                    signature,
+                    parameters,
+                    return_type,
+                    line_number: line_num + 1,
+                    modifiers,
+                    is_async,
+                });
+            }
+        }
+    }
+
+    Ok(signatures)
+}
+
+fn extract_csharp_doc_comments(code: &str) -> Result<Vec<CSharpDocComment>, String> {
+    let mut doc_comments = Vec::new();
+    let lines: Vec<&str> = code.lines().collect();
+
+    // Regex to find method definitions (including generic methods and generic return types)
+    let method_pattern = Regex::new(
+        r"(?m)^(\s*)(?:(public|private|protected|internal|static|async|virtual|override|abstract|sealed|partial)\s+)*([a-zA-Z_][a-zA-Z0-9_]*(?:<[^>]*>)?(?:\?)?(?:\[\])*)\s+([a-zA-Z_][a-zA-Z0-9_<>]*)\s*\("
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
+    for (line_num, line) in lines.iter().enumerate() {
+        if let Some(caps) = method_pattern.captures(line) {
+            let method_name_with_generics = caps.get(4).map(|m| m.as_str()).unwrap_or_default();
+            let indent = caps.get(1).map(|m| m.as_str()).unwrap_or("");
+
+            if !method_name_with_generics.is_empty() {
+                // Extract method name without generic parameters
+                let method_name = method_name_with_generics
+                    .split('<')
+                    .next()
+                    .unwrap_or(method_name_with_generics)
+                    .to_string();
+
+                // Look for XML doc comment before the method
+                if let Some(doc_comment) = extract_xml_doc_comment(&lines, line_num, indent) {
+                    let (summary, description, parameters, returns) = parse_xml_doc_comment(&doc_comment);
+                    doc_comments.push(CSharpDocComment {
+                        method_name,
+                        raw_comment: doc_comment,
+                        summary,
+                        description,
+                        parameters,
+                        returns,
+                        line_number: line_num + 1,
+                    });
+                }
+            }
+        }
+    }
+
+    Ok(doc_comments)
+}
+
+fn extract_xml_doc_comment(lines: &[&str], method_line: usize, _method_indent: &str) -> Option<String> {
+    if method_line == 0 || lines.is_empty() {
+        return None;
+    }
+
+    // Find the first non-empty line before the method
+    let mut end_line_idx = None;
+    for i in (0..method_line).rev() {
+        let trimmed = lines[i].trim();
+        if !trimmed.is_empty() {
+            // Check if this line starts with ///
+            if trimmed.starts_with("///") {
+                end_line_idx = Some(i);
+            }
+            break;
+        }
+    }
+
+    // If we didn't find a line starting with ///, there's no XML doc
+    let end_line_idx = match end_line_idx {
+        Some(idx) => idx,
+        None => return None,
+    };
+
+    // Now find the first /// line by going backwards from the end
+    let mut start_line_idx = end_line_idx;
+    for i in (0..=end_line_idx).rev() {
+        let trimmed = lines[i].trim();
+        if trimmed.starts_with("///") {
+            start_line_idx = i;
+        } else if !trimmed.is_empty() {
+            // Stop if we hit a non-empty line that's not a ///
+            break;
+        }
+    }
+
+    // Collect all lines from start to end
+    let mut comment_lines = Vec::new();
+    for i in start_line_idx..=end_line_idx {
+        comment_lines.push(lines[i].trim());
+    }
+
+    let joined = comment_lines.join("\n");
+    if joined.trim().is_empty() {
+        return None;
+    }
+
+    Some(joined)
+}
+
+fn parse_xml_doc_comment(comment: &str) -> (Option<String>, Option<String>, std::collections::HashMap<String, String>, Option<String>) {
+    let mut summary = None;
+    let mut description = None;
+    let mut parameters = std::collections::HashMap::new();
+    let mut returns = None;
+
+    let lines: Vec<&str> = comment.lines().collect();
+    if lines.is_empty() {
+        return (summary, description, parameters, returns);
+    }
+
+    let mut current_section = "description";
+    let mut current_content = String::new();
+    let mut current_param_name = String::new();
+    let mut summary_found = false;
+
+    for line in lines {
+        let trimmed = line.trim();
+
+        // Skip XML doc markers
+        if trimmed.starts_with("///") || trimmed == "*" {
+            let content = if trimmed.starts_with("///") {
+                trimmed[3..].trim()
+            } else {
+                trimmed
+            };
+
+            // Check for <summary> tag
+            if content.contains("<summary>") {
+                if !current_content.is_empty() && !summary_found {
+                    summary = Some(current_content.trim().to_string());
+                    summary_found = true;
+                }
+                current_content.clear();
+                current_section = "summary";
+
+                // Extract content between <summary> and </summary>
+                if let Some(start) = content.find("<summary>") {
+                    let rest = &content[start + 9..];
+                    if let Some(end) = rest.find("</summary>") {
+                        summary = Some(rest[..end].trim().to_string());
+                        summary_found = true;
+                    } else {
+                        current_content = rest.to_string();
+                    }
+                }
+            } else if content.contains("</summary>") {
+                if !current_content.is_empty() {
+                    if let Some(end) = content.find("</summary>") {
+                        current_content.push_str(&content[..end]);
+                        summary = Some(current_content.trim().to_string());
+                        summary_found = true;
+                    }
+                }
+                current_content.clear();
+                current_section = "description";
+            } else if content.contains("<param") {
+                // Parse <param name="paramName">description</param>
+                if let Some(name_start) = content.find("name=\"") {
+                    let rest = &content[name_start + 6..];
+                    if let Some(name_end) = rest.find("\"") {
+                        current_param_name = rest[..name_end].to_string();
+                        let desc_start = &rest[name_end + 1..];
+                        if let Some(desc_begin) = desc_start.find(">") {
+                            let desc_content = &desc_start[desc_begin + 1..];
+                            if let Some(desc_end) = desc_content.find("</param>") {
+                                parameters.insert(current_param_name.clone(), desc_content[..desc_end].trim().to_string());
+                            } else {
+                                current_content = desc_content.to_string();
+                                current_section = "parameters";
+                            }
+                        }
+                    }
+                }
+            } else if content.contains("</param>") {
+                if !current_content.is_empty() && !current_param_name.is_empty() {
+                    if let Some(end) = content.find("</param>") {
+                        current_content.push_str(&content[..end]);
+                        parameters.insert(current_param_name.clone(), current_content.trim().to_string());
+                    }
+                }
+                current_content.clear();
+                current_param_name.clear();
+            } else if content.contains("<returns>") {
+                if !current_content.is_empty() && !current_param_name.is_empty() {
+                    parameters.insert(current_param_name.clone(), current_content.trim().to_string());
+                }
+                current_content.clear();
+                current_param_name.clear();
+                current_section = "returns";
+
+                // Extract content between <returns> and </returns>
+                if let Some(start) = content.find("<returns>") {
+                    let rest = &content[start + 9..];
+                    if let Some(end) = rest.find("</returns>") {
+                        returns = Some(rest[..end].trim().to_string());
+                    } else {
+                        current_content = rest.to_string();
+                    }
+                }
+            } else if content.contains("</returns>") {
+                if !current_content.is_empty() {
+                    if let Some(end) = content.find("</returns>") {
+                        current_content.push_str(&content[..end]);
+                        returns = Some(current_content.trim().to_string());
+                    }
+                }
+                current_content.clear();
+            } else if !content.is_empty() {
+                match current_section {
+                    "summary" => {
+                        if !current_content.is_empty() {
+                            current_content.push(' ');
+                        }
+                        current_content.push_str(content);
+                    }
+                    "description" => {
+                        if !summary_found && summary.is_none() {
+                            summary = Some(content.to_string());
+                            summary_found = true;
+                        } else {
+                            if !current_content.is_empty() {
+                                current_content.push(' ');
+                            }
+                            current_content.push_str(content);
+                        }
+                    }
+                    "parameters" => {
+                        if !current_content.is_empty() {
+                            current_content.push(' ');
+                        }
+                        current_content.push_str(content);
+                    }
+                    "returns" => {
+                        if !current_content.is_empty() {
+                            current_content.push(' ');
+                        }
+                        current_content.push_str(content);
+                    }
+                    _ => {}
+                }
+            }
+        }
+    }
+
+    // Save any remaining content
+    if !current_content.is_empty() {
+        match current_section {
+            "summary" => {
+                if summary.is_none() {
+                    summary = Some(current_content.trim().to_string());
+                }
+            }
+            "description" => {
+                if description.is_none() {
+                    description = Some(current_content.trim().to_string());
+                }
+            }
+            "parameters" => {
+                if !current_param_name.is_empty() {
+                    parameters.insert(current_param_name, current_content.trim().to_string());
+                }
+            }
+            "returns" => {
+                if returns.is_none() {
+                    returns = Some(current_content.trim().to_string());
+                }
+            }
+            _ => {}
+        }
+    }
+
+    (summary, description, parameters, returns)
+}
+
+fn extract_jsdoc_comment(lines: &[&str], func_line: usize, _func_indent: &str) -> Option<String> {
+    if func_line == 0 || lines.is_empty() {
+        return None;
+    }
+
+    // Start from the line before the function and work backwards
+    let mut end_line_idx = None;
+
+    // Find the first non-empty line before the function
+    for i in (0..func_line).rev() {
+        let trimmed = lines[i].trim();
+        if !trimmed.is_empty() {
+            // Check if this line ends with */
+            if trimmed.ends_with("*/") {
+                end_line_idx = Some(i);
+            }
+            break;
+        }
+    }
+
+    // If we didn't find a line ending with */, there's no JSDoc
+    let end_line_idx = match end_line_idx {
+        Some(idx) => idx,
+        None => return None,
+    };
+
+    // Now find the opening /** by going backwards from the end
+    let mut start_line_idx = None;
+    for i in (0..=end_line_idx).rev() {
+        let trimmed = lines[i].trim();
+        if trimmed.contains("/**") {
+            start_line_idx = Some(i);
+            break;
+        }
+    }
+
+    // If we didn't find the opening, there's no JSDoc
+    let start_line_idx = match start_line_idx {
+        Some(idx) => idx,
+        None => return None,
+    };
+
+    // Collect all lines from start to end
+    let mut comment_lines = Vec::new();
+    for i in start_line_idx..=end_line_idx {
+        comment_lines.push(lines[i].trim());
+    }
+
+    let joined = comment_lines.join("\n");
+    if joined.trim().is_empty() {
+        return None;
+    }
+
+    Some(joined)
+}
+
+fn parse_jsdoc_comment(comment: &str) -> (Option<String>, Option<String>, std::collections::HashMap<String, String>, Option<String>) {
+    let mut summary = None;
+    let mut description = None;
+    let mut parameters = std::collections::HashMap::new();
+    let mut returns = None;
+
+    let lines: Vec<&str> = comment.lines().collect();
+    if lines.is_empty() {
+        return (summary, description, parameters, returns);
+    }
+
+    let mut current_section = "description";
+    let mut current_content = String::new();
+    let mut current_param_name = String::new();
+    let mut summary_found = false;
+
+    for line in lines {
+        let trimmed = line.trim();
+
+        // Skip JSDoc markers
+        if trimmed.starts_with("/**") || trimmed.starts_with("*/") || trimmed == "*" {
+            continue;
+        }
+
+        // Remove leading * if present
+        let content = if trimmed.starts_with("*") {
+            trimmed[1..].trim()
+        } else {
+            trimmed
+        };
+
+        // Check for @param tag
+        if content.starts_with("@param") {
+            if !current_content.is_empty() && !current_param_name.is_empty() {
+                parameters.insert(current_param_name.clone(), current_content.trim().to_string());
+            } else if !current_content.is_empty() && !summary_found {
+                summary = Some(current_content.trim().to_string());
+                summary_found = true;
+            } else if !current_content.is_empty() && summary_found && description.is_none() {
+                description = Some(current_content.trim().to_string());
+            }
+            current_content.clear();
+            current_section = "parameters";
+
+            // Parse @param {type} name - description
+            let param_line = &content[6..].trim();
+            if let Some(name_start) = param_line.find('{') {
+                if let Some(name_end) = param_line.find('}') {
+                    let _param_type = &param_line[name_start + 1..name_end];
+                    let rest = &param_line[name_end + 1..].trim();
+                    if let Some(space_idx) = rest.find(' ') {
+                        current_param_name = rest[..space_idx].to_string();
+                        current_content = rest[space_idx + 1..].to_string();
+                    } else {
+                        current_param_name = rest.to_string();
+                    }
+                }
+            } else {
+                // Format: @param name - description
+                if let Some(space_idx) = param_line.find(' ') {
+                    current_param_name = param_line[..space_idx].to_string();
+                    current_content = param_line[space_idx + 1..].to_string();
+                } else {
+                    current_param_name = param_line.to_string();
+                }
+            }
+        } else if content.starts_with("@returns") || content.starts_with("@return") {
+            if !current_content.is_empty() && !current_param_name.is_empty() {
+                parameters.insert(current_param_name.clone(), current_content.trim().to_string());
+            } else if !current_content.is_empty() && !summary_found {
+                summary = Some(current_content.trim().to_string());
+                summary_found = true;
+            } else if !current_content.is_empty() && summary_found && description.is_none() {
+                description = Some(current_content.trim().to_string());
+            }
+            current_content.clear();
+            current_param_name.clear();
+            current_section = "returns";
+
+            let return_line = if content.starts_with("@returns") {
+                &content[8..].trim()
+            } else {
+                &content[7..].trim()
+            };
+            current_content = return_line.to_string();
+        } else if !content.is_empty() {
+            match current_section {
+                "description" => {
+                    if !summary_found {
+                        if summary.is_none() {
+                            summary = Some(content.to_string());
+                            summary_found = true;
+                        } else {
+                            if !current_content.is_empty() {
+                                current_content.push(' ');
+                            }
+                            current_content.push_str(content);
+                        }
+                    } else {
+                        if !current_content.is_empty() {
+                            current_content.push(' ');
+                        }
+                        current_content.push_str(content);
+                    }
+                }
+                "parameters" => {
+                    if !current_content.is_empty() {
+                        current_content.push(' ');
+                    }
+                    current_content.push_str(content);
+                }
+                "returns" => {
+                    if !current_content.is_empty() {
+                        current_content.push(' ');
+                    }
+                    current_content.push_str(content);
+                }
+                _ => {}
+            }
+        }
+    }
+
+    // Save final section
+    if !current_content.is_empty() {
+        match current_section {
+            "description" => {
+                if !summary_found {
+                    summary = Some(current_content.trim().to_string());
+                } else {
+                    description = Some(current_content.trim().to_string());
+                }
+            }
+            "parameters" => {
+                if !current_param_name.is_empty() {
+                    parameters.insert(current_param_name, current_content.trim().to_string());
+                }
+            }
+            "returns" => returns = Some(current_content.trim().to_string()),
+            _ => {}
+        }
+    }
+
+    (summary, description, parameters, returns)
+}
+
 fn extract_python_doc_comments(code: &str) -> Result<Vec<PythonDocComment>, String> {
     let mut doc_comments = Vec::new();
     let lines: Vec<&str> = code.lines().collect();
@@ -1034,6 +1967,142 @@ fn parse_docstring(docstring: &str) -> (Option<String>, Option<String>, std::col
     if !current_content.is_empty() {
         match current_section {
             "description" => description = Some(current_content.trim().to_string()),
+            "returns" => returns = Some(current_content.trim().to_string()),
+            _ => {}
+        }
+    }
+
+    (summary, description, parameters, returns)
+}
+
+fn extract_rust_doc_comment(lines: &[&str], func_line: usize, _func_indent: &str) -> Option<String> {
+    if func_line == 0 || lines.is_empty() {
+        return None;
+    }
+
+    // Rust doc comments use /// (outer doc comment)
+    // Look backwards from the function line to find doc comments
+    let mut doc_lines = Vec::new();
+    let mut found_doc = false;
+
+    for i in (0..func_line).rev() {
+        let trimmed = lines[i].trim();
+
+        // Check if this line is a doc comment
+        if trimmed.starts_with("///") {
+            doc_lines.insert(0, trimmed);
+            found_doc = true;
+        } else if found_doc && !trimmed.is_empty() {
+            // Stop if we hit a non-empty, non-doc-comment line
+            break;
+        } else if !trimmed.is_empty() && !found_doc {
+            // Stop if we hit a non-empty line before finding doc comments
+            break;
+        }
+    }
+
+    if doc_lines.is_empty() {
+        return None;
+    }
+
+    let joined = doc_lines.join("\n");
+    if joined.trim().is_empty() {
+        return None;
+    }
+
+    Some(joined)
+}
+
+fn parse_rust_doc_comment(comment: &str) -> (Option<String>, Option<String>, std::collections::HashMap<String, String>, Option<String>) {
+    let mut summary = None;
+    let mut description = None;
+    let mut parameters = std::collections::HashMap::new();
+    let mut returns = None;
+
+    let lines: Vec<&str> = comment.lines().collect();
+    if lines.is_empty() {
+        return (summary, description, parameters, returns);
+    }
+
+    let mut current_section = "description";
+    let mut current_content = String::new();
+    let mut summary_found = false;
+
+    for line in lines {
+        let trimmed = line.trim();
+
+        // Remove /// prefix
+        let content = if trimmed.starts_with("/// ") {
+            &trimmed[4..]
+        } else if trimmed.starts_with("///") {
+            &trimmed[3..]
+        } else {
+            trimmed
+        };
+
+        // Check for section headers
+        if content.starts_with("# Arguments") || content.starts_with("# Parameters") {
+            if !current_content.is_empty() {
+                if !summary_found {
+                    summary = Some(current_content.trim().to_string());
+                    summary_found = true;
+                } else {
+                    description = Some(current_content.trim().to_string());
+                }
+            }
+            current_section = "parameters";
+            current_content.clear();
+        } else if content.starts_with("# Returns") {
+            if !current_content.is_empty() {
+                match current_section {
+                    "description" => {
+                        if !summary_found {
+                            summary = Some(current_content.trim().to_string());
+                            summary_found = true;
+                        } else {
+                            description = Some(current_content.trim().to_string());
+                        }
+                    }
+                    "parameters" => {
+                        // Parse parameter line (format: "name - description")
+                        let parts: Vec<&str> = current_content.splitn(2, '-').collect();
+                        if parts.len() >= 1 {
+                            let param_info = parts[0].trim();
+                            let param_desc = if parts.len() == 2 { parts[1].trim() } else { "" };
+                            parameters.insert(param_info.to_string(), param_desc.to_string());
+                        }
+                    }
+                    _ => {}
+                }
+            }
+            current_section = "returns";
+            current_content.clear();
+        } else if !content.is_empty() {
+            if !current_content.is_empty() {
+                current_content.push(' ');
+            }
+            current_content.push_str(content);
+        }
+    }
+
+    // Save final section
+    if !current_content.is_empty() {
+        match current_section {
+            "description" => {
+                if !summary_found {
+                    summary = Some(current_content.trim().to_string());
+                } else {
+                    description = Some(current_content.trim().to_string());
+                }
+            }
+            "parameters" => {
+                let parts: Vec<&str> = current_content.splitn(2, '-').collect();
+                if parts.len() >= 1 {
+                    let param_info = parts[0].trim();
+                    let param_desc = if parts.len() == 2 { parts[1].trim() } else { "" };
+                    parameters.insert(param_info.to_string(), param_desc.to_string());
+                }
+            }
             "returns" => returns = Some(current_content.trim().to_string()),
             _ => {}
         }

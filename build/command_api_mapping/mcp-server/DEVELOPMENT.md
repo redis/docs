@@ -317,7 +317,13 @@ See `node/src/tools/README.md` for detailed tool documentation.
     - extract_signatures and extract_doc_comments tools extended for Go
     - 15/15 tests passing (100% success rate)
     - Supports: receiver parameters, multiple returns, variadic params, complex types
-  - [ ] Milestone 5.3: TypeScript Parser (TODO)
+  - ✅ Milestone 5.3: TypeScript Parser (COMPLETE)
+    - Rust WASM parser for TypeScript signatures using regex
+    - Rust WASM parser for TypeScript JSDoc comments
+    - Node.js wrapper with nested Map-to-object conversion
+    - extract_signatures and extract_doc_comments tools extended for TypeScript
+    - 15/15 tests passing (100% success rate)
+    - Supports: async functions, generics, optional parameters, JSDoc with @param/@returns/@return
   - [ ] Milestone 5.4: Rust Parser (TODO)
   - [ ] Milestone 5.5: C# Parser (TODO)
   - [ ] Milestone 5.6: PHP Parser (TODO)
@@ -819,6 +825,215 @@ npm run test-go-parser
 - Regex-based parsing (not full AST)
 - May not handle complex nested types perfectly
 - Assumes standard Go doc comment formatting
+- Does not parse inline code blocks in comments
+
+### Rust Parser (Milestone 5.4)
+
+The Rust parser extracts function signatures and doc comments from Rust source code using regex-based parsing in Rust WASM.
+
+**Location**: `node/src/parsers/rust-parser.ts`
+
+**Features**:
+- Extracts function names, parameters, return types
+- Detects async functions
+- Detects unsafe functions
+- Handles pub visibility modifier
+- Parses Rust doc comments (/// style)
+- Extracts parameter and return documentation
+- Supports generic types and lifetime parameters
+- Handles Result<T, E> patterns
+- Tracks line numbers
+- Filters by function name
+
+**Usage**:
+```typescript
+import { parseRustSignatures, parseRustDocComments } from './parsers/rust-parser';
+
+// Parse Rust code
+const code = `
+/// Adds two numbers together
+/// # Arguments
+/// * \`a\` - First number
+/// * \`b\` - Second number
+/// # Returns
+/// The sum of a and b
+fn add(a: i32, b: i32) -> i32 {
+    a + b
+}
+`;
+
+// Extract signatures
+const signatures = parseRustSignatures(code);
+// Result: [{
+//   method_name: 'add',
+//   signature: 'fn add(a: i32, b: i32) -> i32',
+//   parameters: ['a: i32', 'b: i32'],
+//   return_type: 'i32',
+//   line_number: 8,
+//   is_async: false,
+//   is_unsafe: false
+// }]
+
+// Extract doc comments
+const docs = parseRustDocComments(code);
+// Result: {
+//   add: {
+//     method_name: 'add',
+//     raw_comment: '/// Adds two numbers together\n/// # Arguments\n/// * `a` - First number\n/// * `b` - Second number\n/// # Returns\nThe sum of a and b',
+//     summary: 'Adds two numbers together',
+//     description: '',
+//     parameters: ['a - First number', 'b - Second number'],
+//     returns: 'The sum of a and b',
+//     line_number: 2
+//   }
+// }
+```
+
+**Rust Doc Comment Format**:
+- `/// Summary` - Summary line
+- `/// # Arguments` - Arguments section header
+- `/// * \`name\` - description` - Parameter documentation
+- `/// # Returns` - Returns section header
+- `/// Description` - Return value documentation
+
+**Testing**:
+```bash
+# Test Rust parser
+npm run test-rust-parser
+
+# Results: 15/15 tests passing
+# - Simple functions
+# - Async functions
+# - Unsafe functions
+# - Functions with multiple parameters
+# - Public functions
+# - Generic functions
+# - Method name filtering
+# - Doc comments with summary
+# - Doc comments with parameters
+# - Doc comments with returns
+# - Multiple functions
+# - Functions with Result type
+# - Async unsafe functions
+# - Functions with lifetime parameters
+# - Empty functions
+```
+
+**Implementation Details**:
+- Uses regex pattern matching for Rust function definitions
+- Handles function modifiers: `pub`, `async`, `unsafe`, `extern`
+- Extracts parameters with types
+- Parses return types including generics and lifetimes
+- Parses Rust doc comments with `///` syntax
+- Extracts `# Arguments` and `# Returns` sections
+- Converts WASM Map objects to TypeScript interfaces
+- Provides filtering and validation
+
+**Limitations**:
+- Regex-based parsing (not full AST)
+- May not handle complex nested generics perfectly
+- Assumes standard Rust doc comment formatting
+- Does not parse inline code blocks in comments
+
+### C# Parser (Milestone 5.5)
+
+The C# parser extracts method signatures and XML doc comments from C# source code using regex-based parsing in Rust WASM.
+
+**Location**: `node/src/parsers/csharp-parser.ts`
+
+**Features**:
+- Extracts method names, parameters, return types
+- Detects async methods and Task<T> return types
+- Handles nullable types (string?, int?)
+- Extracts method modifiers (public, private, protected, static, virtual, override, abstract, async)
+- Parses XML doc comments with <summary>, <param>, <returns> tags
+- Tracks line numbers
+- Filters by method name
+- Provides utility functions for filtering by visibility and async status
+
+**Usage**:
+```typescript
+import { parseCSharpSignatures, parseCSharpDocComments } from './parsers/csharp-parser';
+
+// Parse C# code
+const code = `
+/// <summary>Gets the value associated with the key.</summary>
+/// <param name="key">The key to look up</param>
+/// <returns>The value, or null if not found</returns>
+public string GetValue(string key) {
+    return map.Get(key);
+}
+`;
+
+// Extract signatures
+const signatures = parseCSharpSignatures(code);
+// Result: [{
+//   method_name: 'GetValue',
+//   signature: 'GetValue(string key)',
+//   parameters: ['string key'],
+//   return_type: 'string',
+//   line_number: 5,
+//   modifiers: ['public'],
+//   is_async: false
+// }]
+
+// Extract doc comments
+const docs = parseCSharpDocComments(code);
+// Result: {
+//   GetValue: {
+//     method_name: 'GetValue',
+//     raw_comment: '/// <summary>Gets the value associated with the key.</summary>\n/// <param name="key">The key to look up</param>\n/// <returns>The value, or null if not found</returns>',
+//     summary: 'Gets the value associated with the key.',
+//     description: undefined,
+//     parameters: { key: 'The key to look up' },
+//     returns: 'The value, or null if not found',
+//     line_number: 5
+//   }
+// }
+```
+
+**C# XML Doc Comment Format**:
+- `/// <summary>Summary text</summary>` - Summary documentation
+- `/// <param name="paramName">Parameter description</param>` - Parameter documentation
+- `/// <returns>Return value description</returns>` - Return value documentation
+
+**Testing**:
+```bash
+# Test C# parser
+npm run test-csharp-parser
+
+# Results: 15/15 tests passing
+# - Simple methods
+# - Methods with multiple parameters
+# - Async methods
+# - Generic methods
+# - Static methods
+# - XML doc comments
+# - Nullable types
+# - Private methods
+# - Virtual methods
+# - Override methods
+# - Abstract methods
+# - Methods with no parameters
+# - Async void methods
+# - Protected methods
+# - Internal methods
+```
+
+**Implementation Details**:
+- Uses regex pattern matching for C# method definitions
+- Handles method modifiers: `public`, `private`, `protected`, `internal`, `static`, `async`, `virtual`, `override`, `abstract`, `sealed`, `partial`
+- Extracts parameters with types
+- Parses return types including generics and nullable types
+- Parses XML doc comments with `///` syntax
+- Extracts `<summary>`, `<param>`, and `<returns>` tags
+- Converts WASM Map objects to TypeScript interfaces
+- Provides filtering and validation
+
+**Limitations**:
+- Regex-based parsing (not full AST)
+- May not handle complex nested generics perfectly
+- Assumes standard C# XML doc comment formatting
 - Does not parse inline code blocks in comments
 
 ### Signature Validator (Milestone 4.1)

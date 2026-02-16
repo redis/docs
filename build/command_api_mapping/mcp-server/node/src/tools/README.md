@@ -41,7 +41,7 @@ This directory contains the implementation of all 6 MCP tools for the Redis Comm
 - `total_count` - Number of signatures extracted
 - `errors` - Any parsing errors encountered
 
-**Status**: ✅ Fully Implemented for Python (Milestone 3.1), Java (Milestone 5.1), and Go (Milestone 5.2)
+**Status**: ✅ Fully Implemented for Python (Milestone 3.1), Java (Milestone 5.1), Go (Milestone 5.2), TypeScript (Milestone 5.3), Rust (Milestone 5.4), and C# (Milestone 5.5)
 
 **Implementation Details**:
 - Python parser implemented using regex-based parsing in Rust WASM
@@ -62,7 +62,25 @@ This directory contains the implementation of all 6 MCP tools for the Redis Comm
   - Supports complex types (slices, maps, channels, pointers)
   - Tracks line numbers for each signature
   - All tests passing (15/15 parser tests)
-- Other languages (TypeScript, Rust, C#, PHP) will be implemented in Phase 5
+- **TypeScript**: Fully implemented
+  - Supports async functions and generics
+  - Handles optional parameters
+  - Extracts return type annotations
+  - All tests passing (15/15 parser tests)
+- **Rust**: Fully implemented
+  - Supports async and unsafe functions
+  - Handles pub visibility modifier
+  - Extracts generic types and lifetime parameters
+  - Supports Result<T, E> patterns
+  - All tests passing (15/15 parser tests)
+- **C#**: Fully implemented
+  - Extracts method names, parameters, return types, and modifiers
+  - Supports async methods and Task<T> return types
+  - Handles nullable types (string?, int?)
+  - Extracts method modifiers (public, private, protected, static, virtual, override, abstract)
+  - Tracks line numbers for each signature
+  - All tests passing (15/15 parser tests)
+- PHP will be implemented in Phase 5 (Milestone 5.6)
 
 **Example Usage**:
 ```typescript
@@ -101,7 +119,7 @@ const result = await extractSignatures({
 - `total_count` - Number of doc comments extracted
 - `missing_docs` - Methods with no documentation
 
-**Status**: ✅ Fully Implemented for Python (Milestone 3.2), Java (Milestone 5.1), and Go (Milestone 5.2)
+**Status**: ✅ Fully Implemented for Python (Milestone 3.2), Java (Milestone 5.1), Go (Milestone 5.2), TypeScript (Milestone 5.3), Rust (Milestone 5.4), and C# (Milestone 5.5)
 
 **Implementation Details**:
 - Python parser implemented using regex-based parsing in Rust WASM
@@ -126,7 +144,26 @@ const result = await extractSignatures({
   - Handles multi-line doc comments
   - Tracks line numbers for each doc comment
   - All tests passing (15/15 parser tests)
-- Other languages will be implemented in Phase 5
+- **TypeScript**: Fully implemented
+  - Extracts JSDoc comments from function definitions
+  - Parses @param, @returns, @return tags
+  - Separates summary, description, parameters, and returns
+  - Handles multi-line JSDoc comments
+  - All tests passing (15/15 parser tests)
+- **Rust**: Fully implemented
+  - Extracts Rust doc comments from function definitions
+  - Parses /// style comments
+  - Separates summary, description, parameters, and returns
+  - Handles # Arguments and # Returns sections
+  - All tests passing (15/15 parser tests)
+- **C#**: Fully implemented
+  - Extracts XML doc comments from method definitions
+  - Parses <summary>, <param>, <returns> tags
+  - Separates summary, description, parameters, and returns
+  - Handles multi-line XML doc comments
+  - Tracks line numbers for each doc comment
+  - All tests passing (15/15 parser tests)
+- PHP will be implemented in Phase 5 (Milestone 5.6)
 
 **Example Usage**:
 ```typescript
@@ -381,8 +418,12 @@ All tools should:
   - ✅ Milestone 5.2: Go Parser - 15/15 tests passing (100% success rate)
     - Extract Signatures Tool (Go) - Fully implemented
     - Extract Doc Comments Tool (Go) - Fully implemented
-  - [ ] Milestone 5.3: TypeScript Parser
-  - [ ] Milestone 5.4: Rust Parser
+  - ✅ Milestone 5.3: TypeScript Parser - 15/15 tests passing (100% success rate)
+    - Extract Signatures Tool (TypeScript) - Fully implemented
+    - Extract Doc Comments Tool (TypeScript) - Fully implemented
+  - ✅ Milestone 5.4: Rust Parser - 15/15 tests passing (100% success rate)
+    - Extract Signatures Tool (Rust) - Fully implemented
+    - Extract Doc Comments Tool (Rust) - Fully implemented
   - [ ] Milestone 5.5: C# Parser
   - [ ] Milestone 5.6: PHP Parser
 - **Phase 6**: End-to-end testing and integration

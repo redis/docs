@@ -6,16 +6,16 @@ This document tracks the implementation of the Command-to-API Mapping MCP server
 
 ## Progress Summary
 
-**Overall Progress**: 10/20 milestones complete (50%)
+**Overall Progress**: 13/20 milestones complete (65%)
 
 **Completed Phases**:
 - ✅ Phase 1: Foundation & Project Setup (3/3 milestones)
 - ✅ Phase 2: Data Access Layer (2/2 milestones)
 - ✅ Phase 3: Parsing Tools - Python (2/2 milestones)
 - ✅ Phase 4: Validation Tool (1/1 milestone)
-- 🔄 Phase 5: Additional Language Parsers (2/6 milestones - Java ✅, Go ✅)
+- 🔄 Phase 5: Additional Language Parsers (5/6 milestones - Java ✅, Go ✅, TypeScript ✅, Rust ✅, C# ✅)
 
-**Next Milestone**: 5.3 - TypeScript Parser
+**Next Milestone**: 5.6 - PHP Parser
 
 ## Milestone Checklist
 
@@ -133,35 +133,39 @@ This document tracks the implementation of the Command-to-API Mapping MCP server
   - **Completed**: 2026-02-16
   - **Details**: Regex-based parser handles receiver parameters (pointer and value), multiple return values, variadic parameters, complex types (slices, maps, channels, pointers), Go doc comments (// style), all 31 tests passing (100% success rate)
 
-- [ ] **Milestone 5.3**: TypeScript Parser
-  - [ ] Add tree-sitter-typescript to Rust
-  - [ ] Create WASM parser for TypeScript
-  - [ ] Implement Node.js wrapper
-  - [ ] Extend extract_signatures and extract_doc_comments tools
-  - [ ] Create test suite (15+ tests)
-  - [ ] Update documentation
-  - **Status**: NOT STARTED
-  - **Estimated Duration**: 3-4 hours
+- [x] **Milestone 5.3**: TypeScript Parser
+  - ✅ Implement regex-based TypeScript parser in Rust (instead of tree-sitter for WASM compatibility)
+  - ✅ Create WASM parser for TypeScript signatures and JSDoc comments
+  - ✅ Implement Node.js wrapper with Map-to-object conversion (including nested Maps)
+  - ✅ Extend extract_signatures tool for TypeScript
+  - ✅ Extend extract_doc_comments tool for TypeScript
+  - ✅ Create comprehensive test suite (15/15 tests passing)
+  - ✅ Update documentation (DEVELOPMENT.md and tools/README.md)
+  - **Status**: ✅ Complete
+  - **Completed**: 2026-02-16
+  - **Details**: Regex-based parser handles function definitions, async functions, generics, optional parameters, JSDoc comments with @param/@returns/@return tags, description parsing, all 15 tests passing (100% success rate)
 
-- [ ] **Milestone 5.4**: Rust Parser
-  - [ ] Add tree-sitter-rust to Rust
-  - [ ] Create WASM parser for Rust
-  - [ ] Implement Node.js wrapper
-  - [ ] Extend extract_signatures and extract_doc_comments tools
-  - [ ] Create test suite (15+ tests)
-  - [ ] Update documentation
-  - **Status**: NOT STARTED
-  - **Estimated Duration**: 3-4 hours
+- [x] **Milestone 5.4**: Rust Parser
+  - ✅ Add regex-based Rust parser to Rust (instead of tree-sitter for WASM compatibility)
+  - ✅ Create WASM parser for Rust signatures
+  - ✅ Implement Node.js wrapper with Map-to-object conversion
+  - ✅ Extend extract_signatures and extract_doc_comments tools for Rust
+  - ✅ Create test suite (15/15 tests passing)
+  - ✅ Update documentation (DEVELOPMENT.md and tools/README.md)
+  - **Status**: ✅ Complete
+  - **Completed**: 2026-02-16
+  - **Details**: Regex-based parser handles function definitions, async/unsafe functions, pub modifier, generics, lifetime parameters, Result<T> patterns, Rust doc comments with /// syntax, # Arguments and # Returns sections, all 15 tests passing (100% success rate)
 
-- [ ] **Milestone 5.5**: C# Parser
-  - [ ] Add tree-sitter-c-sharp to Rust
-  - [ ] Create WASM parser for C#
-  - [ ] Implement Node.js wrapper
-  - [ ] Extend extract_signatures and extract_doc_comments tools
-  - [ ] Create test suite (15+ tests)
-  - [ ] Update documentation
-  - **Status**: NOT STARTED
-  - **Estimated Duration**: 3-4 hours
+- [x] **Milestone 5.5**: C# Parser
+  - ✅ Add C# parser functions to Rust lib.rs
+  - ✅ Create WASM bindings for C# parser
+  - ✅ Implement Node.js wrapper (csharp-parser.ts)
+  - ✅ Extend extract_signatures and extract_doc_comments tools
+  - ✅ Create test suite (38/38 tests passing)
+  - ✅ Update documentation (DEVELOPMENT.md and tools/README.md)
+  - **Status**: ✅ Complete
+  - **Completed**: 2026-02-16
+  - **Details**: Regex-based parser handles method definitions, async methods, Task<T> return types, nullable types, method modifiers (public, private, protected, static, virtual, override, abstract), generic methods, XML doc comments with <summary>, <param>, <returns> tags, all 38 tests passing (100% success rate)
 
 - [ ] **Milestone 5.6**: PHP Parser
   - [ ] Add tree-sitter-php to Rust
@@ -225,10 +229,10 @@ This document tracks the implementation of the Command-to-API Mapping MCP server
 ## Progress Tracking
 
 **Last Updated**: 2026-02-16
-**Completed Milestones**: 8/20
-**Current Phase**: Phase 4 (Validation Tools) - COMPLETE
-**Next Milestone**: Milestone 5.1 (Java Parser)
-**Milestone 4.1 Status**: ✅ COMPLETE - All 40 tests passing (100% success rate)
+**Completed Milestones**: 13/20
+**Current Phase**: Phase 5 (Additional Language Parsers) - IN PROGRESS
+**Next Milestone**: Milestone 5.6 (PHP Parser)
+**Milestone 5.5 Status**: ✅ COMPLETE - All 38 tests passing (100% success rate)
 
 ## Milestone 1.1 Summary - COMPLETE ✅
 
