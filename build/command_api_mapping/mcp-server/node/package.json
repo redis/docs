@@ -1,0 +1,25 @@
+{
+  "name": "mcp-server",
+  "version": "0.1.0",
+  "description": "MCP Server for Redis Command-to-API Mapping",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsx src/index.ts",
+    "test-wasm": "tsx src/test-wasm.ts",
+    "test": "tsx src/integration-test.ts",
+    "dev": "tsx watch src/index.ts"
+  },
+  "keywords": ["redis", "mcp", "wasm"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "tsx": "^4.0.0"
+  }
+}

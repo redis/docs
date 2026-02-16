@@ -1,0 +1,24 @@
+{
+  "name": "redis-command-api-mapping-mcp",
+  "version": "0.1.0",
+  "description": "MCP Server for Redis Command-to-API Mapping (Rust WASM + Node.js)",
+  "private": true,
+  "scripts": {
+    "build": "npm run build:rust && npm run build:node",
+    "build:rust": "cd rust && cargo build --release && wasm-pack build --target nodejs",
+    "build:node": "cd node && npm run build",
+    "clean": "npm run clean:rust && npm run clean:node",
+    "clean:rust": "cd rust && cargo clean && rm -rf wasm/pkg",
+    "clean:node": "cd node && rm -rf dist node_modules && npm install",
+    "dev": "npm run dev:node",
+    "dev:node": "cd node && npm run dev",
+    "test": "npm run test:rust && npm run test:node",
+    "test:rust": "cd rust && cargo test",
+    "test:node": "cd node && npm run test",
+    "start": "cd node && npm start"
+  },
+  "keywords": ["redis", "mcp", "wasm"],
+  "author": "",
+  "license": "MIT"
+}
+
