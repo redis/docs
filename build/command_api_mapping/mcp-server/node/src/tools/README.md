@@ -32,7 +32,7 @@ This directory contains the implementation of all 6 MCP tools for the Redis Comm
 **Input**:
 - `file_path` (string, required) - Path to source file
 - `language` (enum, required) - Programming language (python, java, go, typescript, rust, csharp, php)
-- `method_name_filter` (array, default: []) - Filter to specific method names
+- `method_name_filter` (array, default: []) - Filter to specific method names (optional)
 
 **Output**:
 - `file_path` - Input file path
@@ -80,7 +80,13 @@ This directory contains the implementation of all 6 MCP tools for the Redis Comm
   - Extracts method modifiers (public, private, protected, static, virtual, override, abstract)
   - Tracks line numbers for each signature
   - All tests passing (15/15 parser tests)
-- PHP will be implemented in Phase 5 (Milestone 5.6)
+- **PHP**: Fully implemented (Milestone 5.6)
+  - Extracts function/method names, parameters, return types, and modifiers
+  - Supports variadic parameters (...$param)
+  - Handles type hints and nullable types (?type)
+  - Extracts method modifiers (public, private, protected, static, abstract, final)
+  - Tracks line numbers for each signature
+  - All tests passing (15/15 parser tests)
 
 **Example Usage**:
 ```typescript
@@ -119,7 +125,7 @@ const result = await extractSignatures({
 - `total_count` - Number of doc comments extracted
 - `missing_docs` - Methods with no documentation
 
-**Status**: ✅ Fully Implemented for Python (Milestone 3.2), Java (Milestone 5.1), Go (Milestone 5.2), TypeScript (Milestone 5.3), Rust (Milestone 5.4), and C# (Milestone 5.5)
+**Status**: ✅ Fully Implemented for Python (Milestone 3.2), Java (Milestone 5.1), Go (Milestone 5.2), TypeScript (Milestone 5.3), Rust (Milestone 5.4), C# (Milestone 5.5), and PHP (Milestone 5.6)
 
 **Implementation Details**:
 - Python parser implemented using regex-based parsing in Rust WASM
@@ -163,7 +169,13 @@ const result = await extractSignatures({
   - Handles multi-line XML doc comments
   - Tracks line numbers for each doc comment
   - All tests passing (15/15 parser tests)
-- PHP will be implemented in Phase 5 (Milestone 5.6)
+- **PHP**: Fully implemented (Milestone 5.6)
+  - Extracts PHPDoc comments from function/method definitions
+  - Parses @param and @return tags
+  - Separates summary, description, parameters, and returns
+  - Handles multi-line PHPDoc comments
+  - Tracks line numbers for each doc comment
+  - All tests passing (15/15 parser tests)
 
 **Example Usage**:
 ```typescript

@@ -12,6 +12,7 @@ import { parseGoSignatures } from "../parsers/go-parser.js";
 import { parseTypeScriptSignatures } from "../parsers/typescript-parser.js";
 import { parseRustSignatures } from "../parsers/rust-parser.js";
 import { parseCSharpSignatures } from "../parsers/csharp-parser.js";
+import { parsePHPSignatures } from "../parsers/php-parser.js";
 
 /**
  * Extract method signatures from a client library source file.
@@ -56,9 +57,11 @@ export async function extractSignatures(
       rawSignatures = parseRustSignatures(code);
     } else if (validatedInput.language === "csharp") {
       rawSignatures = parseCSharpSignatures(code);
+    } else if (validatedInput.language === "php") {
+      rawSignatures = parsePHPSignatures(code);
     } else {
       errors.push(
-        `Language '${validatedInput.language}' not yet implemented. Currently Python, Java, Go, TypeScript, Rust, and C# are supported.`
+        `Language '${validatedInput.language}' not yet implemented. Currently Python, Java, Go, TypeScript, Rust, C#, and PHP are supported.`
       );
     }
 

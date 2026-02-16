@@ -134,6 +134,28 @@ pub struct CSharpDocComment {
     pub line_number: usize,
 }
 
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct PHPSignature {
+    pub method_name: String,
+    pub signature: String,
+    pub parameters: Vec<String>,
+    pub return_type: Option<String>,
+    pub line_number: usize,
+    pub modifiers: Vec<String>,
+    pub is_variadic: bool,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct PHPDocComment {
+    pub method_name: String,
+    pub raw_comment: String,
+    pub summary: Option<String>,
+    pub description: Option<String>,
+    pub parameters: std::collections::HashMap<String, String>,
+    pub returns: Option<String>,
+    pub line_number: usize,
+}
+
 #[wasm_bindgen]
 pub fn add(a: i32, b: i32) -> i32 {
     a + b
@@ -514,6 +536,71 @@ pub fn parse_csharp_signatures(code: &str) -> JsValue {
 #[wasm_bindgen]
 pub fn parse_csharp_doc_comments(code: &str) -> JsValue {
     match extract_csharp_doc_comments(code) {
+        Ok(doc_comments) => {
+            let mut doc_map = serde_json::Map::new();
+            for doc in doc_comments {
+                let params_json: serde_json::Map<String, Value> = doc
+                    .parameters
+                    .iter()
+                    .map(|(k, v)| (k.clone(), Value::String(v.clone())))
+                    .collect();
+
+                let doc_obj = json!({
+                    "raw_comment": doc.raw_comment,
+                    "summary": doc.summary,
+                    "description": doc.description,
+                    "parameters": params_json,
+                    "returns": doc.returns,
+                    "line_number": doc.line_number,
+                });
+
+                doc_map.insert(doc.method_name, doc_obj);
+            }
+            serde_wasm_bindgen::to_value(&doc_map).unwrap_or_else(|_| JsValue::NULL)
+        }
+        Err(e) => {
+            let error_obj = json!({
+                "error": e,
+                "doc_comments": {}
+            });
+            serde_wasm_bindgen::to_value(&error_obj).unwrap_or_else(|_| JsValue::NULL)
+        }
+    }
+}
+
+#[wasm_bindgen]
+pub fn parse_php_signatures(code: &str) -> JsValue {
+    match extract_php_signatures(code) {
+        Ok(signatures) => {
+            let json_array: Vec<Value> = signatures
+                .iter()
+                .map(|sig| {
+                    json!({
+                        "method_name": sig.method_name,
+                        "signature": sig.signature,
+                        "parameters": sig.parameters,
+                        "return_type": sig.return_type,
+                        "line_number": sig.line_number,
+                        "modifiers": sig.modifiers,
+                        "is_variadic": sig.is_variadic,
+                    })
+                })
+                .collect();
+            serde_wasm_bindgen::to_value(&json_array).unwrap_or_else(|_| JsValue::NULL)
+        }
+        Err(e) => {
+            let error_obj = json!({
+                "error": e,
+                "signatures": []
+            });
+            serde_wasm_bindgen::to_value(&error_obj).unwrap_or_else(|_| JsValue::NULL)
+        }
+    }
+}
+
+#[wasm_bindgen]
+pub fn parse_php_doc_comments(code: &str) -> JsValue {
+    match extract_php_doc_comments(code) {
         Ok(doc_comments) => {
             let mut doc_map = serde_json::Map::new();
             for doc in doc_comments {
@@ -1372,6 +1459,273 @@ fn extract_csharp_doc_comments(code: &str) -> Result<Vec<CSharpDocComment>, Stri
     }
 
     Ok(doc_comments)
+}
+
+fn extract_php_signatures(code: &str) -> Result<Vec<PHPSignature>, String> {
+    let mut signatures = Vec::new();
+
+    // Regex pattern for PHP function/method definitions
+    // Matches: [modifiers] function name(params) [: return_type]
+    // Handles: public, private, protected, static, abstract, final, etc.
+    // Also handles variadic parameters (...$param)
+    let func_pattern = Regex::new(
+        r"(?m)^(\s*)(?:(public|private|protected|static|abstract|final)\s+)*function\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\((.*?)\)(?:\s*:\s*(\??[a-zA-Z_][a-zA-Z0-9_|\\]*(?:\[\])?))?"
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
+    for (line_num, line) in code.lines().enumerate() {
+        if let Some(caps) = func_pattern.captures(line) {
+            let modifiers_str = caps.get(2).map(|m| m.as_str()).unwrap_or("");
+            let method_name = caps.get(3).map(|m| m.as_str().to_string()).unwrap_or_default();
+            let params_str = caps.get(4).map(|m| m.as_str()).unwrap_or("");
+            let return_type = caps.get(5).map(|m| m.as_str().trim().to_string());
+
+            if !method_name.is_empty() {
+                let modifiers: Vec<String> = modifiers_str
+                    .split_whitespace()
+                    .map(|s| s.to_string())
+                    .collect();
+
+                // Check if parameters contain variadic operator (...)
+                let is_variadic = params_str.contains("...");
+                let parameters = parse_parameters(params_str);
+
+                let signature = format!("function {}({})", method_name, params_str);
+
+                signatures.push(PHPSignature {
+                    method_name,
+                    signature,
+                    parameters,
+                    return_type,
+                    line_number: line_num + 1,
+                    modifiers,
+                    is_variadic,
+                });
+            }
+        }
+    }
+
+    Ok(signatures)
+}
+
+fn extract_php_doc_comments(code: &str) -> Result<Vec<PHPDocComment>, String> {
+    let mut doc_comments = Vec::new();
+    let lines: Vec<&str> = code.lines().collect();
+
+    // Regex to find function/method definitions
+    let func_pattern = Regex::new(
+        r"(?m)^(\s*)(?:(public|private|protected|static|abstract|final)\s+)*function\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\("
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
+    for (line_num, line) in lines.iter().enumerate() {
+        if let Some(caps) = func_pattern.captures(line) {
+            let method_name = caps.get(3).map(|m| m.as_str().to_string()).unwrap_or_default();
+            let indent = caps.get(1).map(|m| m.as_str()).unwrap_or("");
+
+            if !method_name.is_empty() {
+                // Look for PHPDoc comment before the function
+                if let Some(doc_comment) = extract_phpdoc_comment(&lines, line_num, indent) {
+                    let (summary, description, parameters, returns) = parse_phpdoc_comment(&doc_comment);
+                    doc_comments.push(PHPDocComment {
+                        method_name,
+                        raw_comment: doc_comment,
+                        summary,
+                        description,
+                        parameters,
+                        returns,
+                        line_number: line_num + 1,
+                    });
+                }
+            }
+        }
+    }
+
+    Ok(doc_comments)
+}
+
+fn extract_phpdoc_comment(lines: &[&str], func_line: usize, _func_indent: &str) -> Option<String> {
+    if func_line == 0 || lines.is_empty() {
+        return None;
+    }
+
+    // PHPDoc comments use /** ... */ format
+    // Look backwards from the function line to find doc comments
+    let mut doc_lines = Vec::new();
+    let mut found_end = false;
+
+    for i in (0..func_line).rev() {
+        let trimmed = lines[i].trim();
+
+        // Check if this line ends with */
+        if trimmed.ends_with("*/") {
+            doc_lines.insert(0, trimmed);
+            found_end = true;
+        } else if found_end {
+            // We're inside the doc comment
+            doc_lines.insert(0, trimmed);
+            // Check if this line starts with /**
+            if trimmed.starts_with("/**") {
+                break;
+            }
+        } else if !trimmed.is_empty() {
+            // Stop if we hit a non-empty line before finding the end
+            break;
+        }
+    }
+
+    if doc_lines.is_empty() {
+        return None;
+    }
+
+    let joined = doc_lines.join("\n");
+    if joined.trim().is_empty() {
+        return None;
+    }
+
+    Some(joined)
+}
+
+fn parse_phpdoc_comment(comment: &str) -> (Option<String>, Option<String>, std::collections::HashMap<String, String>, Option<String>) {
+    let mut summary = None;
+    let mut description = None;
+    let mut parameters = std::collections::HashMap::new();
+    let mut returns = None;
+
+    let lines: Vec<&str> = comment.lines().collect();
+    if lines.is_empty() {
+        return (summary, description, parameters, returns);
+    }
+
+    let mut current_section = "description";
+    let mut current_content = String::new();
+    let mut summary_found = false;
+
+    for line in lines {
+        let trimmed = line.trim();
+
+        // Remove PHPDoc markers (/** and */)
+        let content = if trimmed.starts_with("/**") {
+            &trimmed[3..].trim()
+        } else if trimmed.starts_with("*") && !trimmed.starts_with("*/") {
+            &trimmed[1..].trim()
+        } else if trimmed.starts_with("*/") {
+            continue;
+        } else {
+            trimmed
+        };
+
+        // Check for @param tags
+        if content.starts_with("@param") {
+            // Save previous section
+            if !current_content.is_empty() {
+                if !summary_found {
+                    summary = Some(current_content.trim().to_string());
+                    summary_found = true;
+                } else if current_section == "description" {
+                    description = Some(current_content.trim().to_string());
+                }
+            }
+            current_content.clear();
+            current_section = "parameters";
+
+            // Parse @param line (format: "@param type $name description")
+            let param_content = content[6..].trim();
+            if let Some(dollar_pos) = param_content.find('$') {
+                let before_dollar = param_content[..dollar_pos].trim();
+                let after_dollar = &param_content[dollar_pos + 1..];
+
+                // Extract parameter name (first word after $)
+                let param_name = after_dollar
+                    .split_whitespace()
+                    .next()
+                    .unwrap_or("")
+                    .to_string();
+
+                // Extract description (rest of the line)
+                let param_desc = after_dollar
+                    .split_whitespace()
+                    .skip(1)
+                    .collect::<Vec<_>>()
+                    .join(" ");
+
+                if !param_name.is_empty() {
+                    let full_desc = if !before_dollar.is_empty() && !param_desc.is_empty() {
+                        format!("{} {}", before_dollar, param_desc)
+                    } else if !before_dollar.is_empty() {
+                        before_dollar.to_string()
+                    } else {
+                        param_desc
+                    };
+                    parameters.insert(param_name, full_desc);
+                }
+            }
+        } else if content.starts_with("@return") {
+            // Save previous section
+            if !current_content.is_empty() {
+                match current_section {
+                    "description" => {
+                        if !summary_found {
+                            summary = Some(current_content.trim().to_string());
+                            summary_found = true;
+                        } else {
+                            description = Some(current_content.trim().to_string());
+                        }
+                    }
+                    "parameters" => {
+                        // Already handled in @param section
+                    }
+                    _ => {}
+                }
+            }
+            current_content.clear();
+            current_section = "returns";
+
+            // Parse @return line (format: "@return type description")
+            let return_content = content[7..].trim();
+            current_content = return_content.to_string();
+        } else if !content.is_empty() {
+            match current_section {
+                "description" => {
+                    if !current_content.is_empty() {
+                        current_content.push(' ');
+                    }
+                    current_content.push_str(content);
+                }
+                "parameters" => {
+                    // Multi-line parameter description
+                    if !current_content.is_empty() {
+                        current_content.push(' ');
+                    }
+                    current_content.push_str(content);
+                }
+                "returns" => {
+                    if !current_content.is_empty() {
+                        current_content.push(' ');
+                    }
+                    current_content.push_str(content);
+                }
+                _ => {}
+            }
+        }
+    }
+
+    // Save final section
+    if !current_content.is_empty() {
+        match current_section {
+            "description" => {
+                if !summary_found {
+                    summary = Some(current_content.trim().to_string());
+                } else {
+                    description = Some(current_content.trim().to_string());
+                }
+            }
+            "returns" => {
+                returns = Some(current_content.trim().to_string());
+            }
+            _ => {}
+        }
+    }
+
+    (summary, description, parameters, returns)
 }
 
 fn extract_xml_doc_comment(lines: &[&str], method_line: usize, _method_indent: &str) -> Option<String> {

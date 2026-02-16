@@ -13,6 +13,7 @@ import { parseGoDocComments, parseGoSignatures } from "../parsers/go-parser.js";
 import { parseTypeScriptDocComments, parseTypeScriptSignatures } from "../parsers/typescript-parser.js";
 import { parseRustDocComments, parseRustSignatures } from "../parsers/rust-parser.js";
 import { parseCSharpDocComments, parseCSharpSignatures } from "../parsers/csharp-parser.js";
+import { parsePHPDocComments, parsePHPSignatures } from "../parsers/php-parser.js";
 
 /**
  * Extract documentation comments from source code.
@@ -173,6 +174,28 @@ export async function extractDocComments(
         const allMethods = parseCSharpSignatures(code).map(sig => sig.method_name);
         const documentedMethods = Object.keys(allDocComments);
         missingDocs = allMethods.filter(name => !documentedMethods.includes(name));
+      }
+    } else if (validatedInput.language === "php") {
+      // Parse PHP PHPDoc comments
+      const allDocComments = parsePHPDocComments(code);
+
+      // If method_names filter is provided, only include those
+      if (validatedInput.method_names && validatedInput.method_names.length > 0) {
+        validatedInput.method_names.forEach(methodName => {
+          if (allDocComments[methodName]) {
+            docComments[methodName] = allDocComments[methodName];
+          }
+        });
+        missingDocs = validatedInput.method_names.filter(
+          name => !allDocComments[name]
+        );
+      } else {
+        docComments = allDocComments;
+
+        // Find all functions and identify which ones are missing docs
+        const allFunctions = parsePHPSignatures(code).map(sig => sig.method_name);
+        const documentedFunctions = Object.keys(allDocComments);
+        missingDocs = allFunctions.filter(name => !documentedFunctions.includes(name));
       }
     } else {
       // Other languages not yet implemented

@@ -17,7 +17,13 @@
     "test-java-parser": "tsx src/test-java-parser.ts",
     "test-go-parser": "tsx src/test-go-parser.ts",
     "test-csharp-parser": "tsx src/test-csharp-parser.ts",
+    "test-php-parser": "tsx src/test-php-parser.ts",
     "test-validate-signature": "tsx src/test-validate-signature.ts",
+    "test-e2e": "tsx src/test-e2e.ts",
+    "test-error-handling": "tsx src/test-error-handling.ts",
+    "test-performance": "tsx src/test-performance.ts",
+    "test-integration": "tsx src/test-integration.ts",
+    "test-validate-output": "tsx src/validate-output.ts",
     "dev": "tsx watch src/index.ts"
   },
   "keywords": ["redis", "mcp", "wasm"],
