@@ -15,6 +15,8 @@
     "test": "npm run test:rust && npm run test:node",
     "test:rust": "cd rust && cargo test",
     "test:node": "cd node && npm run test",
+    "test-wasm": "cd node && npm run test-wasm",
+    "test-extract-doc-comments": "cd node && npm run test-extract-doc-comments",
     "start": "cd node && npm start"
   },
   "keywords": ["redis", "mcp", "wasm"],
