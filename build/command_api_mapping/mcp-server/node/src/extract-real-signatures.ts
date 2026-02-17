@@ -129,8 +129,8 @@ async function extractRealSignatures() {
             'set': ['set', 'stringset'],
             'mget': ['mget'],
             'mset': ['mset'],
-            'incr': ['incr', 'stringincrement'],
-            'decr': ['decr', 'stringdecrement'],
+            'incr': ['incr', 'incrby', 'stringincrement'],
+            'decr': ['decr', 'decrby', 'stringdecrement'],
             // Key commands
             'del': ['del', 'delete', 'keydelete'],
             'exists': ['exists', 'keyexists'],

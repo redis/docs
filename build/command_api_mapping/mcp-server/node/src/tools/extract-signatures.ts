@@ -48,9 +48,54 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
 
   // Java
   'jedis': { paths: ['src/main/java/redis/clients/jedis/Jedis.java'], language: 'java' },
-  'lettuce_sync': { paths: ['src/main/java/io/lettuce/core/api/sync/RedisStringCommands.java'], language: 'java' },
-  'lettuce_async': { paths: ['src/main/java/io/lettuce/core/api/async/RedisStringAsyncCommands.java'], language: 'java' },
-  'lettuce_reactive': { paths: ['src/main/java/io/lettuce/core/api/reactive/RedisStringReactiveCommands.java'], language: 'java' },
+  'lettuce_sync': {
+    paths: [
+      'src/main/java/io/lettuce/core/api/sync/RedisStringCommands.java',
+      'src/main/java/io/lettuce/core/api/sync/RedisKeyCommands.java',
+      'src/main/java/io/lettuce/core/api/sync/RedisListCommands.java',
+      'src/main/java/io/lettuce/core/api/sync/RedisHashCommands.java',
+      'src/main/java/io/lettuce/core/api/sync/RedisSetCommands.java',
+      'src/main/java/io/lettuce/core/api/sync/RedisSortedSetCommands.java',
+      'src/main/java/io/lettuce/core/api/sync/RedisGeoCommands.java',
+      'src/main/java/io/lettuce/core/api/sync/RedisHLLCommands.java',
+      'src/main/java/io/lettuce/core/api/sync/RedisStreamCommands.java',
+      'src/main/java/io/lettuce/core/api/sync/RedisScriptingCommands.java',
+      'src/main/java/io/lettuce/core/api/sync/RedisServerCommands.java',
+    ],
+    language: 'java',
+  },
+  'lettuce_async': {
+    paths: [
+      'src/main/java/io/lettuce/core/api/async/RedisStringAsyncCommands.java',
+      'src/main/java/io/lettuce/core/api/async/RedisKeyAsyncCommands.java',
+      'src/main/java/io/lettuce/core/api/async/RedisListAsyncCommands.java',
+      'src/main/java/io/lettuce/core/api/async/RedisHashAsyncCommands.java',
+      'src/main/java/io/lettuce/core/api/async/RedisSetAsyncCommands.java',
+      'src/main/java/io/lettuce/core/api/async/RedisSortedSetAsyncCommands.java',
+      'src/main/java/io/lettuce/core/api/async/RedisGeoAsyncCommands.java',
+      'src/main/java/io/lettuce/core/api/async/RedisHLLAsyncCommands.java',
+      'src/main/java/io/lettuce/core/api/async/RedisStreamAsyncCommands.java',
+      'src/main/java/io/lettuce/core/api/async/RedisScriptingAsyncCommands.java',
+      'src/main/java/io/lettuce/core/api/async/RedisServerAsyncCommands.java',
+    ],
+    language: 'java',
+  },
+  'lettuce_reactive': {
+    paths: [
+      'src/main/java/io/lettuce/core/api/reactive/RedisStringReactiveCommands.java',
+      'src/main/java/io/lettuce/core/api/reactive/RedisKeyReactiveCommands.java',
+      'src/main/java/io/lettuce/core/api/reactive/RedisListReactiveCommands.java',
+      'src/main/java/io/lettuce/core/api/reactive/RedisHashReactiveCommands.java',
+      'src/main/java/io/lettuce/core/api/reactive/RedisSetReactiveCommands.java',
+      'src/main/java/io/lettuce/core/api/reactive/RedisSortedSetReactiveCommands.java',
+      'src/main/java/io/lettuce/core/api/reactive/RedisGeoReactiveCommands.java',
+      'src/main/java/io/lettuce/core/api/reactive/RedisHLLReactiveCommands.java',
+      'src/main/java/io/lettuce/core/api/reactive/RedisStreamReactiveCommands.java',
+      'src/main/java/io/lettuce/core/api/reactive/RedisScriptingReactiveCommands.java',
+      'src/main/java/io/lettuce/core/api/reactive/RedisServerReactiveCommands.java',
+    ],
+    language: 'java',
+  },
 
   // Go - commands are split across multiple files
   'go-redis': {
@@ -109,7 +154,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
     ],
     language: 'typescript'
   },
-  'ioredis': { paths: ['lib/Redis.ts', 'lib/cluster/ClusterOptions.ts', 'lib/Command.ts'], language: 'typescript' },
+  'ioredis': { paths: ['lib/utils/RedisCommander.ts'], language: 'typescript' },
 
   // Rust
   'redis_rs_sync': { paths: ['redis/src/commands/mod.rs'], language: 'rust' },

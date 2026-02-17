@@ -636,14 +636,26 @@ pub fn parse_php_doc_comments(code: &str) -> JsValue {
 fn extract_python_signatures(code: &str) -> Result<Vec<PythonSignature>, String> {
     let mut signatures = Vec::new();
 
-    // Regex patterns for function definitions
+    // Regex patterns for single-line function definitions
     // Matches: def function_name(params) -> return_type:
     // Also matches: async def function_name(params) -> return_type:
     let func_pattern = Regex::new(
         r"(?m)^(\s*)(async\s+)?def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\((.*?)\)\s*(?:->\s*([^:]+))?\s*:"
     ).map_err(|e| format!("Regex error: {}", e))?;
 
-    for (line_num, line) in code.lines().enumerate() {
+    // Pattern for multi-line function definitions
+    // Matches: def function_name( or async def function_name(
+    let multiline_start_pattern = Regex::new(
+        r"(?m)^(\s*)(async\s+)?def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(\s*$"
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
+    let lines: Vec<&str> = code.lines().collect();
+    let mut i = 0;
+
+    while i < lines.len() {
+        let line = lines[i];
+
+        // First try single-line function pattern
         if let Some(caps) = func_pattern.captures(line) {
             let is_async = caps.get(2).is_some();
             let method_name = caps.get(3).map(|m| m.as_str().to_string()).unwrap_or_default();
@@ -659,11 +671,74 @@ fn extract_python_signatures(code: &str) -> Result<Vec<PythonSignature>, String>
                     signature,
                     parameters,
                     return_type,
-                    line_number: line_num + 1,
+                    line_number: i + 1,
+                    is_async,
+                });
+            }
+            i += 1;
+            continue;
+        }
+
+        // Try multi-line function pattern
+        if let Some(caps) = multiline_start_pattern.captures(line) {
+            let is_async = caps.get(2).is_some();
+            let method_name = caps.get(3).map(|m| m.as_str().to_string()).unwrap_or_default();
+            let start_line = i;
+
+            if !method_name.is_empty() {
+                // Collect parameters from subsequent lines until we find the closing )
+                let mut params_lines = Vec::new();
+                let mut return_type: Option<String> = None;
+                let mut j = i + 1;
+
+                while j < lines.len() {
+                    let next_line = lines[j].trim();
+
+                    // Check if this line ends the function definition
+                    if next_line.contains("):") || next_line.contains(") ->") || next_line == "):" {
+                        // Extract return type if present
+                        if let Some(arrow_pos) = next_line.find("->") {
+                            let after_arrow = &next_line[arrow_pos + 2..];
+                            let end = after_arrow.find(':').unwrap_or(after_arrow.len());
+                            let rt = after_arrow[..end].trim();
+                            if !rt.is_empty() {
+                                return_type = Some(rt.to_string());
+                            }
+                        }
+                        // Check if there are params on this line before the )
+                        if let Some(paren_pos) = next_line.find(')') {
+                            let params_part = &next_line[..paren_pos];
+                            if !params_part.is_empty() {
+                                params_lines.push(params_part.to_string());
+                            }
+                        }
+                        break;
+                    }
+
+                    // Skip empty lines and comments
+                    if !next_line.is_empty() && !next_line.starts_with('#') {
+                        params_lines.push(next_line.to_string());
+                    }
+                    j += 1;
+                }
+
+                // Join all parameter lines and parse
+                let params_str = params_lines.join(", ");
+                let parameters = parse_parameters(&params_str);
+                let signature = format!("def {}({})", method_name, params_str);
+
+                signatures.push(PythonSignature {
+                    method_name,
+                    signature,
+                    parameters,
+                    return_type,
+                    line_number: start_line + 1,
                     is_async,
                 });
             }
         }
+
+        i += 1;
     }
 
     Ok(signatures)
@@ -1239,6 +1314,13 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
         r"(?m)^\s*(transformArguments|transformReply)\s*(?:\([^)]*\))?\s*\((.*?)\)(?:\s*:\s*([^{]+?))?\s*[{=]"
     ).map_err(|e| format!("Regex error: {}", e))?;
 
+    // Regex pattern for TypeScript interface method signatures (used by ioredis)
+    // Matches: methodName(params): ReturnType;
+    // Example: get(key: RedisKey, callback?: Callback<string>): Result<string, Context>;
+    let interface_method_pattern = Regex::new(
+        r"(?m)^\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\("
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
     for (line_num, line) in code.lines().enumerate() {
         // First try standard function pattern
         if let Some(caps) = func_pattern.captures(line) {
@@ -1316,6 +1398,71 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
                 || trimmed.starts_with("switch ") || trimmed.starts_with("switch(") {
                 continue;
             }
+
+            let parameters = parse_parameters(params_str);
+            let signature = format!("{}({})", method_name, params_str);
+
+            signatures.push(TypeScriptSignature {
+                method_name,
+                signature,
+                parameters,
+                return_type,
+                line_number: line_num + 1,
+                is_async: false,
+            });
+            continue;
+        }
+
+        // Try interface method pattern (for TypeScript interface method signatures like ioredis)
+        // Matches lines like: "  get(" which are interface method declarations
+        if let Some(caps) = interface_method_pattern.captures(line) {
+            let method_name = caps.get(1).map(|m| m.as_str().to_string()).unwrap_or_default();
+
+            // Skip common non-method patterns
+            let skip_names = [
+                "if", "for", "while", "switch", "catch", "with", "else",
+                "try", "throw", "return", "new", "typeof", "instanceof",
+                "delete", "void", "yield", "await", "case", "default",
+                "constructor", "super", "function", "reject", "resolve",
+            ];
+
+            if method_name.is_empty() || skip_names.contains(&method_name.as_str()) {
+                continue;
+            }
+
+            // Check if the line ends with semicolon (interface method) or has Result/Promise return type
+            // This helps distinguish interface methods from regular function calls
+            let trimmed = line.trim();
+            let is_interface_method = trimmed.ends_with(";") ||
+                trimmed.contains("): Result<") ||
+                trimmed.contains("): Promise<") ||
+                trimmed.contains("Callback<");
+
+            if !is_interface_method {
+                // For multi-line signatures, check if this looks like the start of an interface method
+                // Interface methods in ioredis start with 2 spaces of indentation
+                if !line.starts_with("  ") || line.starts_with("    ") {
+                    continue;
+                }
+            }
+
+            // Extract parameters - for multi-line signatures, we'll just use what's on this line
+            let params_start = line.find('(').map(|i| i + 1).unwrap_or(0);
+            let params_end = line.find(')').unwrap_or(line.len());
+            let params_str = if params_start < params_end {
+                &line[params_start..params_end]
+            } else {
+                ""
+            };
+
+            // Extract return type if present on the same line
+            let return_type = if let Some(colon_pos) = line.rfind("): ") {
+                let after_colon = &line[colon_pos + 3..];
+                let end = after_colon.find(';').unwrap_or(after_colon.len());
+                Some(after_colon[..end].trim().to_string())
+            } else {
+                None
+            };
 
             let parameters = parse_parameters(params_str);
             let signature = format!("{}({})", method_name, params_str);
