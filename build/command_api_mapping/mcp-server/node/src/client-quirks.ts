@@ -167,15 +167,22 @@ export const CLIENT_QUIRKS: Record<string, ClientQuirk> = {
   },
 
   // .NET clients
+  // NRedisStack builds on StackExchange.Redis - core commands are in StackExchange.Redis,
+  // while module commands (JSON, Search, TimeSeries, etc.) are in NRedisStack
   nredisstack_sync: {
     client_id: 'nredisstack_sync',
     language: 'C#',
     quirks: {
       naming_conventions: ['PascalCase for methods and classes'],
-      special_patterns: ['LINQ support', 'Extension methods'],
-      file_locations: ['src/NRedisStack/'],
+      special_patterns: ['LINQ support', 'Extension methods', 'Built on StackExchange.Redis'],
+      file_locations: ['src/NRedisStack/', 'StackExchange.Redis/src/StackExchange.Redis/'],
       documentation_style: 'XML doc comments',
-      notes: ['Synchronous variant', 'Thread-safe'],
+      notes: [
+        'Synchronous variant',
+        'Thread-safe',
+        'Core commands (StringGet, StringSet, etc.) are from StackExchange.Redis',
+        'Module commands (JSON, Search, TimeSeries) are from NRedisStack',
+      ],
     },
   },
 
@@ -184,11 +191,16 @@ export const CLIENT_QUIRKS: Record<string, ClientQuirk> = {
     language: 'C#',
     quirks: {
       naming_conventions: ['PascalCase for methods'],
-      special_patterns: ['async/await support', 'Task-based'],
-      file_locations: ['src/NRedisStack/'],
+      special_patterns: ['async/await support', 'Task-based', 'Built on StackExchange.Redis'],
+      file_locations: ['src/NRedisStack/', 'StackExchange.Redis/src/StackExchange.Redis/'],
       async_patterns: ['async/await', 'Task<T>'],
       documentation_style: 'XML doc comments',
-      notes: ['Asynchronous variant', 'Task-based'],
+      notes: [
+        'Asynchronous variant',
+        'Task-based',
+        'Core commands (StringGetAsync, StringSetAsync, etc.) are from StackExchange.Redis',
+        'Module commands (JSON, Search, TimeSeries) are from NRedisStack',
+      ],
     },
   },
 

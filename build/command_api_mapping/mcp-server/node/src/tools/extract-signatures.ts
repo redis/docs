@@ -15,11 +15,33 @@ import { parsePHPSignatures } from "../parsers/php-parser.js";
 import { getClientById } from "../data/components-access.js";
 
 /**
+ * External source configuration for fetching files from external repositories
+ */
+interface ExternalSource {
+  git_uri: string;
+  paths: string[];
+}
+
+/**
+ * Client source file configuration
+ */
+interface ClientSourceConfig {
+  paths: string[];
+  language: string;
+  /** External repositories to also fetch source files from */
+  externalSources?: ExternalSource[];
+}
+
+/**
  * Mapping of client IDs to their source file paths in their GitHub repos.
  * These are the files containing the Redis command method definitions.
  * Some clients have commands split across multiple files, so we use an array.
+ *
+ * For clients that depend on external libraries (like NRedisStack depending on
+ * StackExchange.Redis), use the `externalSources` field to specify additional
+ * repositories to fetch from.
  */
-const CLIENT_SOURCE_FILES: Record<string, { paths: string[]; language: string }> = {
+const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
   // Python
   'redis_py': { paths: ['redis/commands/core.py'], language: 'python' },
   'redisvl': { paths: ['redisvl/redis/connection.py'], language: 'python' },
@@ -93,9 +115,37 @@ const CLIENT_SOURCE_FILES: Record<string, { paths: string[]; language: string }>
   'redis_rs_sync': { paths: ['redis/src/commands/mod.rs'], language: 'rust' },
   'redis_rs_async': { paths: ['redis/src/commands/mod.rs'], language: 'rust' },
 
-  // C#
-  'nredisstack_sync': { paths: ['src/NRedisStack/CoreCommands/CoreCommands.cs'], language: 'csharp' },
-  'nredisstack_async': { paths: ['src/NRedisStack/CoreCommands/CoreCommandsAsync.cs'], language: 'csharp' },
+  // C# - NRedisStack builds on StackExchange.Redis for core commands
+  // Core Redis commands (StringGet, StringSet, etc.) are in StackExchange.Redis
+  // Module commands (JSON, Search, TimeSeries, etc.) are in NRedisStack
+  'nredisstack_sync': {
+    paths: ['src/NRedisStack/CoreCommands/CoreCommands.cs'],
+    language: 'csharp',
+    externalSources: [
+      {
+        git_uri: 'https://github.com/StackExchange/StackExchange.Redis',
+        paths: [
+          'src/StackExchange.Redis/Interfaces/IDatabase.cs',
+          'src/StackExchange.Redis/Interfaces/IDatabaseAsync.cs',
+          'src/StackExchange.Redis/RedisDatabase.cs',
+        ],
+      },
+    ],
+  },
+  'nredisstack_async': {
+    paths: ['src/NRedisStack/CoreCommands/CoreCommandsAsync.cs'],
+    language: 'csharp',
+    externalSources: [
+      {
+        git_uri: 'https://github.com/StackExchange/StackExchange.Redis',
+        paths: [
+          'src/StackExchange.Redis/Interfaces/IDatabaseAsync.cs',
+          'src/StackExchange.Redis/Interfaces/IDatabase.cs',
+          'src/StackExchange.Redis/RedisDatabase.cs',
+        ],
+      },
+    ],
+  },
 
   // PHP - Predis uses ClientInterface for all method signatures
   'php': { paths: ['src/ClientInterface.php'], language: 'php' },
@@ -186,8 +236,9 @@ export async function extractSignatures(
 
       // Fetch all source files and combine their content
       const fetchedPaths: string[] = [];
-      const codeChunks: { code: string; filePath: string }[] = [];
+      const codeChunks: { code: string; filePath: string; source?: string }[] = [];
 
+      // Fetch from primary repository
       for (const filePath of sourceConfig.paths) {
         const fetchedCode = await fetchSourceFileFromGitHub(
           clientInfo.repository.git_uri,
@@ -197,6 +248,27 @@ export async function extractSignatures(
         if (fetchedCode) {
           codeChunks.push({ code: fetchedCode, filePath });
           fetchedPaths.push(filePath);
+        }
+      }
+
+      // Fetch from external sources (e.g., StackExchange.Redis for NRedisStack)
+      if (sourceConfig.externalSources) {
+        for (const externalSource of sourceConfig.externalSources) {
+          for (const filePath of externalSource.paths) {
+            const fetchedCode = await fetchSourceFileFromGitHub(
+              externalSource.git_uri,
+              filePath
+            );
+
+            if (fetchedCode) {
+              codeChunks.push({
+                code: fetchedCode,
+                filePath,
+                source: externalSource.git_uri,
+              });
+              fetchedPaths.push(`${externalSource.git_uri}:${filePath}`);
+            }
+          }
         }
       }
 
