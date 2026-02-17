@@ -493,6 +493,33 @@ export async function extractSignatures(
       return '';
     };
 
+    // Helper function to clean JavaDoc/documentation markup from descriptions
+    const cleanDocMarkup = (text: string): string => {
+      if (!text) return '';
+      let cleaned = text;
+      // Remove {@code ...} but keep the content
+      cleaned = cleaned.replace(/\{@code\s+([^}]+)\}/g, '$1');
+      // Remove {@link ...} but keep the content (may have #method suffix)
+      cleaned = cleaned.replace(/\{@link\s+([^}]+)\}/g, '$1');
+      // Remove {@literal ...} but keep the content
+      cleaned = cleaned.replace(/\{@literal\s+([^}]+)\}/g, '$1');
+      // Remove {@value ...} but keep the content
+      cleaned = cleaned.replace(/\{@value\s+([^}]+)\}/g, '$1');
+      // Remove {@inheritDoc}
+      cleaned = cleaned.replace(/\{@inheritDoc\}/g, '');
+      // Remove <code>...</code> HTML tags but keep content
+      cleaned = cleaned.replace(/<code>([^<]*)<\/code>/gi, '$1');
+      // Remove <pre>...</pre> HTML tags but keep content
+      cleaned = cleaned.replace(/<pre>([^<]*)<\/pre>/gi, '$1');
+      // Remove <p> and </p> tags
+      cleaned = cleaned.replace(/<\/?p>/gi, ' ');
+      // Remove <see cref="..."/> C# XML doc tags but keep the reference
+      cleaned = cleaned.replace(/<see\s+cref="([^"]+)"\s*\/>/gi, '$1');
+      // Clean up multiple spaces
+      cleaned = cleaned.replace(/\s+/g, ' ').trim();
+      return cleaned;
+    };
+
     // Helper function to clean up signature based on language
     const cleanupSignature = (sig: string, lang: string): string => {
       let cleaned = sig;
@@ -629,11 +656,11 @@ export async function extractSignatures(
           return {
             name,
             type,
-            description: getParamDescription(doc, name),
+            description: cleanDocMarkup(getParamDescription(doc, name)),
           };
         }),
         return_type: sig.return_type || "Any",
-        return_description: getReturnDescription(doc),
+        return_description: cleanDocMarkup(getReturnDescription(doc)),
         line_number: sig.line_number,
         is_async: sig.is_async,
       };
