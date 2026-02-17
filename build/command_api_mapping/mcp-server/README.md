@@ -126,7 +126,41 @@ The server exposes the following tools:
 
 ## Configuration
 
-The server uses stdio transport for MCP communication. No additional configuration is required.
+The server uses stdio transport for MCP communication. Configuration is provided via `mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "redis-parser-mcp": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "cwd": "."
+    }
+  }
+}
+```
+
+See [AUGMENT_INTEGRATION.md](./AUGMENT_INTEGRATION.md) for detailed Augment configuration instructions.
+
+## Augment Integration
+
+This MCP server is fully integrated with Augment. To use it with Augment:
+
+1. **Build the server**: `npm run build`
+2. **Configure Augment**: Add the server to your Augment configuration (see [AUGMENT_INTEGRATION.md](./AUGMENT_INTEGRATION.md))
+3. **Test the integration**: Run `npm run test-augment-discovery` and `npm run test-augment-invocation`
+4. **Use the tools**: Call any of the 6 tools from Augment
+
+### Augment Tools
+
+- `list_redis_commands` - List all Redis commands
+- `extract_signatures` - Extract method signatures from source code
+- `extract_doc_comments` - Extract documentation from source code
+- `validate_signature` - Validate a method signature
+- `get_client_info` - Get information about a specific client
+- `list_clients` - List all supported Redis clients
+
+See [augment-workflow.md](./augment-workflow.md) for workflow examples and [AUGMENT_INTEGRATION.md](./AUGMENT_INTEGRATION.md) for setup instructions.
 
 ## Troubleshooting
 

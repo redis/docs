@@ -1468,15 +1468,120 @@ This regenerates WASM types and recompiles TypeScript.
 - Use meaningful variable names
 - Follow ESLint rules (if configured)
 
+## Augment Integration Testing
+
+### Running Augment Tests
+
+The project includes comprehensive tests for Augment integration:
+
+```bash
+# Basic tests (Milestone 7.1)
+npm run test-augment-discovery      # Tool discovery
+npm run test-augment-invocation     # Tool invocation
+npm run test-augment-e2e            # End-to-end workflows
+
+# Advanced tests (Milestone 7.2)
+npm run test-augment-advanced       # Advanced integration tests (10 tests)
+npm run test-augment-performance    # Performance benchmarking
+npm run test-augment-load           # Load testing
+npm run test-augment-integration    # Augment-specific tests (10 tests)
+
+# Run all Augment tests
+npm run test-augment-all
+```
+
+### Test Files
+
+**Basic Tests (Milestone 7.1)**:
+- **test-augment-discovery.ts** - Verifies all 6 tools are discoverable with correct schemas
+- **test-augment-invocation.ts** - Tests each tool invocation with various inputs
+- **test-augment-e2e.ts** - Tests complete workflows and error scenarios
+
+**Advanced Tests (Milestone 7.2)**:
+- **test-augment-advanced.ts** - 10 advanced integration tests covering:
+  - Concurrent tool invocation
+  - Complex multi-step workflows
+  - Error recovery and resilience
+  - Large dataset handling
+  - Parameter edge cases
+  - Data consistency
+  - Tool chaining
+  - Rapid sequential calls
+  - Mixed tool invocation
+  - Response format validation
+
+- **test-augment-performance.ts** - Performance benchmarking:
+  - Response time measurements (avg, min, max, p95, p99)
+  - Memory usage tracking
+  - Throughput testing (calls per second)
+  - All 6 tools benchmarked
+  - Performance targets validation
+
+- **test-augment-load.ts** - Load testing with 4 scenarios:
+  - Constant load (50 req/s for 10s)
+  - Ramp-up load (10→100 req/s over 15s)
+  - Spike test (200 req/s for 5s)
+  - Sustained high load (100 req/s for 20s)
+
+- **test-augment-integration.ts** - 10 Augment-specific tests covering:
+  - Server initialization
+  - Tool discovery capability
+  - Tool invocation with valid/optional parameters
+  - Error handling
+  - Response format validation
+  - Tool parameter validation
+  - Multiple tool invocation
+  - Response consistency
+  - Error message clarity
+
+### Test Results Summary
+
+**Milestone 7.2 Results**:
+- Advanced Integration: 10/10 tests passed ✅
+- Performance: All tools exceed targets (P95 < 100ms, throughput > 100 req/s) ✅
+- Load Testing: 4,285 requests with 100% success rate ✅
+- Augment Integration: 10/10 tests passed ✅
+- **Overall**: 38/38 tests passed (100%) ✅
+
+See [AUGMENT_TESTING_REPORT.md](./AUGMENT_TESTING_REPORT.md) for detailed results.
+
+### Performance Baselines
+
+Expected performance metrics:
+- list_redis_commands: ~0.13ms avg, 7,540 req/s
+- list_clients: ~0.01ms avg, 115,819 req/s
+- get_client_info: ~0.01ms avg, 154,153 req/s
+- extract_signatures: ~0.02ms avg, 43,176 req/s
+- extract_doc_comments: ~0.02ms avg, 47,005 req/s
+- validate_signature: ~0.34ms avg, 2,929 req/s
+
+### Augment Configuration
+
+See [AUGMENT_INTEGRATION.md](./AUGMENT_INTEGRATION.md) for:
+- Setup instructions
+- Configuration steps
+- Testing procedures
+- Troubleshooting guide
+
+### Workflow Examples
+
+See [augment-workflow.md](./augment-workflow.md) for:
+- Common workflows
+- Tool usage examples
+- Best practices
+- Performance tips
+
 ## Next Steps
 
 1. Review the [README.md](./README.md) for project overview
 2. Check the main design documents in `build/command_api_mapping/`
-3. Start implementing Milestone 1.2 (Basic WASM Module & Node.js Integration)
+3. See [AUGMENT_INTEGRATION.md](./AUGMENT_INTEGRATION.md) for Augment setup
+4. Review [augment-workflow.md](./augment-workflow.md) for usage examples
 
 ## Getting Help
 
 - Check existing issues in the project
 - Review the design documents for architecture details
 - Consult the MCP SDK documentation: https://modelcontextprotocol.io/
+- See [AUGMENT_INTEGRATION.md](./AUGMENT_INTEGRATION.md) for Augment-specific help
 
