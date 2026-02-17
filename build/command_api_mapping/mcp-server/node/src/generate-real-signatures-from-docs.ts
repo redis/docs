@@ -49,6 +49,47 @@ class SignatureParser {
     return { params: [], returns: { type: 'any', description: 'Result' } };
   }
 
+  static reformatSignature(signature: string, clientId: string): string {
+    if (clientId.includes('jedis') || clientId.includes('lettuce')) {
+      return this.reformatJavaSignature(signature);
+    } else if (clientId.includes('nredisstack')) {
+      return this.reformatCSharpSignature(signature);
+    }
+    return signature;
+  }
+
+  private static reformatJavaSignature(signature: string): string {
+    // Convert: methodName(paramType paramName, ...): returnType
+    // To: returnType methodName(paramType paramName, ...)
+    const match = signature.match(/^(\w+)\((.*?)\):\s*(.+)$/);
+    if (match) {
+      const [, methodName, params, returnType] = match;
+      // Reformat params from "type name" to "type name"
+      const reformattedParams = params.split(',').map(p => {
+        const trimmed = p.trim();
+        // If it's in "name: Type" format, convert to "Type name"
+        if (trimmed.includes(':')) {
+          const [name, type] = trimmed.split(':').map(s => s.trim());
+          return `${type} ${name}`;
+        }
+        return trimmed;
+      }).join(', ');
+      return `${returnType} ${methodName}(${reformattedParams})`;
+    }
+    return signature;
+  }
+
+  private static reformatCSharpSignature(signature: string): string {
+    // Convert: MethodName(paramType paramName, ...): returnType
+    // To: returnType MethodName(paramType paramName, ...)
+    const match = signature.match(/^(\w+)\((.*?)\):\s*(.+)$/);
+    if (match) {
+      const [, methodName, params, returnType] = match;
+      return `${returnType} ${methodName}(${params})`;
+    }
+    return signature;
+  }
+
   private static parsePython(signature: string): { params: Array<{ name: string; type: string; description: string }>; returns: { type: string; description: string } } {
     // Python: get(name: str) -> str | None
     const paramMatch = signature.match(/\((.*?)\)/);
@@ -111,10 +152,10 @@ class SignatureParser {
   }
 
   private static parseJava(signature: string): { params: Array<{ name: string; type: string; description: string }>; returns: { type: string; description: string } } {
-    // Java: get(key: String): String or del(keys: String...): Long
+    // Java: String get(String key) or Long del(String... keys)
     const paramMatch = signature.match(/\((.*?)\)/);
-    // Match return type after closing paren and colon
-    const returnMatch = signature.match(/\)\s*:\s*(.+)$/);
+    // Extract return type from the beginning of the signature
+    const returnMatch = signature.match(/^(\S+)\s+\w+\(/);
 
     const params: Array<{ name: string; type: string; description: string }> = [];
     if (paramMatch) {
@@ -122,11 +163,14 @@ class SignatureParser {
       if (paramStr) {
         const paramParts = paramStr.split(',').map(p => p.trim());
         for (const part of paramParts) {
-          const [name, type] = part.split(':').map(s => s.trim());
-          if (name && type) {
+          // Java format: type name or type... name
+          const parts = part.split(/\s+/);
+          if (parts.length >= 2) {
+            const name = parts[parts.length - 1];
+            const type = parts.slice(0, -1).join(' ');
             params.push({
               name,
-              type: type.replace(/\.\.\./g, '').trim(),
+              type,
               description: this.getParamDescription(name)
             });
           }
@@ -241,10 +285,10 @@ class SignatureParser {
   }
 
   private static parseCSharp(signature: string): { params: Array<{ name: string; type: string; description: string }>; returns: { type: string; description: string } } {
-    // C#: StringGet(string key): string or KeyDeleteAsync(params string[] keys): Task<long>
+    // C#: string StringGet(string key) or Task<long> KeyDeleteAsync(params string[] keys)
     const paramMatch = signature.match(/\((.*?)\)/);
-    // Match return type after closing paren and colon
-    const returnMatch = signature.match(/\)\s*:\s*(.+)$/);
+    // Extract return type from the beginning of the signature
+    const returnMatch = signature.match(/^(\S+(?:<[^>]+>)?)\s+\w+\(/);
 
     const params: Array<{ name: string; type: string; description: string }> = [];
     if (paramMatch) {
@@ -511,7 +555,9 @@ async function generateRealSignatures() {
   for (const [clientId, signatures] of Object.entries(realSignatures)) {
     for (const cmd of commands) {
       if (signatures[cmd]) {
-        const signature = signatures[cmd];
+        let signature = signatures[cmd];
+        // Reformat signature to standard language conventions
+        signature = SignatureParser.reformatSignature(signature, clientId);
         const parsed = SignatureParser.parseSignature(signature, clientId);
 
         mapping[cmd].api_calls[clientId] = [

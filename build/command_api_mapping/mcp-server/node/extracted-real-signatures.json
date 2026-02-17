@@ -51,7 +51,7 @@
       ],
       "jedis": [
         {
-          "signature": "get(key: String): String",
+          "signature": "String get(String key)",
           "params": [
             {
               "name": "key",
@@ -67,7 +67,7 @@
       ],
       "lettuce_sync": [
         {
-          "signature": "get(key: K): V",
+          "signature": "V get(K key)",
           "params": [
             {
               "name": "key",
@@ -83,7 +83,7 @@
       ],
       "lettuce_async": [
         {
-          "signature": "get(key: K): RedisFuture<V>",
+          "signature": "RedisFuture<V> get(K key)",
           "params": [
             {
               "name": "key",
@@ -99,7 +99,7 @@
       ],
       "lettuce_reactive": [
         {
-          "signature": "get(key: K): Mono<V>",
+          "signature": "Mono<V> get(K key)",
           "params": [
             {
               "name": "key",
@@ -179,7 +179,7 @@
       ],
       "nredisstack_sync": [
         {
-          "signature": "StringGet(string key): string",
+          "signature": "string StringGet(string key)",
           "params": [
             {
               "name": "key",
@@ -195,7 +195,7 @@
       ],
       "nredisstack_async": [
         {
-          "signature": "StringGetAsync(string key): Task<string>",
+          "signature": "Task<string> StringGetAsync(string key)",
           "params": [
             {
               "name": "key",
@@ -314,7 +314,7 @@
       ],
       "jedis": [
         {
-          "signature": "set(key: String, value: String): String",
+          "signature": "String set(String key, String value)",
           "params": [
             {
               "name": "key",
@@ -335,7 +335,7 @@
       ],
       "lettuce_sync": [
         {
-          "signature": "set(key: K, value: V): String",
+          "signature": "String set(K key, V value)",
           "params": [
             {
               "name": "key",
@@ -356,7 +356,7 @@
       ],
       "lettuce_async": [
         {
-          "signature": "set(key: K, value: V): RedisFuture<String>",
+          "signature": "RedisFuture<String> set(K key, V value)",
           "params": [
             {
               "name": "key",
@@ -377,7 +377,7 @@
       ],
       "lettuce_reactive": [
         {
-          "signature": "set(key: K, value: V): Mono<String>",
+          "signature": "Mono<String> set(K key, V value)",
           "params": [
             {
               "name": "key",
@@ -492,7 +492,7 @@
       ],
       "nredisstack_sync": [
         {
-          "signature": "StringSet(string key, string value): bool",
+          "signature": "bool StringSet(string key, string value)",
           "params": [
             {
               "name": "key",
@@ -513,7 +513,7 @@
       ],
       "nredisstack_async": [
         {
-          "signature": "StringSetAsync(string key, string value): Task<bool>",
+          "signature": "Task<bool> StringSetAsync(string key, string value)",
           "params": [
             {
               "name": "key",
@@ -612,11 +612,11 @@
       ],
       "jedis": [
         {
-          "signature": "del(keys: String...): Long",
+          "signature": "Long del(String... keys)",
           "params": [
             {
               "name": "keys",
-              "type": "String",
+              "type": "String...",
               "description": "Redis keys"
             }
           ],
@@ -628,11 +628,11 @@
       ],
       "lettuce_sync": [
         {
-          "signature": "del(keys: K...): Long",
+          "signature": "Long del(K... keys)",
           "params": [
             {
               "name": "keys",
-              "type": "K",
+              "type": "K...",
               "description": "Redis keys"
             }
           ],
@@ -644,11 +644,11 @@
       ],
       "lettuce_async": [
         {
-          "signature": "del(keys: K...): RedisFuture<Long>",
+          "signature": "RedisFuture<Long> del(K... keys)",
           "params": [
             {
               "name": "keys",
-              "type": "K",
+              "type": "K...",
               "description": "Redis keys"
             }
           ],
@@ -660,11 +660,11 @@
       ],
       "lettuce_reactive": [
         {
-          "signature": "del(keys: K...): Mono<Long>",
+          "signature": "Mono<Long> del(K... keys)",
           "params": [
             {
               "name": "keys",
-              "type": "K",
+              "type": "K...",
               "description": "Redis keys"
             }
           ],
@@ -740,7 +740,7 @@
       ],
       "nredisstack_sync": [
         {
-          "signature": "KeyDelete(params string[] keys): long",
+          "signature": "long KeyDelete(params string[] keys)",
           "params": [
             {
               "name": "keys",
@@ -756,7 +756,7 @@
       ],
       "nredisstack_async": [
         {
-          "signature": "KeyDeleteAsync(params string[] keys): Task<long>",
+          "signature": "Task<long> KeyDeleteAsync(params string[] keys)",
           "params": [
             {
               "name": "keys",
@@ -855,7 +855,7 @@
       ],
       "jedis": [
         {
-          "signature": "lpush(key: String, strings: String...): Long",
+          "signature": "Long lpush(String key, String... strings)",
           "params": [
             {
               "name": "key",
@@ -864,7 +864,7 @@
             },
             {
               "name": "strings",
-              "type": "String",
+              "type": "String...",
               "description": "Parameter: strings"
             }
           ],
@@ -876,7 +876,7 @@
       ],
       "lettuce_sync": [
         {
-          "signature": "lpush(key: K, values: V...): Long",
+          "signature": "Long lpush(K key, V... values)",
           "params": [
             {
               "name": "key",
@@ -885,7 +885,7 @@
             },
             {
               "name": "values",
-              "type": "V",
+              "type": "V...",
               "description": "Values to push"
             }
           ],
@@ -897,7 +897,7 @@
       ],
       "lettuce_async": [
         {
-          "signature": "lpush(key: K, values: V...): RedisFuture<Long>",
+          "signature": "RedisFuture<Long> lpush(K key, V... values)",
           "params": [
             {
               "name": "key",
@@ -906,7 +906,7 @@
             },
             {
               "name": "values",
-              "type": "V",
+              "type": "V...",
               "description": "Values to push"
             }
           ],
@@ -918,7 +918,7 @@
       ],
       "lettuce_reactive": [
         {
-          "signature": "lpush(key: K, values: V...): Mono<Long>",
+          "signature": "Mono<Long> lpush(K key, V... values)",
           "params": [
             {
               "name": "key",
@@ -927,7 +927,7 @@
             },
             {
               "name": "values",
-              "type": "V",
+              "type": "V...",
               "description": "Values to push"
             }
           ],
@@ -1023,7 +1023,7 @@
       ],
       "nredisstack_sync": [
         {
-          "signature": "ListLeftPush(string key, params string[] values): long",
+          "signature": "long ListLeftPush(string key, params string[] values)",
           "params": [
             {
               "name": "key",
@@ -1044,7 +1044,7 @@
       ],
       "nredisstack_async": [
         {
-          "signature": "ListLeftPushAsync(string key, params string[] values): Task<long>",
+          "signature": "Task<long> ListLeftPushAsync(string key, params string[] values)",
           "params": [
             {
               "name": "key",
@@ -1153,7 +1153,7 @@
       ],
       "jedis": [
         {
-          "signature": "rpop(key: String): String",
+          "signature": "String rpop(String key)",
           "params": [
             {
               "name": "key",
@@ -1169,7 +1169,7 @@
       ],
       "lettuce_sync": [
         {
-          "signature": "rpop(key: K): V",
+          "signature": "V rpop(K key)",
           "params": [
             {
               "name": "key",
@@ -1185,7 +1185,7 @@
       ],
       "lettuce_async": [
         {
-          "signature": "rpop(key: K): RedisFuture<V>",
+          "signature": "RedisFuture<V> rpop(K key)",
           "params": [
             {
               "name": "key",
@@ -1201,7 +1201,7 @@
       ],
       "lettuce_reactive": [
         {
-          "signature": "rpop(key: K): Mono<V>",
+          "signature": "Mono<V> rpop(K key)",
           "params": [
             {
               "name": "key",
@@ -1301,7 +1301,7 @@
       ],
       "nredisstack_sync": [
         {
-          "signature": "ListRightPop(string key, long count = 1): string[]",
+          "signature": "string[] ListRightPop(string key, long count = 1)",
           "params": [
             {
               "name": "key",
@@ -1322,7 +1322,7 @@
       ],
       "nredisstack_async": [
         {
-          "signature": "ListRightPopAsync(string key, long count = 1): Task<string[]>",
+          "signature": "Task<string[]> ListRightPopAsync(string key, long count = 1)",
           "params": [
             {
               "name": "key",
@@ -1431,7 +1431,7 @@
       ],
       "jedis": [
         {
-          "signature": "sadd(key: String, members: String...): Long",
+          "signature": "Long sadd(String key, String... members)",
           "params": [
             {
               "name": "key",
@@ -1440,7 +1440,7 @@
             },
             {
               "name": "members",
-              "type": "String",
+              "type": "String...",
               "description": "Set members"
             }
           ],
@@ -1452,7 +1452,7 @@
       ],
       "lettuce_sync": [
         {
-          "signature": "sadd(key: K, members: V...): Long",
+          "signature": "Long sadd(K key, V... members)",
           "params": [
             {
               "name": "key",
@@ -1461,7 +1461,7 @@
             },
             {
               "name": "members",
-              "type": "V",
+              "type": "V...",
               "description": "Set members"
             }
           ],
@@ -1473,7 +1473,7 @@
       ],
       "lettuce_async": [
         {
-          "signature": "sadd(key: K, members: V...): RedisFuture<Long>",
+          "signature": "RedisFuture<Long> sadd(K key, V... members)",
           "params": [
             {
               "name": "key",
@@ -1482,7 +1482,7 @@
             },
             {
               "name": "members",
-              "type": "V",
+              "type": "V...",
               "description": "Set members"
             }
           ],
@@ -1494,7 +1494,7 @@
       ],
       "lettuce_reactive": [
         {
-          "signature": "sadd(key: K, members: V...): Mono<Long>",
+          "signature": "Mono<Long> sadd(K key, V... members)",
           "params": [
             {
               "name": "key",
@@ -1503,7 +1503,7 @@
             },
             {
               "name": "members",
-              "type": "V",
+              "type": "V...",
               "description": "Set members"
             }
           ],
@@ -1599,7 +1599,7 @@
       ],
       "nredisstack_sync": [
         {
-          "signature": "SetAdd(string key, params string[] members): long",
+          "signature": "long SetAdd(string key, params string[] members)",
           "params": [
             {
               "name": "key",
@@ -1620,7 +1620,7 @@
       ],
       "nredisstack_async": [
         {
-          "signature": "SetAddAsync(string key, params string[] members): Task<long>",
+          "signature": "Task<long> SetAddAsync(string key, params string[] members)",
           "params": [
             {
               "name": "key",
@@ -1729,7 +1729,7 @@
       ],
       "jedis": [
         {
-          "signature": "hset(key: String, hash: Map<String, String>): Long",
+          "signature": "Long hset(String key, Map<String hash, String>)",
           "params": [
             {
               "name": "key",
@@ -1750,7 +1750,7 @@
       ],
       "lettuce_sync": [
         {
-          "signature": "hset(key: K, field: K, value: V): Boolean",
+          "signature": "Boolean hset(K key, K field, V value)",
           "params": [
             {
               "name": "key",
@@ -1776,7 +1776,7 @@
       ],
       "lettuce_async": [
         {
-          "signature": "hset(key: K, field: K, value: V): RedisFuture<Boolean>",
+          "signature": "RedisFuture<Boolean> hset(K key, K field, V value)",
           "params": [
             {
               "name": "key",
@@ -1802,7 +1802,7 @@
       ],
       "lettuce_reactive": [
         {
-          "signature": "hset(key: K, field: K, value: V): Mono<Boolean>",
+          "signature": "Mono<Boolean> hset(K key, K field, V value)",
           "params": [
             {
               "name": "key",
@@ -1922,7 +1922,7 @@
       ],
       "nredisstack_sync": [
         {
-          "signature": "HashSet(string key, HashEntry[] hashFields): long",
+          "signature": "long HashSet(string key, HashEntry[] hashFields)",
           "params": [
             {
               "name": "key",
@@ -1943,7 +1943,7 @@
       ],
       "nredisstack_async": [
         {
-          "signature": "HashSetAsync(string key, HashEntry[] hashFields): Task<long>",
+          "signature": "Task<long> HashSetAsync(string key, HashEntry[] hashFields)",
           "params": [
             {
               "name": "key",
@@ -2052,7 +2052,7 @@
       ],
       "jedis": [
         {
-          "signature": "zadd(key: String, scoreMembers: Map<String, Double>): Long",
+          "signature": "Long zadd(String key, Map<String scoreMembers, Double>)",
           "params": [
             {
               "name": "key",
@@ -2073,7 +2073,7 @@
       ],
       "lettuce_sync": [
         {
-          "signature": "zadd(key: K, score: Double, member: V): Long",
+          "signature": "Long zadd(K key, Double score, V member)",
           "params": [
             {
               "name": "key",
@@ -2099,7 +2099,7 @@
       ],
       "lettuce_async": [
         {
-          "signature": "zadd(key: K, score: Double, member: V): RedisFuture<Long>",
+          "signature": "RedisFuture<Long> zadd(K key, Double score, V member)",
           "params": [
             {
               "name": "key",
@@ -2125,7 +2125,7 @@
       ],
       "lettuce_reactive": [
         {
-          "signature": "zadd(key: K, score: Double, member: V): Mono<Long>",
+          "signature": "Mono<Long> zadd(K key, Double score, V member)",
           "params": [
             {
               "name": "key",
@@ -2245,7 +2245,7 @@
       ],
       "nredisstack_sync": [
         {
-          "signature": "SortedSetAdd(string key, SortedSetEntry[] values): long",
+          "signature": "long SortedSetAdd(string key, SortedSetEntry[] values)",
           "params": [
             {
               "name": "key",
@@ -2266,7 +2266,7 @@
       ],
       "nredisstack_async": [
         {
-          "signature": "SortedSetAddAsync(string key, SortedSetEntry[] values): Task<long>",
+          "signature": "Task<long> SortedSetAddAsync(string key, SortedSetEntry[] values)",
           "params": [
             {
               "name": "key",
@@ -2365,7 +2365,7 @@
       ],
       "jedis": [
         {
-          "signature": "incr(key: String): Long",
+          "signature": "Long incr(String key)",
           "params": [
             {
               "name": "key",
@@ -2381,7 +2381,7 @@
       ],
       "lettuce_sync": [
         {
-          "signature": "incr(key: K): Long",
+          "signature": "Long incr(K key)",
           "params": [
             {
               "name": "key",
@@ -2397,7 +2397,7 @@
       ],
       "lettuce_async": [
         {
-          "signature": "incr(key: K): RedisFuture<Long>",
+          "signature": "RedisFuture<Long> incr(K key)",
           "params": [
             {
               "name": "key",
@@ -2413,7 +2413,7 @@
       ],
       "lettuce_reactive": [
         {
-          "signature": "incr(key: K): Mono<Long>",
+          "signature": "Mono<Long> incr(K key)",
           "params": [
             {
               "name": "key",
@@ -2503,7 +2503,7 @@
       ],
       "nredisstack_sync": [
         {
-          "signature": "StringIncrement(string key, long value = 1): long",
+          "signature": "long StringIncrement(string key, long value = 1)",
           "params": [
             {
               "name": "key",
@@ -2524,7 +2524,7 @@
       ],
       "nredisstack_async": [
         {
-          "signature": "StringIncrementAsync(string key, long value = 1): Task<long>",
+          "signature": "Task<long> StringIncrementAsync(string key, long value = 1)",
           "params": [
             {
               "name": "key",
@@ -2633,7 +2633,7 @@
       ],
       "jedis": [
         {
-          "signature": "expire(key: String, seconds: Long): Long",
+          "signature": "Long expire(String key, Long seconds)",
           "params": [
             {
               "name": "key",
@@ -2654,7 +2654,7 @@
       ],
       "lettuce_sync": [
         {
-          "signature": "expire(key: K, seconds: Long): Boolean",
+          "signature": "Boolean expire(K key, Long seconds)",
           "params": [
             {
               "name": "key",
@@ -2675,7 +2675,7 @@
       ],
       "lettuce_async": [
         {
-          "signature": "expire(key: K, seconds: Long): RedisFuture<Boolean>",
+          "signature": "RedisFuture<Boolean> expire(K key, Long seconds)",
           "params": [
             {
               "name": "key",
@@ -2696,7 +2696,7 @@
       ],
       "lettuce_reactive": [
         {
-          "signature": "expire(key: K, seconds: Long): Mono<Boolean>",
+          "signature": "Mono<Boolean> expire(K key, Long seconds)",
           "params": [
             {
               "name": "key",
@@ -2801,7 +2801,7 @@
       ],
       "nredisstack_sync": [
         {
-          "signature": "KeyExpire(string key, TimeSpan? expiry): bool",
+          "signature": "bool KeyExpire(string key, TimeSpan? expiry)",
           "params": [
             {
               "name": "key",
@@ -2822,7 +2822,7 @@
       ],
       "nredisstack_async": [
         {
-          "signature": "KeyExpireAsync(string key, TimeSpan? expiry): Task<bool>",
+          "signature": "Task<bool> KeyExpireAsync(string key, TimeSpan? expiry)",
           "params": [
             {
               "name": "key",

@@ -98,6 +98,25 @@ Each parser uses regex patterns to extract:
 ✅ All 7 languages parse correctly
 ✅ Generated JSON is valid and well-formed
 
+## Additional Fix: Java and C# Signature Format
+
+After initial implementation, the Java and C# signatures were reformatted to match standard language conventions:
+
+**Java Format**:
+- Before: `get(key: String): String`
+- After: `String get(String key)` ✅
+
+**C# Format**:
+- Before: `StringGet(string key): string`
+- After: `string StringGet(string key)` ✅
+
+**Implementation**:
+- Added `reformatSignature()` method to detect and reformat Java/C# signatures
+- Added `reformatJavaSignature()` to convert parameter format from `name: Type` to `Type name`
+- Added `reformatCSharpSignature()` to move return type before method name
+- Updated Java and C# parsers to handle the new standard format
+- All 140 mappings regenerated with correct formatting
+
 ## Status
-**COMPLETE** - Phase 2 parsing task successfully fixed!
+**COMPLETE** - Phase 2 parsing task successfully fixed with proper Java and C# signature formatting!
 
