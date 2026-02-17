@@ -5,7 +5,7 @@
  * Run with: npm test
  */
 
-import { callAdd, callGreet, initializeWasm } from './wasm-wrapper';
+import { callAdd, callGreet, initializeWasm } from './wasm-wrapper.js';
 
 interface TestResult {
   name: string;

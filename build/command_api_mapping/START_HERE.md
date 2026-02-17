@@ -129,8 +129,10 @@ All 14 clients (excluding hiredis):
 - `DEVELOPMENT.md` - Development guide with all parsers and tests documented
 - `mcp-server/node/src/test-*.ts` - All test suites
 
-## Key Files for Project Completion
+## Schema & Output Files
 
+- **`SCHEMA_DESIGN.md`** - Complete schema definition for the mapping file
+- **`SCHEMA_EXAMPLES_AND_EDGE_CASES.md`** - Real examples and edge case handling
 - `PROJECT_SUMMARY.md` - Complete project summary with statistics
 - `DEPLOYMENT.md` - Production deployment guide
 - `COMPLETION_CHECKLIST.md` - Final sign-off checklist

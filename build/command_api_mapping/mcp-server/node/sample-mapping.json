@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generated": "2026-02-17T09:57:35.281Z",
+  "generated": "2026-02-17T11:04:26.451Z",
   "description": "Sample Redis Command-to-API Mapping (first 5 commands, 3 clients)",
   "sample_commands": [
     {

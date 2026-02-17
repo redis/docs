@@ -5,7 +5,7 @@
  * Run with: npm run test-wasm
  */
 
-import { callAdd, callGreet } from './wasm-wrapper';
+import { callAdd, callGreet } from './wasm-wrapper.js';
 
 async function main() {
   console.log('Testing WASM functions...\n');

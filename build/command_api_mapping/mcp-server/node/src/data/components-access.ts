@@ -1,4 +1,4 @@
-import { loadAllComponents, ClientInfo, getLanguageFromClient } from './components-loader';
+import { loadAllComponents, ClientInfo, getLanguageFromClient } from './components-loader.js';
 
 /**
  * Data access layer for client libraries

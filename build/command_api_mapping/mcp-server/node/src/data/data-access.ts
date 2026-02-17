@@ -1,4 +1,4 @@
-import { loadAllCommands, CommandInfo, isDeprecated } from './commands-loader';
+import { loadAllCommands, CommandInfo, isDeprecated } from './commands-loader.js';
 
 /**
  * Data access layer for Redis commands

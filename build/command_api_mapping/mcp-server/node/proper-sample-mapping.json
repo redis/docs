@@ -1,0 +1,2282 @@
+{
+  "DEL": {
+    "api_calls": {
+      "go-redis": [
+        {
+          "signature": "Del(ctx context.Context, key string) *StringCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "del(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "del(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "del(byte[] key) -> RedisFuture<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "del(byte[] key) -> Mono<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "del(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "del(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "Del(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Del(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "del($key) -> mixed",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_py": [
+        {
+          "signature": "del(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn del(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn del(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redisvl": [
+        {
+          "signature": "del(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ]
+    }
+  },
+  "EXPIRE": {
+    "api_calls": {
+      "go-redis": [
+        {
+          "signature": "Expire(ctx context.Context, key string) *StringCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "expire(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "expire(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "expire(byte[] key) -> RedisFuture<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "expire(byte[] key) -> Mono<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "expire(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "expire(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "Expire(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Expire(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "expire($key) -> mixed",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_py": [
+        {
+          "signature": "expire(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn expire(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn expire(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redisvl": [
+        {
+          "signature": "expire(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ]
+    }
+  },
+  "GET": {
+    "api_calls": {
+      "go-redis": [
+        {
+          "signature": "Get(ctx context.Context, key string) *StringCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "get(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "get(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "get(byte[] key) -> RedisFuture<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "get(byte[] key) -> Mono<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "get(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "get(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "Get(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Get(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "get($key) -> mixed",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_py": [
+        {
+          "signature": "get(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn get(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn get(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redisvl": [
+        {
+          "signature": "get(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ]
+    }
+  },
+  "HSET": {
+    "api_calls": {
+      "go-redis": [
+        {
+          "signature": "Hset(ctx context.Context, key string) *StringCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "hset(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "hset(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "hset(byte[] key) -> RedisFuture<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "hset(byte[] key) -> Mono<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "hset(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "hset(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "Hset(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Hset(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "hset($key) -> mixed",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_py": [
+        {
+          "signature": "hset(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn hset(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn hset(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redisvl": [
+        {
+          "signature": "hset(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ]
+    }
+  },
+  "INCR": {
+    "api_calls": {
+      "go-redis": [
+        {
+          "signature": "Incr(ctx context.Context, key string) *StringCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "incr(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "incr(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "incr(byte[] key) -> RedisFuture<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "incr(byte[] key) -> Mono<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "incr(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "incr(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "Incr(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Incr(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "incr($key) -> mixed",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_py": [
+        {
+          "signature": "incr(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn incr(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn incr(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redisvl": [
+        {
+          "signature": "incr(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ]
+    }
+  },
+  "LPUSH": {
+    "api_calls": {
+      "go-redis": [
+        {
+          "signature": "Lpush(ctx context.Context, key string) *StringCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "lpush(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "lpush(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "lpush(byte[] key) -> RedisFuture<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "lpush(byte[] key) -> Mono<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "lpush(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "lpush(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "Lpush(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Lpush(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "lpush($key) -> mixed",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_py": [
+        {
+          "signature": "lpush(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn lpush(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn lpush(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redisvl": [
+        {
+          "signature": "lpush(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ]
+    }
+  },
+  "RPOP": {
+    "api_calls": {
+      "go-redis": [
+        {
+          "signature": "Rpop(ctx context.Context, key string) *StringCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "rpop(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "rpop(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "rpop(byte[] key) -> RedisFuture<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "rpop(byte[] key) -> Mono<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "rpop(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "rpop(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "Rpop(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Rpop(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "rpop($key) -> mixed",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_py": [
+        {
+          "signature": "rpop(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn rpop(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn rpop(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redisvl": [
+        {
+          "signature": "rpop(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ]
+    }
+  },
+  "SADD": {
+    "api_calls": {
+      "go-redis": [
+        {
+          "signature": "Sadd(ctx context.Context, key string) *StringCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "sadd(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "sadd(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "sadd(byte[] key) -> RedisFuture<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "sadd(byte[] key) -> Mono<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "sadd(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "sadd(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "Sadd(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Sadd(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "sadd($key) -> mixed",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_py": [
+        {
+          "signature": "sadd(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn sadd(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn sadd(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redisvl": [
+        {
+          "signature": "sadd(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ]
+    }
+  },
+  "SET": {
+    "api_calls": {
+      "go-redis": [
+        {
+          "signature": "Set(ctx context.Context, key string) *StringCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "set(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "set(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "set(byte[] key) -> RedisFuture<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "set(byte[] key) -> Mono<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "set(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "set(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "Set(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Set(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "set($key) -> mixed",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_py": [
+        {
+          "signature": "set(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn set(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn set(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redisvl": [
+        {
+          "signature": "set(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ]
+    }
+  },
+  "ZADD": {
+    "api_calls": {
+      "go-redis": [
+        {
+          "signature": "Zadd(ctx context.Context, key string) *StringCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "zadd(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "zadd(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "zadd(byte[] key) -> RedisFuture<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "zadd(byte[] key) -> Mono<byte[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "zadd(byte[] key) -> byte[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "zadd(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "Zadd(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Zadd(string key) -> Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "zadd($key) -> mixed",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_py": [
+        {
+          "signature": "zadd(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn zadd(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn zadd(&self, key: &str) -> Result<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ],
+      "redisvl": [
+        {
+          "signature": "zadd(name: str) -> str | None",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key name"
+            }
+          ],
+          "returns": {
+            "type": "any",
+            "description": "Command result"
+          }
+        }
+      ]
+    }
+  }
+}

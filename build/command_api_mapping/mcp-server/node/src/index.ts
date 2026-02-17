@@ -159,9 +159,11 @@ const TOOLS = [
 ];
 
 // Register tools
-server.setRequestHandler(ListToolsRequestSchema, async () => ({
-  tools: TOOLS,
-}));
+server.setRequestHandler(ListToolsRequestSchema, async () => {
+  return {
+    tools: TOOLS,
+  };
+});
 
 // Handle tool calls
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
@@ -241,8 +243,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("MCP Server started");
 }
 
-main().catch(console.error);
+main().catch((error) => {
+  // Only log errors, not startup messages
+  if (error) {
+    process.stderr.write(`Error: ${error}\n`);
+  }
+  process.exit(1);
+});
 

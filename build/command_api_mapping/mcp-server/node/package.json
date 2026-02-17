@@ -2,6 +2,7 @@
   "name": "mcp-server",
   "version": "0.1.0",
   "description": "MCP Server for Redis Command-to-API Mapping",
+  "type": "module",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -38,6 +39,8 @@
     "validate-schema": "tsx src/validate-schema.ts",
     "test-final": "tsx src/test-final.ts",
     "sample-mapping": "tsx src/sample-mapping-generator.ts",
+    "test-server-startup": "tsx src/test-server-startup.ts",
+    "generate-real-signatures": "tsx src/generate-real-signatures-from-docs.ts",
     "dev": "tsx watch src/index.ts"
   },
   "keywords": ["redis", "mcp", "wasm"],

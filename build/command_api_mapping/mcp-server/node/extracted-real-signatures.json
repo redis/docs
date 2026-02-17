@@ -1,0 +1,2867 @@
+{
+  "GET": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "get(name: str) -> str | None",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            }
+          ],
+          "returns": {
+            "type": "str | None",
+            "description": "Operation result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "get(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "Promise<string | null>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "get(key: string): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "Promise<string | null>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "get(key: String): String",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "String value"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "get(key: K): V",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "V",
+            "description": "Operation result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "get(key: K): RedisFuture<V>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<V>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "get(key: K): Mono<V>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "Mono<V>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "go_redis": [
+        {
+          "signature": "Get(ctx context.Context, key string) *StringCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "*StringCmd",
+            "description": "String value"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "get($key): mixed",
+          "params": [
+            {
+              "name": "key",
+              "type": "mixed",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "mixed",
+            "description": "Operation result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn get<K: ToRedisArgs>(&self, key: K) -> RedisResult<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<String>",
+            "description": "String value"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn get<K: ToRedisArgs>(&self, key: K) -> RedisResult<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<String>",
+            "description": "String value"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "StringGet(string key): string",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "string",
+            "description": "String value"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "StringGetAsync(string key): Task<string>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "Task<string>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "redis_vl": [
+        {
+          "signature": "get(name: str) -> str | None",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            }
+          ],
+          "returns": {
+            "type": "str | None",
+            "description": "Operation result"
+          }
+        }
+      ]
+    }
+  },
+  "SET": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "set(name: str, value: str, ex: int | None = None) -> bool",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            },
+            {
+              "name": "value",
+              "type": "str",
+              "description": "Value to set"
+            },
+            {
+              "name": "ex",
+              "type": "int | None",
+              "description": "Parameter: ex"
+            }
+          ],
+          "returns": {
+            "type": "bool",
+            "description": "Boolean result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "set(key: string, value: string, options?: SetOptions): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "value",
+              "type": "string",
+              "description": "Value to set"
+            },
+            {
+              "name": "options?",
+              "type": "SetOptions",
+              "description": "Parameter: options?"
+            }
+          ],
+          "returns": {
+            "type": "Promise<string | null>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "set(key: string, value: string, expiryMode?: string, time?: number): Promise<string | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "value",
+              "type": "string",
+              "description": "Value to set"
+            },
+            {
+              "name": "expiryMode?",
+              "type": "string",
+              "description": "Parameter: expiryMode?"
+            },
+            {
+              "name": "time?",
+              "type": "number",
+              "description": "Parameter: time?"
+            }
+          ],
+          "returns": {
+            "type": "Promise<string | null>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "set(key: String, value: String): String",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "Redis key"
+            },
+            {
+              "name": "value",
+              "type": "String",
+              "description": "Value to set"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "String value"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "set(key: K, value: V): String",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "value",
+              "type": "V",
+              "description": "Value to set"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "String value"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "set(key: K, value: V): RedisFuture<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "value",
+              "type": "V",
+              "description": "Value to set"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "set(key: K, value: V): Mono<String>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "value",
+              "type": "V",
+              "description": "Value to set"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "go_redis": [
+        {
+          "signature": "Set(ctx context.Context, key string, value interface{}, expiration time.Duration) *StatusCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "value",
+              "type": "interface{}",
+              "description": "Value to set"
+            },
+            {
+              "name": "expiration",
+              "type": "time.Duration",
+              "description": "Expiration duration"
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": "Redis command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "set($key, $value, $options = null): mixed",
+          "params": [
+            {
+              "name": "key",
+              "type": "mixed",
+              "description": "Redis key"
+            },
+            {
+              "name": "value",
+              "type": "mixed",
+              "description": "Value to set"
+            },
+            {
+              "name": "options",
+              "type": "mixed",
+              "description": "Set options"
+            }
+          ],
+          "returns": {
+            "type": "mixed",
+            "description": "Operation result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn set<K: ToRedisArgs, V: ToRedisArgs>(&self, key: K, value: V) -> RedisResult<()>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "value",
+              "type": "V",
+              "description": "Value to set"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<()>",
+            "description": "Operation result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn set<K: ToRedisArgs, V: ToRedisArgs>(&self, key: K, value: V) -> RedisResult<()>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "value",
+              "type": "V",
+              "description": "Value to set"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<()>",
+            "description": "Operation result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "StringSet(string key, string value): bool",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "value",
+              "type": "string",
+              "description": "Value to set"
+            }
+          ],
+          "returns": {
+            "type": "bool",
+            "description": "Boolean result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "StringSetAsync(string key, string value): Task<bool>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "value",
+              "type": "string",
+              "description": "Value to set"
+            }
+          ],
+          "returns": {
+            "type": "Task<bool>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "redis_vl": [
+        {
+          "signature": "set(name: str, value: str, ex: int | None = None) -> bool",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            },
+            {
+              "name": "value",
+              "type": "str",
+              "description": "Value to set"
+            },
+            {
+              "name": "ex",
+              "type": "int | None",
+              "description": "Parameter: ex"
+            }
+          ],
+          "returns": {
+            "type": "bool",
+            "description": "Boolean result"
+          }
+        }
+      ]
+    }
+  },
+  "DEL": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "delete(*names: str) -> int",
+          "params": [
+            {
+              "name": "*names",
+              "type": "str",
+              "description": "Parameter: *names"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "del(...keys: string[]): Promise<number>",
+          "params": [
+            {
+              "name": "keys",
+              "type": "string[]",
+              "description": "Parameter: ...keys"
+            }
+          ],
+          "returns": {
+            "type": "Promise<number>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "del(...keys: string[]): Promise<number>",
+          "params": [
+            {
+              "name": "keys",
+              "type": "string[]",
+              "description": "Parameter: ...keys"
+            }
+          ],
+          "returns": {
+            "type": "Promise<number>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "del(keys: String...): Long",
+          "params": [
+            {
+              "name": "keys",
+              "type": "String",
+              "description": "Redis keys"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "del(keys: K...): Long",
+          "params": [
+            {
+              "name": "keys",
+              "type": "K",
+              "description": "Redis keys"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "del(keys: K...): RedisFuture<Long>",
+          "params": [
+            {
+              "name": "keys",
+              "type": "K",
+              "description": "Redis keys"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<Long>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "del(keys: K...): Mono<Long>",
+          "params": [
+            {
+              "name": "keys",
+              "type": "K",
+              "description": "Redis keys"
+            }
+          ],
+          "returns": {
+            "type": "Mono<Long>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "go_redis": [
+        {
+          "signature": "Del(ctx context.Context, keys ...string) *IntCmd",
+          "params": [
+            {
+              "name": "keys",
+              "type": "...string",
+              "description": "Redis keys"
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": "Redis command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "del(...$keys): int",
+          "params": [
+            {
+              "name": "...keys",
+              "type": "mixed",
+              "description": "Parameter: ...keys"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn del<K: ToRedisArgs>(&self, keys: K) -> RedisResult<i64>",
+          "params": [
+            {
+              "name": "keys",
+              "type": "K",
+              "description": "Redis keys"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<i64>",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn del<K: ToRedisArgs>(&self, keys: K) -> RedisResult<i64>",
+          "params": [
+            {
+              "name": "keys",
+              "type": "K",
+              "description": "Redis keys"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<i64>",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "KeyDelete(params string[] keys): long",
+          "params": [
+            {
+              "name": "keys",
+              "type": "string[]",
+              "description": "Redis keys"
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "KeyDeleteAsync(params string[] keys): Task<long>",
+          "params": [
+            {
+              "name": "keys",
+              "type": "string[]",
+              "description": "Redis keys"
+            }
+          ],
+          "returns": {
+            "type": "Task<long>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "redis_vl": [
+        {
+          "signature": "delete(*names: str) -> int",
+          "params": [
+            {
+              "name": "*names",
+              "type": "str",
+              "description": "Parameter: *names"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ]
+    }
+  },
+  "LPUSH": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "lpush(name: str, *values: str) -> int",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            },
+            {
+              "name": "*values",
+              "type": "str",
+              "description": "Parameter: *values"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "lPush(key: string, ...elements: string[]): Promise<number>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "elements",
+              "type": "string[]",
+              "description": "Parameter: ...elements"
+            }
+          ],
+          "returns": {
+            "type": "Promise<number>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "lpush(key: string, ...values: string[]): Promise<number>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "values",
+              "type": "string[]",
+              "description": "Parameter: ...values"
+            }
+          ],
+          "returns": {
+            "type": "Promise<number>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "lpush(key: String, strings: String...): Long",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "Redis key"
+            },
+            {
+              "name": "strings",
+              "type": "String",
+              "description": "Parameter: strings"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "lpush(key: K, values: V...): Long",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "values",
+              "type": "V",
+              "description": "Values to push"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "lpush(key: K, values: V...): RedisFuture<Long>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "values",
+              "type": "V",
+              "description": "Values to push"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<Long>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "lpush(key: K, values: V...): Mono<Long>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "values",
+              "type": "V",
+              "description": "Values to push"
+            }
+          ],
+          "returns": {
+            "type": "Mono<Long>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "go_redis": [
+        {
+          "signature": "LPush(ctx context.Context, key string, values ...interface{}) *IntCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "values",
+              "type": "...interface{}",
+              "description": "Values to push"
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": "Redis command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "lpush($key, ...$values): int",
+          "params": [
+            {
+              "name": "key",
+              "type": "mixed",
+              "description": "Redis key"
+            },
+            {
+              "name": "...values",
+              "type": "mixed",
+              "description": "Parameter: ...values"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn lpush<K: ToRedisArgs, V: ToRedisArgs>(&self, key: K, values: V) -> RedisResult<i64>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "values",
+              "type": "V",
+              "description": "Values to push"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<i64>",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn lpush<K: ToRedisArgs, V: ToRedisArgs>(&self, key: K, values: V) -> RedisResult<i64>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "values",
+              "type": "V",
+              "description": "Values to push"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<i64>",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "ListLeftPush(string key, params string[] values): long",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "values",
+              "type": "string[]",
+              "description": "Values to push"
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "ListLeftPushAsync(string key, params string[] values): Task<long>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "values",
+              "type": "string[]",
+              "description": "Values to push"
+            }
+          ],
+          "returns": {
+            "type": "Task<long>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "redis_vl": [
+        {
+          "signature": "lpush(name: str, *values: str) -> int",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            },
+            {
+              "name": "*values",
+              "type": "str",
+              "description": "Parameter: *values"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ]
+    }
+  },
+  "RPOP": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "rpop(name: str, count: int | None = None) -> str | list[str] | None",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            },
+            {
+              "name": "count",
+              "type": "int | None",
+              "description": "Number of elements"
+            }
+          ],
+          "returns": {
+            "type": "str | list[str] | None",
+            "description": "Operation result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "rPop(key: string, count?: number): Promise<string | string[] | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "count?",
+              "type": "number",
+              "description": "Parameter: count?"
+            }
+          ],
+          "returns": {
+            "type": "Promise<string | string[] | null>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "rpop(key: string, count?: number): Promise<string | string[] | null>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "count?",
+              "type": "number",
+              "description": "Parameter: count?"
+            }
+          ],
+          "returns": {
+            "type": "Promise<string | string[] | null>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "rpop(key: String): String",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "String value"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "rpop(key: K): V",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "V",
+            "description": "Operation result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "rpop(key: K): RedisFuture<V>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<V>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "rpop(key: K): Mono<V>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "Mono<V>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "go_redis": [
+        {
+          "signature": "RPop(ctx context.Context, key string, count ...int64) *StringSliceCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "count",
+              "type": "...int64",
+              "description": "Number of elements"
+            }
+          ],
+          "returns": {
+            "type": "*StringSliceCmd",
+            "description": "String value"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "rpop($key, $count = null): mixed",
+          "params": [
+            {
+              "name": "key",
+              "type": "mixed",
+              "description": "Redis key"
+            },
+            {
+              "name": "count",
+              "type": "mixed",
+              "description": "Number of elements"
+            }
+          ],
+          "returns": {
+            "type": "mixed",
+            "description": "Operation result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn rpop<K: ToRedisArgs>(&self, key: K, count: Option<usize>) -> RedisResult<Vec<String>>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "count",
+              "type": "Option<usize>",
+              "description": "Number of elements"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<Vec<String>>",
+            "description": "String value"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn rpop<K: ToRedisArgs>(&self, key: K, count: Option<usize>) -> RedisResult<Vec<String>>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "count",
+              "type": "Option<usize>",
+              "description": "Number of elements"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<Vec<String>>",
+            "description": "String value"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "ListRightPop(string key, long count = 1): string[]",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "1",
+              "type": "long count =",
+              "description": "Parameter: 1"
+            }
+          ],
+          "returns": {
+            "type": "string[]",
+            "description": "String value"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "ListRightPopAsync(string key, long count = 1): Task<string[]>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "1",
+              "type": "long count =",
+              "description": "Parameter: 1"
+            }
+          ],
+          "returns": {
+            "type": "Task<string[]>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "redis_vl": [
+        {
+          "signature": "rpop(name: str, count: int | None = None) -> str | list[str] | None",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            },
+            {
+              "name": "count",
+              "type": "int | None",
+              "description": "Number of elements"
+            }
+          ],
+          "returns": {
+            "type": "str | list[str] | None",
+            "description": "Operation result"
+          }
+        }
+      ]
+    }
+  },
+  "SADD": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "sadd(name: str, *values: str) -> int",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            },
+            {
+              "name": "*values",
+              "type": "str",
+              "description": "Parameter: *values"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "sAdd(key: string, ...members: string[]): Promise<number>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "members",
+              "type": "string[]",
+              "description": "Parameter: ...members"
+            }
+          ],
+          "returns": {
+            "type": "Promise<number>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "sadd(key: string, ...members: string[]): Promise<number>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "members",
+              "type": "string[]",
+              "description": "Parameter: ...members"
+            }
+          ],
+          "returns": {
+            "type": "Promise<number>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "sadd(key: String, members: String...): Long",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "Redis key"
+            },
+            {
+              "name": "members",
+              "type": "String",
+              "description": "Set members"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "sadd(key: K, members: V...): Long",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "members",
+              "type": "V",
+              "description": "Set members"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "sadd(key: K, members: V...): RedisFuture<Long>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "members",
+              "type": "V",
+              "description": "Set members"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<Long>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "sadd(key: K, members: V...): Mono<Long>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "members",
+              "type": "V",
+              "description": "Set members"
+            }
+          ],
+          "returns": {
+            "type": "Mono<Long>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "go_redis": [
+        {
+          "signature": "SAdd(ctx context.Context, key string, members ...interface{}) *IntCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "members",
+              "type": "...interface{}",
+              "description": "Set members"
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": "Redis command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "sadd($key, ...$members): int",
+          "params": [
+            {
+              "name": "key",
+              "type": "mixed",
+              "description": "Redis key"
+            },
+            {
+              "name": "...members",
+              "type": "mixed",
+              "description": "Parameter: ...members"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn sadd<K: ToRedisArgs, M: ToRedisArgs>(&self, key: K, members: M) -> RedisResult<i64>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "members",
+              "type": "M",
+              "description": "Set members"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<i64>",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn sadd<K: ToRedisArgs, M: ToRedisArgs>(&self, key: K, members: M) -> RedisResult<i64>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "members",
+              "type": "M",
+              "description": "Set members"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<i64>",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "SetAdd(string key, params string[] members): long",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "members",
+              "type": "string[]",
+              "description": "Set members"
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "SetAddAsync(string key, params string[] members): Task<long>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "members",
+              "type": "string[]",
+              "description": "Set members"
+            }
+          ],
+          "returns": {
+            "type": "Task<long>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "redis_vl": [
+        {
+          "signature": "sadd(name: str, *values: str) -> int",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            },
+            {
+              "name": "*values",
+              "type": "str",
+              "description": "Parameter: *values"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ]
+    }
+  },
+  "HSET": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "hset(name: str, mapping: dict[str, str]) -> int",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            },
+            {
+              "name": "mapping",
+              "type": "dict[str",
+              "description": "Field-value mapping"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "hSet(key: string, fieldValues: Record<string, string>): Promise<number>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "fieldValues",
+              "type": "Record<string",
+              "description": "Field-value pairs"
+            }
+          ],
+          "returns": {
+            "type": "Promise<number>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "hset(key: string, ...args: (string | number)[]): Promise<number>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "args",
+              "type": "(string | number",
+              "description": "Parameter: ...args"
+            }
+          ],
+          "returns": {
+            "type": "Promise<number>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "hset(key: String, hash: Map<String, String>): Long",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "Redis key"
+            },
+            {
+              "name": "hash",
+              "type": "Map<String",
+              "description": "Hash map"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "hset(key: K, field: K, value: V): Boolean",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "field",
+              "type": "K",
+              "description": "Hash field"
+            },
+            {
+              "name": "value",
+              "type": "V",
+              "description": "Value to set"
+            }
+          ],
+          "returns": {
+            "type": "Boolean",
+            "description": "Boolean result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "hset(key: K, field: K, value: V): RedisFuture<Boolean>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "field",
+              "type": "K",
+              "description": "Hash field"
+            },
+            {
+              "name": "value",
+              "type": "V",
+              "description": "Value to set"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<Boolean>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "hset(key: K, field: K, value: V): Mono<Boolean>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "field",
+              "type": "K",
+              "description": "Hash field"
+            },
+            {
+              "name": "value",
+              "type": "V",
+              "description": "Value to set"
+            }
+          ],
+          "returns": {
+            "type": "Mono<Boolean>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "go_redis": [
+        {
+          "signature": "HSet(ctx context.Context, key string, values ...interface{}) *IntCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "values",
+              "type": "...interface{}",
+              "description": "Values to push"
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": "Redis command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "hset($key, ...$fieldValues): int",
+          "params": [
+            {
+              "name": "key",
+              "type": "mixed",
+              "description": "Redis key"
+            },
+            {
+              "name": "...fieldValues",
+              "type": "mixed",
+              "description": "Parameter: ...fieldValues"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn hset<K: ToRedisArgs, F: ToRedisArgs, V: ToRedisArgs>(&self, key: K, field: F, value: V) -> RedisResult<i64>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "field",
+              "type": "F",
+              "description": "Hash field"
+            },
+            {
+              "name": "value",
+              "type": "V",
+              "description": "Value to set"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<i64>",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn hset<K: ToRedisArgs, F: ToRedisArgs, V: ToRedisArgs>(&self, key: K, field: F, value: V) -> RedisResult<i64>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "field",
+              "type": "F",
+              "description": "Hash field"
+            },
+            {
+              "name": "value",
+              "type": "V",
+              "description": "Value to set"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<i64>",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "HashSet(string key, HashEntry[] hashFields): long",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "hashFields",
+              "type": "HashEntry[]",
+              "description": "Hash fields"
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "HashSetAsync(string key, HashEntry[] hashFields): Task<long>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "hashFields",
+              "type": "HashEntry[]",
+              "description": "Hash fields"
+            }
+          ],
+          "returns": {
+            "type": "Task<long>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "redis_vl": [
+        {
+          "signature": "hset(name: str, mapping: dict[str, str]) -> int",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            },
+            {
+              "name": "mapping",
+              "type": "dict[str",
+              "description": "Field-value mapping"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ]
+    }
+  },
+  "ZADD": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "zadd(name: str, mapping: dict[str, float]) -> int",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            },
+            {
+              "name": "mapping",
+              "type": "dict[str",
+              "description": "Field-value mapping"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "zAdd(key: string, members: ZMember[]): Promise<number>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "members",
+              "type": "ZMember[]",
+              "description": "Set members"
+            }
+          ],
+          "returns": {
+            "type": "Promise<number>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "zadd(key: string, ...args: (string | number)[]): Promise<number>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "args",
+              "type": "(string | number",
+              "description": "Parameter: ...args"
+            }
+          ],
+          "returns": {
+            "type": "Promise<number>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "zadd(key: String, scoreMembers: Map<String, Double>): Long",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "Redis key"
+            },
+            {
+              "name": "scoreMembers",
+              "type": "Map<String",
+              "description": "Score-member pairs"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "zadd(key: K, score: Double, member: V): Long",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "score",
+              "type": "Double",
+              "description": "Score for sorted set"
+            },
+            {
+              "name": "member",
+              "type": "V",
+              "description": "Set member"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "zadd(key: K, score: Double, member: V): RedisFuture<Long>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "score",
+              "type": "Double",
+              "description": "Score for sorted set"
+            },
+            {
+              "name": "member",
+              "type": "V",
+              "description": "Set member"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<Long>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "zadd(key: K, score: Double, member: V): Mono<Long>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "score",
+              "type": "Double",
+              "description": "Score for sorted set"
+            },
+            {
+              "name": "member",
+              "type": "V",
+              "description": "Set member"
+            }
+          ],
+          "returns": {
+            "type": "Mono<Long>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "go_redis": [
+        {
+          "signature": "ZAdd(ctx context.Context, key string, members ...Z) *IntCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "members",
+              "type": "...Z",
+              "description": "Set members"
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": "Redis command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "zadd($key, ...$scoreMembers): int",
+          "params": [
+            {
+              "name": "key",
+              "type": "mixed",
+              "description": "Redis key"
+            },
+            {
+              "name": "...scoreMembers",
+              "type": "mixed",
+              "description": "Parameter: ...scoreMembers"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn zadd<K: ToRedisArgs, S: ToRedisArgs, M: ToRedisArgs>(&self, key: K, member: M, score: S) -> RedisResult<i64>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "member",
+              "type": "M",
+              "description": "Set member"
+            },
+            {
+              "name": "score",
+              "type": "S",
+              "description": "Score for sorted set"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<i64>",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn zadd<K: ToRedisArgs, S: ToRedisArgs, M: ToRedisArgs>(&self, key: K, member: M, score: S) -> RedisResult<i64>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "member",
+              "type": "M",
+              "description": "Set member"
+            },
+            {
+              "name": "score",
+              "type": "S",
+              "description": "Score for sorted set"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<i64>",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "SortedSetAdd(string key, SortedSetEntry[] values): long",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "values",
+              "type": "SortedSetEntry[]",
+              "description": "Values to push"
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "SortedSetAddAsync(string key, SortedSetEntry[] values): Task<long>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "values",
+              "type": "SortedSetEntry[]",
+              "description": "Values to push"
+            }
+          ],
+          "returns": {
+            "type": "Task<long>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "redis_vl": [
+        {
+          "signature": "zadd(name: str, mapping: dict[str, float]) -> int",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            },
+            {
+              "name": "mapping",
+              "type": "dict[str",
+              "description": "Field-value mapping"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ]
+    }
+  },
+  "INCR": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "incr(name: str, amount: int = 1) -> int",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            },
+            {
+              "name": "amount",
+              "type": "int",
+              "description": "Increment amount"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "incr(key: string): Promise<number>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "Promise<number>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "incr(key: string): Promise<number>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "Promise<number>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "incr(key: String): Long",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "incr(key: K): Long",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "incr(key: K): RedisFuture<Long>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<Long>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "incr(key: K): Mono<Long>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "Mono<Long>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "go_redis": [
+        {
+          "signature": "Incr(ctx context.Context, key string) *IntCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": "Redis command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "incr($key): int",
+          "params": [
+            {
+              "name": "key",
+              "type": "mixed",
+              "description": "Redis key"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn incr<K: ToRedisArgs>(&self, key: K, delta: i64) -> RedisResult<i64>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "delta",
+              "type": "i64",
+              "description": "Increment delta"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<i64>",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn incr<K: ToRedisArgs>(&self, key: K, delta: i64) -> RedisResult<i64>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "delta",
+              "type": "i64",
+              "description": "Increment delta"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<i64>",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "StringIncrement(string key, long value = 1): long",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "1",
+              "type": "long value =",
+              "description": "Parameter: 1"
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "StringIncrementAsync(string key, long value = 1): Task<long>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "1",
+              "type": "long value =",
+              "description": "Parameter: 1"
+            }
+          ],
+          "returns": {
+            "type": "Task<long>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "redis_vl": [
+        {
+          "signature": "incr(name: str, amount: int = 1) -> int",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            },
+            {
+              "name": "amount",
+              "type": "int",
+              "description": "Increment amount"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "Integer result"
+          }
+        }
+      ]
+    }
+  },
+  "EXPIRE": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "expire(name: str, time: int) -> bool",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            },
+            {
+              "name": "time",
+              "type": "int",
+              "description": "Time duration"
+            }
+          ],
+          "returns": {
+            "type": "bool",
+            "description": "Boolean result"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "expire(key: string, seconds: number): Promise<boolean>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "seconds",
+              "type": "number",
+              "description": "Expiration time in seconds"
+            }
+          ],
+          "returns": {
+            "type": "Promise<boolean>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "expire(key: string, seconds: number): Promise<number>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "seconds",
+              "type": "number",
+              "description": "Expiration time in seconds"
+            }
+          ],
+          "returns": {
+            "type": "Promise<number>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "expire(key: String, seconds: Long): Long",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "Redis key"
+            },
+            {
+              "name": "seconds",
+              "type": "Long",
+              "description": "Expiration time in seconds"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "Integer result"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "expire(key: K, seconds: Long): Boolean",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "seconds",
+              "type": "Long",
+              "description": "Expiration time in seconds"
+            }
+          ],
+          "returns": {
+            "type": "Boolean",
+            "description": "Boolean result"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "expire(key: K, seconds: Long): RedisFuture<Boolean>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "seconds",
+              "type": "Long",
+              "description": "Expiration time in seconds"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<Boolean>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "expire(key: K, seconds: Long): Mono<Boolean>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "seconds",
+              "type": "Long",
+              "description": "Expiration time in seconds"
+            }
+          ],
+          "returns": {
+            "type": "Mono<Boolean>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "go_redis": [
+        {
+          "signature": "Expire(ctx context.Context, key string, expiration time.Duration) *BoolCmd",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "expiration",
+              "type": "time.Duration",
+              "description": "Expiration duration"
+            }
+          ],
+          "returns": {
+            "type": "*BoolCmd",
+            "description": "Redis command result"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "expire($key, $seconds): bool",
+          "params": [
+            {
+              "name": "key",
+              "type": "mixed",
+              "description": "Redis key"
+            },
+            {
+              "name": "seconds",
+              "type": "mixed",
+              "description": "Expiration time in seconds"
+            }
+          ],
+          "returns": {
+            "type": "bool",
+            "description": "Boolean result"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "fn expire<K: ToRedisArgs>(&self, key: K, seconds: usize) -> RedisResult<bool>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "seconds",
+              "type": "usize",
+              "description": "Expiration time in seconds"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<bool>",
+            "description": "Boolean result"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "async fn expire<K: ToRedisArgs>(&self, key: K, seconds: usize) -> RedisResult<bool>",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "Redis key"
+            },
+            {
+              "name": "seconds",
+              "type": "usize",
+              "description": "Expiration time in seconds"
+            }
+          ],
+          "returns": {
+            "type": "RedisResult<bool>",
+            "description": "Boolean result"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "KeyExpire(string key, TimeSpan? expiry): bool",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "expiry",
+              "type": "TimeSpan?",
+              "description": "Expiry duration"
+            }
+          ],
+          "returns": {
+            "type": "bool",
+            "description": "Boolean result"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "KeyExpireAsync(string key, TimeSpan? expiry): Task<bool>",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "Redis key"
+            },
+            {
+              "name": "expiry",
+              "type": "TimeSpan?",
+              "description": "Expiry duration"
+            }
+          ],
+          "returns": {
+            "type": "Task<bool>",
+            "description": "Asynchronous result"
+          }
+        }
+      ],
+      "redis_vl": [
+        {
+          "signature": "expire(name: str, time: int) -> bool",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "Redis key name"
+            },
+            {
+              "name": "time",
+              "type": "int",
+              "description": "Time duration"
+            }
+          ],
+          "returns": {
+            "type": "bool",
+            "description": "Boolean result"
+          }
+        }
+      ]
+    }
+  }
+}
