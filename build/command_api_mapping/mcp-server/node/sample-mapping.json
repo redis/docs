@@ -1,0 +1,51 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-02-17T09:57:35.281Z",
+  "description": "Sample Redis Command-to-API Mapping (first 5 commands, 3 clients)",
+  "sample_commands": [
+    {
+      "name": "ACL",
+      "module": "core",
+      "deprecated": false,
+      "summary": "A container for Access List Control commands."
+    },
+    {
+      "name": "ACL CAT",
+      "module": "core",
+      "deprecated": false,
+      "summary": "Lists the ACL categories, or the commands inside a category."
+    },
+    {
+      "name": "ACL DELUSER",
+      "module": "core",
+      "deprecated": false,
+      "summary": "Deletes ACL users, and terminates their connections."
+    },
+    {
+      "name": "ACL DRYRUN",
+      "module": "core",
+      "deprecated": false,
+      "summary": "Simulates the execution of a command by a user, without executing the command."
+    },
+    {
+      "name": "ACL GENPASS",
+      "module": "core",
+      "deprecated": false,
+      "summary": "Generates a pseudorandom, secure password that can be used to identify ACL users."
+    }
+  ],
+  "sample_clients": [
+    {
+      "client_id": "ioredis",
+      "client_name": "ioredis",
+      "language": "Node.js",
+      "sample_methods": []
+    },
+    {
+      "client_id": "jedis",
+      "client_name": "jedis",
+      "language": "Java-Sync",
+      "sample_methods": []
+    }
+  ]
+}

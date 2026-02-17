@@ -37,6 +37,7 @@
     "validate-deliverables": "tsx src/validate-deliverables.ts",
     "validate-schema": "tsx src/validate-schema.ts",
     "test-final": "tsx src/test-final.ts",
+    "sample-mapping": "tsx src/sample-mapping-generator.ts",
     "dev": "tsx watch src/index.ts"
   },
   "keywords": ["redis", "mcp", "wasm"],
