@@ -14,7 +14,7 @@ Redis Software supports AMD64 (x86_64) and ARM64 architectures as shown in the f
 |------------------|------------------------|---------------|
 | RHEL 9           | <span title="Supported">:white_check_mark:</span> Redis Software 7.4.2 and later | <span title="Supported">:white_check_mark:</span> Redis Software 8.0.10 and later |
 | RHEL 8           | <span title="Supported">:white_check_mark:</span> Redis Software 6.2.8 and later | <span title="Not supported">:x:</span> Not supported |
-| Ubuntu 22        | <span title="Supported">:white_check_mark:</span> Redis Software 7.8.4-66 and later | <span title="Supported">:white_check_mark:</span> Redis Software 8.0.2 and later |
+| Ubuntu 22        | <span title="Supported">:white_check_mark:</span> Redis Software 7.8.4-66 and later | <span title="Supported">:white_check_mark:</span> Redis Software 8.0.10 and later |
 | Ubuntu 20        | <span title="Supported">:white_check_mark:</span> Redis Software 6.4.2-43 and later | <span title="Not supported">:x:</span> Not supported |
 | Amazon Linux 2   | <span title="Supported">:white_check_mark:</span> Redis Software 6.4.2-69 and later | <span title="Not supported">:x:</span> Not supported |
 
