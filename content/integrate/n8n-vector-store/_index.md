@@ -75,7 +75,7 @@ Redis provides two well-annotated example workflows to demonstrate how you can u
 store node in n8n.
 
 -   [**Chat with GitHub issues using OpenAI and Redis Vector Search**](https://n8n.io/workflows/10837-chat-with-github-issues-using-openai-and-redis-vector-search/):
-    This workflow uses the Redis vector store node implement a basic RAG pattern. The chat answers
+    This workflow uses the Redis vector store node to implement a basic RAG pattern. The chat answers
     questions about GitHub issues from the list of issues in a repository.
 -   [**Semantic caching**](https://n8n.io/workflows/10887-reduce-llm-costs-with-semantic-caching-using-redis-vector-store-and-huggingface/):
     This workflow implements a [semantic cache](https://redis.io/blog/what-is-semantic-caching/)
