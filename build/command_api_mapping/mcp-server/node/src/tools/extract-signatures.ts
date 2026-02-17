@@ -575,14 +575,28 @@ export async function extractSignatures(
           return { name: trimmed, type: 'Any' };
         } else if (lang === 'java' || lang === 'csharp') {
           // Format: Type name (or "final Type name" for Java, or "Type name = default" for C#)
+          // Handle generic types like "KeyValueStreamingChannel<K, V> channel"
           // Remove modifiers like "final"
           let cleaned = trimmed.replace(/^(final|readonly|ref|out|in|params)\s+/gi, '');
           // Remove default value assignment (e.g., "= CommandFlags.None")
           cleaned = cleaned.replace(/\s*=\s*[^,]+$/, '');
-          const parts = cleaned.split(/\s+/);
-          if (parts.length >= 2) {
-            const name = parts.pop() || '';
-            const type = parts.join(' ');
+
+          // For generic types, find the last space that's not inside angle brackets
+          // to split type from name
+          let bracketDepth = 0;
+          let lastSpaceOutsideBrackets = -1;
+          for (let i = 0; i < cleaned.length; i++) {
+            const char = cleaned[i];
+            if (char === '<') bracketDepth++;
+            else if (char === '>') bracketDepth--;
+            else if (char === ' ' && bracketDepth === 0) {
+              lastSpaceOutsideBrackets = i;
+            }
+          }
+
+          if (lastSpaceOutsideBrackets > 0) {
+            const type = cleaned.substring(0, lastSpaceOutsideBrackets).trim();
+            const name = cleaned.substring(lastSpaceOutsideBrackets + 1).trim();
             return { name, type };
           }
           return { name: trimmed, type: 'Any' };

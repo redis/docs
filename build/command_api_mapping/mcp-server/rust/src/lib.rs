@@ -749,11 +749,41 @@ fn parse_parameters(params_text: &str) -> Vec<String> {
         return vec![];
     }
 
-    params_text
-        .split(',')
-        .map(|p| p.trim().to_string())
-        .filter(|p| !p.is_empty())
-        .collect()
+    // Split on commas, but respect angle brackets (for generics like <K, V>)
+    let mut params = Vec::new();
+    let mut current_param = String::new();
+    let mut angle_bracket_depth = 0;
+
+    for ch in params_text.chars() {
+        match ch {
+            '<' => {
+                angle_bracket_depth += 1;
+                current_param.push(ch);
+            }
+            '>' => {
+                angle_bracket_depth -= 1;
+                current_param.push(ch);
+            }
+            ',' if angle_bracket_depth == 0 => {
+                let trimmed = current_param.trim().to_string();
+                if !trimmed.is_empty() {
+                    params.push(trimmed);
+                }
+                current_param.clear();
+            }
+            _ => {
+                current_param.push(ch);
+            }
+        }
+    }
+
+    // Don't forget the last parameter
+    let trimmed = current_param.trim().to_string();
+    if !trimmed.is_empty() {
+        params.push(trimmed);
+    }
+
+    params
 }
 
 fn extract_java_signatures(code: &str) -> Result<Vec<JavaSignature>, String> {

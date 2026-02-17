@@ -1061,13 +1061,8 @@
           "signature": "StringSet(KeyValuePair<RedisKey, RedisValue>[] values, When when, CommandFlags flags)",
           "params": [
             {
-              "name": "KeyValuePair<RedisKey",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "values",
-              "type": "RedisValue>[]",
+              "type": "KeyValuePair<RedisKey, RedisValue>[]",
               "description": "The keys and values to set."
             },
             {
@@ -1228,13 +1223,8 @@
           "signature": "StringSet(KeyValuePair<RedisKey, RedisValue>[] values, When when, CommandFlags flags)",
           "params": [
             {
-              "name": "KeyValuePair<RedisKey",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "values",
-              "type": "RedisValue>[]",
+              "type": "KeyValuePair<RedisKey, RedisValue>[]",
               "description": "The keys and values to set."
             },
             {
@@ -1355,13 +1345,8 @@
           "signature": "Long mget(KeyValueStreamingChannel<K, V> channel, K... keys)",
           "params": [
             {
-              "name": "KeyValueStreamingChannel<K",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "channel",
-              "type": "V>",
+              "type": "KeyValueStreamingChannel<K, V>",
               "description": "the channel."
             },
             {
@@ -1395,13 +1380,8 @@
           "signature": "RedisFuture<Long> mget(KeyValueStreamingChannel<K, V> channel, K... keys)",
           "params": [
             {
-              "name": "KeyValueStreamingChannel<K",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "channel",
-              "type": "V>",
+              "type": "KeyValueStreamingChannel<K, V>",
               "description": "the channel."
             },
             {
@@ -1435,13 +1415,8 @@
           "signature": "Mono<Long> mget(KeyValueStreamingChannel<K, V> channel, K... keys)",
           "params": [
             {
-              "name": "KeyValueStreamingChannel<K",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "channel",
-              "type": "V>",
+              "type": "KeyValueStreamingChannel<K, V>",
               "description": "the channel."
             },
             {
@@ -1652,13 +1627,8 @@
           "signature": "String mset(Map<K, V> map)",
           "params": [
             {
-              "name": "Map<K",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "map",
-              "type": "V>",
+              "type": "Map<K, V>",
               "description": "the map."
             }
           ],
@@ -1673,13 +1643,8 @@
           "signature": "RedisFuture<String> mset(Map<K, V> map)",
           "params": [
             {
-              "name": "Map<K",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "map",
-              "type": "V>",
+              "type": "Map<K, V>",
               "description": "the map."
             }
           ],
@@ -1694,13 +1659,8 @@
           "signature": "Mono<String> mset(Map<K, V> map)",
           "params": [
             {
-              "name": "Map<K",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "map",
-              "type": "V>",
+              "type": "Map<K, V>",
               "description": "the map."
             }
           ],
@@ -7653,13 +7613,8 @@
               "description": ""
             },
             {
-              "name": "final Map<byte[]",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "hash",
-              "type": "byte[]>",
+              "type": "Map<byte[], byte[]>",
               "description": ""
             }
           ],
@@ -7701,13 +7656,8 @@
               "description": ""
             },
             {
-              "name": "final Map<String",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "hash",
-              "type": "String>",
+              "type": "Map<String, String>",
               "description": ""
             }
           ],
@@ -7751,13 +7701,8 @@
               "description": "the key of the hash."
             },
             {
-              "name": "Map<K",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "map",
-              "type": "V>",
+              "type": "Map<K, V>",
               "description": "the field/value pairs to update."
             }
           ],
@@ -7801,13 +7746,8 @@
               "description": "the key of the hash."
             },
             {
-              "name": "Map<K",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "map",
-              "type": "V>",
+              "type": "Map<K, V>",
               "description": "the field/value pairs to update."
             }
           ],
@@ -7851,13 +7791,8 @@
               "description": "the key of the hash."
             },
             {
-              "name": "Map<K",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "map",
-              "type": "V>",
+              "type": "Map<K, V>",
               "description": "the field/value pairs to update."
             }
           ],
@@ -8747,13 +8682,8 @@
           "signature": "Long hgetall(KeyValueStreamingChannel<K, V> channel, K key)",
           "params": [
             {
-              "name": "KeyValueStreamingChannel<K",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "channel",
-              "type": "V>",
+              "type": "KeyValueStreamingChannel<K, V>",
               "description": "the channel."
             },
             {
@@ -8787,13 +8717,8 @@
           "signature": "RedisFuture<Long> hgetall(KeyValueStreamingChannel<K, V> channel, K key)",
           "params": [
             {
-              "name": "KeyValueStreamingChannel<K",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "channel",
-              "type": "V>",
+              "type": "KeyValueStreamingChannel<K, V>",
               "description": "the channel."
             },
             {
@@ -8827,13 +8752,8 @@
           "signature": "Mono<Long> hgetall(KeyValueStreamingChannel<K, V> channel, K key)",
           "params": [
             {
-              "name": "KeyValueStreamingChannel<K",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "channel",
-              "type": "V>",
+              "type": "KeyValueStreamingChannel<K, V>",
               "description": "the channel."
             },
             {
