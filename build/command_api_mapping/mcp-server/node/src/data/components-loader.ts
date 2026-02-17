@@ -67,7 +67,9 @@ export function loadAllComponents(): Map<string, ClientInfo> {
         const clientContent = fs.readFileSync(clientPath, 'utf-8');
         const clientData = JSON.parse(clientContent) as ClientInfo;
 
-        clients.set(clientId, {
+        // Use the actual client ID from the JSON file, not the file name
+        const actualClientId = clientData.id;
+        clients.set(actualClientId, {
           id: clientData.id,
           type: clientData.type,
           name: clientData.name,
@@ -77,7 +79,7 @@ export function loadAllComponents(): Map<string, ClientInfo> {
           examples: clientData.examples,
         });
 
-        console.log(`Loaded client: ${clientId} (${clientData.language})`);
+        console.log(`Loaded client: ${actualClientId} (${clientData.language})`);
       } catch (error) {
         console.error(`Error loading client ${clientId}:`, error);
       }

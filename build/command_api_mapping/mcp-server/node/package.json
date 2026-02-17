@@ -41,6 +41,7 @@
     "sample-mapping": "tsx src/sample-mapping-generator.ts",
     "test-server-startup": "tsx src/test-server-startup.ts",
     "generate-real-signatures": "tsx src/generate-real-signatures-from-docs.ts",
+    "extract-real-signatures": "tsx src/extract-real-signatures.ts",
     "dev": "tsx watch src/index.ts"
   },
   "keywords": ["redis", "mcp", "wasm"],
