@@ -516,6 +516,10 @@ export async function extractSignatures(
         cleaned = cleaned.replace(/\(&mut self,\s*/, '(');
         cleaned = cleaned.replace(/\(&self\)/, '()');
         cleaned = cleaned.replace(/\(&mut self\)/, '()');
+      } else if (lang === 'typescript') {
+        // Remove "parser: CommandParser, " from within parameter list (node-redis internal)
+        cleaned = cleaned.replace(/\(parser:\s*CommandParser,\s*/, '(');
+        cleaned = cleaned.replace(/\(parser:\s*CommandParser\)/, '()');
       }
 
       return cleaned;
@@ -534,6 +538,9 @@ export async function extractSignatures(
         } else if (lang === 'rust') {
           // Filter out "&self", "&mut self", "self"
           return !['&self', '&mut self', 'self'].includes(paramName);
+        } else if (lang === 'typescript') {
+          // Filter out "parser: CommandParser" (node-redis internal)
+          return paramName !== 'parser';
         }
 
         return true;

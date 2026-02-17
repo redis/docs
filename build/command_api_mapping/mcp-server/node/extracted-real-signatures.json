@@ -123,13 +123,8 @@
       ],
       "node_redis": [
         {
-          "signature": "GET(parser: CommandParser, key: RedisArgument)",
+          "signature": "GET(key: RedisArgument)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "key",
               "type": "RedisArgument",
@@ -817,13 +812,8 @@
       ],
       "node_redis": [
         {
-          "signature": "SET(parser: CommandParser, key: RedisArgument, value: RedisArgument | number, options?: SetOptions)",
+          "signature": "SET(key: RedisArgument, value: RedisArgument | number, options?: SetOptions)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "key",
               "type": "RedisArgument",
@@ -1489,13 +1479,8 @@
       ],
       "node_redis": [
         {
-          "signature": "MGET(parser: CommandParser, keys: Array<RedisArgument>)",
+          "signature": "MGET(keys: Array<RedisArgument>)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "keys",
               "type": "Array<RedisArgument>",
@@ -1748,13 +1733,8 @@
       ],
       "node_redis": [
         {
-          "signature": "MSET(parser: CommandParser, toSet: MSetArguments)",
+          "signature": "MSET(toSet: MSetArguments)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "toSet",
               "type": "MSetArguments",
@@ -2144,13 +2124,8 @@
       ],
       "node_redis": [
         {
-          "signature": "INCR(parser: CommandParser, key: RedisArgument)",
+          "signature": "INCR(key: RedisArgument)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "key",
               "type": "RedisArgument",
@@ -2758,13 +2733,8 @@
       ],
       "node_redis": [
         {
-          "signature": "DECR(parser: CommandParser, key: RedisArgument)",
+          "signature": "DECR(key: RedisArgument)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "key",
               "type": "RedisArgument",
@@ -3228,13 +3198,8 @@
       ],
       "node_redis": [
         {
-          "signature": "DEL(parser: CommandParser, keys: RedisVariadicArgument)",
+          "signature": "DEL(keys: RedisVariadicArgument)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "keys",
               "type": "RedisVariadicArgument",
@@ -3689,13 +3654,8 @@
       ],
       "node_redis": [
         {
-          "signature": "EXISTS(parser: CommandParser, keys: RedisVariadicArgument)",
+          "signature": "EXISTS(keys: RedisVariadicArgument)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "keys",
               "type": "RedisVariadicArgument",
@@ -4886,13 +4846,8 @@
       ],
       "node_redis": [
         {
-          "signature": "TTL(parser: CommandParser, key: RedisArgument)",
+          "signature": "TTL(key: RedisArgument)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "key",
               "type": "RedisArgument",
@@ -5210,13 +5165,8 @@
       ],
       "node_redis": [
         {
-          "signature": "LPUSH(parser: CommandParser, key: RedisArgument, elements: RedisVariadicArgument)",
+          "signature": "LPUSH(key: RedisArgument, elements: RedisVariadicArgument)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "key",
               "type": "RedisArgument",
@@ -5755,13 +5705,8 @@
       ],
       "node_redis": [
         {
-          "signature": "RPUSH(parser: CommandParser, key: RedisArgument, element: RedisVariadicArgument)",
+          "signature": "RPUSH(key: RedisArgument, element: RedisVariadicArgument)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "key",
               "type": "RedisArgument",
@@ -6332,13 +6277,8 @@
       ],
       "node_redis": [
         {
-          "signature": "LPOP(parser: CommandParser, key: RedisArgument)",
+          "signature": "LPOP(key: RedisArgument)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "key",
               "type": "RedisArgument",
@@ -6839,13 +6779,8 @@
       ],
       "node_redis": [
         {
-          "signature": "RPOP(parser: CommandParser, key: RedisArgument)",
+          "signature": "RPOP(key: RedisArgument)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "key",
               "type": "RedisArgument",
@@ -7412,13 +7347,8 @@
       ],
       "node_redis": [
         {
-          "signature": "LRANGE(parser: CommandParser, key: RedisArgument, start: number, stop: number)",
+          "signature": "LRANGE(key: RedisArgument, start: number, stop: number)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "key",
               "type": "RedisArgument",
@@ -7965,13 +7895,8 @@
       ],
       "node_redis": [
         {
-          "signature": "HSET(parser: CommandParser, ...[key, value, fieldValue]: SingleFieldArguments | MultipleFieldsArguments)",
+          "signature": "HSET(...[key, value, fieldValue]: SingleFieldArguments | MultipleFieldsArguments)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "...[key",
               "type": "Any",
@@ -8479,13 +8404,8 @@
       ],
       "node_redis": [
         {
-          "signature": "HGET(parser: CommandParser, key: RedisArgument, field: RedisArgument)",
+          "signature": "HGET(key: RedisArgument, field: RedisArgument)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "key",
               "type": "RedisArgument",
@@ -8951,13 +8871,8 @@
       ],
       "node_redis": [
         {
-          "signature": "HGETALL(parser: CommandParser, key: RedisArgument)",
+          "signature": "HGETALL(key: RedisArgument)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "key",
               "type": "RedisArgument",
@@ -9264,13 +9179,8 @@
       ],
       "node_redis": [
         {
-          "signature": "SADD(parser: CommandParser, key: RedisArgument, members: RedisVariadicArgument)",
+          "signature": "SADD(key: RedisArgument, members: RedisVariadicArgument)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "key",
               "type": "RedisArgument",
@@ -9745,13 +9655,8 @@
       ],
       "node_redis": [
         {
-          "signature": "SMEMBERS(parser: CommandParser, key: RedisArgument)",
+          "signature": "SMEMBERS(key: RedisArgument)",
           "params": [
-            {
-              "name": "parser",
-              "type": "CommandParser",
-              "description": ""
-            },
             {
               "name": "key",
               "type": "RedisArgument",
