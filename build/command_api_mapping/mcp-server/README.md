@@ -124,6 +124,16 @@ The server exposes the following tools:
 5. **get_client_info** - Get information about a specific client
 6. **list_clients** - List all supported Redis clients
 
+## Validation & Testing Tools
+
+### Final Validation Suite (Milestone 8.2)
+
+- `npm run validate-deliverables` - Validate all deliverables exist and are properly formatted
+- `npm run validate-schema` - Validate final mapping file against schema
+- `npm run test-final` - Run comprehensive final test suite
+- `npm run test-scaling-tools` - Test scaling infrastructure
+- `npm run extract-all-clients` - Extract from all 14 clients
+
 ## Configuration
 
 The server uses stdio transport for MCP communication. Configuration is provided via `mcp.json`:

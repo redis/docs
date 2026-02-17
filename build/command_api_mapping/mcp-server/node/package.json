@@ -34,6 +34,9 @@
     "test-augment-all": "npm run test-augment-discovery && npm run test-augment-invocation && npm run test-augment-e2e && npm run test-augment-advanced && npm run test-augment-integration",
     "test-scaling-tools": "tsx src/test-scaling-tools.ts",
     "extract-all-clients": "tsx src/extract-all-clients.ts",
+    "validate-deliverables": "tsx src/validate-deliverables.ts",
+    "validate-schema": "tsx src/validate-schema.ts",
+    "test-final": "tsx src/test-final.ts",
     "dev": "tsx watch src/index.ts"
   },
   "keywords": ["redis", "mcp", "wasm"],
