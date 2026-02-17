@@ -1226,7 +1226,21 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
         r"(?m)^(\s*)(?:export\s+)?(?:async\s+)?(?:function\s+)?([a-zA-Z_$][a-zA-Z0-9_$]*)(?:<[^>]+>)?\s*\((.*?)\)(?:\s*:\s*([^{=;]+?))?(?:\s*[{=;]|$)"
     ).map_err(|e| format!("Regex error: {}", e))?;
 
+    // Regex pattern for object method definitions (used by node-redis)
+    // Matches: methodName(params) { ... } or methodName(params): return_type { ... }
+    // Example: parseCommand(parser: CommandParser, key: RedisArgument) { ... }
+    let object_method_pattern = Regex::new(
+        r"(?m)^\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\((.*?)\)(?:\s*:\s*([^{]+?))?\s*\{"
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
+    // Regex pattern for transformArguments/transformReply functions (node-redis pattern)
+    // Matches: transformArguments(key: RedisArgument, ...): RedisArgument[]
+    let transform_pattern = Regex::new(
+        r"(?m)^\s*(transformArguments|transformReply)\s*(?:\([^)]*\))?\s*\((.*?)\)(?:\s*:\s*([^{]+?))?\s*[{=]"
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
     for (line_num, line) in code.lines().enumerate() {
+        // First try standard function pattern
         if let Some(caps) = func_pattern.captures(line) {
             let method_name = caps.get(2).map(|m| m.as_str().to_string()).unwrap_or_default();
             let params_str = caps.get(3).map(|m| m.as_str()).unwrap_or("");
@@ -1249,6 +1263,70 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
                 return_type,
                 line_number: line_num + 1,
                 is_async,
+            });
+            continue;
+        }
+
+        // Try transform pattern (node-redis specific)
+        if let Some(caps) = transform_pattern.captures(line) {
+            let method_name = caps.get(1).map(|m| m.as_str().to_string()).unwrap_or_default();
+            let params_str = caps.get(2).map(|m| m.as_str()).unwrap_or("");
+            let return_type = caps.get(3).map(|m| m.as_str().trim().to_string());
+
+            if !method_name.is_empty() {
+                let parameters = parse_parameters(params_str);
+                let signature = format!("{}({})", method_name, params_str);
+
+                signatures.push(TypeScriptSignature {
+                    method_name,
+                    signature,
+                    parameters,
+                    return_type,
+                    line_number: line_num + 1,
+                    is_async: false,
+                });
+                continue;
+            }
+        }
+
+        // Try object method pattern (for parseCommand, etc.)
+        if let Some(caps) = object_method_pattern.captures(line) {
+            let method_name = caps.get(1).map(|m| m.as_str().to_string()).unwrap_or_default();
+            let params_str = caps.get(2).map(|m| m.as_str()).unwrap_or("");
+            let return_type = caps.get(3).map(|m| m.as_str().trim().to_string());
+
+            // Skip common non-method patterns (control flow keywords and common non-API methods)
+            let skip_names = [
+                "if", "for", "while", "switch", "catch", "with", "else",
+                "try", "throw", "return", "new", "typeof", "instanceof",
+                "delete", "void", "yield", "await", "case", "default",
+                "constructor", "get", "set", // property accessors
+            ];
+
+            if method_name.is_empty() || skip_names.contains(&method_name.as_str()) {
+                continue;
+            }
+
+            // Also skip if it looks like a standalone function call (not a method definition)
+            // Method definitions typically start with specific indentation or after certain patterns
+            let trimmed = line.trim();
+            if trimmed.starts_with("if ") || trimmed.starts_with("if(")
+                || trimmed.starts_with("for ") || trimmed.starts_with("for(")
+                || trimmed.starts_with("while ") || trimmed.starts_with("while(")
+                || trimmed.starts_with("switch ") || trimmed.starts_with("switch(") {
+                continue;
+            }
+
+            let parameters = parse_parameters(params_str);
+            let signature = format!("{}({})", method_name, params_str);
+
+            signatures.push(TypeScriptSignature {
+                method_name,
+                signature,
+                parameters,
+                return_type,
+                line_number: line_num + 1,
+                is_async: false,
             });
         }
     }
@@ -1379,7 +1457,51 @@ fn extract_csharp_signatures(code: &str) -> Result<Vec<CSharpSignature>, String>
         r"(?m)^(\s*)(?:(public|private|protected|internal|static|async|virtual|override|abstract|sealed|partial)\s+)*([a-zA-Z_][a-zA-Z0-9_]*(?:<[^>]*>)?(?:\?)?(?:\[\])*)\s+([a-zA-Z_][a-zA-Z0-9_<>]*)\s*\((.*?)\)(?:\s*[{;])?"
     ).map_err(|e| format!("Regex error: {}", e))?;
 
+    // Regex pattern for C# extension methods
+    // Matches: public static return_type method_name(this Type param, ...)
+    // Example: public static bool ClientSetInfo(this IDatabase db, SetInfoAttr attr, string value)
+    let extension_method_pattern = Regex::new(
+        r"(?m)^(\s*)(?:public\s+)?(?:static\s+)?([a-zA-Z_][a-zA-Z0-9_]*(?:<[^>]*>)?(?:\?)?(?:\[\])*)\s+([a-zA-Z_][a-zA-Z0-9_<>]*)\s*\(\s*this\s+([^,)]+)(?:,\s*(.*?))?\)(?:\s*[{;])?"
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
     for (line_num, line) in code.lines().enumerate() {
+        // First try to match extension methods (with 'this' keyword)
+        if line.contains("this ") || line.contains("this\t") {
+            if let Some(caps) = extension_method_pattern.captures(line) {
+                let return_type = caps.get(2).map(|m| m.as_str().trim().to_string());
+                let method_name_with_generics = caps.get(3).map(|m| m.as_str()).unwrap_or_default();
+                // caps.get(4) is the "this Type param" part - we skip it as it's the extension target
+                let remaining_params = caps.get(5).map(|m| m.as_str()).unwrap_or("");
+
+                if !method_name_with_generics.is_empty() {
+                    // Extract method name without generic parameters
+                    let method_name = method_name_with_generics
+                        .split('<')
+                        .next()
+                        .unwrap_or(method_name_with_generics)
+                        .to_string();
+
+                    let is_async = line.contains("async");
+                    let parameters = parse_parameters(remaining_params);
+
+                    // For the signature, include the remaining params (excluding the 'this' param)
+                    let signature = format!("{}({})", method_name_with_generics, remaining_params);
+
+                    signatures.push(CSharpSignature {
+                        method_name,
+                        signature,
+                        parameters,
+                        return_type,
+                        line_number: line_num + 1,
+                        modifiers: vec!["public".to_string(), "static".to_string()],
+                        is_async,
+                    });
+                }
+                continue;
+            }
+        }
+
+        // Then try regular method definitions
         if let Some(caps) = method_pattern.captures(line) {
             let modifiers_str = caps.get(2).map(|m| m.as_str()).unwrap_or("");
             let return_type = caps.get(3).map(|m| m.as_str().trim().to_string());
@@ -1472,7 +1594,15 @@ fn extract_php_signatures(code: &str) -> Result<Vec<PHPSignature>, String> {
         r"(?m)^(\s*)(?:(public|private|protected|static|abstract|final)\s+)*function\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\((.*?)\)(?:\s*:\s*(\??[a-zA-Z_][a-zA-Z0-9_|\\]*(?:\[\])?))?"
     ).map_err(|e| format!("Regex error: {}", e))?;
 
+    // Regex pattern for PHPDoc @method annotations
+    // Matches: * @method return_type method_name(params)
+    // Example: * @method int del(string[]|string $keyOrKeys, string ...$keys = null)
+    let method_annotation_pattern = Regex::new(
+        r"(?m)^\s*\*\s*@method\s+([a-zA-Z_][a-zA-Z0-9_|\\<>,\[\]]*)\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\((.*?)\)"
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
     for (line_num, line) in code.lines().enumerate() {
+        // First try to match regular function definitions
         if let Some(caps) = func_pattern.captures(line) {
             let modifiers_str = caps.get(2).map(|m| m.as_str()).unwrap_or("");
             let method_name = caps.get(3).map(|m| m.as_str().to_string()).unwrap_or_default();
@@ -1498,6 +1628,30 @@ fn extract_php_signatures(code: &str) -> Result<Vec<PHPSignature>, String> {
                     return_type,
                     line_number: line_num + 1,
                     modifiers,
+                    is_variadic,
+                });
+            }
+        }
+        // Also try to match @method annotations (PHPDoc)
+        else if let Some(caps) = method_annotation_pattern.captures(line) {
+            let return_type = caps.get(1).map(|m| m.as_str().trim().to_string());
+            let method_name = caps.get(2).map(|m| m.as_str().to_string()).unwrap_or_default();
+            let params_str = caps.get(3).map(|m| m.as_str()).unwrap_or("");
+
+            if !method_name.is_empty() {
+                // Check if parameters contain variadic operator (...)
+                let is_variadic = params_str.contains("...");
+                let parameters = parse_parameters(params_str);
+
+                let signature = format!("{}({})", method_name, params_str);
+
+                signatures.push(PHPSignature {
+                    method_name,
+                    signature,
+                    parameters,
+                    return_type,
+                    line_number: line_num + 1,
+                    modifiers: vec!["public".to_string()], // @method annotations are implicitly public
                     is_variadic,
                 });
             }

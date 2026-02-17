@@ -49,10 +49,19 @@ export type ListRedisCommandsOutput = z.infer<
 // ============================================================================
 
 export const ExtractSignaturesInputSchema = z.object({
-  file_path: z.string(),
-  language: z.enum(SUPPORTED_LANGUAGES),
+  // Either file_path OR client_id must be provided
+  file_path: z.string().optional(),
+  client_id: z.string().optional(),
+  // Language is required when using file_path, inferred when using client_id
+  language: z.enum(SUPPORTED_LANGUAGES).optional(),
   method_name_filter: z.array(z.string()).default([]),
-});
+}).refine(
+  (data) => data.file_path || data.client_id,
+  { message: "Either file_path or client_id must be provided" }
+).refine(
+  (data) => !data.file_path || data.language,
+  { message: "language is required when using file_path" }
+);
 
 export type ExtractSignaturesInput = z.infer<
   typeof ExtractSignaturesInputSchema

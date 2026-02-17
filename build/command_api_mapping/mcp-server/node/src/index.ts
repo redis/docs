@@ -63,26 +63,30 @@ const TOOLS = [
   },
   {
     name: "extract_signatures",
-    description: "Extract method signatures from client source files",
+    description: "Extract method signatures from client source files. Can fetch directly from GitHub when using client_id, or read from a local file when using file_path.",
     inputSchema: {
       type: "object" as const,
       properties: {
+        client_id: {
+          type: "string",
+          description: "Client ID to fetch source from GitHub (e.g., 'jedis', 'redis_py', 'go-redis'). When provided, source code is fetched directly from the client's GitHub repository.",
+        },
         file_path: {
           type: "string",
-          description: "Path to source file",
+          description: "Path to local source file. Use this OR client_id, not both.",
         },
         language: {
           type: "string",
           enum: ["python", "java", "go", "typescript", "rust", "csharp", "php"],
-          description: "Programming language",
+          description: "Programming language. Required when using file_path, inferred when using client_id.",
         },
         method_name_filter: {
           type: "array",
           items: { type: "string" },
-          description: "Filter to specific method names",
+          description: "Filter to specific method names (e.g., ['get', 'set', 'del'])",
         },
       },
-      required: ["file_path", "language"],
+      required: [],
     },
   },
   {
