@@ -546,12 +546,65 @@ export async function extractSignatures(
       const cleanedSignature = cleanupSignature(sig.signature, language);
       const filteredParams = filterSelfParams(sig.parameters, language);
 
+      // Helper function to parse parameter name and type based on language
+      const parseParam = (p: string, lang: string): { name: string; type: string } => {
+        const trimmed = p.trim();
+
+        if (lang === 'python' || lang === 'rust' || lang === 'typescript') {
+          // Format: name: Type
+          if (trimmed.includes(':')) {
+            const [name, type] = trimmed.split(':').map(s => s.trim());
+            return { name, type: type || 'Any' };
+          }
+          return { name: trimmed, type: 'Any' };
+        } else if (lang === 'go') {
+          // Format: name Type (space-separated, last token is type)
+          const parts = trimmed.split(/\s+/);
+          if (parts.length >= 2) {
+            const type = parts.pop() || 'Any';
+            const name = parts.join(' ');
+            return { name, type };
+          }
+          return { name: trimmed, type: 'Any' };
+        } else if (lang === 'java' || lang === 'csharp') {
+          // Format: Type name (or "final Type name" for Java, or "Type name = default" for C#)
+          // Remove modifiers like "final"
+          let cleaned = trimmed.replace(/^(final|readonly|ref|out|in|params)\s+/gi, '');
+          // Remove default value assignment (e.g., "= CommandFlags.None")
+          cleaned = cleaned.replace(/\s*=\s*[^,]+$/, '');
+          const parts = cleaned.split(/\s+/);
+          if (parts.length >= 2) {
+            const name = parts.pop() || '';
+            const type = parts.join(' ');
+            return { name, type };
+          }
+          return { name: trimmed, type: 'Any' };
+        } else if (lang === 'php') {
+          // Format: Type $name or just $name
+          const match = trimmed.match(/^(.+?)\s*(\$\w+)$/);
+          if (match) {
+            return { name: match[2], type: match[1].trim() || 'Any' };
+          }
+          // Just $name
+          if (trimmed.startsWith('$')) {
+            return { name: trimmed, type: 'Any' };
+          }
+          return { name: trimmed, type: 'Any' };
+        }
+
+        // Default: try colon-separated, then return as-is
+        if (trimmed.includes(':')) {
+          const [name, type] = trimmed.split(':').map(s => s.trim());
+          return { name, type: type || 'Any' };
+        }
+        return { name: trimmed, type: 'Any' };
+      };
+
       return {
         method_name: sig.method_name,
         signature: cleanedSignature,
         parameters: filteredParams.map((p: string) => {
-          const name = p.split(":")[0].trim();
-          const type = p.includes(":") ? p.split(":")[1].trim() : "Any";
+          const { name, type } = parseParam(p, language);
           return {
             name,
             type,
