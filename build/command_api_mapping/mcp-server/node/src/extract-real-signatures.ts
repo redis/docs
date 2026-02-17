@@ -15,7 +15,6 @@ import { fileURLToPath } from 'url';
 
 interface SignatureObject {
   signature: string;
-  summary?: string;
   params?: Array<{
     name: string;
     type: string;
@@ -162,7 +161,6 @@ async function extractRealSignatures() {
           // Convert all overloads to the mapping format
           mapping[cmd].api_calls[clientConfig.id] = sigs.slice(0, 5).map(sig => ({
             signature: sig.signature,
-            summary: (sig as any).summary || '',
             params: sig.parameters?.map((p: any) => {
               if (typeof p === 'string') {
                 const parts = p.split(':');

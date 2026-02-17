@@ -3,14 +3,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def get(self, fmt: str, offset: BitfieldOffsetT)",
-          "summary": "Return the value at key ``name``, or None if the key doesn't exist For more information, see https://redis.io/commands/get",
+          "signature": "get(fmt: str, offset: BitfieldOffsetT)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "fmt",
               "type": "str",
@@ -28,14 +22,8 @@
           }
         },
         {
-          "signature": "def get(self, name: KeyT)",
-          "summary": "Return the value at key ``name``, or None if the key doesn't exist For more information, see https://redis.io/commands/get",
+          "signature": "get(name: KeyT)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "name",
               "type": "KeyT",
@@ -51,7 +39,6 @@
       "jedis": [
         {
           "signature": "String get(final String key)",
-          "summary": "Get the value of the specified key. If the key does not exist the special value 'nil' is",
           "params": [
             {
               "name": "final String key",
@@ -68,7 +55,6 @@
       "lettuce_sync": [
         {
           "signature": "V get(K key)",
-          "summary": "Get the value of a key.",
           "params": [
             {
               "name": "K key",
@@ -85,7 +71,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<V> get(K key)",
-          "summary": "Get the value of a key.",
           "params": [
             {
               "name": "K key",
@@ -102,7 +87,6 @@
       "lettuce_reactive": [
         {
           "signature": "Mono<V> get(K key)",
-          "summary": "Get the value of a key.",
           "params": [
             {
               "name": "K key",
@@ -118,8 +102,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) Get(ctx context.Context, key string)",
-          "summary": "Get Redis `GET key` command. It returns redis.Nil error when key does not exist.",
+          "signature": "Get(ctx context.Context, key string)",
           "params": [
             {
               "name": "ctx context.Context",
@@ -141,7 +124,6 @@
       "node_redis": [
         {
           "signature": "GET(parser: CommandParser, key: RedisArgument)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -163,7 +145,6 @@
       "ioredis": [
         {
           "signature": "get()",
-          "summary": "Get the value of a key",
           "params": [],
           "returns": {
             "type": "Any",
@@ -173,8 +154,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn get(key: K)",
-          "summary": "Set the GET option for the SET command",
+          "signature": "get(key: K)",
           "params": [
             {
               "name": "key",
@@ -188,8 +168,7 @@
           }
         },
         {
-          "signature": "fn get(mut self, get: bool)",
-          "summary": "Set the GET option for the SET command",
+          "signature": "get(mut self, get: bool)",
           "params": [
             {
               "name": "mut self",
@@ -210,8 +189,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn get(key: K)",
-          "summary": "Set the GET option for the SET command",
+          "signature": "get(key: K)",
           "params": [
             {
               "name": "key",
@@ -225,8 +203,7 @@
           }
         },
         {
-          "signature": "fn get(mut self, get: bool)",
-          "summary": "Set the GET option for the SET command",
+          "signature": "get(mut self, get: bool)",
           "params": [
             {
               "name": "mut self",
@@ -248,7 +225,6 @@
       "nredisstack_sync": [
         {
           "signature": "StringGet(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the values of all specified keys. For every key that does not hold a string value or does not exist, the special value <see cref=\"RedisValue.Null\"/> is returned.",
           "params": [
             {
               "name": "RedisKey key",
@@ -268,7 +244,6 @@
         },
         {
           "signature": "StringGet(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the values of all specified keys. For every key that does not hold a string value or does not exist, the special value <see cref=\"RedisValue.Null\"/> is returned.",
           "params": [
             {
               "name": "RedisKey[] keys",
@@ -288,7 +263,6 @@
         },
         {
           "signature": "StringGet(key, flags)",
-          "summary": "Returns the values of all specified keys. For every key that does not hold a string value or does not exist, the special value <see cref=\"RedisValue.Null\"/> is returned.",
           "params": [
             {
               "name": "key",
@@ -308,7 +282,6 @@
         },
         {
           "signature": "StringGet(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the values of all specified keys. For every key that does not hold a string value or does not exist, the special value <see cref=\"RedisValue.Null\"/> is returned.",
           "params": [
             {
               "name": "RedisKey key",
@@ -328,7 +301,6 @@
         },
         {
           "signature": "StringGet(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the values of all specified keys. For every key that does not hold a string value or does not exist, the special value <see cref=\"RedisValue.Null\"/> is returned.",
           "params": [
             {
               "name": "RedisKey[] keys",
@@ -350,7 +322,6 @@
       "nredisstack_async": [
         {
           "signature": "StringGet(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the values of all specified keys. For every key that does not hold a string value or does not exist, the special value <see cref=\"RedisValue.Null\"/> is returned.",
           "params": [
             {
               "name": "RedisKey key",
@@ -370,7 +341,6 @@
         },
         {
           "signature": "StringGet(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the values of all specified keys. For every key that does not hold a string value or does not exist, the special value <see cref=\"RedisValue.Null\"/> is returned.",
           "params": [
             {
               "name": "RedisKey[] keys",
@@ -390,7 +360,6 @@
         },
         {
           "signature": "StringGet(key, flags)",
-          "summary": "Returns the values of all specified keys. For every key that does not hold a string value or does not exist, the special value <see cref=\"RedisValue.Null\"/> is returned.",
           "params": [
             {
               "name": "key",
@@ -410,7 +379,6 @@
         },
         {
           "signature": "StringGet(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the values of all specified keys. For every key that does not hold a string value or does not exist, the special value <see cref=\"RedisValue.Null\"/> is returned.",
           "params": [
             {
               "name": "RedisKey key",
@@ -430,7 +398,6 @@
         },
         {
           "signature": "StringGet(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the values of all specified keys. For every key that does not hold a string value or does not exist, the special value <see cref=\"RedisValue.Null\"/> is returned.",
           "params": [
             {
               "name": "RedisKey[] keys",
@@ -452,7 +419,6 @@
       "php": [
         {
           "signature": "get(string $key)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -472,14 +438,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def set(self, fmt: str, offset: BitfieldOffsetT, value: int)",
-          "summary": "Set the value of a given bitfield. :param fmt: format-string for the bitfield being read, e.g. 'u8' for an unsigned 8-bit integer. :param offset: offset (in number of bits). If prefixed with a '#', this is an offset multiplier, e.g. given the arguments fmt='u8', offset='#2', the offset will be 16. :param int value: value to set at the given position. :returns: a :py:class:`BitFieldOperation` instance.",
+          "signature": "set(fmt: str, offset: BitfieldOffsetT, value: int)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "fmt",
               "type": "str",
@@ -502,14 +462,8 @@
           }
         },
         {
-          "signature": "def set(self,, name: KeyT,, value: EncodableT,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, nx: bool = False,, xx: bool = False,, keepttl: bool = False,, get: bool = False,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, ifeq: Optional[Union[bytes, str]] = None,, ifne: Optional[Union[bytes, str]] = None,, ifdeq: Optional[str] = None,  # hex digest of current value, ifdne: Optional[str] = None,  # hex digest of current value)",
-          "summary": "Set the value of a given bitfield. :param fmt: format-string for the bitfield being read, e.g. 'u8' for an unsigned 8-bit integer. :param offset: offset (in number of bits). If prefixed with a '#', this is an offset multiplier, e.g. given the arguments fmt='u8', offset='#2', the offset will be 16. :param int value: value to set at the given position. :returns: a :py:class:`BitFieldOperation` instance.",
+          "signature": "set(, name: KeyT,, value: EncodableT,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, nx: bool = False,, xx: bool = False,, keepttl: bool = False,, get: bool = False,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, ifeq: Optional[Union[bytes, str]] = None,, ifne: Optional[Union[bytes, str]] = None,, ifdeq: Optional[str] = None,  # hex digest of current value, ifdne: Optional[str] = None,  # hex digest of current value)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "name",
               "type": "KeyT",
@@ -610,7 +564,6 @@
       "jedis": [
         {
           "signature": "String set(final byte[] key, final byte[] value)",
-          "summary": "Set the string value as value of the key. The string can't be longer than 1073741824 bytes (1",
           "params": [
             {
               "name": "final byte[] key",
@@ -630,7 +583,6 @@
         },
         {
           "signature": "String set(final byte[] key, final byte[] value, final SetParams params)",
-          "summary": "Set the string value as value of the key. The string can't be longer than 1073741824 bytes (1",
           "params": [
             {
               "name": "final byte[] key",
@@ -655,7 +607,6 @@
         },
         {
           "signature": "String set(final String key, final String value)",
-          "summary": "Set the string value as value of the key. The string can't be longer than 1073741824 bytes (1",
           "params": [
             {
               "name": "final String key",
@@ -675,7 +626,6 @@
         },
         {
           "signature": "String set(final String key, final String value, final SetParams params)",
-          "summary": "Set the string value as value of the key. The string can't be longer than 1073741824 bytes (1",
           "params": [
             {
               "name": "final String key",
@@ -702,7 +652,6 @@
       "lettuce_sync": [
         {
           "signature": "String set(K key, V value)",
-          "summary": "Set the string value of a key.",
           "params": [
             {
               "name": "K key",
@@ -722,7 +671,6 @@
         },
         {
           "signature": "String set(K key, V value, SetArgs setArgs)",
-          "summary": "Set the string value of a key.",
           "params": [
             {
               "name": "K key",
@@ -749,7 +697,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<String> set(K key, V value)",
-          "summary": "Set the string value of a key.",
           "params": [
             {
               "name": "K key",
@@ -769,7 +716,6 @@
         },
         {
           "signature": "RedisFuture<String> set(K key, V value, SetArgs setArgs)",
-          "summary": "Set the string value of a key.",
           "params": [
             {
               "name": "K key",
@@ -796,7 +742,6 @@
       "lettuce_reactive": [
         {
           "signature": "Mono<String> set(K key, V value)",
-          "summary": "Set the string value of a key.",
           "params": [
             {
               "name": "K key",
@@ -816,7 +761,6 @@
         },
         {
           "signature": "Mono<String> set(K key, V value, SetArgs setArgs)",
-          "summary": "Set the string value of a key.",
           "params": [
             {
               "name": "K key",
@@ -842,8 +786,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) Set(ctx context.Context, key string, value interface{}, expiration time.Duration)",
-          "summary": "Set Redis `SET key value [expiration]` command.",
+          "signature": "Set(ctx context.Context, key string, value interface{}, expiration time.Duration)",
           "params": [
             {
               "name": "ctx context.Context",
@@ -875,7 +818,6 @@
       "node_redis": [
         {
           "signature": "SET(parser: CommandParser, key: RedisArgument, value: RedisArgument | number, options?: SetOptions)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -907,7 +849,6 @@
       "ioredis": [
         {
           "signature": "set()",
-          "summary": "Set the string value of a key",
           "params": [],
           "returns": {
             "type": "Any",
@@ -916,7 +857,6 @@
         },
         {
           "signature": "set()",
-          "summary": "Set the string value of a key",
           "params": [],
           "returns": {
             "type": "Any",
@@ -925,7 +865,6 @@
         },
         {
           "signature": "set()",
-          "summary": "Set the string value of a key",
           "params": [],
           "returns": {
             "type": "Any",
@@ -934,7 +873,6 @@
         },
         {
           "signature": "set()",
-          "summary": "Set the string value of a key",
           "params": [],
           "returns": {
             "type": "Any",
@@ -943,7 +881,6 @@
         },
         {
           "signature": "set()",
-          "summary": "Set the string value of a key",
           "params": [],
           "returns": {
             "type": "Any",
@@ -953,8 +890,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn set(key: K, value: V)",
-          "summary": "Set the string value of a key. [Redis Docs](https://redis.io/commands/SET)",
+          "signature": "set(key: K, value: V)",
           "params": [
             {
               "name": "key",
@@ -975,8 +911,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn set(key: K, value: V)",
-          "summary": "Set the string value of a key. [Redis Docs](https://redis.io/commands/SET)",
+          "signature": "set(key: K, value: V)",
           "params": [
             {
               "name": "key",
@@ -998,7 +933,6 @@
       "nredisstack_sync": [
         {
           "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, When when)",
-          "summary": "Sets the given keys to their respective values, optionally including expiration. If <see cref=\"When.NotExists\"/> is specified, this will not perform any operation at all even if just a single key already exists.",
           "params": [
             {
               "name": "RedisKey key",
@@ -1028,7 +962,6 @@
         },
         {
           "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, When when, CommandFlags flags)",
-          "summary": "Sets the given keys to their respective values, optionally including expiration. If <see cref=\"When.NotExists\"/> is specified, this will not perform any operation at all even if just a single key already exists.",
           "params": [
             {
               "name": "RedisKey key",
@@ -1063,7 +996,6 @@
         },
         {
           "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, bool keepTtl, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Sets the given keys to their respective values, optionally including expiration. If <see cref=\"When.NotExists\"/> is specified, this will not perform any operation at all even if just a single key already exists.",
           "params": [
             {
               "name": "RedisKey key",
@@ -1103,7 +1035,6 @@
         },
         {
           "signature": "StringSet(RedisKey key, RedisValue value, Expiration expiry = default, ValueCondition when = default, CommandFlags flags = CommandFlags.None)",
-          "summary": "Sets the given keys to their respective values, optionally including expiration. If <see cref=\"When.NotExists\"/> is specified, this will not perform any operation at all even if just a single key already exists.",
           "params": [
             {
               "name": "RedisKey key",
@@ -1138,7 +1069,6 @@
         },
         {
           "signature": "StringSet(KeyValuePair<RedisKey, RedisValue>[] values, When when, CommandFlags flags)",
-          "summary": "Sets the given keys to their respective values, optionally including expiration. If <see cref=\"When.NotExists\"/> is specified, this will not perform any operation at all even if just a single key already exists.",
           "params": [
             {
               "name": "KeyValuePair<RedisKey",
@@ -1170,7 +1100,6 @@
       "nredisstack_async": [
         {
           "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, When when)",
-          "summary": "Sets the given keys to their respective values, optionally including expiration. If <see cref=\"When.NotExists\"/> is specified, this will not perform any operation at all even if just a single key already exists.",
           "params": [
             {
               "name": "RedisKey key",
@@ -1200,7 +1129,6 @@
         },
         {
           "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, When when, CommandFlags flags)",
-          "summary": "Sets the given keys to their respective values, optionally including expiration. If <see cref=\"When.NotExists\"/> is specified, this will not perform any operation at all even if just a single key already exists.",
           "params": [
             {
               "name": "RedisKey key",
@@ -1235,7 +1163,6 @@
         },
         {
           "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, bool keepTtl, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Sets the given keys to their respective values, optionally including expiration. If <see cref=\"When.NotExists\"/> is specified, this will not perform any operation at all even if just a single key already exists.",
           "params": [
             {
               "name": "RedisKey key",
@@ -1275,7 +1202,6 @@
         },
         {
           "signature": "StringSet(RedisKey key, RedisValue value, Expiration expiry = default, ValueCondition when = default, CommandFlags flags = CommandFlags.None)",
-          "summary": "Sets the given keys to their respective values, optionally including expiration. If <see cref=\"When.NotExists\"/> is specified, this will not perform any operation at all even if just a single key already exists.",
           "params": [
             {
               "name": "RedisKey key",
@@ -1310,7 +1236,6 @@
         },
         {
           "signature": "StringSet(KeyValuePair<RedisKey, RedisValue>[] values, When when, CommandFlags flags)",
-          "summary": "Sets the given keys to their respective values, optionally including expiration. If <see cref=\"When.NotExists\"/> is specified, this will not perform any operation at all even if just a single key already exists.",
           "params": [
             {
               "name": "KeyValuePair<RedisKey",
@@ -1342,7 +1267,6 @@
       "php": [
         {
           "signature": "set(string $key, $value, $expireResolution = null, $expireTTL = null, $flag = null, $flagValue = null)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -1387,14 +1311,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def mget(self, keys: KeysT, *args: EncodableT)",
-          "summary": "Returns a list of values ordered identically to ``keys`` ** Important ** When this method is used with Cluster clients, all keys must be in the same hash slot, otherwise a RedisClusterException will be raised. For more information, see https://redis.io/commands/mget",
+          "signature": "mget(keys: KeysT, *args: EncodableT)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "keys",
               "type": "KeysT",
@@ -1415,7 +1333,6 @@
       "jedis": [
         {
           "signature": "List<String> mget(final String... keys)",
-          "summary": "Get the values of all the specified keys. If one or more keys don't exist or is not of type",
           "params": [
             {
               "name": "final String... keys",
@@ -1432,7 +1349,6 @@
       "lettuce_sync": [
         {
           "signature": "List<KeyValue<K, V>> mget(K... keys)",
-          "summary": "Stream over the values of all the given keys.",
           "params": [
             {
               "name": "K... keys",
@@ -1447,7 +1363,6 @@
         },
         {
           "signature": "Long mget(KeyValueStreamingChannel<K, V> channel, K... keys)",
-          "summary": "Stream over the values of all the given keys.",
           "params": [
             {
               "name": "KeyValueStreamingChannel<K",
@@ -1474,7 +1389,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<List<KeyValue<K, V>>> mget(K... keys)",
-          "summary": "Stream over the values of all the given keys.",
           "params": [
             {
               "name": "K... keys",
@@ -1489,7 +1403,6 @@
         },
         {
           "signature": "RedisFuture<Long> mget(KeyValueStreamingChannel<K, V> channel, K... keys)",
-          "summary": "Stream over the values of all the given keys.",
           "params": [
             {
               "name": "KeyValueStreamingChannel<K",
@@ -1516,7 +1429,6 @@
       "lettuce_reactive": [
         {
           "signature": "Flux<KeyValue<K, V>> mget(K... keys)",
-          "summary": "Stream over the values of all the given keys.",
           "params": [
             {
               "name": "K... keys",
@@ -1531,7 +1443,6 @@
         },
         {
           "signature": "Mono<Long> mget(KeyValueStreamingChannel<K, V> channel, K... keys)",
-          "summary": "Stream over the values of all the given keys.",
           "params": [
             {
               "name": "KeyValueStreamingChannel<K",
@@ -1557,8 +1468,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) MGet(ctx context.Context, keys ...string)",
-          "summary": "",
+          "signature": "MGet(ctx context.Context, keys ...string)",
           "params": [
             {
               "name": "ctx context.Context",
@@ -1580,7 +1490,6 @@
       "node_redis": [
         {
           "signature": "MGET(parser: CommandParser, keys: Array<RedisArgument>)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -1602,7 +1511,6 @@
       "ioredis": [
         {
           "signature": "mget()",
-          "summary": "Get the values of all the given keys",
           "params": [],
           "returns": {
             "type": "Any",
@@ -1611,7 +1519,6 @@
         },
         {
           "signature": "mget()",
-          "summary": "Get the values of all the given keys",
           "params": [],
           "returns": {
             "type": "Any",
@@ -1620,7 +1527,6 @@
         },
         {
           "signature": "mget(...args: [...keys: RedisKey[]])",
-          "summary": "Get the values of all the given keys",
           "params": [
             {
               "name": "...args",
@@ -1635,7 +1541,6 @@
         },
         {
           "signature": "mget(...args: [keys: RedisKey[]])",
-          "summary": "Get the values of all the given keys",
           "params": [
             {
               "name": "...args",
@@ -1651,8 +1556,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn mget(key: K)",
-          "summary": "Get values of keys [Redis Docs](https://redis.io/commands/MGET)",
+          "signature": "mget(key: K)",
           "params": [
             {
               "name": "key",
@@ -1668,8 +1572,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn mget(key: K)",
-          "summary": "Get values of keys [Redis Docs](https://redis.io/commands/MGET)",
+          "signature": "mget(key: K)",
           "params": [
             {
               "name": "key",
@@ -1686,7 +1589,6 @@
       "php": [
         {
           "signature": "mget(string[]|string $keyOrKeys, string ...$keys = null)",
-          "summary": "",
           "params": [
             {
               "name": "string[]|string $keyOrKeys",
@@ -1711,14 +1613,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def mset(self, mapping: Mapping[AnyKeyT, EncodableT])",
-          "summary": "Sets key/values based on a mapping. Mapping is a dictionary of key/value pairs. Both keys and values should be strings or types that can be cast to a string via str(). ** Important ** When this method is used with Cluster clients, all keys must be in the same hash slot, otherwise a RedisClusterException will be raised. For more information, see https://redis.io/commands/mset",
+          "signature": "mset(mapping: Mapping[AnyKeyT, EncodableT])",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "mapping",
               "type": "Mapping[AnyKeyT",
@@ -1739,7 +1635,6 @@
       "jedis": [
         {
           "signature": "String mset(final byte[]... keysvalues)",
-          "summary": "Set the respective keys to the respective values. MSET will replace old values with new",
           "params": [
             {
               "name": "final byte[]... keysvalues",
@@ -1754,7 +1649,6 @@
         },
         {
           "signature": "String mset(final String... keysvalues)",
-          "summary": "Set the respective keys to the respective values. MSET will replace old values with new",
           "params": [
             {
               "name": "final String... keysvalues",
@@ -1771,7 +1665,6 @@
       "lettuce_sync": [
         {
           "signature": "String mset(Map<K, V> map)",
-          "summary": "Set multiple keys to multiple values.",
           "params": [
             {
               "name": "Map<K",
@@ -1793,7 +1686,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<String> mset(Map<K, V> map)",
-          "summary": "Set multiple keys to multiple values.",
           "params": [
             {
               "name": "Map<K",
@@ -1815,7 +1707,6 @@
       "lettuce_reactive": [
         {
           "signature": "Mono<String> mset(Map<K, V> map)",
-          "summary": "Set multiple keys to multiple values.",
           "params": [
             {
               "name": "Map<K",
@@ -1836,8 +1727,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) MSet(ctx context.Context, values ...interface{})",
-          "summary": "MSet is like Set but accepts multiple values:",
+          "signature": "MSet(ctx context.Context, values ...interface{})",
           "params": [
             {
               "name": "ctx context.Context",
@@ -1859,7 +1749,6 @@
       "node_redis": [
         {
           "signature": "MSET(parser: CommandParser, toSet: MSetArguments)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -1881,7 +1770,6 @@
       "ioredis": [
         {
           "signature": "mset(object: object, callback?: Callback<\"OK\">)",
-          "summary": "Set multiple keys to multiple values",
           "params": [
             {
               "name": "object",
@@ -1901,7 +1789,6 @@
         },
         {
           "signature": "mset()",
-          "summary": "Set multiple keys to multiple values",
           "params": [],
           "returns": {
             "type": "Any",
@@ -1910,7 +1797,6 @@
         },
         {
           "signature": "mset()",
-          "summary": "Set multiple keys to multiple values",
           "params": [],
           "returns": {
             "type": "Any",
@@ -1919,7 +1805,6 @@
         },
         {
           "signature": "mset()",
-          "summary": "Set multiple keys to multiple values",
           "params": [],
           "returns": {
             "type": "Any",
@@ -1929,8 +1814,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn mset(items: &'a [(K, V)])",
-          "summary": "Sets multiple keys to their values. [Redis Docs](https://redis.io/commands/MSET)",
+          "signature": "mset(items: &'a [(K, V)])",
           "params": [
             {
               "name": "items",
@@ -1951,8 +1835,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn mset(items: &'a [(K, V)])",
-          "summary": "Sets multiple keys to their values. [Redis Docs](https://redis.io/commands/MSET)",
+          "signature": "mset(items: &'a [(K, V)])",
           "params": [
             {
               "name": "items",
@@ -1974,7 +1857,6 @@
       "php": [
         {
           "signature": "mset(array $dictionary)",
-          "summary": "",
           "params": [
             {
               "name": "array $dictionary",
@@ -1994,14 +1876,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def incrby(self,, fmt: str,, offset: BitfieldOffsetT,, increment: int,, overflow: Optional[str] = None,)",
-          "summary": "Increments the value of ``key`` by ``amount``.  If no key exists, the value will be initialized as ``amount`` For more information, see https://redis.io/commands/incrby",
+          "signature": "incrby(, fmt: str,, offset: BitfieldOffsetT,, increment: int,, overflow: Optional[str] = None,)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "fmt",
               "type": "str",
@@ -2029,14 +1905,8 @@
           }
         },
         {
-          "signature": "def incrby(self, name: KeyT, amount: int = 1)",
-          "summary": "Increments the value of ``key`` by ``amount``.  If no key exists, the value will be initialized as ``amount`` For more information, see https://redis.io/commands/incrby",
+          "signature": "incrby(name: KeyT, amount: int = 1)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "name",
               "type": "KeyT",
@@ -2057,7 +1927,6 @@
       "jedis": [
         {
           "signature": "long incrBy(final byte[] key, final long increment)",
-          "summary": "INCRBY work just like {@link Jedis#incr(String) INCR} but instead to increment by 1 the",
           "params": [
             {
               "name": "final byte[] key",
@@ -2077,7 +1946,6 @@
         },
         {
           "signature": "long incr(final byte[] key)",
-          "summary": "Increment the number stored at key by one. If the key does not exist or contains a value of a",
           "params": [
             {
               "name": "final byte[] key",
@@ -2092,7 +1960,6 @@
         },
         {
           "signature": "long incrBy(final String key, final long increment)",
-          "summary": "INCRBY work just like {@link Jedis#incr(String) INCR} but instead to increment by 1 the",
           "params": [
             {
               "name": "final String key",
@@ -2112,7 +1979,6 @@
         },
         {
           "signature": "long incr(final String key)",
-          "summary": "Increment the number stored at key by one. If the key does not exist or contains a value of a",
           "params": [
             {
               "name": "final String key",
@@ -2129,7 +1995,6 @@
       "lettuce_sync": [
         {
           "signature": "Long incr(K key)",
-          "summary": "Increment the integer value of a key by one.",
           "params": [
             {
               "name": "K key",
@@ -2144,7 +2009,6 @@
         },
         {
           "signature": "Long incrby(K key, long amount)",
-          "summary": "Increment the integer value of a key by the given amount.",
           "params": [
             {
               "name": "K key",
@@ -2166,7 +2030,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<Long> incr(K key)",
-          "summary": "Increment the integer value of a key by one.",
           "params": [
             {
               "name": "K key",
@@ -2181,7 +2044,6 @@
         },
         {
           "signature": "RedisFuture<Long> incrby(K key, long amount)",
-          "summary": "Increment the integer value of a key by the given amount.",
           "params": [
             {
               "name": "K key",
@@ -2203,7 +2065,6 @@
       "lettuce_reactive": [
         {
           "signature": "Mono<Long> incr(K key)",
-          "summary": "Increment the integer value of a key by one.",
           "params": [
             {
               "name": "K key",
@@ -2218,7 +2079,6 @@
         },
         {
           "signature": "Mono<Long> incrby(K key, long amount)",
-          "summary": "Increment the integer value of a key by the given amount.",
           "params": [
             {
               "name": "K key",
@@ -2239,8 +2099,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) Incr(ctx context.Context, key string)",
-          "summary": "",
+          "signature": "Incr(ctx context.Context, key string)",
           "params": [
             {
               "name": "ctx context.Context",
@@ -2259,8 +2118,7 @@
           }
         },
         {
-          "signature": "func (c cmdable) IncrBy(ctx context.Context, key string, value int64)",
-          "summary": "",
+          "signature": "IncrBy(ctx context.Context, key string, value int64)",
           "params": [
             {
               "name": "ctx context.Context",
@@ -2287,7 +2145,6 @@
       "node_redis": [
         {
           "signature": "INCR(parser: CommandParser, key: RedisArgument)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -2309,7 +2166,6 @@
       "ioredis": [
         {
           "signature": "incr(key: RedisKey, callback?: Callback<number>)",
-          "summary": "Increment the integer value of a key by one",
           "params": [
             {
               "name": "key",
@@ -2329,7 +2185,6 @@
         },
         {
           "signature": "incrby()",
-          "summary": "Increment the integer value of a key by the given amount",
           "params": [],
           "returns": {
             "type": "Any",
@@ -2339,8 +2194,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn incr(key: K, delta: V)",
-          "summary": "Increment the numeric value of a key by the given amount.  This issues a `INCRBY` or `INCRBYFLOAT` depending on the type. If the key does not exist, it is set to 0 before performing the operation.",
+          "signature": "incr(key: K, delta: V)",
           "params": [
             {
               "name": "key",
@@ -2361,8 +2215,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn incr(key: K, delta: V)",
-          "summary": "Increment the numeric value of a key by the given amount.  This issues a `INCRBY` or `INCRBYFLOAT` depending on the type. If the key does not exist, it is set to 0 before performing the operation.",
+          "signature": "incr(key: K, delta: V)",
           "params": [
             {
               "name": "key",
@@ -2384,7 +2237,6 @@
       "nredisstack_sync": [
         {
           "signature": "StringIncrement(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
-          "summary": "Increments the string representing a floating point number stored at key by the specified increment. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "RedisKey key",
@@ -2409,7 +2261,6 @@
         },
         {
           "signature": "StringIncrement(RedisKey key, double value, CommandFlags flags = CommandFlags.None)",
-          "summary": "Increments the string representing a floating point number stored at key by the specified increment. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "RedisKey key",
@@ -2434,7 +2285,6 @@
         },
         {
           "signature": "StringIncrement(key, -value, flags)",
-          "summary": "Increments the string representing a floating point number stored at key by the specified increment. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "key",
@@ -2459,7 +2309,6 @@
         },
         {
           "signature": "StringIncrement(key, -value, flags)",
-          "summary": "Increments the string representing a floating point number stored at key by the specified increment. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "key",
@@ -2484,7 +2333,6 @@
         },
         {
           "signature": "StringIncrement(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
-          "summary": "Increments the string representing a floating point number stored at key by the specified increment. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "RedisKey key",
@@ -2511,7 +2359,6 @@
       "nredisstack_async": [
         {
           "signature": "StringIncrement(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
-          "summary": "Increments the string representing a floating point number stored at key by the specified increment. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "RedisKey key",
@@ -2536,7 +2383,6 @@
         },
         {
           "signature": "StringIncrement(RedisKey key, double value, CommandFlags flags = CommandFlags.None)",
-          "summary": "Increments the string representing a floating point number stored at key by the specified increment. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "RedisKey key",
@@ -2561,7 +2407,6 @@
         },
         {
           "signature": "StringIncrement(key, -value, flags)",
-          "summary": "Increments the string representing a floating point number stored at key by the specified increment. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "key",
@@ -2586,7 +2431,6 @@
         },
         {
           "signature": "StringIncrement(key, -value, flags)",
-          "summary": "Increments the string representing a floating point number stored at key by the specified increment. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "key",
@@ -2611,7 +2455,6 @@
         },
         {
           "signature": "StringIncrement(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
-          "summary": "Increments the string representing a floating point number stored at key by the specified increment. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "RedisKey key",
@@ -2638,7 +2481,6 @@
       "php": [
         {
           "signature": "incr(string $key)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -2653,7 +2495,6 @@
         },
         {
           "signature": "incrby(string $key, int $increment)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -2678,14 +2519,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def decrby(self, name: KeyT, amount: int = 1)",
-          "summary": "Decrements the value of ``key`` by ``amount``.  If no key exists, the value will be initialized as 0 - ``amount`` For more information, see https://redis.io/commands/decrby",
+          "signature": "decrby(name: KeyT, amount: int = 1)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "name",
               "type": "KeyT",
@@ -2706,7 +2541,6 @@
       "jedis": [
         {
           "signature": "long decrBy(final byte[] key, final long decrement)",
-          "summary": "IDECRBY work just like {@link Jedis#decr(String) INCR} but instead to decrement by 1 the",
           "params": [
             {
               "name": "final byte[] key",
@@ -2726,7 +2560,6 @@
         },
         {
           "signature": "long decr(final byte[] key)",
-          "summary": "Decrement the number stored at key by one. If the key does not exist or contains a value of a",
           "params": [
             {
               "name": "final byte[] key",
@@ -2741,7 +2574,6 @@
         },
         {
           "signature": "long decrBy(final String key, final long decrement)",
-          "summary": "IDECRBY work just like {@link Jedis#decr(String) INCR} but instead to decrement by 1 the",
           "params": [
             {
               "name": "final String key",
@@ -2761,7 +2593,6 @@
         },
         {
           "signature": "long decr(final String key)",
-          "summary": "Decrement the number stored at key by one. If the key does not exist or contains a value of a",
           "params": [
             {
               "name": "final String key",
@@ -2778,7 +2609,6 @@
       "lettuce_sync": [
         {
           "signature": "Long decr(K key)",
-          "summary": "Decrement the integer value of a key by one.",
           "params": [
             {
               "name": "K key",
@@ -2793,7 +2623,6 @@
         },
         {
           "signature": "Long decrby(K key, long amount)",
-          "summary": "Decrement the integer value of a key by the given number.",
           "params": [
             {
               "name": "K key",
@@ -2815,7 +2644,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<Long> decr(K key)",
-          "summary": "Decrement the integer value of a key by one.",
           "params": [
             {
               "name": "K key",
@@ -2830,7 +2658,6 @@
         },
         {
           "signature": "RedisFuture<Long> decrby(K key, long amount)",
-          "summary": "Decrement the integer value of a key by the given number.",
           "params": [
             {
               "name": "K key",
@@ -2852,7 +2679,6 @@
       "lettuce_reactive": [
         {
           "signature": "Mono<Long> decr(K key)",
-          "summary": "Decrement the integer value of a key by one.",
           "params": [
             {
               "name": "K key",
@@ -2867,7 +2693,6 @@
         },
         {
           "signature": "Mono<Long> decrby(K key, long amount)",
-          "summary": "Decrement the integer value of a key by the given number.",
           "params": [
             {
               "name": "K key",
@@ -2888,8 +2713,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) Decr(ctx context.Context, key string)",
-          "summary": "",
+          "signature": "Decr(ctx context.Context, key string)",
           "params": [
             {
               "name": "ctx context.Context",
@@ -2908,8 +2732,7 @@
           }
         },
         {
-          "signature": "func (c cmdable) DecrBy(ctx context.Context, key string, decrement int64)",
-          "summary": "",
+          "signature": "DecrBy(ctx context.Context, key string, decrement int64)",
           "params": [
             {
               "name": "ctx context.Context",
@@ -2936,7 +2759,6 @@
       "node_redis": [
         {
           "signature": "DECR(parser: CommandParser, key: RedisArgument)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -2958,7 +2780,6 @@
       "ioredis": [
         {
           "signature": "decr(key: RedisKey, callback?: Callback<number>)",
-          "summary": "Decrement the integer value of a key by one",
           "params": [
             {
               "name": "key",
@@ -2978,7 +2799,6 @@
         },
         {
           "signature": "decrby()",
-          "summary": "Decrement the integer value of a key by the given number",
           "params": [],
           "returns": {
             "type": "Any",
@@ -2988,8 +2808,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn decr(key: K, delta: V)",
-          "summary": "Decrement the numeric value of a key by the given amount. If the key does not exist, it is set to 0 before performing the operation. [Redis Docs](https://redis.io/commands/DECRBY)",
+          "signature": "decr(key: K, delta: V)",
           "params": [
             {
               "name": "key",
@@ -3010,8 +2829,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn decr(key: K, delta: V)",
-          "summary": "Decrement the numeric value of a key by the given amount. If the key does not exist, it is set to 0 before performing the operation. [Redis Docs](https://redis.io/commands/DECRBY)",
+          "signature": "decr(key: K, delta: V)",
           "params": [
             {
               "name": "key",
@@ -3033,7 +2851,6 @@
       "nredisstack_sync": [
         {
           "signature": "StringDecrement(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
-          "summary": "Decrements the string representing a floating point number stored at key by the specified decrement. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "RedisKey key",
@@ -3058,7 +2875,6 @@
         },
         {
           "signature": "StringDecrement(RedisKey key, double value, CommandFlags flags = CommandFlags.None)",
-          "summary": "Decrements the string representing a floating point number stored at key by the specified decrement. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "RedisKey key",
@@ -3083,7 +2899,6 @@
         },
         {
           "signature": "StringDecrement(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
-          "summary": "Decrements the string representing a floating point number stored at key by the specified decrement. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "RedisKey key",
@@ -3108,7 +2923,6 @@
         },
         {
           "signature": "StringDecrement(RedisKey key, double value, CommandFlags flags = CommandFlags.None)",
-          "summary": "Decrements the string representing a floating point number stored at key by the specified decrement. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "RedisKey key",
@@ -3135,7 +2949,6 @@
       "nredisstack_async": [
         {
           "signature": "StringDecrement(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
-          "summary": "Decrements the string representing a floating point number stored at key by the specified decrement. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "RedisKey key",
@@ -3160,7 +2973,6 @@
         },
         {
           "signature": "StringDecrement(RedisKey key, double value, CommandFlags flags = CommandFlags.None)",
-          "summary": "Decrements the string representing a floating point number stored at key by the specified decrement. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "RedisKey key",
@@ -3185,7 +2997,6 @@
         },
         {
           "signature": "StringDecrement(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
-          "summary": "Decrements the string representing a floating point number stored at key by the specified decrement. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "RedisKey key",
@@ -3210,7 +3021,6 @@
         },
         {
           "signature": "StringDecrement(RedisKey key, double value, CommandFlags flags = CommandFlags.None)",
-          "summary": "Decrements the string representing a floating point number stored at key by the specified decrement. If the key does not exist, it is set to 0 before performing the operation. The precision of the output is fixed at 17 digits after the decimal point regardless of the actual internal precision of the computation.",
           "params": [
             {
               "name": "RedisKey key",
@@ -3237,7 +3047,6 @@
       "php": [
         {
           "signature": "decr(string $key)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -3252,7 +3061,6 @@
         },
         {
           "signature": "decrby(string $key, int $decrement)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -3277,14 +3085,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def delete(self, *names: KeyT)",
-          "summary": "Delete one or more keys specified by ``names``",
+          "signature": "delete(*names: KeyT)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "*names",
               "type": "KeyT",
@@ -3300,7 +3102,6 @@
       "jedis": [
         {
           "signature": "long del(final byte[]... keys)",
-          "summary": "Remove the specified keys. If a given key does not exist no operation is performed for this",
           "params": [
             {
               "name": "final byte[]... keys",
@@ -3315,7 +3116,6 @@
         },
         {
           "signature": "long del(final byte[] key)",
-          "summary": "Remove the specified keys. If a given key does not exist no operation is performed for this",
           "params": [
             {
               "name": "final byte[] key",
@@ -3330,7 +3130,6 @@
         },
         {
           "signature": "long del(final String... keys)",
-          "summary": "Remove the specified keys. If a given key does not exist no operation is performed for this",
           "params": [
             {
               "name": "final String... keys",
@@ -3345,7 +3144,6 @@
         },
         {
           "signature": "long del(final String key)",
-          "summary": "Remove the specified keys. If a given key does not exist no operation is performed for this",
           "params": [
             {
               "name": "final String key",
@@ -3362,7 +3160,6 @@
       "lettuce_sync": [
         {
           "signature": "Long del(K... keys)",
-          "summary": "Delete one or more keys.",
           "params": [
             {
               "name": "K... keys",
@@ -3379,7 +3176,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<Long> del(K... keys)",
-          "summary": "Delete one or more keys.",
           "params": [
             {
               "name": "K... keys",
@@ -3396,7 +3192,6 @@
       "lettuce_reactive": [
         {
           "signature": "Mono<Long> del(K... keys)",
-          "summary": "Delete one or more keys.",
           "params": [
             {
               "name": "K... keys",
@@ -3412,8 +3207,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) Del(ctx context.Context, keys ...string)",
-          "summary": "",
+          "signature": "Del(ctx context.Context, keys ...string)",
           "params": [
             {
               "name": "ctx context.Context",
@@ -3435,7 +3229,6 @@
       "node_redis": [
         {
           "signature": "DEL(parser: CommandParser, keys: RedisVariadicArgument)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -3457,7 +3250,6 @@
       "ioredis": [
         {
           "signature": "del()",
-          "summary": "Delete a key",
           "params": [],
           "returns": {
             "type": "Any",
@@ -3466,7 +3258,6 @@
         },
         {
           "signature": "del()",
-          "summary": "Delete a key",
           "params": [],
           "returns": {
             "type": "Any",
@@ -3475,7 +3266,6 @@
         },
         {
           "signature": "del(...args: [...keys: RedisKey[]])",
-          "summary": "Delete a key",
           "params": [
             {
               "name": "...args",
@@ -3490,7 +3280,6 @@
         },
         {
           "signature": "del(...args: [keys: RedisKey[]])",
-          "summary": "Delete a key",
           "params": [
             {
               "name": "...args",
@@ -3506,8 +3295,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn del(key: K)",
-          "summary": "Delete one or more keys. Returns the number of keys deleted. [Redis Docs](https://redis.io/commands/DEL)",
+          "signature": "del(key: K)",
           "params": [
             {
               "name": "key",
@@ -3523,8 +3311,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn del(key: K)",
-          "summary": "Delete one or more keys. Returns the number of keys deleted. [Redis Docs](https://redis.io/commands/DEL)",
+          "signature": "del(key: K)",
           "params": [
             {
               "name": "key",
@@ -3541,7 +3328,6 @@
       "nredisstack_sync": [
         {
           "signature": "KeyDelete(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Removes the specified keys. A key is ignored if it does not exist. If UNLINK is available (Redis 4.0+), it will be used.",
           "params": [
             {
               "name": "RedisKey key",
@@ -3561,7 +3347,6 @@
         },
         {
           "signature": "KeyDelete(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
-          "summary": "Removes the specified keys. A key is ignored if it does not exist. If UNLINK is available (Redis 4.0+), it will be used.",
           "params": [
             {
               "name": "RedisKey[] keys",
@@ -3581,7 +3366,6 @@
         },
         {
           "signature": "KeyDelete(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Removes the specified keys. A key is ignored if it does not exist. If UNLINK is available (Redis 4.0+), it will be used.",
           "params": [
             {
               "name": "RedisKey key",
@@ -3601,7 +3385,6 @@
         },
         {
           "signature": "KeyDelete(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
-          "summary": "Removes the specified keys. A key is ignored if it does not exist. If UNLINK is available (Redis 4.0+), it will be used.",
           "params": [
             {
               "name": "RedisKey[] keys",
@@ -3621,7 +3404,6 @@
         },
         {
           "signature": "KeyDelete(key, flags)",
-          "summary": "Removes the specified keys. A key is ignored if it does not exist. If UNLINK is available (Redis 4.0+), it will be used.",
           "params": [
             {
               "name": "key",
@@ -3643,7 +3425,6 @@
       "nredisstack_async": [
         {
           "signature": "KeyDelete(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Removes the specified keys. A key is ignored if it does not exist. If UNLINK is available (Redis 4.0+), it will be used.",
           "params": [
             {
               "name": "RedisKey key",
@@ -3663,7 +3444,6 @@
         },
         {
           "signature": "KeyDelete(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
-          "summary": "Removes the specified keys. A key is ignored if it does not exist. If UNLINK is available (Redis 4.0+), it will be used.",
           "params": [
             {
               "name": "RedisKey[] keys",
@@ -3683,7 +3463,6 @@
         },
         {
           "signature": "KeyDelete(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Removes the specified keys. A key is ignored if it does not exist. If UNLINK is available (Redis 4.0+), it will be used.",
           "params": [
             {
               "name": "RedisKey key",
@@ -3703,7 +3482,6 @@
         },
         {
           "signature": "KeyDelete(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
-          "summary": "Removes the specified keys. A key is ignored if it does not exist. If UNLINK is available (Redis 4.0+), it will be used.",
           "params": [
             {
               "name": "RedisKey[] keys",
@@ -3723,7 +3501,6 @@
         },
         {
           "signature": "KeyDelete(key, flags)",
-          "summary": "Removes the specified keys. A key is ignored if it does not exist. If UNLINK is available (Redis 4.0+), it will be used.",
           "params": [
             {
               "name": "key",
@@ -3745,7 +3522,6 @@
       "php": [
         {
           "signature": "del(string[]|string $keyOrKeys, string ...$keys = null)",
-          "summary": "",
           "params": [
             {
               "name": "string[]|string $keyOrKeys",
@@ -3770,14 +3546,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def exists(self, *names: KeyT)",
-          "summary": "Returns the number of ``names`` that exist For more information, see https://redis.io/commands/exists",
+          "signature": "exists(*names: KeyT)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "*names",
               "type": "KeyT",
@@ -3793,7 +3563,6 @@
       "jedis": [
         {
           "signature": "long exists(final byte[]... keys)",
-          "summary": "Test if the specified key exists. The command returns true if the key exists, otherwise false is",
           "params": [
             {
               "name": "final byte[]... keys",
@@ -3808,7 +3577,6 @@
         },
         {
           "signature": "boolean exists(final byte[] key)",
-          "summary": "Test if the specified key exists. The command returns true if the key exists, otherwise false is",
           "params": [
             {
               "name": "final byte[] key",
@@ -3823,7 +3591,6 @@
         },
         {
           "signature": "long exists(final String... keys)",
-          "summary": "Test if the specified key exists. The command returns true if the key exists, otherwise false is",
           "params": [
             {
               "name": "final String... keys",
@@ -3838,7 +3605,6 @@
         },
         {
           "signature": "boolean exists(final String key)",
-          "summary": "Test if the specified key exists. The command returns true if the key exists, otherwise false is",
           "params": [
             {
               "name": "final String key",
@@ -3855,7 +3621,6 @@
       "lettuce_sync": [
         {
           "signature": "Long exists(K... keys)",
-          "summary": "Determine how many keys exist.",
           "params": [
             {
               "name": "K... keys",
@@ -3872,7 +3637,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<Long> exists(K... keys)",
-          "summary": "Determine how many keys exist.",
           "params": [
             {
               "name": "K... keys",
@@ -3889,7 +3653,6 @@
       "lettuce_reactive": [
         {
           "signature": "Mono<Long> exists(K... keys)",
-          "summary": "Determine how many keys exist.",
           "params": [
             {
               "name": "K... keys",
@@ -3905,8 +3668,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) Exists(ctx context.Context, keys ...string)",
-          "summary": "",
+          "signature": "Exists(ctx context.Context, keys ...string)",
           "params": [
             {
               "name": "ctx context.Context",
@@ -3928,7 +3690,6 @@
       "node_redis": [
         {
           "signature": "EXISTS(parser: CommandParser, keys: RedisVariadicArgument)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -3950,7 +3711,6 @@
       "ioredis": [
         {
           "signature": "exists()",
-          "summary": "Determine if a key exists",
           "params": [],
           "returns": {
             "type": "Any",
@@ -3959,7 +3719,6 @@
         },
         {
           "signature": "exists()",
-          "summary": "Determine if a key exists",
           "params": [],
           "returns": {
             "type": "Any",
@@ -3968,7 +3727,6 @@
         },
         {
           "signature": "exists(...args: [...keys: RedisKey[]])",
-          "summary": "Determine if a key exists",
           "params": [
             {
               "name": "...args",
@@ -3983,7 +3741,6 @@
         },
         {
           "signature": "exists(...args: [keys: RedisKey[]])",
-          "summary": "Determine if a key exists",
           "params": [
             {
               "name": "...args",
@@ -3999,8 +3756,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn exists(key: K)",
-          "summary": "Determine if a key exists. [Redis Docs](https://redis.io/commands/EXISTS)",
+          "signature": "exists(key: K)",
           "params": [
             {
               "name": "key",
@@ -4016,8 +3772,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn exists(key: K)",
-          "summary": "Determine if a key exists. [Redis Docs](https://redis.io/commands/EXISTS)",
+          "signature": "exists(key: K)",
           "params": [
             {
               "name": "key",
@@ -4034,7 +3789,6 @@
       "nredisstack_sync": [
         {
           "signature": "KeyExists(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Indicates how many of the supplied keys exists.",
           "params": [
             {
               "name": "RedisKey key",
@@ -4054,7 +3808,6 @@
         },
         {
           "signature": "KeyExists(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
-          "summary": "Indicates how many of the supplied keys exists.",
           "params": [
             {
               "name": "RedisKey[] keys",
@@ -4074,7 +3827,6 @@
         },
         {
           "signature": "KeyExists(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Indicates how many of the supplied keys exists.",
           "params": [
             {
               "name": "RedisKey key",
@@ -4094,7 +3846,6 @@
         },
         {
           "signature": "KeyExists(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
-          "summary": "Indicates how many of the supplied keys exists.",
           "params": [
             {
               "name": "RedisKey[] keys",
@@ -4116,7 +3867,6 @@
       "nredisstack_async": [
         {
           "signature": "KeyExists(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Indicates how many of the supplied keys exists.",
           "params": [
             {
               "name": "RedisKey key",
@@ -4136,7 +3886,6 @@
         },
         {
           "signature": "KeyExists(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
-          "summary": "Indicates how many of the supplied keys exists.",
           "params": [
             {
               "name": "RedisKey[] keys",
@@ -4156,7 +3905,6 @@
         },
         {
           "signature": "KeyExists(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Indicates how many of the supplied keys exists.",
           "params": [
             {
               "name": "RedisKey key",
@@ -4176,7 +3924,6 @@
         },
         {
           "signature": "KeyExists(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
-          "summary": "Indicates how many of the supplied keys exists.",
           "params": [
             {
               "name": "RedisKey[] keys",
@@ -4198,7 +3945,6 @@
       "php": [
         {
           "signature": "exists(string $key)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -4218,14 +3964,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def expire(self,, name: KeyT,, time: ExpiryT,, nx: bool = False,, xx: bool = False,, gt: bool = False,, lt: bool = False,)",
-          "summary": "",
+          "signature": "expire(, name: KeyT,, time: ExpiryT,, nx: bool = False,, xx: bool = False,, gt: bool = False,, lt: bool = False,)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "name",
               "type": "KeyT",
@@ -4266,7 +4006,6 @@
       "jedis": [
         {
           "signature": "long expire(final byte[] key, final long seconds)",
-          "summary": "Similar to {@link Jedis#expire(String, long) EXPIRE} but with optional expiry setting.",
           "params": [
             {
               "name": "final byte[] key",
@@ -4286,7 +4025,6 @@
         },
         {
           "signature": "long expire(final byte[] key, final long seconds, final ExpiryOption expiryOption)",
-          "summary": "Similar to {@link Jedis#expire(String, long) EXPIRE} but with optional expiry setting.",
           "params": [
             {
               "name": "final byte[] key",
@@ -4311,7 +4049,6 @@
         },
         {
           "signature": "long expire(final String key, final long seconds)",
-          "summary": "Similar to {@link Jedis#expire(String, long) EXPIRE} but with optional expiry setting.",
           "params": [
             {
               "name": "final String key",
@@ -4331,7 +4068,6 @@
         },
         {
           "signature": "long expire(final String key, final long seconds, final ExpiryOption expiryOption)",
-          "summary": "Similar to {@link Jedis#expire(String, long) EXPIRE} but with optional expiry setting.",
           "params": [
             {
               "name": "final String key",
@@ -4358,7 +4094,6 @@
       "lettuce_sync": [
         {
           "signature": "Boolean expire(K key, long seconds)",
-          "summary": "Set a key's time to live in seconds.",
           "params": [
             {
               "name": "K key",
@@ -4378,7 +4113,6 @@
         },
         {
           "signature": "Boolean expire(K key, long seconds, ExpireArgs expireArgs)",
-          "summary": "Set a key's time to live in seconds.",
           "params": [
             {
               "name": "K key",
@@ -4403,7 +4137,6 @@
         },
         {
           "signature": "Boolean expire(K key, Duration seconds)",
-          "summary": "Set a key's time to live in seconds.",
           "params": [
             {
               "name": "K key",
@@ -4423,7 +4156,6 @@
         },
         {
           "signature": "Boolean expire(K key, Duration seconds, ExpireArgs expireArgs)",
-          "summary": "Set a key's time to live in seconds.",
           "params": [
             {
               "name": "K key",
@@ -4450,7 +4182,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<Boolean> expire(K key, long seconds)",
-          "summary": "Set a key's time to live in seconds.",
           "params": [
             {
               "name": "K key",
@@ -4470,7 +4201,6 @@
         },
         {
           "signature": "RedisFuture<Boolean> expire(K key, long seconds, ExpireArgs expireArgs)",
-          "summary": "Set a key's time to live in seconds.",
           "params": [
             {
               "name": "K key",
@@ -4495,7 +4225,6 @@
         },
         {
           "signature": "RedisFuture<Boolean> expire(K key, Duration seconds)",
-          "summary": "Set a key's time to live in seconds.",
           "params": [
             {
               "name": "K key",
@@ -4515,7 +4244,6 @@
         },
         {
           "signature": "RedisFuture<Boolean> expire(K key, Duration seconds, ExpireArgs expireArgs)",
-          "summary": "Set a key's time to live in seconds.",
           "params": [
             {
               "name": "K key",
@@ -4542,7 +4270,6 @@
       "lettuce_reactive": [
         {
           "signature": "Mono<Boolean> expire(K key, long seconds)",
-          "summary": "Set a key's time to live in seconds.",
           "params": [
             {
               "name": "K key",
@@ -4562,7 +4289,6 @@
         },
         {
           "signature": "Mono<Boolean> expire(K key, long seconds, ExpireArgs expireArgs)",
-          "summary": "Set a key's time to live in seconds.",
           "params": [
             {
               "name": "K key",
@@ -4587,7 +4313,6 @@
         },
         {
           "signature": "Mono<Boolean> expire(K key, Duration seconds)",
-          "summary": "Set a key's time to live in seconds.",
           "params": [
             {
               "name": "K key",
@@ -4607,7 +4332,6 @@
         },
         {
           "signature": "Mono<Boolean> expire(K key, Duration seconds, ExpireArgs expireArgs)",
-          "summary": "Set a key's time to live in seconds.",
           "params": [
             {
               "name": "K key",
@@ -4633,8 +4357,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) Expire(ctx context.Context, key string, expiration time.Duration)",
-          "summary": "",
+          "signature": "Expire(ctx context.Context, key string, expiration time.Duration)",
           "params": [
             {
               "name": "ctx context.Context",
@@ -4661,7 +4384,6 @@
       "node_redis": [
         {
           "signature": "EXPIRE()",
-          "summary": "",
           "params": [],
           "returns": {
             "type": "Any",
@@ -4672,7 +4394,6 @@
       "ioredis": [
         {
           "signature": "expire()",
-          "summary": "Set a key's time to live in seconds",
           "params": [],
           "returns": {
             "type": "Any",
@@ -4681,7 +4402,6 @@
         },
         {
           "signature": "expire()",
-          "summary": "Set a key's time to live in seconds",
           "params": [],
           "returns": {
             "type": "Any",
@@ -4690,7 +4410,6 @@
         },
         {
           "signature": "expire()",
-          "summary": "Set a key's time to live in seconds",
           "params": [],
           "returns": {
             "type": "Any",
@@ -4699,7 +4418,6 @@
         },
         {
           "signature": "expire()",
-          "summary": "Set a key's time to live in seconds",
           "params": [],
           "returns": {
             "type": "Any",
@@ -4708,7 +4426,6 @@
         },
         {
           "signature": "expire()",
-          "summary": "Set a key's time to live in seconds",
           "params": [],
           "returns": {
             "type": "Any",
@@ -4718,8 +4435,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn expire(key: K, seconds: i64)",
-          "summary": "Set a key's time to live in seconds. Returns whether expiration was set. [Redis Docs](https://redis.io/commands/EXPIRE)",
+          "signature": "expire(key: K, seconds: i64)",
           "params": [
             {
               "name": "key",
@@ -4740,8 +4456,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn expire(key: K, seconds: i64)",
-          "summary": "Set a key's time to live in seconds. Returns whether expiration was set. [Redis Docs](https://redis.io/commands/EXPIRE)",
+          "signature": "expire(key: K, seconds: i64)",
           "params": [
             {
               "name": "key",
@@ -4763,7 +4478,6 @@
       "nredisstack_sync": [
         {
           "signature": "KeyExpire(RedisKey key, TimeSpan? expiry, CommandFlags flags)",
-          "summary": ". After the timeout has expired, the key will automatically be deleted. A key with an associated timeout is said to be volatile in Redis terminology.",
           "params": [
             {
               "name": "RedisKey key",
@@ -4788,7 +4502,6 @@
         },
         {
           "signature": "KeyExpire(RedisKey key, TimeSpan? expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": ". After the timeout has expired, the key will automatically be deleted. A key with an associated timeout is said to be volatile in Redis terminology.",
           "params": [
             {
               "name": "RedisKey key",
@@ -4818,7 +4531,6 @@
         },
         {
           "signature": "KeyExpire(RedisKey key, DateTime? expiry, CommandFlags flags)",
-          "summary": ". After the timeout has expired, the key will automatically be deleted. A key with an associated timeout is said to be volatile in Redis terminology.",
           "params": [
             {
               "name": "RedisKey key",
@@ -4843,7 +4555,6 @@
         },
         {
           "signature": "KeyExpire(RedisKey key, DateTime? expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": ". After the timeout has expired, the key will automatically be deleted. A key with an associated timeout is said to be volatile in Redis terminology.",
           "params": [
             {
               "name": "RedisKey key",
@@ -4873,7 +4584,6 @@
         },
         {
           "signature": "KeyExpire(RedisKey key, TimeSpan? expiry, CommandFlags flags = CommandFlags.None)",
-          "summary": ". After the timeout has expired, the key will automatically be deleted. A key with an associated timeout is said to be volatile in Redis terminology.",
           "params": [
             {
               "name": "RedisKey key",
@@ -4900,7 +4610,6 @@
       "nredisstack_async": [
         {
           "signature": "KeyExpire(RedisKey key, TimeSpan? expiry, CommandFlags flags)",
-          "summary": ". After the timeout has expired, the key will automatically be deleted. A key with an associated timeout is said to be volatile in Redis terminology.",
           "params": [
             {
               "name": "RedisKey key",
@@ -4925,7 +4634,6 @@
         },
         {
           "signature": "KeyExpire(RedisKey key, TimeSpan? expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": ". After the timeout has expired, the key will automatically be deleted. A key with an associated timeout is said to be volatile in Redis terminology.",
           "params": [
             {
               "name": "RedisKey key",
@@ -4955,7 +4663,6 @@
         },
         {
           "signature": "KeyExpire(RedisKey key, DateTime? expiry, CommandFlags flags)",
-          "summary": ". After the timeout has expired, the key will automatically be deleted. A key with an associated timeout is said to be volatile in Redis terminology.",
           "params": [
             {
               "name": "RedisKey key",
@@ -4980,7 +4687,6 @@
         },
         {
           "signature": "KeyExpire(RedisKey key, DateTime? expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": ". After the timeout has expired, the key will automatically be deleted. A key with an associated timeout is said to be volatile in Redis terminology.",
           "params": [
             {
               "name": "RedisKey key",
@@ -5010,7 +4716,6 @@
         },
         {
           "signature": "KeyExpire(RedisKey key, TimeSpan? expiry, CommandFlags flags = CommandFlags.None)",
-          "summary": ". After the timeout has expired, the key will automatically be deleted. A key with an associated timeout is said to be volatile in Redis terminology.",
           "params": [
             {
               "name": "RedisKey key",
@@ -5037,7 +4742,6 @@
       "php": [
         {
           "signature": "expire(string $key, int $seconds, string $expireOption = '')",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -5067,14 +4771,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def ttl(self, name: KeyT)",
-          "summary": "Returns the number of seconds until the key ``name`` will expire For more information, see https://redis.io/commands/ttl",
+          "signature": "ttl(name: KeyT)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "name",
               "type": "KeyT",
@@ -5090,7 +4788,6 @@
       "jedis": [
         {
           "signature": "long ttl(final byte[] key)",
-          "summary": "The TTL command returns the remaining time to live in seconds of a key that has an",
           "params": [
             {
               "name": "final byte[] key",
@@ -5105,7 +4802,6 @@
         },
         {
           "signature": "long ttl(final String key)",
-          "summary": "The TTL command returns the remaining time to live in seconds of a key that has an",
           "params": [
             {
               "name": "final String key",
@@ -5122,7 +4818,6 @@
       "lettuce_sync": [
         {
           "signature": "Long ttl(K key)",
-          "summary": "Get the time to live for a key.",
           "params": [
             {
               "name": "K key",
@@ -5139,7 +4834,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<Long> ttl(K key)",
-          "summary": "Get the time to live for a key.",
           "params": [
             {
               "name": "K key",
@@ -5156,7 +4850,6 @@
       "lettuce_reactive": [
         {
           "signature": "Mono<Long> ttl(K key)",
-          "summary": "Get the time to live for a key.",
           "params": [
             {
               "name": "K key",
@@ -5172,8 +4865,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) TTL(ctx context.Context, key string)",
-          "summary": "",
+          "signature": "TTL(ctx context.Context, key string)",
           "params": [
             {
               "name": "ctx context.Context",
@@ -5195,7 +4887,6 @@
       "node_redis": [
         {
           "signature": "TTL(parser: CommandParser, key: RedisArgument)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -5217,7 +4908,6 @@
       "ioredis": [
         {
           "signature": "ttl(key: RedisKey, callback?: Callback<number>)",
-          "summary": "Get the time to live for a key in seconds",
           "params": [
             {
               "name": "key",
@@ -5238,8 +4928,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn ttl(key: K)",
-          "summary": "Get the time to live for a key in seconds. Returns `ExistsButNotRelevant` if key exists but has no expiration time. [Redis Docs](https://redis.io/commands/TTL)",
+          "signature": "ttl(key: K)",
           "params": [
             {
               "name": "key",
@@ -5255,8 +4944,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn ttl(key: K)",
-          "summary": "Get the time to live for a key in seconds. Returns `ExistsButNotRelevant` if key exists but has no expiration time. [Redis Docs](https://redis.io/commands/TTL)",
+          "signature": "ttl(key: K)",
           "params": [
             {
               "name": "key",
@@ -5273,7 +4961,6 @@
       "nredisstack_sync": [
         {
           "signature": "KeyTimeToLive(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the remaining time to live of a key that has a timeout. This introspection capability allows a Redis client to check how many seconds a given key will continue to be part of the dataset.",
           "params": [
             {
               "name": "RedisKey key",
@@ -5293,7 +4980,6 @@
         },
         {
           "signature": "KeyTimeToLive(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the remaining time to live of a key that has a timeout. This introspection capability allows a Redis client to check how many seconds a given key will continue to be part of the dataset.",
           "params": [
             {
               "name": "RedisKey key",
@@ -5315,7 +5001,6 @@
       "nredisstack_async": [
         {
           "signature": "KeyTimeToLive(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the remaining time to live of a key that has a timeout. This introspection capability allows a Redis client to check how many seconds a given key will continue to be part of the dataset.",
           "params": [
             {
               "name": "RedisKey key",
@@ -5335,7 +5020,6 @@
         },
         {
           "signature": "KeyTimeToLive(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the remaining time to live of a key that has a timeout. This introspection capability allows a Redis client to check how many seconds a given key will continue to be part of the dataset.",
           "params": [
             {
               "name": "RedisKey key",
@@ -5357,7 +5041,6 @@
       "php": [
         {
           "signature": "ttl(string $key)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -5377,14 +5060,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def lpush(self, name: KeyT, *values: FieldT)",
-          "summary": "Push ``values`` onto the head of the list ``name`` For more information, see https://redis.io/commands/lpush",
+          "signature": "lpush(name: KeyT, *values: FieldT)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "name",
               "type": "KeyT",
@@ -5405,7 +5082,6 @@
       "jedis": [
         {
           "signature": "long lpush(final byte[] key, final byte[]... strings)",
-          "summary": "Add the string value to the head (LPUSH) or tail (RPUSH) of the list stored at key. If the key",
           "params": [
             {
               "name": "final byte[] key",
@@ -5425,7 +5101,6 @@
         },
         {
           "signature": "long lpush(final String key, final String... strings)",
-          "summary": "Add the string value to the head (LPUSH) or tail (RPUSH) of the list stored at key. If the key",
           "params": [
             {
               "name": "final String key",
@@ -5447,7 +5122,6 @@
       "lettuce_sync": [
         {
           "signature": "Long lpush(K key, V... values)",
-          "summary": "Prepend one or multiple values to a list.",
           "params": [
             {
               "name": "K key",
@@ -5469,7 +5143,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<Long> lpush(K key, V... values)",
-          "summary": "Prepend one or multiple values to a list.",
           "params": [
             {
               "name": "K key",
@@ -5491,7 +5164,6 @@
       "lettuce_reactive": [
         {
           "signature": "Mono<Long> lpush(K key, V... values)",
-          "summary": "Prepend one or multiple values to a list.",
           "params": [
             {
               "name": "K key",
@@ -5512,8 +5184,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) LPush(ctx context.Context, key string, values ...interface{})",
-          "summary": "",
+          "signature": "LPush(ctx context.Context, key string, values ...interface{})",
           "params": [
             {
               "name": "ctx context.Context",
@@ -5540,7 +5211,6 @@
       "node_redis": [
         {
           "signature": "LPUSH(parser: CommandParser, key: RedisArgument, elements: RedisVariadicArgument)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -5567,7 +5237,6 @@
       "ioredis": [
         {
           "signature": "lpush()",
-          "summary": "Prepend one or multiple elements to a list",
           "params": [],
           "returns": {
             "type": "Any",
@@ -5576,7 +5245,6 @@
         },
         {
           "signature": "lpush()",
-          "summary": "Prepend one or multiple elements to a list",
           "params": [],
           "returns": {
             "type": "Any",
@@ -5586,8 +5254,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn lpush(key: K, value: V)",
-          "summary": "Insert all the specified values at the head of the list stored at key. [Redis Docs](https://redis.io/commands/LPUSH)",
+          "signature": "lpush(key: K, value: V)",
           "params": [
             {
               "name": "key",
@@ -5608,8 +5275,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn lpush(key: K, value: V)",
-          "summary": "Insert all the specified values at the head of the list stored at key. [Redis Docs](https://redis.io/commands/LPUSH)",
+          "signature": "lpush(key: K, value: V)",
           "params": [
             {
               "name": "key",
@@ -5631,7 +5297,6 @@
       "nredisstack_sync": [
         {
           "signature": "ListLeftPush(RedisKey key, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Insert all the specified values at the head of the list stored at key. If key does not exist, it is created as empty list before performing the push operations. Elements are inserted one after the other to the head of the list, from the leftmost element to the rightmost element. So for instance the command <c>LPUSH mylist a b c</c> will result into a list containing c as first element, b as second element and a as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -5661,7 +5326,6 @@
         },
         {
           "signature": "ListLeftPush(RedisKey key, RedisValue[] values, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Insert all the specified values at the head of the list stored at key. If key does not exist, it is created as empty list before performing the push operations. Elements are inserted one after the other to the head of the list, from the leftmost element to the rightmost element. So for instance the command <c>LPUSH mylist a b c</c> will result into a list containing c as first element, b as second element and a as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -5691,7 +5355,6 @@
         },
         {
           "signature": "ListLeftPush(RedisKey key, RedisValue[] values, CommandFlags flags)",
-          "summary": "Insert all the specified values at the head of the list stored at key. If key does not exist, it is created as empty list before performing the push operations. Elements are inserted one after the other to the head of the list, from the leftmost element to the rightmost element. So for instance the command <c>LPUSH mylist a b c</c> will result into a list containing c as first element, b as second element and a as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -5716,7 +5379,6 @@
         },
         {
           "signature": "ListLeftPush(RedisKey key, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Insert all the specified values at the head of the list stored at key. If key does not exist, it is created as empty list before performing the push operations. Elements are inserted one after the other to the head of the list, from the leftmost element to the rightmost element. So for instance the command <c>LPUSH mylist a b c</c> will result into a list containing c as first element, b as second element and a as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -5746,7 +5408,6 @@
         },
         {
           "signature": "ListLeftPush(RedisKey key, RedisValue[] values, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Insert all the specified values at the head of the list stored at key. If key does not exist, it is created as empty list before performing the push operations. Elements are inserted one after the other to the head of the list, from the leftmost element to the rightmost element. So for instance the command <c>LPUSH mylist a b c</c> will result into a list containing c as first element, b as second element and a as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -5778,7 +5439,6 @@
       "nredisstack_async": [
         {
           "signature": "ListLeftPush(RedisKey key, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Insert all the specified values at the head of the list stored at key. If key does not exist, it is created as empty list before performing the push operations. Elements are inserted one after the other to the head of the list, from the leftmost element to the rightmost element. So for instance the command <c>LPUSH mylist a b c</c> will result into a list containing c as first element, b as second element and a as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -5808,7 +5468,6 @@
         },
         {
           "signature": "ListLeftPush(RedisKey key, RedisValue[] values, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Insert all the specified values at the head of the list stored at key. If key does not exist, it is created as empty list before performing the push operations. Elements are inserted one after the other to the head of the list, from the leftmost element to the rightmost element. So for instance the command <c>LPUSH mylist a b c</c> will result into a list containing c as first element, b as second element and a as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -5838,7 +5497,6 @@
         },
         {
           "signature": "ListLeftPush(RedisKey key, RedisValue[] values, CommandFlags flags)",
-          "summary": "Insert all the specified values at the head of the list stored at key. If key does not exist, it is created as empty list before performing the push operations. Elements are inserted one after the other to the head of the list, from the leftmost element to the rightmost element. So for instance the command <c>LPUSH mylist a b c</c> will result into a list containing c as first element, b as second element and a as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -5863,7 +5521,6 @@
         },
         {
           "signature": "ListLeftPush(RedisKey key, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Insert all the specified values at the head of the list stored at key. If key does not exist, it is created as empty list before performing the push operations. Elements are inserted one after the other to the head of the list, from the leftmost element to the rightmost element. So for instance the command <c>LPUSH mylist a b c</c> will result into a list containing c as first element, b as second element and a as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -5893,7 +5550,6 @@
         },
         {
           "signature": "ListLeftPush(RedisKey key, RedisValue[] values, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Insert all the specified values at the head of the list stored at key. If key does not exist, it is created as empty list before performing the push operations. Elements are inserted one after the other to the head of the list, from the leftmost element to the rightmost element. So for instance the command <c>LPUSH mylist a b c</c> will result into a list containing c as first element, b as second element and a as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -5925,7 +5581,6 @@
       "php": [
         {
           "signature": "lpush(string $key, array $values)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -5950,14 +5605,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def rpush(self, name: KeyT, *values: FieldT)",
-          "summary": "Push ``values`` onto the tail of the list ``name`` For more information, see https://redis.io/commands/rpush",
+          "signature": "rpush(name: KeyT, *values: FieldT)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "name",
               "type": "KeyT",
@@ -5978,7 +5627,6 @@
       "jedis": [
         {
           "signature": "long rpush(final byte[] key, final byte[]... strings)",
-          "summary": "Add the string value to the head (LPUSH) or tail (RPUSH) of the list stored at key. If the key",
           "params": [
             {
               "name": "final byte[] key",
@@ -5998,7 +5646,6 @@
         },
         {
           "signature": "long rpush(final String key, final String... strings)",
-          "summary": "Add the string value to the head (LPUSH) or tail (RPUSH) of the list stored at key. If the key",
           "params": [
             {
               "name": "final String key",
@@ -6020,7 +5667,6 @@
       "lettuce_sync": [
         {
           "signature": "Long rpush(K key, V... values)",
-          "summary": "Append one or multiple values to a list.",
           "params": [
             {
               "name": "K key",
@@ -6042,7 +5688,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<Long> rpush(K key, V... values)",
-          "summary": "Append one or multiple values to a list.",
           "params": [
             {
               "name": "K key",
@@ -6064,7 +5709,6 @@
       "lettuce_reactive": [
         {
           "signature": "Mono<Long> rpush(K key, V... values)",
-          "summary": "Append one or multiple values to a list.",
           "params": [
             {
               "name": "K key",
@@ -6085,8 +5729,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) RPush(ctx context.Context, key string, values ...interface{})",
-          "summary": "",
+          "signature": "RPush(ctx context.Context, key string, values ...interface{})",
           "params": [
             {
               "name": "ctx context.Context",
@@ -6113,7 +5756,6 @@
       "node_redis": [
         {
           "signature": "RPUSH(parser: CommandParser, key: RedisArgument, element: RedisVariadicArgument)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -6140,7 +5782,6 @@
       "ioredis": [
         {
           "signature": "rpush()",
-          "summary": "Append one or multiple elements to a list",
           "params": [],
           "returns": {
             "type": "Any",
@@ -6149,7 +5790,6 @@
         },
         {
           "signature": "rpush()",
-          "summary": "Append one or multiple elements to a list",
           "params": [],
           "returns": {
             "type": "Any",
@@ -6159,8 +5799,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn rpush(key: K, value: V)",
-          "summary": "Insert all the specified values at the tail of the list stored at key. [Redis Docs](https://redis.io/commands/RPUSH)",
+          "signature": "rpush(key: K, value: V)",
           "params": [
             {
               "name": "key",
@@ -6181,8 +5820,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn rpush(key: K, value: V)",
-          "summary": "Insert all the specified values at the tail of the list stored at key. [Redis Docs](https://redis.io/commands/RPUSH)",
+          "signature": "rpush(key: K, value: V)",
           "params": [
             {
               "name": "key",
@@ -6204,7 +5842,6 @@
       "nredisstack_sync": [
         {
           "signature": "ListRightPush(RedisKey key, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Insert all the specified values at the tail of the list stored at key. If key does not exist, it is created as empty list before performing the push operation. Elements are inserted one after the other to the tail of the list, from the leftmost element to the rightmost element. So for instance the command <c>RPUSH mylist a b c</c> will result into a list containing a as first element, b as second element and c as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -6234,7 +5871,6 @@
         },
         {
           "signature": "ListRightPush(RedisKey key, RedisValue[] values, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Insert all the specified values at the tail of the list stored at key. If key does not exist, it is created as empty list before performing the push operation. Elements are inserted one after the other to the tail of the list, from the leftmost element to the rightmost element. So for instance the command <c>RPUSH mylist a b c</c> will result into a list containing a as first element, b as second element and c as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -6264,7 +5900,6 @@
         },
         {
           "signature": "ListRightPush(RedisKey key, RedisValue[] values, CommandFlags flags)",
-          "summary": "Insert all the specified values at the tail of the list stored at key. If key does not exist, it is created as empty list before performing the push operation. Elements are inserted one after the other to the tail of the list, from the leftmost element to the rightmost element. So for instance the command <c>RPUSH mylist a b c</c> will result into a list containing a as first element, b as second element and c as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -6289,7 +5924,6 @@
         },
         {
           "signature": "ListRightPush(RedisKey key, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Insert all the specified values at the tail of the list stored at key. If key does not exist, it is created as empty list before performing the push operation. Elements are inserted one after the other to the tail of the list, from the leftmost element to the rightmost element. So for instance the command <c>RPUSH mylist a b c</c> will result into a list containing a as first element, b as second element and c as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -6319,7 +5953,6 @@
         },
         {
           "signature": "ListRightPush(RedisKey key, RedisValue[] values, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Insert all the specified values at the tail of the list stored at key. If key does not exist, it is created as empty list before performing the push operation. Elements are inserted one after the other to the tail of the list, from the leftmost element to the rightmost element. So for instance the command <c>RPUSH mylist a b c</c> will result into a list containing a as first element, b as second element and c as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -6351,7 +5984,6 @@
       "nredisstack_async": [
         {
           "signature": "ListRightPush(RedisKey key, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Insert all the specified values at the tail of the list stored at key. If key does not exist, it is created as empty list before performing the push operation. Elements are inserted one after the other to the tail of the list, from the leftmost element to the rightmost element. So for instance the command <c>RPUSH mylist a b c</c> will result into a list containing a as first element, b as second element and c as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -6381,7 +6013,6 @@
         },
         {
           "signature": "ListRightPush(RedisKey key, RedisValue[] values, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Insert all the specified values at the tail of the list stored at key. If key does not exist, it is created as empty list before performing the push operation. Elements are inserted one after the other to the tail of the list, from the leftmost element to the rightmost element. So for instance the command <c>RPUSH mylist a b c</c> will result into a list containing a as first element, b as second element and c as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -6411,7 +6042,6 @@
         },
         {
           "signature": "ListRightPush(RedisKey key, RedisValue[] values, CommandFlags flags)",
-          "summary": "Insert all the specified values at the tail of the list stored at key. If key does not exist, it is created as empty list before performing the push operation. Elements are inserted one after the other to the tail of the list, from the leftmost element to the rightmost element. So for instance the command <c>RPUSH mylist a b c</c> will result into a list containing a as first element, b as second element and c as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -6436,7 +6066,6 @@
         },
         {
           "signature": "ListRightPush(RedisKey key, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Insert all the specified values at the tail of the list stored at key. If key does not exist, it is created as empty list before performing the push operation. Elements are inserted one after the other to the tail of the list, from the leftmost element to the rightmost element. So for instance the command <c>RPUSH mylist a b c</c> will result into a list containing a as first element, b as second element and c as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -6466,7 +6095,6 @@
         },
         {
           "signature": "ListRightPush(RedisKey key, RedisValue[] values, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Insert all the specified values at the tail of the list stored at key. If key does not exist, it is created as empty list before performing the push operation. Elements are inserted one after the other to the tail of the list, from the leftmost element to the rightmost element. So for instance the command <c>RPUSH mylist a b c</c> will result into a list containing a as first element, b as second element and c as third element.",
           "params": [
             {
               "name": "RedisKey key",
@@ -6498,7 +6126,6 @@
       "php": [
         {
           "signature": "rpush(string $key, array $values)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -6523,14 +6150,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def lpop(self,, name: KeyT,, count: Optional[int] = None,)",
-          "summary": "",
+          "signature": "lpop(, name: KeyT,, count: Optional[int] = None,)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "name",
               "type": "KeyT",
@@ -6551,7 +6172,6 @@
       "jedis": [
         {
           "signature": "String lpop(final String key)",
-          "summary": "Atomically return and remove the first (LPOP) or last (RPOP) element of the list. For example",
           "params": [
             {
               "name": "final String key",
@@ -6566,7 +6186,6 @@
         },
         {
           "signature": "List<String> lpop(final String key, final int count)",
-          "summary": "Atomically return and remove the first (LPOP) or last (RPOP) element of the list. For example",
           "params": [
             {
               "name": "final String key",
@@ -6588,7 +6207,6 @@
       "lettuce_sync": [
         {
           "signature": "V lpop(K key)",
-          "summary": "Remove and get the first {@code count} elements in a list.",
           "params": [
             {
               "name": "K key",
@@ -6603,7 +6221,6 @@
         },
         {
           "signature": "List<V> lpop(K key, long count)",
-          "summary": "Remove and get the first {@code count} elements in a list.",
           "params": [
             {
               "name": "K key",
@@ -6625,7 +6242,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<V> lpop(K key)",
-          "summary": "Remove and get the first {@code count} elements in a list.",
           "params": [
             {
               "name": "K key",
@@ -6640,7 +6256,6 @@
         },
         {
           "signature": "RedisFuture<List<V>> lpop(K key, long count)",
-          "summary": "Remove and get the first {@code count} elements in a list.",
           "params": [
             {
               "name": "K key",
@@ -6662,7 +6277,6 @@
       "lettuce_reactive": [
         {
           "signature": "Mono<V> lpop(K key)",
-          "summary": "Remove and get the first {@code count} elements in a list.",
           "params": [
             {
               "name": "K key",
@@ -6677,7 +6291,6 @@
         },
         {
           "signature": "Flux<V> lpop(K key, long count)",
-          "summary": "Remove and get the first {@code count} elements in a list.",
           "params": [
             {
               "name": "K key",
@@ -6698,8 +6311,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) LPop(ctx context.Context, key string)",
-          "summary": "",
+          "signature": "LPop(ctx context.Context, key string)",
           "params": [
             {
               "name": "ctx context.Context",
@@ -6721,7 +6333,6 @@
       "node_redis": [
         {
           "signature": "LPOP(parser: CommandParser, key: RedisArgument)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -6743,7 +6354,6 @@
       "ioredis": [
         {
           "signature": "lpop()",
-          "summary": "Remove and get the first elements in a list",
           "params": [],
           "returns": {
             "type": "Any",
@@ -6752,7 +6362,6 @@
         },
         {
           "signature": "lpop()",
-          "summary": "Remove and get the first elements in a list",
           "params": [],
           "returns": {
             "type": "Any",
@@ -6762,8 +6371,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn lpop(key: K, count: Option<core::num::NonZeroUsize>)",
-          "summary": "Removes and returns the up to `count` first elements of the list stored at key. If `count` is not specified, then defaults to first element. [Redis Docs](https://redis.io/commands/LPOP)",
+          "signature": "lpop(key: K, count: Option<core::num::NonZeroUsize>)",
           "params": [
             {
               "name": "key",
@@ -6784,8 +6392,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn lpop(key: K, count: Option<core::num::NonZeroUsize>)",
-          "summary": "Removes and returns the up to `count` first elements of the list stored at key. If `count` is not specified, then defaults to first element. [Redis Docs](https://redis.io/commands/LPOP)",
+          "signature": "lpop(key: K, count: Option<core::num::NonZeroUsize>)",
           "params": [
             {
               "name": "key",
@@ -6807,7 +6414,6 @@
       "nredisstack_sync": [
         {
           "signature": "ListLeftPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the left side of the list.",
           "params": [
             {
               "name": "RedisKey key",
@@ -6827,7 +6433,6 @@
         },
         {
           "signature": "ListLeftPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the left side of the list.",
           "params": [
             {
               "name": "RedisKey key",
@@ -6852,7 +6457,6 @@
         },
         {
           "signature": "ListLeftPop(RedisKey[] keys, long count, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the left side of the list.",
           "params": [
             {
               "name": "RedisKey[] keys",
@@ -6877,7 +6481,6 @@
         },
         {
           "signature": "ListLeftPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the left side of the list.",
           "params": [
             {
               "name": "RedisKey key",
@@ -6897,7 +6500,6 @@
         },
         {
           "signature": "ListLeftPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the left side of the list.",
           "params": [
             {
               "name": "RedisKey key",
@@ -6924,7 +6526,6 @@
       "nredisstack_async": [
         {
           "signature": "ListLeftPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the left side of the list.",
           "params": [
             {
               "name": "RedisKey key",
@@ -6944,7 +6545,6 @@
         },
         {
           "signature": "ListLeftPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the left side of the list.",
           "params": [
             {
               "name": "RedisKey key",
@@ -6969,7 +6569,6 @@
         },
         {
           "signature": "ListLeftPop(RedisKey[] keys, long count, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the left side of the list.",
           "params": [
             {
               "name": "RedisKey[] keys",
@@ -6994,7 +6593,6 @@
         },
         {
           "signature": "ListLeftPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the left side of the list.",
           "params": [
             {
               "name": "RedisKey key",
@@ -7014,7 +6612,6 @@
         },
         {
           "signature": "ListLeftPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the left side of the list.",
           "params": [
             {
               "name": "RedisKey key",
@@ -7041,7 +6638,6 @@
       "php": [
         {
           "signature": "lpop(string $key)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -7061,14 +6657,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def rpop(self,, name: KeyT,, count: Optional[int] = None,)",
-          "summary": "",
+          "signature": "rpop(, name: KeyT,, count: Optional[int] = None,)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "name",
               "type": "KeyT",
@@ -7089,7 +6679,6 @@
       "jedis": [
         {
           "signature": "String rpop(final String key)",
-          "summary": "Atomically return and remove the first (LPOP) or last (RPOP) element of the list. For example",
           "params": [
             {
               "name": "final String key",
@@ -7104,7 +6693,6 @@
         },
         {
           "signature": "List<String> rpop(final String key, final int count)",
-          "summary": "Atomically return and remove the first (LPOP) or last (RPOP) element of the list. For example",
           "params": [
             {
               "name": "final String key",
@@ -7126,7 +6714,6 @@
       "lettuce_sync": [
         {
           "signature": "V rpop(K key)",
-          "summary": "Remove and get the last {@code count} elements in a list.",
           "params": [
             {
               "name": "K key",
@@ -7141,7 +6728,6 @@
         },
         {
           "signature": "List<V> rpop(K key, long count)",
-          "summary": "Remove and get the last {@code count} elements in a list.",
           "params": [
             {
               "name": "K key",
@@ -7163,7 +6749,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<V> rpop(K key)",
-          "summary": "Remove and get the last {@code count} elements in a list.",
           "params": [
             {
               "name": "K key",
@@ -7178,7 +6763,6 @@
         },
         {
           "signature": "RedisFuture<List<V>> rpop(K key, long count)",
-          "summary": "Remove and get the last {@code count} elements in a list.",
           "params": [
             {
               "name": "K key",
@@ -7200,7 +6784,6 @@
       "lettuce_reactive": [
         {
           "signature": "Mono<V> rpop(K key)",
-          "summary": "Remove and get the last {@code count} elements in a list.",
           "params": [
             {
               "name": "K key",
@@ -7215,7 +6798,6 @@
         },
         {
           "signature": "Flux<V> rpop(K key, long count)",
-          "summary": "Remove and get the last {@code count} elements in a list.",
           "params": [
             {
               "name": "K key",
@@ -7236,8 +6818,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) RPop(ctx context.Context, key string)",
-          "summary": "",
+          "signature": "RPop(ctx context.Context, key string)",
           "params": [
             {
               "name": "ctx context.Context",
@@ -7259,7 +6840,6 @@
       "node_redis": [
         {
           "signature": "RPOP(parser: CommandParser, key: RedisArgument)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -7281,7 +6861,6 @@
       "ioredis": [
         {
           "signature": "rpop()",
-          "summary": "Remove and get the last elements in a list",
           "params": [],
           "returns": {
             "type": "Any",
@@ -7290,7 +6869,6 @@
         },
         {
           "signature": "rpop()",
-          "summary": "Remove and get the last elements in a list",
           "params": [],
           "returns": {
             "type": "Any",
@@ -7300,8 +6878,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn rpop(key: K, count: Option<core::num::NonZeroUsize>)",
-          "summary": "Removes and returns the up to `count` last elements of the list stored at key If `count` is not specified, then defaults to last element. [Redis Docs](https://redis.io/commands/RPOP)",
+          "signature": "rpop(key: K, count: Option<core::num::NonZeroUsize>)",
           "params": [
             {
               "name": "key",
@@ -7322,8 +6899,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn rpop(key: K, count: Option<core::num::NonZeroUsize>)",
-          "summary": "Removes and returns the up to `count` last elements of the list stored at key If `count` is not specified, then defaults to last element. [Redis Docs](https://redis.io/commands/RPOP)",
+          "signature": "rpop(key: K, count: Option<core::num::NonZeroUsize>)",
           "params": [
             {
               "name": "key",
@@ -7345,7 +6921,6 @@
       "nredisstack_sync": [
         {
           "signature": "ListRightPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the right side of the list.",
           "params": [
             {
               "name": "RedisKey key",
@@ -7365,7 +6940,6 @@
         },
         {
           "signature": "ListRightPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the right side of the list.",
           "params": [
             {
               "name": "RedisKey key",
@@ -7390,7 +6964,6 @@
         },
         {
           "signature": "ListRightPop(RedisKey[] keys, long count, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the right side of the list.",
           "params": [
             {
               "name": "RedisKey[] keys",
@@ -7415,7 +6988,6 @@
         },
         {
           "signature": "ListRightPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the right side of the list.",
           "params": [
             {
               "name": "RedisKey key",
@@ -7435,7 +7007,6 @@
         },
         {
           "signature": "ListRightPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the right side of the list.",
           "params": [
             {
               "name": "RedisKey key",
@@ -7462,7 +7033,6 @@
       "nredisstack_async": [
         {
           "signature": "ListRightPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the right side of the list.",
           "params": [
             {
               "name": "RedisKey key",
@@ -7482,7 +7052,6 @@
         },
         {
           "signature": "ListRightPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the right side of the list.",
           "params": [
             {
               "name": "RedisKey key",
@@ -7507,7 +7076,6 @@
         },
         {
           "signature": "ListRightPop(RedisKey[] keys, long count, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the right side of the list.",
           "params": [
             {
               "name": "RedisKey[] keys",
@@ -7532,7 +7100,6 @@
         },
         {
           "signature": "ListRightPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the right side of the list.",
           "params": [
             {
               "name": "RedisKey key",
@@ -7552,7 +7119,6 @@
         },
         {
           "signature": "ListRightPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
-          "summary": "elements from the first non-empty list in <paramref name=\"keys\"/>. Starts on the right side of the list.",
           "params": [
             {
               "name": "RedisKey key",
@@ -7579,7 +7145,6 @@
       "php": [
         {
           "signature": "rpop(string $key)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -7599,14 +7164,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def lrange(self, name: KeyT, start: int, end: int)",
-          "summary": "Return a slice of the list ``name`` between position ``start`` and ``end`` ``start`` and ``end`` can be negative numbers just like Python slicing notation For more information, see https://redis.io/commands/lrange",
+          "signature": "lrange(name: KeyT, start: int, end: int)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "name",
               "type": "KeyT",
@@ -7632,7 +7191,6 @@
       "jedis": [
         {
           "signature": "List<String> lrange(final String key, final long start, final long stop)",
-          "summary": "Return the specified elements of the list stored at the specified key. Start and end are",
           "params": [
             {
               "name": "final String key",
@@ -7659,7 +7217,6 @@
       "lettuce_sync": [
         {
           "signature": "List<V> lrange(K key, long start, long stop)",
-          "summary": "Get a range of elements from a list.",
           "params": [
             {
               "name": "K key",
@@ -7684,7 +7241,6 @@
         },
         {
           "signature": "Long lrange(ValueStreamingChannel<V> channel, K key, long start, long stop)",
-          "summary": "Get a range of elements from a list.",
           "params": [
             {
               "name": "ValueStreamingChannel<V> channel",
@@ -7716,7 +7272,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<List<V>> lrange(K key, long start, long stop)",
-          "summary": "Get a range of elements from a list.",
           "params": [
             {
               "name": "K key",
@@ -7741,7 +7296,6 @@
         },
         {
           "signature": "RedisFuture<Long> lrange(ValueStreamingChannel<V> channel, K key, long start, long stop)",
-          "summary": "Get a range of elements from a list.",
           "params": [
             {
               "name": "ValueStreamingChannel<V> channel",
@@ -7773,7 +7327,6 @@
       "lettuce_reactive": [
         {
           "signature": "Flux<V> lrange(K key, long start, long stop)",
-          "summary": "Get a range of elements from a list.",
           "params": [
             {
               "name": "K key",
@@ -7798,7 +7351,6 @@
         },
         {
           "signature": "Mono<Long> lrange(ValueStreamingChannel<V> channel, K key, long start, long stop)",
-          "summary": "Get a range of elements from a list.",
           "params": [
             {
               "name": "ValueStreamingChannel<V> channel",
@@ -7829,8 +7381,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) LRange(ctx context.Context, key string, start, stop int64)",
-          "summary": "",
+          "signature": "LRange(ctx context.Context, key string, start, stop int64)",
           "params": [
             {
               "name": "ctx context.Context",
@@ -7862,7 +7413,6 @@
       "node_redis": [
         {
           "signature": "LRANGE(parser: CommandParser, key: RedisArgument, start: number, stop: number)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -7894,7 +7444,6 @@
       "ioredis": [
         {
           "signature": "lrange()",
-          "summary": "Get a range of elements from a list",
           "params": [],
           "returns": {
             "type": "Any",
@@ -7904,8 +7453,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn lrange(key: K, start: isize, stop: isize)",
-          "summary": "Returns the specified elements of the list stored at key. [Redis Docs](https://redis.io/commands/LRANGE)",
+          "signature": "lrange(key: K, start: isize, stop: isize)",
           "params": [
             {
               "name": "key",
@@ -7931,8 +7479,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn lrange(key: K, start: isize, stop: isize)",
-          "summary": "Returns the specified elements of the list stored at key. [Redis Docs](https://redis.io/commands/LRANGE)",
+          "signature": "lrange(key: K, start: isize, stop: isize)",
           "params": [
             {
               "name": "key",
@@ -7959,7 +7506,6 @@
       "nredisstack_sync": [
         {
           "signature": "ListRange(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the specified elements of the list stored at key. The offsets start and stop are zero-based indexes, with 0 being the first element of the list (the head of the list), 1 being the next element and so on. These offsets can also be negative numbers indicating offsets starting at the end of the list.For example, -1 is the last element of the list, -2 the penultimate, and so on. Note that if you have a list of numbers from 0 to 100, LRANGE list 0 10 will return 11 elements, that is, the rightmost item is included.",
           "params": [
             {
               "name": "RedisKey key",
@@ -7989,7 +7535,6 @@
         },
         {
           "signature": "ListRange(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the specified elements of the list stored at key. The offsets start and stop are zero-based indexes, with 0 being the first element of the list (the head of the list), 1 being the next element and so on. These offsets can also be negative numbers indicating offsets starting at the end of the list.For example, -1 is the last element of the list, -2 the penultimate, and so on. Note that if you have a list of numbers from 0 to 100, LRANGE list 0 10 will return 11 elements, that is, the rightmost item is included.",
           "params": [
             {
               "name": "RedisKey key",
@@ -8021,7 +7566,6 @@
       "nredisstack_async": [
         {
           "signature": "ListRange(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the specified elements of the list stored at key. The offsets start and stop are zero-based indexes, with 0 being the first element of the list (the head of the list), 1 being the next element and so on. These offsets can also be negative numbers indicating offsets starting at the end of the list.For example, -1 is the last element of the list, -2 the penultimate, and so on. Note that if you have a list of numbers from 0 to 100, LRANGE list 0 10 will return 11 elements, that is, the rightmost item is included.",
           "params": [
             {
               "name": "RedisKey key",
@@ -8051,7 +7595,6 @@
         },
         {
           "signature": "ListRange(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the specified elements of the list stored at key. The offsets start and stop are zero-based indexes, with 0 being the first element of the list (the head of the list), 1 being the next element and so on. These offsets can also be negative numbers indicating offsets starting at the end of the list.For example, -1 is the last element of the list, -2 the penultimate, and so on. Note that if you have a list of numbers from 0 to 100, LRANGE list 0 10 will return 11 elements, that is, the rightmost item is included.",
           "params": [
             {
               "name": "RedisKey key",
@@ -8083,7 +7626,6 @@
       "php": [
         {
           "signature": "lrange(string $key, int $start, int $stop)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -8113,14 +7655,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def hset(self,, name: str,, key: Optional[str] = None,, value: Optional[str] = None,, mapping: Optional[dict] = None,, items: Optional[list] = None,)",
-          "summary": "",
+          "signature": "hset(, name: str,, key: Optional[str] = None,, value: Optional[str] = None,, mapping: Optional[dict] = None,, items: Optional[list] = None,)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "name",
               "type": "str",
@@ -8156,7 +7692,6 @@
       "jedis": [
         {
           "signature": "long hset(final byte[] key, final byte[] field, final byte[] value)",
-          "summary": "Set the specified hash field to the specified value.",
           "params": [
             {
               "name": "final byte[] key",
@@ -8181,7 +7716,6 @@
         },
         {
           "signature": "long hset(final byte[] key, final Map<byte[], byte[]> hash)",
-          "summary": "Set the specified hash field to the specified value.",
           "params": [
             {
               "name": "final byte[] key",
@@ -8206,7 +7740,6 @@
         },
         {
           "signature": "long hset(final String key, final String field, final String value)",
-          "summary": "Set the specified hash field to the specified value.",
           "params": [
             {
               "name": "final String key",
@@ -8231,7 +7764,6 @@
         },
         {
           "signature": "long hset(final String key, final Map<String, String> hash)",
-          "summary": "Set the specified hash field to the specified value.",
           "params": [
             {
               "name": "final String key",
@@ -8258,7 +7790,6 @@
       "lettuce_sync": [
         {
           "signature": "Boolean hset(K key, K field, V value)",
-          "summary": "Set multiple hash fields to multiple values.",
           "params": [
             {
               "name": "K key",
@@ -8283,7 +7814,6 @@
         },
         {
           "signature": "Long hset(K key, Map<K, V> map)",
-          "summary": "Set multiple hash fields to multiple values.",
           "params": [
             {
               "name": "K key",
@@ -8310,7 +7840,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<Boolean> hset(K key, K field, V value)",
-          "summary": "Set multiple hash fields to multiple values.",
           "params": [
             {
               "name": "K key",
@@ -8335,7 +7864,6 @@
         },
         {
           "signature": "RedisFuture<Long> hset(K key, Map<K, V> map)",
-          "summary": "Set multiple hash fields to multiple values.",
           "params": [
             {
               "name": "K key",
@@ -8362,7 +7890,6 @@
       "lettuce_reactive": [
         {
           "signature": "Mono<Boolean> hset(K key, K field, V value)",
-          "summary": "Set multiple hash fields to multiple values.",
           "params": [
             {
               "name": "K key",
@@ -8387,7 +7914,6 @@
         },
         {
           "signature": "Mono<Long> hset(K key, Map<K, V> map)",
-          "summary": "Set multiple hash fields to multiple values.",
           "params": [
             {
               "name": "K key",
@@ -8413,8 +7939,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) HSet(ctx context.Context, key string, values ...interface{})",
-          "summary": "HSet accepts values in following formats:",
+          "signature": "HSet(ctx context.Context, key string, values ...interface{})",
           "params": [
             {
               "name": "ctx context.Context",
@@ -8441,7 +7966,6 @@
       "node_redis": [
         {
           "signature": "HSET(parser: CommandParser, ...[key, value, fieldValue]: SingleFieldArguments | MultipleFieldsArguments)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -8473,7 +7997,6 @@
       "ioredis": [
         {
           "signature": "hset()",
-          "summary": "Set the string value of a hash field",
           "params": [],
           "returns": {
             "type": "Any",
@@ -8482,7 +8005,6 @@
         },
         {
           "signature": "hset()",
-          "summary": "Set the string value of a hash field",
           "params": [],
           "returns": {
             "type": "Any",
@@ -8491,7 +8013,6 @@
         },
         {
           "signature": "hset()",
-          "summary": "Set the string value of a hash field",
           "params": [],
           "returns": {
             "type": "Any",
@@ -8500,7 +8021,6 @@
         },
         {
           "signature": "hset()",
-          "summary": "Set the string value of a hash field",
           "params": [],
           "returns": {
             "type": "Any",
@@ -8510,8 +8030,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn hset(key: K, field: F, value: V)",
-          "summary": "Sets a single field in a hash. Returns number of fields added. [Redis Docs](https://redis.io/commands/HSET)",
+          "signature": "hset(key: K, field: F, value: V)",
           "params": [
             {
               "name": "key",
@@ -8537,8 +8056,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn hset(key: K, field: F, value: V)",
-          "summary": "Sets a single field in a hash. Returns number of fields added. [Redis Docs](https://redis.io/commands/HSET)",
+          "signature": "hset(key: K, field: F, value: V)",
           "params": [
             {
               "name": "key",
@@ -8565,7 +8083,6 @@
       "nredisstack_sync": [
         {
           "signature": "HashSet(RedisKey key, HashEntry[] hashFields, CommandFlags flags = CommandFlags.None)",
-          "summary": "Sets field in the hash stored at key to value. If key does not exist, a new key holding a hash is created. If field already exists in the hash, it is overwritten.",
           "params": [
             {
               "name": "RedisKey key",
@@ -8590,7 +8107,6 @@
         },
         {
           "signature": "HashSet(RedisKey key, RedisValue hashField, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Sets field in the hash stored at key to value. If key does not exist, a new key holding a hash is created. If field already exists in the hash, it is overwritten.",
           "params": [
             {
               "name": "RedisKey key",
@@ -8625,7 +8141,6 @@
         },
         {
           "signature": "HashSet(RedisKey key, RedisValue hashField, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Sets field in the hash stored at key to value. If key does not exist, a new key holding a hash is created. If field already exists in the hash, it is overwritten.",
           "params": [
             {
               "name": "RedisKey key",
@@ -8660,7 +8175,6 @@
         },
         {
           "signature": "HashSet(RedisKey key, HashEntry[] hashFields, CommandFlags flags = CommandFlags.None)",
-          "summary": "Sets field in the hash stored at key to value. If key does not exist, a new key holding a hash is created. If field already exists in the hash, it is overwritten.",
           "params": [
             {
               "name": "RedisKey key",
@@ -8687,7 +8201,6 @@
       "nredisstack_async": [
         {
           "signature": "HashSet(RedisKey key, HashEntry[] hashFields, CommandFlags flags = CommandFlags.None)",
-          "summary": "Sets field in the hash stored at key to value. If key does not exist, a new key holding a hash is created. If field already exists in the hash, it is overwritten.",
           "params": [
             {
               "name": "RedisKey key",
@@ -8712,7 +8225,6 @@
         },
         {
           "signature": "HashSet(RedisKey key, RedisValue hashField, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Sets field in the hash stored at key to value. If key does not exist, a new key holding a hash is created. If field already exists in the hash, it is overwritten.",
           "params": [
             {
               "name": "RedisKey key",
@@ -8747,7 +8259,6 @@
         },
         {
           "signature": "HashSet(RedisKey key, RedisValue hashField, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)",
-          "summary": "Sets field in the hash stored at key to value. If key does not exist, a new key holding a hash is created. If field already exists in the hash, it is overwritten.",
           "params": [
             {
               "name": "RedisKey key",
@@ -8782,7 +8293,6 @@
         },
         {
           "signature": "HashSet(RedisKey key, HashEntry[] hashFields, CommandFlags flags = CommandFlags.None)",
-          "summary": "Sets field in the hash stored at key to value. If key does not exist, a new key holding a hash is created. If field already exists in the hash, it is overwritten.",
           "params": [
             {
               "name": "RedisKey key",
@@ -8809,7 +8319,6 @@
       "php": [
         {
           "signature": "hset(string $key, string $field, string $value)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -8839,14 +8348,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def hget(self, name: str, key: str)",
-          "summary": "",
+          "signature": "hget(name: str, key: str)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "name",
               "type": "str",
@@ -8867,7 +8370,6 @@
       "jedis": [
         {
           "signature": "String hget(final String key, final String field)",
-          "summary": "If key holds a hash, retrieve the value associated to the specified field.",
           "params": [
             {
               "name": "final String key",
@@ -8889,7 +8391,6 @@
       "lettuce_sync": [
         {
           "signature": "V hget(K key, K field)",
-          "summary": "Get the value of a hash field.",
           "params": [
             {
               "name": "K key",
@@ -8911,7 +8412,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<V> hget(K key, K field)",
-          "summary": "Get the value of a hash field.",
           "params": [
             {
               "name": "K key",
@@ -8933,7 +8433,6 @@
       "lettuce_reactive": [
         {
           "signature": "Mono<V> hget(K key, K field)",
-          "summary": "Get the value of a hash field.",
           "params": [
             {
               "name": "K key",
@@ -8954,8 +8453,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) HGet(ctx context.Context, key, field string)",
-          "summary": "",
+          "signature": "HGet(ctx context.Context, key, field string)",
           "params": [
             {
               "name": "ctx context.Context",
@@ -8982,7 +8480,6 @@
       "node_redis": [
         {
           "signature": "HGET(parser: CommandParser, key: RedisArgument, field: RedisArgument)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -9009,7 +8506,6 @@
       "ioredis": [
         {
           "signature": "hget()",
-          "summary": "Get the value of a hash field",
           "params": [],
           "returns": {
             "type": "Any",
@@ -9019,8 +8515,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn hget(key: K, field: F)",
-          "summary": "Gets a single (or multiple) fields from a hash.",
+          "signature": "hget(key: K, field: F)",
           "params": [
             {
               "name": "key",
@@ -9041,8 +8536,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn hget(key: K, field: F)",
-          "summary": "Gets a single (or multiple) fields from a hash.",
+          "signature": "hget(key: K, field: F)",
           "params": [
             {
               "name": "key",
@@ -9064,7 +8558,6 @@
       "nredisstack_sync": [
         {
           "signature": "HashGet(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the values associated with the specified fields in the hash stored at key. For every field that does not exist in the hash, a <see langword=\"RedisValue.Null\"/> value is returned. Because non-existing keys are treated as empty hashes, running HMGET against a non-existing key will return a list of <see langword=\"RedisValue.Null\"/> values.",
           "params": [
             {
               "name": "RedisKey key",
@@ -9089,7 +8582,6 @@
         },
         {
           "signature": "HashGet(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the values associated with the specified fields in the hash stored at key. For every field that does not exist in the hash, a <see langword=\"RedisValue.Null\"/> value is returned. Because non-existing keys are treated as empty hashes, running HMGET against a non-existing key will return a list of <see langword=\"RedisValue.Null\"/> values.",
           "params": [
             {
               "name": "RedisKey key",
@@ -9114,7 +8606,6 @@
         },
         {
           "signature": "HashGet(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the values associated with the specified fields in the hash stored at key. For every field that does not exist in the hash, a <see langword=\"RedisValue.Null\"/> value is returned. Because non-existing keys are treated as empty hashes, running HMGET against a non-existing key will return a list of <see langword=\"RedisValue.Null\"/> values.",
           "params": [
             {
               "name": "RedisKey key",
@@ -9139,7 +8630,6 @@
         },
         {
           "signature": "HashGet(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the values associated with the specified fields in the hash stored at key. For every field that does not exist in the hash, a <see langword=\"RedisValue.Null\"/> value is returned. Because non-existing keys are treated as empty hashes, running HMGET against a non-existing key will return a list of <see langword=\"RedisValue.Null\"/> values.",
           "params": [
             {
               "name": "RedisKey key",
@@ -9166,7 +8656,6 @@
       "nredisstack_async": [
         {
           "signature": "HashGet(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the values associated with the specified fields in the hash stored at key. For every field that does not exist in the hash, a <see langword=\"RedisValue.Null\"/> value is returned. Because non-existing keys are treated as empty hashes, running HMGET against a non-existing key will return a list of <see langword=\"RedisValue.Null\"/> values.",
           "params": [
             {
               "name": "RedisKey key",
@@ -9191,7 +8680,6 @@
         },
         {
           "signature": "HashGet(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the values associated with the specified fields in the hash stored at key. For every field that does not exist in the hash, a <see langword=\"RedisValue.Null\"/> value is returned. Because non-existing keys are treated as empty hashes, running HMGET against a non-existing key will return a list of <see langword=\"RedisValue.Null\"/> values.",
           "params": [
             {
               "name": "RedisKey key",
@@ -9216,7 +8704,6 @@
         },
         {
           "signature": "HashGet(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the values associated with the specified fields in the hash stored at key. For every field that does not exist in the hash, a <see langword=\"RedisValue.Null\"/> value is returned. Because non-existing keys are treated as empty hashes, running HMGET against a non-existing key will return a list of <see langword=\"RedisValue.Null\"/> values.",
           "params": [
             {
               "name": "RedisKey key",
@@ -9241,7 +8728,6 @@
         },
         {
           "signature": "HashGet(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns the values associated with the specified fields in the hash stored at key. For every field that does not exist in the hash, a <see langword=\"RedisValue.Null\"/> value is returned. Because non-existing keys are treated as empty hashes, running HMGET against a non-existing key will return a list of <see langword=\"RedisValue.Null\"/> values.",
           "params": [
             {
               "name": "RedisKey key",
@@ -9268,7 +8754,6 @@
       "php": [
         {
           "signature": "hget(string $key, string $field)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -9293,14 +8778,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def hgetall(self, name: str)",
-          "summary": "Return a Python dict of the hash's name/value pairs For more information, see https://redis.io/commands/hgetall",
+          "signature": "hgetall(name: str)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "name",
               "type": "str",
@@ -9316,7 +8795,6 @@
       "jedis": [
         {
           "signature": "Map<String, String> hgetAll(final String key)",
-          "summary": "Return all the fields and associated values in a hash.",
           "params": [
             {
               "name": "final String key",
@@ -9333,7 +8811,6 @@
       "lettuce_sync": [
         {
           "signature": "Map<K, V> hgetall(K key)",
-          "summary": "Stream over all the fields and values in a hash.",
           "params": [
             {
               "name": "K key",
@@ -9348,7 +8825,6 @@
         },
         {
           "signature": "Long hgetall(KeyValueStreamingChannel<K, V> channel, K key)",
-          "summary": "Stream over all the fields and values in a hash.",
           "params": [
             {
               "name": "KeyValueStreamingChannel<K",
@@ -9375,7 +8851,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<Map<K, V>> hgetall(K key)",
-          "summary": "Stream over all the fields and values in a hash.",
           "params": [
             {
               "name": "K key",
@@ -9390,7 +8865,6 @@
         },
         {
           "signature": "RedisFuture<Long> hgetall(KeyValueStreamingChannel<K, V> channel, K key)",
-          "summary": "Stream over all the fields and values in a hash.",
           "params": [
             {
               "name": "KeyValueStreamingChannel<K",
@@ -9417,7 +8891,6 @@
       "lettuce_reactive": [
         {
           "signature": "Flux<KeyValue<K, V>> hgetall(K key)",
-          "summary": "Stream over all the fields and values in a hash.",
           "params": [
             {
               "name": "K key",
@@ -9432,7 +8905,6 @@
         },
         {
           "signature": "Mono<Long> hgetall(KeyValueStreamingChannel<K, V> channel, K key)",
-          "summary": "Stream over all the fields and values in a hash.",
           "params": [
             {
               "name": "KeyValueStreamingChannel<K",
@@ -9458,8 +8930,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) HGetAll(ctx context.Context, key string)",
-          "summary": "",
+          "signature": "HGetAll(ctx context.Context, key string)",
           "params": [
             {
               "name": "ctx context.Context",
@@ -9481,7 +8952,6 @@
       "node_redis": [
         {
           "signature": "HGETALL(parser: CommandParser, key: RedisArgument)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -9503,7 +8973,6 @@
       "ioredis": [
         {
           "signature": "hgetall()",
-          "summary": "Get all the fields and values in a hash",
           "params": [],
           "returns": {
             "type": "Any",
@@ -9513,8 +8982,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn hgetall(key: K)",
-          "summary": "Gets all the fields and values in a hash. [Redis Docs](https://redis.io/commands/HGETALL)",
+          "signature": "hgetall(key: K)",
           "params": [
             {
               "name": "key",
@@ -9530,8 +8998,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn hgetall(key: K)",
-          "summary": "Gets all the fields and values in a hash. [Redis Docs](https://redis.io/commands/HGETALL)",
+          "signature": "hgetall(key: K)",
           "params": [
             {
               "name": "key",
@@ -9548,7 +9015,6 @@
       "nredisstack_sync": [
         {
           "signature": "HashGetAll(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns all fields and values of the hash stored at key.",
           "params": [
             {
               "name": "RedisKey key",
@@ -9568,7 +9034,6 @@
         },
         {
           "signature": "HashGetAll(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns all fields and values of the hash stored at key.",
           "params": [
             {
               "name": "RedisKey key",
@@ -9590,7 +9055,6 @@
       "nredisstack_async": [
         {
           "signature": "HashGetAll(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns all fields and values of the hash stored at key.",
           "params": [
             {
               "name": "RedisKey key",
@@ -9610,7 +9074,6 @@
         },
         {
           "signature": "HashGetAll(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns all fields and values of the hash stored at key.",
           "params": [
             {
               "name": "RedisKey key",
@@ -9632,7 +9095,6 @@
       "php": [
         {
           "signature": "hgetall(string $key)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -9652,14 +9114,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def sadd(self, name: KeyT, *values: FieldT)",
-          "summary": "Add ``value(s)`` to set ``name`` For more information, see https://redis.io/commands/sadd",
+          "signature": "sadd(name: KeyT, *values: FieldT)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "name",
               "type": "KeyT",
@@ -9680,7 +9136,6 @@
       "jedis": [
         {
           "signature": "long sadd(final byte[] key, final byte[]... members)",
-          "summary": "Add the specified member to the set value stored at key. If member is already a member of the",
           "params": [
             {
               "name": "final byte[] key",
@@ -9700,7 +9155,6 @@
         },
         {
           "signature": "long sadd(final String key, final String... members)",
-          "summary": "Add the specified member to the set value stored at key. If member is already a member of the",
           "params": [
             {
               "name": "final String key",
@@ -9722,7 +9176,6 @@
       "lettuce_sync": [
         {
           "signature": "Long sadd(K key, V... members)",
-          "summary": "Add one or more members to a set.",
           "params": [
             {
               "name": "K key",
@@ -9744,7 +9197,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<Long> sadd(K key, V... members)",
-          "summary": "Add one or more members to a set.",
           "params": [
             {
               "name": "K key",
@@ -9766,7 +9218,6 @@
       "lettuce_reactive": [
         {
           "signature": "Mono<Long> sadd(K key, V... members)",
-          "summary": "Add one or more members to a set.",
           "params": [
             {
               "name": "K key",
@@ -9787,8 +9238,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) SAdd(ctx context.Context, key string, members ...interface{})",
-          "summary": "Returns the number of elements that were added to the set, not including all",
+          "signature": "SAdd(ctx context.Context, key string, members ...interface{})",
           "params": [
             {
               "name": "ctx context.Context",
@@ -9815,7 +9265,6 @@
       "node_redis": [
         {
           "signature": "SADD(parser: CommandParser, key: RedisArgument, members: RedisVariadicArgument)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -9842,7 +9291,6 @@
       "ioredis": [
         {
           "signature": "sadd()",
-          "summary": "Add one or more members to a set",
           "params": [],
           "returns": {
             "type": "Any",
@@ -9851,7 +9299,6 @@
         },
         {
           "signature": "sadd()",
-          "summary": "Add one or more members to a set",
           "params": [],
           "returns": {
             "type": "Any",
@@ -9860,7 +9307,6 @@
         },
         {
           "signature": "sadd()",
-          "summary": "Add one or more members to a set",
           "params": [],
           "returns": {
             "type": "Any",
@@ -9869,7 +9315,6 @@
         },
         {
           "signature": "sadd()",
-          "summary": "Add one or more members to a set",
           "params": [],
           "returns": {
             "type": "Any",
@@ -9879,8 +9324,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn sadd(key: K, member: M)",
-          "summary": "Add one or more members to a set. [Redis Docs](https://redis.io/commands/SADD)",
+          "signature": "sadd(key: K, member: M)",
           "params": [
             {
               "name": "key",
@@ -9901,8 +9345,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn sadd(key: K, member: M)",
-          "summary": "Add one or more members to a set. [Redis Docs](https://redis.io/commands/SADD)",
+          "signature": "sadd(key: K, member: M)",
           "params": [
             {
               "name": "key",
@@ -9924,7 +9367,6 @@
       "nredisstack_sync": [
         {
           "signature": "SetAdd(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
-          "summary": "Add the specified members to the set stored at key. Specified members that are already a member of this set are ignored. If key does not exist, a new set is created before adding the specified members.",
           "params": [
             {
               "name": "RedisKey key",
@@ -9949,7 +9391,6 @@
         },
         {
           "signature": "SetAdd(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
-          "summary": "Add the specified members to the set stored at key. Specified members that are already a member of this set are ignored. If key does not exist, a new set is created before adding the specified members.",
           "params": [
             {
               "name": "RedisKey key",
@@ -9974,7 +9415,6 @@
         },
         {
           "signature": "SetAdd(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
-          "summary": "Add the specified members to the set stored at key. Specified members that are already a member of this set are ignored. If key does not exist, a new set is created before adding the specified members.",
           "params": [
             {
               "name": "RedisKey key",
@@ -9999,7 +9439,6 @@
         },
         {
           "signature": "SetAdd(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
-          "summary": "Add the specified members to the set stored at key. Specified members that are already a member of this set are ignored. If key does not exist, a new set is created before adding the specified members.",
           "params": [
             {
               "name": "RedisKey key",
@@ -10026,7 +9465,6 @@
       "nredisstack_async": [
         {
           "signature": "SetAdd(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
-          "summary": "Add the specified members to the set stored at key. Specified members that are already a member of this set are ignored. If key does not exist, a new set is created before adding the specified members.",
           "params": [
             {
               "name": "RedisKey key",
@@ -10051,7 +9489,6 @@
         },
         {
           "signature": "SetAdd(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
-          "summary": "Add the specified members to the set stored at key. Specified members that are already a member of this set are ignored. If key does not exist, a new set is created before adding the specified members.",
           "params": [
             {
               "name": "RedisKey key",
@@ -10076,7 +9513,6 @@
         },
         {
           "signature": "SetAdd(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
-          "summary": "Add the specified members to the set stored at key. Specified members that are already a member of this set are ignored. If key does not exist, a new set is created before adding the specified members.",
           "params": [
             {
               "name": "RedisKey key",
@@ -10101,7 +9537,6 @@
         },
         {
           "signature": "SetAdd(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
-          "summary": "Add the specified members to the set stored at key. Specified members that are already a member of this set are ignored. If key does not exist, a new set is created before adding the specified members.",
           "params": [
             {
               "name": "RedisKey key",
@@ -10128,7 +9563,6 @@
       "php": [
         {
           "signature": "sadd(string $key, array $members)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",
@@ -10153,14 +9587,8 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "def smembers(self, name: KeyT)",
-          "summary": "Return all members of the set ``name`` For more information, see https://redis.io/commands/smembers",
+          "signature": "smembers(name: KeyT)",
           "params": [
-            {
-              "name": "self",
-              "type": "Any",
-              "description": ""
-            },
             {
               "name": "name",
               "type": "KeyT",
@@ -10176,7 +9604,6 @@
       "jedis": [
         {
           "signature": "Set<String> smembers(final String key)",
-          "summary": "Return all the members (elements) of the set value stored at key. This is just syntax glue for",
           "params": [
             {
               "name": "final String key",
@@ -10193,7 +9620,6 @@
       "lettuce_sync": [
         {
           "signature": "Set<V> smembers(K key)",
-          "summary": "Get all the members in a set.",
           "params": [
             {
               "name": "K key",
@@ -10208,7 +9634,6 @@
         },
         {
           "signature": "Long smembers(ValueStreamingChannel<V> channel, K key)",
-          "summary": "Get all the members in a set.",
           "params": [
             {
               "name": "ValueStreamingChannel<V> channel",
@@ -10230,7 +9655,6 @@
       "lettuce_async": [
         {
           "signature": "RedisFuture<Set<V>> smembers(K key)",
-          "summary": "Get all the members in a set.",
           "params": [
             {
               "name": "K key",
@@ -10245,7 +9669,6 @@
         },
         {
           "signature": "RedisFuture<Long> smembers(ValueStreamingChannel<V> channel, K key)",
-          "summary": "Get all the members in a set.",
           "params": [
             {
               "name": "ValueStreamingChannel<V> channel",
@@ -10267,7 +9690,6 @@
       "lettuce_reactive": [
         {
           "signature": "Flux<V> smembers(K key)",
-          "summary": "Get all the members in a set.",
           "params": [
             {
               "name": "K key",
@@ -10282,7 +9704,6 @@
         },
         {
           "signature": "Mono<Long> smembers(ValueStreamingChannel<V> channel, K key)",
-          "summary": "Get all the members in a set.",
           "params": [
             {
               "name": "ValueStreamingChannel<V> channel",
@@ -10303,8 +9724,7 @@
       ],
       "go-redis": [
         {
-          "signature": "func (c cmdable) SMembers(ctx context.Context, key string)",
-          "summary": "Returns all the members of the set value stored at key.",
+          "signature": "SMembers(ctx context.Context, key string)",
           "params": [
             {
               "name": "ctx context.Context",
@@ -10326,7 +9746,6 @@
       "node_redis": [
         {
           "signature": "SMEMBERS(parser: CommandParser, key: RedisArgument)",
-          "summary": "",
           "params": [
             {
               "name": "parser",
@@ -10348,7 +9767,6 @@
       "ioredis": [
         {
           "signature": "smembers()",
-          "summary": "Get all the members in a set",
           "params": [],
           "returns": {
             "type": "Any",
@@ -10358,8 +9776,7 @@
       ],
       "redis_rs_sync": [
         {
-          "signature": "fn smembers(key: K)",
-          "summary": "Get all the members in a set. [Redis Docs](https://redis.io/commands/SMEMBERS)",
+          "signature": "smembers(key: K)",
           "params": [
             {
               "name": "key",
@@ -10375,8 +9792,7 @@
       ],
       "redis_rs_async": [
         {
-          "signature": "fn smembers(key: K)",
-          "summary": "Get all the members in a set. [Redis Docs](https://redis.io/commands/SMEMBERS)",
+          "signature": "smembers(key: K)",
           "params": [
             {
               "name": "key",
@@ -10393,7 +9809,6 @@
       "nredisstack_sync": [
         {
           "signature": "SetMembers(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns all the members of the set value stored at key.",
           "params": [
             {
               "name": "RedisKey key",
@@ -10413,7 +9828,6 @@
         },
         {
           "signature": "SetMembers(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns all the members of the set value stored at key.",
           "params": [
             {
               "name": "RedisKey key",
@@ -10435,7 +9849,6 @@
       "nredisstack_async": [
         {
           "signature": "SetMembers(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns all the members of the set value stored at key.",
           "params": [
             {
               "name": "RedisKey key",
@@ -10455,7 +9868,6 @@
         },
         {
           "signature": "SetMembers(RedisKey key, CommandFlags flags = CommandFlags.None)",
-          "summary": "Returns all the members of the set value stored at key.",
           "params": [
             {
               "name": "RedisKey key",
@@ -10477,7 +9889,6 @@
       "php": [
         {
           "signature": "smembers(string $key)",
-          "summary": "",
           "params": [
             {
               "name": "string $key",

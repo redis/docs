@@ -77,7 +77,6 @@ export const ParameterSchema = z.object({
 export const SignatureSchema = z.object({
   method_name: z.string(),
   signature: z.string(),
-  summary: z.string().optional(),
   parameters: z.array(ParameterSchema).optional(),
   return_type: z.string(),
   return_description: z.string().optional(),

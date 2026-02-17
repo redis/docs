@@ -493,15 +493,63 @@ export async function extractSignatures(
       return '';
     };
 
+    // Helper function to clean up signature based on language
+    const cleanupSignature = (sig: string, lang: string): string => {
+      let cleaned = sig;
+
+      if (lang === 'python') {
+        // Remove "def " prefix
+        cleaned = cleaned.replace(/^def\s+/, '');
+        // Remove "async def " prefix
+        cleaned = cleaned.replace(/^async\s+def\s+/, 'async ');
+        // Remove "self, " or "self" from within parameter list
+        cleaned = cleaned.replace(/\(self,\s*/, '(');
+        cleaned = cleaned.replace(/\(self\)/, '()');
+      } else if (lang === 'go') {
+        // Remove "func (receiver) " prefix - matches "func (c cmdable) " or similar
+        cleaned = cleaned.replace(/^func\s+\([^)]+\)\s*/, '');
+      } else if (lang === 'rust') {
+        // Remove "fn " prefix
+        cleaned = cleaned.replace(/^fn\s+/, '');
+        // Remove "&self, " or "&mut self, " or "&self" from within parameter list
+        cleaned = cleaned.replace(/\(&self,\s*/, '(');
+        cleaned = cleaned.replace(/\(&mut self,\s*/, '(');
+        cleaned = cleaned.replace(/\(&self\)/, '()');
+        cleaned = cleaned.replace(/\(&mut self\)/, '()');
+      }
+
+      return cleaned;
+    };
+
+    // Helper function to filter out self-like parameters based on language
+    const filterSelfParams = (params: string[] | undefined, lang: string): string[] => {
+      if (!params) return [];
+
+      return params.filter(p => {
+        const paramName = p.split(':')[0].trim().toLowerCase();
+
+        if (lang === 'python') {
+          // Filter out "self"
+          return paramName !== 'self';
+        } else if (lang === 'rust') {
+          // Filter out "&self", "&mut self", "self"
+          return !['&self', '&mut self', 'self'].includes(paramName);
+        }
+
+        return true;
+      });
+    };
+
     // Convert to schema format with doc comment enrichment
     const signatures = filteredSignatures.map((sig) => {
       const doc = getDocComment(sig.method_name);
+      const cleanedSignature = cleanupSignature(sig.signature, language);
+      const filteredParams = filterSelfParams(sig.parameters, language);
 
       return {
         method_name: sig.method_name,
-        signature: sig.signature,
-        summary: doc?.summary || doc?.description || '',
-        parameters: sig.parameters?.map((p: string) => {
+        signature: cleanedSignature,
+        parameters: filteredParams.map((p: string) => {
           const name = p.split(":")[0].trim();
           const type = p.includes(":") ? p.split(":")[1].trim() : "Any";
           return {
@@ -509,7 +557,7 @@ export async function extractSignatures(
             type,
             description: getParamDescription(doc, name),
           };
-        }) || [],
+        }),
         return_type: sig.return_type || "Any",
         return_description: getReturnDescription(doc),
         line_number: sig.line_number,
