@@ -6,12 +6,13 @@ import {
   SignatureSchema,
 } from "./schemas.js";
 import { parsePythonSignatures } from "../parsers/python-parser.js";
-import { parseJavaSignatures } from "../parsers/java-parser.js";
-import { parseGoSignatures } from "../parsers/go-parser.js";
-import { parseTypeScriptSignatures } from "../parsers/typescript-parser.js";
-import { parseRustSignatures } from "../parsers/rust-parser.js";
-import { parseCSharpSignatures } from "../parsers/csharp-parser.js";
-import { parsePHPSignatures } from "../parsers/php-parser.js";
+import { parsePythonDocComments } from "../parsers/python-doc-parser.js";
+import { parseJavaSignatures, parseJavaDocComments } from "../parsers/java-parser.js";
+import { parseGoSignatures, parseGoDocComments } from "../parsers/go-parser.js";
+import { parseTypeScriptSignatures, parseTypeScriptDocComments } from "../parsers/typescript-parser.js";
+import { parseRustSignatures, parseRustDocComments } from "../parsers/rust-parser.js";
+import { parseCSharpSignatures, parseCSharpDocComments } from "../parsers/csharp-parser.js";
+import { parsePHPSignatures, parsePHPDocComments } from "../parsers/php-parser.js";
 import { getClientById } from "../data/components-access.js";
 
 /**
@@ -357,17 +358,22 @@ export async function extractSignatures(
 
     // Parse based on language
     let rawSignatures: any[] = [];
+    let docComments: Record<string, any> = {};
     const errors: string[] = [];
     const isNodeRedis = validatedInput.client_id === 'node_redis';
 
     if (language === "python") {
       rawSignatures = parsePythonSignatures(code);
+      docComments = parsePythonDocComments(code);
     } else if (language === "java") {
       rawSignatures = parseJavaSignatures(code);
+      docComments = parseJavaDocComments(code);
     } else if (language === "go") {
       rawSignatures = parseGoSignatures(code);
+      docComments = parseGoDocComments(code);
     } else if (language === "typescript") {
       rawSignatures = parseTypeScriptSignatures(code);
+      docComments = parseTypeScriptDocComments(code);
 
       // Special post-processing for node_redis: rename parseCommand to actual command names
       if (isNodeRedis && rawSignatures.length > 0) {
@@ -418,10 +424,13 @@ export async function extractSignatures(
       }
     } else if (language === "rust") {
       rawSignatures = parseRustSignatures(code);
+      docComments = parseRustDocComments(code);
     } else if (language === "csharp") {
       rawSignatures = parseCSharpSignatures(code);
+      docComments = parseCSharpDocComments(code);
     } else if (language === "php") {
       rawSignatures = parsePHPSignatures(code);
+      docComments = parsePHPDocComments(code);
     } else {
       errors.push(
         `Language '${language}' not yet implemented. Currently Python, Java, Go, TypeScript, Rust, C#, and PHP are supported.`
@@ -438,18 +447,75 @@ export async function extractSignatures(
       );
     }
 
-    // Convert to schema format
-    const signatures = filteredSignatures.map((sig) => ({
-      method_name: sig.method_name,
-      signature: sig.signature,
-      parameters: sig.parameters?.map((p: string) => ({
-        name: p.split(":")[0].trim(),
-        type: p.includes(":") ? p.split(":")[1].trim() : "Any",
-      })) || [],
-      return_type: sig.return_type || "Any",
-      line_number: sig.line_number,
-      is_async: sig.is_async,
-    }));
+    // Helper function to get doc comment for a method
+    const getDocComment = (methodName: string): any => {
+      // Try exact match first
+      if (docComments[methodName]) {
+        return docComments[methodName];
+      }
+      // Try case-insensitive match
+      const lowerMethodName = methodName.toLowerCase();
+      for (const key of Object.keys(docComments)) {
+        if (key.toLowerCase() === lowerMethodName) {
+          return docComments[key];
+        }
+      }
+      return null;
+    };
+
+    // Helper function to get parameter description from doc comment
+    const getParamDescription = (doc: any, paramName: string): string => {
+      if (!doc) return '';
+      // Handle different doc comment structures
+      if (doc.parameters) {
+        // Direct lookup
+        if (doc.parameters[paramName]) {
+          return doc.parameters[paramName];
+        }
+        // Try without type prefix (e.g., "String key" -> "key")
+        const cleanParamName = paramName.split(' ').pop() || paramName;
+        if (doc.parameters[cleanParamName]) {
+          return doc.parameters[cleanParamName];
+        }
+      }
+      return '';
+    };
+
+    // Helper function to get return description from doc comment
+    const getReturnDescription = (doc: any): string => {
+      if (!doc) return '';
+      if (typeof doc.returns === 'string') {
+        return doc.returns;
+      }
+      if (doc.returns?.description) {
+        return doc.returns.description;
+      }
+      return '';
+    };
+
+    // Convert to schema format with doc comment enrichment
+    const signatures = filteredSignatures.map((sig) => {
+      const doc = getDocComment(sig.method_name);
+
+      return {
+        method_name: sig.method_name,
+        signature: sig.signature,
+        summary: doc?.summary || doc?.description || '',
+        parameters: sig.parameters?.map((p: string) => {
+          const name = p.split(":")[0].trim();
+          const type = p.includes(":") ? p.split(":")[1].trim() : "Any";
+          return {
+            name,
+            type,
+            description: getParamDescription(doc, name),
+          };
+        }) || [],
+        return_type: sig.return_type || "Any",
+        return_description: getReturnDescription(doc),
+        line_number: sig.line_number,
+        is_async: sig.is_async,
+      };
+    });
 
     // Validate with schema
     const validatedSignatures = signatures.map((sig) =>
