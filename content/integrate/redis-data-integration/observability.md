@@ -25,8 +25,11 @@ to query the metrics and plot simple graphs or with
 [Grafana](https://grafana.com/) to produce more complex visualizations and
 dashboards.
 
-RDI exposes two endpoints, one for [CDC collector metrics](#collector-metrics) and
-another for [stream processor metrics](#stream-processor-metrics).
+RDI exposes three endpoints:
+- **Collector metrics**: CDC collector performance and connectivity
+- **Stream processor metrics**: Data processing performance and throughput  
+- **Operator metrics**: Kubernetes operator health and Pipeline resource states
+
 The sections below explain these sets of metrics in more detail.
 See the
 [architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}})
@@ -145,6 +148,52 @@ RDI reports with their descriptions.
   - **Last batch metrics**: Show real-time performance data for the most recently processed batch
 {{< /note >}}
 
+## Operator metrics
+
+The RDI operator exposes Prometheus metrics at the `/metrics` endpoint to monitor the health and state of the operator itself and the Pipeline resources it manages.
+
+The endpoint for operator metrics is `https://<RDI_HOST>/operator/metrics` (or the operator service endpoint in Kubernetes environments).
+
+### Operator metric types
+
+The operator reports two key metrics:
+
+| Metric Name | Metric Type | Metric Description | Alerting Recommendations |
+|-------------|-------------|-------------------|-------------------------|
+| **Pipeline State Metrics** | | | |
+| `rdi_operator_pipeline_phase` | Gauge | Current phase of each Pipeline resource with labels for `namespace`, `name`, and `phase` (e.g., Pending, Running, Failed, Succeeded) | **Critical Alert**: Alert if phase = "Failed" for extended periods |
+| **Leadership Metrics** | | | |
+| `rdi_operator_is_leader` | Gauge | Leadership status of the operator instance (1 = leader, 0 = not leader) with label for `instance_id` | Informational - monitor to ensure exactly one leader exists in multi-replica deployments |
+
+### Understanding operator metrics
+
+**Pipeline phase tracking**: The `rdi_operator_pipeline_phase` metric helps you monitor the lifecycle state of each RDI Pipeline resource. Each pipeline reports its current phase (such as Pending, Running, Failed, or Succeeded) as a gauge value of `1`, while all other phases for that pipeline are set to `0`. This allows you to track phase transitions and identify pipelines that are stuck in error states.
+
+**Leader election**: In high-availability deployments with multiple operator replicas, the `rdi_operator_is_leader` metric indicates which instance is actively managing Pipeline resources. Only one operator instance should have a value of `1` at any time, while all other instances should report `0`. This metric is useful for troubleshooting leader election issues in multi-replica deployments.
+
+### Accessing operator metrics
+
+In Kubernetes deployments, you can configure Prometheus to scrape operator metrics by enabling the Prometheus ServiceMonitor in your Helm values:
+
+```yaml
+operator:
+  prometheus:
+    enabled: true
+```
+
+You can also expose the metrics endpoint externally using an Ingress:
+
+```yaml
+operator:
+  ingress:
+    enabled: true
+    hosts:
+      - operator.example.com
+    pathPrefix: ""
+```
+
+Then access metrics at `https://operator.example.com/operator/metrics`.
+
 ## Recommended alerting strategy
 
 The alerting strategy described in the sections below focuses on system failures and data integrity issues that require immediate attention. Most other metrics are informational, so you should monitor them for trends rather than trigger alerts.
@@ -153,11 +202,18 @@ The alerting strategy described in the sections below focuses on system failures
 
 These are the only alerts that require immediate action:
 
-- **`Connected = 0`**: Database connectivity has been lost. RDI cannot function without a database connection. 
-- **`NumberOfErroneousEvents > 0`**: Errors are occurring during data processing. This indicates data corruption or processing failures.
-- **`rejected_records_total > 0`**: Records are being rejected. This indicates data quality issues or processing failures.
-- **`SnapshotAborted = 1`**: The snapshot process has failed, so the initial sync is incomplete.
-- **`rdi_engine_state`**: This is an alert only if the state indicates a clear failure condition (not just "not running").
+**Collector alerts:**
+- `Connected = 0`: Database connectivity has been lost. RDI cannot function without a database connection.
+- `NumberOfErroneousEvents > 0`: Errors are occurring during data processing. This indicates data corruption or processing failures.
+- `SnapshotAborted = 1`: The snapshot process has failed, so the initial sync is incomplete.
+
+**Processor alerts:**
+- `rejected_records_total > 0`: Records are being rejected. This indicates data quality issues or processing failures.
+- `rdi_engine_state`: Alert only if the state indicates a clear failure condition (not just "not running").
+
+**Operator alerts:**
+- `rdi_operator_pipeline_phase` with `phase="Failed"`: A Pipeline resource has entered a failed state and requires investigation.
+- No leader in multi-replica setup: If all operator instances report `rdi_operator_is_leader = 0`, no instance is managing Pipeline resources.
 
 ### Important monitoring (but not alerts)
 
