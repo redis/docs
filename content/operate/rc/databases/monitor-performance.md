@@ -20,9 +20,23 @@ The **Metrics** tab of the **View Database** screen provides a series of graphs 
 
 Performance data provides insight into how your database is being used and how well it is performing.
 
+### Metric intervals
+
 The interval scrollbar controls the time period displayed in the graphs.  
 
 {{<image filename="images/rc/database-metrics-interval-scrollbar.png" width="75%" alt="The Metrics tab of the View Database screen." >}}
+
+The following intervals are available:
+
+| Interval | Resolution |
+|----------|------------|
+| 5 minutes | 30 seconds |
+| 15 minutes | 30 seconds |
+| 1 hour | 1 minute |
+| 1 day | 5 minutes |
+| Week | 30 minutes |
+| Month | 4 hours |
+| 3 months | 12 hours |
 
 ## Promote metric graphs
 
