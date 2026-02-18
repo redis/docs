@@ -263,6 +263,22 @@ window.toggleCommandsFoldout = window.toggleCommandsFoldout || function(button) 
     }
 };
 
+// Global function to toggle API method signatures mini-foldout
+window.toggleApiSignatures = window.toggleApiSignatures || function(button) {
+    const details = button.nextElementSibling;
+    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+    const icon = button.querySelector('.api-sig-icon');
+
+    // Toggle visibility
+    details.classList.toggle('hidden');
+    button.setAttribute('aria-expanded', !isExpanded);
+
+    // Rotate icon
+    if (icon) {
+        icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(90deg)';
+    }
+};
+
 // Global function to update all binder links on the page
 // This is called whenever the language selection changes
 window.updateAllBinderLinks = window.updateAllBinderLinks || function() {
