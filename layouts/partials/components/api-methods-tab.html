@@ -74,16 +74,119 @@
 </div>
 
 <script>
-window.switchApiClient = window.switchApiClient || function(clientId) {
-  // Hide all client signature divs
-  document.querySelectorAll('.api-client-signatures').forEach(div => {
-    div.classList.add('hidden');
-  });
-  // Show the selected one
-  const selected = document.querySelector('.api-client-signatures[data-client-id="' + clientId + '"]');
-  if (selected) {
-    selected.classList.remove('hidden');
+(function() {
+  // Mapping between tab names (localStorage) and client IDs (dropdown values)
+  const tabNameToClientId = {
+    {{ range $tabName := $clientOrder }}
+      {{ $config := index site.Params.clientsConfig $tabName }}
+      {{ if $config }}
+        {{ $mappingId := index $config "mappingClientId" }}
+        {{ if and $mappingId (ne $mappingId "") }}
+    '{{ $tabName | replaceRE "\\." "-" }}': '{{ $mappingId }}',
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  };
+
+  // Expose mapping globally so codetabs.js can sync with API methods tab
+  window.apiMethodsTabNameToClientId = tabNameToClientId;
+
+  // Reverse mapping: client ID -> tab name
+  const clientIdToTabName = {};
+  for (const [tabName, clientId] of Object.entries(tabNameToClientId)) {
+    clientIdToTabName[clientId] = tabName;
   }
-};
+
+  window.switchApiClient = function(clientId) {
+    // Hide all client signature divs
+    document.querySelectorAll('.api-client-signatures').forEach(div => {
+      div.classList.add('hidden');
+    });
+    // Show the selected one
+    const selected = document.querySelector('.api-client-signatures[data-client-id="' + clientId + '"]');
+    if (selected) {
+      selected.classList.remove('hidden');
+    }
+
+    // Sync with localStorage and code example tabs
+    const tabName = clientIdToTabName[clientId];
+    if (tabName && window.localStorage) {
+      window.localStorage.setItem('selectedCodeTab', tabName);
+    }
+
+    // Sync with code example dropdowns on the page
+    if (tabName) {
+      const codeDropdowns = document.querySelectorAll('.codetabs .lang-selector');
+      codeDropdowns.forEach(dropdown => {
+        const options = dropdown.querySelectorAll('option');
+        const matchingOption = Array.from(options).find(opt => opt.value === tabName);
+        if (matchingOption) {
+          dropdown.value = tabName;
+          // Update panel visibility if the function exists
+          if (typeof updatePanelVisibility === 'function') {
+            updatePanelVisibility(dropdown);
+          }
+        }
+      });
+    }
+  };
+
+  // On page load, sync from localStorage or URL param
+  function initApiMethodsTab() {
+    const select = document.getElementById('api-client-select');
+    if (!select) return;
+
+    let selectedTab = null;
+
+    // Check URL parameter first
+    const urlParams = new URLSearchParams(window.location.search);
+    let langParam = urlParams.get('lang');
+
+    // Also check for lang parameter after the hash
+    if (!langParam && window.location.hash) {
+      const hashParts = window.location.hash.split('?');
+      if (hashParts.length > 1) {
+        const hashParams = new URLSearchParams(hashParts[1]);
+        langParam = hashParams.get('lang');
+      }
+    }
+
+    if (langParam) {
+      // Normalize the lang param (same as codetabs.js)
+      selectedTab = langParam.replace(/C#/g, 'dotnet').replace(/\./g, '-').replace(/_/g, '-');
+    } else if (window.localStorage) {
+      selectedTab = window.localStorage.getItem('selectedCodeTab');
+    }
+
+    if (selectedTab) {
+      // Find the matching client ID for this tab name
+      const clientId = tabNameToClientId[selectedTab];
+      if (clientId) {
+        // Check if this client ID exists in the dropdown options
+        const options = select.querySelectorAll('option');
+        const matchingOption = Array.from(options).find(opt => opt.value === clientId);
+        if (matchingOption) {
+          select.value = clientId;
+          // Show the correct signatures
+          document.querySelectorAll('.api-client-signatures').forEach(div => {
+            div.classList.add('hidden');
+          });
+          const selectedDiv = document.querySelector('.api-client-signatures[data-client-id="' + clientId + '"]');
+          if (selectedDiv) {
+            selectedDiv.classList.remove('hidden');
+          }
+        }
+      }
+    }
+  }
+
+  // Initialize when DOM is ready (script may be in body)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApiMethodsTab);
+  } else {
+    // Small delay to ensure codetabs.js has run first
+    setTimeout(initApiMethodsTab, 150);
+  }
+})();
 </script>
 
