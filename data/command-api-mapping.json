@@ -2210,7 +2210,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The values of the strings with RedisValue.Null for keys do not exist."
+            "description": "The values of the strings with Null for keys do not exist."
           }
         },
         {
@@ -2229,7 +2229,7 @@
           ],
           "returns": {
             "type": "RedisValue[]",
-            "description": "The values of the strings with RedisValue.Null for keys do not exist."
+            "description": "The values of the strings with Null for keys do not exist."
           }
         },
         {
@@ -2248,7 +2248,7 @@
           ],
           "returns": {
             "type": "return",
-            "description": "The values of the strings with RedisValue.Null for keys do not exist."
+            "description": "The values of the strings with Null for keys do not exist."
           }
         },
         {
@@ -2267,7 +2267,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The values of the strings with RedisValue.Null for keys do not exist."
+            "description": "The values of the strings with Null for keys do not exist."
           }
         },
         {
@@ -2286,7 +2286,7 @@
           ],
           "returns": {
             "type": "RedisValue[]",
-            "description": "The values of the strings with RedisValue.Null for keys do not exist."
+            "description": "The values of the strings with Null for keys do not exist."
           }
         }
       ],
@@ -2307,7 +2307,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The values of the strings with RedisValue.Null for keys do not exist."
+            "description": "The values of the strings with Null for keys do not exist."
           }
         },
         {
@@ -2326,7 +2326,7 @@
           ],
           "returns": {
             "type": "RedisValue[]",
-            "description": "The values of the strings with RedisValue.Null for keys do not exist."
+            "description": "The values of the strings with Null for keys do not exist."
           }
         },
         {
@@ -2345,7 +2345,7 @@
           ],
           "returns": {
             "type": "return",
-            "description": "The values of the strings with RedisValue.Null for keys do not exist."
+            "description": "The values of the strings with Null for keys do not exist."
           }
         },
         {
@@ -2364,7 +2364,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The values of the strings with RedisValue.Null for keys do not exist."
+            "description": "The values of the strings with Null for keys do not exist."
           }
         },
         {
@@ -2383,7 +2383,7 @@
           ],
           "returns": {
             "type": "RedisValue[]",
-            "description": "The values of the strings with RedisValue.Null for keys do not exist."
+            "description": "The values of the strings with Null for keys do not exist."
           }
         }
       ],
@@ -2583,7 +2583,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The value of key, or RedisValue.Null when key does not exist."
+            "description": "The value of key, or Null when key does not exist."
           }
         },
         {
@@ -2602,7 +2602,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The value of key, or RedisValue.Null when key does not exist."
+            "description": "The value of key, or Null when key does not exist."
           }
         }
       ],
@@ -2623,7 +2623,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The value of key, or RedisValue.Null when key does not exist."
+            "description": "The value of key, or Null when key does not exist."
           }
         },
         {
@@ -2642,7 +2642,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The value of key, or RedisValue.Null when key does not exist."
+            "description": "The value of key, or Null when key does not exist."
           }
         }
       ],
@@ -2934,7 +2934,7 @@
             {
               "name": "expiry",
               "type": "TimeSpan?",
-              "description": "The exact date and time to expire at. DateTime.MaxValue will remove expiry."
+              "description": "The exact date and time to expire at. MaxValue will remove expiry."
             },
             {
               "name": "flags",
@@ -2944,7 +2944,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The value of key, or RedisValue.Null when key does not exist."
+            "description": "The value of key, or Null when key does not exist."
           }
         },
         {
@@ -2958,7 +2958,7 @@
             {
               "name": "expiry",
               "type": "DateTime",
-              "description": "The exact date and time to expire at. DateTime.MaxValue will remove expiry."
+              "description": "The exact date and time to expire at. MaxValue will remove expiry."
             },
             {
               "name": "flags",
@@ -2968,7 +2968,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The value of key, or RedisValue.Null when key does not exist."
+            "description": "The value of key, or Null when key does not exist."
           }
         },
         {
@@ -2982,7 +2982,7 @@
             {
               "name": "expiry",
               "type": "TimeSpan?",
-              "description": "The exact date and time to expire at. DateTime.MaxValue will remove expiry."
+              "description": "The exact date and time to expire at. MaxValue will remove expiry."
             },
             {
               "name": "flags",
@@ -2992,7 +2992,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The value of key, or RedisValue.Null when key does not exist."
+            "description": "The value of key, or Null when key does not exist."
           }
         },
         {
@@ -3006,7 +3006,7 @@
             {
               "name": "expiry",
               "type": "DateTime",
-              "description": "The exact date and time to expire at. DateTime.MaxValue will remove expiry."
+              "description": "The exact date and time to expire at. MaxValue will remove expiry."
             },
             {
               "name": "flags",
@@ -3016,7 +3016,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The value of key, or RedisValue.Null when key does not exist."
+            "description": "The value of key, or Null when key does not exist."
           }
         }
       ],
@@ -3032,7 +3032,7 @@
             {
               "name": "expiry",
               "type": "TimeSpan?",
-              "description": "The exact date and time to expire at. DateTime.MaxValue will remove expiry."
+              "description": "The exact date and time to expire at. MaxValue will remove expiry."
             },
             {
               "name": "flags",
@@ -3042,7 +3042,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The value of key, or RedisValue.Null when key does not exist."
+            "description": "The value of key, or Null when key does not exist."
           }
         },
         {
@@ -3056,7 +3056,7 @@
             {
               "name": "expiry",
               "type": "DateTime",
-              "description": "The exact date and time to expire at. DateTime.MaxValue will remove expiry."
+              "description": "The exact date and time to expire at. MaxValue will remove expiry."
             },
             {
               "name": "flags",
@@ -3066,7 +3066,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The value of key, or RedisValue.Null when key does not exist."
+            "description": "The value of key, or Null when key does not exist."
           }
         },
         {
@@ -3080,7 +3080,7 @@
             {
               "name": "expiry",
               "type": "TimeSpan?",
-              "description": "The exact date and time to expire at. DateTime.MaxValue will remove expiry."
+              "description": "The exact date and time to expire at. MaxValue will remove expiry."
             },
             {
               "name": "flags",
@@ -3090,7 +3090,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The value of key, or RedisValue.Null when key does not exist."
+            "description": "The value of key, or Null when key does not exist."
           }
         },
         {
@@ -3104,7 +3104,7 @@
             {
               "name": "expiry",
               "type": "DateTime",
-              "description": "The exact date and time to expire at. DateTime.MaxValue will remove expiry."
+              "description": "The exact date and time to expire at. MaxValue will remove expiry."
             },
             {
               "name": "flags",
@@ -3114,7 +3114,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The value of key, or RedisValue.Null when key does not exist."
+            "description": "The value of key, or Null when key does not exist."
           }
         }
       ],
@@ -3821,7 +3821,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The old value stored at key, or RedisValue.Null when key did not exist."
+            "description": "The old value stored at key, or Null when key did not exist."
           }
         },
         {
@@ -3845,7 +3845,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The old value stored at key, or RedisValue.Null when key did not exist."
+            "description": "The old value stored at key, or Null when key did not exist."
           }
         }
       ],
@@ -3871,7 +3871,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The old value stored at key, or RedisValue.Null when key did not exist."
+            "description": "The old value stored at key, or Null when key did not exist."
           }
         },
         {
@@ -3895,7 +3895,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "The old value stored at key, or RedisValue.Null when key did not exist."
+            "description": "The old value stored at key, or Null when key did not exist."
           }
         }
       ],
@@ -7757,7 +7757,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if the keys were set, <see langword=\"false\"/> otherwise."
+            "description": "true if the keys were set, false otherwise."
           }
         },
         {
@@ -7791,7 +7791,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if the keys were set, <see langword=\"false\"/> otherwise."
+            "description": "true if the keys were set, false otherwise."
           }
         },
         {
@@ -7830,7 +7830,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if the keys were set, <see langword=\"false\"/> otherwise."
+            "description": "true if the keys were set, false otherwise."
           }
         },
         {
@@ -7864,7 +7864,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if the keys were set, <see langword=\"false\"/> otherwise."
+            "description": "true if the keys were set, false otherwise."
           }
         },
         {
@@ -7888,7 +7888,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if the keys were set, <see langword=\"false\"/> otherwise."
+            "description": "true if the keys were set, false otherwise."
           }
         }
       ],
@@ -7919,7 +7919,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if the keys were set, <see langword=\"false\"/> otherwise."
+            "description": "true if the keys were set, false otherwise."
           }
         },
         {
@@ -7953,7 +7953,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if the keys were set, <see langword=\"false\"/> otherwise."
+            "description": "true if the keys were set, false otherwise."
           }
         },
         {
@@ -7992,7 +7992,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if the keys were set, <see langword=\"false\"/> otherwise."
+            "description": "true if the keys were set, false otherwise."
           }
         },
         {
@@ -8026,7 +8026,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if the keys were set, <see langword=\"false\"/> otherwise."
+            "description": "true if the keys were set, false otherwise."
           }
         },
         {
@@ -8050,7 +8050,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if the keys were set, <see langword=\"false\"/> otherwise."
+            "description": "true if the keys were set, false otherwise."
           }
         }
       ],
@@ -10542,7 +10542,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if the hash contains field, <see langword=\"false\"/> if the hash does not contain field, or key does not exist."
+            "description": "true if the hash contains field, false if the hash does not contain field, or key does not exist."
           }
         },
         {
@@ -10566,7 +10566,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if the hash contains field, <see langword=\"false\"/> if the hash does not contain field, or key does not exist."
+            "description": "true if the hash contains field, false if the hash does not contain field, or key does not exist."
           }
         }
       ],
@@ -10592,7 +10592,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if the hash contains field, <see langword=\"false\"/> if the hash does not contain field, or key does not exist."
+            "description": "true if the hash contains field, false if the hash does not contain field, or key does not exist."
           }
         },
         {
@@ -10616,7 +10616,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if the hash contains field, <see langword=\"false\"/> if the hash does not contain field, or key does not exist."
+            "description": "true if the hash contains field, false if the hash does not contain field, or key does not exist."
           }
         }
       ],
@@ -17364,7 +17364,7 @@
           ],
           "returns": {
             "type": "void",
-            "description": "<see langword=\"true\"/> if field is a new field in the hash and value was set, <see langword=\"false\"/> if field already exists in the hash and the value was updated."
+            "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
           }
         },
         {
@@ -17398,7 +17398,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if field is a new field in the hash and value was set, <see langword=\"false\"/> if field already exists in the hash and the value was updated."
+            "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
           }
         },
         {
@@ -17432,7 +17432,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if field is a new field in the hash and value was set, <see langword=\"false\"/> if field already exists in the hash and the value was updated."
+            "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
           }
         },
         {
@@ -17456,7 +17456,7 @@
           ],
           "returns": {
             "type": "void",
-            "description": "<see langword=\"true\"/> if field is a new field in the hash and value was set, <see langword=\"false\"/> if field already exists in the hash and the value was updated."
+            "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
           }
         }
       ],
@@ -17482,7 +17482,7 @@
           ],
           "returns": {
             "type": "void",
-            "description": "<see langword=\"true\"/> if field is a new field in the hash and value was set, <see langword=\"false\"/> if field already exists in the hash and the value was updated."
+            "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
           }
         },
         {
@@ -17516,7 +17516,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if field is a new field in the hash and value was set, <see langword=\"false\"/> if field already exists in the hash and the value was updated."
+            "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
           }
         },
         {
@@ -17550,7 +17550,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if field is a new field in the hash and value was set, <see langword=\"false\"/> if field already exists in the hash and the value was updated."
+            "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
           }
         },
         {
@@ -17574,7 +17574,7 @@
           ],
           "returns": {
             "type": "void",
-            "description": "<see langword=\"true\"/> if field is a new field in the hash and value was set, <see langword=\"false\"/> if field already exists in the hash and the value was updated."
+            "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
           }
         }
       ],
@@ -20445,7 +20445,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "A random hash field name or RedisValue.Null if the hash does not exist."
+            "description": "A random hash field name or Null if the hash does not exist."
           }
         },
         {
@@ -20464,7 +20464,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "A random hash field name or RedisValue.Null if the hash does not exist."
+            "description": "A random hash field name or Null if the hash does not exist."
           }
         }
       ],
@@ -20485,7 +20485,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "A random hash field name or RedisValue.Null if the hash does not exist."
+            "description": "A random hash field name or Null if the hash does not exist."
           }
         },
         {
@@ -20504,7 +20504,7 @@
           ],
           "returns": {
             "type": "RedisValue",
-            "description": "A random hash field name or RedisValue.Null if the hash does not exist."
+            "description": "A random hash field name or Null if the hash does not exist."
           }
         }
       ],
@@ -21569,7 +21569,7 @@
           ],
           "returns": {
             "type": "void",
-            "description": "<see langword=\"true\"/> if field is a new field in the hash and value was set, <see langword=\"false\"/> if field already exists in the hash and the value was updated."
+            "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
           }
         },
         {
@@ -21603,7 +21603,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if field is a new field in the hash and value was set, <see langword=\"false\"/> if field already exists in the hash and the value was updated."
+            "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
           }
         },
         {
@@ -21637,7 +21637,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if field is a new field in the hash and value was set, <see langword=\"false\"/> if field already exists in the hash and the value was updated."
+            "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
           }
         },
         {
@@ -21661,7 +21661,7 @@
           ],
           "returns": {
             "type": "void",
-            "description": "<see langword=\"true\"/> if field is a new field in the hash and value was set, <see langword=\"false\"/> if field already exists in the hash and the value was updated."
+            "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
           }
         }
       ],
@@ -21687,7 +21687,7 @@
           ],
           "returns": {
             "type": "void",
-            "description": "<see langword=\"true\"/> if field is a new field in the hash and value was set, <see langword=\"false\"/> if field already exists in the hash and the value was updated."
+            "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
           }
         },
         {
@@ -21721,7 +21721,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if field is a new field in the hash and value was set, <see langword=\"false\"/> if field already exists in the hash and the value was updated."
+            "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
           }
         },
         {
@@ -21755,7 +21755,7 @@
           ],
           "returns": {
             "type": "bool",
-            "description": "<see langword=\"true\"/> if field is a new field in the hash and value was set, <see langword=\"false\"/> if field already exists in the hash and the value was updated."
+            "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
           }
         },
         {
@@ -21779,7 +21779,7 @@
           ],
           "returns": {
             "type": "void",
-            "description": "<see langword=\"true\"/> if field is a new field in the hash and value was set, <see langword=\"false\"/> if field already exists in the hash and the value was updated."
+            "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated."
           }
         }
       ],

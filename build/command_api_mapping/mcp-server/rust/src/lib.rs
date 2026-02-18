@@ -2311,7 +2311,82 @@ fn parse_xml_doc_comment(comment: &str) -> (Option<String>, Option<String>, std:
         }
     }
 
+    // Strip XML doc tags from all extracted content
+    let summary = summary.map(|s| strip_xml_doc_tags(&s));
+    let description = description.map(|s| strip_xml_doc_tags(&s));
+    let returns = returns.map(|s| strip_xml_doc_tags(&s));
+    let parameters: std::collections::HashMap<String, String> = parameters
+        .into_iter()
+        .map(|(k, v)| (k, strip_xml_doc_tags(&v)))
+        .collect();
+
     (summary, description, parameters, returns)
+}
+
+/// Strip .NET XML documentation tags and extract their content text.
+/// For example:
+/// - `<see langword="true"/>` becomes `true`
+/// - `<see cref="SomeClass"/>` becomes `SomeClass`
+/// - `<paramref name="key"/>` becomes `key`
+/// - `<c>code</c>` becomes `code`
+/// - `<typeparamref name="T"/>` becomes `T`
+fn strip_xml_doc_tags(text: &str) -> String {
+    let mut result = text.to_string();
+
+    // Pattern: <see langword="value"/> -> value
+    let see_langword_pattern = Regex::new(r#"<see\s+langword\s*=\s*"([^"]+)"\s*/>"#).ok();
+    if let Some(re) = see_langword_pattern {
+        result = re.replace_all(&result, "$1").to_string();
+    }
+
+    // Pattern: <see cref="value"/> -> value (extract just the type/member name)
+    let see_cref_pattern = Regex::new(r#"<see\s+cref\s*=\s*"([^"]+)"\s*/>"#).ok();
+    if let Some(re) = see_cref_pattern {
+        result = re.replace_all(&result, |caps: &regex::Captures| {
+            let cref = caps.get(1).map(|m| m.as_str()).unwrap_or("");
+            // Extract just the last part of a fully qualified name (e.g., "System.String" -> "String")
+            cref.rsplit('.').next().unwrap_or(cref).to_string()
+        }).to_string();
+    }
+
+    // Pattern: <paramref name="value"/> -> value
+    let paramref_pattern = Regex::new(r#"<paramref\s+name\s*=\s*"([^"]+)"\s*/>"#).ok();
+    if let Some(re) = paramref_pattern {
+        result = re.replace_all(&result, "$1").to_string();
+    }
+
+    // Pattern: <typeparamref name="value"/> -> value
+    let typeparamref_pattern = Regex::new(r#"<typeparamref\s+name\s*=\s*"([^"]+)"\s*/>"#).ok();
+    if let Some(re) = typeparamref_pattern {
+        result = re.replace_all(&result, "$1").to_string();
+    }
+
+    // Pattern: <c>code</c> -> code
+    let c_pattern = Regex::new(r"<c>([^<]*)</c>").ok();
+    if let Some(re) = c_pattern {
+        result = re.replace_all(&result, "$1").to_string();
+    }
+
+    // Pattern: <code>code</code> -> code
+    let code_pattern = Regex::new(r"<code>([^<]*)</code>").ok();
+    if let Some(re) = code_pattern {
+        result = re.replace_all(&result, "$1").to_string();
+    }
+
+    // Clean up any remaining simple self-closing tags we might have missed
+    // Pattern: <tagname .../> -> (remove entirely if no meaningful content)
+    let generic_self_closing = Regex::new(r"<[a-zA-Z]+[^>]*/\s*>").ok();
+    if let Some(re) = generic_self_closing {
+        result = re.replace_all(&result, "").to_string();
+    }
+
+    // Clean up multiple spaces
+    let multi_space = Regex::new(r"\s+").ok();
+    if let Some(re) = multi_space {
+        result = re.replace_all(&result, " ").to_string();
+    }
+
+    result.trim().to_string()
 }
 
 fn extract_jsdoc_comment(lines: &[&str], func_line: usize, _func_indent: &str) -> Option<String> {
