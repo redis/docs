@@ -10,13 +10,13 @@ linkTitle: Redirect endpoints
 weight: 31
 ---
 
-Dynamic endpoints allow you to redirect application traffic from one database to another in the same Redis Cloud account without changing your application code. 
+Dynamic endpoints allow you to redirect application traffic from one database to another in the same Redis Cloud account without updating the endpoints in your application. Redis manages endpoint redirection for you.
 
-You can redirect any database's dynamic endpoints to any Redis Cloud Pro database in the same account. For a smooth transition, you should [migrate your data]({{< relref "/operate/rc/databases/migrate-databases" >}}) to the target database before you redirect your endpoints.
+You can redirect any database's dynamic endpoints to any Redis Cloud Pro database in the same account. For a smooth transition with your existing data, you should [migrate your data]({{< relref "/operate/rc/databases/migrate-databases" >}}) to the target database before you redirect your endpoints.
 
 ## When to redirect dynamic endpoints
 
-Use endpoint redirection to seamlessly migrate your application traffic to a different database. For example, you might want to:
+Use endpoint redirection to seamlessly migrate your application traffic to a different database within the same Redis Cloud account. No need to update the endpoints in your application, since they'll remain the same. For example, you might want to:
 
 - Upgrade your database's subscription from an Essentials Plan to a Pro Plan
 - Move between Redis Cloud offerings, such as from or to Redis Flex
@@ -24,30 +24,50 @@ Use endpoint redirection to seamlessly migrate your application traffic to a dif
 - Migrate your database to a different cloud provider, region, or availability zone
 - Redirect the endpoint to another database during an incident to restore service
 
-Redirecting endpoints **does not** migrate the data in your database. You can choose to redirect the endpoints without migrating your data. If you need your data to be available in the target database, you must [migrate your data]({{< relref "/operate/rc/databases/migrate-databases" >}}) to the target database before you redirect your endpoints.
-
 ## Applications that use legacy static endpoints
 
 Databases created before {{RELEASE DATE}} have both legacy static endpoints and dynamic endpoints. You can only migrate the dynamic endpoints to point to a new database. If your application uses the static endpoints, it will connect to the source database instead of the target database after redirection. You can find both the static and dynamic endpoints for these databases on the database's **Configuration** page.
 
-To migrate to the dynamic endpoint safely:
+Transitioning from the static to the dynamic endpoint does not cause downtime and allows you to gradually manage client disconnections. To migrate to the dynamic endpoint safely:
 - Move clients one-by-one (or service-by-service) from legacy static endpoints to dynamic endpoints.
-- Both static and dynamic endpoints point to the same database, so you can use them concurrently during the migration process.
+- During the transition period, both static and Dynamic endpoints can be used concurrently.
 - After all clients use the dynamic endpoint, you can then redirect the dynamic endpoints to the target database.
 
-## Prerequisites
+This phased approach minimizes risk and allows controlled client reconnections throughout the migration process.
 
-Before you redirect your dynamic endpoints, make sure you have met the following prerequisites:
+## Before you start
+
+Before you redirect your dynamic endpoints, read the following sections to prepare for endpoint redirection.
+
+### Scope and behavior
+
+This process redirects a source database's dynamic endpoints to a selected target database, including both public and private (if available) endpoints. **Redirecting endpoints does not migrate the data in your database.** You can choose to redirect the endpoints without migrating your data. If you need your data to be available in the target database, you must [migrate your data]({{< relref "/operate/rc/databases/migrate-databases" >}}) to the target database **before** you redirect your endpoints.
+
+### Prerequisites
+
+Make sure you have met the following prerequisites:
 
 - Your application is using the dynamic endpoint. Endpoint redirection does not work with [static endpoints](#applications-that-use-legacy-static-endpoints).
-- You have [created a target database]({{< relref "/operate/rc/databases/create-database" >}}) that:
-    - Is a Redis Cloud Pro database in the same Redis Cloud account
-    - Has the same port number as the source database
-    - Has the same connectivity settings as the source database, such as:
-        - [TLS settings]({{< relref "/operate/rc/security/database-security/tls-ssl" >}})
-        - [VPC Peering]({{< relref "/operate/rc/security/vpc-peering" >}}) or other connectivity method settings
-        - [Default User settings]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}})
+- You have [created a target Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) in the same account that [is compatible with the source database](#redirection-compatibility).
 - If you monitor the source database with Prometheus, add the target database to Prometheus before your redirect the endpoint so that you can monitor the target database after the redirection. See [Connect to Prometheus]({{< relref "operate/rc/databases/monitor-performance#connect-to-prometheus" >}}) for more information.
+
+#### Redirection compatibility
+
+Endpoint redirection is only allowed when the source and target databases are compatible. Redis Cloud will validate compatibility and may prevent redirection if the source and target databases are not compatible.
+
+If any of the following properties differ, the databases are not compatible and you cannot redirect the endpoints:
+- Port number
+- Connectivity settings, such as:
+    - [TLS settings]({{< relref "/operate/rc/security/database-security/tls-ssl" >}})
+    - [VPC Peering]({{< relref "/operate/rc/security/vpc-peering" >}}) or other connectivity method settings
+    - [Default User settings]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}})
+
+Some differences may be intentional but can affect application behavior. In those cases, the console will warn you about the difference but allow you to proceed with redirection. The following differences will cause a warning:
+- Redis version
+- [RESP Database protocol version]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions)
+- [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}}) settings
+
+### Limitations
 
 Be aware of the following limitations when redirecting dynamic endpoints:
 - The target database must be a Redis Cloud Pro database on the same account as the source database.
@@ -56,7 +76,7 @@ Be aware of the following limitations when redirecting dynamic endpoints:
 
 ## Redirect database endpoints
 
-To migrate your database endpoints:
+To redirect your database endpoints:
 
 1. From the Redis Cloud console, select **Databases** from the menu and select the source database in the list.
 
