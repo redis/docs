@@ -43,7 +43,7 @@ You can quickly set up Prometheus and Grafana for testing using the Prometheus a
 
 1. Set up [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}).
 
-1. Get the prometheus endpoint for your database from the [Redis Cloud console]({{< relref "/operate/rc/databases/monitor-performance#connect-to-prometheus" >}}).
+1. Get the Prometheus endpoint for your database from the [Redis Cloud console]({{< relref "/operate/rc/databases/monitor-performance#connect-to-prometheus" >}}).
 
     {{< embed-md "rc-get-prometheus-endpoint.md" >}}
 
