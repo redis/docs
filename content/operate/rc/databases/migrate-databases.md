@@ -153,7 +153,7 @@ Once the databases are synced, you can disable Active-Passive for the target dat
 
 After you've migrated your data, you can [redirect your database endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) to the target database. 
 
-Before you redirect your endpoints, make sure that:
+Before you redirect your endpoints, make sure:
 - The import or replication is finished.
 - Basic metrics for both the source and target databases are reporting normally.
 - The application authentication and authorization are set up correctly for the target database.
