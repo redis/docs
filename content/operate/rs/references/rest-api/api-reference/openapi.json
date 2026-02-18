@@ -125,6 +125,38 @@
         ],
         "type": "object"
       },
+      "BdbProxyCertificate": {
+        "description": "Bdb proxy certificate",
+        "properties": {
+          "bdb_uid": {
+            "description": "BDB UID that this certificate belongs to",
+            "readOnly": true,
+            "type": "string"
+          },
+          "cert": {
+            "description": "PEM-encoded certificate",
+            "type": "string"
+          },
+          "not_after": {
+            "description": "Date the certificate is valid until. Parsed from the certificate.",
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "not_before": {
+            "description": "Date the certificate is valid from. Parsed from the certificate.",
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "private_key": {
+            "description": "PEM-encoded private key",
+            "type": "string",
+            "writeOnly": true
+          }
+        },
+        "type": "object"
+      },
       "Certificate": {
         "description": "Certificate information.",
         "properties": {
@@ -1172,6 +1204,53 @@
   },
   "openapi": "3.0.0",
   "paths": {
+    "/v1/bdbs/{uid}/certificates": {
+      "get": {
+        "description": "Get database proxy certificate",
+        "operationId": "cluster_get_bdb_certificate",
+        "parameters": [
+          {
+            "description": "The database unique ID",
+            "example": 1,
+            "in": "path",
+            "name": "uid",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BdbProxyCertificate"
+                }
+              }
+            },
+            "description": "The database proxy certificate"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_bdb_info"
+            ]
+          }
+        ],
+        "summary": "Get database proxy certificate",
+        "tags": [
+          "Database"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
     "/v1/bdbs/{uid}/passwords": {
       "delete": {
         "description": "Delete a password from the database's default user password list",
