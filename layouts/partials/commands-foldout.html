@@ -1,13 +1,25 @@
 {{/*
-  Commands foldout partial - displays commands with summaries and links
+  Commands foldout partial - displays commands with summaries, links, and API method signatures
 
   Parameters:
   - commands: List of command names
   - id: Unique ID for the codetabs instance
+  - tabTitle: The tab title (e.g., "Python", "Node.js") used to look up mappingClientId
 */}}
 
 {{ $commands := .commands }}
 {{ $id := .id }}
+{{ $tabTitle := .tabTitle }}
+
+{{/* Get the mappingClientId from clientsConfig based on tabTitle */}}
+{{ $clientConfig := index site.Params.clientsConfig $tabTitle }}
+{{ $mappingClientId := "" }}
+{{ if $clientConfig }}
+    {{ $mappingClientId = index $clientConfig "mappingClientId" }}
+{{ end }}
+
+{{/* Access the command-api-mapping data (using index with hyphenated key) */}}
+{{ $apiMapping := index site.Data "command-api-mapping" }}
 
 {{ if $commands }}
 <div class="commands-foldout border-b border-slate-700 py-2">
@@ -22,15 +34,31 @@
         </span>
     </button>
     <div class="commands-details hidden px-2 py-2">
-        <ul class="commands-list-detailed space-y-1">
+        <ul class="commands-list-detailed space-y-2">
             {{ range $commands }}
                 {{ $cmdName := . }}
                 {{/* Try to find command in multiple data files */}}
                 {{ $cmdData := (index site.Data.commands_core $cmdName) | default (index site.Data.commands_redisearch $cmdName) | default (index site.Data.commands_redisjson $cmdName) | default (index site.Data.commands_redistimeseries $cmdName) | default (index site.Data.commands_redisbloom $cmdName) }}
+
+                {{/* Look up API method signatures for this command and client */}}
+                {{ $apiSignatures := slice }}
+                {{ if and $apiMapping $mappingClientId }}
+                    {{ $cmdMapping := index $apiMapping $cmdName }}
+                    {{ if $cmdMapping }}
+                        {{ $apiCalls := index $cmdMapping "api_calls" }}
+                        {{ if $apiCalls }}
+                            {{ $clientSigs := index $apiCalls $mappingClientId }}
+                            {{ if $clientSigs }}
+                                {{ $apiSignatures = $clientSigs }}
+                            {{ end }}
+                        {{ end }}
+                    {{ end }}
+                {{ end }}
+
                 <li class="text-xs text-slate-300 border-l border-slate-600 pl-2"
                     {{ if $cmdData }}{{ if $cmdData.acl_categories }}data-acl-categories="{{ delimit $cmdData.acl_categories "," }}"{{ end }}{{ end }}>
                     {{ if $cmdData }}
-                        <div class="flex flex-col">
+                        <div class="flex flex-col gap-1">
                             <div class="flex items-center gap-1">
                                 <a href="{{ absURL (printf "commands/%s/" (lower (replace $cmdName " " "-"))) }}"
                                    class="font-mono text-slate-200 hover:text-white hover:underline"
@@ -55,6 +83,20 @@
                             </div>
                             {{ if $cmdData.summary }}
                             <span class="text-slate-400">{{ $cmdData.summary }}</span>
+                            {{ end }}
+
+                            {{/* Display API method signatures if available */}}
+                            {{ if gt (len $apiSignatures) 0 }}
+                            <div class="api-signatures mt-1 pl-2 border-l border-slate-700">
+                                <span class="text-slate-500 text-[10px] uppercase tracking-wide">Method{{ if gt (len $apiSignatures) 1 }}s{{ end }}:</span>
+                                <ul class="mt-0.5 space-y-0.5">
+                                    {{ range $apiSignatures }}
+                                    <li class="font-mono text-emerald-400 text-[11px]" style="font-family: 'Space Mono', monospace;">
+                                        {{ .signature }}
+                                    </li>
+                                    {{ end }}
+                                </ul>
+                            </div>
                             {{ end }}
                         </div>
                     {{ else }}

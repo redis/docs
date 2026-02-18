@@ -164,7 +164,8 @@ group-hover:opacity-100 group-hover:visible commands-foldout-open:opacity-100 co
 
             {{/* Commands foldout section */}}
             {{ if $commands }}
-                {{ partial "commands-foldout.html" (dict "commands" $commands "id" $id) }}
+                {{ $tabTitle := index $tab "title" }}
+                {{ partial "commands-foldout.html" (dict "commands" $commands "id" $id "tabTitle" $tabTitle) }}
             {{ end }}
 
             <div class="flex items-center justify-between">
