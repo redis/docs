@@ -49,7 +49,7 @@ for more information.
 ## Prerequisites
 
 To use the Redis vector store node, you need a Redis server with Redis Query Engine enabled.
-See the [Redis Cloud quickstart guide]({{< relref "/develop/ai/search-and-query/vectors/quickstart" >}})
+See the [Redis Cloud quickstart guide]({{< relref "/operate/rc/rc-quickstart" >}})
 or the [Redis Open Source installation guide]({{< relref "/operate/oss_and_stack/install/install-stack" >}})
 to learn how to set up a suitable Redis server within minutes.
 
