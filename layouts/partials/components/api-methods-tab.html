@@ -53,7 +53,7 @@
                 {{ if $clientSigs }}
                   <pre class="command-syntax"><code>{{ range $idx, $sig := $clientSigs }}{{ if gt $idx 0 }}
 
-{{ end }}{{ $params := $sig.params }}{{ $returns := $sig.returns }}{{ $methodName := index (split $sig.signature "(") 0 }}<span class="text-emerald-600">{{ $methodName }}</span>({{ if and $params (gt (len $params) 0) }}
+{{ end }}{{ $params := $sig.params }}{{ $returns := $sig.returns }}{{ $beforeParen := index (split $sig.signature "(") 0 }}{{ $parts := split $beforeParen " " }}{{ $methodName := index $parts (sub (len $parts) 1) }}<span class="text-emerald-600">{{ $methodName }}</span>({{ if and $params (gt (len $params) 0) }}
 {{ range $pIdx, $param := $params }}    <span class="text-emerald-600">{{ $param.name }}</span>{{ if $param.type }}: <span class="text-amber-600">{{ $param.type }}</span>{{ end }}{{ if lt $pIdx (sub (len $params) 1) }},{{ end }}{{ if and $param.description (ne $param.description "") }}  <span class="text-slate-500">// {{ $param.description }}</span>{{ end }}
 {{ end }}{{ end }}){{ if $returns }} → {{ if reflect.IsMap $returns }}<span class="text-emerald-600">{{ index $returns "type" }}</span>{{ if and (index $returns "description") (ne (index $returns "description") "") }}  <span class="text-slate-500">// {{ index $returns "description" }}</span>{{ end }}{{ else }}<span class="text-emerald-600">{{ $returns }}</span>{{ end }}{{ end }}{{ end }}</code></pre>
                 {{ else }}

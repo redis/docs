@@ -99,7 +99,10 @@
                                         {{ range $apiSignatures }}
                                         {{ $params := .params }}
                                         {{ $returns := .returns }}
-                                        {{ $methodName := index (split .signature "(") 0 }}
+                                        {{/* Extract method name - handle Java-style "ReturnType methodName(" by taking last word */}}
+                                        {{ $beforeParen := index (split .signature "(") 0 }}
+                                        {{ $parts := split $beforeParen " " }}
+                                        {{ $methodName := index $parts (sub (len $parts) 1) }}
                                         <li class="font-mono text-[11px]" style="font-family: 'Space Mono', monospace;">
                                             {{/* Method name */}}
                                             <span class="text-emerald-400">{{ $methodName }}</span><span class="text-slate-400">(</span>
