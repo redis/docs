@@ -161,7 +161,7 @@ The operator reports two key metrics:
 | Metric Name | Metric Type | Metric Description | Alerting Recommendations |
 |-------------|-------------|-------------------|-------------------------|
 | `rdi_operator_pipeline_phase` | Gauge | Current phase of each Pipeline resource with labels for `namespace`, `name`, and `phase` (Active, Inactive, Pending, Resetting, Error) | **Critical Alert**: Alert if the phase is "Error" for periods longer than 2 minutes |
-| `rdi_operator_is_leader` | Gauge | Leadership status of the operator instance (1 = leader, 0 = not leader) with label for `instance_id` | Informational - monitor to ensure exactly one leader exists in multi-replica deployments |
+| `rdi_operator_is_leader` | Gauge | Leadership status of the operator instance (1 = leader, 0 = not leader) with label for `instance_id` | Informational - monitor to ensure that the correct RDI instance is the leader in HA or DR deployments |
 
 ### Understanding operator metrics
 
@@ -177,8 +177,10 @@ In Kubernetes deployments, you can configure Prometheus to scrape operator metri
 operator:
   prometheus:
     enabled: true
+    labels:
+      release: prometheus
 ```
-
+**Note:** The ServiceMonitor resources must be labelled correctly for metrics to be auto-scraped by Prometheus. The correct label is configured in Prometheus, by default it is `release: prometheus`.
 You can also expose the metrics endpoint externally using an Ingress:
 
 ```yaml
@@ -210,8 +212,9 @@ These are the only alerts that require immediate action:
 - `rdi_engine_state`: Alert only if the state indicates a clear failure condition (not just "not running").
 
 **Operator alerts:**
-- `rdi_operator_pipeline_phase` with `phase="Failed"`: A Pipeline resource has entered a failed state and requires investigation.
-- No leader in multi-replica setup: If all operator instances report `rdi_operator_is_leader = 0`, no instance is managing Pipeline resources.
+- `rdi_operator_pipeline_phase` with `phase="Error"` for more than 2 minutes: A Pipeline resource has entered an error state and requires investigation.
+- No leader in HA or DR setups: If both RDI instances report `rdi_operator_is_leader = 0` for more than 2 minutes, the RDI pipeline is not active. 
+- Multiple leaders in HA or DR setups: If both RDI instances report `rdi_operator_is_leader = 1`, RDI is in a "split brain" state.
 
 ### Important monitoring (but not alerts)
 
