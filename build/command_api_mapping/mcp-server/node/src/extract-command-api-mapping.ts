@@ -156,9 +156,36 @@ async function extractCommandApiMapping() {
         const cmdLower = cmd.toLowerCase();
         const aliases = COMMAND_ALIASES[cmdLower] || [cmdLower];
 
-        const sigs = result.signatures.filter(s => {
+        let sigs = result.signatures.filter(s => {
           const methodLower = s.method_name.toLowerCase();
           return aliases.includes(methodLower);
+        });
+
+        // Filter out signatures from wrong class contexts (e.g., BitFieldOperation.set vs Redis.set)
+        // Bitfield operations have 'fmt' as first param and use BitfieldOffsetT type
+        sigs = sigs.filter(s => {
+          const params = s.parameters || [];
+          if (params.length === 0) return true;
+
+          const firstParam = params[0];
+          const firstParamName = typeof firstParam === 'string'
+            ? firstParam.split(':')[0].trim().toLowerCase()
+            : (firstParam.name || '').toLowerCase();
+          const firstParamType = typeof firstParam === 'string'
+            ? (firstParam.split(':')[1] || '').trim().toLowerCase()
+            : (firstParam.type || '').toLowerCase();
+
+          // Exclude bitfield-specific signatures (first param is 'fmt' with BitfieldOffsetT type nearby)
+          if (firstParamName === 'fmt' && params.some(p => {
+            const pType = typeof p === 'string'
+              ? (p.split(':')[1] || '').trim().toLowerCase()
+              : (p.type || '').toLowerCase();
+            return pType.includes('bitfieldoffset');
+          })) {
+            return false;
+          }
+
+          return true;
         });
 
         if (sigs.length > 0) {

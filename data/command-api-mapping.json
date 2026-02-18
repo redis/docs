@@ -1979,25 +1979,6 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "get(fmt: str, offset: BitfieldOffsetT)",
-          "params": [
-            {
-              "name": "fmt",
-              "type": "str",
-              "description": ""
-            },
-            {
-              "name": "offset",
-              "type": "BitfieldOffsetT",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Any",
-            "description": ""
-          }
-        },
-        {
           "signature": "get(name: KeyT)",
           "params": [
             {
@@ -3926,35 +3907,6 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "incrby(, fmt: str,, offset: BitfieldOffsetT,, increment: int,, overflow: Optional[str] = None,)",
-          "params": [
-            {
-              "name": "fmt",
-              "type": "str",
-              "description": ""
-            },
-            {
-              "name": "offset",
-              "type": "BitfieldOffsetT",
-              "description": ""
-            },
-            {
-              "name": "increment",
-              "type": "int",
-              "description": ""
-            },
-            {
-              "name": "overflow",
-              "type": "Optional[str] = None",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Any",
-            "description": ""
-          }
-        },
-        {
           "signature": "incrby(name: KeyT, amount: int = 1)",
           "params": [
             {
@@ -4582,35 +4534,6 @@
   "INCRBY": {
     "api_calls": {
       "redis_py": [
-        {
-          "signature": "incrby(, fmt: str,, offset: BitfieldOffsetT,, increment: int,, overflow: Optional[str] = None,)",
-          "params": [
-            {
-              "name": "fmt",
-              "type": "str",
-              "description": ""
-            },
-            {
-              "name": "offset",
-              "type": "BitfieldOffsetT",
-              "description": ""
-            },
-            {
-              "name": "increment",
-              "type": "int",
-              "description": ""
-            },
-            {
-              "name": "overflow",
-              "type": "Optional[str] = None",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Any",
-            "description": ""
-          }
-        },
         {
           "signature": "incrby(name: KeyT, amount: int = 1)",
           "params": [
@@ -7262,30 +7185,6 @@
   "SET": {
     "api_calls": {
       "redis_py": [
-        {
-          "signature": "set(fmt: str, offset: BitfieldOffsetT, value: int)",
-          "params": [
-            {
-              "name": "fmt",
-              "type": "str",
-              "description": ""
-            },
-            {
-              "name": "offset",
-              "type": "BitfieldOffsetT",
-              "description": ""
-            },
-            {
-              "name": "value",
-              "type": "int",
-              "description": ""
-            }
-          ],
-          "returns": {
-            "type": "Any",
-            "description": ""
-          }
-        },
         {
           "signature": "set(, name: KeyT,, value: EncodableT,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, nx: bool = False,, xx: bool = False,, keepttl: bool = False,, get: bool = False,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, ifeq: Optional[Union[bytes, str]] = None,, ifne: Optional[Union[bytes, str]] = None,, ifdeq: Optional[str] = None,, ifdne: Optional[str] = None,)",
           "params": [
