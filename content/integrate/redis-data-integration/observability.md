@@ -165,7 +165,7 @@ The operator reports two key metrics:
 
 ### Understanding operator metrics
 
-**Pipeline phase tracking**: The `rdi_operator_pipeline_phase` metric helps you monitor the lifecycle state of each RDI Pipeline resource. Each pipeline reports its current phase (such as Pending, Running, Failed, or Succeeded) as a gauge value of `1`, while all other phases for that pipeline are set to `0`. This allows you to track phase transitions and identify pipelines that are stuck in error states.
+**Pipeline phase tracking**: The `rdi_operator_pipeline_phase` metric helps you monitor the lifecycle state of each RDI Pipeline resource. Each pipeline reports its current phase (Active, Inactive, Pending, Resetting, or Error) as a gauge value of `1`, while all other phases for that pipeline are set to `0`. This allows you to track phase transitions and identify pipelines that are stuck in error states.
 
 **Leader election**: In high-availability deployments with multiple operator replicas, the `rdi_operator_is_leader` metric indicates which instance is actively managing Pipeline resources. Only one operator instance should have a value of `1` at any time, while all other instances should report `0`. This metric is useful for troubleshooting leader election issues in multi-replica deployments.
 
