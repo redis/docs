@@ -160,9 +160,7 @@ The operator reports two key metrics:
 
 | Metric Name | Metric Type | Metric Description | Alerting Recommendations |
 |-------------|-------------|-------------------|-------------------------|
-| **Pipeline State Metrics** | | | |
 | `rdi_operator_pipeline_phase` | Gauge | Current phase of each Pipeline resource with labels for `namespace`, `name`, and `phase` (e.g., Pending, Running, Failed, Succeeded) | **Critical Alert**: Alert if phase = "Failed" for extended periods |
-| **Leadership Metrics** | | | |
 | `rdi_operator_is_leader` | Gauge | Leadership status of the operator instance (1 = leader, 0 = not leader) with label for `instance_id` | Informational - monitor to ensure exactly one leader exists in multi-replica deployments |
 
 ### Understanding operator metrics
