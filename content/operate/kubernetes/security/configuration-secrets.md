@@ -54,6 +54,24 @@ spec:
 You must include the pipe symbol (`|`) after `license:` and maintain proper indentation.
 {{</note>}}
 
+## Cluster credential configuration
+
+Redis Enterprise clusters require admin credentials for the operator to manage the cluster. You can configure these credentials using Kubernetes Secrets.
+
+### Default behavior
+
+By default, the operator automatically creates a secret with a random username and auto-generated password during cluster creation. The secret name defaults to the cluster name.
+
+### Customize the credential secret
+
+You can customize the credential secret name during cluster creation using the `clusterCredentialSecretName` field in your REC specification. The secret must contain `username` and `password` fields.
+
+{{<note>}}
+The `clusterCredentialSecretName` field cannot be changed after cluster creation.
+{{</note>}}
+
+For detailed instructions, see [Customize the credential secret name]({{< relref "/operate/kubernetes/security/manage-rec-credentials#customize-the-credential-secret-name" >}}).
+
 ## TLS certificate configuration
 
 You can store TLS certificates in Kubernetes Secrets to secure communication between clients and Redis Enterprise databases.

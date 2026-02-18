@@ -23,7 +23,7 @@ Advantages:
 
 - Tighter control over connectivity, such as timeouts, connection retries, and dynamic reconfiguration.
 
-- OSS Cluster API support.
+- OSS Cluster API support (currently only available in redis-py)
 
 - Low latency.
 

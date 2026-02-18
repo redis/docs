@@ -17,7 +17,6 @@ Usage: redis-di list-contexts [OPTIONS]
 ## Options
 
 - `help`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--help`

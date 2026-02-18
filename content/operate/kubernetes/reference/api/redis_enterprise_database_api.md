@@ -191,7 +191,14 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td>ossCluster</td>
         <td>boolean</td>
         <td>
-          Enables OSS Cluster mode. Note: Not all client libraries support OSS cluster mode.<br/>
+          Enables OSS cluster mode for this database. By default, advertised database topology includes the internal endpoints (pod IPs) for the Redis Enterprise nodes hosting the database shards. To enable external access, configure ossClusterSettings.enableExternalAccess for this RedisEnterpriseDatabase as well as ossClusterSettings.externalAccessType for the RedisEnterpriseCluster. Note: Not all client libraries support OSS cluster mode.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specossclustersettings">ossClusterSettings</a></td>
+        <td>object</td>
+        <td>
+          Additional OSS cluster mode settings.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -1238,6 +1245,31 @@ Redis Enterprise module (see https://redis.io/docs/latest/develop/reference/modu
         <td>string</td>
         <td>
           The semantic version of the module, e.g. '1.6.12'. Optional for REDB, must be set for REAADB. Note that this field is deprecated, and will be removed in future releases.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.ossClusterSettings
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+Additional OSS cluster mode settings.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enableExternalAccess</td>
+        <td>boolean</td>
+        <td>
+          Toggles whether this database supports external access in OSS cluster mode. When enabled, advertised database topology includes the external endpoints for the Redis Enterprise nodes hosting the database shards. The external access mechanism (e.g., LoadBalancer services) is configured via the ossClusterSettings.externalAccessType field of the RedisEnterpriseCluster. When external access is enabled, the corresponding database secret will have the list of primary shard IPs in the oss_startup_nodes field.<br/>
         </td>
         <td>false</td>
       </tr></tbody>

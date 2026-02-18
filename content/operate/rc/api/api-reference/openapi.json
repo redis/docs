@@ -18137,13 +18137,6 @@
         ],
         "type": "object",
         "properties": {
-          "customerManagedKeys": {
-            "type": "array",
-            "description": "The customer managed keys (CMK) to use for this subscription. If is active-active subscription, must set a key for each region.",
-            "items": {
-              "$ref": "#/components/schemas/CustomerManagedKey"
-            }
-          },
           "deletionGracePeriod": {
             "type": "string",
             "description": "Optional. The grace period for deleting the subscription. If not set, will default to immediate deletion grace period.",
@@ -18159,6 +18152,13 @@
               "12-hours",
               "24-hours"
             ]
+          },
+          "customerManagedKeys": {
+            "type": "array",
+            "description": "The customer managed keys (CMK) to use for this subscription. If is active-active subscription, must set a key for each region.",
+            "items": {
+              "$ref": "#/components/schemas/CustomerManagedKey"
+            }
           }
         },
         "description": "Optional. Contains information about the keys used for each region. Can be used only with external cloud account"
