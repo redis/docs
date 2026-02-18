@@ -1511,7 +1511,7 @@
     "api_calls": {
       "redis_py": [
         {
-          "signature": "delex(, name: KeyT,, ifeq: Optional[Union[bytes, str]] = None,, ifne: Optional[Union[bytes, str]] = None,, ifdeq: Optional[str] = None,  # hex digest, ifdne: Optional[str] = None,  # hex digest)",
+          "signature": "delex(, name: KeyT,, ifeq: Optional[Union[bytes, str]] = None,, ifne: Optional[Union[bytes, str]] = None,, ifdeq: Optional[str] = None,, ifdne: Optional[str] = None,)",
           "params": [
             {
               "name": "name",
@@ -1520,22 +1520,12 @@
             },
             {
               "name": "ifeq",
-              "type": "Optional[Union[bytes",
-              "description": ""
-            },
-            {
-              "name": "str]] = None",
-              "type": "Any",
+              "type": "Optional[Union[bytes, str]] = None",
               "description": ""
             },
             {
               "name": "ifne",
-              "type": "Optional[Union[bytes",
-              "description": ""
-            },
-            {
-              "name": "str]] = None",
-              "type": "Any",
+              "type": "Optional[Union[bytes, str]] = None",
               "description": ""
             },
             {
@@ -1544,18 +1534,8 @@
               "description": ""
             },
             {
-              "name": "# hex digest",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "ifdne",
               "type": "Optional[str] = None",
-              "description": ""
-            },
-            {
-              "name": "# hex digest",
-              "type": "Any",
               "description": ""
             }
           ],
@@ -5729,12 +5709,7 @@
             },
             {
               "name": "specific_argument",
-              "type": "Union[Literal[\"strings\"]",
-              "description": ""
-            },
-            {
-              "name": "Literal[\"keys\"]] = \"strings\"",
-              "type": "Any",
+              "type": "Union[Literal[\"strings\"], Literal[\"keys\"]] = \"strings\"",
               "description": ""
             },
             {
@@ -6312,12 +6287,7 @@
           "params": [
             {
               "name": "mapping",
-              "type": "Mapping[AnyKeyT",
-              "description": ""
-            },
-            {
-              "name": "EncodableT]",
-              "type": "Any",
+              "type": "Mapping[AnyKeyT, EncodableT]",
               "description": ""
             }
           ],
@@ -6493,12 +6463,7 @@
           "params": [
             {
               "name": "items",
-              "type": "&'a [(K",
-              "description": ""
-            },
-            {
-              "name": "V)]",
-              "type": "Any",
+              "type": "&'a [(K, V)]",
               "description": ""
             }
           ],
@@ -6514,12 +6479,7 @@
           "params": [
             {
               "name": "items",
-              "type": "&'a [(K",
-              "description": ""
-            },
-            {
-              "name": "V)]",
-              "type": "Any",
+              "type": "&'a [(K, V)]",
               "description": ""
             }
           ],
@@ -6555,12 +6515,7 @@
           "params": [
             {
               "name": "mapping",
-              "type": "Mapping[AnyKeyT",
-              "description": ""
-            },
-            {
-              "name": "EncodableT]",
-              "type": "Any",
+              "type": "Mapping[AnyKeyT, EncodableT]",
               "description": ""
             },
             {
@@ -6735,12 +6690,7 @@
           "params": [
             {
               "name": "items",
-              "type": "&'a [(K",
-              "description": ""
-            },
-            {
-              "name": "V)]",
-              "type": "Any",
+              "type": "&'a [(K, V)]",
               "description": ""
             },
             {
@@ -6761,12 +6711,7 @@
           "params": [
             {
               "name": "items",
-              "type": "&'a [(K",
-              "description": ""
-            },
-            {
-              "name": "V)]",
-              "type": "Any",
+              "type": "&'a [(K, V)]",
               "description": ""
             },
             {
@@ -6822,12 +6767,7 @@
           "params": [
             {
               "name": "mapping",
-              "type": "Mapping[AnyKeyT",
-              "description": ""
-            },
-            {
-              "name": "EncodableT]",
-              "type": "Any",
+              "type": "Mapping[AnyKeyT, EncodableT]",
               "description": ""
             }
           ],
@@ -7003,12 +6943,7 @@
           "params": [
             {
               "name": "items",
-              "type": "&'a [(K",
-              "description": ""
-            },
-            {
-              "name": "V)]",
-              "type": "Any",
+              "type": "&'a [(K, V)]",
               "description": ""
             }
           ],
@@ -7024,12 +6959,7 @@
           "params": [
             {
               "name": "items",
-              "type": "&'a [(K",
-              "description": ""
-            },
-            {
-              "name": "V)]",
-              "type": "Any",
+              "type": "&'a [(K, V)]",
               "description": ""
             }
           ],
@@ -7357,7 +7287,7 @@
           }
         },
         {
-          "signature": "set(, name: KeyT,, value: EncodableT,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, nx: bool = False,, xx: bool = False,, keepttl: bool = False,, get: bool = False,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, ifeq: Optional[Union[bytes, str]] = None,, ifne: Optional[Union[bytes, str]] = None,, ifdeq: Optional[str] = None,  # hex digest of current value, ifdne: Optional[str] = None,  # hex digest of current value)",
+          "signature": "set(, name: KeyT,, value: EncodableT,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, nx: bool = False,, xx: bool = False,, keepttl: bool = False,, get: bool = False,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, ifeq: Optional[Union[bytes, str]] = None,, ifne: Optional[Union[bytes, str]] = None,, ifdeq: Optional[str] = None,, ifdne: Optional[str] = None,)",
           "params": [
             {
               "name": "name",
@@ -7411,22 +7341,12 @@
             },
             {
               "name": "ifeq",
-              "type": "Optional[Union[bytes",
-              "description": ""
-            },
-            {
-              "name": "str]] = None",
-              "type": "Any",
+              "type": "Optional[Union[bytes, str]] = None",
               "description": ""
             },
             {
               "name": "ifne",
-              "type": "Optional[Union[bytes",
-              "description": ""
-            },
-            {
-              "name": "str]] = None",
-              "type": "Any",
+              "type": "Optional[Union[bytes, str]] = None",
               "description": ""
             },
             {
@@ -7435,18 +7355,8 @@
               "description": ""
             },
             {
-              "name": "# hex digest of current value",
-              "type": "Any",
-              "description": ""
-            },
-            {
               "name": "ifdne",
               "type": "Optional[str] = None",
-              "description": ""
-            },
-            {
-              "name": "# hex digest of current value",
-              "type": "Any",
               "description": ""
             }
           ],
@@ -11262,31 +11172,6 @@
               "name": "...args",
               "type": "[key",
               "description": ""
-            },
-            {
-              "name": "seconds",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "fieldsToken",
-              "type": "'FIELDS'",
-              "description": ""
-            },
-            {
-              "name": "numfields",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "...fields",
-              "type": "(string | Buffer)[]",
-              "description": ""
-            },
-            {
-              "name": "callback",
-              "type": "Callback<number[]>]",
-              "description": ""
             }
           ],
           "returns": {
@@ -11300,26 +11185,6 @@
             {
               "name": "...args",
               "type": "[key",
-              "description": ""
-            },
-            {
-              "name": "seconds",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "fieldsToken",
-              "type": "'FIELDS'",
-              "description": ""
-            },
-            {
-              "name": "numfields",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "...fields",
-              "type": "(string | Buffer)[]]",
               "description": ""
             }
           ],
@@ -11335,36 +11200,6 @@
               "name": "...args",
               "type": "[key",
               "description": ""
-            },
-            {
-              "name": "seconds",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "nx",
-              "type": "'NX'",
-              "description": ""
-            },
-            {
-              "name": "fieldsToken",
-              "type": "'FIELDS'",
-              "description": ""
-            },
-            {
-              "name": "numfields",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "...fields",
-              "type": "(string | Buffer)[]",
-              "description": ""
-            },
-            {
-              "name": "callback",
-              "type": "Callback<number[]>]",
-              "description": ""
             }
           ],
           "returns": {
@@ -11379,31 +11214,6 @@
               "name": "...args",
               "type": "[key",
               "description": ""
-            },
-            {
-              "name": "seconds",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "nx",
-              "type": "'NX'",
-              "description": ""
-            },
-            {
-              "name": "fieldsToken",
-              "type": "'FIELDS'",
-              "description": ""
-            },
-            {
-              "name": "numfields",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "...fields",
-              "type": "(string | Buffer)[]]",
-              "description": ""
             }
           ],
           "returns": {
@@ -11417,36 +11227,6 @@
             {
               "name": "...args",
               "type": "[key",
-              "description": ""
-            },
-            {
-              "name": "seconds",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "xx",
-              "type": "'XX'",
-              "description": ""
-            },
-            {
-              "name": "fieldsToken",
-              "type": "'FIELDS'",
-              "description": ""
-            },
-            {
-              "name": "numfields",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "...fields",
-              "type": "(string | Buffer)[]",
-              "description": ""
-            },
-            {
-              "name": "callback",
-              "type": "Callback<number[]>]",
               "description": ""
             }
           ],
@@ -17531,12 +17311,7 @@
             },
             {
               "name": "items",
-              "type": "&'a [(F",
-              "description": ""
-            },
-            {
-              "name": "V)]",
-              "type": "Any",
+              "type": "&'a [(F, V)]",
               "description": ""
             }
           ],
@@ -17557,12 +17332,7 @@
             },
             {
               "name": "items",
-              "type": "&'a [(F",
-              "description": ""
-            },
-            {
-              "name": "V)]",
-              "type": "Any",
+              "type": "&'a [(F, V)]",
               "description": ""
             }
           ],
@@ -18687,31 +18457,6 @@
               "name": "...args",
               "type": "[key",
               "description": ""
-            },
-            {
-              "name": "milliseconds",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "fieldsToken",
-              "type": "'FIELDS'",
-              "description": ""
-            },
-            {
-              "name": "numfields",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "...fields",
-              "type": "(string | Buffer)[]",
-              "description": ""
-            },
-            {
-              "name": "callback",
-              "type": "Callback<number[]>]",
-              "description": ""
             }
           ],
           "returns": {
@@ -18725,26 +18470,6 @@
             {
               "name": "...args",
               "type": "[key",
-              "description": ""
-            },
-            {
-              "name": "milliseconds",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "fieldsToken",
-              "type": "'FIELDS'",
-              "description": ""
-            },
-            {
-              "name": "numfields",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "...fields",
-              "type": "(string | Buffer)[]]",
               "description": ""
             }
           ],
@@ -18760,36 +18485,6 @@
               "name": "...args",
               "type": "[key",
               "description": ""
-            },
-            {
-              "name": "milliseconds",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "nx",
-              "type": "'NX'",
-              "description": ""
-            },
-            {
-              "name": "fieldsToken",
-              "type": "'FIELDS'",
-              "description": ""
-            },
-            {
-              "name": "numfields",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "...fields",
-              "type": "(string | Buffer)[]",
-              "description": ""
-            },
-            {
-              "name": "callback",
-              "type": "Callback<number[]>]",
-              "description": ""
             }
           ],
           "returns": {
@@ -18804,31 +18499,6 @@
               "name": "...args",
               "type": "[key",
               "description": ""
-            },
-            {
-              "name": "milliseconds",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "nx",
-              "type": "'NX'",
-              "description": ""
-            },
-            {
-              "name": "fieldsToken",
-              "type": "'FIELDS'",
-              "description": ""
-            },
-            {
-              "name": "numfields",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "...fields",
-              "type": "(string | Buffer)[]]",
-              "description": ""
             }
           ],
           "returns": {
@@ -18842,36 +18512,6 @@
             {
               "name": "...args",
               "type": "[key",
-              "description": ""
-            },
-            {
-              "name": "milliseconds",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "xx",
-              "type": "'XX'",
-              "description": ""
-            },
-            {
-              "name": "fieldsToken",
-              "type": "'FIELDS'",
-              "description": ""
-            },
-            {
-              "name": "numfields",
-              "type": "number | string",
-              "description": ""
-            },
-            {
-              "name": "...fields",
-              "type": "(string | Buffer)[]",
-              "description": ""
-            },
-            {
-              "name": "callback",
-              "type": "Callback<number[]>]",
               "description": ""
             }
           ],
@@ -20914,12 +20554,7 @@
             },
             {
               "name": "match",
-              "type": "Union[PatternT",
-              "description": ""
-            },
-            {
-              "name": "None] = None",
-              "type": "Any",
+              "type": "Union[PatternT, None] = None",
               "description": ""
             },
             {
@@ -20929,12 +20564,7 @@
             },
             {
               "name": "no_values",
-              "type": "Union[bool",
-              "description": ""
-            },
-            {
-              "name": "None] = None",
-              "type": "Any",
+              "type": "Union[bool, None] = None",
               "description": ""
             }
           ],
@@ -21820,17 +21450,7 @@
           "signature": "HSET(...[key, value, fieldValue]: SingleFieldArguments | MultipleFieldsArguments)",
           "params": [
             {
-              "name": "...[key",
-              "type": "Any",
-              "description": ""
-            },
-            {
-              "name": "value",
-              "type": "Any",
-              "description": ""
-            },
-            {
-              "name": "fieldValue]",
+              "name": "...[key, value, fieldValue]",
               "type": "SingleFieldArguments | MultipleFieldsArguments",
               "description": ""
             }
@@ -22544,12 +22164,7 @@
             },
             {
               "name": "fields_values",
-              "type": "&'a [(F",
-              "description": ""
-            },
-            {
-              "name": "V)]",
-              "type": "Any",
+              "type": "&'a [(F, V)]",
               "description": ""
             }
           ],
@@ -22575,12 +22190,7 @@
             },
             {
               "name": "fields_values",
-              "type": "&'a [(F",
-              "description": ""
-            },
-            {
-              "name": "V)]",
-              "type": "Any",
+              "type": "&'a [(F, V)]",
               "description": ""
             }
           ],

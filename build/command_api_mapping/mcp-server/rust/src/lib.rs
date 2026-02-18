@@ -715,9 +715,18 @@ fn extract_python_signatures(code: &str) -> Result<Vec<PythonSignature>, String>
                         break;
                     }
 
-                    // Skip empty lines and comments
+                    // Skip empty lines and full-line comments
                     if !next_line.is_empty() && !next_line.starts_with('#') {
-                        params_lines.push(next_line.to_string());
+                        // Strip inline comments (everything after #)
+                        let line_without_comment = if let Some(comment_pos) = next_line.find('#') {
+                            next_line[..comment_pos].trim()
+                        } else {
+                            next_line
+                        };
+
+                        if !line_without_comment.is_empty() {
+                            params_lines.push(line_without_comment.to_string());
+                        }
                     }
                     j += 1;
                 }
@@ -749,10 +758,15 @@ fn parse_parameters(params_text: &str) -> Vec<String> {
         return vec![];
     }
 
-    // Split on commas, but respect angle brackets (for generics like <K, V>)
+    // Split on commas, but respect brackets:
+    // - angle brackets <> for generics like <K, V> (Java, TypeScript, etc.)
+    // - square brackets [] for type hints like Optional[Union[bytes, str]] (Python)
+    // - parentheses () for callable types like Callable[[int], str] (Python)
     let mut params = Vec::new();
     let mut current_param = String::new();
-    let mut angle_bracket_depth = 0;
+    let mut angle_bracket_depth: i32 = 0;
+    let mut square_bracket_depth: i32 = 0;
+    let mut paren_depth: i32 = 0;
 
     for ch in params_text.chars() {
         match ch {
@@ -761,10 +775,26 @@ fn parse_parameters(params_text: &str) -> Vec<String> {
                 current_param.push(ch);
             }
             '>' => {
-                angle_bracket_depth -= 1;
+                angle_bracket_depth = angle_bracket_depth.saturating_sub(1);
                 current_param.push(ch);
             }
-            ',' if angle_bracket_depth == 0 => {
+            '[' => {
+                square_bracket_depth += 1;
+                current_param.push(ch);
+            }
+            ']' => {
+                square_bracket_depth = square_bracket_depth.saturating_sub(1);
+                current_param.push(ch);
+            }
+            '(' => {
+                paren_depth += 1;
+                current_param.push(ch);
+            }
+            ')' => {
+                paren_depth = paren_depth.saturating_sub(1);
+                current_param.push(ch);
+            }
+            ',' if angle_bracket_depth == 0 && square_bracket_depth == 0 && paren_depth == 0 => {
                 let trimmed = current_param.trim().to_string();
                 if !trimmed.is_empty() {
                     params.push(trimmed);
