@@ -89,10 +89,24 @@
                             {{ if gt (len $apiSignatures) 0 }}
                             <div class="api-signatures mt-1 pl-2 border-l border-slate-700">
                                 <span class="text-slate-500 text-[10px] uppercase tracking-wide">Method{{ if gt (len $apiSignatures) 1 }}s{{ end }}:</span>
-                                <ul class="mt-0.5 space-y-0.5">
+                                <ul class="list-none mt-0.5 space-y-2">
                                     {{ range $apiSignatures }}
-                                    <li class="font-mono text-emerald-400 text-[11px]" style="font-family: 'Space Mono', monospace;">
-                                        {{ .signature }}
+                                    {{ $params := .params }}
+                                    {{ $methodName := index (split .signature "(") 0 }}
+                                    <li class="font-mono text-[11px]" style="font-family: 'Space Mono', monospace;">
+                                        {{/* Method name */}}
+                                        <span class="text-emerald-400">{{ $methodName }}</span><span class="text-slate-400">(</span>
+                                        {{/* Parameters - one per line if we have structured params */}}
+                                        {{ if and $params (gt (len $params) 0) }}
+                                        <ul class="list-none pl-4 mt-0.5 space-y-0">
+                                            {{ range $idx, $param := $params }}
+                                            <li class="text-[11px] leading-tight">
+                                                <span class="text-emerald-400">{{ $param.name }}</span>{{ if $param.type }}<span class="text-slate-500">: {{ $param.type }}</span>{{ end }}{{ if lt $idx (sub (len $params) 1) }}<span class="text-slate-400">,</span>{{ end }}
+                                            </li>
+                                            {{ end }}
+                                        </ul>
+                                        {{ end }}
+                                        <span class="text-slate-400">)</span>{{ if .returns }}<span class="text-slate-500"> → </span><span class="text-emerald-400">{{ .returns }}</span>{{ end }}
                                     </li>
                                     {{ end }}
                                 </ul>
