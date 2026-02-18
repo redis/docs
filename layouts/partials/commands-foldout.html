@@ -98,6 +98,7 @@
                                     <ul class="list-none space-y-2">
                                         {{ range $apiSignatures }}
                                         {{ $params := .params }}
+                                        {{ $returns := .returns }}
                                         {{ $methodName := index (split .signature "(") 0 }}
                                         <li class="font-mono text-[11px]" style="font-family: 'Space Mono', monospace;">
                                             {{/* Method name */}}
@@ -107,12 +108,22 @@
                                             <ul class="list-none pl-4 mt-0.5 space-y-0">
                                                 {{ range $idx, $param := $params }}
                                                 <li class="text-[11px] leading-tight">
-                                                    <span class="text-emerald-400">{{ $param.name }}</span>{{ if $param.type }}<span class="text-slate-400">: </span><span class="text-yellow-400">{{ $param.type }}</span>{{ end }}{{ if lt $idx (sub (len $params) 1) }}<span class="text-slate-400">,</span>{{ end }}
+                                                    <span class="text-emerald-400">{{ $param.name }}</span>{{ if $param.type }}<span class="text-slate-400">: </span><span class="text-yellow-400">{{ $param.type }}</span>{{ end }}{{ if lt $idx (sub (len $params) 1) }}<span class="text-slate-400">,</span>{{ end }}{{ if and $param.description (ne $param.description "") }}<span class="text-slate-500 italic"> // {{ $param.description }}</span>{{ end }}
                                                 </li>
                                                 {{ end }}
                                             </ul>
                                             {{ end }}
-                                            <span class="text-slate-400">)</span>{{ if .returns }}<span class="text-slate-500"> → </span><span class="text-emerald-400">{{ .returns }}</span>{{ end }}
+                                            {{/* Return type - handle both string and object formats */}}
+                                            {{ if $returns }}
+                                            <span class="text-slate-400">)</span><span class="text-slate-500"> → </span>
+                                            {{ if reflect.IsMap $returns }}
+                                                <span class="text-emerald-400">{{ index $returns "type" }}</span>{{ if and (index $returns "description") (ne (index $returns "description") "") }}<span class="text-slate-500 italic"> // {{ index $returns "description" }}</span>{{ end }}
+                                            {{ else }}
+                                                <span class="text-emerald-400">{{ $returns }}</span>
+                                            {{ end }}
+                                            {{ else }}
+                                            <span class="text-slate-400">)</span>
+                                            {{ end }}
                                         </li>
                                         {{ end }}
                                     </ul>
