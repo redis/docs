@@ -35,7 +35,45 @@ As of Redis Software version 8.0.14, you can access the cluster and database hea
 
 You can access the cluster and database health reports using the **Overview** screen in the Cluster Manager UI.
 
-{{<image filename="images/rs/screenshots/overview/health-report-overview.png" alt="The health report.">}}
+{{<image filename="images/rs/screenshots/overview/health-report-overview.png" alt="The health report screen.">}}
+
+### Cluster info
+
+The **Cluster Info** section provides basic cluster details, including:
+
+- Overall cluster status
+
+- Redis Software cluster version
+
+- License usage and expiration date
+
+### Cluster storage
+
+The **Cluster Storage** section provides memory usage details, including used memory, free memory, and total memory for RAM, flash, persistent storage, and ephemeral storage.
+
+### Nodes
+
+The **Nodes** section shows the status of nodes in the cluster and indicates which node is the leader or primary node.
+
+### Databases
+
+In the **Databases** section, you can check each database's status and Redis version. You can point to the number listed by each field to display the relevant database names and click on the database links to view database details.
+
+{{<image filename="images/rs/screenshots/overview/db-status-hover.png" alt="Active database names and links are displayed.">}}
+
+### Certificates
+
+The **Certificates** section shows whether the cluster's certificates are still valid. If a certificate appears as no longer valid, you can click the **Certificates** link to update the certificate.
+
+### Actions
+
+In the **Actions** section, you can view currently running actions.
+
+### Alerts and services
+
+If a configured alert threshold is reached, an alert will appear in the **Alerts & Services** section.
+
+{{<image filename="images/rs/screenshots/overview/active-alerts.png" alt="Active alerts are displayed ephemeral and persistent storage have reached 90% capacity.">}}
 
 ## Health report REST API requests {#health-rest-api-requests}
 
