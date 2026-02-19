@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 8.4.0, 8.2.1, 8.0.2, 7.4.3, 7.2.7, 6.2.13
-description: Consolidated health reports. Global Active-Active configuration in the Cluster Manager UI.
+description: Consolidated health report. Global Active-Active configuration in the Cluster Manager UI.
 linkTitle: 8.0.14-tba (February 2026)
 weight: 87
 ---
@@ -17,7 +17,7 @@ weight: 87
 
 This version offers:
 
-- Consolidated health reports
+- Consolidated health report
 
 - Global Active-Active configuration in the Cluster Manager UI
 
@@ -25,11 +25,27 @@ This version offers:
 
 ### New features
 
-#### Health reports
+#### Consolidated health report
 
-The new health report API provides consolidated observability for cluster, node, and database information, offering a unified approach to monitoring Redis Software components. This API consolidates health information that was previously scattered across multiple APIs and CLI commands, such as [`rladmin status extra all`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status">}}) and [`crdb-cli crdb health-report`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/health-report">}}).
+Redis Software's new health report is a read-only, consolidated snapshot of a cluster's current system health, including:
 
-New API paths:
+  - License and certificate status
+
+  - Nodes and services health
+  
+  - Node memory breakdown, including free and provisioned memory
+  
+  - Running actions status
+  
+  - Active alerts
+  
+  - Basic database status and version
+  
+  - High availability health
+
+The new health report consolidates cluster and database health information that was previously scattered across multiple APIs and CLI commands, such as [`rladmin status extra all`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status">}}) and [`crdb-cli crdb health-report`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/health-report">}}) and required SSH access to view.
+
+Now, you can access the cluster and database health reports using the **Overview** screen in the Cluster manager UI or the new health API paths:
 
 - [Cluster health report]({{<relref "/operate/rs/references/rest-api/api-reference/#tag/Cluster/operation/cluster_cluster_health_report">}}):
 
@@ -42,8 +58,6 @@ New API paths:
     ```sh
     GET /v4/bdb/{db_id}/health
     ```
-
-You can also view health reports in the Cluster Manager UI.
 
 #### Global Active-Active configuration in the Cluster Manager UI
 
