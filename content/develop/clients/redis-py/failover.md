@@ -213,7 +213,7 @@ a database that is already unhealthy.
 | `health_check_probes_delay` | Delay between probes during a health check. Default is `0.5` seconds. |
 | `health_check_policy` | `HealthCheckPolicies` enum value to specify the policy for determining database health from the separate probes of a health check. The options are `HealthCheckPolicies.HEALTHY_ALL` (all probes must succeed), `HealthCheckPolicies.HEALTHY_ANY` (at least one probe must succeed), and `HealthCheckPolicies.HEALTHY_MAJORITY` (more than half the probes must succeed). The default policy is `HealthCheckPolicies.HEALTHY_MAJORITY`. |
 | `health_check` | Custom list of `HealthCheck` objects to specify how to perform each probe during a health check. This defaults to just the simple [`PingHealthCheck`](#pinghealthcheck-default). |
-| `initial_health_check_policy` | `InitialHealthCheck` enum value to specify the policy to use during the initial health check. The options are `InitialHealthCheck.ALL_HEALTHY` (all probes must succeed), `InitialHealthCheck.ANY_HEALTHY` (at least one probe must succeed), and `InitialHealthCheck.MAJORITY_HEALTHY` (more than half the probes must succeed). The default policy is `InitialHealthCheck.ALL_HEALTHY`. |
+| `initial_health_check_policy` | `InitialHealthCheck` enum value to specify the policy to use during the initial health check. The options are `InitialHealthCheck.ALL_AVAILABLE` (all probes must succeed), `InitialHealthCheck.ANY_AVAILABLE` (at least one probe must succeed), and `InitialHealthCheck.MAJORITY_AVAILABLE` (more than half the probes must succeed). The default policy is `InitialHealthCheck.ALL_AVAILABLE`. |
 
 ### Health check strategies
 
@@ -358,14 +358,15 @@ cfg = MultiDbConfig(
 )
 client = MultiDBClient(cfg)
 
-# Add a database programmatically. The `skip_unhealthy` parameter defaults
-# to `True`, which avoids adding the database if it is unhealthy, but you
-# can override this by setting it to `False` explicitly.
+# Add a database programmatically. The `skip_initial_health_check`
+# parameter defaults to `True`, which avoids adding the database if it
+# is unhealthy, but you can override this by setting it to `False`
+# explicitly.
 other = DatabaseConfig(
     client_kwargs={"host": "redis-south.example.com", "port": "14000"},
     weight=0.5
 )
-client.add_database(other, skip_unhealthy=True)
+client.add_database(other, skip_initial_health_check=True)
 
 # Get a list of databases, sorted by weight.
 databases = client.get_databases()

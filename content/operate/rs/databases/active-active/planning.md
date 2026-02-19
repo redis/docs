@@ -88,3 +88,4 @@ Active-Active databases have the following limitations:
 - The hashing policy can't be changed after database creation.
 - Active-Active databases cannot be configured as Redis Flex deployments.
 - Active-Active databases handle replication internally and do not support the `redis.set_repl()` function in Lua scripts.
+- If you enabled the default database password during the creation of an Active-Active database, you should not turn off the default database password because it could prevent the removal of participating database instances.
