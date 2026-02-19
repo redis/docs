@@ -676,7 +676,7 @@ FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.propA AS propA TAG $.propB AS propB
 
 ### HIGHLIGHT and SUMMARIZE
 
-No `HIGHLIGHT` and `SUMMARIZE` support for JSON documents.
+There is no `HIGHLIGHT` and `SUMMARIZE` support for JSON documents.
 
 ### Schema mapping
 
