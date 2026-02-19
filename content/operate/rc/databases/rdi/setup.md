@@ -132,9 +132,42 @@ To set up PrivateLink for a database hosted on AWS RDS or AWS Aurora:
 
 To connect to your RDS or Aurora database, we recommend using a Lambda function approach. This provides a reliable and secure connection method for all database types.
 
+1. (Optional) [Create an RDS Proxy](#create-rds-proxy) - Not recommended, but available if required.
 1. [Create a network load balancer](#create-network-load-balancer-rds) that will route incoming requests to your database.
 1. [Create an endpoint service](#create-endpoint-service-rds) through AWS PrivateLink.
 1. [Set up Lambda function connectivity](#setup-lambda-function) to route requests to your database.
+
+### Create RDS Proxy (Optional - Not Recommended) {#create-rds-proxy}
+
+<details>
+<summary>Click to expand RDS Proxy setup instructions</summary>
+
+{{<warning>}}
+We do not recommend using RDS Proxy for RDI connections. The Lambda function approach (described later in this guide) provides better failover handling and is the recommended solution for production environments.
+
+Additionally, RDS Proxy does not work with RDS PostgreSQL and Aurora PostgreSQL because it does not support PostgreSQL logical replication.
+
+Only use RDS Proxy if you have specific requirements that necessitate it.
+{{</warning>}}
+
+If you need to use an RDS Proxy, follow the AWS documentation to set it up:
+
+- [How RDS Proxy works](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy.howitworks.html#rds-proxy-security.tls) (AWS documentation)
+
+The Proxy's IAM role must have the following permissions to access the database using the credentials secret and encryption key:
+- `secretsmanager:GetSecretValue`
+- `secretsmanager:DescribeSecret`
+- `kms:Decrypt`
+
+After creating the RDS Proxy, you will need to get its static IP address to use when configuring the Network Load Balancer in the next step. To get the static IP address of your RDS Proxy, run the following command on an EC2 instance in the same VPC as the Proxy:
+
+```sh
+$ nslookup <proxy-endpoint>
+```
+
+Replace `<proxy-endpoint>` with the endpoint of your RDS Proxy. Save this IP address for use in the Network Load Balancer configuration.
+
+</details>
 
 ### Create network load balancer {#create-network-load-balancer-rds}
 
@@ -151,9 +184,11 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
             - **Target type**: Select **IP Addresses**.
             - **Protocol : Port**: Select **TCP**, and then enter the port number where your database is exposed.
             - The **IP address type** and **VPC** should be selected already and match the VPC you selected earlier.
-        1. In **Register targets**, enter the static IP address of your database, enter the port, and select **Include as pending below**. Then, select **Create target group** to create your target group. Return to **Listeners and routing** in the Network Load Balancer setup.
+        1. In **Register targets**, enter the static IP address of your database (or RDS Proxy if you created one), enter the port, and select **Include as pending below**. Then, select **Create target group** to create your target group. Return to **Listeners and routing** in the Network Load Balancer setup.
 
-            To get the static IP address of your database, run the following command on an EC2 instance in the same VPC as the database:
+            **If you created an RDS Proxy:** Use the IP address you obtained in the [Create RDS Proxy](#create-rds-proxy) step.
+
+            **If connecting directly to the database:** To get the static IP address of your database, run the following command on an EC2 instance in the same VPC as the database:
             ```sh
             $ nslookup <database-endpoint>
             ```
