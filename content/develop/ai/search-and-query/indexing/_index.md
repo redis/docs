@@ -333,10 +333,6 @@ Now you can do full text search for light colored headphones:
   - `null` values are skipped
   - Any other value type will cause an indexing failure
 
-- `SORTBY` only sorts by the first value
-- No `HIGHLIGHT` and `SUMMARIZE` support
-- `RETURN` of a Schema attribute, whose JSONPath leads to multiple values, returns only the first value (as a JSON String)
-- If a JSONPath is specified by the `RETURN`, instead of a Schema attribute, all values are returned (as a JSON String)
 
 ### Handling phrases in different array slots:
 
@@ -678,6 +674,10 @@ FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.propA AS propA TAG $.propB AS propB
 
 ## Index limitations
 
+### HIGHLIGHT and SUMMARIZE
+
+There is no `HIGHLIGHT` and `SUMMARIZE` support for JSON documents.
+
 ### Schema mapping
 
 During index creation, you need to map the JSON elements to `SCHEMA` fields as follows:
@@ -693,6 +693,10 @@ During index creation, you need to map the JSON elements to `SCHEMA` fields as f
 - You cannot index JSON objects. Index the individual elements as separate attributes instead.
 - `null` values are ignored.
 
-### Sortable tags
+### JSONPath with multiple values
 
-If you create an index for JSON documents with a JSONPath leading to an array or to multiple values, only the first value is considered by the sort.
+When a JSONPath leads to an array or to multiple values:
+
+- **SORTBY**: Only the first value is considered by the sort.
+- **RETURN with attribute**: Returns only the first value (as a JSON String).
+- **RETURN with JSONPath**: Returns all values (as a JSON String).
