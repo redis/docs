@@ -56,7 +56,7 @@ Now, you can access the cluster and database health reports using the **Overview
 - [Database health report]({{<relref "/operate/rs/references/rest-api/api-reference/#tag/Database/operation/cluster_database_health_report">}}):
 
     ```sh
-    GET /v4/bdb/{db_id}/health
+    GET /v4/bdb/<database_id>/health
     ```
 
 #### Global Active-Active configuration in the Cluster Manager UI
