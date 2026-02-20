@@ -8,7 +8,7 @@ categories:
 compatibleOSSVersion: Redis 8.4.0, 8.2.1, 8.0.2, 7.4.3, 7.2.7, 6.2.13
 description: Consolidated health report. Global Active-Active configuration in the Cluster Manager UI.
 linkTitle: 8.0.14-tba (February 2026)
-weight: 87
+weight: 86
 ---
 
 ​[​Redis Software version 8.0.14](https://redis.io/downloads/#Redis_Software) is now available! This release includes API enhancements that warranted a new minor version instead of a maintenance release for version 8.0.10. However, you can upgrade from 8.0.2, 8.0.6, or 8.0.10 to 8.0.14 without issue.
