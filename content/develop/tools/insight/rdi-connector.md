@@ -112,9 +112,9 @@ Here's a [reference]({{< relref "/integrate/redis-data-integration/reference/jme
 
 {{< warning >}}
 Any changes you make in the editors will be lost if you exit Redis Insight without saving your work. To save any changes you made to your pipeline files, deploy them to your RDI server (see below) or download the modified files as a ZIP file to your local computer. Redis Insight will prepend a green circle on unsaved/undeployed files. Redis Insight will also show errors (if present) using an exclamation point icon.
-
-<img src="/images/ri/ri-rdi-pl-unsaved.png">
 {{< /warning >}}
+
+{{< image filename="images/ri/ri-rdi-pl-unsaved.png" alt="Unsaved pipeline" >}}
 
 ## Dry run transformation job pipelines
 
