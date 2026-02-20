@@ -32,6 +32,7 @@ your client library to learn how to configure it for failover and failback:
 
 - [Jedis]({{< relref "/develop/clients/jedis/failover" >}})
 - [redis-py]({{< relref "/develop/clients/redis-py/failover" >}}) (preview)
+- [Lettuce]({{< relref "/develop/clients/lettuce/failover" >}}) (preview)
 
 ## Concepts
 
