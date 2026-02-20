@@ -298,9 +298,24 @@ and can also optionally check replication lag.
 
 `LagAwareStrategy` determines the health of the server using the
 [REST API]({{< relref "/operate/rs/references/rest-api" >}}). The example
-below shows how to configure `LagAwareStrategy` and activate it using
-the `healthCheckStrategySupplier()` method of the `DatabaseConfig`
-builder.
+below shows how to configure and use `LagAwareStrategy`. Note that
+`LagAwareStrategy` requires the following dependencies (although they are
+added automatically with Lettuce):
+
+```xml
+<dependency>
+    <groupId>io.netty</groupId>
+    <artifactId>netty-codec-http</artifactId>
+</dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+</dependency>
+```
+
+Configure `LagAwareStrategy` using its configuration builder and then
+pass the configured strategy to the `healthCheckStrategySupplier()` method of the `DatabaseConfig`
+builder:
 
 ```java
 import io.lettuce.core.failover.health.LagAwareStrategy;
