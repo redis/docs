@@ -32,8 +32,8 @@ The following intervals are available:
 |----------|------------|
 | 5 minutes | 30 seconds |
 | 15 minutes | 30 seconds |
-| 1 hour | 1 minute |
-| 1 day | 5 minutes |
+| Hour | 1 minute |
+| Day | 5 minutes |
 | Week | 30 minutes |
 | Month | 4 hours |
 | 3 months | 12 hours |
