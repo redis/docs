@@ -22,10 +22,6 @@ You can read more about RDI's ingest architecture [on these pages]({{< relref "/
 
 As of version `2.54.0`, Redis Insight includes RDI connectivity, which allows you to connect to [RDI management planes]({{< relref "/integrate/redis-data-integration/architecture" >}}#how-rdi-is-deployed), create, test, and deploy [RDI pipelines]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}), and view RDI statistics.
 
-{{< note >}}
-Most of the screenshots on this page were taken using a previous version of Redis Insight. The functionality is the same in the current version, but the user interface has changed.
-{{< /note >}}
-
 ## Connect
 
 Open Redis Insight and then click on the **Redis Data Integration** tab, which looks like this:
@@ -34,159 +30,118 @@ Open Redis Insight and then click on the **Redis Data Integration** tab, which l
 
 Next, click on **Let's connect to RDI**, which will open the **Add RDI Endpoint** dialog.
 
-{{< image filename="images/ri/ri-rdi-add-ep.png" alt="Connect to RDI" >}}
+{{< image filename="images/ri/ri-rdi-add-ep-2.png" alt="Connect to RDI" >}}
 
-Enter your RDI server details into the dialog. The **RDI Alias** field can be any name you choose and it will be used as the primary name in the **RDI Instances** list view. You'll receive notification if your connection is successful.
+Enter your RDI server details into the dialog and then click **Add Endpoint**. The **RDI Alias** field can be any name you choose and it will be used as the primary name in the **RDI Instances** list view. The **URL** field string needs to begin with "https://", followed by the IP address or hostname of your RDI server. You'll receive notification if your connection is successful.
 
-{{< image filename="images/ri/ri-rdi-endpoint-added.png" alt="RDI endpoint added" >}}
+{{< image filename="images/ri/ri-rdi-add-ep-3.png" alt="RDI endpoint added" >}}
 
 ## Create, test, and deploy RDI pipelines
 
-Begin by clicking the alias of your newly configured RDI endpoint in the **RDI Instances** view (for example, **Test connection** in the above image). You'll see the following dialog in the center of the screen.
+Begin by clicking the alias of your newly configured RDI endpoint in the **RDI Instances** view (for example, **Test connection** in the above image), which will reveal the **Pipeline Management** view:
 
-{{< image filename="images/ri/ri-rdi-pl-start.png" alt="Start with your pipeline" >}}
+{{< image filename="images/ri/ri-rdi-pl-main.png" alt="Start with your pipeline" >}}
 
-Choose from the following options:
+The vertical ellipses ("kebab") menu, which is adjacent to the **Deploy** button, contains the following options:
 
-- **Download from server** - Download an existing pipeline from your RDI configuration.
-- **Upload from file** - Upload YAML pipeline files from your local computer in zip format.
-- **Create new pipeline** - Use Redis Insight's built-in editors to create a new pipeline either from scratch or using one of the built-in templates.
+- **Download deployed pipeline** - Download an existing pipeline from your RDI configuration.
+- **Import pipeline from ZIP file** - Upload YAML pipeline files from your local computer in ZIP format.
+- **Save pipeline to ZIP file** - Save YAML pipeline files to your local computer in ZIP format.
 
-Each of these menu options will be described in more detail in subsequent sections.
+{{< image filename="images/ri/ri-rdi-pl-ellipses-menu.png" alt="Vertical ellipses (kebab) menu" >}}
 
-There are also equivalent buttons at the top of the editor pane for the first two of these functions.
+Redis Insight will automatically download the RDI pipeline content from your server when the connection is opened for the first time.
 
-{{< image filename="images/ri/ri-rdi-pl-editor-minibuttons.png" alt="Editor minibuttons" >}}
+### Download a deployed pipeline from your RDI configuration
 
-If you'd rather start with an empty configuration, exit the dialog, which will leave you in the **Configuration file** editor where you can begin editing the configuration component of your pipeline; the `config.yaml` file.
+Select the **Download deployed pipeline** option from the kebab menu to download a previously defined pipeline from your RDI configuration. The downloaded pipeline will be displayed in the **Pipeline management** pane. As shown below, each pipeline consists of a configuration file (`config.yaml`) and zero or more `job` YAML files; both shown in the leftmost panel. The configuration file will be displayed in the rightmost editor panel.
 
-### Download a pipeline from your RDI configuration
+{{< image filename="images/ri/ri-rdi-pl-main.png" alt="Start with your pipeline" >}}
 
-Click the **Download from server** button in the **Start with your pipeline** dialog to download a previously defined pipeline from your RDI configuration. The downloaded pipeline will be displayed in the **Pipeline management** pane. As shown below, each pipeline consists of a configuration file (`config.yaml`) and zero or more `job` YAML files. The configuration file will be displayed in the center editor panel.
+### Import a pipeline from your local machine
 
-{{< image filename="images/ri/ri-rdi-pl-dl.png" alt="Download a pipeline" >}}
-
-### Upload a pipeline from your local machine
-
-Click the **Upload from file** button in the **Start with your pipeline** dialog to upload your configuration and job YAML files from your local machine. The files must be stored in a zip file that has the following structure.
+Select the **Import pipeline from ZIP file** option from the kebab menu to upload your configuration and job YAML files from your local computer. The files must be stored in a ZIP file that has the following structure.
 
 ```
+.
 ├── config.yaml
 └── jobs
-    └── job1.yaml
+    └── bbb.yaml
 ```
 
-The `config.yaml` file, your configuration YAML file, is required. The `jobs` directory can be empty, as job pipelines are not required, but the empty directory must exist in the zip file. Otherwise, the `jobs` folder might contain one or more job YAML files.
+The `config.yaml` file, your configuration YAML file, is required. The `jobs` directory can be empty, as job pipelines are not required, but the empty directory must exist in the ZIP file. Otherwise, the `jobs` folder might contain one or more job YAML files.
 
 ### Create a new configuration file using the built-in editor
 
-Click the **Create new pipeline** button in the **Start with your pipeline** dialog to create a new pipeline using the built-in editors. After doing so, you'll enter the **Configuration file** editor and you'll see an open **Select a template** dialog in the upper right-hand corner of the editor.
+If you wish to create a new pipeline from scratch, first delete any existing YAML code from the editor panel. If you're familiar with the structure of a configuration file, you can begin editing. If you're not familiar, you can insert a database template using the **Insert template** button menu, which has the following options:
 
-{{< image filename="images/ri/ri-rdi-pl-editor-dlg.png" alt="Select a template" >}}
+{{< image filename="images/ri/ri-rdi-pl-template-menu.png" alt="Insert template menu" >}}
 
-Make your selections in the provided fields:
+After you make your selections and click **Apply**, Redis Insight will populate the editor window with an appropriate template.
 
-- **Pipeline type** is set to **Ingest** by default.
-- **Database type** has six options:
-  - mongodb
-  - cassandra
-  - mysql
-  - oracle
-  - postgresql
-  - sqlserver
-
-{{< note >}}
-The options listed in the above menus depend on the capabilities of your RDI configuration.
-{{< /note >}}
-
-After you make your selections and click **Apply**, Redis Insight will populate the editor window with an appropriate template. To start from scratch, click **Cancel**.
+The **Insert template** menu is only available when the editor panel is empty.
 
 See the [RDI documentation]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference" >}}) for information about required fields.
 
-{{< image filename="images/ri/ri-rdi-pl-editor-template.png" alt="Editor template" >}}
-
 ### Test your target database connection
 
-After you've created your **Target database configuration**, you can test the connection using the **Test Connection** button in the bottom right of the editor pane. A new panel will open to the right containing the test results as shown below.
+After you've created your **Target database configuration**, you can test the connection using the **Test Connection** button in the bottom right of the editor pane. A new panel will open to the right containing the test results.
 
-{{< image filename="images/ri/ri-rdi-pl-test-cxn.png" alt="Test connection" >}}
+{{< image filename="images/ri/ri-rdi-pl-test-cnx.png" alt="Test connection" >}}
 
 ### Create a new transformation job file using the built-in editor
 
-In the **Pipeline Management** pane, click the `+` next to the **Jobs** folder and enter a name for the new transformation job.
-Next, click the job name you just created.
-This will take you to the job editor with the template selection menu open. Make your selection and click **Apply**. Redis Insight will populate the editor window with an appropriate template. To start from scratch, click **Cancel**.
+In the **Pipeline Management** pane, click the `+` next to the **Transform and Validate** folder label and enter a name for the new transformation job.
 
-{{< note >}}
-The options listed in the above menu depend on the capabilities of your RDI configuration.
-{{< /note >}}
+{{< image filename="images/ri/ri-rdi-pl-add-job.png" alt="New job" >}}
+
+Next, click the job name you just created. You can either begin manually editing your transformation job or you can select **Insert template**, which will populate a sample, non-functional job template in the editor.
 
 The [RDI documentation]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) has several examples of transformation jobs that can help get you started. Note: RDI uses a very specific YAML format for job files. See [here]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}#job-files) for more information.
-
-{{< image filename="images/ri/ri-rdi-job-editor-template.png" alt="Job editor template" >}}
 
 ## Use the built-in editors
 
 The Redis Insight pipeline file editors are context-aware. They provide auto-completion, syntax highlighting, and error detection for:
 
 - YAML files in the configuration and job file editors
-- JMESPath and SQL function snippets in a dedicated editor. To open the JMESPath and SQL editor, click the **SQL and JMESPathEditor** button as shown above. A new editor window will open in the lower half of the screen.
+- JMESPath and SQL function snippets in a dedicated editor. To open the JMESPath and SQL editor, click the **SQL and JMESPathEditor** button as shown below. A new editor panel will open in the lower half of the screen. At the bottom-left of that panel, you select either **SQLite functions** or **JMESPath**.
 
-If you decided to write your own configuration pipeline without using a template, you would see auto-completion prompts such as the one shown below.
+{{< image filename="images/ri/ri-rdi-pl-addl-editors.png" alt="SQL and JMESPath editors" >}}
 
-{{< image filename="images/ri/ri-rdi-pl-editor-autoc.png" alt="Editor autocompletion" >}}
-
-While this isn't a replacement for the RDI documentation, it can help speed you along after you have basic familiarity with the building blocks of RDI pipeline files.
-
-Redis Insight will also highlight any errors as shown below.
-
-{{< image filename="images/ri/ri-rdi-pl-editor-errs.png" alt="Editor errors" >}}
-
-Here's an example showing the SQL and JMESPath editor pane. Note the toggle in the bottom left corner of this editor pane. Clicking it allows you to select from:
-
-- SQLite functions
-- JMESPath
-
-After constructing your SQLite or JMESPath code, copy it to the main editor window. Here's a [reference]({{< relref "/integrate/redis-data-integration/reference/jmespath-custom-functions" >}}) to the supported JMESPath extension functions and expressions that you can use in your job files.
-
-{{< image filename="images/ri/ri-rdi-pl-editor-sql-minie.png" alt="Editor SQL minieditor" >}}
+Here's a [reference]({{< relref "/integrate/redis-data-integration/reference/jmespath-custom-functions" >}}) to the supported JMESPath extension functions and expressions that you can use in your job files.
 
 {{< warning >}}
-Any changes you make in the editors will be lost if you exit Redis Insight without saving your work. To save any changes you made to your pipeline files, deploy them to your RDI server (see below) or download the modified files as a zip file to your local disk using the **Download** button in the top right of the RDI window. Redis Insight will prepend a green circle on unsaved/undeployed files.
+Any changes you make in the editors will be lost if you exit Redis Insight without saving your work. To save any changes you made to your pipeline files, deploy them to your RDI server (see below) or download the modified files as a ZIP file to your local computer. Redis Insight will prepend a green circle on unsaved/undeployed files. Redis Insight will also show errors (if present) using an exclamation point icon.
 
-{{< image filename="images/ri/ri-rdi-pl-unsaved.png" alt="Unsaved pipeline" >}}
+<img src="/images/ri/ri-rdi-pl-unsaved.png">
 {{< /warning >}}
 
 ## Dry run transformation job pipelines
 
-After you've created a transformation job pipeline, you can execute a dry run on the RDI server. To do that, click on **Dry Run** in the lower right side of the editor pane. A new **Test transformation logic** panel will open to the side. There are two vertically-stacked panes: **Input** and **Results**. In the **Input** section, enter JSON data that will trigger the transformation. Any results will be displayed in the **Results** section.
+After you've created a transformation job pipeline, you can execute a dry run on the RDI server. To do that, click on **Dry Run** in the lower right side of the editor panel. A new **Test transformation logic** panel will open to the side. There are two vertically-stacked panes: **Input** and a lower panel that has two tabs: **Transformation output** and **Job output**. In the **Input** section, enter JSON data that will trigger the transformation and then click **Dry run**. Any results will be displayed in the lower section.
 
-There are two tabs in the **Results** section:
+{{< image filename="images/ri/ri-rdi-pl-dry-run.png" alt="Dry run" >}}
 
-1. **Transformations** - this is where you'll see JSON output from your dry run.
-1. **Output** - (not shown) this is where you'll see the Redis commands that would have been run in a real scenario.
+There are two tabs in the lower section:
 
-Here's an example.
-
-{{< image filename="images/ri/ri-rdi-pl-dryrun.png" alt="Dry run" >}}
+1. **Transformation output** - this is where you'll see JSON output from your dry run.
+1. **Job output** - this is where you'll see the Redis commands that would have been run in a real scenario.
 
 ## Deploy pipelines and add target DB to Redis Insight
 
-If you're satisfied with your configuration and transformation job pipelines, you can deploy them to the RDI management plane. Click the **Deploy Pipeline** button to proceed.
+If you're satisfied with your configuration and transformation job pipelines, you can deploy them to the RDI management plane. Click the **Deploy** button to proceed.
+
+{{< image filename="images/ri/ri-rdi-deploy.png" alt="Deploy" >}}
 
 After your pipelines have been deployed, you can add the RDI target Redis database defined in your `config.yaml` file to Redis Insight.
 Doing so will allow you to monitor key creation from your RDI pipeline over time.
 
-## View RDI statistics
+## View RDI analytics
 
-You can view various statistics for your RDI deployment. To do so, click  the **Pipeline Status** menu button in the left side menu panel.
+You can view various analytics (statistics) for your RDI deployment. To do so, click  the **Analytics** tab button.
 
-{{< image filename="images/ri/ri-rdi-stats-view.png" alt="RDI statistics" >}}
+{{< image filename="images/ri/ri-rdi-analytics-view.png" alt="RDI analytics (statistics)" >}}
 
-Each statistics section is either static or refreshed automatically at a particular interval that you set.
-The first section, **Processing performance information** is set by default to refresh every 5 seconds.
-The other sections are static and need to be refreshed manually by pressing the refresh button at the top right of each section.
-You can also set up automatic refresh for the other sections.
+Analytics results are refreshed in an interval of your choosing. You can set the refresh interval by clicking on the arrow to the right of the **Auto refresh** control. You can either set the **Refresh rate** in seconds by clicking on the pencil control, or disable refresh altogether using the **Auto Refresh** slider control.
 
-To set up automatic refresh for one or more statistics sections, click on the downward arrow at the end of the **Last refresh** line.
-Then enable the **Auto Refresh** setting and set your desired refresh interval in seconds. This is shown in the previous image.
+{{< image filename="images/ri/ri-rdi-refresh.png" alt="RDI analytics refresh" >}}
