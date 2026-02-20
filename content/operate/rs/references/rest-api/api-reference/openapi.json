@@ -230,7 +230,7 @@
           "nodes": {
             "description": "List of nodes in the cluster",
             "items": {
-              "$ref": "#/components/schemas/Node"
+              "$ref": "#/components/schemas/NodeHealthReport"
             },
             "type": "array"
           },
@@ -532,7 +532,7 @@
         ],
         "type": "object"
       },
-      "Node": {
+      "NodeHealthReport": {
         "description": "Node information.",
         "properties": {
           "active_alerts": {
@@ -731,6 +731,29 @@
         },
         "type": "object"
       },
+      "Resource": {
+        "description": "Defines a resource for a role, restricting access to specific resources.",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/ResourceType"
+          },
+          "uids": {
+            "description": "List of resource UIDs this role has access to.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "ResourceType": {
+        "description": "Type of resource for scoping role access.",
+        "enum": [
+          "bdb"
+        ],
+        "type": "string"
+      },
       "Role": {
         "allOf": [
           {
@@ -773,6 +796,20 @@
             "description": "Role's name.",
             "pattern": "^[a-zA-Z0-9_ \\[\\]()@,.;#-]+$",
             "type": "string"
+          },
+          "permissions": {
+            "description": "Explicit permissions for this role. If not specified, permissions are inherited from the management role.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "resources": {
+            "description": "Resources that restrict this role's access to specific resources.",
+            "items": {
+              "$ref": "#/components/schemas/Resource"
+            },
+            "type": "array"
           }
         },
         "type": "object"
@@ -1205,6 +1242,44 @@
   "openapi": "3.0.0",
   "paths": {
     "/v1/bdbs/{uid}/certificates": {
+      "delete": {
+        "description": "Delete database proxy certificate",
+        "operationId": "cluster_delete_bdb_certificate",
+        "parameters": [
+          {
+            "description": "The database unique ID",
+            "example": 1,
+            "in": "path",
+            "name": "uid",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Certificate deleted successfully"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "update_bdb"
+            ]
+          }
+        ],
+        "summary": "Delete database proxy certificate",
+        "tags": [
+          "Database"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
       "get": {
         "description": "Get database proxy certificate",
         "operationId": "cluster_get_bdb_certificate",
