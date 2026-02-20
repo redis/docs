@@ -21,6 +21,20 @@ Redis Enterprise for Kubernetes 7.8.6 includes bug fixes, enhancements, and supp
 
 Customers who use load balancers for Active-Active replication endpoints and rely on the change introduced in RED-113626 (or the workaround described in the ticket) must set the spec.externalReplicationPort field in REAADB after upgrading. Otherwise, replication will fail (RED-149374).
 
+## RHEL9-based image
+
+As of version 7.8.2-6, Redis Enterprise images are based on Red Hat Enterprise Linux 9 (RHEL9). This means upgrades require:
+
+- [Cluster version of 7.4.2-2 or later](https://redis.io/docs/latest/operate/kubernetes/7.4.6/upgrade/).
+- Database version 7.2 or later.
+- RHEL9 compatible binaries for any modules you need.
+
+For detailed steps, see the relevant upgrade page:
+
+- [OpenShift CLI]({{<relref "/operate/kubernetes/upgrade/openshift-cli">}})
+- [OpenShift OperatorHub]({{<relref "/operate/kubernetes/upgrade/upgrade-olm">}})
+- [Kubernetes]({{<relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}})
+
 ## Known limitations
 
 - **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 7.8.2-6 or later.
