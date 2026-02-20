@@ -164,7 +164,8 @@ group-hover:opacity-100 group-hover:visible commands-foldout-open:opacity-100 co
 
             {{/* Commands foldout section */}}
             {{ if $commands }}
-                {{ partial "commands-foldout.html" (dict "commands" $commands "id" $id) }}
+                {{ $tabTitle := index $tab "title" }}
+                {{ partial "commands-foldout.html" (dict "commands" $commands "id" $id "tabTitle" $tabTitle) }}
             {{ end }}
 
             <div class="flex items-center justify-between">
@@ -259,6 +260,22 @@ window.toggleCommandsFoldout = window.toggleCommandsFoldout || function(button) 
                 }
             }
         }
+    }
+};
+
+// Global function to toggle API method signatures mini-foldout
+window.toggleApiSignatures = window.toggleApiSignatures || function(button) {
+    const details = button.nextElementSibling;
+    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+    const icon = button.querySelector('.api-sig-icon');
+
+    // Toggle visibility
+    details.classList.toggle('hidden');
+    button.setAttribute('aria-expanded', !isExpanded);
+
+    // Rotate icon
+    if (icon) {
+        icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(90deg)';
     }
 };
 

@@ -1,0 +1,1 @@
+{\n  "mcpServers": {\n    "redis-parser-mcp": {\n      "command": "node",\n      "args": ["/Users/andrew.stark/Documents/Repos/docs/build/command_api_mapping/mcp-server/node/dist/index.js"]\n    }\n  }\n}\n

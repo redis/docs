@@ -1,0 +1,192 @@
+{{/*
+  API Methods tab content - displays client library method signatures for a Redis command
+  
+  Parameters:
+  - commandName: The Redis command name (e.g., "SET", "GET")
+  
+  This partial renders:
+  - A client selector dropdown
+  - Method signatures for the selected client
+  - All client signatures are rendered but hidden, shown via JS based on selection
+*/}}
+
+{{ $commandName := .commandName }}
+{{ $apiMapping := index site.Data "command-api-mapping" }}
+{{ $cmdMapping := index $apiMapping $commandName }}
+
+{{/* Define client order explicitly */}}
+{{ $clientOrder := slice "Python" "Node.js" "Java-Sync" "Lettuce-Sync" "Java-Async" "Java-Reactive" "Go" "C#-Sync" "C#-Async" "PHP" "Rust-Sync" "Rust-Async" }}
+
+<div class="api-methods-tab-content">
+  {{/* Client selector */}}
+  <div class="flex items-center gap-3 mb-4">
+    <label for="api-client-select" class="text-sm text-slate-600">Client:</label>
+    <select id="api-client-select"
+            class="px-3 py-1.5 text-sm bg-white border border-slate-300 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-redis-red-500"
+            onchange="switchApiClient(this.value)">
+      {{ range $tabName := $clientOrder }}
+        {{ $config := index site.Params.clientsConfig $tabName }}
+        {{ if $config }}
+          {{ $mappingId := index $config "mappingClientId" }}
+          {{ if and $mappingId (ne $mappingId "") }}
+            {{ $clientName := index $config "clientName" }}
+            <option value="{{ $mappingId }}">{{ $tabName }} ({{ $clientName }})</option>
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    </select>
+  </div>
+
+  {{/* Method signatures container - all clients rendered, visibility controlled by JS */}}
+  <div class="api-methods-signatures">
+    {{ if $cmdMapping }}
+      {{ $apiCalls := index $cmdMapping "api_calls" }}
+      {{ if $apiCalls }}
+        {{ $first := true }}
+        {{ range $tabName := $clientOrder }}
+          {{ $config := index site.Params.clientsConfig $tabName }}
+          {{ if $config }}
+            {{ $mappingId := index $config "mappingClientId" }}
+            {{ if and $mappingId (ne $mappingId "") }}
+              {{ $clientSigs := index $apiCalls $mappingId }}
+              <div class="api-client-signatures {{ if not $first }}hidden{{ end }}" data-client-id="{{ $mappingId }}">
+                {{ if $clientSigs }}
+                  <pre class="command-syntax"><code>{{ range $idx, $sig := $clientSigs }}{{ if gt $idx 0 }}
+
+{{ end }}{{ $params := $sig.params }}{{ $returns := $sig.returns }}{{ $beforeParen := index (split $sig.signature "(") 0 }}{{ $parts := split $beforeParen " " }}{{ $methodName := index $parts (sub (len $parts) 1) }}<span class="text-emerald-600">{{ $methodName }}</span>({{ if and $params (gt (len $params) 0) }}
+{{ range $pIdx, $param := $params }}    <span class="text-emerald-600">{{ $param.name }}</span>{{ if $param.type }}: <span class="text-amber-600">{{ $param.type }}</span>{{ end }}{{ if lt $pIdx (sub (len $params) 1) }},{{ end }}{{ if and $param.description (ne $param.description "") }}  <span class="text-slate-500">// {{ $param.description }}</span>{{ end }}
+{{ end }}{{ end }}){{ if $returns }} → {{ if reflect.IsMap $returns }}<span class="text-emerald-600">{{ index $returns "type" }}</span>{{ if and (index $returns "description") (ne (index $returns "description") "") }}  <span class="text-slate-500">// {{ index $returns "description" }}</span>{{ end }}{{ else }}<span class="text-emerald-600">{{ $returns }}</span>{{ end }}{{ end }}{{ end }}</code></pre>
+                {{ else }}
+                  <p class="text-slate-500 italic">No method signature available for this client.</p>
+                {{ end }}
+              </div>
+              {{ $first = false }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+      {{ else }}
+        <p class="text-slate-500 italic">No API method signatures available for this command.</p>
+      {{ end }}
+    {{ else }}
+      <p class="text-slate-500 italic">No API method signatures available for this command.</p>
+    {{ end }}
+  </div>
+</div>
+
+<script>
+(function() {
+  // Mapping between tab names (localStorage) and client IDs (dropdown values)
+  const tabNameToClientId = {
+    {{ range $tabName := $clientOrder }}
+      {{ $config := index site.Params.clientsConfig $tabName }}
+      {{ if $config }}
+        {{ $mappingId := index $config "mappingClientId" }}
+        {{ if and $mappingId (ne $mappingId "") }}
+    '{{ $tabName | replaceRE "\\." "-" }}': '{{ $mappingId }}',
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  };
+
+  // Expose mapping globally so codetabs.js can sync with API methods tab
+  window.apiMethodsTabNameToClientId = tabNameToClientId;
+
+  // Reverse mapping: client ID -> tab name
+  const clientIdToTabName = {};
+  for (const [tabName, clientId] of Object.entries(tabNameToClientId)) {
+    clientIdToTabName[clientId] = tabName;
+  }
+
+  window.switchApiClient = function(clientId) {
+    // Hide all client signature divs
+    document.querySelectorAll('.api-client-signatures').forEach(div => {
+      div.classList.add('hidden');
+    });
+    // Show the selected one
+    const selected = document.querySelector('.api-client-signatures[data-client-id="' + clientId + '"]');
+    if (selected) {
+      selected.classList.remove('hidden');
+    }
+
+    // Sync with localStorage and code example tabs
+    const tabName = clientIdToTabName[clientId];
+    if (tabName && window.localStorage) {
+      window.localStorage.setItem('selectedCodeTab', tabName);
+    }
+
+    // Sync with code example dropdowns on the page
+    if (tabName) {
+      const codeDropdowns = document.querySelectorAll('.codetabs .lang-selector');
+      codeDropdowns.forEach(dropdown => {
+        const options = dropdown.querySelectorAll('option');
+        const matchingOption = Array.from(options).find(opt => opt.value === tabName);
+        if (matchingOption) {
+          dropdown.value = tabName;
+          // Update panel visibility if the function exists
+          if (typeof updatePanelVisibility === 'function') {
+            updatePanelVisibility(dropdown);
+          }
+        }
+      });
+    }
+  };
+
+  // On page load, sync from localStorage or URL param
+  function initApiMethodsTab() {
+    const select = document.getElementById('api-client-select');
+    if (!select) return;
+
+    let selectedTab = null;
+
+    // Check URL parameter first
+    const urlParams = new URLSearchParams(window.location.search);
+    let langParam = urlParams.get('lang');
+
+    // Also check for lang parameter after the hash
+    if (!langParam && window.location.hash) {
+      const hashParts = window.location.hash.split('?');
+      if (hashParts.length > 1) {
+        const hashParams = new URLSearchParams(hashParts[1]);
+        langParam = hashParams.get('lang');
+      }
+    }
+
+    if (langParam) {
+      // Normalize the lang param (same as codetabs.js)
+      selectedTab = langParam.replace(/C#/g, 'dotnet').replace(/\./g, '-').replace(/_/g, '-');
+    } else if (window.localStorage) {
+      selectedTab = window.localStorage.getItem('selectedCodeTab');
+    }
+
+    if (selectedTab) {
+      // Find the matching client ID for this tab name
+      const clientId = tabNameToClientId[selectedTab];
+      if (clientId) {
+        // Check if this client ID exists in the dropdown options
+        const options = select.querySelectorAll('option');
+        const matchingOption = Array.from(options).find(opt => opt.value === clientId);
+        if (matchingOption) {
+          select.value = clientId;
+          // Show the correct signatures
+          document.querySelectorAll('.api-client-signatures').forEach(div => {
+            div.classList.add('hidden');
+          });
+          const selectedDiv = document.querySelector('.api-client-signatures[data-client-id="' + clientId + '"]');
+          if (selectedDiv) {
+            selectedDiv.classList.remove('hidden');
+          }
+        }
+      }
+    }
+  }
+
+  // Initialize when DOM is ready (script may be in body)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApiMethodsTab);
+  } else {
+    // Small delay to ensure codetabs.js has run first
+    setTimeout(initApiMethodsTab, 150);
+  }
+})();
+</script>
+

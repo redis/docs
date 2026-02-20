@@ -1,0 +1,155 @@
+{
+  "mcpServers": {
+    "redis-parser-mcp": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "cwd": ".",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  },
+  "server": {
+    "name": "redis-parser-mcp",
+    "version": "0.1.0",
+    "description": "MCP Server for extracting Redis command API signatures from 14 client libraries",
+    "author": "Augment",
+    "license": "MIT"
+  },
+  "tools": [
+    {
+      "name": "list_redis_commands",
+      "description": "List all Redis commands from command definition files",
+      "category": "data-access",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "include_modules": {
+            "type": "boolean",
+            "description": "Include module commands (default: true)"
+          },
+          "include_deprecated": {
+            "type": "boolean",
+            "description": "Include deprecated commands (default: true)"
+          },
+          "module_filter": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Filter to specific modules"
+          }
+        }
+      }
+    },
+    {
+      "name": "extract_signatures",
+      "description": "Extract method signatures from client source files",
+      "category": "parsing",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "description": "Path to source file"
+          },
+          "language": {
+            "type": "string",
+            "enum": ["python", "java", "go", "typescript", "rust", "csharp", "php"],
+            "description": "Programming language"
+          },
+          "method_name_filter": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Filter to specific method names"
+          }
+        },
+        "required": ["file_path", "language"]
+      }
+    },
+    {
+      "name": "extract_doc_comments",
+      "description": "Extract documentation from source code",
+      "category": "parsing",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "description": "Path to source file"
+          },
+          "language": {
+            "type": "string",
+            "enum": ["python", "java", "go", "typescript", "rust", "csharp", "php"],
+            "description": "Programming language"
+          },
+          "method_names": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Specific methods to extract docs for"
+          }
+        },
+        "required": ["file_path", "language"]
+      }
+    },
+    {
+      "name": "validate_signature",
+      "description": "Validate a method signature",
+      "category": "validation",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "signature": {
+            "type": "string",
+            "description": "Method signature to validate"
+          },
+          "language": {
+            "type": "string",
+            "enum": ["python", "java", "go", "typescript", "rust", "csharp", "php"],
+            "description": "Programming language"
+          }
+        },
+        "required": ["signature", "language"]
+      }
+    },
+    {
+      "name": "get_client_info",
+      "description": "Get information about a specific client",
+      "category": "data-access",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "client_id": {
+            "type": "string",
+            "description": "Client ID"
+          }
+        },
+        "required": ["client_id"]
+      }
+    },
+    {
+      "name": "list_clients",
+      "description": "List all supported Redis clients",
+      "category": "data-access",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "language_filter": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Filter by programming language"
+          }
+        }
+      }
+    }
+  ],
+  "logging": {
+    "level": "info",
+    "format": "json",
+    "errorTracking": true
+  },
+  "errorHandling": {
+    "returnStackTrace": false,
+    "logErrors": true,
+    "gracefulShutdown": true
+  }
+}
+
