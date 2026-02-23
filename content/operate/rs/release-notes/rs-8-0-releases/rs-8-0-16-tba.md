@@ -43,7 +43,7 @@ Redis Software's new health report is a read-only, consolidated snapshot of a cl
   
   - High availability health
 
-The new health report consolidates cluster and database health information that was previously scattered across multiple APIs and CLI commands, such as [`rladmin status extra all`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status">}}) and [`crdb-cli crdb health-report`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/health-report">}}) and required SSH access to view.
+The new health report consolidates cluster and database health information that was previously scattered across multiple APIs and CLI commands, such as [`rladmin status extra all`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status">}}) and required SSH access to view.
 
 Now, you can access the cluster and database health reports using the **Overview** screen in the Cluster manager UI or the new health API paths:
 

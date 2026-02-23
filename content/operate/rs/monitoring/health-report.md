@@ -27,7 +27,7 @@ The consolidated health report is a read-only, consolidated snapshot of a cluste
 
 - High availability health
 
-The consolidated health report consolidates cluster and database health information that was previously scattered across multiple APIs and CLI commands, such as [`rladmin status extra all`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status">}}) and [`crdb-cli crdb health-report`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/health-report">}}) and required SSH access to view.
+The consolidated health report consolidates cluster and database health information that was previously scattered across multiple APIs and CLI commands, such as [`rladmin status extra all`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status">}}) and required SSH access to view.
 
 As of Redis Software version 8.0.14, you can access the cluster and database health reports using the [Cluster manager UI](#view-health-overview) or [REST API requests](#health-rest-api-requests).
 
