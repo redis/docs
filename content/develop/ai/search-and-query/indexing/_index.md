@@ -595,9 +595,9 @@ For JSON documents, you must use the `RETURN` parameter to specify the attribute
 
 Use the optional `TAGS` keyword to specify the strings that will surround (or highlight) the matching search terms.
 
-{{% alert title="Note" color="info" %}}
+{{< note >}}
 `HIGHLIGHT` and `SUMMARIZE` are not supported when the JSONPath leads to multiple values (such as arrays indexed as `TEXT`). See [Index limitations](#index-limitations) for details.
-{{% /alert %}}
+{{< /note >}}
 
 For example, highlight the word "bluetooth" with bold HTML tags in item names and descriptions:
 
@@ -699,5 +699,5 @@ When a JSONPath leads to an array or to multiple values:
 
 - No `HIGHLIGHT` and `SUMMARIZE` support.
 - `SORTBY` only sorts by the first value.
-- `RETURN` of a Schema attribute returns the values as a JSON String.
-- If a JSONPath is specified by the `RETURN`, instead of a Schema attribute, all values are returned (as a JSON String).
+- `RETURN` of a schema attribute returns the values as a JSON string.
+- If a JSONPath is specified by the `RETURN`, instead of a schema attribute, all values are returned (as a JSON string).
