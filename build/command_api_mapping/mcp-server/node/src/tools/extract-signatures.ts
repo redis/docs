@@ -53,10 +53,11 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
   },
   'redisvl': { paths: ['redisvl/redis/connection.py'], language: 'python' },
 
-  // Java - Jedis has JSON commands in json/commands directory
+  // Java - Jedis has commands split across interface files
   'jedis': {
     paths: [
       'src/main/java/redis/clients/jedis/Jedis.java',
+      'src/main/java/redis/clients/jedis/commands/ListCommands.java',  // List commands interface
       'src/main/java/redis/clients/jedis/json/commands/RedisJsonV1Commands.java',  // JSON V1 interface
       'src/main/java/redis/clients/jedis/json/commands/RedisJsonV2Commands.java',  // JSON V2 interface
     ],

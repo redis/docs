@@ -1625,8 +1625,9 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
 
 fn extract_rust_signatures(code: &str) -> Result<Vec<RustSignature>, String> {
     let mut signatures = Vec::new();
+    let lines: Vec<&str> = code.lines().collect();
 
-    // Regex pattern for Rust function/method definitions
+    // Regex pattern for Rust function/method definitions (single-line)
     // Matches: fn name(params) -> return_type
     // Also matches: async fn name(params) -> return_type
     // Also matches: unsafe fn name(params) -> return_type
@@ -1636,8 +1637,76 @@ fn extract_rust_signatures(code: &str) -> Result<Vec<RustSignature>, String> {
         r"(?m)^(\s*)(?:pub(?:\([^)]*\))?\s+)?(?:async\s+)?(?:unsafe\s+)?(?:extern\s+[a-zA-Z0-9_]*\s+)?fn\s+([a-zA-Z_][a-zA-Z0-9_]*)(?:<[^>]+>)?\s*\((.*?)\)(?:\s*->\s*([^{;]+?))?(?:\s*[{;]|$)"
     ).map_err(|e| format!("Regex error: {}", e))?;
 
-    for (line_num, line) in code.lines().enumerate() {
-        if let Some(caps) = func_pattern.captures(line) {
+    // Regex pattern for multi-line Rust function definitions
+    // Matches: fn name<generics>( at end of line (params continue on next lines)
+    let multiline_func_start = Regex::new(
+        r"^(\s*)(?:pub(?:\([^)]*\))?\s+)?(?:async\s+)?(?:unsafe\s+)?(?:extern\s+[a-zA-Z0-9_]*\s+)?fn\s+([a-zA-Z_][a-zA-Z0-9_]*)(?:<[^>]+>)?\s*\(\s*$"
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
+    let mut line_idx = 0;
+    while line_idx < lines.len() {
+        let line = lines[line_idx];
+
+        // Check for multi-line function definitions first
+        if let Some(caps) = multiline_func_start.captures(line) {
+            let method_name = caps.get(2).map(|m| m.as_str().to_string()).unwrap_or_default();
+
+            if !method_name.is_empty() {
+                let is_async = line.contains("async");
+                let is_unsafe = line.contains("unsafe");
+
+                // Collect parameters from subsequent lines
+                let mut params_parts: Vec<String> = Vec::new();
+                let mut return_type: Option<String> = None;
+                let mut j = line_idx + 1;
+
+                while j < lines.len() {
+                    let next_line = lines[j].trim();
+
+                    // Check if this line contains the closing paren
+                    if let Some(paren_pos) = next_line.find(')') {
+                        // Add any params before the closing paren
+                        let params_part = &next_line[..paren_pos];
+                        if !params_part.is_empty() {
+                            params_parts.push(params_part.to_string());
+                        }
+
+                        // Check for return type after the closing paren
+                        let after_paren = &next_line[paren_pos + 1..];
+                        if let Some(arrow_pos) = after_paren.find("->") {
+                            let return_str = after_paren[arrow_pos + 2..].trim();
+                            // Remove trailing { or ; if present
+                            let return_str = return_str.trim_end_matches(|c| c == '{' || c == ';' || c == ' ');
+                            if !return_str.is_empty() {
+                                return_type = Some(return_str.to_string());
+                            }
+                        }
+                        break;
+                    } else {
+                        // This line is part of the parameters
+                        if !next_line.is_empty() {
+                            params_parts.push(next_line.to_string());
+                        }
+                    }
+                    j += 1;
+                }
+
+                let params_str = params_parts.join(" ").replace("  ", " ");
+                let parameters = parse_parameters(&params_str);
+                let signature = format!("fn {}({})", method_name, params_str);
+
+                signatures.push(RustSignature {
+                    method_name,
+                    signature,
+                    parameters,
+                    return_type,
+                    line_number: line_idx + 1,
+                    is_async,
+                    is_unsafe,
+                });
+            }
+        } else if let Some(caps) = func_pattern.captures(line) {
+            // Single-line function definition
             let method_name = caps.get(2).map(|m| m.as_str().to_string()).unwrap_or_default();
             let params_str = caps.get(3).map(|m| m.as_str()).unwrap_or("");
             let return_type = caps.get(4).map(|m| m.as_str().trim().to_string());
@@ -1654,12 +1723,14 @@ fn extract_rust_signatures(code: &str) -> Result<Vec<RustSignature>, String> {
                     signature,
                     parameters,
                     return_type,
-                    line_number: line_num + 1,
+                    line_number: line_idx + 1,
                     is_async,
                     is_unsafe,
                 });
             }
         }
+
+        line_idx += 1;
     }
 
     Ok(signatures)

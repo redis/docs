@@ -45,6 +45,16 @@ const STRING_HASH_COMMANDS = [
 ];
 
 /**
+ * All list commands from commands_core.json (group: "list")
+ */
+const LIST_COMMANDS = [
+  'BLMOVE', 'BLMPOP', 'BLPOP', 'BRPOP', 'BRPOPLPUSH',
+  'LINDEX', 'LINSERT', 'LLEN', 'LMOVE', 'LMPOP',
+  'LPOP', 'LPOS', 'LPUSH', 'LPUSHX', 'LRANGE', 'LREM', 'LSET', 'LTRIM',
+  'RPOP', 'RPOPLPUSH', 'RPUSH', 'RPUSHX',
+];
+
+/**
  * All JSON commands from commands_redisjson.json
  */
 const JSON_COMMANDS = [
@@ -59,7 +69,7 @@ const JSON_COMMANDS = [
 /**
  * Combined list of all commands to extract
  */
-const ALL_COMMANDS = [...STRING_HASH_COMMANDS, ...JSON_COMMANDS];
+const ALL_COMMANDS = [...STRING_HASH_COMMANDS, ...LIST_COMMANDS, ...JSON_COMMANDS];
 
 /**
  * Clients to extract signatures from
@@ -141,6 +151,29 @@ const COMMAND_ALIASES: { [key: string]: string[] } = {
   'hstrlen': ['hstrlen', 'hashstringlength'],
   'httl': ['httl', 'hashfieldgettimetolive'],  // NRedisStack: HashFieldGetTimeToLive
   'hvals': ['hvals', 'hashvalues'],
+  // List commands
+  'blmove': ['blmove', 'bl_move', 'listmove'],  // Rust: bl_move, NRedisStack: ListMove (blocking variant)
+  'blmpop': ['blmpop', 'bl_mpop'],  // Rust: bl_mpop
+  'blpop': ['blpop', 'bl_pop'],  // Rust: bl_pop
+  'brpop': ['brpop', 'br_pop'],  // Rust: br_pop
+  'brpoplpush': ['brpoplpush', 'brpop_lpush'],  // Rust: brpop_lpush (deprecated)
+  'lindex': ['lindex', 'listgetbyindex'],  // NRedisStack: ListGetByIndex
+  'linsert': ['linsert', 'listinsertbefore', 'listinsertafter', 'linsert_before', 'linsert_after'],  // NRedisStack: ListInsertBefore/After, Rust: linsert_before/linsert_after
+  'llen': ['llen', 'listlength'],  // NRedisStack: ListLength
+  'lmove': ['lmove', 'l_move', 'listmove'],  // Rust: l_move, NRedisStack: ListMove
+  'lmpop': ['lmpop', 'l_mpop'],  // Rust: l_mpop
+  'lpop': ['lpop', 'listleftpop'],  // NRedisStack: ListLeftPop
+  'lpos': ['lpos', 'listposition', 'listpositions'],  // NRedisStack: ListPosition/ListPositions
+  'lpush': ['lpush', 'listleftpush'],  // NRedisStack: ListLeftPush
+  'lpushx': ['lpushx', 'listleftpushifpresent', 'lpush_exists'],  // NRedisStack: ListLeftPushIfPresent, Rust: lpush_exists
+  'lrange': ['lrange', 'listrange'],  // NRedisStack: ListRange
+  'lrem': ['lrem', 'listremove'],  // NRedisStack: ListRemove
+  'lset': ['lset', 'listsetbyindex'],  // NRedisStack: ListSetByIndex
+  'ltrim': ['ltrim', 'listtrim'],  // NRedisStack: ListTrim
+  'rpop': ['rpop', 'listrightpop'],  // NRedisStack: ListRightPop
+  'rpoplpush': ['rpoplpush', 'rpop_lpush'],  // Rust: rpop_lpush (deprecated)
+  'rpush': ['rpush', 'listrightpush'],  // NRedisStack: ListRightPush
+  'rpushx': ['rpushx', 'listrightpushifpresent', 'rpush_exists'],  // NRedisStack: ListRightPushIfPresent, Rust: rpush_exists
   // JSON commands - Clients use various naming: jsonSet/json_set/JsonSet/JSONSet
   // For aliases, we include both JSON-prefixed names AND non-prefixed names.
   // The source_context filtering will ensure non-prefixed names only match from JSON source files.
@@ -172,8 +205,8 @@ const COMMAND_ALIASES: { [key: string]: string[] } = {
 };
 
 async function extractCommandApiMapping() {
-  console.log('🔍 Extracting Method Signatures for String, Hash & JSON Commands...\n');
-  console.log(`📋 Commands to extract: ${ALL_COMMANDS.length} (${STRING_HASH_COMMANDS.length} string/hash + ${JSON_COMMANDS.length} JSON)`);
+  console.log('🔍 Extracting Method Signatures for String, Hash, List & JSON Commands...\n');
+  console.log(`📋 Commands to extract: ${ALL_COMMANDS.length} (${STRING_HASH_COMMANDS.length} string/hash + ${LIST_COMMANDS.length} list + ${JSON_COMMANDS.length} JSON)`);
   console.log(`📦 Clients to process: ${CLIENT_CONFIGS.length}\n`);
 
   const mapping: CommandMapping = {};
