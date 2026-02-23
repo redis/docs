@@ -269,6 +269,8 @@ to renew the lease in the RDI database, it will lose the leadership and a failov
 will take place. After the failover, the secondary instance will become the primary one, 
 and the RDI pipeline will be active on that VM.
 
+You can see how to test HA failover in the [HA failover testing page]({{< relref "/integrate/redis-data-integration/installation/ha-test" >}}).
+
 ## Prepare your source database
 
 Before deploying a pipeline, you must configure your source database to enable CDC. See the
