@@ -55,6 +55,17 @@ const LIST_COMMANDS = [
 ];
 
 /**
+ * All set commands from commands_core.json (group: "set")
+ */
+const SET_COMMANDS = [
+  'SADD', 'SCARD', 'SDIFF', 'SDIFFSTORE',
+  'SINTER', 'SINTERCARD', 'SINTERSTORE',
+  'SISMEMBER', 'SMEMBERS', 'SMISMEMBER', 'SMOVE',
+  'SPOP', 'SRANDMEMBER', 'SREM', 'SSCAN',
+  'SUNION', 'SUNIONSTORE',
+];
+
+/**
  * All JSON commands from commands_redisjson.json
  */
 const JSON_COMMANDS = [
@@ -69,7 +80,7 @@ const JSON_COMMANDS = [
 /**
  * Combined list of all commands to extract
  */
-const ALL_COMMANDS = [...STRING_HASH_COMMANDS, ...LIST_COMMANDS, ...JSON_COMMANDS];
+const ALL_COMMANDS = [...STRING_HASH_COMMANDS, ...LIST_COMMANDS, ...SET_COMMANDS, ...JSON_COMMANDS];
 
 /**
  * Clients to extract signatures from
@@ -174,6 +185,24 @@ const COMMAND_ALIASES: { [key: string]: string[] } = {
   'rpoplpush': ['rpoplpush', 'rpop_lpush'],  // Rust: rpop_lpush (deprecated)
   'rpush': ['rpush', 'listrightpush'],  // NRedisStack: ListRightPush
   'rpushx': ['rpushx', 'listrightpushifpresent', 'rpush_exists'],  // NRedisStack: ListRightPushIfPresent, Rust: rpush_exists
+  // Set commands
+  'sadd': ['sadd', 'setadd', 's_add'],  // NRedisStack: SetAdd
+  'scard': ['scard', 'setlength', 's_card'],  // NRedisStack: SetLength
+  'sdiff': ['sdiff', 'setdiff', 'setdifference', 's_diff', 'setcombine'],  // NRedisStack: SetCombine
+  'sdiffstore': ['sdiffstore', 'setdiffstore', 'setdifferencestore', 's_diff_store', 'setcombineandstore'],  // NRedisStack: SetCombineAndStore
+  'sinter': ['sinter', 'setinter', 'setintersect', 's_inter', 'setcombine'],  // NRedisStack: SetCombine
+  'sintercard': ['sintercard', 'setintercard', 's_inter_card', 'setintersectionlength'],  // NRedisStack: SetIntersectionLength
+  'sinterstore': ['sinterstore', 'setinterstore', 's_inter_store', 'setcombineandstore'],  // NRedisStack: SetCombineAndStore
+  'sismember': ['sismember', 'setismember', 's_is_member', 'setcontains'],  // NRedisStack: SetContains
+  'smembers': ['smembers', 'setmembers', 's_members'],  // NRedisStack: SetMembers
+  'smismember': ['smismember', 'setmismember', 's_mis_member', 'setcontains'],  // NRedisStack: SetContains (multiple)
+  'smove': ['smove', 'setmove', 's_move'],  // NRedisStack: SetMove
+  'spop': ['spop', 'setpop', 's_pop'],  // NRedisStack: SetPop
+  'srandmember': ['srandmember', 'setrandmember', 'setrandomember', 's_rand_member', 'setrandomember'],  // NRedisStack: SetRandomMember
+  'srem': ['srem', 'setremove', 's_rem'],  // NRedisStack: SetRemove
+  'sscan': ['sscan', 'setscan', 's_scan'],  // NRedisStack: SetScan
+  'sunion': ['sunion', 'setunion', 's_union', 'setcombine'],  // NRedisStack: SetCombine
+  'sunionstore': ['sunionstore', 'setunionstore', 's_union_store', 'setcombineandstore'],  // NRedisStack: SetCombineAndStore
   // JSON commands - Clients use various naming: jsonSet/json_set/JsonSet/JSONSet
   // For aliases, we include both JSON-prefixed names AND non-prefixed names.
   // The source_context filtering will ensure non-prefixed names only match from JSON source files.
@@ -205,8 +234,8 @@ const COMMAND_ALIASES: { [key: string]: string[] } = {
 };
 
 async function extractCommandApiMapping() {
-  console.log('🔍 Extracting Method Signatures for String, Hash, List & JSON Commands...\n');
-  console.log(`📋 Commands to extract: ${ALL_COMMANDS.length} (${STRING_HASH_COMMANDS.length} string/hash + ${LIST_COMMANDS.length} list + ${JSON_COMMANDS.length} JSON)`);
+  console.log('🔍 Extracting Method Signatures for String, Hash, List, Set & JSON Commands...\n');
+  console.log(`📋 Commands to extract: ${ALL_COMMANDS.length} (${STRING_HASH_COMMANDS.length} string/hash + ${LIST_COMMANDS.length} list + ${SET_COMMANDS.length} set + ${JSON_COMMANDS.length} JSON)`);
   console.log(`📦 Clients to process: ${CLIENT_CONFIGS.length}\n`);
 
   const mapping: CommandMapping = {};
