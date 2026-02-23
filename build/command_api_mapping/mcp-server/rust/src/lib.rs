@@ -1368,6 +1368,12 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
         r"(?m)^\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\((.*?)\)(?:\s*:\s*([^{]+?))?\s*\{"
     ).map_err(|e| format!("Regex error: {}", e))?;
 
+    // Regex pattern for multi-line method definitions (used by node-redis parseCommand)
+    // Matches: methodName( at end of line (params continue on following lines)
+    let multiline_method_start = Regex::new(
+        r"^\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(\s*$"
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
     // Regex pattern for transformArguments/transformReply functions (node-redis pattern)
     // Matches: transformArguments(key: RedisArgument, ...): RedisArgument[]
     let transform_pattern = Regex::new(
@@ -1381,7 +1387,73 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
         r"(?m)^\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\("
     ).map_err(|e| format!("Regex error: {}", e))?;
 
-    for (line_num, line) in code.lines().enumerate() {
+    let lines: Vec<&str> = code.lines().collect();
+    let mut line_num = 0;
+
+    while line_num < lines.len() {
+        let line = lines[line_num];
+
+        // Check for multi-line method definition (like node-redis parseCommand)
+        // Matches: methodName( at end of line with params on following lines
+        if let Some(caps) = multiline_method_start.captures(line) {
+            let method_name = caps.get(1).map(|m| m.as_str().to_string()).unwrap_or_default();
+
+            // Skip common non-method patterns
+            let skip_names = [
+                "if", "for", "while", "switch", "catch", "with", "else",
+                "try", "throw", "return", "new", "typeof", "instanceof",
+                "delete", "void", "yield", "await", "case", "default",
+                "constructor", "super", "function",
+            ];
+
+            if !method_name.is_empty() && !skip_names.contains(&method_name.as_str()) {
+                let start_line = line_num;
+                // Collect parameters across multiple lines until we find ) {
+                let mut params_parts: Vec<&str> = Vec::new();
+                let mut found_closing = false;
+                let mut search_line = line_num + 1;
+
+                while search_line < lines.len() && search_line < line_num + 20 { // Max 20 lines of params
+                    let param_line = lines[search_line].trim();
+
+                    // Check if this line closes the parameter list
+                    if param_line.contains(") {") || param_line.starts_with(") {") {
+                        // Extract any params before the )
+                        if let Some(idx) = param_line.find(')') {
+                            let before_paren = &param_line[..idx];
+                            if !before_paren.is_empty() {
+                                params_parts.push(before_paren);
+                            }
+                        }
+                        found_closing = true;
+                        break;
+                    }
+
+                    // Add this line's params
+                    params_parts.push(param_line.trim_end_matches(','));
+                    search_line += 1;
+                }
+
+                if found_closing {
+                    let params_str = params_parts.join(", ");
+                    let parameters = parse_parameters(&params_str);
+                    let signature = format!("{}({})", method_name, params_str);
+
+                    signatures.push(TypeScriptSignature {
+                        method_name,
+                        signature,
+                        parameters,
+                        return_type: None,
+                        line_number: start_line + 1,
+                        is_async: false,
+                    });
+
+                    line_num = search_line + 1;
+                    continue;
+                }
+            }
+        }
+
         // First try standard function pattern
         if let Some(caps) = func_pattern.captures(line) {
             let method_name = caps.get(2).map(|m| m.as_str().to_string()).unwrap_or_default();
@@ -1390,6 +1462,7 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
 
             // Skip if it looks like a variable assignment or property
             if method_name.is_empty() || method_name.chars().next().map_or(false, |c| c.is_uppercase()) {
+                line_num += 1;
                 continue;
             }
 
@@ -1406,6 +1479,7 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
                 line_number: line_num + 1,
                 is_async,
             });
+            line_num += 1;
             continue;
         }
 
@@ -1427,6 +1501,7 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
                     line_number: line_num + 1,
                     is_async: false,
                 });
+                line_num += 1;
                 continue;
             }
         }
@@ -1446,6 +1521,7 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
             ];
 
             if method_name.is_empty() || skip_names.contains(&method_name.as_str()) {
+                line_num += 1;
                 continue;
             }
 
@@ -1456,6 +1532,7 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
                 || trimmed.starts_with("for ") || trimmed.starts_with("for(")
                 || trimmed.starts_with("while ") || trimmed.starts_with("while(")
                 || trimmed.starts_with("switch ") || trimmed.starts_with("switch(") {
+                line_num += 1;
                 continue;
             }
 
@@ -1470,6 +1547,7 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
                 line_number: line_num + 1,
                 is_async: false,
             });
+            line_num += 1;
             continue;
         }
 
@@ -1487,6 +1565,7 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
             ];
 
             if method_name.is_empty() || skip_names.contains(&method_name.as_str()) {
+                line_num += 1;
                 continue;
             }
 
@@ -1502,6 +1581,7 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
                 // For multi-line signatures, check if this looks like the start of an interface method
                 // Interface methods in ioredis start with 2 spaces of indentation
                 if !line.starts_with("  ") || line.starts_with("    ") {
+                    line_num += 1;
                     continue;
                 }
             }
@@ -1536,6 +1616,8 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
                 is_async: false,
             });
         }
+
+        line_num += 1;
     }
 
     Ok(signatures)

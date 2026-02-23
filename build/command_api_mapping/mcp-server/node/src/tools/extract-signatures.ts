@@ -43,12 +43,25 @@ interface ClientSourceConfig {
  * repositories to fetch from.
  */
 const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
-  // Python
-  'redis_py': { paths: ['redis/commands/core.py'], language: 'python' },
+  // Python - includes JSON module commands
+  'redis_py': {
+    paths: [
+      'redis/commands/core.py',
+      'redis/commands/json/commands.py',  // JSON commands
+    ],
+    language: 'python'
+  },
   'redisvl': { paths: ['redisvl/redis/connection.py'], language: 'python' },
 
-  // Java
-  'jedis': { paths: ['src/main/java/redis/clients/jedis/Jedis.java'], language: 'java' },
+  // Java - Jedis has JSON commands in json/commands directory
+  'jedis': {
+    paths: [
+      'src/main/java/redis/clients/jedis/Jedis.java',
+      'src/main/java/redis/clients/jedis/json/commands/RedisJsonV1Commands.java',  // JSON V1 interface
+      'src/main/java/redis/clients/jedis/json/commands/RedisJsonV2Commands.java',  // JSON V2 interface
+    ],
+    language: 'java'
+  },
   'lettuce_sync': {
     paths: [
       'src/main/java/io/lettuce/core/api/sync/RedisStringCommands.java',
@@ -62,6 +75,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'src/main/java/io/lettuce/core/api/sync/RedisStreamCommands.java',
       'src/main/java/io/lettuce/core/api/sync/RedisScriptingCommands.java',
       'src/main/java/io/lettuce/core/api/sync/RedisServerCommands.java',
+      'src/main/java/io/lettuce/core/api/sync/RedisJsonCommands.java',  // JSON commands
     ],
     language: 'java',
   },
@@ -78,6 +92,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'src/main/java/io/lettuce/core/api/async/RedisStreamAsyncCommands.java',
       'src/main/java/io/lettuce/core/api/async/RedisScriptingAsyncCommands.java',
       'src/main/java/io/lettuce/core/api/async/RedisServerAsyncCommands.java',
+      'src/main/java/io/lettuce/core/api/async/RedisJsonAsyncCommands.java',  // JSON commands
     ],
     language: 'java',
   },
@@ -94,6 +109,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'src/main/java/io/lettuce/core/api/reactive/RedisStreamReactiveCommands.java',
       'src/main/java/io/lettuce/core/api/reactive/RedisScriptingReactiveCommands.java',
       'src/main/java/io/lettuce/core/api/reactive/RedisServerReactiveCommands.java',
+      'src/main/java/io/lettuce/core/api/reactive/RedisJsonReactiveCommands.java',  // JSON commands
     ],
     language: 'java',
   },
@@ -113,6 +129,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'cluster_commands.go',
       'pubsub_commands.go',
       'scripting_commands.go',
+      'json.go',  // JSON commands
     ],
     language: 'go'
   },
@@ -193,6 +210,27 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'packages/client/lib/commands/ZRANGE.ts',
       'packages/client/lib/commands/ZREM.ts',
       'packages/client/lib/commands/ZSCORE.ts',
+      // JSON commands
+      'packages/json/lib/commands/SET.ts',
+      'packages/json/lib/commands/GET.ts',
+      'packages/json/lib/commands/DEL.ts',
+      'packages/json/lib/commands/MGET.ts',
+      'packages/json/lib/commands/MSET.ts',
+      'packages/json/lib/commands/MERGE.ts',
+      'packages/json/lib/commands/TOGGLE.ts',
+      'packages/json/lib/commands/CLEAR.ts',
+      'packages/json/lib/commands/ARRAPPEND.ts',
+      'packages/json/lib/commands/ARRINDEX.ts',
+      'packages/json/lib/commands/ARRINSERT.ts',
+      'packages/json/lib/commands/ARRLEN.ts',
+      'packages/json/lib/commands/ARRPOP.ts',
+      'packages/json/lib/commands/ARRTRIM.ts',
+      'packages/json/lib/commands/OBJKEYS.ts',
+      'packages/json/lib/commands/OBJLEN.ts',
+      'packages/json/lib/commands/TYPE.ts',
+      'packages/json/lib/commands/STRAPPEND.ts',
+      'packages/json/lib/commands/STRLEN.ts',
+      'packages/json/lib/commands/NUMINCRBY.ts',
     ],
     language: 'typescript'
   },
@@ -206,7 +244,10 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
   // Core Redis commands (StringGet, StringSet, etc.) are in StackExchange.Redis
   // Module commands (JSON, Search, TimeSeries, etc.) are in NRedisStack
   'nredisstack_sync': {
-    paths: ['src/NRedisStack/CoreCommands/CoreCommands.cs'],
+    paths: [
+      'src/NRedisStack/CoreCommands/CoreCommands.cs',
+      'src/NRedisStack/Json/JsonCommands.cs',  // JSON commands
+    ],
     language: 'csharp',
     externalSources: [
       {
@@ -220,7 +261,10 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
     ],
   },
   'nredisstack_async': {
-    paths: ['src/NRedisStack/CoreCommands/CoreCommandsAsync.cs'],
+    paths: [
+      'src/NRedisStack/CoreCommands/CoreCommandsAsync.cs',
+      'src/NRedisStack/Json/JsonCommandsAsync.cs',  // JSON commands async
+    ],
     language: 'csharp',
     externalSources: [
       {
@@ -237,6 +281,44 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
   // PHP - Predis uses ClientInterface for all method signatures
   'php': { paths: ['src/ClientInterface.php'], language: 'php' },
 };
+
+/**
+ * Determine source context from a file path.
+ * Used to identify if a source file contains JSON, Search, TimeSeries, or other module commands.
+ * @param filePath - The path to the source file
+ * @returns The source context ('json', 'search', 'timeseries', 'bloom', or 'core')
+ */
+function getSourceContextFromPath(filePath: string): string {
+  const pathLower = filePath.toLowerCase();
+
+  // JSON module files
+  if (pathLower.includes('/json/') || pathLower.includes('json.go') ||
+      pathLower.includes('jsoncommands') || pathLower.includes('json_commands')) {
+    return 'json';
+  }
+
+  // Search module files (for future expansion)
+  if (pathLower.includes('/search/') || pathLower.includes('search.go') ||
+      pathLower.includes('searchcommands') || pathLower.includes('search_commands') ||
+      pathLower.includes('redisearch')) {
+    return 'search';
+  }
+
+  // TimeSeries module files (for future expansion)
+  if (pathLower.includes('/timeseries/') || pathLower.includes('timeseries.go') ||
+      pathLower.includes('timeseriescommands') || pathLower.includes('time_series')) {
+    return 'timeseries';
+  }
+
+  // Bloom module files (for future expansion)
+  if (pathLower.includes('/bloom/') || pathLower.includes('bloom.go') ||
+      pathLower.includes('bloomcommands') || pathLower.includes('bloom_commands')) {
+    return 'bloom';
+  }
+
+  // Default to core commands
+  return 'core';
+}
 
 /**
  * Fetch source file content from GitHub raw URL
@@ -372,12 +454,17 @@ export async function extractSignatures(
           // Extract command name from filename (e.g., GET.ts -> GET)
           const match = chunk.filePath.match(/\/([A-Z_]+)\.ts$/);
           const commandName = match ? match[1] : '';
-          // Add a special comment that our TypeScript parser can detect
-          return `// __NODE_REDIS_COMMAND__:${commandName}\n${chunk.code}`;
+          // Determine source context from path (json, search, timeseries, bloom, etc.)
+          const sourceContext = getSourceContextFromPath(chunk.filePath);
+          // Add special comments that our parser can detect
+          return `// __NODE_REDIS_COMMAND__:${commandName}\n// __SOURCE_CONTEXT__:${sourceContext}\n${chunk.code}`;
         }).join('\n\n');
       } else {
-        // Combine all source code normally
-        code = codeChunks.map(c => c.code).join('\n\n');
+        // Add source context markers for all files to track JSON vs core commands
+        code = codeChunks.map(chunk => {
+          const sourceContext = getSourceContextFromPath(chunk.filePath);
+          return `// __SOURCE_CONTEXT__:${sourceContext}\n${chunk.code}`;
+        }).join('\n\n');
       }
       sourcePath = `${clientInfo.repository.git_uri} [${fetchedPaths.join(', ')}]`;
     } else if (validatedInput.file_path) {
@@ -417,6 +504,7 @@ export async function extractSignatures(
       docComments = parseTypeScriptDocComments(code);
 
       // Special post-processing for node_redis: rename parseCommand to actual command names
+      // Note: Deduplication is done AFTER source context is attached (below)
       if (isNodeRedis && rawSignatures.length > 0) {
         const lines = code.split('\n');
         let currentCommand = '';
@@ -444,23 +532,14 @@ export async function extractSignatures(
           return sig;
         });
 
-        // Filter out duplicate command names and non-command methods
-        const seenCommands = new Set<string>();
+        // Filter out non-command methods (but NOT duplicates yet - that happens after source context is added)
         rawSignatures = rawSignatures.filter(sig => {
           // Skip non-command methods (like 'if', 'constructor', etc.)
           if (['parseCommand', 'transformArguments', 'transformReply', 'constructor'].includes(sig.method_name)) {
             return false;
           }
-          // Skip duplicates
-          if (seenCommands.has(sig.method_name)) {
-            return false;
-          }
           // Only keep uppercase command names (like GET, SET, etc.)
-          if (sig.method_name && /^[A-Z_]+$/.test(sig.method_name)) {
-            seenCommands.add(sig.method_name);
-            return true;
-          }
-          return false;
+          return sig.method_name && /^[A-Z_]+$/.test(sig.method_name);
         });
       }
     } else if (language === "rust") {
@@ -476,6 +555,42 @@ export async function extractSignatures(
       errors.push(
         `Language '${language}' not yet implemented. Currently Python, Java, Go, TypeScript, Rust, C#, and PHP are supported.`
       );
+    }
+
+    // Add source context to signatures based on __SOURCE_CONTEXT__ markers
+    const lines = code.split('\n');
+    let currentSourceContext = 'core';
+    const lineToSourceContext: Record<number, string> = {};
+
+    for (let i = 0; i < lines.length; i++) {
+      const contextMatch = lines[i].match(/\/\/ __SOURCE_CONTEXT__:(\w+)/);
+      if (contextMatch) {
+        currentSourceContext = contextMatch[1];
+      }
+      lineToSourceContext[i + 1] = currentSourceContext;
+    }
+
+    // Attach source_context to each signature based on its line number
+    rawSignatures = rawSignatures.map(sig => ({
+      ...sig,
+      source_context: lineToSourceContext[sig.line_number] || 'core',
+    }));
+
+    // For node_redis, deduplicate per source context (e.g., SET from core and SET from json are both valid)
+    if (isNodeRedis) {
+      const seenCommandsPerContext = new Map<string, Set<string>>();
+      rawSignatures = rawSignatures.filter(sig => {
+        const context = sig.source_context || 'core';
+        if (!seenCommandsPerContext.has(context)) {
+          seenCommandsPerContext.set(context, new Set());
+        }
+        const seenInContext = seenCommandsPerContext.get(context)!;
+        if (seenInContext.has(sig.method_name)) {
+          return false;
+        }
+        seenInContext.add(sig.method_name);
+        return true;
+      });
     }
 
     // Apply method name filter if provided
@@ -704,6 +819,7 @@ export async function extractSignatures(
         return_description: cleanDocMarkup(getReturnDescription(doc)),
         line_number: sig.line_number,
         is_async: sig.is_async,
+        source_context: sig.source_context,
       };
     });
 

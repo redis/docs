@@ -45,6 +45,23 @@ const STRING_HASH_COMMANDS = [
 ];
 
 /**
+ * All JSON commands from commands_redisjson.json
+ */
+const JSON_COMMANDS = [
+  'JSON.SET', 'JSON.GET', 'JSON.DEL', 'JSON.MGET', 'JSON.MSET', 'JSON.MERGE',
+  'JSON.TOGGLE', 'JSON.CLEAR', 'JSON.FORGET',
+  'JSON.ARRAPPEND', 'JSON.ARRINDEX', 'JSON.ARRINSERT', 'JSON.ARRLEN', 'JSON.ARRPOP', 'JSON.ARRTRIM',
+  'JSON.OBJKEYS', 'JSON.OBJLEN', 'JSON.TYPE',
+  'JSON.STRAPPEND', 'JSON.STRLEN', 'JSON.NUMINCRBY',
+  'JSON.DEBUG MEMORY', 'JSON.RESP',
+];
+
+/**
+ * Combined list of all commands to extract
+ */
+const ALL_COMMANDS = [...STRING_HASH_COMMANDS, ...JSON_COMMANDS];
+
+/**
  * Clients to extract signatures from
  */
 const CLIENT_CONFIGS = [
@@ -124,17 +141,45 @@ const COMMAND_ALIASES: { [key: string]: string[] } = {
   'hstrlen': ['hstrlen', 'hashstringlength'],
   'httl': ['httl', 'hashfieldgettimetolive'],  // NRedisStack: HashFieldGetTimeToLive
   'hvals': ['hvals', 'hashvalues'],
+  // JSON commands - Clients use various naming: jsonSet/json_set/JsonSet/JSONSet
+  // For aliases, we include both JSON-prefixed names AND non-prefixed names.
+  // The source_context filtering will ensure non-prefixed names only match from JSON source files.
+  // redis-py: r.json().set() -> extracted as 'set' from JSON module (handled by source file context)
+  // Jedis: jedis.jsonSet(), go-redis: JSONSet, NRedisStack: db.JSON().Set()
+  'json.set': ['jsonset', 'json_set', 'set'],
+  'json.get': ['jsonget', 'json_get', 'get'],
+  'json.del': ['jsondel', 'json_del', 'jsondelete', 'json_delete', 'del', 'delete'],
+  'json.mget': ['jsonmget', 'json_mget', 'mget'],
+  'json.mset': ['jsonmset', 'json_mset', 'mset'],
+  'json.merge': ['jsonmerge', 'json_merge', 'merge'],
+  'json.toggle': ['jsontoggle', 'json_toggle', 'toggle'],
+  'json.clear': ['jsonclear', 'json_clear', 'clear'],
+  'json.forget': ['jsonforget', 'json_forget', 'forget'],
+  'json.arrappend': ['jsonarrappend', 'json_arrappend', 'json_arr_append', 'arrappend'],
+  'json.arrindex': ['jsonarrindex', 'json_arrindex', 'json_arr_index', 'arrindex'],
+  'json.arrinsert': ['jsonarrinsert', 'json_arrinsert', 'json_arr_insert', 'arrinsert'],
+  'json.arrlen': ['jsonarrlen', 'json_arrlen', 'json_arr_len', 'arrlen'],
+  'json.arrpop': ['jsonarrpop', 'json_arrpop', 'json_arr_pop', 'arrpop'],
+  'json.arrtrim': ['jsonarrtrim', 'json_arrtrim', 'json_arr_trim', 'arrtrim'],
+  'json.objkeys': ['jsonobjkeys', 'json_objkeys', 'json_obj_keys', 'objkeys'],
+  'json.objlen': ['jsonobjlen', 'json_objlen', 'json_obj_len', 'objlen'],
+  'json.type': ['jsontype', 'json_type', 'type'],
+  'json.strappend': ['jsonstrappend', 'json_strappend', 'json_str_append', 'strappend'],
+  'json.strlen': ['jsonstrlen', 'json_strlen', 'json_str_len', 'strlen'],
+  'json.numincrby': ['jsonnumincrby', 'json_numincrby', 'json_num_incr_by', 'numincrby'],
+  'json.debug memory': ['jsondebugmemory', 'json_debug_memory', 'debugmemory'],
+  'json.resp': ['jsonresp', 'json_resp', 'resp'],
 };
 
 async function extractCommandApiMapping() {
-  console.log('🔍 Extracting Method Signatures for String & Hash Commands...\n');
-  console.log(`📋 Commands to extract: ${STRING_HASH_COMMANDS.length}`);
+  console.log('🔍 Extracting Method Signatures for String, Hash & JSON Commands...\n');
+  console.log(`📋 Commands to extract: ${ALL_COMMANDS.length} (${STRING_HASH_COMMANDS.length} string/hash + ${JSON_COMMANDS.length} JSON)`);
   console.log(`📦 Clients to process: ${CLIENT_CONFIGS.length}\n`);
 
   const mapping: CommandMapping = {};
 
   // Initialize mapping structure
-  for (const cmd of STRING_HASH_COMMANDS) {
+  for (const cmd of ALL_COMMANDS) {
     mapping[cmd] = { api_calls: {} };
   }
 
@@ -152,13 +197,39 @@ async function extractCommandApiMapping() {
 
       // Map signatures to commands
       let foundCount = 0;
-      for (const cmd of STRING_HASH_COMMANDS) {
+      for (const cmd of ALL_COMMANDS) {
         const cmdLower = cmd.toLowerCase();
         const aliases = COMMAND_ALIASES[cmdLower] || [cmdLower];
 
+        // Determine expected source context based on command type
+        const isJsonCommand = cmd.startsWith('JSON.');
+
         let sigs = result.signatures.filter(s => {
           const methodLower = s.method_name.toLowerCase();
-          return aliases.includes(methodLower);
+          // First check method name matches
+          if (!aliases.includes(methodLower)) {
+            return false;
+          }
+
+          const sigContext = (s as any).source_context || 'core';
+          const isJsonPrefixedMethod = methodLower.startsWith('json');
+
+          if (isJsonCommand) {
+            // For JSON commands:
+            // - JSON-prefixed methods (jsonSet, JSONGet, etc.) can come from ANY source context
+            // - Non-prefixed methods (set, get, etc.) must come from JSON source context
+            if (!isJsonPrefixedMethod && sigContext !== 'json') {
+              return false;
+            }
+          } else {
+            // For core commands:
+            // - Never accept from JSON source context (to avoid string SET matching json set)
+            if (sigContext === 'json') {
+              return false;
+            }
+          }
+
+          return true;
         });
 
         // Filter out signatures from wrong class contexts (e.g., BitFieldOperation.set vs Redis.set)
@@ -204,7 +275,7 @@ async function extractCommandApiMapping() {
           }));
         }
       }
-      console.log(`   📊 Commands matched: ${foundCount}/${STRING_HASH_COMMANDS.length}`);
+      console.log(`   📊 Commands matched: ${foundCount}/${ALL_COMMANDS.length}`);
     } catch (error) {
       console.log(`   ⚠ Error extracting from ${clientConfig.id}: ${error}`);
     }
@@ -221,14 +292,14 @@ async function extractCommandApiMapping() {
   console.log('📊 EXTRACTION SUMMARY');
   console.log('='.repeat(60));
   let totalWithClients = 0;
-  for (const cmd of STRING_HASH_COMMANDS) {
+  for (const cmd of ALL_COMMANDS) {
     const clientCount = Object.keys(mapping[cmd].api_calls).length;
     if (clientCount > 0) totalWithClients++;
     const status = clientCount > 0 ? '✓' : '✗';
-    console.log(`${status} ${cmd.padEnd(14)} - ${clientCount} clients`);
+    console.log(`${status} ${cmd.padEnd(20)} - ${clientCount} clients`);
   }
   console.log('='.repeat(60));
-  console.log(`\n✅ Extracted ${totalWithClients}/${STRING_HASH_COMMANDS.length} commands`);
+  console.log(`\n✅ Extracted ${totalWithClients}/${ALL_COMMANDS.length} commands`);
   console.log(`📁 Saved to: ${outputPath}`);
 }
 

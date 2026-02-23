@@ -82,6 +82,8 @@ export const SignatureSchema = z.object({
   return_description: z.string().optional(),
   line_number: z.number().optional(),
   is_async: z.boolean().optional(),
+  /** Context of the source file (e.g., 'json', 'search', 'timeseries' for module commands) */
+  source_context: z.string().optional(),
 });
 
 export const ExtractSignaturesOutputSchema = z.object({
