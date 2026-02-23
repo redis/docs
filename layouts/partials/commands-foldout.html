@@ -20,6 +20,8 @@
 
 {{/* Access the command-api-mapping data (using index with hyphenated key) */}}
 {{ $apiMapping := index site.Data "command-api-mapping" }}
+{{/* Access overrides (manual corrections that take precedence over generated data) */}}
+{{ $apiOverrides := index site.Data "command-api-mapping-overrides" }}
 
 {{ if $commands }}
 <div class="commands-foldout border-b border-slate-700 py-2">
@@ -41,15 +43,34 @@
                 {{ $cmdData := (index site.Data.commands_core $cmdName) | default (index site.Data.commands_redisearch $cmdName) | default (index site.Data.commands_redisjson $cmdName) | default (index site.Data.commands_redistimeseries $cmdName) | default (index site.Data.commands_redisbloom $cmdName) }}
 
                 {{/* Look up API method signatures for this command and client */}}
+                {{/* Check overrides first, then fall back to generated data */}}
                 {{ $apiSignatures := slice }}
-                {{ if and $apiMapping $mappingClientId }}
-                    {{ $cmdMapping := index $apiMapping $cmdName }}
-                    {{ if $cmdMapping }}
-                        {{ $apiCalls := index $cmdMapping "api_calls" }}
-                        {{ if $apiCalls }}
-                            {{ $clientSigs := index $apiCalls $mappingClientId }}
-                            {{ if $clientSigs }}
-                                {{ $apiSignatures = $clientSigs }}
+                {{ if $mappingClientId }}
+                    {{/* Try overrides first */}}
+                    {{ $overrideFound := false }}
+                    {{ if $apiOverrides }}
+                        {{ $overrideCmd := index $apiOverrides $cmdName }}
+                        {{ if $overrideCmd }}
+                            {{ $overrideApiCalls := index $overrideCmd "api_calls" }}
+                            {{ if $overrideApiCalls }}
+                                {{ $overrideClientSigs := index $overrideApiCalls $mappingClientId }}
+                                {{ if $overrideClientSigs }}
+                                    {{ $apiSignatures = $overrideClientSigs }}
+                                    {{ $overrideFound = true }}
+                                {{ end }}
+                            {{ end }}
+                        {{ end }}
+                    {{ end }}
+                    {{/* Fall back to generated data if no override found */}}
+                    {{ if and (not $overrideFound) $apiMapping }}
+                        {{ $cmdMapping := index $apiMapping $cmdName }}
+                        {{ if $cmdMapping }}
+                            {{ $apiCalls := index $cmdMapping "api_calls" }}
+                            {{ if $apiCalls }}
+                                {{ $clientSigs := index $apiCalls $mappingClientId }}
+                                {{ if $clientSigs }}
+                                    {{ $apiSignatures = $clientSigs }}
+                                {{ end }}
                             {{ end }}
                         {{ end }}
                     {{ end }}

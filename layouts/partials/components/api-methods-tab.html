@@ -12,7 +12,9 @@
 
 {{ $commandName := .commandName }}
 {{ $apiMapping := index site.Data "command-api-mapping" }}
+{{ $apiOverrides := index site.Data "command-api-mapping-overrides" }}
 {{ $cmdMapping := index $apiMapping $commandName }}
+{{ $cmdOverrides := index $apiOverrides $commandName }}
 
 {{/* Define client order explicitly */}}
 {{ $clientOrder := slice "Python" "Node.js" "Java-Sync" "Lettuce-Sync" "Java-Async" "Java-Reactive" "Go" "C#-Sync" "C#-Async" "PHP" "Rust-Sync" "Rust-Async" }}
@@ -39,33 +41,37 @@
 
   {{/* Method signatures container - all clients rendered, visibility controlled by JS */}}
   <div class="api-methods-signatures">
-    {{ if $cmdMapping }}
+    {{ if or $cmdMapping $cmdOverrides }}
       {{ $apiCalls := index $cmdMapping "api_calls" }}
-      {{ if $apiCalls }}
-        {{ $first := true }}
-        {{ range $tabName := $clientOrder }}
-          {{ $config := index site.Params.clientsConfig $tabName }}
-          {{ if $config }}
-            {{ $mappingId := index $config "mappingClientId" }}
-            {{ if and $mappingId (ne $mappingId "") }}
-              {{ $clientSigs := index $apiCalls $mappingId }}
-              <div class="api-client-signatures {{ if not $first }}hidden{{ end }}" data-client-id="{{ $mappingId }}">
-                {{ if $clientSigs }}
-                  <pre class="command-syntax"><code>{{ range $idx, $sig := $clientSigs }}{{ if gt $idx 0 }}
+      {{ $overrideApiCalls := index $cmdOverrides "api_calls" }}
+      {{ $first := true }}
+      {{ range $tabName := $clientOrder }}
+        {{ $config := index site.Params.clientsConfig $tabName }}
+        {{ if $config }}
+          {{ $mappingId := index $config "mappingClientId" }}
+          {{ if and $mappingId (ne $mappingId "") }}
+            {{/* Check overrides first, then fall back to generated data */}}
+            {{ $clientSigs := slice }}
+            {{ $overrideSigs := index $overrideApiCalls $mappingId }}
+            {{ if $overrideSigs }}
+              {{ $clientSigs = $overrideSigs }}
+            {{ else }}
+              {{ $clientSigs = index $apiCalls $mappingId }}
+            {{ end }}
+            <div class="api-client-signatures {{ if not $first }}hidden{{ end }}" data-client-id="{{ $mappingId }}">
+              {{ if $clientSigs }}
+                <pre class="command-syntax"><code>{{ range $idx, $sig := $clientSigs }}{{ if gt $idx 0 }}
 
 {{ end }}{{ $params := $sig.params }}{{ $returns := $sig.returns }}{{ $beforeParen := index (split $sig.signature "(") 0 }}{{ $parts := split $beforeParen " " }}{{ $methodName := index $parts (sub (len $parts) 1) }}<span class="text-emerald-600">{{ $methodName }}</span>({{ if and $params (gt (len $params) 0) }}
 {{ range $pIdx, $param := $params }}    <span class="text-emerald-600">{{ $param.name }}</span>{{ if $param.type }}: <span class="text-amber-600">{{ $param.type }}</span>{{ end }}{{ if lt $pIdx (sub (len $params) 1) }},{{ end }}{{ if and $param.description (ne $param.description "") }}  <span class="text-slate-500">// {{ $param.description }}</span>{{ end }}
 {{ end }}{{ end }}){{ if $returns }} → {{ if reflect.IsMap $returns }}<span class="text-emerald-600">{{ index $returns "type" }}</span>{{ if and (index $returns "description") (ne (index $returns "description") "") }}  <span class="text-slate-500">// {{ index $returns "description" }}</span>{{ end }}{{ else }}<span class="text-emerald-600">{{ $returns }}</span>{{ end }}{{ end }}{{ end }}</code></pre>
-                {{ else }}
-                  <p class="text-slate-500 italic">No method signature available for this client.</p>
-                {{ end }}
-              </div>
-              {{ $first = false }}
-            {{ end }}
+              {{ else }}
+                <p class="text-slate-500 italic">No method signature available for this client.</p>
+              {{ end }}
+            </div>
+            {{ $first = false }}
           {{ end }}
         {{ end }}
-      {{ else }}
-        <p class="text-slate-500 italic">No API method signatures available for this command.</p>
       {{ end }}
     {{ else }}
       <p class="text-slate-500 italic">No API method signatures available for this command.</p>
