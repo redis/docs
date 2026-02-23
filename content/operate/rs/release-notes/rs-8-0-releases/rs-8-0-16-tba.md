@@ -1,5 +1,5 @@
 ---
-Title: Redis Software release notes 8.0.14-tba (February 2026)
+Title: Redis Software release notes 8.0.16-tba (March 2026)
 alwaysopen: false
 categories:
 - docs
@@ -7,7 +7,7 @@ categories:
 - rs
 compatibleOSSVersion: Redis 8.4.0, 8.2.1, 8.0.2, 7.4.3, 7.2.7, 6.2.13
 description: Consolidated health report. Global Active-Active configuration in the Cluster Manager UI.
-linkTitle: 8.0.14-tba (February 2026)
+linkTitle: 8.0.16-tba (March 2026)
 weight: 86
 ---
 
@@ -152,7 +152,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 The following table shows the SHA256 checksums for the available packages:
 
-| Package | SHA256 checksum (8.0.14-tba February release) |
+| Package | SHA256 checksum (8.0.16-tba March release) |
 |---------|---------------------------------------|
 | Ubuntu 20 | <span class="break-all"></span> |
 | Ubuntu 22 (amd64) | <span class="break-all"></span> |
@@ -202,7 +202,7 @@ As part of Redis's commitment to security, Redis Software implements the latest 
 
 Some CVEs announced for Redis Open Source do not affect Redis Software due to different or additional functionality available in Redis Software that is not available in Redis Open Source.
 
-Redis Software 8.0.14-tba supports Redis Open Source 8.4, 8.2, 8.0, 7.4, 7.2, and 6.2. Below is the list of Redis Open Source CVEs and other security vulnerabilities fixed by version.
+Redis Software 8.0.16-tba supports Redis Open Source 8.4, 8.2, 8.0, 7.4, 7.2, and 6.2. Below is the list of Redis Open Source CVEs and other security vulnerabilities fixed by version.
 
 Redis 8.2.x:
 
