@@ -59,13 +59,21 @@ Now, you can access the cluster and database health reports using the **Overview
     GET /v4/bdb/<database_id>/health
     ```
 
+For more information, see [Consolidated health report]({{<relref "/operate/rs/monitoring/health-report">}}).
+
 #### Global Active-Active configuration in the Cluster Manager UI
 
 The Cluster Manager UI now supports global configuration updates for Active-Active databases, bringing UI behavior in line with the CRDB API. 
 
-Previously, when modifying Active-Active databases using the CRDB API, configuration changes were applied globally by default. However, when performing the same actions in the Cluster Manager UI, modifications applied only to the local instance, requiring additional manual updates for each instance.
+Previously, when modifying Active-Active databases using the CRDB API, configuration changes were applied globally by default. However, when performing the same actions in the Cluster Manager UI, modifications applied only to the local instance, requiring additional manual updates for each instance in participating clusters.
 
-Global configuration is now the default in the Cluster Manager UI; however, you can still make local configuration changes when needed.
+Global configuration is now the default in the Cluster Manager UI. You can still make local configuration changes when needed, which will override global settings on the database instances where they are applied.
+
+{{< warning >}}
+Applying global configuration changes will override any local settings created using the API or earlier Cluster Manager UI versions. To preserve existing local changes, manage them in the **Local** configuration tab before applying global changes.
+{{< /warning >}}
+
+For more information, see [Manage Active-Active databases]({{< relref "/operate/rs/databases/active-active/manage#database-settings" >}}).
 
 ### Enhancements
 
