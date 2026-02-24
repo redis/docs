@@ -2021,8 +2021,9 @@ fn extract_rust_doc_comments(code: &str) -> Result<Vec<RustDocComment>, String> 
 
 fn extract_csharp_signatures(code: &str) -> Result<Vec<CSharpSignature>, String> {
     let mut signatures = Vec::new();
+    let lines: Vec<&str> = code.lines().collect();
 
-    // Regex pattern for C# method definitions
+    // Regex pattern for C# method definitions (single line)
     // Matches: [modifiers] return_type method_name(params)
     // Handles: public, private, protected, static, async, virtual, override, etc.
     // Also handles generic methods like GetList<T> and generic return types like List<T>
@@ -2037,7 +2038,17 @@ fn extract_csharp_signatures(code: &str) -> Result<Vec<CSharpSignature>, String>
         r"(?m)^(\s*)(?:public\s+)?(?:static\s+)?([a-zA-Z_][a-zA-Z0-9_]*(?:<[^>]*>)?(?:\?)?(?:\[\])*)\s+([a-zA-Z_][a-zA-Z0-9_<>]*)\s*\(\s*this\s+([^,)]+)(?:,\s*(.*?))?\)(?:\s*[{;])?"
     ).map_err(|e| format!("Regex error: {}", e))?;
 
-    for (line_num, line) in code.lines().enumerate() {
+    // Pattern to detect start of multi-line method: return_type method_name(
+    // with no closing parenthesis on the same line
+    // Note: Return type can have nested generics like Task<Lease<float>?> so we use a more permissive pattern
+    let multiline_method_start_pattern = Regex::new(
+        r"^\s*(?:(?:public|private|protected|internal|static|async|virtual|override|abstract|sealed|partial|\[.*?\])\s+)*([a-zA-Z_][a-zA-Z0-9_<>,\s\?]*[>\?]?(?:\[\])*)\s+([a-zA-Z_][a-zA-Z0-9_<>]*)\s*\(\s*$"
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
+    let mut line_num = 0;
+    while line_num < lines.len() {
+        let line = lines[line_num];
+
         // First try to match extension methods (with 'this' keyword)
         if line.contains("this ") || line.contains("this\t") {
             if let Some(caps) = extension_method_pattern.captures(line) {
@@ -2070,11 +2081,69 @@ fn extract_csharp_signatures(code: &str) -> Result<Vec<CSharpSignature>, String>
                         is_async,
                     });
                 }
+                line_num += 1;
                 continue;
             }
         }
 
-        // Then try regular method definitions
+        // Check for multi-line method signatures
+        // Pattern: return_type method_name( with no closing paren on same line
+        if let Some(caps) = multiline_method_start_pattern.captures(line) {
+            let return_type = caps.get(1).map(|m| m.as_str().trim().to_string());
+            let method_name_with_generics = caps.get(2).map(|m| m.as_str()).unwrap_or_default().to_string();
+
+            // Collect parameter lines until we hit );
+            let mut param_lines: Vec<String> = Vec::new();
+            let start_line = line_num;
+            line_num += 1;
+
+            while line_num < lines.len() {
+                let param_line = lines[line_num].trim();
+                if param_line.ends_with(");") || param_line.ends_with(")") || param_line == ");" {
+                    // Last line of parameters
+                    let cleaned = param_line.trim_end_matches(';').trim_end_matches(')').trim();
+                    if !cleaned.is_empty() {
+                        param_lines.push(cleaned.to_string());
+                    }
+                    break;
+                } else {
+                    // Remove trailing comma and add
+                    let cleaned = param_line.trim_end_matches(',').trim();
+                    if !cleaned.is_empty() {
+                        param_lines.push(cleaned.to_string());
+                    }
+                }
+                line_num += 1;
+            }
+
+            if !method_name_with_generics.is_empty() {
+                let method_name = method_name_with_generics
+                    .split('<')
+                    .next()
+                    .unwrap_or(&method_name_with_generics)
+                    .to_string();
+
+                let params_str = param_lines.join(", ");
+                let is_async = lines[start_line].contains("async");
+                let parameters = parse_parameters(&params_str);
+
+                let signature = format!("{}({})", method_name_with_generics, params_str);
+
+                signatures.push(CSharpSignature {
+                    method_name,
+                    signature,
+                    parameters,
+                    return_type,
+                    line_number: start_line + 1,
+                    modifiers: vec![],
+                    is_async,
+                });
+            }
+            line_num += 1;
+            continue;
+        }
+
+        // Then try regular single-line method definitions
         if let Some(caps) = method_pattern.captures(line) {
             let modifiers_str = caps.get(2).map(|m| m.as_str()).unwrap_or("");
             let return_type = caps.get(3).map(|m| m.as_str().trim().to_string());
@@ -2109,6 +2178,8 @@ fn extract_csharp_signatures(code: &str) -> Result<Vec<CSharpSignature>, String>
                 });
             }
         }
+
+        line_num += 1;
     }
 
     Ok(signatures)

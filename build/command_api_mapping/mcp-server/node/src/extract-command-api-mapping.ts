@@ -93,6 +93,15 @@ const STREAM_COMMANDS = [
 ];
 
 /**
+ * All vector set commands (group: "module" with V prefix)
+ */
+const VECTOR_SET_COMMANDS = [
+  'VADD', 'VCARD', 'VDIM', 'VEMB', 'VGETATTR',
+  'VINFO', 'VISMEMBER', 'VLINKS', 'VRANDMEMBER',
+  'VRANGE', 'VREM', 'VSETATTR', 'VSIM',
+];
+
+/**
  * All JSON commands from commands_redisjson.json
  */
 const JSON_COMMANDS = [
@@ -107,7 +116,7 @@ const JSON_COMMANDS = [
 /**
  * Combined list of all commands to extract
  */
-const ALL_COMMANDS = [...STRING_HASH_COMMANDS, ...LIST_COMMANDS, ...SET_COMMANDS, ...SORTED_SET_COMMANDS, ...STREAM_COMMANDS, ...JSON_COMMANDS];
+const ALL_COMMANDS = [...STRING_HASH_COMMANDS, ...LIST_COMMANDS, ...SET_COMMANDS, ...SORTED_SET_COMMANDS, ...STREAM_COMMANDS, ...VECTOR_SET_COMMANDS, ...JSON_COMMANDS];
 
 /**
  * Clients to extract signatures from
@@ -323,11 +332,31 @@ const COMMAND_ALIASES: { [key: string]: string[] } = {
   'json.numincrby': ['jsonnumincrby', 'json_numincrby', 'json_num_incr_by', 'numincrby'],
   'json.debug memory': ['jsondebugmemory', 'json_debug_memory', 'debugmemory'],
   'json.resp': ['jsonresp', 'json_resp', 'resp'],
+  // Vector set commands - Clients use V prefix
+  // go-redis: VAdd, VCard, VDim, etc.
+  // Jedis: vadd, vcard, vdim, etc.
+  // redis-rs: vadd, vadd_options, vcard, vdim, vsim, vsim_options, etc.
+  // node-redis: vAdd, vCard, vDim, etc.
+  // redis-py: vadd, vcard, vdim, etc.
+  // Lettuce: vadd, vcard, vdim, etc.
+  'vadd': ['vadd', 'v_add', 'vadd_options', 'vectorsetadd', 'vectorsetaddasync'],  // redis-rs: vadd_options; C#: VectorSetAdd, VectorSetAddAsync
+  'vcard': ['vcard', 'v_card', 'vectorsetlength', 'vectorsetlengthasync'],  // C#: VectorSetLength, VectorSetLengthAsync
+  'vdim': ['vdim', 'v_dim', 'vectorsetdimension', 'vectorsetdimensionasync'],  // C#: VectorSetDimension, VectorSetDimensionAsync
+  'vemb': ['vemb', 'v_emb', 'vembraw', 'vectorsetgetapproximatevector', 'vectorsetgetapproximatevectorasync'],  // node-redis: VEMB_RAW; C#: VectorSetGetApproximateVector, VectorSetGetApproximateVectorAsync
+  'vgetattr': ['vgetattr', 'v_getattr', 'v_get_attr', 'vgetattrs', 'vectorsetgetattributesjson', 'vectorsetgetattributesjsonasync'],  // C#: VectorSetGetAttributesJson, VectorSetGetAttributesJsonAsync
+  'vinfo': ['vinfo', 'v_info', 'vectorsetinfo', 'vectorsetinfoasync'],  // C#: VectorSetInfo, VectorSetInfoAsync
+  'vismember': ['vismember', 'v_ismember', 'v_is_member', 'vectorsetcontains', 'vectorsetcontainsasync'],  // C#: VectorSetContains, VectorSetContainsAsync
+  'vlinks': ['vlinks', 'v_links', 'vlinkswithscores', 'vectorsetgetlinks', 'vectorsetgetlinkswithscores', 'vectorsetgetlinksasync', 'vectorsetgetlinkswithscoresasync'],  // go-redis: VLinksWithScores; Jedis: vlinksWithScores; C#: VectorSetGetLinks, VectorSetGetLinksWithScores (+ Async)
+  'vrandmember': ['vrandmember', 'v_randmember', 'v_rand_member', 'vectorsetrandommember', 'vectorsetrandommembers', 'vectorsetrandommemberasync', 'vectorsetrandommembersasync'],  // C#: VectorSetRandomMember, VectorSetRandomMembers (+ Async)
+  'vrange': ['vrange', 'v_range', 'vectorsetrange', 'vectorsetrangeenumerate', 'vectorsetrangeasync', 'vectorsetrangeenumerateasync'],  // C#: VectorSetRange, VectorSetRangeEnumerate (+ Async)
+  'vrem': ['vrem', 'v_rem', 'vectorsetremove', 'vectorsetremoveasync'],  // C#: VectorSetRemove, VectorSetRemoveAsync
+  'vsetattr': ['vsetattr', 'v_setattr', 'v_set_attr', 'vectorsetsetattributesjson', 'vectorsetsetattributesjsonasync'],  // C#: VectorSetSetAttributesJson, VectorSetSetAttributesJsonAsync
+  'vsim': ['vsim', 'v_sim', 'vsim_options', 'vsimwithscores', 'vsimbyelement', 'vsimbyelementwithscores', 'vsimwithscoresandattribs', 'vsimbyelementwithscoresandattribs', 'vsimwithargs', 'vsimwithargswithscores', 'vectorsetsimilaritysearch', 'vectorsetsimilaritysearchasync'],  // go-redis, Jedis, redis-rs variants; C#: VectorSetSimilaritySearch (+ Async)
 };
 
 async function extractCommandApiMapping() {
-  console.log('🔍 Extracting Method Signatures for String, Hash, List, Set, Sorted Set, Stream & JSON Commands...\n');
-  console.log(`📋 Commands to extract: ${ALL_COMMANDS.length} (${STRING_HASH_COMMANDS.length} string/hash + ${LIST_COMMANDS.length} list + ${SET_COMMANDS.length} set + ${SORTED_SET_COMMANDS.length} sorted set + ${STREAM_COMMANDS.length} stream + ${JSON_COMMANDS.length} JSON)`);
+  console.log('🔍 Extracting Method Signatures for String, Hash, List, Set, Sorted Set, Stream, Vector Set & JSON Commands...\n');
+  console.log(`📋 Commands to extract: ${ALL_COMMANDS.length} (${STRING_HASH_COMMANDS.length} string/hash + ${LIST_COMMANDS.length} list + ${SET_COMMANDS.length} set + ${SORTED_SET_COMMANDS.length} sorted set + ${STREAM_COMMANDS.length} stream + ${VECTOR_SET_COMMANDS.length} vector set + ${JSON_COMMANDS.length} JSON)`);
   console.log(`📦 Clients to process: ${CLIENT_CONFIGS.length}\n`);
 
   const mapping: CommandMapping = {};

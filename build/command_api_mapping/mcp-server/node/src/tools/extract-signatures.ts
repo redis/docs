@@ -48,6 +48,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
     paths: [
       'redis/commands/core.py',
       'redis/commands/json/commands.py',  // JSON commands
+      'redis/commands/vectorset/commands.py',  // Vector set commands
     ],
     language: 'python'
   },
@@ -59,6 +60,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'src/main/java/redis/clients/jedis/Jedis.java',
       'src/main/java/redis/clients/jedis/commands/ListCommands.java',  // List commands interface
       'src/main/java/redis/clients/jedis/commands/StreamCommands.java',  // Stream commands interface
+      'src/main/java/redis/clients/jedis/commands/VectorSetCommands.java',  // Vector set commands interface
       'src/main/java/redis/clients/jedis/json/commands/RedisJsonV1Commands.java',  // JSON V1 interface
       'src/main/java/redis/clients/jedis/json/commands/RedisJsonV2Commands.java',  // JSON V2 interface
     ],
@@ -78,6 +80,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'src/main/java/io/lettuce/core/api/sync/RedisScriptingCommands.java',
       'src/main/java/io/lettuce/core/api/sync/RedisServerCommands.java',
       'src/main/java/io/lettuce/core/api/sync/RedisJsonCommands.java',  // JSON commands
+      'src/main/java/io/lettuce/core/api/sync/RedisVectorSetCommands.java',  // Vector set commands
     ],
     language: 'java',
   },
@@ -95,6 +98,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'src/main/java/io/lettuce/core/api/async/RedisScriptingAsyncCommands.java',
       'src/main/java/io/lettuce/core/api/async/RedisServerAsyncCommands.java',
       'src/main/java/io/lettuce/core/api/async/RedisJsonAsyncCommands.java',  // JSON commands
+      'src/main/java/io/lettuce/core/api/async/RedisVectorSetAsyncCommands.java',  // Vector set commands
     ],
     language: 'java',
   },
@@ -112,6 +116,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'src/main/java/io/lettuce/core/api/reactive/RedisScriptingReactiveCommands.java',
       'src/main/java/io/lettuce/core/api/reactive/RedisServerReactiveCommands.java',
       'src/main/java/io/lettuce/core/api/reactive/RedisJsonReactiveCommands.java',  // JSON commands
+      'src/main/java/io/lettuce/core/api/reactive/RedisVectorSetReactiveCommands.java',  // Vector set commands
     ],
     language: 'java',
   },
@@ -132,6 +137,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'pubsub_commands.go',
       'scripting_commands.go',
       'json.go',  // JSON commands
+      'vectorset_commands.go',  // Vector set commands
     ],
     language: 'go'
   },
@@ -308,6 +314,20 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'packages/json/lib/commands/STRAPPEND.ts',
       'packages/json/lib/commands/STRLEN.ts',
       'packages/json/lib/commands/NUMINCRBY.ts',
+      // Vector set commands (note: VISMEMBER, VLINKS_WITHSCORES, VSIM_WITHSCORES don't exist in node-redis)
+      'packages/client/lib/commands/VADD.ts',
+      'packages/client/lib/commands/VCARD.ts',
+      'packages/client/lib/commands/VDIM.ts',
+      'packages/client/lib/commands/VEMB.ts',
+      'packages/client/lib/commands/VEMB_RAW.ts',
+      'packages/client/lib/commands/VGETATTR.ts',
+      'packages/client/lib/commands/VINFO.ts',
+      'packages/client/lib/commands/VLINKS.ts',
+      'packages/client/lib/commands/VRANDMEMBER.ts',
+      'packages/client/lib/commands/VRANGE.ts',
+      'packages/client/lib/commands/VREM.ts',
+      'packages/client/lib/commands/VSETATTR.ts',
+      'packages/client/lib/commands/VSIM.ts',
     ],
     language: 'typescript'
   },
@@ -332,6 +352,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
         paths: [
           'src/StackExchange.Redis/Interfaces/IDatabase.cs',
           'src/StackExchange.Redis/Interfaces/IDatabaseAsync.cs',
+          'src/StackExchange.Redis/Interfaces/IDatabase.VectorSets.cs',  // Vector set commands
           'src/StackExchange.Redis/RedisDatabase.cs',
         ],
       },
@@ -349,6 +370,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
         paths: [
           'src/StackExchange.Redis/Interfaces/IDatabaseAsync.cs',
           'src/StackExchange.Redis/Interfaces/IDatabase.cs',
+          'src/StackExchange.Redis/Interfaces/IDatabaseAsync.VectorSets.cs',  // Vector set commands async
           'src/StackExchange.Redis/RedisDatabase.cs',
         ],
       },
