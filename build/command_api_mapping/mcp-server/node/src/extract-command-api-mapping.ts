@@ -114,9 +114,18 @@ const JSON_COMMANDS = [
 ];
 
 /**
+ * All geo commands from commands_core.json (group: "geo")
+ */
+const GEO_COMMANDS = [
+  'GEOADD', 'GEODIST', 'GEOHASH', 'GEOPOS',
+  'GEORADIUS', 'GEORADIUSBYMEMBER', 'GEORADIUSBYMEMBER_RO', 'GEORADIUS_RO',
+  'GEOSEARCH', 'GEOSEARCHSTORE',
+];
+
+/**
  * Combined list of all commands to extract
  */
-const ALL_COMMANDS = [...STRING_HASH_COMMANDS, ...LIST_COMMANDS, ...SET_COMMANDS, ...SORTED_SET_COMMANDS, ...STREAM_COMMANDS, ...VECTOR_SET_COMMANDS, ...JSON_COMMANDS];
+const ALL_COMMANDS = [...STRING_HASH_COMMANDS, ...LIST_COMMANDS, ...SET_COMMANDS, ...SORTED_SET_COMMANDS, ...STREAM_COMMANDS, ...VECTOR_SET_COMMANDS, ...JSON_COMMANDS, ...GEO_COMMANDS];
 
 /**
  * Clients to extract signatures from
@@ -352,11 +361,23 @@ const COMMAND_ALIASES: { [key: string]: string[] } = {
   'vrem': ['vrem', 'v_rem', 'vectorsetremove', 'vectorsetremoveasync'],  // C#: VectorSetRemove, VectorSetRemoveAsync
   'vsetattr': ['vsetattr', 'v_setattr', 'v_set_attr', 'vectorsetsetattributesjson', 'vectorsetsetattributesjsonasync'],  // C#: VectorSetSetAttributesJson, VectorSetSetAttributesJsonAsync
   'vsim': ['vsim', 'v_sim', 'vsim_options', 'vsimwithscores', 'vsimbyelement', 'vsimbyelementwithscores', 'vsimwithscoresandattribs', 'vsimbyelementwithscoresandattribs', 'vsimwithargs', 'vsimwithargswithscores', 'vectorsetsimilaritysearch', 'vectorsetsimilaritysearchasync'],  // go-redis, Jedis, redis-rs variants; C#: VectorSetSimilaritySearch (+ Async)
+
+  // Geo command aliases
+  'geoadd': ['geoadd', 'geo_add'],  // redis-rs: geo_add
+  'geodist': ['geodist', 'geo_dist', 'geodistance', 'geodistanceasync'],  // redis-rs: geo_dist; C#: GeoDistance
+  'geohash': ['geohash', 'geo_hash', 'geohashasync'],  // redis-rs: geo_hash
+  'geopos': ['geopos', 'geo_pos', 'geoposition', 'geopositionasync'],  // redis-rs: geo_pos; C#: GeoPosition
+  'georadius': ['georadius', 'geo_radius', 'georadiusasync'],  // redis-rs: geo_radius
+  'georadiusbymember': ['georadiusbymember', 'geo_radius_by_member', 'georadiusbymemberasync'],  // redis-rs: geo_radius_by_member
+  'georadiusbymember_ro': ['georadiusbymemberro', 'georadiusbymember_ro', 'georadiusbymemberroasync'],  // Read-only variant
+  'georadius_ro': ['georadiusro', 'georadius_ro', 'georadiusroasync'],  // Read-only variant
+  'geosearch': ['geosearch', 'geo_search', 'geosearchasync'],
+  'geosearchstore': ['geosearchstore', 'geo_search_store', 'geosearchandstore', 'geosearchandstoreasync'],  // C#: GeoSearchAndStore
 };
 
 async function extractCommandApiMapping() {
-  console.log('🔍 Extracting Method Signatures for String, Hash, List, Set, Sorted Set, Stream, Vector Set & JSON Commands...\n');
-  console.log(`📋 Commands to extract: ${ALL_COMMANDS.length} (${STRING_HASH_COMMANDS.length} string/hash + ${LIST_COMMANDS.length} list + ${SET_COMMANDS.length} set + ${SORTED_SET_COMMANDS.length} sorted set + ${STREAM_COMMANDS.length} stream + ${VECTOR_SET_COMMANDS.length} vector set + ${JSON_COMMANDS.length} JSON)`);
+  console.log('🔍 Extracting Method Signatures for String, Hash, List, Set, Sorted Set, Stream, Vector Set, JSON & Geo Commands...\n');
+  console.log(`📋 Commands to extract: ${ALL_COMMANDS.length} (${STRING_HASH_COMMANDS.length} string/hash + ${LIST_COMMANDS.length} list + ${SET_COMMANDS.length} set + ${SORTED_SET_COMMANDS.length} sorted set + ${STREAM_COMMANDS.length} stream + ${VECTOR_SET_COMMANDS.length} vector set + ${JSON_COMMANDS.length} JSON + ${GEO_COMMANDS.length} geo)`);
   console.log(`📦 Clients to process: ${CLIENT_CONFIGS.length}\n`);
 
   const mapping: CommandMapping = {};

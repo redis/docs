@@ -61,6 +61,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'src/main/java/redis/clients/jedis/commands/ListCommands.java',  // List commands interface
       'src/main/java/redis/clients/jedis/commands/StreamCommands.java',  // Stream commands interface
       'src/main/java/redis/clients/jedis/commands/VectorSetCommands.java',  // Vector set commands interface
+      'src/main/java/redis/clients/jedis/commands/GeoCommands.java',  // Geo commands interface
       'src/main/java/redis/clients/jedis/json/commands/RedisJsonV1Commands.java',  // JSON V1 interface
       'src/main/java/redis/clients/jedis/json/commands/RedisJsonV2Commands.java',  // JSON V2 interface
     ],
@@ -328,6 +329,17 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'packages/client/lib/commands/VREM.ts',
       'packages/client/lib/commands/VSETATTR.ts',
       'packages/client/lib/commands/VSIM.ts',
+      // Geo commands
+      'packages/client/lib/commands/GEOADD.ts',
+      'packages/client/lib/commands/GEODIST.ts',
+      'packages/client/lib/commands/GEOHASH.ts',
+      'packages/client/lib/commands/GEOPOS.ts',
+      'packages/client/lib/commands/GEORADIUS.ts',
+      'packages/client/lib/commands/GEORADIUSBYMEMBER.ts',
+      'packages/client/lib/commands/GEORADIUSBYMEMBER_RO.ts',
+      'packages/client/lib/commands/GEORADIUS_RO.ts',
+      'packages/client/lib/commands/GEOSEARCH.ts',
+      'packages/client/lib/commands/GEOSEARCHSTORE.ts',
     ],
     language: 'typescript'
   },

@@ -1228,15 +1228,87 @@ fn parse_javadoc(javadoc: &str) -> (Option<String>, Option<String>, std::collect
 
 fn extract_go_signatures(code: &str) -> Result<Vec<GoSignature>, String> {
     let mut signatures = Vec::new();
+    let lines: Vec<&str> = code.lines().collect();
 
-    // Regex pattern for Go function definitions
+    // Regex pattern for Go function definitions (single line)
     // Matches: func [receiver] name(params) [return_type]
     // Handles: func name(...), func (r *Type) name(...), func (r Type) name(...)
     let func_pattern = Regex::new(
         r"(?m)^(\s*)func(?:\s+\(([^)]+)\))?\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\((.*?)\)(?:\s+\(([^)]+)\)|(?:\s+([*\[\]a-zA-Z_][a-zA-Z0-9_<>?,\s\[\]*]*)))?(?:\s*\{)?"
     ).map_err(|e| format!("Regex error: {}", e))?;
 
-    for (line_num, line) in code.lines().enumerate() {
+    // Regex pattern for multi-line Go function definitions
+    // Matches: func (receiver) Name( with no closing paren on same line
+    let multiline_func_start = Regex::new(
+        r"^(\s*)func(?:\s+\(([^)]+)\))?\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(\s*$"
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
+    let mut line_num = 0;
+    while line_num < lines.len() {
+        let line = lines[line_num];
+
+        // Check for multi-line function definition
+        if let Some(caps) = multiline_func_start.captures(line) {
+            let receiver_str = caps.get(2).map(|m| m.as_str());
+            let method_name = caps.get(3).map(|m| m.as_str().to_string()).unwrap_or_default();
+            let start_line = line_num;
+
+            // Collect parameter lines until we hit the closing paren
+            let mut param_lines: Vec<String> = Vec::new();
+            let mut return_type: Option<String> = None;
+            line_num += 1;
+
+            while line_num < lines.len() {
+                let param_line = lines[line_num].trim();
+
+                // Check if this line has closing paren with return type
+                if param_line.starts_with(')') {
+                    // Extract return type if present
+                    let after_paren = param_line.trim_start_matches(')').trim();
+                    if !after_paren.is_empty() && !after_paren.starts_with('{') {
+                        let ret = after_paren.trim_end_matches('{').trim();
+                        if !ret.is_empty() {
+                            return_type = Some(ret.to_string());
+                        }
+                    }
+                    break;
+                } else {
+                    // Remove trailing comma and add parameter
+                    let cleaned = param_line.trim_end_matches(',').trim();
+                    if !cleaned.is_empty() {
+                        param_lines.push(cleaned.to_string());
+                    }
+                }
+                line_num += 1;
+            }
+
+            if !method_name.is_empty() {
+                let is_method = receiver_str.is_some();
+                let receiver = receiver_str.map(|r| r.to_string());
+                let params_str = param_lines.join(", ");
+                let parameters = parse_parameters(&params_str);
+
+                let signature = if let Some(ref recv) = receiver {
+                    format!("func ({}) {}({})", recv, method_name, params_str)
+                } else {
+                    format!("func {}({})", method_name, params_str)
+                };
+
+                signatures.push(GoSignature {
+                    method_name,
+                    signature,
+                    parameters,
+                    return_type,
+                    line_number: start_line + 1,
+                    is_method,
+                    receiver,
+                });
+            }
+            line_num += 1;
+            continue;
+        }
+
+        // Try single-line function pattern
         if let Some(caps) = func_pattern.captures(line) {
             let receiver_str = caps.get(2).map(|m| m.as_str());
             let method_name = caps.get(3).map(|m| m.as_str().to_string()).unwrap_or_default();
@@ -1273,6 +1345,8 @@ fn extract_go_signatures(code: &str) -> Result<Vec<GoSignature>, String> {
                 });
             }
         }
+
+        line_num += 1;
     }
 
     Ok(signatures)
@@ -1477,8 +1551,9 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
 
     // Regex pattern for multi-line method definitions (used by node-redis parseCommand)
     // Matches: methodName( at end of line (params continue on following lines)
+    // Also matches: methodName(firstParam, at end of line when param continues on next line
     let multiline_method_start = Regex::new(
-        r"^\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(\s*$"
+        r"^\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\((.*)$"
     ).map_err(|e| format!("Regex error: {}", e))?;
 
     // Regex pattern for transformArguments/transformReply functions (node-redis pattern)
@@ -1502,8 +1577,10 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
 
         // Check for multi-line method definition (like node-redis parseCommand)
         // Matches: methodName( at end of line with params on following lines
+        // Also handles: methodName(firstParam, at end of line when params continue on next line
         if let Some(caps) = multiline_method_start.captures(line) {
             let method_name = caps.get(1).map(|m| m.as_str().to_string()).unwrap_or_default();
+            let first_line_params = caps.get(2).map(|m| m.as_str().trim()).unwrap_or("");
 
             // Skip common non-method patterns
             let skip_names = [
@@ -1513,10 +1590,21 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
                 "constructor", "super", "function",
             ];
 
-            if !method_name.is_empty() && !skip_names.contains(&method_name.as_str()) {
+            // Check if this is actually a multi-line definition (doesn't end with ) { or ) or ):)
+            let is_multiline = !first_line_params.contains(") {")
+                && !first_line_params.ends_with(")")
+                && !first_line_params.ends_with(");");
+
+            if !method_name.is_empty() && !skip_names.contains(&method_name.as_str()) && is_multiline {
                 let start_line = line_num;
                 // Collect parameters across multiple lines until we find ) {
-                let mut params_parts: Vec<&str> = Vec::new();
+                let mut params_parts: Vec<String> = Vec::new();
+
+                // Add the first line's params if any (stripping trailing comma)
+                if !first_line_params.is_empty() {
+                    params_parts.push(first_line_params.trim_end_matches(',').to_string());
+                }
+
                 let mut found_closing = false;
                 let mut search_line = line_num + 1;
 
@@ -1524,20 +1612,23 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
                     let param_line = lines[search_line].trim();
 
                     // Check if this line closes the parameter list
-                    if param_line.contains(") {") || param_line.starts_with(") {") {
+                    if param_line.contains(") {") || param_line.starts_with(") {") || param_line.starts_with(")") {
                         // Extract any params before the )
                         if let Some(idx) = param_line.find(')') {
                             let before_paren = &param_line[..idx];
                             if !before_paren.is_empty() {
-                                params_parts.push(before_paren);
+                                params_parts.push(before_paren.trim_end_matches(',').to_string());
                             }
                         }
                         found_closing = true;
                         break;
                     }
 
-                    // Add this line's params
-                    params_parts.push(param_line.trim_end_matches(','));
+                    // Add this line's params (stripping trailing comma)
+                    let cleaned = param_line.trim_end_matches(',');
+                    if !cleaned.is_empty() {
+                        params_parts.push(cleaned.to_string());
+                    }
                     search_line += 1;
                 }
 
