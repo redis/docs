@@ -25,7 +25,7 @@ To upgrade your Essentials database to Redis Cloud Pro:
 
 1. [Create a new database in Redis Cloud Pro](#create-rcp) with the right specifications to be able to migrate your database.
 
-1. [Migrate your Essentials database](#migrate-database) to your new Redis Cloud Pro database.
+1. [Migrate the data in your Essentials database](#migrate-database) to your new Redis Cloud Pro database.
 
 1. [Migrate your endpoints](#migrate-endpoints) to your new Redis Cloud Pro database.
 
