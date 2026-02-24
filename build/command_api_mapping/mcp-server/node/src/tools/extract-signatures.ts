@@ -58,6 +58,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
     paths: [
       'src/main/java/redis/clients/jedis/Jedis.java',
       'src/main/java/redis/clients/jedis/commands/ListCommands.java',  // List commands interface
+      'src/main/java/redis/clients/jedis/commands/StreamCommands.java',  // Stream commands interface
       'src/main/java/redis/clients/jedis/json/commands/RedisJsonV1Commands.java',  // JSON V1 interface
       'src/main/java/redis/clients/jedis/json/commands/RedisJsonV2Commands.java',  // JSON V2 interface
     ],
@@ -257,6 +258,35 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'packages/client/lib/commands/ZSCORE.ts',
       'packages/client/lib/commands/ZUNION.ts',
       'packages/client/lib/commands/ZUNIONSTORE.ts',
+      // Stream commands
+      'packages/client/lib/commands/XACK.ts',
+      'packages/client/lib/commands/XACKDEL.ts',
+      'packages/client/lib/commands/XADD.ts',
+      'packages/client/lib/commands/XADD_NOMKSTREAM.ts',
+      'packages/client/lib/commands/XAUTOCLAIM.ts',
+      'packages/client/lib/commands/XAUTOCLAIM_JUSTID.ts',
+      'packages/client/lib/commands/XCFGSET.ts',
+      'packages/client/lib/commands/XCLAIM.ts',
+      'packages/client/lib/commands/XCLAIM_JUSTID.ts',
+      'packages/client/lib/commands/XDEL.ts',
+      'packages/client/lib/commands/XDELEX.ts',
+      'packages/client/lib/commands/XGROUP_CREATE.ts',
+      'packages/client/lib/commands/XGROUP_CREATECONSUMER.ts',
+      'packages/client/lib/commands/XGROUP_DELCONSUMER.ts',
+      'packages/client/lib/commands/XGROUP_DESTROY.ts',
+      'packages/client/lib/commands/XGROUP_SETID.ts',
+      'packages/client/lib/commands/XINFO_CONSUMERS.ts',
+      'packages/client/lib/commands/XINFO_GROUPS.ts',
+      'packages/client/lib/commands/XINFO_STREAM.ts',
+      'packages/client/lib/commands/XLEN.ts',
+      'packages/client/lib/commands/XPENDING.ts',
+      'packages/client/lib/commands/XPENDING_RANGE.ts',
+      'packages/client/lib/commands/XRANGE.ts',
+      'packages/client/lib/commands/XREAD.ts',
+      'packages/client/lib/commands/XREADGROUP.ts',
+      'packages/client/lib/commands/XREVRANGE.ts',
+      'packages/client/lib/commands/XSETID.ts',
+      'packages/client/lib/commands/XTRIM.ts',
       // JSON commands
       'packages/json/lib/commands/SET.ts',
       'packages/json/lib/commands/GET.ts',
@@ -325,8 +355,16 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
     ],
   },
 
-  // PHP - Predis uses ClientInterface for all method signatures
-  'php': { paths: ['src/ClientInterface.php'], language: 'php' },
+  // PHP - Predis uses ClientInterface for most method signatures
+  // Container classes (XGROUP, XINFO) have subcommand methods defined in @method docblocks
+  'php': {
+    paths: [
+      'src/ClientInterface.php',
+      'src/Command/Container/XGROUP.php',  // XGROUP subcommands: create, createConsumer, delConsumer, destroy, setId
+      'src/Command/Container/XINFO.php',   // XINFO subcommands: consumers, groups, stream
+    ],
+    language: 'php'
+  },
 };
 
 /**

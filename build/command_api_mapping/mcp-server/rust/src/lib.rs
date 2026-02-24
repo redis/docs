@@ -818,15 +818,120 @@ fn parse_parameters(params_text: &str) -> Vec<String> {
 
 fn extract_java_signatures(code: &str) -> Result<Vec<JavaSignature>, String> {
     let mut signatures = Vec::new();
+    let lines: Vec<&str> = code.lines().collect();
 
-    // Regex pattern for Java method definitions
+    // Regex pattern for single-line Java method definitions
     // Matches: [modifiers] return_type method_name(params) [throws Exception]
-    // Handles: public, private, protected, static, final, abstract, synchronized, etc.
     let method_pattern = Regex::new(
         r"(?m)^(\s*)(?:(public|private|protected|static|final|abstract|synchronized|native|strictfp)\s+)*([a-zA-Z_<>?][a-zA-Z0-9_<>?,\s]*?)\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\((.*?)\)(?:\s*throws\s+([^{;]+))?(?:\s*[{;])?"
     ).map_err(|e| format!("Regex error: {}", e))?;
 
-    for (line_num, line) in code.lines().enumerate() {
+    // Regex pattern for multi-line Java method definitions
+    // Matches: [modifiers] return_type method_name(params... where line doesn't close with )
+    // This handles interface methods that span multiple lines
+    let multiline_start_pattern = Regex::new(
+        r"^(\s*)(?:(public|private|protected|static|final|abstract|synchronized|native|strictfp)\s+)*([a-zA-Z_<>?\[\]][a-zA-Z0-9_<>?,.\s\[\]]*?)\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*),\s*$"
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
+    let mut line_idx = 0;
+    while line_idx < lines.len() {
+        let line = lines[line_idx];
+
+        // First, check for multi-line method definitions
+        if let Some(caps) = multiline_start_pattern.captures(line) {
+            let modifiers_str = caps.get(2).map(|m| m.as_str()).unwrap_or("");
+            let return_type = caps.get(3).map(|m| m.as_str().trim().to_string());
+            let method_name = caps.get(4).map(|m| m.as_str().to_string()).unwrap_or_default();
+            let first_line_params = caps.get(5).map(|m| m.as_str().trim()).unwrap_or("");
+
+            if !method_name.is_empty() {
+                // Collect parameters from following lines until we find the closing )
+                let mut params_lines: Vec<String> = Vec::new();
+
+                // Include parameters from the first line
+                if !first_line_params.is_empty() {
+                    params_lines.push(first_line_params.to_string());
+                }
+
+                let mut j = line_idx + 1;
+                let mut found_close = false;
+                let mut throws_str = String::new();
+
+                while j < lines.len() && !found_close {
+                    let param_line = lines[j].trim();
+
+                    // Check for closing parenthesis
+                    if let Some(close_pos) = param_line.find(')') {
+                        // Extract params before the closing paren
+                        let before_close = &param_line[..close_pos];
+                        if !before_close.is_empty() {
+                            params_lines.push(before_close.to_string());
+                        }
+
+                        // Check for throws clause after the closing paren
+                        let after_close = &param_line[close_pos + 1..];
+                        if let Some(throws_start) = after_close.find("throws") {
+                            let throws_part = &after_close[throws_start + 6..];
+                            throws_str = throws_part.trim_end_matches(|c| c == '{' || c == ';').trim().to_string();
+                        }
+
+                        found_close = true;
+                    } else {
+                        // Add the whole line as parameters
+                        if !param_line.is_empty() {
+                            params_lines.push(param_line.to_string());
+                        }
+                    }
+                    j += 1;
+                }
+
+                if found_close {
+                    // Join all parameter lines
+                    let params_str = params_lines.join(" ").replace("  ", " ");
+
+                    let modifiers = if modifiers_str.is_empty() {
+                        vec![]
+                    } else {
+                        modifiers_str
+                            .split_whitespace()
+                            .map(|m| m.to_string())
+                            .collect()
+                    };
+
+                    let parameters = parse_parameters(&params_str);
+                    let throws = if throws_str.is_empty() {
+                        vec![]
+                    } else {
+                        throws_str
+                            .split(',')
+                            .map(|t| t.trim().to_string())
+                            .filter(|t| !t.is_empty())
+                            .collect()
+                    };
+
+                    let signature = format!("{}{}({})",
+                        return_type.as_ref().map(|r| format!("{} ", r)).unwrap_or_default(),
+                        method_name,
+                        params_str
+                    );
+
+                    signatures.push(JavaSignature {
+                        method_name,
+                        signature,
+                        parameters,
+                        return_type,
+                        line_number: line_idx + 1,
+                        modifiers,
+                        throws,
+                    });
+
+                    line_idx = j;
+                    continue;
+                }
+            }
+        }
+
+        // Fall back to single-line pattern
         if let Some(caps) = method_pattern.captures(line) {
             let modifiers_str = caps.get(2).map(|m| m.as_str()).unwrap_or("");
             let return_type = caps.get(3).map(|m| m.as_str().trim().to_string());
@@ -866,12 +971,14 @@ fn extract_java_signatures(code: &str) -> Result<Vec<JavaSignature>, String> {
                     signature,
                     parameters,
                     return_type,
-                    line_number: line_num + 1,
+                    line_number: line_idx + 1,
                     modifiers,
                     throws,
                 });
             }
         }
+
+        line_idx += 1;
     }
 
     Ok(signatures)
@@ -1643,12 +1750,118 @@ fn extract_rust_signatures(code: &str) -> Result<Vec<RustSignature>, String> {
         r"^(\s*)(?:pub(?:\([^)]*\))?\s+)?(?:async\s+)?(?:unsafe\s+)?(?:extern\s+[a-zA-Z0-9_]*\s+)?fn\s+([a-zA-Z_][a-zA-Z0-9_]*)(?:<[^>]+>)?\s*\(\s*$"
     ).map_err(|e| format!("Regex error: {}", e))?;
 
+    // Regex pattern for functions with multi-line generic parameters
+    // Matches: fn name< at end of line (generics continue on next lines)
+    let multiline_generic_start = Regex::new(
+        r"^(\s*)(?:pub(?:\([^)]*\))?\s+)?(?:async\s+)?(?:unsafe\s+)?(?:extern\s+[a-zA-Z0-9_]*\s+)?fn\s+([a-zA-Z_][a-zA-Z0-9_]*)<\s*$"
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
     let mut line_idx = 0;
     while line_idx < lines.len() {
         let line = lines[line_idx];
 
-        // Check for multi-line function definitions first
-        if let Some(caps) = multiline_func_start.captures(line) {
+        // Check for functions with multi-line generic parameters first (e.g., fn foo<\n  T: Trait,\n>(...))
+        if let Some(caps) = multiline_generic_start.captures(line) {
+            let method_name = caps.get(2).map(|m| m.as_str().to_string()).unwrap_or_default();
+
+            if !method_name.is_empty() {
+                let is_async = line.contains("async");
+                let is_unsafe = line.contains("unsafe");
+
+                // Skip past the generic parameters until we find >( or >(
+                let mut j = line_idx + 1;
+                let mut found_params_start = false;
+
+                while j < lines.len() && !found_params_start {
+                    let next_line = lines[j].trim();
+                    // Look for >( which marks end of generics and start of params
+                    if next_line.contains(">(") || next_line.starts_with(">(") {
+                        found_params_start = true;
+                        break;
+                    }
+                    // Also check for just > followed by ( on the next line
+                    if next_line == ">" || next_line.ends_with(">") {
+                        // Check if next line starts with (
+                        if j + 1 < lines.len() && lines[j + 1].trim().starts_with("(") {
+                            found_params_start = true;
+                            j += 1; // Move to the ( line
+                            break;
+                        }
+                    }
+                    j += 1;
+                }
+
+                if found_params_start {
+                    // Now collect parameters from this point
+                    let mut params_parts: Vec<String> = Vec::new();
+                    let mut return_type: Option<String> = None;
+
+                    // Handle case where >( is on the same line with params
+                    let start_line = lines[j].trim();
+                    if let Some(paren_open) = start_line.find('(') {
+                        let after_open = &start_line[paren_open + 1..];
+                        if let Some(paren_close) = after_open.find(')') {
+                            // Single line params after >(
+                            let params = &after_open[..paren_close];
+                            if !params.is_empty() {
+                                params_parts.push(params.to_string());
+                            }
+                            // Check for return type
+                            let after_close = &after_open[paren_close + 1..];
+                            if let Some(arrow_pos) = after_close.find("->") {
+                                let return_str = after_close[arrow_pos + 2..].trim()
+                                    .trim_end_matches(|c| c == '{' || c == ';' || c == ' ');
+                                if !return_str.is_empty() {
+                                    return_type = Some(return_str.to_string());
+                                }
+                            }
+                        } else {
+                            // Params continue on next lines
+                            if !after_open.is_empty() {
+                                params_parts.push(after_open.to_string());
+                            }
+                            j += 1;
+                            while j < lines.len() {
+                                let param_line = lines[j].trim();
+                                if let Some(close_pos) = param_line.find(')') {
+                                    let before = &param_line[..close_pos];
+                                    if !before.is_empty() {
+                                        params_parts.push(before.to_string());
+                                    }
+                                    let after = &param_line[close_pos + 1..];
+                                    if let Some(arrow_pos) = after.find("->") {
+                                        let return_str = after[arrow_pos + 2..].trim()
+                                            .trim_end_matches(|c| c == '{' || c == ';' || c == ' ');
+                                        if !return_str.is_empty() {
+                                            return_type = Some(return_str.to_string());
+                                        }
+                                    }
+                                    break;
+                                } else if !param_line.is_empty() {
+                                    params_parts.push(param_line.to_string());
+                                }
+                                j += 1;
+                            }
+                        }
+                    }
+
+                    let params_str = params_parts.join(" ").replace("  ", " ");
+                    let parameters = parse_parameters(&params_str);
+                    let signature = format!("{}({})", method_name, params_str);
+
+                    signatures.push(RustSignature {
+                        method_name,
+                        signature,
+                        parameters,
+                        return_type,
+                        line_number: line_idx + 1,
+                        is_async,
+                        is_unsafe,
+                    });
+                }
+            }
+        // Check for multi-line function definitions (fn name<generics>( at end of line)
+        } else if let Some(caps) = multiline_func_start.captures(line) {
             let method_name = caps.get(2).map(|m| m.as_str().to_string()).unwrap_or_default();
 
             if !method_name.is_empty() {
@@ -1693,7 +1906,7 @@ fn extract_rust_signatures(code: &str) -> Result<Vec<RustSignature>, String> {
 
                 let params_str = params_parts.join(" ").replace("  ", " ");
                 let parameters = parse_parameters(&params_str);
-                let signature = format!("fn {}({})", method_name, params_str);
+                let signature = format!("{}({})", method_name, params_str);
 
                 signatures.push(RustSignature {
                     method_name,

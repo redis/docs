@@ -81,6 +81,18 @@ const SORTED_SET_COMMANDS = [
 ];
 
 /**
+ * All stream commands from commands_core.json (group: "stream")
+ */
+const STREAM_COMMANDS = [
+  'XACK', 'XACKDEL', 'XADD', 'XAUTOCLAIM', 'XCFGSET', 'XCLAIM',
+  'XDEL', 'XDELEX',
+  'XGROUP CREATE', 'XGROUP CREATECONSUMER', 'XGROUP DELCONSUMER', 'XGROUP DESTROY', 'XGROUP SETID',
+  'XINFO CONSUMERS', 'XINFO GROUPS', 'XINFO STREAM',
+  'XLEN', 'XPENDING', 'XRANGE', 'XREAD', 'XREADGROUP',
+  'XREVRANGE', 'XSETID', 'XTRIM',
+];
+
+/**
  * All JSON commands from commands_redisjson.json
  */
 const JSON_COMMANDS = [
@@ -95,7 +107,7 @@ const JSON_COMMANDS = [
 /**
  * Combined list of all commands to extract
  */
-const ALL_COMMANDS = [...STRING_HASH_COMMANDS, ...LIST_COMMANDS, ...SET_COMMANDS, ...SORTED_SET_COMMANDS, ...JSON_COMMANDS];
+const ALL_COMMANDS = [...STRING_HASH_COMMANDS, ...LIST_COMMANDS, ...SET_COMMANDS, ...SORTED_SET_COMMANDS, ...STREAM_COMMANDS, ...JSON_COMMANDS];
 
 /**
  * Clients to extract signatures from
@@ -254,6 +266,35 @@ const COMMAND_ALIASES: { [key: string]: string[] } = {
   'zscore': ['zscore', 'sortedsetscore', 'z_score'],  // NRedisStack: SortedSetScore
   'zunion': ['zunion', 'sortedsetunion', 'z_union', 'sortedsetcombine'],  // NRedisStack: SortedSetCombine
   'zunionstore': ['zunionstore', 'sortedsetcombineandstore', 'z_union_store', 'zunionstore_min', 'zunionstore_max', 'zunionstore_weights', 'zunionstore_min_weights', 'zunionstore_max_weights'],  // Rust variants
+  // Stream commands - Complex APIs with consumer groups, etc.
+  // Jedis: xadd, xgroupCreate, xinfoStream, etc.
+  // go-redis: XAdd, XGroupCreate, XInfoStream, XRangeN, XTrimMaxLen, etc.
+  // redis-rs: xadd, xadd_map, xadd_options, xgroup_create, xinfo_stream, etc.
+  // NRedisStack: StreamAdd, StreamRead, StreamGroupCreate, StreamInfo, etc.
+  'xack': ['xack', 'streamacknowledge', 'x_ack'],
+  'xackdel': ['xackdel', 'xack_del', 'streamacknowledgeanddelete'],  // Jedis: xackdel, go-redis: XAckDel, NRedisStack: StreamAcknowledgeAndDelete
+  'xadd': ['xadd', 'streamadd', 'x_add', 'xadd_map', 'xadd_options', 'xadd_maxlen', 'xadd_maxlen_map'],  // Rust variants
+  'xautoclaim': ['xautoclaim', 'streamautoclaim', 'xautoclaim_options', 'xautoclaimjustid'],  // go-redis: XAutoClaimJustID
+  'xcfgset': ['xcfgset', 'xcfg_set', 'streamconfigset'],  // Jedis: xcfgset, go-redis: XCfgSet
+  'xclaim': ['xclaim', 'streamclaim', 'xclaim_options', 'xclaimjustid'],  // go-redis: XClaimJustID, Jedis: xclaimJustId
+  'xdel': ['xdel', 'streamdelete', 'x_del'],
+  'xdelex': ['xdelex', 'xdel_ex'],  // Jedis: xdelex, go-redis: XDelEx
+  'xgroup create': ['xgroupcreate', 'xgroup_create', 'streamgroupcreate', 'streamcreategroup', 'streamcreateconsumergroup', 'xgroup_create_mkstream', 'xgroupcreatemkstream', 'xgroup', 'create'],  // Rust: xgroup_create_mkstream, go-redis: XGroupCreateMkStream, NRedisStack: StreamCreateConsumerGroup, ioredis: xgroup, PHP: create
+  'xgroup createconsumer': ['xgroupcreateconsumer', 'xgroup_createconsumer', 'streamgroupcreateconsumer', 'streamcreateconsumer', 'xgroup', 'createconsumer'],  // ioredis: xgroup, PHP: createConsumer
+  'xgroup delconsumer': ['xgroupdelconsumer', 'xgroup_delconsumer', 'streamgroupdeleteconsumer', 'streamdeleteconsumer', 'xgroup', 'delconsumer'],  // NRedisStack: StreamDeleteConsumer, ioredis: xgroup, PHP: delConsumer
+  'xgroup destroy': ['xgroupdestroy', 'xgroup_destroy', 'streamgroupdestroy', 'streamdeletegroup', 'streamdeleteconsumergroup', 'xgroup', 'destroy'],  // NRedisStack: StreamDeleteConsumerGroup, ioredis: xgroup, PHP: destroy
+  'xgroup setid': ['xgroupsetid', 'xgroup_setid', 'streamgroupsetid', 'streamsetid', 'streamconsumergroupsetposition', 'xgroup', 'setid'],  // NRedisStack: StreamConsumerGroupSetPosition, ioredis: xgroup, PHP: setId
+  'xinfo consumers': ['xinfoconsumers', 'xinfo_consumers', 'streaminfogroup', 'streamconsumerinfo', 'xinfo', 'consumers'],  // NRedisStack: StreamConsumerInfo, ioredis: xinfo, PHP: consumers
+  'xinfo groups': ['xinfogroups', 'xinfo_groups', 'streaminfogroups', 'streamgroupinfo', 'xinfo', 'groups'],  // NRedisStack: StreamGroupInfo, ioredis: xinfo, PHP: groups
+  'xinfo stream': ['xinfostream', 'xinfo_stream', 'streaminfostream', 'streaminfo', 'xinfostreamfull', 'xinfo', 'stream'],  // go-redis: XInfoStreamFull, NRedisStack: StreamInfo, ioredis: xinfo, PHP: stream
+  'xlen': ['xlen', 'streamlength', 'x_len'],
+  'xpending': ['xpending', 'streampending', 'xpending_count', 'xpending_consumer_count', 'xpendingext'],  // go-redis: XPendingExt
+  'xrange': ['xrange', 'streamrange', 'xrange_all', 'xrange_count', 'xrangen'],  // Rust: xrange_all, xrange_count; go-redis: XRangeN; NRedisStack: StreamRange (with Order.Ascending)
+  'xread': ['xread', 'streamread', 'xread_options', 'xreadstreams', 'xreadasmap', 'xreadbinary', 'xreadbinaryasmap'],  // go-redis: XReadStreams, Jedis: xreadAsMap, xreadBinary, xreadBinaryAsMap
+  'xreadgroup': ['xreadgroup', 'streamreadgroup', 'xread_group', 'xread_options', 'xreadgroupasmap', 'xreadgroupbinary', 'xreadgroupbinaryasmap'],  // Jedis: xreadGroupAsMap, xreadGroupBinary, xreadGroupBinaryAsMap; redis-rs: xread_options (can be XREAD or XREADGROUP based on options)
+  'xrevrange': ['xrevrange', 'streamrange', 'xrevrange_all', 'xrevrange_count', 'xrevrangen'],  // go-redis: XRevRangeN; NRedisStack: StreamRange (with Order.Descending)
+  'xsetid': ['xsetid', 'streamsetid', 'x_set_id'],
+  'xtrim': ['xtrim', 'streamtrim', 'xtrim_options', 'xtrimmaxlen', 'xtrimmaxlenapprox', 'xtrimminid', 'xtrimminidapprox', 'xtrimmaxlenmode', 'xtrimmaxlenapproxmode', 'xtrimminidmode', 'xtrimminidapproxmode'],  // go-redis variants
   // JSON commands - Clients use various naming: jsonSet/json_set/JsonSet/JSONSet
   // For aliases, we include both JSON-prefixed names AND non-prefixed names.
   // The source_context filtering will ensure non-prefixed names only match from JSON source files.
@@ -285,8 +326,8 @@ const COMMAND_ALIASES: { [key: string]: string[] } = {
 };
 
 async function extractCommandApiMapping() {
-  console.log('🔍 Extracting Method Signatures for String, Hash, List, Set, Sorted Set & JSON Commands...\n');
-  console.log(`📋 Commands to extract: ${ALL_COMMANDS.length} (${STRING_HASH_COMMANDS.length} string/hash + ${LIST_COMMANDS.length} list + ${SET_COMMANDS.length} set + ${SORTED_SET_COMMANDS.length} sorted set + ${JSON_COMMANDS.length} JSON)`);
+  console.log('🔍 Extracting Method Signatures for String, Hash, List, Set, Sorted Set, Stream & JSON Commands...\n');
+  console.log(`📋 Commands to extract: ${ALL_COMMANDS.length} (${STRING_HASH_COMMANDS.length} string/hash + ${LIST_COMMANDS.length} list + ${SET_COMMANDS.length} set + ${SORTED_SET_COMMANDS.length} sorted set + ${STREAM_COMMANDS.length} stream + ${JSON_COMMANDS.length} JSON)`);
   console.log(`📦 Clients to process: ${CLIENT_CONFIGS.length}\n`);
 
   const mapping: CommandMapping = {};
