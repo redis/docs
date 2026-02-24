@@ -66,6 +66,21 @@ const SET_COMMANDS = [
 ];
 
 /**
+ * All sorted set commands from commands_core.json (group: "sorted_set")
+ */
+const SORTED_SET_COMMANDS = [
+  'BZMPOP', 'BZPOPMAX', 'BZPOPMIN',
+  'ZADD', 'ZCARD', 'ZCOUNT', 'ZDIFF', 'ZDIFFSTORE',
+  'ZINCRBY', 'ZINTER', 'ZINTERCARD', 'ZINTERSTORE',
+  'ZLEXCOUNT', 'ZMPOP', 'ZMSCORE',
+  'ZPOPMAX', 'ZPOPMIN', 'ZRANDMEMBER',
+  'ZRANGE', 'ZRANGEBYLEX', 'ZRANGEBYSCORE', 'ZRANGESTORE', 'ZRANK',
+  'ZREM', 'ZREMRANGEBYLEX', 'ZREMRANGEBYRANK', 'ZREMRANGEBYSCORE',
+  'ZREVRANGE', 'ZREVRANGEBYLEX', 'ZREVRANGEBYSCORE', 'ZREVRANK',
+  'ZSCAN', 'ZSCORE', 'ZUNION', 'ZUNIONSTORE',
+];
+
+/**
  * All JSON commands from commands_redisjson.json
  */
 const JSON_COMMANDS = [
@@ -80,7 +95,7 @@ const JSON_COMMANDS = [
 /**
  * Combined list of all commands to extract
  */
-const ALL_COMMANDS = [...STRING_HASH_COMMANDS, ...LIST_COMMANDS, ...SET_COMMANDS, ...JSON_COMMANDS];
+const ALL_COMMANDS = [...STRING_HASH_COMMANDS, ...LIST_COMMANDS, ...SET_COMMANDS, ...SORTED_SET_COMMANDS, ...JSON_COMMANDS];
 
 /**
  * Clients to extract signatures from
@@ -203,6 +218,42 @@ const COMMAND_ALIASES: { [key: string]: string[] } = {
   'sscan': ['sscan', 'setscan', 's_scan'],  // NRedisStack: SetScan
   'sunion': ['sunion', 'setunion', 's_union', 'setcombine'],  // NRedisStack: SetCombine
   'sunionstore': ['sunionstore', 'setunionstore', 's_union_store', 'setcombineandstore'],  // NRedisStack: SetCombineAndStore
+  // Sorted set commands
+  'bzmpop': ['bzmpop', 'bz_mpop', 'bzmpop_max', 'bzmpop_min'],  // Rust: bz_mpop, bzmpop_max, bzmpop_min
+  'bzpopmax': ['bzpopmax', 'bz_pop_max', 'sortedsetpopmax'],  // Rust: bz_pop_max
+  'bzpopmin': ['bzpopmin', 'bz_pop_min', 'sortedsetpopmin'],  // Rust: bz_pop_min
+  'zadd': ['zadd', 'sortedsetadd', 'z_add', 'zadd_multiple', 'zadd_options', 'zadd_multiple_options'],  // NRedisStack: SortedSetAdd, Rust variants
+  'zcard': ['zcard', 'sortedsetlength', 'z_card'],  // NRedisStack: SortedSetLength
+  'zcount': ['zcount', 'sortedsetrangebyscorewithscorescount', 'z_count'],  // NRedisStack: SortedSetRangeByScoreWithScoresCount (or similar)
+  'zdiff': ['zdiff', 'sortedsetdiff', 'z_diff'],
+  'zdiffstore': ['zdiffstore', 'sortedsetcombineandstore', 'z_diff_store'],
+  'zincrby': ['zincrby', 'sortedsetincrement', 'z_incr_by', 'zincr'],  // NRedisStack: SortedSetIncrement, Rust: zincr
+  'zinter': ['zinter', 'sortedsetinter', 'z_inter', 'sortedsetcombine'],  // NRedisStack: SortedSetCombine
+  'zintercard': ['zintercard', 'sortedsetintersectionlength', 'z_inter_card'],  // NRedisStack: SortedSetIntersectionLength
+  'zinterstore': ['zinterstore', 'sortedsetcombineandstore', 'z_inter_store', 'zinterstore_min', 'zinterstore_max', 'zinterstore_weights', 'zinterstore_min_weights', 'zinterstore_max_weights'],  // Rust variants
+  'zlexcount': ['zlexcount', 'sortedsetlengthbyvalue', 'z_lex_count'],  // NRedisStack: SortedSetLengthByValue
+  'zmpop': ['zmpop', 'z_mpop', 'zmpop_max', 'zmpop_min'],  // Rust: zmpop_max, zmpop_min
+  'zmscore': ['zmscore', 'sortedsetscores', 'z_mscore', 'zscore_multiple'],  // NRedisStack: SortedSetScores, Rust: zscore_multiple
+  'zpopmax': ['zpopmax', 'sortedsetpop', 'z_pop_max'],  // NRedisStack: SortedSetPop
+  'zpopmin': ['zpopmin', 'sortedsetpop', 'z_pop_min'],  // NRedisStack: SortedSetPop
+  'zrandmember': ['zrandmember', 'sortedsetrandommember', 'z_rand_member', 'zrandmember_withscores'],  // Rust: zrandmember_withscores
+  'zrange': ['zrange', 'zrangewithscores', 'sortedsetrangebyscore', 'sortedsetrangebyrank', 'sortedsetrangebyrankwithscores', 'sortedsetrangebyscorewithscores', 'z_range', 'zrange_withscores'],  // Rust: zrange_withscores
+  'zrangebylex': ['zrangebylex', 'sortedsetrangebyvalue', 'z_range_by_lex', 'zrangebylex_limit'],  // Rust: zrangebylex_limit
+  'zrangebyscore': ['zrangebyscore', 'sortedsetrangebyscore', 'z_range_by_score', 'zrangebyscore_withscores', 'zrangebyscore_limit', 'zrangebyscore_limit_withscores'],  // Rust variants
+  'zrangestore': ['zrangestore', 'sortedsetrangestore', 'z_range_store'],
+  'zrank': ['zrank', 'sortedsetrank', 'z_rank'],  // NRedisStack: SortedSetRank
+  'zrem': ['zrem', 'sortedsetremove', 'z_rem'],  // NRedisStack: SortedSetRemove
+  'zremrangebylex': ['zremrangebylex', 'sortedsetremoverangebyvalue', 'z_rem_range_by_lex', 'zrembylex'],  // Rust: zrembylex
+  'zremrangebyrank': ['zremrangebyrank', 'sortedsetremoverangebyrank', 'z_rem_range_by_rank'],  // NRedisStack: SortedSetRemoveRangeByRank
+  'zremrangebyscore': ['zremrangebyscore', 'sortedsetremoverangebyscore', 'z_rem_range_by_score', 'zrembyscore'],  // Rust: zrembyscore
+  'zrevrange': ['zrevrange', 'sortedsetrangebyrank', 'z_rev_range', 'zrevrange_withscores'],  // Rust: zrevrange_withscores
+  'zrevrangebylex': ['zrevrangebylex', 'sortedsetrangebyvalue', 'z_rev_range_by_lex', 'zrevrangebylex_limit'],  // Rust: zrevrangebylex_limit
+  'zrevrangebyscore': ['zrevrangebyscore', 'sortedsetrangebyscore', 'z_rev_range_by_score', 'zrevrangebyscore_withscores', 'zrevrangebyscore_limit', 'zrevrangebyscore_limit_withscores'],  // Rust variants
+  'zrevrank': ['zrevrank', 'sortedsetrank', 'z_rev_rank'],  // NRedisStack: SortedSetRank (with Order.Descending)
+  'zscan': ['zscan', 'sortedsetscan', 'z_scan'],  // NRedisStack: SortedSetScan
+  'zscore': ['zscore', 'sortedsetscore', 'z_score'],  // NRedisStack: SortedSetScore
+  'zunion': ['zunion', 'sortedsetunion', 'z_union', 'sortedsetcombine'],  // NRedisStack: SortedSetCombine
+  'zunionstore': ['zunionstore', 'sortedsetcombineandstore', 'z_union_store', 'zunionstore_min', 'zunionstore_max', 'zunionstore_weights', 'zunionstore_min_weights', 'zunionstore_max_weights'],  // Rust variants
   // JSON commands - Clients use various naming: jsonSet/json_set/JsonSet/JSONSet
   // For aliases, we include both JSON-prefixed names AND non-prefixed names.
   // The source_context filtering will ensure non-prefixed names only match from JSON source files.
@@ -234,8 +285,8 @@ const COMMAND_ALIASES: { [key: string]: string[] } = {
 };
 
 async function extractCommandApiMapping() {
-  console.log('🔍 Extracting Method Signatures for String, Hash, List, Set & JSON Commands...\n');
-  console.log(`📋 Commands to extract: ${ALL_COMMANDS.length} (${STRING_HASH_COMMANDS.length} string/hash + ${LIST_COMMANDS.length} list + ${SET_COMMANDS.length} set + ${JSON_COMMANDS.length} JSON)`);
+  console.log('🔍 Extracting Method Signatures for String, Hash, List, Set, Sorted Set & JSON Commands...\n');
+  console.log(`📋 Commands to extract: ${ALL_COMMANDS.length} (${STRING_HASH_COMMANDS.length} string/hash + ${LIST_COMMANDS.length} list + ${SET_COMMANDS.length} set + ${SORTED_SET_COMMANDS.length} sorted set + ${JSON_COMMANDS.length} JSON)`);
   console.log(`📦 Clients to process: ${CLIENT_CONFIGS.length}\n`);
 
   const mapping: CommandMapping = {};
