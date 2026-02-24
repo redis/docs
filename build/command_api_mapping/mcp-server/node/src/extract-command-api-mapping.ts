@@ -123,9 +123,19 @@ const GEO_COMMANDS = [
 ];
 
 /**
+ * All bitmap commands from commands_core.json (group: "bitmap")
+ * Note: BITOP is implemented differently across clients:
+ * - Some use a single bitop(operation, ...) method
+ * - Others use separate methods like bitopAnd, bitopOr, bit_and, bit_or, etc.
+ */
+const BITMAP_COMMANDS = [
+  'BITCOUNT', 'BITFIELD', 'BITFIELD_RO', 'BITOP', 'BITPOS', 'GETBIT', 'SETBIT',
+];
+
+/**
  * Combined list of all commands to extract
  */
-const ALL_COMMANDS = [...STRING_HASH_COMMANDS, ...LIST_COMMANDS, ...SET_COMMANDS, ...SORTED_SET_COMMANDS, ...STREAM_COMMANDS, ...VECTOR_SET_COMMANDS, ...JSON_COMMANDS, ...GEO_COMMANDS];
+const ALL_COMMANDS = [...STRING_HASH_COMMANDS, ...LIST_COMMANDS, ...SET_COMMANDS, ...SORTED_SET_COMMANDS, ...STREAM_COMMANDS, ...VECTOR_SET_COMMANDS, ...JSON_COMMANDS, ...GEO_COMMANDS, ...BITMAP_COMMANDS];
 
 /**
  * Clients to extract signatures from
@@ -373,11 +383,30 @@ const COMMAND_ALIASES: { [key: string]: string[] } = {
   'georadius_ro': ['georadiusro', 'georadius_ro', 'georadiusroasync'],  // Read-only variant
   'geosearch': ['geosearch', 'geo_search', 'geosearchasync'],
   'geosearchstore': ['geosearchstore', 'geo_search_store', 'geosearchandstore', 'geosearchandstoreasync'],  // C#: GeoSearchAndStore
+
+  // Bitmap command aliases
+  'bitcount': ['bitcount', 'bit_count', 'bitcount_range', 'stringbitcount', 'stringbitcountasync'],  // redis-rs: bitcount_range; C#: StringBitCount
+  'bitfield': ['bitfield', 'bit_field', 'stringbitfield', 'stringbitfieldasync'],  // C#: StringBitField
+  'bitfield_ro': ['bitfieldro', 'bitfield_ro', 'bitfieldreadonly', 'bitfield_readonly', 'stringbitfieldro', 'stringbitfieldroasync'],  // Jedis: bitfieldReadonly; C#: StringBitFieldRo
+  'bitop': [
+    'bitop',
+    // go-redis variants
+    'bitopand', 'bitopor', 'bitopxor', 'bitopnot', 'bitopdiff', 'bitopdiff1', 'bitopandor', 'bitopone',
+    // redis-rs variants (underscore style)
+    'bit_and', 'bit_or', 'bit_xor', 'bit_not', 'bit_diff', 'bit_diff1', 'bit_and_or', 'bit_one',
+    // Lettuce variants
+    'bitopandor',
+    // C# variants
+    'stringbitoperation', 'stringbitoperationasync',
+  ],
+  'bitpos': ['bitpos', 'bit_pos', 'bitposspan', 'stringbitposition', 'stringbitpositionasync'],  // go-redis: BitPosSpan; C#: StringBitPosition
+  'getbit': ['getbit', 'get_bit', 'stringgetbit', 'stringgetbitasync'],  // C#: StringGetBit
+  'setbit': ['setbit', 'set_bit', 'stringsetbit', 'stringsetbitasync'],  // C#: StringSetBit
 };
 
 async function extractCommandApiMapping() {
-  console.log('🔍 Extracting Method Signatures for String, Hash, List, Set, Sorted Set, Stream, Vector Set, JSON & Geo Commands...\n');
-  console.log(`📋 Commands to extract: ${ALL_COMMANDS.length} (${STRING_HASH_COMMANDS.length} string/hash + ${LIST_COMMANDS.length} list + ${SET_COMMANDS.length} set + ${SORTED_SET_COMMANDS.length} sorted set + ${STREAM_COMMANDS.length} stream + ${VECTOR_SET_COMMANDS.length} vector set + ${JSON_COMMANDS.length} JSON + ${GEO_COMMANDS.length} geo)`);
+  console.log('🔍 Extracting Method Signatures for String, Hash, List, Set, Sorted Set, Stream, Vector Set, JSON, Geo & Bitmap Commands...\n');
+  console.log(`📋 Commands to extract: ${ALL_COMMANDS.length} (${STRING_HASH_COMMANDS.length} string/hash + ${LIST_COMMANDS.length} list + ${SET_COMMANDS.length} set + ${SORTED_SET_COMMANDS.length} sorted set + ${STREAM_COMMANDS.length} stream + ${VECTOR_SET_COMMANDS.length} vector set + ${JSON_COMMANDS.length} JSON + ${GEO_COMMANDS.length} geo + ${BITMAP_COMMANDS.length} bitmap)`);
   console.log(`📦 Clients to process: ${CLIENT_CONFIGS.length}\n`);
 
   const mapping: CommandMapping = {};

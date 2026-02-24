@@ -340,6 +340,14 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'packages/client/lib/commands/GEORADIUS_RO.ts',
       'packages/client/lib/commands/GEOSEARCH.ts',
       'packages/client/lib/commands/GEOSEARCHSTORE.ts',
+      // Bitmap commands
+      'packages/client/lib/commands/BITCOUNT.ts',
+      'packages/client/lib/commands/BITFIELD.ts',
+      'packages/client/lib/commands/BITFIELD_RO.ts',
+      'packages/client/lib/commands/BITOP.ts',
+      'packages/client/lib/commands/BITPOS.ts',
+      'packages/client/lib/commands/GETBIT.ts',
+      'packages/client/lib/commands/SETBIT.ts',
     ],
     language: 'typescript'
   },
