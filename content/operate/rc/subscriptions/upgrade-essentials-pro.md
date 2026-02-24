@@ -15,7 +15,7 @@ Redis Cloud Essentials supports low throughput workflows. It supports a range of
 
 For more information about the different subscription plans, see [Subscription plans]({{< relref "/operate/rc/subscriptions#subscription-plans" >}}).
 
-To upgrade your Essentials plan, see [Upgrade subscription plan]({{< relref "/operate/rc/subscriptions/view-essentials-subscription#upgrade-plan" >}}).
+To upgrade your Essentials plan to another essential plan, see [Upgrade subscription plan]({{< relref "/operate/rc/subscriptions/view-essentials-subscription#upgrade-plan" >}}).
 
 ## Upgrade Essentials subscription to Pro
 
@@ -38,9 +38,9 @@ To upgrade your Essentials database to Redis Cloud Pro:
 - In the [**Sizing tab**]({{< relref "/operate/rc/databases/create-database/create-pro-database-new#sizing-tab" >}}), create your databases with the following specifications:
     - Set the memory limit to comply with [Active-Passive memory requirements]({{< relref "/operate/rc/databases/migrate-databases#active-passive-memory-requirements" >}}) if you want to migrate your database using [Active-Passive]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}).
     - Select any advanced capabilities that your Essentials database offers. You can find a list of enabled advanced capabilities in the [Configuration tab]({{< relref "/operate/rc/databases/view-edit-database#configuration-details-tab" >}}) of your database.
-    - In **More options**, set the **Port** to **Manually assign**, and enter the port of your Essentials database. You must set the port number to match the port of your Essentials database if you want to migrate your database endpoints.
+    - In **More options**, set the **Port** to **Manually assign**, and enter the port of your Essentials database. You must set the port number to match the port of your Essentials database if you want to migrate your database endpoints. You can find the port in the endpoint of your database on the **Configuration** tab of your database.
 
-### Migrate database
+### Migrate data
 
 You can migrate your Redis Cloud Essentials database to your new Redis Cloud Pro subscription using any method in the [Migrate databases]({{< relref "/operate/rc/databases/migrate-databases" >}}) guide. This guide uses [Active-Passive]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}) to migrate databases between subscriptions in the same account.
 
@@ -88,7 +88,7 @@ Before you follow this guide, be aware of the following limitations:
 
     {{<image filename="images/rc/migrate-data-status-synced.png" alt="When the data is migrated, the target database status displays `Synced`." width=100px >}}
 
-    Active-Passive sync lets you migrate data while apps and other connections are using the source database. Once the data is migrated, you should migrate active connections to the target database before you move on.
+    Active-Passive sync lets you migrate data while apps and other connections are using the source database. Once the data is migrated, you should migrate active connections to the target database before you move on if you choose not to redirect your endpoints.
 
 ### Redirect database endpoints
 
@@ -126,8 +126,8 @@ You can revert endpoint migration within 24 hours to restore the original endpoi
 
 {{<image filename="images/rc/migrate-data-redirect-revert.png" alt="The **Revert** button reverts endpoint migration." >}}
 
-After the 24-hour window, you can no longer revert to the original endpoints.
+After the 24-hour window, you can no longer revert to the endpoint to the original database.
 
 ### Delete Essentials database
 
-After your data and connections are migrated, turn off **Active-Passive Redis** from the target database, and then [delete the source database]({{< relref "/operate/rc/databases/delete-database" >}}).
+After you migrate your data and redirect your endpoints, turn off **Active-Passive Redis** from the target database, and then [delete the source database]({{< relref "/operate/rc/databases/delete-database" >}}).

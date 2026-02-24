@@ -16,28 +16,27 @@ You can redirect any database's dynamic endpoints to any Redis Cloud Pro databas
 
 ## When to redirect dynamic endpoints
 
-Use endpoint redirection to seamlessly migrate your application traffic to a different database within the same Redis Cloud account. No need to update the endpoints in your application, since they'll remain the same. For example, you might want to:
+Use endpoint redirection to seamlessly migrate your application traffic to a different database within the same Redis Cloud account. There is no need to update the endpoints in your application, since they'll remain the same. For example, you might want to:
 
 - Upgrade your database's subscription from an Essentials Plan to a Pro Plan
-- Move between Redis Cloud offerings, such as from or to Redis Flex
+- Move between Redis Cloud offerings, such as Redis on RAM to Redis Flex
 - Split a subscription or combine databases from multiple subscriptions into one
 - Migrate your database to a different cloud provider, region, or availability zone
-- Redirect the endpoint to another database during an incident to restore service
+- Redirect the endpoint to another database to restore service during Disaster Recovery
 
 ## Applications that use legacy static endpoints
 
 Databases created before {{RELEASE DATE}} have both legacy static endpoints and dynamic endpoints. You can only migrate the dynamic endpoints to point to a new database. If your application uses the static endpoints, it will connect to the source database instead of the target database after redirection. You can find both the static and dynamic endpoints for these databases on the database's **Configuration** page.
 
 Transitioning from the static to the dynamic endpoint does not cause downtime and allows you to gradually manage client disconnections. To migrate to the dynamic endpoint safely:
-- Move clients one-by-one (or service-by-service) from legacy static endpoints to dynamic endpoints.
-- During the transition period, both static and Dynamic endpoints can be used concurrently.
+- Move clients one-by-one (or service-by-service) from legacy static endpoints to dynamic endpoints. Note that during the transition period, both static and Dynamic endpoints can be used concurrently.
 - After all clients use the dynamic endpoint, you can then redirect the dynamic endpoints to the target database.
 
 This phased approach minimizes risk and allows controlled client reconnections throughout the migration process.
 
 ## Before you start
 
-Before you redirect your dynamic endpoints, read the following sections to prepare for endpoint redirection.
+Read the following sections to prepare for endpoint redirection.
 
 ### Scope and behavior
 
@@ -47,7 +46,7 @@ This process redirects a source database's dynamic endpoints to a selected targe
 
 Make sure you have met the following prerequisites:
 
-- Your application is using the dynamic endpoint. Endpoint redirection does not work with [static endpoints](#applications-that-use-legacy-static-endpoints).
+- Your application is using the dynamic endpoint. Endpoint redirection does not redirect [static endpoints](#applications-that-use-legacy-static-endpoints).
 - You have [created a target Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) in the same account that [is compatible with the source database](#redirection-compatibility).
 - If you monitor the source database with Prometheus, add the target database to Prometheus before your redirect the endpoint so that you can monitor the target database after the redirection. See [Connect to Prometheus]({{< relref "operate/rc/databases/monitor-performance#connect-to-prometheus" >}}) for more information.
 
@@ -61,18 +60,19 @@ If any of the following properties differ, the databases are not compatible and 
     - [TLS settings]({{< relref "/operate/rc/security/database-security/tls-ssl" >}})
     - [VPC Peering]({{< relref "/operate/rc/security/vpc-peering" >}}) or other connectivity method settings
     - [Default User settings]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}})
+    - [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}}) settings
 
 Some differences may be intentional but can affect application behavior. In those cases, the console will warn you about the difference but allow you to proceed with redirection. The following differences will cause a warning:
 - Redis version
 - [RESP Database protocol version]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions)
-- [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}}) settings
+- [OSS Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) configuration
 
 ### Limitations
 
 Be aware of the following limitations when redirecting dynamic endpoints:
 - The target database must be a Redis Cloud Pro database on the same account as the source database.
-- Active-Active databases are not supported as either a source or target database.
-- Databases using GCP Private Service Connect or AWS PrivateLink are not supported for endpoint redirection.
+- Active-Active databases are currently not supported as either a source or target database (coming soon).
+- Databases using GCP Private Service Connect or AWS PrivateLink are currently not supported for endpoint redirection (coming soon).
 
 ## Redirect database endpoints
 
