@@ -3226,6 +3226,1112 @@
       ]
     }
   },
+  "TOPK.RESERVE": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "reserve(key, k, width, depth, decay)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "k", "type": "int" },
+            { "name": "width", "type": "int" },
+            { "name": "depth", "type": "int" },
+            { "name": "decay", "type": "float" }
+          ],
+          "returns": { "type": "bool", "description": "True if the filter was created successfully" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "topkReserve(String key, long topk)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "topk", "type": "long" }
+          ],
+          "returns": { "type": "String", "description": "OK" }
+        },
+        {
+          "signature": "topkReserve(String key, long topk, long width, long depth, double decay)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "topk", "type": "long" },
+            { "name": "width", "type": "long" },
+            { "name": "depth", "type": "long" },
+            { "name": "decay", "type": "double" }
+          ],
+          "returns": { "type": "String", "description": "OK" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TopKReserve(ctx context.Context, key string, k int64) *StatusCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "k", "type": "int64" }
+          ],
+          "returns": { "type": "*StatusCmd", "description": "Status command result" }
+        },
+        {
+          "signature": "TopKReserveWithOptions(ctx context.Context, key string, k int64, width, depth int64, decay float64) *StatusCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "k", "type": "int64" },
+            { "name": "width", "type": "int64" },
+            { "name": "depth", "type": "int64" },
+            { "name": "decay", "type": "float64" }
+          ],
+          "returns": { "type": "*StatusCmd", "description": "Status command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TOPK.RESERVE(key, topK, options?)",
+          "params": [
+            { "name": "key", "type": "RedisArgument" },
+            { "name": "topK", "type": "number" },
+            { "name": "options", "type": "TopKReserveOptions", "description": "Optional: { width, depth, decay }" }
+          ],
+          "returns": { "type": "SimpleStringReply<'OK'>", "description": "OK on success" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Reserve(RedisKey key, long topk, long width = 7, long depth = 8, double decay = 0.9)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "topk", "type": "long" },
+            { "name": "width", "type": "long", "description": "Default: 7" },
+            { "name": "depth", "type": "long", "description": "Default: 8" },
+            { "name": "decay", "type": "double", "description": "Default: 0.9" }
+          ],
+          "returns": { "type": "bool", "description": "True if created successfully" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "ReserveAsync(RedisKey key, long topk, long width = 7, long depth = 8, double decay = 0.9)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "topk", "type": "long" },
+            { "name": "width", "type": "long", "description": "Default: 7" },
+            { "name": "depth", "type": "long", "description": "Default: 8" },
+            { "name": "decay", "type": "double", "description": "Default: 0.9" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "True if created successfully" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "topkreserve($key, $topk, $width = null, $depth = null, $decay = null)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "topk", "type": "int" },
+            { "name": "width", "type": "int", "description": "Optional, default: 7" },
+            { "name": "depth", "type": "int", "description": "Optional, default: 8" },
+            { "name": "decay", "type": "float", "description": "Optional, default: 0.9" }
+          ],
+          "returns": { "type": "string", "description": "OK" }
+        }
+      ]
+    }
+  },
+  "TOPK.ADD": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "add(key, *items)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "items", "type": "*args" }
+          ],
+          "returns": { "type": "List", "description": "Items dropped from the Top-K list" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "topkAdd(String key, String... items)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "items", "type": "String..." }
+          ],
+          "returns": { "type": "List<String>", "description": "Items dropped from list" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TopKAdd(ctx context.Context, key string, elements ...interface{}) *StringSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "elements", "type": "...interface{}" }
+          ],
+          "returns": { "type": "*StringSliceCmd", "description": "Items removed from filter" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TOPK.ADD(key, items)",
+          "params": [
+            { "name": "key", "type": "RedisArgument" },
+            { "name": "items", "type": "RedisVariadicArgument" }
+          ],
+          "returns": { "type": "ArrayReply<BlobStringReply>", "description": "Items dropped from Top-K list" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Add(RedisKey key, params RedisValue[] items)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "items", "type": "params RedisValue[]" }
+          ],
+          "returns": { "type": "RedisResult[]?", "description": "Items dropped from list" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "AddAsync(RedisKey key, params RedisValue[] items)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "items", "type": "params RedisValue[]" }
+          ],
+          "returns": { "type": "Task<RedisResult[]?>", "description": "Items dropped from list" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "topkadd($key, ...$items)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "items", "type": "string..." }
+          ],
+          "returns": { "type": "array", "description": "Items dropped from Top-K list" }
+        }
+      ]
+    }
+  },
+  "TOPK.INCRBY": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "incrby(key, items, increments)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "items", "type": "List" },
+            { "name": "increments", "type": "List" }
+          ],
+          "returns": { "type": "List", "description": "Items dropped from Top-K list" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "topkIncrBy(String key, String item, long increment)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "item", "type": "String" },
+            { "name": "increment", "type": "long" }
+          ],
+          "returns": { "type": "String", "description": "Item dropped from list" }
+        },
+        {
+          "signature": "topkIncrBy(String key, Map<String, Long> itemIncrements)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "itemIncrements", "type": "Map<String, Long>" }
+          ],
+          "returns": { "type": "List<String>", "description": "Items dropped from list" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TopKIncrBy(ctx context.Context, key string, elements ...interface{}) *StringSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "elements", "type": "...interface{}", "description": "Alternating items and increments" }
+          ],
+          "returns": { "type": "*StringSliceCmd", "description": "Items dropped from filter" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TOPK.INCRBY(key, items)",
+          "params": [
+            { "name": "key", "type": "RedisArgument" },
+            { "name": "items", "type": "TopKIncrByItem | Array<TopKIncrByItem>", "description": "{ item, incrementBy }" }
+          ],
+          "returns": { "type": "ArrayReply<SimpleStringReply | NullReply>", "description": "Items dropped from list" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "IncrBy(RedisKey key, params Tuple<RedisValue, long>[] itemIncrements)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "itemIncrements", "type": "params Tuple<RedisValue, long>[]" }
+          ],
+          "returns": { "type": "RedisResult[]", "description": "Items dropped from list" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "IncrByAsync(RedisKey key, params Tuple<RedisValue, long>[] itemIncrements)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "itemIncrements", "type": "params Tuple<RedisValue, long>[]" }
+          ],
+          "returns": { "type": "Task<RedisResult[]>", "description": "Items dropped from list" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "topkincrby($key, ...$itemsAndIncrements)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "itemsAndIncrements", "type": "mixed...", "description": "Alternating items and increments" }
+          ],
+          "returns": { "type": "array", "description": "Items dropped from Top-K list" }
+        }
+      ]
+    }
+  },
+  "TOPK.QUERY": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "query(key, *items)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "items", "type": "*args" }
+          ],
+          "returns": { "type": "List[bool]", "description": "True for items in Top-K, False otherwise" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "topkQuery(String key, String... items)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "items", "type": "String..." }
+          ],
+          "returns": { "type": "List<Boolean>", "description": "True if item is in Top-K" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TopKQuery(ctx context.Context, key string, elements ...interface{}) *BoolSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "elements", "type": "...interface{}" }
+          ],
+          "returns": { "type": "*BoolSliceCmd", "description": "Array of booleans" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TOPK.QUERY(key, items)",
+          "params": [
+            { "name": "key", "type": "RedisArgument" },
+            { "name": "items", "type": "RedisVariadicArgument" }
+          ],
+          "returns": { "type": "boolean[]", "description": "True for items in Top-K list" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Query(RedisKey key, RedisValue item)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "item", "type": "RedisValue" }
+          ],
+          "returns": { "type": "bool", "description": "True if item is in Top-K" }
+        },
+        {
+          "signature": "Query(RedisKey key, params RedisValue[] items)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "items", "type": "params RedisValue[]" }
+          ],
+          "returns": { "type": "bool[]", "description": "True for items in Top-K" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "QueryAsync(RedisKey key, RedisValue item)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "item", "type": "RedisValue" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "True if item is in Top-K" }
+        },
+        {
+          "signature": "QueryAsync(RedisKey key, params RedisValue[] items)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "items", "type": "params RedisValue[]" }
+          ],
+          "returns": { "type": "Task<bool[]>", "description": "True for items in Top-K" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "topkquery($key, ...$items)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "items", "type": "string..." }
+          ],
+          "returns": { "type": "array", "description": "Array of booleans" }
+        }
+      ]
+    }
+  },
+  "TOPK.COUNT": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "count(key, *items)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "items", "type": "*args" }
+          ],
+          "returns": { "type": "List[int]", "description": "Count for each item (deprecated since RedisBloom 2.4.0)" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "topkCount(String key, String... items)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "items", "type": "String..." }
+          ],
+          "returns": { "type": "List<Long>", "description": "Count for each item (deprecated)" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TopKCount(ctx context.Context, key string, elements ...interface{}) *IntSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "elements", "type": "...interface{}" }
+          ],
+          "returns": { "type": "*IntSliceCmd", "description": "Counts for each item" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TOPK.COUNT(key, items)",
+          "params": [
+            { "name": "key", "type": "RedisArgument" },
+            { "name": "items", "type": "RedisVariadicArgument" }
+          ],
+          "returns": { "type": "ArrayReply<NumberReply>", "description": "Count for each item (deprecated)" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Count(RedisKey key, params RedisValue[] items)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "items", "type": "params RedisValue[]" }
+          ],
+          "returns": { "type": "long[]", "description": "Count for each item" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "CountAsync(RedisKey key, params RedisValue[] items)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "items", "type": "params RedisValue[]" }
+          ],
+          "returns": { "type": "Task<long[]>", "description": "Count for each item" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "topkcount($key, ...$items)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "items", "type": "string..." }
+          ],
+          "returns": { "type": "array", "description": "Count for each item (deprecated)" }
+        }
+      ]
+    }
+  },
+  "TOPK.LIST": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "list(key, withcount=False)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "withcount", "type": "bool", "description": "Include counts, default: False" }
+          ],
+          "returns": { "type": "List", "description": "Top-K items, with counts if withcount=True" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "topkList(String key)",
+          "params": [
+            { "name": "key", "type": "String" }
+          ],
+          "returns": { "type": "List<String>", "description": "k (or less) items in Top K list" }
+        },
+        {
+          "signature": "topkListWithCount(String key)",
+          "params": [
+            { "name": "key", "type": "String" }
+          ],
+          "returns": { "type": "Map<String, Long>", "description": "k (or less) items with counts" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TopKList(ctx context.Context, key string) *StringSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "*StringSliceCmd", "description": "Top-K items" }
+        },
+        {
+          "signature": "TopKListWithCount(ctx context.Context, key string) *MapStringIntCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "*MapStringIntCmd", "description": "Top-K items with counts" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TOPK.LIST(key)",
+          "params": [
+            { "name": "key", "type": "RedisArgument" }
+          ],
+          "returns": { "type": "ArrayReply<BlobStringReply>", "description": "Top-K items" }
+        },
+        {
+          "signature": "TOPK.LIST_WITHCOUNT(key)",
+          "params": [
+            { "name": "key", "type": "RedisArgument" }
+          ],
+          "returns": { "type": "Map<string, number>", "description": "Top-K items with counts" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "List(RedisKey key, bool withcount = false)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "withcount", "type": "bool", "description": "Include counts, default: false" }
+          ],
+          "returns": { "type": "RedisResult[]", "description": "Top-K items" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "ListAsync(RedisKey key, bool withcount = false)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "withcount", "type": "bool", "description": "Include counts, default: false" }
+          ],
+          "returns": { "type": "Task<RedisResult[]>", "description": "Top-K items" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "topklist($key)",
+          "params": [
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "array", "description": "Top-K items" }
+        }
+      ]
+    }
+  },
+  "TOPK.INFO": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "info(key)",
+          "params": [
+            { "name": "key", "type": "str" }
+          ],
+          "returns": { "type": "dict", "description": "k, width, depth, and decay values" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "topkInfo(String key)",
+          "params": [
+            { "name": "key", "type": "String" }
+          ],
+          "returns": { "type": "Map<String, Object>", "description": "Filter information" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TopKInfo(ctx context.Context, key string) *TopKInfoCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "*TopKInfoCmd", "description": "TopKInfo with k, width, depth, decay" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TOPK.INFO(key)",
+          "params": [
+            { "name": "key", "type": "RedisArgument" }
+          ],
+          "returns": { "type": "TopKInfoReplyMap", "description": "{ k, width, depth, decay }" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Info(RedisKey key)",
+          "params": [
+            { "name": "key", "type": "RedisKey" }
+          ],
+          "returns": { "type": "TopKInformation", "description": "Filter information" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "InfoAsync(RedisKey key)",
+          "params": [
+            { "name": "key", "type": "RedisKey" }
+          ],
+          "returns": { "type": "Task<TopKInformation>", "description": "Filter information" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "topkinfo($key)",
+          "params": [
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "array", "description": "Filter information" }
+        }
+      ]
+    }
+  },
+  "CMS.INITBYDIM": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "initbydim(key, width, depth)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "width", "type": "int", "description": "Number of counters in each array" },
+            { "name": "depth", "type": "int", "description": "Number of counter-arrays" }
+          ],
+          "returns": { "type": "bool", "description": "True if created successfully" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "cmsInitByDim(String key, long width, long depth)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "width", "type": "long" },
+            { "name": "depth", "type": "long" }
+          ],
+          "returns": { "type": "String", "description": "OK" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CMSInitByDim(ctx context.Context, key string, width, depth int64) *StatusCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "width", "type": "int64" },
+            { "name": "depth", "type": "int64" }
+          ],
+          "returns": { "type": "*StatusCmd", "description": "Status command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CMS.INITBYDIM(key, width, depth)",
+          "params": [
+            { "name": "key", "type": "RedisArgument" },
+            { "name": "width", "type": "number", "description": "Number of counters in each array" },
+            { "name": "depth", "type": "number", "description": "Number of counter arrays" }
+          ],
+          "returns": { "type": "SimpleStringReply<'OK'>", "description": "OK on success" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "InitByDim(RedisKey key, long width, long depth)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "width", "type": "long" },
+            { "name": "depth", "type": "long" }
+          ],
+          "returns": { "type": "bool", "description": "True if created successfully" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "InitByDimAsync(RedisKey key, long width, long depth)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "width", "type": "long" },
+            { "name": "depth", "type": "long" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "True if created successfully" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cmsinitbydim($key, $width, $depth)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "width", "type": "int" },
+            { "name": "depth", "type": "int" }
+          ],
+          "returns": { "type": "string", "description": "OK" }
+        }
+      ]
+    }
+  },
+  "CMS.INITBYPROB": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "initbyprob(key, error, probability)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "error", "type": "float", "description": "Estimate size of error as percent of total" },
+            { "name": "probability", "type": "float", "description": "Desired probability for inflated count" }
+          ],
+          "returns": { "type": "bool", "description": "True if created successfully" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "cmsInitByProb(String key, double error, double probability)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "error", "type": "double" },
+            { "name": "probability", "type": "double" }
+          ],
+          "returns": { "type": "String", "description": "OK" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CMSInitByProb(ctx context.Context, key string, errorRate, probability float64) *StatusCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "errorRate", "type": "float64" },
+            { "name": "probability", "type": "float64" }
+          ],
+          "returns": { "type": "*StatusCmd", "description": "Status command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CMS.INITBYPROB(key, error, probability)",
+          "params": [
+            { "name": "key", "type": "RedisArgument" },
+            { "name": "error", "type": "number", "description": "Error rate as decimal between 0 and 1" },
+            { "name": "probability", "type": "number", "description": "Probability for inflated count" }
+          ],
+          "returns": { "type": "SimpleStringReply<'OK'>", "description": "OK on success" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "InitByProb(RedisKey key, double error, double probability)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "error", "type": "double" },
+            { "name": "probability", "type": "double" }
+          ],
+          "returns": { "type": "bool", "description": "True if created successfully" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "InitByProbAsync(RedisKey key, double error, double probability)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "error", "type": "double" },
+            { "name": "probability", "type": "double" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "True if created successfully" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cmsinitbyprob($key, $error, $probability)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "error", "type": "float" },
+            { "name": "probability", "type": "float" }
+          ],
+          "returns": { "type": "string", "description": "OK" }
+        }
+      ]
+    }
+  },
+  "CMS.INCRBY": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "incrby(key, items, increments)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "items", "type": "List", "description": "Items to increment" },
+            { "name": "increments", "type": "List", "description": "Increment values for each item" }
+          ],
+          "returns": { "type": "List[int]", "description": "Count of each item after increment" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "cmsIncrBy(String key, String item, long increment)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "item", "type": "String" },
+            { "name": "increment", "type": "long" }
+          ],
+          "returns": { "type": "long", "description": "Count for item after increment" }
+        },
+        {
+          "signature": "cmsIncrBy(String key, Map<String, Long> itemIncrements)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "itemIncrements", "type": "Map<String, Long>" }
+          ],
+          "returns": { "type": "List<Long>", "description": "Count of each item after increment" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CMSIncrBy(ctx context.Context, key string, elements ...interface{}) *IntSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "elements", "type": "...interface{}", "description": "Alternating items and increments" }
+          ],
+          "returns": { "type": "*IntSliceCmd", "description": "Counts after increment" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CMS.INCRBY(key, items)",
+          "params": [
+            { "name": "key", "type": "RedisArgument" },
+            { "name": "items", "type": "BfIncrByItem | Array<BfIncrByItem>", "description": "{ item, incrementBy }" }
+          ],
+          "returns": { "type": "ArrayReply<NumberReply>", "description": "Counts after increment" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "IncrBy(RedisKey key, RedisValue item, long increment)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "item", "type": "RedisValue" },
+            { "name": "increment", "type": "long" }
+          ],
+          "returns": { "type": "long", "description": "Count after increment" }
+        },
+        {
+          "signature": "IncrBy(RedisKey key, Tuple<RedisValue, long>[] itemIncrements)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "itemIncrements", "type": "Tuple<RedisValue, long>[]" }
+          ],
+          "returns": { "type": "long[]", "description": "Counts after increment" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "IncrByAsync(RedisKey key, RedisValue item, long increment)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "item", "type": "RedisValue" },
+            { "name": "increment", "type": "long" }
+          ],
+          "returns": { "type": "Task<long>", "description": "Count after increment" }
+        },
+        {
+          "signature": "IncrByAsync(RedisKey key, Tuple<RedisValue, long>[] itemIncrements)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "itemIncrements", "type": "Tuple<RedisValue, long>[]" }
+          ],
+          "returns": { "type": "Task<long[]>", "description": "Counts after increment" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cmsincrby($key, ...$itemsAndIncrements)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "itemsAndIncrements", "type": "mixed...", "description": "Alternating items and increments" }
+          ],
+          "returns": { "type": "array", "description": "Counts after increment" }
+        }
+      ]
+    }
+  },
+  "CMS.QUERY": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "query(key, *items)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "items", "type": "*args" }
+          ],
+          "returns": { "type": "List[int]", "description": "Estimated count for each item" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "cmsQuery(String key, String... items)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "items", "type": "String..." }
+          ],
+          "returns": { "type": "List<Long>", "description": "Count for one or more items" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CMSQuery(ctx context.Context, key string, elements ...interface{}) *IntSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "elements", "type": "...interface{}" }
+          ],
+          "returns": { "type": "*IntSliceCmd", "description": "Estimated counts" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CMS.QUERY(key, items)",
+          "params": [
+            { "name": "key", "type": "RedisArgument" },
+            { "name": "items", "type": "RedisVariadicArgument" }
+          ],
+          "returns": { "type": "ArrayReply<NumberReply>", "description": "Counts for each item" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Query(RedisKey key, params RedisValue[] items)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "items", "type": "params RedisValue[]" }
+          ],
+          "returns": { "type": "long[]", "description": "Estimated counts" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "QueryAsync(RedisKey key, params RedisValue[] items)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "items", "type": "params RedisValue[]" }
+          ],
+          "returns": { "type": "Task<long[]>", "description": "Estimated counts" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cmsquery($key, ...$items)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "items", "type": "string..." }
+          ],
+          "returns": { "type": "array", "description": "Estimated counts" }
+        }
+      ]
+    }
+  },
+  "CMS.MERGE": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "merge(destKey, numKeys, srcKeys, weights=[])",
+          "params": [
+            { "name": "destKey", "type": "str" },
+            { "name": "numKeys", "type": "int" },
+            { "name": "srcKeys", "type": "List", "description": "Source sketch keys" },
+            { "name": "weights", "type": "List", "description": "Optional weights for each source" }
+          ],
+          "returns": { "type": "bool", "description": "True if merged successfully" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "cmsMerge(String destKey, String... keys)",
+          "params": [
+            { "name": "destKey", "type": "String" },
+            { "name": "keys", "type": "String..." }
+          ],
+          "returns": { "type": "String", "description": "OK" }
+        },
+        {
+          "signature": "cmsMerge(String destKey, Map<String, Long> keysAndWeights)",
+          "params": [
+            { "name": "destKey", "type": "String" },
+            { "name": "keysAndWeights", "type": "Map<String, Long>" }
+          ],
+          "returns": { "type": "String", "description": "OK" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CMSMerge(ctx context.Context, destKey string, sourceKeys ...string) *StatusCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "destKey", "type": "string" },
+            { "name": "sourceKeys", "type": "...string" }
+          ],
+          "returns": { "type": "*StatusCmd", "description": "Status command result" }
+        },
+        {
+          "signature": "CMSMergeWithWeight(ctx context.Context, destKey string, sourceKeys map[string]int64) *StatusCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "destKey", "type": "string" },
+            { "name": "sourceKeys", "type": "map[string]int64" }
+          ],
+          "returns": { "type": "*StatusCmd", "description": "Status command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CMS.MERGE(destination, source)",
+          "params": [
+            { "name": "destination", "type": "RedisArgument" },
+            { "name": "source", "type": "BfMergeSketches", "description": "Array of sketch names or sketches with weights" }
+          ],
+          "returns": { "type": "SimpleStringReply<'OK'>", "description": "OK on success" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Merge(RedisValue destination, long numKeys, RedisValue[] source, long[]? weight = null)",
+          "params": [
+            { "name": "destination", "type": "RedisValue" },
+            { "name": "numKeys", "type": "long" },
+            { "name": "source", "type": "RedisValue[]" },
+            { "name": "weight", "type": "long[]?", "description": "Optional weights" }
+          ],
+          "returns": { "type": "bool", "description": "True if merged successfully" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "MergeAsync(RedisValue destination, long numKeys, RedisValue[] source, long[]? weight = null)",
+          "params": [
+            { "name": "destination", "type": "RedisValue" },
+            { "name": "numKeys", "type": "long" },
+            { "name": "source", "type": "RedisValue[]" },
+            { "name": "weight", "type": "long[]?", "description": "Optional weights" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "True if merged successfully" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cmsmerge($destKey, ...$sourceKeys)",
+          "params": [
+            { "name": "destKey", "type": "string" },
+            { "name": "sourceKeys", "type": "string..." }
+          ],
+          "returns": { "type": "string", "description": "OK" }
+        }
+      ]
+    }
+  },
+  "CMS.INFO": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "info(key)",
+          "params": [
+            { "name": "key", "type": "str" }
+          ],
+          "returns": { "type": "dict", "description": "Width, depth, and total count" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "cmsInfo(String key)",
+          "params": [
+            { "name": "key", "type": "String" }
+          ],
+          "returns": { "type": "Map<String, Object>", "description": "Width, depth, and total count" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CMSInfo(ctx context.Context, key string) *CMSInfoCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "*CMSInfoCmd", "description": "CMSInfo with width, depth, count" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CMS.INFO(key)",
+          "params": [
+            { "name": "key", "type": "RedisArgument" }
+          ],
+          "returns": { "type": "CmsInfoReply", "description": "{ width, depth, count }" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Info(RedisKey key)",
+          "params": [
+            { "name": "key", "type": "RedisKey" }
+          ],
+          "returns": { "type": "CmsInformation", "description": "Sketch information" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "InfoAsync(RedisKey key)",
+          "params": [
+            { "name": "key", "type": "RedisKey" }
+          ],
+          "returns": { "type": "Task<CmsInformation>", "description": "Sketch information" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cmsinfo($key)",
+          "params": [
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "array", "description": "Sketch information" }
+        }
+      ]
+    }
+  },
   "DECR": {
     "api_calls": {
       "redis_py": [
