@@ -43,11 +43,12 @@ interface ClientSourceConfig {
  * repositories to fetch from.
  */
 const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
-  // Python - includes JSON module commands
+  // Python - includes JSON, Search, TimeSeries, and VectorSet module commands
   'redis_py': {
     paths: [
       'redis/commands/core.py',
       'redis/commands/json/commands.py',  // JSON commands
+      'redis/commands/search/commands.py',  // Search/FT commands
       'redis/commands/vectorset/commands.py',  // Vector set commands
       'redis/commands/timeseries/commands.py',  // Time series commands
     ],
@@ -65,6 +66,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'src/main/java/redis/clients/jedis/commands/GeoCommands.java',  // Geo commands interface
       'src/main/java/redis/clients/jedis/json/commands/RedisJsonV1Commands.java',  // JSON V1 interface
       'src/main/java/redis/clients/jedis/json/commands/RedisJsonV2Commands.java',  // JSON V2 interface
+      'src/main/java/redis/clients/jedis/search/SearchCommands.java',  // Search/FT commands interface
       'src/main/java/redis/clients/jedis/timeseries/RedisTimeSeriesCommands.java',  // Time series commands
     ],
     language: 'java'
@@ -83,6 +85,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'src/main/java/io/lettuce/core/api/sync/RedisScriptingCommands.java',
       'src/main/java/io/lettuce/core/api/sync/RedisServerCommands.java',
       'src/main/java/io/lettuce/core/api/sync/RedisJsonCommands.java',  // JSON commands
+      'src/main/java/io/lettuce/core/api/sync/RedisSearchCommands.java',  // Search/FT commands
       'src/main/java/io/lettuce/core/api/sync/RedisVectorSetCommands.java',  // Vector set commands
     ],
     language: 'java',
@@ -101,6 +104,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'src/main/java/io/lettuce/core/api/async/RedisScriptingAsyncCommands.java',
       'src/main/java/io/lettuce/core/api/async/RedisServerAsyncCommands.java',
       'src/main/java/io/lettuce/core/api/async/RedisJsonAsyncCommands.java',  // JSON commands
+      'src/main/java/io/lettuce/core/api/async/RedisSearchAsyncCommands.java',  // Search/FT commands
       'src/main/java/io/lettuce/core/api/async/RedisVectorSetAsyncCommands.java',  // Vector set commands
     ],
     language: 'java',
@@ -119,6 +123,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'src/main/java/io/lettuce/core/api/reactive/RedisScriptingReactiveCommands.java',
       'src/main/java/io/lettuce/core/api/reactive/RedisServerReactiveCommands.java',
       'src/main/java/io/lettuce/core/api/reactive/RedisJsonReactiveCommands.java',  // JSON commands
+      'src/main/java/io/lettuce/core/api/reactive/RedisSearchReactiveCommands.java',  // Search/FT commands
       'src/main/java/io/lettuce/core/api/reactive/RedisVectorSetReactiveCommands.java',  // Vector set commands
     ],
     language: 'java',
@@ -140,6 +145,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'pubsub_commands.go',
       'scripting_commands.go',
       'json.go',  // JSON commands
+      'search_commands.go',  // Search/FT commands
       'vectorset_commands.go',  // Vector set commands
       'timeseries_commands.go',  // Time series commands
     ],
@@ -318,6 +324,33 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'packages/json/lib/commands/STRAPPEND.ts',
       'packages/json/lib/commands/STRLEN.ts',
       'packages/json/lib/commands/NUMINCRBY.ts',
+      // Search/FT commands
+      'packages/search/lib/commands/CREATE.ts',
+      'packages/search/lib/commands/SEARCH.ts',
+      'packages/search/lib/commands/AGGREGATE.ts',
+      'packages/search/lib/commands/INFO.ts',
+      'packages/search/lib/commands/DROPINDEX.ts',
+      'packages/search/lib/commands/ALTER.ts',
+      'packages/search/lib/commands/ALIASADD.ts',
+      'packages/search/lib/commands/ALIASDEL.ts',
+      'packages/search/lib/commands/ALIASUPDATE.ts',
+      'packages/search/lib/commands/CONFIG_GET.ts',
+      'packages/search/lib/commands/CONFIG_SET.ts',
+      'packages/search/lib/commands/DICTADD.ts',
+      'packages/search/lib/commands/DICTDEL.ts',
+      'packages/search/lib/commands/DICTDUMP.ts',
+      'packages/search/lib/commands/EXPLAIN.ts',
+      'packages/search/lib/commands/EXPLAINCLI.ts',
+      'packages/search/lib/commands/PROFILE.ts',
+      'packages/search/lib/commands/SPELLCHECK.ts',
+      'packages/search/lib/commands/SUGADD.ts',
+      'packages/search/lib/commands/SUGDEL.ts',
+      'packages/search/lib/commands/SUGGET.ts',
+      'packages/search/lib/commands/SUGLEN.ts',
+      'packages/search/lib/commands/SYNDUMP.ts',
+      'packages/search/lib/commands/SYNUPDATE.ts',
+      'packages/search/lib/commands/TAGVALS.ts',
+      'packages/search/lib/commands/_LIST.ts',
       // Vector set commands (note: VISMEMBER, VLINKS_WITHSCORES, VSIM_WITHSCORES don't exist in node-redis)
       'packages/client/lib/commands/VADD.ts',
       'packages/client/lib/commands/VCARD.ts',
@@ -385,6 +418,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
     paths: [
       'src/NRedisStack/CoreCommands/CoreCommands.cs',
       'src/NRedisStack/Json/JsonCommands.cs',  // JSON commands
+      'src/NRedisStack/Search/SearchCommands.cs',  // Search/FT commands
       'src/NRedisStack/TimeSeries/TimeSeriesCommands.cs',  // Time series commands
     ],
     language: 'csharp',
@@ -404,6 +438,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
     paths: [
       'src/NRedisStack/CoreCommands/CoreCommandsAsync.cs',
       'src/NRedisStack/Json/JsonCommandsAsync.cs',  // JSON commands async
+      'src/NRedisStack/Search/SearchCommandsAsync.cs',  // Search/FT commands async
       'src/NRedisStack/TimeSeries/TimeSeriesCommandsAsync.cs',  // Time series commands async
     ],
     language: 'csharp',
