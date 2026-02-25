@@ -1569,11 +1569,100 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
         r"(?m)^\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\("
     ).map_err(|e| format!("Regex error: {}", e))?;
 
+    // Regex pattern for factory functions that return arrow functions (node-redis time series pattern)
+    // Matches: export function createSomethingArguments(command: ...) {
+    // Followed by: return ( on a later line with arrow function params
+    let factory_func_pattern = Regex::new(
+        r"(?m)^(?:export\s+)?function\s+(create[a-zA-Z0-9_$]*)\s*\([^)]*\)\s*\{"
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
     let lines: Vec<&str> = code.lines().collect();
     let mut line_num = 0;
 
     while line_num < lines.len() {
         let line = lines[line_num];
+
+        // Check for factory function pattern (e.g., createTransformMRangeArguments)
+        // These return arrow functions with the actual signature we want
+        if let Some(caps) = factory_func_pattern.captures(line) {
+            let factory_name = caps.get(1).map(|m| m.as_str().to_string()).unwrap_or_default();
+            let start_line = line_num;
+
+            // Look for "return (" pattern within the next few lines
+            let mut found_return = false;
+            let mut return_line = line_num + 1;
+
+            while return_line < lines.len() && return_line < line_num + 5 {
+                let search_line = lines[return_line].trim();
+                if search_line.starts_with("return (") || search_line == "return (" {
+                    found_return = true;
+                    break;
+                }
+                // Stop if we hit another function or closing brace at root level
+                if search_line.starts_with("function ") || search_line == "}" {
+                    break;
+                }
+                return_line += 1;
+            }
+
+            if found_return {
+                // Now collect the arrow function parameters
+                // Pattern: return (
+                //   param1: Type1,
+                //   param2: Type2,
+                // ) => {
+                let mut params_parts: Vec<String> = Vec::new();
+                let mut found_arrow = false;
+                let mut search_line = return_line + 1;
+
+                while search_line < lines.len() && search_line < return_line + 20 {
+                    let param_line = lines[search_line].trim();
+
+                    // Check if this line contains the arrow function indicator
+                    if param_line.contains(") =>") || param_line.starts_with(") =>") {
+                        // Extract any params before the ) =>
+                        if let Some(idx) = param_line.find(')') {
+                            let before_paren = &param_line[..idx];
+                            if !before_paren.is_empty() {
+                                params_parts.push(before_paren.trim_end_matches(',').to_string());
+                            }
+                        }
+                        found_arrow = true;
+                        break;
+                    }
+
+                    // Add this line's params (stripping trailing comma)
+                    let cleaned = param_line.trim_end_matches(',');
+                    if !cleaned.is_empty() && !cleaned.starts_with("//") {
+                        params_parts.push(cleaned.to_string());
+                    }
+                    search_line += 1;
+                }
+
+                if found_arrow && !params_parts.is_empty() {
+                    let params_str = params_parts.join(", ");
+                    let parameters = parse_parameters(&params_str);
+
+                    // Generate method name from factory name
+                    // createTransformMRangeArguments -> MRangeArguments or just the command name
+                    // We use the full factory name for matching, mapping will handle it
+                    let method_name = factory_name.clone();
+                    let signature = format!("{}({})", method_name, params_str);
+
+                    signatures.push(TypeScriptSignature {
+                        method_name,
+                        signature,
+                        parameters,
+                        return_type: None,
+                        line_number: start_line + 1,
+                        is_async: false,
+                    });
+
+                    line_num = search_line + 1;
+                    continue;
+                }
+            }
+        }
 
         // Check for multi-line method definition (like node-redis parseCommand)
         // Matches: methodName( at end of line with params on following lines
@@ -2117,23 +2206,36 @@ fn extract_csharp_signatures(code: &str) -> Result<Vec<CSharpSignature>, String>
     // Regex pattern for C# method definitions (single line)
     // Matches: [modifiers] return_type method_name(params)
     // Handles: public, private, protected, static, async, virtual, override, etc.
-    // Also handles generic methods like GetList<T> and generic return types like List<T>
+    // Also handles generic methods like GetList<T> and nested generic return types like Task<IReadOnlyList<T>>
+    // and tuple types like IReadOnlyCollection<(string key, TimeStamp timestamp, double value)>
+    // The return type pattern is permissive to handle complex nested generics and tuples
     let method_pattern = Regex::new(
-        r"(?m)^(\s*)(?:(public|private|protected|internal|static|async|virtual|override|abstract|sealed|partial)\s+)*([a-zA-Z_][a-zA-Z0-9_]*(?:<[^>]*>)?(?:\?)?(?:\[\])*)\s+([a-zA-Z_][a-zA-Z0-9_<>]*)\s*\((.*?)\)(?:\s*[{;])?"
+        r"(?m)^(\s*)(?:(public|private|protected|internal|static|async|virtual|override|abstract|sealed|partial)\s+)*([a-zA-Z_][a-zA-Z0-9_<>,\s\?\(\)]*[>\)a-zA-Z0-9_]\??(?:\[\])*)\s+([a-zA-Z_][a-zA-Z0-9_<>]*)\s*\((.*?)\)(?:\s*[{;])?"
     ).map_err(|e| format!("Regex error: {}", e))?;
 
     // Regex pattern for C# extension methods
     // Matches: public static return_type method_name(this Type param, ...)
     // Example: public static bool ClientSetInfo(this IDatabase db, SetInfoAttr attr, string value)
+    // Also handles nested generic return types like Task<IReadOnlyList<T>>
     let extension_method_pattern = Regex::new(
-        r"(?m)^(\s*)(?:public\s+)?(?:static\s+)?([a-zA-Z_][a-zA-Z0-9_]*(?:<[^>]*>)?(?:\?)?(?:\[\])*)\s+([a-zA-Z_][a-zA-Z0-9_<>]*)\s*\(\s*this\s+([^,)]+)(?:,\s*(.*?))?\)(?:\s*[{;])?"
+        r"(?m)^(\s*)(?:public\s+)?(?:static\s+)?([a-zA-Z_][a-zA-Z0-9_<>,\s\?\(\)]*[>\)a-zA-Z0-9_]\??(?:\[\])*)\s+([a-zA-Z_][a-zA-Z0-9_<>]*)\s*\(\s*this\s+([^,)]+)(?:,\s*(.*?))?\)(?:\s*[{;])?"
     ).map_err(|e| format!("Regex error: {}", e))?;
 
     // Pattern to detect start of multi-line method: return_type method_name(
     // with no closing parenthesis on the same line
-    // Note: Return type can have nested generics like Task<Lease<float>?> so we use a more permissive pattern
+    // Note: Return type can have nested generics like Task<Lease<float>?> and tuples like
+    // IReadOnlyList<(string key, IReadOnlyList<TimeSeriesLabel> labels)> so we use a permissive pattern
+    // that allows parentheses inside the return type for tuples
     let multiline_method_start_pattern = Regex::new(
-        r"^\s*(?:(?:public|private|protected|internal|static|async|virtual|override|abstract|sealed|partial|\[.*?\])\s+)*([a-zA-Z_][a-zA-Z0-9_<>,\s\?]*[>\?]?(?:\[\])*)\s+([a-zA-Z_][a-zA-Z0-9_<>]*)\s*\(\s*$"
+        r"^\s*(?:(?:public|private|protected|internal|static|async|virtual|override|abstract|sealed|partial|\[.*?\])\s+)*([a-zA-Z_][a-zA-Z0-9_<>,\s\?\(\)]*[>\)]\??(?:\[\])*)\s+([a-zA-Z_][a-zA-Z0-9_<>]*)\s*\(\s*$"
+    ).map_err(|e| format!("Regex error: {}", e))?;
+
+    // Pattern to detect multi-line method where first line has SOME parameters but doesn't close
+    // Example: public IReadOnlyList<...> MGet(IReadOnlyCollection<string> filter, bool latest = false,
+    //              bool? withLabels = null, IReadOnlyCollection<string>? selectedLabels = null)
+    // The line ends with a comma, indicating more parameters follow
+    let multiline_method_partial_params_pattern = Regex::new(
+        r"^\s*(?:(?:public|private|protected|internal|static|async|virtual|override|abstract|sealed|partial|\[.*?\])\s+)*([a-zA-Z_][a-zA-Z0-9_<>,\s\?\(\)]*[>\)]\??(?:\[\])*)\s+([a-zA-Z_][a-zA-Z0-9_<>]*)\s*\((.+),\s*$"
     ).map_err(|e| format!("Regex error: {}", e))?;
 
     let mut line_num = 0;
@@ -2177,7 +2279,7 @@ fn extract_csharp_signatures(code: &str) -> Result<Vec<CSharpSignature>, String>
             }
         }
 
-        // Check for multi-line method signatures
+        // Check for multi-line method signatures where first line ends with just "("
         // Pattern: return_type method_name( with no closing paren on same line
         if let Some(caps) = multiline_method_start_pattern.captures(line) {
             let return_type = caps.get(1).map(|m| m.as_str().trim().to_string());
@@ -2193,6 +2295,64 @@ fn extract_csharp_signatures(code: &str) -> Result<Vec<CSharpSignature>, String>
                 if param_line.ends_with(");") || param_line.ends_with(")") || param_line == ");" {
                     // Last line of parameters
                     let cleaned = param_line.trim_end_matches(';').trim_end_matches(')').trim();
+                    if !cleaned.is_empty() {
+                        param_lines.push(cleaned.to_string());
+                    }
+                    break;
+                } else {
+                    // Remove trailing comma and add
+                    let cleaned = param_line.trim_end_matches(',').trim();
+                    if !cleaned.is_empty() {
+                        param_lines.push(cleaned.to_string());
+                    }
+                }
+                line_num += 1;
+            }
+
+            if !method_name_with_generics.is_empty() {
+                let method_name = method_name_with_generics
+                    .split('<')
+                    .next()
+                    .unwrap_or(&method_name_with_generics)
+                    .to_string();
+
+                let params_str = param_lines.join(", ");
+                let is_async = lines[start_line].contains("async");
+                let parameters = parse_parameters(&params_str);
+
+                let signature = format!("{}({})", method_name_with_generics, params_str);
+
+                signatures.push(CSharpSignature {
+                    method_name,
+                    signature,
+                    parameters,
+                    return_type,
+                    line_number: start_line + 1,
+                    modifiers: vec![],
+                    is_async,
+                });
+            }
+            line_num += 1;
+            continue;
+        }
+
+        // Check for multi-line method signatures where first line has SOME parameters ending with comma
+        // Example: public IReadOnlyList<...> MGet(IReadOnlyCollection<string> filter, bool latest = false,
+        if let Some(caps) = multiline_method_partial_params_pattern.captures(line) {
+            let return_type = caps.get(1).map(|m| m.as_str().trim().to_string());
+            let method_name_with_generics = caps.get(2).map(|m| m.as_str()).unwrap_or_default().to_string();
+            let first_params = caps.get(3).map(|m| m.as_str()).unwrap_or_default();
+
+            // Collect parameter lines until we hit ) or );
+            let mut param_lines: Vec<String> = vec![first_params.to_string()];
+            let start_line = line_num;
+            line_num += 1;
+
+            while line_num < lines.len() {
+                let param_line = lines[line_num].trim();
+                if param_line.ends_with(");") || param_line.ends_with(")") || param_line == ");" || param_line == "{" {
+                    // Last line of parameters (or opening brace)
+                    let cleaned = param_line.trim_end_matches('{').trim_end_matches(';').trim_end_matches(')').trim().trim_end_matches(',').trim();
                     if !cleaned.is_empty() {
                         param_lines.push(cleaned.to_string());
                     }

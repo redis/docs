@@ -133,9 +133,19 @@ const BITMAP_COMMANDS = [
 ];
 
 /**
+ * All time series commands from commands_redistimeseries.json
+ * These are RedisTimeSeries module commands
+ */
+const TIMESERIES_COMMANDS = [
+  'TS.ADD', 'TS.ALTER', 'TS.CREATE', 'TS.CREATERULE', 'TS.DECRBY', 'TS.DEL',
+  'TS.DELETERULE', 'TS.GET', 'TS.INCRBY', 'TS.INFO', 'TS.MADD', 'TS.MGET',
+  'TS.MRANGE', 'TS.MREVRANGE', 'TS.QUERYINDEX', 'TS.RANGE', 'TS.REVRANGE',
+];
+
+/**
  * Combined list of all commands to extract
  */
-const ALL_COMMANDS = [...STRING_HASH_COMMANDS, ...LIST_COMMANDS, ...SET_COMMANDS, ...SORTED_SET_COMMANDS, ...STREAM_COMMANDS, ...VECTOR_SET_COMMANDS, ...JSON_COMMANDS, ...GEO_COMMANDS, ...BITMAP_COMMANDS];
+const ALL_COMMANDS = [...STRING_HASH_COMMANDS, ...LIST_COMMANDS, ...SET_COMMANDS, ...SORTED_SET_COMMANDS, ...STREAM_COMMANDS, ...VECTOR_SET_COMMANDS, ...JSON_COMMANDS, ...GEO_COMMANDS, ...BITMAP_COMMANDS, ...TIMESERIES_COMMANDS];
 
 /**
  * Clients to extract signatures from
@@ -402,11 +412,32 @@ const COMMAND_ALIASES: { [key: string]: string[] } = {
   'bitpos': ['bitpos', 'bit_pos', 'bitposspan', 'stringbitposition', 'stringbitpositionasync'],  // go-redis: BitPosSpan; C#: StringBitPosition
   'getbit': ['getbit', 'get_bit', 'stringgetbit', 'stringgetbitasync'],  // C#: StringGetBit
   'setbit': ['setbit', 'set_bit', 'stringsetbit', 'stringsetbitasync'],  // C#: StringSetBit
+
+  // Time series command aliases
+  // Note: Simple names like 'create', 'add', 'alter' are only matched in time series source files
+  // node-redis time series uses parseCommand method - file name determines the command
+  'ts.add': ['tsadd', 'ts_add', 'tsaddwithargs', 'add', 'addasync'],  // go-redis: TSAdd; redis-py: add; C#: Add/AddAsync
+  'ts.alter': ['tsalter', 'ts_alter', 'alter', 'alterasync'],  // redis-py: alter; C#: Alter/AlterAsync
+  'ts.create': ['tscreate', 'ts_create', 'tscreatewithargs', 'create', 'createasync'],  // go-redis: TSCreate; redis-py: create; C#: Create/CreateAsync
+  'ts.createrule': ['tscreaterule', 'ts_createrule', 'ts_create_rule', 'tscreaterulewithargs', 'createrule', 'makerule', 'createruleasync', 'makeruleasync'],  // redis-py: createrule; C#: MakeRule/MakeRuleAsync
+  'ts.decrby': ['tsdecrby', 'ts_decrby', 'ts_decr_by', 'decrby', 'decrbyasync'],  // redis-py: decrby; C#: DecrBy/DecrByAsync
+  'ts.del': ['tsdel', 'ts_del', 'delete', 'del', 'delasync'],  // redis-py: delete; C#: Del/DelAsync; node-redis: DEL.ts
+  'ts.deleterule': ['tsdeleterule', 'ts_deleterule', 'ts_delete_rule', 'deleterule', 'deleteruleasync'],  // redis-py: deleterule; C#: DeleteRule/DeleteRuleAsync
+  'ts.get': ['tsget', 'ts_get', 'tsgetwithargs', 'get', 'getasync'],  // go-redis: TSGet; redis-py: get; C#: Get/GetAsync
+  'ts.incrby': ['tsincrby', 'ts_incrby', 'ts_incr_by', 'incrby', 'incrbyasync'],  // redis-py: incrby; C#: IncrBy/IncrByAsync
+  'ts.info': ['tsinfo', 'ts_info', 'info', 'infoasync'],  // redis-py: info; C#: Info/InfoAsync
+  'ts.madd': ['tsmadd', 'ts_madd', 'ts_m_add', 'madd', 'maddasync'],  // redis-py: madd; C#: MAdd/MAddAsync
+  'ts.mget': ['tsmget', 'ts_mget', 'ts_m_get', 'tsmgetwithargs', 'mget', 'mgetasync'],  // go-redis: TSMGet; redis-py: mget; C#: MGet/MGetAsync
+  'ts.mrange': ['tsmrange', 'ts_mrange', 'ts_m_range', 'tsmrangewithargs', 'mrange', 'mrangeasync', 'createtransformmrangearguments'],  // redis-py: mrange; C#: MRange/MRangeAsync; node-redis: factory
+  'ts.mrevrange': ['tsmrevrange', 'ts_mrevrange', 'ts_m_rev_range', 'tsmrevrangewithargs', 'mrevrange', 'mrevrangeasync', 'createtransformmrangearguments'],  // redis-py: mrevrange; C#: MRevRange/MRevRangeAsync; node-redis: same factory
+  'ts.queryindex': ['tsqueryindex', 'ts_queryindex', 'ts_query_index', 'queryindex', 'queryindexasync'],  // redis-py: queryindex; C#: QueryIndex/QueryIndexAsync
+  'ts.range': ['tsrange', 'ts_range', 'tsrangewithargs', 'range', 'rangeasync'],  // go-redis: TSRange; redis-py: range; C#: Range/RangeAsync
+  'ts.revrange': ['tsrevrange', 'ts_revrange', 'ts_rev_range', 'tsrevrangewithargs', 'revrange', 'revrangeasync'],  // go-redis: TSRevRange; redis-py: revrange; C#: RevRange/RevRangeAsync
 };
 
 async function extractCommandApiMapping() {
-  console.log('🔍 Extracting Method Signatures for String, Hash, List, Set, Sorted Set, Stream, Vector Set, JSON, Geo & Bitmap Commands...\n');
-  console.log(`📋 Commands to extract: ${ALL_COMMANDS.length} (${STRING_HASH_COMMANDS.length} string/hash + ${LIST_COMMANDS.length} list + ${SET_COMMANDS.length} set + ${SORTED_SET_COMMANDS.length} sorted set + ${STREAM_COMMANDS.length} stream + ${VECTOR_SET_COMMANDS.length} vector set + ${JSON_COMMANDS.length} JSON + ${GEO_COMMANDS.length} geo + ${BITMAP_COMMANDS.length} bitmap)`);
+  console.log('🔍 Extracting Method Signatures for String, Hash, List, Set, Sorted Set, Stream, Vector Set, JSON, Geo, Bitmap & TimeSeries Commands...\n');
+  console.log(`📋 Commands to extract: ${ALL_COMMANDS.length} (${STRING_HASH_COMMANDS.length} string/hash + ${LIST_COMMANDS.length} list + ${SET_COMMANDS.length} set + ${SORTED_SET_COMMANDS.length} sorted set + ${STREAM_COMMANDS.length} stream + ${VECTOR_SET_COMMANDS.length} vector set + ${JSON_COMMANDS.length} JSON + ${GEO_COMMANDS.length} geo + ${BITMAP_COMMANDS.length} bitmap + ${TIMESERIES_COMMANDS.length} timeseries)`);
   console.log(`📦 Clients to process: ${CLIENT_CONFIGS.length}\n`);
 
   const mapping: CommandMapping = {};
@@ -436,6 +467,7 @@ async function extractCommandApiMapping() {
 
         // Determine expected source context based on command type
         const isJsonCommand = cmd.startsWith('JSON.');
+        const isTimeSeriesCommand = cmd.startsWith('TS.');
 
         let sigs = result.signatures.filter(s => {
           const methodLower = s.method_name.toLowerCase();
@@ -446,6 +478,7 @@ async function extractCommandApiMapping() {
 
           const sigContext = (s as any).source_context || 'core';
           const isJsonPrefixedMethod = methodLower.startsWith('json');
+          const isTimeSeriesPrefixedMethod = methodLower.startsWith('ts') || methodLower.startsWith('timeseries');
 
           if (isJsonCommand) {
             // For JSON commands:
@@ -454,10 +487,17 @@ async function extractCommandApiMapping() {
             if (!isJsonPrefixedMethod && sigContext !== 'json') {
               return false;
             }
+          } else if (isTimeSeriesCommand) {
+            // For Time Series commands (TS.*):
+            // - TS-prefixed methods (tsAdd, TSGet, TimeSeriesAdd, etc.) can come from ANY source context
+            // - Non-prefixed methods (add, get, range, etc.) must come from timeseries source context
+            if (!isTimeSeriesPrefixedMethod && sigContext !== 'timeseries') {
+              return false;
+            }
           } else {
             // For core commands:
-            // - Never accept from JSON source context (to avoid string SET matching json set)
-            if (sigContext === 'json') {
+            // - Never accept from JSON or timeseries source context (to avoid string SET matching json set)
+            if (sigContext === 'json' || sigContext === 'timeseries') {
               return false;
             }
           }
@@ -511,6 +551,29 @@ async function extractCommandApiMapping() {
       console.log(`   📊 Commands matched: ${foundCount}/${ALL_COMMANDS.length}`);
     } catch (error) {
       console.log(`   ⚠ Error extracting from ${clientConfig.id}: ${error}`);
+    }
+  }
+
+  // Post-process: Copy signatures for node_redis commands that share factory functions
+  // Some commands (like MREVRANGE) re-export factory functions from other commands (like MRANGE)
+  // We need to copy the signature and rename the method to match the target command
+  const nodeRedisSharedFactories: Record<string, { sourceCommand: string, targetMethod: string }> = {
+    'TS.MREVRANGE': { sourceCommand: 'TS.MRANGE', targetMethod: 'MREVRANGE' },
+  };
+
+  for (const [targetCmd, config] of Object.entries(nodeRedisSharedFactories)) {
+    if (mapping[targetCmd] && mapping[config.sourceCommand]) {
+      const sourceNodeRedis = mapping[config.sourceCommand].api_calls.node_redis;
+      const targetNodeRedis = mapping[targetCmd].api_calls.node_redis;
+
+      // Only copy if source has node_redis signatures but target doesn't
+      if (sourceNodeRedis && sourceNodeRedis.length > 0 && (!targetNodeRedis || targetNodeRedis.length === 0)) {
+        // Copy and rename the signature
+        mapping[targetCmd].api_calls.node_redis = sourceNodeRedis.map((sig: any) => ({
+          ...sig,
+          signature: sig.signature.replace(/^[A-Z_]+/, config.targetMethod),
+        }));
+      }
     }
   }
 

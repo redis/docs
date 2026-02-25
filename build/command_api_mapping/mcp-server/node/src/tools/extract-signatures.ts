@@ -49,6 +49,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'redis/commands/core.py',
       'redis/commands/json/commands.py',  // JSON commands
       'redis/commands/vectorset/commands.py',  // Vector set commands
+      'redis/commands/timeseries/commands.py',  // Time series commands
     ],
     language: 'python'
   },
@@ -64,6 +65,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'src/main/java/redis/clients/jedis/commands/GeoCommands.java',  // Geo commands interface
       'src/main/java/redis/clients/jedis/json/commands/RedisJsonV1Commands.java',  // JSON V1 interface
       'src/main/java/redis/clients/jedis/json/commands/RedisJsonV2Commands.java',  // JSON V2 interface
+      'src/main/java/redis/clients/jedis/timeseries/RedisTimeSeriesCommands.java',  // Time series commands
     ],
     language: 'java'
   },
@@ -139,6 +141,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'scripting_commands.go',
       'json.go',  // JSON commands
       'vectorset_commands.go',  // Vector set commands
+      'timeseries_commands.go',  // Time series commands
     ],
     language: 'go'
   },
@@ -348,6 +351,24 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'packages/client/lib/commands/BITPOS.ts',
       'packages/client/lib/commands/GETBIT.ts',
       'packages/client/lib/commands/SETBIT.ts',
+      // Time series commands
+      'packages/time-series/lib/commands/ADD.ts',
+      'packages/time-series/lib/commands/ALTER.ts',
+      'packages/time-series/lib/commands/CREATE.ts',
+      'packages/time-series/lib/commands/CREATERULE.ts',
+      'packages/time-series/lib/commands/DECRBY.ts',
+      'packages/time-series/lib/commands/DEL.ts',
+      'packages/time-series/lib/commands/DELETERULE.ts',
+      'packages/time-series/lib/commands/GET.ts',
+      'packages/time-series/lib/commands/INCRBY.ts',
+      'packages/time-series/lib/commands/INFO.ts',
+      'packages/time-series/lib/commands/MADD.ts',
+      'packages/time-series/lib/commands/MGET.ts',
+      'packages/time-series/lib/commands/MRANGE.ts',
+      'packages/time-series/lib/commands/MREVRANGE.ts',
+      'packages/time-series/lib/commands/QUERYINDEX.ts',
+      'packages/time-series/lib/commands/RANGE.ts',
+      'packages/time-series/lib/commands/REVRANGE.ts',
     ],
     language: 'typescript'
   },
@@ -364,6 +385,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
     paths: [
       'src/NRedisStack/CoreCommands/CoreCommands.cs',
       'src/NRedisStack/Json/JsonCommands.cs',  // JSON commands
+      'src/NRedisStack/TimeSeries/TimeSeriesCommands.cs',  // Time series commands
     ],
     language: 'csharp',
     externalSources: [
@@ -382,6 +404,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
     paths: [
       'src/NRedisStack/CoreCommands/CoreCommandsAsync.cs',
       'src/NRedisStack/Json/JsonCommandsAsync.cs',  // JSON commands async
+      'src/NRedisStack/TimeSeries/TimeSeriesCommandsAsync.cs',  // Time series commands async
     ],
     language: 'csharp',
     externalSources: [
@@ -431,8 +454,9 @@ function getSourceContextFromPath(filePath: string): string {
     return 'search';
   }
 
-  // TimeSeries module files (for future expansion)
-  if (pathLower.includes('/timeseries/') || pathLower.includes('timeseries.go') ||
+  // TimeSeries module files
+  if (pathLower.includes('/timeseries/') || pathLower.includes('/time-series/') ||
+      pathLower.includes('timeseries.go') || pathLower.includes('timeseries_commands') ||
       pathLower.includes('timeseriescommands') || pathLower.includes('time_series')) {
     return 'timeseries';
   }
@@ -646,16 +670,30 @@ export async function extractSignatures(
           lineToCommand[i + 1] = currentCommand;
         }
 
-        // Rename parseCommand methods to their command names
+        // Rename parseCommand methods and factory functions to their command names
         rawSignatures = rawSignatures.map(sig => {
-          if (sig.method_name === 'parseCommand' && lineToCommand[sig.line_number]) {
-            const commandName = lineToCommand[sig.line_number];
+          const commandName = lineToCommand[sig.line_number];
+          if (!commandName) return sig;
+
+          // Rename parseCommand methods to their command names
+          if (sig.method_name === 'parseCommand') {
             return {
               ...sig,
               method_name: commandName,
               signature: sig.signature.replace('parseCommand', commandName),
             };
           }
+
+          // Rename factory functions (e.g., createTransformMRangeArguments) to their command names
+          // Users call client.ts.mRange(...), not client.createTransformMRangeArguments(...)
+          if (sig.method_name.startsWith('create')) {
+            return {
+              ...sig,
+              method_name: commandName,
+              signature: sig.signature.replace(sig.method_name, commandName),
+            };
+          }
+
           return sig;
         });
 
@@ -665,8 +703,12 @@ export async function extractSignatures(
           if (['parseCommand', 'transformArguments', 'transformReply', 'constructor'].includes(sig.method_name)) {
             return false;
           }
-          // Only keep uppercase command names (like GET, SET, etc.)
-          return sig.method_name && /^[A-Z_]+$/.test(sig.method_name);
+          // Keep uppercase command names (like GET, SET, etc.)
+          // This includes renamed parseCommand and factory functions
+          if (sig.method_name && /^[A-Z_]+$/.test(sig.method_name)) {
+            return true;
+          }
+          return false;
         });
       }
     } else if (language === "rust") {
