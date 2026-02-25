@@ -363,6 +363,818 @@
       ]
     }
   },
+  "BF.ADD": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "add(key, item)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Bloom filter" },
+            { "name": "item", "type": "str", "description": "The item to add to the filter" }
+          ],
+          "returns": { "type": "int", "description": "1 if the item was newly added, 0 if it may have existed previously" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "boolean bfAdd(String key, String item)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Bloom filter" },
+            { "name": "item", "type": "String", "description": "The item to add" }
+          ],
+          "returns": { "type": "boolean", "description": "true if newly added, false if may have existed" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "BFAdd(ctx context.Context, key string, element interface{}) *BoolCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "element", "type": "interface{}", "description": "The item to add" }
+          ],
+          "returns": { "type": "*BoolCmd", "description": "Boolean command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "BF.ADD(key: RedisArgument, item: RedisArgument)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Bloom filter" },
+            { "name": "item", "type": "RedisArgument", "description": "The item to add" }
+          ],
+          "returns": { "type": "boolean", "description": "true if newly added" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "bool Add(RedisKey key, RedisValue item)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" },
+            { "name": "item", "type": "RedisValue", "description": "The item to add" }
+          ],
+          "returns": { "type": "bool", "description": "true if newly added" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<bool> AddAsync(RedisKey key, RedisValue item)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" },
+            { "name": "item", "type": "RedisValue", "description": "The item to add" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "true if newly added" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "bfadd(string $key, $item)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "$item", "type": "mixed", "description": "The item to add" }
+          ],
+          "returns": { "type": "mixed", "description": "1 if newly added, 0 otherwise" }
+        }
+      ]
+    }
+  },
+  "BF.CARD": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "card(key)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Bloom filter" }
+          ],
+          "returns": { "type": "int", "description": "The cardinality (number of unique items added)" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "long bfCard(String key)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Bloom filter" }
+          ],
+          "returns": { "type": "long", "description": "The cardinality" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "BFCard(ctx context.Context, key string) *IntCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Bloom filter" }
+          ],
+          "returns": { "type": "*IntCmd", "description": "Integer command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "BF.CARD(key: RedisArgument)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Bloom filter" }
+          ],
+          "returns": { "type": "NumberReply", "description": "The cardinality" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "long Card(RedisKey key)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" }
+          ],
+          "returns": { "type": "long", "description": "The cardinality" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<long> CardAsync(RedisKey key)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" }
+          ],
+          "returns": { "type": "Task<long>", "description": "The cardinality" }
+        }
+      ]
+    }
+  },
+  "BF.EXISTS": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "exists(key, item)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Bloom filter" },
+            { "name": "item", "type": "str", "description": "The item to check" }
+          ],
+          "returns": { "type": "int", "description": "1 if item may exist, 0 if item definitely does not exist" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "boolean bfExists(String key, String item)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Bloom filter" },
+            { "name": "item", "type": "String", "description": "The item to check" }
+          ],
+          "returns": { "type": "boolean", "description": "true if item may exist" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "BFExists(ctx context.Context, key string, element interface{}) *BoolCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "element", "type": "interface{}", "description": "The item to check" }
+          ],
+          "returns": { "type": "*BoolCmd", "description": "Boolean command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "BF.EXISTS(key: RedisArgument, item: RedisArgument)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Bloom filter" },
+            { "name": "item", "type": "RedisArgument", "description": "The item to check" }
+          ],
+          "returns": { "type": "boolean", "description": "true if item may exist" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "bool Exists(RedisKey key, RedisValue item)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" },
+            { "name": "item", "type": "RedisValue", "description": "The item to check" }
+          ],
+          "returns": { "type": "bool", "description": "true if item may exist" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<bool> ExistsAsync(RedisKey key, RedisValue item)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" },
+            { "name": "item", "type": "RedisValue", "description": "The item to check" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "true if item may exist" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "bfexists(string $key, $item)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "$item", "type": "mixed", "description": "The item to check" }
+          ],
+          "returns": { "type": "mixed", "description": "1 if may exist, 0 otherwise" }
+        }
+      ]
+    }
+  },
+  "BF.INFO": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "info(key)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Bloom filter" }
+          ],
+          "returns": { "type": "dict", "description": "Dictionary with capacity, size, number of filters, items inserted, and expansion rate" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "Map<String, Object> bfInfo(String key)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Bloom filter" }
+          ],
+          "returns": { "type": "Map<String, Object>", "description": "Map containing filter information" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "BFInfo(ctx context.Context, key string) *BFInfoCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Bloom filter" }
+          ],
+          "returns": { "type": "*BFInfoCmd", "description": "BFInfo command result with Capacity, Size, Filters, ItemsInserted, ExpansionRate" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "BF.INFO(key: RedisArgument)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Bloom filter" }
+          ],
+          "returns": { "type": "BfInfoReplyMap", "description": "Map with Capacity, Size, Number of filters, Items inserted, Expansion rate" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "BloomInformation Info(RedisKey key)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" }
+          ],
+          "returns": { "type": "BloomInformation", "description": "Object containing filter information" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<BloomInformation> InfoAsync(RedisKey key)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" }
+          ],
+          "returns": { "type": "Task<BloomInformation>", "description": "Object containing filter information" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "bfinfo(string $key, string $modifier = '')",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "$modifier", "type": "string", "description": "Optional modifier (CAPACITY, SIZE, FILTERS, ITEMS, EXPANSION)" }
+          ],
+          "returns": { "type": "array", "description": "Array containing filter information" }
+        }
+      ]
+    }
+  },
+  "BF.INSERT": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "insert(key, items, capacity=None, error=None, noCreate=None, expansion=None, noScale=None)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Bloom filter" },
+            { "name": "items", "type": "list", "description": "Items to add to the filter" },
+            { "name": "capacity", "type": "int", "description": "Optional initial capacity" },
+            { "name": "error", "type": "float", "description": "Optional error rate" },
+            { "name": "noCreate", "type": "bool", "description": "If True, do not create filter if it doesn't exist" },
+            { "name": "expansion", "type": "int", "description": "Optional expansion rate" },
+            { "name": "noScale", "type": "bool", "description": "If True, prevent auto-scaling" }
+          ],
+          "returns": { "type": "list", "description": "List of booleans indicating if each item was newly added" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "List<Boolean> bfInsert(String key, String... items)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Bloom filter" },
+            { "name": "items", "type": "String...", "description": "Items to add" }
+          ],
+          "returns": { "type": "List<Boolean>", "description": "List of booleans" }
+        },
+        {
+          "signature": "List<Boolean> bfInsert(String key, BFInsertParams insertParams, String... items)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Bloom filter" },
+            { "name": "insertParams", "type": "BFInsertParams", "description": "Insert parameters (capacity, error, expansion, nocreate, nonscaling)" },
+            { "name": "items", "type": "String...", "description": "Items to add" }
+          ],
+          "returns": { "type": "List<Boolean>", "description": "List of booleans" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "BFInsert(ctx context.Context, key string, options *BFInsertOptions, elements ...interface{}) *BoolSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "options", "type": "*BFInsertOptions", "description": "Insert options (Capacity, Error, Expansion, NonScaling, NoCreate)" },
+            { "name": "elements", "type": "...interface{}", "description": "Items to add" }
+          ],
+          "returns": { "type": "*BoolSliceCmd", "description": "Boolean slice command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "BF.INSERT(key: RedisArgument, items: RedisVariadicArgument, options?: BfInsertOptions)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Bloom filter" },
+            { "name": "items", "type": "RedisVariadicArgument", "description": "Items to add" },
+            { "name": "options", "type": "BfInsertOptions", "description": "Optional: CAPACITY, ERROR, EXPANSION, NOCREATE, NONSCALING" }
+          ],
+          "returns": { "type": "boolean[]", "description": "Array of booleans" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "bool[] Insert(RedisKey key, RedisValue[] items, int? capacity = null, double? error = null, int? expansion = null, bool nocreate = false, bool nonscaling = false)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" },
+            { "name": "items", "type": "RedisValue[]", "description": "Items to add" },
+            { "name": "capacity", "type": "int?", "description": "Optional capacity" },
+            { "name": "error", "type": "double?", "description": "Optional error rate" },
+            { "name": "expansion", "type": "int?", "description": "Optional expansion rate" },
+            { "name": "nocreate", "type": "bool", "description": "If true, don't create filter" },
+            { "name": "nonscaling", "type": "bool", "description": "If true, prevent scaling" }
+          ],
+          "returns": { "type": "bool[]", "description": "Array of booleans" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<bool[]> InsertAsync(RedisKey key, RedisValue[] items, int? capacity = null, double? error = null, int? expansion = null, bool nocreate = false, bool nonscaling = false)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" },
+            { "name": "items", "type": "RedisValue[]", "description": "Items to add" },
+            { "name": "capacity", "type": "int?", "description": "Optional capacity" },
+            { "name": "error", "type": "double?", "description": "Optional error rate" },
+            { "name": "expansion", "type": "int?", "description": "Optional expansion rate" },
+            { "name": "nocreate", "type": "bool", "description": "If true, don't create filter" },
+            { "name": "nonscaling", "type": "bool", "description": "If true, prevent scaling" }
+          ],
+          "returns": { "type": "Task<bool[]>", "description": "Array of booleans" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "bfinsert(string $key, int $capacity = -1, float $error = -1, int $expansion = -1, bool $noCreate = false, bool $nonScaling = false, string ...$item)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "$capacity", "type": "int", "description": "Optional capacity (-1 for default)" },
+            { "name": "$error", "type": "float", "description": "Optional error rate (-1 for default)" },
+            { "name": "$expansion", "type": "int", "description": "Optional expansion rate (-1 for default)" },
+            { "name": "$noCreate", "type": "bool", "description": "If true, don't create filter" },
+            { "name": "$nonScaling", "type": "bool", "description": "If true, prevent scaling" },
+            { "name": "$item", "type": "string...", "description": "Items to add" }
+          ],
+          "returns": { "type": "array", "description": "Array of booleans" }
+        }
+      ]
+    }
+  },
+  "BF.LOADCHUNK": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "loadchunk(key, iter, data)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Bloom filter" },
+            { "name": "iter", "type": "int", "description": "Iterator value from SCANDUMP" },
+            { "name": "data", "type": "bytes", "description": "Data chunk from SCANDUMP" }
+          ],
+          "returns": { "type": "str", "description": "OK on success" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String bfLoadChunk(String key, long iterator, byte[] data)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Bloom filter" },
+            { "name": "iterator", "type": "long", "description": "Iterator value from SCANDUMP" },
+            { "name": "data", "type": "byte[]", "description": "Data chunk from SCANDUMP" }
+          ],
+          "returns": { "type": "String", "description": "OK on success" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "BFLoadChunk(ctx context.Context, key string, iterator int64, data interface{}) *StatusCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "iterator", "type": "int64", "description": "Iterator value from SCANDUMP" },
+            { "name": "data", "type": "interface{}", "description": "Data chunk from SCANDUMP" }
+          ],
+          "returns": { "type": "*StatusCmd", "description": "Status command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "BF.LOADCHUNK(key: RedisArgument, iterator: number, chunk: RedisArgument)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Bloom filter" },
+            { "name": "iterator", "type": "number", "description": "Iterator value from SCANDUMP" },
+            { "name": "chunk", "type": "RedisArgument", "description": "Data chunk from SCANDUMP" }
+          ],
+          "returns": { "type": "SimpleStringReply<'OK'>", "description": "OK on success" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "bool LoadChunk(RedisKey key, long iterator, Byte[] data)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" },
+            { "name": "iterator", "type": "long", "description": "Iterator value from SCANDUMP" },
+            { "name": "data", "type": "Byte[]", "description": "Data chunk from SCANDUMP" }
+          ],
+          "returns": { "type": "bool", "description": "true on success" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<bool> LoadChunkAsync(RedisKey key, long iterator, Byte[] data)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" },
+            { "name": "iterator", "type": "long", "description": "Iterator value from SCANDUMP" },
+            { "name": "data", "type": "Byte[]", "description": "Data chunk from SCANDUMP" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "true on success" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "bfloadchunk(string $key, int $iterator, $data)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "$iterator", "type": "int", "description": "Iterator value from SCANDUMP" },
+            { "name": "$data", "type": "mixed", "description": "Data chunk from SCANDUMP" }
+          ],
+          "returns": { "type": "Status", "description": "OK on success" }
+        }
+      ]
+    }
+  },
+  "BF.MADD": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "madd(key, *items)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Bloom filter" },
+            { "name": "*items", "type": "str", "description": "Items to add to the filter" }
+          ],
+          "returns": { "type": "list", "description": "List of booleans indicating if each item was newly added" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "List<Boolean> bfMAdd(String key, String... items)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Bloom filter" },
+            { "name": "items", "type": "String...", "description": "Items to add" }
+          ],
+          "returns": { "type": "List<Boolean>", "description": "List of booleans" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "BFMAdd(ctx context.Context, key string, elements ...interface{}) *BoolSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "elements", "type": "...interface{}", "description": "Items to add" }
+          ],
+          "returns": { "type": "*BoolSliceCmd", "description": "Boolean slice command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "BF.MADD(key: RedisArgument, items: RedisVariadicArgument)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Bloom filter" },
+            { "name": "items", "type": "RedisVariadicArgument", "description": "Items to add" }
+          ],
+          "returns": { "type": "boolean[]", "description": "Array of booleans" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "bool[] MAdd(RedisKey key, params RedisValue[] items)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" },
+            { "name": "items", "type": "RedisValue[]", "description": "Items to add" }
+          ],
+          "returns": { "type": "bool[]", "description": "Array of booleans" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<bool[]> MAddAsync(RedisKey key, params RedisValue[] items)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" },
+            { "name": "items", "type": "RedisValue[]", "description": "Items to add" }
+          ],
+          "returns": { "type": "Task<bool[]>", "description": "Array of booleans" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "bfmadd(string $key, ...$item)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "$item", "type": "...", "description": "Items to add" }
+          ],
+          "returns": { "type": "array", "description": "Array of booleans" }
+        }
+      ]
+    }
+  },
+  "BF.MEXISTS": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "mexists(key, *items)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Bloom filter" },
+            { "name": "*items", "type": "str", "description": "Items to check" }
+          ],
+          "returns": { "type": "list", "description": "List of booleans indicating if each item may exist" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "List<Boolean> bfMExists(String key, String... items)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Bloom filter" },
+            { "name": "items", "type": "String...", "description": "Items to check" }
+          ],
+          "returns": { "type": "List<Boolean>", "description": "List of booleans" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "BFMExists(ctx context.Context, key string, elements ...interface{}) *BoolSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "elements", "type": "...interface{}", "description": "Items to check" }
+          ],
+          "returns": { "type": "*BoolSliceCmd", "description": "Boolean slice command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "BF.MEXISTS(key: RedisArgument, items: RedisVariadicArgument)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Bloom filter" },
+            { "name": "items", "type": "RedisVariadicArgument", "description": "Items to check" }
+          ],
+          "returns": { "type": "boolean[]", "description": "Array of booleans" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "bool[] MExists(RedisKey key, RedisValue[] items)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" },
+            { "name": "items", "type": "RedisValue[]", "description": "Items to check" }
+          ],
+          "returns": { "type": "bool[]", "description": "Array of booleans" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<bool[]> MExistsAsync(RedisKey key, RedisValue[] items)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" },
+            { "name": "items", "type": "RedisValue[]", "description": "Items to check" }
+          ],
+          "returns": { "type": "Task<bool[]>", "description": "Array of booleans" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "bfmexists(string $key, ...$item)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "$item", "type": "...", "description": "Items to check" }
+          ],
+          "returns": { "type": "array", "description": "Array of booleans" }
+        }
+      ]
+    }
+  },
+  "BF.RESERVE": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "create(key, errorRate, capacity, expansion=None, noScale=None)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Bloom filter" },
+            { "name": "errorRate", "type": "float", "description": "Desired probability for false positives (0-1)" },
+            { "name": "capacity", "type": "int", "description": "Number of entries intended to be added" },
+            { "name": "expansion", "type": "int", "description": "Optional expansion rate" },
+            { "name": "noScale", "type": "bool", "description": "If True, prevent auto-scaling" }
+          ],
+          "returns": { "type": "str", "description": "OK on success" }
+        },
+        {
+          "signature": "reserve(key, errorRate, capacity, expansion=None, noScale=None)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Bloom filter" },
+            { "name": "errorRate", "type": "float", "description": "Desired probability for false positives (0-1)" },
+            { "name": "capacity", "type": "int", "description": "Number of entries intended to be added" },
+            { "name": "expansion", "type": "int", "description": "Optional expansion rate" },
+            { "name": "noScale", "type": "bool", "description": "If True, prevent auto-scaling" }
+          ],
+          "returns": { "type": "str", "description": "OK on success (alias for create)" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String bfReserve(String key, double errorRate, long capacity)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Bloom filter" },
+            { "name": "errorRate", "type": "double", "description": "Error rate (0-1)" },
+            { "name": "capacity", "type": "long", "description": "Initial capacity" }
+          ],
+          "returns": { "type": "String", "description": "OK on success" }
+        },
+        {
+          "signature": "String bfReserve(String key, double errorRate, long capacity, BFReserveParams reserveParams)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Bloom filter" },
+            { "name": "errorRate", "type": "double", "description": "Error rate (0-1)" },
+            { "name": "capacity", "type": "long", "description": "Initial capacity" },
+            { "name": "reserveParams", "type": "BFReserveParams", "description": "Reserve parameters (expansion, nonscaling)" }
+          ],
+          "returns": { "type": "String", "description": "OK on success" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "BFReserve(ctx context.Context, key string, errorRate float64, capacity int64) *StatusCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "errorRate", "type": "float64", "description": "Error rate (0-1)" },
+            { "name": "capacity", "type": "int64", "description": "Initial capacity" }
+          ],
+          "returns": { "type": "*StatusCmd", "description": "Status command result" }
+        },
+        {
+          "signature": "BFReserveWithArgs(ctx context.Context, key string, options *BFReserveOptions) *StatusCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "options", "type": "*BFReserveOptions", "description": "Reserve options (Error, Capacity, Expansion, NonScaling)" }
+          ],
+          "returns": { "type": "*StatusCmd", "description": "Status command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "BF.RESERVE(key: RedisArgument, errorRate: number, capacity: number, options?: BfReserveOptions)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Bloom filter" },
+            { "name": "errorRate", "type": "number", "description": "Error rate (0-1)" },
+            { "name": "capacity", "type": "number", "description": "Initial capacity" },
+            { "name": "options", "type": "BfReserveOptions", "description": "Optional: EXPANSION, NONSCALING" }
+          ],
+          "returns": { "type": "SimpleStringReply<'OK'>", "description": "OK on success" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "bool Reserve(RedisKey key, double errorRate, long capacity, int? expansion = null, bool nonscaling = false)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" },
+            { "name": "errorRate", "type": "double", "description": "Error rate (0-1)" },
+            { "name": "capacity", "type": "long", "description": "Initial capacity" },
+            { "name": "expansion", "type": "int?", "description": "Optional expansion rate" },
+            { "name": "nonscaling", "type": "bool", "description": "If true, prevent scaling" }
+          ],
+          "returns": { "type": "bool", "description": "true on success" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<bool> ReserveAsync(RedisKey key, double errorRate, long capacity, int? expansion = null, bool nonscaling = false)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" },
+            { "name": "errorRate", "type": "double", "description": "Error rate (0-1)" },
+            { "name": "capacity", "type": "long", "description": "Initial capacity" },
+            { "name": "expansion", "type": "int?", "description": "Optional expansion rate" },
+            { "name": "nonscaling", "type": "bool", "description": "If true, prevent scaling" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "true on success" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "bfreserve(string $key, float $errorRate, int $capacity, int $expansion = -1, bool $nonScaling = false)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "$errorRate", "type": "float", "description": "Error rate (0-1)" },
+            { "name": "$capacity", "type": "int", "description": "Initial capacity" },
+            { "name": "$expansion", "type": "int", "description": "Optional expansion rate (-1 for default)" },
+            { "name": "$nonScaling", "type": "bool", "description": "If true, prevent scaling" }
+          ],
+          "returns": { "type": "Status", "description": "OK on success" }
+        }
+      ]
+    }
+  },
+  "BF.SCANDUMP": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "scandump(key, iter)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Bloom filter" },
+            { "name": "iter", "type": "int", "description": "Iterator value (start with 0)" }
+          ],
+          "returns": { "type": "tuple", "description": "Tuple of (iterator, data) - continue until iterator is 0" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "Map.Entry<Long, byte[]> bfScanDump(String key, long iterator)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Bloom filter" },
+            { "name": "iterator", "type": "long", "description": "Iterator value (start with 0)" }
+          ],
+          "returns": { "type": "Map.Entry<Long, byte[]>", "description": "Pair of next iterator and current data" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "BFScanDump(ctx context.Context, key string, iterator int64) *ScanDumpCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "iterator", "type": "int64", "description": "Iterator value (start with 0)" }
+          ],
+          "returns": { "type": "*ScanDumpCmd", "description": "ScanDump command result with Iter and Data" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "BF.SCANDUMP(key: RedisArgument, iterator: number)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Bloom filter" },
+            { "name": "iterator", "type": "number", "description": "Iterator value (start with 0)" }
+          ],
+          "returns": { "type": "{ iterator: number, chunk: BlobStringReply }", "description": "Object with iterator and chunk" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Tuple<long, Byte[]> ScanDump(RedisKey key, long iterator)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" },
+            { "name": "iterator", "type": "long", "description": "Iterator value (start with 0)" }
+          ],
+          "returns": { "type": "Tuple<long, Byte[]>", "description": "Tuple of iterator and data" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<Tuple<long, Byte[]>> ScanDumpAsync(RedisKey key, long iterator)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Bloom filter" },
+            { "name": "iterator", "type": "long", "description": "Iterator value (start with 0)" }
+          ],
+          "returns": { "type": "Task<Tuple<long, Byte[]>>", "description": "Tuple of iterator and data" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "bfscandump(string $key, int $iterator)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Bloom filter" },
+            { "name": "$iterator", "type": "int", "description": "Iterator value (start with 0)" }
+          ],
+          "returns": { "type": "array", "description": "Array with iterator and data" }
+        }
+      ]
+    }
+  },
   "DECR": {
     "api_calls": {
       "redis_py": [
@@ -7295,6 +8107,1061 @@
           "returns": {
             "type": "int",
             "description": ""
+          }
+        }
+      ]
+    }
+  },
+  "PFADD": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "pfadd(name: KeyT, *values: FieldT)",
+          "params": [
+            {
+              "name": "name",
+              "type": "KeyT",
+              "description": "The key of the HyperLogLog data structure"
+            },
+            {
+              "name": "*values",
+              "type": "FieldT",
+              "description": "One or more elements to add"
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "long pfadd(final byte[] key, final byte[]... elements)",
+          "params": [
+            {
+              "name": "key",
+              "type": "byte[]",
+              "description": "The key of the HyperLogLog"
+            },
+            {
+              "name": "elements",
+              "type": "byte[]...",
+              "description": "One or more elements to add"
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+          }
+        },
+        {
+          "signature": "long pfadd(final String key, final String... elements)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "The key of the HyperLogLog"
+            },
+            {
+              "name": "elements",
+              "type": "String...",
+              "description": "One or more elements to add"
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "Long pfadd(K key, V... values)",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "The key"
+            },
+            {
+              "name": "values",
+              "type": "V...",
+              "description": "The values to add"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<Long> pfadd(K key, V... values)",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "The key"
+            },
+            {
+              "name": "values",
+              "type": "V...",
+              "description": "The values to add"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<Long>",
+            "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<Long> pfadd(K key, V... values)",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "The key"
+            },
+            {
+              "name": "values",
+              "type": "V...",
+              "description": "The values to add"
+            }
+          ],
+          "returns": {
+            "type": "Mono<Long>",
+            "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "pfadd(key: RedisKey, ...elements: (string | Buffer | number)[], callback?: Callback<number>)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisKey",
+              "description": "The key of the HyperLogLog"
+            },
+            {
+              "name": "...elements",
+              "type": "(string | Buffer | number)[]",
+              "description": "One or more elements to add"
+            },
+            {
+              "name": "callback",
+              "type": "Callback<number>",
+              "description": "Optional callback"
+            }
+          ],
+          "returns": {
+            "type": "Result<number, Context>",
+            "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "pfadd(key: K, element: E)",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "The key of the HyperLogLog"
+            },
+            {
+              "name": "element",
+              "type": "E",
+              "description": "The element to add"
+            }
+          ],
+          "returns": {
+            "type": "bool",
+            "description": "true if at least 1 HyperLogLog internal register was altered"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "pfadd(key: K, element: E)",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "The key of the HyperLogLog"
+            },
+            {
+              "name": "element",
+              "type": "E",
+              "description": "The element to add"
+            }
+          ],
+          "returns": {
+            "type": "bool",
+            "description": "true if at least 1 HyperLogLog internal register was altered"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "HyperLogLogAdd(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisKey",
+              "description": "The key of the HyperLogLog"
+            },
+            {
+              "name": "value",
+              "type": "RedisValue",
+              "description": "The value to add"
+            },
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "The flags to use for this operation"
+            }
+          ],
+          "returns": {
+            "type": "bool",
+            "description": "true if at least 1 HyperLogLog internal register was altered, false otherwise"
+          }
+        },
+        {
+          "signature": "HyperLogLogAdd(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisKey",
+              "description": "The key of the HyperLogLog"
+            },
+            {
+              "name": "values",
+              "type": "RedisValue[]",
+              "description": "The values to add"
+            },
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "The flags to use for this operation"
+            }
+          ],
+          "returns": {
+            "type": "bool",
+            "description": "true if at least 1 HyperLogLog internal register was altered, false otherwise"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "HyperLogLogAddAsync(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisKey",
+              "description": "The key of the HyperLogLog"
+            },
+            {
+              "name": "value",
+              "type": "RedisValue",
+              "description": "The value to add"
+            },
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "The flags to use for this operation"
+            }
+          ],
+          "returns": {
+            "type": "Task<bool>",
+            "description": "true if at least 1 HyperLogLog internal register was altered, false otherwise"
+          }
+        },
+        {
+          "signature": "HyperLogLogAddAsync(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisKey",
+              "description": "The key of the HyperLogLog"
+            },
+            {
+              "name": "values",
+              "type": "RedisValue[]",
+              "description": "The values to add"
+            },
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "The flags to use for this operation"
+            }
+          ],
+          "returns": {
+            "type": "Task<bool>",
+            "description": "true if at least 1 HyperLogLog internal register was altered, false otherwise"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "pfadd(string $key, array $elements)",
+          "params": [
+            {
+              "name": "$key",
+              "type": "string",
+              "description": "The key of the HyperLogLog"
+            },
+            {
+              "name": "$elements",
+              "type": "array",
+              "description": "The elements to add"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "PFAdd(ctx context.Context, key string, els ...interface{}) *IntCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context for the command"
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": "The key of the HyperLogLog"
+            },
+            {
+              "name": "els",
+              "type": "...interface{}",
+              "description": "One or more elements to add"
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "PFADD(key: RedisArgument, element?: RedisVariadicArgument)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": "The key of the HyperLogLog"
+            },
+            {
+              "name": "element",
+              "type": "RedisVariadicArgument",
+              "description": "Optional elements to add"
+            }
+          ],
+          "returns": {
+            "type": "NumberReply",
+            "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+          }
+        }
+      ]
+    }
+  },
+  "PFCOUNT": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "pfcount(*sources: KeyT)",
+          "params": [
+            {
+              "name": "*sources",
+              "type": "KeyT",
+              "description": "One or more HyperLogLog keys"
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": "The approximated number of unique elements observed via PFADD"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "long pfcount(final byte[] key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "byte[]",
+              "description": "The HyperLogLog key"
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "The approximated number of unique elements"
+          }
+        },
+        {
+          "signature": "long pfcount(final byte[]... keys)",
+          "params": [
+            {
+              "name": "keys",
+              "type": "byte[]...",
+              "description": "One or more HyperLogLog keys"
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "The approximated number of unique elements across all keys"
+          }
+        },
+        {
+          "signature": "long pfcount(final String key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "The HyperLogLog key"
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "The approximated number of unique elements"
+          }
+        },
+        {
+          "signature": "long pfcount(final String... keys)",
+          "params": [
+            {
+              "name": "keys",
+              "type": "String...",
+              "description": "One or more HyperLogLog keys"
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "The approximated number of unique elements across all keys"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "Long pfcount(K... keys)",
+          "params": [
+            {
+              "name": "keys",
+              "type": "K...",
+              "description": "The keys"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "The approximated number of unique elements observed via PFADD"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<Long> pfcount(K... keys)",
+          "params": [
+            {
+              "name": "keys",
+              "type": "K...",
+              "description": "The keys"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<Long>",
+            "description": "The approximated number of unique elements observed via PFADD"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<Long> pfcount(K... keys)",
+          "params": [
+            {
+              "name": "keys",
+              "type": "K...",
+              "description": "The keys"
+            }
+          ],
+          "returns": {
+            "type": "Mono<Long>",
+            "description": "The approximated number of unique elements observed via PFADD"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "pfcount(...keys: RedisKey[], callback?: Callback<number>)",
+          "params": [
+            {
+              "name": "...keys",
+              "type": "RedisKey[]",
+              "description": "One or more HyperLogLog keys"
+            },
+            {
+              "name": "callback",
+              "type": "Callback<number>",
+              "description": "Optional callback"
+            }
+          ],
+          "returns": {
+            "type": "Result<number, Context>",
+            "description": "The approximated number of unique elements"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "pfcount(key: K)",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "The HyperLogLog key"
+            }
+          ],
+          "returns": {
+            "type": "usize",
+            "description": "The approximated number of unique elements"
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "pfcount(key: K)",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "The HyperLogLog key"
+            }
+          ],
+          "returns": {
+            "type": "usize",
+            "description": "The approximated number of unique elements"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "HyperLogLogLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisKey",
+              "description": "The HyperLogLog key"
+            },
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "The flags to use for this operation"
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "The approximated number of unique elements observed via HyperLogLogAdd"
+          }
+        },
+        {
+          "signature": "HyperLogLogLength(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "keys",
+              "type": "RedisKey[]",
+              "description": "The keys of the HyperLogLogs"
+            },
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "The flags to use for this operation"
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "The approximated number of unique elements observed via HyperLogLogAdd"
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "HyperLogLogLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "key",
+              "type": "RedisKey",
+              "description": "The HyperLogLog key"
+            },
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "The flags to use for this operation"
+            }
+          ],
+          "returns": {
+            "type": "Task<long>",
+            "description": "The approximated number of unique elements observed via HyperLogLogAdd"
+          }
+        },
+        {
+          "signature": "HyperLogLogLengthAsync(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "keys",
+              "type": "RedisKey[]",
+              "description": "The keys of the HyperLogLogs"
+            },
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "The flags to use for this operation"
+            }
+          ],
+          "returns": {
+            "type": "Task<long>",
+            "description": "The approximated number of unique elements observed via HyperLogLogAdd"
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "pfcount(string[]|string $keyOrKeys, string ...$keys = null)",
+          "params": [
+            {
+              "name": "$keyOrKeys",
+              "type": "string[]|string",
+              "description": "One or more HyperLogLog keys"
+            },
+            {
+              "name": "...$keys",
+              "type": "string",
+              "description": "Additional keys (optional)"
+            }
+          ],
+          "returns": {
+            "type": "int",
+            "description": "The approximated number of unique elements"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "PFCount(ctx context.Context, keys ...string) *IntCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context for the command"
+            },
+            {
+              "name": "keys",
+              "type": "...string",
+              "description": "One or more HyperLogLog keys"
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": "The approximated number of unique elements"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "PFCOUNT(keys: RedisVariadicArgument)",
+          "params": [
+            {
+              "name": "keys",
+              "type": "RedisVariadicArgument",
+              "description": "One or more keys of HyperLogLog structures to count"
+            }
+          ],
+          "returns": {
+            "type": "NumberReply",
+            "description": "The approximated number of unique elements"
+          }
+        }
+      ]
+    }
+  },
+  "PFMERGE": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "pfmerge(dest: KeyT, *sources: KeyT)",
+          "params": [
+            {
+              "name": "dest",
+              "type": "KeyT",
+              "description": "The destination key"
+            },
+            {
+              "name": "*sources",
+              "type": "KeyT",
+              "description": "One or more source HyperLogLog keys"
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": "OK"
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String pfmerge(final byte[] destkey, final byte[]... sourcekeys)",
+          "params": [
+            {
+              "name": "destkey",
+              "type": "byte[]",
+              "description": "The destination key"
+            },
+            {
+              "name": "sourcekeys",
+              "type": "byte[]...",
+              "description": "One or more source keys"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "String pfmerge(final String destkey, final String... sourcekeys)",
+          "params": [
+            {
+              "name": "destkey",
+              "type": "String",
+              "description": "The destination key"
+            },
+            {
+              "name": "sourcekeys",
+              "type": "String...",
+              "description": "One or more source keys"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "String pfmerge(K destkey, K... sourcekeys)",
+          "params": [
+            {
+              "name": "destkey",
+              "type": "K",
+              "description": "The destination key"
+            },
+            {
+              "name": "sourcekeys",
+              "type": "K...",
+              "description": "The source keys"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> pfmerge(K destkey, K... sourcekeys)",
+          "params": [
+            {
+              "name": "destkey",
+              "type": "K",
+              "description": "The destination key"
+            },
+            {
+              "name": "sourcekeys",
+              "type": "K...",
+              "description": "The source keys"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> pfmerge(K destkey, K... sourcekeys)",
+          "params": [
+            {
+              "name": "destkey",
+              "type": "K",
+              "description": "The destination key"
+            },
+            {
+              "name": "sourcekeys",
+              "type": "K...",
+              "description": "The source keys"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "ioredis": [
+        {
+          "signature": "pfmerge(destkey: RedisKey, ...sourcekeys: RedisKey[], callback?: Callback<'OK'>)",
+          "params": [
+            {
+              "name": "destkey",
+              "type": "RedisKey",
+              "description": "The destination key"
+            },
+            {
+              "name": "...sourcekeys",
+              "type": "RedisKey[]",
+              "description": "One or more source keys"
+            },
+            {
+              "name": "callback",
+              "type": "Callback<'OK'>",
+              "description": "Optional callback"
+            }
+          ],
+          "returns": {
+            "type": "Result<'OK', Context>",
+            "description": "OK"
+          }
+        }
+      ],
+      "redis_rs_sync": [
+        {
+          "signature": "pfmerge(dstkey: D, srckeys: S)",
+          "params": [
+            {
+              "name": "dstkey",
+              "type": "D",
+              "description": "The destination key"
+            },
+            {
+              "name": "srckeys",
+              "type": "S",
+              "description": "The source keys"
+            }
+          ],
+          "returns": {
+            "type": "()",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rs_async": [
+        {
+          "signature": "pfmerge(dstkey: D, srckeys: S)",
+          "params": [
+            {
+              "name": "dstkey",
+              "type": "D",
+              "description": "The destination key"
+            },
+            {
+              "name": "srckeys",
+              "type": "S",
+              "description": "The source keys"
+            }
+          ],
+          "returns": {
+            "type": "()",
+            "description": ""
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "HyperLogLogMerge(RedisKey destination, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "destination",
+              "type": "RedisKey",
+              "description": "The key of the merged HyperLogLog"
+            },
+            {
+              "name": "first",
+              "type": "RedisKey",
+              "description": "First source key"
+            },
+            {
+              "name": "second",
+              "type": "RedisKey",
+              "description": "Second source key"
+            },
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "The flags to use for this operation"
+            }
+          ],
+          "returns": {
+            "type": "void",
+            "description": ""
+          }
+        },
+        {
+          "signature": "HyperLogLogMerge(RedisKey destination, RedisKey[] sourceKeys, CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "destination",
+              "type": "RedisKey",
+              "description": "The key of the merged HyperLogLog"
+            },
+            {
+              "name": "sourceKeys",
+              "type": "RedisKey[]",
+              "description": "The keys of the HyperLogLogs to merge"
+            },
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "The flags to use for this operation"
+            }
+          ],
+          "returns": {
+            "type": "void",
+            "description": ""
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "HyperLogLogMergeAsync(RedisKey destination, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "destination",
+              "type": "RedisKey",
+              "description": "The key of the merged HyperLogLog"
+            },
+            {
+              "name": "first",
+              "type": "RedisKey",
+              "description": "First source key"
+            },
+            {
+              "name": "second",
+              "type": "RedisKey",
+              "description": "Second source key"
+            },
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "The flags to use for this operation"
+            }
+          ],
+          "returns": {
+            "type": "Task",
+            "description": ""
+          }
+        },
+        {
+          "signature": "HyperLogLogMergeAsync(RedisKey destination, RedisKey[] sourceKeys, CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "destination",
+              "type": "RedisKey",
+              "description": "The key of the merged HyperLogLog"
+            },
+            {
+              "name": "sourceKeys",
+              "type": "RedisKey[]",
+              "description": "The keys of the HyperLogLogs to merge"
+            },
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "The flags to use for this operation"
+            }
+          ],
+          "returns": {
+            "type": "Task",
+            "description": ""
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "pfmerge(string $destinationKey, array|string $sourceKeys)",
+          "params": [
+            {
+              "name": "$destinationKey",
+              "type": "string",
+              "description": "The destination key"
+            },
+            {
+              "name": "$sourceKeys",
+              "type": "array|string",
+              "description": "One or more source keys"
+            }
+          ],
+          "returns": {
+            "type": "mixed",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "PFMerge(ctx context.Context, dest string, keys ...string) *StatusCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context for the command"
+            },
+            {
+              "name": "dest",
+              "type": "string",
+              "description": "The destination key"
+            },
+            {
+              "name": "keys",
+              "type": "...string",
+              "description": "One or more source keys"
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": "OK"
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "PFMERGE(destination: RedisArgument, sources?: RedisVariadicArgument)",
+          "params": [
+            {
+              "name": "destination",
+              "type": "RedisArgument",
+              "description": "The destination key to merge to"
+            },
+            {
+              "name": "sources",
+              "type": "RedisVariadicArgument",
+              "description": "One or more source keys to merge from"
+            }
+          ],
+          "returns": {
+            "type": "SimpleStringReply",
+            "description": "OK"
           }
         }
       ]
