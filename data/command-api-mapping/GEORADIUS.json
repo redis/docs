@@ -1,0 +1,1180 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "georadius(, name: KeyT,, longitude: float,, latitude: float,, radius: float,, unit: Optional[str] = None,, withdist: bool = False,, withcoord: bool = False,, withhash: bool = False,, count: Optional[int] = None,, sort: Optional[str] = None,, store: Optional[KeyT] = None,, store_dist: Optional[KeyT] = None,, any: bool = False,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "longitude",
+            "type": "float",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "float",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "float",
+            "description": ""
+          },
+          {
+            "name": "unit",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "withdist",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "withcoord",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "withhash",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "sort",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "store",
+            "type": "Optional[KeyT] = None",
+            "description": ""
+          },
+          {
+            "name": "store_dist",
+            "type": "Optional[KeyT] = None",
+            "description": ""
+          },
+          {
+            "name": "any",
+            "type": "bool = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<GeoRadiusResponse> georadius(final byte[] key, final double longitude final double latitude, final double radius, final GeoUnit unit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "double longitude final double",
+            "description": "of the center point"
+          },
+          {
+            "name": "radius",
+            "type": "double",
+            "description": "of the area"
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnit",
+            "description": "can be M, KM, MI or FT"
+          }
+        ],
+        "returns": {
+          "type": "List<GeoRadiusResponse>",
+          "description": "List of GeoRadiusResponse"
+        }
+      },
+      {
+        "signature": "List<GeoRadiusResponse> georadius(final byte[] key, final double longitude final double latitude, final double radius, final GeoUnit unit, final GeoRadiusParam param)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "double longitude final double",
+            "description": "of the center point"
+          },
+          {
+            "name": "radius",
+            "type": "double",
+            "description": "of the area"
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnit",
+            "description": "can be M, KM, MI or FT"
+          },
+          {
+            "name": "param",
+            "type": "GeoRadiusParam",
+            "description": "GeoRadiusParam"
+          }
+        ],
+        "returns": {
+          "type": "List<GeoRadiusResponse>",
+          "description": "List of GeoRadiusResponse"
+        }
+      },
+      {
+        "signature": "List<GeoRadiusResponse> georadius(final String key, final double longitude final double latitude, final double radius, final GeoUnit unit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "double longitude final double",
+            "description": "of the center point"
+          },
+          {
+            "name": "radius",
+            "type": "double",
+            "description": "of the area"
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnit",
+            "description": "can be M, KM, MI or FT"
+          }
+        ],
+        "returns": {
+          "type": "List<GeoRadiusResponse>",
+          "description": "List of GeoRadiusResponse"
+        }
+      },
+      {
+        "signature": "List<GeoRadiusResponse> georadius(final String key, final double longitude final double latitude, final double radius, final GeoUnit unit, final GeoRadiusParam param)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "double longitude final double",
+            "description": "of the center point"
+          },
+          {
+            "name": "radius",
+            "type": "double",
+            "description": "of the area"
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnit",
+            "description": "can be M, KM, MI or FT"
+          },
+          {
+            "name": "param",
+            "type": "GeoRadiusParam",
+            "description": "GeoRadiusParam"
+          }
+        ],
+        "returns": {
+          "type": "List<GeoRadiusResponse>",
+          "description": "List of GeoRadiusResponse"
+        }
+      },
+      {
+        "signature": "List<GeoRadiusResponse> georadius(String key, double longitude, double latitude, double radius GeoUnit unit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": "of the center point"
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": "of the center point"
+          },
+          {
+            "name": "unit",
+            "type": "double radius GeoUnit",
+            "description": "can be M, KM, MI or FT"
+          }
+        ],
+        "returns": {
+          "type": "List<GeoRadiusResponse>",
+          "description": "List of GeoRadiusResponse"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Set<V> georadius(K key, double longitude, double latitude, double distance, GeoArgs.Unit unit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": "the longitude coordinate according to WGS84."
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": "the latitude coordinate according to WGS84."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "unit",
+            "type": "GeoArgs.Unit",
+            "description": "distance unit."
+          }
+        ],
+        "returns": {
+          "type": "Set<V>",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      },
+      {
+        "signature": "List<GeoWithin<V>> georadius(K key, double longitude, double latitude, double distance, GeoArgs.Unit unit, GeoArgs geoArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": "the longitude coordinate according to WGS84."
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": "the latitude coordinate according to WGS84."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "unit",
+            "type": "GeoArgs.Unit",
+            "description": "distance unit."
+          },
+          {
+            "name": "geoArgs",
+            "type": "GeoArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<GeoWithin<V>>",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      },
+      {
+        "signature": "Long georadius(K key, double longitude, double latitude, double distance, GeoArgs.Unit unit GeoRadiusStoreArgs<K> geoRadiusStoreArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": "the longitude coordinate according to WGS84."
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": "the latitude coordinate according to WGS84."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "geoRadiusStoreArgs",
+            "type": "GeoArgs.Unit unit GeoRadiusStoreArgs<K>",
+            "description": "their locations a sorted set."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Set<V>> georadius(K key, double longitude, double latitude, double distance, GeoArgs.Unit unit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": "the longitude coordinate according to WGS84."
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": "the latitude coordinate according to WGS84."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "unit",
+            "type": "GeoArgs.Unit",
+            "description": "distance unit."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Set<V>>",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<GeoWithin<V>>> georadius(K key, double longitude, double latitude, double distance, GeoArgs.Unit unit GeoArgs geoArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": "the longitude coordinate according to WGS84."
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": "the latitude coordinate according to WGS84."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "geoArgs",
+            "type": "GeoArgs.Unit unit GeoArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<GeoWithin<V>>>",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> georadius(K key, double longitude, double latitude, double distance, GeoArgs.Unit unit GeoRadiusStoreArgs<K> geoRadiusStoreArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": "the longitude coordinate according to WGS84."
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": "the latitude coordinate according to WGS84."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "geoRadiusStoreArgs",
+            "type": "GeoArgs.Unit unit GeoRadiusStoreArgs<K>",
+            "description": "their locations a sorted set."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<V> georadius(K key, double longitude, double latitude, double distance, GeoArgs.Unit unit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": "the longitude coordinate according to WGS84."
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": "the latitude coordinate according to WGS84."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "unit",
+            "type": "GeoArgs.Unit",
+            "description": "distance unit."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      },
+      {
+        "signature": "Flux<GeoWithin<V>> georadius(K key, double longitude, double latitude, double distance, GeoArgs.Unit unit, GeoArgs geoArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": "the longitude coordinate according to WGS84."
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": "the latitude coordinate according to WGS84."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "unit",
+            "type": "GeoArgs.Unit",
+            "description": "distance unit."
+          },
+          {
+            "name": "geoArgs",
+            "type": "GeoArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<GeoWithin<V>>",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      },
+      {
+        "signature": "Mono<Long> georadius(K key, double longitude, double latitude, double distance, GeoArgs.Unit unit GeoRadiusStoreArgs<K> geoRadiusStoreArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": "the longitude coordinate according to WGS84."
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": "the latitude coordinate according to WGS84."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "geoRadiusStoreArgs",
+            "type": "GeoArgs.Unit unit GeoRadiusStoreArgs<K>",
+            "description": "their locations a sorted set."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "GeoRadius(ctx context.Context, key string, longitude, latitude float64, query *GeoRadiusQuery)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "longitude",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "float64",
+            "description": ""
+          },
+          {
+            "name": "query",
+            "type": "*GeoRadiusQuery",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*GeoLocationCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "GEORADIUS(...args: Parameters<typeof parseGeoRadiusArguments>)",
+        "params": [
+          {
+            "name": "...args",
+            "type": "Parameters<typeof parseGeoRadiusArguments>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "georadius(...args: [, key: RedisKey, longitude: number | string, latitude: number | string, radius: number | string, ...args: RedisValue[], callback: Callback<unknown[]>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "georadius(...args: [, key: RedisKey, longitude: number | string, latitude: number | string, radius: number | string, ...args: RedisValue[], ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "geo_radius(key: K, longitude: f64, latitude: f64, radius: f64, unit: geo::Unit, options: geo::RadiusOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "longitude",
+            "type": "f64",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "f64",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "f64",
+            "description": ""
+          },
+          {
+            "name": "unit",
+            "type": "geo",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "geo",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<geo::RadiusSearchResult>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "geo_radius(key: K, longitude: f64, latitude: f64, radius: f64, unit: geo::Unit, options: geo::RadiusOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "longitude",
+            "type": "f64",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "f64",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "f64",
+            "description": ""
+          },
+          {
+            "name": "unit",
+            "type": "geo",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "geo",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<geo::RadiusSearchResult>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "GeoRadius(RedisKey key, RedisValue member, double radius, GeoUnit unit = GeoUnit.Meters, int count = -1, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "double",
+            "description": "The radius to check."
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnit",
+            "description": "The unit of radius (defaults to meters)."
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "The count of results to get, -1 for unlimited."
+          },
+          {
+            "name": "order",
+            "type": "Order?",
+            "description": "The order of the results."
+          },
+          {
+            "name": "options",
+            "type": "GeoRadiusOptions",
+            "description": "The search options to use."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "GeoRadiusResult[]",
+          "description": "The results found within the radius, if any."
+        }
+      },
+      {
+        "signature": "GeoRadius(RedisKey key, double longitude, double latitude, double radius, GeoUnit unit = GeoUnit.Meters, int count = -1, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": "The longitude of the point to get a radius of results from."
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": "The latitude of the point to get a radius of results from."
+          },
+          {
+            "name": "radius",
+            "type": "double",
+            "description": "The radius to check."
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnit",
+            "description": "The unit of radius (defaults to meters)."
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "The count of results to get, -1 for unlimited."
+          },
+          {
+            "name": "order",
+            "type": "Order?",
+            "description": "The order of the results."
+          },
+          {
+            "name": "options",
+            "type": "GeoRadiusOptions",
+            "description": "The search options to use."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "GeoRadiusResult[]",
+          "description": "The results found within the radius, if any."
+        }
+      },
+      {
+        "signature": "GeoRadius(RedisKey key, RedisValue member, double radius, GeoUnit unit, int count, Order? order, GeoRadiusOptions options, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "double",
+            "description": "The radius to check."
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnit",
+            "description": "The unit of radius (defaults to meters)."
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "The count of results to get, -1 for unlimited."
+          },
+          {
+            "name": "order",
+            "type": "Order?",
+            "description": "The order of the results."
+          },
+          {
+            "name": "options",
+            "type": "GeoRadiusOptions",
+            "description": "The search options to use."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "GeoRadiusResult[]",
+          "description": "The results found within the radius, if any."
+        }
+      },
+      {
+        "signature": "GeoRadius(RedisKey key, double longitude, double latitude, double radius, GeoUnit unit, int count, Order? order, GeoRadiusOptions options, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": "The longitude of the point to get a radius of results from."
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": "The latitude of the point to get a radius of results from."
+          },
+          {
+            "name": "radius",
+            "type": "double",
+            "description": "The radius to check."
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnit",
+            "description": "The unit of radius (defaults to meters)."
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "The count of results to get, -1 for unlimited."
+          },
+          {
+            "name": "order",
+            "type": "Order?",
+            "description": "The order of the results."
+          },
+          {
+            "name": "options",
+            "type": "GeoRadiusOptions",
+            "description": "The search options to use."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "GeoRadiusResult[]",
+          "description": "The results found within the radius, if any."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "GeoRadius(RedisKey key, RedisValue member, double radius, GeoUnit unit = GeoUnit.Meters, int count = -1, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "double",
+            "description": "The radius to check."
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnit",
+            "description": "The unit of radius (defaults to meters)."
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "The count of results to get, -1 for unlimited."
+          },
+          {
+            "name": "order",
+            "type": "Order?",
+            "description": "The order of the results."
+          },
+          {
+            "name": "options",
+            "type": "GeoRadiusOptions",
+            "description": "The search options to use."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "GeoRadiusResult[]",
+          "description": "The results found within the radius, if any."
+        }
+      },
+      {
+        "signature": "GeoRadius(RedisKey key, double longitude, double latitude, double radius, GeoUnit unit = GeoUnit.Meters, int count = -1, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": "The longitude of the point to get a radius of results from."
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": "The latitude of the point to get a radius of results from."
+          },
+          {
+            "name": "radius",
+            "type": "double",
+            "description": "The radius to check."
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnit",
+            "description": "The unit of radius (defaults to meters)."
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "The count of results to get, -1 for unlimited."
+          },
+          {
+            "name": "order",
+            "type": "Order?",
+            "description": "The order of the results."
+          },
+          {
+            "name": "options",
+            "type": "GeoRadiusOptions",
+            "description": "The search options to use."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "GeoRadiusResult[]",
+          "description": "The results found within the radius, if any."
+        }
+      },
+      {
+        "signature": "GeoRadius(RedisKey key, RedisValue member, double radius, GeoUnit unit, int count, Order? order, GeoRadiusOptions options, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "double",
+            "description": "The radius to check."
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnit",
+            "description": "The unit of radius (defaults to meters)."
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "The count of results to get, -1 for unlimited."
+          },
+          {
+            "name": "order",
+            "type": "Order?",
+            "description": "The order of the results."
+          },
+          {
+            "name": "options",
+            "type": "GeoRadiusOptions",
+            "description": "The search options to use."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "GeoRadiusResult[]",
+          "description": "The results found within the radius, if any."
+        }
+      },
+      {
+        "signature": "GeoRadius(RedisKey key, double longitude, double latitude, double radius, GeoUnit unit, int count, Order? order, GeoRadiusOptions options, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": "The longitude of the point to get a radius of results from."
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": "The latitude of the point to get a radius of results from."
+          },
+          {
+            "name": "radius",
+            "type": "double",
+            "description": "The radius to check."
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnit",
+            "description": "The unit of radius (defaults to meters)."
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "The count of results to get, -1 for unlimited."
+          },
+          {
+            "name": "order",
+            "type": "Order?",
+            "description": "The order of the results."
+          },
+          {
+            "name": "options",
+            "type": "GeoRadiusOptions",
+            "description": "The search options to use."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "GeoRadiusResult[]",
+          "description": "The results found within the radius, if any."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "georadius(string $key, $longitude, $latitude, $radius, $unit, ?array $options = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$longitude",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$latitude",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$radius",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$unit",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "?array $options = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

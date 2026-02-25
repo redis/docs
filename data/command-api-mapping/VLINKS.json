@@ -1,0 +1,467 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "vlinks(key: KeyT, element: str, with_scores: Optional[bool] = False)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "with_scores",
+            "type": "Optional[bool] = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<List<String>> vlinks(String key, String element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "the name of the element whose HNSW neighbors you want to inspect"
+          }
+        ],
+        "returns": {
+          "type": "List<List<String>>",
+          "description": "list of neighbor element names"
+        }
+      },
+      {
+        "signature": "List<Map<String, Double>> vlinksWithScores(String key, String element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "the name of the element whose HNSW neighbors you want to inspect"
+          }
+        ],
+        "returns": {
+          "type": "List<Map<String, Double>>",
+          "description": "List of map of neighbor element names to similarity scores per layer"
+        }
+      },
+      {
+        "signature": "List<List<String>> vlinks(String key, String element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "the name of the element whose HNSW neighbors you want to inspect"
+          }
+        ],
+        "returns": {
+          "type": "List<List<String>>",
+          "description": "list of neighbor element names"
+        }
+      },
+      {
+        "signature": "List<Map<String, Double>> vlinksWithScores(String key, String element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "the name of the element whose HNSW neighbors you want to inspect"
+          }
+        ],
+        "returns": {
+          "type": "List<Map<String, Double>>",
+          "description": "List of map of neighbor element names to similarity scores per layer"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<V> vlinks(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "a list of elements that are linked to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vlinks/\">Redis Documentation: VLINKS</a>"
+        }
+      },
+      {
+        "signature": "Map<V, Double> vlinksWithScores(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          }
+        ],
+        "returns": {
+          "type": "Map<V, Double>",
+          "description": "a list of elements with their similarity scores, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vlinks/\">Redis Documentation: VLINKS</a>"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<V>> vlinks(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "a list of elements that are linked to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vlinks/\">Redis Documentation: VLINKS</a>"
+        }
+      },
+      {
+        "signature": "RedisFuture<Map<V, Double>> vlinksWithScores(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Map<V, Double>>",
+          "description": "a list of elements with their similarity scores, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vlinks/\">Redis Documentation: VLINKS</a>"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<V> vlinks(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "a list of elements that are linked to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vlinks/\">Redis Documentation: VLINKS</a>"
+        }
+      },
+      {
+        "signature": "Mono<Map<V, Double>> vlinksWithScores(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Map<V, Double>>",
+          "description": "a list of elements with their similarity scores, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vlinks/\">Redis Documentation: VLINKS</a>"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "VLinks(ctx context.Context, key, element string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "VLinksWithScores(ctx context.Context, key, element string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*VectorScoreSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "VLINKS(key: RedisArgument, element: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "vlinks(key: K, element: E)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "E",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Generic",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "vlinks(key: K, element: E)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "E",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Generic",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "VectorSetGetLinks(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Lease<RedisValue>?",
+          "description": ""
+        }
+      },
+      {
+        "signature": "VectorSetGetLinksWithScores(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Lease<VectorSetLink>?",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "VectorSetGetLinksAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<Lease<RedisValue>?>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "VectorSetGetLinksWithScoresAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<Lease<VectorSetLink>?>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "vlinks(string $key, string $elem, bool $withScores = false)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$elem",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "bool $withScores = false",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array|null",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

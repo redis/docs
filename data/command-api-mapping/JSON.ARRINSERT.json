@@ -1,0 +1,409 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "arrinsert(name: str, path: str, index: int, *args: JsonType)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "*args",
+            "type": "JsonType",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List[Optional[int]]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long jsonArrInsert(String key, Path path, int index, Object... pojos)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "pojos",
+            "type": "Object...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> jsonArrInsert(String key, Path2 path, int index, Object... objects)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path2",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "objects",
+            "type": "Object...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Long> jsonArrinsert(K key, JsonPath jsonPath, int index, JsonValue... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": "the index before which the new elements will be inserted."
+          },
+          {
+            "name": "values",
+            "type": "JsonValue...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "Long the resulting size of the arrays after the new data was inserted, or null if the path does not exist. @since 6.8"
+        }
+      },
+      {
+        "signature": "List<Long> jsonArrinsert(K key, JsonPath jsonPath, int index, String... jsonStrings)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": "the index before which the new elements will be inserted."
+          },
+          {
+            "name": "jsonStrings",
+            "type": "String...",
+            "description": "one or more JSON strings to be inserted."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "Long the resulting size of the arrays after the new data was inserted, or null if the path does not exist. @since 6.8"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Long>> jsonArrinsert(K key, JsonPath jsonPath, int index, JsonValue... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": "the index before which the new elements will be inserted."
+          },
+          {
+            "name": "values",
+            "type": "JsonValue...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "Long the resulting size of the arrays after the new data was inserted, or null if the path does not exist. @since 6.8"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> jsonArrinsert(K key, JsonPath jsonPath, int index, String... jsonStrings)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": "the index before which the new elements will be inserted."
+          },
+          {
+            "name": "jsonStrings",
+            "type": "String...",
+            "description": "one or more JSON strings to be inserted."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "Long the resulting size of the arrays after the new data was inserted, or null if the path does not exist. @since 6.8"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Long> jsonArrinsert(K key, JsonPath jsonPath, int index, JsonValue... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": "the index before which the new elements will be inserted."
+          },
+          {
+            "name": "values",
+            "type": "JsonValue...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "Long the resulting size of the arrays after the new data was inserted, or null if the path does not exist. @since 6.8"
+        }
+      },
+      {
+        "signature": "Flux<Long> jsonArrinsert(K key, JsonPath jsonPath, int index, String... jsonStrings)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": "the index before which the new elements will be inserted."
+          },
+          {
+            "name": "jsonStrings",
+            "type": "String...",
+            "description": "one or more JSON strings to be inserted."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "Long the resulting size of the arrays after the new data was inserted, or null if the path does not exist. @since 6.8"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "JSONArrInsert(ctx context.Context, key, path string, index int64, values ...interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "int64",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "...interface{}",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ARRINSERT(key: RedisArgument, path: RedisArgument, index: number, json: RedisJSON, ...jsons: Array<RedisJSON>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "json",
+            "type": "RedisJSON",
+            "description": ""
+          },
+          {
+            "name": "...jsons",
+            "type": "Array<RedisJSON>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "ArrInsert(RedisKey key, string path, long index, params object[] values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "object[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long?[]",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "jsonarrinsert(string $key, string $path, int $index, string ...$value)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$index",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "string ...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

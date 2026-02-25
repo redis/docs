@@ -1,0 +1,298 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "mget(keys: List[str], path: str)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "List[str]",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "str",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List[JsonType]",
+          "description": ""
+        }
+      },
+      {
+        "signature": "jsonmget(*args, **kwargs)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "default <T> List<T> jsonMGet(Class<T> clazz, String... keys)",
+        "params": [
+          {
+            "name": "clazz",
+            "type": "Class<T>",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "default <T> List<T>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "return jsonMGet(Path.ROOT_PATH, clazz, keys)",
+        "params": [
+          {
+            "name": "Path.ROOT_PATH",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "clazz",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": ""
+        }
+      },
+      {
+        "signature": "<T> List<T> jsonMGet(Path path, Class<T> clazz, String... keys)",
+        "params": [
+          {
+            "name": "path",
+            "type": "Path",
+            "description": ""
+          },
+          {
+            "name": "clazz",
+            "type": "Class<T>",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "<T> List<T>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "default List<JSONArray> jsonMGet(String... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "default List<JSONArray>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "return jsonMGet(Path2.ROOT_PATH, keys)",
+        "params": [
+          {
+            "name": "Path2.ROOT_PATH",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<JsonValue> jsonMGet(JsonPath jsonPath, K... keys)",
+        "params": [
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value to fetch."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys holding the JsonValues to fetch."
+          }
+        ],
+        "returns": {
+          "type": "List<JsonValue>",
+          "description": "List<JsonValue> the values at path, or null if the path does not exist. @since 6.5"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<JsonValue>> jsonMGet(JsonPath jsonPath, K... keys)",
+        "params": [
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value to fetch."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys holding the JsonValues to fetch."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<JsonValue>>",
+          "description": "List<JsonValue> the values at path, or null if the path does not exist. @since 6.5"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<JsonValue> jsonMGet(JsonPath jsonPath, K... keys)",
+        "params": [
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value to fetch."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys holding the JsonValues to fetch."
+          }
+        ],
+        "returns": {
+          "type": "Flux<JsonValue>",
+          "description": "List<JsonValue> the values at path, or null if the path does not exist. @since 6.5"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "JSONMGet(ctx context.Context, path string, keys ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*JSONSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "MGET(keys: Array<RedisArgument>, path: RedisArgument)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "Array<RedisArgument>",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "MGet(RedisKey[] keys, string path)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisResult[]",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "jsonmget(array $keys, string $path)",
+        "params": [
+          {
+            "name": "$keys",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "$path",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

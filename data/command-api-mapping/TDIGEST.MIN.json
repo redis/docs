@@ -1,0 +1,113 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "min(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "type": "float",
+          "description": "Minimum value"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "tdigestMin(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "Minimum value"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TDigestMin(ctx context.Context, key string) *FloatCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "*FloatCmd",
+          "description": "Minimum value"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TDIGEST.MIN(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "number",
+          "description": "Minimum value"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Min(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "Minimum value"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "MinAsync(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          }
+        ],
+        "returns": {
+          "type": "Task<double>",
+          "description": "Minimum value"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tdigestmin($key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "float",
+          "description": "Minimum value"
+        }
+      }
+    ]
+  }
+}

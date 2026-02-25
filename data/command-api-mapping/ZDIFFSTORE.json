@@ -1,0 +1,608 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "zdiffstore(dest: KeyT, keys: KeysT)",
+        "params": [
+          {
+            "name": "dest",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "KeysT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long zdiffStore(final byte[] dstkey, final byte[]... keys)",
+        "params": [
+          {
+            "name": "dstkey",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the new element was added, 0 if the element was already a member of the sorted set and the score was updated"
+        }
+      },
+      {
+        "signature": "long zdiffstore(final byte[] dstkey, final byte[]... keys)",
+        "params": [
+          {
+            "name": "dstkey",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the new element was added, 0 if the element was already a member of the sorted set and the score was updated"
+        }
+      },
+      {
+        "signature": "long zdiffStore(final String dstkey, final String... keys)",
+        "params": [
+          {
+            "name": "dstkey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the new element was added, 0 if the element was already a member of the sorted set and the score was updated"
+        }
+      },
+      {
+        "signature": "long zdiffstore(final String dstkey, final String... keys)",
+        "params": [
+          {
+            "name": "dstkey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the new element was added, 0 if the element was already a member of the sorted set and the score was updated"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long zdiffstore(K destKey, K... srcKeys)",
+        "params": [
+          {
+            "name": "destKey",
+            "type": "K",
+            "description": "the dest key."
+          },
+          {
+            "name": "srcKeys",
+            "type": "K...",
+            "description": "the src keys."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long the number of elements in the resulting sorted set at destination. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> zdiffstore(K destKey, K... srcKeys)",
+        "params": [
+          {
+            "name": "destKey",
+            "type": "K",
+            "description": "the dest key."
+          },
+          {
+            "name": "srcKeys",
+            "type": "K...",
+            "description": "the src keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long the number of elements in the resulting sorted set at destination. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> zdiffstore(K destKey, K... srcKeys)",
+        "params": [
+          {
+            "name": "destKey",
+            "type": "K",
+            "description": "the dest key."
+          },
+          {
+            "name": "srcKeys",
+            "type": "K...",
+            "description": "the src keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long the number of elements in the resulting sorted set at destination. @since 6.1"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ZDiffStore(ctx context.Context, destination string, keys ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ZDIFFSTORE(destination: RedisArgument, inputKeys: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "inputKeys",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "zdiffstore(...args: [, destination: RedisKey, numkeys: number | string, ...keys: RedisKey[], callback: Callback<number>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, destination",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zdiffstore(...args: [, destination: RedisKey, numkeys: number | string, keys: RedisKey[], callback: Callback<number>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, destination",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zdiffstore(...args: [, destination: RedisKey, numkeys: number | string, ...keys: RedisKey[], ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, destination",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zdiffstore(...args: [destination: RedisKey, numkeys: number | string, keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[destination",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key to store the results in."
+          },
+          {
+            "name": "first",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "second",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "aggregate",
+            "type": "Aggregate",
+            "description": "The aggregation method (defaults to sum)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting sorted set at destination."
+        }
+      },
+      {
+        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key to store the results in."
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sorted sets."
+          },
+          {
+            "name": "weights",
+            "type": "double[]?",
+            "description": "The optional weights per set that correspond to keys."
+          },
+          {
+            "name": "aggregate",
+            "type": "Aggregate",
+            "description": "The aggregation method (defaults to sum)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting sorted set at destination."
+        }
+      },
+      {
+        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key to store the results in."
+          },
+          {
+            "name": "first",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "second",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "aggregate",
+            "type": "Aggregate",
+            "description": "The aggregation method (defaults to sum)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting sorted set at destination."
+        }
+      },
+      {
+        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key to store the results in."
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sorted sets."
+          },
+          {
+            "name": "weights",
+            "type": "double[]?",
+            "description": "The optional weights per set that correspond to keys."
+          },
+          {
+            "name": "aggregate",
+            "type": "Aggregate",
+            "description": "The aggregation method (defaults to sum)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting sorted set at destination."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key to store the results in."
+          },
+          {
+            "name": "first",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "second",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "aggregate",
+            "type": "Aggregate",
+            "description": "The aggregation method (defaults to sum)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting sorted set at destination."
+        }
+      },
+      {
+        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key to store the results in."
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sorted sets."
+          },
+          {
+            "name": "weights",
+            "type": "double[]?",
+            "description": "The optional weights per set that correspond to keys."
+          },
+          {
+            "name": "aggregate",
+            "type": "Aggregate",
+            "description": "The aggregation method (defaults to sum)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting sorted set at destination."
+        }
+      },
+      {
+        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key to store the results in."
+          },
+          {
+            "name": "first",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "second",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "aggregate",
+            "type": "Aggregate",
+            "description": "The aggregation method (defaults to sum)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting sorted set at destination."
+        }
+      },
+      {
+        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key to store the results in."
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sorted sets."
+          },
+          {
+            "name": "weights",
+            "type": "double[]?",
+            "description": "The optional weights per set that correspond to keys."
+          },
+          {
+            "name": "aggregate",
+            "type": "Aggregate",
+            "description": "The aggregation method (defaults to sum)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting sorted set at destination."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "zdiffstore(string $destination, array $keys)",
+        "params": [
+          {
+            "name": "$destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$keys",
+            "type": "array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

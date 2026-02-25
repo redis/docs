@@ -1,0 +1,687 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "xread(, streams: Dict[KeyT, StreamIdT],, count: Optional[int] = None,, block: Optional[int] = None,)",
+        "params": [
+          {
+            "name": "streams",
+            "type": "Dict[KeyT, StreamIdT]",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "block",
+            "type": "Optional[int] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Object> xread(XReadParams xReadParams, Entry<byte[], byte[]>... streams)",
+        "params": [
+          {
+            "name": "xReadParams",
+            "type": "XReadParams",
+            "description": ""
+          },
+          {
+            "name": "streams",
+            "type": "Entry<byte[], byte[]>...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Object>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Map.Entry<byte[], List<StreamEntryBinary>>> xreadBinary(XReadParams xReadParams Map<byte[], StreamEntryID> streams)",
+        "params": [
+          {
+            "name": "streams",
+            "type": "XReadParams xReadParams Map<byte[], StreamEntryID>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Map.Entry<byte[], List<StreamEntryBinary>>>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Map<byte[], List<StreamEntryBinary>> xreadBinaryAsMap(XReadParams xReadParams Map<byte[], StreamEntryID> streams)",
+        "params": [
+          {
+            "name": "streams",
+            "type": "XReadParams xReadParams Map<byte[], StreamEntryID>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Map<byte[], List<StreamEntryBinary>>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Map<String, List<StreamEntry>> xreadAsMap(final XReadParams xReadParams, final Map<String, StreamEntryID> streams)",
+        "params": [
+          {
+            "name": "xReadParams",
+            "type": "XReadParams",
+            "description": ""
+          },
+          {
+            "name": "streams",
+            "type": "Map<String, StreamEntryID>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Map<String, List<StreamEntry>>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Map.Entry<String, List<StreamEntry>>> xread(XReadParams xReadParams Map<String, StreamEntryID> streams)",
+        "params": [
+          {
+            "name": "streams",
+            "type": "XReadParams xReadParams Map<String, StreamEntryID>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Map.Entry<String, List<StreamEntry>>>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<StreamMessage<K, V>> xread(StreamOffset<K>... streams)",
+        "params": [
+          {
+            "name": "streams",
+            "type": "StreamOffset<K>...",
+            "description": "the streams to read from."
+          }
+        ],
+        "returns": {
+          "type": "List<StreamMessage<K, V>>",
+          "description": "List&lt;StreamMessage&gt; array-reply list with members of the resulting stream."
+        }
+      },
+      {
+        "signature": "List<StreamMessage<K, V>> xread(XReadArgs args, StreamOffset<K>... streams)",
+        "params": [
+          {
+            "name": "args",
+            "type": "XReadArgs",
+            "description": "read arguments."
+          },
+          {
+            "name": "streams",
+            "type": "StreamOffset<K>...",
+            "description": "the streams to read from."
+          }
+        ],
+        "returns": {
+          "type": "List<StreamMessage<K, V>>",
+          "description": "List&lt;StreamMessage&gt; array-reply list with members of the resulting stream."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<StreamMessage<K, V>>> xread(StreamOffset<K>... streams)",
+        "params": [
+          {
+            "name": "streams",
+            "type": "StreamOffset<K>...",
+            "description": "the streams to read from."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<StreamMessage<K, V>>>",
+          "description": "List&lt;StreamMessage&gt; array-reply list with members of the resulting stream."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<StreamMessage<K, V>>> xread(XReadArgs args, StreamOffset<K>... streams)",
+        "params": [
+          {
+            "name": "args",
+            "type": "XReadArgs",
+            "description": "read arguments."
+          },
+          {
+            "name": "streams",
+            "type": "StreamOffset<K>...",
+            "description": "the streams to read from."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<StreamMessage<K, V>>>",
+          "description": "List&lt;StreamMessage&gt; array-reply list with members of the resulting stream."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<StreamMessage<K, V>> xread(StreamOffset<K>... streams)",
+        "params": [
+          {
+            "name": "streams",
+            "type": "StreamOffset<K>...",
+            "description": "the streams to read from."
+          }
+        ],
+        "returns": {
+          "type": "Flux<StreamMessage<K, V>>",
+          "description": "StreamMessage array-reply list with members of the resulting stream."
+        }
+      },
+      {
+        "signature": "Flux<StreamMessage<K, V>> xread(XReadArgs args, StreamOffset<K>... streams)",
+        "params": [
+          {
+            "name": "args",
+            "type": "XReadArgs",
+            "description": "read arguments."
+          },
+          {
+            "name": "streams",
+            "type": "StreamOffset<K>...",
+            "description": "the streams to read from."
+          }
+        ],
+        "returns": {
+          "type": "Flux<StreamMessage<K, V>>",
+          "description": "StreamMessage array-reply list with members of the resulting stream."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "XRead(ctx context.Context, a *XReadArgs)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "a",
+            "type": "*XReadArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*XStreamSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "XReadStreams(ctx context.Context, streams ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "streams",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*XStreamSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "XREAD(streams: XReadStreams, options?: XReadOptions)",
+        "params": [
+          {
+            "name": "streams",
+            "type": "XReadStreams",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "XReadOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "xread(...args: [, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<, [key: string, items: [id: string, fields: string[]][]][] | null, >, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, streamsToken",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xread(...args: [streamsToken: \"STREAMS\", ...args: RedisValue[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[streamsToken",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xread(...args: [, millisecondsToken: \"BLOCK\", milliseconds: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<, [key: string, items: [id: string, fields: string[]][]][] | null, >, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, millisecondsToken",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xread(...args: [, millisecondsToken: \"BLOCK\", milliseconds: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[], ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, millisecondsToken",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xread(...args: [, countToken: \"COUNT\", count: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<, [key: string, items: [id: string, fields: string[]][]][] | null, >, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, countToken",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "xread(keys: &'a [K], ids: &'a [ID])",
+        "params": [
+          {
+            "name": "keys",
+            "type": "&'a [K]",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "&'a [ID]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<streams::StreamReadReply>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xread_options(keys: &'a [K], ids: &'a [ID], options: &'a streams::StreamReadOptions)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "&'a [K]",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "&'a [ID]",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "&'a streams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<streams::StreamReadReply>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "xread(keys: &'a [K], ids: &'a [ID])",
+        "params": [
+          {
+            "name": "keys",
+            "type": "&'a [K]",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "&'a [ID]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<streams::StreamReadReply>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xread_options(keys: &'a [K], ids: &'a [ID], options: &'a streams::StreamReadOptions)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "&'a [K]",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "&'a [ID]",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "&'a streams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<streams::StreamReadReply>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StreamRead(RedisKey key, RedisValue position, int? count = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "position",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamEntry[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      },
+      {
+        "signature": "StreamRead(StreamPosition[] streamPositions, int? countPerStream = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "streamPositions",
+            "type": "StreamPosition[]",
+            "description": "Array of streams and the positions from which to begin reading for each stream."
+          },
+          {
+            "name": "countPerStream",
+            "type": "int?",
+            "description": "The maximum number of messages to return from each stream."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisStream[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      },
+      {
+        "signature": "StreamRead(RedisKey key, RedisValue position, int? count = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "position",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamEntry[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      },
+      {
+        "signature": "StreamRead(StreamPosition[] streamPositions, int? countPerStream = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "streamPositions",
+            "type": "StreamPosition[]",
+            "description": "Array of streams and the positions from which to begin reading for each stream."
+          },
+          {
+            "name": "countPerStream",
+            "type": "int?",
+            "description": "The maximum number of messages to return from each stream."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisStream[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StreamRead(RedisKey key, RedisValue position, int? count = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "position",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamEntry[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      },
+      {
+        "signature": "StreamRead(StreamPosition[] streamPositions, int? countPerStream = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "streamPositions",
+            "type": "StreamPosition[]",
+            "description": "Array of streams and the positions from which to begin reading for each stream."
+          },
+          {
+            "name": "countPerStream",
+            "type": "int?",
+            "description": "The maximum number of messages to return from each stream."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisStream[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      },
+      {
+        "signature": "StreamRead(RedisKey key, RedisValue position, int? count = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "position",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamEntry[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      },
+      {
+        "signature": "StreamRead(StreamPosition[] streamPositions, int? countPerStream = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "streamPositions",
+            "type": "StreamPosition[]",
+            "description": "Array of streams and the positions from which to begin reading for each stream."
+          },
+          {
+            "name": "countPerStream",
+            "type": "int?",
+            "description": "The maximum number of messages to return from each stream."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisStream[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "xread(int $count = null, int $block = null, array $streams = null, string ...$id)",
+        "params": [
+          {
+            "name": "int $count = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "int $block = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "array $streams = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$id",
+            "type": "string ...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array|null",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

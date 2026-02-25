@@ -1,0 +1,273 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "strlen(name: str, path: Optional[str] = None)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Optional[str] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List[Optional[int]]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Long jsonStrLen(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Long jsonStrLen(String key, Path path)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> jsonStrLen(String key, Path2 path)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path2",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Long> jsonStrlen(K key, JsonPath jsonPath)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "Long (in recursive descent) the length of the JSON String at the provided JsonPath, or null if the value ath the desired path is not a string. @since 6.5"
+        }
+      },
+      {
+        "signature": "List<Long> jsonStrlen(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "Long (in recursive descent) the length of the JSON String at the provided JsonPath, or null if the value ath the desired path is not a string. @since 6.5"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Long>> jsonStrlen(K key, JsonPath jsonPath)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "Long (in recursive descent) the length of the JSON String at the provided JsonPath, or null if the value ath the desired path is not a string. @since 6.5"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> jsonStrlen(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "Long (in recursive descent) the length of the JSON String at the provided JsonPath, or null if the value ath the desired path is not a string. @since 6.5"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Long> jsonStrlen(K key, JsonPath jsonPath)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "Long (in recursive descent) the length of the JSON String at the provided JsonPath, or null if the value ath the desired path is not a string. @since 6.5"
+        }
+      },
+      {
+        "signature": "Flux<Long> jsonStrlen(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "Long (in recursive descent) the length of the JSON String at the provided JsonPath, or null if the value ath the desired path is not a string. @since 6.5"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "JSONStrLen(ctx context.Context, key, path string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntPointerSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "STRLEN(key: RedisArgument, options?: JsonStrLenOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "JsonStrLenOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StrLen(RedisKey key, string? path = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long?[]",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "jsonstrlen(string $key, string $path = '$')",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "string $path = '$'",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

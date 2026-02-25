@@ -1,0 +1,641 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "zremrangebyscore(name: KeyT, min: ZScoreBoundT, max: ZScoreBoundT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "ZScoreBoundT",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "ZScoreBoundT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long zremrangeByScore(final byte[] key, final double min, final double max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements removed"
+        }
+      },
+      {
+        "signature": "long zremrangeByScore(final byte[] key, final byte[] min, final byte[] max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements removed"
+        }
+      },
+      {
+        "signature": "long zremrangeByScore(final String key, final double min, final double max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements removed"
+        }
+      },
+      {
+        "signature": "long zremrangeByScore(final String key, final String min, final String max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements removed"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long zremrangebyscore(K key, double min, double max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of elements removed. @since 4.3"
+        }
+      },
+      {
+        "signature": "Long zremrangebyscore(K key, String min, String max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of elements removed. @since 4.3"
+        }
+      },
+      {
+        "signature": "Long zremrangebyscore(K key, Range<? extends Number> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends Number>",
+            "description": "the range."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of elements removed. @since 4.3"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> zremrangebyscore(K key, double min, double max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of elements removed. @since 4.3"
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> zremrangebyscore(K key, String min, String max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of elements removed. @since 4.3"
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> zremrangebyscore(K key, Range<? extends Number> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends Number>",
+            "description": "the range."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of elements removed. @since 4.3"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> zremrangebyscore(K key, double min, double max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of elements removed. @since 4.3"
+        }
+      },
+      {
+        "signature": "Mono<Long> zremrangebyscore(K key, String min, String max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of elements removed. @since 4.3"
+        }
+      },
+      {
+        "signature": "Mono<Long> zremrangebyscore(K key, Range<? extends Number> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends Number>",
+            "description": "the range."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of elements removed. @since 4.3"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ZRemRangeByScore(ctx context.Context, key, min, max string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ZREMRANGEBYSCORE(key: RedisArgument, min: RedisArgument | number, max: RedisArgument | number)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "RedisArgument | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "RedisArgument | number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "zremrangebyscore(key: RedisKey, min: number | string, max: number | string, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "zrembyscore(key: K, min: M, max: MM)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "M",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "MM",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "zrembyscore(key: K, min: M, max: MM)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "M",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "MM",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SortedSetRemoveRangeByScore(RedisKey key, double start, double stop, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "start",
+            "type": "double",
+            "description": "The minimum score to remove."
+          },
+          {
+            "name": "stop",
+            "type": "double",
+            "description": "The maximum score to remove."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Which of start and stop to exclude (defaults to both inclusive)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements removed."
+        }
+      },
+      {
+        "signature": "SortedSetRemoveRangeByScore(RedisKey key, double start, double stop, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "start",
+            "type": "double",
+            "description": "The minimum score to remove."
+          },
+          {
+            "name": "stop",
+            "type": "double",
+            "description": "The maximum score to remove."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Which of start and stop to exclude (defaults to both inclusive)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements removed."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SortedSetRemoveRangeByScore(RedisKey key, double start, double stop, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "start",
+            "type": "double",
+            "description": "The minimum score to remove."
+          },
+          {
+            "name": "stop",
+            "type": "double",
+            "description": "The maximum score to remove."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Which of start and stop to exclude (defaults to both inclusive)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements removed."
+        }
+      },
+      {
+        "signature": "SortedSetRemoveRangeByScore(RedisKey key, double start, double stop, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "start",
+            "type": "double",
+            "description": "The minimum score to remove."
+          },
+          {
+            "name": "stop",
+            "type": "double",
+            "description": "The maximum score to remove."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Which of start and stop to exclude (defaults to both inclusive)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements removed."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "zremrangebyscore(string $key, int|string $min, int|string $max)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$min",
+            "type": "int|string",
+            "description": ""
+          },
+          {
+            "name": "$max",
+            "type": "int|string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
