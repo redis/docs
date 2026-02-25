@@ -1175,6 +1175,2057 @@
       ]
     }
   },
+  "CF.ADD": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "add(key, item)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "str", "description": "The item to add" }
+          ],
+          "returns": { "type": "bool", "description": "True on success" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "boolean cfAdd(String key, String item)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "String", "description": "The item to add" }
+          ],
+          "returns": { "type": "boolean", "description": "true on success" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CFAdd(ctx context.Context, key string, element interface{}) *BoolCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "element", "type": "interface{}", "description": "The item to add" }
+          ],
+          "returns": { "type": "*BoolCmd", "description": "Boolean command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CF.ADD(key: RedisArgument, item: RedisArgument)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "RedisArgument", "description": "The item to add" }
+          ],
+          "returns": { "type": "boolean", "description": "true on success" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "bool Add(RedisKey key, RedisValue item)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "RedisValue", "description": "The item to add" }
+          ],
+          "returns": { "type": "bool", "description": "true on success" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<bool> AddAsync(RedisKey key, RedisValue item)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "RedisValue", "description": "The item to add" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "true on success" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cfadd(string $key, $item)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "$item", "type": "mixed", "description": "The item to add" }
+          ],
+          "returns": { "type": "mixed", "description": "Result of the operation" }
+        }
+      ]
+    }
+  },
+  "CF.ADDNX": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "addnx(key, item)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "str", "description": "The item to add" }
+          ],
+          "returns": { "type": "bool", "description": "True if added, False if already exists" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "boolean cfAddNx(String key, String item)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "String", "description": "The item to add" }
+          ],
+          "returns": { "type": "boolean", "description": "true if added, false if already exists" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CFAddNX(ctx context.Context, key string, element interface{}) *BoolCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "element", "type": "interface{}", "description": "The item to add" }
+          ],
+          "returns": { "type": "*BoolCmd", "description": "Boolean command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CF.ADDNX(key: RedisArgument, item: RedisArgument)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "RedisArgument", "description": "The item to add" }
+          ],
+          "returns": { "type": "boolean", "description": "true if added, false if already exists" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "bool AddNX(RedisKey key, RedisValue item)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "RedisValue", "description": "The item to add" }
+          ],
+          "returns": { "type": "bool", "description": "true if added, false if already exists" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<bool> AddNXAsync(RedisKey key, RedisValue item)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "RedisValue", "description": "The item to add" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "true if added, false if already exists" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cfaddnx(string $key, $item)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "$item", "type": "mixed", "description": "The item to add" }
+          ],
+          "returns": { "type": "mixed", "description": "Result of the operation" }
+        }
+      ]
+    }
+  },
+  "CF.COUNT": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "count(key, item)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "str", "description": "The item to count" }
+          ],
+          "returns": { "type": "int", "description": "Number of times the item exists in the filter" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "long cfCount(String key, String item)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "String", "description": "The item to count" }
+          ],
+          "returns": { "type": "long", "description": "Number of times the item exists" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CFCount(ctx context.Context, key string, element interface{}) *IntCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "element", "type": "interface{}", "description": "The item to count" }
+          ],
+          "returns": { "type": "*IntCmd", "description": "Integer command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CF.COUNT(key: RedisArgument, item: RedisArgument)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "RedisArgument", "description": "The item to count" }
+          ],
+          "returns": { "type": "number", "description": "Number of times the item exists" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "long Count(RedisKey key, RedisValue item)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "RedisValue", "description": "The item to count" }
+          ],
+          "returns": { "type": "long", "description": "Number of times the item exists" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<long> CountAsync(RedisKey key, RedisValue item)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "RedisValue", "description": "The item to count" }
+          ],
+          "returns": { "type": "Task<long>", "description": "Number of times the item exists" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cfcount(string $key, $item)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "$item", "type": "mixed", "description": "The item to count" }
+          ],
+          "returns": { "type": "int", "description": "Number of times the item exists" }
+        }
+      ]
+    }
+  },
+  "CF.DEL": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "delete(key, item)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "str", "description": "The item to delete" }
+          ],
+          "returns": { "type": "bool", "description": "True if deleted, False if not found" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "boolean cfDel(String key, String item)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "String", "description": "The item to delete" }
+          ],
+          "returns": { "type": "boolean", "description": "true if deleted, false if not found" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CFDel(ctx context.Context, key string, element interface{}) *BoolCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "element", "type": "interface{}", "description": "The item to delete" }
+          ],
+          "returns": { "type": "*BoolCmd", "description": "Boolean command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CF.DEL(key: RedisArgument, item: RedisArgument)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "RedisArgument", "description": "The item to delete" }
+          ],
+          "returns": { "type": "boolean", "description": "true if deleted, false if not found" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "bool Del(RedisKey key, RedisValue item)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "RedisValue", "description": "The item to delete" }
+          ],
+          "returns": { "type": "bool", "description": "true if deleted, false if not found" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<bool> DelAsync(RedisKey key, RedisValue item)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "RedisValue", "description": "The item to delete" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "true if deleted, false if not found" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cfdel(string $key, $item)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "$item", "type": "mixed", "description": "The item to delete" }
+          ],
+          "returns": { "type": "mixed", "description": "Result of the operation" }
+        }
+      ]
+    }
+  },
+  "CF.EXISTS": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "exists(key, item)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "str", "description": "The item to check" }
+          ],
+          "returns": { "type": "bool", "description": "True if item may exist, False if certainly doesn't" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "boolean cfExists(String key, String item)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "String", "description": "The item to check" }
+          ],
+          "returns": { "type": "boolean", "description": "true if item may exist" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CFExists(ctx context.Context, key string, element interface{}) *BoolCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "element", "type": "interface{}", "description": "The item to check" }
+          ],
+          "returns": { "type": "*BoolCmd", "description": "Boolean command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CF.EXISTS(key: RedisArgument, item: RedisArgument)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "RedisArgument", "description": "The item to check" }
+          ],
+          "returns": { "type": "boolean", "description": "true if item may exist" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "bool Exists(RedisKey key, RedisValue item)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "RedisValue", "description": "The item to check" }
+          ],
+          "returns": { "type": "bool", "description": "true if item may exist" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<bool> ExistsAsync(RedisKey key, RedisValue item)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "item", "type": "RedisValue", "description": "The item to check" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "true if item may exist" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cfexists(string $key, $item)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "$item", "type": "mixed", "description": "The item to check" }
+          ],
+          "returns": { "type": "mixed", "description": "Result of the operation" }
+        }
+      ]
+    }
+  },
+  "CF.INFO": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "info(key)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Cuckoo filter" }
+          ],
+          "returns": { "type": "dict", "description": "Filter information (size, buckets, items, etc.)" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "Map<String, Object> cfInfo(String key)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Cuckoo filter" }
+          ],
+          "returns": { "type": "Map<String, Object>", "description": "Filter information" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CFInfo(ctx context.Context, key string) *CFInfoCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Cuckoo filter" }
+          ],
+          "returns": { "type": "*CFInfoCmd", "description": "CFInfo command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CF.INFO(key: RedisArgument)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Cuckoo filter" }
+          ],
+          "returns": { "type": "CfInfoReply", "description": "Filter information object" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "CuckooInformation Info(RedisKey key)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" }
+          ],
+          "returns": { "type": "CuckooInformation", "description": "Filter information" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<CuckooInformation> InfoAsync(RedisKey key)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" }
+          ],
+          "returns": { "type": "Task<CuckooInformation>", "description": "Filter information" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cfinfo(string $key)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Cuckoo filter" }
+          ],
+          "returns": { "type": "array", "description": "Filter information" }
+        }
+      ]
+    }
+  },
+  "CF.INSERT": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "insert(key, items, capacity=None, nocreate=None)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Cuckoo filter" },
+            { "name": "items", "type": "list", "description": "Items to add" },
+            { "name": "capacity", "type": "int", "description": "Optional capacity for filter creation" },
+            { "name": "nocreate", "type": "bool", "description": "If True, don't create filter" }
+          ],
+          "returns": { "type": "list", "description": "List of booleans for each item" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "List<Boolean> cfInsert(String key, String... items)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Cuckoo filter" },
+            { "name": "items", "type": "String...", "description": "Items to add" }
+          ],
+          "returns": { "type": "List<Boolean>", "description": "List of booleans for each item" }
+        },
+        {
+          "signature": "List<Boolean> cfInsert(String key, CFInsertParams insertParams, String... items)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Cuckoo filter" },
+            { "name": "insertParams", "type": "CFInsertParams", "description": "Insert parameters (capacity, nocreate)" },
+            { "name": "items", "type": "String...", "description": "Items to add" }
+          ],
+          "returns": { "type": "List<Boolean>", "description": "List of booleans for each item" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CFInsert(ctx context.Context, key string, options *CFInsertOptions, elements ...interface{}) *BoolSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "options", "type": "*CFInsertOptions", "description": "Insert options (Capacity, NoCreate)" },
+            { "name": "elements", "type": "...interface{}", "description": "Items to add" }
+          ],
+          "returns": { "type": "*BoolSliceCmd", "description": "Boolean slice command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CF.INSERT(key: RedisArgument, items: RedisVariadicArgument, options?: CfInsertOptions)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Cuckoo filter" },
+            { "name": "items", "type": "RedisVariadicArgument", "description": "Items to add" },
+            { "name": "options", "type": "CfInsertOptions", "description": "Optional: CAPACITY, NOCREATE" }
+          ],
+          "returns": { "type": "boolean[]", "description": "Array of booleans for each item" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "bool[] Insert(RedisKey key, RedisValue[] items, int? capacity = null, bool nocreate = false)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "items", "type": "RedisValue[]", "description": "Items to add" },
+            { "name": "capacity", "type": "int?", "description": "Optional capacity for filter creation" },
+            { "name": "nocreate", "type": "bool", "description": "If true, don't create filter" }
+          ],
+          "returns": { "type": "bool[]", "description": "Array of booleans for each item" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<bool[]> InsertAsync(RedisKey key, RedisValue[] items, int? capacity = null, bool nocreate = false)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "items", "type": "RedisValue[]", "description": "Items to add" },
+            { "name": "capacity", "type": "int?", "description": "Optional capacity for filter creation" },
+            { "name": "nocreate", "type": "bool", "description": "If true, don't create filter" }
+          ],
+          "returns": { "type": "Task<bool[]>", "description": "Array of booleans for each item" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cfinsert(string $key, int $capacity = -1, bool $noCreate = false, string ...$item)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "$capacity", "type": "int", "description": "Optional capacity (-1 for default)" },
+            { "name": "$noCreate", "type": "bool", "description": "If true, don't create filter" },
+            { "name": "$item", "type": "string...", "description": "Items to add" }
+          ],
+          "returns": { "type": "array", "description": "Array of booleans for each item" }
+        }
+      ]
+    }
+  },
+  "CF.INSERTNX": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "insertnx(key, items, capacity=None, nocreate=None)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Cuckoo filter" },
+            { "name": "items", "type": "list", "description": "Items to add" },
+            { "name": "capacity", "type": "int", "description": "Optional capacity for filter creation" },
+            { "name": "nocreate", "type": "bool", "description": "If True, don't create filter" }
+          ],
+          "returns": { "type": "list", "description": "List of booleans (True if added, False if exists)" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "List<Boolean> cfInsertNx(String key, String... items)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Cuckoo filter" },
+            { "name": "items", "type": "String...", "description": "Items to add" }
+          ],
+          "returns": { "type": "List<Boolean>", "description": "List of booleans" }
+        },
+        {
+          "signature": "List<Boolean> cfInsertNx(String key, CFInsertParams insertParams, String... items)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Cuckoo filter" },
+            { "name": "insertParams", "type": "CFInsertParams", "description": "Insert parameters (capacity, nocreate)" },
+            { "name": "items", "type": "String...", "description": "Items to add" }
+          ],
+          "returns": { "type": "List<Boolean>", "description": "List of booleans" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CFInsertNX(ctx context.Context, key string, options *CFInsertOptions, elements ...interface{}) *BoolSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "options", "type": "*CFInsertOptions", "description": "Insert options (Capacity, NoCreate)" },
+            { "name": "elements", "type": "...interface{}", "description": "Items to add" }
+          ],
+          "returns": { "type": "*BoolSliceCmd", "description": "Boolean slice command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CF.INSERTNX(key: RedisArgument, items: RedisVariadicArgument, options?: CfInsertOptions)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Cuckoo filter" },
+            { "name": "items", "type": "RedisVariadicArgument", "description": "Items to add" },
+            { "name": "options", "type": "CfInsertOptions", "description": "Optional: CAPACITY, NOCREATE" }
+          ],
+          "returns": { "type": "boolean[]", "description": "Array of booleans" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "bool[] InsertNX(RedisKey key, RedisValue[] items, int? capacity = null, bool nocreate = false)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "items", "type": "RedisValue[]", "description": "Items to add" },
+            { "name": "capacity", "type": "int?", "description": "Optional capacity for filter creation" },
+            { "name": "nocreate", "type": "bool", "description": "If true, don't create filter" }
+          ],
+          "returns": { "type": "bool[]", "description": "Array of booleans" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<bool[]> InsertNXAsync(RedisKey key, RedisValue[] items, int? capacity = null, bool nocreate = false)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "items", "type": "RedisValue[]", "description": "Items to add" },
+            { "name": "capacity", "type": "int?", "description": "Optional capacity for filter creation" },
+            { "name": "nocreate", "type": "bool", "description": "If true, don't create filter" }
+          ],
+          "returns": { "type": "Task<bool[]>", "description": "Array of booleans" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cfinsertnx(string $key, int $capacity = -1, bool $noCreate = false, string ...$item)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "$capacity", "type": "int", "description": "Optional capacity (-1 for default)" },
+            { "name": "$noCreate", "type": "bool", "description": "If true, don't create filter" },
+            { "name": "$item", "type": "string...", "description": "Items to add" }
+          ],
+          "returns": { "type": "array", "description": "Array of booleans" }
+        }
+      ]
+    }
+  },
+  "CF.LOADCHUNK": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "loadchunk(key, iter, data)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Cuckoo filter" },
+            { "name": "iter", "type": "int", "description": "Iterator from SCANDUMP" },
+            { "name": "data", "type": "bytes", "description": "Data from SCANDUMP" }
+          ],
+          "returns": { "type": "str", "description": "OK on success" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String cfLoadChunk(String key, long iterator, byte[] data)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Cuckoo filter" },
+            { "name": "iterator", "type": "long", "description": "Iterator from SCANDUMP" },
+            { "name": "data", "type": "byte[]", "description": "Data from SCANDUMP" }
+          ],
+          "returns": { "type": "String", "description": "OK on success" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CFLoadChunk(ctx context.Context, key string, iterator int64, data interface{}) *StatusCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "iterator", "type": "int64", "description": "Iterator from SCANDUMP" },
+            { "name": "data", "type": "interface{}", "description": "Data from SCANDUMP" }
+          ],
+          "returns": { "type": "*StatusCmd", "description": "Status command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CF.LOADCHUNK(key: RedisArgument, iterator: number, data: RedisArgument)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Cuckoo filter" },
+            { "name": "iterator", "type": "number", "description": "Iterator from SCANDUMP" },
+            { "name": "data", "type": "RedisArgument", "description": "Data from SCANDUMP" }
+          ],
+          "returns": { "type": "SimpleStringReply<'OK'>", "description": "OK on success" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "bool LoadChunk(RedisKey key, long iterator, Byte[] data)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "iterator", "type": "long", "description": "Iterator from SCANDUMP" },
+            { "name": "data", "type": "Byte[]", "description": "Data from SCANDUMP" }
+          ],
+          "returns": { "type": "bool", "description": "true on success" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<bool> LoadChunkAsync(RedisKey key, long iterator, Byte[] data)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "iterator", "type": "long", "description": "Iterator from SCANDUMP" },
+            { "name": "data", "type": "Byte[]", "description": "Data from SCANDUMP" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "true on success" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cfloadchunk(string $key, int $iterator, $data)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "$iterator", "type": "int", "description": "Iterator from SCANDUMP" },
+            { "name": "$data", "type": "mixed", "description": "Data from SCANDUMP" }
+          ],
+          "returns": { "type": "Status", "description": "OK on success" }
+        }
+      ]
+    }
+  },
+  "CF.MEXISTS": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "mexists(key, *items)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Cuckoo filter" },
+            { "name": "*items", "type": "str", "description": "Items to check" }
+          ],
+          "returns": { "type": "list", "description": "List of booleans for each item" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "List<Boolean> cfMExists(String key, String... items)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Cuckoo filter" },
+            { "name": "items", "type": "String...", "description": "Items to check" }
+          ],
+          "returns": { "type": "List<Boolean>", "description": "List of booleans" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CFMExists(ctx context.Context, key string, elements ...interface{}) *BoolSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "elements", "type": "...interface{}", "description": "Items to check" }
+          ],
+          "returns": { "type": "*BoolSliceCmd", "description": "Boolean slice command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CF.MEXISTS(key: RedisArgument, items: RedisVariadicArgument)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Cuckoo filter" },
+            { "name": "items", "type": "RedisVariadicArgument", "description": "Items to check" }
+          ],
+          "returns": { "type": "boolean[]", "description": "Array of booleans" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "bool[] MExists(RedisKey key, params RedisValue[] items)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "items", "type": "RedisValue[]", "description": "Items to check" }
+          ],
+          "returns": { "type": "bool[]", "description": "Array of booleans" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<bool[]> MExistsAsync(RedisKey key, params RedisValue[] items)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "items", "type": "RedisValue[]", "description": "Items to check" }
+          ],
+          "returns": { "type": "Task<bool[]>", "description": "Array of booleans" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cfmexists(string $key, ...$item)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "$item", "type": "...", "description": "Items to check" }
+          ],
+          "returns": { "type": "int", "description": "Result of the operation" }
+        }
+      ]
+    }
+  },
+  "CF.RESERVE": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "create(key, capacity, expansion=None, bucket_size=None, max_iterations=None)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Cuckoo filter" },
+            { "name": "capacity", "type": "int", "description": "Number of entries intended to be added" },
+            { "name": "expansion", "type": "int", "description": "Optional expansion rate" },
+            { "name": "bucket_size", "type": "int", "description": "Optional bucket size" },
+            { "name": "max_iterations", "type": "int", "description": "Optional max iterations" }
+          ],
+          "returns": { "type": "str", "description": "OK on success" }
+        },
+        {
+          "signature": "reserve(key, capacity, expansion=None, bucket_size=None, max_iterations=None)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Cuckoo filter" },
+            { "name": "capacity", "type": "int", "description": "Number of entries intended to be added" },
+            { "name": "expansion", "type": "int", "description": "Optional expansion rate" },
+            { "name": "bucket_size", "type": "int", "description": "Optional bucket size" },
+            { "name": "max_iterations", "type": "int", "description": "Optional max iterations" }
+          ],
+          "returns": { "type": "str", "description": "OK on success (alias for create)" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String cfReserve(String key, long capacity)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Cuckoo filter" },
+            { "name": "capacity", "type": "long", "description": "Initial capacity" }
+          ],
+          "returns": { "type": "String", "description": "OK on success" }
+        },
+        {
+          "signature": "String cfReserve(String key, long capacity, CFReserveParams reserveParams)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Cuckoo filter" },
+            { "name": "capacity", "type": "long", "description": "Initial capacity" },
+            { "name": "reserveParams", "type": "CFReserveParams", "description": "Reserve parameters (bucketSize, maxIterations, expansion)" }
+          ],
+          "returns": { "type": "String", "description": "OK on success" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CFReserve(ctx context.Context, key string, capacity int64) *StatusCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "capacity", "type": "int64", "description": "Initial capacity" }
+          ],
+          "returns": { "type": "*StatusCmd", "description": "Status command result" }
+        },
+        {
+          "signature": "CFReserveWithArgs(ctx context.Context, key string, options *CFReserveOptions) *StatusCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "options", "type": "*CFReserveOptions", "description": "Reserve options (Capacity, BucketSize, MaxIterations, Expansion)" }
+          ],
+          "returns": { "type": "*StatusCmd", "description": "Status command result" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CF.RESERVE(key: RedisArgument, capacity: number, options?: CfReserveOptions)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Cuckoo filter" },
+            { "name": "capacity", "type": "number", "description": "Initial capacity" },
+            { "name": "options", "type": "CfReserveOptions", "description": "Optional: BUCKETSIZE, MAXITERATIONS, EXPANSION" }
+          ],
+          "returns": { "type": "SimpleStringReply<'OK'>", "description": "OK on success" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "bool Reserve(RedisKey key, long capacity, long? bucketSize = null, int? maxIterations = null, int? expansion = null)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "capacity", "type": "long", "description": "Initial capacity" },
+            { "name": "bucketSize", "type": "long?", "description": "Optional bucket size" },
+            { "name": "maxIterations", "type": "int?", "description": "Optional max iterations" },
+            { "name": "expansion", "type": "int?", "description": "Optional expansion rate" }
+          ],
+          "returns": { "type": "bool", "description": "true on success" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<bool> ReserveAsync(RedisKey key, long capacity, long? bucketSize = null, int? maxIterations = null, int? expansion = null)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "capacity", "type": "long", "description": "Initial capacity" },
+            { "name": "bucketSize", "type": "long?", "description": "Optional bucket size" },
+            { "name": "maxIterations", "type": "int?", "description": "Optional max iterations" },
+            { "name": "expansion", "type": "int?", "description": "Optional expansion rate" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "true on success" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cfreserve(string $key, int $capacity, int $bucketSize = -1, int $maxIterations = -1, int $expansion = -1)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "$capacity", "type": "int", "description": "Initial capacity" },
+            { "name": "$bucketSize", "type": "int", "description": "Optional bucket size (-1 for default)" },
+            { "name": "$maxIterations", "type": "int", "description": "Optional max iterations (-1 for default)" },
+            { "name": "$expansion", "type": "int", "description": "Optional expansion rate (-1 for default)" }
+          ],
+          "returns": { "type": "Status", "description": "OK on success" }
+        }
+      ]
+    }
+  },
+  "CF.SCANDUMP": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "scandump(key, iter)",
+          "params": [
+            { "name": "key", "type": "str", "description": "The name of the Cuckoo filter" },
+            { "name": "iter", "type": "int", "description": "Iterator value (start with 0)" }
+          ],
+          "returns": { "type": "tuple", "description": "Tuple of (iterator, data) - continue until iterator is 0" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "Map.Entry<Long, byte[]> cfScanDump(String key, long iterator)",
+          "params": [
+            { "name": "key", "type": "String", "description": "The name of the Cuckoo filter" },
+            { "name": "iterator", "type": "long", "description": "Iterator value (start with 0)" }
+          ],
+          "returns": { "type": "Map.Entry<Long, byte[]>", "description": "Pair of next iterator and current data" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "CFScanDump(ctx context.Context, key string, iterator int64) *ScanDumpCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context", "description": "Context" },
+            { "name": "key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "iterator", "type": "int64", "description": "Iterator value (start with 0)" }
+          ],
+          "returns": { "type": "*ScanDumpCmd", "description": "ScanDump command result with Iter and Data" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "CF.SCANDUMP(key: RedisArgument, iterator: number)",
+          "params": [
+            { "name": "key", "type": "RedisArgument", "description": "The name of the Cuckoo filter" },
+            { "name": "iterator", "type": "number", "description": "Iterator value (start with 0)" }
+          ],
+          "returns": { "type": "{ iterator: number, chunk: BlobStringReply }", "description": "Object with iterator and chunk" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Tuple<long, Byte[]> ScanDump(RedisKey key, long iterator)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "iterator", "type": "long", "description": "Iterator value (start with 0)" }
+          ],
+          "returns": { "type": "Tuple<long, Byte[]>", "description": "Tuple of iterator and data" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "async Task<Tuple<long, Byte[]>> ScanDumpAsync(RedisKey key, long iterator)",
+          "params": [
+            { "name": "key", "type": "RedisKey", "description": "The name of the Cuckoo filter" },
+            { "name": "iterator", "type": "long", "description": "Iterator value (start with 0)" }
+          ],
+          "returns": { "type": "Task<Tuple<long, Byte[]>>", "description": "Tuple of iterator and data" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "cfscandump(string $key, int $iterator)",
+          "params": [
+            { "name": "$key", "type": "string", "description": "The name of the Cuckoo filter" },
+            { "name": "$iterator", "type": "int", "description": "Iterator value (start with 0)" }
+          ],
+          "returns": { "type": "array", "description": "Array with iterator and data" }
+        }
+      ]
+    }
+  },
+  "TDIGEST.ADD": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "add(key, values)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "values", "type": "List[float]" }
+          ],
+          "returns": { "type": "str", "description": "OK on success" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "tdigestAdd(String key, double... values)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "values", "type": "double..." }
+          ],
+          "returns": { "type": "String", "description": "OK on success" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TDigestAdd(ctx context.Context, key string, elements ...float64) *StatusCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "elements", "type": "...float64" }
+          ],
+          "returns": { "type": "*StatusCmd", "description": "OK on success" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TDIGEST.ADD(key, values)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "values", "type": "number[]" }
+          ],
+          "returns": { "type": "string", "description": "OK on success" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Add(key, values)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "values", "type": "params double[]" }
+          ],
+          "returns": { "type": "bool", "description": "true on success" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "AddAsync(key, values)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "values", "type": "params double[]" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "true on success" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "tdigestadd($key, ...$values)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "values", "type": "float..." }
+          ],
+          "returns": { "type": "mixed", "description": "OK on success" }
+        }
+      ]
+    }
+  },
+  "TDIGEST.BYRANK": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "byrank(key, rank, *ranks)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "rank", "type": "int" },
+            { "name": "*ranks", "type": "int" }
+          ],
+          "returns": { "type": "List[float]", "description": "Values at the specified ranks" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "tdigestByRank(String key, long... ranks)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "ranks", "type": "long..." }
+          ],
+          "returns": { "type": "List<Double>", "description": "Values at the specified ranks" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TDigestByRank(ctx context.Context, key string, rank ...uint64) *FloatSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "rank", "type": "...uint64" }
+          ],
+          "returns": { "type": "*FloatSliceCmd", "description": "Values at the specified ranks" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TDIGEST.BYRANK(key, ranks)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "ranks", "type": "number[]" }
+          ],
+          "returns": { "type": "number[]", "description": "Values at the specified ranks" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "ByRank(key, ranks)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "ranks", "type": "params long[]" }
+          ],
+          "returns": { "type": "double[]", "description": "Values at the specified ranks" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "ByRankAsync(key, ranks)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "ranks", "type": "params long[]" }
+          ],
+          "returns": { "type": "Task<double[]>", "description": "Values at the specified ranks" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "tdigestbyrank($key, ...$ranks)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "ranks", "type": "int..." }
+          ],
+          "returns": { "type": "array", "description": "Values at the specified ranks" }
+        }
+      ]
+    }
+  },
+  "TDIGEST.BYREVRANK": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "byrevrank(key, rank, *ranks)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "rank", "type": "int" },
+            { "name": "*ranks", "type": "int" }
+          ],
+          "returns": { "type": "List[float]", "description": "Values at the specified reverse ranks" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "tdigestByRevRank(String key, long... ranks)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "ranks", "type": "long..." }
+          ],
+          "returns": { "type": "List<Double>", "description": "Values at the specified reverse ranks" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TDigestByRevRank(ctx context.Context, key string, rank ...uint64) *FloatSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "rank", "type": "...uint64" }
+          ],
+          "returns": { "type": "*FloatSliceCmd", "description": "Values at the specified reverse ranks" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TDIGEST.BYREVRANK(key, ranks)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "ranks", "type": "number[]" }
+          ],
+          "returns": { "type": "number[]", "description": "Values at the specified reverse ranks" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "ByRevRank(key, ranks)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "ranks", "type": "params long[]" }
+          ],
+          "returns": { "type": "double[]", "description": "Values at the specified reverse ranks" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "ByRevRankAsync(key, ranks)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "ranks", "type": "params long[]" }
+          ],
+          "returns": { "type": "Task<double[]>", "description": "Values at the specified reverse ranks" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "tdigestbyrevrank($key, ...$ranks)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "ranks", "type": "int..." }
+          ],
+          "returns": { "type": "array", "description": "Values at the specified reverse ranks" }
+        }
+      ]
+    }
+  },
+  "TDIGEST.CDF": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "cdf(key, value, *values)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "value", "type": "float" },
+            { "name": "*values", "type": "float" }
+          ],
+          "returns": { "type": "List[float]", "description": "CDF values for each element" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "tdigestCDF(String key, double... values)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "values", "type": "double..." }
+          ],
+          "returns": { "type": "List<Double>", "description": "CDF values for each element" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TDigestCDF(ctx context.Context, key string, elements ...float64) *FloatSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "elements", "type": "...float64" }
+          ],
+          "returns": { "type": "*FloatSliceCmd", "description": "CDF values for each element" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TDIGEST.CDF(key, values)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "values", "type": "number[]" }
+          ],
+          "returns": { "type": "number[]", "description": "CDF values for each element" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "CDF(key, values)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "values", "type": "params double[]" }
+          ],
+          "returns": { "type": "double[]", "description": "CDF values for each element" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "CDFAsync(key, values)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "values", "type": "params double[]" }
+          ],
+          "returns": { "type": "Task<double[]>", "description": "CDF values for each element" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "tdigestcdf($key, ...$values)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "values", "type": "float..." }
+          ],
+          "returns": { "type": "array", "description": "CDF values for each element" }
+        }
+      ]
+    }
+  },
+  "TDIGEST.CREATE": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "create(key, compression=100)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "compression", "type": "int" }
+          ],
+          "returns": { "type": "str", "description": "OK on success" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "tdigestCreate(String key)",
+          "params": [
+            { "name": "key", "type": "String" }
+          ],
+          "returns": { "type": "String", "description": "OK on success" }
+        },
+        {
+          "signature": "tdigestCreate(String key, int compression)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "compression", "type": "int" }
+          ],
+          "returns": { "type": "String", "description": "OK on success" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TDigestCreate(ctx context.Context, key string) *StatusCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "*StatusCmd", "description": "OK on success" }
+        },
+        {
+          "signature": "TDigestCreateWithCompression(ctx context.Context, key string, compression int64) *StatusCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "compression", "type": "int64" }
+          ],
+          "returns": { "type": "*StatusCmd", "description": "OK on success" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TDIGEST.CREATE(key, options?)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "options", "type": "{ COMPRESSION?: number }" }
+          ],
+          "returns": { "type": "string", "description": "OK on success" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Create(key, compression?)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "compression", "type": "long?" }
+          ],
+          "returns": { "type": "bool", "description": "true on success" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "CreateAsync(key, compression?)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "compression", "type": "long?" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "true on success" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "tdigestcreate($key, $compression = null)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "compression", "type": "int|null" }
+          ],
+          "returns": { "type": "mixed", "description": "OK on success" }
+        }
+      ]
+    }
+  },
+  "TDIGEST.INFO": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "info(key)",
+          "params": [
+            { "name": "key", "type": "str" }
+          ],
+          "returns": { "type": "dict", "description": "Sketch information" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "tdigestInfo(String key)",
+          "params": [
+            { "name": "key", "type": "String" }
+          ],
+          "returns": { "type": "Map<String, Object>", "description": "Sketch information" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TDigestInfo(ctx context.Context, key string) *TDigestInfoCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "*TDigestInfoCmd", "description": "Sketch information" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TDIGEST.INFO(key)",
+          "params": [
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "object", "description": "Sketch information" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Info(key)",
+          "params": [
+            { "name": "key", "type": "RedisKey" }
+          ],
+          "returns": { "type": "TDigestInformation", "description": "Sketch information" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "InfoAsync(key)",
+          "params": [
+            { "name": "key", "type": "RedisKey" }
+          ],
+          "returns": { "type": "Task<TDigestInformation>", "description": "Sketch information" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "tdigestinfo($key)",
+          "params": [
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "array", "description": "Sketch information" }
+        }
+      ]
+    }
+  },
+  "TDIGEST.MAX": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "max(key)",
+          "params": [
+            { "name": "key", "type": "str" }
+          ],
+          "returns": { "type": "float", "description": "Maximum value" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "tdigestMax(String key)",
+          "params": [
+            { "name": "key", "type": "String" }
+          ],
+          "returns": { "type": "double", "description": "Maximum value" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TDigestMax(ctx context.Context, key string) *FloatCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "*FloatCmd", "description": "Maximum value" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TDIGEST.MAX(key)",
+          "params": [
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "number", "description": "Maximum value" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Max(key)",
+          "params": [
+            { "name": "key", "type": "RedisKey" }
+          ],
+          "returns": { "type": "double", "description": "Maximum value" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "MaxAsync(key)",
+          "params": [
+            { "name": "key", "type": "RedisKey" }
+          ],
+          "returns": { "type": "Task<double>", "description": "Maximum value" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "tdigestmax($key)",
+          "params": [
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "float", "description": "Maximum value" }
+        }
+      ]
+    }
+  },
+  "TDIGEST.MERGE": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "merge(destination_key, num_keys, *keys, compression=None, override=False)",
+          "params": [
+            { "name": "destination_key", "type": "str" },
+            { "name": "num_keys", "type": "int" },
+            { "name": "*keys", "type": "str" },
+            { "name": "compression", "type": "int|None" },
+            { "name": "override", "type": "bool" }
+          ],
+          "returns": { "type": "str", "description": "OK on success" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "tdigestMerge(String destinationKey, String... sourceKeys)",
+          "params": [
+            { "name": "destinationKey", "type": "String" },
+            { "name": "sourceKeys", "type": "String..." }
+          ],
+          "returns": { "type": "String", "description": "OK on success" }
+        },
+        {
+          "signature": "tdigestMerge(TDigestMergeParams mergeParams, String destinationKey, String... sourceKeys)",
+          "params": [
+            { "name": "mergeParams", "type": "TDigestMergeParams" },
+            { "name": "destinationKey", "type": "String" },
+            { "name": "sourceKeys", "type": "String..." }
+          ],
+          "returns": { "type": "String", "description": "OK on success" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TDigestMerge(ctx context.Context, destKey string, options *TDigestMergeOptions, sourceKeys ...string) *StatusCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "destKey", "type": "string" },
+            { "name": "options", "type": "*TDigestMergeOptions" },
+            { "name": "sourceKeys", "type": "...string" }
+          ],
+          "returns": { "type": "*StatusCmd", "description": "OK on success" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TDIGEST.MERGE(destination, numKeys, sourceKeys, options?)",
+          "params": [
+            { "name": "destination", "type": "string" },
+            { "name": "numKeys", "type": "number" },
+            { "name": "sourceKeys", "type": "string[]" },
+            { "name": "options", "type": "{ COMPRESSION?: number, OVERRIDE?: boolean }" }
+          ],
+          "returns": { "type": "string", "description": "OK on success" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Merge(destinationKey, sourceKeys, compression?, override?)",
+          "params": [
+            { "name": "destinationKey", "type": "RedisKey" },
+            { "name": "sourceKeys", "type": "params RedisKey[]" },
+            { "name": "compression", "type": "long?" },
+            { "name": "override", "type": "bool" }
+          ],
+          "returns": { "type": "bool", "description": "true on success" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "MergeAsync(destinationKey, sourceKeys, compression?, override?)",
+          "params": [
+            { "name": "destinationKey", "type": "RedisKey" },
+            { "name": "sourceKeys", "type": "params RedisKey[]" },
+            { "name": "compression", "type": "long?" },
+            { "name": "override", "type": "bool" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "true on success" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "tdigestmerge($destKey, $sourceKeys, $compression = null, $override = false)",
+          "params": [
+            { "name": "destKey", "type": "string" },
+            { "name": "sourceKeys", "type": "array" },
+            { "name": "compression", "type": "int|null" },
+            { "name": "override", "type": "bool" }
+          ],
+          "returns": { "type": "mixed", "description": "OK on success" }
+        }
+      ]
+    }
+  },
+  "TDIGEST.MIN": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "min(key)",
+          "params": [
+            { "name": "key", "type": "str" }
+          ],
+          "returns": { "type": "float", "description": "Minimum value" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "tdigestMin(String key)",
+          "params": [
+            { "name": "key", "type": "String" }
+          ],
+          "returns": { "type": "double", "description": "Minimum value" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TDigestMin(ctx context.Context, key string) *FloatCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "*FloatCmd", "description": "Minimum value" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TDIGEST.MIN(key)",
+          "params": [
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "number", "description": "Minimum value" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Min(key)",
+          "params": [
+            { "name": "key", "type": "RedisKey" }
+          ],
+          "returns": { "type": "double", "description": "Minimum value" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "MinAsync(key)",
+          "params": [
+            { "name": "key", "type": "RedisKey" }
+          ],
+          "returns": { "type": "Task<double>", "description": "Minimum value" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "tdigestmin($key)",
+          "params": [
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "float", "description": "Minimum value" }
+        }
+      ]
+    }
+  },
+  "TDIGEST.QUANTILE": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "quantile(key, quantile, *quantiles)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "quantile", "type": "float" },
+            { "name": "*quantiles", "type": "float" }
+          ],
+          "returns": { "type": "List[float]", "description": "Quantile estimates" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "tdigestQuantile(String key, double... quantiles)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "quantiles", "type": "double..." }
+          ],
+          "returns": { "type": "List<Double>", "description": "Quantile estimates" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TDigestQuantile(ctx context.Context, key string, elements ...float64) *FloatSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "elements", "type": "...float64" }
+          ],
+          "returns": { "type": "*FloatSliceCmd", "description": "Quantile estimates" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TDIGEST.QUANTILE(key, quantiles)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "quantiles", "type": "number[]" }
+          ],
+          "returns": { "type": "number[]", "description": "Quantile estimates" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Quantile(key, quantiles)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "quantiles", "type": "params double[]" }
+          ],
+          "returns": { "type": "double[]", "description": "Quantile estimates" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "QuantileAsync(key, quantiles)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "quantiles", "type": "params double[]" }
+          ],
+          "returns": { "type": "Task<double[]>", "description": "Quantile estimates" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "tdigestquantile($key, ...$quantiles)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "quantiles", "type": "float..." }
+          ],
+          "returns": { "type": "array", "description": "Quantile estimates" }
+        }
+      ]
+    }
+  },
+  "TDIGEST.RANK": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "rank(key, value, *values)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "value", "type": "float" },
+            { "name": "*values", "type": "float" }
+          ],
+          "returns": { "type": "List[int]", "description": "Rank values" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "tdigestRank(String key, double... values)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "values", "type": "double..." }
+          ],
+          "returns": { "type": "List<Long>", "description": "Rank values" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TDigestRank(ctx context.Context, key string, values ...float64) *IntSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "values", "type": "...float64" }
+          ],
+          "returns": { "type": "*IntSliceCmd", "description": "Rank values" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TDIGEST.RANK(key, values)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "values", "type": "number[]" }
+          ],
+          "returns": { "type": "number[]", "description": "Rank values" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Rank(key, values)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "values", "type": "params double[]" }
+          ],
+          "returns": { "type": "long[]", "description": "Rank values" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "RankAsync(key, values)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "values", "type": "params double[]" }
+          ],
+          "returns": { "type": "Task<long[]>", "description": "Rank values" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "tdigestrank($key, ...$values)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "values", "type": "float..." }
+          ],
+          "returns": { "type": "array", "description": "Rank values" }
+        }
+      ]
+    }
+  },
+  "TDIGEST.RESET": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "reset(key)",
+          "params": [
+            { "name": "key", "type": "str" }
+          ],
+          "returns": { "type": "str", "description": "OK on success" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "tdigestReset(String key)",
+          "params": [
+            { "name": "key", "type": "String" }
+          ],
+          "returns": { "type": "String", "description": "OK on success" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TDigestReset(ctx context.Context, key string) *StatusCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "*StatusCmd", "description": "OK on success" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TDIGEST.RESET(key)",
+          "params": [
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "string", "description": "OK on success" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "Reset(key)",
+          "params": [
+            { "name": "key", "type": "RedisKey" }
+          ],
+          "returns": { "type": "bool", "description": "true on success" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "ResetAsync(key)",
+          "params": [
+            { "name": "key", "type": "RedisKey" }
+          ],
+          "returns": { "type": "Task<bool>", "description": "true on success" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "tdigestreset($key)",
+          "params": [
+            { "name": "key", "type": "string" }
+          ],
+          "returns": { "type": "mixed", "description": "OK on success" }
+        }
+      ]
+    }
+  },
+  "TDIGEST.REVRANK": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "revrank(key, value, *values)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "value", "type": "float" },
+            { "name": "*values", "type": "float" }
+          ],
+          "returns": { "type": "List[int]", "description": "Reverse rank values" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "tdigestRevRank(String key, double... values)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "values", "type": "double..." }
+          ],
+          "returns": { "type": "List<Long>", "description": "Reverse rank values" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TDigestRevRank(ctx context.Context, key string, values ...float64) *IntSliceCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "values", "type": "...float64" }
+          ],
+          "returns": { "type": "*IntSliceCmd", "description": "Reverse rank values" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TDIGEST.REVRANK(key, values)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "values", "type": "number[]" }
+          ],
+          "returns": { "type": "number[]", "description": "Reverse rank values" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "RevRank(key, values)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "values", "type": "params double[]" }
+          ],
+          "returns": { "type": "long[]", "description": "Reverse rank values" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "RevRankAsync(key, values)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "values", "type": "params double[]" }
+          ],
+          "returns": { "type": "Task<long[]>", "description": "Reverse rank values" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "tdigestrevrank($key, ...$values)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "values", "type": "float..." }
+          ],
+          "returns": { "type": "array", "description": "Reverse rank values" }
+        }
+      ]
+    }
+  },
+  "TDIGEST.TRIMMED_MEAN": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "trimmed_mean(key, low_cut_quantile, high_cut_quantile)",
+          "params": [
+            { "name": "key", "type": "str" },
+            { "name": "low_cut_quantile", "type": "float" },
+            { "name": "high_cut_quantile", "type": "float" }
+          ],
+          "returns": { "type": "float", "description": "Trimmed mean value" }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "tdigestTrimmedMean(String key, double lowCutQuantile, double highCutQuantile)",
+          "params": [
+            { "name": "key", "type": "String" },
+            { "name": "lowCutQuantile", "type": "double" },
+            { "name": "highCutQuantile", "type": "double" }
+          ],
+          "returns": { "type": "double", "description": "Trimmed mean value" }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "TDigestTrimmedMean(ctx context.Context, key string, lowCutQuantile, highCutQuantile float64) *FloatCmd",
+          "params": [
+            { "name": "ctx", "type": "context.Context" },
+            { "name": "key", "type": "string" },
+            { "name": "lowCutQuantile", "type": "float64" },
+            { "name": "highCutQuantile", "type": "float64" }
+          ],
+          "returns": { "type": "*FloatCmd", "description": "Trimmed mean value" }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "TDIGEST.TRIMMED_MEAN(key, lowCutQuantile, highCutQuantile)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "lowCutQuantile", "type": "number" },
+            { "name": "highCutQuantile", "type": "number" }
+          ],
+          "returns": { "type": "number", "description": "Trimmed mean value" }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "TrimmedMean(key, lowCutQuantile, highCutQuantile)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "lowCutQuantile", "type": "double" },
+            { "name": "highCutQuantile", "type": "double" }
+          ],
+          "returns": { "type": "double", "description": "Trimmed mean value" }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "TrimmedMeanAsync(key, lowCutQuantile, highCutQuantile)",
+          "params": [
+            { "name": "key", "type": "RedisKey" },
+            { "name": "lowCutQuantile", "type": "double" },
+            { "name": "highCutQuantile", "type": "double" }
+          ],
+          "returns": { "type": "Task<double>", "description": "Trimmed mean value" }
+        }
+      ],
+      "php": [
+        {
+          "signature": "tdigesttrimmedmean($key, $lowCutQuantile, $highCutQuantile)",
+          "params": [
+            { "name": "key", "type": "string" },
+            { "name": "lowCutQuantile", "type": "float" },
+            { "name": "highCutQuantile", "type": "float" }
+          ],
+          "returns": { "type": "float", "description": "Trimmed mean value" }
+        }
+      ]
+    }
+  },
   "DECR": {
     "api_calls": {
       "redis_py": [
