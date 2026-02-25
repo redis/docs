@@ -31,6 +31,16 @@
         },
         "description": "Forbidden"
       },
+      "InternalServerError": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        },
+        "description": "Internal Server Error"
+      },
       "NotAcceptable": {
         "content": {
           "application/json": {
@@ -155,6 +165,24 @@
             "writeOnly": true
           }
         },
+        "type": "object"
+      },
+      "BdbProxyCertificateSetRequest": {
+        "description": "Request body for setting a bdb proxy certificate",
+        "properties": {
+          "cert": {
+            "description": "PEM-encoded certificate",
+            "type": "string"
+          },
+          "private_key": {
+            "description": "PEM-encoded private key",
+            "type": "string"
+          }
+        },
+        "required": [
+          "cert",
+          "private_key"
+        ],
         "type": "object"
       },
       "Certificate": {
@@ -750,7 +778,7 @@
       "ResourceType": {
         "description": "Type of resource for scoping role access.",
         "enum": [
-          "bdb"
+          "db"
         ],
         "type": "string"
       },
@@ -1241,6 +1269,85 @@
   },
   "openapi": "3.0.0",
   "paths": {
+    "/v1/bdbs/certificates": {
+      "get": {
+        "description": "List database proxy certificates in the cluster",
+        "operationId": "cluster_get_bdb_certificates",
+        "parameters": [
+          {
+            "description": "1-based page number",
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Number of results per page",
+            "in": "query",
+            "name": "page_size",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Return certificates that expire before the given timestamp",
+            "in": "query",
+            "name": "expires_before",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter by TLS mode. One of enabled, disabled, replica_ssl",
+            "in": "query",
+            "name": "tls_mode",
+            "schema": {
+              "enum": [
+                "disabled",
+                "replica_ssl",
+                "enabled"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/BdbProxyCertificate"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "List of database proxy certificates"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_all_bdbs_info"
+            ]
+          }
+        ],
+        "summary": "List database proxy certificates",
+        "tags": [
+          "Database"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
     "/v1/bdbs/{uid}/certificates": {
       "delete": {
         "description": "Delete database proxy certificate",
@@ -1319,6 +1426,81 @@
           }
         ],
         "summary": "Get database proxy certificate",
+        "tags": [
+          "Database"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "post": {
+        "description": "Set or replace database proxy certificate",
+        "operationId": "cluster_set_bdb_certificate",
+        "parameters": [
+          {
+            "description": "The database unique ID",
+            "example": 1,
+            "in": "path",
+            "name": "uid",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            }
+          },
+          {
+            "allowEmptyValue": true,
+            "description": "Validate the request without persisting changes",
+            "in": "query",
+            "name": "dry_run",
+            "schema": {
+              "type": "boolean",
+              "x-go-type": "DryRun"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BdbProxyCertificateSetRequest"
+              }
+            }
+          },
+          "description": "BDB proxy certificate data",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BdbProxyCertificate"
+                }
+              }
+            },
+            "description": "The updated database proxy certificate"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "406": {
+            "$ref": "#/components/responses/NotAcceptable"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "update_bdb"
+            ]
+          }
+        ],
+        "summary": "Set database proxy certificate",
         "tags": [
           "Database"
         ],
