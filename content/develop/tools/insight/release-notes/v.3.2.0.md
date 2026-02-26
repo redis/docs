@@ -8,20 +8,20 @@ weight: 1
 
 ## 3.2.0 (February 2026)
 
-This is the General Availability (GA) release of Redis Insight 3.2.0. Includes new features, build updates and bug fixes.
+This is the General Availability (GA) release of Redis Insight 3.2.0, which includes new features, build updates, and bug fixes.
 
 ### Headlines
 
-• Connect to Azure Managed Redis with ease. Auto-discover databases across subscriptions with one-click import and connect using Entra ID, Azure passwordless (OAuth) authentication.
+Connect to Azure Managed Redis with ease. Auto-discover databases across subscriptions with one-click import and connect using Entra ID and Azure passwordless (OAuth) authentication.
 
 ### Details
 
-• Added support for Azure Managed Redis and Azure Cache for Redis tiers. Includes auto-discovery of databases across subscriptions with one-click import. Supports Microsoft Entra ID (OAuth) authentication with automatic background token refresh. Multi-account support to easily switch between different Azure accounts.
-• Simplified build process by removing Webpack dependency, using Vite for both development and production builds.
+- Added support for Azure Managed Redis and Azure Cache for Redis tiers. This support includes auto-discovery of databases across subscriptions with one-click import, Microsoft Entra ID (OAuth) authentication with automatic background token refresh, and multi-account support to switch easily between different Azure accounts.
+- Simplified the build process by removing the Webpack dependency. Vite is used now for both development and production builds.
 
 ### Bug fixes
 
-- https://github.com/redis/RedisInsight/pull/5504 Fixed critical security vulnerabilities CVE-2025-55130 (Node.js) and CVE-2025-15467 (OpenSSL) by upgrading Node version and Alpine base image in Docker.
+- https://github.com/redis/RedisInsight/pull/5504 Fixed critical security vulnerabilities CVE-2025-55130 (Node.js) and CVE-2025-15467 (OpenSSL) by upgrading the Node.js version and the Alpine base image in Docker.
 
 **SHA-512 Checksums**
 
