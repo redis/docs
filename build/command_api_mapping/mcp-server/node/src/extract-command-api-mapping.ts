@@ -512,18 +512,12 @@ async function extractCommandApiMapping() {
           if (params.length === 0) return true;
 
           const firstParam = params[0];
-          const firstParamName = typeof firstParam === 'string'
-            ? firstParam.split(':')[0].trim().toLowerCase()
-            : (firstParam.name || '').toLowerCase();
-          const firstParamType = typeof firstParam === 'string'
-            ? (firstParam.split(':')[1] || '').trim().toLowerCase()
-            : (firstParam.type || '').toLowerCase();
+          const firstParamName = (firstParam.name || '').toLowerCase();
+          const firstParamType = (firstParam.type || '').toLowerCase();
 
           // Exclude bitfield-specific signatures (first param is 'fmt' with BitfieldOffsetT type nearby)
           if (firstParamName === 'fmt' && params.some(p => {
-            const pType = typeof p === 'string'
-              ? (p.split(':')[1] || '').trim().toLowerCase()
-              : (p.type || '').toLowerCase();
+            const pType = (p.type || '').toLowerCase();
             return pType.includes('bitfieldoffset');
           })) {
             return false;

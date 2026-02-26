@@ -66,7 +66,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'src/main/java/redis/clients/jedis/commands/GeoCommands.java',  // Geo commands interface
       'src/main/java/redis/clients/jedis/json/commands/RedisJsonV1Commands.java',  // JSON V1 interface
       'src/main/java/redis/clients/jedis/json/commands/RedisJsonV2Commands.java',  // JSON V2 interface
-      'src/main/java/redis/clients/jedis/search/SearchCommands.java',  // Search/FT commands interface
+      'src/main/java/redis/clients/jedis/search/RediSearchCommands.java',  // Search/FT commands interface
       'src/main/java/redis/clients/jedis/timeseries/RedisTimeSeriesCommands.java',  // Time series commands
     ],
     language: 'java'
