@@ -1,0 +1,84 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "spublish(shard_channel: ChannelT, message: EncodableT)",
+        "params": [
+          {
+            "name": "shard_channel",
+            "type": "ChannelT",
+            "description": "Shard channel to publish the message to"
+          },
+          {
+            "name": "message",
+            "type": "EncodableT",
+            "description": "Message to publish"
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": "Number of clients that received the message"
+        }
+      }
+    ],
+    "jedis": [],
+    "go-redis": [
+      {
+        "signature": "SPublish(ctx context.Context, channel string, message interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context for the operation"
+          },
+          {
+            "name": "channel",
+            "type": "string",
+            "description": "Shard channel to publish the message to"
+          },
+          {
+            "name": "message",
+            "type": "interface{}",
+            "description": "Message to publish"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": "Number of clients that received the message"
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "spublish(string $shardChannel, string $message)",
+        "params": [
+          {
+            "name": "$shardChannel",
+            "type": "string",
+            "description": "Shard channel to publish the message to"
+          },
+          {
+            "name": "$message",
+            "type": "string",
+            "description": "Message to publish"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "Number of clients that received the message"
+        }
+      }
+    ]
+  }
+}
+
