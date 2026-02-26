@@ -1,21 +1,11 @@
 {
   "components": {
     "responses": {
-      "BadRequest": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        },
-        "description": "Bad Request"
-      },
       "Conflict": {
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
+              "$ref": "#/components/schemas/cluster_Error"
             }
           }
         },
@@ -25,27 +15,17 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
+              "$ref": "#/components/schemas/cluster_Error"
             }
           }
         },
         "description": "Forbidden"
       },
-      "InternalServerError": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        },
-        "description": "Internal Server Error"
-      },
       "NotAcceptable": {
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
+              "$ref": "#/components/schemas/cluster_Error"
             }
           }
         },
@@ -55,7 +35,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
+              "$ref": "#/components/schemas/cluster_Error"
             }
           }
         },
@@ -65,11 +45,31 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
+              "$ref": "#/components/schemas/cluster_Error"
             }
           }
         },
         "description": "Service Unavailable"
+      },
+      "cluster_BadRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/cluster_Error"
+            }
+          }
+        },
+        "description": "Bad Request"
+      },
+      "cluster_InternalServerError": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/cluster_Error"
+            }
+          }
+        },
+        "description": "Internal Server Error"
       }
     },
     "schemas": {
@@ -441,27 +441,6 @@
         ],
         "type": "object"
       },
-      "Error": {
-        "properties": {
-          "description": {
-            "description": "Human-readable error description",
-            "type": "string"
-          },
-          "error_code": {
-            "description": "Semantic error code (e.g., password_not_complex)",
-            "type": "string"
-          },
-          "status_code": {
-            "type": "integer",
-            "x-go-json-ignore": true
-          }
-        },
-        "required": [
-          "error_code",
-          "description",
-          "status_code"
-        ]
-      },
       "HighAvailability": {
         "properties": {
           "status": {
@@ -668,6 +647,44 @@
           "persistent_memory_size",
           "quorum_only",
           "in_maintenance"
+        ],
+        "type": "object"
+      },
+      "OcspConfig": {
+        "description": "OCSP configuration",
+        "properties": {
+          "ocsp_functionality": {
+            "description": "Whether to enable/disable OCSP for the cluster.",
+            "type": "boolean"
+          },
+          "query_frequency": {
+            "description": "Determines the interval (in seconds) in which the control plane will poll the OCSP responder for a new status for the server certificate.",
+            "type": "integer"
+          },
+          "recovery_frequency": {
+            "description": "Determines the interval (in seconds) in which the control plane will poll the OCSP responder for a new status for the server certificate when the current staple is invalid.",
+            "type": "integer"
+          },
+          "recovery_max_tries": {
+            "description": "Determines the maximum number for the OCSP recovery attempts. After max number of tries passed, the control plane will revert back to the regular frequency.",
+            "type": "integer"
+          },
+          "responder_url": {
+            "description": "The OCSP server url embedded in the proxy certificate (if available)",
+            "type": "string"
+          },
+          "response_timeout": {
+            "description": "Determines the time interval (in seconds) for which the request waits for a response from the OCSP responder.",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "ocsp_functionality",
+          "responder_url",
+          "query_frequency",
+          "response_timeout",
+          "recovery_frequency",
+          "recovery_max_tries"
         ],
         "type": "object"
       },
@@ -1207,6 +1224,27 @@
         },
         "type": "object"
       },
+      "cluster_Error": {
+        "properties": {
+          "description": {
+            "description": "Human-readable error description",
+            "type": "string"
+          },
+          "error_code": {
+            "description": "Semantic error code",
+            "type": "string"
+          },
+          "status_code": {
+            "type": "integer",
+            "x-go-json-ignore": true
+          }
+        },
+        "required": [
+          "error_code",
+          "description",
+          "status_code"
+        ]
+      },
       "database_detailed_status": {
         "default": "unknown",
         "description": "The database detailed status",
@@ -1327,10 +1365,10 @@
             "description": "List of database proxy certificates"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "500": {
-            "$ref": "#/components/responses/InternalServerError"
+            "$ref": "#/components/responses/cluster_InternalServerError"
           }
         },
         "security": [
@@ -1481,7 +1519,7 @@
             "description": "The updated database proxy certificate"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -1490,7 +1528,7 @@
             "$ref": "#/components/responses/NotAcceptable"
           },
           "500": {
-            "$ref": "#/components/responses/InternalServerError"
+            "$ref": "#/components/responses/cluster_InternalServerError"
           }
         },
         "security": [
@@ -1698,7 +1736,7 @@
             "description": "Password hashing algorithm changed successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -1717,6 +1755,40 @@
         "summary": "Change the cluster password hashing algorithm",
         "tags": [
           "Users"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/ocsp": {
+      "get": {
+        "description": "Get the OCSP configuration for the cluster",
+        "operationId": "cluster_get_ocsp_config",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OcspConfig"
+                }
+              }
+            },
+            "description": "OCSP configuration"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_ocsp_config"
+            ]
+          }
+        ],
+        "summary": "Get OCSP configuration",
+        "tags": [
+          "Cluster"
         ],
         "x-publish-docs": true,
         "x-stability-level": "stable"
@@ -1796,7 +1868,7 @@
             "description": "Redis ACL created successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -1847,7 +1919,7 @@
             "description": "Redis ACL validated successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -2029,7 +2101,7 @@
             "description": "Redis ACL updated successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -2134,7 +2206,7 @@
             "description": "Role created successfully."
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -2143,7 +2215,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/cluster_Error"
                 }
               }
             },
@@ -2336,7 +2408,7 @@
             "description": "Role updated successfully."
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -2440,7 +2512,7 @@
             "description": "User created successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -2449,7 +2521,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/cluster_Error"
                 }
               }
             },
@@ -2508,7 +2580,7 @@
             "description": "Password deleted successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -2573,7 +2645,7 @@
             "description": "Password added successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -2638,7 +2710,7 @@
             "description": "Password reset successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -2971,7 +3043,7 @@
             "description": "User updated successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
