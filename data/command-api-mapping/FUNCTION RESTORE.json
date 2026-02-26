@@ -1,0 +1,215 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "function_restore(payload: str, policy: Optional[str] = \"APPEND\")",
+        "params": [
+          {
+            "name": "payload",
+            "type": "str",
+            "description": "Serialized payload from FUNCTION DUMP"
+          },
+          {
+            "name": "policy",
+            "type": "Optional[str]",
+            "description": "Restore policy (APPEND, FLUSH, or REPLACE)"
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[str], str]",
+          "description": "Status response"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String functionRestore(final byte[] serializedValue)",
+        "params": [
+          {
+            "name": "serializedValue",
+            "type": "byte[]",
+            "description": "Serialized payload from FUNCTION DUMP"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Status response"
+        }
+      },
+      {
+        "signature": "String functionRestore(final byte[] serializedValue, final FunctionRestorePolicy policy)",
+        "params": [
+          {
+            "name": "serializedValue",
+            "type": "byte[]",
+            "description": "Serialized payload from FUNCTION DUMP"
+          },
+          {
+            "name": "policy",
+            "type": "FunctionRestorePolicy",
+            "description": "Restore policy"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Status response"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "FunctionRestore(ctx context.Context, libDump string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context for the operation"
+          },
+          {
+            "name": "libDump",
+            "type": "string",
+            "description": "Serialized payload from FUNCTION DUMP"
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": "Status response"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "functionRestore(dump: RedisArgument, options?: FunctionRestoreOptions)",
+        "params": [
+          {
+            "name": "dump",
+            "type": "RedisArgument",
+            "description": "Serialized payload of functions to restore"
+          },
+          {
+            "name": "options",
+            "type": "FunctionRestoreOptions",
+            "description": "Options for the restore operation"
+          }
+        ],
+        "returns": {
+          "type": "Promise<SimpleStringReply<'OK'>>",
+          "description": "Status response"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String functionRestore(byte[] dump)",
+        "params": [
+          {
+            "name": "dump",
+            "type": "byte[]",
+            "description": "Serialized payload from FUNCTION DUMP"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Status response"
+        }
+      },
+      {
+        "signature": "String functionRestore(byte[] dump, FunctionRestoreMode mode)",
+        "params": [
+          {
+            "name": "dump",
+            "type": "byte[]",
+            "description": "Serialized payload from FUNCTION DUMP"
+          },
+          {
+            "name": "mode",
+            "type": "FunctionRestoreMode",
+            "description": "Restore mode"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Status response"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> functionRestore(byte[] dump)",
+        "params": [
+          {
+            "name": "dump",
+            "type": "byte[]",
+            "description": "Serialized payload from FUNCTION DUMP"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "Status response"
+        }
+      },
+      {
+        "signature": "RedisFuture<String> functionRestore(byte[] dump, FunctionRestoreMode mode)",
+        "params": [
+          {
+            "name": "dump",
+            "type": "byte[]",
+            "description": "Serialized payload from FUNCTION DUMP"
+          },
+          {
+            "name": "mode",
+            "type": "FunctionRestoreMode",
+            "description": "Restore mode"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "Status response"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> functionRestore(byte[] dump)",
+        "params": [
+          {
+            "name": "dump",
+            "type": "byte[]",
+            "description": "Serialized payload from FUNCTION DUMP"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "Status response"
+        }
+      },
+      {
+        "signature": "Mono<String> functionRestore(byte[] dump, FunctionRestoreMode mode)",
+        "params": [
+          {
+            "name": "dump",
+            "type": "byte[]",
+            "description": "Serialized payload from FUNCTION DUMP"
+          },
+          {
+            "name": "mode",
+            "type": "FunctionRestoreMode",
+            "description": "Restore mode"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "Status response"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": []
+  }
+}
+
