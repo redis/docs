@@ -1,0 +1,230 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "wait(num_replicas: int, timeout: int)",
+        "params": [
+          {
+            "name": "num_replicas",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long waitReplicas(final int replicas, final long timeout)",
+        "params": [
+          {
+            "name": "replicas",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of replicas that acknowledged the write commands"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Wait(ctx context.Context, numSlaves int, timeout time.Duration)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "numSlaves",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "time.Duration",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "WAIT(numberOfReplicas: number, timeout: number)",
+        "params": [
+          {
+            "name": "numberOfReplicas",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long waitForReplication(int replicas, long timeout)",
+        "params": [
+          {
+            "name": "replicas",
+            "type": "int",
+            "description": "the replicas."
+          },
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of replicas that acknowledged the write commands."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> waitForReplication(int replicas, long timeout)",
+        "params": [
+          {
+            "name": "replicas",
+            "type": "int",
+            "description": "the replicas."
+          },
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of replicas that acknowledged the write commands."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> waitForReplication(int replicas, long timeout)",
+        "params": [
+          {
+            "name": "replicas",
+            "type": "int",
+            "description": "the replicas."
+          },
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of replicas that acknowledged the write commands."
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Wait(int replicaCount, TimeSpan timeout, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "replicaCount",
+            "type": "int",
+            "description": "The number of replicas to wait for."
+          },
+          {
+            "name": "timeout",
+            "type": "TimeSpan",
+            "description": "The timeout."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of replicas that acknowledged the write commands."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "WaitAsync(int replicaCount, TimeSpan timeout, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "replicaCount",
+            "type": "int",
+            "description": "The number of replicas to wait for."
+          },
+          {
+            "name": "timeout",
+            "type": "TimeSpan",
+            "description": "The timeout."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "The number of replicas that acknowledged the write commands."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "wait(int $numSlaves, int $timeout)",
+        "params": [
+          {
+            "name": "$numSlaves",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$timeout",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
+

@@ -1,0 +1,366 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "sort_ro(key: str, start: Optional[int] = None, num: Optional[int] = None, by: Optional[str] = None, get: Optional[List[str]] = None, desc: bool = False, alpha: bool = False)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Optional[int]",
+            "description": ""
+          },
+          {
+            "name": "num",
+            "type": "Optional[int]",
+            "description": ""
+          },
+          {
+            "name": "by",
+            "type": "Optional[str]",
+            "description": ""
+          },
+          {
+            "name": "get",
+            "type": "Optional[List[str]]",
+            "description": ""
+          },
+          {
+            "name": "desc",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "alpha",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<byte[]> sortReadonly(final byte[] key, final SortingParams sortingParams)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "sortingParams",
+            "type": "SortingParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<byte[]>",
+          "description": "Sorted elements"
+        }
+      },
+      {
+        "signature": "List<String> sortReadonly(final String key, final SortingParams sortingParams)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "sortingParams",
+            "type": "SortingParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "Sorted elements"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SortRO(ctx context.Context, key string, sort *Sort)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "sort",
+            "type": "*Sort",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SORT_RO(key: RedisArgument, options?: SortOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "SortOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<V> sortReadOnly(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "List<V> array-reply list of sorted elements."
+        }
+      },
+      {
+        "signature": "List<V> sortReadOnly(K key, SortArgs sortArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "sortArgs",
+            "type": "SortArgs",
+            "description": "sort arguments."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "List<V> array-reply list of sorted elements."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<V>> sortReadOnly(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "List<V> array-reply list of sorted elements."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<V>> sortReadOnly(K key, SortArgs sortArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "sortArgs",
+            "type": "SortArgs",
+            "description": "sort arguments."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "List<V> array-reply list of sorted elements."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<V> sortReadOnly(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "List<V> array-reply list of sorted elements."
+        }
+      },
+      {
+        "signature": "Flux<V> sortReadOnly(K key, SortArgs sortArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "sortArgs",
+            "type": "SortArgs",
+            "description": "sort arguments."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "List<V> array-reply list of sorted elements."
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Sort(RedisKey key, long skip = 0, long take = -1, Order order = Order.Ascending, SortType sortType = SortType.Numeric, RedisValue by = default, RedisValue[] get = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to sort."
+          },
+          {
+            "name": "skip",
+            "type": "long",
+            "description": "The number of elements to skip."
+          },
+          {
+            "name": "take",
+            "type": "long",
+            "description": "The number of elements to take."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The sort order."
+          },
+          {
+            "name": "sortType",
+            "type": "SortType",
+            "description": "The sort type."
+          },
+          {
+            "name": "by",
+            "type": "RedisValue",
+            "description": "The pattern to sort by."
+          },
+          {
+            "name": "get",
+            "type": "RedisValue[]",
+            "description": "The patterns to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "The sorted elements."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SortAsync(RedisKey key, long skip = 0, long take = -1, Order order = Order.Ascending, SortType sortType = SortType.Numeric, RedisValue by = default, RedisValue[] get = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to sort."
+          },
+          {
+            "name": "skip",
+            "type": "long",
+            "description": "The number of elements to skip."
+          },
+          {
+            "name": "take",
+            "type": "long",
+            "description": "The number of elements to take."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The sort order."
+          },
+          {
+            "name": "sortType",
+            "type": "SortType",
+            "description": "The sort type."
+          },
+          {
+            "name": "by",
+            "type": "RedisValue",
+            "description": "The pattern to sort by."
+          },
+          {
+            "name": "get",
+            "type": "RedisValue[]",
+            "description": "The patterns to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisValue[]>",
+          "description": "The sorted elements."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "sort_ro(string $key, array|null $options = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$options",
+            "type": "array|null",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
+

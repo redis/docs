@@ -1,0 +1,224 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "keys(pattern: PatternT = '*', **kwargs)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "PatternT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Set<byte[]> keys(final byte[] pattern)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Set<byte[]>",
+          "description": "all keys matching pattern"
+        }
+      },
+      {
+        "signature": "Set<String> keys(final String pattern)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Set<String>",
+          "description": "all keys matching pattern"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Keys(ctx context.Context, pattern string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "pattern",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "KEYS(pattern: string)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<K> keys(K pattern)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "K",
+            "description": "the pattern."
+          }
+        ],
+        "returns": {
+          "type": "List<K>",
+          "description": "List<K> array-reply list of keys matching pattern."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<K>> keys(K pattern)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "K",
+            "description": "the pattern."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<K>>",
+          "description": "List<K> array-reply list of keys matching pattern."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<K> keys(K pattern)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "K",
+            "description": "the pattern."
+          }
+        ],
+        "returns": {
+          "type": "Flux<K>",
+          "description": "List<K> array-reply list of keys matching pattern."
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Keys(RedisValue pattern, int pageSize, long cursor, int pageOffset, CommandFlags flags)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "RedisValue",
+            "description": "The pattern to use."
+          },
+          {
+            "name": "pageSize",
+            "type": "int",
+            "description": "The page size."
+          },
+          {
+            "name": "cursor",
+            "type": "long",
+            "description": "The cursor."
+          },
+          {
+            "name": "pageOffset",
+            "type": "int",
+            "description": "The page offset."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "IEnumerable<RedisKey>",
+          "description": "The keys matching the pattern."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Keys(RedisValue pattern, int pageSize, long cursor, int pageOffset, CommandFlags flags)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "RedisValue",
+            "description": "The pattern to use."
+          },
+          {
+            "name": "pageSize",
+            "type": "int",
+            "description": "The page size."
+          },
+          {
+            "name": "cursor",
+            "type": "long",
+            "description": "The cursor."
+          },
+          {
+            "name": "pageOffset",
+            "type": "int",
+            "description": "The page offset."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "IAsyncEnumerable<RedisKey>",
+          "description": "The keys matching the pattern."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "keys(string $pattern)",
+        "params": [
+          {
+            "name": "$pattern",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
+
