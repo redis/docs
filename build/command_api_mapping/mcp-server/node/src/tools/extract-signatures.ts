@@ -87,6 +87,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'src/main/java/io/lettuce/core/api/sync/RedisJsonCommands.java',  // JSON commands
       'src/main/java/io/lettuce/core/api/sync/RedisSearchCommands.java',  // Search/FT commands
       'src/main/java/io/lettuce/core/api/sync/RedisVectorSetCommands.java',  // Vector set commands
+      'src/main/java/io/lettuce/core/AbstractRedisAsyncCommands.java',  // Cluster commands
     ],
     language: 'java',
   },
@@ -106,6 +107,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'src/main/java/io/lettuce/core/api/async/RedisJsonAsyncCommands.java',  // JSON commands
       'src/main/java/io/lettuce/core/api/async/RedisSearchAsyncCommands.java',  // Search/FT commands
       'src/main/java/io/lettuce/core/api/async/RedisVectorSetAsyncCommands.java',  // Vector set commands
+      'src/main/java/io/lettuce/core/AbstractRedisAsyncCommands.java',  // Cluster commands
     ],
     language: 'java',
   },
@@ -125,6 +127,7 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'src/main/java/io/lettuce/core/api/reactive/RedisJsonReactiveCommands.java',  // JSON commands
       'src/main/java/io/lettuce/core/api/reactive/RedisSearchReactiveCommands.java',  // Search/FT commands
       'src/main/java/io/lettuce/core/api/reactive/RedisVectorSetReactiveCommands.java',  // Vector set commands
+      'src/main/java/io/lettuce/core/AbstractRedisAsyncCommands.java',  // Cluster commands
     ],
     language: 'java',
   },
@@ -230,6 +233,35 @@ const CLIENT_SOURCE_FILES: Record<string, ClientSourceConfig> = {
       'packages/client/lib/commands/TYPE.ts',
       'packages/client/lib/commands/UNLINK.ts',
       'packages/client/lib/commands/WAIT.ts',
+      // Cluster commands
+      'packages/client/lib/commands/ASKING.ts',
+      'packages/client/lib/commands/CLUSTER_ADDSLOTS.ts',
+      'packages/client/lib/commands/CLUSTER_ADDSLOTSRANGE.ts',
+      'packages/client/lib/commands/CLUSTER_BUMPEPOCH.ts',
+      'packages/client/lib/commands/CLUSTER_COUNT-FAILURE-REPORTS.ts',
+      'packages/client/lib/commands/CLUSTER_COUNTKEYSINSLOT.ts',
+      'packages/client/lib/commands/CLUSTER_DELSLOTS.ts',
+      'packages/client/lib/commands/CLUSTER_DELSLOTSRANGE.ts',
+      'packages/client/lib/commands/CLUSTER_FAILOVER.ts',
+      'packages/client/lib/commands/CLUSTER_FLUSHSLOTS.ts',
+      'packages/client/lib/commands/CLUSTER_FORGET.ts',
+      'packages/client/lib/commands/CLUSTER_GETKEYSINSLOT.ts',
+      'packages/client/lib/commands/CLUSTER_INFO.ts',
+      'packages/client/lib/commands/CLUSTER_KEYSLOT.ts',
+      'packages/client/lib/commands/CLUSTER_LINKS.ts',
+      'packages/client/lib/commands/CLUSTER_MEET.ts',
+      'packages/client/lib/commands/CLUSTER_MYID.ts',
+      'packages/client/lib/commands/CLUSTER_MYSHARDID.ts',
+      'packages/client/lib/commands/CLUSTER_NODES.ts',
+      'packages/client/lib/commands/CLUSTER_REPLICAS.ts',
+      'packages/client/lib/commands/CLUSTER_REPLICATE.ts',
+      'packages/client/lib/commands/CLUSTER_RESET.ts',
+      'packages/client/lib/commands/CLUSTER_SAVECONFIG.ts',
+      'packages/client/lib/commands/CLUSTER_SET-CONFIG-EPOCH.ts',
+      'packages/client/lib/commands/CLUSTER_SETSLOT.ts',
+      'packages/client/lib/commands/CLUSTER_SLOTS.ts',
+      'packages/client/lib/commands/READONLY.ts',
+      'packages/client/lib/commands/READWRITE.ts',
       // List commands
       'packages/client/lib/commands/LPUSH.ts',
       'packages/client/lib/commands/RPUSH.ts',
