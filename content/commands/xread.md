@@ -43,6 +43,10 @@ command_flags:
 - readonly
 - blocking
 - movablekeys
+complexity: 'For each stream mentioned: O(M) with M being the number of elements returned.
+  If M is constant (for example, always asking for the first 10 elements with COUNT), you
+  can consider it O(1). On the other side when XREADGROUP blocks, XADD will pay the
+  O(N) time in order to serve the N clients blocked on the stream getting new data.'
 description: Returns messages from multiple streams with IDs greater than the ones
   requested. Blocks until a message is available otherwise.
 group: stream
@@ -296,9 +300,9 @@ Reading the [Redis Streams introduction]({{< relref "/develop/data-types/streams
 suggested in order to understand more about the streams overall behavior
 and semantics.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

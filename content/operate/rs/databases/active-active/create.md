@@ -13,7 +13,7 @@ weight: 25
 [Active-Active geo-replicated databases]({{< relref "/operate/rs/databases/active-active" >}}) (formerly known as CRDBs) give applications write access
 to replicas of the dataset in different geographical locations.
 
-The participating Redis Enterprise Software clusters that host the instances can be distributed in different geographic locations.
+The participating Redis Software clusters that host the instances can be distributed in different geographic locations.
 Every instance of an Active-Active database can receive write operations, and all operations are [synchronized]({{< relref "/operate/rs/databases/active-active/develop#example-of-synchronization" >}}) to all instances without conflict.
 
 ## Steps to create an Active-Active database
@@ -27,7 +27,7 @@ Every instance of an Active-Active database can receive write operations, and al
 
 ## Prerequisites
 
-- Two or more machines with the same version of Redis Enterprise Software installed
+- Two or more machines with the same version of Redis Software installed
 - Network connectivity and cluster FQDN name resolution between all participating clusters
 - [Network time service]({{< relref "/operate/rs/databases/active-active#network-time-service-ntp-or-chrony" >}}) listener (ntpd) configured and running on each node in all clusters
 
@@ -132,13 +132,13 @@ If you create a database with Auto Tiering enabled, you also need to set the RAM
 for this database. Minimum RAM is 10%. Maximum RAM is 50%.
     {{< /note >}}
 
-- **Memory eviction** - The default [eviction policy]({{<relref "/operate/rs/databases/memory-performance/eviction-policy">}}) for Active-Active databases is `noeviction`. Redis Enterprise versions 6.0.20 and later support all eviction policies for Active-Active databases, unless [Redis Flex or Auto Tiering]({{<relref "/operate/rs/databases/flash">}}) is enabled.
+- **Memory eviction** - The default [eviction policy]({{<relref "/operate/rs/databases/memory-performance/eviction-policy">}}) for Active-Active databases is `noeviction`. Redis Software versions 6.0.20 and later support all eviction policies for Active-Active databases, unless [Redis Flex or Auto Tiering]({{<relref "/operate/rs/databases/flash">}}) is enabled.
 
 - [**Capabilities**]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}) (previously **Modules**) - When you create a new in-memory database, you can enable additional capabilities in the database. You cannot enable them after database creation.
 
     Active-Active databases created with or upgraded to Redis version 8 or later automatically enable [search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active">}}) and [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}}), which allows you to index, query, and perform full-text searches of nested JSON documents.
 
-    For Auto Tiering databases, you can enable capabilities that support Auto Tiering. See [Redis Enterprise and Redis Stack feature compatibility 
+    For Auto Tiering databases, you can enable capabilities that support Auto Tiering. See [Redis Software and Redis Stack feature compatibility 
 ]({{< relref "/operate/oss_and_stack/stack-with-enterprise/enterprise-capabilities" >}}) for compatibility details.
 
     To add capabilities to the database:

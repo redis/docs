@@ -135,7 +135,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td>clusterCredentialSecretName</td>
         <td>string</td>
         <td>
-          Name or path of the secret containing cluster credentials. Defaults to the cluster name if left blank. For Kubernetes secrets (default):  Must be set to the cluster name or left blank. The secret can be pre-created with 'username' and 'password' fields, or otherwise it will be automatically created with a default username and auto-generated password. For Vault secrets:  Can be customized with the path of the secret within Vault. The secret must be pre-created in Vault before REC creation.<br/>
+          Name or path of the secret containing cluster credentials. Defaults to the cluster name if left blank. This field can only be set upon cluster creation and cannot be changed afterward. For For Kubernetes secrets (default): Can be customized to any valid secret name, or left blank to use the cluster name. The secret can be pre-created with 'username' and 'password' fields, or otherwise it will be automatically created with a default username and auto-generated password. For Vault secrets:  Can be customized with the path of the secret within Vault. The secret must be pre-created in Vault before REC creation.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -266,6 +266,13 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td>object</td>
         <td>
           An API object that represents the cluster's OCSP configuration. To enable OCSP, the cluster's proxy certificate should contain the OCSP responder URL.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specossclustersettings">ossClusterSettings</a></td>
+        <td>object</td>
+        <td>
+          Cluster-level configuration for OSS cluster mode databases.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -894,7 +901,7 @@ RS Cluster Certificates. Used to modify the certificates used by the cluster. Se
         <td>proxyCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's Proxy certificate. The secret must contain the following structure - A key 'name' with the value 'proxy'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used.<br/>
+          Secret name to use for cluster's Proxy certificate. The secret must contain the following structure - A key 'name' with the value 'proxy'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used. Note: For Active-Active databases (REAADB), certificate updates are automatically reconciled. When you update this secret, the operator detects the change and automatically executes a CRDB force update (equivalent to 'crdb-cli crdb update --force'), which synchronizes the certificate changes to all participating clusters, eliminating the need for manual intervention.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -915,7 +922,7 @@ RS Cluster Certificates. Used to modify the certificates used by the cluster. Se
         <td>syncerCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's Syncer certificate. The secret must contain the following structure - A key 'name' with the value 'syncer'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used.<br/>
+          Secret name to use for cluster's Syncer certificate. The secret must contain the following structure - A key 'name' with the value 'syncer'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used. Note: For Active-Active databases (REAADB), certificate updates are automatically reconciled. When you update this secret, the operator detects the change and automatically executes a CRDB force update (equivalent to 'crdb-cli crdb update --force'), which synchronizes the certificate changes to all participating clusters, eliminating the need for manual intervention.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -1390,6 +1397,81 @@ An API object that represents the cluster's OCSP configuration. To enable OCSP, 
         <td>integer</td>
         <td>
           Determines the time interval (in seconds) for which the request waits for a response from the OCSP responder. Minimum value is 1. Maximum value is 60.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.ossClusterSettings
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+Cluster-level configuration for OSS cluster mode databases.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>externalAccessType</td>
+        <td>enum</td>
+        <td>
+          Specifies the mechanism for enabling external access to OSS cluster databases. When unset or set to "Disabled", external access is not allowed for any OSS cluster databases. When set to a specific mechanism (e.g., "LoadBalancer"), that mechanism is used to provide external access. Note: Individual databases must still enable external access via their ossClusterSettings.enableExternalAccess field.<br/>
+          <br/>
+            <i>Enum</i>: LoadBalancer, Disabled<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specossclustersettingsloadbalancer">loadBalancer</a></td>
+        <td>object</td>
+        <td>
+          Configuration for LoadBalancer services created to assign public IPs for Redis Enterprise cluster nodes.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>podCIDRs</td>
+        <td>[]string</td>
+        <td>
+          A list of Kubernetes pod CIDR ranges from which pod IPs are allocated. Supports both IPv4 (e.g., "10.30.0.0/16") and IPv6 addresses. This field should only be configured when OSS cluster databases need to be accessed from both internal and external clients. When configured, internal communication can reach pods directly using their pod IPs, bypassing the external access mechanism (e.g., load balancer services) for improved performance. IMPORTANT: For this feature to work correctly, the entire data path must preserve the client source IP address. This is required because the Redis server uses the client's source IP to construct the CLUSTER SHARDS/SLOTS response - returning pod IPs for internal clients (matching podCIDRs) or load balancer addresses for external clients. On cloud platforms, this typically requires configuring the load balancer to preserve source IPs.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.ossClusterSettings.loadBalancer
+<sup><sup>[↩ Parent](#specossclustersettings)</sup></sup>
+
+Configuration for LoadBalancer services created to assign public IPs for Redis Enterprise cluster nodes.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>externalTrafficPolicy</td>
+        <td>enum</td>
+        <td>
+          ExternalTrafficPolicy specifies the externalTrafficPolicy for LoadBalancer services created for Redis Enterprise cluster nodes. Choose "Local" to configure the LoadBalancer to only route traffic to the single worker node hosting the Redis Enterprise cluster node for that service. Choose "Cluster" to route traffic to any worker node, providing a more stable behavior during failovers, but with increased overhead due to additional hop. Defaults to "Local" when podCIDRs is configured, and "Cluster" otherwise.<br/>
+          <br/>
+            <i>Enum</i>: Cluster, Local<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>serviceAnnotations</td>
+        <td>map[string]string</td>
+        <td>
+          Additional annotations to set on LoadBalancer services created for Redis Enterprise cluster nodes. These annotations are merged with global service annotations from spec.services.servicesAnnotations.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -4109,6 +4191,13 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>false</td>
       </tr><tr>
+        <td>clusterCredentialSecretName</td>
+        <td>string</td>
+        <td>
+          The name of the secret containing cluster credentials that was set upon cluster creation. This field is used to prevent changes to ClusterCredentialSecretName after cluster creation.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>ingressOrRouteMethodStatus</td>
         <td>string</td>
         <td>
@@ -4232,7 +4321,7 @@ Stores information about cluster certificates and their update process. In Activ
         <td>generation</td>
         <td>integer</td>
         <td>
-          Generation stores the version of the cluster's Proxy and Syncer certificate secrets. In Active-Active databases, when a user updates the proxy or syncer certificate, a crdb-update command needs to be triggered to avoid potential sync issues. This helps the REAADB controller detect a change in a certificate and trigger a crdb-update. The version of the cluster's Proxy certificate secret.<br/>
+          Generation stores the version of the cluster's Proxy and Syncer certificate secrets. This generation counter is automatically incremented when proxy or syncer certificates are updated. In Active-Active databases (REAADB), the operator monitors this field to detect certificate changes and automatically triggers a CRDB force update (equivalent to 'crdb-cli crdb update --force'), which synchronizes the certificate changes to all participating clusters, eliminating the need for manual intervention to maintain sync.<br/>
           <br/>
             <i>Format</i>: int64<br/>
         </td>

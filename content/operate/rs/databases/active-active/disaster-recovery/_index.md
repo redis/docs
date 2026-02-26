@@ -66,7 +66,7 @@ To determine which health checks to use, consider factors such as detection spee
 
 ### Lag-aware database availability requests
 
-Lag-aware database availability requests are the recommended method to detect database failures in Redis Enterprise Software deployments. This method guarantees that all the shards of a clustered database are connectable.
+Lag-aware database availability requests are the recommended method to detect database failures in Redis Software deployments. This method guarantees that all the shards of a clustered database are connectable.
 
 See [Lag-aware database availability requests]({{<relref "/operate/rs/monitoring/db-availability#lag-aware">}}) for more information.
 

@@ -74,6 +74,6 @@ Depending on the type of the user's assigned role (cluster management role or da
 
 - [Connect to a database]({{< relref "/operate/rs/databases/connect" >}}) associated with the role and run limited Redis commands, depending on the role's Redis ACLs.
 
-- Sign in to the Redis Enterprise Software Cluster Manager UI.
+- Sign in to the Redis Software Cluster Manager UI.
 
 - Make a [REST API]({{< relref "/operate/rs/references/rest-api" >}}) request.

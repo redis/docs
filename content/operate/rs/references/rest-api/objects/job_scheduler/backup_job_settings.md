@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the backup_job_settings object used with Redis Enterprise Software
+description: Documents the backup_job_settings object used with Redis Software
   REST API calls.
 linkTitle: backup_job_settings
 weight: $weight

@@ -1,5 +1,3 @@
-## Supported upgrade paths
-
 <span title="Check mark icon">&#x2705;</span> Supported – You can upgrade directly from the current Redis Software cluster version.
 
 <span title="X icon">:x:</span> Not supported – You cannot upgrade directly from the current Redis Software cluster version. You must first upgrade to a supported intermediate version.

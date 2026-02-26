@@ -11,7 +11,7 @@ linkTitle: Write-behind caching
 weight: 70
 ---
 
-Write-behind is a caching strategy in which the cache layer itself connects to the backing database. This means that your applications need only ever connect to your cache layer, and the cache then reads from or updates the backing database as needed. Redis currently supports write-behind caching in [Redis Enterprise Software]({{< relref "/operate/rs" >}}).
+Write-behind is a caching strategy in which the cache layer itself connects to the backing database. This means that your applications need only ever connect to your cache layer, and the cache then reads from or updates the backing database as needed. Redis currently supports write-behind caching in [Redis Software]({{< relref "/operate/rs" >}}).
 
 Here's how these caching patterns work:
 
@@ -229,7 +229,7 @@ connection = MySqlConnection(User, Password, DB)
 
 Notice that for each credential, we define a Python function that returns the specified module parameter. We then provide each function reference when we instantiate `MySqlConnection`.
 
-This code references three parameters: `MySqlUser`, `MySqlPassword`, and `MySqlDB`. In Redis Enterprise, you can set these parameters using the `rladmin` tool. The command to set these parameters takes the following form:
+This code references three parameters: `MySqlUser`, `MySqlPassword`, and `MySqlDB`. In Redis Software, you can set these parameters using the `rladmin` tool. The command to set these parameters takes the following form:
 
 ```sh
 rladmin tune db [DB-NAME] module_name rg module_config_params "[PARAM-NAME] [PARAM-VALUE]"

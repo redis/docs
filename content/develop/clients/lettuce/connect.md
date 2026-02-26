@@ -258,15 +258,15 @@ In this setup, `LettuceConnectionFactory` is a custom class you would need to im
 ## Connect using Smart client handoffs (SCH)
 
 *Smart client handoffs (SCH)* is a feature of Redis Cloud and
-Redis Enterprise servers that lets them actively notify clients
+Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
 See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
 for more information about SCH.
 
-To enable SCH on the client, create a `MaintNotificationsConfig` object
-and/or a `TimeoutOptions` object
-and pass them to the `ClientOptions` builder as shown in the example below.
+SCH is enabled on the client by default. However, you can configure it
+explicitly by creating a `MaintNotificationsConfig` object and/or a `TimeoutOptions`
+object and passing them to the `ClientOptions` builder as shown in the example below.
 Note that SCH also requires the
 [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
 protocol. Lettuce uses this by default, but make sure you don't set
@@ -317,11 +317,22 @@ ClientOptions clientOptions = ClientOptions.builder()
 redisClient.setOptions(clientOptions);
 ```
 
+To disable SCH, use `MaintNotificationsConfig.disabled()` and pass the instance it
+returns to the `ClientOptions` builder:
+
+```java
+ClientOptions clientOptions = ClientOptions.builder()
+        .maintNotificationsConfig(MaintNotificationsConfig.disabled())
+        .build();
+
+redisClient.setOptions(clientOptions);
+```
+
 The `MaintNotificationsConfig` builder accepts the following options:
 
 | Method | Description |
 |--------|-------------|
-| `enableMaintNotifications()` | Enable SCH. |
+| `enableMaintNotifications(boolean enabled)` | Enable/disable SCH. The default is `true` (enabled). |
 | `endpointType(EndpointType type)` | Set the type of endpoint to use for the connection. The options are `EndpointType.EXTERNAL_IP`, `EndpointType.INTERNAL_IP`, `EndpointType.EXTERNAL_FQDN`, `EndpointType.INTERNAL_FQDN`, and `EndpointType.NONE`. Use the separate `autoResolveEndpointType()` method to auto-detect based on the connection (this is the default behavior). |
 | `autoResolveEndpointType()` | Auto-detect the type of endpoint to use for the connection. This is the default behavior. Use `endpointType()` to set a specific endpoint type. |
 

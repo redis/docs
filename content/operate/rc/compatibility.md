@@ -11,13 +11,13 @@ weight: 90
 tocEmbedHeaders: true
 ---
 
-Both [Redis Enterprise Software]({{< relref "/operate/rs" >}}) and Redis Cloud are compatible with Redis Open Source.
+Both [Redis Software]({{< relref "/operate/rs" >}}) and Redis Cloud are compatible with Redis Open Source.
 
 {{< embed-md "rc-rs-oss-compatibility.md"  >}}
 
 ## RESP compatibility
 
-Redis Enterprise Software and Redis Cloud support RESP2 and RESP3. In Redis Cloud, you can choose between RESP2 and RESP3 when you [create a database]({{< relref "/operate/rc/databases/create-database" >}}) and you can change it when you [edit a database]({{< relref "/operate/rc/databases/view-edit-database" >}}). For more information about the different RESP versions, see the [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions).
+Redis Software and Redis Cloud support RESP2 and RESP3. In Redis Cloud, you can choose between RESP2 and RESP3 when you [create a database]({{< relref "/operate/rc/databases/create-database" >}}) and you can change it when you [edit a database]({{< relref "/operate/rc/databases/view-edit-database" >}}). For more information about the different RESP versions, see the [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions).
 
 ## Client-side caching compatibility
 

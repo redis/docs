@@ -33,4 +33,4 @@ As a result, we recommend ordering roles so that higher access roles appear befo
 
 - Enable and configure [role-based LDAP]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap.md" >}})
 - Map LDAP groups to [access control roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles.md" >}})
-- Learn more about Redis Enterprise Software [security and practices]({{< relref "/operate/rs/security/" >}})
+- Learn more about Redis Software [security and practices]({{< relref "/operate/rs/security/" >}})

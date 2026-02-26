@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: REST API requests to list or modify Redis Enterprise services.
+description: REST API requests to list or modify Redis Software services.
 headerRange: '[1-2]'
 hideListLinks: true
 linkTitle: services
@@ -14,7 +14,7 @@ weight: $weight
 
 | Method | Path | Description |
 |--------|------|-------------|
-| [GET](#get-local-services) | `/v1/local/services` | List Redis Enterprise services on the local node |
+| [GET](#get-local-services) | `/v1/local/services` | List Redis Software services on the local node |
 | [POST](#post-local-services) | `/v1/local/services` | Modify or perform operations on local processes |
 | [POST](#post-services) | `/v1/services` | Apply cluster-wide changes to services |
 
@@ -32,7 +32,7 @@ For a list of optional services, see the [services configuration object referenc
 GET /v1/local/services
 ```
 
-Lists all Redis Enterprise services currently running on the local node and relevant metadata.
+Lists all Redis Software services currently running on the local node and relevant metadata.
 
 ### Request {#get-request}
 
@@ -53,7 +53,7 @@ GET /v1/local/services
 
 ### Response {#get-response}
 
-Returns a JSON object that describes all Redis Enterprise services currently running on the local node and relevant metadata.
+Returns a JSON object that describes all Redis Software services currently running on the local node and relevant metadata.
 
 Possible `status` values: 
 - RESTARTING
@@ -91,7 +91,7 @@ Possible `status` values:
 POST /v1/local/services
 ```
 
-Modify Redis Enterprise services or perform operations that directly interact with processes. For cluster-wide changes that are not node-specific, use [`POST /v1/services`](#post-services) instead.
+Modify Redis Software services or perform operations that directly interact with processes. For cluster-wide changes that are not node-specific, use [`POST /v1/services`](#post-services) instead.
 
 Supported `operation_type` values:
 
@@ -160,7 +160,7 @@ Returns a JSON object that shows whether the operation ran successfully or faile
 POST /v1/services
 ```
 
-Makes cluster-wide changes that are not node-specific on Redis Enterprise services. The master node handles these changes. For operations that directly interact with processes, use [`POST /v1/local/services`](#post-local-services) instead.
+Makes cluster-wide changes that are not node-specific on Redis Software services. The master node handles these changes. For operations that directly interact with processes, use [`POST /v1/local/services`](#post-local-services) instead.
 
 Supported `operation_type` values:
 

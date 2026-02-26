@@ -115,6 +115,17 @@ global:
   # Image pull secrets to be used when using a private image registry.
   imagePullSecrets:
     - name: your-secret-name
+
+# ...
+
+# Configuration of the reloader.
+reloader:
+  reloader:
+    # ...
+    deployment:
+      image:
+        name: my-registry.com/my-repo/reloader
+        #...
 ```
 
 To pull images from a private image registry, you must provide the image pull secret and in some cases also set the permissions. Follow the links below to learn how to use a private registry with:
@@ -224,7 +235,7 @@ global:
   openShift: true
 ```
 
-You should also set `global.securityContext.runAsUser` and
+Set `global.securityContext.runAsUser` and
 `global.securityContext.runAsGroup` to the appropriate values for your
 OpenShift environment.
 
@@ -255,7 +266,6 @@ to find the user and group ranges for your project:
 oc get projects <rid-project-name> -o yaml | grep "openshift.io/sa.scc"
 ```
 {{< /warning >}}
-
 
 ## Check the installation
 

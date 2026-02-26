@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the syncer_sources object used with Redis Enterprise Software
+description: Documents the syncer_sources object used with Redis Software
   REST API calls.
 linkTitle: syncer_sources
 weight: $weight

@@ -62,14 +62,14 @@ To enable auditing for your cluster, use:
 
     Development systems can set _audit\_protocol_ to `local` for testing and training purposes; however, this setting is _not_ supported for production use.  
     
-    When `audit_protocol` is set to `local`, `<address>` should be set to a [stream socket](https://man7.org/linux/man-pages/man7/unix.7.html) defined on the machine running Redis Enterprise and _`<port>`_ should not be specified: 
-    
+    When `audit_protocol` is set to `local`, `<address>` should be set to a [stream socket](https://man7.org/linux/man-pages/man7/unix.7.html) defined on the machine running Redis Enterprise and _`<port>`_ should not be specified:
+
     ```
     rladmin cluster config auditing db_conns \
-       audit_protocol local audit_address <output-file>
+       audit_protocol local audit_address <socket-file>
     ```
 
-    The output file (and path) must be accessible by the user and group running Redis Enterprise Software.
+    The socket file and path must be accessible by the user and group running Redis Enterprise Software.
 
 - the [REST API]({{< relref "/operate/rs/7.22/references/rest-api/requests/cluster/auditing-db-conns#put-cluster-audit-db-conns" >}})
 

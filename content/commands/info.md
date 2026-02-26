@@ -61,6 +61,7 @@ The optional parameter can be used to select a specific section of information:
 *   `keyspace`: Database-related statistics
 *   `keysizes`: Statistics on the distribution of key sizes for each data type
 *   `errorstats`: Redis error statistics
+*   `hotkeys`: Hotkeys tracking information
 
 It can also take the following values:
 
@@ -390,6 +391,7 @@ Here is the meaning of all fields in the **stats** section:
 *   `acl_access_denied_cmd`: Number of commands rejected because of access denied to the command
 *   `acl_access_denied_key`: Number of commands rejected because of access denied to a key
 *   `acl_access_denied_channel`: Number of commands rejected because of access denied to a channel
+*   `acl_access_denied_tls_cert`: Number of failed TLS certificate–based authentication attempts
 *   `cluster_incompatible_ops`: Number of cluster-incompatible commands. This metric appears only if the `cluster-compatibility-sample-ratio` configuration parameter is not 0. Added in Redis 8.0.
 
 
@@ -494,6 +496,12 @@ For each error type, the following line is added:
 
 If the server detects that this section was flooded with an excessive number of errors, it will be disabled, show a single `ERRORSTATS_DISABLED` error, and print the errors to the server log.
 This can be reset by `CONFIG RESETSTAT`.
+
+The **hotkeys** section provides information about hotkeys tracking. It consists of the following fields:
+
+*   `tracking_active`: Boolean flag (0 or 1) indicating whether hotkeys tracking is currently active.
+*   `used_memory`: Memory overhead in bytes of the structures used for hotkeys tracking.
+*   `cpu_time`: Time in milliseconds spent updating the hotkey tracking structures.
 
 The **sentinel** section is only available in Redis Sentinel instances. It consists of the following fields:
 
@@ -623,11 +631,11 @@ It won't be included when `INFO` or `INFO ALL` are called, and it is returned on
 
 **Modules generated sections**: Starting with Redis 6, modules can inject their information into the `INFO` command. These are excluded by default even when the `all` argument is provided (it will include a list of loaded modules but not their generated info fields). To get these you must use either the `modules` argument or `everything`.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Enterprise, `INFO` returns a different set of fields than Redis Open Source.<br />Not supported for [scripts]({{<relref "/develop/programmability">}}). |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Software, `INFO` returns a different set of fields than Redis Open Source.<br />Not supported for [scripts]({{<relref "/develop/programmability">}}). |
 
 Note: key memory usage is different on Redis Software or Redis Cloud active-active databases than on non-active-active databases. This is because memory usage includes some amount of CRDB overhead.
 

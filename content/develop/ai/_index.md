@@ -125,3 +125,9 @@ See how we stack up against the competition.
 ## Best practices
 See how leaders in the industry are building their RAG apps.
 * [Get better RAG responses with Ragas](https://redis.io/blog/get-better-rag-responses-with-ragas/)
+
+## Continue learning with Redis University
+
+* [Context Engineering with Redis & LangChain](https://university.redis.io/course/vsgabnbkd3f5cd?tab=details)
+* [Vector Search with RedisVL](https://university.redis.io/course/1npvvtfft2agew?tab=details)
+* [Build a RAG Chatbot](https://university.redis.io/course/ihjs7iip0gpkrw?tab=details)

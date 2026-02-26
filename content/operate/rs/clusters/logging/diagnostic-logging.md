@@ -5,12 +5,12 @@ categories:
 - docs
 - operate
 - rs
-description: Diagnostic logs can help troubleshoot Redis Enterprise Software.
+description: Diagnostic logs can help troubleshoot Redis Software.
 linkTitle: Diagnostic logging
 weight: 50
 ---
 
-The diagnostic logging service collects detailed system logs, which you can use to troubleshoot Redis Enterprise Software.
+The diagnostic logging service collects detailed system logs, which you can use to troubleshoot Redis Software.
 
 ## View diagnostic logs
 
@@ -139,4 +139,4 @@ Default `cron_expression` values:
 | shard_latency | Logs the result of running [`latency latest`]({{<relref "/commands/latency-latest">}}) on a shard, with a separate file for each shard.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
 | <span class="break-all">`shard_latency_histogram`</span> | Logs the result of running [`latency histogram`]({{<relref "/commands/latency-histogram">}}) on a shard, with a separate file for each shard.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
 | slowlog | Logs slow commands from the databases using [`SLOWLOG GET`]({{<relref "/commands/slowlog-get">}}), with a separate file for each database. Each entry is in JSON format. The log is sanitized, only the commands are visible.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *",<br />"max_entries": 100{{</code>}} |
-| socket_files | Lists socket files used by Redis Enterprise Software.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |
+| socket_files | Lists socket files used by Redis Software.<br />Default settings:<br />{{<code>}}"cron_expression": "*/10 * * * *"{{</code>}} |

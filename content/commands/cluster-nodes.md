@@ -38,7 +38,7 @@ order to store on disk the cluster state (however the on disk cluster state
 has a few additional info appended at the end).
 
 Note that normally clients willing to fetch the map between Cluster
-hash slots and node addresses should use [`CLUSTER SLOTS`]({{< relref "/commands/cluster-slots" >}}) instead.
+hash slots and node addresses should use [`CLUSTER SHARDS`]({{< relref "/commands/cluster-shards" >}}) instead.
 `CLUSTER NODES`, that provides more information, should be used for
 administrative tasks, debugging, and configuration inspections.
 It is also used by `redis-cli` in order to manage a cluster.
@@ -136,9 +136,9 @@ Note that:
 
 **A note about the word slave used in this man page and command name**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). |
 

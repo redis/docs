@@ -14,7 +14,7 @@ weight: 10
 
 For this quick start, you need:
 
-- A Redis Enterprise cluster with the [RedisGears module and JVM plugin installed]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/installing-redisgears#install-redisgears" >}}) and [enabled on a database]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/jvm/install" >}})
+- A Redis Software cluster with the [RedisGears module and JVM plugin installed]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/installing-redisgears#install-redisgears" >}}) and [enabled on a database]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/jvm/install" >}})
 - `redis-cli` with connectivity to a Redis database
 
 ## Tutorial
@@ -56,7 +56,7 @@ $ mvn package
 
 ### Upload the JAR
 
-Upload your JAR file to a node in the Redis Enterprise cluster. You will need to use the destination filepath when you run your code.
+Upload your JAR file to a node in the Redis Software cluster. You will need to use the destination filepath when you run your code.
 
 ### Run RedisGears Java code
 

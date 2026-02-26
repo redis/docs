@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the crdb_coordinator object used with Redis Enterprise Software
+description: Documents the crdb_coordinator object used with Redis Software
   REST API calls.
 linkTitle: crdb_coordinator
 weight: $weight

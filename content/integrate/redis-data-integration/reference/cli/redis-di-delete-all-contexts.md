@@ -17,14 +17,12 @@ Usage: redis-di delete-all-contexts [OPTIONS]
 ## Options
 
 - `log_level`:
-
   - Type: Choice(['TRACE', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
   - Default: `info`
   - Usage: `--log-level
 -l`
 
 - `force`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--force
@@ -33,7 +31,6 @@ Usage: redis-di delete-all-contexts [OPTIONS]
   Force operation. Skips verification prompts
 
 - `help`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--help`

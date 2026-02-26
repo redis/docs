@@ -62,7 +62,7 @@ Use the [REST API]({{< relref "/operate/rc/api" >}}) to manage Redis Cloud datab
 
 
 ## Related info
-- [Redis Enterprise Software]({{< relref "/operate/rs" >}})
+- [Redis Software]({{< relref "/operate/rs" >}})
 - [Develop with Redis]({{< relref "/develop/" >}})
 - [Redis Stack]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}})
 - [Glossary]({{< relref "/glossary" >}})

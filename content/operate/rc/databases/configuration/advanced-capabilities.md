@@ -28,7 +28,7 @@ When the database **Type** is set to _Redis_, the Advanced capabilities section 
 
 Starting with Redis 8.0, all advanced capabilities provided by Redis Stack are included in Redis by default.
 
-Redis Cloud is updated on a regular basis, which includes the advanced capabilities supported by the service. Versions displayed by the Redis Cloud console may vary from those shown above.  For the latest details of any capability, see [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}). For more information about Redis Cloud version management, see [Redis version management]({{< relref "/operate/rc/databases/version-management" >}}).
+Redis Cloud is updated on a regular basis, which includes the advanced capabilities supported by the service. Versions displayed by the Redis Cloud console may vary from those shown above.  For the latest details of any capability, see [Redis Stack and Redis Software]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}). For more information about Redis Cloud version management, see [Redis version management]({{< relref "/operate/rc/databases/version-management" >}}).
 
 ## Redis Cloud Pro {#pro}
 
@@ -51,7 +51,7 @@ To remove a selected capability, clear its checkbox.
 
 Starting with Redis 8.0, all advanced capabilities provided by Redis Stack are included in Redis by default. 
 
-To learn more, see [Redis Stack]({{< relref "/develop/get-started/" >}}) and [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}). For more information about Redis Cloud version management, see [Redis version management]({{< relref "/operate/rc/databases/version-management" >}}).
+To learn more, see [Redis Stack]({{< relref "/develop/get-started/" >}}) and [Redis Stack and Redis Software]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}). For more information about Redis Cloud version management, see [Redis version management]({{< relref "/operate/rc/databases/version-management" >}}).
 
 ### Search and query sizing
 

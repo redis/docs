@@ -49,6 +49,14 @@ arguments:
     since: 1.8.0
     token: TWA
     type: pure-token
+  - name: countNaN
+    since: 8.6.0
+    token: COUNTNAN
+    type: pure-token
+  - name: countAll
+    since: 8.6.0
+    token: COUNTALL
+    type: pure-token
   name: aggregator
   token: AGGREGATION
   type: oneof
@@ -69,7 +77,7 @@ categories:
 - kubernetes
 - clients
 complexity: O(1)
-description: Create a compaction rule
+description: Create a compaction rule.
 group: timeseries
 hidden: false
 linkTitle: TS.CREATERULE
@@ -115,19 +123,21 @@ aggregates results into time buckets.
 
     | `aggregator` | Description                                                                    |
     | ------------ | ------------------------------------------------------------------------------ |
-    | `avg`        | Arithmetic mean of all values                                                  |
-    | `sum`        | Sum of all values                                                              |
-    | `min`        | Minimum value                                                                  |
-    | `max`        | Maximum value                                                                  |
-    | `range`      | Difference between the highest and the lowest value                            |
-    | `count`      | Number of values                                                               |
-    | `first`      | Value with lowest timestamp in the bucket                                      |
-    | `last`       | Value with highest timestamp in the bucket                                     |
-    | `std.p`      | Population standard deviation of the values                                    |
-    | `std.s`      | Sample standard deviation of the values                                        |
-    | `var.p`      | Population variance of the values                                              |
-    | `var.s`      | Sample variance of the values                                                  |
-    | `twa`        | Time-weighted average over the bucket's timeframe (since RedisTimeSeries v1.8) |
+    | `avg`        | Arithmetic mean of all non-NaN values (ignores NaN values)    |
+    | `sum`        | Sum of all non-NaN values (ignores NaN values)                |
+    | `min`        | Minimum non-NaN value (ignores NaN values)                    |
+    | `max`        | Maximum non-NaN value (ignores NaN values)                    |
+    | `range`      | Difference between the highest and the lowest non-NaN value (ignores NaN values) |
+    | `count`      | Number of non-NaN values (ignores NaN values)                 |
+    | `countNaN`   | Number of NaN values (since Redis 8.6)                                        |
+    | `countAll`   | Number of all values, both NaN and non-NaN (since Redis 8.6)                  |
+    | `first`      | Value with lowest timestamp in the bucket (ignores NaN values) |
+    | `last`       | Value with highest timestamp in the bucket (ignores NaN values) |
+    | `std.p`      | Population standard deviation of the non-NaN values (ignores NaN values) |
+    | `std.s`      | Sample standard deviation of the non-NaN values (ignores NaN values) |
+    | `var.p`      | Population variance of the non-NaN values (ignores NaN values) |
+    | `var.s`      | Sample variance of the non-NaN values (ignores NaN values)    |
+    | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values). Added in RedisTimeSeries 1.8. |
 
   - `bucketDuration` is duration of each bucket, in milliseconds.
   
@@ -184,9 +194,9 @@ Now, also create a compacted time series named _dailyDiffTemp_. This time series
 
 </details>
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 

@@ -442,6 +442,10 @@ select {
   min-height: 32px;
 }
 
+.cli-footer.commands-foldout-open {
+  @apply opacity-100 visible;
+}
+
 .cli-footer a.rounded {
   @apply bg-red-900/80 hover:bg-red-700/80 text-white;
 }

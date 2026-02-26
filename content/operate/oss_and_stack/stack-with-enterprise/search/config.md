@@ -1,17 +1,17 @@
 ---
-Title: Search and query configuration compatibility with Redis Enterprise
+Title: Search and query configuration compatibility with Redis Software
 alwaysopen: false
 categories:
 - docs
 - operate
 - stack
-description: Search and query configuration settings supported by Redis Enterprise Software and Redis Cloud.
+description: Search and query configuration settings supported by Redis Software and Redis Cloud.
 linkTitle: Configuration
 toc: 'false'
 weight: 15
 ---
 
-To configure RediSearch in [Redis Enterprise Software]({{< relref "/operate/rs" >}}) or [Redis Cloud]({{< relref "/operate/rc" >}}), use one of the following methods instead of [`FT.CONFIG SET`]({{< relref "commands/ft.config-set" >}}).
+To configure RediSearch in [Redis Software]({{< relref "/operate/rs" >}}) or [Redis Cloud]({{< relref "/operate/rc" >}}), use one of the following methods instead of [`FT.CONFIG SET`]({{< relref "commands/ft.config-set" >}}).
 
 ## Configure search in Redis Cloud
 
@@ -23,7 +23,7 @@ For Redis Cloud:
 
 ## Configure search in Redis Software
 
-For Redis Enterprise Software, use one of the following methods:
+For Redis Software, use one of the following methods:
 
 - Cluster Manager UI:
 
@@ -35,7 +35,7 @@ For Redis Enterprise Software, use one of the following methods:
 
   1. Enter the setting name and setting value in the **RediSearch** box.
   
-      In the **Query Performance Factor** section, you can configure settings to improve query performance. See [Configure the query performance factor for Redis Query Engine in Redis Enterprise]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor">}}) for more information.
+      In the **Query Performance Factor** section, you can configure settings to improve query performance. See [Configure the query performance factor for Redis Query Engine in Redis Software]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor">}}) for more information.
 
       {{<image filename="images/rs/screenshots/databases/rs-config-search-params.png" alt="The Parameters dialog includes sections to edit RediSearch settings and the Query Performance Factor settings.">}}
 

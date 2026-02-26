@@ -112,7 +112,7 @@ is key name for the time series.
 
 <details open><summary><code>subtrahend</code></summary> 
 
-is numeric value of the subtrahend (double).
+is numeric value of the subtrahend (double). An error is returned if the subtrahend is NaN.
 </details>
 
 <note><b>Notes</b>
@@ -133,8 +133,10 @@ Unix time is the number of milliseconds that have elapsed since 00:00:00 UTC on 
 `timestamp` must be equal to or higher than the maximum existing timestamp. When equal, the value of the sample with the maximum existing timestamp is decreased. If it is higher, a new sample with a timestamp set to `timestamp` is created, and its value is set to the value of the sample with the maximum existing timestamp minus `subtrahend`. 
 
 If the time series is empty, the value is set to `subtrahend`.
-  
+
 When not specified, the timestamp is set to the Unix time of the server's clock.
+
+<note><b>NaN Handling (Redis 8.6+):</b> An error is returned if the current value at the maximum existing timestamp is NaN.</note>
 </details>
 
 <details open><summary><code>RETENTION retentionPeriod</code></summary> 
@@ -195,9 +197,9 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 - Setting `RETENTION` and `LABELS` introduces additional time complexity.
 </note>
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 

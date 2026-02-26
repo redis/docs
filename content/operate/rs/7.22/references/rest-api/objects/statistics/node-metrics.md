@@ -12,6 +12,10 @@ weight: $weight
 url: '/operate/rs/7.22/references/rest-api/objects/statistics/node-metrics/'
 ---
 
+{{<banner-article>}}
+The v1 statistics REST API endpoints are deprecated as of Redis Enterprise Software version 7.22. Use the [metrics stream engine for monitoring v2]({{< relref "/operate/rs/7.22/monitoring/metrics_stream_engine" >}}) instead for real-time monitoring and metrics collection.
+{{</banner-article>}}
+
 | Metric name | Type | Description |
 |-------------|------|-------------|
 | available_flash | float | Available flash on the node (bytes) |

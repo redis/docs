@@ -46,7 +46,7 @@ hashes in many different ways inside your application.
 The command [`HSET`]({{< relref "/commands/hset" >}}) sets multiple fields of the hash, while [`HGET`]({{< relref "/commands/hget" >}}) retrieves
 a single field. [`HMGET`]({{< relref "/commands/hmget" >}}) is similar to [`HGET`]({{< relref "/commands/hget" >}}) but returns an array of values:
 
-{{< clients-example set="hash_tutorial" step="hmget" description="Retrieve multiple field values from a hash using HMGET when you need to reduce round trips to the server" >}}
+{{< clients-example set="hash_tutorial" step="hmget" description="Retrieve multiple field values from a hash using HMGET when you need to reduce round trips to the server" buildsUpon="set_get_all" >}}
 > HMGET bike:1 model price no-such-field
 1) "Deimos"
 2) "4972"
@@ -56,7 +56,7 @@ a single field. [`HMGET`]({{< relref "/commands/hmget" >}}) is similar to [`HGET
 There are commands that are able to perform operations on individual fields
 as well, like [`HINCRBY`]({{< relref "/commands/hincrby" >}}):
 
-{{< clients-example set="hash_tutorial" step="hincrby" description="Increment hash field values for counters using HINCRBY (creates field if missing, initializes to 0)" >}}
+{{< clients-example set="hash_tutorial" step="hincrby" description="Increment hash field values for counters using HINCRBY (creates field if missing, initializes to 0)" buildsUpon="set_get_all" >}}
 > HINCRBY bike:1 price 100
 (integer) 5072
 > HINCRBY bike:1 price -100
@@ -80,7 +80,7 @@ See the [complete list of hash commands]({{< relref "/commands/" >}}?group=hash)
 ## Examples
 
 * Store counters for the number of times bike:1 has been ridden, has crashed, or has changed owners:
-{{< clients-example set="hash_tutorial" step="incrby_get_mget" description="Practical pattern: Combine HINCRBY and HMGET to track multiple counters when you need atomic updates across multiple fields" difficulty="intermediate" >}}
+{{< clients-example set="hash_tutorial" step="incrby_get_mget" description="Practical pattern: Combine HINCRBY and HMGET to track multiple counters when you need atomic updates across multiple fields" difficulty="intermediate" buildsUpon="hincrby, hmget" >}}
 > HINCRBY bike:1:stats rides 1
 (integer) 1
 > HINCRBY bike:1:stats rides 1

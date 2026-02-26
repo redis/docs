@@ -17,8 +17,7 @@ weight: 10
 ---
 
 Redis strings store sequences of bytes, including text, serialized objects, and binary arrays.
-As such, strings are the simplest type of value you can associate with
-a Redis key.
+As such, strings are the simplest type of value you can associate with a Redis key.
 They're often used for caching, but they support additional functionality that lets you implement counters and perform bitwise operations, too.
 
 Since Redis keys are strings, when we use the string type as a value too,
@@ -26,10 +25,10 @@ we are mapping a string to another string. The string data type is useful
 for a number of use cases, like caching HTML fragments or pages.
 
 {{< clients-example set="set_tutorial" step="set_get" description="Foundational: Set and retrieve string values using SET and GET (overwrites existing values)" >}}
-    > SET bike:1 Deimos
-    OK
-    > GET bike:1
-    "Deimos"
+> SET bike:1 Deimos
+OK
+> GET bike:1
+"Deimos"
 {{< /clients-example >}}
 
 As you can see using the [`SET`]({{< relref "/commands/set" >}}) and the [`GET`]({{< relref "/commands/get" >}}) commands are the way we set
@@ -40,15 +39,15 @@ the key is associated with a non-string value. So [`SET`]({{< relref "/commands/
 Values can be strings (including binary data) of every kind, for instance you
 can store a jpeg image inside a value. A value can't be bigger than 512 MB.
 
-The [`SET`]({{< relref "/commands/set" >}}) command has interesting options, that are provided as additional
+The [`SET`]({{< relref "/commands/set" >}}) command has interesting options that are provided as additional
 arguments. For example, I may ask [`SET`]({{< relref "/commands/set" >}}) to fail if the key already exists,
 or the opposite, that it only succeed if the key already exists:
 
-{{< clients-example set="set_tutorial" step="setnx_xx" description="Conditional SET operations: Use NX and XX options to control key existence when you need atomic compare-and-set behavior" difficulty="intermediate" >}}
-    > set bike:1 bike nx
-    (nil)
-    > set bike:1 bike xx
-    OK
+{{< clients-example set="set_tutorial" step="setnx_xx" description="Conditional SET operations: Use NX and XX options to control key existence when you need atomic compare-and-set behavior" difficulty="intermediate" buildsUpon="set_get" >}}
+> SET bike:1 bike NX
+(nil)
+> SET bike:1 bike XX
+OK
 {{< /clients-example >}}
 
 There are a number of other commands for operating on strings. For example
@@ -64,13 +63,13 @@ The ability to set or retrieve the value of multiple keys in a single
 command is also useful for reduced latency. For this reason there are
 the [`MSET`]({{< relref "/commands/mset" >}}) and [`MGET`]({{< relref "/commands/mget" >}}) commands:
 
-{{< clients-example set="set_tutorial" step="mset" description="Set and retrieve multiple values using MSET and MGET when you need to reduce round trips to the server" >}}
-    > mset bike:1 "Deimos" bike:2 "Ares" bike:3 "Vanth"
-    OK
-    > mget bike:1 bike:2 bike:3
-    1) "Deimos"
-    2) "Ares"
-    3) "Vanth"
+{{< clients-example set="set_tutorial" step="mset" description="Set and retrieve multiple values using MSET and MGET when you need to reduce round trips to the server" buildsUpon="set_get" >}}
+> MSET bike:1 "Deimos" bike:2 "Ares" bike:3 "Vanth"
+OK
+> MGET bike:1 bike:2 bike:3
+1) "Deimos"
+2) "Ares"
+3) "Vanth"
 {{< /clients-example >}}
 
 When [`MGET`]({{< relref "/commands/mget" >}}) is used, Redis returns an array of values.
@@ -79,13 +78,13 @@ When [`MGET`]({{< relref "/commands/mget" >}}) is used, Redis returns an array o
 Even if strings are the basic values of Redis, there are interesting operations
 you can perform with them. For instance, one is atomic increment:
 
-{{< clients-example set="set_tutorial" step="incr" description="Atomic counters: Increment string values using INCR and INCRBY when you need thread-safe operations (initializes to 0 if key doesn't exist)" >}}
-    > set total_crashes 0
-    OK
-    > incr total_crashes
-    (integer) 1
-    > incrby total_crashes 10
-    (integer) 11
+{{< clients-example set="set_tutorial" step="incr" description="Atomic counters: Increment string values using INCR and INCRBY when you need thread-safe operations (initializes to 0 if key doesn't exist)" buildsUpon="set_get" >}}
+> SET total_crashes 0
+OK
+> INCR total_crashes
+(integer) 1
+> INCRBY total_crashes 10
+(integer) 11
 {{< /clients-example >}}
 
 The [`INCR`]({{< relref "/commands/incr" >}}) command parses the string value as an integer,

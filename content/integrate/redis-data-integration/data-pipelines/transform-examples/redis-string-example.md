@@ -34,6 +34,7 @@ After this time, the key will be deleted automatically.
 If you don't supply an `expire` parameter, the keys will never expire. 
 
 ```yaml
+name: Write album title to string
 source:
   table: album
   row_format: full

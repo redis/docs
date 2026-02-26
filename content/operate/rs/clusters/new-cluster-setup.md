@@ -9,7 +9,7 @@ description: How to set up a new cluster using the management UI.
 linktitle: Set up cluster
 weight: 10
 ---
-A Redis Enterprise Software cluster typically consists of several nodes.
+A Redis Software cluster typically consists of several nodes.
 For production deployments, we recommend an uneven number of nodes, with a minimum of three.
 
 {{< note >}}
@@ -17,14 +17,14 @@ In a cluster that consists of only one node, some features and capabilities are 
 such as database replication that provides high availability.
 {{< /note >}}
 
-To set up a new cluster, you must first [install the Redis Enterprise Software package]({{< relref "/operate/rs/installing-upgrading" >}})
+To set up a new cluster, you must first [install the Redis Software package]({{< relref "/operate/rs/installing-upgrading" >}})
 and then set up the cluster as described below.
 After the cluster is created you can [add multiple nodes to the cluster]({{< relref "/operate/rs/clusters/add-node.md" >}}).
 
 To create a cluster:
 
-1. In a browser, go to `https://<name or IP address of the machine with Redis Enterprise Software installed>:8443`.
-    For example, if you installed Redis Enterprise Software on a machine with IP address 10.0.1.34, go to <https://10.0.1.34:8443>.
+1. In a browser, go to `https://<name or IP address of the machine with Redis Software installed>:8443`.
+    For example, if you installed Redis Software on a machine with IP address 10.0.1.34, go to <https://10.0.1.34:8443>.
 
     {{< note >}}
 - The management UI uses a [self-signed certificate for TLS encryption]({{< relref "/operate/rs/security/certificates/updating-certificates" >}}).

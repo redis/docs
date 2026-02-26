@@ -28,6 +28,7 @@ There are two ways to set the expiration time:
 The following example sets the expiration time to 100 seconds for all keys:
 
 ```yaml
+name: Static expiration example
 output:
   - uses: redis.write
     with:
@@ -40,6 +41,7 @@ output:
 You can use a JMESPath or SQL expression to set the expiration time dynamically when it is based on a field in the source data. For example, you can set the expiration time to the value of a `ttl` field in the source data:
 
 ```yaml
+name: Dynamic expiration from field
 output:
   - uses: redis.write
     with:
@@ -58,13 +60,14 @@ There are two main approaches you can use to set the expiration time based on a 
 - For values representing an elapsed time since epoch start (in milliseconds, for example), you have to convert the value to seconds since epoch and then subtract the current time (also in seconds since epoch). The difference between the two is the time until expiration.
 
     ```yaml
+    name: Expiration from timestamp in milliseconds
     output:
         - uses: redis.write
           with:
             data_type: hash
             expire:
               # To set the expiration time to a date field, convert the value to
-              # seconds (e.g. divide it by 1000 if the fields has milliseconds precision) 
+              # seconds (e.g. divide it by 1000 if the fields has milliseconds precision)
               # and subtract the current time in seconds since epoch.
               expression: EXPIRES_TIMESTAMP / 1000 - STRFTIME('%s', 'now')
               language: sql
@@ -73,6 +76,7 @@ There are two main approaches you can use to set the expiration time based on a 
 - For values matching the subset of ISO 8601 supported by SQLite (for example, `2023-10-01T12:00:00`, `2023-10-01T12:00:00Z`, or `2025-06-05T13:40:14.784000+02:00`), you can use the `STRFTIME` function to convert the value to seconds since epoch and subtract the current time in seconds since epoch from it.
 
   ```yaml
+  name: Expiration from ISO 8601 datetime
   output:
     - uses: redis.write
       with:

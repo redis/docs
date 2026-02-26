@@ -48,12 +48,12 @@ Redis Cloud is a fully managed Database as a Service offering and the fastest wa
 - [Redis Cloud REST API reference]({{< relref "/operate/rc/api/api-reference" >}})
 
 
-### Redis Enterprise Software API
-If you have installed Redis Enterprise Software, you can automate operations with the Redis Enterprise REST API.
+### Redis Software API
+If you have installed Redis Software, you can automate operations with the Redis Software REST API.
 
-- [Redis Enterprise Software REST API introduction]({{< relref "/operate/rs/references/rest-api/" >}})
-- [Redis Enterprise Software REST API requests]({{< relref "/operate/rs/references/rest-api/requests/" >}})
-- [Redis Enterprise Software REST API objects]({{< relref "/operate/rs/references/rest-api/objects/" >}})
+- [Redis Software REST API introduction]({{< relref "/operate/rs/references/rest-api/" >}})
+- [Redis Software REST API requests]({{< relref "/operate/rs/references/rest-api/requests/" >}})
+- [Redis Software REST API objects]({{< relref "/operate/rs/references/rest-api/objects/" >}})
 
 
 ### Redis Enterprise for Kubernetes API

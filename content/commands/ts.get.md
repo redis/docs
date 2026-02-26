@@ -34,7 +34,7 @@ syntax_fmt: TS.GET key [LATEST]
 title: TS.GET
 ---
 
-Get the sample with the highest timestamp from a given time series
+Get the sample with the highest timestamp from a given time series. Starting from Redis 8.6, NaN values are included in the results.
 
 [Examples](#examples)
 
@@ -127,9 +127,9 @@ Get the latest maximum daily temperature (the temperature with the highest times
 
 </details>
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
