@@ -31,12 +31,12 @@ group: search
 hidden: false
 linkTitle: FT.SYNUPDATE
 module: Search
+railroad_diagram: /images/railroad/ft.synupdate.svg
 since: 1.2.0
 stack_path: docs/interact/search-and-query
 summary: Creates or updates a synonym group with additional terms
 syntax: "FT.SYNUPDATE index synonym_group_id \n  [SKIPINITIALSCAN] term [term ...]\n"
 syntax_fmt: "FT.SYNUPDATE index synonym_group_id [SKIPINITIALSCAN] term [term\n  ...]"
-syntax_str: synonym_group_id [SKIPINITIALSCAN] term [term ...]
 title: FT.SYNUPDATE
 ---
 
@@ -68,10 +68,6 @@ Use FT.SYNUPDATE to create or update a synonym group with additional terms. The 
 does not scan and index, and only documents that are indexed after the update are affected.
 </details>
 
-## Return
-
-FT.SYNUPDATE returns a simple string reply `OK` if executed correctly, or an error reply otherwise.
-
 ## Examples
 
 <details open>
@@ -87,6 +83,30 @@ OK
 OK
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="ft-synupdate-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+
+{{< /multitabs >}}
 
 ## See also
 

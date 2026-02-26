@@ -42,6 +42,9 @@ implements the following data types:
 - [Probabilistic data types](#probabilistic-data-types)
 - [Time series](#time-series)
 
+See [Compare data types]({{< relref "/develop/data-types/compare-data-types" >}})
+for advice on which of the general-purpose data types is best for common tasks.
+
 ### Strings 
 
 [Redis strings]({{< relref "/develop/data-types/strings" >}}) are the most basic Redis data type, representing a sequence of bytes.
@@ -211,7 +214,7 @@ structures let you store and query timestamped data points.
 For more information, see:
 
 - [Redis time series overview]({{< relref "/develop/data-types/timeseries" >}})
-- [Count-min sketch command reference]({{< relref "/commands" >}}?group=timeseries)
+- [Time series command reference]({{< relref "/commands" >}}?group=timeseries)
 
 ## Adding extensions
 

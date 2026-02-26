@@ -95,7 +95,7 @@ ConfigurationOptions options = new ConfigurationOptions
 
 options.CertificateSelection += delegate
 {
-    return new X509Certificate2("redis.pfx", "secret"); // use the password you specified for pfx file
+    return X509CertificateLoader.LoadPkcs12FromFile("redis.pfx", "secret"); // use the password you specified for pfx file
 };
 options.CertificateValidation += ValidateServerCertificate;
 
@@ -109,7 +109,7 @@ bool ValidateServerCertificate(
         return false;       
     }
 
-    var ca = new X509Certificate2("redis_ca.pem");
+    var ca = X509CertificateLoader.LoadCertificateFromFile("redis_ca.pem");
     bool verdict = (certificate.Issuer == ca.Subject);
     if (verdict) {
         return true;

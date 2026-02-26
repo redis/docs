@@ -29,12 +29,11 @@ group: search
 hidden: false
 linkTitle: FT.EXPLAIN
 module: Search
+railroad_diagram: /images/railroad/ft.explain.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Returns the execution plan for a complex query
-syntax: "FT.EXPLAIN index query \n  [DIALECT dialect]\n"
 syntax_fmt: "FT.EXPLAIN index query [DIALECT\_dialect]"
-syntax_str: "query [DIALECT\_dialect]"
 title: FT.EXPLAIN
 ---
 
@@ -71,10 +70,6 @@ is dialect version under which to execute the query. If not specified, the query
 
 {{% /alert %}}
 
-## Return
-
-FT.EXPLAIN returns a string representing the execution plan.
-
 ## Examples
 
 <details open>
@@ -102,6 +97,30 @@ INTERSECT {
 }
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="ft-explain-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
+
+-tab-sep-
+
+One of the following:
+* [Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
+
+{{< /multitabs >}}
 
 ## See also
 

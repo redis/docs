@@ -23,14 +23,11 @@ group: search
 hidden: false
 linkTitle: FT.CURSOR DEL
 module: Search
+railroad_diagram: /images/railroad/ft.cursor-del.svg
 since: 1.1.0
 stack_path: docs/interact/search-and-query
 summary: Deletes a cursor
-syntax: 'FT.CURSOR DEL index cursor_id
-
-  '
 syntax_fmt: FT.CURSOR DEL index cursor_id
-syntax_str: cursor_id
 title: FT.CURSOR DEL
 ---
 
@@ -52,10 +49,6 @@ is index name.
 is id of the cursor.
 </details>
 
-## Returns
-
-FT.CURSOR DEL returns a simple string reply `OK` if executed correctly, or an error reply otherwise.
-
 ## Examples
 
 <details open>
@@ -73,6 +66,30 @@ Check that the cursor is deleted.
 (error) Cursor does not exist
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="ft-cursor-del-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: cursor does not exist.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: cursor does not exist.
+
+{{< /multitabs >}}
 
 ## See also
 

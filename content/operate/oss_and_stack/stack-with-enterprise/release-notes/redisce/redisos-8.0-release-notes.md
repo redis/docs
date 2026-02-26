@@ -9,8 +9,66 @@ description: Redis Open Source 8.0 release notes.
 linkTitle: v8.0.0 (May 2025)
 min-version-db: blah
 min-version-rs: blah
-weight: 10
+weight: 80
 ---
+## Redis Open Source 8.0.5 (November 2025)
+
+Update urgency: `HIGH`: There are critical bugs that may affect a subset of users.
+
+### Bug fixes
+
+- `HGETEX` - potential crash when `FIELDS` is used  and `numfields` is missing
+- Potential crash on HyperLogLog with 2GB+ entries
+- Cuckoo filter - Division by zero in Cuckoo filter insertion
+- Cuckoo filter - Counter overflow
+- Bloom filter - Arbitrary memory read/write with invalid filter
+- Bloom filter - Out-of-bounds access with empty chain
+- Bloom filter - Restore invalid filter
+- Top-k - Out-of-bounds access
+
+## Redis Open Source 8.0.4 (October 2025)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- (CVE-2025-49844) A Lua script may lead to remote code execution
+- (CVE-2025-46817) A Lua script may lead to integer overflow and potential RCE
+- (CVE-2025-46818) A Lua script can be executed in the context of another user
+- (CVE-2025-46819) LUA out-of-bound read
+
+### New Features
+
+- [#14223](https://github.com/redis/redis/pull/14223) `VSIM`: new `EPSILON` argument to specify maximum distance
+
+### Bug fixes
+
+- [#14330](https://github.com/redis/redis/pull/14330) Potential use-after-free after pubsub and Lua defrag
+- [#14319](https://github.com/redis/redis/pull/14319) Potential crash on Lua script defrag
+- [#14224](https://github.com/redis/redis/pull/14224) `HINCRBYFLOAT` removes field expiration on replica
+- [#14164](https://github.com/redis/redis/pull/14164) Prevent `CLIENT UNBLOCK` from unblocking `CLIENT PAUSE`
+- [#14165](https://github.com/redis/redis/pull/14165) Endless client blocking for blocking commands
+- [#14144](https://github.com/redis/redis/pull/14144) Vector sets - RDB format is not compatible with big endian machines
+- [#14163](https://github.com/redis/redis/pull/14163) `EVAL` crash when error table is empty
+- [#14143](https://github.com/redis/redis/pull/14143) Gracefully handle short read errors for hashes with TTL during full sync
+
+## Redis Open Source 8.0.3 (July 2025)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+* (CVE-2025-32023) Fix out-of-bounds write in `HyperLogLog` commands
+* (CVE-2025-48367) Retry accepting other connections even if the accepted connection reports an error
+
+### New Features
+
+- [#14065](https://github.com/redis/redis/pull/14065) `VSIM`: Add new `WITHATTRIBS` option to return the JSON attribute associated with an element
+
+### Bug fixes
+
+- [#14085](https://github.com/redis/redis/pull/14085) A short read may lead to an `exit()` on a replica
+- [#14092](https://github.com/redis/redis/pull/14092) `db->expires` is not defragmented
 
 ## Redis Open Source 8.0.2 (May 2025)
 
@@ -112,43 +170,7 @@ For more details, see the release notes for the [8.0-M01](https://github.com/red
 - [#13958](https://github.com/redis/redis/pull/13958) `XTRIM`, `XADD` - incorrect lag due to trimming stream.
 - [#13931](https://github.com/redis/redis/pull/13931) `HGETEX` - wrong order of keyspace notifications.
 
-### Potentially breaking changes to ACLs
-
-{{< note >}}
-The following content is relevant to all Redis distributions (RS, RC, and ROS).
-{{< /note >}}
-
-Redis 8 includes Redis Query Engine, as well as JSON, time series, Bloom filter, cuckoo filter, top-k, count-min sketch, and t-digest data types.
-The integration of these features into Redis also comes with improvements to Redis [ACL]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) rules.
-
-{{< warning >}}
-These ACL changes may introduce breaking changes for some users, which must be analyzed carefully.
-{{< /warning >}}
-
-### Extension to the existing ACL categories
-
-Before Redis 8, the existing ACL categories @read, @write, @dangerous, @admin, @slow, and @fast did not include commands for the Redis Query Engine and the JSON, time series, and probabilistic data structures.
-
-Starting with Redis 8, Redis includes all Query Engine, JSON, time series, Bloom filter, cuckoo filter, top-k, count-min sketch, and t-digest commands in these existing ACL categories.
-
-As a result:
-
-- Existing ACL rules such as `+@read +@write` will allow access to more commands than in previous versions of Redis. Here are some examples:
-  - A user with `+@read` access will be able to execute `FT.SEARCH`.
-  - A user with `+@write` access will be able to execute `JSON.SET`. 
-
-- ACL rules such as `+@all -@write`  will allow access to fewer commands than previous versions of Redis. For example:
-  - A user with `+@all -@write` will not be able to execute `JSON.SET`.
-
-Note that the `@all` category did not change, as it always included all the commands.
-
-Additionally, ACL rules such as `+@read +JSON.GET` can now be simplified as `+@read` because `JSON.GET` is included in the `@read` category.
-
-### Who is affected by this change?
-
-Users who currently use the Redis Query Engine and/or the JSON, time series, or probabilistic data structures, and use custom ACL rules.
-
-You should reanalyze your ACL rules to make sure they are aligned with your security and access control requirements.
+{{<embed-md "redis8-breaking-changes-acl.md">}}
 
 ### Redis 8 introduces the following data structure and processing engine ACL categories.
 
@@ -169,7 +191,7 @@ You can use these new categories in your ACL rules.
 
 The following time series commands retrieve data from all keys that match a given filter expression: `TS.MGET`, `TS.MRANGE`, and `TS.MREVRANGE`. 
 
-There can be a case where a user may have to only some of the matching keys. In such cases, the command’s result is an error message: “*current user doesn't have read permission to one or more keys that match the specified filter*”.
+There can be a case where a user may have to only some of the matching keys. In such cases, the command’s result is an error message: "*current user doesn't have read permission to one or more keys that match the specified filter*".
 
 On the other hand, `TS.QUERYINDEX` does not require `@read` access to the keys that match the specified filter, as it accesses only time series metadata (name and labels) and not content (measurements).
 

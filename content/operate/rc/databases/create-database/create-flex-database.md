@@ -15,7 +15,7 @@ Redis Flex databases have a tiered solid state drive (SSD) and RAM architecture.
 
 Redis Flex databases are compatible with most existing Redis applications, except for applications that use Search and Query and Time Series.
 
-Redis Flex is currently available in preview on Redis Cloud Essentials. 
+Redis Flex is available on both Redis Cloud Essentials and Redis Cloud Pro.
 
 ## Redis Flex use cases
 
@@ -24,12 +24,11 @@ The benefits associated with Redis Flex are dependent on the use case.
 Redis Flex is ideal when your:
 
 - working set is significantly smaller than your dataset (high RAM hit rate)
-- average key size is smaller than average value size (all key names are stored in RAM)
+- average key size is smaller than average value size
 - most recent data is the most frequently used (high RAM hit rate)
 
 Redis Flex is not recommended for:
 
-- Long key names (all key names are stored in RAM)
 - Broad access patterns (any value could be pulled into RAM)
 - Large working sets (working set is stored in RAM)
 - Frequently moved data (moving to and from RAM too often can impact performance)
@@ -39,20 +38,19 @@ Redis Flex is not intended to be used for persistent storage.
 ## Where is my data?
 
 When using Redis Flex, RAM storage holds:
-- All keys (names)
 - Key indexes
 - Dictionaries
-- Hot data (working set)
+- Hot data (working set), including frequently accessed keys and values
 
-All data is accessed through RAM. If a value in flash memory is accessed, it becomes part of the working set and is moved to RAM. These values are referred to as “hot data”.
+All data is accessed through RAM. If a key or value in flash memory is accessed, it becomes part of the working set and is moved to RAM. This data is referred to as "hot data".
 
-Inactive or infrequently accessed data is referred to as “warm data” and stored in flash memory. When more space is needed in RAM, warm data is moved from RAM to flash storage.
+Inactive or infrequently accessed data is referred to as "warm data" and stored in flash memory. When more space is needed in RAM, warm keys and values are moved from RAM to flash storage.
 
 ## Create a Redis Flex database on Redis Cloud Essentials
 
 {{< embed-md "rc-create-db-first-steps.md" >}} 
 
-3. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Redis Flex**.
+3. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Essentials - Flex**.
 
     {{<image filename="images/rc/create-database-subscription-flex.png" alt="The Subscription selection panel with Redis Flex selected.">}}
 
@@ -63,26 +61,24 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
 - If you already have a Pro subscription and want to add a database to it, see [Create a Pro database in an existing subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}).
     {{< /note >}}
     
-    After you select **Redis Flex**, the rest of the database details will appear.
+    After you select **Essentials - Flex**, the rest of the database details will appear.
 
-    {{<image filename="images/rc/create-database-essentials-cloud-vendor.png" alt="The database name, cloud vendor, region, and type settings.">}}
+    {{<image filename="images/rc/create-database-flex-cloud-vendor.png" alt="The database name, cloud vendor, region, and type settings.">}}
 
 1. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field.  
 
-1. Choose a **Region** on Amazon Web Services for your database.
+1. Choose a **Region** on Amazon Web Services for your database. See [Supported regions]({{< relref "/operate/rc/supported-regions" >}}) for a list of supported regions by cloud vendor.
 
-1. In the **Durability settings** panel, choose your **High availability settings** and **Data persistence** settings from the list. 
+1. Choose your **High availability (replication)** settings from the list. 
 
-    {{<image filename="images/rc/create-database-essentials-durability.png" alt="The durability settings allow you to choose High availability and Data persistence." width=75% >}}
-
-
-    Redis Cloud supports the following high availability settings:
+    Redis Cloud supports the following high availability settings with Redis Flex:
 
     - **None**: You will have a single copy of your database without replication.
     - **Single-Zone**: Your database will have a primary and a replica located in the same cloud zone. If anything happens to the primary, the replica takes over and becomes the new primary.
-    - **Multi-Zone**: The primary and its replicas are stored in different zones. This means that your database can remain online even if an entire zone becomes unavailable.
 
     See [High availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) for more information about these settings.
+
+1. Choose your **Data persistence** settings from the list.
 
     Redis Cloud supports the following Data persistence options:
 
@@ -91,8 +87,10 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
     - A **Snapshot** is a copy of the in-memory database, taken at periodic intervals (one, six, or twelve hours). You can restore data to the snapshot's point in time. 
     
     See [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) for more information about these settings.
+
+1. Select the **Database version** you want to use.
     
-1. Select the desired memory limit. 
+1. Select your desired memory limit. 
 
     {{<image filename="images/rc/subscription-new-flex-tiers.png" alt="Available Redis Flex plans." >}}
 
@@ -111,3 +109,13 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
 {{<image filename="images/rc/button-create-db-confirm-pay.png" width="140px" alt="Select Confirm & Pay to create your new database." >}}
 
 When you create your database, there's a brief pause while your request is processed and then the **Database details** page appears.
+
+## Create a Redis Flex database on Redis Cloud Pro
+
+To create a Redis Flex database on Redis Cloud Pro, [create a new Pro database with custom settings]({{< relref "/operate/rc/databases/create-database/create-pro-database-new#custom-settings" >}}). 
+
+In the **Advanced options** of the **Setup** tab, select **Redis Flex**.
+
+{{<image filename="images/rc/pro-flex-on.png" width="75%" alt="The Redis Flex setting selected." >}}
+
+Continue with the instructions to [create your database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new#custom-settings" >}}).

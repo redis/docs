@@ -14,11 +14,11 @@ description: Return the vector associated with an element.
 group: vector_set
 hidden: false
 linkTitle: VEMB
+railroad_diagram: /images/railroad/vemb.svg
 since: 8.0.0
 summary: Return the vector associated with an element.
 syntax_fmt: "VEMB key element [RAW]"
 title: VEMB
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Return the approximate vector associated with a given element in the vector set.
@@ -71,6 +71,12 @@ returns the raw vector data, its quantization type, and metadata such as norm an
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="vemb-return-info" 
@@ -82,7 +88,7 @@ One of the following:
 * [Array reply](../../develop/reference/protocol-spec#arrays): consisting of the following elements:
     1. The quantization type as a [simple string](../../develop/reference/protocol-spec#simple-strings): `fp32`, `bin`, or `q8`.
     1. A [bulk string](../../develop/reference/protocol-spec#bulk-strings) blob with the following raw data:
-        * 4-byte floats for fp32
+        * 4-byte floats for fp32 (little-endian encoding)
         * A bitmap for binary quantization
         * A byte array for q8
     1. The L2 norm, as a [simple string](../../develop/reference/protocol-spec#simple-strings), of the vector before normalization.
@@ -95,7 +101,7 @@ One of the following:
 * [Array reply](../../develop/reference/protocol-spec#arrays): consisting of the following elements:
     1. The quantization type as a [simple string](../../develop/reference/protocol-spec#simple-strings): `fp32`, `bin`, or `q8`.
     1. A [bulk string](../../develop/reference/protocol-spec#bulk-strings) blob with the following raw data:
-        * 4-byte floats for fp32
+        * 4-byte floats for fp32 (little-endian encoding)
         * A bitmap for binary quantization
         * A byte array for q8
     1. The [double](../../develop/reference/protocol-spec#doubles) L2 norm of the vector before normalization.

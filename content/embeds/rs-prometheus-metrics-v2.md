@@ -2,69 +2,81 @@
 
 | Metric | Type | Description |
 | :-------- | :--- | :---------- |
-| <span class="break-all">endpoint_client_connections</span> | counter | Number of client connection establishment events |
-| <span class="break-all">endpoint_client_disconnections</span> | counter | Number of client disconnections initiated by the client |
+| <span class="break-all">endpoint_accepted_connections</span> | counter | Number of incoming accepted client connections |
+| endpoint_client_connections | counter | Number of client connection establishment events |
+| endpoint_client_disconnections | counter | Number of client disconnections initiated by the client |
 | <span class="break-all">endpoint_client_connection_expired</span> | counter | Total number of client connections with expired TTL (Time To Live) |
 | <span class="break-all">endpoint_client_establishment_failures</span> | counter | Number of client connections that failed to establish properly |
 | <span class="break-all">endpoint_client_expiration_refresh</span> | counter | Number of expiration time changes of clients |
 | <span class="break-all">endpoint_client_tracking_off_requests</span> | counter | Total number of `CLIENT TRACKING OFF` requests |
 | <span class="break-all">endpoint_client_tracking_on_requests</span> | counter | Total number of `CLIENT TRACKING ON` requests |
+| <span class="break-all">endpoint_connections_rate</span> | gauge | The rate of incoming connections. Computed as `n_accepted / N` for the last interval where `n_accepted` is the number of accepted connections in this interval, and `N` is the interval in seconds. |
 | <span class="break-all">endpoint_disconnected_cba_client</span> | counter | Number of certificate-based clients disconnected |
 | <span class="break-all">endpoint_disconnected_ldap_client</span> | counter | Number of LDAP clients disconnected |
 | <span class="break-all">endpoint_disconnected_user_password_client</span> | counter | Number of user&password clients disconnected |
+| <span class="break-all">endpoint_dispatch_failures</span> | counter | Number of clients closed due to failure to be dispatched to workers |
 | <span class="break-all">endpoint_disposed_commands_after_client_caching</span> | counter | Total number of client caching commands that were disposed due to misuse |
-| <span class="break-all">endpoint_egress</span> | counter | Number of egress bytes |
-| <span class="break-all">endpoint_egress_pending</span> | counter | Number of send-pending bytes |
+| endpoint_egress | counter | Number of egress bytes |
+| endpoint_egress_pending | counter | Number of send-pending bytes |
 | <span class="break-all">endpoint_egress_pending_discarded</span> | counter | Number of send-pending bytes that were discarded due to disconnection |
 | <span class="break-all">endpoint_failed_cba_authentication</span> | counter | Number of clients that failed certificate-based authentication |
 | <span class="break-all">endpoint_failed_ldap_authentication</span> | counter | Number of clients that failed LDAP authentication |
 | <span class="break-all">endpoint_failed_user_password_authentication</span> | counter | Number of clients that failed user password authentication |
-| <span class="break-all">endpoint_ingress</span> | counter | Number of ingress bytes |
+| endpoint_ingress | counter | Number of ingress bytes |
 | <span class="break-all">endpoint_longest_pipeline_histogram</span> | counter | Tracks the distribution of longest observed pipeline lengths, where a pipeline is a sequence of client commands sent without waiting for responses. |
-| <span class="break-all">endpoint_other_requests</span> | counter | Number of other requests |
+| endpoint_other_requests | counter | Number of other requests |
 | <span class="break-all">endpoint_other_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of other commands |
 | <span class="break-all">endpoint_other_requests_latency_histogram_bucket</span> | histogram | Latency histograms for commands other than read or write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_other_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
-| <span class="break-all">endpoint_other_responses</span> | counter | Number of other responses |
-| <span class="break-all">endpoint_proxy_disconnections</span> | counter | Number of client disconnections initiated by the proxy |
-| <span class="break-all">endpoint_read_requests</span> | counter | Number of read requests |
+| endpoint_other_responses | counter | Number of other responses |
+| <span class="break-all">endpoint_ping_failures</span> | gauge | Number of consecutive endpoint ping failures. Labels: endpoint_uid |
+| <span class="break-all">endpoint_ping_failure_duration_seconds</span> | gauge | Duration of ongoing endpoint failures (0 when healthy). Labels: endpoint_uid |
+| endpoint_proxy_disconnections | counter | Number of client disconnections initiated by the proxy |
+| <span class="break-all">endpoint_rate_limit_ok</span> | gauge | Rate limit status based on the last 2 intervals.<br />0 = rate limit was recently exceeded<br />1 = rate limit was not recently exceeded |
+| <span class="break-all">endpoint_rate_limit_overflows</span> | counter | Total number of rate limit overflows |
+| endpoint_read_requests | counter | Number of read requests |
 | <span class="break-all">endpoint_read_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of read commands |
 | <span class="break-all">endpoint_read_requests_latency_histogram_bucket</span> | histogram | Latency histograms for read commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_read_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
-| <span class="break-all">endpoint_read_responses</span> | counter | Number of read responses |
+| endpoint_read_responses | counter | Number of read responses |
 | <span class="break-all">endpoint_successful_cba_authentication</span> | counter | Number of clients that successfully authenticated with certificate-based authentication |
 | <span class="break-all">endpoint_successful_ldap_authentication</span> | counter | Number of clients that successfully authenticated with LDAP |
 | <span class="break-all">endpoint_successful_user_password_authentication</span> | counter | Number of clients that successfully authenticated with user&password |
-| <span class="break-all">endpoint_write_requests</span> | counter | Number of write requests |
+| endpoint_write_requests | counter | Number of write requests |
 | <span class="break-all">endpoint_write_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of write commands |
 | <span class="break-all">endpoint_write_requests_latency_histogram_bucket</span> | histogram | Latency histograms for write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_write_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
-| <span class="break-all">endpoint_write_responses</span> | counter | Number of write responses |
+| endpoint_write_responses | counter | Number of write responses |
+| db_config | counter | This is an information metric that holds database configuration within labels such as: db_name, db_version, db_port, tls_mode |
+| db_status | gauge | This is a status metric that reports on various database statuses: 0 = active, 1 = active-change-pending, 2 = pending, 3 = import-pending, 4 = delete-pending, 5 = recovery |
 
 ## Node metrics
 
 | Metric | Type |Description |
 | :-------- | :--- | :---------- |
-| <span class="break-all">node_available_flash_bytes</span> | gauge | Available flash in the node (bytes) |
+| node_available_flash_bytes | gauge | Available flash in the node (bytes) |
 | <span class="break-all">node_available_flash_no_overbooking_bytes</span> | gauge | Available flash in the node (bytes), without taking into account overbooking |
-| <span class="break-all">node_available_memory_bytes</span> | gauge | Amount of free memory in the node (bytes) that is available for database provisioning |
+| <span class="break-all">node_available_memory_bytes</span> | gauge | Amount of free memory in the node (bytes) |
 | <span class="break-all">node_available_memory_no_overbooking_bytes</span> | gauge | Available RAM in the node (bytes) without taking into account overbooking |
-| <span class="break-all">node_bigstore_free_bytes</span> | gauge | Sum of free space of back-end flash (used by flash database's [BigRedis]) on all cluster nodes (bytes); returned only when BigRedis is enabled |
-| <span class="break-all">node_cert_expires_in_seconds</span> | gauge | Certificate expiration (in seconds) per given node; read more about [certificates in Redis Enterprise]({{< relref "/operate/rs/security/certificates" >}}) and [monitoring certificates]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) |
+| node_bigstore_free_bytes | gauge | Sum of free space of back-end flash (used by flash database's [BigRedis]) on all cluster nodes (bytes); returned only when BigRedis is enabled |
+| <span class="break-all">node_cert_expires_in_seconds</span> | gauge | Certificate expiration (in seconds) per given node; read more about [certificates in Redis Software]({{< relref "/operate/rs/security/certificates" >}}) and [monitoring certificates]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) |
+| <span class="break-all">customer_managed_ine_certificates</span> | gauge | Indicates whether customer-provided internode encryption certificates are in use<br />0=No<br />1=Yes |
 | <span class="break-all">node_ephemeral_storage_avail_bytes</span> | gauge | Disk space available to RLEC processes on configured ephemeral disk (bytes) |
 | <span class="break-all">node_ephemeral_storage_free_bytes</span> | gauge | Free disk space on configured ephemeral disk (bytes) |
-| <span class="break-all">node_memory_MemFree_bytes</span> | gauge | Free memory in the node (bytes) |
+| node_memory_MemFree_bytes | gauge | Free memory in the node (bytes) |
 | <span class="break-all">node_persistent_storage_avail_bytes</span> | gauge | Disk space available to RLEC processes on configured persistent disk (bytes) |
 | <span class="break-all">node_persistent_storage_free_bytes</span> | gauge | Free disk space on configured persistent disk (bytes) |
 | <span class="break-all">node_provisional_flash_bytes</span> | gauge | Amount of flash available for new shards on this node, taking into account overbooking, max Redis servers, reserved flash, and provision and migration thresholds (bytes) |
 | <span class="break-all">node_provisional_flash_no_overbooking_bytes</span> | gauge | Amount of flash available for new shards on this node, without taking into account overbooking, max Redis servers, reserved flash, and provision and migration thresholds (bytes) |
 | <span class="break-all">node_provisional_memory_bytes</span> | gauge | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases |
 | <span class="break-all">node_provisional_memory_no_overbooking_bytes</span> | gauge | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases, without taking into account overbooking |
-| <span class="break-all">node_metrics_up</span> | gauge | Node is part of the cluster and is connected |
+| node_metrics_up | gauge | Node is part of the cluster and is connected |
+| <span class="break-all">dmc_ping_failures</span> | gauge | Number of consecutive DMC ping failures |
+| <span class="break-all">dmc_ping_failure_duration_seconds</span> | gauge | Duration of ongoing DMC failures (0 when healthy) |
 
 ## Cluster metrics
 
 | Metric | Type | Description |
 | :-------- | :--- | :---------- |
 | <span class="break-all">generation{cluster_wd=<node_uid>}</span> | gauge| Generation number of the specific cluster_wd|
-| <span class="break-all">has_qourum{cluster_wd=<node_uid>, has_witness_disk=BOOL}</span> | gauge| Has_qourum = 1<br />No quorum = 0 |
+| <span class="break-all">has_quorum{cluster_wd=<node_uid>, has_witness_disk=BOOL}</span> | gauge| Has_quorum = 1<br />No quorum = 0 |
 | <span class="break-all">is_primary{cluster_wd=<node_uid>}</span> | gauge| primary = 1<br />secondary = 0 |
 | <span class="break-all">license_expiration_days</span> | gauge | Number of days until the license expires |
 | <span class="break-all">license_shards_limit</span> | gauge | Total shard limit by the license by shard type (ram / flash) |
@@ -72,6 +84,7 @@
 | <span class="break-all">total_node_count{cluster_wd=<node_uid>}</span> | gauge| Number of nodes |
 | <span class="break-all">total_primary_selection_ended{cluster_wd=<node_uid>}</span> | counter | Monotonic counter for each selection process that ended |
 | <span class="break-all">total_primary_selections{cluster_wd=<node_uid>}</span> | counter | Monotonic counter for each selection process that started|
+| users_count | gauge | Current number of users on the cluster |
 
 ## Replication metrics
 
@@ -102,37 +115,44 @@
 
 | Metric | Description |
 | :-------- | :---------- |
-| <span class="break-all">redis_server_active_defrag_running</span> | Automatic memory defragmentation current aggressiveness (% cpu) |
-| <span class="break-all">redis_server_allocator_active</span> | Total used memory, including external fragmentation |
-| <span class="break-all">redis_server_allocator_allocated</span> | Total allocated memory |
-| <span class="break-all">redis_server_allocator_resident</span> | Total resident memory (RSS) |
-| <span class="break-all">redis_server_aof_last_cow_size</span> | Last AOFR, CopyOnWrite memory |
+| redis_server_active_defrag_running | Automatic memory defragmentation current aggressiveness (% cpu) |
+| redis_server_allocator_active | Total used memory, including external fragmentation |
+| redis_server_allocator_allocated | Total allocated memory |
+| redis_server_allocator_resident | Total resident memory (RSS) |
+| redis_server_aof_last_cow_size | Last AOFR, CopyOnWrite memory |
 | <span class="break-all">redis_server_aof_rewrite_in_progress</span> | The number of simultaneous AOF rewrites that are in progress |
-| <span class="break-all">redis_server_aof_rewrites</span> | Number of AOF rewrites this process executed |
-| <span class="break-all">redis_server_aof_delayed_fsync</span> | Number of times an AOF fsync caused delays in the main Redis thread (inducing latency); this can indicate that the disk is slow or overloaded |
-| <span class="break-all">redis_server_blocked_clients</span> | Count the clients waiting on a blocking call |
-| <span class="break-all">redis_server_connected_clients</span> | Number of client connections to the specific shard |
-| <span class="break-all">redis_server_connected_slaves</span> | Number of connected replicas |
-| <span class="break-all">redis_server_db0_avg_ttl</span> | Average TTL of all volatile keys |
-| <span class="break-all">redis_server_expired_keys</span> | Total count of volatile keys |
-| <span class="break-all">redis_server_db0_keys</span> | Total key count |
-| <span class="break-all">redis_server_evicted_keys</span> | Keys evicted so far (since restart) |
+| redis_server_aof_rewrites | Number of AOF rewrites this process executed |
+| redis_server_aof_delayed_fsync | Number of times an AOF fsync caused delays in the main Redis thread (inducing latency); this can indicate that the disk is slow or overloaded |
+| redis_server_blocked_clients | Count the clients waiting on a blocking call |
+| redis_server_connected_clients | Number of client connections to the specific shard |
+| redis_server_connected_slaves | Number of connected replicas |
+| redis_server_db_avg_ttl | Average TTL of all volatile keys |
+| redis_server_db0_avg_ttl | Average TTL of all volatile keys. Deprecated. |
+| redis_server_db_keys | Total key count. |
+| redis_server_db0_keys | Total key count. Deprecated. |
+| redis_server_evicted_keys | Keys evicted so far (since restart) |
 | <span class="break-all">redis_server_expire_cycle_cpu_milliseconds</span> | The cumulative amount of time spent on active expiry cycles |
-| <span class="break-all">redis_server_expired_keys</span> | Keys expired so far (since restart) |
-| <span class="break-all">redis_server_forwarding_state</span> | Shard forwarding state (on or off) |
-| <span class="break-all">redis_server_keys_trimmed</span> | The number of keys that were trimmed in the current or last resharding process |
-| <span class="break-all">redis_server_keyspace_read_hits</span> | Number of read operations accessing an existing keyspace |
-| <span class="break-all">redis_server_keyspace_read_misses</span> | Number of read operations accessing a non-existing keyspace |
-| <span class="break-all">redis_server_keyspace_write_hits</span> | Number of write operations accessing an existing keyspace |
+| redis_server_expired_keys | Keys expired so far since restart |
+| redis_server_forwarding_state | Shard forwarding state (on or off) |
+| redis_server_hashes_items_under_1M | Number of hash keys with under 1 million elements |
+| redis_server_hashes_items_1M_to_8M | Number of hash keys with an element count between 1 million and 8 million |
+| redis_server_hashes_items_over_8M | Number of hash keys with over 8 million elements |
+| redis_server_keys_trimmed | The number of keys that were trimmed in the current or last resharding process |
+| redis_server_keyspace_read_hits | Number of read operations accessing an existing keyspace |
+| redis_server_keyspace_read_misses | Number of read operations accessing a non-existing keyspace |
+| redis_server_keyspace_write_hits | Number of write operations accessing an existing keyspace |
 | <span class="break-all">redis_server_keyspace_write_misses</span> | Number of write operations accessing a non-existing keyspace |
-| <span class="break-all">redis_server_master_link_status</span> | Indicates if the replica is connected to its master |
-| <span class="break-all">redis_server_master_repl_offset</span> | Number of bytes sent to replicas by the shard; calculate the throughput for a time period by comparing the value at different times |
+| redis_server_lists_items_under_1M | Number of list keys with under 1 million elements |
+| redis_server_lists_items_1M_to_8M | Number of list keys with an element count between 1 million and 8 million |
+| redis_server_lists_items_over_8M | Number of list keys with over 8 million elements |
+| redis_server_master_link_status | Indicates if the replica is connected to its master |
+| redis_server_master_repl_offset | Number of bytes sent to replicas by the shard; calculate the throughput for a time period by comparing the value at different times |
 | <span class="break-all">redis_server_master_sync_in_progress</span> | The primary shard is synchronizing (1 true; 0 false) |
-| <span class="break-all">redis_server_max_process_mem</span> | Current memory limit configured by redis_mgr according to node free memory |
-| <span class="break-all">redis_server_maxmemory</span> | Current memory limit configured by redis_mgr according to database memory limits |
-| <span class="break-all">redis_server_mem_aof_buffer</span> | Current size of AOF buffer |
-| <span class="break-all">redis_server_mem_clients_normal</span> | Current memory used for input and output buffers of non-replica clients |
-| <span class="break-all">redis_server_mem_clients_slaves</span> | Current memory used for input and output buffers of replica clients |
+| redis_server_max_process_mem | Current memory limit configured by redis_mgr according to node free memory |
+| redis_server_maxmemory | Current memory limit configured by redis_mgr according to database memory limits. <br /><br />To calculate the percent memory usage:<br /><span class="break-all">`sum by (cluster,db)(redis_server_used_memory{role="master"}) / (avg by(cluster,db)(db_memory_limit_bytes) / max by(cluster,db)(db_replication_factor))`</span> |
+| redis_server_mem_aof_buffer | Current size of AOF buffer |
+| redis_server_mem_clients_normal | Current memory used for input and output buffers of non-replica clients |
+| redis_server_mem_clients_slaves | Current memory used for input and output buffers of replica clients |
 | <span class="break-all">redis_server_mem_fragmentation_ratio</span> | Memory fragmentation ratio (1.3 means 30% overhead) |
 | <span class="break-all">redis_server_mem_not_counted_for_evict</span> | Portion of used_memory (in bytes) that's not counted for eviction and OOM error |
 | <span class="break-all">redis_server_mem_replication_backlog</span> | Size of replication backlog |
@@ -143,66 +163,89 @@
 | <span class="break-all">namedprocess_namegroup_memory_bytes</span> | Shard memory size in bytes |
 | <span class="break-all">namedprocess_namegroup_oldest_start_time_seconds</span> | Shard start time of the process since unix epoch in seconds |
 | <span class="break-all">redis_server_rdb_bgsave_in_progress</span> | Indication if bgsave is currently in progress |
-| <span class="break-all">redis_server_rdb_last_cow_size</span> | Last bgsave (or SYNC fork) used CopyOnWrite memory |
-| <span class="break-all">redis_server_rdb_saves</span> | Total count of bgsaves since the process was restarted (including replica fullsync and persistence) |
-| <span class="break-all">redis_server_repl_touch_bytes</span> | Number of bytes sent to replicas as TOUCH commands by the shard as a result of a READ command that was processed; calculate the throughput for a time period by comparing the value at different times |
+| redis_server_rdb_last_cow_size | Last bgsave (or SYNC fork) used CopyOnWrite memory |
+| redis_server_rdb_saves | Total count of bgsaves since the process was restarted (including replica fullsync and persistence) |
+| redis_server_sets_items_under_1M | Number of set keys with under 1 million elements |
+| redis_server_sets_items_1M_to_8M | Number of set keys with an element count between 1 million and 8 million |
+| redis_server_sets_items_over_8M | Number of set keys with over 8 million elements |
+| redis_server_repl_touch_bytes | Number of bytes sent to replicas as TOUCH commands by the shard as a result of a READ command that was processed; calculate the throughput for a time period by comparing the value at different times |
 | <span class="break-all">redis_server_total_commands_processed</span> | Number of commands processed by the shard; calculate the number of commands for a time period by comparing the value at different times |
 | <span class="break-all">redis_server_total_connections_received</span> | Number of connections received by the shard; calculate the number of connections for a time period by comparing the value at different times |
-| <span class="break-all">redis_server_total_net_input_bytes</span> | Number of bytes received by the shard; calculate the throughput for a time period by comparing the value at different times |
+| redis_server_total_net_input_bytes | Number of bytes received by the shard; calculate the throughput for a time period by comparing the value at different times |
 | <span class="break-all">redis_server_total_net_output_bytes</span> | Number of bytes sent by the shard; calculate the throughput for a time period by comparing the value at different times |
-| <span class="break-all">redis_server_up</span> | Shard is up and running |
-| <span class="break-all">redis_server_used_memory</span> | Memory used by shard (in BigRedis this includes flash) (bytes) |
-| <span class="break-all">redis_server_search_gc_bytes_collected</span> | The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. <sup>[3](#tnote-3)</sup> |
-| <span class="break-all">redis_server_search_bytes_collected</span> | The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. Deprecated in 8.0 (renamed redis_server_search_gc_bytes_collected), but still available in older versions. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_gc_marked_deleted_vectors</span> | The number of vectors marked as deleted in the vector indexes that have not yet been cleaned. <sup>[3](#tnote-3)</sup> |
-| <span class="break-all">redis_server_search_marked_deleted_vectors</span> | The number of vectors marked as deleted in the vector indexes that have not yet been cleaned. Deprecated in 8.0 (renamed redis_server_search_gc_marked_deleted_vectors), but still available in older versions. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_gc_total_cycles</span> | The total number of garbage collection cycles executed. <sup>[3](#tnote-3)</sup> |
-| <span class="break-all">redis_server_search_total_cycles</span> | The total number of garbage collection cycles executed. Deprecated in 8.0 (renamed redis_server_search_gc_total_cycles), but still available in older versions. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_gc_total_docs_not_collected_by_gc</span> | The number of documents marked as deleted, whose memory has not yet been freed by the garbage collector. <sup>[3](#tnote-3)</sup> |
-| <span class="break-all">redis_server_search_total_docs_not_collected_by_gc</span> | The number of documents marked as deleted, whose memory has not yet been freed by the garbage collector. Deprecated in 8.0 (renamed redis_server_search_gc_total_docs_not_collected_by_gc), but still available in older versions. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_gc_total_ms_run</span> | The total duration of all garbage collection cycles in the shard, measured in milliseconds. <sup>[3](#tnote-3)</sup> |
-| <span class="break-all">redis_server_search_total_ms_run</span> | The total duration of all garbage collection cycles in the shard, measured in milliseconds. Deprecated in 8.0 (renamed redis_server_search_gc_total_ms_run), but still available in older versions. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_cursors_internal_idle</span> | The total number of coordinator cursors that are currently holding pending results in the shard. <sup>[3](#tnote-3)</sup> |
-| <span class="break-all">redis_server_search_cursors_user_idle</span> | The total number of cursors that were explicitly requested by users, that are currently holding pending results in the shard. <sup>[3](#tnote-3)</sup> |
-| <span class="break-all">redis_server_search_global_idle</span> | The total number of user and internal cursors currently holding pending results in the shard. Deprecated in 8.0 (split into redis_server_search_cursors_internal_idle and redis_server_search_cursors_user_idle), but still available in older versions. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_cursors_internal_active</span> | The total number of coordinator cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[3](#tnote-3)</sup> |
-| <span class="break-all">redis_server_search_cursors_user_active</span> | The total number of user cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[3](#tnote-3)</sup> |
-| <span class="break-all">redis_server_search_global_total</span> | The total number of user and internal cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. Deprecated in 8.0 (split into redis_server_search_cursors_internal_active and redis_server_search_cursors_user_active), but still available in older versions. <sup>[1](#tnote-1)</sup> |
+| redis_server_up | Shard is up and running |
+| <span class="break-all">redis_server_strings_sizes_under_128M</span> | Number of string keys with a memory size under 128 megabytes |
+| <span class="break-all">redis_server_strings_sizes_128M_to_512M</span> | Number of string keys with a memory size between 128 and 512 megabytes |
+| <span class="break-all">redis_server_strings_sizes_over_512M</span> | Number of string keys with a memory size over 512 megabytes |
+| redis_server_used_memory | Memory used by shard (in BigRedis this includes flash) (bytes) |
+| redis_server_zsets_items_under_1M | Number of sorted set keys with under 1 million elements |
+| redis_server_zsets_items_1M_to_8M | Number of sorted set keys with an element count between 1 million and 8 million |
+| redis_server_zsets_items_over_8M | Number of sorted set keys with over 8 million elements |
+| <span class="break-all">redis_server_search_gc_bytes_collected</span> | The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. <sup>[4](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_bytes_collected</span> | The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. Deprecated in 8.0 (renamed <span class="break-all">redis_server_search_gc_bytes_collected</span>), but still available in older versions. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_gc_marked_deleted_vectors</span> | The number of vectors marked as deleted in the vector indexes that have not yet been cleaned. <sup>[4](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_marked_deleted_vectors</span> | The number of vectors marked as deleted in the vector indexes that have not yet been cleaned. Deprecated in 8.0 (renamed <span class="break-all">redis_server_search_gc_marked_deleted_vectors</span>), but still available in older versions. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_gc_total_cycles</span> | The total number of garbage collection cycles executed. <sup>[4](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_total_cycles</span> | The total number of garbage collection cycles executed. Deprecated in 8.0 (renamed <span class="break-all">redis_server_search_gc_total_cycles</span>), but still available in older versions. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_gc_total_docs_not_collected_by_gc</span> | The number of documents marked as deleted, whose memory has not yet been freed by the garbage collector. <sup>[4](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_total_docs_not_collected_by_gc</span> | The number of documents marked as deleted, whose memory has not yet been freed by the garbage collector. Deprecated in 8.0 (renamed <span class="break-all">redis_server_search_gc_total_docs_not_collected_by_gc</span>), but still available in older versions. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_gc_total_ms_run</span> | The total duration of all garbage collection cycles in the shard, measured in milliseconds. <sup>[4](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_total_ms_run</span> | The total duration of all garbage collection cycles in the shard, measured in milliseconds. Deprecated in 8.0 (renamed <span class="break-all">redis_server_search_gc_total_ms_run</span>), but still available in older versions. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_cursors_internal_idle</span> | The total number of coordinator cursors that are currently holding pending results in the shard. <sup>[4](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_cursors_user_idle</span> | The total number of cursors that were explicitly requested by users, that are currently holding pending results in the shard. <sup>[4](#tnote-4)</sup> |
+| redis_server_search_global_idle | The total number of user and internal cursors currently holding pending results in the shard. Deprecated in 8.0 (split into <span class="break-all">redis_server_search_cursors_internal_idle</span> and <span class="break-all">redis_server_search_cursors_user_idle</span>), but still available in older versions. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_cursors_internal_active</span> | The total number of coordinator cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[4](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_cursors_user_active</span> | The total number of user cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[4](#tnote-4)</sup> |
+| redis_server_search_global_total | The total number of user and internal cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. Deprecated in 8.0 (split into <span class="break-all">redis_server_search_cursors_internal_active</span> and <span class="break-all">redis_server_search_cursors_user_active</span>), but still available in older versions. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_number_of_indexes</span> | Total number of indexes in the shard <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_number_of_active_indexes</span> | The total number of indexes running a background indexing and/or background query processing operation. Background indexing refers to vector ingestion process, or in-progress background indexer. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_total_num_docs_in_indexes</span> | The total number of documents currently indexed across all indexes in the shard. <sup>[2](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_number_of_active_indexes_running_queries</span> | Total count of indexes currently running a background query process. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_number_of_active_indexes_indexing</span> | Total count of indexes currently undergoing a background indexing process. Background indexing refers to vector ingestion process, or in-progress background indexer. This metric is limited by the number of WORKER threads allocated for writing operations + the number of indexes. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_total_active_write_threads</span> | Total count of background write (indexing) processes currently running in the shard. Background indexing refers to vector ingestion process, or in-progress background indexer. This metric is limited by the number of threads allocated for writing operations. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_fields_text_Text</span> | The total number of `TEXT` fields across all indexes in the shard. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_fields_text_Text</span> | The total number of `TEXT` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_fields_text_Sortable</span> | The total number of `SORTABLE TEXT` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_fields_text_NoIndex</span> | The total number of `NOINDEX TEXT` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_fields_numeric_Numeric</span> | The total number of `NUMERIC` fields across all indexes in the shard. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_fields_text_IndexErrors</span> | The total number of indexing failures caused by attempts to index a document containing a `TEXT` field. This field appears only if `TEXT` fields exist. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_fields_numeric_Numeric</span> | The total number of `NUMERIC` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_fields_numeric_Sortable</span> | The total number of `SORTABLE NUMERIC` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_fields_numeric_NoIndex</span> | The total number of `NOINDEX NUMERIC` fields across all indexes in the shard, which are used for sorting only but not indexed. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_fields_tag_Tag</span> | The total number of `TAG` fields across all indexes in the shard. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_fields_numeric_IndexErrors</span> | The total number of indexing failures caused by attempts to index a document containing a `NUMERIC` field. This field appears only if `NUMERIC` fields exist. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_fields_tag_Tag</span> | The total number of `TAG` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_fields_tag_Sortable</span> | The total number of `SORTABLE TAG` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_fields_tag_NoIndex</span> | The total number of `NOINDEX TAG` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_fields_tag_CaseSensitive</span> | The total number of `CASESENSITIVE TAG` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_fields_geo_Geo</span> | The total number of `GEO` fields across all indexes in the shard. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_fields_tag_IndexErrors</span> | The total number of indexing failures caused by attempts to index a document containing a `TAG` field. This field appears only if `TAG` fields exist. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_fields_geo_Geo</span> | The total number of `GEO` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_fields_geo_Sortable</span> | The total number of `SORTABLE GEO` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_fields_geo_NoIndex</span> | The total number of `NOINDEX GEO` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_fields_vector_Vector</span> | The total number of `VECTOR` fields across all indexes in the shard. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_fields_vector_Flat</span> | The total number of `FLAT VECTOR` fields across all indexes in the shard. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_fields_vector_HNSW</span> | The total number of `HNSW VECTOR` fields across all indexes in the shard. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_fields_geoshape_Geoshape</span> | The total number of `GEOSHAPE` fields across all indexes in the shard. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_fields_geo_IndexErrors</span> | The total number of indexing failures caused by attempts to index a document containing a `GEO` field. This field appears only if `GEO` fields exist. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_fields_vector_Vector</span> | The total number of `VECTOR` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_fields_vector_Flat</span> | The total number of `FLAT VECTOR` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_fields_vector_HNSW</span> | The total number of `HNSW VECTOR` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_fields_vector_SVS_VAMANA</span> | The total number of `SVS-VAMANA VECTOR` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[4](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_fields_vector_SVS_VAMANA_Compressed</span> | The total number of `SVS-VAMANA VECTOR` fields with `COMPRESSION` enabled (e.g., `LVQ8`) across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[4](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_fields_vector_IndexErrors</span> | The total number of indexing failures caused by attempts to index a document containing a `VECTOR` field. This field appears only if `VECTOR` fields exist. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_fields_geoshape_Geoshape</span> | The total number of `GEOSHAPE` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[2](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_fields_geoshape_Sortable</span> | The total number of `SORTABLE GEOSHAPE` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[2](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_fields_geoshape_NoIndex</span> | The total number of `NOINDEX GEOSHAPE` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. <sup>[2](#tnote-2)</sup> |
-| <span class="break-all">redis_server_search_fields_<field>_IndexErrors</span> | The total number of indexing failures caused by attempts to index a document containing `<field>` field. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_fields_geoshape_IndexErrors</span> | The total number of indexing failures caused by attempts to index a document containing a `GEOSHAPE` field. This field appears only if `GEOSHAPE` fields exist. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_total_indexing_ops_text_fields</span> | The total number of indexing operations performed on `TEXT` fields across all indexes in the shard. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_total_indexing_ops_tag_fields</span> | The total number of indexing operations performed on `TAG` fields across all indexes in the shard. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_total_indexing_ops_numeric_fields</span> | The total number of indexing operations performed on `NUMERIC` fields across all indexes in the shard. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_total_indexing_ops_geo_fields</span> | The total number of indexing operations performed on `GEO` fields across all indexes in the shard. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_total_indexing_ops_geoshape_fields</span> | The total number of indexing operations performed on `GEOSHAPE` fields across all indexes in the shard. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_total_indexing_ops_vector_fields</span> | The total number of indexing operations performed on `VECTOR` fields across all indexes in the shard. <sup>[2](#tnote-2)</sup> |
 | <span class="break-all">redis_server_search_used_memory_indexes</span> | The total memory allocated by all indexes in the shard in bytes. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_smallest_memory_index</span> | The memory usage of the index with the smallest memory usage in the shard in bytes. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_largest_memory_index</span> | The memory usage of the index with the largest memory usage in the shard in bytes. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_total_indexing_time</span> | The total time spent on indexing operations, excluding the background indexing of vectors in the `HNSW` graph. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_used_memory_vector_index</span> | The total memory usage of all vector indexes in the shard. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_global_idle</span> | The total number of user and internal cursors currently holding pending results in the shard. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_global_total</span> | The total number of user and internal cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[1](#tnote-1)</sup> |
+| redis_server_search_global_idle | The total number of user and internal cursors currently holding pending results in the shard. <sup>[1](#tnote-1)</sup> |
+| redis_server_search_global_total | The total number of user and internal cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_bytes_collected</span> | The total amount of memory freed by the garbage collectors from indexes in the shard memory in bytes. <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_total_cycles</span> | The total number of garbage collection cycles executed <sup>[1](#tnote-1)</sup> |
-| <span class="break-all">redis_server_search_total_ms_run</span> | The total duration of all garbage collection cycles in the shard, measured in milliseconds. <sup>[1](#tnote-1)</sup> |
+| redis_server_search_total_cycles | The total number of garbage collection cycles executed <sup>[1](#tnote-1)</sup> |
+| redis_server_search_total_ms_run | The total duration of all garbage collection cycles in the shard, measured in milliseconds. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_total_docs_not_collected_by_gc</span> | The number of documents marked as deleted whose memory has not yet been freed by the garbage collector. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_marked_deleted_vectors</span> | The number of vectors marked as deleted in the vector indexes that have not yet been cleaned. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_total_queries_processed</span> | The total number of successful query executions (When using cursors, not counting reading from existing cursors) in the shard. <sup>[1](#tnote-1)</sup> |
@@ -211,7 +254,33 @@
 | <span class="break-all">redis_server_search_total_active_queries</span> | The total number of background queries currently being executed in the shard, excluding `FT.CURSOR READ`. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_errors_indexing_failures</span> | The total number of indexing failures recorded across all indexes in the shard. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_errors_for_index_with_max_failures</span> | The number of indexing failures in the index with the highest count of failures. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_OOM_indexing_failures_indexes_count</span> | The count of indexes that experienced out-of-memory (OOM) failures during background indexing. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_shard_total_query_errors_syntax</span> | The total number of query syntax errors occurred in the shard. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_shard_total_query_errors_arguments</span> | The total number of queries in the shard that failed due to missing or invalid arguments. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_shard_total_query_errors_timeout</span> | The total number of query timeout errors occurred in the shard (when timeout policy is 'fail'). <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_shard_total_query_warnings_timeout</span> | The total number of query timeout warnings occurred in the shard (when timeout policy is 'return partial results'). <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_shard_total_query_errors_oom</span> | The total number of query out-of-memory errors occurred in the shard. <sup>[4](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_shard_total_query_warnings_oom</span> | The total number of query out-of-memory warnings occurred in the shard. <sup>[4](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_shard_total_query_warnings_max_prefix_expansions</span> | The total number of max prefix expansion warnings occurred in the shard. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_coord_total_query_errors_syntax</span> | The total number of query syntax errors occurred at the coordinator. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_coord_total_query_errors_arguments</span> | The total number of query argument errors encountered by the shard's coordinator. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_coord_total_query_errors_timeout</span> | The total number of query timeout errors encountered by the shard's coordinator (when timeout policy is 'fail'). <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_coord_total_query_warnings_timeout</span> | The total number of query timeout warnings encountered by the shard's coordinator (when timeout policy is 'return partial results'). <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_coord_total_query_errors_oom</span> | The total number of query out-of-memory errors encountered by the shard's coordinator. <sup>[4](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_coord_total_query_warnings_oom</span> | The total number of query out-of-memory warnings encountered by the shard's coordinator. <sup>[4](#tnote-4)</sup> |
+| <span class="break-all">redis_server_search_coord_total_query_warnings_max_prefix_expansions</span> | The total number of max prefix expansion warnings encountered by the shard's coordinator. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_uv_threads_running_queries</span> | The number of I/O threads currently handling query distribution to shards in cluster environments. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_uv_threads_running_topology_update</span> | The number of UV threads currently running topology updates. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_active_worker_threads</span> | The number of active worker threads. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_active_coord_threads</span> | The number of active coordinator threads. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_workers_low_priority_pending_jobs</span> | The number of pending low-priority jobs in worker threads, such as vector background indexing, graph updates, and vector garbage collection in graph-based indexes. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_workers_high_priority_pending_jobs</span> | The number of pending high-priority jobs in worker threads, such as query execution. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">redis_server_search_workers_admin_priority_pending_jobs</span> | The number of pending admin-priority jobs in worker threads, such as threadpool configuration changes. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_coord_high_priority_pending_jobs</span> | The number of pending jobs in the coordinator thread queue. Coordinator threads only have a high-priority queue and are primarily used for query distribution. <sup>[2](#tnote-2)</sup> |
+| <span class="break-all">shard_ping_failures</span> | gauge | Number of consecutive ping failures for a shard. Labels: shard_uid, role |
+| <span class="break-all">shard_ping_failure_duration_seconds</span> | gauge | Duration of ongoing failures (0 when healthy). Labels: shard_uid, role |
 
 1. <a name="tnote-1"></a> Available since RediSearch 2.6.
 2. <a name="tnote-2"></a> Available since RediSearch 2.8.
-3. <a name="tnote-3"></a> Available since RediSearch 8.0.
+3. <a name="tnote-3"></a> Available since RediSearch 2.10.
+4. <a name="tnote-4"></a> Available since RediSearch 8.0.

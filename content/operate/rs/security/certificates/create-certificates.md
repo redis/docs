@@ -4,23 +4,34 @@ categories:
 - docs
 - operate
 - rs
-description: Create self-signed certificates to install on a Redis Enterprise cluster.
+description: Create self-signed certificates to install on a Redis Software cluster.
 linkTitle: Create certificates
 title: Create certificates
 weight: 10
 ---
 
-When you first install Redis Enterprise Software, self-signed certificates are created to enable encryption for Redis Enterprise endpoints.  These certificates expire after a year (365 days) and must be renewed.
+When you first install Redis Software, self-signed certificates are created to enable encryption for Redis Software endpoints.  These certificates expire after a year (365 days) and must be renewed.
 
 You can renew these certificates by replacing them with new self-signed certificates or by replacing them with certificates signed by a [certificate authority](https://en.wikipedia.org/wiki/Certificate_authority) (CA).
 
 ## Renew self-signed certificates
 
-As of [v6.2.18-70]({{< relref "/operate/rs/release-notes/rs-6-2-18-releases/rs-6-2-18-70" >}}), Redis Enterprise Software includes a script to generate self-signed certificates.  
+As of [v6.2.18-70]({{< relref "/operate/rs/release-notes/rs-6-2-18-releases/rs-6-2-18-70" >}}), Redis Software includes a script to generate self-signed certificates.  
 
 By default, the `generate_self_signed_certs.sh` script is located in `/opt/redislabs/utils/`.  
 
 Here, you learn how to use this script to generate new certificates and how to install them.
+
+### Generate self-signed certs script options
+
+You can run the `generate_self_signed_certs.sh` script with the following options:
+
+| Option | Description |
+|----------|-------------|
+| `-h`<br />`--help` | Displays usage instructions. (Optional) |
+| `-d <days>`<br />`--days <days>` | Number of days the self-signed certificate is valid for. Setting this field longer than a year (365 days) is not recommended. (Optional, default: 365) |
+| `-f <names>`<br /><nobr>`--fqdnNames <names>`</nobr> | Space-separated list of [fully qualified domain names (FQDNs)](https://en.wikipedia.org/wiki/Fully_qualified_domain_name). Used for [storage area networks (SANs)](https://en.wikipedia.org/wiki/Storage_area_network). (Required)<br />Example: `-f "redis.example.com redis-1.example.com"` |
+| `-t <type>`<br />`--type <type>` | Type of certificate to generate. (Optional, default: all) <br />Values:<br />**cm**: Cluster Manager UI certificate<br />**api**: REST API certificate<br /> **proxy**: database endpoint proxy certificate<br />**syncer**: syncer component certificate<br />**metrics**: metrics exporter certificate<br />**all**: generates all certificate types |
 
 ### Step 1: Generate new certificates 
 
@@ -31,30 +42,7 @@ Sign in to the machine hosting the cluster's master node and then run the follow
    -f "<DomainName1 DomainName2>" -d <Days> -t <Type>
 ```
 
-where:
-
-- _\<DomainName1>_ is the fully qualified domain name (FQDN) of the cluster.  (This is the name given to the cluster when first created.)
-- _\<DomainName2>_ is an optional FQDN for the cluster.  Multiple domain names are allowed, separated by whitespace.  Quotation marks (`""`) should enclose the full set of names.
-- _\<Days>_ is an integer specifying the number of days the certificate should be valid.  We recommend against setting this longer than a year (365 days).
-
-    _\<Days>_ is optional and defaults to `365`.
-
-- _\<Type>_ is a string identifying the name of the certificate to generate.  
-    
-    The following values are supported:
-
-    | Value | Description |
-    |-------|-------------|
-    | `api` | The REST API |
-    | `cm` | The Cluster Manager UI |
-    | `metrics` | The metrics exporter |
-    | `proxy` | The database endpoint |
-    | `syncer` | The synchronization process |
-    | `all` | Generates all certificates in a single operation |
-
-    _Type_ is optional and defaults to `all`.
-
-When you run the script, it either reports success (`"Self signed cert generated successfully"`) or an error message.  Use the error message to troubleshoot any issues.
+When you run the script, it either reports success (`"Self signed cert generated successfully"`) or an error message. Use the error message to troubleshoot any issues.
 
 The following example generates all self signed certificates for `mycluster.example.com`; these certificates expire one year after the command is run:
 
@@ -175,7 +163,7 @@ In addition to the general guidelines described earlier, the following guideline
 
 1.  We strongly recommend using a strong hash algorithm, such as <nobr>SHA-256</nobr> or <nobr>SHA-512</nobr>.
 
-    Individual operating systems might limit access to specific algorithms.  For example, Ubuntu 20.04 [limits  access](https://manpages.ubuntu.com/manpages/focal/man7/crypto-policies.7.html) to <nobr>SHA-1</nobr>.  In such cases, Redis Enterprise Software is limited to the features supported by the underlying operating system.
+    Individual operating systems might limit access to specific algorithms.  For example, Ubuntu 20.04 [limits  access](https://manpages.ubuntu.com/manpages/focal/man7/crypto-policies.7.html) to <nobr>SHA-1</nobr>.  In such cases, Redis Software is limited to the features supported by the underlying operating system.
 
 
 #### Client certificate guidelines
@@ -188,7 +176,7 @@ In addition to the general guidelines described earlier, the following guideline
 
 1.  We strongly recommend using a strong hash algorithm, such as <nobr>SHA-256</nobr> or <nobr>SHA-512</nobr>.
 
-    Individual operating systems might limit access to specific algorithms.  For example, Ubuntu 20.04 [limits  access](https://manpages.ubuntu.com/manpages/focal/man7/crypto-policies.7.html) to <nobr>SHA-1</nobr>.  In such cases, Redis Enterprise Software is limited to the features supported by the underlying operating system.
+    Individual operating systems might limit access to specific algorithms.  For example, Ubuntu 20.04 [limits  access](https://manpages.ubuntu.com/manpages/focal/man7/crypto-policies.7.html) to <nobr>SHA-1</nobr>.  In such cases, Redis Software is limited to the features supported by the underlying operating system.
 
 ### Create certificates
 

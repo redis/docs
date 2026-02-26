@@ -42,12 +42,17 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SUNION
+railroad_diagram: /images/railroad/sunion.svg
 since: 1.0.0
 summary: Returns the union of multiple sets.
 syntax_fmt: SUNION key [key ...]
-syntax_str: ''
 title: SUNION
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Returns the members of the set resulting from the union of all the given sets.
 
 For example:
@@ -72,6 +77,12 @@ SADD key2 "d"
 SADD key2 "e"
 SUNION key1 key2
 {{% /redis-cli %}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

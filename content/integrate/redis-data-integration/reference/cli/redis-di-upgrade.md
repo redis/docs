@@ -17,14 +17,12 @@ Usage: redis-di upgrade [OPTIONS]
 ## Options
 
 - `log_level`:
-
   - Type: Choice(['TRACE', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
   - Default: `info`
   - Usage: `--log-level
 -l`
 
 - `rdi_namespace`:
-
   - Type: STRING
   - Default: `rdi`
   - Usage: `--rdi-namespace`
@@ -32,7 +30,6 @@ Usage: redis-di upgrade [OPTIONS]
   RDI Kubernetes namespace
 
 - `rdi_host` (REQUIRED):
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-host`
@@ -40,7 +37,6 @@ Usage: redis-di upgrade [OPTIONS]
   Host/IP of RDI Database
 
 - `rdi_port` (REQUIRED):
-
   - Type: <IntRange 1<=x<=65535>
   - Default: `none`
   - Usage: `--rdi-port`
@@ -48,7 +44,6 @@ Usage: redis-di upgrade [OPTIONS]
   Port of RDI Database
 
 - `rdi_user`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-user`
@@ -56,7 +51,6 @@ Usage: redis-di upgrade [OPTIONS]
   RDI Database Username
 
 - `rdi_password`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-password`
@@ -64,7 +58,6 @@ Usage: redis-di upgrade [OPTIONS]
   RDI Database Password
 
 - `rdi_key`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-key`
@@ -72,7 +65,6 @@ Usage: redis-di upgrade [OPTIONS]
   Private key file to authenticate with
 
 - `rdi_cert`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-cert`
@@ -80,7 +72,6 @@ Usage: redis-di upgrade [OPTIONS]
   Client certificate file to authenticate with
 
 - `rdi_cacert`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-cacert`
@@ -88,7 +79,6 @@ Usage: redis-di upgrade [OPTIONS]
   CA certificate file to verify with
 
 - `rdi_key_password`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-key-password`
@@ -96,7 +86,6 @@ Usage: redis-di upgrade [OPTIONS]
   Password for unlocking an encrypted private key
 
 - `force`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--force
@@ -105,7 +94,6 @@ Usage: redis-di upgrade [OPTIONS]
   Force operation. Skips verification prompts
 
 - `help`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--help`

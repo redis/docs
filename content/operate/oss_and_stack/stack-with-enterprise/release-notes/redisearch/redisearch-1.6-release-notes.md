@@ -176,7 +176,7 @@ Full details:
 - Added functionality
     - #[658](https://github.com/RediSearch/RediSearch/issues/658) `FT.ADD … REPLACE … NOCREATE` will not add the document if the document does not exist.
     - #[575](https://github.com/RediSearch/RediSearch/issues/575) Add index aliasing. This allows users to provide (or remove) ‘links’ to indexes. The commands are `FT.ALIASADD`, `FT.ALIASDEL`, and `FT.ALIASUPDATE`.
-    - New C API to make RediSearch embeddable in other Redis modules. This API allows other Redis modules to use functionality of RedisSearch without actually having the “module” functionality active. Note that this must still be used on Redis proper. Modules that are already incorporating this API
+    - New C API to make RediSearch embeddable in other Redis modules. This API allows other Redis modules to use functionality of RedisSearch without actually having the "module" functionality active. Note that this must still be used on Redis proper. Modules that are already incorporating this API
     - [RedisGraph](https://github.com/RedisGraph/RedisGraph/releases/tag/v2.0.1) GA
     - [RedisTimeSeries](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/186) (WIP)
     - [RedisJSON](https://github.com/RedisJSON/RedisJSON2) (WIP)

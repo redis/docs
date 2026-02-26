@@ -30,12 +30,12 @@ group: json
 hidden: false
 linkTitle: JSON.MERGE
 module: JSON
+railroad_diagram: /images/railroad/json.merge.svg
 since: 2.6.0
 stack_path: docs/data-types/json
 summary: Merges a given JSON value into matching paths. Consequently, JSON values
   at matching paths are updated, deleted, or expanded with new children
 syntax_fmt: JSON.MERGE key path value
-syntax_str: path value
 title: JSON.MERGE
 ---
 Merge a given JSON value into matching paths. Consequently, JSON values at matching paths are updated, deleted, or expanded with new children.
@@ -65,12 +65,6 @@ is the JSON value to merge with at the specified path. Merging is done according
 *   merging a non-existing object key adds the key and value
 *   merging an existing array with any merged value, replaces the entire array with the value
 </details>
-
-## Return value
-
-JSON.MERGE returns a simple string reply: `OK` if executed correctly or `error` if fails to set the new values
-
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -132,7 +126,6 @@ redis> JSON.GET doc $
 
 </details>
 
-
 <details open>
 <summary><b>Merge changes in multi-paths</b></summary>
 
@@ -148,6 +141,30 @@ redis> JSON.GET doc
 {{< / highlight >}}
 
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="json-merge-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): if the operation fails to set the new values.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): if the operation fails to set the new values.
+
+{{< /multitabs >}}
 
 ## See also
 

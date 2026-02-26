@@ -9,7 +9,8 @@ categories:
 - oss
 - kubernetes
 - clients
-- aliases: /develop/interact/programmability/functions-intro
+aliases: 
+- /develop/interact/programmability/functions-intro
 description: 'Scripting with Redis 7 and beyond
 
   '

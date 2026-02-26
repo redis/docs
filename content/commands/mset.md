@@ -50,12 +50,17 @@ key_specs:
     type: range
   update: true
 linkTitle: MSET
+railroad_diagram: /images/railroad/mset.svg
 since: 1.0.1
 summary: Atomically creates or modifies the string values of one or more keys.
 syntax_fmt: MSET key value [key value ...]
-syntax_str: ''
 title: MSET
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Sets the given keys to their respective values.
 `MSET` replaces existing values with new values, just as regular [`SET`]({{< relref "/commands/set" >}}).
 See [`MSETNX`]({{< relref "/commands/msetnx" >}}) if you don't want to overwrite existing values.
@@ -71,6 +76,12 @@ MSET key1 "Hello" key2 "World"
 GET key1
 GET key2
 {{% /redis-cli %}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -57,12 +57,17 @@ key_specs:
       limit: 0
     type: range
 linkTitle: SDIFFSTORE
+railroad_diagram: /images/railroad/sdiffstore.svg
 since: 1.0.0
 summary: Stores the difference of multiple sets in a key.
 syntax_fmt: SDIFFSTORE destination key [key ...]
-syntax_str: key [key ...]
 title: SDIFFSTORE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 This command is equal to [`SDIFF`]({{< relref "/commands/sdiff" >}}), but instead of returning the resulting set, it
 is stored in `destination`.
 
@@ -80,6 +85,12 @@ SADD key2 "e"
 SDIFFSTORE key key1 key2
 SMEMBERS key
 {{% /redis-cli %}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

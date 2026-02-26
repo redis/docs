@@ -34,11 +34,11 @@ group: topk
 hidden: false
 linkTitle: TOPK.RESERVE
 module: Bloom
+railroad_diagram: /images/railroad/topk.reserve.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
-summary: Initializes a Top-K sketch with specified parameters
+summary: Initializes a TopK with specified parameters
 syntax_fmt: TOPK.RESERVE key topk [width depth decay]
-syntax_str: topk [width depth decay]
 title: TOPK.RESERVE
 ---
 Initializes a Top-K sketch with specified parameters.
@@ -60,9 +60,15 @@ redis> TOPK.RESERVE topk 50 2000 7 0.925
 OK
 ```
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
 ## Return information
 
-{{< multitabs id=“topk-reserve-return-info" 
+{{< multitabs id="topk-reserve-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

@@ -55,7 +55,7 @@ FT.SEARCH index "*" FILTER field start end
 
 The following examples show you how to query for bicycles with a price of exactly 270 USD:
 
-{{< clients-example query_em em1 >}}
+{{< clients-example set="query_em" step="em1" description="Foundational: Query numeric fields for exact matches using range syntax or equality operators when you need to find documents with specific numeric values" difficulty="beginner" >}}
 > FT.SEARCH idx:bicycle "@price:[270 270]"
 1) (integer) 1
 2) "bicycle:0"
@@ -102,7 +102,7 @@ The curly brackets are mandatory for tag queries.
 
 This short example shows you how to query for new bicycles:
 
-{{< clients-example query_em em2 >}}
+{{< clients-example set="query_em" step="em2" description="Foundational: Query tag fields for exact matches using curly bracket syntax when you need to find documents with specific categorical values" difficulty="beginner" >}}
 > FT.SEARCH idx:bicycle "@condition:{new}"
  1) (integer) 5
  2) "bicycle:0"
@@ -124,7 +124,7 @@ This short example shows you how to query for new bicycles:
 
 Use double quotes and [DIALECT 2]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}}#dialect-2) for exact match queries involving tags that contain special characters. As of v2.10, the only character that needs escaping in queries involving double-quoted tags is the double-quote character. Here's an example of using double-quoted tags that contain special characters:
 
-{{< clients-example query_em em3 >}}
+{{< clients-example set="query_em" step="em3" description="Tag fields: Query tag fields with special characters using double-quoted syntax and DIALECT 2 when you need to match tags containing symbols or spaces" difficulty="advanced" >}}
 > FT.CREATE idx:email ON JSON PREFIX 1 key: SCHEMA $.email AS email TAG
 OK
 > JSON.SET key:1 $ '{"email": "test@redis.com"}'
@@ -152,7 +152,7 @@ You can't use a phrase that starts with a [stop word]({{< relref "/develop/ai/se
 
 Here is an example for finding all bicycles that have a description containing the exact text 'rough terrain':
 
-{{< clients-example query_em em4 >}}
+{{< clients-example set="query_em" step="em4" description="Text fields: Query text fields for exact phrase matches using escaped double quotes when you need to find documents containing specific multi-word phrases" difficulty="intermediate" >}}
 FT.SEARCH idx:bicycle "@description:\"rough terrain\""
 1) (integer) 1
 2) "bicycle:8"

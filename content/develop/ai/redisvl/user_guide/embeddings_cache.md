@@ -1,9 +1,9 @@
 ---
 linkTitle: Caching embeddings
 title: Caching Embeddings
-weight: 10
 aliases:
-- /integrate/redisvl/user_guide/embeddings_cache
+- /integrate/redisvl/user_guide/10_embeddings_cache
+weight: 10
 ---
 
 
@@ -44,9 +44,19 @@ vectorizer = HFTextVectorizer(
 )
 ```
 
-    /Users/tyler.hutcherson/Library/Caches/pypoetry/virtualenvs/redisvl-VnTEShF2-py3.13/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+    /Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/.venv/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
       from .autonotebook import tqdm as notebook_tqdm
-    Compiling the model with `torch.compile` and using a `torch.mps` device is not supported. Falling back to non-compiled mode.
+
+
+    13:06:09 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
+    13:06:09 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: redis/langcache-embed-v1
+    13:06:09 sentence_transformers.SentenceTransformer WARNING   You try to use a model that was created with version 4.1.0, however, your version is 3.4.1. This might cause unexpected behavior or errors. In that case, try to update to the latest version.
+    
+    
+    
+
+
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  4.09it/s]
 
 
 ## Initializing the EmbeddingsCache
@@ -97,7 +107,12 @@ key = cache.set(
 print(f"Stored with key: {key[:15]}...")
 ```
 
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  3.18it/s]
+
     Stored with key: embedcache:909f...
+
+
+    
 
 
 ### Retrieving Embeddings
@@ -251,9 +266,16 @@ cache.mdrop(texts, model_name)
 # cache.mdrop_by_keys(keys)    # Delete by keys
 ```
 
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.37it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  9.04it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 20.84it/s]
+
     Stored 3 embeddings with batch operation
     All embeddings exist: True
     Retrieved 3 embeddings in one operation
+
+
+    
 
 
 Batch operations are particularly beneficial when working with large numbers of embeddings. They provide the same functionality as individual operations but with better performance by reducing network roundtrips.
@@ -427,12 +449,28 @@ for query in set(queries):  # Use set to get unique queries
     example_cache.drop(text=query, model_name=model_name)
 ```
 
+    13:06:20 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
+    13:06:20 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: redis/langcache-embed-v1
+    13:06:20 sentence_transformers.SentenceTransformer WARNING   You try to use a model that was created with version 4.1.0, however, your version is 3.4.1. This might cause unexpected behavior or errors. In that case, try to update to the latest version.
+    
+    
+    
+
+
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.84it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 22.04it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 22.62it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 22.71it/s]
+
     
     Statistics:
     Total queries: 5
     Cache hits: 2
     Cache misses: 3
     Cache hit rate: 40.0%
+
+
+    
 
 
 ## Performance Benchmark
@@ -483,17 +521,36 @@ print(f"Latency reduction: {latency_reduction:.4f} seconds per query")
 ```
 
     Benchmarking without caching:
-    Time taken without caching: 0.4735 seconds
-    Average time per embedding: 0.0474 seconds
+
+
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.51it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 23.21it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 23.96it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 23.28it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 22.69it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 22.98it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 23.17it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 24.12it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 23.37it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 23.24it/s]
+
+
+    Time taken without caching: 0.4549 seconds
+    Average time per embedding: 0.0455 seconds
     
     Benchmarking with caching:
-    Time taken with caching: 0.0663 seconds
+
+
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 23.69it/s]
+
+
+    Time taken with caching: 0.0664 seconds
     Average time per embedding: 0.0066 seconds
     
     Performance comparison:
-    Speedup with caching: 7.14x faster
-    Time saved: 0.4073 seconds (86.0%)
-    Latency reduction: 0.0407 seconds per query
+    Speedup with caching: 6.86x faster
+    Time saved: 0.3885 seconds (85.4%)
+    Latency reduction: 0.0389 seconds per query
 
 
 ## Common Use Cases for Embedding Caching

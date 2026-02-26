@@ -34,13 +34,18 @@ group: json
 hidden: false
 linkTitle: JSON.MSET
 module: JSON
+railroad_diagram: /images/railroad/json.mset.svg
 since: 2.6.0
 stack_path: docs/data-types/json
 summary: Sets or updates the JSON value of one or more keys
 syntax_fmt: JSON.MSET key path value [key path value ...]
-syntax_str: ''
 title: JSON.MSET
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Set or update one or more JSON values according to the specified `key`-`path`-`value` triplets
 
 `JSON.MSET` is atomic, hence, all given additions or updates are either applied or not. It is not possible for clients to see that some of the keys were updated while others are unchanged.
@@ -71,12 +76,6 @@ is JSONPath to specify. For new Redis keys the `path` must be the root. For exis
 is value to set at the specified path
 </details>
 
-## Return value
-
-JSET.MSET returns a simple string reply: `OK` if executed correctly or `error` if fails to set the new values
-
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
-
 ## Examples
 
 <details open>
@@ -95,6 +94,30 @@ redis> JSON.GET doc3
 "{\"f1\":{\"a\":1},\"f2\":{\"a\":2}}"
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="json-mset-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): if the operation fails to set the new values.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): if the operation fails to set the new values.
+
+{{< /multitabs >}}
 
 ## See also
 

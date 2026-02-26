@@ -29,7 +29,7 @@ Run the following command to launch Redis Insight in debug mode to investigate c
 
 * **Windows**:
 
-    `cmd /C “set DEBUG=ioredis* && ".\Redis Insight.exe"”`
+    `cmd /C "set DEBUG=ioredis* && ".\Redis Insight.exe""`
 
 * **macOS** (from the Applications folder):
 
@@ -54,7 +54,7 @@ These are the locations on supported platforms:
 
 * **Windows**:
 
-    `cmd /C “set DEBUG=* && ".\Redis Insight.exe"”`
+    `cmd /C "set DEBUG=* && ".\Redis Insight.exe""`
 
 * **macOS** (from the Applications folder):
 
@@ -68,7 +68,7 @@ These are the locations on supported platforms:
 
 * **Windows**:
 
-    `cmd /C “set STDOUT_LOGGER=true && set LOG_LEVEL=debug && set LOGGER_OMIT_DATA=false && ".\Redis Insight.exe"”`
+    `cmd /C "set STDOUT_LOGGER=true && set LOG_LEVEL=debug && set LOGGER_OMIT_DATA=false && ".\Redis Insight.exe""`
 
 * **macOS** (from the Applications folder):
 
@@ -83,7 +83,7 @@ These are the locations on supported platforms:
 ### To log everything
 * **Windows**:
 
-    `cmd /C “set STDOUT_LOGGER=true && set LOG_LEVEL=debug && set LOGGER_OMIT_DATA=false && set DEBUG=* && ".\Redis Insight.exe"”`
+    `cmd /C "set STDOUT_LOGGER=true && set LOG_LEVEL=debug && set LOGGER_OMIT_DATA=false && set DEBUG=* && ".\Redis Insight.exe""`
 
 * **macOS** (from the Applications folder):
 

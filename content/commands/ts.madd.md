@@ -31,16 +31,18 @@ group: timeseries
 hidden: false
 linkTitle: TS.MADD
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.madd.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Append new samples to one or more time series
-syntax: 'TS.MADD {key timestamp value}...
-
-  '
 syntax_fmt: TS.MADD key timestamp value [key timestamp value ...]
-syntax_str: ''
 title: TS.MADD
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 
 Append new samples to one or more time series
 
@@ -65,7 +67,7 @@ Unix time is the number of milliseconds that have elapsed since 00:00:00 UTC on 
 <details open>
 <summary><code>value</code></summary>
 
-is numeric data value of the sample (double). The double number should follow <a href="https://tools.ietf.org/html/rfc7159">RFC 7159</a> (a JSON standard). The parser rejects overly large values that would not fit in binary64. It does not accept NaN or infinite values.
+is numeric data value of the sample (double). The double number should follow <a href="https://tools.ietf.org/html/rfc7159">RFC 7159</a> (JSON standard). The parser rejects overly large values that would not fit in binary64. It does not accept infinite values. NaN (Not a Number) values are supported starting from Redis 8.6.
 </details>
 
 <note><b>Notes:</b>
@@ -73,13 +75,6 @@ is numeric data value of the sample (double). The double number should follow <a
 - Explicitly adding samples to a compacted time series (using [`TS.ADD`]({{< relref "commands/ts.add/" >}}), `TS.MADD`, [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), or [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}})) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.
 - `ignoreMaxTimeDiff` and `ignoreMaxValDiff` cannot be specified as is the case with `TS.ADD`. However, the same logic still applies based on the values of the per-key configuration parameters. See the [`TS.ADD`]({{< relref "commands/ts.add/" >}}) command page for more information.
 </note>
-
-## Return value
-
-Returns one of these replies:
-
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the timestamp of a upserted sample or an [] (when duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp). For each element that is ignored (see `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply element value will be the largest timestamp in the time series.
-- [] (invalid arguments, wrong key type, etc.)
 
 ## Complexity
 
@@ -107,6 +102,30 @@ OK
 6) (integer) 1020
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="ts-madd-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the timestamp of a upserted sample. For each element that is ignored (see `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply element value will be the largest timestamp in the time series.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp.
+
+-tab-sep-
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the timestamp of a upserted sample. For each element that is ignored (see `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply element value will be the largest timestamp in the time series.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp.
+
+{{< /multitabs >}}
 
 ## See also
 

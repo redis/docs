@@ -12,6 +12,16 @@ categories:
 description: Learn how to index and query vector embeddings with Redis
 linkTitle: Index and query vectors
 title: Index and query vectors
+scope: example
+relatedPages:
+- /develop/clients/dotnet/queryjson
+- /develop/clients/dotnet/vecsets
+- /develop/ai/search-and-query
+topics:
+- Redis Query Engine
+- JSON
+- hash
+- vectors
 weight: 40
 ---
 
@@ -207,7 +217,7 @@ for more information.
 
 ```csharp
 private static byte[] GetEmbeddingFromAzure(string sentence){
-	Uri oaiEndpoint = new ("your-azure-openai-endpoint”);
+	Uri oaiEndpoint = new ("your-azure-openai-endpoint");
 	string oaiKey = "your-openai-key";
 
 	AzureKeyCredential credentials = new (oaiKey);

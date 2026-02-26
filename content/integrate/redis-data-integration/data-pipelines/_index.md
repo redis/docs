@@ -16,7 +16,7 @@ linkTitle: Data pipelines
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 30
+weight: 40
 ---
 
 RDI uses *pipelines* to implement
@@ -108,10 +108,28 @@ section.
 ###  2. Configure the pipeline
 
 RDI uses a set of [YAML](https://en.wikipedia.org/wiki/YAML)
-files to configure each pipeline. The following diagram shows the folder
-structure of the configuration:
+files to configure each pipeline. The folder structure of the
+configuration is shown below:
 
-{{< image filename="images/rdi/ingest/ingest-config-folders.webp" width="600px" >}}
+```hierarchy {type="filesystem"}
+"(root)":
+    "config.yaml":
+        _meta:
+            description: "\"config.yaml\" is the main pipeline configuration file."
+    "jobs":
+        _meta:
+            description: "The 'jobs' folder containing optional job files."
+        "default-job.yaml":
+            _meta:
+                description: "A default job."
+        "job1.yaml":
+          _meta:
+                description: "Each job file must have a unique name."
+        "...":
+            _meta:
+                ellipsis: true
+                description: "Other job files, if required."
+```
 
 The main configuration for the pipeline is in the `config.yaml` file.
 This specifies the connection details for the source database (such

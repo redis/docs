@@ -10,6 +10,7 @@ description: Reference material for the operator, cluster, and database deployme
 hideListLinks: false
 linkTitle: Reference
 weight: 89
+aliases: [/operate/kubernetes/7.8.4/reference/supported_k8s_distributions/]
 url: '/operate/kubernetes/7.8.4/reference/'
 ---
 

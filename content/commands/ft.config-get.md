@@ -26,13 +26,12 @@ group: search
 hidden: false
 linkTitle: FT.CONFIG GET
 module: Search
+railroad_diagram: /images/railroad/ft.config-get.svg
 replaced_by: '[`CONFIG GET`]({{< relref "/commands/config-get" >}})'
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Retrieves runtime configuration options
-syntax: FT.CONFIG GET option
 syntax_fmt: FT.CONFIG GET option
-syntax_str: ''
 title: FT.CONFIG GET
 ---
 
@@ -47,10 +46,6 @@ Retrieve configuration options
 
 is name of the configuration option, or '*' for all. 
 </details>
-
-## Return
-
-FT.CONFIG GET returns an array reply of the configuration name and value.
 
 ## Examples
 
@@ -140,9 +135,31 @@ FT.CONFIG GET returns an array reply of the configuration name and value.
 {{< / highlight >}}
 </details>
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Not supported"><nobr>&#x274c; Not supported</span> | <span title="Not supported"><nobr>&#x26A0;&#xFE0F; Not supported</span><sup>1</sup> | <span title="Not supported"><nobr>&#x274c; Not supported</nobr></span> |  |
+
+1. </a>[Contact support](https://redis.com/company/support/) to view the current configuration values or request configuration changes for Flexible or Annual Redis Cloud subscriptions.
+
+## Return information
+
+{{< multitabs id="ft-config-get-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [arrays]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each sub-array contains a configuration option name and its value.
+
+-tab-sep-
+
+[Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) where keys are configuration option names and values are their corresponding values.
+
+{{< /multitabs >}}
+
 ## See also
 
-[`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.CONFIG HELP`]({{< relref "commands/ft.config-help/" >}}) 
+[`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.CONFIG HELP`]({{< relref "commands/ft.config-help/" >}})
 
 ## Related topics
 

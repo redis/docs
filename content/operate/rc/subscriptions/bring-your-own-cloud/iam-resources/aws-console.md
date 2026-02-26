@@ -98,7 +98,7 @@ Follow the steps to [Create a role for an IAM user](https://docs.aws.amazon.com/
     {{< warning >}}
 Do not check the **Require external ID** checkbox.
     {{< /warning >}}
-- In **Add permissions**, select the **RedisLabsInstanceRolePolicy** you created.
+- In **Add permissions**, select the **RedislabsIAMUserRestrictedPolicy** you created.
 - In **Name, review, and create**, enter `redislabs-role` in the **Role name** field.
 
 Select **Create role** to finish role creation. Save the Role name for later.

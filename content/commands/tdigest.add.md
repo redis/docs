@@ -22,17 +22,17 @@ categories:
 - oss
 - kubernetes
 - clients
-complexity: O(N) , where N is the number of samples to add
+complexity: O(N), where N is the number of samples to add
 description: Adds one or more observations to a t-digest sketch
 group: tdigest
 hidden: false
 linkTitle: TDIGEST.ADD
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.add.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
 summary: Adds one or more observations to a t-digest sketch
 syntax_fmt: TDIGEST.ADD key value [value ...]
-syntax_str: value [value ...]
 title: TDIGEST.ADD
 ---
 Adds one or more observations to a t-digest sketch.
@@ -61,9 +61,15 @@ redis> TDIGEST.ADD t string
 (error) ERR T-Digest: error parsing val parameter
 {{< / highlight >}}
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
 ## Return information
 
-{{< multitabs id=“tdigest-add-return-info" 
+{{< multitabs id="tdigest-add-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

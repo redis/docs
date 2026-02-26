@@ -1,15 +1,22 @@
 from enum import Enum
-from io import StringIO
-from re import M
+import logging
 from textwrap import fill
 from typing import List
-from railroad import *
+import os
+import sys
 
 # Non-breaking space
 NBSP = '\xa0'
 
 # HTML Word Break Opportunity
 WBR = '<wbr>'
+
+# Import railroad diagrams library
+try:
+    import railroad
+except ImportError:
+    railroad = None
+    logging.warning("railroad-diagrams library not available. Railroad diagram generation will be skipped.")
 
 class ArgumentType(Enum):
     INTEGER = 'integer'
@@ -22,15 +29,22 @@ class ArgumentType(Enum):
     BLOCK = 'block'
     PURE_TOKEN = 'pure-token'
     COMMAND = 'command'
+    FUNCTION = 'function'
+    INDEX = 'index'
+    KEYNUM = 'keynum'
+    KEYWORD = 'keyword'
+    RANGE = 'range'
+    UNKNOWN = 'unknown'
 
 
 class Argument:
     def __init__(self, data: dict = {}, level: int = 0, max_width: int = 640) -> None:
+        logging.debug("ENTERING: ")
         self._stack = []
         self._level: int = level
         self._max_width: int = max_width
-        self._name: str = data['name']
-        self._type = ArgumentType(data['type'])
+        self._name: str = data.get('name', data.get('token', 'unnamed'))
+        self._type = ArgumentType(data.get('type', 'string'))
         self._optional: bool = data.get('optional', False)
         self._multiple: bool = data.get('multiple', False)
         self._multiple_token: bool = data.get('multiple_token', False)
@@ -40,14 +54,21 @@ class Argument:
             self._token = '""'
         self._arguments: List[Argument] = [
             Argument(arg, self._level+1) for arg in data.get('arguments', [])]
+        logging.debug("EXITING: ")
 
     def syntax(self, **kwargs) -> str:
+        logging.debug("ENTERING: ")
         show_types = kwargs.get('show_types')
         args = ''
         if self._type == ArgumentType.BLOCK:
             args += ' '.join([arg.syntax() for arg in self._arguments])
         elif self._type == ArgumentType.ONEOF:
             args += f' | '.join([arg.syntax() for arg in self._arguments])
+        elif self._type == ArgumentType.FUNCTION:
+            # Functions should display their token/name, not expand nested arguments
+            args += self._display
+            if show_types:
+                args += f':{self._type.value}'
         elif self._type != ArgumentType.PURE_TOKEN:
             args += self._display
             if show_types:
@@ -78,68 +99,138 @@ class Argument:
         if self._optional:
             syntax = f'{syntax.rstrip()}]'
 
+        logging.debug("EXITING: ")
         return f'{syntax}'
 
-    def diagram(self) -> DiagramItem:
-        if self._type == ArgumentType.COMMAND:
-            s = []
-            i = 0
-            optionals = []
-            while i < len(self._arguments):
-                arg = self._arguments[i].diagram()
-                if type(arg) is Optional:
-                    optionals.append(arg)
-                else:
-                    if len(optionals) != 0:
-                        optionals.sort(key=lambda x: x.width)
-                        s += optionals
-                        optionals = []
-                    s.append(arg)
-                i += 1
-            if len(optionals) != 0:
-                optionals.sort(key=lambda x: x.width)
-                s += optionals
+    def to_railroad(self) -> 'railroad.Node':
+        """Convert this argument to a railroad diagram component."""
+        if railroad is None:
+            raise ImportError("railroad-diagrams library not available")
 
-            self._stack.append(Sequence(Terminal(self._display)))
-            for arg in s:
-                if type(arg) is not Sequence:
-                    items = [arg]
+        logging.debug(f"Converting argument '{self._name}' of type {self._type} to railroad")
+
+        # Handle different argument types
+        if self._type == ArgumentType.PURE_TOKEN:
+            # Pure tokens are just terminal text
+            component = railroad.Terminal(self._token or self._name)
+        elif self._type == ArgumentType.BLOCK:
+            # Blocks are sequences of their arguments
+            components = []
+
+            # If the block has a token, add it first
+            if self._token:
+                components.append(railroad.Terminal(self._token))
+
+            # Add the block's arguments
+            if self._arguments:
+                components.extend([arg.to_railroad() for arg in self._arguments])
+
+            if components:
+                component = railroad.Sequence(*components)
+            else:
+                component = railroad.Terminal(self._display)
+        elif self._type == ArgumentType.ONEOF:
+            # OneOf is a choice between arguments
+            if self._arguments:
+                components = [arg.to_railroad() for arg in self._arguments]
+                # Use the first option as the default (index 0)
+                choice_component = railroad.Choice(0, *components)
+
+                # If there's a token, create a sequence of token + choice
+                if self._token:
+                    token_part = railroad.Terminal(self._token)
+                    component = railroad.Sequence(token_part, choice_component)
                 else:
-                    items = arg.items
-                for a in items:
-                    width = self._stack[-1].width
-                    w = a.width
-                    if width + w >= self._max_width:
-                        self._stack.append(Sequence(a))
-                    else:
-                        self._stack[-1] = Sequence(*self._stack[-1].items, a)
+                    component = choice_component
+            else:
+                component = railroad.Terminal(self._display)
         else:
-            if self._type in [ArgumentType.BLOCK, ArgumentType.ONEOF] and len(self._arguments) > 0:
-                args = [arg.diagram() for arg in self._arguments]
-                if self._type == ArgumentType.BLOCK:
-                    el = Sequence(*args)
-                elif self._type == ArgumentType.ONEOF:
-                    el = Choice(round(len(args)/2), *args)
-            elif self._type != ArgumentType.PURE_TOKEN:
-                el = NonTerminal(self._display, title=self._type.value)
+            # Regular arguments (string, integer, etc.)
+            if self._token:
+                # If there's a token, create a sequence of token + argument
+                token_part = railroad.Terminal(self._token)
+                arg_part = railroad.NonTerminal(self._display)
+                component = railroad.Sequence(token_part, arg_part)
+            else:
+                # Just the argument
+                component = railroad.NonTerminal(self._display)
 
-            if self._multiple:
-                if self._multiple_token:
-                    el = Sequence(Terminal(self._token), el)
-                el = OneOrMore(el)
-            elif self._token:
-                if self._type == ArgumentType.PURE_TOKEN:
-                    el = Terminal(self._token)
+        # Handle multiple (repeating) arguments
+        if self._multiple:
+            if self._type == ArgumentType.ONEOF:
+                # For ONEOF with multiple=true, we want to allow selecting multiple options
+                # This means: first_option [additional_options ...]
+                # where additional_options is a choice of any of the original options
+                if self._arguments:
+                    # Create a choice of all options for the additional selections
+                    additional_choice = railroad.Choice(0, *[arg.to_railroad() for arg in self._arguments])
+
+                    # If there's a token, we need to include it in the repetition
+                    if self._token:
+                        token_part = railroad.Terminal(self._token)
+                        repeat_part = railroad.Sequence(token_part, additional_choice)
+                        component = railroad.Sequence(component, railroad.ZeroOrMore(repeat_part))
+                    else:
+                        component = railroad.Sequence(component, railroad.ZeroOrMore(additional_choice))
                 else:
-                    el = Sequence(Terminal(self._token), el)
-            if self._optional:
-                el = Optional(el, True)
+                    component = railroad.OneOrMore(component)
+            elif self._multiple_token and self._token:
+                # For types with multiple_token=true, the token should be repeated with each occurrence
+                if self._type == ArgumentType.BLOCK and self._arguments:
+                    # For BLOCK types: extract the arguments part for repetition to avoid duplicate tokens
+                    args_component = railroad.Sequence(*[arg.to_railroad() for arg in self._arguments])
+                    repeat_part = railroad.Sequence(railroad.Terminal(self._token), args_component)
+                    component = railroad.Sequence(component, railroad.ZeroOrMore(repeat_part))
+                else:
+                    # For non-BLOCK types: create the complete pattern from scratch
+                    # Pattern: TOKEN arg [TOKEN arg ...]
+                    if self._type == ArgumentType.INTEGER:
+                        arg_part = railroad.NonTerminal(self._display)
+                    elif self._type == ArgumentType.STRING:
+                        arg_part = railroad.NonTerminal(self._display)
+                    elif self._type == ArgumentType.KEY:
+                        arg_part = railroad.NonTerminal(self._display)
+                    else:
+                        arg_part = railroad.NonTerminal(self._display)
 
-            return el
+                    # Create the first occurrence: TOKEN arg
+                    first_occurrence = railroad.Sequence(railroad.Terminal(self._token), arg_part)
+                    # Create the repeat pattern: [TOKEN arg ...]
+                    repeat_part = railroad.Sequence(railroad.Terminal(self._token), arg_part)
+                    # Combine: TOKEN arg [TOKEN arg ...]
+                    component = railroad.Sequence(first_occurrence, railroad.ZeroOrMore(repeat_part))
+            elif self._token and self._multiple:
+                # For non-BLOCK types with multiple=true and a token:
+                # The token appears once, followed by one or more arguments
+                # Pattern: TOKEN arg [arg ...]
+                if self._type != ArgumentType.BLOCK:
+                    # Create the argument part without the token for repetition
+                    if self._type == ArgumentType.INTEGER:
+                        arg_part = railroad.NonTerminal(self._display)
+                    elif self._type == ArgumentType.STRING:
+                        arg_part = railroad.NonTerminal(self._display)
+                    elif self._type == ArgumentType.KEY:
+                        arg_part = railroad.NonTerminal(self._display)
+                    else:
+                        arg_part = railroad.NonTerminal(self._display)
+
+                    # Token + first arg + [additional args ...]
+                    token_part = railroad.Terminal(self._token)
+                    component = railroad.Sequence(token_part, railroad.OneOrMore(arg_part))
+            else:
+                # Multiple without token: arg [arg ...]
+                component = railroad.OneOrMore(component)
+
+        # Handle optional arguments
+        if self._optional:
+            component = railroad.Optional(component)
+
+        return component
 
 
 class Command(Argument):
     def __init__(self, cname: str, data: dict, max_width: int = 640) -> None:
+        logging.debug("ENTERING: ")
         self._cname = cname
         self._cdata = data
         carg = {
@@ -148,18 +239,16 @@ class Command(Argument):
             'arguments': data.get('arguments', [])
         }
         super().__init__(carg, 0, max_width)
+        logging.debug("EXITING: ")
 
     def __str__(self):
+        logging.debug("ENTERING: ")
         s = ' '.join([arg.syntax() for arg in self._arguments[1:]])
+        logging.debug("EXITING: ")
         return s
 
-    def isPureContainer(self) -> bool:
-        return self._cdata.get('arguments') is None and self._cdata.get('arity',0) == -2 and len(self._cname.split(' ')) == 1
-
-    def isHelpCommand(self) -> bool:
-        return self._cname.endswith(' HELP')
-
     def syntax(self, **kwargs):
+        logging.debug("ENTERING: ")
         opts = {
             'width': kwargs.get('width', 68),
             'subsequent_indent': ' ' * 2,
@@ -167,18 +256,141 @@ class Command(Argument):
             'break_on_hyphens': False
         }
         args = [self._name] + [arg.syntax() for arg in self._arguments]
-        return fill(' '.join(args), **opts)
+        result = fill(' '.join(args), **opts)
+        logging.debug("EXITING: ")
+        return result
 
-    def diagram(self) -> str:
-        super().diagram()
-        d = Diagram(Stack(*self._stack),css=None)
-        s = StringIO()
-        d.writeSvg(s.write)
-        # Hack: strip out the 'width' and 'height' attrs from the svg
-        s = s.getvalue()
-        for attr in ['width', 'height']:
-            a = f'{attr}="'
-            x = s.find(a)
-            y = s.find('"', x + len(a))
-            s = s[:x-1] + s[y+1:]
-        return s
+    def to_railroad_diagram(self, output_path: str = None) -> str:
+        """Generate a railroad diagram for this command and return the SVG content."""
+        if railroad is None:
+            raise ImportError("railroad-diagrams library not available")
+
+        logging.debug(f"Generating railroad diagram for command: {self._cname}")
+
+        # Create the main command terminal
+        command_terminal = railroad.Terminal(self._cname)
+
+        # Convert all arguments to railroad components
+        arg_components = []
+        for arg in self._arguments:
+            try:
+                arg_components.append(arg.to_railroad())
+            except Exception as e:
+                logging.warning(f"Failed to convert argument {arg._name} to railroad: {e}")
+                # Fallback to a simple terminal
+                arg_components.append(railroad.NonTerminal(arg._name))
+
+        # Create the complete diagram
+        if arg_components:
+            diagram_content = railroad.Sequence(command_terminal, *arg_components)
+        else:
+            diagram_content = command_terminal
+
+        # Create the diagram
+        diagram = railroad.Diagram(diagram_content)
+
+        # Generate SVG
+        svg_content = []
+        diagram.writeSvg(svg_content.append)
+        svg_string = ''.join(svg_content)
+
+        # Apply Redis red styling and transparent background
+        svg_string = self._apply_redis_styling(svg_string)
+
+        # Save to file if output path is provided
+        if output_path:
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
+            with open(output_path, 'w', encoding='utf-8') as f:
+                f.write(svg_string)
+            logging.info(f"Railroad diagram saved to: {output_path}")
+
+        return svg_string
+
+    def _apply_redis_styling(self, svg_content: str) -> str:
+        """
+        Apply Redis red color scheme and transparent background to SVG.
+
+        Args:
+            svg_content: Original SVG content
+
+        Returns:
+            Modified SVG content with Redis styling
+        """
+        # Redis red color: #DC382D
+        redis_red = "#DC382D"
+
+        # Make background transparent by removing fill from the main SVG
+        svg_content = svg_content.replace('fill="white"', 'fill="none"')
+        svg_content = svg_content.replace('fill="#fff"', 'fill="none"')
+
+        # Add custom CSS styling for Redis theme
+        style_css = f'''<defs>
+<style type="text/css"><![CDATA[
+svg.railroad-diagram {{ background-color: transparent !important; }}
+.terminal rect {{ fill: {redis_red} !important; stroke: {redis_red} !important; }}
+.terminal text {{ fill: white !important; font-weight: bold; }}
+.nonterminal rect {{ fill: none !important; stroke: {redis_red} !important; stroke-width: 2; }}
+.nonterminal text {{ fill: {redis_red} !important; font-weight: bold; }}
+path {{ stroke: {redis_red} !important; stroke-width: 2; fill: none; }}
+circle {{ fill: {redis_red} !important; stroke: {redis_red} !important; }}
+]]></style>
+</defs>'''
+
+        # Insert the style after the opening SVG tag
+        import re
+        if '<defs>' in svg_content:
+            # Replace existing defs
+            svg_content = re.sub(r'<defs>.*?</defs>', style_css, svg_content, flags=re.DOTALL)
+        else:
+            # Insert new defs after svg opening tag
+            svg_content = re.sub(r'<svg([^>]*)>', f'<svg\\1>\n{style_css}', svg_content, count=1)
+
+        # Override any existing background color and stroke styles
+        import re
+
+        # Replace the entire default style section with our Redis-themed styles
+        default_style_pattern = r'<style>/\* <!\[CDATA\[ \*/.*?/\* \]\]> \*/</style>'
+        redis_style_replacement = f'''<style>/* <![CDATA[ */
+		svg.railroad-diagram {{
+			background-color: transparent;
+		}}
+		svg.railroad-diagram path {{
+			stroke-width: 2;
+			stroke: {redis_red};
+			fill: rgba(0,0,0,0);
+		}}
+		svg.railroad-diagram text {{
+			font: bold 14px monospace;
+			text-anchor: middle;
+			fill: {redis_red};
+		}}
+		svg.railroad-diagram text.label {{
+			text-anchor: start;
+		}}
+		svg.railroad-diagram text.comment {{
+			font: italic 12px monospace;
+		}}
+		svg.railroad-diagram rect {{
+			stroke-width: 2;
+			stroke: {redis_red};
+			fill: none;
+		}}
+		svg.railroad-diagram rect.group-box {{
+			stroke: {redis_red};
+			stroke-dasharray: 10 5;
+			fill: none;
+		}}
+		/* ]]> */</style>'''
+
+        svg_content = re.sub(default_style_pattern, redis_style_replacement, svg_content, flags=re.DOTALL)
+
+        # Additional specific overrides for any remaining default colors
+        svg_content = re.sub(r'fill:hsl\(120,100%,90%\)', 'fill: none', svg_content)
+        svg_content = re.sub(r'stroke: gray', f'stroke: {redis_red}', svg_content)
+
+        # Additional fallback overrides
+        svg_content = re.sub(r'background-color:\s*[^;]+;', 'background-color: transparent;', svg_content)
+        svg_content = re.sub(r'stroke:\s*black;', f'stroke: {redis_red};', svg_content)
+        svg_content = re.sub(r'stroke:\s*#000;', f'stroke: {redis_red};', svg_content)
+
+        return svg_content

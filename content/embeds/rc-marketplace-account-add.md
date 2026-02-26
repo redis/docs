@@ -15,5 +15,3 @@ To do this:
     {{<image filename="images/rc/button-connect-account.png" width="150px" alt="The Connect account button." >}}
 
 Your marketplace account is now connected to your Redis Cloud account. If you would like to disconnect your marketplace account from your Redis Cloud account, select **Disconnect**.
-
-{{<image filename="images/rc/button-marketplace-disconnect.png" width="100px" alt="The disconnect account button." >}}

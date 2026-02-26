@@ -1,0 +1,15 @@
+{
+    "id": "php",
+    "type": "client",
+    "name": "Predis",
+    "language": "PHP",
+    "label": "PHP",
+    "repository": {
+        "git_uri": "https://github.com/predis/predis"
+    },
+    "examples": {
+        "git_uri": "https://github.com/predis/predis",
+        "path": "examples",
+        "pattern": "*.php"
+    }
+}

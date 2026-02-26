@@ -10,6 +10,12 @@ title: Install Redis Stack on Windows
 weight: 3
 ---
 
+## Run Redis on Windows using Memurai
+
+Redis is now natively supported on Windows through [Memurai](https://www.memurai.com/), the official Redis partner for Windows compatibility.
+
+## Run Redis on Windows using Docker
+
 To install Redis Stack on Windows, you will need to have Docker installed. When Docker is up and running, open Windows PowerShell and follow the instructions described in [Run Redis Stack on Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}}). Then, use Docker to connect with `redis-cli` as explained in that topic.
 
 {{% alert title="About using WSL and Ubuntu for Windows " color="warning" %}}

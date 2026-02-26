@@ -41,14 +41,19 @@ group: tdigest
 hidden: false
 linkTitle: TDIGEST.MERGE
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.merge.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
 summary: Merges multiple t-digest sketches into a single sketch
 syntax_fmt: "TDIGEST.MERGE destination-key numkeys source-key [source-key ...]\n \
   \ [COMPRESSION compression] [OVERRIDE]"
-syntax_str: numkeys source-key [source-key ...] [COMPRESSION compression] [OVERRIDE]
 title: TDIGEST.MERGE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Merges multiple t-digest sketches into a single sketch.
 
 ## Required arguments
@@ -90,17 +95,17 @@ If `destination-key` already exists and `OVERRIDE` is specified, the key is over
 
 ## Examples
 {{< highlight bash >}}
-redis> TDIGEST.CREATE s1
+redis> TDIGEST.CREATE {metrics}:m1
 OK
-redis> TDIGEST.CREATE s2
+redis> TDIGEST.CREATE {metrics}:m2
 OK
-redis> TDIGEST.ADD s1 10.0 20.0
+redis> TDIGEST.ADD {metrics}:m1 10.0 20.0
 OK
-redis> TDIGEST.ADD s2 30.0 40.0
+redis> TDIGEST.ADD {metrics}:m2 30.0 40.0
 OK
-redis> TDIGEST.MERGE sM 2 s1 s2
+redis> TDIGEST.MERGE {metrics}:m 2 {metrics}:m1 {metrics}:m2
 OK
-redis> TDIGEST.BYRANK sM 0 1 2 3 4
+redis> TDIGEST.BYRANK {metrics}:m 0 1 2 3 4
 1) "10"
 2) "20"
 3) "30"
@@ -108,9 +113,15 @@ redis> TDIGEST.BYRANK sM 0 1 2 3 4
 5) "inf"
 {{< / highlight >}}
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
 ## Return information
 
-{{< multitabs id=“tdigest-merge-return-info" 
+{{< multitabs id="tdigest-merge-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

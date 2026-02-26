@@ -12,6 +12,10 @@ weight: $weight
 url: '/operate/rs/7.8/references/rest-api/requests/modules/config/'
 ---
 
+{{<banner-article>}}
+This REST API path is deprecated as of Redis Enterprise Software version 7.4. Use [`PUT /v2/bdbs/<uid>`]({{<relref "/operate/rs/7.8/references/rest-api/requests/bdbs#put-bdbs-action">}}) instead.
+{{</banner-article>}}
+
 | Method | Path | Description |
 |--------|------|-------------|
 | [POST](#post-modules-config-bdb) | `/v1/modules/config/bdb/{uid}` | Configure module |
@@ -61,7 +65,7 @@ Use the module runtime configuration command (if defined) to configure new argum
 |-------|------|-------------|
 | modules | list of JSON objects | List of modules (module_name) and their new configuration settings (module_args) |
 | module_name | `search`<br />`ReJSON`<br />`graph`<br />`timeseries`<br />`bf` | Module's name |
-| module_args | string | Module command line arguments (pattern does not allow special characters &,<,>,”) |
+| module_args | string | Module command line arguments (pattern does not allow special characters &,<,>,") |
 
 ### Response {#post-response} 
 

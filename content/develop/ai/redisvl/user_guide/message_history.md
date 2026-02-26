@@ -1,13 +1,13 @@
 ---
 linkTitle: LLM message history
 title: LLM Message History
-weight: 07
 aliases:
-- /integrate/redisvl/user_guide/message_history
+- /integrate/redisvl/user_guide/07_message_history
+weight: 07
 ---
 
 
-Large Language Models are inherently stateless and have no knowledge of previous interactions with a user, or even of previous parts of the current conversation. While this may not be noticable when asking simple questions, it becomes a hinderance when engaging in long running conversations that rely on conversational context.
+Large Language Models are inherently stateless and have no knowledge of previous interactions with a user, or even of previous parts of the current conversation. While this may not be noticeable when asking simple questions, it becomes a hindrance when engaging in long running conversations that rely on conversational context.
 
 The solution to this problem is to append the previous conversation history to each subsequent call to the LLM.
 
@@ -16,11 +16,9 @@ This notebook will show how to use Redis to structure and store and retrieve thi
 
 ```python
 from redisvl.extensions.message_history import MessageHistory
+
 chat_history = MessageHistory(name='student tutor')
 ```
-
-    12:24:11 redisvl.index.index INFO   Index already exists, not overwriting.
-
 
 To align with common LLM APIs, Redis stores messages with `role` and `content` fields.
 The supported roles are "system", "user" and "llm".
@@ -131,7 +129,23 @@ semantic_history = SemanticMessageHistory(name='tutor')
 semantic_history.add_messages(chat_history.get_recent(top_k=8))
 ```
 
-    12:24:15 redisvl.index.index INFO   Index already exists, not overwriting.
+    /Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/.venv/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+      from .autonotebook import tqdm as notebook_tqdm
+
+
+    13:03:39 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
+    13:03:39 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+
+
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  6.59it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 10.33it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  9.91it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 12.52it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 57.92it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 60.45it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 13.38it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 13.65it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 62.33it/s]
 
 
 
@@ -143,13 +157,17 @@ for message in context:
     print(message)
 ```
 
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 56.30it/s]
+
     {'role': 'user', 'content': 'what is the size of England compared to Portugal?'}
-    {'role': 'llm', 'content': 'England is larger in land area than Portal by about 15000 square miles.'}
+
+
+    
 
 
 You can adjust the degree of semantic similarity needed to be included in your context.
 
-Setting a distance threshold close to 0.0 will require an exact semantic match, while a distance threshold of 1.0 will include everthing.
+Setting a distance threshold close to 0.0 will require an exact semantic match, while a distance threshold of 1.0 will include everything.
 
 
 ```python
@@ -160,10 +178,16 @@ for message in larger_context:
     print(message)
 ```
 
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 50.04it/s]
+
     {'role': 'user', 'content': 'what is the size of England compared to Portugal?'}
     {'role': 'llm', 'content': 'England is larger in land area than Portal by about 15000 square miles.'}
     {'role': 'user', 'content': 'What is the population of Great Britain?'}
     {'role': 'llm', 'content': 'As of 2023 the population of Great Britain is approximately 67 million people.'}
+    {'role': 'user', 'content': 'And what is the capital of Spain?'}
+
+
+    
 
 
 ## Conversation control
@@ -175,7 +199,7 @@ LLMs can hallucinate on occasion and when this happens it can be useful to prune
 semantic_history.store(
     prompt="what is the smallest country in Europe?",
     response="Monaco is the smallest country in Europe at 0.78 square miles." # Incorrect. Vatican City is the smallest country in Europe
-    )
+)
 
 # get the key of the incorrect message
 context = semantic_history.get_recent(top_k=1, raw=True)
@@ -187,11 +211,17 @@ for message in corrected_context:
     print(message)
 ```
 
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 54.73it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 10.63it/s]
+
     {'role': 'user', 'content': 'What is the population of Great Britain?'}
     {'role': 'llm', 'content': 'As of 2023 the population of Great Britain is approximately 67 million people.'}
     {'role': 'user', 'content': 'what is the size of England compared to Portugal?'}
     {'role': 'llm', 'content': 'England is larger in land area than Portal by about 15000 square miles.'}
     {'role': 'user', 'content': 'what is the smallest country in Europe?'}
+
+
+    
 
 
 

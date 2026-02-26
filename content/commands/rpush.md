@@ -50,10 +50,10 @@ key_specs:
     type: range
   insert: true
 linkTitle: RPUSH
+railroad_diagram: /images/railroad/rpush.svg
 since: 1.0.0
 summary: Appends one or more elements to a list. Creates the key if it doesn't exist.
 syntax_fmt: RPUSH key element [element ...]
-syntax_str: element [element ...]
 title: RPUSH
 ---
 Insert all the specified values at the tail of the list stored at `key`.
@@ -70,7 +70,7 @@ containing `a` as first element, `b` as second element and `c` as third element.
 
 ## Examples
 
-{{< clients-example cmds_list rpush >}}
+{{< clients-example set="cmds_list" step="rpush" description="Foundational: Add one or more elements to the tail of a list using RPUSH (creates list if needed, returns new list length)" difficulty="beginner" >}}
 redis> RPUSH mylist "hello"
 (integer) 1
 redis> RPUSH mylist "world"
@@ -87,6 +87,12 @@ RPUSH mylist "hello"
 RPUSH mylist "world"
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

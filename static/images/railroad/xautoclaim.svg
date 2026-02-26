@@ -1,0 +1,61 @@
+<svg class="railroad-diagram" height="71" viewBox="0 0 1000.0 71" width="1000.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<style type="text/css"><![CDATA[
+svg.railroad-diagram { background-color: transparent; }
+.terminal rect { fill: #DC382D !important; stroke: #DC382D !important; }
+.terminal text { fill: white !important; font-weight: bold; }
+.nonterminal rect { fill: none !important; stroke: #DC382D !important; stroke-width: 2; }
+.nonterminal text { fill: #DC382D !important; font-weight: bold; }
+path { stroke: #DC382D !important; stroke-width: 2; fill: none; }
+circle { fill: #DC382D !important; stroke: #DC382D !important; }
+]]></style>
+</defs>
+<g transform="translate(.5 .5)">
+<style>/* <![CDATA[ */
+	svg.railroad-diagram {
+		background-color: transparent;
+	}
+	svg.railroad-diagram path {
+		stroke-width:3;
+		stroke: #DC382D;
+		fill:rgba(0,0,0,0);
+	}
+	svg.railroad-diagram text {
+		font:bold 14px monospace;
+		text-anchor:middle;
+	}
+	svg.railroad-diagram text.label{
+		text-anchor:start;
+	}
+	svg.railroad-diagram text.comment{
+		font:italic 12px monospace;
+	}
+	svg.railroad-diagram rect{
+		stroke-width:3;
+		stroke: #DC382D;
+		fill: none;
+	}
+	svg.railroad-diagram rect.group-box {
+		stroke: #DC382D;
+		stroke-dasharray: 10 5;
+		fill: none;
+	}
+
+/* ]]> */
+</style><g>
+<path d="M20 30v20m10 -20v20m-10 -10h20"></path></g><path d="M40 40h10"></path><g>
+<path d="M50 40h0.0"></path><path d="M950.0 40h0.0"></path><g class="terminal ">
+<path d="M50.0 40h0.0"></path><path d="M155.0 40h0.0"></path><rect height="22" rx="10" ry="10" width="105.0" x="50.0" y="29"></rect><text x="102.5" y="44">XAUTOCLAIM</text></g><path d="M155.0 40h10"></path><path d="M165.0 40h10"></path><g class="non-terminal ">
+<path d="M175.0 40h0.0"></path><path d="M220.5 40h0.0"></path><rect height="22" width="45.5" x="175.0" y="29"></rect><text x="197.75" y="44">key</text></g><path d="M220.5 40h10"></path><path d="M230.5 40h10"></path><g class="non-terminal ">
+<path d="M240.5 40h0.0"></path><path d="M303.0 40h0.0"></path><rect height="22" width="62.5" x="240.5" y="29"></rect><text x="271.75" y="44">group</text></g><path d="M303.0 40h10"></path><path d="M313.0 40h10"></path><g class="non-terminal ">
+<path d="M323.0 40h0.0"></path><path d="M411.0 40h0.0"></path><rect height="22" width="88.0" x="323.0" y="29"></rect><text x="367.0" y="44">consumer</text></g><path d="M411.0 40h10"></path><path d="M421.0 40h10"></path><g class="non-terminal ">
+<path d="M431.0 40h0.0"></path><path d="M561.5 40h0.0"></path><rect height="22" width="130.5" x="431.0" y="29"></rect><text x="496.25" y="44">min-idle-time</text></g><path d="M561.5 40h10"></path><path d="M571.5 40h10"></path><g class="non-terminal ">
+<path d="M581.5 40h0.0"></path><path d="M644.0 40h0.0"></path><rect height="22" width="62.5" x="581.5" y="29"></rect><text x="612.75" y="44">start</text></g><path d="M644.0 40h10"></path><g>
+<path d="M654.0 40h0.0"></path><path d="M839.0 40h0.0"></path><path d="M654.0 40a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
+<path d="M674.0 20h145.0"></path></g><path d="M819.0 20a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M654.0 40h20"></path><g>
+<path d="M674.0 40h0.0"></path><path d="M819.0 40h0.0"></path><g class="terminal ">
+<path d="M674.0 40h0.0"></path><path d="M736.5 40h0.0"></path><rect height="22" rx="10" ry="10" width="62.5" x="674.0" y="29"></rect><text x="705.25" y="44">COUNT</text></g><path d="M736.5 40h10"></path><path d="M746.5 40h10"></path><g class="non-terminal ">
+<path d="M756.5 40h0.0"></path><path d="M819.0 40h0.0"></path><rect height="22" width="62.5" x="756.5" y="29"></rect><text x="787.75" y="44">count</text></g></g><path d="M819.0 40h20"></path></g><g>
+<path d="M839.0 40h0.0"></path><path d="M950.0 40h0.0"></path><path d="M839.0 40a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
+<path d="M859.0 20h71.0"></path></g><path d="M930.0 20a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M839.0 40h20"></path><g class="terminal ">
+<path d="M859.0 40h0.0"></path><path d="M930.0 40h0.0"></path><rect height="22" rx="10" ry="10" width="71.0" x="859.0" y="29"></rect><text x="894.5" y="44">JUSTID</text></g><path d="M930.0 40h20"></path></g></g><path d="M950.0 40h10"></path><path d="M 960.0 40 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>

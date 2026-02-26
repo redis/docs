@@ -88,3 +88,5 @@ Active-Active databases have the following limitations:
 - Cross slot multi commands (such as `MSET`) are not supported with Active-Active databases.
 - The hashing policy can't be changed after database creation.
 - If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/7.8/databases/auto-tiering">}}), you cannot add participating clusters that run on RAM only.
+- Active-Active databases handle replication internally and do not support the `redis.set_repl()` function in Lua scripts.
+- If you enabled the default database password during the creation of an Active-Active database, you should not turn off the default database password because it could prevent the removal of participating database instances.

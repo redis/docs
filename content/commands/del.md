@@ -46,18 +46,23 @@ key_specs:
       limit: 0
     type: range
 linkTitle: DEL
+railroad_diagram: /images/railroad/del.svg
 since: 1.0.0
 summary: Deletes one or more keys.
 syntax_fmt: DEL key [key ...]
-syntax_str: ''
 title: DEL
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Removes the specified keys.
 A key is ignored if it does not exist.
 
 ## Examples
 
-{{< clients-example cmds_generic del >}}
+{{< clients-example set="cmds_generic" step="del" description="Foundational: Delete one or more keys using DEL (ignores non-existent keys, returns count of deleted keys)" difficulty="beginner" >}}
 > SET key1 "Hello"
 "OK"
 > SET key2 "World"
@@ -73,6 +78,12 @@ SET key1 "Hello"
 SET key2 "World"
 DEL key1 key2 key3
 {{% /redis-cli %}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

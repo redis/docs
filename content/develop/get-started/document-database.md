@@ -53,7 +53,7 @@ You can alternatively use the [installation guides]({{< relref "/operate/oss_and
 
 The first step is to connect to your Redis Open Source database. You can find further details about the connection options in this documentation site's [Tools section]({{< relref "/develop/tools" >}}). The following example shows how to connect to a Redis Open Source server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
 
-{{< clients-example search_quickstart connect >}}
+{{< clients-example set="search_quickstart" step="connect" description="Foundational: Connect to a Redis server using redis-cli with host and port parameters" difficulty="beginner" >}}
 > redis-cli -h 127.0.0.1 -p 6379
 {{< /clients-example>}}
 
@@ -70,10 +70,10 @@ As explained in the [in-memory data store]({{< relref "/develop/get-started/data
 The following example shows an [FT.CREATE]({{< relref "commands/ft.create" >}}) command that creates an index with some text fields, a numeric field (price), and a tag field (condition). The text fields have a weight of 1.0, meaning they have the same relevancy in the context of full-text searches. The field names follow the [JSONPath]({{< relref "/develop/data-types/json/path" >}}) notion. Each such index field maps to a property within the JSON document.
 
 
-{{< clients-example search_quickstart create_index >}}
+{{< clients-example set="search_quickstart" step="create_index" description="Foundational: Create an index on JSON documents using FT.CREATE with text, numeric, and tag fields" difficulty="beginner" >}}
 > FT.CREATE idx:bicycle ON JSON PREFIX 1 bicycle: SCORE 1.0 SCHEMA $.brand AS brand TEXT WEIGHT 1.0 $.model AS model TEXT WEIGHT 1.0 $.description AS description TEXT WEIGHT 1.0 $.price AS price NUMERIC $.condition AS condition TAG SEPARATOR ,
 OK
-{{< / clients-example >}}
+{{< /clients-example >}}
 
 Any pre-existing JSON documents with a key prefix `bicycle:` are automatically added to the index. Additionally, any JSON documents with that prefix created or modified after index creation are added or re-added to the index.
 
@@ -81,7 +81,7 @@ Any pre-existing JSON documents with a key prefix `bicycle:` are automatically a
 
 The example below shows you how to use the [JSON.SET]({{< relref "commands/json.set" >}}) command to create new JSON documents:
 
-{{< clients-example search_quickstart add_documents "" 2 >}}
+{{< clients-example set="search_quickstart" step="add_documents" description="Foundational: Add JSON documents to Redis using JSON.SET" difficulty="beginner" max_lines="2" >}}
 > JSON.SET "bicycle:0" "." "{\"brand\": \"Velorim\", \"model\": \"Jigger\", \"price\": 270, \"description\": \"Small and powerful, the Jigger is the best ride for the smallest of tikes! This is the tiniest kids\\u2019 pedal bike on the market available without a coaster brake, the Jigger is the vehicle of choice for the rare tenacious little rider raring to go.\", \"condition\": \"new\"}"
 OK
 > JSON.SET "bicycle:1" "." "{\"brand\": \"Bicyk\", \"model\": \"Hillcraft\", \"price\": 1200, \"description\": \"Kids want to ride with as little weight as possible. Especially on an incline! They may be at the age when a 27.5\\\" wheel bike is just too clumsy coming off a 24\\\" bike. The Hillcraft 26 is just the solution they need!\", \"condition\": \"used\"}"
@@ -102,7 +102,7 @@ OK
 OK
 > JSON.SET "bicycle:9" "." "{\"model\": \"ThrillCycle\", \"brand\": \"BikeShind\", \"price\": 815, \"description\": \"An artsy,  retro-inspired bicycle that\\u2019s as functional as it is pretty: The ThrillCycle steel frame offers a smooth ride. A 9-speed drivetrain has enough gears for coasting in the city, but we wouldn\\u2019t suggest taking it to the mountains. Fenders protect you from mud, and a rear basket lets you transport groceries, flowers and books. The ThrillCycle comes with a limited lifetime warranty, so this little guy will last you long past graduation.\", \"condition\": \"refurbished\"}"
 OK
-{{< / clients-example >}}
+{{< /clients-example >}}
 
 ## Search and query using the Redis Query Engine
 
@@ -110,7 +110,7 @@ OK
 
 You can retrieve all indexed documents using the [FT.SEARCH]({{< relref "commands/ft.search" >}}) command. Note the `LIMIT` clause below, which allows result pagination.
 
-{{< clients-example search_quickstart wildcard_query "" 10 >}}
+{{< clients-example set="search_quickstart" step="wildcard_query" description="Foundational: Retrieve all indexed documents using FT.SEARCH with wildcard query" difficulty="beginner" max_lines="10" >}}
 > FT.SEARCH "idx:bicycle" "*" LIMIT 0 10
 1) (integer) 10
  2) "bicycle:1"
@@ -143,31 +143,31 @@ You can retrieve all indexed documents using the [FT.SEARCH]({{< relref "command
 20) "bicycle:8"
 21) 1) "$"
     2) "{\"brand\":\"nHill\",\"model\":\"Summit\",\"price\":1200,\"description\":\"This budget mountain bike from nHill performs well both on bike paths and on the trail. The fork with 100mm of travel absorbs rough terrain. Fat Kenda Booster tires give you grip in corners and on wet trails. The Shimano Tourney drivetrain offered enough gears for finding a comfortable pace to ride uphill, and the Tektro hydraulic disc brakes break smoothly. Whether you want an affordable bike that you can take to work, but also take trail in mountains on the weekends or you\xe2\x80\x99re just after a stable, comfortable ride for the bike path, the Summit gives a good value for money.\",\"condition\":\"new\"}"
-{{< / clients-example >}}
+{{< /clients-example >}}
 
 ### Single-term full-text query
 
 The following command shows a simple single-term query for finding all bicycles with a specific model:
 
-{{< clients-example search_quickstart query_single_term >}}
+{{< clients-example set="search_quickstart" step="query_single_term" description="Foundational: Perform a single-term full-text query using FT.SEARCH to find documents matching a specific field value" difficulty="beginner" >}}
 > FT.SEARCH "idx:bicycle" "@model:Jigger" LIMIT 0 10
 1) (integer) 1
 2) "bicycle:0"
 3) 1) "$"
    2) "{\"brand\":\"Velorim\",\"model\":\"Jigger\",\"price\":270,\"description\":\"Small and powerful, the Jigger is the best ride for the smallest of tikes! This is the tiniest kids\xe2\x80\x99 pedal bike on the market available without a coaster brake, the Jigger is the vehicle of choice for the rare tenacious little rider raring to go.\",\"condition\":\"new\"}"
-{{< / clients-example >}}
+{{< /clients-example >}}
 
 ### Exact match query
 
 Below is a command to perform an exact match query that finds all bicycles with the brand name `Noka Bikes`. You must use double quotes around the search term when constructing an exact match query on a  text field.
 
-{{< clients-example search_quickstart query_exact_matching >}}
+{{< clients-example set="search_quickstart" step="query_exact_matching" description="Foundational: Perform an exact match query using FT.SEARCH with double quotes to find documents with precise field values" difficulty="beginner" >}}
 > FT.SEARCH "idx:bicycle" "@brand:\"Noka Bikes\"" LIMIT 0 10
 1) (integer) 1
 2) "bicycle:4"
 3) 1) "$"
    2) "{\"brand\":\"Noka Bikes\",\"model\":\"Kahuna\",\"price\":3200,\"description\":\"Whether you want to try your hand at XC racing or are looking for a lively trail bike that's just as inspiring on the climbs as it is over rougher ground, the Wilder is one heck of a bike built specifically for short women. Both the frames and components have been tweaked to include a women\xe2\x80\x99s saddle, different bars and unique colourway.\",\"condition\":\"used\"}"
-{{< / clients-example >}}
+{{< /clients-example >}}
 
 Please see the [query documentation]({{< relref "/develop/ai/search-and-query/query/" >}}) to learn how to make more advanced queries.
 

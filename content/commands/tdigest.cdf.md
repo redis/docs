@@ -18,7 +18,7 @@ categories:
 - oss
 - kubernetes
 - clients
-complexity: O(N) where N is the number of values specified.
+complexity: O(1)
 description: Returns, for each input value, an estimation of the floating-point fraction
   of (observations smaller than the given value + half the observations equal to the
   given value)
@@ -26,13 +26,13 @@ group: tdigest
 hidden: false
 linkTitle: TDIGEST.CDF
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.cdf.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
-summary: Returns, for each input value, an estimation of the floating-point fraction
+summary: Returns, for each input value, an estimation of the fraction (floating-point)
   of (observations smaller than the given value + half the observations equal to the
   given value)
 syntax_fmt: TDIGEST.CDF key value [value ...]
-syntax_str: value [value ...]
 title: TDIGEST.CDF
 ---
 Returns, for each input value, an estimation of the floating-point fraction of (_observations smaller than the given value_ + _half the observations equal to the given value_).
@@ -67,9 +67,15 @@ redis> TDIGEST.CDF t 0 1 2 3 4 5 6
 7) "1"
 {{< / highlight >}}
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
 ## Return information
 
-{{< multitabs id=“tdigest-cdf-return-info" 
+{{< multitabs id="tdigest-cdf-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

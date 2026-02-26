@@ -115,6 +115,7 @@ group: timeseries
 hidden: false
 linkTitle: TS.REVRANGE
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.revrange.svg
 since: 1.4.0
 stack_path: docs/data-types/timeseries
 summary: Query a range in reverse direction
@@ -125,14 +126,10 @@ syntax_fmt: "TS.REVRANGE key fromTimestamp toTimestamp [LATEST]\n  [FILTER_BY_TS
   Timestamp [Timestamp ...]] [FILTER_BY_VALUE min max]\n  [COUNT\_count] [[ALIGN\_\
   value] AGGREGATION\_<AVG | FIRST | LAST | MIN\n  | MAX | SUM | RANGE | COUNT | STD.P\
   \ | STD.S | VAR.P | VAR.S | TWA>\n  bucketDuration [BUCKETTIMESTAMP] [EMPTY]]"
-syntax_str: "fromTimestamp toTimestamp [LATEST] [FILTER_BY_TS\_Timestamp [Timestamp\
-  \ ...]] [FILTER_BY_VALUE min max] [COUNT\_count] [[ALIGN\_value] AGGREGATION\_<AVG\
-  \ | FIRST | LAST | MIN | MAX | SUM | RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S\
-  \ | TWA> bucketDuration [BUCKETTIMESTAMP] [EMPTY]]"
 title: TS.REVRANGE
 ---
 
-Query a range in reverse direction
+Query a range in reverse direction. Starting from Redis 8.6, NaN values are included in raw measurement reports (queries without aggregation).
 
 [Examples](#examples)
 
@@ -180,7 +177,7 @@ When used together with `AGGREGATION`: samples are filtered before being aggrega
 <details open>
 <summary><code>FILTER_BY_VALUE min max</code> (since RedisTimeSeries v1.6)</summary>
 
-filters samples by minimum and maximum values.
+filters samples by minimum and maximum values. `min` and `max` cannot be NaN values.
 
 When used together with `AGGREGATION`: samples are filtered before being aggregated.
 </details>
@@ -215,19 +212,21 @@ aggregates samples into time buckets, where:
 
     | `aggregator` | Description                                                                    |
     | ------------ | ------------------------------------------------------------------------------ |
-    | `avg`        | Arithmetic mean of all values                                                  |
-    | `sum`        | Sum of all values                                                              |
-    | `min`        | Minimum value                                                                  |
-    | `max`        | Maximum value                                                                  |
-    | `range`      | Difference between the maximum and the minimum value                           |
-    | `count`      | Number of values                                                               |
-    | `first`      | Value with lowest timestamp in the bucket                                      |
-    | `last`       | Value with highest timestamp in the bucket                                     |
-    | `std.p`      | Population standard deviation of the values                                    |
-    | `std.s`      | Sample standard deviation of the values                                        |
-    | `var.p`      | Population variance of the values                                              |
-    | `var.s`      | Sample variance of the values                                                  |
-    | `twa`        | Time-weighted average over the bucket's timeframe (since RedisTimeSeries v1.8) |
+    | `avg`        | Arithmetic mean of all non-NaN values (ignores NaN values since Redis 8.6)    |
+    | `sum`        | Sum of all non-NaN values (ignores NaN values since Redis 8.6)                |
+    | `min`        | Minimum non-NaN value (ignores NaN values since Redis 8.6)                    |
+    | `max`        | Maximum non-NaN value (ignores NaN values since Redis 8.6)                    |
+    | `range`      | Difference between the maximum and the minimum non-NaN value (ignores NaN values since Redis 8.6) |
+    | `count`      | Number of non-NaN values (ignores NaN values since Redis 8.6)                 |
+    | `countNaN`   | Number of NaN values (since Redis 8.6)                                        |
+    | `countAll`   | Number of all values, both NaN and non-NaN (since Redis 8.6)                  |
+    | `first`      | Value with lowest timestamp in the bucket (ignores NaN values since Redis 8.6) |
+    | `last`       | Value with highest timestamp in the bucket (ignores NaN values since Redis 8.6) |
+    | `std.p`      | Population standard deviation of the non-NaN values (ignores NaN values since Redis 8.6) |
+    | `std.s`      | Sample standard deviation of the non-NaN values (ignores NaN values since Redis 8.6) |
+    | `var.p`      | Population variance of the non-NaN values (ignores NaN values since Redis 8.6) |
+    | `var.s`      | Sample variance of the non-NaN values (ignores NaN values since Redis 8.6)    |
+    | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values since Redis 8.6) |
 
   - `bucketDuration` is duration of each bucket, in milliseconds.
   
@@ -263,13 +262,6 @@ is a flag, which, when specified, reports aggregations also for empty buckets.
 
 Regardless of the values of `fromTimestamp` and `toTimestamp`, no data is reported for buckets that end before the earliest sample or begin after the latest sample in the time series.
 </details>
-
-## Return value
-
-Returns one of these replies:
-
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) pairs representing (timestamp, value(double))
-- [] (e.g., on invalid filter value)
 
 ## Complexity
 
@@ -392,6 +384,30 @@ When the start timestamp for the range query is explicitly stated (not `-`), you
 
 Similarly, when the end timestamp for the range query is explicitly stated, you can set ALIGN to that time by setting align to `+` or to `end`.
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="ts-revrange-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) pairs representing (timestamp, value) in reverse chronological order.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid filter value, wrong key type, key does not exist, etc.
+
+-tab-sep-
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) pairs representing (timestamp, value) in reverse chronological order.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid filter value, wrong key type, key does not exist, etc.
+
+{{< /multitabs >}}
 
 ## See also
 

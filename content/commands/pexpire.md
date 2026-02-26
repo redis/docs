@@ -67,10 +67,10 @@ key_specs:
     type: range
   update: true
 linkTitle: PEXPIRE
+railroad_diagram: /images/railroad/pexpire.svg
 since: 2.6.0
 summary: Sets the expiration time of a key in milliseconds.
 syntax_fmt: PEXPIRE key milliseconds [NX | XX | GT | LT]
-syntax_str: milliseconds [NX | XX | GT | LT]
 title: PEXPIRE
 ---
 This command works exactly like [`EXPIRE`]({{< relref "/commands/expire" >}}) but the time to live of the key is
@@ -101,6 +101,12 @@ PEXPIRE mykey 1000 NX
 TTL mykey
 {{% /redis-cli %}}
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="pexpire-return-info" 
@@ -108,13 +114,13 @@ TTL mykey
     tab2="RESP3" >}}
 
 One of the following:
-* [Integer reply](../../develop/reference/protocol-spec#integers): `0`if the timeout was not set. For example, if the key doesn't exist, or the operation skipped because of the provided arguments.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set. For example, if the key doesn't exist, or the operation skipped because of the provided arguments.
 * [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.
 
 -tab-sep-
 
 One of the following:
-* [Integer reply](../../develop/reference/protocol-spec#integers): `0`if the timeout was not set. For example, if the key doesn't exist, or the operation skipped because of the provided arguments.
+* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set. For example, if the key doesn't exist, or the operation skipped because of the provided arguments.
 * [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.
 
 {{< /multitabs >}}

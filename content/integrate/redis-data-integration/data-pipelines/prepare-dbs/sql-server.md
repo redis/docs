@@ -23,13 +23,31 @@ capture. You need administrator privileges to do this.
 Once you enable CDC, it captures all of the INSERT, UPDATE, and DELETE operations
 on your chosen tables. The Debezium connector can then emit these events to RDI.
 
+The following checklist summarizes the steps to prepare a SQL Server
+database for RDI, with links to the sections that explain the steps in
+full detail. You may find it helpful to track your progress with the
+checklist as you complete each step.
+
+```checklist {id="sqlserverlist"}
+- [ ] [Create a Debezium user](#1-create-a-debezium-user)
+- [ ] [Enable CDC on the database](#2-enable-cdc-on-the-database)
+- [ ] [Enable CDC for the tables you want to capture](#3-enable-cdc-for-the-tables-you-want-to-capture)
+- [ ] [Check that you have access to the CDC table](#4-check-that-you-have-access-to-the-cdc-table)
+```
+
 ## 1. Create a Debezium user
 
 It is strongly recommended to create a dedicated Debezium user for the connection between RDI
 and the source database. When using an existing user, ensure that the required 
 permissions are granted and that the user is added to the CDC role.
 
-1.  Create a user with the Transact-SQL below:
+```checklist {id="sqlserver-create-debezium-user" nointeractive="true" }
+- [ ] [Create the Debezium user](#create-the-debezium-user)
+- [ ] [Grant the user the necessary permissions](#grant-the-user-the-necessary-permissions)
+```
+
+1. <a id="create-the-debezium-user"></a>
+  Create the Debezium user with the Transact-SQL below:
 
     ```sql
     USE master
@@ -44,7 +62,8 @@ permissions are granted and that the user is added to the CDC role.
 
     Replace `MyUser`, `My_Password` and `MyDB` with your chosen values.
 
-1.  Grant required permissions:
+1. <a id="grant-the-user-the-necessary-permissions"></a>
+  Grant the user the necessary permissions:
 
     ```sql
     USE master
@@ -90,8 +109,14 @@ a CDC user, metadata tables, and other system objects.
 
 ## 3. Enable CDC for the tables you want to capture
 
-1.  You must also enable CDC on the tables you want Debezium to capture using the
-following commands (again, you need administrator privileges for this):
+```checklist {id="sqlserver-enable-cdc-tables" nointeractive="true" }
+- [ ] [Enable CDC on the tables you want to capture](#enable-cdc-on-the-tables-you-want-to-capture)
+- [ ] [Add the Debezium user to the CDC role](#add-the-debezium-user-to-the-cdc-role)
+```
+
+1. <a id="enable-cdc-on-the-tables-you-want-to-capture"></a>
+    You must also enable CDC on the tables you want Debezium to capture using the
+    following commands (again, you need administrator privileges for this):
 
     ```sql
     USE MyDB
@@ -112,7 +137,8 @@ following commands (again, you need administrator privileges for this):
     captured change data.
     {{< /note >}}
   
-1.  Add the Debezium user to the CDC role:
+1. <a id="add-the-debezium-user-to-the-cdc-role"></a>
+    Add the Debezium user to the CDC role:
 
     ```sql
     USE MyDB
@@ -127,7 +153,13 @@ You can use another stored procedure `sys.sp_cdc_help_change_data_capture`
 to query the CDC information for the database and check you have enabled
 it correctly. To do this, connect as the Debezium user you created previously (`MyUser`).
 
-1.  Run the `sys.sp_cdc_help_change_data_capture` stored procedure to query
+```checklist {id="sqlserver-check-cdc-table" nointeractive="true" }
+- [ ] [Run the stored procedure to query the CDC configuration](#run-the-stored-procedure-to-query-the-cdc-configuration)
+- [ ] [Check the results](#check-the-results)
+```
+
+1. <a id="run-the-stored-procedure-to-query-the-cdc-configuration"></a>
+  Run the `sys.sp_cdc_help_change_data_capture` stored procedure to query
     the CDC configuration. For example, if your database was called `MyDB` then you would
     run the following:
 
@@ -138,7 +170,8 @@ it correctly. To do this, connect as the Debezium user you created previously (`
     GO
     ```
 
-1.  The query returns configuration information for each table in the database that
+1. <a id="check-the-results"></a>
+    The query returns configuration information for each table in the database that
     has CDC enabled and that contains change data that you are authorized to
     access. If the result is empty then you should check that you have privileges
     to access both the capture instance and the CDC tables.
@@ -218,9 +251,17 @@ a schema change and resume CDC. See the
 [online schema updates](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html#online-schema-updates)
 documentation for further details.
 
-1.  Make your changes to the source table schema.
+```checklist {id="sqlserver-schema-changes" nointeractive="true" }
+- [ ] [Make your changes to the source table schema](#make-your-changes-to-the-source-table-schema)
+- [ ] [Create a new capture table for the updated source table](#create-a-new-capture-table-for-the-updated-source-table)
+- [ ] [Drop the old capture table](#drop-the-old-capture-table)
+```
 
-1.  Create a new capture table for the updated source table by running the `sys.sp_cdc_enable_table` stored
+1. <a id="make-your-changes-to-the-source-table-schema"></a>
+    Make your changes to the source table schema.
+
+1. <a id="create-a-new-capture-table-for-the-updated-source-table"></a>
+  Create a new capture table for the updated source table by running the `sys.sp_cdc_enable_table` stored
     procedure with a new, unique value for the parameter `@capture_instance`. For example, if the old value
     was `dbo_MyTable`, you could replace it with `dbo_MyTable_v2` (you can see the existing values by running
     stored procedure `sys.sp_cdc_help_change_data_capture`):
@@ -235,7 +276,8 @@ documentation for further details.
     GO
     ```
 
-1.  When Debezium starts streaming from the new capture table, drop the old capture table by running 
+1. <a id="drop-the-old-capture-table"></a>
+    When Debezium starts streaming from the new capture table, drop the old capture table by running 
     the `sys.sp_cdc_disable_table` stored procedure with the parameter `@capture_instance` set to the old
     capture instance name, `dbo_MyTable`:
 

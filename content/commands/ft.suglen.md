@@ -20,14 +20,11 @@ group: suggestion
 hidden: false
 linkTitle: FT.SUGLEN
 module: Search
+railroad_diagram: /images/railroad/ft.suglen.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Gets the size of an auto-complete suggestion dictionary
-syntax: 'FT.SUGLEN key
-
-  '
 syntax_fmt: FT.SUGLEN key
-syntax_str: ''
 title: FT.SUGLEN
 ---
 
@@ -43,10 +40,6 @@ Get the size of an auto-complete suggestion dictionary
 is suggestion dictionary key.
 </details>
 
-## Return
-
-FT.SUGLEN returns an integer reply, which is the current size of the suggestion dictionary.
-
 ## Examples
 
 <details open>
@@ -57,6 +50,26 @@ FT.SUGLEN returns an integer reply, which is the current size of the suggestion 
 (integer) 2
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |
+
+## Return information
+
+{{< multitabs id="ft-suglen-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of suggestions in the dictionary.
+
+-tab-sep-
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of suggestions in the dictionary.
+
+{{< /multitabs >}}
 
 ## See also
 

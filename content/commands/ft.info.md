@@ -22,12 +22,11 @@ group: search
 hidden: false
 linkTitle: FT.INFO
 module: Search
+railroad_diagram: /images/railroad/ft.info.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Returns information and statistics on the index
-syntax: FT.INFO index
 syntax_fmt: FT.INFO index
-syntax_str: ''
 title: FT.INFO
 ---
 
@@ -37,11 +36,7 @@ Returns information and statistics about a given index.
 
 `index`
 <br />
-is the name of the given index. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
-
-## RESP reply
-
-`FT.INFO` returns an array reply with pairs of keys and values.
+is the name of the given index. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}). You can also use an alias of `index` created using [`FT.ALIASADD`]({{< relref "commands/ft.aliasadd/" >}}) or [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate/" >}}).
 
 ## Returned values
 
@@ -74,13 +69,16 @@ is the name of the given index. You must first create the index using [`FT.CREAT
 | `bytes_per_record_avg` | The average size of each record in bytes. |
 | `offsets_per_term_avg` | The average number of offsets (position information) per term. |
 | `offset_bits_per_record_avg` | The average number of bits used for offsets per record. |
+| `tag_overhead_sz_mb` | The size of the TAG index structures used for optimising performance. |
+| `text_overhead_sz_mb` | The size of the TEXT index structures used for optimising performance. |
+| `total_index_memory_sz_mb` | The total memory consumed by all indexes in the DB. |
 
 ### Indexing-related statistics
 
 | Statistic | Definition |
 |:---       |:---        |
 | `hash_indexing_failures` | The number of failures encountered during indexing. |
-| `total_indexing_time` | The total time taken for indexing in seconds. |
+| `total_indexing_time` | The cumulative wall-clock time spent indexing documents in ms. |
 | `indexing` | Indicates whether the index is currently being generated. |
 | `percent_indexed` | The percentage of the index that has been successfully generated (1 means 100%). |
 | `number_of_uses` | The number of times the index has been used. |
@@ -354,9 +352,33 @@ The next two GC-related fields are relevant in scenarios where simultaneous chan
 {{< / highlight >}}
 </details>
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="ft-info-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of key-value pairs containing index information and statistics.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+
+-tab-sep-
+
+One of the following:
+* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing index information and statistics as key-value pairs.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+
+{{< /multitabs >}}
+
 ## See also
 
-[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})
+[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.ALIASADD`]({{< relref "commands/ft.aliasadd/" >}}) | [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate/" >}})
 
 ## Related topics
 

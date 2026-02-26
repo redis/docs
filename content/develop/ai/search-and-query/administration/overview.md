@@ -239,9 +239,23 @@ These are the pre-bundled scoring functions available in Redis:
 * 
     Identical to the default TFIDF scorer, with one important distinction:
 
-* **BM25**
+* **BM25STD (default)**
 
-    A variation on the basic TF-IDF scorer. See [this Wikipedia article for more information](https://en.wikipedia.org/wiki/Okapi_BM25).
+    A variation on the basic `TFIDF` scorer, see [this Wikipedia article for more info](https://en.wikipedia.org/wiki/Okapi_BM25).
+
+    The relevance score for each document is multiplied by the presumptive document score and a penalty is applied based on slop as in `TFIDF`.
+
+    {{< note >}}
+    The `BM25` scorer was renamed `BM25STD` in Redis Open Source 8.4. `BM25` is deprecated.
+    {{< /note >}}
+
+* **BM25STD.NORM**
+
+    A variation of `BM25STD`, where the scores are normalized by the minimum and maximum score.
+
+* **BM25STD.TANH**
+
+    A variation of `BM25STD.NORM`, where the scores are normalised by the linear function `tanh(x)`. `BMSTDSTD.TANH` can take an optional argument, `BM25STD_TANH_FACTOR Y`, which is used to smooth the function and the score values. The default value for `Y` is 4.
 
 * **DISMAX**
 
@@ -287,7 +301,7 @@ Highlighting will highlight the found term and its variants with a user-defined 
 
 Another important feature for Redis Open Source is its autocomplete engine. This allows users to create dictionaries of weighted terms, and then query them for completion suggestions to a given user prefix. Completions can have payloads, which are user-provided pieces of data that can be used for display. For example, completing the names of users, it is possible to add extra metadata about users to be displayed.
 
-For example, if a user starts to put the term “lcd tv” into a dictionary, sending the prefix “lc” will return the full term as a result. The dictionary is modeled as a compact trie (prefix tree) with weights, which is traversed to find the top suffixes of a prefix.
+For example, if a user starts to put the term "lcd tv" into a dictionary, sending the prefix "lc" will return the full term as a result. The dictionary is modeled as a compact trie (prefix tree) with weights, which is traversed to find the top suffixes of a prefix.
 
 Redis also allows fuzzy suggestions, meaning you can get suggestions to prefixes even if the user makes a typo in their prefix. This is enabled using a Levenshtein automaton, allowing efficient searching of the dictionary for all terms within a maximal Levenshtein distance of a term or prefix. Suggestions are then weighted based on both their original score and their distance from the prefix typed by the user. 
 

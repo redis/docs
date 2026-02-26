@@ -14,11 +14,11 @@ description: Return the neighbors of an element at each layer in the HNSW graph.
 group: vector_set
 hidden: false
 linkTitle: VLINKS
+railroad_diagram: /images/railroad/vlinks.svg
 since: 8.0.0
 summary: Return the neighbors of an element at each layer in the HNSW graph.
 syntax_fmt: "VLINKS key element [WITHSCORES]"
 title: VLINKS
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Return the neighbors of a specified element in a vector set. The command shows the connections for each layer of the HNSW graph.
@@ -59,6 +59,12 @@ includes similarity scores for each neighbor.
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+
 ## Return information
 
 {{< multitabs id="vlinks-return-info" 
@@ -66,14 +72,16 @@ includes similarity scores for each neighbor.
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply](../../develop/reference/protocol-spec#arrays) containing the names of adjacent elements as [strings](../../develop/reference/protocol-spec#simple-strings); interleved with scores when using the WITHSCORES option.
+* An [array](../../develop/reference/protocol-spec#arrays) of [array replies](../../develop/reference/protocol-spec#arrays) containing the names of adjacent elements as [bulk strings](../../develop/reference/protocol-spec#bulk-strings); interleaved with scores as [bulk strings](../../develop/reference/protocol-spec#bulk-strings) when used with the `WITHSCORES` option.
+* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for incorrect syntax.
 * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) (null bulk string) for unknown keys and/or elements.
 
 -tab-sep-
 
 One of the following:
-* [Array reply](../../develop/reference/protocol-spec#arrays) containing the names of adjacent elements as [strings](../../develop/reference/protocol-spec#simple-strings) when used without the WITHSCORES option.
-* [Map reply](../../develop/reference/protocol-spec#maps) containing the names of adjecent elements as [strings](../../develop/reference/protocol-spec#simple-strings), together with their scores as [doubles](../../develop/reference/protocol-spec#doubles) when used with the WITHSCORES option.
+* An [array](../../develop/reference/protocol-spec#arrays) of [array replies](../../develop/reference/protocol-spec#arrays) containing the names of adjacent elements as [bulk strings](../../develop/reference/protocol-spec#bulk-strings) when used without the `WITHSCORES` option.
+* An [array](../../develop/reference/protocol-spec#arrays) of [map replies](../../develop/reference/protocol-spec#maps) containing the names of adjecent elements as [bulk strings](../../develop/reference/protocol-spec#bulk-strings), together with their scores as [doubles](../../develop/reference/protocol-spec#doubles) when used with the `WITHSCORES` option.
+* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for incorrect syntax.
 * [Null reply](../../develop/reference/protocol-spec#nulls) for unknown keys and/or elements.
 
 {{< /multitabs >}}

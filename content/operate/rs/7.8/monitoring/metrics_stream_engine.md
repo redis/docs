@@ -37,4 +37,26 @@ The v2 scraping endpoint also exposes metrics for `node_exporter` version 1.8.1.
 
 ## Transition from Prometheus v1 to Prometheus v2
 
-If you are already using the existing scraping endpoint for integration, follow [this guide]({{<relref "/operate/rs/7.8/references/metrics/prometheus-metrics-v1-to-v2">}}) to transition and try the new engine. It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.
+If you are already using the existing scraping endpoint for integration, do the following to transition from v1 metrics to v2 metrics:
+
+1. Change the `metrics_path` in your Prometheus configuration file from `/` to `/v2` to use the new scraping endpoint.
+
+    Here's an example of the updated scraping configuration in `prometheus.yml`:
+
+    ```yaml
+    scrape_configs:
+      # Scrape Redis Enterprise
+      - job_name: redis-enterprise
+        scrape_interval: 30s
+        scrape_timeout: 30s
+        metrics_path: /v2
+        scheme: https
+        tls_config:
+          insecure_skip_verify: true
+        static_configs:
+          - targets: ["<cluster_name>:8070"]
+    ```
+
+1. Use the metrics tables in [this guide]({{<relref "/operate/rs/7.8/references/metrics/prometheus-metrics-v1-to-v2">}}) to transition from v1 metrics to equivalent v2 PromQL.
+
+It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.

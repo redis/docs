@@ -98,13 +98,13 @@ set's membership with a fixed memory size, regardless of how many items you
 add. The following example adds some names to a Bloom filter representing
 a list of users and checks for the presence or absence of users in the list.
 
-{{< clients-example home_prob_dts bloom Go >}}
+{{< clients-example set="home_prob_dts" step="bloom" lang_filter="Go" description="Set membership: Use Bloom filter to efficiently track item presence with minimal memory overhead" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 A Cuckoo filter has similar features to a Bloom filter, but also supports
 a deletion operation to remove hashes from a set, as shown in the example below.
 
-{{< clients-example home_prob_dts cuckoo Go >}}
+{{< clients-example set="home_prob_dts" step="cuckoo" lang_filter="Go" description="Set membership with deletion: Use Cuckoo filter for membership testing with support for item removal" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Which of these two data types you choose depends on your use case.
@@ -125,7 +125,7 @@ You can also merge two or more HyperLogLogs to find the cardinality of the
 [union](https://en.wikipedia.org/wiki/Union_(set_theory)) of the sets they
 represent.
 
-{{< clients-example home_prob_dts hyperloglog Go >}}
+{{< clients-example set="home_prob_dts" step="hyperloglog" lang_filter="Go" description="Set cardinality: Estimate distinct item count using HyperLogLog with minimal memory usage" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 The main benefit that HyperLogLogs offer is their very low
@@ -164,7 +164,7 @@ stay within 0.1% of the true value and have a 0.05% probability
 of going outside this limit. The example below shows how to create
 a Count-min sketch object, add data to it, and then query it.
 
-{{< clients-example home_prob_dts cms Go >}}
+{{< clients-example set="home_prob_dts" step="cms" lang_filter="Go" description="Frequency estimation: Track approximate item frequencies using Count-min sketch with configurable accuracy" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 The advantage of using a CMS over keeping an exact count with a
@@ -190,13 +190,13 @@ save a lot of memory when you have a large number of samples.
 
 The example below shows how to add data samples to a t-digest
 object and obtain some basic statistics, such as the minimum and
-maximum values, the quantile of 0.75, and the 
+maximum values, the quantile of 0.75, and the
 [cumulative distribution function](https://en.wikipedia.org/wiki/Cumulative_distribution_function)
 (CDF), which is effectively the inverse of the quantile function. It also
 shows how to merge two or more t-digest objects to query the combined
 data set.
 
-{{< clients-example home_prob_dts tdigest Go >}}
+{{< clients-example set="home_prob_dts" step="tdigest" lang_filter="Go" description="Quantile estimation: Calculate percentiles and quantiles from data streams using t-digest" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 A t-digest object also supports several other related commands, such
@@ -218,5 +218,5 @@ the `topk().reserve()` method). It also shows how to list the
 top *k* items and query whether or not a given item is in the
 list.
 
-{{< clients-example home_prob_dts topk Go >}}
+{{< clients-example set="home_prob_dts" step="topk" lang_filter="Go" description="Ranking by frequency: Track top k most frequent items in a data stream using Top-K" difficulty="intermediate" >}}
 {{< /clients-example >}}

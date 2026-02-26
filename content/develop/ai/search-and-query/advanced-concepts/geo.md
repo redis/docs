@@ -16,7 +16,7 @@ description: Learn how to use geospatial fields and perform geospatial queries i
 linkTitle: Geospatial
 math: true
 title: Geospatial
-weight: 14
+weight: 49
 ---
 
 Redis Query Engine supports geospatial data. This feature
@@ -110,6 +110,8 @@ For example, the query below finds products within a 100 mile radius of Colorado
 ```bash
 FT.SEARCH productidx '@location:[-104.800644 38.846127 100 mi]'
 ```
+
+Note that `GEO` fields are stored in C `double` type variables and they are limited to approximately 15 to 17 digits of precision.
 
 See [Geospatial queries]({{< relref "/develop/ai/search-and-query/query/geo-spatial" >}})
 for more information about the available query options and see

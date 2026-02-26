@@ -14,11 +14,11 @@ description: Add a new element to a vector set, or update its vector if it alrea
 group: vector_set
 hidden: false
 linkTitle: VADD
+railroad_diagram: /images/railroad/vadd.svg
 since: 8.0.0
 summary: Add a new element to a vector set, or update its vector if it already exists.
 syntax_fmt: "VADD key [REDUCE dim] (FP32 | VALUES num) vector element [CAS] [NOQUANT | Q8 | BIN]\n  [EF build-exploration-factor] [SETATTR attributes] [M numlinks]"
 title: VADD
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Add a new element into the vector set specified by `key`. The vector can be provided as 32-bit floating point (`FP32`) blob of values, or as floating point numbers as strings, prefixed by the number of elements (3 in the example below):
@@ -38,7 +38,7 @@ is the name of the key that will hold the vector set data.
 <details open>
 <summary><code>FP32 vector or VALUES num vector</code></summary>
 
-either a 32-bit floating point (FP32) blob of values or `num` floating point numbers as strings.
+either a 32-bit floating point (FP32) blob of values or `num` floating point numbers as strings. When using the FP32 format, the blob must use little-endian encoding. On platforms with different endianness, you should either manually adjust the byte order or use the VALUES syntax instead.
 </details>
 
 <details open>
@@ -117,6 +117,12 @@ If you don't have a recall quality problem, the default is acceptable, and uses 
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

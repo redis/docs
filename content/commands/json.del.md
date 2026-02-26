@@ -27,11 +27,11 @@ group: json
 hidden: false
 linkTitle: JSON.DEL
 module: JSON
+railroad_diagram: /images/railroad/json.del.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Deletes a value
 syntax_fmt: JSON.DEL key [path]
-syntax_str: '[path]'
 title: JSON.DEL
 ---
 Delete a value
@@ -57,11 +57,6 @@ Deleting an object's root is equivalent to deleting the key from Redis.
 
 {{% /alert %}}
 </details>
-
-## Return
-
-JSON.DEL returns an integer reply specified as the number of paths deleted (0 or more).
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -90,6 +85,26 @@ redis> JSON.GET doc $
 {{< / highlight >}}
 </details>
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="json-del-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of paths deleted (0 or more).
+
+-tab-sep-
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of paths deleted (0 or more).
+
+{{< /multitabs >}}
+
 ## See also
 
 [`JSON.SET`]({{< relref "commands/json.set/" >}}) | [`JSON.ARRLEN`]({{< relref "commands/json.arrlen/" >}}) 
@@ -98,6 +113,4 @@ redis> JSON.GET doc $
 
 * [RedisJSON]({{< relref "/develop/data-types/json/" >}})
 * [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
-
-
 

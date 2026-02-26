@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the cm_server object used with Redis Enterprise Software REST
+description: Documents the cm_server object used with Redis Software REST
   API calls.
 linkTitle: cm_server
 weight: $weight

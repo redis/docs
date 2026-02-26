@@ -22,14 +22,11 @@ group: search
 hidden: false
 linkTitle: FT.DICTDUMP
 module: Search
+railroad_diagram: /images/railroad/ft.dictdump.svg
 since: 1.4.0
 stack_path: docs/interact/search-and-query
 summary: Dumps all terms in the given dictionary
-syntax: 'FT.DICTDUMP dict
-
-  '
 syntax_fmt: FT.DICTDUMP dict
-syntax_str: ''
 title: FT.DICTDUMP
 ---
 
@@ -45,10 +42,6 @@ Dump all terms in the given dictionary
 is dictionary name.
 </details>
 
-## Return
-
-FT.DICTDUMP returns an array, where each element is term (string).
-
 ## Examples
 
 <details open>
@@ -62,6 +55,26 @@ FT.DICTDUMP returns an array, where each element is term (string).
 {{< / highlight >}}
 </details>
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="ft-dictdump-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of dictionary terms.
+
+-tab-sep-
+
+[Set]({{< relref "/develop/reference/protocol-spec#sets" >}}) of dictionary terms.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`FT.DICTADD`]({{< relref "commands/ft.dictadd/" >}}) | [`FT.DICTDEL`]({{< relref "commands/ft.dictdel/" >}})
@@ -69,5 +82,4 @@ FT.DICTDUMP returns an array, where each element is term (string).
 ## Related topics
 
 [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
-
 

@@ -37,6 +37,7 @@ arguments:
   optional: true
   token: DUPLICATE_POLICY
   type: oneof
+
 - arguments:
   - name: label
     type: string
@@ -64,16 +65,15 @@ group: timeseries
 hidden: false
 linkTitle: TS.ALTER
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.alter.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Update the retention, chunk size, duplicate policy, and labels of an existing
   time series
 syntax: "TS.ALTER key \n  [RETENTION retentionPeriod] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY\
-  \ policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n  [LABELS [label value ...]]\n"
+  \ policy] \n  [LABELS [label value ...]]\n"
 syntax_fmt: "TS.ALTER key [RETENTION\_retentionPeriod] [CHUNK_SIZE\_size]\n  [DUPLICATE_POLICY\_\
-  <BLOCK | FIRST | LAST | MIN | MAX | SUM>]\n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n  [LABELS\ [label value ...]]"
-syntax_str: "[RETENTION\_retentionPeriod] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK\
-  \ | FIRST | LAST | MIN | MAX | SUM>] [IGNORE ignoreMaxTimediff ignoreMaxValDiff] [LABELS\ [label value ...]]"
+  <BLOCK | FIRST | LAST | MIN | MAX | SUM>] [LABELS\_label value\n  [label value ...]]"
 title: TS.ALTER
 ---
 
@@ -107,24 +107,12 @@ is the initial allocation size, in bytes, for the data part of each new chunk. A
 is policy for handling multiple samples with identical timestamps. See `DUPLICATE_POLICY` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
 </details>
 
-<details open><summary><code>IGNORE ignoreMaxTimediff ignoreMaxValDiff</code></summary> 
-
-is the policy for handling duplicate samples. See `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
-</details>
-
 <details open><summary><code>LABELS [{label value}...]</code></summary> 
 
 is set of label-value pairs that represent metadata labels of the key and serve as a secondary index.
 
 If `LABELS` is specified, the given label list is applied. Labels that are not present in the given list are removed implicitly. Specifying `LABELS` with no label-value pairs removes all existing labels. See `LABELS` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
 </details>
-
-## Return value
-
-Returns one of these replies:
-
-- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly
-- [] on error (invalid arguments, wrong key type, key does not exist, etc.)
 
 ## Examples
 
@@ -144,6 +132,30 @@ Alter the labels in the time series.
 OK
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="ts-alter-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the time series is altered successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, key does not exist, etc.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the time series is altered successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, key does not exist, etc.
+
+{{< /multitabs >}}
 
 ## See also
 

@@ -17,7 +17,7 @@ conditions between updates to various sites, network, and cluster
 failures that could reorder the events and change the outcome of the
 updates performed across geo-distributed writes.
 
-Active-Active databases (formerly known as CRDB) are geo-distributed databases that span multiple Redis Enterprise Software clusters.
+Active-Active databases (formerly known as CRDB) are geo-distributed databases that span multiple Redis Software clusters.
 Active-Active databases depend on [multi-master replication](https://en.wikipedia.org/wiki/Multi-master_replication) and [conflict-free
 replicated data types (CRDTs)](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type) to power a simple development experience
 for geo-distributed applications. Active-Active databases allow developers to use existing
@@ -49,7 +49,7 @@ updates to other participating clusters and other member Active-Active databases
 Databases provide various approaches to address some of these concerns:
 
 - **Active-Passive geo-distributed deployments**: With active-passive
-    distributions, all writes go to an active cluster. Redis Enterprise Sofware
+    distributions, all writes go to an active cluster. Redis Sofware
     provides a [Replica Of]({{<relref "/operate/rs/databases/import-export/replica-of/">}}) capability that provides a similar approach.
     This can be employed when the workload is heavily balanced toward
     reads and few writes. However, WAN performance and availability
@@ -85,10 +85,10 @@ Databases provide various approaches to address some of these concerns:
     complexity in the development of a solution.
 
 Even though types and commands in Active-Active databases look identical to standard Redis
-types and commands, the underlying types in Redis Enterprise Software are enhanced to maintain
+types and commands, the underlying types in Redis Software are enhanced to maintain
 more metadata to create the conflict-free data type experience. This
 section explains what you need to know about developing with Active-Active databases on
-Redis Enterprise Software.
+Redis Software.
 
 ## Lua scripts
 
@@ -98,9 +98,9 @@ execute them in script-replication mode.
 
 ## Eviction
 
-The default policy for Active-Active databases is _noeviction_ mode. Redis Enterprise Software version 6.0.20 and later support all eviction policies for Active-Active databases, unless [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering" >}}) (previously known as Redis on Flash) is enabled.
-For details, see [eviction for Active-Active databases]({{< relref "/operate/rs/databases/memory-performance/eviction-policy#active-active-database-eviction" >}}).
+The default policy for Active-Active databases is _noeviction_ mode. Redis Software version 6.0.20 and later support all eviction policies for Active-Active databases, unless [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering" >}}) (previously known as Redis on Flash) is enabled.
 
+For details, see [eviction for Active-Active databases (Redis Software)]({{< relref "/operate/rs/databases/memory-performance/eviction-policy#active-active-database-eviction" >}}) or [eviction for Active-Active databases (Redis Cloud)]({{< relref "/operate/rc/databases/configuration/data-eviction-policies#active-active-replication-considerations" >}}).
 
 ## Expiration
 

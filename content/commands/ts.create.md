@@ -49,6 +49,15 @@ arguments:
   token: DUPLICATE_POLICY
   type: oneof
 - arguments:
+  - name: ignoreMaxTimediff
+    type: integer
+  - name: ignoreMaxValDiff
+    type: double
+  name: ignore
+  optional: true
+  token: IGNORE
+  type: block
+- arguments:
   - name: label
     type: string
   - name: value
@@ -74,17 +83,16 @@ group: timeseries
 hidden: false
 linkTitle: TS.CREATE
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.create.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Create a new time series
 syntax: "TS.CREATE key \n  [RETENTION retentionPeriod] \n  [ENCODING <COMPRESSED|UNCOMPRESSED>]\
-  \ \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n  [LABELS [label value ...]]\n"
-syntax_fmt: "TS.CREATE key [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED |\n\
-  \  UNCOMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST |\n  LAST |\
-  \ MIN | MAX | SUM>]\n\ \ [IGNORE\_ignoreMaxTimediff\_ignoreMaxValDiff]\n\ \ [LABELS\_[label value ...]]"
-syntax_str: "[RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED | UNCOMPRESSED>]\
-  \ [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST | LAST | MIN | MAX | SUM>]\
-  \ [IGNORE\_ignoreMaxTimediff\_ignoreMaxValDiff] [LABELS\_[label value ...]]"
+  \ \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [IGNORE ignoreMaxTimediff\
+  \ ignoreMaxValDiff] \n  [LABELS [label value ...]]\n"
+syntax_fmt: "TS.CREATE key [RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED |\n\
+  \  COMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST |\n  LAST |\
+  \ MIN | MAX | SUM>] [LABELS\_label value [label value ...]]"
 title: TS.CREATE
 ---
 
@@ -180,14 +188,7 @@ is set of label-value pairs that represent metadata labels of the key and serve 
 The [`TS.MGET`]({{< relref "commands/ts.mget/" >}}), [`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}), and [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}}) commands operate on multiple time series based on their labels. The [`TS.QUERYINDEX`]({{< relref "commands/ts.queryindex/" >}}) command returns all time series keys matching a given filter based on their labels.
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly
-- [] on error (invalid arguments, key already exists, etc.)
-
-## Examples 
+## Examples
 
 <details open><summary><b>Create a temperature time series</b></summary>
 
@@ -196,6 +197,30 @@ Returns one of these replies:
 OK
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="ts-create-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the time series is created successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, key already exists, etc.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the time series is created successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, key already exists, etc.
+
+{{< /multitabs >}}
 
 ## See also
 

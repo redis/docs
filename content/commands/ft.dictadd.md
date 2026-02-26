@@ -23,14 +23,11 @@ group: search
 hidden: false
 linkTitle: FT.DICTADD
 module: Search
+railroad_diagram: /images/railroad/ft.dictadd.svg
 since: 1.4.0
 stack_path: docs/interact/search-and-query
 summary: Adds terms to a dictionary
-syntax: 'FT.DICTADD dict term [term ...]
-
-  '
 syntax_fmt: FT.DICTADD dict term [term ...]
-syntax_str: term [term ...]
 title: FT.DICTADD
 ---
 
@@ -52,10 +49,6 @@ is dictionary name.
 term to add to the dictionary.
 </details>
 
-## Return
-
-FT.DICTADD returns an integer reply, the number of new terms that were added.
-
 ## Examples
 
 <details open>
@@ -66,6 +59,26 @@ FT.DICTADD returns an integer reply, the number of new terms that were added.
 (integer) 3
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="ft-dictadd-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of new terms added to the dictionary.
+
+-tab-sep-
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of new terms added to the dictionary.
+
+{{< /multitabs >}}
 
 ## See also
 

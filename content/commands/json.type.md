@@ -26,11 +26,11 @@ group: json
 hidden: false
 linkTitle: JSON.TYPE
 module: JSON
+railroad_diagram: /images/railroad/json.type.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the type of the JSON value at path
 syntax_fmt: JSON.TYPE key [path]
-syntax_str: '[path]'
 title: JSON.TYPE
 ---
 Report the type of JSON value at `path`
@@ -52,11 +52,6 @@ is JSONPath to specify. Default is root `$`. Returns null if the `key` or `path`
 
 </details>
 
-## Return
-
-JSON.TYPE returns an array of string replies for each path, specified as the value's type.
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
-
 ## Examples
 
 {{< highlight bash >}}
@@ -70,6 +65,30 @@ redis> JSON.TYPE doc $..a
 redis> JSON.TYPE doc $..dummy
 (empty array)
 {{< / highlight >}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="json-type-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+With `$`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each element is the type of the matching value.
+
+With `.`-based path argument: [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the type of the matching value.
+
+-tab-sep-
+
+With `$`-based path argument (default): [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [array replies]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each nested array contains the type of the matching value.
+
+With `.`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the type of the matching value.
+
+{{< /multitabs >}}
 
 ## See also
 

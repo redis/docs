@@ -15,7 +15,7 @@ weight: 30
 Redis Open Source adds support for the [JSON data structure](http://www.json.org/) to Redis databases.
 
 Applications developed with the [source available version of RedisJSON](https://github.com/RedisJSON/RedisJSON) are 100%
-compatible with Redis Enterprise databases with JSON enabled.
+compatible with Redis Software databases with JSON enabled.
 
 ## JSON paths
 
@@ -73,9 +73,9 @@ For more information about how to search and query JSON documents, see the [quic
 
 ## JSON in Active-Active databases
 
-RedisJSON v2.2 and later support the JSON data structure as a conflict-free replicated data type [(CRDT)](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type) in [Active-Active Redis Enterprise databases]({{< relref "/operate/rs/databases/active-active" >}}).
+RedisJSON v2.2 and later support the JSON data structure as a conflict-free replicated data type [(CRDT)](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type) in [Active-Active Redis Software databases]({{< relref "/operate/rs/databases/active-active" >}}).
 
-For details about how Redis Enterprise resolves JSON operation conflicts that can arise when replicas attempt to sync, see the JSON [conflict resolution rules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json/active-active#conflict-resolution-rules" >}}).
+For details about how Redis Software resolves JSON operation conflicts that can arise when replicas attempt to sync, see the JSON [conflict resolution rules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json/active-active#conflict-resolution-rules" >}}).
 
 ## More info
 

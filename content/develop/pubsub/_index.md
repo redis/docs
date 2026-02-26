@@ -12,13 +12,15 @@ categories:
 description: How to use pub/sub channels in Redis
 linkTitle: Pub/sub
 title: Redis Pub/sub
-aliases: /develop/interact/pubsub
+aliases:
+- /develop/interact/pubsub
+- /develop/interact/pubsub/
 hideListLinks: true
 weight: 60
 ---
 
 [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}), [`UNSUBSCRIBE`]({{< relref "/commands/unsubscribe" >}}) and [`PUBLISH`]({{< relref "/commands/publish" >}}) implement the [Publish/Subscribe messaging paradigm](http://en.wikipedia.org/wiki/Publish/subscribe) where (citing Wikipedia) senders (publishers) are not programmed to send their messages to specific receivers (subscribers).
-Rather, published messages are characterized into channels, without knowledge of what (if any) subscribers there may be.
+Rather, published messages are categorized into channels, without knowledge of what (if any) subscribers there may be.
 Subscribers express interest in one or more channels and only receive messages that are of interest, without knowledge of what (if any) publishers there are.
 This decoupling of publishers and subscribers allows for greater scalability and a more dynamic network topology.
 

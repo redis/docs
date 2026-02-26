@@ -36,45 +36,31 @@ dotnet add package NRedisStack
 
 ## Connect and test
 
-Connect to localhost on port 6379.
+Add the following imports to your source file:
 
-```csharp
-using NRedisStack;
-using NRedisStack.RedisStackCommands;
-using StackExchange.Redis;
-//...
-ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("localhost");
-IDatabase db = redis.GetDatabase();
-```
+{{< clients-example set="landing" step="import" lang_filter="C#-Sync,C#-Async" description="Foundational: Import required NRedisStack namespaces for Redis client functionality" difficulty="beginner" >}}
+{{< /clients-example >}}
+
+Connect to localhost on port 6379. The client supports both synchronous and asynchronous commands.
+
+{{< clients-example set="landing" step="connect" lang_filter="C#-Sync,C#-Async" description="Foundational: Connect to a Redis server and establish a client connection" difficulty="beginner" >}}
+{{< /clients-example >}}
 
 You can test the connection by storing and retrieving a simple string.
 
-```csharp
-db.StringSet("foo", "bar");
-Console.WriteLine(db.StringGet("foo")); // prints bar
-```
+{{< clients-example set="landing" step="set_get_string" lang_filter="C#-Sync,C#-Async" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" >}}
+{{< /clients-example >}}
 
 Store and retrieve a HashMap.
 
-```csharp
-var hash = new HashEntry[] { 
-    new HashEntry("name", "John"), 
-    new HashEntry("surname", "Smith"),
-    new HashEntry("company", "Redis"),
-    new HashEntry("age", "29"),
-    };
-db.HashSet("user-session:123", hash);
+{{< clients-example set="landing" step="set_get_hash" lang_filter="C#-Sync,C#-Async" description="Foundational: Store and retrieve hash data structures using HSET and HGETALL" difficulty="beginner" >}}
+{{< /clients-example >}}
 
-var hashFields = db.HashGetAll("user-session:123");
-Console.WriteLine(String.Join("; ", hashFields));
-// Prints: 
-// name: John; surname: Smith; company: Redis; age: 29
-```
 ## Redis Open Source modules
 
 To access Redis Open Source capabilities, use the appropriate interface like this:
 
-```
+```cs
 IBloomCommands bf = db.BF();
 ICuckooCommands cf = db.CF();
 ICmsCommands cms = db.CMS();

@@ -8,10 +8,10 @@ description: Releases with support for Redis Enterprise Software 7.8.6
 hideListLinks: true
 linkTitle: 7.8.6 releases
 title: Redis Enterprise for Kubernetes 7.8.6 release notes
-weight: 48
+weight: 68
 ---
 
-Redis Enterprise for Kubernetes 7.8.6-3 includes bug fixes, enhancements, and support for Redis Enterprise Software version 7.8.6-119. The latest maintenance release is 7.8.6-3 with support for Redis Enterprise Software version 7.8.6-119.
+Redis Enterprise for Kubernetes 7.8.6 includes bug fixes, enhancements, and support for Redis Enterprise Software. The latest release is 7.8.6-11 with support for Redis Enterprise Software version 7.8.6-253.
 
 ## Detailed release notes
 
@@ -21,6 +21,20 @@ Redis Enterprise for Kubernetes 7.8.6-3 includes bug fixes, enhancements, and su
 
 Customers who use load balancers for Active-Active replication endpoints and rely on the change introduced in RED-113626 (or the workaround described in the ticket) must set the spec.externalReplicationPort field in REAADB after upgrading. Otherwise, replication will fail (RED-149374).
 
+## RHEL9-based image
+
+As of version 7.8.2-6, Redis Enterprise images are based on Red Hat Enterprise Linux 9 (RHEL9). This means upgrades require:
+
+- [Cluster version of 7.4.2-2 or later](https://redis.io/docs/latest/operate/kubernetes/7.4.6/upgrade/).
+- Database version 7.2 or later.
+- RHEL9 compatible binaries for any modules you need.
+
+For detailed steps, see the relevant upgrade page:
+
+- [OpenShift CLI]({{<relref "/operate/kubernetes/upgrade/openshift-cli">}})
+- [OpenShift OperatorHub]({{<relref "/operate/kubernetes/upgrade/upgrade-olm">}})
+- [Kubernetes]({{<relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}})
+
 ## Known limitations
 
 - **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 7.8.2-6 or later.
@@ -29,7 +43,7 @@ Customers who use load balancers for Active-Active replication endpoints and rel
 
 - **Missing endpoint for admission endpoint (rare) (RED-119469)** Restart the operator pod.
 
-- **The REDB “redisVersion” field can’t be used for memcached databases(RED-119152)**
+- **The REDB "redisVersion" field can’t be used for memcached databases(RED-119152)**
 
 - **When modifying the database suffix for an Active-Active database, while the service-rigger is in a terminating state, the services-rigger will delete and create the ingress or route resources in a loop (RED-107687)** Wait until the services rigger pod has finished to terminate it.
 

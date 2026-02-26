@@ -7,6 +7,8 @@ type: develop
 ---
 Redis is an [in-memory data store]({{< relref "/develop/get-started/data-store" >}}) used by millions of developers as a cache, [vector database]({{< relref "/develop/get-started/vector-database" >}}), [document database]({{< relref "/develop/get-started/document-database" >}}), [streaming engine]({{< relref "/develop/data-types/streams" >}}), and message broker. Redis has built-in replication and different levels of [on-disk persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}). It supports complex [data types]({{< relref "/develop/data-types/" >}}) (for example, strings, hashes, lists, sets, sorted sets, and JSON), with atomic operations defined on those data types.
 
+Since 2009, the Redis open source project has inspired an enthusiastic and active community of users and contributors. The Redis core source repository is hosted under [https://github.com/redis/redis](https://github.com/redis/redis) along with many of the client libraries. See the [Redis Open Source]({{< relref "/operate/oss_and_stack/" >}}) page for more details and links.
+
 You can install Redis from source or from an executable/distribution for your OS.
 
 * Install Redis on Linux using [APT]({{< relref "/operate/oss_and_stack/install/install-stack/apt" >}}), [RPM]({{< relref "/operate/oss_and_stack/install/install-stack/rpm" >}}), or [Snap]({{< relref "/operate/oss_and_stack/install/install-stack/snap" >}})

@@ -1,10 +1,10 @@
 ---
 linkTitle: RedisVL API
 title: RedisVL API
-weight: 5
-hideListLinks: true
 aliases:
 - /integrate/redisvl/api
+weight: 5
+hideListLinks: true
 ---
 
 
@@ -14,11 +14,17 @@ Reference documentation for the RedisVL API.
 
 * [Schema](schema/)
   * [IndexSchema](schema/#indexschema)
+  * [Index-Level Stopwords Configuration](schema/#index-level-stopwords-configuration)
   * [Defining Fields](schema/#defining-fields)
-  * [Supported Field Types and Attributes](schema/#supported-field-types-and-attributes)
+  * [Basic Field Types](schema/#basic-field-types)
+  * [Vector Field Types](schema/#vector-field-types)
+  * [SVS-VAMANA Configuration Utilities](schema/#svs-vamana-configuration-utilities)
+  * [Vector Algorithm Comparison](schema/#vector-algorithm-comparison)
 * [Search Index Classes](searchindex/)
   * [SearchIndex](searchindex/#searchindex)
   * [AsyncSearchIndex](searchindex/#asyncsearchindex)
+* [Vector](vector/)
+  * [Vector](vector/#id1)
 * [Query](query/)
   * [VectorQuery](query/#vectorquery)
   * [VectorRangeQuery](query/#vectorrangequery)
@@ -26,6 +32,7 @@ Reference documentation for the RedisVL API.
   * [TextQuery](query/#textquery)
   * [FilterQuery](query/#filterquery)
   * [CountQuery](query/#countquery)
+  * [MultiVectorQuery](query/#multivectorquery)
 * [Filter](filter/)
   * [FilterExpression](filter/#filterexpression)
   * [Tag](filter/#tag)
@@ -59,6 +66,3 @@ Reference documentation for the RedisVL API.
   * [Route](router/#route)
   * [Route Match](router/#route-match)
   * [Distance Aggregation Method](router/#distance-aggregation-method)
-* [Threshold Optimizers](threshold_optimizer/)
-  * [CacheThresholdOptimizer](threshold_optimizer/#cachethresholdoptimizer)
-  * [RouterThresholdOptimizer](threshold_optimizer/#routerthresholdoptimizer)

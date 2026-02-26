@@ -22,7 +22,7 @@ This is the General Availability (GA) release of Redis Insight 2.70.
 - [#4483](https://github.com/RedisInsight/RedisInsight/pull/4483) Added a confirmation prompt when attempting to create a duplicate key in a JSON object, preventing silent overwrites.
 
 **Bugs**
-- [#4514](https://github.com/RedisInsight/RedisInsight/pull/4514) Fixed an issue ([#4478](https://github.com/RedisInsight/RedisInsight/issues/4478)) where accessing a JSON key could result in a “Cannot read properties of undefined (reading '0')” error.
+- [#4514](https://github.com/RedisInsight/RedisInsight/pull/4514) Fixed an issue ([#4478](https://github.com/RedisInsight/RedisInsight/issues/4478)) where accessing a JSON key could result in a "Cannot read properties of undefined (reading '0')" error.
 
 **SHA-256 Checksums**
 | Package | SHA-256 |

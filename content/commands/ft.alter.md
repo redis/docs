@@ -34,14 +34,11 @@ group: search
 hidden: false
 linkTitle: FT.ALTER
 module: Search
+railroad_diagram: /images/railroad/ft.alter.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Adds a new field to the index
-syntax: 'FT.ALTER {index} [SKIPINITIALSCAN] SCHEMA ADD {attribute} {options} ...
-
-  '
 syntax_fmt: FT.ALTER index [SKIPINITIALSCAN] SCHEMA ADD field options
-syntax_str: '[SKIPINITIALSCAN] SCHEMA ADD field options'
 title: FT.ALTER
 ---
 
@@ -81,10 +78,6 @@ contain more than 32 attributes, create it with the `MAXTEXTFIELDS` option.
 </note>
 </details>
 
-## Return
-
-FT.ALTER returns a simple string reply `OK` if executed correctly, or an error reply otherwise.
-
 ## Examples
 
 <details open>
@@ -96,6 +89,30 @@ OK
 {{< / highlight >}}
 </details>
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="ft-alter-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, invalid schema syntax.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, invalid schema syntax.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) 
@@ -103,6 +120,4 @@ OK
 ## Related topics
 
 - [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
-
-
 

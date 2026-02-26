@@ -10,6 +10,7 @@ description: This section provides an overview of the architecture and considera
 hideListLinks: true
 linkTitle: Architecture
 weight: 11
+aliases: [/operate/kubernetes/7.4.6/architecture/operator/, /operate/kubernetes/7.4.6/faqs/]
 url: '/operate/kubernetes/7.4.6/architecture/'
 ---
 Redis bases its Kubernetes architecture on several vital concepts.

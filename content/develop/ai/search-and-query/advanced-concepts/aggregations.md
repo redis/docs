@@ -1,5 +1,6 @@
 ---
 aliases:
+- /interact/search-and-query/search/aggregations/
 - /develop/interact/search-and-query/advanced-concepts/aggregations
 categories:
 - docs
@@ -379,6 +380,7 @@ Note that these operators apply only to numeric values and numeric sub-expressio
 | Function | Description                                                  | Example            |
 | -------- | ------------------------------------------------------------ | ------------------ |
 | exists(s)| Checks whether a field exists in a document.                 | `exists(@field)`   |
+| case(condition, if_true, if_false) | If condition is non-zero, return if_true, otherwise return if_false. | `case(exists(@foo), @foo, "no foo")` |
 
 ### List of numeric APPLY functions
 
@@ -559,6 +561,10 @@ For example, to set a limit of ten seconds:
 ```
 FT.AGGREGATE idx query WITHCURSOR MAXIDLE 10000
 ```
+
+During a cursor’s lifetime, CURSOR READ may return results that exclude newer updates.
+
+Also, note that in case of any load rebalancing operations (such as Atomic Slot Migration) occurring during the lifetime of a cursor, some results may be missing. In a Redis Software deployment, these operations may happen behind the scenes without any user intervention.
 
 ### Other cursor commands
 

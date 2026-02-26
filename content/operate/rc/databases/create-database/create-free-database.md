@@ -29,7 +29,13 @@ You can only have one free database per account. If you already have a free data
 
 4. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field. 
 
-5. Choose your **Cloud vendor** and **Region**.
+1. Select the **Database version** you want to use.
+
+1. Choose your **Cloud vendor** and **Region**. You can choose between **Amazon Web Services (AWS)**, **Google Cloud**, and **Microsoft Azure** for the Cloud Vendor. 
+
+    {{<image filename="images/rc/create-database-essentials-cloud-vendor-list.png" alt="The list of available cloud vendors.">}}
+
+    See [Supported regions]({{< relref "/operate/rc/supported-regions" >}}) for a list of supported regions by cloud vendor.
 
 6. Select **Create database**.
 

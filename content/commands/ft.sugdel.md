@@ -23,14 +23,11 @@ group: suggestion
 hidden: false
 linkTitle: FT.SUGDEL
 module: Search
+railroad_diagram: /images/railroad/ft.sugdel.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Deletes a string from a suggestion index
-syntax: 'FT.SUGDEL key string
-
-  '
 syntax_fmt: FT.SUGDEL key string
-syntax_str: string
 title: FT.SUGDEL
 ---
 
@@ -52,10 +49,6 @@ is suggestion dictionary key.
 is suggestion string to index.
 </details>
 
-## Return
-
-FT.SUGDEL returns an integer reply, 1 if the string was found and deleted, 0 otherwise.
-
 ## Examples
 
 <details open>
@@ -68,6 +61,26 @@ FT.SUGDEL returns an integer reply, 1 if the string was found and deleted, 0 oth
 (integer) 0
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |
+
+## Return information
+
+{{< multitabs id="ft-sugdel-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 1 if the suggestion was deleted, 0 if it was not found.
+
+-tab-sep-
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 1 if the suggestion was deleted, 0 if it was not found.
+
+{{< /multitabs >}}
 
 ## See also
 

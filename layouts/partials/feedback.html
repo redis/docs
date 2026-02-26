@@ -1,4 +1,11 @@
 {{/*  Star rating adapted from https://codepen.io/chris22smith/pen/MJzLJN  */}}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script>
+    function enableSubmit() {
+        document.getElementById("submit-button").disabled = false;
+    }
+</script>
+
 <form id="page-feedback" name="page-feedback" class="text-sm w-full mt-24 pt-5 border-t border-t-redis-pen-700 border-opacity-50">
   <input name="origin" value="{{ .Permalink }}" class="hidden"/>
   <div class="flex flex-row justify-between">
@@ -23,7 +30,8 @@
         class=" p-2 mt-1 block w-full h-24 border border-opacity-50 border-redis-ink-900 rounded-md"
         rows="3"
       ></textarea>
-      <button class="font-mono button text-redis-ink-900 border border-solid border-transparent bg-redis-red-500 hover:bg-redis-red-600 focus:bg-red-600 focus:ring-red-600; w-min justify-self-end" type="submit">
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAABpkO-YRJzl4qTBW" data-callback="enableSubmit"></div>
+      <button id="submit-button" disabled class="font-mono button text-redis-ink-900 border border-solid border-transparent bg-redis-red-500 hover:bg-redis-red-600 focus:bg-red-600 focus:ring-red-600; w-min justify-self-end" type="submit">
         Submit
       </button>
     </div>

@@ -5,8 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the bdb dataset_import_sources object used with Redis Enterprise
-  Software REST API calls.
+description: Documents the bdb dataset_import_sources object used with Redis Software REST API calls.
 linkTitle: dataset_import_sources
 weight: $weight
 ---
@@ -17,6 +16,7 @@ You can import data to a database from the following location types:
 -   FTP
 -   SFTP
 -   Amazon S3
+-   Amazon S3 or S3-compatible storage
 -   Google Cloud Storage
 -   Microsoft Azure Storage
 -   NAS/Local Storage
@@ -65,6 +65,26 @@ Any additional required parameters may differ based on the import location type.
 | region_name | string | Amazon S3 region name (optional) |
 | secret_access_key | string | The AWS Secret Access that matches the Access Key ID |
 | subdir | string | Path to the backup directory in the S3 bucket (optional) |
+
+You can also connect to a storage service that uses the S3 protocol but is not hosted by Amazon AWS. The storage service must have a valid SSL certificate.
+
+To connect to an S3-compatible storage location:
+
+1. Configure the S3 URL with [`rladmin cluster config`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/config">}}):
+
+    ```sh
+    rladmin cluster config s3_url <URL>
+    ```
+
+    Replace `<URL>` with the hostname or IP address of the S3-compatible storage location.
+
+1. Configure the S3 CA certificate:
+
+    ```sh
+    rladmin cluster config s3_ca_cert <filepath>
+    ```
+
+    Replace `<filepath>` with the location of the S3 CA certificate `ca.pem`.
 
 ### Google Cloud Storage
 

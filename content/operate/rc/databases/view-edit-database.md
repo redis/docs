@@ -45,7 +45,7 @@ The available settings vary according to your plan, cloud provider, and design c
 |:--------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Database Name**         | The name given to your database                                                                                                                             |
 | **Subscription Name**     | The name for the subscription your database is a part of                                                                                                    |
-| **Public endpoint**       | Public URI used by any application or client to access the database.                                                                                        |
+| **Public endpoint**       | Public URI used by any application or client to access the database. Redis Cloud Pro databases can [block the public endpoint]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}).                                                  |
 | **Private endpoint**      | Private endpoint URI available to approved clients; use CIDR allow list, VPC peering, or other connectivity options to enable access. (_Redis Cloud Pro only_) |
 | **Tags**                  | A list of the [tags]({{< relref "/operate/rc/databases/tag-database" >}}) associated with the database. Select [Manage tags]({{< relref "/operate/rc/databases/tag-database#configuration-tab" >}}) to manage the database tags. |
 | **Vendor**                | The Cloud vendor hosting your database: AWS, Google Cloud, or Azure.                                                   |
@@ -53,7 +53,7 @@ The available settings vary according to your plan, cloud provider, and design c
 | **Type**                  | Displays 'Redis', 'Redis Stack' or 'memcached' based on the value selected when the database was created                                                    |
 | **Redis version**         | Redis version of the database                                                                                                                  |
 | **Auto Tiering**          | Checked when the subscription supports Auto Tiering (_Redis Cloud Pro only_)                                                               |
-| **Active-Active Redis**   | Checked when the database is part of an [Active-Active]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) relationship (_Redis Cloud Pro only_)                                                                                         |
+| **Active-Active Redis**   | Checked when the database is part of an [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) relationship (_Redis Cloud Pro only_)                                                                                         |
 | **Creation time**         | Date and time the database was created                                                                                                                      |
 | **Last changed**          | Date and time of last update                                                                                                                                |
 | **Supported Protocol(s)** | Shows which version of RESP the database uses. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
@@ -95,7 +95,6 @@ The **Security** section helps you control access to your database.
 
 {{<image filename="images/rc/database-details-configuration-tab-security-flexible.png" alt="Use the Security settings to control access to your database." >}}
 
-
 |Setting name| Description                                                                                                                                                                    |
 |:-----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Default user** | When enabled, permits access using a simple password                                                                                                                           |
@@ -124,46 +123,6 @@ Here, you can:
 - Flush the database (_Active-Active databases only_).
 
 For best results, we recommend [backing up data]({{< relref "/operate/rc/databases/back-up-data" >}}) before any danger zone actions.
-
-## Manage the database list
-
-The **Databases** list summarizes the status of all databases associated with your account.  
-
-You can:
-
-- Search by typing into the search box located above the database list.
-
-    {{<image filename="images/rc/database-list-search.png" alt="Use the search bar to filter the list." >}}
-
-- Filter by selecting a filter type and then selecting the checkbox next to the options you want to include from the dropdown.  Select the Filter toggle, located on the right of the search bar, if the filter types are hidden.
-
-    {{<image filename="images/rc/database-list-filter.png" alt="Use the filter toggle to display filter options." >}}
-
-    You can filter the list on **Status**, **Subscription**, **Subscription Type**, **Capabilities**, **Options**, and **Tags**.  String matches are _not_ case-sensitive.  You can specify more than one filter expression at a time.  
-
-    A list of selected filters appears below the filter types.
-
-    To remove a filter click the **x** to the right of the name of that filter.  To remove all filters, select **Clear all**.
-
-    {{<image filename="images/rc/database-list-filter-selected.png" alt="Use the filter toggle to display filter options." >}}
-
-- Select **Columns** to change what information is displayed on the list.
-
-    {{<image filename="images/rc/database-list-columns.png" alt="Use the columns toggle to display column options." >}}
-
-- Select the **Export** button to export the current view as a CSV file.
-
-    {{<image filename="images/rc/icon-export-to-csv.png" alt="The Export button exports the current list view to CSV." >}}
-
-- Sort the list in descending or ascending order using the arrow displayed to right of the field name in the header.  Supported fields include **Subscription**, **Database name**, **Memory usage**, and **Version**.
-
-    {{<image filename="images/rc/icon-list-sort-asc.png#no-click" alt="Use the arrows in the list header to sort the list." class="inline">}} {{<image filename="images/rc/icon-list-sort-desc.png#no-click" alt="The direction of the arrow corresponds to the direction of the sort." class="inline">}}
-
-    Select the arrow icon to change the sort order.  One sort order can be active at any given time.
-
-- Use the controls in the list footer to change the number of items displayed in the list or to navigate.
-
-Sort orders and filter expressions are not saved between console sessions.
 
 ## Other actions and info
 
@@ -206,6 +165,46 @@ Here's what you can change:
 
 Choose **Save database** to save your changes.
 
-{{<image filename="images/rc/button-database-save.png" alt="Use the Save database button to save database changes." >}}
+{{<image filename="images/rc/button-database-save.png" alt="Use the Save database button to save database changes." width="150px" >}}
 
 If you need to change other details, create a new database and then migrate existing data.
+
+## Manage the database list
+
+The **Databases** list summarizes the status of all databases associated with your account.  
+
+You can:
+
+- Search by typing into the search box located above the database list.
+
+    {{<image filename="images/rc/database-list-search.png" alt="Use the search bar to filter the list." >}}
+
+- Filter by selecting a filter type and then selecting the checkbox next to the options you want to include from the dropdown.  Select the Filter toggle, located on the right of the search bar, if the filter types are hidden.
+
+    {{<image filename="images/rc/database-list-filter.png" alt="Use the filter toggle to display filter options." >}}
+
+    You can filter the list on **Status**, **Subscription**, **Subscription Type**, **Capabilities**, **Options**, **Tags**, and **Version**.  
+
+    A list of selected filters appears below the filter types.
+
+    To remove a filter click the **x** to the right of the name of that filter.  To remove all filters, select **Clear all**.
+
+    {{<image filename="images/rc/database-list-filter-selected.png" alt="Use the filter toggle to display filter options." >}}
+
+- Select **Columns** to change what information is displayed on the list.
+
+    {{<image filename="images/rc/database-list-columns.png" alt="Use the columns toggle to display column options." >}}
+
+- Select the **Export** button to export the current view as a CSV file.
+
+    {{<image filename="images/rc/icon-export-to-csv.png" alt="The Export button exports the current list view to CSV." >}}
+
+- Sort the list in descending or ascending order using the arrow displayed to right of the field name in the header.  Supported fields include **Subscription**, **Database name**, **Memory usage**, and **Version**.
+
+    {{<image filename="images/rc/icon-list-sort-asc.png#no-click" alt="Use the arrows in the list header to sort the list." class="inline">}} {{<image filename="images/rc/icon-list-sort-desc.png#no-click" alt="The direction of the arrow corresponds to the direction of the sort." class="inline">}}
+
+    Select the arrow icon to change the sort order.  One sort order can be active at any given time.
+
+- Use the controls in the list footer to change the number of items displayed in the list or to navigate.
+
+Sort orders and filter expressions are not saved between console sessions.

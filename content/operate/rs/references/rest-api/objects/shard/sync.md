@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the sync object used with Redis Enterprise Software REST API
+description: Documents the sync object used with Redis Software REST API
   calls.
 linkTitle: sync
 weight: $weight

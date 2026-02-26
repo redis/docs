@@ -30,12 +30,17 @@ hints:
 - request_policy:all_shards
 - nondeterministic_output_order
 linkTitle: KEYS
+railroad_diagram: /images/railroad/keys.svg
 since: 1.0.0
 summary: Returns all key names that match a pattern.
 syntax_fmt: KEYS pattern
-syntax_str: ''
 title: KEYS
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Returns all keys matching `pattern`.
 
 While the time complexity for this operation is O(N), the constant times are
@@ -77,6 +82,12 @@ KEYS *name*
 KEYS a??
 KEYS *
 {{% /redis-cli %}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

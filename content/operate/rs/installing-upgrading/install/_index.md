@@ -1,19 +1,19 @@
 ---
-Title: Install Redis Enterprise Software
+Title: Install Redis Software
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Install Redis Enterprise Software on Linux.
+description: Install Redis Software on Linux.
 hideListLinks: true
 linkTitle: Install
 weight: 35
 ---
 
-After you [plan your deployment]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment" >}}), [download a Redis Enterprise Software installation package]({{< relref "/operate/rs/installing-upgrading/install/prepare-install/download-install-package" >}}), and finish [installation preparation]({{< relref "/operate/rs/installing-upgrading/install/prepare-install" >}}):
+After you [plan your deployment]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment" >}}), [download a Redis Software installation package]({{< relref "/operate/rs/installing-upgrading/install/prepare-install/download-install-package" >}}), and finish [installation preparation]({{< relref "/operate/rs/installing-upgrading/install/prepare-install" >}}):
 
-1. [Install the Redis Enterprise Software package]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on one of the nodes in the cluster.
+1. [Install the Redis Software package]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on one of the nodes in the cluster.
 
 1. Repeat this process for each node in the cluster.
 
@@ -21,21 +21,21 @@ For installation on machines without an internet connection, see [Offline instal
 
 ## Permissions and access
 
-- Redis Enterprise Software installation creates the `redislabs:redislabs` user and group. 
+- Redis Software installation creates the `redislabs:redislabs` user and group. 
 
     Assigning other users to the `redislabs` group is optional. Users belonging to the `redislabs` group have permission to read and execute (e.g. use the `rladmin` status command) but are not allowed to write (or delete) files or directories.
 
-- Redis Enterprise Software is certified to run with permissions set to `750`, an industry standard.
+- Redis Software is certified to run with permissions set to `750`, an industry standard.
 
     {{<warning>}}
 Do not reduce permissions to `700`. This configuration has not been tested and is not supported.
     {{</warning>}}
 
-- Redis Enterprise Software requires `umask` to be `0022` during installation to correctly set permissions for the installed directories and files.
+- Redis Software requires `umask` to be `0022` during installation to correctly set permissions for the installed directories and files.
 
 ## More info and options
 
-If you've already installed Redis Enterprise Software, you can also:
+If you've already installed Redis Software, you can also:
 
 - [Upgrade an existing deployment]({{< relref "/operate/rs/installing-upgrading/upgrading" >}}).
 

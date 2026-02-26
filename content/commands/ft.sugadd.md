@@ -34,14 +34,17 @@ complexity: O(1)
 description: Adds a suggestion string to an auto-complete suggestion dictionary
 group: suggestion
 hidden: false
+history:
+- - 2.0.0
+  - Deprecated `PAYLOAD` argument
 linkTitle: FT.SUGADD
 module: Search
+railroad_diagram: /images/railroad/ft.sugadd.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Adds a suggestion string to an auto-complete suggestion dictionary
-syntax: "FT.SUGADD key string score \n  [INCR] \n  [PAYLOAD payload]\n"
+syntax: FT.SUGADD key string score [INCR] [PAYLOAD payload]
 syntax_fmt: "FT.SUGADD key string score [INCR] [PAYLOAD\_payload]"
-syntax_str: "string score [INCR] [PAYLOAD\_payload]"
 title: FT.SUGADD
 ---
 
@@ -85,10 +88,6 @@ increments the existing entry of the suggestion by the given score, instead of r
 saves an extra payload with the suggestion, that can be fetched by adding the `WITHPAYLOADS` argument to [`FT.SUGGET`]({{< relref "commands/ft.sugget/" >}}).
 </details>
 
-## Return
-
-FT.SUGADD returns an integer reply, which is the current size of the suggestion dictionary.
-
 ## Examples
 
 <details open>
@@ -99,6 +98,26 @@ FT.SUGADD returns an integer reply, which is the current size of the suggestion 
 (integer) 3
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |
+
+## Return information
+
+{{< multitabs id="ft-sugadd-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of elements added to the suggestion dictionary.
+
+-tab-sep-
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): number of elements added to the suggestion dictionary.
+
+{{< /multitabs >}}
 
 ## See also
 

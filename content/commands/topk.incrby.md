@@ -31,11 +31,11 @@ group: topk
 hidden: false
 linkTitle: TOPK.INCRBY
 module: Bloom
+railroad_diagram: /images/railroad/topk.incrby.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Increases the count of one or more items by increment
 syntax_fmt: TOPK.INCRBY key item increment [item increment ...]
-syntax_str: item increment [item increment ...]
 title: TOPK.INCRBY
 ---
 Increase the score of an item in the data structure by `increment`. 
@@ -61,9 +61,15 @@ redis> TOPK.INCRBY topk foo 3 bar 2 42 30
 3) foo
 ```
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
 ## Return information
 
-{{< multitabs id=“topk-incrby-return-info" 
+{{< multitabs id="topk-incrby-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

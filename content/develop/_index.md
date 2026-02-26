@@ -22,23 +22,11 @@ or analyze and manage your database with our
 | [Go]({{< relref "/develop/clients/go" >}}) | [See Go examples]({{< relref "/develop/clients/go/connect" >}}) | [See Go examples]({{< relref "/develop/clients/go/queryjson" >}}) | [See Go examples]({{< relref "/develop/clients/go/vecsearch" >}}) |
 | [PHP]({{< relref "/develop/clients/php" >}}) | [See PHP examples]({{< relref "/develop/clients/php/connect" >}}) | [See PHP examples]({{< relref "/develop/clients/php/queryjson" >}}) | [See PHP examples]({{< relref "/develop/clients/php/vecsearch" >}}) |
 
-<div class="flex flex-col gap-5">
-  <div class="flex items-center">
-    {{< image filename="images/dev/icons/icon-redis-insight-64-duotone.png" class="mr-4" >}}
-    <div>
-      <h3><a href='{{< relref "/develop/tools/insight">}}'>Redis Insight</a></h3>
-      <p>Visual client tool for creating, managing, and analyzing Redis databases. <a href="https://redis.io/downloads/#insight">Download Redis Insight</a>.</p>
-    </div>
-  </div>
-  <div class="flex items-center">
-    {{< image filename="images/dev/icons/icon-redis-code-64-duotone.png" class="mr-4" >}}
-    <div>
-      <h3><a href='{{< relref "/develop/tools/redis-for-vscode" >}}'>Redis for VS Code</a></h3>
-      <p>Visual client tool for creating, managing, and analyzing Redis databases.</p>
-    </div>
-  </div>
-</div>
+| | |
+| - | - |
+|{{< image-card image="images/dev/icons/icon-redis-insight-64-duotone.png" alt="Redis Insight icon" title="Redis Insight" url="/develop/tools/insight" >}} <p>Visual client tool for creating, managing, and analyzing Redis databases.<br/><a href="https://redis.io/downloads/#insight">Download Redis Insight</a>.</p> | {{< image-card image="images/dev/icons/icon-redis-code-64-duotone.png" alt="Redis for VS Code icon" title="Redis for VS Code" url="/develop/tools/redis-for-vscode" >}} <p>VS Code extension for creating, managing, and analyzing Redis databases.<br/><a href="https://marketplace.visualstudio.com/items?itemName=redis.redis">Install Redis for VS Code</a>.</p> |
+| | |
 
-| {{< image filename="images/icon_logo/icon-developers-32-midnight.png" >}} </br>[**Quick start**]({{< relref "/develop/get-started" >}}) | {{< image filename="images/icon_logo/icon-data-structures-32-midnight.png" >}} </br>[**Data types**]({{< relref "/develop/data-types" >}}) | {{< image filename="images/icon_logo/icon-text-search-32-midnight.png" >}} </br>[**Query engine**]({{< relref "/develop/ai/search-and-query" >}}) |
-|---|---|---|
+| {{< image-card image="images/icon_logo/icon-developers-64-midnight.png" alt="Quick start icon" title="Quick start" url="/develop/get-started" >}} | {{< image-card image="images/icon_logo/icon-data-structures-64-midnight.png" alt="Data types icon" title="Data types" url="/develop/data-types" >}} | {{< image-card image="images/icon_logo/icon-text-search-64-midnight.png" alt="Query engine icon" title="Query engine" url="/develop/ai/search-and-query" >}} |
+|:---:| :---: | :---: |
 | [Vector database]({{< relref "/develop/get-started/vector-database" >}})</br>[Document store]({{< relref "/develop/get-started/document-database" >}})</br>[Data structure store]({{< relref "/develop/get-started/data-store" >}})</br>[RAG with Redis]({{< relref "/develop/get-started/rag" >}})</br>[GenAI]({{< relref "/develop/get-started/redis-in-ai" >}}) | [String]({{< relref "/develop/data-types/strings" >}})</br>[JSON]({{< relref "/develop/data-types/json" >}})</br>[Hash]({{< relref "/develop/data-types/hashes" >}})</br>[Vector set]({{< relref "/develop/data-types/vector-sets" >}})</br>[Probabilistic types]({{< relref "/develop/data-types/probabilistic" >}}) | [Get started]({{< relref "/develop/ai/search-and-query" >}})</br>[Schema field types]({{< relref "/develop/ai/search-and-query/indexing/field-and-type-options" >}})</br>[Indexing]({{< relref "/develop/ai/search-and-query/indexing" >}})</br>[Querying]({{< relref "/develop/ai/search-and-query/query" >}})

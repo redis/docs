@@ -20,9 +20,9 @@ aliases:
 
 ### Active-Active JSON support
 
-[Active-Active databases]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) on Redis Cloud now support the [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}) data type. 
+[Active-Active databases]({{< relref "/operate/rc/databases/active-active" >}}) on Redis Cloud now support the [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}) data type.
 
-See [Create an Active-Active subscription]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) to learn how to create an Active-Active subscription.
+See [Create an Active-Active subscription]({{< relref "/operate/rc/databases/active-active/create-active-active-database" >}}) to learn how to create an Active-Active subscription.
 
 ### Mutual TLS enhancements
 

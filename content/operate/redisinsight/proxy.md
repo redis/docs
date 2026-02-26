@@ -8,10 +8,6 @@ title: Subpath proxy
 weight: 7
 ---
 
-{{<note>}}
-Subpath proxy is available only on the Docker version.
-{{</note>}}
-
 You can enable the subpath proxy by setting the `RI_PROXY_PATH` environment variable.
 
 

@@ -12,7 +12,7 @@ categories:
 description: Get your Lettuce app ready for production
 linkTitle: Production usage
 title: Production usage
-weight: 3
+weight: 50
 ---
 
 This guide offers recommendations to get the best reliability and
@@ -24,12 +24,14 @@ Each item in the checklist below links to the section
 for a recommendation. Use the checklist icons to record your
 progress in implementing the recommendations.
 
-{{< checklist "lettuceprodlist" >}}
-    {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
-    {{< checklist-item "#cluster-topology-refresh">}}Cluster topology refresh{{< /checklist-item >}}
-    {{< checklist-item "#dns-cache-and-redis" >}}DNS cache and Redis{{< /checklist-item >}}
-    {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
-{{< /checklist >}}
+```checklist {id="lettuceprodlist"}
+- [ ] [Timeouts](#timeouts)
+- [ ] [Cluster topology refresh](#cluster-topology-refresh)
+- [ ] [DNS cache and Redis](#dns-cache-and-redis)
+- [ ] [Exception handling](#exception-handling)
+- [ ] [Connection and execution reliability](#connection-and-execution-reliability)
+- [ ] [Smart client handoffs](#seamless-client-experience)
+```
 
 ## Recommendations
 
@@ -111,6 +113,51 @@ try (RedisClient client = RedisClient.create(redisURI)) {
 }
 ```
 
+### Setting timeouts in Spring Data Redis
+
+If you are using Spring Data Redis, you can set timeouts and keepalive settings using `LettuceClientConfigurationBuilderCustomizer`:
+
+```java
+@Bean
+public LettuceClientConfigurationBuilderCustomizer lettuceClientConfigurationBuilderCustomizer() {
+    return clientConfigurationBuilder -> {
+        // Configure TCP User Timeout
+        // This is useful for scenarios where the server stops responding without
+        // acknowledging the last request
+        SocketOptions.TcpUserTimeoutOptions tcpUserTimeout = SocketOptions.TcpUserTimeoutOptions.builder()
+                .tcpUserTimeout(Duration.ofSeconds(20))
+                .enable()
+                .build();
+
+        // Configure TCP Keep-Alive
+        // This is good for detecting dead connections where there is no traffic
+        // between the client and the server
+        SocketOptions.KeepAliveOptions keepAliveOptions = SocketOptions.KeepAliveOptions.builder()
+                .interval(Duration.ofSeconds(5))  // TCP_KEEPINTVL: interval between probes
+                .idle(Duration.ofSeconds(5))      // TCP_KEEPIDLE: time before first probe
+                .count(3)                         // TCP_KEEPCNT: number of probes
+                .enable()
+                .build();
+
+        // Build SocketOptions with both TCP User Timeout and Keep-Alive
+        SocketOptions socketOptions = SocketOptions.builder()
+                .tcpUserTimeout(tcpUserTimeout)
+                .keepAlive(keepAliveOptions)
+                .build();
+
+        // Build ClientOptions with the configured SocketOptions
+        ClientOptions clientOptions = ClientOptions.builder()
+                .socketOptions(socketOptions)
+                .build();
+
+        // Apply the client options and command timeout to the builder
+        clientConfigurationBuilder
+                .clientOptions(clientOptions)
+                .commandTimeout(Duration.ofSeconds(30));  // Global command timeout
+    };
+}
+```
+
 ## Cluster topology refresh
 
 The Redis Cluster configuration is dynamic and can change at runtime. 
@@ -167,7 +214,7 @@ Learn more about topology refresh configuration settings in [the reference guide
 
 ## DNS cache and Redis
 
-When you connect to a Redis server with multiple endpoints, such as [Redis Enterprise Active-Active](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/), you *must*
+When you connect to a Redis server with multiple endpoints, such as [Redis Software Active-Active](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/), you *must*
 disable the JVM's DNS cache. If a server node or proxy fails, the IP address for any database
 affected by the failure will change. When this happens, your app will keep
 trying to use the stale IP address if DNS caching is enabled.
@@ -189,3 +236,63 @@ See the Error handling sections of the
 [Lettuce async](https://redis.github.io/lettuce/user-guide/async-api/#error-handling) and
 [Lettuce reactive](https://redis.github.io/lettuce/user-guide/reactive-api/#error-handling)
 API guides to learn more about handling exceptions.
+
+
+## Connection and execution reliability
+
+By default, Lettuce uses an *at-least-once* strategy for command execution.
+It will automatically reconnect after a disconnection and resume executing
+any commands that were queued when the connection was lost. If you
+switch to *at-most-once* execution, Lettuce will
+not reconnect after a disconnection and will discard commands
+instead of queuing them. You can enable at-most-once execution by setting
+`autoReconnect(false)` in the
+`ClientOptions` when you create the client, as shown in the example below:
+
+```java
+RedisURI uri = RedisURI.Builder
+                .redis("localhost", 6379)
+                .withAuthentication("default", "yourPassword")
+                .build();
+
+RedisClient client = RedisClient.create(uri);
+
+client.setOptions(ClientOptions.builder()
+    .autoReconnect(false)
+        .
+        .
+    .build());
+```
+
+If you need finer control over which commands you want to execute in which mode, you can
+configure a *replay filter* to choose the commands that should retry after a disconnection.
+The example below shows a filter that retries all commands except for
+[`DECR`]({{< relref "/commands/decr" >}})
+(this command is not [idempotent](https://en.wikipedia.org/wiki/Idempotence) and
+so you might need to avoid executing it more than once). Note that
+replay filters are only available in in Lettuce v6.6 and above.
+
+```java
+Predicate<RedisCommand<?, ?, ?> > filter =
+        cmd -> cmd.getType().toString().equalsIgnoreCase("DECR");
+
+client.setOptions(ClientOptions.builder()
+    .replayFilter(filter)
+    .build());
+```
+
+See
+[Command execution reliability](https://redis.github.io/lettuce/advanced-usage/#command-execution-reliability)
+in the Lettuce reference guide for more information.
+
+## Smart client handoffs
+
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
+Redis Software servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+
+See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+for more information about SCH and
+[Connect using Smart client handoffs]({{< relref "/develop/clients/lettuce/connect#connect-using-smart-client-handoffs-sch" >}})
+for example code.

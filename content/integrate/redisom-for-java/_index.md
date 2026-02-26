@@ -289,7 +289,7 @@ public class SkeletonApplication {
    return args -> {
      repo.deleteAll();
 
-     String thorSays = “The Rabbit Is Correct, And Clearly The Smartest One Among You.”;
+     String thorSays = "The Rabbit Is Correct, And Clearly The Smartest One Among You.";
 
      // Serendipity, 248 Seven Mile Beach Rd, Broken Head NSW 2481, Australia
      Address thorsAddress = Address.of("248", "Seven Mile Beach Rd", "Broken Head", "NSW", "2481", "Australia");
@@ -318,7 +318,7 @@ keys *
 {{< / highlight >}}
 
 If you want to keep an eye on the commands issued against the server, Redis Insight provides a
-profiler. If you click the "profile" button at the bottom of the screen, it should reveal the profiler window, and there you can start the profiler by clicking on the “Start Profiler” arrow.
+profiler. If you click the "profile" button at the bottom of the screen, it should reveal the profiler window, and there you can start the profiler by clicking on the "Start Profiler" arrow.
 
 Let's start our Spring Boot application by using the Maven command:
 
@@ -334,7 +334,7 @@ Now we can inspect the newly loaded data by simply refreshing the "Keys" view:
 
 ![Redis Insight](./images/004_stack_spring.png "Redis Insight")
 
-You should now see two keys; one for the JSON document for “Thor” and one for the Redis Set that Spring Data Redis (and Redis OM Spring) use to maintain the list of primary keys for an entity.
+You should now see two keys; one for the JSON document for "Thor" and one for the Redis Set that Spring Data Redis (and Redis OM Spring) use to maintain the list of primary keys for an entity.
 
 You can select any of the keys on the key list to reveal their contents on the details panel. For JSON documents, we get a nice tree-view:
 
@@ -403,12 +403,12 @@ CommandLineRunner loadTestData(PeopleRepository repo) {
   return args -> {
     repo.deleteAll();
 
-    String thorSays = “The Rabbit Is Correct, And Clearly The Smartest One Among You.”;
-    String ironmanSays = “Doth mother know you weareth her drapes?”;
-    String blackWidowSays = “Hey, fellas. Either one of you know where the Smithsonian is? I’m here to pick up a fossil.”;
-    String wandaMaximoffSays = “You Guys Know I Can Move Things With My Mind, Right?”;
-    String gamoraSays = “I Am Going To Die Surrounded By The Biggest Idiots In The Galaxy.”;
-    String nickFurySays = “Sir, I’m Gonna Have To Ask You To Exit The Donut”;
+    String thorSays = "The Rabbit Is Correct, And Clearly The Smartest One Among You.";
+    String ironmanSays = "Doth mother know you weareth her drapes?";
+    String blackWidowSays = "Hey, fellas. Either one of you know where the Smithsonian is? I’m here to pick up a fossil.";
+    String wandaMaximoffSays = "You Guys Know I Can Move Things With My Mind, Right?";
+    String gamoraSays = "I Am Going To Die Surrounded By The Biggest Idiots In The Galaxy.";
+    String nickFurySays = "Sir, I’m Gonna Have To Ask You To Exit The Donut";
 
     // Serendipity, 248 Seven Mile Beach Rd, Broken Head NSW 2481, Australia
     Address thorsAddress = Address.of("248", "Seven Mile Beach Rd", "Broken Head", "NSW", "2481", "Australia");
@@ -482,7 +482,7 @@ We can see the `/all` method from our people-controller-v-1, expanding that you 
 
 ![SwaggerUI](./images/008_stack_spring.png "SwaggerUI")
 
-And if you select “Try it out” and then “Execute,” you should see the resulting JSON array containing all People documents in the database:
+And if you select "Try it out" and then "Execute," you should see the resulting JSON array containing all People documents in the database:
 
 ![SwaggerUI](./images/009_stack_spring.png "SwaggerUI")
 
@@ -534,7 +534,7 @@ Refreshing the UI, we can see the new endpoint. Let’s try it with some data:
 ![SwaggerUI](./images/011_stack_spring.png "SwaggerUI")
 
 Invoke the endpoint with the value `30` for `min` and `37` for `max` we get two hits;
-“Scarlett Johansson” and “Elizabeth Olsen” are the only two people with ages between 30 and 37.
+"Scarlett Johansson" and "Elizabeth Olsen" are the only two people with ages between 30 and 37.
 
 ![SwaggerUI](./images/012_stack_spring.png "SwaggerUI")
 
@@ -571,7 +571,7 @@ And the resulting query on Redis Insight:
 
 ![Redis Insight](./images/016_stack_spring.png "Redis Insight Profiler")
 
-Now let’s try a Geospatial query. The `homeLoc` property is a Geo Point, and by using the “Near” predicate in our method declaration, we can get a finder that takes a point and a radius around that point to search:
+Now let’s try a Geospatial query. The `homeLoc` property is a Geo Point, and by using the "Near" predicate in our method declaration, we can get a finder that takes a point and a radius around that point to search:
 
 {{< highlight java >}}
 // Draws a circular geofilter around a spot and returns all people in that
@@ -616,7 +616,7 @@ Iterable<Person> byPersonalStatement(@RequestParam("q") String q) {
 }
 {{< / highlight >}}
 
-Once again, we can try it on the Swagger UI with the text “mother”:
+Once again, we can try it on the Swagger UI with the text "mother":
 
 ![SwaggerUI](./images/020_stack_spring.png "SwaggerUI")
 
@@ -624,7 +624,7 @@ Which results in a single hit, the record for Robert Downey Jr.:
 
 ![SwaggerUI](./images/021_stack_spring.png "SwaggerUI")
 
-Notice that you can pass a query string like “moth*” with wildcards if needed
+Notice that you can pass a query string like "moth*" with wildcards if needed
 
 ![SwaggerUI](./images/022_stack_spring.png "SwaggerUI")
 

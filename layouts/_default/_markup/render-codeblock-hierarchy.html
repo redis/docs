@@ -1,0 +1,5 @@
+{{- $type := .Attributes.type | default "generic" -}}
+{{- $noIcons := .Attributes.noicons | default "" -}}
+<pre class="hierarchy-source" data-hierarchy-type="{{ $type }}" data-no-icons="{{ $noIcons }}">{{ .Inner | htmlEscape | safeHTML }}</pre>
+{{ .Page.Store.Set "hasHierarchy" true }}
+

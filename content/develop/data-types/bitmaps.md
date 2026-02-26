@@ -9,9 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Introduction to Redis bitmaps
-
-  '
+description: Introduction to Redis bitmaps
 linkTitle: Bitmaps
 title: Redis bitmaps
 weight: 120
@@ -45,7 +43,7 @@ You can represent this scenario using a bitmap whose key references the current 
 
 * Rider 123 pings the server on January 1, 2024 within the 00:00 hour. You can then confirm that rider 123 pinged the server. You can also check to see if rider 456 has pinged the server for that same hour.
 
-{{< clients-example bitmap_tutorial ping >}}
+{{< clients-example set="bitmap_tutorial" step="ping" description="Foundational: Set and get individual bits using SETBIT and GETBIT to track binary states" >}}
 > SETBIT pings:2024-01-01-00:00 123 1
 (integer) 0
 > GETBIT pings:2024-01-01-00:00 123
@@ -79,14 +77,14 @@ stored into the target key) are always considered to be zero.
 
 There are three commands operating on group of bits:
 
-1. [`BITOP`]({{< relref "/commands/bitop" >}}) performs bit-wise operations between different strings. The provided operations are AND, OR, XOR and NOT.
+1. [`BITOP`]({{< relref "/commands/bitop" >}}) performs bit-wise operations between different strings. The provided operators are `AND`, `OR`, `XOR`, `NOT`, `DIFF`, `DIFF1`, `ANDOR`, and `ONE`.
 2. [`BITCOUNT`]({{< relref "/commands/bitcount" >}}) performs population counting, reporting the number of bits set to 1.
 3. [`BITPOS`]({{< relref "/commands/bitpos" >}}) finds the first bit having the specified value of 0 or 1.
 
 Both [`BITPOS`]({{< relref "/commands/bitpos" >}}) and [`BITCOUNT`]({{< relref "/commands/bitcount" >}}) are able to operate with byte ranges of the
 string, instead of running for the whole length of the string. We can trivially see the number of bits that have been set in a bitmap.
 
-{{< clients-example bitmap_tutorial bitcount >}}
+{{< clients-example set="bitmap_tutorial" step="bitcount" description="Bit counting: Use BITCOUNT to count the number of set bits in a bitmap when you need to get population counts" buildsUpon="ping" >}}
 > BITCOUNT pings:2024-01-01-00:00
 (integer) 1
 {{< /clients-example >}}
@@ -104,14 +102,179 @@ the number of days a given user visited the web site, while with
 a few [`BITPOS`]({{< relref "/commands/bitpos" >}}) calls, or simply fetching and analyzing the bitmap client-side,
 it is possible to easily compute the longest streak.
 
+### Bitwise operations
+
+The [`BITOP`]({{< relref "/commands/bitop" >}}) command performs bitwise
+operations over two or more source keys, storing the result in a destination key.
+
+The examples below show the available operations using three keys: `A` (with bit pattern
+`11011000`), `B` (`00011001`), and `C` (`01101100`).
+
+{{< image filename="/images/dev/bitmap/BitopSetup.svg" alt="Bitop setup" >}}
+
+Numbering the bits from left to right, starting at zero, the following `SETBIT` commands 
+will create these bitmaps:
+
+{{< clients-example set="bitmap_tutorial" step="bitop_setup" description="Setup for bitwise operations: Create multiple bitmaps using SETBIT to prepare for demonstrating bitwise operations" difficulty="intermediate" buildsUpon="ping" >}}
+> SETBIT A 0 1
+(integer) 0
+> SETBIT A 1 1
+(integer) 0
+> SETBIT A 3 1
+(integer) 0
+> SETBIT A 4 1
+(integer) 0
+> GET A
+"\xd8"
+# Hex value: 0xd8 = 0b11011000
+
+> SETBIT B 3 1
+(integer) 0
+> SETBIT B 4 1
+(integer) 0
+> SETBIT B 7 1
+(integer) 0
+> GET B
+"\x19"
+# Hex value: 0x19 = 0b00011001
+
+> SETBIT C 1 1
+(integer) 0
+> SETBIT C 2 1
+(integer) 0
+> SETBIT C 4 1
+(integer) 0
+> SETBIT C 5 1
+(integer) 0
+> GET C
+"l"
+# ASCII "l" = hex 0x6c = 0b01101100
+{{< /clients-example >}}
+
+#### `AND`
+
+Set a bit in the destination key to 1 only if it is set in all the source keys.
+
+{{< image filename="/images/dev/bitmap/BitopAnd.svg" alt="Bitop AND" >}}
+
+{{< clients-example set="bitmap_tutorial" step="bitop_and" description="AND operation: Use BITOP AND to find bits set in all source bitmaps when you need to find common bits across multiple sets" difficulty="intermediate" buildsUpon="bitop_setup" >}}
+> BITOP AND R A B C
+(integer) 1
+> GET R
+"\b"
+# ASCII "\b" (backspace) = hex 0x08 = 0b00001000
+{{< /clients-example >}}
+
+#### `OR`
+Set a bit in the destination key to 1 if it is set in at least one of the source keys.
+
+{{< image filename="/images/dev/bitmap/BitopOr.svg" alt="Bitop OR" >}}
+
+{{< clients-example set="bitmap_tutorial" step="bitop_or" description="OR operation: Use BITOP OR to find bits set in at least one source bitmap when you need to combine multiple sets" difficulty="intermediate" buildsUpon="bitop_setup" >}}
+> BITOP OR R A B C
+(integer) 1
+> GET R
+"\xfd"
+# Hex value: 0xfd = 0b11111101
+{{< /clients-example >}}
+
+#### `XOR`
+
+For two source keys, set a bit in the destination key to 1 if the value of the bit is 
+different in the two keys. For three or more source keys, the result of XORing the first two 
+keys is then XORed with the next key, and so forth.
+
+{{< image filename="/images/dev/bitmap/BitopXor.svg" alt="Bitop XOR" >}}
+
+{{< clients-example set="bitmap_tutorial" step="bitop_xor" description="XOR operation: Use BITOP XOR to find bits that differ between bitmaps when you need to identify differences" difficulty="intermediate" buildsUpon="bitop_setup" >}}
+> BITOP XOR R A B
+(integer) 1
+> GET R
+"\xc1"
+# Hex value: 0xc1 = 0b11000001
+{{< /clients-example >}}
+
+#### `NOT`
+
+Set a bit in the destination key to 1 if it is not set in the source key (this
+is the only unary operator).
+
+{{< image filename="/images/dev/bitmap/BitopNot.svg" alt="Bitop NOT" >}}
+
+{{< clients-example set="bitmap_tutorial" step="bitop_not" description="NOT operation: Use BITOP NOT to invert all bits in a bitmap when you need to negate a set" difficulty="intermediate" buildsUpon="bitop_setup" >}}
+> BITOP NOT R A
+(integer) 1
+> GET R
+"'"
+# ASCII "'" (single quote) = hex 0x27 = 0b00100111
+{{< /clients-example >}}
+
+#### `DIFF`
+
+Set a bit in the destination key to 1 if it is set in the first source key, but not in any 
+of the other source keys.
+
+{{< image filename="/images/dev/bitmap/BitopDiff.svg" alt="Bitop DIFF" >}}
+
+{{< clients-example set="bitmap_tutorial" step="bitop_diff" description="DIFF operation: Use BITOP DIFF to find bits set in the first bitmap but not in others when you need set difference" difficulty="advanced" buildsUpon="bitop_setup" >}}
+> BITOP DIFF R A B C
+(integer) 1
+> GET R
+"\x80"
+# Hex value: 0x80 = 0b10000000
+{{< /clients-example >}}
+
+#### `DIFF1`
+
+Set a bit in the destination key to 1 if it is not set in the first source key, 
+but set in at least one of the other source keys.
+
+{{< image filename="/images/dev/bitmap/BitopDiff1.svg" alt="Bitop DIFF1" >}}
+
+{{< clients-example set="bitmap_tutorial" step="bitop_diff1" description="DIFF1 operation: Use BITOP DIFF1 to find bits not in the first bitmap but in at least one other when you need inverse difference" difficulty="advanced" buildsUpon="bitop_setup" >}}
+> BITOP DIFF1 R A B C
+(integer) 1
+> GET R
+"%"
+# ASCII "%" (percent) = hex 0x25 = 0b00100101
+{{< /clients-example >}}
+
+#### `ANDOR`
+
+Set a bit in the destination key to 1 if it is set in the first source key and also in at least one of the other source keys.
+
+{{< image filename="/images/dev/bitmap/BitopAndOr.svg" alt="Bitop ANDOR" >}}
+
+{{< clients-example set="bitmap_tutorial" step="bitop_andor" description="ANDOR operation: Use BITOP ANDOR to find bits in the first bitmap and at least one other when you need intersection with union" difficulty="advanced" buildsUpon="bitop_setup" >}}
+> BITOP ANDOR R A B C
+(integer) 1
+> GET R
+"X"
+# ASCII "X" = hex 0x58 = 0b01011000
+{{< /clients-example >}}
+
+#### `ONE`
+
+Set a bit in the destination key to 1 if it is set in exactly one of the source keys.
+
+{{< image filename="/images/dev/bitmap/BitopOne.svg" alt="Bitop ONE" >}}
+
+{{< clients-example set="bitmap_tutorial" step="bitop_one" description="ONE operation: Use BITOP ONE to find bits set in exactly one bitmap when you need exclusive membership" difficulty="advanced" buildsUpon="bitop_setup" >}}
+> BITOP ONE R A B C
+(integer) 1
+> GET R
+"\xa5"
+# Hex value: 0xa5 = 0b10100101
+{{< /clients-example >}}
+
+## Split bitmaps into multiple keys
+
 Bitmaps are trivial to split into multiple keys, for example for
 the sake of sharding the data set and because in general it is better to
 avoid working with huge keys. To split a bitmap across different keys
 instead of setting all the bits into a key, a trivial strategy is just
 to store M bits per key and obtain the key name with `bit-number/M` and
 the Nth bit to address inside the key with `bit-number MOD M`.
-
-
 
 ## Performance
 

@@ -193,7 +193,21 @@ After the databases are recovered, make sure your Redis clients can successfully
 
 If you enable the automatic recovery cluster policy, Redis Enterprise tries to quickly recover as much data as possible from before the disaster.
 
-To enable automatic recovery, [update the cluster policy]({{< relref "/operate/rs/7.8/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) using the REST API:
+To enable automatic recovery, use one of the following methods:
+
+{{< multitabs id="enable-auto-recovery" 
+tab1="rladmin"
+tab2="REST API" >}}
+
+To enable automatic recovery using `rladmin`, run the [`rladmin tune cluster`]({{<relref "/operate/rs/7.8/references/cli-utilities/rladmin/tune#tune-cluster">}}) command:
+
+```sh
+rladmin tune cluster auto_recovery enabled
+```
+
+-tab-sep-
+
+To enable automatic recovery using the REST API, use an [update cluster policy]({{< relref "/operate/rs/7.8/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) request:
 
 ```sh
 PUT /v1/cluster/policy
@@ -201,6 +215,8 @@ PUT /v1/cluster/policy
   "auto_recovery": true
 }
 ```
+
+{{< /multitabs >}}
 
 Redis Enterprise tries to recover databases from the best existing persistence files. If a persistence file isn't available, which can happen if its host node is down, the automatic recovery process waits for it to become available.
 

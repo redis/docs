@@ -27,20 +27,24 @@ group: json
 hidden: false
 linkTitle: JSON.MGET
 module: JSON
+railroad_diagram: /images/railroad/json.mget.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the values at a path from one or more keys
 syntax_fmt: JSON.MGET key [key ...] path
-syntax_str: path
 title: JSON.MGET
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Return the values at `path` from multiple `key` arguments
 
 {{% warning %}}
 When cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).
 
 When the database has more than one shard, and the specified keys reside in different shards, Redis will not report a CROSSSLOT error (to avoid breaking changes) and the results may be partial.
-
 
 {{% /warning %}}
 
@@ -60,11 +64,6 @@ is key to parse. Returns `null` for nonexistent keys.
 is JSONPath to specify. Returns `null` for nonexistent paths.
 
 </details>
-
-## Return
-
-JSON.MGET returns an array of bulk string replies specified as the JSON serialization of the value at each key's path.
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -88,6 +87,26 @@ redis> JSON.MGET doc1 doc2 $..a
 2) "[4,6]"
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="json-mget-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.
+
+-tab-sep-
+
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.
+
+{{< /multitabs >}}
 
 ## See also
 

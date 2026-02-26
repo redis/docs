@@ -26,11 +26,11 @@ group: json
 hidden: false
 linkTitle: JSON.DEBUG MEMORY
 module: JSON
+railroad_diagram: /images/railroad/json.debug-memory.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Reports the size in bytes of a key
 syntax_fmt: JSON.DEBUG MEMORY key [path]
-syntax_str: '[path]'
 title: JSON.DEBUG MEMORY
 ---
 Report a value's memory usage in bytes 
@@ -55,11 +55,6 @@ is key to parse.
 is JSONPath to specify. Default is root `$`. 
 </details>
 
-## Return
-
-JSON.DEBUG MEMORY returns an integer reply specified as the value size in bytes.
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
-
 ## Examples
 
 <details open>
@@ -79,6 +74,26 @@ redis> JSON.DEBUG MEMORY item:2
 (integer) 573
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="json-debug-memory-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the value size in bytes.
+
+-tab-sep-
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the value size in bytes.
+
+{{< /multitabs >}}
 
 ## See also
 

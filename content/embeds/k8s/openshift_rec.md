@@ -24,11 +24,16 @@ spec:
     limits:
       cpu: 2
       memory: 4Gi
+
   redisEnterpriseImageSpec:
     repository: registry.connect.redhat.com/redislabs/redis-enterprise
-    versionTag: 7.22.0-28
+    versionTag: 8.0.10-64
   redisEnterpriseServicesRiggerImageSpec:
     repository: registry.connect.redhat.com/redislabs/services-manager
   bootstrapperImageSpec:
     repository: registry.connect.redhat.com/redislabs/redis-enterprise-operator
+  usageMeter:
+    callHomeClient:
+      imageSpec:
+        repository: registry.connect.redhat.com/redislabs/call-home-client
 ```

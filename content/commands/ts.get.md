@@ -26,16 +26,15 @@ group: timeseries
 hidden: false
 linkTitle: TS.GET
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.get.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Get the sample with the highest timestamp from a given time series
-syntax: "TS.GET key \n  [LATEST]\n"
 syntax_fmt: TS.GET key [LATEST]
-syntax_str: '[LATEST]'
 title: TS.GET
 ---
 
-Get the sample with the highest timestamp from a given time series
+Get the sample with the highest timestamp from a given time series. Starting from Redis 8.6, NaN values are included in the results.
 
 [Examples](#examples)
 
@@ -54,14 +53,6 @@ is used when a time series is a compaction. With `LATEST`, TS.GET reports the co
   
 The data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest (possibly partial) bucket is also required. In such a case, use `LATEST`.
 </details>
-
-## Return value
-
-Returns one of these replies:
-
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of a single ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) pair representing (timestamp, value(double)) of the sample with the highest timestamp
-- An empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) - when the time series is empty
-- [] (invalid arguments, wrong key type, key does not exist, etc.)
 
 ## Examples
 
@@ -135,7 +126,33 @@ Get the latest maximum daily temperature (the temperature with the highest times
 {{< / highlight >}}
 
 </details>
-  
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="ts-get-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of a single ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) pair representing (timestamp, value) of the sample with the highest timestamp.
+* An empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) when the time series is empty.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, key does not exist, etc.
+
+-tab-sep-
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of a single ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) pair representing (timestamp, value) of the sample with the highest timestamp.
+* An empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) when the time series is empty.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, key does not exist, etc.
+
+{{< /multitabs >}}
+
 ## See also
 
 [`TS.MGET`]({{< relref "commands/ts.mget/" >}})  

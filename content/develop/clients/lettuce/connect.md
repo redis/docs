@@ -254,3 +254,92 @@ public class Pool {
 ```
 
 In this setup, `LettuceConnectionFactory` is a custom class you would need to implement, adhering to Apache Commons Pool's `PooledObjectFactory` interface, to manage lifecycle events of pooled `StatefulRedisConnection` objects.
+
+## Connect using Smart client handoffs (SCH)
+
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
+Redis Software servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+for more information about SCH.
+
+SCH is enabled on the client by default. However, you can configure it
+explicitly by creating a `MaintNotificationsConfig` object and/or a `TimeoutOptions`
+object and passing them to the `ClientOptions` builder as shown in the example below.
+Note that SCH also requires the
+[RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+protocol. Lettuce uses this by default, but make sure you don't set
+`protocolVersion(ProtocolVersion.RESP2)` in the `ClientOptions` builder.
+
+```java
+import io.lettuce.core.*;
+import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.protocol.ProtocolVersion;
+import java.time.Duration;
+//  ...
+//  ...
+
+RedisClient redisClient = RedisClient.create("redis://localhost:6379");
+
+MaintNotificationsConfig maintNotificationsConfig = MaintNotificationsConfig.builder()
+        .enableMaintNotifications()
+        // .autoResolveEndpointType() // default is auto-resolve
+        .endpointType(EndpointType.INTERNAL_IP)
+        .build();
+
+TimeoutOptions timeoutOptions = TimeoutOptions.builder()
+        .relaxedTimeoutsDuringMaintenance(Duration.ofSeconds(10))
+        .build();
+
+ClientOptions clientOptions = ClientOptions.builder()
+        .maintNotificationsConfig(maintNotificationsConfig)
+        .timeoutOptions(timeoutOptions)
+        // SCH requires RESP3. Don't override the default protocol version
+        // to RESP2:
+        // .protocolVersion(ProtocolVersion.RESP2) // <- Wrong
+        .build();
+
+redisClient.setOptions(clientOptions);
+
+// or
+ClientOptions clientOptions = ClientOptions.builder()
+        .maintNotificationsConfig(MaintNotificationsConfig.enabled(EndpointType.INTERNAL_IP))
+        .build();
+
+redisClient.setOptions(clientOptions);
+
+// or
+ClientOptions clientOptions = ClientOptions.builder()
+        .maintNotificationsConfig(MaintNotificationsConfig.enabled())
+        .build();
+
+redisClient.setOptions(clientOptions);
+```
+
+To disable SCH, use `MaintNotificationsConfig.disabled()` and pass the instance it
+returns to the `ClientOptions` builder:
+
+```java
+ClientOptions clientOptions = ClientOptions.builder()
+        .maintNotificationsConfig(MaintNotificationsConfig.disabled())
+        .build();
+
+redisClient.setOptions(clientOptions);
+```
+
+The `MaintNotificationsConfig` builder accepts the following options:
+
+| Method | Description |
+|--------|-------------|
+| `enableMaintNotifications(boolean enabled)` | Enable/disable SCH. The default is `true` (enabled). |
+| `endpointType(EndpointType type)` | Set the type of endpoint to use for the connection. The options are `EndpointType.EXTERNAL_IP`, `EndpointType.INTERNAL_IP`, `EndpointType.EXTERNAL_FQDN`, `EndpointType.INTERNAL_FQDN`, and `EndpointType.NONE`. Use the separate `autoResolveEndpointType()` method to auto-detect based on the connection (this is the default behavior). |
+| `autoResolveEndpointType()` | Auto-detect the type of endpoint to use for the connection. This is the default behavior. Use `endpointType()` to set a specific endpoint type. |
+
+Among other options, the `TimeoutOptions` builder accepts the following option
+that is relevant to SCH:
+
+| Method | Description |
+|--------|-------------|
+| `relaxedTimeoutsDuringMaintenance(Duration duration)` | Set the timeout to use while the server is performing maintenance. The default is 10 seconds. |
+|

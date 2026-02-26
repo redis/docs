@@ -23,14 +23,12 @@ Usage: redis-di set-secret [OPTIONS] {RDI_REDIS_USERNAME|RDI_REDIS_PASSWORD|RD
 ## Options
 
 - `log_level`:
-
   - Type: Choice(['TRACE', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
   - Default: `info`
   - Usage: `--log-level
 -l`
 
 - `rdi_namespace`:
-
   - Type: STRING
   - Default: `rdi`
   - Usage: `--rdi-namespace`
@@ -38,19 +36,16 @@ Usage: redis-di set-secret [OPTIONS] {RDI_REDIS_USERNAME|RDI_REDIS_PASSWORD|RD
   RDI Kubernetes namespace
 
 - `key` (REQUIRED):
-
   - Type: Choice(['RDI_REDIS_USERNAME', 'RDI_REDIS_PASSWORD', 'RDI_REDIS_CACERT', 'RDI_REDIS_CERT', 'RDI_REDIS_KEY', 'RDI_REDIS_KEY_PASSPHRASE', 'SOURCE_DB_USERNAME', 'SOURCE_DB_PASSWORD', 'SOURCE_DB_CACERT', 'SOURCE_DB_CERT', 'SOURCE_DB_KEY', 'SOURCE_DB_KEY_PASSWORD', 'TARGET_DB_USERNAME', 'TARGET_DB_PASSWORD', 'TARGET_DB_CACERT', 'TARGET_DB_CERT', 'TARGET_DB_KEY', 'TARGET_DB_KEY_PASSWORD', 'JWT_SECRET_KEY'])
   - Default: `none`
   - Usage: `key`
 
 - `value`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `value`
 
 - `help`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--help`

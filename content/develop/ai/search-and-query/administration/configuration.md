@@ -18,7 +18,7 @@ title: Configuration parameters
 weight: 1
 ---
 {{< note >}}
-As of Redis 8 in Redis Open Source (Redis 8), configuration parameters for the time series data structure are now set in the following ways:
+As of Redis 8 in Redis Open Source (Redis 8), configuration parameters for Redis Query Engine (RQE) are now set in the following ways:
 * At load time via your `redis.conf` file.
 * At run time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
 
@@ -64,6 +64,7 @@ The following table summarizes which configuration parameters can be set at run-
 | PARTIAL_INDEXED_DOCS              | [search-partial-indexed-docs](#search-partial-indexed-docs)     | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | RAW_DOCID_ENCODING                | [search-raw-docid-encoding](#search-raw-docid-encoding)         | :white_large_square: |||
 | SEARCH_THREADS                    | [search-threads](#search-threads)                               | :white_large_square: |||
+| SEARCH_IO_THREADS                 | [search-io-threads](#search-io-threads)                         | :white_large_square: |||
 | TIERED_HNSW_BUFFER_LIMIT          | [search-tiered-hnsw-buffer-limit](#search-tiered-hnsw-buffer-limit) | :white_large_square: |||
 | TIMEOUT                           | [search-timeout](#search-timeout)                               | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | TOPOLOGY_VALIDATION_TIMEOUT       | [search-topology-validation-timeout](#search-topology-validation-timeout) | :white_check_mark: |||
@@ -435,6 +436,16 @@ Sets the number of search threads in the coordinator thread pool.
 
 Type: integer
 
+### search-io-threads
+
+Sets the number of threads used in the coordinator to run I/O tasks with other shards.
+
+Type: integer
+
+Valid range: `[1 .. 256]`
+
+Default: 1
+
 ### search-tiered-hnsw-buffer-limit
 
 Used for setting the buffer limit threshold for vector tiered HNSW indexes. If Redis is using `WORKERS` for indexing, and the number of vectors waiting in the buffer to be indexed exceeds this limit, new vectors are inserted directly into HNSW.
@@ -540,6 +551,24 @@ Type: integer
 Valid range: `[0 .. 8192]`
 
 Default: `0`
+
+### search-on-oom
+
+Specifies the response policy for queries when the server's current memory usage exceeds the configured [maxmemory](https://redis.io/docs/latest/develop/reference/eviction/#maxmem) limit.
+
+* `IGNORE`: Execute the query regardless of current memory usage.
+* `RETURN`: In cluster mode, the query returns partial results from shards that did not exceed the memory limit. Shards that exceed the limit will not contribute results.
+* `FAIL`: Will return an error if memory usage exceeds the memory limit.
+
+Type: string
+
+Valid values: `IGNORE`, `RETURN`, `FAIL`
+
+Default: `IGNORE`
+
+{{% alert title="Notes" color="info" %}}
+To prevent potential out-of-memory conditions, it is recommended that you set this parameter to FAIL or RETURN rather than IGNORE.
+{{% /alert %}}
 
 ## Set configuration parameters at module load-time (deprecated)
 

@@ -43,6 +43,10 @@ command_flags:
 - readonly
 - blocking
 - movablekeys
+complexity: 'For each stream mentioned: O(M) with M being the number of elements returned.
+  If M is constant (for example, always asking for the first 10 elements with COUNT), you
+  can consider it O(1). On the other side when XREADGROUP blocks, XADD will pay the
+  O(N) time in order to serve the N clients blocked on the stream getting new data.'
 description: Returns messages from multiple streams with IDs greater than the ones
   requested. Blocks until a message is available otherwise.
 group: stream
@@ -62,14 +66,19 @@ key_specs:
       limit: 2
     type: range
 linkTitle: XREAD
+railroad_diagram: /images/railroad/xread.svg
 since: 5.0.0
 summary: Returns messages from multiple streams with IDs greater than the ones requested.
   Blocks until a message is available otherwise.
 syntax_fmt: "XREAD [COUNT\_count] [BLOCK\_milliseconds] STREAMS\_key [key ...] id\n\
   \  [id ...]"
-syntax_str: "[BLOCK\_milliseconds] STREAMS\_key [key ...] id [id ...]"
 title: XREAD
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Read data from one or multiple streams, only returning entries with an
 ID greater than the last received ID reported by the caller.
 This command has an option to block if items are not available, in a similar
@@ -290,6 +299,12 @@ data to the stream.
 Reading the [Redis Streams introduction]({{< relref "/develop/data-types/streams" >}}) is highly
 suggested in order to understand more about the streams overall behavior
 and semantics.
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

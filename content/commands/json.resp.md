@@ -28,11 +28,11 @@ group: json
 hidden: false
 linkTitle: JSON.RESP
 module: JSON
+railroad_diagram: /images/railroad/json.resp.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the JSON value at path in Redis Serialization Protocol (RESP)
 syntax_fmt: JSON.RESP key [path]
-syntax_str: '[path]'
 title: JSON.RESP
 ---
 Return the JSON in `key` in [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}) form 
@@ -61,10 +61,6 @@ is JSONPath to specify. Default is root `$`. This command uses the following map
 
 For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 </details>
-
-## Return
-
-JSON.RESP returns an array reply specified as the JSON's RESP form detailed in [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -108,6 +104,26 @@ redis> JSON.RESP item:2
     4) (integer) 120
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="json-resp-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) representing the JSON value in RESP form, as detailed in the [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). The mapping from JSON to RESP follows the rules described in the command arguments.
+
+-tab-sep-
+
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) representing the JSON value in RESP form, as detailed in the [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). The mapping from JSON to RESP follows the rules described in the command arguments.
+
+{{< /multitabs >}}
 
 ## See also
 

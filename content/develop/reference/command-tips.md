@@ -93,7 +93,7 @@ This tip can be one of:
   Consider the [`SCRIPT EXISTS`]({{< relref "/commands/script-exists" >}}) command as an example.
   It returns an array of _0_'s and _1_'s that denote the existence of its given SHA1 sums in the script cache.
   The aggregated response should be _1_ only when all shards had reported that a given script SHA1 sum is in their respective cache.
-* **agg_logical_or:** the client should return the result of a logical _AND_ operation on all replies (only applies to integer replies, usually from commands that return either _0_ or _1_).
+* **agg_logical_or:** the client should return the result of a logical _OR_ operation on all replies (only applies to integer replies, usually from commands that return either _0_ or _1_).
 * **agg_min:** the client should return the minimal value from the replies (only applies to numerical replies).
   The aggregate reply from a cluster-wide [`WAIT`]({{< relref "/commands/wait" >}}) command, for example, should be the minimal value (number of synchronized replicas) from all shards.
 * **agg_max:** the client should return the maximal value from the replies (only applies to numerical replies).

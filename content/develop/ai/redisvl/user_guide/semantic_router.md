@@ -1,9 +1,9 @@
 ---
 linkTitle: Semantic routing
 title: Semantic Routing
-weight: 08
 aliases:
-- /integrate/redisvl/user_guide/semantic_router
+- /integrate/redisvl/user_guide/08_semantic_router
+weight: 08
 ---
 
 
@@ -28,7 +28,6 @@ Additionally, each route has a `distance_threshold` which determines the maximum
 
 ```python
 from redisvl.extensions.router import Route
-
 
 # Define routes for the semantic router
 technology = Route(
@@ -91,14 +90,18 @@ router = SemanticRouter(
 )
 ```
 
-    19:18:32 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
-    19:18:32 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+    /Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/.venv/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+      from .autonotebook import tqdm as notebook_tqdm
 
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 17.78it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 37.43it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 27.28it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 48.76it/s]
+    13:03:49 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
+    13:03:49 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+
+
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  6.31it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  7.02it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  8.21it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 54.33it/s]
 
 
 
@@ -147,13 +150,13 @@ route_match = router("Can you tell me about the latest in artificial intelligenc
 route_match
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00,  6.40it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  8.63it/s]
 
 
 
 
 
-    RouteMatch(name='technology', distance=0.419145842393)
+    RouteMatch(name='technology', distance=0.419145941734)
 
 
 
@@ -164,7 +167,7 @@ route_match = router("are aliens real?")
 route_match
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 39.83it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 11.71it/s]
 
 
 
@@ -183,14 +186,14 @@ route_matches = router.route_many("How is AI used in basketball?", max_k=3)
 route_matches
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 40.50it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 12.12it/s]
 
 
 
 
 
-    [RouteMatch(name='technology', distance=0.556493878365),
-     RouteMatch(name='sports', distance=0.671060125033)]
+    [RouteMatch(name='technology', distance=0.556493639946),
+     RouteMatch(name='sports', distance=0.671060085297)]
 
 
 
@@ -203,13 +206,13 @@ route_matches = router.route_many("How is AI used in basketball?", aggregation_m
 route_matches
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 66.18it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 56.69it/s]
 
 
 
 
 
-    [RouteMatch(name='technology', distance=0.556493878365),
+    [RouteMatch(name='technology', distance=0.556493639946),
      RouteMatch(name='sports', distance=0.629264354706)]
 
 
@@ -233,13 +236,13 @@ route_matches = router.route_many("Lebron James")
 route_matches
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 41.89it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 13.20it/s]
 
 
 
 
 
-    [RouteMatch(name='sports', distance=0.663254022598)]
+    [RouteMatch(name='sports', distance=0.663253903389)]
 
 
 
@@ -287,13 +290,13 @@ router2 = SemanticRouter.from_dict(router.to_dict(), redis_url="redis://localhos
 assert router2.to_dict() == router.to_dict()
 ```
 
-    19:18:38 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
-    19:18:38 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+    13:03:54 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
+    13:03:54 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
 
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 54.94it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 53.91it/s]
 
-    19:18:40 redisvl.index.index INFO   Index already exists, not overwriting.
+    13:03:54 redisvl.index.index INFO   Index already exists, not overwriting.
 
 
     
@@ -311,26 +314,26 @@ router3 = SemanticRouter.from_yaml("router.yaml", redis_url="redis://localhost:6
 assert router3.to_dict() == router2.to_dict() == router.to_dict()
 ```
 
-    19:18:40 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
-    19:18:40 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+    13:03:54 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
+    13:03:54 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
 
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 18.77it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00, 51.94it/s]
 
-    19:18:41 redisvl.index.index INFO   Index already exists, not overwriting.
+    13:03:55 redisvl.index.index INFO   Index already exists, not overwriting.
 
 
     
 
 
-# Add route references
+## Add route references
 
 
 ```python
 router.add_route_references(route_name="technology", references=["latest AI trends", "new tech gadgets"])
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 13.22it/s]
+    Batches: 100%|██████████| 1/1 [00:00<00:00,  8.12it/s]
 
 
 
@@ -341,7 +344,7 @@ router.add_route_references(route_name="technology", references=["latest AI tren
 
 
 
-# Get route references
+## Get route references
 
 
 ```python
@@ -353,26 +356,26 @@ refs
 
 
 
-    [{'id': 'topic-router:technology:7e4bca5853c1c3298b4d001de13c3c7a79a6e0f134f81acc2e7cddbd6845961f',
-      'reference_id': '7e4bca5853c1c3298b4d001de13c3c7a79a6e0f134f81acc2e7cddbd6845961f',
+    [{'id': 'topic-router:technology:85cc73a1437df27caa2f075a29c497e5a2e532023fbb75378aedbae80779ab37',
+      'reference_id': '85cc73a1437df27caa2f075a29c497e5a2e532023fbb75378aedbae80779ab37',
       'route_name': 'technology',
-      'reference': 'new tech gadgets'},
-     {'id': 'topic-router:technology:f243fb2d073774e81c7815247cb3013794e6225df3cbe3769cee8c6cefaca777',
-      'reference_id': 'f243fb2d073774e81c7815247cb3013794e6225df3cbe3769cee8c6cefaca777',
-      'route_name': 'technology',
-      'reference': 'latest AI trends'},
+      'reference': 'tell me about the newest gadgets'},
      {'id': 'topic-router:technology:851f51cce5a9ccfbbcb66993908be6b7871479af3e3a4b139ad292a1bf7e0676',
       'reference_id': '851f51cce5a9ccfbbcb66993908be6b7871479af3e3a4b139ad292a1bf7e0676',
       'route_name': 'technology',
       'reference': 'what are the latest advancements in AI?'},
+     {'id': 'topic-router:technology:f243fb2d073774e81c7815247cb3013794e6225df3cbe3769cee8c6cefaca777',
+      'reference_id': 'f243fb2d073774e81c7815247cb3013794e6225df3cbe3769cee8c6cefaca777',
+      'route_name': 'technology',
+      'reference': 'latest AI trends'},
+     {'id': 'topic-router:technology:7e4bca5853c1c3298b4d001de13c3c7a79a6e0f134f81acc2e7cddbd6845961f',
+      'reference_id': '7e4bca5853c1c3298b4d001de13c3c7a79a6e0f134f81acc2e7cddbd6845961f',
+      'route_name': 'technology',
+      'reference': 'new tech gadgets'},
      {'id': 'topic-router:technology:149a9c9919c58534aa0f369e85ad95ba7f00aa0513e0f81e2aff2ea4a717b0e0',
       'reference_id': '149a9c9919c58534aa0f369e85ad95ba7f00aa0513e0f81e2aff2ea4a717b0e0',
       'route_name': 'technology',
-      'reference': "what's trending in tech?"},
-     {'id': 'topic-router:technology:85cc73a1437df27caa2f075a29c497e5a2e532023fbb75378aedbae80779ab37',
-      'reference_id': '85cc73a1437df27caa2f075a29c497e5a2e532023fbb75378aedbae80779ab37',
-      'route_name': 'technology',
-      'reference': 'tell me about the newest gadgets'}]
+      'reference': "what's trending in tech?"}]
 
 
 
@@ -386,14 +389,14 @@ refs
 
 
 
-    [{'id': 'topic-router:technology:7e4bca5853c1c3298b4d001de13c3c7a79a6e0f134f81acc2e7cddbd6845961f',
-      'reference_id': '7e4bca5853c1c3298b4d001de13c3c7a79a6e0f134f81acc2e7cddbd6845961f',
+    [{'id': 'topic-router:technology:85cc73a1437df27caa2f075a29c497e5a2e532023fbb75378aedbae80779ab37',
+      'reference_id': '85cc73a1437df27caa2f075a29c497e5a2e532023fbb75378aedbae80779ab37',
       'route_name': 'technology',
-      'reference': 'new tech gadgets'}]
+      'reference': 'tell me about the newest gadgets'}]
 
 
 
-# Delete route references
+## Delete route references
 
 
 ```python

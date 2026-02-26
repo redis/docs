@@ -12,7 +12,7 @@ queries for different use cases. Each query class wraps the `redis-py` Query mod
 
 ## VectorQuery
 
-### `class VectorQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, hybrid_policy=None, batch_size=None, ef_runtime=None, normalize_vector_distance=False)`
+### `class VectorQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, hybrid_policy=None, batch_size=None, ef_runtime=None, epsilon=None, search_window_size=None, use_search_history=None, search_buffer_capacity=None, normalize_vector_distance=False)`
 
 Bases: `BaseVectorQuery`, `BaseQuery`
 
@@ -28,31 +28,51 @@ expression.
   * **filter_expression** (*Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *,* *optional*) – A filter to apply
     along with the vector search. Defaults to None.
   * **dtype** (*str* *,* *optional*) – The dtype of the vector. Defaults to
-    “float32”.
+    "float32".
   * **num_results** (*int* *,* *optional*) – The top k results to return from the
     vector search. Defaults to 10.
   * **return_score** (*bool* *,* *optional*) – Whether to return the vector
     distance. Defaults to True.
   * **dialect** (*int* *,* *optional*) – The RediSearch query dialect.
     Defaults to 2.
-  * **sort_by** (*Optional* *[* *str* *]*) – The field to order the results by. Defaults
-    to None. Results will be ordered by vector distance.
+  * **sort_by** (*Optional* *[* *SortSpec* *]*) – The field(s) to order the results by. Can be:
+    - str: single field name
+    - Tuple[str, str]: (field_name, "ASC"|"DESC")
+    - List: list of fields or tuples
+    Note: Only the first field is used for Redis sorting.
+    Defaults to None. Results will be ordered by vector distance.
   * **in_order** (*bool*) – Requires the terms in the field to have
     the same order as the terms in the query filter, regardless of
     the offsets between them. Defaults to False.
   * **hybrid_policy** (*Optional* *[* *str* *]*) – Controls how filters are applied during vector search.
-    Options are “BATCHES” (paginates through small batches of nearest neighbors) or
-    “ADHOC_BF” (computes scores for all vectors passing the filter).
-    “BATCHES” mode is typically faster for queries with selective filters.
-    “ADHOC_BF” mode is better when filters match a large portion of the dataset.
+    Options are "BATCHES" (paginates through small batches of nearest neighbors) or
+    "ADHOC_BF" (computes scores for all vectors passing the filter).
+    "BATCHES" mode is typically faster for queries with selective filters.
+    "ADHOC_BF" mode is better when filters match a large portion of the dataset.
     Defaults to None, which lets Redis auto-select the optimal policy.
-  * **batch_size** (*Optional* *[* *int* *]*) – When hybrid_policy is “BATCHES”, controls the number
+  * **batch_size** (*Optional* *[* *int* *]*) – When hybrid_policy is "BATCHES", controls the number
     of vectors to fetch in each batch. Larger values may improve performance
-    at the cost of memory usage. Only applies when hybrid_policy=”BATCHES”.
+    at the cost of memory usage. Only applies when hybrid_policy="BATCHES".
     Defaults to None, which lets Redis auto-select an appropriate batch size.
   * **ef_runtime** (*Optional* *[* *int* *]*) – Controls the size of the dynamic candidate list for HNSW
     algorithm at query time. Higher values improve recall at the expense of
     slower search performance. Defaults to None, which uses the index-defined value.
+  * **epsilon** (*Optional* *[* *float* *]*) – The range search approximation factor for HNSW and SVS-VAMANA
+    indexes. Sets boundaries for candidates within radius \* (1 + epsilon). Higher values
+    allow more extensive search and more accurate results at the expense of run time.
+    Defaults to None, which uses the index-defined value (typically 0.01).
+  * **search_window_size** (*Optional* *[* *int* *]*) – The size of the search window for SVS-VAMANA KNN searches.
+    Increasing this value generally yields more accurate but slower search results.
+    Defaults to None, which uses the index-defined value (typically 10).
+  * **use_search_history** (*Optional* *[* *str* *]*) – For SVS-VAMANA indexes, controls whether to use the
+    search buffer or entire search history. Options are "OFF", "ON", or "AUTO".
+    "AUTO" is always evaluated internally as "ON". Using the entire history may yield
+    a slightly better graph at the cost of more search time.
+    Defaults to None, which uses the index-defined value (typically "AUTO").
+  * **search_buffer_capacity** (*Optional* *[* *int* *]*) – Tuning parameter for SVS-VAMANA indexes using
+    two-level compression (LVQ<X>x<Y> or LeanVec types). Determines the number of vector
+    candidates to collect in the first level of search before the re-ranking level.
+    Defaults to None, which uses the index-defined value (typically SEARCH_WINDOW_SIZE).
   * **normalize_vector_distance** (*bool*) – Redis supports 3 distance metrics: L2 (euclidean),
     IP (inner product), and COSINE. By default, L2 distance returns an unbounded value.
     COSINE distance returns a value between 0 and 2. IP returns a value determined by
@@ -63,7 +83,7 @@ expression.
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
 #### `NOTE`
-Learn more about vector queries in Redis: [https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search](https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search)
+Learn more about vector queries in Redis: [https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search](https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search)
 
 #### `dialect(dialect)`
 
@@ -91,7 +111,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query “hello world”, we do not match “world hello”
+i.e. for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -162,17 +182,27 @@ Return the query string of this query only.
 * **Return type:**
   str
 
-#### `return_fields(*fields)`
+#### `return_fields(*fields, skip_decode=None)`
 
-Add fields to return fields.
+Set the fields to return with search results.
 
+* **Parameters:**
+  * **\*fields** – Variable number of field names to return.
+  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+    decoded. Useful for binary data like embeddings.
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  **TypeError** – If skip_decode is not a string, list, or None.
 
 #### `scorer(scorer)`
 
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
+
+Since Redis 8.0 default was changed to BM25STD.
 
 * **Parameters:**
   **scorer** (*str*) – The scoring function to use
@@ -185,7 +215,7 @@ Default is TFIDF.
 Set the batch size for the query.
 
 * **Parameters:**
-  **batch_size** (*int*) – The batch size to use when hybrid_policy is “BATCHES”.
+  **batch_size** (*int*) – The batch size to use when hybrid_policy is "BATCHES".
 * **Raises:**
   * **TypeError** – If batch_size is not an integer
   * **ValueError** – If batch_size is not positive
@@ -200,6 +230,19 @@ Set the EF_RUNTIME parameter for the query.
 * **Raises:**
   * **TypeError** – If ef_runtime is not an integer
   * **ValueError** – If ef_runtime is not positive
+
+#### `set_epsilon(epsilon)`
+
+Set the epsilon parameter for the query.
+
+* **Parameters:**
+  **epsilon** (*float*) – The range search approximation factor for HNSW and SVS-VAMANA
+  indexes. Sets boundaries for candidates within radius \* (1 + epsilon).
+  Higher values allow more extensive search and more accurate results at the
+  expense of run time.
+* **Raises:**
+  * **TypeError** – If epsilon is not a float or int
+  * **ValueError** – If epsilon is negative
 
 #### `set_filter(filter_expression=None)`
 
@@ -216,10 +259,44 @@ Set the filter expression for the query.
 Set the hybrid policy for the query.
 
 * **Parameters:**
-  **hybrid_policy** (*str*) – The hybrid policy to use. Options are “BATCHES”
-  or “ADHOC_BF”.
+  **hybrid_policy** (*str*) – The hybrid policy to use. Options are "BATCHES"
+  or "ADHOC_BF".
 * **Raises:**
   **ValueError** – If hybrid_policy is not one of the valid options
+
+#### `set_search_buffer_capacity(search_buffer_capacity)`
+
+Set the SEARCH_BUFFER_CAPACITY parameter for the query.
+
+* **Parameters:**
+  **search_buffer_capacity** (*int*) – Tuning parameter for SVS-VAMANA indexes using
+  two-level compression. Determines the number of vector candidates to collect
+  in the first level of search before the re-ranking level.
+* **Raises:**
+  * **TypeError** – If search_buffer_capacity is not an integer
+  * **ValueError** – If search_buffer_capacity is not positive
+
+#### `set_search_window_size(search_window_size)`
+
+Set the SEARCH_WINDOW_SIZE parameter for the query.
+
+* **Parameters:**
+  **search_window_size** (*int*) – The size of the search window for SVS-VAMANA KNN searches.
+  Increasing this value generally yields more accurate but slower search results.
+* **Raises:**
+  * **TypeError** – If search_window_size is not an integer
+  * **ValueError** – If search_window_size is not positive
+
+#### `set_use_search_history(use_search_history)`
+
+Set the USE_SEARCH_HISTORY parameter for the query.
+
+* **Parameters:**
+  **use_search_history** (*str*) – For SVS-VAMANA indexes, controls whether to use the
+  search buffer or entire search history. Options are "OFF", "ON", or "AUTO".
+* **Raises:**
+  * **TypeError** – If use_search_history is not a string
+  * **ValueError** – If use_search_history is not one of "OFF", "ON", or "AUTO"
 
 #### `slop(slop)`
 
@@ -231,18 +308,42 @@ phrase terms (0 means exact phrase).
 * **Return type:**
   *Query*
 
-#### `sort_by(field, asc=True)`
+#### `sort_by(sort_spec=None, asc=True)`
 
-Add a sortby field to the query.
+Set the sort order for query results.
 
-- **field** - the name of the field to sort by
-- **asc** - when True, sorting will be done in asceding order
+This method supports sorting by single or multiple fields. Note that Redis Search
+natively supports only a single SORTBY field. When multiple fields are specified,
+only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **field** (*str*)
-  * **asc** (*bool*)
+  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+    - str: single field name
+    - Tuple[str, str]: (field_name, "ASC"|"DESC")
+    - List: list of field names or tuples
+  * **asc** (*bool*) – Default sort direction when not specified (only used when sort_spec is a string).
+    Defaults to True (ascending).
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  * **TypeError** – If sort_spec is not a valid type.
+  * **ValueError** – If direction is not "ASC" or "DESC".
+
+### `Examples`
+
+```pycon
+>> query.sort_by("price")  # Single field, ascending
+>> query.sort_by(("price", "DESC"))  # Single field, descending
+>> query.sort_by(["price", "rating"])  # Multiple fields (only first used)
+>> query.sort_by([("price", "DESC"), ("rating", "ASC")])
+```
+
+#### `NOTE`
+When multiple fields are specified, only the first field is used for sorting
+in Redis. Future versions may support multi-field sorting through post-query
+sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -293,6 +394,15 @@ Return the EF_RUNTIME parameter for the query.
 * **Return type:**
   Optional[int]
 
+#### `property epsilon: float | None`
+
+Return the epsilon parameter for the query.
+
+* **Returns:**
+  The epsilon value for the query.
+* **Return type:**
+  Optional[float]
+
 #### `property filter: str | `[`FilterExpression`]({{< relref "filter/#filterexpression" >}})` `
 
 The filter expression for the query.
@@ -319,9 +429,77 @@ Return the parameters for the query.
 
 Return self as the query object.
 
+#### `property search_buffer_capacity: int | None`
+
+Return the SEARCH_BUFFER_CAPACITY parameter for the query.
+
+* **Returns:**
+  The SEARCH_BUFFER_CAPACITY value for the query.
+* **Return type:**
+  Optional[int]
+
+#### `property search_window_size: int | None`
+
+Return the SEARCH_WINDOW_SIZE parameter for the query.
+
+* **Returns:**
+  The SEARCH_WINDOW_SIZE value for the query.
+* **Return type:**
+  Optional[int]
+
+#### `property use_search_history: str | None`
+
+Return the USE_SEARCH_HISTORY parameter for the query.
+
+* **Returns:**
+  The USE_SEARCH_HISTORY value for the query.
+* **Return type:**
+  Optional[str]
+
+#### `NOTE`
+**Runtime Parameters for Performance Tuning**
+
+VectorQuery supports runtime parameters for HNSW and SVS-VAMANA indexes that can be adjusted at query time without rebuilding the index:
+
+**HNSW Parameters:**
+
+- `ef_runtime`: Controls search accuracy (higher = better recall, slower search)
+
+**SVS-VAMANA Parameters:**
+
+- `search_window_size`: Size of search window for KNN searches
+- `use_search_history`: Whether to use search buffer (OFF/ON/AUTO)
+- `search_buffer_capacity`: Tuning parameter for 2-level compression
+
+Example with HNSW runtime parameters:
+
+```python
+from redisvl.query import VectorQuery
+
+query = VectorQuery(
+    vector=[0.1, 0.2, 0.3],
+    vector_field_name="embedding",
+    num_results=10,
+    ef_runtime=150  # Higher for better recall
+)
+```
+
+Example with SVS-VAMANA runtime parameters:
+
+```python
+query = VectorQuery(
+    vector=[0.1, 0.2, 0.3],
+    vector_field_name="embedding",
+    num_results=10,
+    search_window_size=20,
+    use_search_history='ON',
+    search_buffer_capacity=30
+)
+```
+
 ## VectorRangeQuery
 
-### `class VectorRangeQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', distance_threshold=0.2, epsilon=None, num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, hybrid_policy=None, batch_size=None, normalize_vector_distance=False)`
+### `class VectorRangeQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', distance_threshold=0.2, epsilon=None, search_window_size=None, use_search_history=None, search_buffer_capacity=None, num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, hybrid_policy=None, batch_size=None, normalize_vector_distance=False)`
 
 Bases: `BaseVectorQuery`, `BaseQuery`
 
@@ -337,7 +515,7 @@ distance threshold.
   * **filter_expression** (*Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *,* *optional*) – A filter to apply
     along with the range query. Defaults to None.
   * **dtype** (*str* *,* *optional*) – The dtype of the vector. Defaults to
-    “float32”.
+    "float32".
   * **distance_threshold** (*float*) – The threshold for vector distance.
     A smaller threshold indicates a stricter semantic search.
     Defaults to 0.2.
@@ -346,26 +524,42 @@ distance threshold.
     This controls how extensive the search is beyond the specified radius.
     Higher values increase recall at the expense of performance.
     Defaults to None, which uses the index-defined epsilon (typically 0.01).
+  * **search_window_size** (*Optional* *[* *int* *]*) – The size of the search window for SVS-VAMANA range searches.
+    Increasing this value generally yields more accurate but slower search results.
+    Defaults to None, which uses the index-defined value (typically 10).
+  * **use_search_history** (*Optional* *[* *str* *]*) – For SVS-VAMANA indexes, controls whether to use the
+    search buffer or entire search history. Options are "OFF", "ON", or "AUTO".
+    "AUTO" is always evaluated internally as "ON". Using the entire history may yield
+    a slightly better graph at the cost of more search time.
+    Defaults to None, which uses the index-defined value (typically "AUTO").
+  * **search_buffer_capacity** (*Optional* *[* *int* *]*) – Tuning parameter for SVS-VAMANA indexes using
+    two-level compression (LVQ<X>x<Y> or LeanVec types). Determines the number of vector
+    candidates to collect in the first level of search before the re-ranking level.
+    Defaults to None, which uses the index-defined value (typically SEARCH_WINDOW_SIZE).
   * **num_results** (*int*) – The MAX number of results to return.
     Defaults to 10.
   * **return_score** (*bool* *,* *optional*) – Whether to return the vector
     distance. Defaults to True.
   * **dialect** (*int* *,* *optional*) – The RediSearch query dialect.
     Defaults to 2.
-  * **sort_by** (*Optional* *[* *str* *]*) – The field to order the results by. Defaults
-    to None. Results will be ordered by vector distance.
+  * **sort_by** (*Optional* *[* *SortSpec* *]*) – The field(s) to order the results by. Can be:
+    - str: single field name
+    - Tuple[str, str]: (field_name, "ASC"|"DESC")
+    - List: list of fields or tuples
+    Note: Only the first field is used for Redis sorting.
+    Defaults to None. Results will be ordered by vector distance.
   * **in_order** (*bool*) – Requires the terms in the field to have
     the same order as the terms in the query filter, regardless of
     the offsets between them. Defaults to False.
   * **hybrid_policy** (*Optional* *[* *str* *]*) – Controls how filters are applied during vector search.
-    Options are “BATCHES” (paginates through small batches of nearest neighbors) or
-    “ADHOC_BF” (computes scores for all vectors passing the filter).
-    “BATCHES” mode is typically faster for queries with selective filters.
-    “ADHOC_BF” mode is better when filters match a large portion of the dataset.
+    Options are "BATCHES" (paginates through small batches of nearest neighbors) or
+    "ADHOC_BF" (computes scores for all vectors passing the filter).
+    "BATCHES" mode is typically faster for queries with selective filters.
+    "ADHOC_BF" mode is better when filters match a large portion of the dataset.
     Defaults to None, which lets Redis auto-select the optimal policy.
-  * **batch_size** (*Optional* *[* *int* *]*) – When hybrid_policy is “BATCHES”, controls the number
+  * **batch_size** (*Optional* *[* *int* *]*) – When hybrid_policy is "BATCHES", controls the number
     of vectors to fetch in each batch. Larger values may improve performance
-    at the cost of memory usage. Only applies when hybrid_policy=”BATCHES”.
+    at the cost of memory usage. Only applies when hybrid_policy="BATCHES".
     Defaults to None, which lets Redis auto-select an appropriate batch size.
   * **normalize_vector_distance** (*bool*) – Redis supports 3 distance metrics: L2 (euclidean),
     IP (inner product), and COSINE. By default, L2 distance returns an unbounded value.
@@ -405,7 +599,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query “hello world”, we do not match “world hello”
+i.e. for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -476,17 +670,27 @@ Return the query string of this query only.
 * **Return type:**
   str
 
-#### `return_fields(*fields)`
+#### `return_fields(*fields, skip_decode=None)`
 
-Add fields to return fields.
+Set the fields to return with search results.
 
+* **Parameters:**
+  * **\*fields** – Variable number of field names to return.
+  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+    decoded. Useful for binary data like embeddings.
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  **TypeError** – If skip_decode is not a string, list, or None.
 
 #### `scorer(scorer)`
 
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
+
+Since Redis 8.0 default was changed to BM25STD.
 
 * **Parameters:**
   **scorer** (*str*) – The scoring function to use
@@ -499,7 +703,7 @@ Default is TFIDF.
 Set the batch size for the query.
 
 * **Parameters:**
-  **batch_size** (*int*) – The batch size to use when hybrid_policy is “BATCHES”.
+  **batch_size** (*int*) – The batch size to use when hybrid_policy is "BATCHES".
 * **Raises:**
   * **TypeError** – If batch_size is not an integer
   * **ValueError** – If batch_size is not positive
@@ -540,10 +744,42 @@ Set the filter expression for the query.
 Set the hybrid policy for the query.
 
 * **Parameters:**
-  **hybrid_policy** (*str*) – The hybrid policy to use. Options are “BATCHES”
-  or “ADHOC_BF”.
+  **hybrid_policy** (*str*) – The hybrid policy to use. Options are "BATCHES"
+  or "ADHOC_BF".
 * **Raises:**
   **ValueError** – If hybrid_policy is not one of the valid options
+
+#### `set_search_buffer_capacity(search_buffer_capacity)`
+
+Set the SEARCH_BUFFER_CAPACITY parameter for the range query.
+
+* **Parameters:**
+  **search_buffer_capacity** (*int*) – Tuning parameter for SVS-VAMANA indexes using
+  two-level compression.
+* **Raises:**
+  * **TypeError** – If search_buffer_capacity is not an integer
+  * **ValueError** – If search_buffer_capacity is not positive
+
+#### `set_search_window_size(search_window_size)`
+
+Set the SEARCH_WINDOW_SIZE parameter for the range query.
+
+* **Parameters:**
+  **search_window_size** (*int*) – The size of the search window for SVS-VAMANA range searches.
+* **Raises:**
+  * **TypeError** – If search_window_size is not an integer
+  * **ValueError** – If search_window_size is not positive
+
+#### `set_use_search_history(use_search_history)`
+
+Set the USE_SEARCH_HISTORY parameter for the range query.
+
+* **Parameters:**
+  **use_search_history** (*str*) – Controls whether to use the search buffer or entire history.
+  Must be one of "OFF", "ON", or "AUTO".
+* **Raises:**
+  * **TypeError** – If use_search_history is not a string
+  * **ValueError** – If use_search_history is not one of the valid options
 
 #### `slop(slop)`
 
@@ -555,18 +791,42 @@ phrase terms (0 means exact phrase).
 * **Return type:**
   *Query*
 
-#### `sort_by(field, asc=True)`
+#### `sort_by(sort_spec=None, asc=True)`
 
-Add a sortby field to the query.
+Set the sort order for query results.
 
-- **field** - the name of the field to sort by
-- **asc** - when True, sorting will be done in asceding order
+This method supports sorting by single or multiple fields. Note that Redis Search
+natively supports only a single SORTBY field. When multiple fields are specified,
+only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **field** (*str*)
-  * **asc** (*bool*)
+  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+    - str: single field name
+    - Tuple[str, str]: (field_name, "ASC"|"DESC")
+    - List: list of field names or tuples
+  * **asc** (*bool*) – Default sort direction when not specified (only used when sort_spec is a string).
+    Defaults to True (ascending).
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  * **TypeError** – If sort_spec is not a valid type.
+  * **ValueError** – If direction is not "ASC" or "DESC".
+
+### `Examples`
+
+```pycon
+>> query.sort_by("price")  # Single field, ascending
+>> query.sort_by(("price", "DESC"))  # Single field, descending
+>> query.sort_by(["price", "rating"])  # Multiple fields (only first used)
+>> query.sort_by([("price", "DESC"), ("rating", "ASC")])
+```
+
+#### `NOTE`
+When multiple fields are specified, only the first field is used for sorting
+in Redis. Future versions may support multi-field sorting through post-query
+sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -652,41 +912,77 @@ Return the parameters for the query.
 
 Return self as the query object.
 
-## HybridQuery
+#### `property search_buffer_capacity: int | None`
 
-### `class HybridQuery(text, text_field_name, vector, vector_field_name, text_scorer='BM25STD', filter_expression=None, alpha=0.7, dtype='float32', num_results=10, return_fields=None, stopwords='english', dialect=2)`
+Return the SEARCH_BUFFER_CAPACITY parameter for the query.
 
-Bases: `AggregationQuery`
+* **Returns:**
+  The SEARCH_BUFFER_CAPACITY value for the query.
+* **Return type:**
+  Optional[int]
 
-HybridQuery combines text and vector search in Redis.
-It allows you to perform a hybrid search using both text and vector similarity.
-It scores documents based on a weighted combination of text and vector similarity.
+#### `property search_window_size: int | None`
+
+Return the SEARCH_WINDOW_SIZE parameter for the query.
+
+* **Returns:**
+  The SEARCH_WINDOW_SIZE value for the query.
+* **Return type:**
+  Optional[int]
+
+#### `property use_search_history: str | None`
+
+Return the USE_SEARCH_HISTORY parameter for the query.
+
+* **Returns:**
+  The USE_SEARCH_HISTORY value for the query.
+* **Return type:**
+  Optional[str]
+
+#### `NOTE`
+**Runtime Parameters for Range Queries**
+
+VectorRangeQuery supports runtime parameters for controlling range search behavior:
+
+**HNSW & SVS-VAMANA Parameters:**
+
+- `epsilon`: Range search approximation factor (default: 0.01)
+
+**SVS-VAMANA Parameters:**
+
+- `search_window_size`: Size of search window
+- `use_search_history`: Whether to use search buffer (OFF/ON/AUTO)
+- `search_buffer_capacity`: Tuning parameter for 2-level compression
+
+Example:
 
 ```python
-from redisvl.query import HybridQuery
-from redisvl.index import SearchIndex
+from redisvl.query import VectorRangeQuery
 
-index = SearchIndex.from_yaml("path/to/index.yaml")
-
-query = HybridQuery(
-    text="example text",
-    text_field_name="text_field",
+query = VectorRangeQuery(
     vector=[0.1, 0.2, 0.3],
-    vector_field_name="vector_field",
-    text_scorer="BM25STD",
-    filter_expression=None,
-    alpha=0.7,
-    dtype="float32",
-    num_results=10,
-    return_fields=["field1", "field2"],
-    stopwords="english",
-    dialect=2,
+    vector_field_name="embedding",
+    distance_threshold=0.3,
+    epsilon=0.05,              # Approximation factor
+    search_window_size=20,     # SVS-VAMANA only
+    use_search_history='AUTO'  # SVS-VAMANA only
 )
-
-results = index.query(query)
 ```
 
-Instantiates a HybridQuery object.
+## HybridQuery
+
+### `class HybridQuery(*args, **kwargs)`
+
+Bases: `AggregateHybridQuery`
+
+Backward compatibility wrapper for AggregateHybridQuery.
+
+#### `Deprecated`
+Deprecated since version HybridQuery: is a backward compatibility wrapper around AggregateHybridQuery
+and will eventually be replaced with a new hybrid query implementation.
+To maintain current functionality please use AggregateHybridQuery directly.",
+
+Instantiates a AggregateHybridQuery object.
 
 * **Parameters:**
   * **text** (*str*) – The text to search for.
@@ -694,21 +990,36 @@ Instantiates a HybridQuery object.
   * **vector** (*Union* *[* *bytes* *,* *List* *[* *float* *]* *]*) – The vector to perform vector similarity search.
   * **vector_field_name** (*str*) – The vector field name to search in.
   * **text_scorer** (*str* *,* *optional*) – The text scorer to use. Options are {TFIDF, TFIDF.DOCNORM,
-    BM25, DISMAX, DOCSCORE, BM25STD}. Defaults to “BM25STD”.
+    BM25, DISMAX, DOCSCORE, BM25STD}. Defaults to "BM25STD".
   * **filter_expression** (*Optional* *[*[*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *,* *optional*) – The filter expression to use.
     Defaults to None.
   * **alpha** (*float* *,* *optional*) – The weight of the vector similarity. Documents will be scored
     as: hybrid_score = (alpha) \* vector_score + (1-alpha) \* text_score.
     Defaults to 0.7.
-  * **dtype** (*str* *,* *optional*) – The data type of the vector. Defaults to “float32”.
+  * **dtype** (*str* *,* *optional*) – The data type of the vector. Defaults to "float32".
   * **num_results** (*int* *,* *optional*) – The number of results to return. Defaults to 10.
   * **return_fields** (*Optional* *[* *List* *[* *str* *]* *]* *,* *optional*) – The fields to return. Defaults to None.
-  * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]* *]* *,* *optional*) – The stopwords to remove from the
-    provided text prior to searchuse. If a string such as “english” “german” is
+  * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]* *]* *,* *optional*) – 
+
+    The stopwords to remove from the
+    provided text prior to searchuse. If a string such as "english" "german" is
     provided then a default set of stopwords for that language will be used. if a list,
     set, or tuple of strings is provided then those will be used as stopwords.
-    Defaults to “english”. if set to “None” then no stopwords will be removed.
+    Defaults to "english". if set to "None" then no stopwords will be removed.
+
+    Note: This parameter controls query-time stopword filtering (client-side).
+    For index-level stopwords configuration (server-side), see IndexInfo.stopwords.
+    Using query-time stopwords with index-level STOPWORDS 0 is counterproductive.
   * **dialect** (*int* *,* *optional*) – The Redis dialect version. Defaults to 2.
+  * **text_weights** (*Optional* *[* *Dict* *[* *str* *,* *float* *]* *]*) – The importance weighting of individual words
+    within the query text. Defaults to None, as no modifications will be made to the
+    text_scorer score.
+
+#### `NOTE`
+AggregateHybridQuery uses FT.AGGREGATE commands which do NOT support runtime
+parameters. For runtime parameter support (ef_runtime, search_window_size, etc.),
+use VectorQuery or VectorRangeQuery which use FT.SEARCH commands.
+
 * **Raises:**
   * **ValueError** – If the text string is empty, or if the text string becomes empty after
         stopwords are removed.
@@ -729,7 +1040,7 @@ Specify one or more projection expressions to add to each result
 
 - **kwexpr**: One or more key-value pairs for a projection. The key is
   : the alias for the projection, and the value is the projection
-    expression itself, for example apply(square_root=”sqrt(@foo)”)
+    expression itself, for example apply(square_root="sqrt(@foo)")
 
 * **Return type:**
   *AggregateRequest*
@@ -831,7 +1142,7 @@ returned in addition to any others implicitly specified.
 Otherwise, fields should be given in the format of @field.
 
 * **Parameters:**
-  **fields** (*List* *[* *str* *]*)
+  **fields** (*str*)
 * **Return type:**
   *AggregateRequest*
 
@@ -845,6 +1156,14 @@ Default is TFIDF.
   (e.g. TFIDF.DOCNORM or BM25)
 * **Return type:**
   *AggregateRequest*
+
+#### `set_text_weights(weights)`
+
+Set or update the text weights for the query.
+
+* **Parameters:**
+  * **text_weights** – Dictionary of word:weight mappings
+  * **weights** (*Dict* *[* *str* *,* *float* *]*)
 
 #### `sort_by(*fields, **kwargs)`
 
@@ -872,7 +1191,7 @@ AggregateRequest()            .group_by("@customer", r.sum("@paid").alias(FIELDN
 ``
 
 * **Parameters:**
-  **fields** (*List* *[* *str* *]*)
+  **fields** (*str*)
 * **Return type:**
   *AggregateRequest*
 
@@ -899,9 +1218,46 @@ Return the stopwords used in the query.
 :returns: The stopwords used in the query.
 :rtype: Set[str]
 
+#### `property text_weights: Dict[str, float]`
+
+Get the text weights.
+
+* **Returns:**
+  weight mappings.
+* **Return type:**
+  Dictionary of word
+
+#### `NOTE`
+The `stopwords` parameter in [HybridQuery](#hybridquery) (and `AggregateHybridQuery`) controls query-time stopword filtering (client-side).
+For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
+Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
+
+#### `NOTE`
+**Runtime Parameters for Hybrid Queries**
+
+**Important:** AggregateHybridQuery uses FT.AGGREGATE commands which do NOT support runtime parameters.
+Runtime parameters (`ef_runtime`, `search_window_size`, `use_search_history`, `search_buffer_capacity`)
+are only supported with FT.SEARCH commands.
+
+For runtime parameter support, use [VectorQuery](#vectorquery) or [VectorRangeQuery](#vectorrangequery) instead of AggregateHybridQuery.
+
+Example with VectorQuery (supports runtime parameters):
+
+```python
+from redisvl.query import VectorQuery
+
+query = VectorQuery(
+    vector=[0.1, 0.2, 0.3],
+    vector_field_name="embedding",
+    return_fields=["description"],
+    num_results=10,
+    ef_runtime=150  # Runtime parameters work with VectorQuery
+)
+```
+
 ## TextQuery
 
-### `class TextQuery(text, text_field_name, text_scorer='BM25STD', filter_expression=None, return_fields=None, num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, params=None, stopwords='english')`
+### `class TextQuery(text, text_field_name, text_scorer='BM25STD', filter_expression=None, return_fields=None, num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, params=None, stopwords='english', text_weights=None)`
 
 Bases: `BaseQuery`
 
@@ -931,10 +1287,11 @@ A query for running a full text search, along with an optional filter expression
 
 * **Parameters:**
   * **text** (*str*) – The text string to perform the text search with.
-  * **text_field_name** (*str*) – The name of the document field to perform text search on.
+  * **text_field_name** (*Union* *[* *str* *,* *Dict* *[* *str* *,* *float* *]* *]*) – The name of the document field to perform
+    text search on, or a dictionary mapping field names to their weights.
   * **text_scorer** (*str* *,* *optional*) – The text scoring algorithm to use.
     Defaults to BM25STD. Options are {TFIDF, BM25STD, BM25, TFIDF.DOCNORM, DISMAX, DOCSCORE}.
-    See [https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/scoring/](https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/scoring/)
+    See [https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/scoring/](https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/scoring/)
   * **filter_expression** (*Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *,* *optional*) – A filter to apply
     along with the text search. Defaults to None.
   * **return_fields** (*List* *[* *str* *]*) – The declared fields to return with search
@@ -945,18 +1302,31 @@ A query for running a full text search, along with an optional filter expression
     Defaults to True.
   * **dialect** (*int* *,* *optional*) – The RediSearch query dialect.
     Defaults to 2.
-  * **sort_by** (*Optional* *[* *str* *]*) – The field to order the results by. Defaults
-    to None. Results will be ordered by text score.
+  * **sort_by** (*Optional* *[* *SortSpec* *]*) – The field(s) to order the results by. Can be:
+    - str: single field name
+    - Tuple[str, str]: (field_name, "ASC"|"DESC")
+    - List: list of fields or tuples
+    Note: Only the first field is used for Redis sorting.
+    Defaults to None. Results will be ordered by text score.
   * **in_order** (*bool*) – Requires the terms in the field to have
     the same order as the terms in the query filter, regardless of
     the offsets between them. Defaults to False.
   * **params** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]* *,* *optional*) – The parameters for the query.
     Defaults to None.
-  * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]*) – The set of stop words to remove
-    from the query text. If a language like ‘english’ or ‘spanish’ is provided
+  * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]*) – 
+
+    The set of stop words to remove
+    from the query text (client-side filtering). If a language like ‘english’ or ‘spanish’ is provided
     a default set of stopwords for that language will be used. Users may specify
     their own stop words by providing a List or Set of words. if set to None,
     then no words will be removed. Defaults to ‘english’.
+
+    Note: This parameter controls query-time stopword filtering (client-side).
+    For index-level stopwords configuration (server-side), see IndexInfo.stopwords.
+    Using query-time stopwords with index-level STOPWORDS 0 is counterproductive.
+  * **text_weights** (*Optional* *[* *Dict* *[* *str* *,* *float* *]* *]*) – The importance weighting of individual words
+    within the query text. Defaults to None, as no modifications will be made to the
+    text_scorer score.
 * **Raises:**
   * **ValueError** – if stopwords language string cannot be loaded.
   * **TypeError** – If stopwords is not a valid iterable set of strings.
@@ -987,7 +1357,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query “hello world”, we do not match “world hello”
+i.e. for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -1058,23 +1428,40 @@ Return the query string of this query only.
 * **Return type:**
   str
 
-#### `return_fields(*fields)`
+#### `return_fields(*fields, skip_decode=None)`
 
-Add fields to return fields.
+Set the fields to return with search results.
 
+* **Parameters:**
+  * **\*fields** – Variable number of field names to return.
+  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+    decoded. Useful for binary data like embeddings.
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  **TypeError** – If skip_decode is not a string, list, or None.
 
 #### `scorer(scorer)`
 
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
 
+Since Redis 8.0 default was changed to BM25STD.
+
 * **Parameters:**
   **scorer** (*str*) – The scoring function to use
   (e.g. TFIDF.DOCNORM or BM25)
 * **Return type:**
   *Query*
+
+#### `set_field_weights(field_weights)`
+
+Set or update the field weights for the query.
+
+* **Parameters:**
+  **field_weights** (*str* *|* *Dict* *[* *str* *,* *float* *]*) – Either a single field name or dictionary of field:weight mappings
 
 #### `set_filter(filter_expression=None)`
 
@@ -1086,6 +1473,14 @@ Set the filter expression for the query.
 * **Raises:**
   **TypeError** – If filter_expression is not a valid FilterExpression or string.
 
+#### `set_text_weights(weights)`
+
+Set or update the text weights for the query.
+
+* **Parameters:**
+  * **text_weights** – Dictionary of word:weight mappings
+  * **weights** (*Dict* *[* *str* *,* *float* *]*)
+
 #### `slop(slop)`
 
 Allow a maximum of N intervening non matched terms between
@@ -1096,18 +1491,42 @@ phrase terms (0 means exact phrase).
 * **Return type:**
   *Query*
 
-#### `sort_by(field, asc=True)`
+#### `sort_by(sort_spec=None, asc=True)`
 
-Add a sortby field to the query.
+Set the sort order for query results.
 
-- **field** - the name of the field to sort by
-- **asc** - when True, sorting will be done in asceding order
+This method supports sorting by single or multiple fields. Note that Redis Search
+natively supports only a single SORTBY field. When multiple fields are specified,
+only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **field** (*str*)
-  * **asc** (*bool*)
+  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+    - str: single field name
+    - Tuple[str, str]: (field_name, "ASC"|"DESC")
+    - List: list of field names or tuples
+  * **asc** (*bool*) – Default sort direction when not specified (only used when sort_spec is a string).
+    Defaults to True (ascending).
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  * **TypeError** – If sort_spec is not a valid type.
+  * **ValueError** – If direction is not "ASC" or "DESC".
+
+### `Examples`
+
+```pycon
+>> query.sort_by("price")  # Single field, ascending
+>> query.sort_by(("price", "DESC"))  # Single field, descending
+>> query.sort_by(["price", "rating"])  # Multiple fields (only first used)
+>> query.sort_by([("price", "DESC"), ("rating", "ASC")])
+```
+
+#### `NOTE`
+When multiple fields are specified, only the first field is used for sorting
+in Redis. Future versions may support multi-field sorting through post-query
+sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -1140,6 +1559,13 @@ Ask the engine to return document search scores.
 * **Return type:**
   *Query*
 
+#### `property field_weights: Dict[str, float]`
+
+Get the field weights for the query.
+
+* **Returns:**
+  Dictionary mapping field names to their weights
+
 #### `property filter: str | `[`FilterExpression`]({{< relref "filter/#filterexpression" >}})` `
 
 The filter expression for the query.
@@ -1151,6 +1577,28 @@ Return the query parameters.
 #### `property query: BaseQuery`
 
 Return self as the query object.
+
+#### `property text_field_name: str | Dict[str, float]`
+
+Get the text field name(s) - for backward compatibility.
+
+* **Returns:**
+  Either a single field name string (if only one field with weight 1.0)
+  or a dictionary of field:weight mappings.
+
+#### `property text_weights: Dict[str, float]`
+
+Get the text weights.
+
+* **Returns:**
+  weight mappings.
+* **Return type:**
+  Dictionary of word
+
+#### `NOTE`
+The `stopwords` parameter in [TextQuery](#textquery) controls query-time stopword filtering (client-side).
+For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
+Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
 
 ## FilterQuery
 
@@ -1166,7 +1614,12 @@ A query for running a filtered search with a filter expression.
   * **return_fields** (*Optional* *[* *List* *[* *str* *]* *]* *,* *optional*) – The fields to return.
   * **num_results** (*Optional* *[* *int* *]* *,* *optional*) – The number of results to return. Defaults to 10.
   * **dialect** (*int* *,* *optional*) – The query dialect. Defaults to 2.
-  * **sort_by** (*Optional* *[* *str* *]* *,* *optional*) – The field to order the results by. Defaults to None.
+  * **sort_by** (*Optional* *[* *SortSpec* *]* *,* *optional*) – The field(s) to order the results by. Can be:
+    - str: single field name (e.g., "price")
+    - Tuple[str, str]: (field_name, "ASC"|"DESC") (e.g., ("price", "DESC"))
+    - List: list of fields or tuples (e.g., ["price", ("rating", "DESC")])
+    Note: Redis Search only supports single-field sorting, so only the first field is used.
+    Defaults to None.
   * **in_order** (*bool* *,* *optional*) – Requires the terms in the field to have the same order as the
     terms in the query filter. Defaults to False.
   * **params** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]* *,* *optional*) – The parameters for the query. Defaults to None.
@@ -1199,7 +1652,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query “hello world”, we do not match “world hello”
+i.e. for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -1270,17 +1723,27 @@ Return the query string of this query only.
 * **Return type:**
   str
 
-#### `return_fields(*fields)`
+#### `return_fields(*fields, skip_decode=None)`
 
-Add fields to return fields.
+Set the fields to return with search results.
 
+* **Parameters:**
+  * **\*fields** – Variable number of field names to return.
+  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+    decoded. Useful for binary data like embeddings.
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  **TypeError** – If skip_decode is not a string, list, or None.
 
 #### `scorer(scorer)`
 
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
+
+Since Redis 8.0 default was changed to BM25STD.
 
 * **Parameters:**
   **scorer** (*str*) – The scoring function to use
@@ -1308,18 +1771,42 @@ phrase terms (0 means exact phrase).
 * **Return type:**
   *Query*
 
-#### `sort_by(field, asc=True)`
+#### `sort_by(sort_spec=None, asc=True)`
 
-Add a sortby field to the query.
+Set the sort order for query results.
 
-- **field** - the name of the field to sort by
-- **asc** - when True, sorting will be done in asceding order
+This method supports sorting by single or multiple fields. Note that Redis Search
+natively supports only a single SORTBY field. When multiple fields are specified,
+only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **field** (*str*)
-  * **asc** (*bool*)
+  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+    - str: single field name
+    - Tuple[str, str]: (field_name, "ASC"|"DESC")
+    - List: list of field names or tuples
+  * **asc** (*bool*) – Default sort direction when not specified (only used when sort_spec is a string).
+    Defaults to True (ascending).
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  * **TypeError** – If sort_spec is not a valid type.
+  * **ValueError** – If direction is not "ASC" or "DESC".
+
+### `Examples`
+
+```pycon
+>> query.sort_by("price")  # Single field, ascending
+>> query.sort_by(("price", "DESC"))  # Single field, descending
+>> query.sort_by(["price", "rating"])  # Multiple fields (only first used)
+>> query.sort_by([("price", "DESC"), ("rating", "ASC")])
+```
+
+#### `NOTE`
+When multiple fields are specified, only the first field is used for sorting
+in Redis. Future versions may support multi-field sorting through post-query
+sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -1416,7 +1903,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query “hello world”, we do not match “world hello”
+i.e. for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -1487,17 +1974,27 @@ Return the query string of this query only.
 * **Return type:**
   str
 
-#### `return_fields(*fields)`
+#### `return_fields(*fields, skip_decode=None)`
 
-Add fields to return fields.
+Set the fields to return with search results.
 
+* **Parameters:**
+  * **\*fields** – Variable number of field names to return.
+  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+    decoded. Useful for binary data like embeddings.
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  **TypeError** – If skip_decode is not a string, list, or None.
 
 #### `scorer(scorer)`
 
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
+
+Since Redis 8.0 default was changed to BM25STD.
 
 * **Parameters:**
   **scorer** (*str*) – The scoring function to use
@@ -1525,18 +2022,42 @@ phrase terms (0 means exact phrase).
 * **Return type:**
   *Query*
 
-#### `sort_by(field, asc=True)`
+#### `sort_by(sort_spec=None, asc=True)`
 
-Add a sortby field to the query.
+Set the sort order for query results.
 
-- **field** - the name of the field to sort by
-- **asc** - when True, sorting will be done in asceding order
+This method supports sorting by single or multiple fields. Note that Redis Search
+natively supports only a single SORTBY field. When multiple fields are specified,
+only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **field** (*str*)
-  * **asc** (*bool*)
+  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+    - str: single field name
+    - Tuple[str, str]: (field_name, "ASC"|"DESC")
+    - List: list of field names or tuples
+  * **asc** (*bool*) – Default sort direction when not specified (only used when sort_spec is a string).
+    Defaults to True (ascending).
+* **Returns:**
+  Returns the query object for method chaining.
 * **Return type:**
-  *Query*
+  self
+* **Raises:**
+  * **TypeError** – If sort_spec is not a valid type.
+  * **ValueError** – If direction is not "ASC" or "DESC".
+
+### `Examples`
+
+```pycon
+>> query.sort_by("price")  # Single field, ascending
+>> query.sort_by(("price", "DESC"))  # Single field, descending
+>> query.sort_by(["price", "rating"])  # Multiple fields (only first used)
+>> query.sort_by([("price", "DESC"), ("rating", "ASC")])
+```
+
+#### `NOTE`
+When multiple fields are specified, only the first field is used for sorting
+in Redis. Future versions may support multi-field sorting through post-query
+sorting in Python.
 
 #### `timeout(timeout)`
 
@@ -1580,3 +2101,242 @@ Return the query parameters.
 #### `property query: BaseQuery`
 
 Return self as the query object.
+
+## MultiVectorQuery
+
+### `class MultiVectorQuery(vectors, return_fields=None, filter_expression=None, num_results=10, dialect=2)`
+
+Bases: `AggregationQuery`
+
+MultiVectorQuery allows for search over multiple vector fields in a document simultaneously.
+The final score will be a weighted combination of the individual vector similarity scores
+following the formula:
+
+score = (w_1 \* score_1 + w_2 \* score_2 + w_3 \* score_3 + … )
+
+Vectors may be of different size and datatype, but must be indexed using the ‘cosine’ distance_metric.
+
+```python
+from redisvl.query import MultiVectorQuery, Vector
+from redisvl.index import SearchIndex
+
+index = SearchIndex.from_yaml("path/to/index.yaml")
+
+vector_1 = Vector(
+    vector=[0.1, 0.2, 0.3],
+    field_name="text_vector",
+    dtype="float32",
+    weight=0.7,
+)
+vector_2 = Vector(
+    vector=[0.5, 0.5],
+    field_name="image_vector",
+    dtype="bfloat16",
+    weight=0.2,
+)
+vector_3 = Vector(
+    vector=[0.1, 0.2, 0.3],
+    field_name="text_vector",
+    dtype="float64",
+    weight=0.5,
+)
+
+query = MultiVectorQuery(
+    vectors=[vector_1, vector_2, vector_3],
+    filter_expression=None,
+    num_results=10,
+    return_fields=["field1", "field2"],
+    dialect=2,
+)
+
+results = index.query(query)
+```
+
+Instantiates a MultiVectorQuery object.
+
+* **Parameters:**
+  * **vectors** (*Union* *[*[*Vector*]({{< relref "vector/#vector" >}}) *,* *List* *[*[*Vector*]({{< relref "vector/#vector" >}}) *]* *]*) – The Vectors to perform vector similarity search.
+  * **return_fields** (*Optional* *[* *List* *[* *str* *]* *]* *,* *optional*) – The fields to return. Defaults to None.
+  * **filter_expression** (*Optional* *[* *Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]*) – The filter expression to use.
+    Defaults to None.
+  * **num_results** (*int* *,* *optional*) – The number of results to return. Defaults to 10.
+  * **dialect** (*int* *,* *optional*) – The Redis dialect version. Defaults to 2.
+
+#### `add_scores()`
+
+If set, includes the score as an ordinary field of the row.
+
+* **Return type:**
+  *AggregateRequest*
+
+#### `apply(**kwexpr)`
+
+Specify one or more projection expressions to add to each result
+
+### `Parameters`
+
+- **kwexpr**: One or more key-value pairs for a projection. The key is
+  : the alias for the projection, and the value is the projection
+    expression itself, for example apply(square_root="sqrt(@foo)")
+
+* **Return type:**
+  *AggregateRequest*
+
+#### `dialect(dialect)`
+
+Add a dialect field to the aggregate command.
+
+- **dialect** - dialect version to execute the query under
+
+* **Parameters:**
+  **dialect** (*int*)
+* **Return type:**
+  *AggregateRequest*
+
+#### `filter(expressions)`
+
+Specify filter for post-query results using predicates relating to
+values in the result set.
+
+### `Parameters`
+
+- **fields**: Fields to group by. This can either be a single string,
+  : or a list of strings.
+
+* **Parameters:**
+  **expressions** (*str* *|* *List* *[* *str* *]*)
+* **Return type:**
+  *AggregateRequest*
+
+#### `group_by(fields, *reducers)`
+
+Specify by which fields to group the aggregation.
+
+### `Parameters`
+
+- **fields**: Fields to group by. This can either be a single string,
+  : or a list of strings. both cases, the field should be specified as
+    @field.
+- **reducers**: One or more reducers. Reducers may be found in the
+  : aggregation module.
+
+* **Parameters:**
+  * **fields** (*List* *[* *str* *]*)
+  * **reducers** (*Reducer* *|* *List* *[* *Reducer* *]*)
+* **Return type:**
+  *AggregateRequest*
+
+#### `limit(offset, num)`
+
+Sets the limit for the most recent group or query.
+
+If no group has been defined yet (via group_by()) then this sets
+the limit for the initial pool of results from the query. Otherwise,
+this limits the number of items operated on from the previous group.
+
+Setting a limit on the initial search results may be useful when
+attempting to execute an aggregation on a sample of a large data set.
+
+### `Parameters`
+
+- **offset**: Result offset from which to begin paging
+- **num**: Number of results to return
+
+Example of sorting the initial results:
+
+``
+AggregateRequest("@sale_amount:[10000, inf]")            .limit(0, 10)            .group_by("@state", r.count())
+``
+
+Will only group by the states found in the first 10 results of the
+query @sale_amount:[10000, inf]. On the other hand,
+
+``
+AggregateRequest("@sale_amount:[10000, inf]")            .limit(0, 1000)            .group_by("@state", r.count()            .limit(0, 10)
+``
+
+Will group all the results matching the query, but only return the
+first 10 groups.
+
+If you only wish to return a *top-N* style query, consider using
+sort_by() instead.
+
+* **Parameters:**
+  * **offset** (*int*)
+  * **num** (*int*)
+* **Return type:**
+  *AggregateRequest*
+
+#### `load(*fields)`
+
+Indicate the fields to be returned in the response. These fields are
+returned in addition to any others implicitly specified.
+
+### `Parameters`
+
+- **fields**: If fields not specified, all the fields will be loaded.
+
+Otherwise, fields should be given in the format of @field.
+
+* **Parameters:**
+  **fields** (*str*)
+* **Return type:**
+  *AggregateRequest*
+
+#### `scorer(scorer)`
+
+Use a different scoring function to evaluate document relevance.
+Default is TFIDF.
+
+* **Parameters:**
+  **scorer** (*str*) – The scoring function to use
+  (e.g. TFIDF.DOCNORM or BM25)
+* **Return type:**
+  *AggregateRequest*
+
+#### `sort_by(*fields, **kwargs)`
+
+Indicate how the results should be sorted. This can also be used for
+*top-N* style queries
+
+### `Parameters`
+
+- **fields**: The fields by which to sort. This can be either a single
+  : field or a list of fields. If you wish to specify order, you can
+    use the Asc or Desc wrapper classes.
+- **max**: Maximum number of results to return. This can be
+  : used instead of LIMIT and is also faster.
+
+Example of sorting by foo ascending and bar descending:
+
+``
+sort_by(Asc("@foo"), Desc("@bar"))
+``
+
+Return the top 10 customers:
+
+``
+AggregateRequest()            .group_by("@customer", r.sum("@paid").alias(FIELDNAME))            .sort_by(Desc("@paid"), max=10)
+``
+
+* **Parameters:**
+  **fields** (*str*)
+* **Return type:**
+  *AggregateRequest*
+
+#### `with_schema()`
+
+If set, the schema property will contain a list of [field, type]
+entries in the result object.
+
+* **Return type:**
+  *AggregateRequest*
+
+#### `property params: Dict[str, Any]`
+
+Return the parameters for the aggregation.
+
+* **Returns:**
+  The parameters for the aggregation.
+* **Return type:**
+  Dict[str, Any]

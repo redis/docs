@@ -16,25 +16,46 @@ arguments:
   optional: true
   token: RETENTION
   type: integer
-- arguments:
-  - name: uncompressed
-    token: UNCOMPRESSED
-    type: pure-token
-  - name: compressed
-    token: COMPRESSED
-    type: pure-token
-  name: enc
+- name: uncompressed
   optional: true
-  token: ENCODING
-  type: oneof
+  token: UNCOMPRESSED
+  type: pure-token
 - name: size
   optional: true
   token: CHUNK_SIZE
   type: integer
-- name: policy
+- arguments:
+  - name: block
+    token: BLOCK
+    type: pure-token
+  - name: first
+    token: FIRST
+    type: pure-token
+  - name: last
+    token: LAST
+    type: pure-token
+  - name: min
+    token: MIN
+    type: pure-token
+  - name: max
+    token: MAX
+    type: pure-token
+  - name: sum
+    token: SUM
+    type: pure-token
+  name: policy
   optional: true
   token: DUPLICATE_POLICY
   type: oneof
+- arguments:
+  - name: ignoreMaxTimediff
+    type: integer
+  - name: ignoreMaxValDiff
+    type: double
+  name: ignore
+  optional: true
+  token: IGNORE
+  type: block
 - arguments:
   - name: label
     type: string
@@ -63,18 +84,18 @@ group: timeseries
 hidden: false
 linkTitle: TS.INCRBY
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.incrby.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Increase the value of the sample with the maximum existing timestamp, or
   create a new sample with a value equal to the value of the sample with the maximum
   existing timestamp with a given increment
 syntax: "TS.INCRBY key addend \n  [TIMESTAMP timestamp] \n  [RETENTION retentionPeriod]\
-  \ \n  [ENCODING <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff]\ 
-  \ \n  [LABELS [label value ...]]\n"
+  \ \n  [ENCODING <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY\
+  \ policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff]   \n  [LABELS [label value\
+  \ ...]]\n"
 syntax_fmt: "TS.INCRBY key value [TIMESTAMP\_timestamp]\n  [RETENTION\_retentionPeriod]\
-  \ [ENCODING\_<COMPRESSED|UNCOMPRESSED>] [CHUNK_SIZE\_size]\n [DUPLICATE_POLICY\_policy] [LABELS\_[label value ...]]"
-syntax_str: "value [TIMESTAMP\_timestamp] [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED|UNCOMPRESSED>]\
-  \ [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_policy] [LABELS\_[label value ...]]"
+  \ [UNCOMPRESSED] [CHUNK_SIZE\_size]\n  [LABELS\_label value [label value ...]]"
 title: TS.INCRBY
 ---
 
@@ -91,7 +112,7 @@ is key name for the time series.
 
 <details open><summary><code>addend</code></summary> 
 
-is numeric value of the addend (double).
+is numeric value of the addend (double). An error is returned if the addend is NaN.
 </details>
 
 <note><b>Notes</b>
@@ -111,9 +132,11 @@ Unix time is the number of milliseconds that have elapsed since 00:00:00 UTC on 
 
 `timestamp` must be equal to or higher than the maximum existing timestamp. When equal, the value of the sample with the maximum existing timestamp is increased. If it is higher, a new sample with a timestamp set to `timestamp` is created, and its value is set to the value of the sample with the maximum existing timestamp plus `addend`.
 
-If the time series is empty, the value is set to `addend`. 
-  
+If the time series is empty, the value is set to `addend`.
+
 When not specified, the timestamp is set to the Unix time of the server's clock.
+
+<note><b>NaN Handling (Redis 8.6+):</b> An error is returned if the current value at the maximum existing timestamp is NaN.</note>
 </details>
 
 <details open><summary><code>RETENTION retentionPeriod</code></summmary> 
@@ -174,13 +197,6 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 - Setting `RETENTION` and `LABELS` introduces additional time complexity.
 </note>
 
-## Return value
-
-Returns one of these replies:
-
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the timestamp of the upserted sample. If the sample is ignored (See `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply will be the largest timestamp in the time series.
-- [] on error (invalid arguments, wrong key type, etc.), or when `timestamp` is not equal to or higher than the maximum existing timestamp
-
 ## Examples
 
 <details open><summary><b>Store sum of data from several sources</b></summary> 
@@ -215,8 +231,32 @@ Suppose a sensor ticks whenever a car is passed on a road, and you want to count
 (integer) 1658431553109
 {{< / highlight >}}
 
-The timestamp is filled automatically. 
+The timestamp is filled automatically.
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="ts-incrby-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the timestamp of the upserted sample. If the sample is ignored (see `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply will be the largest timestamp in the time series.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when `timestamp` is not equal to or higher than the maximum existing timestamp.
+
+-tab-sep-
+
+One of the following:
+* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the timestamp of the upserted sample. If the sample is ignored (see `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply will be the largest timestamp in the time series.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, or when `timestamp` is not equal to or higher than the maximum existing timestamp.
+
+{{< /multitabs >}}
 
 ## See also
 

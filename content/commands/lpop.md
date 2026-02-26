@@ -50,11 +50,11 @@ key_specs:
       limit: 0
     type: range
 linkTitle: LPOP
+railroad_diagram: /images/railroad/lpop.svg
 since: 1.0.0
 summary: Returns the first elements in a list after removing it. Deletes the list
   if the last element was popped.
 syntax_fmt: LPOP key [count]
-syntax_str: '[count]'
 title: LPOP
 ---
 Removes and returns the first elements of the list stored at `key`.
@@ -65,7 +65,7 @@ to `count` elements, depending on the list's length.
 
 ## Examples
 
-{{< clients-example cmds_list lpop >}}
+{{< clients-example set="cmds_list" step="lpop" description="Foundational: Remove and return the first element(s) from a list using LPOP (supports optional count parameter to pop multiple elements)" difficulty="beginner" >}}
 redis> RPUSH mylist "one" "two" "three" "four" "five"
 (integer) 5
 redis> LPOP mylist
@@ -86,6 +86,12 @@ LPOP mylist
 LPOP mylist 2
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

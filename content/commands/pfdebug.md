@@ -48,10 +48,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: PFDEBUG
+railroad_diagram: /images/railroad/pfdebug.svg
 since: 2.8.9
 summary: Internal commands for debugging HyperLogLog values.
 syntax_fmt: PFDEBUG subcommand key
-syntax_str: key
 title: PFDEBUG
 ---
 The `PFDEBUG` command is an internal command.

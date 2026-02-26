@@ -12,7 +12,6 @@ weight: 2
 
 ## Install Redis Open Source on Ubuntu or Debian Linux using APT
 
-See [this page](https://redis.io/downloads/#redis-stack-downloads) for a complete list of supported Ubuntu and Debian platforms.
 Add the repository to the APT index, update it, and install Redis Open Source:
 
 {{< highlight bash >}}

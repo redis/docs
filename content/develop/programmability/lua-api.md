@@ -9,7 +9,8 @@ categories:
 - oss
 - kubernetes
 - clients
-- aliases: /develop/interact/programmability/lua-api
+aliases: 
+- /develop/interact/programmability/lua-api
 description: 'Executing Lua in Redis
 
   '

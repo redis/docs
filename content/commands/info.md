@@ -34,10 +34,10 @@ history:
 - - 7.0.0
   - Added support for taking multiple section arguments.
 linkTitle: INFO
+railroad_diagram: /images/railroad/info.svg
 since: 1.0.0
 summary: Returns information and statistics about the server.
 syntax_fmt: INFO [section [section ...]]
-syntax_str: ''
 title: INFO
 ---
 The `INFO` command returns information and statistics about the server in a
@@ -47,7 +47,7 @@ The optional parameter can be used to select a specific section of information:
 
 *   `server`: General information about the Redis server
 *   `clients`: Client connections section
-*   `memory`: Memory consumption related information
+*   `memory`: Memory consumption-related information
 *   `persistence`: RDB and AOF related information
 *   `threads`: I/O threads information
 *   `stats`: General statistics
@@ -58,8 +58,10 @@ The optional parameter can be used to select a specific section of information:
 *   `sentinel`: Redis Sentinel section (only applicable to Sentinel instances)
 *   `cluster`: Redis Cluster section
 *   `modules`: Modules section
-*   `keyspace`: Database related statistics
+*   `keyspace`: Database-related statistics
+*   `keysizes`: Statistics on the distribution of key sizes for each data type
 *   `errorstats`: Redis error statistics
+*   `hotkeys`: Hotkeys tracking information
 
 It can also take the following values:
 
@@ -69,7 +71,7 @@ It can also take the following values:
 
 When no parameter is provided, the `default` option is assumed.
 
-{{< clients-example cmds_servermgmt info >}}
+{{< clients-example set="cmds_servermgmt" step="info" description="Foundational: Get server information and statistics using INFO (supports optional section filtering, returns key-value pairs)" difficulty="beginner" >}}
 INFO
 {{< /clients-example >}}
 
@@ -79,7 +81,6 @@ Give these commands a try in the interactive console:
 INFO
 {{% /redis-cli %}}
 
-
 ## Notes
 
 Please note depending on the version of Redis some of the fields have been
@@ -88,7 +89,6 @@ result of this command by skipping unknown properties, and gracefully handle
 missing fields.
 
 Here is the description of fields for Redis >= 2.4.
-
 
 Here is the meaning of all fields in the **server** section:
 
@@ -152,6 +152,7 @@ Here is the meaning of all fields in the **memory** section:
 *   `used_memory_rss_human`: Human readable representation of previous value
 *   `used_memory_peak`: Peak memory consumed by Redis (in bytes)
 *   `used_memory_peak_human`: Human readable representation of previous value
+*   `used_memory_peak_time`: Time when peak memory was recorded
 *   `used_memory_peak_perc`: The percentage of `used_memory` out of `used_memory_peak`
 *   `used_memory_overhead`: The sum in bytes of all overheads that the server
      allocated for managing its internal data structures
@@ -198,6 +199,9 @@ Here is the meaning of all fields in the **memory** section:
 *   `mem_clients_slaves`: Memory used by replica clients - Starting Redis 7.0, replica buffers share memory with the replication backlog, so this field can show 0 when replicas don't trigger an increase of memory usage.
 *   `mem_clients_normal`: Memory used by normal clients
 *   `mem_cluster_links`: Memory used by links to peers on the cluster bus when cluster mode is enabled.
+*   `mem_cluster_slot_migration_output_buffer`: Memory usage of the migration client's output buffer. Redis writes incoming changes to this buffer during the migration process.
+*   `mem_cluster_slot_migration_input_buffer`: Memory usage of the accumulated replication stream buffer on the importing node.
+*   `mem_cluster_slot_migration_input_buffer_peak`: Peak accumulated repl buffer size on the importing side.
 *   `mem_aof_buffer`: Transient memory used for AOF and AOF rewrite buffers
 *   `mem_replication_backlog`: Memory used by replication backlog
 *   `mem_total_replication_buffers`: Total memory consumed for replication buffers - Added in Redis 7.0.
@@ -386,7 +390,10 @@ Here is the meaning of all fields in the **stats** section:
 *   `acl_access_denied_auth`: Number of authentication failures
 *   `acl_access_denied_cmd`: Number of commands rejected because of access denied to the command
 *   `acl_access_denied_key`: Number of commands rejected because of access denied to a key
-*   `acl_access_denied_channel`: Number of commands rejected because of access denied to a channel 
+*   `acl_access_denied_channel`: Number of commands rejected because of access denied to a channel
+*   `acl_access_denied_tls_cert`: Number of failed TLS certificate–based authentication attempts
+*   `cluster_incompatible_ops`: Number of cluster-incompatible commands. This metric appears only if the `cluster-compatibility-sample-ratio` configuration parameter is not 0. Added in Redis 8.0.
+
 
 Here is the meaning of all fields in the **replication** section:
 
@@ -490,6 +497,12 @@ For each error type, the following line is added:
 If the server detects that this section was flooded with an excessive number of errors, it will be disabled, show a single `ERRORSTATS_DISABLED` error, and print the errors to the server log.
 This can be reset by `CONFIG RESETSTAT`.
 
+The **hotkeys** section provides information about hotkeys tracking. It consists of the following fields:
+
+*   `tracking_active`: Boolean flag (0 or 1) indicating whether hotkeys tracking is currently active.
+*   `used_memory`: Memory overhead in bytes of the structures used for hotkeys tracking.
+*   `cpu_time`: Time in milliseconds spent updating the hotkey tracking structures.
+
 The **sentinel** section is only available in Redis Sentinel instances. It consists of the following fields:
 
 *   `sentinel_masters`: Number of Redis masters monitored by this Sentinel instance
@@ -500,9 +513,9 @@ The **sentinel** section is only available in Redis Sentinel instances. It consi
 *   `sentinel_scripts_queue_length`: The length of the queue of user scripts that are pending execution
 *   `sentinel_simulate_failure_flags`: Flags for the `SENTINEL SIMULATE-FAILURE` command
     
-The **cluster** section currently only contains a unique field:
+The **cluster** section contains a single field:
 
-*   `cluster_enabled`: Indicate Redis cluster is enabled
+*   `cluster_enabled`: Indicates whether Redis cluster is enabled.
 
 The **modules** section contains additional information about loaded modules if the modules provide it. The field part of property lines in this section are always prefixed with the module's name.
 
@@ -550,14 +563,14 @@ _Redis Query Engine fields_
 *   `search_fields_geoshape_Sortable`: The total number of `SORTABLE GEOSHAPE` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[2](#tnote-2)</sup>
 *   `search_fields_geoshape_NoIndex`: The total number of `NOINDEX GEOSHAPE` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. <sup>[2](#tnote-2)</sup>
 *   `search_fields_<field>_IndexErrors`: The total number of indexing failures caused by attempts to index a document containing <field> field. <sup>[1](#tnote-1)</sup>
-*   `search_used_memory_indexes`: The total memory allocated by all indexes in the shard in bytes. <sup>[1](#tnote-1)</sup>
-*   `search_used_memory_indexes_human`: The total memory allocated by all indexes in the shard in MB. <sup>[1](#tnote-1)</sup>
-*   `search_smallest_memory_index`: The memory usage of the index with the smallest memory usage in the shard in bytes. <sup>[1](#tnote-1)</sup>
-*   `search_smallest_memory_index_human`: The memory usage of the index with the smallest memory usage in the shard in MB. <sup>[1](#tnote-1)</sup>
-*   `search_largest_memory_index`: The memory usage of the index with the largest memory usage in the shard in bytes. <sup>[1](#tnote-1)</sup>
-*   `search_largest_memory_index_human`: The memory usage of the index with the largest memory usage in the shard in MB. <sup>[1](#tnote-1)</sup>
-*   `search_total_indexing_time`: The total time spent on indexing operations, excluding the background indexing of vectors in the HNSW graph. <sup>[1](#tnote-1)</sup>
 *   `search_used_memory_vector_index`: The total memory usage of all vector indexes in the shard. <sup>[1](#tnote-1)</sup>
+*   `search_used_memory_indexes`: The estimated total memory allocated by all indexes in the shard in bytes (including vector indexes memory accounted in `search_used_memory_vector_index`). <sup>[1](#tnote-1)</sup>
+*   `search_used_memory_indexes_human`: The estimated total memory allocated by all indexes in the shard in MB. <sup>[1](#tnote-1)</sup>
+*   `search_smallest_memory_index`: The estimated memory usage of the index with the smallest memory usage in the shard in bytes. <sup>[1](#tnote-1)</sup>
+*   `search_smallest_memory_index_human`: The estimated memory usage of the index with the smallest memory usage in the shard in MB. <sup>[1](#tnote-1)</sup>
+*   `search_largest_memory_index`: The estimated memory usage of the index with the largest memory usage in the shard in bytes. <sup>[1](#tnote-1)</sup>
+*   `search_largest_memory_index_human`: The estimated memory usage of the index with the largest memory usage in the shard in MB. <sup>[1](#tnote-1)</sup>
+*   `search_total_indexing_time`: The total time spent on indexing operations, excluding the background indexing of vectors in the HNSW graph. <sup>[1](#tnote-1)</sup>
 *   `search_bytes_collected`: The total amount of memory freed by the garbage collectors from indexes in the shard memory in bytes. <sup>[1](#tnote-1)</sup>
 *   `search_total_cycles`: The total number of garbage collection cycles executed. <sup>[1](#tnote-1)</sup>
 *   `search_total_ms_run`: The total duration of all garbage collection cycles in the shard, measured in milliseconds. <sup>[1](#tnote-1)</sup>
@@ -569,6 +582,7 @@ _Redis Query Engine fields_
 *   `search_total_active_queries`: The total number of background queries currently being executed in the shard, excluding `FT.CURSOR READ`. <sup>[1](#tnote-1)</sup>
 *   `search_errors_indexing_failures`: The total number of indexing failures recorded across all indexes in the shard. <sup>[1](#tnote-1)</sup>
 *   `search_errors_for_index_with_max_failures`: The number of indexing failures in the index with the highest count of failures. <sup>[1](#tnote-1)</sup>
+*   `search_OOM_indexing_failures_indexes_count`: The number of indexes whose background indexing process failed due to out-of-memory (OOM) conditions. <sup>[2](#tnote-2)</sup>
 
 1. <a name="tnote-1"></a> Available in RediSearch 2.6.
 2. <a name="tnote-2"></a> Available in RediSearch 2.8.
@@ -619,13 +633,13 @@ It won't be included when `INFO` or `INFO ALL` are called, and it is returned on
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Enterprise, `INFO` returns a different set of fields than Redis Open Source.<br />Not supported for [scripts]({{<relref "/develop/programmability">}}). |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Software, `INFO` returns a different set of fields than Redis Open Source.<br />Not supported for [scripts]({{<relref "/develop/programmability">}}). |
 
 Note: key memory usage is different on Redis Software or Redis Cloud active-active databases than on non-active-active databases. This is because memory usage includes some amount of CRDB overhead.
 
-Additionally, for JSON keys, Redis implements a “shared string” mechanism to save memory when the same JSON field names or field values of type string are used more than once (either inter-key or intra-key).
+Additionally, for JSON keys, Redis implements a "shared string" mechanism to save memory when the same JSON field names or field values of type string are used more than once (either inter-key or intra-key).
 In such cases, instead of storing the field names or values many times, Redis stores them only once. This mechanism is not in place for active-active databases.
 
 On non-active-active databases, `INFO` (Memory > used_memory) reports that the shared memory is counted, but only once for all keys. On active-active databases, there is no shared memory, so if strings are repeated, they are stored multiple times.
@@ -649,7 +663,7 @@ Lines can contain a section name (starting with a `#` character) or a property. 
 
 -tab-sep-
 
-[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a map of info fields, one field per line in the form of `<field>:<value>` where the value can be a comma separated map like `<key>=<val>`. Also contains section header lines starting with `#` and blank lines.
+[Verbatim string reply](../../develop/reference/protocol-spec#verbatim-strings): a map of info fields, one field per line in the form of `<field>:<value>` where the value can be a comma separated map like `<key>=<val>`. Also contains section header lines starting with `#` and blank lines.
 Lines can contain a section name (starting with a `#` character) or a property. All the properties are in the form of `field:value` terminated by `\r\n`.
 
 {{< /multitabs >}}

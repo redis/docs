@@ -102,7 +102,7 @@ To enable the syncer automatic recovery, do these steps on each participating cl
 1. Enable the syncer automatic recovery using the REST API:
 
     ```sh
-    curl -v -k -u <username>:<password> -X PUT -H “Content-Type: application/json” -d ‘{crdt_syncer_auto_oom_unlatch”:true}’ http://<cluster_address>:8080/v1/bdbs/<database_ID>
+    curl -v -k -u <username>:<password> -X PUT -H "Content-Type: application/json" -d ‘{crdt_syncer_auto_oom_unlatch":true}’ http://<cluster_address>:8080/v1/bdbs/<database_ID>
     ```
 
 The syncer process restarts to with automatic recovery on.

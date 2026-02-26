@@ -19,6 +19,7 @@ weight: 40
 Sometimes, you may want to remap the fields in the output of a data pipeline. You can do this by defining a `mapping` section in the output configuration.
 
 ```yaml
+name: Remap customer fields
 source:
   table: Customer
 

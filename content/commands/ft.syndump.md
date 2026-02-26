@@ -20,14 +20,11 @@ group: search
 hidden: false
 linkTitle: FT.SYNDUMP
 module: Search
+railroad_diagram: /images/railroad/ft.syndump.svg
 since: 1.2.0
 stack_path: docs/interact/search-and-query
 summary: Dumps the contents of a synonym group
-syntax: 'FT.SYNDUMP index
-
-  '
 syntax_fmt: FT.SYNDUMP index
-syntax_str: ''
 title: FT.SYNDUMP
 ---
 
@@ -45,10 +42,6 @@ is index name.
 
 Use FT.SYNDUMP to dump the synonyms data structure. This command returns a list of synonym terms and their synonym group ids.
 
-## Return
-
-FT.SYNDUMP returns an array reply, with a pair of `term` and an array of synonym groups.
-
 ## Examples
 
 <details open>
@@ -65,6 +58,30 @@ FT.SYNDUMP returns an array reply, with a pair of `term` and an array of synonym
 6) 1) "synonym1"
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="ft-syndump-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of synonym terms and their associated synonym groups.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+
+-tab-sep-
+
+One of the following:
+* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) where keys are synonym terms and values are arrays of their associated synonym groups.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+
+{{< /multitabs >}}
 
 ## See also
 

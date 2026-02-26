@@ -159,6 +159,7 @@ group: timeseries
 hidden: false
 linkTitle: TS.MREVRANGE
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.mrevrange.svg
 since: 1.4.0
 stack_path: docs/data-types/timeseries
 summary: Query a range across multiple time-series by filters in reverse direction
@@ -167,22 +168,21 @@ syntax: "TS.MREVRANGE fromTimestamp toTimestamp\n  [LATEST]\n  [FILTER_BY_TS ts.
   \ count]\n  [[ALIGN align] AGGREGATION aggregator bucketDuration [BUCKETTIMESTAMP\
   \ bt] [EMPTY]]\n  FILTER filterExpr...\n  [GROUPBY label REDUCE reducer]\n"
 syntax_fmt: "TS.MREVRANGE fromTimestamp toTimestamp [LATEST]\n  [FILTER_BY_TS\_Timestamp\
-  \ [Timestamp ...]] [FILTER_BY_VALUE min max]\n  [WITHLABELS | <SELECTED_LABELS label1\
-  \ [label1 ...]>] [COUNT\_count]\n  [[ALIGN\_value] AGGREGATION\_<AVG | FIRST | LAST\
+  \ [Timestamp ...]] [FILTER_BY_VALUE min max]\n  [WITHLABELS | SELECTED_LABELS label1\
+  \ [label1 ...]] [COUNT\_count]\n  [[ALIGN\_value] AGGREGATION\_<AVG | FIRST | LAST\
   \ | MIN | MAX | SUM |\n  RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S | TWA>\n\
   \  bucketDuration [BUCKETTIMESTAMP] [EMPTY]] FILTER\_<l=v | l!=v | l=\n  | l!= |\
   \ l=(v1,v2,...) | l!=(v1,v2,...) [l=v | l!=v | l= | l!= |\n  l=(v1,v2,...) | l!=(v1,v2,...)\
   \ ...]> [GROUPBY label REDUCE\n  reducer]"
-syntax_str: "toTimestamp [LATEST] [FILTER_BY_TS\_Timestamp [Timestamp ...]] [FILTER_BY_VALUE\
-  \ min max] [WITHLABELS | <SELECTED_LABELS label1 [label1 ...]>] [COUNT\_count] [[ALIGN\_\
-  value] AGGREGATION\_<AVG | FIRST | LAST | MIN | MAX | SUM | RANGE | COUNT | STD.P\
-  \ | STD.S | VAR.P | VAR.S | TWA> bucketDuration [BUCKETTIMESTAMP] [EMPTY]] FILTER\_\
-  <l=v | l!=v | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) [l=v | l!=v | l= | l!= |\
-  \ l=(v1,v2,...) | l!=(v1,v2,...) ...]> [GROUPBY label REDUCE reducer]"
 title: TS.MREVRANGE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
 
-Query a range across multiple time series by filters in the reverse direction.
+
+
+Query a range across multiple time series by filters in the reverse direction. Starting from Redis 8.6, NaN values are included in raw measurement reports (queries without aggregation).
 
 {{< note >}}
 This command will reply only if the current user has read access to all keys that match the filter.
@@ -245,7 +245,7 @@ When used together with `AGGREGATION`: samples are filtered before being aggrega
 <details open>
 <summary><code>FILTER_BY_VALUE min max</code> (since RedisTimeSeries v1.6)</summary> 
 
-filters samples by minimum and maximum values.
+filters samples by minimum and maximum values. `min` and `max` cannot be NaN values.
 
 When used together with `AGGREGATION`: samples are filtered before being aggregated.
 </details>
@@ -296,19 +296,21 @@ per time series, aggregates samples into time buckets, where:
 
     | `aggregator` | Description                                                                    |
     | ------------ | ------------------------------------------------------------------------------ |
-    | `avg`        | Arithmetic mean of all values                                                  |
-    | `sum`        | Sum of all values                                                              |
-    | `min`        | Minimum value                                                                  |
-    | `max`        | Maximum value                                                                  |
-    | `range`      | Difference between maximum value and minimum value                             |
-    | `count`      | Number of values                                                               |
-    | `first`      | Value with lowest timestamp in the bucket                                      |
-    | `last`       | Value with highest timestamp in the bucket                                     |
-    | `std.p`      | Population standard deviation of the values                                    |
-    | `std.s`      | Sample standard deviation of the values                                        |
-    | `var.p`      | Population variance of the values                                              |
-    | `var.s`      | Sample variance of the values                                                  |
-    | `twa`        | Time-weighted average over the bucket's timeframe (since RedisTimeSeries v1.8) |
+    | `avg`        | Arithmetic mean of all non-NaN values (ignores NaN values)    |
+    | `sum`        | Sum of all non-NaN values (ignores NaN values)                |
+    | `min`        | Minimum non-NaN value (ignores NaN values)                    |
+    | `max`        | Maximum non-NaN value (ignores NaN values)                    |
+    | `range`      | Difference between maximum non-NaN value and minimum non-NaN value (ignores NaN values) |
+    | `count`      | Number of non-NaN values (ignores NaN values)                 |
+    | `countNaN`   | Number of NaN values (since Redis 8.6)                                        |
+    | `countAll`   | Number of all values, both NaN and non-NaN (since Redis 8.6)                  |
+    | `first`      | Value with lowest timestamp in the bucket (ignores NaN values) |
+    | `last`       | Value with highest timestamp in the bucket (ignores NaN values) |
+    | `std.p`      | Population standard deviation of the non-NaN values (ignores NaN values) |
+    | `std.s`      | Sample standard deviation of the non-NaN values (ignores NaN values) |
+    | `var.p`      | Population variance of the non-NaN values (ignores NaN values) |
+    | `var.s`      | Sample variance of the non-NaN values (ignores NaN values)    |
+    | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values). Added in RedisTimeSeries v1.8. |
 
   - `bucketDuration` is duration of each bucket, in milliseconds.
   
@@ -359,16 +361,18 @@ When combined with `AGGREGATION` the `GROUPBY`/`REDUCE` is applied post aggregat
 
     | `reducer` | Description                                                                                     |
     | --------- | ----------------------------------------------------------------------------------------------- |
-    | `avg`     | Arithmetic mean of all non-NaN values (since RedisTimeSeries v1.8)                              |
-    | `sum`     | Sum of all non-NaN values                                                                       |
-    | `min`     | Minimum non-NaN value                                                                           |
-    | `max`     | Maximum non-NaN value                                                                           |
-    | `range`   | Difference between maximum non-NaN value and minimum non-NaN value (since RedisTimeSeries v1.8) |
-    | `count`   | Number of non-NaN values (since RedisTimeSeries v1.8)                                           |
-    | `std.p`   | Population standard deviation of all non-NaN values (since RedisTimeSeries v1.8)                |
-    | `std.s`   | Sample standard deviation of all non-NaN values (since RedisTimeSeries v1.8)                    |
-    | `var.p`   | Population variance of all non-NaN values (since RedisTimeSeries v1.8)                          |
-    | `var.s`   | Sample variance of all non-NaN values (since RedisTimeSeries v1.8)                              |
+    | `avg`     | Arithmetic mean of all non-NaN values (ignores NaN values). Added in RedisTimeSeries v1.8.                     |
+    | `sum`     | Sum of all non-NaN values (ignores NaN values)                                 |
+    | `min`     | Minimum non-NaN value (ignores NaN values)                                     |
+    | `max`     | Maximum non-NaN value (ignores NaN values)                                     |
+    | `range`   | Difference between maximum non-NaN value and minimum non-NaN value (ignores NaN values). Added in RedisTimeSeries v1.8. |
+    | `count`   | Number of non-NaN values (ignores NaN values). Added in RedisTimeSeries v1.8.                                  |
+    | `countNaN`| Number of NaN values (since Redis 8.6)                                                         |
+    | `countAll`| Number of all values, both NaN and non-NaN (since Redis 8.6)                                   |
+    | `std.p`   | Population standard deviation of all non-NaN values (ignores NaN values). Added in RedisTimeSeries v1.8.       |
+    | `std.s`   | Sample standard deviation of all non-NaN values (ignores NaN values). Added in RedisTimeSeries v1.8.           |
+    | `var.p`   | Population variance of all non-NaN values (ignores NaN values). Added in RedisTimeSeries v1.8.                 |
+    | `var.s`   | Sample variance of all non-NaN values (ignores NaN values). Added in RedisTimeSeries v1.8.                     |
 
 <note><b>Notes:</b> 
   - The produced time series is named `<label>=<value>`
@@ -379,27 +383,6 @@ When combined with `AGGREGATION` the `GROUPBY`/`REDUCE` is applied post aggregat
 </details>
 
 <note><b>Note:</b> An `MREVRANGE` command cannot be part of a transaction when running on a Redis cluster.</note>
-
-## Return value
-
-If `GROUPBY label REDUCE reducer` is not specified:
-
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each time series matching the specified filters, the following is reported:
-  - bulk-string-reply: The time series key name
-  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}))
-    - By default, an empty list is reported
-    - If `WITHLABELS` is specified, all labels associated with this time series are reported
-    - If `SELECTED_LABELS label...` is specified, the selected labels are reported
-  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) (double)): all samples/aggregations matching the range
-
-If `GROUPBY label REDUCE reducer` is specified:
-
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each group of time series matching the specified filters, the following is reported:
-  - bulk-string-reply with the format `label=value` where `label` is the `GROUPBY` label argument
-  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the `GROUPBY` label argument and value
-  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})):  the string `__reducer__` and the reducer argument
-  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the string `__source__` and the time series key names separated by `,`
-  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) (double)): all samples/aggregations matching the range
 
 ## Examples
 
@@ -594,6 +577,56 @@ Query all time series with the metric label equal to `cpu`, but only return the 
          2) 99
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="ts-mrevrange-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+If `GROUPBY label REDUCE reducer` is not specified:
+
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each time series matching the specified filters, the following is reported:
+- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): The time series key name
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}))
+  - By default, an empty array is reported
+  - If `WITHLABELS` is specified, all labels associated with this time series are reported
+  - If `SELECTED_LABELS label...` is specified, the selected labels are reported
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing all samples/aggregations matching the range in reverse chronological order
+
+If `GROUPBY label REDUCE reducer` is specified:
+
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each group of time series matching the specified filters, the following is reported:
+- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) with the format `label=value` where `label` is the `GROUPBY` label argument
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the `GROUPBY` label argument and value
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})):  the string `__reducer__` and the reducer argument
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the string `__source__` and the time series key names separated by ","
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing all samples/aggregations matching the range in reverse chronological order
+
+-tab-sep-
+
+If `GROUPBY label REDUCE reducer` is not specified:
+
+[Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}): for each time series matching the specified filters, the following is reported:
+- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): The time series key name
+- [Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) or [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs
+  - By default, an empty map is reported
+  - If `WITHLABELS` is specified, all labels associated with this time series are reported as a map
+  - If `SELECTED_LABELS label...` is specified, the selected labels are reported as a map
+- Additional metadata including aggregators information
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) representing all samples/aggregations matching the range in reverse chronological order
+
+If `GROUPBY label REDUCE reducer` is specified:
+
+Similar structure as RESP2 but with map-based organization for labels and metadata, and double values instead of string values.
+
+{{< /multitabs >}}
 
 ## See also
 

@@ -1,3 +1,0 @@
-./operate/rs/references/connecting-to-redis.md:- Code your own Redis client based on the [Redis Serialization Protocol (RESP)](http://redis.io/topics/protocol)
-./operate/rs/references/clustering-redis.md:There are several solutions to clustering Redis, most notable of which is the [open source Redis cluster](http://redis.io/topics/cluster-spec).
-./operate/kubernetes/faqs/_index.md:While [Helm charts](https://helm.sh/docs/topics/charts/) help automate multi-resource deployments, they do not provide the lifecycle management and lack many of the benefits provided by the operator:

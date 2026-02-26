@@ -42,16 +42,27 @@ key_specs:
       limit: 0
     type: range
 linkTitle: WATCH
+railroad_diagram: /images/railroad/watch.svg
 since: 2.2.0
 summary: Monitors changes to keys to determine the execution of a transaction.
 syntax_fmt: WATCH key [key ...]
-syntax_str: ''
 title: WATCH
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Marks the given keys to be watched for conditional execution of a
 [transaction][tt].
 
 [tt]: /develop/interact/transactions
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

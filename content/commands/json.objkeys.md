@@ -27,11 +27,11 @@ group: json
 hidden: false
 linkTitle: JSON.OBJKEYS
 module: JSON
+railroad_diagram: /images/railroad/json.objkeys.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the JSON keys of the object at path
 syntax_fmt: JSON.OBJKEYS key [path]
-syntax_str: '[path]'
 title: JSON.OBJKEYS
 ---
 Return the keys in the object that's referenced by `path`
@@ -53,11 +53,6 @@ is JSONPath to specify. Default is root `$`. Returns `null` for nonexistant path
 
 </details>
 
-## Return
-
-JSON.OBJKEYS returns an array of array replies for each path, an array of the key names in the object as a bulk string reply, or `nil` if the matching JSON value is not an object. 
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
-
 ## Examples
 
 {{< highlight bash >}}
@@ -68,6 +63,30 @@ redis> JSON.OBJKEYS doc $..a
 2) 1) "b"
    2) "c"
 {{< / highlight >}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="json-objkeys-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+With `$`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [array replies]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each nested array contains the key names in the object, or `null` if the matching value is not an object.
+
+With `.`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the key names in the object, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an object.
+
+-tab-sep-
+
+With `$`-based path argument (default): [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [array replies]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each nested array contains the key names in the object, or `null` if the matching value is not an object.
+
+With `.`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the key names in the object, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an object.
+
+{{< /multitabs >}}
 
 ## See also
 

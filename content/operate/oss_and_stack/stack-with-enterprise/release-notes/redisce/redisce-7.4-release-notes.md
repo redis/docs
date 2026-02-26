@@ -11,6 +11,46 @@ min-version-db: blah
 min-version-rs: blah
 weight: 100
 ---
+## Redis Community Edition 7.4.7 (November 2025)
+
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users.
+
+### Bug fixes
+
+- Potential crash on HyperLogLog with 2GB+ entries
+
+## Redis Community Edition 7.4.6 (October 2025)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- (CVE-2025-49844) A Lua script may lead to remote code execution
+- (CVE-2025-46817) A Lua script may lead to integer overflow and potential RCE
+- (CVE-2025-46818) A Lua script can be executed in the context of another user
+- (CVE-2025-46819) LUA out-of-bound read
+
+### Bug fixes
+
+- [#14330](https://github.com/redis/redis/pull/14330) Potential use-after-free after pubsub and Lua defrag
+- [#14319](https://github.com/redis/redis/pull/14319) Potential crash on Lua script defrag
+- [#14164](https://github.com/redis/redis/pull/14164) Prevent `CLIENT UNBLOCK` from unblocking `CLIENT PAUSE`
+- [#14165](https://github.com/redis/redis/pull/14165) Endless client blocking for blocking commands
+- [#14163](https://github.com/redis/redis/pull/14163) `EVAL` crash when error table is empty
+- [#14227](https://github.com/redis/redis/pull/14227) `HINCRBYFLOAT` removes field expiration on replica
+
+## Redis Community Edition 7.4.5 (July 2025)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+* (CVE-2025-27151) redis-check-aof may lead to stack overflow and potential RCE
+
+### Bug fixes
+
+- [#13966](https://github.com/redis/redis/pull/13966), [#13932](https://github.com/redis/redis/pull/13932) `CLUSTER SLOTS` - TLS port update not reflected in CLUSTER SLOTS
+- [#13958](https://github.com/redis/redis/pull/13958) `XTRIM`, `XADD` - incorrect lag due to trimming stream
 
 ## Redis Community Edition 7.4.4 (May 2025):
 

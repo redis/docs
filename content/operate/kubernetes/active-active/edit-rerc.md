@@ -16,11 +16,11 @@ Before a RedisEnterpriseCluster (REC) can participate in an Active-Active databa
 
 The RERC controller periodically connects to the local REC endpoint via its external address, to ensure it’s setup correctly. For this to work, the external load balancer must support [NAT hairpinning](https://en.wikipedia.org/wiki/Network_address_translation#NAT_loopback). In some cloud environments, this may involve disabling IP preservation for the load balancer target groups.
 
-For more details, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api">}}).
+For more details, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api">}}).
 
 ## Edit RERC
 
-Use the `kubectl patch rerc <rerc-name> --type merge --patch` command to patch the local RERC custom resource with your changes. For a full list of available fields, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api">}}).
+Use the `kubectl patch rerc <rerc-name> --type merge --patch` command to patch the local RERC custom resource with your changes. For a full list of available fields, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api">}}).
 
 The following example edits the `dbFqdnSuffix` field for the RERC named `rerc-ohare`.
 
@@ -73,10 +73,13 @@ If the credentials are changed or updated for a REC participating cluster, you n
 
     ```sh
     kubectl get reaadb reaadb-boeing
-
-    NAME              STATUS   SPEC STATUS   LINKED REDBS   REPLICATION STATUS
-    reaadb-boeing     active   Valid                        up
     ```
+    The output should look similar to:
+
+      ```sh
+      NAME              STATUS   SPEC STATUS   LINKED REDBS   REPLICATION STATUS
+      reaadb-boeing     active   Valid                        up
+      ```
 
     To troubleshoot invalid configurations, view the RERC custom resource events and the [Redis Enterprise operator logs]({{< relref "/operate/kubernetes/logs/" >}}).
 

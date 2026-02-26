@@ -1,11 +1,11 @@
 ---
-Title: Configure the query performance factor for Redis Query Engine in Redis Enterprise
+Title: Configure the query performance factor for Redis Query Engine in Redis Software
 alwaysopen: false
 categories:
 - docs
 - operate
 - stack
-description: Configure the query performance factor for Redis Query Engine in Redis Enterprise to increase the performance of queries.
+description: Configure the query performance factor for Redis Query Engine in Redis Software to increase the performance of queries.
 linkTitle: Configure query performance factor
 weight: 20
 aliases: /operate/oss_and_stack/stack-with-enterprise/search/scalable-search/
@@ -20,9 +20,9 @@ Some use cases might not scale effectively. Redis experts can help determine if 
 
 ## Prerequisites
 
-Redis Query Engine requires a cluster running Redis Enterprise Software version 7.4.2-54 or later.
+Redis Query Engine requires a cluster running Redis Software version 7.4.2-54 or later.
 
-If you do not have a cluster that supports Redis Query Engine, [install Redis Enterprise Software]({{<relref "/operate/rs/installing-upgrading/install/install-on-linux">}}) version 7.4.2-54 or later on a new cluster, or [upgrade an existing cluster]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster">}}).
+If you do not have a cluster that supports Redis Query Engine, [install Redis Software]({{<relref "/operate/rs/installing-upgrading/install/install-on-linux">}}) version 7.4.2-54 or later on a new cluster, or [upgrade an existing cluster]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster">}}).
 
 ## Sizing
 
@@ -75,7 +75,7 @@ The following table shows the number of CPUs required for each performance facto
 
 ## Configure query performance factor manually
 
-To manually configure the query performance factor in Redis Enterprise Software:
+To manually configure the query performance factor in Redis Software:
 
 1. [Configure query performance factor parameters](#config-db-ui) when you create a new database or edit an existing database's configuration in the Cluster Manager UI.
 
@@ -156,7 +156,7 @@ After you update the query performance factor for an existing database, restart 
 
 ## Configure query performance factor with the REST API
 
-You can configure the query performance factor when you [create a new database](#create-db-rest-api) or [update an existing database](#update-db-rest-api) using the Redis Enterprise Software [REST API]({{<relref "/operate/rs/references/rest-api">}}).
+You can configure the query performance factor when you [create a new database](#create-db-rest-api) or [update an existing database](#update-db-rest-api) using the Redis Software [REST API]({{<relref "/operate/rs/references/rest-api">}}).
 
 ### Create new database with the REST API {#create-db-rest-api}
 
@@ -251,7 +251,7 @@ curl -o /dev/null -s -k -u "<user>:<password>" https://<host>:9443/v1/bdbs/$DB_I
 
 To monitor a database with a query performance factor configured:
 
-1. Integrate your Redis Enterprise deployment with Prometheus. See [Prometheus and Grafana with Redis Enterprise]({{<relref "/integrate/prometheus-with-redis-enterprise">}}) for instructions.
+1. Integrate your Redis Software deployment with Prometheus. See [Prometheus and Grafana with Redis Software]({{<relref "/integrate/prometheus-with-redis-enterprise">}}) for instructions.
 
 1. Monitor the `redis_process_cpu_usage_percent` shard metric.
 

@@ -24,16 +24,18 @@ group: timeseries
 hidden: false
 linkTitle: TS.DELETERULE
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.deleterule.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Delete a compaction rule
-syntax: 'TS.DELETERULE sourceKey destKey
-
-  '
 syntax_fmt: TS.DELETERULE sourceKey destKey
-syntax_str: destKey
 title: TS.DELETERULE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 
 Delete a compaction rule
 
@@ -51,12 +53,29 @@ is key name for destination (compacted) time series.
 
 <note><b>Note:</b> This command does not delete the compacted series.</note>
 
-## Return value
+## Redis Software and Redis Cloud compatibility
 
-Returns one of these replies:
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
-- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly
-- [] on error (invalid arguments, etc.), or when such rule does not exist
+## Return information
+
+{{< multitabs id="ts-deleterule-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the compaction rule is deleted successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, or when such rule does not exist.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the compaction rule is deleted successfully.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, or when such rule does not exist.
+
+{{< /multitabs >}}
 
 ## See also
 

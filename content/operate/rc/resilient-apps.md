@@ -46,6 +46,16 @@ You can enable replication when you create your database. You can switch between
 
 It is best practice to enable replication for any databases that need to be highly available.
 
+### Create Active-Active databases for geographic availability
+
+For geographic availability, create [Active-Active databases]({{< relref "/operate/rc/databases/active-active" >}}), which provide:
+
+- **Geographic distribution**: Data is replicated across multiple regions and availability zones. Applications can read from and write to the nearest region, reducing latency for users worldwide.
+
+- **99.999% availability**: Higher availability than single-region deployments by protecting against regional outages.
+
+- **Automatic conflict resolution**: Uses conflict-free replicated data types (CRDTs) to handle concurrent writes across regions.
+
 ### Set manual maintenance windows
 
 Redis maintains your Redis Cloud subscriptions and databases as needed to ensure your databases are running the most stable and up-to-date version of Redis. By default, Redis will perform [maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}) automatically while limiting service disruption as much as possible.
@@ -59,6 +69,17 @@ A Redis Cloud Essentials database has a set maintenance window based on the regi
 When you're developing your apps, it is best to use specific Redis Client features to connect to Redis Cloud if they are available for your preferred client.
 
 See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients.
+
+### Production usage guides
+
+For production-ready configurations and best practices, see the production usage guides for each client:
+
+- [redis-py]({{< relref "/develop/clients/redis-py/produsage" >}})
+- [Node.js]({{< relref "/develop/clients/nodejs/produsage" >}})
+- [Jedis]({{< relref "/develop/clients/jedis/produsage" >}})
+- [Lettuce]({{< relref "/develop/clients/lettuce/produsage" >}})
+- [go-redis]({{< relref "/develop/clients/go/produsage" >}})
+- [NRedisStack]({{< relref "/develop/clients/dotnet/produsage" >}})
 
 ### Re-attempt connections
 
@@ -78,8 +99,14 @@ The [WAIT]({{< relref "/commands/wait" >}}) and [WAITAOF]({{< relref "/commands/
 
 For more info, see [Use the WAIT command for strong consistency]({{< relref "/operate/rs/clusters/optimize/wait" >}}).
 
+## Test failover behavior
+
+You can test your app's failover behavior in Redis Cloud by running a failover test. A failover test in Redis Cloud simulates a controlled disruption such as an endpoint migration, node failure, or cluster outage to confirm that your app can reconnect, recover, and continue operating without data loss. These tests are a critical part of validating high-availability and disaster recovery, ensuring that applications meet recovery time and recovery point objectives. 
+
+For more info, see [How to run a Failover Test in Redis Cloud](https://support.redislabs.com/hc/en-us/articles/29001166157074-How-to-Run-a-Failover-Test-in-Redis-Cloud).
+
 ## More info
 
 - [Redis Clients]({{< relref "/develop/clients" >}})
-- [Active-Active Redis]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}})
+- [Active-Active Redis]({{< relref "/operate/rc/databases/active-active" >}})
 - [Active-Active Redis applications]({{< relref "/operate/rs/databases/active-active/develop" >}})

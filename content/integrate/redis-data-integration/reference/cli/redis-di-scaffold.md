@@ -17,23 +17,20 @@ Usage: redis-di scaffold [OPTIONS]
 ## Options
 
 - `log_level`:
-
   - Type: Choice(['TRACE', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
   - Default: `info`
   - Usage: `--log-level
 -l`
 
 - `db_type` (REQUIRED):
-
-  - Type: Choice([<DbType.CASSANDRA: 'cassandra'>, <DbType.MARIADB: 'mariadb'>, <DbType.MONGODB: 'mongodb'>, <DbType.MYSQL: 'mysql'>, <DbType.ORACLE: 'oracle'>, <DbType.POSTGRESQL: 'postgresql'>, <DbType.SQLSERVER: 'sqlserver'>])
+  - Type: Choice([<DbType.CASSANDRA: 'cassandra'>, <DbType.MARIADB: 'mariadb'>, <DbType.MONGODB: 'mongodb'>, <DbType.MYSQL: 'mysql'>, <DbType.ORACLE: 'oracle'>, <DbType.POSTGRESQL: 'postgresql'>, <DbType.SQLSERVER: 'sqlserver'>, <DbType.SPANNER: 'spanner'>])
   - Default: `none`
   - Usage: `--db-type`
 
   DB type
 
 - `db_flavor`:
-
-  - Type: Choice([<DbFlavor.MONGODB_ATLAS: 'mongodb_atlas'>, <DbFlavor.MONGODB_REPLICA_SET: 'mongodb_replica_set'>, <DbFlavor.MONGODB_SHARDED_CLUSTER: 'mongodb_sharded_cluster'>])
+  - Type: Choice([<DbFlavor.MONGODB_ATLAS: 'mongodb-atlas'>, <DbFlavor.MONGODB_REPLICA_SET: 'mongodb-replica-set'>, <DbFlavor.MONGODB_SHARDED_CLUSTER: 'mongodb-sharded-cluster'>])
   - Default: `none`
   - Usage: `--db-flavor`
 
@@ -42,7 +39,6 @@ Usage: redis-di scaffold [OPTIONS]
   Output to directory or stdout
 
 - `directory`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--dir`
@@ -50,7 +46,6 @@ Usage: redis-di scaffold [OPTIONS]
   Directory containing RDI configuration
 
 - `preview`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--preview`
@@ -58,7 +53,6 @@ Usage: redis-di scaffold [OPTIONS]
   Print the content of the scaffolded config file to CLI output
 
 - `help`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--help`
@@ -75,9 +69,9 @@ Usage: redis-di scaffold [OPTIONS]
 Options:
   -l, --log-level [TRACE|DEBUG|INFO|WARNING|ERROR|CRITICAL]
                                   [default: INFO]
-  --db-type [cassandra|mariadb|mongodb|mysql|oracle|postgresql|sqlserver]
+  --db-type [cassandra|mariadb|mongodb|mysql|oracle|postgresql|sqlserver|spanner]
                                   DB type  [required]
-  --db-flavor [mongodb_atlas|mongodb_replica_set|mongodb_sharded_cluster]
+  --db-flavor [mongodb-atlas|mongodb-replica-set|mongodb-sharded-cluster]
                                   DB flavor
   Output formats: [mutually_exclusive, required]
                                   Output to directory or stdout

@@ -745,7 +745,7 @@ Using `redis-cli`, you can check that the person now has a TTL set with the Redi
 
 This shows that Redis will expire the key 584 seconds from now.
 
-You can use the `.db()` function on your model class to get at the underlying redis-py connection whenever you want to run lower level Redis commands.  For more details, see the [redis-py documentation](https://redis-py.readthedocs.io/en/stable/).
+You can use the `.db()` function on your model class to get at the underlying redis-py connection whenever you want to run lower level Redis commands.  For more details, see the [redis-py documentation](https://redis.readthedocs.io/en/stable/).
 
 ## Shutting Down Redis (Docker)
 

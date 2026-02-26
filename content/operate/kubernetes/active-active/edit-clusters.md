@@ -75,7 +75,7 @@ To communicate with other clusters, all participating clusters need access to th
 
 1. From one of the existing participating clusters, create a `RedisEnterpriseRemoteCluster` (RERC) custom resource for the new participating cluster.
 
-    This example shows an RERC custom resource for an REC named `rec-boston` in the namespace `ns-massachusetts`. 
+    This example (rerc-logan) shows an RERC custom resource for an REC named `rec-boston` in the namespace `ns-massachusetts`. 
 
     ```yaml
     apiVersion: app.redislabs.com/v1alpha1
@@ -140,7 +140,7 @@ To communicate with other clusters, all participating clusters need access to th
 1. On each of the other participating clusters, verify the status is `active` and the spec status is `Valid` and the cluster was removed.
 
    ```sh
-   kubectl get reaadb <reaadb-name -o=jasonpath=`{.status}`
+   kubectl get reaadb <reaadb-name> -o=jsonpath='{.status}'
    ```
    
     The output should look like this:
@@ -151,7 +151,12 @@ To communicate with other clusters, all participating clusters need access to th
 
 1. On the removed participating cluster, list all REAADB resources on the cluster to verify they were deleted.
 
-
     ```sh
-    kubectl get reaadb -o+jasonpath=`{range.items[*]}{.metadata.name}`
+    kubectl get reaadb -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}'
     ```
+
+1. List the status of all the participating clusters.
+
+```sh
+kubectl get reaadb <reaadb-name> -o=jsonpath='{.status.participatingClusters}'
+```

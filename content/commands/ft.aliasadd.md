@@ -22,14 +22,11 @@ group: search
 hidden: false
 linkTitle: FT.ALIASADD
 module: Search
+railroad_diagram: /images/railroad/ft.aliasadd.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Adds an alias to the index
-syntax: 'FT.ALIASADD alias index
-
-  '
 syntax_fmt: FT.ALIASADD alias index
-syntax_str: index
 title: FT.ALIASADD
 ---
 
@@ -49,10 +46,6 @@ Indexes can have more than one alias, but an alias cannot refer to another
 alias.
 
 FT.ALIASADD allows administrators to transparently redirect application queries to alternative indexes.
-
-## Return
-
-FT.ALIASADD returns a simple string reply `OK` if executed correctly, or an error reply otherwise.
 
 ## Examples
 
@@ -74,10 +67,30 @@ Attempting to add the same alias returns a message that the alias already exists
 {{< / highlight >}}
 </details>
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="ft-aliasadd-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: alias already exists, index does not exist.
+
+-tab-sep-
+
+One of the following:
+* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if executed correctly.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: alias already exists, index does not exist.
+
+{{< /multitabs >}}
+
 ## See also
 
-[`FT.ALIASDEL`]({{< relref "commands/ft.aliasdel/" >}}) | [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate/" >}}) 
-
-## Related topics
-
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+[`FT.ALIASDEL`]({{< relref "commands/ft.aliasdel/" >}}) | [`FT.ALIASUPDATE`]({{< relref "commands/ft.aliasupdate/" >}})

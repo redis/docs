@@ -39,10 +39,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: LLEN
+railroad_diagram: /images/railroad/llen.svg
 since: 1.0.0
 summary: Returns the length of a list.
 syntax_fmt: LLEN key
-syntax_str: ''
 title: LLEN
 ---
 Returns the length of the list stored at `key`.
@@ -51,7 +51,7 @@ An error is returned when the value stored at `key` is not a list.
 
 ## Examples
 
-{{< clients-example cmds_list llen >}}
+{{< clients-example set="cmds_list" step="llen" description="Foundational: Get the length of a list using LLEN (returns 0 if key doesn't exist, useful for checking list size)" difficulty="beginner" >}}
 redis> LPUSH mylist "World"
 (integer) 1
 redis> LPUSH mylist "Hello"
@@ -67,6 +67,12 @@ LPUSH mylist "World"
 LPUSH mylist "Hello"
 LLEN mylist
 {{% /redis-cli %}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

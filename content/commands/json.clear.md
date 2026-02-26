@@ -28,11 +28,11 @@ group: json
 hidden: false
 linkTitle: JSON.CLEAR
 module: JSON
+railroad_diagram: /images/railroad/json.clear.svg
 since: 2.0.0
 stack_path: docs/data-types/json
 summary: Clears all values from an array or an object and sets numeric values to `0`
 syntax_fmt: JSON.CLEAR key [path]
-syntax_str: '[path]'
 title: JSON.CLEAR
 ---
 Clear container values (arrays/objects) and set numeric values to `0`
@@ -52,11 +52,6 @@ is key to parse.
 
 is JSONPath to specify. Default is root `$`. Nonexisting paths are ignored.
 </details>
-
-## Return
-
-JSON.CLEAR returns an integer reply specifying the number of matching JSON arrays and objects cleared + number of matching JSON numerical values zeroed.
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 {{% alert title="Note" color="warning" %}}
  
@@ -90,6 +85,26 @@ redis> JSON.GET doc $
 "[{\"obj\":{},\"arr\":[],\"str\":\"foo\",\"bool\":true,\"int\":0,\"float\":0}]"
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="json-clear-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of matching JSON arrays and objects cleared plus the number of matching JSON numerical values zeroed.
+
+-tab-sep-
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of matching JSON arrays and objects cleared plus the number of matching JSON numerical values zeroed.
+
+{{< /multitabs >}}
 
 ## See also
 

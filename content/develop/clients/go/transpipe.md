@@ -42,32 +42,32 @@ You can access the result using the `Val()` method instead of
 `Result()` (note that errors are reported by the `Exec()` method rather
 than by the individual commands).
 
-{{< clients-example pipe_trans_tutorial basic_pipe Go >}}
+{{< clients-example set="pipe_trans_tutorial" step="basic_pipe" lang_filter="Go" description="Basic pipeline: Execute multiple commands in a single batch using Pipeline and Exec" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 You can also create a pipeline using the `Pipelined()` method.
 This executes pipeline commands in a callback function that you
 provide and calls `Exec()` automatically after it returns:
 
-{{< clients-example pipe_trans_tutorial basic_pipe_pipelined Go >}}
+{{< clients-example set="pipe_trans_tutorial" step="basic_pipe_pipelined" lang_filter="Go" description="Pipeline with callback: Use Pipelined method for automatic execution of batched commands" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Execute a transaction
 
 A transaction works in a similar way to a pipeline. Create a
 transaction object with the `TxPipeline()` method, call command methods
-on that object, and then call the transaction object's 
+on that object, and then call the transaction object's
 `Exec()` method to execute it. You can access the results
 from commands in the transaction after it completes using the
 `Val()` method.
 
-{{< clients-example pipe_trans_tutorial basic_trans Go >}}
+{{< clients-example set="pipe_trans_tutorial" step="basic_trans" lang_filter="Go" description="Basic transaction: Execute commands atomically using TxPipeline to ensure consistency" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 There is also a `TxPipelined()` method that works in a similar way
 to `Pipelined()`, described above:
 
-{{< clients-example pipe_trans_tutorial basic_trans_txpipelined Go >}}
+{{< clients-example set="pipe_trans_tutorial" step="basic_trans_txpipelined" lang_filter="Go" description="Transaction with callback: Use TxPipelined for automatic atomic execution with callback syntax" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Watch keys for changes
@@ -96,5 +96,5 @@ to watch.
 For production usage, you would generally call code like the following in
 a loop to retry it until it succeeds or else report or log the failure:
 
-{{< clients-example pipe_trans_tutorial trans_watch Go >}}
+{{< clients-example set="pipe_trans_tutorial" step="trans_watch" lang_filter="Go" description="Optimistic locking: Watch keys for changes and retry transactions when watched keys are modified" difficulty="advanced" >}}
 {{< /clients-example >}}

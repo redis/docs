@@ -9,7 +9,7 @@ description: Turn off services to free memory and improve performance.
 linktitle: Free system memory
 weight: $weight
 ---
-The Redis Enterprise Software cluster nodes host a range of services that support the cluster processes.
+The Redis Software cluster nodes host a range of services that support the cluster processes.
 In most deployments, either all of these services are required,
 or there are enough memory resources on the nodes for the database requirements.
 
@@ -36,7 +36,7 @@ To turn off a service with the API, use the [`PUT /v1/services_configuration`]({
 with the name of the service and the operating mode (enabled/disabled) in JSON format.
 
 For example:
-- To turn off the Redis Enterprise Cluster Manager UI, use this PUT request:
+- To turn off the Redis Software Cluster Manager UI, use this PUT request:
 
     ```sh
     PUT https://[host][:9443]/v1/cluster/services_configuration

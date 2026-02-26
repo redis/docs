@@ -111,8 +111,20 @@
             data-version
             data-top
           >
-            <h1 class="truncate font-mono font-medium text-lg mb-1.5 px-6">
-              {{ .Title }}
+            <h1 class="font-mono font-medium text-lg mb-1.5 px-6">
+              <div class="command-title-deprecated">
+                <span class="truncate">{{ .Title }}</span>
+                {{ if (and (isset .Params "doc_flags") (in .Params.doc_flags "deprecated")) }}
+                  <div class="deprecated-tooltip-trigger">
+                    <span class="deprecated-badge">Deprecated</span>
+                    {{ if (isset .Params "replaced_by") }}
+                      <div class="deprecated-tooltip">
+                        Use {{ .Params.replaced_by | markdownify | plainify }} instead
+                      </div>
+                    {{ end }}
+                  </div>
+                {{ end }}
+              </div>
             </h1>
             <p class="px-6">
               {{ .Params.summary }}
