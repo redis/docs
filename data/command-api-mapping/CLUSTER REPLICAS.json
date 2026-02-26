@@ -1,0 +1,62 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "String clusterReplicas(String nodeId)",
+        "params": [
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "The node ID"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Replica nodes information"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clusterReplicas(String nodeId)",
+        "params": [
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "The node ID"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "Replica nodes information"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clusterReplicas(String nodeId)",
+        "params": [
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "The node ID"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "Replica nodes information"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

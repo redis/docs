@@ -363,6 +363,73 @@
       ]
     }
   },
+  "ASKING": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [
+        {
+          "signature": "String asking()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [],
+      "node_redis": [
+        {
+          "signature": "parseCommand(parser: CommandParser)",
+          "params": [
+            {
+              "name": "parser",
+              "type": "CommandParser",
+              "description": "The Redis command parser"
+            }
+          ],
+          "returns": {
+            "type": "SimpleStringReply<'OK'>",
+            "description": ""
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "String asking()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> asking()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> asking()",
+          "params": [],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
   "BF.ADD": {
     "api_calls": {
       "redis_py": [
@@ -12205,6 +12272,2400 @@
           }
         }
       ]
+    }
+  },
+  "CLUSTER ADDSLOTS": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [
+        {
+          "signature": "String clusterAddSlots(final int... slots)",
+          "params": [
+            {
+              "name": "slots",
+              "type": "int...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClusterAddSlots(ctx context.Context, slots ...int)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            },
+            {
+              "name": "slots",
+              "type": "...int",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "parseCommand(parser: CommandParser, slots: number | Array<number>)",
+          "params": [
+            {
+              "name": "parser",
+              "type": "CommandParser",
+              "description": "The Redis command parser"
+            },
+            {
+              "name": "slots",
+              "type": "number | Array<number>",
+              "description": "One or more hash slots to be assigned"
+            }
+          ],
+          "returns": {
+            "type": "SimpleStringReply<'OK'>",
+            "description": ""
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterAddSlots(int... slots)",
+          "params": [
+            {
+              "name": "slots",
+              "type": "int...",
+              "description": "One or more hash slots to be assigned"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterAddSlots(int... slots)",
+          "params": [
+            {
+              "name": "slots",
+              "type": "int...",
+              "description": "One or more hash slots to be assigned"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterAddSlots(int... slots)",
+          "params": [
+            {
+              "name": "slots",
+              "type": "int...",
+              "description": "One or more hash slots to be assigned"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER ADDSLOTSRANGE": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [
+        {
+          "signature": "String clusterAddSlotsRange(int... ranges)",
+          "params": [
+            {
+              "name": "ranges",
+              "type": "int...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClusterAddSlotsRange(ctx context.Context, min, max int)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            },
+            {
+              "name": "min",
+              "type": "Any",
+              "description": ""
+            },
+            {
+              "name": "max",
+              "type": "int",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterAddSlotsRange(Range<Integer>... ranges)",
+          "params": [
+            {
+              "name": "ranges",
+              "type": "Range<Integer>...",
+              "description": "One or more slot ranges"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterAddSlotsRange(Range<Integer>... ranges)",
+          "params": [
+            {
+              "name": "ranges",
+              "type": "Range<Integer>...",
+              "description": "One or more slot ranges"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterAddSlotsRange(Range<Integer>... ranges)",
+          "params": [
+            {
+              "name": "ranges",
+              "type": "Range<Integer>...",
+              "description": "One or more slot ranges"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER BUMPEPOCH": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterBumpepoch()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "BUMPED or STILL"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterBumpepoch()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "BUMPED or STILL"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterBumpepoch()",
+          "params": [],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "BUMPED or STILL"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER COUNT-FAILURE-REPORTS": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "Long clusterCountFailureReports(String nodeId)",
+          "params": [
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The node ID"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "Number of failure reports"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<Long> clusterCountFailureReports(String nodeId)",
+          "params": [
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The node ID"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<Long>",
+            "description": "Number of failure reports"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<Long> clusterCountFailureReports(String nodeId)",
+          "params": [
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The node ID"
+            }
+          ],
+          "returns": {
+            "type": "Mono<Long>",
+            "description": "Number of failure reports"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER COUNTKEYSINSLOT": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "Long clusterCountKeysInSlot(int slot)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "Number of keys in the slot"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<Long> clusterCountKeysInSlot(int slot)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<Long>",
+            "description": "Number of keys in the slot"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<Long> clusterCountKeysInSlot(int slot)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot"
+            }
+          ],
+          "returns": {
+            "type": "Mono<Long>",
+            "description": "Number of keys in the slot"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER DELSLOTS": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [
+        {
+          "signature": "String clusterDelSlots(final int... slots)",
+          "params": [
+            {
+              "name": "slots",
+              "type": "int...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClusterDelSlots(ctx context.Context, slots ...int)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            },
+            {
+              "name": "slots",
+              "type": "...int",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterDelSlots(int... slots)",
+          "params": [
+            {
+              "name": "slots",
+              "type": "int...",
+              "description": "One or more hash slots to be removed"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterDelSlots(int... slots)",
+          "params": [
+            {
+              "name": "slots",
+              "type": "int...",
+              "description": "One or more hash slots to be removed"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterDelSlots(int... slots)",
+          "params": [
+            {
+              "name": "slots",
+              "type": "int...",
+              "description": "One or more hash slots to be removed"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER DELSLOTSRANGE": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [
+        {
+          "signature": "String clusterDelSlotsRange(int... ranges)",
+          "params": [
+            {
+              "name": "ranges",
+              "type": "int...",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClusterDelSlotsRange(ctx context.Context, min, max int)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            },
+            {
+              "name": "min",
+              "type": "Any",
+              "description": ""
+            },
+            {
+              "name": "max",
+              "type": "int",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterDelSlotsRange(Range<Integer>... ranges)",
+          "params": [
+            {
+              "name": "ranges",
+              "type": "Range<Integer>...",
+              "description": "One or more slot ranges"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterDelSlotsRange(Range<Integer>... ranges)",
+          "params": [
+            {
+              "name": "ranges",
+              "type": "Range<Integer>...",
+              "description": "One or more slot ranges"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterDelSlotsRange(Range<Integer>... ranges)",
+          "params": [
+            {
+              "name": "ranges",
+              "type": "Range<Integer>...",
+              "description": "One or more slot ranges"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER FAILOVER": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [
+        {
+          "signature": "String clusterFailover()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "String clusterFailover(ClusterFailoverOption failoverOption)",
+          "params": [
+            {
+              "name": "failoverOption",
+              "type": "ClusterFailoverOption",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClusterFailover(ctx context.Context)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterFailover(boolean force)",
+          "params": [
+            {
+              "name": "force",
+              "type": "boolean",
+              "description": "Force failover"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterFailover(boolean force)",
+          "params": [
+            {
+              "name": "force",
+              "type": "boolean",
+              "description": "Force failover"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterFailover(boolean force)",
+          "params": [
+            {
+              "name": "force",
+              "type": "boolean",
+              "description": "Force failover"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER FLUSHSLOTS": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterFlushslots()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterFlushslots()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterFlushslots()",
+          "params": [],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER FORGET": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [
+        {
+          "signature": "String clusterForget(final String nodeId)",
+          "params": [
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClusterForget(ctx context.Context, nodeID string)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            },
+            {
+              "name": "nodeID",
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "parseCommand(parser: CommandParser, nodeId: RedisArgument)",
+          "params": [
+            {
+              "name": "parser",
+              "type": "CommandParser",
+              "description": "The Redis command parser"
+            },
+            {
+              "name": "nodeId",
+              "type": "RedisArgument",
+              "description": "The ID of the node to remove"
+            }
+          ],
+          "returns": {
+            "type": "SimpleStringReply<'OK'>",
+            "description": ""
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterForget(String nodeId)",
+          "params": [
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The ID of the node to remove"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterForget(String nodeId)",
+          "params": [
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The ID of the node to remove"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterForget(String nodeId)",
+          "params": [
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The ID of the node to remove"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER GETKEYSINSLOT": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [
+        {
+          "signature": "List<String> clusterGetKeysInSlot(final int slot, final int count)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "int",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "List<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClusterGetKeysInSlot(ctx context.Context, slot int, count int)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            },
+            {
+              "name": "slot",
+              "type": "int",
+              "description": ""
+            },
+            {
+              "name": "count",
+              "type": "int",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StringSliceCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "parseCommand(parser: CommandParser, slot: number, count: number)",
+          "params": [
+            {
+              "name": "parser",
+              "type": "CommandParser",
+              "description": "The Redis command parser"
+            },
+            {
+              "name": "slot",
+              "type": "number",
+              "description": "The hash slot to get keys from"
+            },
+            {
+              "name": "count",
+              "type": "number",
+              "description": "Maximum number of keys to return"
+            }
+          ],
+          "returns": {
+            "type": "ArrayReply<BlobStringReply>",
+            "description": ""
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "List<K> clusterGetKeysInSlot(int slot, int count)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot to get keys from"
+            },
+            {
+              "name": "count",
+              "type": "int",
+              "description": "Maximum number of keys to return"
+            }
+          ],
+          "returns": {
+            "type": "List<K>",
+            "description": "List of keys in the slot"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<List<K>> clusterGetKeysInSlot(int slot, int count)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot to get keys from"
+            },
+            {
+              "name": "count",
+              "type": "int",
+              "description": "Maximum number of keys to return"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<List<K>>",
+            "description": "List of keys in the slot"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Flux<K> clusterGetKeysInSlot(int slot, int count)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot to get keys from"
+            },
+            {
+              "name": "count",
+              "type": "int",
+              "description": "Maximum number of keys to return"
+            }
+          ],
+          "returns": {
+            "type": "Flux<K>",
+            "description": "List of keys in the slot"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER HELP": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER INFO": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [
+        {
+          "signature": "String clusterInfo()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClusterInfo(ctx context.Context)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StringCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "parseCommand(parser: CommandParser)",
+          "params": [
+            {
+              "name": "parser",
+              "type": "CommandParser",
+              "description": "The Redis command parser"
+            }
+          ],
+          "returns": {
+            "type": "VerbatimStringReply",
+            "description": ""
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterInfo()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "Cluster information"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterInfo()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "Cluster information"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterInfo()",
+          "params": [],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "Cluster information"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER KEYSLOT": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [
+        {
+          "signature": "long clusterKeySlot(final String key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClusterKeySlot(ctx context.Context, key string)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            },
+            {
+              "name": "key",
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "parseCommand(parser: CommandParser, key: RedisArgument)",
+          "params": [
+            {
+              "name": "parser",
+              "type": "CommandParser",
+              "description": "The Redis command parser"
+            },
+            {
+              "name": "key",
+              "type": "RedisArgument",
+              "description": "The key to get the hash slot for"
+            }
+          ],
+          "returns": {
+            "type": "NumberReply",
+            "description": ""
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "Long clusterKeyslot(K key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "The key to get the hash slot for"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "The hash slot number"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<Long> clusterKeyslot(K key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "The key to get the hash slot for"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<Long>",
+            "description": "The hash slot number"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<Long> clusterKeyslot(K key)",
+          "params": [
+            {
+              "name": "key",
+              "type": "K",
+              "description": "The key to get the hash slot for"
+            }
+          ],
+          "returns": {
+            "type": "Mono<Long>",
+            "description": "The hash slot number"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER LINKS": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "List<Object> clusterLinks()",
+          "params": [],
+          "returns": {
+            "type": "List<Object>",
+            "description": "Cluster links information"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<List<Object>> clusterLinks()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<List<Object>>",
+            "description": "Cluster links information"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<List<Object>> clusterLinks()",
+          "params": [],
+          "returns": {
+            "type": "Mono<List<Object>>",
+            "description": "Cluster links information"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER MEET": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [
+        {
+          "signature": "String clusterMeet(final String ip, final int port)",
+          "params": [
+            {
+              "name": "ip",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "port",
+              "type": "int",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClusterMeet(ctx context.Context, host, port string)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            },
+            {
+              "name": "host",
+              "type": "Any",
+              "description": ""
+            },
+            {
+              "name": "port",
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "parseCommand(parser: CommandParser, host: string, port: number)",
+          "params": [
+            {
+              "name": "parser",
+              "type": "CommandParser",
+              "description": "The Redis command parser"
+            },
+            {
+              "name": "host",
+              "type": "string",
+              "description": "Host name or IP address of the node"
+            },
+            {
+              "name": "port",
+              "type": "number",
+              "description": "TCP port of the node"
+            }
+          ],
+          "returns": {
+            "type": "SimpleStringReply<'OK'>",
+            "description": ""
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterMeet(String ip, int port)",
+          "params": [
+            {
+              "name": "ip",
+              "type": "String",
+              "description": "Host name or IP address of the node"
+            },
+            {
+              "name": "port",
+              "type": "int",
+              "description": "TCP port of the node"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterMeet(String ip, int port)",
+          "params": [
+            {
+              "name": "ip",
+              "type": "String",
+              "description": "Host name or IP address of the node"
+            },
+            {
+              "name": "port",
+              "type": "int",
+              "description": "TCP port of the node"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterMeet(String ip, int port)",
+          "params": [
+            {
+              "name": "ip",
+              "type": "String",
+              "description": "Host name or IP address of the node"
+            },
+            {
+              "name": "port",
+              "type": "int",
+              "description": "TCP port of the node"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER MIGRATION": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER MYID": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [
+        {
+          "signature": "String clusterMyId()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClusterMyID(ctx context.Context)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StringCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterMyId()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "The node ID"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterMyId()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "The node ID"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterMyId()",
+          "params": [],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "The node ID"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER MYSHARDID": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterMyShardId()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "The shard ID"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterMyShardId()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "The shard ID"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterMyShardId()",
+          "params": [],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "The shard ID"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER NODES": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [
+        {
+          "signature": "String clusterNodes()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClusterNodes(ctx context.Context)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StringCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "parseCommand(parser: CommandParser)",
+          "params": [
+            {
+              "name": "parser",
+              "type": "CommandParser",
+              "description": "The Redis command parser"
+            }
+          ],
+          "returns": {
+            "type": "VerbatimStringReply",
+            "description": ""
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterNodes()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "Cluster nodes information"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterNodes()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "Cluster nodes information"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterNodes()",
+          "params": [],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "Cluster nodes information"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER REPLICAS": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterReplicas(String nodeId)",
+          "params": [
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The node ID"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "Replica nodes information"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterReplicas(String nodeId)",
+          "params": [
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The node ID"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "Replica nodes information"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterReplicas(String nodeId)",
+          "params": [
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The node ID"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "Replica nodes information"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER REPLICATE": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [
+        {
+          "signature": "String clusterReplicate(final String nodeId)",
+          "params": [
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClusterReplicate(ctx context.Context, nodeID string)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            },
+            {
+              "name": "nodeID",
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "parseCommand(parser: CommandParser, nodeId: RedisArgument)",
+          "params": [
+            {
+              "name": "parser",
+              "type": "CommandParser",
+              "description": "The Redis command parser"
+            },
+            {
+              "name": "nodeId",
+              "type": "RedisArgument",
+              "description": "Node ID of the primary node to replicate"
+            }
+          ],
+          "returns": {
+            "type": "SimpleStringReply",
+            "description": ""
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterReplicate(String nodeId)",
+          "params": [
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "Node ID of the primary node to replicate"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterReplicate(String nodeId)",
+          "params": [
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "Node ID of the primary node to replicate"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterReplicate(String nodeId)",
+          "params": [
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "Node ID of the primary node to replicate"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER RESET": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [
+        {
+          "signature": "String clusterReset()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "String clusterReset(final ClusterResetType resetType)",
+          "params": [
+            {
+              "name": "resetType",
+              "type": "ClusterResetType",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClusterResetSoft(ctx context.Context)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        },
+        {
+          "signature": "ClusterResetHard(ctx context.Context)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterReset(boolean hard)",
+          "params": [
+            {
+              "name": "hard",
+              "type": "boolean",
+              "description": "Hard reset if true, soft reset if false"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterReset(boolean hard)",
+          "params": [
+            {
+              "name": "hard",
+              "type": "boolean",
+              "description": "Hard reset if true, soft reset if false"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterReset(boolean hard)",
+          "params": [
+            {
+              "name": "hard",
+              "type": "boolean",
+              "description": "Hard reset if true, soft reset if false"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER SAVECONFIG": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [
+        {
+          "signature": "String clusterSaveConfig()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClusterSaveConfig(ctx context.Context)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterSaveconfig()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterSaveconfig()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterSaveconfig()",
+          "params": [],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER SET-CONFIG-EPOCH": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterSetConfigEpoch(long configEpoch)",
+          "params": [
+            {
+              "name": "configEpoch",
+              "type": "long",
+              "description": "The config epoch value"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterSetConfigEpoch(long configEpoch)",
+          "params": [
+            {
+              "name": "configEpoch",
+              "type": "long",
+              "description": "The config epoch value"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterSetConfigEpoch(long configEpoch)",
+          "params": [
+            {
+              "name": "configEpoch",
+              "type": "long",
+              "description": "The config epoch value"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER SETSLOT": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clusterSetSlotImporting(int slot, String nodeId)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot"
+            },
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The node ID"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "String clusterSetSlotMigrating(int slot, String nodeId)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot"
+            },
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The node ID"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "String clusterSetSlotNode(int slot, String nodeId)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot"
+            },
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The node ID"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "String clusterSetSlotStable(int slot)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clusterSetSlotImporting(int slot, String nodeId)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot"
+            },
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The node ID"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "RedisFuture<String> clusterSetSlotMigrating(int slot, String nodeId)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot"
+            },
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The node ID"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "RedisFuture<String> clusterSetSlotNode(int slot, String nodeId)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot"
+            },
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The node ID"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "RedisFuture<String> clusterSetSlotStable(int slot)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clusterSetSlotImporting(int slot, String nodeId)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot"
+            },
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The node ID"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "Mono<String> clusterSetSlotMigrating(int slot, String nodeId)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot"
+            },
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The node ID"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "Mono<String> clusterSetSlotNode(int slot, String nodeId)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot"
+            },
+            {
+              "name": "nodeId",
+              "type": "String",
+              "description": "The node ID"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "Mono<String> clusterSetSlotStable(int slot)",
+          "params": [
+            {
+              "name": "slot",
+              "type": "int",
+              "description": "The hash slot"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER SHARDS": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "List<Object> clusterShards()",
+          "params": [],
+          "returns": {
+            "type": "List<Object>",
+            "description": "Cluster shards information"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<List<Object>> clusterShards()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<List<Object>>",
+            "description": "Cluster shards information"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<List<Object>> clusterShards()",
+          "params": [],
+          "returns": {
+            "type": "Mono<List<Object>>",
+            "description": "Cluster shards information"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER SLAVES": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER SLOT-STATS": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER SLOTS": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "List<Object> clusterSlots()",
+          "params": [],
+          "returns": {
+            "type": "List<Object>",
+            "description": "Cluster slots information"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<List<Object>> clusterSlots()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<List<Object>>",
+            "description": "Cluster slots information"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<List<Object>> clusterSlots()",
+          "params": [],
+          "returns": {
+            "type": "Mono<List<Object>>",
+            "description": "Cluster slots information"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER SYNCSLOTS": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLUSTER": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
     }
   },
   "CMS.INCRBY": {
@@ -70985,6 +73446,200 @@
           }
         }
       ]
+    }
+  },
+  "READONLY": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "readonly(**kwargs)",
+          "params": [
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String readonly()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ReadOnly(ctx context.Context)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "parseCommand(parser: CommandParser)",
+          "params": [
+            {
+              "name": "parser",
+              "type": "CommandParser",
+              "description": "The command parser"
+            }
+          ],
+          "returns": {
+            "type": "SimpleStringReply",
+            "description": ""
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "String readOnly()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> readOnly()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> readOnly()",
+          "params": [],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "READWRITE": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "readwrite(**kwargs)",
+          "params": [
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String readwrite()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ReadWrite(ctx context.Context)",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "parseCommand(parser: CommandParser)",
+          "params": [
+            {
+              "name": "parser",
+              "type": "CommandParser",
+              "description": "The command parser"
+            }
+          ],
+          "returns": {
+            "type": "SimpleStringReply",
+            "description": ""
+          }
+        }
+      ],
+      "lettuce_sync": [
+        {
+          "signature": "String readWrite()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> readWrite()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> readWrite()",
+          "params": [],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
     }
   },
   "RENAME": {

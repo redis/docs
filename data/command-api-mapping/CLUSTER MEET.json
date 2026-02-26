@@ -1,0 +1,147 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [
+      {
+        "signature": "String clusterMeet(final String ip, final int port)",
+        "params": [
+          {
+            "name": "ip",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClusterMeet(ctx context.Context, host, port string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "host",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "parseCommand(parser: CommandParser, host: string, port: number)",
+        "params": [
+          {
+            "name": "parser",
+            "type": "CommandParser",
+            "description": "The Redis command parser"
+          },
+          {
+            "name": "host",
+            "type": "string",
+            "description": "Host name or IP address of the node"
+          },
+          {
+            "name": "port",
+            "type": "number",
+            "description": "TCP port of the node"
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String clusterMeet(String ip, int port)",
+        "params": [
+          {
+            "name": "ip",
+            "type": "String",
+            "description": "Host name or IP address of the node"
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": "TCP port of the node"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clusterMeet(String ip, int port)",
+        "params": [
+          {
+            "name": "ip",
+            "type": "String",
+            "description": "Host name or IP address of the node"
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": "TCP port of the node"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clusterMeet(String ip, int port)",
+        "params": [
+          {
+            "name": "ip",
+            "type": "String",
+            "description": "Host name or IP address of the node"
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": "TCP port of the node"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+
