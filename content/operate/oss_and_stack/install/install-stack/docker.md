@@ -54,3 +54,13 @@ $ docker run -v /myredis/conf:/usr/local/etc/redis --name myredis redis redis-se
 where `/myredis/conf/` is a local directory containing your `redis.conf` file. Using this method means that there is no need for you to have a Dockerfile for your redis container.
 
 The mapped directory should be writable, as depending on the configuration and mode of operation, Redis may need to create additional configuration files or rewrite existing ones.
+
+## Use local storage for data persistence
+
+To mount directories or files to your Docker container, specify -v to configure a local volume. This command stores all data in the local directory local-data:
+
+{{< highlight bash >}}
+$ docker run -v /local-data/:/data --name redis -p 6379:6379 redis:<version>
+{{< / highlight >}}
+
+See the [official Redis page on Docker Hub](https://hub.docker.com/_/redis) for more options.

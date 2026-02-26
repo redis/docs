@@ -1,21 +1,11 @@
 {
   "components": {
     "responses": {
-      "BadRequest": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        },
-        "description": "Bad Request"
-      },
       "Conflict": {
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
+              "$ref": "#/components/schemas/cluster_Error"
             }
           }
         },
@@ -25,7 +15,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
+              "$ref": "#/components/schemas/cluster_Error"
             }
           }
         },
@@ -35,7 +25,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
+              "$ref": "#/components/schemas/cluster_Error"
             }
           }
         },
@@ -45,7 +35,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
+              "$ref": "#/components/schemas/cluster_Error"
             }
           }
         },
@@ -55,11 +45,31 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
+              "$ref": "#/components/schemas/cluster_Error"
             }
           }
         },
         "description": "Service Unavailable"
+      },
+      "cluster_BadRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/cluster_Error"
+            }
+          }
+        },
+        "description": "Bad Request"
+      },
+      "cluster_InternalServerError": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/cluster_Error"
+            }
+          }
+        },
+        "description": "Internal Server Error"
       }
     },
     "schemas": {
@@ -157,6 +167,24 @@
         },
         "type": "object"
       },
+      "BdbProxyCertificateSetRequest": {
+        "description": "Request body for setting a bdb proxy certificate",
+        "properties": {
+          "cert": {
+            "description": "PEM-encoded certificate",
+            "type": "string"
+          },
+          "private_key": {
+            "description": "PEM-encoded private key",
+            "type": "string"
+          }
+        },
+        "required": [
+          "cert",
+          "private_key"
+        ],
+        "type": "object"
+      },
       "Certificate": {
         "description": "Certificate information.",
         "properties": {
@@ -230,7 +258,7 @@
           "nodes": {
             "description": "List of nodes in the cluster",
             "items": {
-              "$ref": "#/components/schemas/Node"
+              "$ref": "#/components/schemas/NodeHealthReport"
             },
             "type": "array"
           },
@@ -413,27 +441,6 @@
         ],
         "type": "object"
       },
-      "Error": {
-        "properties": {
-          "description": {
-            "description": "Human-readable error description",
-            "type": "string"
-          },
-          "error_code": {
-            "description": "Semantic error code (e.g., password_not_complex)",
-            "type": "string"
-          },
-          "status_code": {
-            "type": "integer",
-            "x-go-json-ignore": true
-          }
-        },
-        "required": [
-          "error_code",
-          "description",
-          "status_code"
-        ]
-      },
       "HighAvailability": {
         "properties": {
           "status": {
@@ -532,7 +539,7 @@
         ],
         "type": "object"
       },
-      "Node": {
+      "NodeHealthReport": {
         "description": "Node information.",
         "properties": {
           "active_alerts": {
@@ -643,6 +650,44 @@
         ],
         "type": "object"
       },
+      "OcspConfig": {
+        "description": "OCSP configuration",
+        "properties": {
+          "ocsp_functionality": {
+            "description": "Whether to enable/disable OCSP for the cluster.",
+            "type": "boolean"
+          },
+          "query_frequency": {
+            "description": "Determines the interval (in seconds) in which the control plane will poll the OCSP responder for a new status for the server certificate.",
+            "type": "integer"
+          },
+          "recovery_frequency": {
+            "description": "Determines the interval (in seconds) in which the control plane will poll the OCSP responder for a new status for the server certificate when the current staple is invalid.",
+            "type": "integer"
+          },
+          "recovery_max_tries": {
+            "description": "Determines the maximum number for the OCSP recovery attempts. After max number of tries passed, the control plane will revert back to the regular frequency.",
+            "type": "integer"
+          },
+          "responder_url": {
+            "description": "The OCSP server url embedded in the proxy certificate (if available)",
+            "type": "string"
+          },
+          "response_timeout": {
+            "description": "Determines the time interval (in seconds) for which the request waits for a response from the OCSP responder.",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "ocsp_functionality",
+          "responder_url",
+          "query_frequency",
+          "response_timeout",
+          "recovery_frequency",
+          "recovery_max_tries"
+        ],
+        "type": "object"
+      },
       "PasswordHashMethod": {
         "description": "Used when password is passed pre-hashed",
         "enum": [
@@ -731,6 +776,29 @@
         },
         "type": "object"
       },
+      "Resource": {
+        "description": "Defines a resource for a role, restricting access to specific resources.",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/ResourceType"
+          },
+          "uids": {
+            "description": "List of resource UIDs this role has access to.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "ResourceType": {
+        "description": "Type of resource for scoping role access.",
+        "enum": [
+          "db"
+        ],
+        "type": "string"
+      },
       "Role": {
         "allOf": [
           {
@@ -773,6 +841,20 @@
             "description": "Role's name.",
             "pattern": "^[a-zA-Z0-9_ \\[\\]()@,.;#-]+$",
             "type": "string"
+          },
+          "permissions": {
+            "description": "Explicit permissions for this role. If not specified, permissions are inherited from the management role.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "resources": {
+            "description": "Resources that restrict this role's access to specific resources.",
+            "items": {
+              "$ref": "#/components/schemas/Resource"
+            },
+            "type": "array"
           }
         },
         "type": "object"
@@ -1142,6 +1224,27 @@
         },
         "type": "object"
       },
+      "cluster_Error": {
+        "properties": {
+          "description": {
+            "description": "Human-readable error description",
+            "type": "string"
+          },
+          "error_code": {
+            "description": "Semantic error code",
+            "type": "string"
+          },
+          "status_code": {
+            "type": "integer",
+            "x-go-json-ignore": true
+          }
+        },
+        "required": [
+          "error_code",
+          "description",
+          "status_code"
+        ]
+      },
       "database_detailed_status": {
         "default": "unknown",
         "description": "The database detailed status",
@@ -1204,7 +1307,124 @@
   },
   "openapi": "3.0.0",
   "paths": {
+    "/v1/bdbs/certificates": {
+      "get": {
+        "description": "List database proxy certificates in the cluster",
+        "operationId": "cluster_get_bdb_certificates",
+        "parameters": [
+          {
+            "description": "1-based page number",
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Number of results per page",
+            "in": "query",
+            "name": "page_size",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Return certificates that expire before the given timestamp",
+            "in": "query",
+            "name": "expires_before",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter by TLS mode. One of enabled, disabled, replica_ssl",
+            "in": "query",
+            "name": "tls_mode",
+            "schema": {
+              "enum": [
+                "disabled",
+                "replica_ssl",
+                "enabled"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/BdbProxyCertificate"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "List of database proxy certificates"
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_all_bdbs_info"
+            ]
+          }
+        ],
+        "summary": "List database proxy certificates",
+        "tags": [
+          "Database"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
     "/v1/bdbs/{uid}/certificates": {
+      "delete": {
+        "description": "Delete database proxy certificate",
+        "operationId": "cluster_delete_bdb_certificate",
+        "parameters": [
+          {
+            "description": "The database unique ID",
+            "example": 1,
+            "in": "path",
+            "name": "uid",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Certificate deleted successfully"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "update_bdb"
+            ]
+          }
+        ],
+        "summary": "Delete database proxy certificate",
+        "tags": [
+          "Database"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
       "get": {
         "description": "Get database proxy certificate",
         "operationId": "cluster_get_bdb_certificate",
@@ -1244,6 +1464,81 @@
           }
         ],
         "summary": "Get database proxy certificate",
+        "tags": [
+          "Database"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "post": {
+        "description": "Set or replace database proxy certificate",
+        "operationId": "cluster_set_bdb_certificate",
+        "parameters": [
+          {
+            "description": "The database unique ID",
+            "example": 1,
+            "in": "path",
+            "name": "uid",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            }
+          },
+          {
+            "allowEmptyValue": true,
+            "description": "Validate the request without persisting changes",
+            "in": "query",
+            "name": "dry_run",
+            "schema": {
+              "type": "boolean",
+              "x-go-type": "DryRun"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BdbProxyCertificateSetRequest"
+              }
+            }
+          },
+          "description": "BDB proxy certificate data",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BdbProxyCertificate"
+                }
+              }
+            },
+            "description": "The updated database proxy certificate"
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "406": {
+            "$ref": "#/components/responses/NotAcceptable"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "update_bdb"
+            ]
+          }
+        ],
+        "summary": "Set database proxy certificate",
         "tags": [
           "Database"
         ],
@@ -1441,7 +1736,7 @@
             "description": "Password hashing algorithm changed successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -1460,6 +1755,40 @@
         "summary": "Change the cluster password hashing algorithm",
         "tags": [
           "Users"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/ocsp": {
+      "get": {
+        "description": "Get the OCSP configuration for the cluster",
+        "operationId": "cluster_get_ocsp_config",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OcspConfig"
+                }
+              }
+            },
+            "description": "OCSP configuration"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_ocsp_config"
+            ]
+          }
+        ],
+        "summary": "Get OCSP configuration",
+        "tags": [
+          "Cluster"
         ],
         "x-publish-docs": true,
         "x-stability-level": "stable"
@@ -1539,7 +1868,7 @@
             "description": "Redis ACL created successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -1590,7 +1919,7 @@
             "description": "Redis ACL validated successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -1772,7 +2101,7 @@
             "description": "Redis ACL updated successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -1877,7 +2206,7 @@
             "description": "Role created successfully."
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -1886,7 +2215,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/cluster_Error"
                 }
               }
             },
@@ -2079,7 +2408,7 @@
             "description": "Role updated successfully."
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -2183,7 +2512,7 @@
             "description": "User created successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -2192,7 +2521,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/cluster_Error"
                 }
               }
             },
@@ -2251,7 +2580,7 @@
             "description": "Password deleted successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -2316,7 +2645,7 @@
             "description": "Password added successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -2381,7 +2710,7 @@
             "description": "Password reset successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -2714,7 +3043,7 @@
             "description": "User updated successfully"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/cluster_BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"

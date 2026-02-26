@@ -591,9 +591,13 @@ This query returns the field as the alias `"stock"` instead of the JSONPath expr
 
 You can [highlight]({{< relref "/develop/ai/search-and-query/advanced-concepts/highlight" >}}) relevant search terms in any indexed `TEXT` attribute.
 
-For [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}), you have to explicitly set which attributes you want highlighted after the `RETURN` and `HIGHLIGHT` parameters.
+For JSON documents, you must use the `RETURN` parameter to specify the attributes, followed by `HIGHLIGHT` to indicate which of those attributes to highlight.
 
 Use the optional `TAGS` keyword to specify the strings that will surround (or highlight) the matching search terms.
+
+{{< note >}}
+`HIGHLIGHT` and `SUMMARIZE` are not supported when the JSONPath leads to multiple values (such as arrays indexed as `TEXT`). See [Index limitations](#index-limitations) for details.
+{{< /note >}}
 
 For example, highlight the word "bluetooth" with bold HTML tags in item names and descriptions:
 
@@ -674,10 +678,6 @@ FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.propA AS propA TAG $.propB AS propB
 
 ## Index limitations
 
-### HIGHLIGHT and SUMMARIZE
-
-There is no `HIGHLIGHT` and `SUMMARIZE` support for JSON documents.
-
 ### Schema mapping
 
 During index creation, you need to map the JSON elements to `SCHEMA` fields as follows:
@@ -697,6 +697,7 @@ During index creation, you need to map the JSON elements to `SCHEMA` fields as f
 
 When a JSONPath leads to an array or to multiple values:
 
-- **SORTBY**: Only the first value is considered by the sort.
-- **RETURN with attribute**: Returns only the first value (as a JSON String).
-- **RETURN with JSONPath**: Returns all values (as a JSON String).
+- No `HIGHLIGHT` and `SUMMARIZE` support.
+- `SORTBY` only sorts by the first value.
+- `RETURN` of a schema attribute returns the values as a JSON string.
+- If a JSONPath is specified by the `RETURN`, instead of a schema attribute, all values are returned (as a JSON string).

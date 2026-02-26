@@ -16578,6 +16578,7 @@
               "DATABASE_IMPORT_MULTIPLE_REDIS_SOURCES",
               "DATABASE_IMPORT_REDIS_BAD_URI",
               "DATABASE_REPLICA_OF_BAD_URI",
+              "DATABASE_REPLICA_OF_DYNAMIC_ENDPOINT_NOT_ALLOWED",
               "DATABASE_IMPORT_S3_BAD_URI",
               "DATABASE_IMPORT_HTTP_BAD_URI",
               "DATABASE_IMPORT_FTP_BAD_URI",
@@ -16696,6 +16697,7 @@
               "PAYMENT_INFO_NOT_ALLOWED_IN_GCP_ACCOUNT",
               "CLOUD_PROVIDER_IS_NOT_GCP_IN_GCP_ACCOUNT",
               "PAYMENT_INFO_NOT_ALLOWED_IN_CONTRACT_ASSOCIATED_ACCOUNT",
+              "PAYMENT_INFO_CHANGE_PROHIBITED_FOR_PRO_UNDER_CONTRACT",
               "LOCAL_THROUGHPUT_READ_AND_WRITE_OPERATIONS_PER_SECOND_VALUES_MUST_BE_IN_INCREMENTS_OF_500_OR_MINIMUM",
               "MISSING_REGIONS_BETWEEN_CLOUD_PROVIDERS_AND_DATABASES_LOCAL_THROUGHPUT_MEASUREMENTS",
               "MISSING_REGIONS_BETWEEN_LOCAL_THROUGHPUT_MEASUREMENTS_AND_SUBSCRIPTION_REGIONS",
@@ -17095,6 +17097,20 @@
           }
         },
         "description": "Database backup request message"
+      },
+      "ReplicaAsSourceEndpoints": {
+        "type": "object",
+        "properties": {
+          "public": {
+            "type": "string",
+            "description": "Public cluster endpoint that can be used as source for replication"
+          },
+          "private": {
+            "type": "string",
+            "description": "Private cluster endpoint that can be used as source for replication"
+          }
+        },
+        "description": "Endpoints to use when configuring another database to replicate from this database (Make sure to use this instead of the dynamic endpoints)."
       },
       "DataPersistenceOptions": {
         "type": "object",
@@ -17800,6 +17816,9 @@
           "dynamicEndpoints": {
             "$ref": "#/components/schemas/DynamicEndpoints"
           },
+          "replicaAsSourceEndpoints": {
+            "$ref": "#/components/schemas/ReplicaAsSourceEndpoints"
+          },
           "links": {
             "type": "array",
             "items": {
@@ -18137,6 +18156,13 @@
         ],
         "type": "object",
         "properties": {
+          "customerManagedKeys": {
+            "type": "array",
+            "description": "The customer managed keys (CMK) to use for this subscription. If is active-active subscription, must set a key for each region.",
+            "items": {
+              "$ref": "#/components/schemas/CustomerManagedKey"
+            }
+          },
           "deletionGracePeriod": {
             "type": "string",
             "description": "Optional. The grace period for deleting the subscription. If not set, will default to immediate deletion grace period.",
@@ -18152,13 +18178,6 @@
               "12-hours",
               "24-hours"
             ]
-          },
-          "customerManagedKeys": {
-            "type": "array",
-            "description": "The customer managed keys (CMK) to use for this subscription. If is active-active subscription, must set a key for each region.",
-            "items": {
-              "$ref": "#/components/schemas/CustomerManagedKey"
-            }
           }
         },
         "description": "Optional. Contains information about the keys used for each region. Can be used only with external cloud account"
