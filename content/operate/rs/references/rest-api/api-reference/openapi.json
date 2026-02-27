@@ -688,6 +688,36 @@
         ],
         "type": "object"
       },
+      "OcspStatus": {
+        "description": "OCSP status",
+        "properties": {
+          "cert_status": {
+            "description": "Indicates the proxy certificate status: GOOD/REVOKED/UNKNOWN.",
+            "type": "string"
+          },
+          "next_update": {
+            "description": "The time at or before which newer information will be available about the status of the certificate (if available)",
+            "type": "string"
+          },
+          "produced_at": {
+            "description": "The time at which the OCSP responder signed this response.",
+            "type": "string"
+          },
+          "responder_url": {
+            "description": "The OCSP responder url from which this status came from.",
+            "type": "string"
+          },
+          "revocation_time": {
+            "description": "The time at which the certificate was revoked or placed on hold.",
+            "type": "string"
+          },
+          "this_update": {
+            "description": "The most recent time at which the status being indicated is known by the responder to have been correct.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "PasswordHashMethod": {
         "description": "Used when password is passed pre-hashed",
         "enum": [
@@ -1787,6 +1817,40 @@
           }
         ],
         "summary": "Get OCSP configuration",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/ocsp/status": {
+      "get": {
+        "description": "Get the latest OCSP status for the cluster",
+        "operationId": "cluster_get_ocsp_status",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OcspStatus"
+                }
+              }
+            },
+            "description": "OCSP status"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_ocsp_status"
+            ]
+          }
+        ],
+        "summary": "Get OCSP status",
         "tags": [
           "Cluster"
         ],
