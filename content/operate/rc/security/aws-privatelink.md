@@ -47,6 +47,7 @@ Be aware of the following limitations when using PrivateLink with Redis Cloud:
 
     We recommend avoiding these availability zones when creating your Redis Cloud database if you plan to use AWS PrivateLink.
 - Redis Cloud [Bring your Own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) subscriptions are not supported with PrivateLink.
+- The pre-handoff feature of [Smart client handoffs]({{< relref "/develop/clients/sch#redis-cloud" >}}) is not currently supported with AWS PrivateLink, but relaxed timeouts are available and enabled by default.
 
 ## Prerequisites
 
