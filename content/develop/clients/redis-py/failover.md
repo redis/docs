@@ -215,13 +215,11 @@ a database that is already unhealthy.
 | `health_check` | Custom list of `HealthCheck` objects to specify how to perform each probe during a health check. This defaults to just the simple [`PingHealthCheck`](#pinghealthcheck-default). |
 | `initial_health_check_policy` | `InitialHealthCheck` enum value to specify the policy to use during the initial health check. The options are `InitialHealthCheck.ALL_AVAILABLE` (all probes must succeed), `InitialHealthCheck.ANY_AVAILABLE` (at least one probe must succeed), and `InitialHealthCheck.MAJORITY_AVAILABLE` (more than half the probes must succeed). The default policy is `InitialHealthCheck.ALL_AVAILABLE`. |
 
-### Health check strategies
-
 There are several strategies available for health checks that you can configure using the
 `MultiClusterClientConfig` builder. The sections below explain these strategies
 in more detail.
 
-#### `PingHealthCheck` (default)
+### `PingHealthCheck` (default)
 
 The default strategy, `PingHealthCheck`, periodically sends a Redis
 [`PING`]({{< relref "/commands/ping" >}}) command
@@ -229,7 +227,7 @@ and checks that it gives the expected response. Any unexpected response
 or exception indicates an unhealthy server. Although `PingHealthCheck` is
 very simple, it is a good basic approach for most Redis deployments.
 
-#### `LagAwareHealthCheck` (Redis Software only) {#lag-aware-health-check}
+### `LagAwareHealthCheck` (Redis Software only) {#lag-aware-health-check}
 
 `LagAwareHealthCheck` is designed specifically for
 Redis Software [Active-Active]({{< relref "/operate/rs/databases/active-active" >}})
@@ -294,7 +292,7 @@ The `LagAwareHealthCheck` constructor accepts the following options:
 | `client_key_file` | Path to client private key file for mutual TLS. |
 | `client_key_password` | Password for encrypted client private key |
 
-#### Custom health check strategy
+### Custom health check strategy
 
 You can supply your own custom health check strategy by
 deriving a new class from the `AbstractHealthCheck` class.
@@ -393,6 +391,21 @@ Note that `set_active_database()` is thread-safe.
 
 If you decide to implement manual failback, you will need a way for external systems to trigger this method in your application. For example, if your application exposes a REST API, you might consider creating a REST endpoint to call `set_active_database()`.
 
+## Behavior when all endpoints are unhealthy
+
+In the extreme case where no endpoint is healthy, a command will throw a `TemporaryUnavailableException`.
+This indicates that the client is periodically checking to see if any endpoint becomes healthy again. The number of
+times it will keep checking is configured by the `failover_attempts` option in `MultiDbConfig` and
+the delay between attempts is configured by the `failover_delay` option (see [General failover configuration](#general-failover-configuration)). With the default settings, `failover_attempts` * `failover_delay` 
+gives a period of 120 seconds to find a healthy endpoint.
+
+You can still keep retrying commands after a `TemporaryUnavailableException` is thrown (for example,
+you could add this exception to the `supported_errors` list in your `Retry` configuration, as described
+in [Retries]({{< relref "/develop/clients/redis-py/produsage#retries" >}})). However, if the client exhausts
+all the available failover attempts before any endpoint becomes healthy again, commands will throw a `NoValidDatabaseException`. The client won't recover automatically from this situation, so you
+should handle it by reconnecting with the `MultiDBClient` constructor after a suitable delay (see
+[Failover configuration](#failover-configuration) for a connection example).
+
 ## Troubleshooting
 
 This section lists some common problems and their solutions.
@@ -401,12 +414,19 @@ This section lists some common problems and their solutions.
 
 If all health checks fail, you should first rule out authentication
 problems with the Redis server and also make sure there are no persistent
-network connectivity problems. If you are using
+network connectivity problems.
+
+If you are using [`PingHealthCheck`](#pinghealthcheck-default) or a
+[custom health check strategy](#custom-health-check-strategy),
+check that the `socket_timeout` is not too low for your network conditions
+(see [Timeouts]({{< relref "/develop/clients/redis-py/produsage#timeouts" >}}) for more information).
+
+For
 [`LagAwareHealthCheck`](#lag-aware-health-check), check that the `health_check_url`
-is set correctly for each endpoint. You can also try increasing the timeout
-for health checks and the interval between them. See
-[Health check configuration](#health-check-configuration) and
-[Endpoint configuration](#endpoint-configuration) for more information about these options.
+is set correctly for each endpoint. Note that health checks might be taking longer to
+execute than you anticipated, so make sure your `timeout` setting is not too low.
+
+
 
 ### Slow failback after recovery
 
