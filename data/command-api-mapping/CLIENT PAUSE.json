@@ -7,12 +7,12 @@
           {
             "name": "timeout",
             "type": "int",
-            "description": "Milliseconds to pause clients"
+            "description": ""
           },
           {
             "name": "all",
             "type": "bool",
-            "description": "If true (default) all client commands are blocked"
+            "description": ""
           },
           {
             "name": "**kwargs",
@@ -21,43 +21,24 @@
           }
         ],
         "returns": {
-          "type": "ResponseT",
+          "type": "str",
           "description": ""
         }
       }
     ],
     "jedis": [
       {
-        "signature": "String clientPause(final long timeout)",
+        "signature": "String clientPause(long timeout)",
         "params": [
           {
             "name": "timeout",
             "type": "long",
-            "description": "Timeout in milliseconds"
+            "description": ""
           }
         ],
         "returns": {
           "type": "String",
-          "description": "OK"
-        }
-      },
-      {
-        "signature": "String clientPause(final long timeout, final ClientPauseMode mode)",
-        "params": [
-          {
-            "name": "timeout",
-            "type": "long",
-            "description": "Timeout in milliseconds"
-          },
-          {
-            "name": "mode",
-            "type": "ClientPauseMode",
-            "description": "Pause mode"
-          }
-        ],
-        "returns": {
-          "type": "String",
-          "description": "OK"
+          "description": ""
         }
       }
     ],
@@ -73,7 +54,7 @@
           {
             "name": "dur",
             "type": "time.Duration",
-            "description": "Pause duration"
+            "description": ""
           }
         ],
         "returns": {
@@ -90,12 +71,12 @@
           {
             "name": "timeout",
             "type": "long",
-            "description": "Timeout in milliseconds"
+            "description": ""
           }
         ],
         "returns": {
           "type": "String",
-          "description": "OK"
+          "description": ""
         }
       }
     ],
@@ -106,12 +87,12 @@
           {
             "name": "timeout",
             "type": "long",
-            "description": "Timeout in milliseconds"
+            "description": ""
           }
         ],
         "returns": {
           "type": "RedisFuture<String>",
-          "description": "OK"
+          "description": ""
         }
       }
     ],
@@ -122,20 +103,39 @@
           {
             "name": "timeout",
             "type": "long",
-            "description": "Timeout in milliseconds"
+            "description": ""
           }
         ],
         "returns": {
           "type": "Mono<String>",
-          "description": "OK"
+          "description": ""
         }
       }
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [],
+    "php": [
+      {
+        "signature": "client(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }
 }
-

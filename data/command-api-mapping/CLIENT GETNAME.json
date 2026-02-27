@@ -11,7 +11,7 @@
           }
         ],
         "returns": {
-          "type": "ResponseT",
+          "type": "str | None",
           "description": ""
         }
       }
@@ -22,7 +22,7 @@
         "params": [],
         "returns": {
           "type": "String",
-          "description": "The connection name"
+          "description": ""
         }
       }
     ],
@@ -42,42 +42,70 @@
         }
       }
     ],
-    "node_redis": [],
-    "lettuce_sync": [
+    "node_redis": [
       {
-        "signature": "K clientGetname()",
+        "signature": "clientGetName()",
         "params": [],
         "returns": {
-          "type": "K",
-          "description": "The connection name, or null if no name is set"
+          "type": "BlobStringReply | NullReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String clientGetname()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
         }
       }
     ],
     "lettuce_async": [
       {
-        "signature": "RedisFuture<K> clientGetname()",
+        "signature": "RedisFuture<String> clientGetname()",
         "params": [],
         "returns": {
-          "type": "RedisFuture<K>",
-          "description": "The connection name, or null if no name is set"
+          "type": "RedisFuture<String>",
+          "description": ""
         }
       }
     ],
     "lettuce_reactive": [
       {
-        "signature": "Mono<K> clientGetname()",
+        "signature": "Mono<String> clientGetname()",
         "params": [],
         "returns": {
-          "type": "Mono<K>",
-          "description": "The connection name, or null if no name is set"
+          "type": "Mono<String>",
+          "description": ""
         }
       }
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [],
+    "php": [
+      {
+        "signature": "client(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string|null",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }
 }
-

@@ -2,93 +2,70 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "client_no_evict(mode: str)",
+        "signature": "client_no_evict(mode: str, **kwargs)",
         "params": [
           {
             "name": "mode",
             "type": "str",
-            "description": "Mode (ON or OFF)"
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
           }
         ],
         "returns": {
-          "type": "Union[Awaitable[str], str]",
+          "type": "str",
           "description": ""
         }
       }
     ],
     "jedis": [
       {
-        "signature": "String clientNoEvictOn()",
-        "params": [],
-        "returns": {
-          "type": "String",
-          "description": "OK"
-        }
-      },
-      {
-        "signature": "String clientNoEvictOff()",
-        "params": [],
-        "returns": {
-          "type": "String",
-          "description": "OK"
-        }
-      }
-    ],
-    "go-redis": [],
-    "node_redis": [],
-    "lettuce_sync": [
-      {
         "signature": "String clientNoEvict(boolean on)",
         "params": [
           {
             "name": "on",
             "type": "boolean",
-            "description": "true to turn eviction mode on, false to turn it off"
+            "description": ""
           }
         ],
         "returns": {
           "type": "String",
-          "description": "OK"
+          "description": ""
         }
       }
     ],
-    "lettuce_async": [
-      {
-        "signature": "RedisFuture<String> clientNoEvict(boolean on)",
-        "params": [
-          {
-            "name": "on",
-            "type": "boolean",
-            "description": "true to turn eviction mode on, false to turn it off"
-          }
-        ],
-        "returns": {
-          "type": "RedisFuture<String>",
-          "description": "OK"
-        }
-      }
-    ],
-    "lettuce_reactive": [
-      {
-        "signature": "Mono<String> clientNoEvict(boolean on)",
-        "params": [
-          {
-            "name": "on",
-            "type": "boolean",
-            "description": "true to turn eviction mode on, false to turn it off"
-          }
-        ],
-        "returns": {
-          "type": "Mono<String>",
-          "description": "OK"
-        }
-      }
-    ],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [],
+    "php": [
+      {
+        "signature": "client(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }
 }
-

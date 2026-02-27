@@ -7,7 +7,7 @@
           {
             "name": "address",
             "type": "str",
-            "description": "Client address (ip:port)"
+            "description": ""
           },
           {
             "name": "**kwargs",
@@ -16,43 +16,68 @@
           }
         ],
         "returns": {
-          "type": "ResponseT",
+          "type": "int",
+          "description": ""
+        }
+      },
+      {
+        "signature": "client_kill_filter(_id: int | None = None, _type: str | None = None, addr: str | None = None, skipme: bool | None = None, laddr: str | None = None, user: str | None = None, **kwargs)",
+        "params": [
+          {
+            "name": "_id",
+            "type": "int | None",
+            "description": ""
+          },
+          {
+            "name": "_type",
+            "type": "str | None",
+            "description": ""
+          },
+          {
+            "name": "addr",
+            "type": "str | None",
+            "description": ""
+          },
+          {
+            "name": "skipme",
+            "type": "bool | None",
+            "description": ""
+          },
+          {
+            "name": "laddr",
+            "type": "str | None",
+            "description": ""
+          },
+          {
+            "name": "user",
+            "type": "str | None",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
           "description": ""
         }
       }
     ],
     "jedis": [
       {
-        "signature": "String clientKill(final String ipPort)",
+        "signature": "long clientKill(String ipPort)",
         "params": [
           {
             "name": "ipPort",
             "type": "String",
-            "description": "Client address (ip:port)"
+            "description": ""
           }
         ],
         "returns": {
-          "type": "String",
-          "description": "OK"
-        }
-      },
-      {
-        "signature": "String clientKill(final String ip, final int port)",
-        "params": [
-          {
-            "name": "ip",
-            "type": "String",
-            "description": "Client IP"
-          },
-          {
-            "name": "port",
-            "type": "int",
-            "description": "Client port"
-          }
-        ],
-        "returns": {
-          "type": "String",
-          "description": "OK"
+          "type": "long",
+          "description": ""
         }
       },
       {
@@ -61,12 +86,12 @@
           {
             "name": "params",
             "type": "ClientKillParams",
-            "description": "Kill parameters"
+            "description": ""
           }
         ],
         "returns": {
           "type": "long",
-          "description": "Number of killed connections"
+          "description": ""
         }
       }
     ],
@@ -82,7 +107,7 @@
           {
             "name": "ipPort",
             "type": "string",
-            "description": "IP:port of client to kill"
+            "description": ""
           }
         ],
         "returns": {
@@ -101,7 +126,7 @@
           {
             "name": "keys",
             "type": "...string",
-            "description": "Filter keys"
+            "description": ""
           }
         ],
         "returns": {
@@ -110,7 +135,22 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clientKill(filters: ClientKillFilter | Array<ClientKillFilter>)",
+        "params": [
+          {
+            "name": "filters",
+            "type": "ClientKillFilter | Array<ClientKillFilter>",
+            "description": "One or more filters to match client connections to kill"
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clientKill(String addr)",
@@ -118,12 +158,12 @@
           {
             "name": "addr",
             "type": "String",
-            "description": "Client address"
+            "description": ""
           }
         ],
         "returns": {
           "type": "String",
-          "description": "OK"
+          "description": ""
         }
       },
       {
@@ -132,12 +172,12 @@
           {
             "name": "killArgs",
             "type": "KillArgs",
-            "description": "Kill arguments"
+            "description": ""
           }
         ],
         "returns": {
           "type": "Long",
-          "description": "Number of killed connections"
+          "description": ""
         }
       }
     ],
@@ -148,12 +188,12 @@
           {
             "name": "addr",
             "type": "String",
-            "description": "Client address"
+            "description": ""
           }
         ],
         "returns": {
           "type": "RedisFuture<String>",
-          "description": "OK"
+          "description": ""
         }
       },
       {
@@ -162,12 +202,12 @@
           {
             "name": "killArgs",
             "type": "KillArgs",
-            "description": "Kill arguments"
+            "description": ""
           }
         ],
         "returns": {
           "type": "RedisFuture<Long>",
-          "description": "Number of killed connections"
+          "description": ""
         }
       }
     ],
@@ -178,12 +218,12 @@
           {
             "name": "addr",
             "type": "String",
-            "description": "Client address"
+            "description": ""
           }
         ],
         "returns": {
           "type": "Mono<String>",
-          "description": "OK"
+          "description": ""
         }
       },
       {
@@ -192,20 +232,39 @@
           {
             "name": "killArgs",
             "type": "KillArgs",
-            "description": "Kill arguments"
+            "description": ""
           }
         ],
         "returns": {
           "type": "Mono<Long>",
-          "description": "Number of killed connections"
+          "description": ""
         }
       }
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [],
+    "php": [
+      {
+        "signature": "client(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int|string",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }
 }
-

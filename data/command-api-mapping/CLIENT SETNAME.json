@@ -7,7 +7,7 @@
           {
             "name": "name",
             "type": "str",
-            "description": "The client name"
+            "description": ""
           },
           {
             "name": "**kwargs",
@@ -16,24 +16,24 @@
           }
         ],
         "returns": {
-          "type": "ResponseT",
+          "type": "str",
           "description": ""
         }
       }
     ],
     "jedis": [
       {
-        "signature": "String clientSetname(final String name)",
+        "signature": "String clientSetname(String name)",
         "params": [
           {
             "name": "name",
             "type": "String",
-            "description": "The client name"
+            "description": ""
           }
         ],
         "returns": {
           "type": "String",
-          "description": "OK"
+          "description": ""
         }
       }
     ],
@@ -49,7 +49,7 @@
           {
             "name": "name",
             "type": "string",
-            "description": "Client name"
+            "description": ""
           }
         ],
         "returns": {
@@ -58,60 +58,94 @@
         }
       }
     ],
-    "node_redis": [],
-    "lettuce_sync": [
+    "node_redis": [
       {
-        "signature": "String clientSetname(K name)",
+        "signature": "clientSetName(name: RedisArgument)",
         "params": [
           {
             "name": "name",
-            "type": "K",
-            "description": "The client name"
+            "type": "RedisArgument",
+            "description": "The name to assign to the connection"
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String clientSetname(String name)",
+        "params": [
+          {
+            "name": "name",
+            "type": "String",
+            "description": ""
           }
         ],
         "returns": {
           "type": "String",
-          "description": "OK"
+          "description": ""
         }
       }
     ],
     "lettuce_async": [
       {
-        "signature": "RedisFuture<String> clientSetname(K name)",
+        "signature": "RedisFuture<String> clientSetname(String name)",
         "params": [
           {
             "name": "name",
-            "type": "K",
-            "description": "The client name"
+            "type": "String",
+            "description": ""
           }
         ],
         "returns": {
           "type": "RedisFuture<String>",
-          "description": "OK"
+          "description": ""
         }
       }
     ],
     "lettuce_reactive": [
       {
-        "signature": "Mono<String> clientSetname(K name)",
+        "signature": "Mono<String> clientSetname(String name)",
         "params": [
           {
             "name": "name",
-            "type": "K",
-            "description": "The client name"
+            "type": "String",
+            "description": ""
           }
         ],
         "returns": {
           "type": "Mono<String>",
-          "description": "OK"
+          "description": ""
         }
       }
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [],
+    "php": [
+      {
+        "signature": "client(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }
 }
-

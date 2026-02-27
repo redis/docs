@@ -7,7 +7,7 @@
           {
             "name": "reply",
             "type": "str",
-            "description": "Reply mode (ON, OFF, or SKIP)"
+            "description": ""
           },
           {
             "name": "**kwargs",
@@ -16,12 +16,27 @@
           }
         ],
         "returns": {
-          "type": "ResponseT",
+          "type": "str",
           "description": ""
         }
       }
     ],
-    "jedis": [],
+    "jedis": [
+      {
+        "signature": "String clientReply(ClientReplyType replyType)",
+        "params": [
+          {
+            "name": "replyType",
+            "type": "ClientReplyType",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
     "go-redis": [],
     "node_redis": [],
     "lettuce_sync": [],
@@ -29,9 +44,28 @@
     "lettuce_reactive": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [],
+    "php": [
+      {
+        "signature": "client(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }
 }
-

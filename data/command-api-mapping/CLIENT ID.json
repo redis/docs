@@ -11,7 +11,7 @@
           }
         ],
         "returns": {
-          "type": "ResponseT",
+          "type": "int",
           "description": ""
         }
       }
@@ -22,7 +22,7 @@
         "params": [],
         "returns": {
           "type": "long",
-          "description": "The client ID"
+          "description": ""
         }
       }
     ],
@@ -49,7 +49,7 @@
         "params": [],
         "returns": {
           "type": "Long",
-          "description": "The ID of the current connection"
+          "description": ""
         }
       }
     ],
@@ -59,7 +59,7 @@
         "params": [],
         "returns": {
           "type": "RedisFuture<Long>",
-          "description": "The ID of the current connection"
+          "description": ""
         }
       }
     ],
@@ -69,15 +69,34 @@
         "params": [],
         "returns": {
           "type": "Mono<Long>",
-          "description": "The ID of the current connection"
+          "description": ""
         }
       }
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [],
+    "php": [
+      {
+        "signature": "client(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }
 }
-

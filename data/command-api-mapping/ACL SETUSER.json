@@ -1,0 +1,246 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "acl_setuser(username: str, enabled: bool = False, nopass: bool = False, passwords: list[str] | None = None, hashed_passwords: list[str] | None = None, categories: list[str] | None = None, commands: list[str] | None = None, keys: list[KeyT] | None = None, channels: list[ChannelT] | None = None, selectors: list[tuple[str, KeyT]] | None = None, reset: bool = False, reset_keys: bool = False, reset_channels: bool = False, reset_passwords: bool = False, **kwargs)",
+        "params": [
+          {
+            "name": "username",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "enabled",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "nopass",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "passwords",
+            "type": "list[str] | None",
+            "description": ""
+          },
+          {
+            "name": "hashed_passwords",
+            "type": "list[str] | None",
+            "description": ""
+          },
+          {
+            "name": "categories",
+            "type": "list[str] | None",
+            "description": ""
+          },
+          {
+            "name": "commands",
+            "type": "list[str] | None",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "list[KeyT] | None",
+            "description": ""
+          },
+          {
+            "name": "channels",
+            "type": "list[ChannelT] | None",
+            "description": ""
+          },
+          {
+            "name": "selectors",
+            "type": "list[tuple[str, KeyT]] | None",
+            "description": ""
+          },
+          {
+            "name": "reset",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "reset_keys",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "reset_channels",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "reset_passwords",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String aclSetUser(String name, String... rules)",
+        "params": [
+          {
+            "name": "name",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "rules",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ACLSetUser(ctx context.Context, username string, rules ...interface{}) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "username",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "rules",
+            "type": "...interface{}",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "aclSetUser(username: RedisArgument, rule: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "username",
+            "type": "RedisArgument",
+            "description": "Username to create or modify"
+          },
+          {
+            "name": "rule",
+            "type": "RedisVariadicArgument",
+            "description": "ACL rule(s) to apply"
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String aclSetuser(String username, AclSetuserArgs args)",
+        "params": [
+          {
+            "name": "username",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "args",
+            "type": "AclSetuserArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> aclSetuser(String username, AclSetuserArgs args)",
+        "params": [
+          {
+            "name": "username",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "args",
+            "type": "AclSetuserArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> aclSetuser(String username, AclSetuserArgs args)",
+        "params": [
+          {
+            "name": "username",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "args",
+            "type": "AclSetuserArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "acl(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

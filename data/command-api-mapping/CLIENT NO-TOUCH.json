@@ -1,21 +1,39 @@
 {
   "api_calls": {
-    "redis_py": [],
+    "redis_py": [
+      {
+        "signature": "client_no_touch(mode: str, **kwargs)",
+        "params": [
+          {
+            "name": "mode",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": ""
+        }
+      }
+    ],
     "jedis": [
       {
-        "signature": "String clientNoTouchOn()",
-        "params": [],
+        "signature": "String clientNoTouch(boolean on)",
+        "params": [
+          {
+            "name": "on",
+            "type": "boolean",
+            "description": ""
+          }
+        ],
         "returns": {
           "type": "String",
-          "description": "OK"
-        }
-      },
-      {
-        "signature": "String clientNoTouchOff()",
-        "params": [],
-        "returns": {
-          "type": "String",
-          "description": "OK"
+          "description": ""
         }
       }
     ],
@@ -26,9 +44,28 @@
     "lettuce_reactive": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [],
+    "php": [
+      {
+        "signature": "client(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }
 }
-

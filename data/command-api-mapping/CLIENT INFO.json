@@ -11,7 +11,7 @@
           }
         ],
         "returns": {
-          "type": "ResponseT",
+          "type": "dict",
           "description": ""
         }
       }
@@ -22,7 +22,7 @@
         "params": [],
         "returns": {
           "type": "String",
-          "description": "Client information"
+          "description": ""
         }
       }
     ],
@@ -42,14 +42,23 @@
         }
       }
     ],
-    "node_redis": [],
+    "node_redis": [
+      {
+        "signature": "clientInfo()",
+        "params": [],
+        "returns": {
+          "type": "ClientInfoReply",
+          "description": ""
+        }
+      }
+    ],
     "lettuce_sync": [
       {
         "signature": "String clientInfo()",
         "params": [],
         "returns": {
           "type": "String",
-          "description": "Client information"
+          "description": ""
         }
       }
     ],
@@ -59,7 +68,7 @@
         "params": [],
         "returns": {
           "type": "RedisFuture<String>",
-          "description": "Client information"
+          "description": ""
         }
       }
     ],
@@ -69,15 +78,34 @@
         "params": [],
         "returns": {
           "type": "Mono<String>",
-          "description": "Client information"
+          "description": ""
         }
       }
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [],
+    "php": [
+      {
+        "signature": "client(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }
 }
-

@@ -2,42 +2,42 @@
   "api_calls": {
     "redis_py": [
       {
-        "signature": "client_tracking(on: bool = True, clientid: Optional[int] = None, prefix: Sequence[KeyT] = [], bcast: bool = False, optin: bool = False, optout: bool = False, noloop: bool = False, **kwargs)",
+        "signature": "client_tracking(on: bool = True, client_id: int | None = None, prefix: list | None = None, bcast: bool = False, optin: bool = False, optout: bool = False, noloop: bool = False, **kwargs)",
         "params": [
           {
             "name": "on",
             "type": "bool",
-            "description": "Enable or disable tracking"
+            "description": ""
           },
           {
-            "name": "clientid",
-            "type": "Optional[int]",
-            "description": "Optional client ID"
+            "name": "client_id",
+            "type": "int | None",
+            "description": ""
           },
           {
             "name": "prefix",
-            "type": "Sequence[KeyT]",
-            "description": "Key prefixes to track"
+            "type": "list | None",
+            "description": ""
           },
           {
             "name": "bcast",
             "type": "bool",
-            "description": "Enable broadcast mode"
+            "description": ""
           },
           {
             "name": "optin",
             "type": "bool",
-            "description": "Enable opt-in mode"
+            "description": ""
           },
           {
             "name": "optout",
             "type": "bool",
-            "description": "Enable opt-out mode"
+            "description": ""
           },
           {
             "name": "noloop",
             "type": "bool",
-            "description": "Don't send notifications for keys modified by this connection"
+            "description": ""
           },
           {
             "name": "**kwargs",
@@ -46,12 +46,27 @@
           }
         ],
         "returns": {
-          "type": "ResponseT",
+          "type": "str",
           "description": ""
         }
       }
     ],
-    "jedis": [],
+    "jedis": [
+      {
+        "signature": "String clientTracking(TrackingParams params)",
+        "params": [
+          {
+            "name": "params",
+            "type": "TrackingParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
     "go-redis": [],
     "node_redis": [],
     "lettuce_sync": [
@@ -61,12 +76,12 @@
           {
             "name": "args",
             "type": "TrackingArgs",
-            "description": "Tracking arguments"
+            "description": ""
           }
         ],
         "returns": {
           "type": "String",
-          "description": "OK"
+          "description": ""
         }
       }
     ],
@@ -77,12 +92,12 @@
           {
             "name": "args",
             "type": "TrackingArgs",
-            "description": "Tracking arguments"
+            "description": ""
           }
         ],
         "returns": {
           "type": "RedisFuture<String>",
-          "description": "OK"
+          "description": ""
         }
       }
     ],
@@ -93,20 +108,39 @@
           {
             "name": "args",
             "type": "TrackingArgs",
-            "description": "Tracking arguments"
+            "description": ""
           }
         ],
         "returns": {
           "type": "Mono<String>",
-          "description": "OK"
+          "description": ""
         }
       }
     ],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": [],
+    "php": [
+      {
+        "signature": "client(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
     "redis_rs_sync": [],
     "redis_rs_async": []
   }
 }
-
