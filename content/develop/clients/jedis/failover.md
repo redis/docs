@@ -419,10 +419,10 @@ a healthy endpoint.
 
 You can still keep retrying commands after a `JedisTemporarilyNotAvailableException` is thrown (for example,
 you could add this exception to the `includedExceptionList`, as described
-in the [Retry configuration]({{< relref "#retry-configuration" >}}) section). However, if the client exhausts
-all the available failover attempts before any endpoint becomes healthy again, commands will throw a `JedisPermanentlyNotAvailableException`. The client won't recover automatically from this situation, so you
-should handle it by reconnecting with the `MultiDBClient` builder after a suitable delay (see
-[Failover configuration](#failover-configuration) for a connection example).
+in the [Retry configuration]({{< relref "#retry-configuration" >}}) section). However, if the number of
+failover attempts exceeds the value set by `maxNumFailoverAttempts()`, commands will throw a `JedisPermanentlyNotAvailableException`. Note that this is intended to notify your app
+that the problem is likely to be persistent, but it *doesn't* mean that Jedis will stop trying
+to connect to a healthy endpoint if one becomes available.
 
 ## Troubleshooting
 

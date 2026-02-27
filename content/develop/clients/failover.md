@@ -32,6 +32,7 @@ your client library to learn how to configure it for failover and failback:
 
 - [Jedis]({{< relref "/develop/clients/jedis/failover" >}})
 - [redis-py]({{< relref "/develop/clients/redis-py/failover" >}}) (preview)
+- [Lettuce]({{< relref "/develop/clients/lettuce/failover" >}}) (preview)
 
 ## Concepts
 
@@ -93,10 +94,20 @@ still better than the current failover target, so it might be worth
 failing back to that server even if it is not optimal.
 
 Clients periodically run a "health check" on each server to see if it has recovered.
-The health check can be as simple as sending a Redis
-[`PING`]({{< relref "/commands/ping" >}}) or
-[ECHO]({{< relref "/commands/echo" >}}) command and ensuring that it gives the
-expected response.
+Several health check strategies are implemented in all clients:
+
+-   **Ping**: This is the default strategy, which just sends a
+    [`PING`]({{< relref "/commands/ping" >}}) command and ensures that it gives the
+    expected response.
+-   **Lag aware** (Redis Software only): This strategy uses the
+    [REST API]({{< relref "/operate/rs/references/rest-api" >}}) to check the
+    synchronization lag between a specific database and the others in the Active-Active
+    setup. If the lag is within a specified tolerance, the server is considered healthy.
+-   **Custom**: You can implement your own health check strategy to use information
+    or take action that is specific to your application.
+
+See the documentation for your client library for more information on how to
+configure health checks.
 
 You can also configure the client to run health checks on the current target
 server during periods of inactivity, even if no failover has occurred. This can
