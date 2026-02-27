@@ -238,20 +238,95 @@ For more details on AWS PrivateLink, see [Share your services through AWS Privat
 Setting up the Lambda function is optional but recommended for production environments. The Lambda function provides automatic failover handling and a more robust connection to your RDS or Aurora database.
 {{</note>}}
 
-To connect to your RDS or Aurora database across VPCs with automatic failover support, use a Lambda function that provides reliable connectivity and handles failover scenarios.
+The Lambda function monitors RDS failover events and automatically updates the NLB Target Group to point to the new primary instance's IP address. This ensures RDI reconnects automatically after a failover.
 
-For detailed instructions on setting up the Lambda function approach, see:
-- [Access Amazon RDS across VPCs using AWS PrivateLink and Network Load Balancer](https://aws.amazon.com/blogs/database/access-amazon-rds-across-vpcs-using-aws-privatelink-and-network-load-balancer/) (AWS documentation)
-- [RDI Cloud Automation - AWS RDS PrivateLink Failover Example](https://github.com/redis/rdi-cloud-automation/tree/main/examples/aws-rds-privatelink-failover) (Redis solution with Terraform)
+#### Option 1: Use the Redis Terraform module
 
-The Lambda function will:
-- Route requests to your RDS or Aurora database
-- Handle database failover scenarios automatically
-- Update the Network Load Balancer target to point to the current primary database instance
+Redis provides a ready-to-use Terraform module that automates the Lambda function deployment. This is the recommended approach.
 
-If you choose to use the Redis Terraform solution, you will need the ARNs from the Network Load Balancer and Endpoint Service you created in the previous steps.
+##### Prerequisites
 
-After setting up the Lambda function, update your Network Load Balancer target group to point to the Lambda function instead of the database IP address.
+- [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) >= 1.5.7
+- [AWS CLI](https://aws.amazon.com/cli/) configured with credentials
+- The ARNs from the Network Load Balancer and Endpoint Service you created in the previous steps
+
+##### Required variables
+
+Before deploying the Lambda module, gather the following information:
+
+| Variable | Description | Where to find it |
+|----------|-------------|------------------|
+| `identifier` | A unique name for the Lambda resources | Choose a descriptive name (e.g., `rdi-failover-handler`) |
+| `db_endpoint` | Your RDS cluster or instance endpoint | AWS Console → RDS → Your database → Connectivity |
+| `db_port` | Your database port | AWS Console → RDS → Your database → Connectivity (default: `5432` for PostgreSQL, `3306` for MySQL, `1433` for SQL Server) |
+| `elb_tg_arn` | The NLB Target Group ARN | AWS Console → EC2 → Target Groups → Your target group |
+| `rds_arn` | The RDS cluster or instance ARN | AWS Console → RDS → Your database → Configuration |
+| `rds_cluster_identifier` | The RDS cluster identifier | AWS Console → RDS → Your cluster name |
+
+##### Deploy the Lambda module
+
+1. Clone the Redis cloud automation repository:
+
+    ```bash
+    git clone https://github.com/redis/rdi-cloud-automation.git
+    cd rdi-cloud-automation/modules/aws-rds-lambda
+    ```
+
+1. Create a `terraform.tfvars` file with your configuration:
+
+    ```hcl
+    identifier             = "rdi-failover-handler"
+    db_endpoint            = "your-cluster.cluster-xxxxxxxxx.us-east-1.rds.amazonaws.com"
+    db_port                = 5432
+    elb_tg_arn             = "arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/your-tg/xxxxxxxxx"
+    rds_arn                = "arn:aws:rds:us-east-1:123456789012:cluster:your-cluster"
+    rds_cluster_identifier = "your-cluster"
+    ```
+
+1. Initialize and apply Terraform:
+
+    ```bash
+    terraform init
+    terraform apply
+    ```
+
+##### How the Lambda function works
+
+The deployed Lambda function:
+
+1. **Monitors RDS events**: Subscribes to RDS failover events via SNS
+1. **Detects failover**: When a failover occurs, RDS triggers an SNS notification
+1. **Resolves new IP**: The Lambda function queries DNS to get the new primary's IP address
+1. **Updates NLB target**: Automatically updates the NLB Target Group with the new IP
+
+This process typically completes within 30-60 seconds for Aurora, or 60-120 seconds for standard RDS.
+
+##### Verify the deployment
+
+After deployment, verify the Lambda function is configured correctly:
+
+1. Check the Lambda function in AWS Console → Lambda → Functions
+1. Verify the environment variables are set correctly:
+    - `Cluster_EndPoint`: Your RDS endpoint
+    - `RDS_Port`: Your database port
+    - `NLB_TG_ARN`: Your NLB Target Group ARN
+1. Check the SNS subscription in AWS Console → SNS → Subscriptions
+
+#### Option 2: Full infrastructure deployment
+
+For new deployments, Redis provides a complete Terraform example that deploys the entire infrastructure including the RDS database, NLB, PrivateLink, and Lambda function.
+
+See the [AWS RDS PrivateLink Failover Example](https://github.com/redis/rdi-cloud-automation/tree/main/examples/aws-rds-privatelink-failover) for:
+
+- Multi-engine support (PostgreSQL, MySQL, SQL Server)
+- Automatic CDC user creation
+- Complete VPC and networking setup
+- Lambda-based failover handling
+
+#### Option 3: Manual Lambda setup
+
+For custom implementations, refer to the AWS documentation:
+[Access Amazon RDS across VPCs using AWS PrivateLink and Network Load Balancer](https://aws.amazon.com/blogs/database/access-amazon-rds-across-vpcs-using-aws-privatelink-and-network-load-balancer/)
 
 {{< /multitabs >}}
 
