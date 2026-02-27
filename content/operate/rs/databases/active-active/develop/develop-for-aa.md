@@ -135,7 +135,7 @@ TTL on key1 to an infinite time.
 
 The replica responsible for the winning expire value is also
 responsible for expiring the key and propagating a DEL effect when this
-happens. A losing replica is from this point on not responsible
+happens. From this point on, a losing replica is not responsible
 for expiring the key, unless another `EXPIRE` command resets the TTL.
 Furthermore, a replica that is not the owner of the expired value:
 
