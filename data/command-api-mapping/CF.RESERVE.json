@@ -1,0 +1,303 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "create(key, capacity, expansion=None, bucket_size=None, max_iterations=None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "capacity",
+            "type": "int",
+            "description": "Number of entries intended to be added"
+          },
+          {
+            "name": "expansion",
+            "type": "int",
+            "description": "Optional expansion rate"
+          },
+          {
+            "name": "bucket_size",
+            "type": "int",
+            "description": "Optional bucket size"
+          },
+          {
+            "name": "max_iterations",
+            "type": "int",
+            "description": "Optional max iterations"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "OK on success"
+        }
+      },
+      {
+        "signature": "reserve(key, capacity, expansion=None, bucket_size=None, max_iterations=None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "capacity",
+            "type": "int",
+            "description": "Number of entries intended to be added"
+          },
+          {
+            "name": "expansion",
+            "type": "int",
+            "description": "Optional expansion rate"
+          },
+          {
+            "name": "bucket_size",
+            "type": "int",
+            "description": "Optional bucket size"
+          },
+          {
+            "name": "max_iterations",
+            "type": "int",
+            "description": "Optional max iterations"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "OK on success (alias for create)"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String cfReserve(String key, long capacity)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "capacity",
+            "type": "long",
+            "description": "Initial capacity"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      },
+      {
+        "signature": "String cfReserve(String key, long capacity, CFReserveParams reserveParams)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "capacity",
+            "type": "long",
+            "description": "Initial capacity"
+          },
+          {
+            "name": "reserveParams",
+            "type": "CFReserveParams",
+            "description": "Reserve parameters (bucketSize, maxIterations, expansion)"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "CFReserve(ctx context.Context, key string, capacity int64) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "capacity",
+            "type": "int64",
+            "description": "Initial capacity"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "Status command result"
+        }
+      },
+      {
+        "signature": "CFReserveWithArgs(ctx context.Context, key string, options *CFReserveOptions) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "options",
+            "type": "*CFReserveOptions",
+            "description": "Reserve options (Capacity, BucketSize, MaxIterations, Expansion)"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "Status command result"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "CF.RESERVE(key: RedisArgument, capacity: number, options?: CfReserveOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "capacity",
+            "type": "number",
+            "description": "Initial capacity"
+          },
+          {
+            "name": "options",
+            "type": "CfReserveOptions",
+            "description": "Optional: BUCKETSIZE, MAXITERATIONS, EXPANSION"
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "bool Reserve(RedisKey key, long capacity, long? bucketSize = null, int? maxIterations = null, int? expansion = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "capacity",
+            "type": "long",
+            "description": "Initial capacity"
+          },
+          {
+            "name": "bucketSize",
+            "type": "long?",
+            "description": "Optional bucket size"
+          },
+          {
+            "name": "maxIterations",
+            "type": "int?",
+            "description": "Optional max iterations"
+          },
+          {
+            "name": "expansion",
+            "type": "int?",
+            "description": "Optional expansion rate"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true on success"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "async Task<bool> ReserveAsync(RedisKey key, long capacity, long? bucketSize = null, int? maxIterations = null, int? expansion = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "capacity",
+            "type": "long",
+            "description": "Initial capacity"
+          },
+          {
+            "name": "bucketSize",
+            "type": "long?",
+            "description": "Optional bucket size"
+          },
+          {
+            "name": "maxIterations",
+            "type": "int?",
+            "description": "Optional max iterations"
+          },
+          {
+            "name": "expansion",
+            "type": "int?",
+            "description": "Optional expansion rate"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true on success"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "cfreserve(string $key, int $capacity, int $bucketSize = -1, int $maxIterations = -1, int $expansion = -1)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "$capacity",
+            "type": "int",
+            "description": "Initial capacity"
+          },
+          {
+            "name": "$bucketSize",
+            "type": "int",
+            "description": "Optional bucket size (-1 for default)"
+          },
+          {
+            "name": "$maxIterations",
+            "type": "int",
+            "description": "Optional max iterations (-1 for default)"
+          },
+          {
+            "name": "$expansion",
+            "type": "int",
+            "description": "Optional expansion rate (-1 for default)"
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": "OK on success"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [
+      {
+        "signature": "String clusterDelSlots(final int... slots)",
+        "params": [
+          {
+            "name": "slots",
+            "type": "int...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClusterDelSlots(ctx context.Context, slots ...int)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "slots",
+            "type": "...int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "String clusterDelSlots(int... slots)",
+        "params": [
+          {
+            "name": "slots",
+            "type": "int...",
+            "description": "One or more hash slots to be removed"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clusterDelSlots(int... slots)",
+        "params": [
+          {
+            "name": "slots",
+            "type": "int...",
+            "description": "One or more hash slots to be removed"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clusterDelSlots(int... slots)",
+        "params": [
+          {
+            "name": "slots",
+            "type": "int...",
+            "description": "One or more hash slots to be removed"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

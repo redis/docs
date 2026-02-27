@@ -1,0 +1,309 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "vrem(key: KeyT, element: str)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "str",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[int], int]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "boolean vrem(String key, String element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "the name of the element to remove from the vector set"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "true if the element was removed, false if either element or key do not exist"
+        }
+      },
+      {
+        "signature": "boolean vrem(byte[] key, byte[] element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "element",
+            "type": "byte[]",
+            "description": "the name of the element to remove from the vector set"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "true if the element was removed, false if either element or key do not exist"
+        }
+      },
+      {
+        "signature": "boolean vrem(String key, String element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "the name of the element to remove from the vector set"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "true if the element was removed, false if either element or key do not exist"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Boolean vrem(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element to remove from the vector set"
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "true if the element was removed, false if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vrem/\">Redis Documentation: VREM</a>"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Boolean> vrem(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element to remove from the vector set"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "true if the element was removed, false if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vrem/\">Redis Documentation: VREM</a>"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Boolean> vrem(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element to remove from the vector set"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "true if the element was removed, false if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vrem/\">Redis Documentation: VREM</a>"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "VRem(ctx context.Context, key, element string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*BoolCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "VREM(key: RedisArgument, element: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "vrem(key: K, element: E)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "E",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "vrem(key: K, element: E)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "E",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "VectorSetRemove(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "VectorSetRemoveAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "vrem(string $key, string $elem)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$elem",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

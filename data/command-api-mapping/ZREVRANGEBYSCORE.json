@@ -1,0 +1,1015 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "zrevrangebyscore(, name: KeyT,, max: ZScoreBoundT,, min: ZScoreBoundT,, start: Optional[int] = None,, num: Optional[int] = None,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "ZScoreBoundT",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "ZScoreBoundT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "num",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "withscores",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "score_cast_func",
+            "type": "Union[type, Callable] = float",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<byte[]> zrevrangeByScore(final byte[] key, final double max, final double min final int offset, final int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "double min final int",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<byte[]>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<byte[]> zrevrangeByScore(final byte[] key, final byte[] max, final byte[] min final int offset, final int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "byte[] min final int",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<byte[]>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<String> zrevrangeByScore(final String key, final double max, final double min)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<String> zrevrangeByScore(final String key, final String max, final String min)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<String> zrevrangeByScore(final String key, final double max, final double min final int offset, final int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "double min final int",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<V> zrevrangebyscore(K key, double max, double min)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "Long count of elements in the specified range. @since 4.3"
+        }
+      },
+      {
+        "signature": "List<V> zrevrangebyscore(K key, String max, String min)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "Long count of elements in the specified range. @since 4.3"
+        }
+      },
+      {
+        "signature": "List<V> zrevrangebyscore(K key, Range<? extends Number> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends Number>",
+            "description": "the range."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "Long count of elements in the specified range. @since 4.3"
+        }
+      },
+      {
+        "signature": "List<V> zrevrangebyscore(K key, double max, double min, long offset, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "Long count of elements in the specified range. @since 4.3"
+        }
+      },
+      {
+        "signature": "List<V> zrevrangebyscore(K key, String max, String min, long offset, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "Long count of elements in the specified range. @since 4.3"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<V>> zrevrangebyscore(K key, double max, double min)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "Long count of elements in the specified range. @since 4.3"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<V>> zrevrangebyscore(K key, String max, String min)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "Long count of elements in the specified range. @since 4.3"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<V>> zrevrangebyscore(K key, Range<? extends Number> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends Number>",
+            "description": "the range."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "Long count of elements in the specified range. @since 4.3"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<V>> zrevrangebyscore(K key, double max, double min, long offset, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "Long count of elements in the specified range. @since 4.3"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<V>> zrevrangebyscore(K key, String max, String min, long offset, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "Long count of elements in the specified range. @since 4.3"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<V> zrevrangebyscore(K key, double max, double min)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "Long count of elements in the specified range. @since 4.3 @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #zrevrangebyscore."
+        }
+      },
+      {
+        "signature": "Flux<V> zrevrangebyscore(K key, String max, String min)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "Long count of elements in the specified range. @since 4.3 @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #zrevrangebyscore."
+        }
+      },
+      {
+        "signature": "Flux<V> zrevrangebyscore(K key, Range<? extends Number> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends Number>",
+            "description": "the range."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "Long count of elements in the specified range. @since 4.3 @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #zrevrangebyscore."
+        }
+      },
+      {
+        "signature": "Flux<V> zrevrangebyscore(K key, double max, double min, long offset, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "Long count of elements in the specified range. @since 4.3 @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #zrevrangebyscore."
+        }
+      },
+      {
+        "signature": "Flux<V> zrevrangebyscore(K key, String max, String min, long offset, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "Long count of elements in the specified range. @since 4.3 @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #zrevrangebyscore."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ZRevRangeByScore(ctx context.Context, key string, opt *ZRangeBy)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "opt",
+            "type": "*ZRangeBy",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "zrevrangebyscore(key: RedisKey, max: number | string, min: number | string, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrevrangebyscore(key: RedisKey, max: number | string, min: number | string, offsetCountToken: \"LIMIT\", offset: number | string, count: number | string, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "offsetCountToken",
+            "type": "\"LIMIT\"",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrevrangebyscore(key: RedisKey, max: number | string, min: number | string, withscores: \"WITHSCORES\", callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "withscores",
+            "type": "\"WITHSCORES\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrevrangebyscore(key: RedisKey, max: number | string, min: number | string, withscores: \"WITHSCORES\", offsetCountToken: \"LIMIT\", offset: number | string, count: number | string, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "withscores",
+            "type": "\"WITHSCORES\"",
+            "description": ""
+          },
+          {
+            "name": "offsetCountToken",
+            "type": "\"LIMIT\"",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "zrevrangebyscore(key: K, max: MM, min: M)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "MM",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrevrangebyscore_withscores(key: K, max: MM, min: M)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "MM",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "zrevrangebyscore(key: K, max: MM, min: M)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "MM",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrevrangebyscore_withscores(key: K, max: MM, min: M)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "MM",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SortedSetRangeByScore(RedisKey key, double start = double.NegativeInfinity, double stop = double.PositiveInfinity, Exclude exclude = Exclude.None, Order order = Order.Ascending, long skip = 0, long take = -1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "start",
+            "type": "double",
+            "description": "The minimum score to filter by."
+          },
+          {
+            "name": "stop",
+            "type": "double",
+            "description": "The maximum score to filter by."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Which of start and stop to exclude (defaults to both inclusive)."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by (defaults to ascending)."
+          },
+          {
+            "name": "skip",
+            "type": "long",
+            "description": "How many items to skip."
+          },
+          {
+            "name": "take",
+            "type": "long",
+            "description": "How many items to take."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of elements in the specified score range."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SortedSetRangeByScore(RedisKey key, double start = double.NegativeInfinity, double stop = double.PositiveInfinity, Exclude exclude = Exclude.None, Order order = Order.Ascending, long skip = 0, long take = -1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "start",
+            "type": "double",
+            "description": "The minimum score to filter by."
+          },
+          {
+            "name": "stop",
+            "type": "double",
+            "description": "The maximum score to filter by."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Which of start and stop to exclude (defaults to both inclusive)."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by (defaults to ascending)."
+          },
+          {
+            "name": "skip",
+            "type": "long",
+            "description": "How many items to skip."
+          },
+          {
+            "name": "take",
+            "type": "long",
+            "description": "How many items to take."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of elements in the specified score range."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "zrevrangebyscore(string $key, int|string $max, int|string $min, ?array $options = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$max",
+            "type": "int|string",
+            "description": ""
+          },
+          {
+            "name": "$min",
+            "type": "int|string",
+            "description": ""
+          },
+          {
+            "name": "?array $options = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

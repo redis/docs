@@ -1,0 +1,239 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "vcard(key: KeyT)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[int], int]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long vcard(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "the number of elements in the vector set"
+        }
+      },
+      {
+        "signature": "long vcard(byte[] key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": "the name of the key that holds the vector set"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "the number of elements in the vector set"
+        }
+      },
+      {
+        "signature": "long vcard(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "the number of elements in the vector set"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long vcard(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the number of elements in the vector set, or 0 if the key does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vcard/\">Redis Documentation: VCARD</a>"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> vcard(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the number of elements in the vector set, or 0 if the key does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vcard/\">Redis Documentation: VCARD</a>"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> vcard(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the number of elements in the vector set, or 0 if the key does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vcard/\">Redis Documentation: VCARD</a>"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "VCard(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "VCARD(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "vcard(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "vcard(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "VectorSetLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "VectorSetLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "vcard(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

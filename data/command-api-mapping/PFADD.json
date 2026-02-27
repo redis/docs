@@ -1,0 +1,364 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "pfadd(name: KeyT, *values: FieldT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": "The key of the HyperLogLog data structure"
+          },
+          {
+            "name": "*values",
+            "type": "FieldT",
+            "description": "One or more elements to add"
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long pfadd(final byte[] key, final byte[]... elements)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": "The key of the HyperLogLog"
+          },
+          {
+            "name": "elements",
+            "type": "byte[]...",
+            "description": "One or more elements to add"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+        }
+      },
+      {
+        "signature": "long pfadd(final String key, final String... elements)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The key of the HyperLogLog"
+          },
+          {
+            "name": "elements",
+            "type": "String...",
+            "description": "One or more elements to add"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long pfadd(K key, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key"
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "The values to add"
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> pfadd(K key, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key"
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "The values to add"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> pfadd(K key, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key"
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "The values to add"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "pfadd(key: RedisKey, ...elements: (string | Buffer | number)[], callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the HyperLogLog"
+          },
+          {
+            "name": "...elements",
+            "type": "(string | Buffer | number)[]",
+            "description": "One or more elements to add"
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": "Optional callback"
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "pfadd(key: K, element: E)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key of the HyperLogLog"
+          },
+          {
+            "name": "element",
+            "type": "E",
+            "description": "The element to add"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if at least 1 HyperLogLog internal register was altered"
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "pfadd(key: K, element: E)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key of the HyperLogLog"
+          },
+          {
+            "name": "element",
+            "type": "E",
+            "description": "The element to add"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if at least 1 HyperLogLog internal register was altered"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "HyperLogLogAdd(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the HyperLogLog"
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to add"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if at least 1 HyperLogLog internal register was altered, false otherwise"
+        }
+      },
+      {
+        "signature": "HyperLogLogAdd(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the HyperLogLog"
+          },
+          {
+            "name": "values",
+            "type": "RedisValue[]",
+            "description": "The values to add"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if at least 1 HyperLogLog internal register was altered, false otherwise"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "HyperLogLogAddAsync(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the HyperLogLog"
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to add"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if at least 1 HyperLogLog internal register was altered, false otherwise"
+        }
+      },
+      {
+        "signature": "HyperLogLogAddAsync(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the HyperLogLog"
+          },
+          {
+            "name": "values",
+            "type": "RedisValue[]",
+            "description": "The values to add"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if at least 1 HyperLogLog internal register was altered, false otherwise"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "pfadd(string $key, array $elements)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The key of the HyperLogLog"
+          },
+          {
+            "name": "$elements",
+            "type": "array",
+            "description": "The elements to add"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "PFAdd(ctx context.Context, key string, els ...interface{}) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context for the command"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The key of the HyperLogLog"
+          },
+          {
+            "name": "els",
+            "type": "...interface{}",
+            "description": "One or more elements to add"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "PFADD(key: RedisArgument, element?: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The key of the HyperLogLog"
+          },
+          {
+            "name": "element",
+            "type": "RedisVariadicArgument",
+            "description": "Optional elements to add"
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
+        }
+      }
+    ]
+  }
+}

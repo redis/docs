@@ -1,0 +1,243 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "rpoplpush(src: KeyT, dst: KeyT)",
+        "params": [
+          {
+            "name": "src",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "dst",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[str], str]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String rpoplpush(final String srckey, final String dstkey)",
+        "params": [
+          {
+            "name": "srckey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstkey",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Bulk reply @deprecated Use ListCommands#lmove(String, String, ListDirection, ListDirection) with ListDirection#RIGHT and ListDirection#LEFT. Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 6.2.0."
+        }
+      },
+      {
+        "signature": "String rpoplpush(String srckey, String dstkey)",
+        "params": [
+          {
+            "name": "srckey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstkey",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Bulk reply @deprecated Use ListCommands#lmove(String, String, ListDirection, ListDirection) with ListDirection#RIGHT and ListDirection#LEFT. Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 6.2.0."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "V rpoplpush(K source, K destination)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          }
+        ],
+        "returns": {
+          "type": "V",
+          "description": "V bulk-string-reply the element being popped and pushed."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<V> rpoplpush(K source, K destination)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<V>",
+          "description": "V bulk-string-reply the element being popped and pushed."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<V> rpoplpush(K source, K destination)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<V>",
+          "description": "V bulk-string-reply the element being popped and pushed."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "RPopLPush(ctx context.Context, source, destination string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "source",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "rpoplpush(source: RedisKey, destination: RedisKey, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "rpoplpush(key: K, dstkey: D)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "dstkey",
+            "type": "D",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "rpoplpush(key: K, dstkey: D)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "dstkey",
+            "type": "D",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "rpoplpush(string $source, string $destination)",
+        "params": [
+          {
+            "name": "$source",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$destination",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string|null",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

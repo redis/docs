@@ -1,0 +1,105 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "card(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The name of the Bloom filter"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "The cardinality (number of unique items added)"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long bfCard(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Bloom filter"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The cardinality"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BFCard(ctx context.Context, key string) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The name of the Bloom filter"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": "Integer command result"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "BF.CARD(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The name of the Bloom filter"
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": "The cardinality"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "long Card(RedisKey key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Bloom filter"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The cardinality"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "async Task<long> CardAsync(RedisKey key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Bloom filter"
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "The cardinality"
+        }
+      }
+    ]
+  }
+}

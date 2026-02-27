@@ -1,0 +1,391 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "add(, key: KeyT,, timestamp: Union[int, str],, value: Union[Number, str],, retention_msecs: Optional[int] = None,, uncompressed: Optional[bool] = False,, labels: Optional[Dict[str, str]] = None,, chunk_size: Optional[int] = None,, duplicate_policy: Optional[str] = None,, ignore_max_time_diff: Optional[int] = None,, ignore_max_val_diff: Optional[Number] = None,, on_duplicate: Optional[str] = None,)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "timestamp",
+            "type": "Union[int, str]",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "Union[Number, str]",
+            "description": ""
+          },
+          {
+            "name": "retention_msecs",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "uncompressed",
+            "type": "Optional[bool] = False",
+            "description": ""
+          },
+          {
+            "name": "labels",
+            "type": "Optional[Dict[str, str]] = None",
+            "description": ""
+          },
+          {
+            "name": "chunk_size",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "duplicate_policy",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "ignore_max_time_diff",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "ignore_max_val_diff",
+            "type": "Optional[Number] = None",
+            "description": ""
+          },
+          {
+            "name": "on_duplicate",
+            "type": "Optional[str] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long tsAdd(String key, double value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "timestamp"
+        }
+      },
+      {
+        "signature": "long tsAdd(String key, long timestamp, double value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "timestamp",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "timestamp"
+        }
+      },
+      {
+        "signature": "long tsAdd(String key, long timestamp, double value, TSCreateParams createParams)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "timestamp",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "createParams",
+            "type": "TSCreateParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "timestamp"
+        }
+      },
+      {
+        "signature": "long tsAdd(String key, long timestamp, double value, TSAddParams addParams)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "timestamp",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "addParams",
+            "type": "TSAddParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "timestamp"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TSAdd(ctx context.Context, key string, timestamp interface{}, value float64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "timestamp",
+            "type": "interface{}",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "float64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "TSAddWithArgs(ctx context.Context, key string, timestamp interface{}, value float64, options *TSOptions)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "timestamp",
+            "type": "interface{}",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "float64",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "*TSOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ADD(key: RedisArgument, timestamp: Timestamp, value: number, options?: TsAddOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "timestamp",
+            "type": "Timestamp",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "TsAddOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Add(string key, TsAddParams parameters)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "parameters",
+            "type": "TsAddParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "TimeStamp",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "AddAsync(string key, TimeStamp timestamp, double value, long? retentionTime = null, IReadOnlyCollection<TimeSeriesLabel>? labels = null, bool? uncompressed = null, long? chunkSizeBytes = null, TsDuplicatePolicy? duplicatePolicy = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "timestamp",
+            "type": "TimeStamp",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "retentionTime",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "labels",
+            "type": "IReadOnlyCollection<TimeSeriesLabel>?",
+            "description": ""
+          },
+          {
+            "name": "uncompressed",
+            "type": "bool?",
+            "description": ""
+          },
+          {
+            "name": "chunkSizeBytes",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "duplicatePolicy",
+            "type": "TsDuplicatePolicy?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<TimeStamp>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "AddAsync(string key, TsAddParams parameters)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "parameters",
+            "type": "TsAddParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<TimeStamp>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tsadd(string $key, int $timestamp, string|float $value, ?AddArguments $arguments = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$timestamp",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "string|float",
+            "description": ""
+          },
+          {
+            "name": "?AddArguments $arguments = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

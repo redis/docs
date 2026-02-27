@@ -1,0 +1,191 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "script_load(script: ScriptTextT)",
+        "params": [
+          {
+            "name": "script",
+            "type": "ScriptTextT",
+            "description": "Lua script to load"
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": "SHA1 digest of the script"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String scriptLoad(final String script)",
+        "params": [
+          {
+            "name": "script",
+            "type": "String",
+            "description": "Lua script to load"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "SHA1 digest of the script"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ScriptLoad(ctx context.Context, script string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context for the operation"
+          },
+          {
+            "name": "script",
+            "type": "string",
+            "description": "Lua script to load"
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": "SHA1 digest of the script"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "scriptLoad(script: RedisArgument)",
+        "params": [
+          {
+            "name": "script",
+            "type": "RedisArgument",
+            "description": "Lua script to load"
+          }
+        ],
+        "returns": {
+          "type": "Promise<BlobStringReply>",
+          "description": "SHA1 digest of the script"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String scriptLoad(String script)",
+        "params": [
+          {
+            "name": "script",
+            "type": "String",
+            "description": "Lua script"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "SHA1 digest of the script"
+        }
+      },
+      {
+        "signature": "String scriptLoad(byte[] script)",
+        "params": [
+          {
+            "name": "script",
+            "type": "byte[]",
+            "description": "Lua script"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "SHA1 digest of the script"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> scriptLoad(String script)",
+        "params": [
+          {
+            "name": "script",
+            "type": "String",
+            "description": "Lua script"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "SHA1 digest of the script"
+        }
+      },
+      {
+        "signature": "RedisFuture<String> scriptLoad(byte[] script)",
+        "params": [
+          {
+            "name": "script",
+            "type": "byte[]",
+            "description": "Lua script"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "SHA1 digest of the script"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> scriptLoad(String script)",
+        "params": [
+          {
+            "name": "script",
+            "type": "String",
+            "description": "Lua script"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "SHA1 digest of the script"
+        }
+      },
+      {
+        "signature": "Mono<String> scriptLoad(byte[] script)",
+        "params": [
+          {
+            "name": "script",
+            "type": "byte[]",
+            "description": "Lua script"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "SHA1 digest of the script"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "script($subcommand, $argument = null)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": "SCRIPT subcommand (e.g., 'LOAD')"
+          },
+          {
+            "name": "$argument",
+            "type": "mixed",
+            "description": "Optional argument for the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": "Command result"
+        }
+      }
+    ]
+  }
+}
+

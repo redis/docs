@@ -1,0 +1,548 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "arrindex(, name: str,, path: str,, scalar: int,, start: Optional[int] = None,, stop: Optional[int] = None,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "scalar",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "Optional[int] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List[Optional[int]]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long jsonArrIndex(String key, Path path, Object scalar)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path",
+            "description": ""
+          },
+          {
+            "name": "scalar",
+            "type": "Object",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> jsonArrIndex(String key, Path2 path, Object scalar)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path2",
+            "description": ""
+          },
+          {
+            "name": "scalar",
+            "type": "Object",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Long> jsonArrindex(K key, JsonPath jsonPath, JsonValue value, JsonRangeArgs range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "value",
+            "type": "JsonValue",
+            "description": ""
+          },
+          {
+            "name": "range",
+            "type": "JsonRangeArgs",
+            "description": "the JsonRangeArgs to search within."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "Long the index hosting the searched element, -1 if not found or null if the specified path is not an array. @since 6.8"
+        }
+      },
+      {
+        "signature": "List<Long> jsonArrindex(K key, JsonPath jsonPath, JsonValue value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "value",
+            "type": "JsonValue",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "Long the index hosting the searched element, -1 if not found or null if the specified path is not an array. @since 6.8"
+        }
+      },
+      {
+        "signature": "List<Long> jsonArrindex(K key, JsonPath jsonPath, String jsonString)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "jsonString",
+            "type": "String",
+            "description": "the JSON string to search for."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "Long the index hosting the searched element, -1 if not found or null if the specified path is not an array. @since 6.8"
+        }
+      },
+      {
+        "signature": "List<Long> jsonArrindex(K key, JsonPath jsonPath, String jsonString, JsonRangeArgs range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "jsonString",
+            "type": "String",
+            "description": "the JSON string to search for."
+          },
+          {
+            "name": "range",
+            "type": "JsonRangeArgs",
+            "description": "the JsonRangeArgs to search within."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "Long the index hosting the searched element, -1 if not found or null if the specified path is not an array. @since 6.8"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Long>> jsonArrindex(K key, JsonPath jsonPath, JsonValue value, JsonRangeArgs range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "value",
+            "type": "JsonValue",
+            "description": ""
+          },
+          {
+            "name": "range",
+            "type": "JsonRangeArgs",
+            "description": "the JsonRangeArgs to search within."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "Long the index hosting the searched element, -1 if not found or null if the specified path is not an array. @since 6.8"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> jsonArrindex(K key, JsonPath jsonPath, JsonValue value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "value",
+            "type": "JsonValue",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "Long the index hosting the searched element, -1 if not found or null if the specified path is not an array. @since 6.8"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> jsonArrindex(K key, JsonPath jsonPath, String jsonString)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "jsonString",
+            "type": "String",
+            "description": "the JSON string to search for."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "Long the index hosting the searched element, -1 if not found or null if the specified path is not an array. @since 6.8"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> jsonArrindex(K key, JsonPath jsonPath, String jsonString, JsonRangeArgs range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "jsonString",
+            "type": "String",
+            "description": "the JSON string to search for."
+          },
+          {
+            "name": "range",
+            "type": "JsonRangeArgs",
+            "description": "the JsonRangeArgs to search within."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "Long the index hosting the searched element, -1 if not found or null if the specified path is not an array. @since 6.8"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Long> jsonArrindex(K key, JsonPath jsonPath, JsonValue value, JsonRangeArgs range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "value",
+            "type": "JsonValue",
+            "description": ""
+          },
+          {
+            "name": "range",
+            "type": "JsonRangeArgs",
+            "description": "the JsonRangeArgs to search within."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "Long the index hosting the searched element, -1 if not found or null if the specified path is not an array. @since 6.8"
+        }
+      },
+      {
+        "signature": "Flux<Long> jsonArrindex(K key, JsonPath jsonPath, JsonValue value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "value",
+            "type": "JsonValue",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "Long the index hosting the searched element, -1 if not found or null if the specified path is not an array. @since 6.8"
+        }
+      },
+      {
+        "signature": "Flux<Long> jsonArrindex(K key, JsonPath jsonPath, String jsonString)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "jsonString",
+            "type": "String",
+            "description": "the JSON string to search for."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "Long the index hosting the searched element, -1 if not found or null if the specified path is not an array. @since 6.8"
+        }
+      },
+      {
+        "signature": "Flux<Long> jsonArrindex(K key, JsonPath jsonPath, String jsonString, JsonRangeArgs range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "jsonString",
+            "type": "String",
+            "description": "the JSON string to search for."
+          },
+          {
+            "name": "range",
+            "type": "JsonRangeArgs",
+            "description": "the JsonRangeArgs to search within."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "Long the index hosting the searched element, -1 if not found or null if the specified path is not an array. @since 6.8"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "JSONArrIndex(ctx context.Context, key, path string, value ...interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "...interface{}",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ARRINDEX(key: RedisArgument, path: RedisArgument, json: RedisJSON, options?: JsonArrIndexOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "json",
+            "type": "RedisJSON",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "JsonArrIndexOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "ArrIndex(RedisKey key, string path, object value, long? start = null, long? stop = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "object",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long?[]",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "jsonarrindex(string $key, string $path, string $value, int $start = 0, int $stop = 0)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "int $start = 0",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "int $stop = 0",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

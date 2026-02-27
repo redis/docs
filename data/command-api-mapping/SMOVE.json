@@ -1,0 +1,444 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "smove(src: KeyT, dst: KeyT, value: str)",
+        "params": [
+          {
+            "name": "src",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "dst",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "str",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[bool], bool]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long smove(final byte[] srckey, final byte[] dstkey, final byte[] member)",
+        "params": [
+          {
+            "name": "srckey",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "dstkey",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the element was moved, 0 if the element was not found on the first set and no operation was performed"
+        }
+      },
+      {
+        "signature": "long smove(final String srckey, final String dstkey, final String member)",
+        "params": [
+          {
+            "name": "srckey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstkey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the element was moved, 0 if the element was not found on the first set and no operation was performed"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Boolean smove(K source, K destination, V member)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member type: value."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean integer-reply specifically: true if the element is moved. false if the element is not a member of source and no operation was performed."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Boolean> smove(K source, K destination, V member)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member type: value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the element is moved. false if the element is not a member of source and no operation was performed."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Boolean> smove(K source, K destination, V member)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member type: value."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the element is moved. false if the element is not a member of source and no operation was performed."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SMove(ctx context.Context, source, destination string, member interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "source",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "interface{}",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*BoolCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SMOVE(source: RedisArgument, destination: RedisArgument, member: RedisArgument)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "smove(source: RedisKey, destination: RedisKey, member: string | Buffer | number, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "smove(srckey: S, dstkey: D, member: M)",
+        "params": [
+          {
+            "name": "srckey",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "dstkey",
+            "type": "D",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "smove(srckey: S, dstkey: D, member: M)",
+        "params": [
+          {
+            "name": "srckey",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "dstkey",
+            "type": "D",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SetMove(RedisKey source, RedisKey destination, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": "The key of the source set."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the destination set."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to move."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the element is moved. false if the element is not a member of source and no operation was performed."
+        }
+      },
+      {
+        "signature": "SetMove(RedisKey source, RedisKey destination, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": "The key of the source set."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the destination set."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to move."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the element is moved. false if the element is not a member of source and no operation was performed."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SetMove(RedisKey source, RedisKey destination, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": "The key of the source set."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the destination set."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to move."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the element is moved. false if the element is not a member of source and no operation was performed."
+        }
+      },
+      {
+        "signature": "SetMove(RedisKey source, RedisKey destination, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": "The key of the source set."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the destination set."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to move."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the element is moved. false if the element is not a member of source and no operation was performed."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "smove(string $source, string $destination, string $member)",
+        "params": [
+          {
+            "name": "$source",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$member",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

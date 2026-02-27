@@ -1,0 +1,122 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "client_setinfo(attr: str, value: str, **kwargs)",
+        "params": [
+          {
+            "name": "attr",
+            "type": "str",
+            "description": "Attribute name"
+          },
+          {
+            "name": "value",
+            "type": "str",
+            "description": "Attribute value"
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String clientSetInfo(ClientAttributeOption attr, String value)",
+        "params": [
+          {
+            "name": "attr",
+            "type": "ClientAttributeOption",
+            "description": "Attribute option"
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": "Attribute value"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "String clientSetinfo(String key, String value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The key"
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": "The value"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clientSetinfo(String key, String value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The key"
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": "The value"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clientSetinfo(String key, String value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The key"
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": "The value"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

@@ -1,0 +1,997 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "lpos(, name: KeyT,, value: str,, rank: Optional[int] = None,, count: Optional[int] = None,, maxlen: Optional[int] = None,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "rank",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "maxlen",
+            "type": "Optional[int] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[str, List, None]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Long lpos(final byte[] key, final byte[] element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "A list containing position of the matching elements inside the list"
+        }
+      },
+      {
+        "signature": "Long lpos(final byte[] key, final byte[] element, final LPosParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "LPosParams",
+            "description": "LPosParams"
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "A list containing position of the matching elements inside the list"
+        }
+      },
+      {
+        "signature": "List<Long> lpos(final byte[] key, final byte[] element, final LPosParams params final long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "LPosParams params final long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "A list containing position of the matching elements inside the list"
+        }
+      },
+      {
+        "signature": "Long lpos(final String key, final String element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "A list containing position of the matching elements inside the list"
+        }
+      },
+      {
+        "signature": "Long lpos(final String key, final String element, final LPosParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "LPosParams",
+            "description": "LPosParams"
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "A list containing position of the matching elements inside the list"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long lpos(K key, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the element to search for."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "V integer-reply representing the matching elements, or empty if there is no match. @since 5.3.2"
+        }
+      },
+      {
+        "signature": "Long lpos(K key, V value, LPosArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the element to search for."
+          },
+          {
+            "name": "args",
+            "type": "LPosArgs",
+            "description": "command arguments to configureFIRST and MAXLEN options."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "V integer-reply representing the matching elements, or empty if there is no match. @since 5.3.2"
+        }
+      },
+      {
+        "signature": "List<Long> lpos(K key, V value, int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the element to search for."
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "limit the number of matches."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "V integer-reply representing the matching elements, or empty if there is no match. @since 5.3.2"
+        }
+      },
+      {
+        "signature": "List<Long> lpos(K key, V value, int count, LPosArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the element to search for."
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "limit the number of matches."
+          },
+          {
+            "name": "args",
+            "type": "LPosArgs",
+            "description": "command arguments to configureFIRST and MAXLEN options."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "V integer-reply representing the matching elements, or empty if there is no match. @since 5.3.2"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> lpos(K key, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the element to search for."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "V integer-reply representing the matching elements, or empty if there is no match. @since 5.3.2"
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> lpos(K key, V value, LPosArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the element to search for."
+          },
+          {
+            "name": "args",
+            "type": "LPosArgs",
+            "description": "command arguments to configureFIRST and MAXLEN options."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "V integer-reply representing the matching elements, or empty if there is no match. @since 5.3.2"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> lpos(K key, V value, int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the element to search for."
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "limit the number of matches."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "V integer-reply representing the matching elements, or empty if there is no match. @since 5.3.2"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> lpos(K key, V value, int count, LPosArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the element to search for."
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "limit the number of matches."
+          },
+          {
+            "name": "args",
+            "type": "LPosArgs",
+            "description": "command arguments to configureFIRST and MAXLEN options."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "V integer-reply representing the matching elements, or empty if there is no match. @since 5.3.2"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> lpos(K key, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the element to search for."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "V integer-reply representing the matching elements, or empty if there is no match. @since 5.3.2"
+        }
+      },
+      {
+        "signature": "Mono<Long> lpos(K key, V value, LPosArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the element to search for."
+          },
+          {
+            "name": "args",
+            "type": "LPosArgs",
+            "description": "command arguments to configureFIRST and MAXLEN options."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "V integer-reply representing the matching elements, or empty if there is no match. @since 5.3.2"
+        }
+      },
+      {
+        "signature": "Flux<Long> lpos(K key, V value, int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the element to search for."
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "limit the number of matches."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "V integer-reply representing the matching elements, or empty if there is no match. @since 5.3.2"
+        }
+      },
+      {
+        "signature": "Flux<Long> lpos(K key, V value, int count, LPosArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the element to search for."
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "limit the number of matches."
+          },
+          {
+            "name": "args",
+            "type": "LPosArgs",
+            "description": "command arguments to configureFIRST and MAXLEN options."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "V integer-reply representing the matching elements, or empty if there is no match. @since 5.3.2"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "LPos(ctx context.Context, key string, value string, a LPosArgs)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "a",
+            "type": "LPosArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "lpos(key: RedisKey, element: string | Buffer | number, callback?: Callback<number | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "lpos(key: RedisKey, element: string | Buffer | number, lenToken: \"MAXLEN\", len: number | string, callback?: Callback<number | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "lenToken",
+            "type": "\"MAXLEN\"",
+            "description": ""
+          },
+          {
+            "name": "len",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "lpos(key: RedisKey, element: string | Buffer | number, numMatchesToken: \"COUNT\", numMatches: number | string, callback?: Callback<number[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "numMatchesToken",
+            "type": "\"COUNT\"",
+            "description": ""
+          },
+          {
+            "name": "numMatches",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "lpos(key: RedisKey, element: string | Buffer | number, numMatchesToken: \"COUNT\", numMatches: number | string, lenToken: \"MAXLEN\", len: number | string, callback?: Callback<number[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "numMatchesToken",
+            "type": "\"COUNT\"",
+            "description": ""
+          },
+          {
+            "name": "numMatches",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "lenToken",
+            "type": "\"MAXLEN\"",
+            "description": ""
+          },
+          {
+            "name": "len",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "lpos(key: RedisKey, element: string | Buffer | number, rankToken: \"RANK\", rank: number | string, callback?: Callback<number | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "rankToken",
+            "type": "\"RANK\"",
+            "description": ""
+          },
+          {
+            "name": "rank",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "lpos(key: K, value: V, options: LposOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "LposOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Generic",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "lpos(key: K, value: V, options: LposOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "LposOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Generic",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "ListPosition(RedisKey key, RedisValue element, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "element",
+            "type": "RedisValue",
+            "description": "The element to search for."
+          },
+          {
+            "name": "rank",
+            "type": "long",
+            "description": "The rank of the first element to return, within the sub-list of matching indexes in the case of multiple matches."
+          },
+          {
+            "name": "maxLength",
+            "type": "long",
+            "description": "The maximum number of elements to scan through before stopping, defaults to 0 (a full scan of the list.)"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The 0-based index of the first matching element, or -1 if not found."
+        }
+      },
+      {
+        "signature": "ListPositions(RedisKey key, RedisValue element, long count, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "element",
+            "type": "RedisValue",
+            "description": "The element to search for."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "of indexes of matching elements. If none are found, and empty array is returned.</returns> <remarks></remarks>"
+          },
+          {
+            "name": "rank",
+            "type": "long",
+            "description": "The rank of the first element to return, within the sub-list of matching indexes in the case of multiple matches."
+          },
+          {
+            "name": "maxLength",
+            "type": "long",
+            "description": "The maximum number of elements to scan through before stopping, defaults to 0 (a full scan of the list.)"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long[]",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ListPosition(RedisKey key, RedisValue element, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "element",
+            "type": "RedisValue",
+            "description": "The element to search for."
+          },
+          {
+            "name": "rank",
+            "type": "long",
+            "description": "The rank of the first element to return, within the sub-list of matching indexes in the case of multiple matches."
+          },
+          {
+            "name": "maxLength",
+            "type": "long",
+            "description": "The maximum number of elements to scan through before stopping, defaults to 0 (a full scan of the list.)"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The 0-based index of the first matching element, or -1 if not found."
+        }
+      },
+      {
+        "signature": "ListPositions(RedisKey key, RedisValue element, long count, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "element",
+            "type": "RedisValue",
+            "description": "The element to search for."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "of indexes of matching elements. If none are found, and empty array is returned.</returns> <remarks></remarks>"
+          },
+          {
+            "name": "rank",
+            "type": "long",
+            "description": "The rank of the first element to return, within the sub-list of matching indexes in the case of multiple matches."
+          },
+          {
+            "name": "maxLength",
+            "type": "long",
+            "description": "The maximum number of elements to scan through before stopping, defaults to 0 (a full scan of the list.)"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long[]",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ListPosition(RedisKey key, RedisValue element, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "element",
+            "type": "RedisValue",
+            "description": "The element to search for."
+          },
+          {
+            "name": "rank",
+            "type": "long",
+            "description": "The rank of the first element to return, within the sub-list of matching indexes in the case of multiple matches."
+          },
+          {
+            "name": "maxLength",
+            "type": "long",
+            "description": "The maximum number of elements to scan through before stopping, defaults to 0 (a full scan of the list.)"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The 0-based index of the first matching element, or -1 if not found."
+        }
+      },
+      {
+        "signature": "ListPositions(RedisKey key, RedisValue element, long count, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "element",
+            "type": "RedisValue",
+            "description": "The element to search for."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "of indexes of matching elements. If none are found, and empty array is returned.</returns> <remarks></remarks>"
+          },
+          {
+            "name": "rank",
+            "type": "long",
+            "description": "The rank of the first element to return, within the sub-list of matching indexes in the case of multiple matches."
+          },
+          {
+            "name": "maxLength",
+            "type": "long",
+            "description": "The maximum number of elements to scan through before stopping, defaults to 0 (a full scan of the list.)"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long[]",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ListPosition(RedisKey key, RedisValue element, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "element",
+            "type": "RedisValue",
+            "description": "The element to search for."
+          },
+          {
+            "name": "rank",
+            "type": "long",
+            "description": "The rank of the first element to return, within the sub-list of matching indexes in the case of multiple matches."
+          },
+          {
+            "name": "maxLength",
+            "type": "long",
+            "description": "The maximum number of elements to scan through before stopping, defaults to 0 (a full scan of the list.)"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The 0-based index of the first matching element, or -1 if not found."
+        }
+      },
+      {
+        "signature": "ListPositions(RedisKey key, RedisValue element, long count, long rank = 1, long maxLength = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "element",
+            "type": "RedisValue",
+            "description": "The element to search for."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "of indexes of matching elements. If none are found, and empty array is returned.</returns> <remarks></remarks>"
+          },
+          {
+            "name": "rank",
+            "type": "long",
+            "description": "The rank of the first element to return, within the sub-list of matching indexes in the case of multiple matches."
+          },
+          {
+            "name": "maxLength",
+            "type": "long",
+            "description": "The maximum number of elements to scan through before stopping, defaults to 0 (a full scan of the list.)"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long[]",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

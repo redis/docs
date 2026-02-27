@@ -1,0 +1,327 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "smembers(name: KeyT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[Set], Set]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Set<String> smembers(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Set<String>",
+          "description": "Multi bulk reply"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Set<V> smembers(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Set<V>",
+          "description": "Long count of members of the resulting set."
+        }
+      },
+      {
+        "signature": "Long smembers(ValueStreamingChannel<V> channel, K key)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>",
+            "description": "the channel."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long count of members of the resulting set."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Set<V>> smembers(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Set<V>>",
+          "description": "Long count of members of the resulting set."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> smembers(ValueStreamingChannel<V> channel, K key)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>",
+            "description": "the channel."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long count of members of the resulting set."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<V> smembers(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "Long count of members of the resulting set. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #smembers."
+        }
+      },
+      {
+        "signature": "Mono<Long> smembers(ValueStreamingChannel<V> channel, K key)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>",
+            "description": "the channel."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long count of members of the resulting set. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #smembers."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SMembers(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SMEMBERS(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "smembers(key: RedisKey, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "smembers(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(HashSet<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "smembers(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(HashSet<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SetMembers(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "All elements of the set."
+        }
+      },
+      {
+        "signature": "SetMembers(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "All elements of the set."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SetMembers(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "All elements of the set."
+        }
+      },
+      {
+        "signature": "SetMembers(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "All elements of the set."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "smembers(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string[]",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
