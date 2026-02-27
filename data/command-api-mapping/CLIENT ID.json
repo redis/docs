@@ -1,0 +1,83 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "client_id(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long clientId()",
+        "params": [],
+        "returns": {
+          "type": "long",
+          "description": "The client ID"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClientID(ctx context.Context) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "Long clientId()",
+        "params": [],
+        "returns": {
+          "type": "Long",
+          "description": "The ID of the current connection"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> clientId()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "The ID of the current connection"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> clientId()",
+        "params": [],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "The ID of the current connection"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

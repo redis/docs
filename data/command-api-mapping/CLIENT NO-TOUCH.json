@@ -1,0 +1,34 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [
+      {
+        "signature": "String clientNoTouchOn()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "String clientNoTouchOff()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

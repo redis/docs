@@ -1,0 +1,83 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "client_getname(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String clientGetname()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "The connection name"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClientGetName(ctx context.Context) *StringCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "K clientGetname()",
+        "params": [],
+        "returns": {
+          "type": "K",
+          "description": "The connection name, or null if no name is set"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<K> clientGetname()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<K>",
+          "description": "The connection name, or null if no name is set"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<K> clientGetname()",
+        "params": [],
+        "returns": {
+          "type": "Mono<K>",
+          "description": "The connection name, or null if no name is set"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

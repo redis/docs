@@ -1,0 +1,94 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "client_no_evict(mode: str)",
+        "params": [
+          {
+            "name": "mode",
+            "type": "str",
+            "description": "Mode (ON or OFF)"
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[str], str]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String clientNoEvictOn()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "String clientNoEvictOff()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "String clientNoEvict(boolean on)",
+        "params": [
+          {
+            "name": "on",
+            "type": "boolean",
+            "description": "true to turn eviction mode on, false to turn it off"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clientNoEvict(boolean on)",
+        "params": [
+          {
+            "name": "on",
+            "type": "boolean",
+            "description": "true to turn eviction mode on, false to turn it off"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clientNoEvict(boolean on)",
+        "params": [
+          {
+            "name": "on",
+            "type": "boolean",
+            "description": "true to turn eviction mode on, false to turn it off"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

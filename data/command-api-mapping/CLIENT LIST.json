@@ -1,0 +1,193 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "client_list(_type: Optional[str] = None, client_id: List[EncodableT] = [], **kwargs)",
+        "params": [
+          {
+            "name": "_type",
+            "type": "Optional[str]",
+            "description": "Optional client type filter"
+          },
+          {
+            "name": "client_id",
+            "type": "List[EncodableT]",
+            "description": "Optional list of client IDs"
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String clientList()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "List of connected clients"
+        }
+      },
+      {
+        "signature": "String clientList(ClientType type)",
+        "params": [
+          {
+            "name": "type",
+            "type": "ClientType",
+            "description": "Client type filter"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "List of connected clients"
+        }
+      },
+      {
+        "signature": "String clientList(final long... clientIds)",
+        "params": [
+          {
+            "name": "clientIds",
+            "type": "long...",
+            "description": "Client IDs to filter"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "List of connected clients"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClientList(ctx context.Context) *StringCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "String clientList()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "List of connected clients"
+        }
+      },
+      {
+        "signature": "String clientList(ClientListArgs clientListArgs)",
+        "params": [
+          {
+            "name": "clientListArgs",
+            "type": "ClientListArgs",
+            "description": "Arguments for filtering"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "List of connected clients"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clientList()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "List of connected clients"
+        }
+      },
+      {
+        "signature": "RedisFuture<String> clientList(ClientListArgs clientListArgs)",
+        "params": [
+          {
+            "name": "clientListArgs",
+            "type": "ClientListArgs",
+            "description": "Arguments for filtering"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "List of connected clients"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clientList()",
+        "params": [],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "List of connected clients"
+        }
+      },
+      {
+        "signature": "Mono<String> clientList(ClientListArgs clientListArgs)",
+        "params": [
+          {
+            "name": "clientListArgs",
+            "type": "ClientListArgs",
+            "description": "Arguments for filtering"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "List of connected clients"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "ClientInfo[] ClientList(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "Command flags"
+          }
+        ],
+        "returns": {
+          "type": "ClientInfo[]",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<ClientInfo[]> ClientListAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "Command flags"
+          }
+        ],
+        "returns": {
+          "type": "Task<ClientInfo[]>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

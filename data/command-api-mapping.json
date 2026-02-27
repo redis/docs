@@ -430,6 +430,160 @@
       "redis_rs_async": []
     }
   },
+  "AUTH": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "auth(password: str, username: Optional[str] = None, **kwargs)",
+          "params": [
+            {
+              "name": "password",
+              "type": "str",
+              "description": "The password"
+            },
+            {
+              "name": "username",
+              "type": "Optional[str]",
+              "description": "Optional username"
+            },
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Any",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String auth(final String password)",
+          "params": [
+            {
+              "name": "password",
+              "type": "String",
+              "description": "The password"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "String auth(final String user, final String password)",
+          "params": [
+            {
+              "name": "user",
+              "type": "String",
+              "description": "The username"
+            },
+            {
+              "name": "password",
+              "type": "String",
+              "description": "The password"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "Auth(ctx context.Context, password string) *StatusCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "password",
+              "type": "string",
+              "description": "The password"
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        },
+        {
+          "signature": "AuthACL(ctx context.Context, username, password string) *StatusCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "username",
+              "type": "string",
+              "description": "The username"
+            },
+            {
+              "name": "password",
+              "type": "string",
+              "description": "The password"
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "parseCommand(parser: CommandParser, { username, password }: AuthOptions)",
+          "params": [
+            {
+              "name": "parser",
+              "type": "CommandParser",
+              "description": "The command parser"
+            },
+            {
+              "name": "options",
+              "type": "AuthOptions",
+              "description": "Authentication options containing username and/or password"
+            }
+          ],
+          "returns": {
+            "type": "SimpleStringReply<'OK'>",
+            "description": ""
+          }
+        }
+      ],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [
+        {
+          "signature": "auth(string $password)",
+          "params": [
+            {
+              "name": "$password",
+              "type": "string",
+              "description": "The password"
+            }
+          ],
+          "returns": {
+            "type": "mixed",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
   "BF.ADD": {
     "api_calls": {
       "redis_py": [
@@ -12274,6 +12428,1664 @@
       ]
     }
   },
+  "CLIENT CACHING": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT GETNAME": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "client_getname(**kwargs)",
+          "params": [
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String clientGetname()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "The connection name"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClientGetName(ctx context.Context) *StringCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            }
+          ],
+          "returns": {
+            "type": "*StringCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "K clientGetname()",
+          "params": [],
+          "returns": {
+            "type": "K",
+            "description": "The connection name, or null if no name is set"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<K> clientGetname()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<K>",
+            "description": "The connection name, or null if no name is set"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<K> clientGetname()",
+          "params": [],
+          "returns": {
+            "type": "Mono<K>",
+            "description": "The connection name, or null if no name is set"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT GETREDIR": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT HELP": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT ID": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "client_id(**kwargs)",
+          "params": [
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "long clientId()",
+          "params": [],
+          "returns": {
+            "type": "long",
+            "description": "The client ID"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClientID(ctx context.Context) *IntCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "Long clientId()",
+          "params": [],
+          "returns": {
+            "type": "Long",
+            "description": "The ID of the current connection"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<Long> clientId()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<Long>",
+            "description": "The ID of the current connection"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<Long> clientId()",
+          "params": [],
+          "returns": {
+            "type": "Mono<Long>",
+            "description": "The ID of the current connection"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT INFO": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "client_info(**kwargs)",
+          "params": [
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String clientInfo()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "Client information"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClientInfo(ctx context.Context) *ClientInfoCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            }
+          ],
+          "returns": {
+            "type": "*ClientInfoCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clientInfo()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "Client information"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clientInfo()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "Client information"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clientInfo()",
+          "params": [],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "Client information"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT KILL": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "client_kill(address: str, **kwargs)",
+          "params": [
+            {
+              "name": "address",
+              "type": "str",
+              "description": "Client address (ip:port)"
+            },
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String clientKill(final String ipPort)",
+          "params": [
+            {
+              "name": "ipPort",
+              "type": "String",
+              "description": "Client address (ip:port)"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "String clientKill(final String ip, final int port)",
+          "params": [
+            {
+              "name": "ip",
+              "type": "String",
+              "description": "Client IP"
+            },
+            {
+              "name": "port",
+              "type": "int",
+              "description": "Client port"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "long clientKill(ClientKillParams params)",
+          "params": [
+            {
+              "name": "params",
+              "type": "ClientKillParams",
+              "description": "Kill parameters"
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "Number of killed connections"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClientKill(ctx context.Context, ipPort string) *StatusCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "ipPort",
+              "type": "string",
+              "description": "IP:port of client to kill"
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        },
+        {
+          "signature": "ClientKillByFilter(ctx context.Context, keys ...string) *IntCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "keys",
+              "type": "...string",
+              "description": "Filter keys"
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clientKill(String addr)",
+          "params": [
+            {
+              "name": "addr",
+              "type": "String",
+              "description": "Client address"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "Long clientKill(KillArgs killArgs)",
+          "params": [
+            {
+              "name": "killArgs",
+              "type": "KillArgs",
+              "description": "Kill arguments"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "Number of killed connections"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clientKill(String addr)",
+          "params": [
+            {
+              "name": "addr",
+              "type": "String",
+              "description": "Client address"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "RedisFuture<Long> clientKill(KillArgs killArgs)",
+          "params": [
+            {
+              "name": "killArgs",
+              "type": "KillArgs",
+              "description": "Kill arguments"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<Long>",
+            "description": "Number of killed connections"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clientKill(String addr)",
+          "params": [
+            {
+              "name": "addr",
+              "type": "String",
+              "description": "Client address"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "Mono<Long> clientKill(KillArgs killArgs)",
+          "params": [
+            {
+              "name": "killArgs",
+              "type": "KillArgs",
+              "description": "Kill arguments"
+            }
+          ],
+          "returns": {
+            "type": "Mono<Long>",
+            "description": "Number of killed connections"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT LIST": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "client_list(_type: Optional[str] = None, client_id: List[EncodableT] = [], **kwargs)",
+          "params": [
+            {
+              "name": "_type",
+              "type": "Optional[str]",
+              "description": "Optional client type filter"
+            },
+            {
+              "name": "client_id",
+              "type": "List[EncodableT]",
+              "description": "Optional list of client IDs"
+            },
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String clientList()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "List of connected clients"
+          }
+        },
+        {
+          "signature": "String clientList(ClientType type)",
+          "params": [
+            {
+              "name": "type",
+              "type": "ClientType",
+              "description": "Client type filter"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "List of connected clients"
+          }
+        },
+        {
+          "signature": "String clientList(final long... clientIds)",
+          "params": [
+            {
+              "name": "clientIds",
+              "type": "long...",
+              "description": "Client IDs to filter"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "List of connected clients"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClientList(ctx context.Context) *StringCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            }
+          ],
+          "returns": {
+            "type": "*StringCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clientList()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "List of connected clients"
+          }
+        },
+        {
+          "signature": "String clientList(ClientListArgs clientListArgs)",
+          "params": [
+            {
+              "name": "clientListArgs",
+              "type": "ClientListArgs",
+              "description": "Arguments for filtering"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "List of connected clients"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clientList()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "List of connected clients"
+          }
+        },
+        {
+          "signature": "RedisFuture<String> clientList(ClientListArgs clientListArgs)",
+          "params": [
+            {
+              "name": "clientListArgs",
+              "type": "ClientListArgs",
+              "description": "Arguments for filtering"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "List of connected clients"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clientList()",
+          "params": [],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "List of connected clients"
+          }
+        },
+        {
+          "signature": "Mono<String> clientList(ClientListArgs clientListArgs)",
+          "params": [
+            {
+              "name": "clientListArgs",
+              "type": "ClientListArgs",
+              "description": "Arguments for filtering"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "List of connected clients"
+          }
+        }
+      ],
+      "nredisstack_sync": [
+        {
+          "signature": "ClientInfo[] ClientList(CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "Command flags"
+            }
+          ],
+          "returns": {
+            "type": "ClientInfo[]",
+            "description": ""
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "Task<ClientInfo[]> ClientListAsync(CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "Command flags"
+            }
+          ],
+          "returns": {
+            "type": "Task<ClientInfo[]>",
+            "description": ""
+          }
+        }
+      ],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT NO-EVICT": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "client_no_evict(mode: str)",
+          "params": [
+            {
+              "name": "mode",
+              "type": "str",
+              "description": "Mode (ON or OFF)"
+            }
+          ],
+          "returns": {
+            "type": "Union[Awaitable[str], str]",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String clientNoEvictOn()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "String clientNoEvictOff()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clientNoEvict(boolean on)",
+          "params": [
+            {
+              "name": "on",
+              "type": "boolean",
+              "description": "true to turn eviction mode on, false to turn it off"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clientNoEvict(boolean on)",
+          "params": [
+            {
+              "name": "on",
+              "type": "boolean",
+              "description": "true to turn eviction mode on, false to turn it off"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clientNoEvict(boolean on)",
+          "params": [
+            {
+              "name": "on",
+              "type": "boolean",
+              "description": "true to turn eviction mode on, false to turn it off"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT NO-TOUCH": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [
+        {
+          "signature": "String clientNoTouchOn()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "String clientNoTouchOff()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT PAUSE": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "client_pause(timeout: int, all: bool = True, **kwargs)",
+          "params": [
+            {
+              "name": "timeout",
+              "type": "int",
+              "description": "Milliseconds to pause clients"
+            },
+            {
+              "name": "all",
+              "type": "bool",
+              "description": "If true (default) all client commands are blocked"
+            },
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String clientPause(final long timeout)",
+          "params": [
+            {
+              "name": "timeout",
+              "type": "long",
+              "description": "Timeout in milliseconds"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "String clientPause(final long timeout, final ClientPauseMode mode)",
+          "params": [
+            {
+              "name": "timeout",
+              "type": "long",
+              "description": "Timeout in milliseconds"
+            },
+            {
+              "name": "mode",
+              "type": "ClientPauseMode",
+              "description": "Pause mode"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClientPause(ctx context.Context, dur time.Duration) *BoolCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "dur",
+              "type": "time.Duration",
+              "description": "Pause duration"
+            }
+          ],
+          "returns": {
+            "type": "*BoolCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clientPause(long timeout)",
+          "params": [
+            {
+              "name": "timeout",
+              "type": "long",
+              "description": "Timeout in milliseconds"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clientPause(long timeout)",
+          "params": [
+            {
+              "name": "timeout",
+              "type": "long",
+              "description": "Timeout in milliseconds"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clientPause(long timeout)",
+          "params": [
+            {
+              "name": "timeout",
+              "type": "long",
+              "description": "Timeout in milliseconds"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT REPLY": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "client_reply(reply: str, **kwargs)",
+          "params": [
+            {
+              "name": "reply",
+              "type": "str",
+              "description": "Reply mode (ON, OFF, or SKIP)"
+            },
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT SETINFO": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "client_setinfo(attr: str, value: str, **kwargs)",
+          "params": [
+            {
+              "name": "attr",
+              "type": "str",
+              "description": "Attribute name"
+            },
+            {
+              "name": "value",
+              "type": "str",
+              "description": "Attribute value"
+            },
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String clientSetInfo(ClientAttributeOption attr, String value)",
+          "params": [
+            {
+              "name": "attr",
+              "type": "ClientAttributeOption",
+              "description": "Attribute option"
+            },
+            {
+              "name": "value",
+              "type": "String",
+              "description": "Attribute value"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clientSetinfo(String key, String value)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "The key"
+            },
+            {
+              "name": "value",
+              "type": "String",
+              "description": "The value"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clientSetinfo(String key, String value)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "The key"
+            },
+            {
+              "name": "value",
+              "type": "String",
+              "description": "The value"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clientSetinfo(String key, String value)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": "The key"
+            },
+            {
+              "name": "value",
+              "type": "String",
+              "description": "The value"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT SETNAME": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "client_setname(name: str, **kwargs)",
+          "params": [
+            {
+              "name": "name",
+              "type": "str",
+              "description": "The client name"
+            },
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String clientSetname(final String name)",
+          "params": [
+            {
+              "name": "name",
+              "type": "String",
+              "description": "The client name"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClientSetName(ctx context.Context, name string) *BoolCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "description": "Client name"
+            }
+          ],
+          "returns": {
+            "type": "*BoolCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clientSetname(K name)",
+          "params": [
+            {
+              "name": "name",
+              "type": "K",
+              "description": "The client name"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clientSetname(K name)",
+          "params": [
+            {
+              "name": "name",
+              "type": "K",
+              "description": "The client name"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clientSetname(K name)",
+          "params": [
+            {
+              "name": "name",
+              "type": "K",
+              "description": "The client name"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT TRACKING": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "client_tracking(on: bool = True, clientid: Optional[int] = None, prefix: Sequence[KeyT] = [], bcast: bool = False, optin: bool = False, optout: bool = False, noloop: bool = False, **kwargs)",
+          "params": [
+            {
+              "name": "on",
+              "type": "bool",
+              "description": "Enable or disable tracking"
+            },
+            {
+              "name": "clientid",
+              "type": "Optional[int]",
+              "description": "Optional client ID"
+            },
+            {
+              "name": "prefix",
+              "type": "Sequence[KeyT]",
+              "description": "Key prefixes to track"
+            },
+            {
+              "name": "bcast",
+              "type": "bool",
+              "description": "Enable broadcast mode"
+            },
+            {
+              "name": "optin",
+              "type": "bool",
+              "description": "Enable opt-in mode"
+            },
+            {
+              "name": "optout",
+              "type": "bool",
+              "description": "Enable opt-out mode"
+            },
+            {
+              "name": "noloop",
+              "type": "bool",
+              "description": "Don't send notifications for keys modified by this connection"
+            },
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "String clientTracking(TrackingArgs args)",
+          "params": [
+            {
+              "name": "args",
+              "type": "TrackingArgs",
+              "description": "Tracking arguments"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> clientTracking(TrackingArgs args)",
+          "params": [
+            {
+              "name": "args",
+              "type": "TrackingArgs",
+              "description": "Tracking arguments"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> clientTracking(TrackingArgs args)",
+          "params": [
+            {
+              "name": "args",
+              "type": "TrackingArgs",
+              "description": "Tracking arguments"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT TRACKINGINFO": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "client_trackinginfo(**kwargs)",
+          "params": [
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "TrackingInfo clientTrackingInfo()",
+          "params": [],
+          "returns": {
+            "type": "TrackingInfo",
+            "description": "Tracking information"
+          }
+        }
+      ],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "TrackingInfo clientTrackinginfo()",
+          "params": [],
+          "returns": {
+            "type": "TrackingInfo",
+            "description": "Tracking information"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<TrackingInfo> clientTrackinginfo()",
+          "params": [],
+          "returns": {
+            "type": "RedisFuture<TrackingInfo>",
+            "description": "Tracking information"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<TrackingInfo> clientTrackinginfo()",
+          "params": [],
+          "returns": {
+            "type": "Mono<TrackingInfo>",
+            "description": "Tracking information"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT UNBLOCK": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "client_unblock(client_id: int, error: bool = False, **kwargs)",
+          "params": [
+            {
+              "name": "client_id",
+              "type": "int",
+              "description": "The client ID"
+            },
+            {
+              "name": "error",
+              "type": "bool",
+              "description": "Whether to unblock with error"
+            },
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "long clientUnblock(final long clientId)",
+          "params": [
+            {
+              "name": "clientId",
+              "type": "long",
+              "description": "The client ID"
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "Number of unblocked connections"
+          }
+        },
+        {
+          "signature": "long clientUnblock(final long clientId, final UnblockType unblockType)",
+          "params": [
+            {
+              "name": "clientId",
+              "type": "long",
+              "description": "The client ID"
+            },
+            {
+              "name": "unblockType",
+              "type": "UnblockType",
+              "description": "Unblock type"
+            }
+          ],
+          "returns": {
+            "type": "long",
+            "description": "Number of unblocked connections"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClientUnblock(ctx context.Context, id int64) *IntCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "id",
+              "type": "int64",
+              "description": "Client ID to unblock"
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": ""
+          }
+        },
+        {
+          "signature": "ClientUnblockWithError(ctx context.Context, id int64) *IntCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "id",
+              "type": "int64",
+              "description": "Client ID to unblock with error"
+            }
+          ],
+          "returns": {
+            "type": "*IntCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [],
+      "lettuce_sync": [
+        {
+          "signature": "Long clientUnblock(long id, UnblockType type)",
+          "params": [
+            {
+              "name": "id",
+              "type": "long",
+              "description": "The client ID"
+            },
+            {
+              "name": "type",
+              "type": "UnblockType",
+              "description": "Unblock type"
+            }
+          ],
+          "returns": {
+            "type": "Long",
+            "description": "Number of unblocked connections"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<Long> clientUnblock(long id, UnblockType type)",
+          "params": [
+            {
+              "name": "id",
+              "type": "long",
+              "description": "The client ID"
+            },
+            {
+              "name": "type",
+              "type": "UnblockType",
+              "description": "Unblock type"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<Long>",
+            "description": "Number of unblocked connections"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<Long> clientUnblock(long id, UnblockType type)",
+          "params": [
+            {
+              "name": "id",
+              "type": "long",
+              "description": "The client ID"
+            },
+            {
+              "name": "type",
+              "type": "UnblockType",
+              "description": "Unblock type"
+            }
+          ],
+          "returns": {
+            "type": "Mono<Long>",
+            "description": "Number of unblocked connections"
+          }
+        }
+      ],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT UNPAUSE": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "client_unpause(**kwargs)",
+          "params": [
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String clientUnpause()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "ClientUnpause(ctx context.Context) *BoolCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            }
+          ],
+          "returns": {
+            "type": "*BoolCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
+  "CLIENT": {
+    "api_calls": {
+      "redis_py": [],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
   "CLUSTER ADDSLOTS": {
     "api_calls": {
       "redis_py": [],
@@ -18166,6 +19978,152 @@
           }
         }
       ]
+    }
+  },
+  "ECHO": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "echo(value: EncodableT, **kwargs)",
+          "params": [
+            {
+              "name": "value",
+              "type": "EncodableT",
+              "description": "The value to echo"
+            },
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String echo(final String string)",
+          "params": [
+            {
+              "name": "string",
+              "type": "String",
+              "description": "The string to echo"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "The echoed string"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "Echo(ctx context.Context, message interface{}) *StringCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "message",
+              "type": "interface{}",
+              "description": "The message to echo"
+            }
+          ],
+          "returns": {
+            "type": "*StringCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "parseCommand(parser: CommandParser, message: RedisArgument)",
+          "params": [
+            {
+              "name": "parser",
+              "type": "CommandParser",
+              "description": "The command parser"
+            },
+            {
+              "name": "message",
+              "type": "RedisArgument",
+              "description": "Message to echo back"
+            }
+          ],
+          "returns": {
+            "type": "BlobStringReply",
+            "description": ""
+          }
+        }
+      ],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [
+        {
+          "signature": "RedisValue Echo(RedisValue message, CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "message",
+              "type": "RedisValue",
+              "description": "The message to echo"
+            },
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "Command flags"
+            }
+          ],
+          "returns": {
+            "type": "RedisValue",
+            "description": ""
+          }
+        }
+      ],
+      "nredisstack_async": [
+        {
+          "signature": "Task<RedisValue> EchoAsync(RedisValue message, CommandFlags flags = CommandFlags.None)",
+          "params": [
+            {
+              "name": "message",
+              "type": "RedisValue",
+              "description": "The message to echo"
+            },
+            {
+              "name": "flags",
+              "type": "CommandFlags",
+              "description": "Command flags"
+            }
+          ],
+          "returns": {
+            "type": "Task<RedisValue>",
+            "description": ""
+          }
+        }
+      ],
+      "php": [
+        {
+          "signature": "echo(string $message)",
+          "params": [
+            {
+              "name": "$message",
+              "type": "string",
+              "description": "The message to echo"
+            }
+          ],
+          "returns": {
+            "type": "string",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
     }
   },
   "EVAL_RO": {
@@ -37976,6 +39934,52 @@
           }
         }
       ]
+    }
+  },
+  "HELLO": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "hello(protover: Optional[int] = None, auth: Optional[Tuple[str, str]] = None, clientname: Optional[str] = None, **kwargs)",
+          "params": [
+            {
+              "name": "protover",
+              "type": "Optional[int]",
+              "description": "Protocol version"
+            },
+            {
+              "name": "auth",
+              "type": "Optional[Tuple[str, str]]",
+              "description": "Optional authentication (username, password)"
+            },
+            {
+              "name": "clientname",
+              "type": "Optional[str]",
+              "description": "Optional client name"
+            },
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
     }
   },
   "HEXISTS": {
@@ -72097,6 +74101,110 @@
       ]
     }
   },
+  "PING": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "ping(**kwargs)",
+          "params": [
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "Union[Awaitable[bool], bool]",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String ping()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "PONG"
+          }
+        },
+        {
+          "signature": "String ping(final String message)",
+          "params": [
+            {
+              "name": "message",
+              "type": "String",
+              "description": "The message to echo"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "The message"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "Ping(ctx context.Context) *StatusCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [
+        {
+          "signature": "parseCommand(parser: CommandParser, message?: RedisArgument)",
+          "params": [
+            {
+              "name": "parser",
+              "type": "CommandParser",
+              "description": "The command parser"
+            },
+            {
+              "name": "message",
+              "type": "RedisArgument",
+              "description": "Optional message to be returned instead of PONG"
+            }
+          ],
+          "returns": {
+            "type": "SimpleStringReply | BlobStringReply",
+            "description": ""
+          }
+        }
+      ],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [
+        {
+          "signature": "ping(?string $message = null)",
+          "params": [
+            {
+              "name": "$message",
+              "type": "?string",
+              "description": "Optional message"
+            }
+          ],
+          "returns": {
+            "type": "mixed",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
   "PSETEX": {
     "api_calls": {
       "redis_py": [
@@ -73318,6 +75426,46 @@
       "php": []
     }
   },
+  "QUIT": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "quit(**kwargs)",
+          "params": [
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String quit()",
+          "params": [],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
+    }
+  },
   "RANDOMKEY": {
     "api_calls": {
       "redis_py": [
@@ -74146,6 +76294,37 @@
           }
         }
       ]
+    }
+  },
+  "RESET": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "reset(**kwargs)",
+          "params": [
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [],
+      "go-redis": [],
+      "node_redis": [],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
     }
   },
   "RESTORE": {
@@ -79297,6 +81476,92 @@
           }
         }
       ]
+    }
+  },
+  "SELECT": {
+    "api_calls": {
+      "redis_py": [
+        {
+          "signature": "select(index: int, **kwargs)",
+          "params": [
+            {
+              "name": "index",
+              "type": "int",
+              "description": "The database index"
+            },
+            {
+              "name": "**kwargs",
+              "type": "Any",
+              "description": ""
+            }
+          ],
+          "returns": {
+            "type": "ResponseT",
+            "description": ""
+          }
+        }
+      ],
+      "jedis": [
+        {
+          "signature": "String select(final int index)",
+          "params": [
+            {
+              "name": "index",
+              "type": "int",
+              "description": "The database index"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "go-redis": [
+        {
+          "signature": "Select(ctx context.Context, index int) *StatusCmd",
+          "params": [
+            {
+              "name": "ctx",
+              "type": "context.Context",
+              "description": "Context"
+            },
+            {
+              "name": "index",
+              "type": "int",
+              "description": "Database index"
+            }
+          ],
+          "returns": {
+            "type": "*StatusCmd",
+            "description": ""
+          }
+        }
+      ],
+      "node_redis": [],
+      "lettuce_sync": [],
+      "lettuce_async": [],
+      "lettuce_reactive": [],
+      "nredisstack_sync": [],
+      "nredisstack_async": [],
+      "php": [
+        {
+          "signature": "select(int $database)",
+          "params": [
+            {
+              "name": "$database",
+              "type": "int",
+              "description": "Database index"
+            }
+          ],
+          "returns": {
+            "type": "mixed",
+            "description": ""
+          }
+        }
+      ],
+      "redis_rs_sync": [],
+      "redis_rs_async": []
     }
   },
   "SET": {

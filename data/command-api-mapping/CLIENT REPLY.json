@@ -1,0 +1,37 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "client_reply(reply: str, **kwargs)",
+        "params": [
+          {
+            "name": "reply",
+            "type": "str",
+            "description": "Reply mode (ON, OFF, or SKIP)"
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

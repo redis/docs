@@ -1,0 +1,83 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "client_info(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String clientInfo()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "Client information"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClientInfo(ctx context.Context) *ClientInfoCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*ClientInfoCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "String clientInfo()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "Client information"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clientInfo()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "Client information"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clientInfo()",
+        "params": [],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "Client information"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

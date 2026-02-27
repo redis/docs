@@ -1,0 +1,141 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "client_pause(timeout: int, all: bool = True, **kwargs)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "int",
+            "description": "Milliseconds to pause clients"
+          },
+          {
+            "name": "all",
+            "type": "bool",
+            "description": "If true (default) all client commands are blocked"
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String clientPause(final long timeout)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "Timeout in milliseconds"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "String clientPause(final long timeout, final ClientPauseMode mode)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "Timeout in milliseconds"
+          },
+          {
+            "name": "mode",
+            "type": "ClientPauseMode",
+            "description": "Pause mode"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClientPause(ctx context.Context, dur time.Duration) *BoolCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "dur",
+            "type": "time.Duration",
+            "description": "Pause duration"
+          }
+        ],
+        "returns": {
+          "type": "*BoolCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "String clientPause(long timeout)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "Timeout in milliseconds"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clientPause(long timeout)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "Timeout in milliseconds"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clientPause(long timeout)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "Timeout in milliseconds"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

@@ -1,0 +1,211 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "client_kill(address: str, **kwargs)",
+        "params": [
+          {
+            "name": "address",
+            "type": "str",
+            "description": "Client address (ip:port)"
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String clientKill(final String ipPort)",
+        "params": [
+          {
+            "name": "ipPort",
+            "type": "String",
+            "description": "Client address (ip:port)"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "String clientKill(final String ip, final int port)",
+        "params": [
+          {
+            "name": "ip",
+            "type": "String",
+            "description": "Client IP"
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": "Client port"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "long clientKill(ClientKillParams params)",
+        "params": [
+          {
+            "name": "params",
+            "type": "ClientKillParams",
+            "description": "Kill parameters"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "Number of killed connections"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClientKill(ctx context.Context, ipPort string) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "ipPort",
+            "type": "string",
+            "description": "IP:port of client to kill"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ClientKillByFilter(ctx context.Context, keys ...string) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "keys",
+            "type": "...string",
+            "description": "Filter keys"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "String clientKill(String addr)",
+        "params": [
+          {
+            "name": "addr",
+            "type": "String",
+            "description": "Client address"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "Long clientKill(KillArgs killArgs)",
+        "params": [
+          {
+            "name": "killArgs",
+            "type": "KillArgs",
+            "description": "Kill arguments"
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Number of killed connections"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clientKill(String addr)",
+        "params": [
+          {
+            "name": "addr",
+            "type": "String",
+            "description": "Client address"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> clientKill(KillArgs killArgs)",
+        "params": [
+          {
+            "name": "killArgs",
+            "type": "KillArgs",
+            "description": "Kill arguments"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Number of killed connections"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clientKill(String addr)",
+        "params": [
+          {
+            "name": "addr",
+            "type": "String",
+            "description": "Client address"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "Mono<Long> clientKill(KillArgs killArgs)",
+        "params": [
+          {
+            "name": "killArgs",
+            "type": "KillArgs",
+            "description": "Kill arguments"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Number of killed connections"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+
