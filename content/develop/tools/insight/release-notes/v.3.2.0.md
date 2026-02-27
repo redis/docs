@@ -12,7 +12,7 @@ This is the General Availability (GA) release of Redis Insight 3.2.0, which incl
 
 ### Headlines
 
-Connect to Azure Managed Redis with ease. Auto-discover databases across subscriptions with one-click import and connect using Entra ID and Azure passwordless (OAuth) authentication.
+Connect to Azure Managed Redis with ease. Auto-discover databases across subscriptions with one-click import and connect using Entra ID and Azure passwordless (OAuth) authentication. To get started, follow the [Azure setup guide](https://github.com/RedisInsight/RedisInsight/blob/main/docs/azure-setup.md) to configure the required permissions.
 
 ### Details
 
