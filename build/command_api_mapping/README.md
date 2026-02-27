@@ -1,1 +1,196 @@
-# Command-to-API Mapping Project\n\n## Overview\n\nThis project creates a comprehensive JSON mapping of Redis commands to their equivalent API calls across 14 client libraries in 7 programming languages.\n\n**Goal**: Generate `data/commands_api_mapping.json` containing method signatures and documentation for every Redis command in every supported client library.\n\n## Project Structure\n\nAll design documents are in `build/command_api_mapping/`:\n\n### Design Phase (Complete)\n\n1. **SCHEMA_DESIGN.md** - JSON schema definition\n   - File structure and organization\n   - Field definitions for all signature components\n   - Language-specific signature format examples\n   - Complete example for SET command\n\n2. **SCHEMA_EXAMPLES_AND_EDGE_CASES.md** - Practical examples\n   - 5 complete command examples (GET, EXPIRE, FT.SEARCH, XREAD, SLAVEOF)\n   - 6 edge case scenarios with handling strategies\n   - 6 validation rules\n\n3. **IMPLEMENTATION_STRATEGY.md** - High-level approaches\n   - 4 implementation options (language-specific parsers, tree-sitter, manual, LLM)\n   - Recommended hybrid approach\n   - 5-phase workflow\n   - Key decisions and potential issues\n\n4. **ARCHITECTURE_DECISION.md** - MCP server rationale\n   - Why MCP server is better than direct integration\n   - Team access without API key friction\n   - Clean separation of concerns\n   - Reusability benefits\n\n5. **MCP_TOOL_SCHEMAS.md** - Tool specifications\n   - 6 MCP tools with input/output schemas\n   - `list_redis_commands` - Track all commands\n   - `extract_signatures` - Extract method signatures\n   - `extract_doc_comments` - Extract documentation\n   - `validate_signature` - Validate signatures\n   - `get_client_info` - Get client metadata\n   - `list_clients` - List all clients\n\n6. **MCP_SERVER_DESIGN.md** - Implementation design\n   - Architecture diagram\n   - Project structure\n   - Technology stack (Rust WASM + Node.js)\n   - Implementation details for each component\n   - Configuration and deployment\n   - Error handling and performance considerations\n\n7. **IMPLEMENTATION_ROADMAP.md** - Execution plan\n   - 9 phases spanning ~9 weeks\n   - Detailed tasks and deliverables\n   - Risk mitigation strategies\n   - Success criteria\n\n8. **TECHNICAL_CONSIDERATIONS.md** - Challenges & solutions\n   - 11 major challenge areas\n   - Mitigation strategies for each\n   - Recommended approach\n\n9. **IMPLEMENTATION_NOTES.md** - Architecture discussion\n   - Method name matching challenge\n   - WebAssembly approach rationale\n   - Updated client list (14 total, excluding hiredis)\n   - Next steps\n\n## Key Decisions\n\n### Architecture\n- **MCP Server** (not direct integration)\n  - Rust WASM for parsing (performance)\n  - Node.js for orchestration\n  - Augment for AI matching (team access)\n  - No API key management needed\n\n### Scope\n- **Commands**: All (core + modules + deprecated)\n- **Clients**: 14 total (excluding hiredis)\n  - Python: redis-py, RedisVL\n  - Node.js: node-redis, ioredis\n  - Go: go-redis\n  - Java: Jedis, Lettuce (3 variants)\n  - C#: NRedisStack (2 variants)\n  - PHP: phpredis\n  - Rust: redis-rs (2 variants)\n\n### Parsing\n- **Tool**: tree-sitter (universal parser)\n- **Languages**: 7 (Python, Java, Go, TypeScript, Rust, C#, PHP)\n- **Approach**: Language-specific parsers in Rust\n\n### Matching\n- **Tool**: Claude API (via Augment)\n- **Challenge**: Method names don't always match command names\n- **Solution**: AI-assisted semantic matching\n\n## Implementation Timeline\n\n**Phase 1-2**: Foundation & Data Access (3 weeks)\n- Set up Rust WASM library\n- Set up Node.js MCP server\n- Implement data loaders\n\n**Phase 3-4**: Simple Tools & Python Parser (2 weeks)\n- Implement list_redis_commands, list_clients, get_client_info\n- Implement Python parser\n- Test with redis-py\n\n**Phase 5-6**: Other Language Parsers & Validation (3 weeks)\n- Implement Java, Go, TypeScript, Rust, C#, PHP parsers\n- Implement validation tool\n- Test with all clients\n\n**Phase 7-9**: Integration, Augment, & Scaling (3 weeks)\n- End-to-end testing\n- Augment integration\n- Scale to all commands\n- Manual review\n\n**Total: ~9 weeks** (can be parallelized)\n\n## Technology Stack\n\n### Rust WASM Library\n- tree-sitter (universal parser)\n- tree-sitter-{language} grammars (7 languages)\n- wasm-bindgen (JavaScript bindings)\n- serde/serde_json (JSON serialization)\n- regex (pattern matching)\n\n### Node.js MCP Server\n- @modelcontextprotocol/sdk (MCP protocol)\n- TypeScript (type safety)\n- zod (input validation)\n- pino (logging)\n\n### Build Tools\n- wasm-pack (Rust → WASM)\n- wasm-opt (WASM optimization)\n- TypeScript compiler\n\n## Success Criteria\n\n- [ ] MCP server builds and runs\n- [ ] All 6 tools implemented and functional\n- [ ] All 7 languages supported\n- [ ] Parsing accuracy > 95%\n- [ ] Performance < 1 second per file\n- [ ] Complete commands_api_mapping.json generated\n- [ ] Schema validation passes\n- [ ] Team can use via Augment\n\n## Next Steps\n\n1. **Review Design Documents**\n   - Review all 9 design documents\n   - Provide feedback and clarifications\n   - Approve architecture and approach\n\n2. **Approve Implementation Plan**\n   - Review 9-phase roadmap\n   - Adjust timeline if needed\n   - Confirm resource allocation\n\n3. **Begin Phase 1**\n   - Set up Rust project\n   - Set up Node.js project\n   - Configure build pipeline\n\n## Questions & Decisions Needed\n\n1. **Timeline**: Is 9 weeks acceptable? Can we parallelize phases?\n2. **Resources**: Who will implement? Full-time or part-time?\n3. **Priorities**: Start with all languages or focus on specific ones first?\n4. **Testing**: How much manual review is acceptable?\n5. **Maintenance**: How will we keep the mapping updated?\n\n## Document Navigation\n\n- **Start here**: ARCHITECTURE_DECISION.md (why MCP server)\n- **Understand scope**: SCHEMA_DESIGN.md + SCHEMA_EXAMPLES_AND_EDGE_CASES.md\n- **Understand tools**: MCP_TOOL_SCHEMAS.md\n- **Understand implementation**: MCP_SERVER_DESIGN.md\n- **Understand timeline**: IMPLEMENTATION_ROADMAP.md\n- **Understand challenges**: TECHNICAL_CONSIDERATIONS.md\n- **Understand decisions**: IMPLEMENTATION_NOTES.md\n\n## Contact & Questions\n\nFor questions about the design, refer to the relevant document or ask for clarification.\n"
+# Command-to-API Mapping Project
+
+## Overview
+
+This project creates a comprehensive JSON mapping of Redis commands to their equivalent API calls across 14 client libraries in 7 programming languages.
+
+**Goal**: Generate `data/commands_api_mapping.json` containing method signatures and documentation for every Redis command in every supported client library.
+
+## Project Structure
+
+All design documents are in `build/command_api_mapping/`:
+
+### Design Phase (Complete)
+
+1. **SCHEMA_DESIGN.md** - JSON schema definition
+   - File structure and organization
+   - Field definitions for all signature components
+   - Language-specific signature format examples
+   - Complete example for SET command
+
+2. **SCHEMA_EXAMPLES_AND_EDGE_CASES.md** - Practical examples
+   - 5 complete command examples (GET, EXPIRE, FT.SEARCH, XREAD, SLAVEOF)
+   - 6 edge case scenarios with handling strategies
+   - 6 validation rules
+
+3. **IMPLEMENTATION_STRATEGY.md** - High-level approaches
+   - 4 implementation options (language-specific parsers, tree-sitter, manual, LLM)
+   - Recommended hybrid approach
+   - 5-phase workflow
+   - Key decisions and potential issues
+
+4. **ARCHITECTURE_DECISION.md** - MCP server rationale
+   - Why MCP server is better than direct integration
+   - Team access without API key friction
+   - Clean separation of concerns
+   - Reusability benefits
+
+5. **MCP_TOOL_SCHEMAS.md** - Tool specifications
+   - 6 MCP tools with input/output schemas
+   - `list_redis_commands` - Track all commands
+   - `extract_signatures` - Extract method signatures
+   - `extract_doc_comments` - Extract documentation
+   - `validate_signature` - Validate signatures
+   - `get_client_info` - Get client metadata
+   - `list_clients` - List all clients
+
+6. **MCP_SERVER_DESIGN.md** - Implementation design
+   - Architecture diagram
+   - Project structure
+   - Technology stack (Rust WASM + Node.js)
+   - Implementation details for each component
+   - Configuration and deployment
+   - Error handling and performance considerations
+
+7. **IMPLEMENTATION_ROADMAP.md** - Execution plan
+   - 9 phases spanning ~9 weeks
+   - Detailed tasks and deliverables
+   - Risk mitigation strategies
+   - Success criteria
+
+8. **TECHNICAL_CONSIDERATIONS.md** - Challenges & solutions
+   - 11 major challenge areas
+   - Mitigation strategies for each
+   - Recommended approach
+
+9. **IMPLEMENTATION_NOTES.md** - Architecture discussion
+   - Method name matching challenge
+   - WebAssembly approach rationale
+   - Updated client list (14 total, excluding hiredis)
+   - Next steps
+
+## Key Decisions
+
+### Architecture
+- **MCP Server** (not direct integration)
+  - Rust WASM for parsing (performance)
+  - Node.js for orchestration
+  - Augment for AI matching (team access)
+  - No API key management needed
+
+### Scope
+- **Commands**: All (core + modules + deprecated)
+- **Clients**: 14 total (excluding hiredis)
+  - Python: redis-py, RedisVL
+  - Node.js: node-redis, ioredis
+  - Go: go-redis
+  - Java: Jedis, Lettuce (3 variants)
+  - C#: NRedisStack (2 variants)
+  - PHP: phpredis
+  - Rust: redis-rs (2 variants)
+
+### Parsing
+- **Tool**: tree-sitter (universal parser)
+- **Languages**: 7 (Python, Java, Go, TypeScript, Rust, C#, PHP)
+- **Approach**: Language-specific parsers in Rust
+
+### Matching
+- **Tool**: Claude API (via Augment)
+- **Challenge**: Method names don't always match command names
+- **Solution**: AI-assisted semantic matching
+
+## Implementation Timeline
+
+**Phase 1-2**: Foundation & Data Access (3 weeks)
+- Set up Rust WASM library
+- Set up Node.js MCP server
+- Implement data loaders
+
+**Phase 3-4**: Simple Tools & Python Parser (2 weeks)
+- Implement list_redis_commands, list_clients, get_client_info
+- Implement Python parser
+- Test with redis-py
+
+**Phase 5-6**: Other Language Parsers & Validation (3 weeks)
+- Implement Java, Go, TypeScript, Rust, C#, PHP parsers
+- Implement validation tool
+- Test with all clients
+
+**Phase 7-9**: Integration, Augment, & Scaling (3 weeks)
+- End-to-end testing
+- Augment integration
+- Scale to all commands
+- Manual review
+
+**Total: ~9 weeks** (can be parallelized)
+
+## Technology Stack
+
+### Rust WASM Library
+- tree-sitter (universal parser)
+- tree-sitter-{language} grammars (7 languages)
+- wasm-bindgen (JavaScript bindings)
+- serde/serde_json (JSON serialization)
+- regex (pattern matching)
+
+### Node.js MCP Server
+- @modelcontextprotocol/sdk (MCP protocol)
+- TypeScript (type safety)
+- zod (input validation)
+- pino (logging)
+
+### Build Tools
+- wasm-pack (Rust → WASM)
+- wasm-opt (WASM optimization)
+- TypeScript compiler
+
+## Success Criteria
+
+- [ ] MCP server builds and runs
+- [ ] All 6 tools implemented and functional
+- [ ] All 7 languages supported
+- [ ] Parsing accuracy > 95%
+- [ ] Performance < 1 second per file
+- [ ] Complete commands_api_mapping.json generated
+- [ ] Schema validation passes
+- [ ] Team can use via Augment
+
+## Next Steps
+
+1. **Review Design Documents**
+   - Review all 9 design documents
+   - Provide feedback and clarifications
+   - Approve architecture and approach
+
+2. **Approve Implementation Plan**
+   - Review 9-phase roadmap
+   - Adjust timeline if needed
+   - Confirm resource allocation
+
+3. **Begin Phase 1**
+   - Set up Rust project
+   - Set up Node.js project
+   - Configure build pipeline
+
+## Questions & Decisions Needed
+
+1. **Timeline**: Is 9 weeks acceptable? Can we parallelize phases?
+2. **Resources**: Who will implement? Full-time or part-time?
+3. **Priorities**: Start with all languages or focus on specific ones first?
+4. **Testing**: How much manual review is acceptable?
+5. **Maintenance**: How will we keep the mapping updated?
+
+## Document Navigation
+
+- **Start here**: ARCHITECTURE_DECISION.md (why MCP server)
+- **Understand scope**: SCHEMA_DESIGN.md + SCHEMA_EXAMPLES_AND_EDGE_CASES.md
+- **Understand tools**: MCP_TOOL_SCHEMAS.md
+- **Understand implementation**: MCP_SERVER_DESIGN.md
+- **Understand timeline**: IMPLEMENTATION_ROADMAP.md
+- **Understand challenges**: TECHNICAL_CONSIDERATIONS.md
+- **Understand decisions**: IMPLEMENTATION_NOTES.md
+
+## Contact & Questions
+
+For questions about the design, refer to the relevant document or ask for clarification.
+"

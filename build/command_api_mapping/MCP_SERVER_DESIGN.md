@@ -1,1 +1,453 @@
-# MCP Server Implementation Design\n\n## Overview\n\nThe MCP server is a Node.js application that exposes Rust WASM parsing tools via the Model Context Protocol. It enables Augment agents to extract method signatures and documentation from Redis client libraries.\n\n## Architecture\n\n```\n┌─────────────────────────────────────────────────────────┐\n│ Node.js MCP Server                                      │\n│ ┌───────────────────────────────────────────────────┐   │\n│ │ MCP Protocol Handler                              │   │\n│ │ - Tool registration                               │   │\n│ │ - Request/response handling                       │   │\n│ │ - Error handling                                  │   │\n│ └───────────────────────────────────────────────────┘   │\n│                      ↓                                   │\n│ ┌───────────────────────────────────────────────────┐   │\n│ │ Tool Implementations (TypeScript)                 │   │\n│ │ - list_redis_commands()                           │   │\n│ │ - extract_signatures()                            │   │\n│ │ - extract_doc_comments()                          │   │\n│ │ - validate_signature()                            │   │\n│ │ - get_client_info()                               │   │\n│ │ - list_clients()                                  │   │\n│ └───────────────────────────────────────────────────┘   │\n│                      ↓                                   │\n│ ┌───────────────────────────────────────────────────┐   │\n│ │ Rust WASM Parsing Library                         │   │\n│ │ - tree-sitter bindings                            │   │\n│ │ - Language-specific parsers                       │   │\n│ │ - Doc comment extraction                          │   │\n│ │ - Signature validation                            │   │\n│ └───────────────────────────────────────────────────┘   │\n│                      ↓                                   │\n│ ┌───────────────────────────────────────────────────┐   │\n│ │ Data Access Layer                                 │   │\n│ │ - Load commands_*.json files                      │   │\n│ │ - Load components/index.json                      │   │\n│ │ - Cache parsed results                            │   │\n│ └───────────────────────────────────────────────────┘   │\n└─────────────────────────────────────────────────────────┘\n```\n\n## Project Structure\n\n```\nbuild/command_api_mapping/mcp-server/\n├── Cargo.toml                          # Rust WASM library\n├── src/\n│   ├── lib.rs                          # WASM library entry point\n│   ├── parsers/\n│   │   ├── mod.rs\n│   │   ├── python.rs                   # Python AST parsing\n│   │   ├── java.rs                     # Java parsing (tree-sitter)\n│   │   ├── go.rs                       # Go parsing (tree-sitter)\n│   │   ├── typescript.rs               # TypeScript parsing (tree-sitter)\n│   │   ├── rust.rs                     # Rust parsing (tree-sitter)\n│   │   ├── csharp.rs                   # C# parsing (tree-sitter)\n│   │   └── php.rs                      # PHP parsing (tree-sitter)\n│   ├── extractors/\n│   │   ├── mod.rs\n│   │   ├── signature.rs                # Extract method signatures\n│   │   ├── doc_comments.rs             # Extract doc comments\n│   │   └── validators.rs               # Validate signatures\n│   └── types.rs                        # Shared types\n├── Cargo.lock\n├── package.json                        # Node.js wrapper\n├── tsconfig.json\n├── src-ts/\n│   ├── index.ts                        # MCP server entry point\n│   ├── tools/\n│   │   ├── list-redis-commands.ts\n│   │   ├── extract-signatures.ts\n│   │   ├── extract-doc-comments.ts\n│   │   ├── validate-signature.ts\n│   │   ├── get-client-info.ts\n│   │   └── list-clients.ts\n│   ├── wasm/\n│   │   └── bindings.ts                 # WASM bindings (auto-generated)\n│   ├── data/\n│   │   ├── commands-loader.ts          # Load commands_*.json\n│   │   ├── components-loader.ts        # Load components/index.json\n│   │   └── cache.ts                    # Result caching\n│   └── utils/\n│       ├── logger.ts\n│       └── error-handler.ts\n├── wasm/\n│   └── pkg/                            # Compiled WASM (generated)\n└── README.md\n```\n\n## Technology Stack\n\n### Rust WASM Library\n\n**Dependencies**:\n- `tree-sitter` - Universal parser for all languages\n- `tree-sitter-python` - Python grammar\n- `tree-sitter-java` - Java grammar\n- `tree-sitter-go` - Go grammar\n- `tree-sitter-typescript` - TypeScript grammar\n- `tree-sitter-rust` - Rust grammar\n- `tree-sitter-c-sharp` - C# grammar\n- `tree-sitter-php` - PHP grammar\n- `wasm-bindgen` - JavaScript bindings\n- `serde` / `serde_json` - JSON serialization\n- `regex` - Pattern matching for doc comments\n\n**Build Tools**:\n- `wasm-pack` - Build Rust → WASM\n- `wasm-opt` - Optimize WASM binary\n\n### Node.js Wrapper\n\n**Dependencies**:\n- `@modelcontextprotocol/sdk` - MCP protocol implementation\n- `typescript` - Type safety\n- `zod` - Input validation\n- `pino` - Structured logging\n\n**Dev Dependencies**:\n- `@types/node`\n- `tsx` - TypeScript execution\n- `jest` - Testing\n\n## Implementation Details\n\n### 1. Rust WASM Library Structure\n\n#### `lib.rs` - Entry Point\n```rust\n// Exports WASM functions that Node.js can call\npub fn extract_signatures_wasm(file_content: &str, language: &str) -> String\npub fn extract_doc_comments_wasm(file_content: &str, language: &str) -> String\npub fn validate_signature_wasm(signature: &str, language: &str) -> String\n```\n\n#### `parsers/mod.rs` - Language Router\n```rust\npub fn parse_file(content: &str, language: &str) -> Result<ParseTree>\n// Routes to language-specific parser\n```\n\n#### Language-Specific Parsers\nEach language module:\n- Creates tree-sitter parser for that language\n- Implements signature extraction\n- Implements doc comment extraction\n- Handles language-specific quirks\n\n**Example: `parsers/python.rs`**\n- Use tree-sitter-python grammar\n- Find function definitions (FunctionDef nodes)\n- Extract parameters from function signature\n- Extract docstrings (first statement in function body)\n- Parse docstring format (Google/NumPy style)\n\n**Example: `parsers/java.rs`**\n- Use tree-sitter-java grammar\n- Find method declarations\n- Extract parameters and return type\n- Extract JavaDoc comments (/** ... */)\n- Parse @param and @return tags\n\n#### `extractors/signature.rs`\n```rust\npub struct Signature {\n    pub method_name: String,\n    pub signature: String,\n    pub parameters: Vec<Parameter>,\n    pub return_type: String,\n    pub line_number: usize,\n    pub is_async: bool,\n}\n\npub fn extract_signatures(tree: &ParseTree, language: &str) -> Vec<Signature>\n```\n\n#### `extractors/doc_comments.rs`\n```rust\npub struct DocComment {\n    pub raw_comment: String,\n    pub summary: String,\n    pub description: String,\n    pub parameters: HashMap<String, String>,\n    pub returns: String,\n    pub line_number: usize,\n}\n\npub fn extract_doc_comments(tree: &ParseTree, language: &str) -> HashMap<String, DocComment>\n```\n\n#### `extractors/validators.rs`\n```rust\npub struct ValidationResult {\n    pub valid: bool,\n    pub errors: Vec<String>,\n    pub warnings: Vec<String>,\n}\n\npub fn validate_signature(signature: &str, language: &str) -> ValidationResult\n```\n\n### 2. Node.js MCP Server\n\n#### `index.ts` - Server Setup\n```typescript\nimport { Server } from '@modelcontextprotocol/sdk/server/index.js';\nimport { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';\n\nconst server = new Server({\n  name: 'redis-command-api-mapping',\n  version: '1.0.0',\n});\n\n// Register all tools\nserver.setRequestHandler(ListToolsRequestSchema, handleListTools);\nserver.setRequestHandler(CallToolRequestSchema, handleCallTool);\n\n// Start server\nconst transport = new StdioServerTransport();\nawait server.connect(transport);\n```\n\n#### Tool Implementations\n\nEach tool in `src-ts/tools/` follows this pattern:\n\n```typescript\nexport async function listRedisCommands(\n  includeModules: boolean,\n  includeDeprecated: boolean,\n  moduleFilter: string[]\n): Promise<ListRedisCommandsOutput> {\n  // 1. Load commands from data files\n  const commands = await loadAllCommands();\n  \n  // 2. Filter based on parameters\n  const filtered = filterCommands(commands, {\n    includeModules,\n    includeDeprecated,\n    moduleFilter,\n  });\n  \n  // 3. Return formatted output\n  return {\n    commands: filtered,\n    total_count: filtered.length,\n    by_module: countByModule(filtered),\n  };\n}\n```\n\n#### `data/commands-loader.ts`\n```typescript\nexport async function loadAllCommands(): Promise<Command[]> {\n  // Load from:\n  // - data/commands_core.json\n  // - data/commands_redisearch.json\n  // - data/commands_redisjson.json\n  // - data/commands_redisbloom.json\n  // - data/commands_redistimeseries.json\n  \n  // Merge and return\n}\n```\n\n#### `data/components-loader.ts`\n```typescript\nexport async function loadClientInfo(clientId: string): Promise<ClientInfo> {\n  // Load from data/components/index.json\n  // Return metadata for specific client\n}\n\nexport async function loadAllClients(): Promise<ClientInfo[]> {\n  // Load all clients, exclude hiredis\n}\n```\n\n#### `data/cache.ts`\n```typescript\nclass ParseCache {\n  private cache: Map<string, CacheEntry> = new Map();\n  \n  get(key: string): ParseResult | null {\n    // Return cached result if not expired\n  }\n  \n  set(key: string, value: ParseResult, ttl: number): void {\n    // Cache with TTL\n  }\n  \n  clear(): void {\n    // Clear all cache\n  }\n}\n```\n\n### 3. WASM Integration\n\n#### Building WASM\n```bash\ncd build/command_api_mapping/mcp-server\nwasm-pack build --target nodejs --release\n```\n\nThis generates:\n- `wasm/pkg/redis_parser.js` - JavaScript wrapper\n- `wasm/pkg/redis_parser_bg.wasm` - Compiled WASM binary\n- `wasm/pkg/redis_parser.d.ts` - TypeScript definitions\n\n#### Calling WASM from Node.js\n```typescript\nimport * as wasmModule from './wasm/pkg/redis_parser.js';\n\nconst result = wasmModule.extract_signatures_wasm(\n  fileContent,\n  'python'\n);\nconst parsed = JSON.parse(result);\n```\n\n## Configuration\n\n### Environment Variables\n\n```bash\n# Logging\nLOG_LEVEL=info  # debug, info, warn, error\n\n# Caching\nCACHE_TTL=3600  # Cache results for 1 hour\nCACHE_MAX_SIZE=1000  # Max number of cached results\n\n# Data paths (relative to repo root)\nCOMMANDS_DATA_PATH=data\nCOMPONENTS_DATA_PATH=data/components\n\n# Performance\nMAX_FILE_SIZE=10485760  # 10MB max file size\nPARSER_TIMEOUT=30000  # 30 second timeout per file\n```\n\n### MCP Configuration\n\nClients (like Augment) configure the MCP server in their config:\n\n```json\n{\n  \"mcpServers\": {\n    \"redis-command-api-mapping\": {\n      \"command\": \"node\",\n      \"args\": [\n        \"build/command_api_mapping/mcp-server/dist/index.js\"\n      ],\n      \"env\": {\n        \"LOG_LEVEL\": \"info\"\n      }\n    }\n  }\n}\n```\n\n## Error Handling Strategy\n\n### Parsing Errors\n- **Graceful degradation**: Return partial results if some methods fail\n- **Error tracking**: Include error messages in response\n- **Logging**: Log all errors for debugging\n\n### Validation Errors\n- **Input validation**: Use Zod schemas to validate inputs\n- **Return validation errors**: Include in response\n- **Never crash**: Always return valid response structure\n\n### File Access Errors\n- **File not found**: Return empty results with error message\n- **Permission denied**: Log and return error\n- **File too large**: Return error, don't attempt to parse\n\n## Performance Considerations\n\n### Caching Strategy\n- Cache parsed results by file path + language\n- TTL: 1 hour (configurable)\n- Clear cache on server restart\n- Manual cache clear endpoint (for testing)\n\n### WASM Optimization\n- Compile with `--release` flag\n- Use `wasm-opt` to optimize binary size\n- Lazy-load tree-sitter grammars\n- Reuse parser instances across calls\n\n### Streaming Large Results\n- For large files with many methods, consider streaming\n- Return results in chunks if needed\n- Implement pagination for command lists\n\n## Testing Strategy\n\n### Unit Tests (Rust)\n- Test each parser with sample code\n- Test signature extraction\n- Test doc comment extraction\n- Test validation logic\n\n### Integration Tests (Node.js)\n- Test each MCP tool with real client libraries\n- Test error handling\n- Test caching behavior\n- Test with actual commands_*.json files\n\n### End-to-End Tests\n- Test full workflow: extract → validate → format\n- Test with multiple clients\n- Test with edge cases (missing docs, complex signatures)\n\n## Deployment\n\n### Development\n```bash\ncd build/command_api_mapping/mcp-server\nnpm install\nwasm-pack build --target nodejs\nnpm run build\nnpm run dev\n```\n\n### Production\n```bash\nwasm-pack build --target nodejs --release\nnpm run build\nnode dist/index.js\n```\n\n### Distribution\n- Package as npm module (optional)\n- Or distribute as part of docs repo\n- Include pre-built WASM binary\n\n## Future Enhancements\n\n1. **Incremental Parsing**: Only re-parse changed files\n2. **Parallel Processing**: Parse multiple files concurrently\n3. **Custom Grammars**: Support for custom language extensions\n4. **Signature Normalization**: Normalize signatures across languages\n5. **Semantic Analysis**: Understand method relationships\n6. **Performance Metrics**: Track parsing performance\n7. **Web Interface**: Optional UI for testing tools\n"
+# MCP Server Implementation Design
+
+## Overview
+
+The MCP server is a Node.js application that exposes Rust WASM parsing tools via the Model Context Protocol. It enables Augment agents to extract method signatures and documentation from Redis client libraries.
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│ Node.js MCP Server                                      │
+│ ┌───────────────────────────────────────────────────┐   │
+│ │ MCP Protocol Handler                              │   │
+│ │ - Tool registration                               │   │
+│ │ - Request/response handling                       │   │
+│ │ - Error handling                                  │   │
+│ └───────────────────────────────────────────────────┘   │
+│                      ↓                                   │
+│ ┌───────────────────────────────────────────────────┐   │
+│ │ Tool Implementations (TypeScript)                 │   │
+│ │ - list_redis_commands()                           │   │
+│ │ - extract_signatures()                            │   │
+│ │ - extract_doc_comments()                          │   │
+│ │ - validate_signature()                            │   │
+│ │ - get_client_info()                               │   │
+│ │ - list_clients()                                  │   │
+│ └───────────────────────────────────────────────────┘   │
+│                      ↓                                   │
+│ ┌───────────────────────────────────────────────────┐   │
+│ │ Rust WASM Parsing Library                         │   │
+│ │ - tree-sitter bindings                            │   │
+│ │ - Language-specific parsers                       │   │
+│ │ - Doc comment extraction                          │   │
+│ │ - Signature validation                            │   │
+│ └───────────────────────────────────────────────────┘   │
+│                      ↓                                   │
+│ ┌───────────────────────────────────────────────────┐   │
+│ │ Data Access Layer                                 │   │
+│ │ - Load commands_*.json files                      │   │
+│ │ - Load components/index.json                      │   │
+│ │ - Cache parsed results                            │   │
+│ └───────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────┘
+```
+
+## Project Structure
+
+```
+build/command_api_mapping/mcp-server/
+├── Cargo.toml                          # Rust WASM library
+├── src/
+│   ├── lib.rs                          # WASM library entry point
+│   ├── parsers/
+│   │   ├── mod.rs
+│   │   ├── python.rs                   # Python AST parsing
+│   │   ├── java.rs                     # Java parsing (tree-sitter)
+│   │   ├── go.rs                       # Go parsing (tree-sitter)
+│   │   ├── typescript.rs               # TypeScript parsing (tree-sitter)
+│   │   ├── rust.rs                     # Rust parsing (tree-sitter)
+│   │   ├── csharp.rs                   # C# parsing (tree-sitter)
+│   │   └── php.rs                      # PHP parsing (tree-sitter)
+│   ├── extractors/
+│   │   ├── mod.rs
+│   │   ├── signature.rs                # Extract method signatures
+│   │   ├── doc_comments.rs             # Extract doc comments
+│   │   └── validators.rs               # Validate signatures
+│   └── types.rs                        # Shared types
+├── Cargo.lock
+├── package.json                        # Node.js wrapper
+├── tsconfig.json
+├── src-ts/
+│   ├── index.ts                        # MCP server entry point
+│   ├── tools/
+│   │   ├── list-redis-commands.ts
+│   │   ├── extract-signatures.ts
+│   │   ├── extract-doc-comments.ts
+│   │   ├── validate-signature.ts
+│   │   ├── get-client-info.ts
+│   │   └── list-clients.ts
+│   ├── wasm/
+│   │   └── bindings.ts                 # WASM bindings (auto-generated)
+│   ├── data/
+│   │   ├── commands-loader.ts          # Load commands_*.json
+│   │   ├── components-loader.ts        # Load components/index.json
+│   │   └── cache.ts                    # Result caching
+│   └── utils/
+│       ├── logger.ts
+│       └── error-handler.ts
+├── wasm/
+│   └── pkg/                            # Compiled WASM (generated)
+└── README.md
+```
+
+## Technology Stack
+
+### Rust WASM Library
+
+**Dependencies**:
+- `tree-sitter` - Universal parser for all languages
+- `tree-sitter-python` - Python grammar
+- `tree-sitter-java` - Java grammar
+- `tree-sitter-go` - Go grammar
+- `tree-sitter-typescript` - TypeScript grammar
+- `tree-sitter-rust` - Rust grammar
+- `tree-sitter-c-sharp` - C# grammar
+- `tree-sitter-php` - PHP grammar
+- `wasm-bindgen` - JavaScript bindings
+- `serde` / `serde_json` - JSON serialization
+- `regex` - Pattern matching for doc comments
+
+**Build Tools**:
+- `wasm-pack` - Build Rust → WASM
+- `wasm-opt` - Optimize WASM binary
+
+### Node.js Wrapper
+
+**Dependencies**:
+- `@modelcontextprotocol/sdk` - MCP protocol implementation
+- `typescript` - Type safety
+- `zod` - Input validation
+- `pino` - Structured logging
+
+**Dev Dependencies**:
+- `@types/node`
+- `tsx` - TypeScript execution
+- `jest` - Testing
+
+## Implementation Details
+
+### 1. Rust WASM Library Structure
+
+#### `lib.rs` - Entry Point
+```rust
+// Exports WASM functions that Node.js can call
+pub fn extract_signatures_wasm(file_content: &str, language: &str) -> String
+pub fn extract_doc_comments_wasm(file_content: &str, language: &str) -> String
+pub fn validate_signature_wasm(signature: &str, language: &str) -> String
+```
+
+#### `parsers/mod.rs` - Language Router
+```rust
+pub fn parse_file(content: &str, language: &str) -> Result<ParseTree>
+// Routes to language-specific parser
+```
+
+#### Language-Specific Parsers
+Each language module:
+- Creates tree-sitter parser for that language
+- Implements signature extraction
+- Implements doc comment extraction
+- Handles language-specific quirks
+
+**Example: `parsers/python.rs`**
+- Use tree-sitter-python grammar
+- Find function definitions (FunctionDef nodes)
+- Extract parameters from function signature
+- Extract docstrings (first statement in function body)
+- Parse docstring format (Google/NumPy style)
+
+**Example: `parsers/java.rs`**
+- Use tree-sitter-java grammar
+- Find method declarations
+- Extract parameters and return type
+- Extract JavaDoc comments (/** ... */)
+- Parse @param and @return tags
+
+#### `extractors/signature.rs`
+```rust
+pub struct Signature {
+    pub method_name: String,
+    pub signature: String,
+    pub parameters: Vec<Parameter>,
+    pub return_type: String,
+    pub line_number: usize,
+    pub is_async: bool,
+}
+
+pub fn extract_signatures(tree: &ParseTree, language: &str) -> Vec<Signature>
+```
+
+#### `extractors/doc_comments.rs`
+```rust
+pub struct DocComment {
+    pub raw_comment: String,
+    pub summary: String,
+    pub description: String,
+    pub parameters: HashMap<String, String>,
+    pub returns: String,
+    pub line_number: usize,
+}
+
+pub fn extract_doc_comments(tree: &ParseTree, language: &str) -> HashMap<String, DocComment>
+```
+
+#### `extractors/validators.rs`
+```rust
+pub struct ValidationResult {
+    pub valid: bool,
+    pub errors: Vec<String>,
+    pub warnings: Vec<String>,
+}
+
+pub fn validate_signature(signature: &str, language: &str) -> ValidationResult
+```
+
+### 2. Node.js MCP Server
+
+#### `index.ts` - Server Setup
+```typescript
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+
+const server = new Server({
+  name: 'redis-command-api-mapping',
+  version: '1.0.0',
+});
+
+// Register all tools
+server.setRequestHandler(ListToolsRequestSchema, handleListTools);
+server.setRequestHandler(CallToolRequestSchema, handleCallTool);
+
+// Start server
+const transport = new StdioServerTransport();
+await server.connect(transport);
+```
+
+#### Tool Implementations
+
+Each tool in `src-ts/tools/` follows this pattern:
+
+```typescript
+export async function listRedisCommands(
+  includeModules: boolean,
+  includeDeprecated: boolean,
+  moduleFilter: string[]
+): Promise<ListRedisCommandsOutput> {
+  // 1. Load commands from data files
+  const commands = await loadAllCommands();
+  
+  // 2. Filter based on parameters
+  const filtered = filterCommands(commands, {
+    includeModules,
+    includeDeprecated,
+    moduleFilter,
+  });
+  
+  // 3. Return formatted output
+  return {
+    commands: filtered,
+    total_count: filtered.length,
+    by_module: countByModule(filtered),
+  };
+}
+```
+
+#### `data/commands-loader.ts`
+```typescript
+export async function loadAllCommands(): Promise<Command[]> {
+  // Load from:
+  // - data/commands_core.json
+  // - data/commands_redisearch.json
+  // - data/commands_redisjson.json
+  // - data/commands_redisbloom.json
+  // - data/commands_redistimeseries.json
+  
+  // Merge and return
+}
+```
+
+#### `data/components-loader.ts`
+```typescript
+export async function loadClientInfo(clientId: string): Promise<ClientInfo> {
+  // Load from data/components/index.json
+  // Return metadata for specific client
+}
+
+export async function loadAllClients(): Promise<ClientInfo[]> {
+  // Load all clients, exclude hiredis
+}
+```
+
+#### `data/cache.ts`
+```typescript
+class ParseCache {
+  private cache: Map<string, CacheEntry> = new Map();
+  
+  get(key: string): ParseResult | null {
+    // Return cached result if not expired
+  }
+  
+  set(key: string, value: ParseResult, ttl: number): void {
+    // Cache with TTL
+  }
+  
+  clear(): void {
+    // Clear all cache
+  }
+}
+```
+
+### 3. WASM Integration
+
+#### Building WASM
+```bash
+cd build/command_api_mapping/mcp-server
+wasm-pack build --target nodejs --release
+```
+
+This generates:
+- `wasm/pkg/redis_parser.js` - JavaScript wrapper
+- `wasm/pkg/redis_parser_bg.wasm` - Compiled WASM binary
+- `wasm/pkg/redis_parser.d.ts` - TypeScript definitions
+
+#### Calling WASM from Node.js
+```typescript
+import * as wasmModule from './wasm/pkg/redis_parser.js';
+
+const result = wasmModule.extract_signatures_wasm(
+  fileContent,
+  'python'
+);
+const parsed = JSON.parse(result);
+```
+
+## Configuration
+
+### Environment Variables
+
+```bash
+# Logging
+LOG_LEVEL=info  # debug, info, warn, error
+
+# Caching
+CACHE_TTL=3600  # Cache results for 1 hour
+CACHE_MAX_SIZE=1000  # Max number of cached results
+
+# Data paths (relative to repo root)
+COMMANDS_DATA_PATH=data
+COMPONENTS_DATA_PATH=data/components
+
+# Performance
+MAX_FILE_SIZE=10485760  # 10MB max file size
+PARSER_TIMEOUT=30000  # 30 second timeout per file
+```
+
+### MCP Configuration
+
+Clients (like Augment) configure the MCP server in their config:
+
+```json
+{
+  \"mcpServers\": {
+    \"redis-command-api-mapping\": {
+      \"command\": \"node\",
+      \"args\": [
+        \"build/command_api_mapping/mcp-server/dist/index.js\"
+      ],
+      \"env\": {
+        \"LOG_LEVEL\": \"info\"
+      }
+    }
+  }
+}
+```
+
+## Error Handling Strategy
+
+### Parsing Errors
+- **Graceful degradation**: Return partial results if some methods fail
+- **Error tracking**: Include error messages in response
+- **Logging**: Log all errors for debugging
+
+### Validation Errors
+- **Input validation**: Use Zod schemas to validate inputs
+- **Return validation errors**: Include in response
+- **Never crash**: Always return valid response structure
+
+### File Access Errors
+- **File not found**: Return empty results with error message
+- **Permission denied**: Log and return error
+- **File too large**: Return error, don't attempt to parse
+
+## Performance Considerations
+
+### Caching Strategy
+- Cache parsed results by file path + language
+- TTL: 1 hour (configurable)
+- Clear cache on server restart
+- Manual cache clear endpoint (for testing)
+
+### WASM Optimization
+- Compile with `--release` flag
+- Use `wasm-opt` to optimize binary size
+- Lazy-load tree-sitter grammars
+- Reuse parser instances across calls
+
+### Streaming Large Results
+- For large files with many methods, consider streaming
+- Return results in chunks if needed
+- Implement pagination for command lists
+
+## Testing Strategy
+
+### Unit Tests (Rust)
+- Test each parser with sample code
+- Test signature extraction
+- Test doc comment extraction
+- Test validation logic
+
+### Integration Tests (Node.js)
+- Test each MCP tool with real client libraries
+- Test error handling
+- Test caching behavior
+- Test with actual commands_*.json files
+
+### End-to-End Tests
+- Test full workflow: extract → validate → format
+- Test with multiple clients
+- Test with edge cases (missing docs, complex signatures)
+
+## Deployment
+
+### Development
+```bash
+cd build/command_api_mapping/mcp-server
+npm install
+wasm-pack build --target nodejs
+npm run build
+npm run dev
+```
+
+### Production
+```bash
+wasm-pack build --target nodejs --release
+npm run build
+node dist/index.js
+```
+
+### Distribution
+- Package as npm module (optional)
+- Or distribute as part of docs repo
+- Include pre-built WASM binary
+
+## Future Enhancements
+
+1. **Incremental Parsing**: Only re-parse changed files
+2. **Parallel Processing**: Parse multiple files concurrently
+3. **Custom Grammars**: Support for custom language extensions
+4. **Signature Normalization**: Normalize signatures across languages
+5. **Semantic Analysis**: Understand method relationships
+6. **Performance Metrics**: Track parsing performance
+7. **Web Interface**: Optional UI for testing tools
+"
