@@ -70,12 +70,12 @@ Meanwhile you can follow the logs of the operator to see the failover process:
 kubectl -n rdi logs rdi-operator-7f7f6c7dfd-5qmjd -f
 ```
 
-In about 10 second you will start seeing logs from the leader that it could not acquire the leadership.
-Once the leader lock expires, the second node will acquire the leadership and you will see logs from the second node indicating that it has become the leader.
+In about 10 seconds you will start seeing log entries from the leader saying that it could not acquire the leadership.
+When the leader lock expires, the second node will acquire the leadership and you will see log entries from the second node indicating that it has become the leader.
 
 ## Cleanup
 
-To clean up after the test, you can remove the iptables rule that you added to block the traffic:
+To clean up after the test, remove the `iptables` rule that you added to block the traffic:
 
 ```sudo iptables -D FORWARD -d <databse_ip> -j DROP```
 
