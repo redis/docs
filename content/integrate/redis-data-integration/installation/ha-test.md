@@ -42,7 +42,7 @@ rdi-reloader-77df5f7854-lwmvz          1/1     Running     0             71m
 
 To perform HA, you can simulate a connection failure between the leader and the RDI database by blocking the network traffic. You can do this by running the following commands on the leader node:
 
-1. Identify the database IP (if you are using it with hostname):
+1. Identify the database IP (replace `<hostname>` with your own hostname):
 ```
 dig +short <hostname>
 
