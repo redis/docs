@@ -9,7 +9,7 @@ categories:
 description: Learn how to perform HA failover testing for Redis Data Integration (RDI) to ensure high availability and reliability of your data integration setup.
 group: di
 hideListLinks: false
-linkTitle: Testing HA failover
+linkTitle: Test HA failover
 summary: How to perform HA failover testing
 type: integration
 weight: 100
