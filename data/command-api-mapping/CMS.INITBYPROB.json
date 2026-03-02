@@ -1,0 +1,173 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "initbyprob(key, error, probability)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "name": "error",
+            "type": "float",
+            "description": "Estimate size of error as percent of total"
+          },
+          {
+            "name": "probability",
+            "type": "float",
+            "description": "Desired probability for inflated count"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "True if created successfully"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "cmsInitByProb(String key, double error, double probability)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "error",
+            "type": "double"
+          },
+          {
+            "name": "probability",
+            "type": "double"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "CMSInitByProb(ctx context.Context, key string, errorRate, probability float64) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "errorRate",
+            "type": "float64"
+          },
+          {
+            "name": "probability",
+            "type": "float64"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "Status command result"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "CMS.INITBYPROB(key, error, probability)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "name": "error",
+            "type": "number",
+            "description": "Error rate as decimal between 0 and 1"
+          },
+          {
+            "name": "probability",
+            "type": "number",
+            "description": "Probability for inflated count"
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "InitByProb(RedisKey key, double error, double probability)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "error",
+            "type": "double"
+          },
+          {
+            "name": "probability",
+            "type": "double"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "True if created successfully"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "InitByProbAsync(RedisKey key, double error, double probability)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "error",
+            "type": "double"
+          },
+          {
+            "name": "probability",
+            "type": "double"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "True if created successfully"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "cmsinitbyprob($key, $error, $probability)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "error",
+            "type": "float"
+          },
+          {
+            "name": "probability",
+            "type": "float"
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": "OK"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,404 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "xinfo_groups(name: KeyT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Object> xinfoGroups(byte[] key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": "Stream name"
+          }
+        ],
+        "returns": {
+          "type": "List<Object>",
+          "description": "List of StreamGroupInfo containing information about groups"
+        }
+      },
+      {
+        "signature": "List<StreamGroupInfo> xinfoGroups(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "Stream name"
+          }
+        ],
+        "returns": {
+          "type": "List<StreamGroupInfo>",
+          "description": "List of StreamGroupInfo containing information about groups"
+        }
+      },
+      {
+        "signature": "List<StreamGroupInfo> xinfoGroups(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "Stream name"
+          }
+        ],
+        "returns": {
+          "type": "List<StreamGroupInfo>",
+          "description": "List of StreamGroupInfo containing information about groups"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Object> xinfoGroups(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          }
+        ],
+        "returns": {
+          "type": "List<Object>",
+          "description": "List&lt;Object&gt; array-reply. @since 5.2"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Object>> xinfoGroups(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Object>>",
+          "description": "List&lt;Object&gt; array-reply. @since 5.2"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Object> xinfoGroups(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Object>",
+          "description": "Object array-reply. @since 5.2"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "XInfoGroups(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*XInfoGroupsCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "XINFO_GROUPS(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "xinfo(subcommand: \"CONSUMERS\", key: RedisKey, groupname: string | Buffer, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"CONSUMERS\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xinfo(subcommand: \"GROUPS\", key: RedisKey, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"GROUPS\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xinfo(subcommand: \"HELP\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"HELP\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xinfo(subcommand: \"STREAM\", key: RedisKey, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"STREAM\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xinfo(subcommand: \"STREAM\", key: RedisKey, fullToken: \"FULL\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"STREAM\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "fullToken",
+            "type": "\"FULL\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "xinfo_groups(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamInfoGroupsReply)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "xinfo_groups(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamInfoGroupsReply)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StreamGroupInfo(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamGroupInfo[]",
+          "description": "An instance of StreamGroupInfo for each of the stream's groups."
+        }
+      },
+      {
+        "signature": "StreamGroupInfo(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamGroupInfo[]",
+          "description": "An instance of StreamGroupInfo for each of the stream's groups."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StreamGroupInfo(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamGroupInfo[]",
+          "description": "An instance of StreamGroupInfo for each of the stream's groups."
+        }
+      },
+      {
+        "signature": "StreamGroupInfo(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamGroupInfo[]",
+          "description": "An instance of StreamGroupInfo for each of the stream's groups."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "groups(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

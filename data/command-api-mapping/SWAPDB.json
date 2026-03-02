@@ -1,0 +1,166 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "swapdb(first: int, second: int, **kwargs)",
+        "params": [
+          {
+            "name": "first",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "second",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String swapDB(int index1, int index2)",
+        "params": [
+          {
+            "name": "index1",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "index2",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SwapDB(ctx context.Context, index1, index2 int) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "index1",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "index2",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "String swapdb(int db1, int db2)",
+        "params": [
+          {
+            "name": "db1",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "db2",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> swapdb(int db1, int db2)",
+        "params": [
+          {
+            "name": "db1",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "db2",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> swapdb(int db1, int db2)",
+        "params": [
+          {
+            "name": "db1",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "db2",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "swapdb(int $db1, int $db2)",
+        "params": [
+          {
+            "name": "$db1",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$db2",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

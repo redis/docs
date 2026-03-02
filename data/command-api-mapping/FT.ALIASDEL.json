@@ -1,0 +1,128 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "aliasdel(alias: str)",
+        "params": [
+          {
+            "name": "alias",
+            "type": "str",
+            "description": "The alias name to delete"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String ftAliasDel(String aliasName)",
+        "params": [
+          {
+            "name": "aliasName",
+            "type": "String",
+            "description": "The alias name"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTAliasDel(ctx context.Context, alias string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "alias",
+            "type": "string",
+            "description": "The alias name"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ALIASDEL(alias: RedisArgument)",
+        "params": [
+          {
+            "name": "alias",
+            "type": "RedisArgument",
+            "description": "The alias name"
+          }
+        ],
+        "returns": {
+          "type": "Promise<string>",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "bool AliasDel(string alias)",
+        "params": [
+          {
+            "name": "alias",
+            "type": "string",
+            "description": "The alias name"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the alias was deleted"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<bool> AliasDelAsync(string alias)",
+        "params": [
+          {
+            "name": "alias",
+            "type": "string",
+            "description": "The alias name"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if the alias was deleted"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftaliasdel(string $alias)",
+        "params": [
+          {
+            "name": "$alias",
+            "type": "string",
+            "description": "The alias name"
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": "OK on success"
+        }
+      }
+    ]
+  }
+}
+

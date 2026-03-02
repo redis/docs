@@ -1,0 +1,249 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "rename(src: KeyT, dst: KeyT)",
+        "params": [
+          {
+            "name": "src",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "dst",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String rename(final byte[] oldkey, final byte[] newkey)",
+        "params": [
+          {
+            "name": "oldkey",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "newkey",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Status code reply"
+        }
+      },
+      {
+        "signature": "String rename(final String oldkey, final String newkey)",
+        "params": [
+          {
+            "name": "oldkey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "newkey",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Status code reply"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Rename(ctx context.Context, key, newkey string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "newkey",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "RENAME(key: RedisArgument, newKey: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "newKey",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String rename(K key, K newKey)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "newKey",
+            "type": "K",
+            "description": "the newkey."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> rename(K key, K newKey)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "newKey",
+            "type": "K",
+            "description": "the newkey."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> rename(K key, K newKey)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "newKey",
+            "type": "K",
+            "description": "the newkey."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "KeyRename(RedisKey key, RedisKey newKey, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to rename."
+          },
+          {
+            "name": "newKey",
+            "type": "RedisKey",
+            "description": "The new key name."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the key was renamed, false otherwise."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "KeyRenameAsync(RedisKey key, RedisKey newKey, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to rename."
+          },
+          {
+            "name": "newKey",
+            "type": "RedisKey",
+            "description": "The new key name."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if the key was renamed, false otherwise."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "rename(string $srcKey, string $dstKey)",
+        "params": [
+          {
+            "name": "$srcKey",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$dstKey",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
+

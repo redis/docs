@@ -1,0 +1,163 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "dictadd(dict_name: str, *terms: str)",
+        "params": [
+          {
+            "name": "dict_name",
+            "type": "str",
+            "description": "The dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "*str",
+            "description": "Terms to add to the dictionary"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "Number of terms added"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long ftDictAdd(String dict, String... terms)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "The dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "Terms to add"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "Number of terms added"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTDictAdd(ctx context.Context, dict string, terms ...interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "dict",
+            "type": "string",
+            "description": "The dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "...interface{}",
+            "description": "Terms to add"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": "Number of terms added"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "DICTADD(dictionary: RedisArgument, terms: Array<RedisArgument> | RedisArgument)",
+        "params": [
+          {
+            "name": "dictionary",
+            "type": "RedisArgument",
+            "description": "The dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "Array<RedisArgument> | RedisArgument",
+            "description": "Terms to add"
+          }
+        ],
+        "returns": {
+          "type": "Promise<number>",
+          "description": "Number of terms added"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "long DictAdd(string dict, params string[] terms)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "string",
+            "description": "The dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "string[]",
+            "description": "Terms to add to the dictionary"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "Number of terms added"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<long> DictAddAsync(string dict, params string[] terms)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "string",
+            "description": "The dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "string[]",
+            "description": "Terms to add to the dictionary"
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "Number of terms added"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftdictadd(string $dict, ...$term)",
+        "params": [
+          {
+            "name": "$dict",
+            "type": "string",
+            "description": "The dictionary name"
+          },
+          {
+            "name": "$term",
+            "type": "string",
+            "description": "Terms to add (variadic)"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "Number of terms added"
+        }
+      }
+    ]
+  }
+}
+

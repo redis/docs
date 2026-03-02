@@ -1,0 +1,171 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "list(key, withcount=False)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "name": "withcount",
+            "type": "bool",
+            "description": "Include counts, default: False"
+          }
+        ],
+        "returns": {
+          "type": "List",
+          "description": "Top-K items, with counts if withcount=True"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "topkList(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "k (or less) items in Top K list"
+        }
+      },
+      {
+        "signature": "topkListWithCount(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "type": "Map<String, Long>",
+          "description": "k (or less) items with counts"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TopKList(ctx context.Context, key string) *StringSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": "Top-K items"
+        }
+      },
+      {
+        "signature": "TopKListWithCount(ctx context.Context, key string) *MapStringIntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "*MapStringIntCmd",
+          "description": "Top-K items with counts"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TOPK.LIST(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<BlobStringReply>",
+          "description": "Top-K items"
+        }
+      },
+      {
+        "signature": "TOPK.LIST_WITHCOUNT(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "type": "Map<string, number>",
+          "description": "Top-K items with counts"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "List(RedisKey key, bool withcount = false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "withcount",
+            "type": "bool",
+            "description": "Include counts, default: false"
+          }
+        ],
+        "returns": {
+          "type": "RedisResult[]",
+          "description": "Top-K items"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ListAsync(RedisKey key, bool withcount = false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "withcount",
+            "type": "bool",
+            "description": "Include counts, default: false"
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisResult[]>",
+          "description": "Top-K items"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "topklist($key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Top-K items"
+        }
+      }
+    ]
+  }
+}

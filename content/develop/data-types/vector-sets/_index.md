@@ -124,11 +124,11 @@ Remove an unwanted element with [`VREM`]({{< relref "/commands/vrem" >}})
 {{< clients-example set="vecset_tutorial" step="vrem" description="Element removal: Use VREM to delete elements from a vector set when you need to remove vectors from the collection" buildsUpon="vadd" >}}
 > VADD points VALUES 2 0 0 pt:F
 (integer) 1
-127.0.0.1:6379> VCARD points
+> VCARD points
 (integer) 6
-127.0.0.1:6379> VREM points pt:F
+> VREM points pt:F
 (integer) 1
-127.0.0.1:6379> VCARD points
+> VCARD points
 (integer) 5
 {{< /clients-example >}}
 

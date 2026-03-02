@@ -1,0 +1,1047 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "bitpos(, key: KeyT,, bit: int,, start: Optional[int] = None,, end: Optional[int] = None,, mode: Optional[str] = None,)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "bit",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "mode",
+            "type": "Optional[str] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long bitpos(final byte[] key, final boolean value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "return bitpos(key, value, new BitPosParams()",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "BitPosParams(",
+            "type": "new",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long bitpos(final byte[] key, final boolean value, final BitPosParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "boolean",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "BitPosParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long bitpos(final String key, final boolean value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long bitpos(final String key, final boolean value, final BitPosParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "boolean",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "BitPosParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long bitpos(K key, boolean state)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "state",
+            "type": "boolean",
+            "description": "the bit type: long."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits (the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned. If we look for clear bits (the bit argument is 0) and the string only contains bit set to 1, the function returns the first bit not part of the string on the right. So if the string is three bytes set to the value 0xff the command BITPOS key 0 will return 24, since up to bit 23 all the bits are 1. Basically the function consider the right of the string as padded with zeros if you look for clear bits and specify no range or the <em>start</em> argument <strong>only</strong>. However this behavior changes if you are looking for clear bits and specify a range with both <strong>start</strong> and <strong>end</strong>. If no clear bit is found in the specified range, the function returns -1 as the user specified a clear range and there are no 0 bits in that range."
+        }
+      },
+      {
+        "signature": "Long bitpos(K key, boolean state, long start)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "state",
+            "type": "boolean",
+            "description": "the bit type: long."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits (the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned. If we look for clear bits (the bit argument is 0) and the string only contains bit set to 1, the function returns the first bit not part of the string on the right. So if the string is three bytes set to the value 0xff the command BITPOS key 0 will return 24, since up to bit 23 all the bits are 1. Basically the function consider the right of the string as padded with zeros if you look for clear bits and specify no range or the <em>start</em> argument <strong>only</strong>. However this behavior changes if you are looking for clear bits and specify a range with both <strong>start</strong> and <strong>end</strong>. If no clear bit is found in the specified range, the function returns -1 as the user specified a clear range and there are no 0 bits in that range."
+        }
+      },
+      {
+        "signature": "Long bitpos(K key, boolean state, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "state",
+            "type": "boolean",
+            "description": "the bit type: long."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end type: long."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits (the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned. If we look for clear bits (the bit argument is 0) and the string only contains bit set to 1, the function returns the first bit not part of the string on the right. So if the string is three bytes set to the value 0xff the command BITPOS key 0 will return 24, since up to bit 23 all the bits are 1. Basically the function consider the right of the string as padded with zeros if you look for clear bits and specify no range or the <em>start</em> argument <strong>only</strong>. However this behavior changes if you are looking for clear bits and specify a range with both <strong>start</strong> and <strong>end</strong>. If no clear bit is found in the specified range, the function returns -1 as the user specified a clear range and there are no 0 bits in that range."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> bitpos(K key, boolean state)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "state",
+            "type": "boolean",
+            "description": "the bit type: long."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits (the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned. If we look for clear bits (the bit argument is 0) and the string only contains bit set to 1, the function returns the first bit not part of the string on the right. So if the string is three bytes set to the value 0xff the command BITPOS key 0 will return 24, since up to bit 23 all the bits are 1. Basically the function consider the right of the string as padded with zeros if you look for clear bits and specify no range or the <em>start</em> argument <strong>only</strong>. However this behavior changes if you are looking for clear bits and specify a range with both <strong>start</strong> and <strong>end</strong>. If no clear bit is found in the specified range, the function returns -1 as the user specified a clear range and there are no 0 bits in that range."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> bitpos(K key, boolean state, long start)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "state",
+            "type": "boolean",
+            "description": "the bit type: long."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits (the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned. If we look for clear bits (the bit argument is 0) and the string only contains bit set to 1, the function returns the first bit not part of the string on the right. So if the string is three bytes set to the value 0xff the command BITPOS key 0 will return 24, since up to bit 23 all the bits are 1. Basically the function consider the right of the string as padded with zeros if you look for clear bits and specify no range or the <em>start</em> argument <strong>only</strong>. However this behavior changes if you are looking for clear bits and specify a range with both <strong>start</strong> and <strong>end</strong>. If no clear bit is found in the specified range, the function returns -1 as the user specified a clear range and there are no 0 bits in that range."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> bitpos(K key, boolean state, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "state",
+            "type": "boolean",
+            "description": "the bit type: long."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end type: long."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits (the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned. If we look for clear bits (the bit argument is 0) and the string only contains bit set to 1, the function returns the first bit not part of the string on the right. So if the string is three bytes set to the value 0xff the command BITPOS key 0 will return 24, since up to bit 23 all the bits are 1. Basically the function consider the right of the string as padded with zeros if you look for clear bits and specify no range or the <em>start</em> argument <strong>only</strong>. However this behavior changes if you are looking for clear bits and specify a range with both <strong>start</strong> and <strong>end</strong>. If no clear bit is found in the specified range, the function returns -1 as the user specified a clear range and there are no 0 bits in that range."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> bitpos(K key, boolean state)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "state",
+            "type": "boolean",
+            "description": "the bit type: long."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits (the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned. If we look for clear bits (the bit argument is 0) and the string only contains bit set to 1, the function returns the first bit not part of the string on the right. So if the string is three bytes set to the value 0xff the command BITPOS key 0 will return 24, since up to bit 23 all the bits are 1. Basically the function consider the right of the string as padded with zeros if you look for clear bits and specify no range or the <em>start</em> argument <strong>only</strong>. However this behavior changes if you are looking for clear bits and specify a range with both <strong>start</strong> and <strong>end</strong>. If no clear bit is found in the specified range, the function returns -1 as the user specified a clear range and there are no 0 bits in that range."
+        }
+      },
+      {
+        "signature": "Mono<Long> bitpos(K key, boolean state, long start)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "state",
+            "type": "boolean",
+            "description": "the bit type: long."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits (the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned. If we look for clear bits (the bit argument is 0) and the string only contains bit set to 1, the function returns the first bit not part of the string on the right. So if the string is three bytes set to the value 0xff the command BITPOS key 0 will return 24, since up to bit 23 all the bits are 1. Basically the function consider the right of the string as padded with zeros if you look for clear bits and specify no range or the <em>start</em> argument <strong>only</strong>. However this behavior changes if you are looking for clear bits and specify a range with both <strong>start</strong> and <strong>end</strong>. If no clear bit is found in the specified range, the function returns -1 as the user specified a clear range and there are no 0 bits in that range."
+        }
+      },
+      {
+        "signature": "Mono<Long> bitpos(K key, boolean state, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "state",
+            "type": "boolean",
+            "description": "the bit type: long."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end type: long."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits (the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned. If we look for clear bits (the bit argument is 0) and the string only contains bit set to 1, the function returns the first bit not part of the string on the right. So if the string is three bytes set to the value 0xff the command BITPOS key 0 will return 24, since up to bit 23 all the bits are 1. Basically the function consider the right of the string as padded with zeros if you look for clear bits and specify no range or the <em>start</em> argument <strong>only</strong>. However this behavior changes if you are looking for clear bits and specify a range with both <strong>start</strong> and <strong>end</strong>. If no clear bit is found in the specified range, the function returns -1 as the user specified a clear range and there are no 0 bits in that range."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BitPos(ctx context.Context, key string, bit int64, pos ...int64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "bit",
+            "type": "int64",
+            "description": ""
+          },
+          {
+            "name": "pos",
+            "type": "...int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "BitPosSpan(ctx context.Context, key string, bit int8, start, end int64, span string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "bit",
+            "type": "int8",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int64",
+            "description": ""
+          },
+          {
+            "name": "span",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "BITPOS(key: RedisArgument, bit: BitValue, start?: number, end?: number, mode?: 'BYTE' | 'BIT')",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "bit",
+            "type": "BitValue",
+            "description": ""
+          },
+          {
+            "name": "start?",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "end?",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "mode?",
+            "type": "'BYTE' | 'BIT'",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "bitpos(key: RedisKey, bit: number | string, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "bit",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bitpos(key: RedisKey, bit: number | string, start: number | string, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "bit",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bitpos(key: RedisKey, bit: number | string, start: number | string, end: number | string, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "bit",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bitpos(key: RedisKey, bit: number | string, start: number | string, end: number | string, byte: \"BYTE\", callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "bit",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "byte",
+            "type": "\"BYTE\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bitpos(key: RedisKey, bit: number | string, start: number | string, end: number | string, bit1: \"BIT\", callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "bit",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "bit1",
+            "type": "\"BIT\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StringBitPosition(RedisKey key, bool bit, long start, long end, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "bit",
+            "type": "bool",
+            "description": "True to check for the first 1 bit, false to check for the first 0 bit."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The position to start looking (defaults to 0)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "The position to stop looking (defaults to -1, unlimited)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits(the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned."
+        }
+      },
+      {
+        "signature": "StringBitPosition(RedisKey key, bool bit, long start = 0, long end = -1, StringIndexType indexType = StringIndexType.Byte, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "bit",
+            "type": "bool",
+            "description": "True to check for the first 1 bit, false to check for the first 0 bit."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The position to start looking (defaults to 0)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "The position to stop looking (defaults to -1, unlimited)."
+          },
+          {
+            "name": "indexType",
+            "type": "StringIndexType",
+            "description": "In Redis 7+, we can choose if start and end specify a bit index or byte index (defaults to Byte)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits(the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned."
+        }
+      },
+      {
+        "signature": "StringBitPositionAsync(RedisKey key, bool bit, long start, long end, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "bit",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StringBitPositionAsync(RedisKey key, bool bit, long start = 0, long end = -1, StringIndexType indexType = StringIndexType.Byte, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "bit",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "indexType",
+            "type": "StringIndexType",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StringBitPosition(RedisKey key, bool bit, long start, long end, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "bit",
+            "type": "bool",
+            "description": "True to check for the first 1 bit, false to check for the first 0 bit."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The position to start looking (defaults to 0)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "The position to stop looking (defaults to -1, unlimited)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits(the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StringBitPositionAsync(RedisKey key, bool bit, long start, long end, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "bit",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StringBitPositionAsync(RedisKey key, bool bit, long start = 0, long end = -1, StringIndexType indexType = StringIndexType.Byte, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "bit",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "indexType",
+            "type": "StringIndexType",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StringBitPosition(RedisKey key, bool bit, long start, long end, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "bit",
+            "type": "bool",
+            "description": "True to check for the first 1 bit, false to check for the first 0 bit."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The position to start looking (defaults to 0)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "The position to stop looking (defaults to -1, unlimited)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits(the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned."
+        }
+      },
+      {
+        "signature": "StringBitPosition(RedisKey key, bool bit, long start = 0, long end = -1, StringIndexType indexType = StringIndexType.Byte, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "bit",
+            "type": "bool",
+            "description": "True to check for the first 1 bit, false to check for the first 0 bit."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The position to start looking (defaults to 0)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "The position to stop looking (defaults to -1, unlimited)."
+          },
+          {
+            "name": "indexType",
+            "type": "StringIndexType",
+            "description": "In Redis 7+, we can choose if start and end specify a bit index or byte index (defaults to Byte)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits(the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned."
+        }
+      },
+      {
+        "signature": "StringBitPosition(RedisKey key, bool bit, long start, long end, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "bit",
+            "type": "bool",
+            "description": "True to check for the first 1 bit, false to check for the first 0 bit."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The position to start looking (defaults to 0)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "The position to stop looking (defaults to -1, unlimited)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The command returns the position of the first bit set to 1 or 0 according to the request. If we look for set bits(the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "bitpos(string $key, $bit, $start = null, $end = null, string $index = 'byte')",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$bit",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$start = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$end = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "string $index = 'byte'",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,304 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "mget(keys: KeysT, *args: EncodableT)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "KeysT",
+            "description": ""
+          },
+          {
+            "name": "*args",
+            "type": "EncodableT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<String> mget(final String... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "Multi bulk reply"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<KeyValue<K, V>> mget(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "List<KeyValue<K, V>>",
+          "description": "Long array-reply list of values at the specified keys."
+        }
+      },
+      {
+        "signature": "Long mget(KeyValueStreamingChannel<K, V> channel, K... keys)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "KeyValueStreamingChannel<K, V>",
+            "description": "the channel."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long array-reply list of values at the specified keys."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<KeyValue<K, V>>> mget(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<KeyValue<K, V>>>",
+          "description": "Long array-reply list of values at the specified keys."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> mget(KeyValueStreamingChannel<K, V> channel, K... keys)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "KeyValueStreamingChannel<K, V>",
+            "description": "the channel."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long array-reply list of values at the specified keys."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<KeyValue<K, V>> mget(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Flux<KeyValue<K, V>>",
+          "description": "Long array-reply list of values at the specified keys. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #mget."
+        }
+      },
+      {
+        "signature": "Mono<Long> mget(KeyValueStreamingChannel<K, V> channel, K... keys)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "KeyValueStreamingChannel<K, V>",
+            "description": "the channel."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long array-reply list of values at the specified keys. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #mget."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "MGet(ctx context.Context, keys ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*SliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "MGET(keys: Array<RedisArgument>)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "Array<RedisArgument>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "mget(...args: [...keys: RedisKey[], callback: Callback<(string | null)[]>])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[...keys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "mget(...args: [keys: RedisKey[], callback: Callback<(string | null)[]>])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[keys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "mget(...args: [...keys: RedisKey[]]): Result<(string | null)[], Context>;, mgetBuffer(, ...args: [...keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[...keys",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "[...keys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "mget(...args: [keys: RedisKey[]]): Result<(string | null)[], Context>;, mgetBuffer(...args: [keys: RedisKey[]]): Result<(Buffer | null)[], Context>;, /**, * Atomically transfer a key from a Redis instance to another one., * - _group_: generic, * - _complexity_: This command actually executes a DUMP+DEL in the source instance, and a RESTORE in the target instance. See the pages of these commands for time complexity. Also an O(N) data transfer between the two instances is performed., * - _since_: 2.6.0, */, migrate(, ...args: [, host: string | Buffer, port: number | string, ...args: RedisValue[], callback: Callback<\"OK\">, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[keys",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "[, host",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "mget(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<Option<String>>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "mget(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<Option<String>>)",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "mget(string[]|string $keyOrKeys, string ...$keys = null)",
+        "params": [
+          {
+            "name": "$keyOrKeys",
+            "type": "string[]|string",
+            "description": ""
+          },
+          {
+            "name": "string ...$keys = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

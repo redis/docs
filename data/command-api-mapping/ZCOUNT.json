@@ -1,0 +1,470 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "zcount(name: KeyT, min: ZScoreBoundT, max: ZScoreBoundT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "ZScoreBoundT",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "ZScoreBoundT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long zcount(final byte[] key, final double min, final double max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "BLPOP returns a two-elements array via a multi bulk reply in order to return both the unblocking key and the popped value. When a non-zero timeout is specified, and the BLPOP operation timed out, the return value is a nil multi bulk reply. Most connection values will return false or nil accordingly to the programming language used."
+        }
+      },
+      {
+        "signature": "long zcount(final byte[] key, final byte[] min, final byte[] max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "BLPOP returns a two-elements array via a multi bulk reply in order to return both the unblocking key and the popped value. When a non-zero timeout is specified, and the BLPOP operation timed out, the return value is a nil multi bulk reply. Most connection values will return false or nil accordingly to the programming language used."
+        }
+      },
+      {
+        "signature": "long zcount(final String key, final double min, final double max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "BLPOP returns a two-elements array via a multi bulk reply in order to return both the unblocking key and the popped value. When a non-zero timeout is specified, and the BLPOP operation timed out, the return value is a nil multi bulk reply. Most connection values will return false or nil accordingly to the programming language used."
+        }
+      },
+      {
+        "signature": "long zcount(final String key, final String min, final String max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "BLPOP returns a two-elements array via a multi bulk reply in order to return both the unblocking key and the popped value. When a non-zero timeout is specified, and the BLPOP operation timed out, the return value is a nil multi bulk reply. Most connection values will return false or nil accordingly to the programming language used."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long zcount(K key, double min, double max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of elements in the specified score range. @since 4.3"
+        }
+      },
+      {
+        "signature": "Long zcount(K key, String min, String max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of elements in the specified score range. @since 4.3"
+        }
+      },
+      {
+        "signature": "Long zcount(K key, Range<? extends Number> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends Number>",
+            "description": "the range."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of elements in the specified score range. @since 4.3"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> zcount(K key, double min, double max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of elements in the specified score range. @since 4.3"
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> zcount(K key, String min, String max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of elements in the specified score range. @since 4.3"
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> zcount(K key, Range<? extends Number> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends Number>",
+            "description": "the range."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of elements in the specified score range. @since 4.3"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> zcount(K key, double min, double max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of elements in the specified score range. @since 4.3"
+        }
+      },
+      {
+        "signature": "Mono<Long> zcount(K key, String min, String max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of elements in the specified score range. @since 4.3"
+        }
+      },
+      {
+        "signature": "Mono<Long> zcount(K key, Range<? extends Number> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends Number>",
+            "description": "the range."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of elements in the specified score range. @since 4.3"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ZCount(ctx context.Context, key, min, max string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ZCOUNT(key: RedisArgument, min: number | RedisArgument, max: number | RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "number | RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "number | RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "zcount(key: K, min: M, max: MM)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "M",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "MM",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "zcount(key: K, min: M, max: MM)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "M",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "MM",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "zcount(string $key, int|string $min, int|string $max)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$min",
+            "type": "int|string",
+            "description": ""
+          },
+          {
+            "name": "$max",
+            "type": "int|string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

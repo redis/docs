@@ -1,0 +1,374 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "pfmerge(dest: KeyT, *sources: KeyT)",
+        "params": [
+          {
+            "name": "dest",
+            "type": "KeyT",
+            "description": "The destination key"
+          },
+          {
+            "name": "*sources",
+            "type": "KeyT",
+            "description": "One or more source HyperLogLog keys"
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": "OK"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String pfmerge(final byte[] destkey, final byte[]... sourcekeys)",
+        "params": [
+          {
+            "name": "destkey",
+            "type": "byte[]",
+            "description": "The destination key"
+          },
+          {
+            "name": "sourcekeys",
+            "type": "byte[]...",
+            "description": "One or more source keys"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "String pfmerge(final String destkey, final String... sourcekeys)",
+        "params": [
+          {
+            "name": "destkey",
+            "type": "String",
+            "description": "The destination key"
+          },
+          {
+            "name": "sourcekeys",
+            "type": "String...",
+            "description": "One or more source keys"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String pfmerge(K destkey, K... sourcekeys)",
+        "params": [
+          {
+            "name": "destkey",
+            "type": "K",
+            "description": "The destination key"
+          },
+          {
+            "name": "sourcekeys",
+            "type": "K...",
+            "description": "The source keys"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> pfmerge(K destkey, K... sourcekeys)",
+        "params": [
+          {
+            "name": "destkey",
+            "type": "K",
+            "description": "The destination key"
+          },
+          {
+            "name": "sourcekeys",
+            "type": "K...",
+            "description": "The source keys"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> pfmerge(K destkey, K... sourcekeys)",
+        "params": [
+          {
+            "name": "destkey",
+            "type": "K",
+            "description": "The destination key"
+          },
+          {
+            "name": "sourcekeys",
+            "type": "K...",
+            "description": "The source keys"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "pfmerge(destkey: RedisKey, ...sourcekeys: RedisKey[], callback?: Callback<'OK'>)",
+        "params": [
+          {
+            "name": "destkey",
+            "type": "RedisKey",
+            "description": "The destination key"
+          },
+          {
+            "name": "...sourcekeys",
+            "type": "RedisKey[]",
+            "description": "One or more source keys"
+          },
+          {
+            "name": "callback",
+            "type": "Callback<'OK'>",
+            "description": "Optional callback"
+          }
+        ],
+        "returns": {
+          "type": "Result<'OK', Context>",
+          "description": "OK"
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "pfmerge(dstkey: D, srckeys: S)",
+        "params": [
+          {
+            "name": "dstkey",
+            "type": "D",
+            "description": "The destination key"
+          },
+          {
+            "name": "srckeys",
+            "type": "S",
+            "description": "The source keys"
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "pfmerge(dstkey: D, srckeys: S)",
+        "params": [
+          {
+            "name": "dstkey",
+            "type": "D",
+            "description": "The destination key"
+          },
+          {
+            "name": "srckeys",
+            "type": "S",
+            "description": "The source keys"
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "HyperLogLogMerge(RedisKey destination, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the merged HyperLogLog"
+          },
+          {
+            "name": "first",
+            "type": "RedisKey",
+            "description": "First source key"
+          },
+          {
+            "name": "second",
+            "type": "RedisKey",
+            "description": "Second source key"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation"
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      },
+      {
+        "signature": "HyperLogLogMerge(RedisKey destination, RedisKey[] sourceKeys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the merged HyperLogLog"
+          },
+          {
+            "name": "sourceKeys",
+            "type": "RedisKey[]",
+            "description": "The keys of the HyperLogLogs to merge"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation"
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "HyperLogLogMergeAsync(RedisKey destination, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the merged HyperLogLog"
+          },
+          {
+            "name": "first",
+            "type": "RedisKey",
+            "description": "First source key"
+          },
+          {
+            "name": "second",
+            "type": "RedisKey",
+            "description": "Second source key"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation"
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      },
+      {
+        "signature": "HyperLogLogMergeAsync(RedisKey destination, RedisKey[] sourceKeys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the merged HyperLogLog"
+          },
+          {
+            "name": "sourceKeys",
+            "type": "RedisKey[]",
+            "description": "The keys of the HyperLogLogs to merge"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation"
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "pfmerge(string $destinationKey, array|string $sourceKeys)",
+        "params": [
+          {
+            "name": "$destinationKey",
+            "type": "string",
+            "description": "The destination key"
+          },
+          {
+            "name": "$sourceKeys",
+            "type": "array|string",
+            "description": "One or more source keys"
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "PFMerge(ctx context.Context, dest string, keys ...string) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context for the command"
+          },
+          {
+            "name": "dest",
+            "type": "string",
+            "description": "The destination key"
+          },
+          {
+            "name": "keys",
+            "type": "...string",
+            "description": "One or more source keys"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "OK"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "PFMERGE(destination: RedisArgument, sources?: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "RedisArgument",
+            "description": "The destination key to merge to"
+          },
+          {
+            "name": "sources",
+            "type": "RedisVariadicArgument",
+            "description": "One or more source keys to merge from"
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply",
+          "description": "OK"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "acl_deluser(username: str, *args, **kwargs)",
+        "params": [
+          {
+            "name": "username",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "*args",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long aclDelUser(String name)",
+        "params": [
+          {
+            "name": "name",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long aclDelUser(String... names)",
+        "params": [
+          {
+            "name": "names",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ACLDelUser(ctx context.Context, usernames ...string) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "usernames",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "aclDelUser(username: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "username",
+            "type": "RedisVariadicArgument",
+            "description": "Username(s) to delete"
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long aclDeluser(String username)",
+        "params": [
+          {
+            "name": "username",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Long aclDeluser(String... usernames)",
+        "params": [
+          {
+            "name": "usernames",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> aclDeluser(String username)",
+        "params": [
+          {
+            "name": "username",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> aclDeluser(String... usernames)",
+        "params": [
+          {
+            "name": "usernames",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> aclDeluser(String username)",
+        "params": [
+          {
+            "name": "username",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Mono<Long> aclDeluser(String... usernames)",
+        "params": [
+          {
+            "name": "usernames",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "acl(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

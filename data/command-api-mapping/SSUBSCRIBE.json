@@ -1,0 +1,34 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "ssubscribe(string ...$shardChannels)",
+        "params": [
+          {
+            "name": "$shardChannels",
+            "type": "string...",
+            "description": "Shard channels to subscribe to"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Subscription confirmation messages"
+        }
+      }
+    ]
+  }
+}
+

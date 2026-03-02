@@ -1,0 +1,265 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "touch(*keys: KeyT)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long touch(final byte[]... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of keys that were touched."
+        }
+      },
+      {
+        "signature": "long touch(final byte[] key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of keys that were touched."
+        }
+      },
+      {
+        "signature": "long touch(final String... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of keys that were touched."
+        }
+      },
+      {
+        "signature": "long touch(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of keys that were touched."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Touch(ctx context.Context, keys ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TOUCH(keys: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long touch(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of found keys."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> touch(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of found keys."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> touch(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of found keys."
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "KeyTouch(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to touch."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the key was touched, false otherwise."
+        }
+      },
+      {
+        "signature": "KeyTouch(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys to touch."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of keys that were touched."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "KeyTouchAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to touch."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if the key was touched, false otherwise."
+        }
+      },
+      {
+        "signature": "KeyTouchAsync(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys to touch."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "The number of keys that were touched."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "touch(string[]|string $keyOrKeys, string ...$keys = null)",
+        "params": [
+          {
+            "name": "$keyOrKeys",
+            "type": "string[]|string",
+            "description": ""
+          },
+          {
+            "name": "$keys",
+            "type": "string ...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
+

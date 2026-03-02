@@ -1,0 +1,249 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "alter(, key: KeyT,, retention_msecs: Optional[int] = None,, labels: Optional[Dict[str, str]] = None,, chunk_size: Optional[int] = None,, duplicate_policy: Optional[str] = None,, ignore_max_time_diff: Optional[int] = None,, ignore_max_val_diff: Optional[Number] = None,)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "retention_msecs",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "labels",
+            "type": "Optional[Dict[str, str]] = None",
+            "description": ""
+          },
+          {
+            "name": "chunk_size",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "duplicate_policy",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "ignore_max_time_diff",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "ignore_max_val_diff",
+            "type": "Optional[Number] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String tsAlter(String key, TSAlterParams alterParams)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "alterParams",
+            "type": "TSAlterParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TSAlter(ctx context.Context, key string, options *TSAlterOptions)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "*TSAlterOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ALTER(key: RedisArgument, options?: TsAlterOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "TsAlterOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Alter(string key, long? retentionTime = null, long? chunkSizeBytes = null, TsDuplicatePolicy? duplicatePolicy = null, IReadOnlyCollection<TimeSeriesLabel>? labels = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "retentionTime",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "chunkSizeBytes",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "duplicatePolicy",
+            "type": "TsDuplicatePolicy?",
+            "description": ""
+          },
+          {
+            "name": "labels",
+            "type": "IReadOnlyCollection<TimeSeriesLabel>?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Alter(string key, TsAlterParams parameters)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "parameters",
+            "type": "TsAlterParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "AlterAsync(string key, long? retentionTime = null, long? chunkSizeBytes = null, TsDuplicatePolicy? duplicatePolicy = null, IReadOnlyCollection<TimeSeriesLabel>? labels = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "retentionTime",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "chunkSizeBytes",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "duplicatePolicy",
+            "type": "TsDuplicatePolicy?",
+            "description": ""
+          },
+          {
+            "name": "labels",
+            "type": "IReadOnlyCollection<TimeSeriesLabel>?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "AlterAsync(string key, TsAlterParams parameters)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "parameters",
+            "type": "TsAlterParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tsalter(string $key, ?TSAlterArguments $arguments = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "?TSAlterArguments $arguments = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

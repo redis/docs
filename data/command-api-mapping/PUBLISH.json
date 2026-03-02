@@ -1,0 +1,178 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "publish(channel: ChannelT, message: EncodableT, **kwargs)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "ChannelT",
+            "description": "Channel to publish the message to"
+          },
+          {
+            "name": "message",
+            "type": "EncodableT",
+            "description": "Message to publish"
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": "Additional keyword arguments"
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": "Number of clients that received the message"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long publish(final byte[] channel, final byte[] message)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "byte[]",
+            "description": "Channel to publish the message to"
+          },
+          {
+            "name": "message",
+            "type": "byte[]",
+            "description": "Message to publish"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "Number of clients that received the message"
+        }
+      },
+      {
+        "signature": "long publish(final String channel, final String message)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "String",
+            "description": "Channel to publish the message to"
+          },
+          {
+            "name": "message",
+            "type": "String",
+            "description": "Message to publish"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "Number of clients that received the message"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Publish(ctx context.Context, channel string, message interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context for the operation"
+          },
+          {
+            "name": "channel",
+            "type": "string",
+            "description": "Channel to publish the message to"
+          },
+          {
+            "name": "message",
+            "type": "interface{}",
+            "description": "Message to publish"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": "Number of clients that received the message"
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [
+      {
+        "signature": "long Publish(RedisChannel channel, RedisValue message, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "RedisChannel",
+            "description": "The channel to publish to"
+          },
+          {
+            "name": "message",
+            "type": "RedisValue",
+            "description": "The message to send"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of clients that received the message on the destination server"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<long> PublishAsync(RedisChannel channel, RedisValue message, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "RedisChannel",
+            "description": "The channel to publish to"
+          },
+          {
+            "name": "message",
+            "type": "RedisValue",
+            "description": "The message to send"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation"
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "The number of clients that received the message on the destination server"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "publish($channel, $message)",
+        "params": [
+          {
+            "name": "$channel",
+            "type": "string",
+            "description": "Channel to publish the message to"
+          },
+          {
+            "name": "$message",
+            "type": "string",
+            "description": "Message to publish"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "Number of clients that received the message"
+        }
+      }
+    ]
+  }
+}
+

@@ -1,0 +1,171 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "create(key, compression=100)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "name": "compression",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "tdigestCreate(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      },
+      {
+        "signature": "tdigestCreate(String key, int compression)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "compression",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TDigestCreate(ctx context.Context, key string) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "OK on success"
+        }
+      },
+      {
+        "signature": "TDigestCreateWithCompression(ctx context.Context, key string, compression int64) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "compression",
+            "type": "int64"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TDIGEST.CREATE(key, options?)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "options",
+            "type": "{ COMPRESSION?: number }"
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Create(key, compression?)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "compression",
+            "type": "long?"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true on success"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "CreateAsync(key, compression?)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "compression",
+            "type": "long?"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true on success"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tdigestcreate($key, $compression = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "compression",
+            "type": "int|null"
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": "OK on success"
+        }
+      }
+    ]
+  }
+}

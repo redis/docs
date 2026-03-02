@@ -1,0 +1,163 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "dictdel(dict_name: str, *terms: str)",
+        "params": [
+          {
+            "name": "dict_name",
+            "type": "str",
+            "description": "The dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "*str",
+            "description": "Terms to delete from the dictionary"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "Number of terms deleted"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long ftDictDel(String dict, String... terms)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "The dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "Terms to delete"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "Number of terms deleted"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTDictDel(ctx context.Context, dict string, terms ...interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "dict",
+            "type": "string",
+            "description": "The dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "...interface{}",
+            "description": "Terms to delete"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": "Number of terms deleted"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "DICTDEL(dictionary: RedisArgument, terms: Array<RedisArgument> | RedisArgument)",
+        "params": [
+          {
+            "name": "dictionary",
+            "type": "RedisArgument",
+            "description": "The dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "Array<RedisArgument> | RedisArgument",
+            "description": "Terms to delete"
+          }
+        ],
+        "returns": {
+          "type": "Promise<number>",
+          "description": "Number of terms deleted"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "long DictDel(string dict, params string[] terms)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "string",
+            "description": "The dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "string[]",
+            "description": "Terms to delete from the dictionary"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "Number of terms deleted"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<long> DictDelAsync(string dict, params string[] terms)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "string",
+            "description": "The dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "string[]",
+            "description": "Terms to delete from the dictionary"
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "Number of terms deleted"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftdictdel(string $dict, ...$term)",
+        "params": [
+          {
+            "name": "$dict",
+            "type": "string",
+            "description": "The dictionary name"
+          },
+          {
+            "name": "$term",
+            "type": "string",
+            "description": "Terms to delete (variadic)"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "Number of terms deleted"
+        }
+      }
+    ]
+  }
+}
+

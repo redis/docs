@@ -1,0 +1,569 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "xack(name: KeyT, groupname: GroupT, *ids: StreamIdT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": "name of the stream."
+          },
+          {
+            "name": "groupname",
+            "type": "GroupT",
+            "description": "name of the consumer group."
+          },
+          {
+            "name": "*ids",
+            "type": "StreamIdT",
+            "description": "message ids to acknowledge."
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long xack(byte[] key, byte[] group, byte[]... ids)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long xack(final String key, final String group, final StreamEntryID... ids)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "StreamEntryID...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long xack(String key, String group, StreamEntryID... ids)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "StreamEntryID...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long xack(K key, K group, String... messageIds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          },
+          {
+            "name": "messageIds",
+            "type": "String...",
+            "description": "message Id's to acknowledge."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "simple-reply the lenght of acknowledged messages."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> xack(K key, K group, String... messageIds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          },
+          {
+            "name": "messageIds",
+            "type": "String...",
+            "description": "message Id's to acknowledge."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "simple-reply the lenght of acknowledged messages."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> xack(K key, K group, String... messageIds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          },
+          {
+            "name": "messageIds",
+            "type": "String...",
+            "description": "message Id's to acknowledge."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "simple-reply the lenght of acknowledged messages."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "XAck(ctx context.Context, stream, group string, ids ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "stream",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "XACK(key: RedisArgument, group: RedisArgument, id: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "xack(...args: [, key: RedisKey, group: string | Buffer, ...ids: (string | Buffer | number)[], ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "xack(key: K, group: G, ids: &'a [I])",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "&'a [I]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "xack(key: K, group: G, ids: &'a [I])",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "&'a [I]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group that received the message."
+          },
+          {
+            "name": "messageId",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages acknowledged."
+        }
+      },
+      {
+        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group that received the message."
+          },
+          {
+            "name": "messageIds",
+            "type": "RedisValue[]",
+            "description": "The IDs of the messages to acknowledge."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages acknowledged."
+        }
+      },
+      {
+        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group that received the message."
+          },
+          {
+            "name": "messageId",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages acknowledged."
+        }
+      },
+      {
+        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group that received the message."
+          },
+          {
+            "name": "messageIds",
+            "type": "RedisValue[]",
+            "description": "The IDs of the messages to acknowledge."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages acknowledged."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group that received the message."
+          },
+          {
+            "name": "messageId",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages acknowledged."
+        }
+      },
+      {
+        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group that received the message."
+          },
+          {
+            "name": "messageIds",
+            "type": "RedisValue[]",
+            "description": "The IDs of the messages to acknowledge."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages acknowledged."
+        }
+      },
+      {
+        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group that received the message."
+          },
+          {
+            "name": "messageId",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages acknowledged."
+        }
+      },
+      {
+        "signature": "StreamAcknowledge(RedisKey key, RedisValue groupName, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group that received the message."
+          },
+          {
+            "name": "messageIds",
+            "type": "RedisValue[]",
+            "description": "The IDs of the messages to acknowledge."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages acknowledged."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "xack(string $key, string $group, string ...$id)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$group",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$id",
+            "type": "string ...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
