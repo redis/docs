@@ -1,0 +1,72 @@
+{
+  "api_calls": {
+    "go-redis": [
+      {
+        "signature": "JSONForget(ctx context.Context, key, path string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Forget(RedisKey key, string? path = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "jsonforget(string $key, string $path = '$')",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "string $path = '$'",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

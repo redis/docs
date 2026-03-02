@@ -1,0 +1,364 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "hexists(name: str, key: str)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "str",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[bool], bool]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "boolean hexists(final byte[] key, final byte[] field)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "true if the hash stored at key contains the specified field, false if the key is not found or the field is not present."
+        }
+      },
+      {
+        "signature": "boolean hexists(final String key, final String field)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "true if the hash stored at key contains the specified field, false if the key is not found or the field is not present."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Boolean hexists(K key, K field)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "field",
+            "type": "K",
+            "description": "the field type: key."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean integer-reply specifically: true if the hash contains field. false if the hash does not contain field, or key does not exist."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Boolean> hexists(K key, K field)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "field",
+            "type": "K",
+            "description": "the field type: key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the hash contains field. false if the hash does not contain field, or key does not exist."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Boolean> hexists(K key, K field)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "field",
+            "type": "K",
+            "description": "the field type: key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the hash contains field. false if the hash does not contain field, or key does not exist."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "HExists(ctx context.Context, key, field string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*BoolCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "HEXISTS(key: RedisArgument, field: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "hexists(key: RedisKey, field: string | Buffer, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "hexists(key: K, field: F)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "F",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "hexists(key: K, field: F)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "F",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "HashExists(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to check."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the hash contains field, false if the hash does not contain field, or key does not exist."
+        }
+      },
+      {
+        "signature": "HashExists(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to check."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the hash contains field, false if the hash does not contain field, or key does not exist."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "HashExists(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to check."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the hash contains field, false if the hash does not contain field, or key does not exist."
+        }
+      },
+      {
+        "signature": "HashExists(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to check."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the hash contains field, false if the hash does not contain field, or key does not exist."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "hexists(string $key, string $field)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$field",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

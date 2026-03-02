@@ -1,0 +1,173 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "bitfield_ro(self: Union[\"redis.client.Redis\", \"redis.asyncio.client.Redis\"],, key: KeyT,, encoding: str,, offset: BitfieldOffsetT,, items: Optional[list] = None,)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "encoding",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "BitfieldOffsetT",
+            "description": ""
+          },
+          {
+            "name": "items",
+            "type": "Optional[list] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Long> bitfieldReadonly(byte[] key, final byte[]... arguments)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "arguments",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> bitfieldReadonly(final String key, final String... arguments)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "arguments",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BitFieldRO(ctx context.Context, key string, values ...interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "...interface{}",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "BITFIELD_RO(key: RedisArgument, operations: BitFieldRoOperations)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "operations",
+            "type": "BitFieldRoOperations",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "bitfield_ro(...args: [, key: RedisKey, encodingOffsetToken: \"GET\", ...encodingOffsets: (string | Buffer | number)[], callback: Callback<unknown[]>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bitfield_ro(...args: [, key: RedisKey, encodingOffsetToken: \"GET\", ...encodingOffsets: (string | Buffer | number)[], ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "bitfield_ro(string $key, ?array $encodingOffsetMap = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "?array $encodingOffsetMap = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array|null",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

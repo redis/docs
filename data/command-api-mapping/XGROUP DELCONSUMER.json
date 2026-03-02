@@ -1,0 +1,624 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "xgroup_delconsumer(name: KeyT, groupname: GroupT, consumername: ConsumerT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "GroupT",
+            "description": ""
+          },
+          {
+            "name": "consumername",
+            "type": "ConsumerT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long xgroupDelConsumer(byte[] key, byte[] groupName, byte[] consumerName)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "consumerName",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long xgroupDelConsumer(final String key, final String groupName, final String consumerName)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "consumerName",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long xgroupDelConsumer(String key, String groupName, String consumerName)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "consumerName",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long xgroupDelconsumer(K key, Consumer<K> consumer)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "consumer",
+            "type": "Consumer<K>",
+            "description": "consumer identified by group name and consumer key."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply number of pending messages."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> xgroupDelconsumer(K key, Consumer<K> consumer)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "consumer",
+            "type": "Consumer<K>",
+            "description": "consumer identified by group name and consumer key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply number of pending messages."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> xgroupDelconsumer(K key, Consumer<K> consumer)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "consumer",
+            "type": "Consumer<K>",
+            "description": "consumer identified by group name and consumer key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply number of pending messages."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "XGroupDelConsumer(ctx context.Context, stream, group, consumer string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "stream",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "XGROUP_DELCONSUMER(key: RedisArgument, group: RedisArgument, consumer: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"CREATE\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"CREATE\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "entriesReadToken",
+            "type": "\"ENTRIESREAD\"",
+            "description": ""
+          },
+          {
+            "name": "entriesRead",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"CREATE\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "mkstream",
+            "type": "\"MKSTREAM\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"CREATE\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "mkstream",
+            "type": "\"MKSTREAM\"",
+            "description": ""
+          },
+          {
+            "name": "entriesReadToken",
+            "type": "\"ENTRIESREAD\"",
+            "description": ""
+          },
+          {
+            "name": "entriesRead",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, newId: \"$\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"CREATE\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "newId",
+            "type": "\"$\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "xgroup_delconsumer(key: K, group: G, consumer: C)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "C",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "usize",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "xgroup_delconsumer(key: K, group: G, consumer: C)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "C",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "usize",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StreamDeleteConsumer(RedisKey key, RedisValue groupName, RedisValue consumerName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "consumerName",
+            "type": "RedisValue",
+            "description": "The name of the consumer."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages that were pending for the deleted consumer."
+        }
+      },
+      {
+        "signature": "StreamDeleteConsumer(RedisKey key, RedisValue groupName, RedisValue consumerName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "consumerName",
+            "type": "RedisValue",
+            "description": "The name of the consumer."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages that were pending for the deleted consumer."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StreamDeleteConsumer(RedisKey key, RedisValue groupName, RedisValue consumerName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "consumerName",
+            "type": "RedisValue",
+            "description": "The name of the consumer."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages that were pending for the deleted consumer."
+        }
+      },
+      {
+        "signature": "StreamDeleteConsumer(RedisKey key, RedisValue groupName, RedisValue consumerName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "consumerName",
+            "type": "RedisValue",
+            "description": "The name of the consumer."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages that were pending for the deleted consumer."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "delConsumer(string $key, string $group, string $consumer)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$group",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$consumer",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

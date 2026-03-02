@@ -134,7 +134,7 @@ print(r.info())
 Your output should look something like this:  
 
 ``` sh
-$ /Users/example-user/Documents/Projects/test_client/venv3.7/bin/python \
+$ /Users/example-user/Documents/Projects/test_client/venv/bin/python \
     /Users/example-user/Documents/Projects/test_client/test_ssl.py
 {
     'redis_version': '5.0.5',

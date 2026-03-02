@@ -1,0 +1,559 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "xgroup_destroy(name: KeyT, groupname: GroupT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "GroupT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long xgroupDestroy(byte[] key, byte[] consumer)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long xgroupDestroy(final String key, final String groupName)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long xgroupDestroy(String key, String groupName)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Boolean xgroupDestroy(K key, K group)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "simple-reply true if successful."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Boolean> xgroupDestroy(K key, K group)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "simple-reply true if successful."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Boolean> xgroupDestroy(K key, K group)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "simple-reply true if successful."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "XGroupDestroy(ctx context.Context, stream, group string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "stream",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "XGROUP_DESTROY(key: RedisArgument, group: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"CREATE\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"CREATE\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "entriesReadToken",
+            "type": "\"ENTRIESREAD\"",
+            "description": ""
+          },
+          {
+            "name": "entriesRead",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"CREATE\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "mkstream",
+            "type": "\"MKSTREAM\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"CREATE\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "mkstream",
+            "type": "\"MKSTREAM\"",
+            "description": ""
+          },
+          {
+            "name": "entriesReadToken",
+            "type": "\"ENTRIESREAD\"",
+            "description": ""
+          },
+          {
+            "name": "entriesRead",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, newId: \"$\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"CREATE\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "newId",
+            "type": "\"$\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "xgroup_destroy(key: K, group: G)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "xgroup_destroy(key: K, group: G)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StreamDeleteConsumerGroup(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if deleted, false otherwise."
+        }
+      },
+      {
+        "signature": "StreamDeleteConsumerGroup(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if deleted, false otherwise."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StreamDeleteConsumerGroup(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if deleted, false otherwise."
+        }
+      },
+      {
+        "signature": "StreamDeleteConsumerGroup(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if deleted, false otherwise."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "destroy(string $key, string $group)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$group",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

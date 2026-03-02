@@ -40,6 +40,8 @@ To define the CIDR allow list for a database:
 
         {{<image filename="images/rc/database-details-configuration-tab-security-cidr-allowlist-add-more-ips.png" width="80%" alt="Add a new IP address to the CIDR allow list." >}}
 
+    The number of CIDR allow list entries that you can add is based on your Redis Cloud plan. Redis Cloud Essentials plans can have between 4 and 32 entries depending on the plan. Redis Cloud Pro plans can have up to 32 entries.
+
 1. Select **Save database** to apply your changes.
 
 {{< note >}}

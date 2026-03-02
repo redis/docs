@@ -1,0 +1,538 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "pexpire(name: KeyT, time: ExpiryT, nx: bool = False, xx: bool = False, gt: bool = False, lt: bool = False)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "time",
+            "type": "ExpiryT",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "gt",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "lt",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long pexpire(final byte[] key, final long milliseconds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "time to expire"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the timeout was set, 0 otherwise"
+        }
+      },
+      {
+        "signature": "long pexpire(final byte[] key, final long milliseconds, final ExpiryOption expiryOption)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "time to expire"
+          },
+          {
+            "name": "expiryOption",
+            "type": "ExpiryOption",
+            "description": "can be NX, XX, GT or LT"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the timeout was set, 0 otherwise"
+        }
+      },
+      {
+        "signature": "long pexpire(final String key, final long milliseconds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "time to expire"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the timeout was set, 0 otherwise"
+        }
+      },
+      {
+        "signature": "long pexpire(final String key, final long milliseconds, final ExpiryOption expiryOption)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "time to expire"
+          },
+          {
+            "name": "expiryOption",
+            "type": "ExpiryOption",
+            "description": "can be NX, XX, GT or LT"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the timeout was set, 0 otherwise"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "PExpire(ctx context.Context, key string, expiration time.Duration)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "expiration",
+            "type": "time.Duration",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*BoolCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "PEXPIRE(key: RedisArgument, milliseconds: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "mode?",
+            "type": "'NX' | 'XX' | 'GT' | 'LT'",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Boolean pexpire(K key, long milliseconds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the milliseconds."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "Boolean pexpire(K key, long milliseconds, ExpireArgs expireArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the milliseconds."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "Boolean pexpire(K key, Duration milliseconds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the milliseconds."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "Boolean pexpire(K key, Duration milliseconds, ExpireArgs expireArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the milliseconds."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Boolean> pexpire(K key, long milliseconds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the milliseconds."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "RedisFuture<Boolean> pexpire(K key, long milliseconds, ExpireArgs expireArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the milliseconds."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "RedisFuture<Boolean> pexpire(K key, Duration milliseconds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the milliseconds."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "RedisFuture<Boolean> pexpire(K key, Duration milliseconds, ExpireArgs expireArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the milliseconds."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Boolean> pexpire(K key, long milliseconds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the milliseconds."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "Mono<Boolean> pexpire(K key, long milliseconds, ExpireArgs expireArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "milliseconds",
+            "type": "long",
+            "description": "the milliseconds."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "Mono<Boolean> pexpire(K key, Duration milliseconds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the milliseconds."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "Mono<Boolean> pexpire(K key, Duration milliseconds, ExpireArgs expireArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "milliseconds",
+            "type": "Duration",
+            "description": "the milliseconds."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "KeyExpire(RedisKey key, TimeSpan? expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to set the expiration for."
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The timeout to set."
+          },
+          {
+            "name": "when",
+            "type": "ExpireWhen",
+            "description": "In Redis 7+, we choose under which condition the expiration will be set using ExpireWhen."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "KeyExpireAsync(RedisKey key, TimeSpan? expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to set the expiration for."
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The timeout to set."
+          },
+          {
+            "name": "when",
+            "type": "ExpireWhen",
+            "description": "In Redis 7+, we choose under which condition the expiration will be set using ExpireWhen."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "pexpire(string $key, int $milliseconds, string $expireOption = '')",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$milliseconds",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$expireOption",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
+

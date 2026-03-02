@@ -1,0 +1,119 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "bgsave(schedule: bool = True, **kwargs)",
+        "params": [
+          {
+            "name": "schedule",
+            "type": "bool",
+            "description": "Schedule save"
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String bgsave()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "String bgsaveSchedule()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BgSave(ctx context.Context) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "BGSAVE(options?: BgSaveOptions)",
+        "params": [
+          {
+            "name": "options",
+            "type": "BgSaveOptions",
+            "description": "Optional configuration"
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String bgsave()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> bgsave()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> bgsave()",
+        "params": [],
+        "returns": {
+          "type": "Mono<String>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "bgsave()",
+        "params": [],
+        "returns": {
+          "type": "mixed",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

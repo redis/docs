@@ -1,0 +1,128 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "dictdump(dict_name: str)",
+        "params": [
+          {
+            "name": "dict_name",
+            "type": "str",
+            "description": "The dictionary name"
+          }
+        ],
+        "returns": {
+          "type": "List[str]",
+          "description": "All terms in the dictionary"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Set<String> ftDictDump(String dict)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "String",
+            "description": "The dictionary name"
+          }
+        ],
+        "returns": {
+          "type": "Set<String>",
+          "description": "All terms in the dictionary"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTDictDump(ctx context.Context, dict string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "dict",
+            "type": "string",
+            "description": "The dictionary name"
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": "All terms in the dictionary"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "DICTDUMP(dictionary: RedisArgument)",
+        "params": [
+          {
+            "name": "dictionary",
+            "type": "RedisArgument",
+            "description": "The dictionary name"
+          }
+        ],
+        "returns": {
+          "type": "Promise<Array<string>>",
+          "description": "All terms in the dictionary"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "RedisResult[] DictDump(string dict)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "string",
+            "description": "The dictionary name"
+          }
+        ],
+        "returns": {
+          "type": "RedisResult[]",
+          "description": "All terms in the dictionary"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<RedisResult[]> DictDumpAsync(string dict)",
+        "params": [
+          {
+            "name": "dict",
+            "type": "string",
+            "description": "The dictionary name"
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisResult[]>",
+          "description": "All terms in the dictionary"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftdictdump(string $dict)",
+        "params": [
+          {
+            "name": "$dict",
+            "type": "string",
+            "description": "The dictionary name"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "All terms in the dictionary"
+        }
+      }
+    ]
+  }
+}
+

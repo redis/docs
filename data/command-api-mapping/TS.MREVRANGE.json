@@ -1,0 +1,434 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "mrevrange(, from_time: Union[int, str],, to_time: Union[int, str],, filters: List[str],, count: Optional[int] = None,, aggregation_type: Optional[str] = None,, bucket_size_msec: Optional[int] = 0,, with_labels: Optional[bool] = False,, filter_by_ts: Optional[List[int]] = None,, filter_by_min_value: Optional[int] = None,, filter_by_max_value: Optional[int] = None,, groupby: Optional[str] = None,, reduce: Optional[str] = None,, select_labels: Optional[List[str]] = None,, align: Optional[Union[int, str]] = None,, latest: Optional[bool] = False,, bucket_timestamp: Optional[str] = None,, empty: Optional[bool] = False,)",
+        "params": [
+          {
+            "name": "from_time",
+            "type": "Union[int, str]",
+            "description": ""
+          },
+          {
+            "name": "to_time",
+            "type": "Union[int, str]",
+            "description": ""
+          },
+          {
+            "name": "filters",
+            "type": "List[str]",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "aggregation_type",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "bucket_size_msec",
+            "type": "Optional[int] = 0",
+            "description": ""
+          },
+          {
+            "name": "with_labels",
+            "type": "Optional[bool] = False",
+            "description": ""
+          },
+          {
+            "name": "filter_by_ts",
+            "type": "Optional[List[int]] = None",
+            "description": ""
+          },
+          {
+            "name": "filter_by_min_value",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "filter_by_max_value",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "groupby",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "reduce",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "select_labels",
+            "type": "Optional[List[str]] = None",
+            "description": ""
+          },
+          {
+            "name": "align",
+            "type": "Optional[Union[int, str]] = None",
+            "description": ""
+          },
+          {
+            "name": "latest",
+            "type": "Optional[bool] = False",
+            "description": ""
+          },
+          {
+            "name": "bucket_timestamp",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "empty",
+            "type": "Optional[bool] = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Map<String, TSMRangeElements> tsMRevRange(long fromTimestamp, long toTimestamp, String... filters)",
+        "params": [
+          {
+            "name": "fromTimestamp",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "toTimestamp",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "filters",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Map<String, TSMRangeElements>",
+          "description": "multi range elements"
+        }
+      },
+      {
+        "signature": "Map<String, TSMRangeElements> tsMRevRange(TSMRangeParams multiRangeParams)",
+        "params": [
+          {
+            "name": "multiRangeParams",
+            "type": "TSMRangeParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Map<String, TSMRangeElements>",
+          "description": "multi range elements"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TSMRevRange(ctx context.Context, fromTimestamp int, toTimestamp int, filterExpr []string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "fromTimestamp",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "toTimestamp",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "filterExpr",
+            "type": "[]string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*MapStringSliceInterfaceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "TSMRevRangeWithArgs(ctx context.Context, fromTimestamp int, toTimestamp int, filterExpr []string, options *TSMRevRangeOptions)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "fromTimestamp",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "toTimestamp",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "filterExpr",
+            "type": "[]string",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "*TSMRevRangeOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*MapStringSliceInterfaceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "MRevRange(TimeStamp fromTimeStamp, TimeStamp toTimeStamp, IReadOnlyCollection<string> filter, bool latest = false, IReadOnlyCollection<TimeStamp>? filterByTs = null, (long, long)? filterByValue = null, bool? withLabels = null, IReadOnlyCollection<string>? selectLabels = null, long? count = null, TimeStamp? align = null, TsAggregation? aggregation = null, long? timeBucket = null, TsBucketTimestamps? bt = null, bool empty = false, (string, TsReduce)? groupbyTuple = null)",
+        "params": [
+          {
+            "name": "fromTimeStamp",
+            "type": "TimeStamp",
+            "description": ""
+          },
+          {
+            "name": "toTimeStamp",
+            "type": "TimeStamp",
+            "description": ""
+          },
+          {
+            "name": "filter",
+            "type": "IReadOnlyCollection<string>",
+            "description": ""
+          },
+          {
+            "name": "latest",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "filterByTs",
+            "type": "IReadOnlyCollection<TimeStamp>?",
+            "description": ""
+          },
+          {
+            "name": "filterByValue",
+            "type": "(long, long)?",
+            "description": ""
+          },
+          {
+            "name": "withLabels",
+            "type": "bool?",
+            "description": ""
+          },
+          {
+            "name": "selectLabels",
+            "type": "IReadOnlyCollection<string>?",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "align",
+            "type": "TimeStamp?",
+            "description": ""
+          },
+          {
+            "name": "aggregation",
+            "type": "TsAggregation?",
+            "description": ""
+          },
+          {
+            "name": "timeBucket",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "bt",
+            "type": "TsBucketTimestamps?",
+            "description": ""
+          },
+          {
+            "name": "empty",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "groupbyTuple",
+            "type": "(string, TsReduce)?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "IReadOnlyList<(string key, IReadOnlyList<TimeSeriesLabel> labels, IReadOnlyList<TimeSeriesTuple> values)>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "MRevRangeAsync(TimeStamp fromTimeStamp, TimeStamp toTimeStamp, IReadOnlyCollection<string> filter, bool latest = false, IReadOnlyCollection<TimeStamp>? filterByTs = null, (long, long)? filterByValue = null, bool? withLabels = null, IReadOnlyCollection<string>? selectLabels = null, long? count = null, TimeStamp? align = null, TsAggregation? aggregation = null, long? timeBucket = null, TsBucketTimestamps? bt = null, bool empty = false, (string, TsReduce)? groupbyTuple = null)",
+        "params": [
+          {
+            "name": "fromTimeStamp",
+            "type": "TimeStamp",
+            "description": ""
+          },
+          {
+            "name": "toTimeStamp",
+            "type": "TimeStamp",
+            "description": ""
+          },
+          {
+            "name": "filter",
+            "type": "IReadOnlyCollection<string>",
+            "description": ""
+          },
+          {
+            "name": "latest",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "filterByTs",
+            "type": "IReadOnlyCollection<TimeStamp>?",
+            "description": ""
+          },
+          {
+            "name": "filterByValue",
+            "type": "(long, long)?",
+            "description": ""
+          },
+          {
+            "name": "withLabels",
+            "type": "bool?",
+            "description": ""
+          },
+          {
+            "name": "selectLabels",
+            "type": "IReadOnlyCollection<string>?",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "align",
+            "type": "TimeStamp?",
+            "description": ""
+          },
+          {
+            "name": "aggregation",
+            "type": "TsAggregation?",
+            "description": ""
+          },
+          {
+            "name": "timeBucket",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "bt",
+            "type": "TsBucketTimestamps?",
+            "description": ""
+          },
+          {
+            "name": "empty",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "groupbyTuple",
+            "type": "(string, TsReduce)?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<IReadOnlyList<(string key, IReadOnlyList<TimeSeriesLabel> labels, IReadOnlyList<TimeSeriesTuple> values)>>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tsmrevrange($fromTimestamp, $toTimestamp, MRangeArguments $arguments)",
+        "params": [
+          {
+            "name": "$fromTimestamp",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$toTimestamp",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$arguments",
+            "type": "MRangeArguments",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "MREVRANGE(fromTimestamp: Timestamp, toTimestamp: Timestamp, filter: RedisVariadicArgument, options?: TsRangeOptions)",
+        "params": [
+          {
+            "name": "fromTimestamp",
+            "type": "Timestamp",
+            "description": ""
+          },
+          {
+            "name": "toTimestamp",
+            "type": "Timestamp",
+            "description": ""
+          },
+          {
+            "name": "filter",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "TsRangeOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

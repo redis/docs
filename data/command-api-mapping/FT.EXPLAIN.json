@@ -1,0 +1,178 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "explain(query: Union[str, Query])",
+        "params": [
+          {
+            "name": "query",
+            "type": "Union[str, Query]",
+            "description": "The query to explain"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "The execution plan"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String ftExplain(String indexName, Query query)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "Query",
+            "description": "The query to explain"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "The execution plan"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTExplain(ctx context.Context, index string, query string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The query to explain"
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": "The execution plan"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "EXPLAIN(index: RedisArgument, query: RedisArgument, options?: FTSearchOptions)",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisArgument",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "RedisArgument",
+            "description": "The query to explain"
+          },
+          {
+            "name": "options",
+            "type": "FTSearchOptions",
+            "description": "Optional search options"
+          }
+        ],
+        "returns": {
+          "type": "Promise<string>",
+          "description": "The execution plan"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "string Explain(string indexName, string query, int? dialect = null)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The query to explain"
+          },
+          {
+            "name": "dialect",
+            "type": "int?",
+            "description": "Query dialect version"
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": "Query execution plan"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<string> ExplainAsync(string indexName, string query, int? dialect = null)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The query to explain"
+          },
+          {
+            "name": "dialect",
+            "type": "int?",
+            "description": "Query dialect version"
+          }
+        ],
+        "returns": {
+          "type": "Task<string>",
+          "description": "Query execution plan"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftexplain(string $index, string $query, ?ExplainArguments $arguments = null)",
+        "params": [
+          {
+            "name": "$index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "$query",
+            "type": "string",
+            "description": "The query to explain"
+          },
+          {
+            "name": "$arguments",
+            "type": "?ExplainArguments",
+            "description": "Optional explain arguments"
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": "Query execution plan"
+        }
+      }
+    ]
+  }
+}
+

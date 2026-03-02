@@ -1,0 +1,324 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "hsetnx(name: str, key: str, value: str)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "str",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[bool], bool]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long hsetnx(final byte[] key, final byte[] field, final byte[] value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "If the field already exists, 0 is returned, otherwise if a new field is created 1 is returned."
+        }
+      },
+      {
+        "signature": "long hsetnx(final String key, final String field, final String value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "If the field already exists, 0 is returned, otherwise if a new field is created 1 is returned."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Boolean hsetnx(K key, K field, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "field",
+            "type": "K",
+            "description": "the field type: key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean integer-reply specifically: 1 if field is a new field in the hash and value was set. 0 if field already exists in the hash and no operation was performed."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Boolean> hsetnx(K key, K field, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "field",
+            "type": "K",
+            "description": "the field type: key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "Boolean integer-reply specifically: 1 if field is a new field in the hash and value was set. 0 if field already exists in the hash and no operation was performed."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Boolean> hsetnx(K key, K field, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "field",
+            "type": "K",
+            "description": "the field type: key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "Boolean integer-reply specifically: 1 if field is a new field in the hash and value was set. 0 if field already exists in the hash and no operation was performed."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "HSetNX(ctx context.Context, key, field string, value interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "interface{}",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*BoolCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "HSETNX(key: RedisArgument, field: RedisArgument, value: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "hsetnx(key: RedisKey, field: string | Buffer, value: string | Buffer | number, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "hset_nx(key: K, field: F, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "F",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "hset_nx(key: K, field: F, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "F",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "hsetnx(string $key, string $field, string $value)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$field",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

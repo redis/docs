@@ -1,0 +1,102 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "client_id(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long clientId()",
+        "params": [],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClientID(ctx context.Context) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "Long clientId()",
+        "params": [],
+        "returns": {
+          "type": "Long",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> clientId()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> clientId()",
+        "params": [],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "client(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
