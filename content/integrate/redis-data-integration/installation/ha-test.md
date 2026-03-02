@@ -36,7 +36,7 @@ rdi-operator-7f7f6c7dfd-5qmjd          1/1     Running     0             71m
 rdi-reloader-77df5f7854-lwmvz          1/1     Running     0             71m
 ```
 
-2. Identify the leader node - this is the one that has a running `collector-source` pod
+2. Identify the leader node - this is the one that has a running `collector-source` pod.
 
 ## Performing the HA Failover Testing
 
