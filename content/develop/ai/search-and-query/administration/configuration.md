@@ -99,6 +99,8 @@ Default: `100`
 
 ### search-bg-index-sleep-duration-us
 
+Added in v8.2.
+
 The sleep duration (in microseconds) used during background indexing. During background indexing (triggered by `FT.CREATE` on existing keys), Redis periodically sleeps to allow the main thread to process commands. This parameter controls how long each sleep lasts. Works in conjunction with [`search-bg-index-sleep-gap`](#search-bg-index-sleep-gap), which controls how many iterations occur between sleeps.
 
 Type: integer
