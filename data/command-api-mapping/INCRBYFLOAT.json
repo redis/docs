@@ -1,0 +1,466 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "incrbyfloat(name: KeyT, amount: float = 1.0)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "amount",
+            "type": "float = 1.0",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "double incrByFloat(final byte[] key, final double increment)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The value of key after the increment"
+        }
+      },
+      {
+        "signature": "double incrByFloat(final String key, final double increment)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The value of key after the increment"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Double incrbyfloat(K key, double amount)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "amount",
+            "type": "double",
+            "description": "the increment type: double."
+          }
+        ],
+        "returns": {
+          "type": "Double",
+          "description": "Double bulk-string-reply the value of key after the increment."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Double> incrbyfloat(K key, double amount)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "amount",
+            "type": "double",
+            "description": "the increment type: double."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Double>",
+          "description": "Double bulk-string-reply the value of key after the increment."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Double> incrbyfloat(K key, double amount)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "amount",
+            "type": "double",
+            "description": "the increment type: double."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Double>",
+          "description": "Double bulk-string-reply the value of key after the increment."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "IncrByFloat(ctx context.Context, key string, value float64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "float64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*FloatCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "INCRBYFLOAT(key: RedisArgument, increment: number)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "incrbyfloat(key: RedisKey, increment: number | string, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StringIncrement(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "value",
+            "type": "long",
+            "description": "The amount to increment by (defaults to 1)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value of key after the increment."
+        }
+      },
+      {
+        "signature": "StringIncrement(RedisKey key, double value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": "The amount to increment by (defaults to 1)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The value of key after the increment."
+        }
+      },
+      {
+        "signature": "StringIncrement(key, -value, flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": "The key of the string."
+          },
+          {
+            "name": "-value",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "Any",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": "The value of key after the increment."
+        }
+      },
+      {
+        "signature": "StringIncrement(key, -value, flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": "The key of the string."
+          },
+          {
+            "name": "-value",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "Any",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": "The value of key after the increment."
+        }
+      },
+      {
+        "signature": "StringIncrement(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "value",
+            "type": "long",
+            "description": "The amount to increment by (defaults to 1)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value of key after the increment."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StringIncrement(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "value",
+            "type": "long",
+            "description": "The amount to increment by (defaults to 1)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value of key after the increment."
+        }
+      },
+      {
+        "signature": "StringIncrement(RedisKey key, double value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": "The amount to increment by (defaults to 1)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The value of key after the increment."
+        }
+      },
+      {
+        "signature": "StringIncrement(key, -value, flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": "The key of the string."
+          },
+          {
+            "name": "-value",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "Any",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": "The value of key after the increment."
+        }
+      },
+      {
+        "signature": "StringIncrement(key, -value, flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": "The key of the string."
+          },
+          {
+            "name": "-value",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "Any",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": "The value of key after the increment."
+        }
+      },
+      {
+        "signature": "StringIncrement(RedisKey key, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "value",
+            "type": "long",
+            "description": "The amount to increment by (defaults to 1)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value of key after the increment."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "incrbyfloat(string $key, int|float $increment)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$increment",
+            "type": "int|float",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

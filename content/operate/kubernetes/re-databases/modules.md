@@ -110,6 +110,8 @@ Add user-defined modules to the REC **before** you create any databases that use
       --from-literal=password=<your-password>
     ```
 
+If you use [HashiCorp Vault integration]({{< relref "/operate/kubernetes/security/vault" >}}), store the module credentials in Vault instead of creating a Kubernetes secret. The `credentialsSecret` field will reference the secret name in Vault.
+
 ### Module naming requirements
 
 The `name` field in the REC spec must match either the `module_name` or `display_name` value from the module's manifest file (`module.json` inside the module zip file). This enables the operator to validate the module.

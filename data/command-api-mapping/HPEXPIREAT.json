@@ -1,0 +1,709 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "hpexpireat(, name: KeyT,, unix_time_milliseconds: AbsExpiryT,, *fields: str,, nx: bool = False,, xx: bool = False,, gt: bool = False,, lt: bool = False,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "unix_time_milliseconds",
+            "type": "AbsExpiryT",
+            "description": ""
+          },
+          {
+            "name": "*fields",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "gt",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "lt",
+            "type": "bool = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Long> hpexpireAt(byte[] key, long unixTimeMillis, byte[]... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "unixTimeMillis",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> hpexpireAt(byte[] key, long unixTimeMillis, ExpiryOption condition, byte[]... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "unixTimeMillis",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "ExpiryOption",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> hpexpireAt(String key, long unixTimeMillis, String... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "unixTimeMillis",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> hpexpireAt(String key, long unixTimeMillis, ExpiryOption condition, String... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "unixTimeMillis",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "ExpiryOption",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Long> hpexpireat(K key, long timestamp, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "long",
+            "description": "the milliseconds-timestamp type: posix time."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is in the past; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "List<Long> hpexpireat(K key, long timestamp, ExpireArgs expireArgs, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "long",
+            "description": "the milliseconds-timestamp type: posix time."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is in the past; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "List<Long> hpexpireat(K key, Date timestamp, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "Date",
+            "description": "the milliseconds-timestamp type: posix time."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is in the past; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "List<Long> hpexpireat(K key, Date timestamp, ExpireArgs expireArgs, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "Date",
+            "description": "the milliseconds-timestamp type: posix time."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is in the past; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "List<Long> hpexpireat(K key, Instant timestamp, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "Instant",
+            "description": "the milliseconds-timestamp type: posix time."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is in the past; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Long>> hpexpireat(K key, long timestamp, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "long",
+            "description": "the milliseconds-timestamp type: posix time."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is in the past; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> hpexpireat(K key, long timestamp, ExpireArgs expireArgs, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "long",
+            "description": "the milliseconds-timestamp type: posix time."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is in the past; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> hpexpireat(K key, Date timestamp, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "Date",
+            "description": "the milliseconds-timestamp type: posix time."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is in the past; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> hpexpireat(K key, Date timestamp, ExpireArgs expireArgs, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "Date",
+            "description": "the milliseconds-timestamp type: posix time."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is in the past; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> hpexpireat(K key, Instant timestamp, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "Instant",
+            "description": "the milliseconds-timestamp type: posix time."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is in the past; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Long> hpexpireat(K key, long timestamp, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "long",
+            "description": "the milliseconds-timestamp type: posix time."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is in the past; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "Flux<Long> hpexpireat(K key, long timestamp, ExpireArgs expireArgs, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "long",
+            "description": "the milliseconds-timestamp type: posix time."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is in the past; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "Flux<Long> hpexpireat(K key, Date timestamp, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "Date",
+            "description": "the milliseconds-timestamp type: posix time."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is in the past; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "Flux<Long> hpexpireat(K key, Date timestamp, ExpireArgs expireArgs, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "Date",
+            "description": "the milliseconds-timestamp type: posix time."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is in the past; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "Flux<Long> hpexpireat(K key, Instant timestamp, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "Instant",
+            "description": "the milliseconds-timestamp type: posix time."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is in the past; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "HPExpireAt(ctx context.Context, key string, tm time.Time, fields ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "tm",
+            "type": "time.Time",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "HPEXPIREAT(key: RedisArgument, fields: RedisVariadicArgument, timestamp: number | Date, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          },
+          {
+            "name": "timestamp",
+            "type": "number | Date",
+            "description": ""
+          },
+          {
+            "name": "mode?",
+            "type": "'NX' | 'XX' | 'GT' | 'LT'",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "hpexpire_at(key: K, ts: i64,  opt: ExpireOption, fields: F)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "ts",
+            "type": "i64",
+            "description": ""
+          },
+          {
+            "name": "opt",
+            "type": "ExpireOption",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "F",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<IntegerReplyOrNoOp>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "hpexpire_at(key: K, ts: i64,  opt: ExpireOption, fields: F)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "ts",
+            "type": "i64",
+            "description": ""
+          },
+          {
+            "name": "opt",
+            "type": "ExpireOption",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "F",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<IntegerReplyOrNoOp>)",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "hpexpireat(string $key, int $unixTimeMilliseconds, array $fields, string $flag = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$unixTimeMilliseconds",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$fields",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "string $flag = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array|null",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

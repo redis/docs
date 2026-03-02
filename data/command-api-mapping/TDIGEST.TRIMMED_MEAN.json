@@ -1,0 +1,169 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "trimmed_mean(key, low_cut_quantile, high_cut_quantile)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "name": "low_cut_quantile",
+            "type": "float"
+          },
+          {
+            "name": "high_cut_quantile",
+            "type": "float"
+          }
+        ],
+        "returns": {
+          "type": "float",
+          "description": "Trimmed mean value"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "tdigestTrimmedMean(String key, double lowCutQuantile, double highCutQuantile)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "lowCutQuantile",
+            "type": "double"
+          },
+          {
+            "name": "highCutQuantile",
+            "type": "double"
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "Trimmed mean value"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TDigestTrimmedMean(ctx context.Context, key string, lowCutQuantile, highCutQuantile float64) *FloatCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "lowCutQuantile",
+            "type": "float64"
+          },
+          {
+            "name": "highCutQuantile",
+            "type": "float64"
+          }
+        ],
+        "returns": {
+          "type": "*FloatCmd",
+          "description": "Trimmed mean value"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TDIGEST.TRIMMED_MEAN(key, lowCutQuantile, highCutQuantile)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "lowCutQuantile",
+            "type": "number"
+          },
+          {
+            "name": "highCutQuantile",
+            "type": "number"
+          }
+        ],
+        "returns": {
+          "type": "number",
+          "description": "Trimmed mean value"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "TrimmedMean(key, lowCutQuantile, highCutQuantile)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "lowCutQuantile",
+            "type": "double"
+          },
+          {
+            "name": "highCutQuantile",
+            "type": "double"
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "Trimmed mean value"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "TrimmedMeanAsync(key, lowCutQuantile, highCutQuantile)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "lowCutQuantile",
+            "type": "double"
+          },
+          {
+            "name": "highCutQuantile",
+            "type": "double"
+          }
+        ],
+        "returns": {
+          "type": "Task<double>",
+          "description": "Trimmed mean value"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tdigesttrimmedmean($key, $lowCutQuantile, $highCutQuantile)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "lowCutQuantile",
+            "type": "float"
+          },
+          {
+            "name": "highCutQuantile",
+            "type": "float"
+          }
+        ],
+        "returns": {
+          "type": "float",
+          "description": "Trimmed mean value"
+        }
+      }
+    ]
+  }
+}

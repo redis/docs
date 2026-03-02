@@ -1,0 +1,156 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "mexists(key, *items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "*items",
+            "type": "str",
+            "description": "Items to check"
+          }
+        ],
+        "returns": {
+          "type": "list",
+          "description": "List of booleans for each item"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Boolean> cfMExists(String key, String... items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "items",
+            "type": "String...",
+            "description": "Items to check"
+          }
+        ],
+        "returns": {
+          "type": "List<Boolean>",
+          "description": "List of booleans"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "CFMExists(ctx context.Context, key string, elements ...interface{}) *BoolSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "elements",
+            "type": "...interface{}",
+            "description": "Items to check"
+          }
+        ],
+        "returns": {
+          "type": "*BoolSliceCmd",
+          "description": "Boolean slice command result"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "CF.MEXISTS(key: RedisArgument, items: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "items",
+            "type": "RedisVariadicArgument",
+            "description": "Items to check"
+          }
+        ],
+        "returns": {
+          "type": "boolean[]",
+          "description": "Array of booleans"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "bool[] MExists(RedisKey key, params RedisValue[] items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "items",
+            "type": "RedisValue[]",
+            "description": "Items to check"
+          }
+        ],
+        "returns": {
+          "type": "bool[]",
+          "description": "Array of booleans"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "async Task<bool[]> MExistsAsync(RedisKey key, params RedisValue[] items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "items",
+            "type": "RedisValue[]",
+            "description": "Items to check"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool[]>",
+          "description": "Array of booleans"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "cfmexists(string $key, ...$item)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "$item",
+            "type": "...",
+            "description": "Items to check"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "Result of the operation"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,430 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "scan(cursor: int = 0, match: Optional[PatternT] = None, count: Optional[int] = None, _type: Optional[str] = None, **kwargs)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "match",
+            "type": "Optional[PatternT]",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int]",
+            "description": ""
+          },
+          {
+            "name": "_type",
+            "type": "Optional[str]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "tuple",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "ScanResult<byte[]> scan(final byte[] cursor)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ScanResult<byte[]>",
+          "description": "ScanResult"
+        }
+      },
+      {
+        "signature": "ScanResult<byte[]> scan(final byte[] cursor, final ScanParams params)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "ScanParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ScanResult<byte[]>",
+          "description": "ScanResult"
+        }
+      },
+      {
+        "signature": "ScanResult<String> scan(final String cursor)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ScanResult<String>",
+          "description": "ScanResult"
+        }
+      },
+      {
+        "signature": "ScanResult<String> scan(final String cursor, final ScanParams params)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "ScanParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ScanResult<String>",
+          "description": "ScanResult"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Scan(ctx context.Context, cursor uint64, match string, count int64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "cursor",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "match",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ScanCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SCAN(cursor: number, options?: ScanOptions)",
+        "params": [
+          {
+            "name": "cursor",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "ScanOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "KeyScanCursor<K> scan()",
+        "params": [],
+        "returns": {
+          "type": "KeyScanCursor<K>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "KeyScanCursor<K> scan(ScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "scanArgs",
+            "type": "ScanArgs",
+            "description": "scan arguments."
+          }
+        ],
+        "returns": {
+          "type": "KeyScanCursor<K>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "KeyScanCursor<K> scan(ScanCursor scanCursor)",
+        "params": [
+          {
+            "name": "scanCursor",
+            "type": "ScanCursor",
+            "description": "cursor to resume from a previous scan."
+          }
+        ],
+        "returns": {
+          "type": "KeyScanCursor<K>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "KeyScanCursor<K> scan(ScanCursor scanCursor, ScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "scanCursor",
+            "type": "ScanCursor",
+            "description": "cursor to resume from a previous scan."
+          },
+          {
+            "name": "scanArgs",
+            "type": "ScanArgs",
+            "description": "scan arguments."
+          }
+        ],
+        "returns": {
+          "type": "KeyScanCursor<K>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<KeyScanCursor<K>> scan()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<KeyScanCursor<K>>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "RedisFuture<KeyScanCursor<K>> scan(ScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "scanArgs",
+            "type": "ScanArgs",
+            "description": "scan arguments."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyScanCursor<K>>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "RedisFuture<KeyScanCursor<K>> scan(ScanCursor scanCursor)",
+        "params": [
+          {
+            "name": "scanCursor",
+            "type": "ScanCursor",
+            "description": "cursor to resume from a previous scan."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyScanCursor<K>>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "RedisFuture<KeyScanCursor<K>> scan(ScanCursor scanCursor, ScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "scanCursor",
+            "type": "ScanCursor",
+            "description": "cursor to resume from a previous scan."
+          },
+          {
+            "name": "scanArgs",
+            "type": "ScanArgs",
+            "description": "scan arguments."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyScanCursor<K>>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<KeyScanCursor<K>> scan()",
+        "params": [],
+        "returns": {
+          "type": "Mono<KeyScanCursor<K>>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "Mono<KeyScanCursor<K>> scan(ScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "scanArgs",
+            "type": "ScanArgs",
+            "description": "scan arguments."
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyScanCursor<K>>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "Mono<KeyScanCursor<K>> scan(ScanCursor scanCursor)",
+        "params": [
+          {
+            "name": "scanCursor",
+            "type": "ScanCursor",
+            "description": "cursor to resume from a previous scan."
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyScanCursor<K>>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      },
+      {
+        "signature": "Mono<KeyScanCursor<K>> scan(ScanCursor scanCursor, ScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "scanCursor",
+            "type": "ScanCursor",
+            "description": "cursor to resume from a previous scan."
+          },
+          {
+            "name": "scanArgs",
+            "type": "ScanArgs",
+            "description": "scan arguments."
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyScanCursor<K>>",
+          "description": "KeyScanCursor<K> scan cursor."
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Scan(RedisValue pattern = default, int pageSize = 250, long cursor = 0, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "RedisValue",
+            "description": "The pattern to match."
+          },
+          {
+            "name": "pageSize",
+            "type": "int",
+            "description": "The page size."
+          },
+          {
+            "name": "cursor",
+            "type": "long",
+            "description": "The cursor."
+          },
+          {
+            "name": "pageOffset",
+            "type": "int",
+            "description": "The page offset."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "IEnumerable<RedisKey>",
+          "description": "The keys matching the pattern."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Scan(RedisValue pattern = default, int pageSize = 250, long cursor = 0, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "RedisValue",
+            "description": "The pattern to match."
+          },
+          {
+            "name": "pageSize",
+            "type": "int",
+            "description": "The page size."
+          },
+          {
+            "name": "cursor",
+            "type": "long",
+            "description": "The cursor."
+          },
+          {
+            "name": "pageOffset",
+            "type": "int",
+            "description": "The page offset."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "IAsyncEnumerable<RedisKey>",
+          "description": "The keys matching the pattern."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "scan(?int &$iterator, string|array|null $pattern = null, int $count = 0, string $type = null)",
+        "params": [
+          {
+            "name": "&$iterator",
+            "type": "?int",
+            "description": ""
+          },
+          {
+            "name": "$pattern",
+            "type": "string|array|null",
+            "description": ""
+          },
+          {
+            "name": "$count",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$type",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array|bool",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
+

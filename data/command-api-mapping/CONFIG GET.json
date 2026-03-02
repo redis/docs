@@ -1,0 +1,212 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "config_get(pattern: PatternT = \"*\", *args: PatternT, **kwargs)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "PatternT",
+            "description": "Config pattern"
+          },
+          {
+            "name": "*args",
+            "type": "PatternT",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Map<String, String> configGet(final String pattern)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "String",
+            "description": "Config pattern"
+          }
+        ],
+        "returns": {
+          "type": "Map<String, String>",
+          "description": "Bulk reply"
+        }
+      },
+      {
+        "signature": "Map<String, String> configGet(String... patterns)",
+        "params": [
+          {
+            "name": "patterns",
+            "type": "String...",
+            "description": "Config patterns"
+          }
+        ],
+        "returns": {
+          "type": "Map<String, String>",
+          "description": "Bulk reply"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ConfigGet(ctx context.Context, parameter string) *MapStringStringCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "parameter",
+            "type": "string",
+            "description": "Config parameter"
+          }
+        ],
+        "returns": {
+          "type": "*MapStringStringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "configGet(parameters: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "parameters",
+            "type": "RedisVariadicArgument",
+            "description": "Pattern or specific configuration parameter names"
+          }
+        ],
+        "returns": {
+          "type": "Map<BlobStringReply, BlobStringReply>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Map<String, String> configGet(String parameter)",
+        "params": [
+          {
+            "name": "parameter",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Map<String, String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Map<String, String> configGet(String... parameters)",
+        "params": [
+          {
+            "name": "parameters",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Map<String, String>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Map<String, String>> configGet(String parameter)",
+        "params": [
+          {
+            "name": "parameter",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Map<String, String>>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "RedisFuture<Map<String, String>> configGet(String... parameters)",
+        "params": [
+          {
+            "name": "parameters",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Map<String, String>>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Map<String, String>> configGet(String parameter)",
+        "params": [
+          {
+            "name": "parameter",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Map<String, String>>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Mono<Map<String, String>> configGet(String... parameters)",
+        "params": [
+          {
+            "name": "parameters",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Map<String, String>>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "config($subcommand, $argument = null)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$argument",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

@@ -1,0 +1,442 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "ltrim(name: KeyT, start: int, end: int)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[str], str]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String ltrim(final byte[] key, final long start, final long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "String ltrim(final String key, final long start, final long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "String ltrim(String key, long start, long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String ltrim(K key, long start, long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop type: long."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> ltrim(K key, long start, long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop type: long."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> ltrim(K key, long start, long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop type: long."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "LTrim(ctx context.Context, key string, start, stop int64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "ltrim(key: RedisKey, start: number | string, stop: number | string, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "ltrim(key: K, start: isize, stop: isize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "isize",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(())",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "ltrim(key: K, start: isize, stop: isize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "isize",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(())",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "ListTrim(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start index of the list to trim to."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "The end index of the list to trim to."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ListTrim(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start index of the list to trim to."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "The end index of the list to trim to."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ListTrim(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start index of the list to trim to."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "The end index of the list to trim to."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ListTrim(RedisKey key, long start, long stop, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start index of the list to trim to."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "The end index of the list to trim to."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ltrim(string $key, int $start, int $stop)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$stop",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

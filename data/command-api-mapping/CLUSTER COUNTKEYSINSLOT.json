@@ -1,0 +1,62 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "Long clusterCountKeysInSlot(int slot)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot"
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Number of keys in the slot"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> clusterCountKeysInSlot(int slot)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Number of keys in the slot"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> clusterCountKeysInSlot(int slot)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Number of keys in the slot"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

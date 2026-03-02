@@ -1,0 +1,87 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "_list()",
+        "params": [],
+        "returns": {
+          "type": "List[str]",
+          "description": "A list of all existing indexes"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Set<String> ftList()",
+        "params": [],
+        "returns": {
+          "type": "Set<String>",
+          "description": "A set of all existing indexes"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FT_List(ctx context.Context)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": "A list of all existing indexes"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "_LIST()",
+        "params": [],
+        "returns": {
+          "type": "Promise<Array<string>>",
+          "description": "A list of all existing indexes"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "RedisResult[] _List()",
+        "params": [],
+        "returns": {
+          "type": "RedisResult[]",
+          "description": "List of all existing indexes"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<RedisResult[]> _ListAsync()",
+        "params": [],
+        "returns": {
+          "type": "Task<RedisResult[]>",
+          "description": "List of all existing indexes"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ft_list()",
+        "params": [],
+        "returns": {
+          "type": "array",
+          "description": "List of all existing indexes"
+        }
+      }
+    ]
+  }
+}
+

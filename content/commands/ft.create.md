@@ -152,6 +152,9 @@ arguments:
     - name: geo
       token: GEO
       type: pure-token
+    - name: geoshape
+      token: GEOSHAPE
+      type: pure-token
     - name: vector
       token: VECTOR
       type: pure-token

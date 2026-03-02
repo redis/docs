@@ -1,0 +1,218 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "synupdate(groupid: Union[str, int], skipinitial: bool = False, *terms: str)",
+        "params": [
+          {
+            "name": "groupid",
+            "type": "Union[str, int]",
+            "description": "The synonym group ID"
+          },
+          {
+            "name": "skipinitial",
+            "type": "bool",
+            "description": "Whether to skip initial scan"
+          },
+          {
+            "name": "terms",
+            "type": "*str",
+            "description": "Terms to add to the synonym group"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String ftSynUpdate(String indexName, String synonymGroupId, String... terms)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          },
+          {
+            "name": "synonymGroupId",
+            "type": "String",
+            "description": "The synonym group ID"
+          },
+          {
+            "name": "terms",
+            "type": "String...",
+            "description": "Terms to add"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTSynUpdate(ctx context.Context, index string, synGroupId interface{}, terms ...interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "synGroupId",
+            "type": "interface{}",
+            "description": "The synonym group ID"
+          },
+          {
+            "name": "terms",
+            "type": "...interface{}",
+            "description": "Terms to add"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SYNUPDATE(index: RedisArgument, synonymGroupId: RedisArgument, terms: Array<RedisArgument> | RedisArgument, options?: { SKIPINITIALSCAN?: boolean })",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisArgument",
+            "description": "The index name"
+          },
+          {
+            "name": "synonymGroupId",
+            "type": "RedisArgument",
+            "description": "The synonym group ID"
+          },
+          {
+            "name": "terms",
+            "type": "Array<RedisArgument> | RedisArgument",
+            "description": "Terms to add"
+          },
+          {
+            "name": "options",
+            "type": "{ SKIPINITIALSCAN?: boolean }",
+            "description": "Optional update options"
+          }
+        ],
+        "returns": {
+          "type": "Promise<string>",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "bool SynUpdate(string indexName, string synonymGroupId, bool skipInitialScan = false, params string[] terms)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "synonymGroupId",
+            "type": "string",
+            "description": "The synonym group ID"
+          },
+          {
+            "name": "skipInitialScan",
+            "type": "bool",
+            "description": "Whether to skip the initial scan"
+          },
+          {
+            "name": "terms",
+            "type": "string[]",
+            "description": "Synonym terms"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the synonym group was updated"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<bool> SynUpdateAsync(string indexName, string synonymGroupId, bool skipInitialScan = false, params string[] terms)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "synonymGroupId",
+            "type": "string",
+            "description": "The synonym group ID"
+          },
+          {
+            "name": "skipInitialScan",
+            "type": "bool",
+            "description": "Whether to skip the initial scan"
+          },
+          {
+            "name": "terms",
+            "type": "string[]",
+            "description": "Synonym terms"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if the synonym group was updated"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftsynupdate(string $index, string $synonymGroupId, ?SynUpdateArguments $arguments = null, string ...$terms)",
+        "params": [
+          {
+            "name": "$index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "$synonymGroupId",
+            "type": "string",
+            "description": "The synonym group ID"
+          },
+          {
+            "name": "$arguments",
+            "type": "?SynUpdateArguments",
+            "description": "Optional arguments (SKIPINITIALSCAN)"
+          },
+          {
+            "name": "$terms",
+            "type": "string",
+            "description": "Synonym terms (variadic)"
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": "OK on success"
+        }
+      }
+    ]
+  }
+}
+

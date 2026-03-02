@@ -1,0 +1,270 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "client_kill(address: str, **kwargs)",
+        "params": [
+          {
+            "name": "address",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      },
+      {
+        "signature": "client_kill_filter(_id: int | None = None, _type: str | None = None, addr: str | None = None, skipme: bool | None = None, laddr: str | None = None, user: str | None = None, **kwargs)",
+        "params": [
+          {
+            "name": "_id",
+            "type": "int | None",
+            "description": ""
+          },
+          {
+            "name": "_type",
+            "type": "str | None",
+            "description": ""
+          },
+          {
+            "name": "addr",
+            "type": "str | None",
+            "description": ""
+          },
+          {
+            "name": "skipme",
+            "type": "bool | None",
+            "description": ""
+          },
+          {
+            "name": "laddr",
+            "type": "str | None",
+            "description": ""
+          },
+          {
+            "name": "user",
+            "type": "str | None",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long clientKill(String ipPort)",
+        "params": [
+          {
+            "name": "ipPort",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long clientKill(ClientKillParams params)",
+        "params": [
+          {
+            "name": "params",
+            "type": "ClientKillParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClientKill(ctx context.Context, ipPort string) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "ipPort",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ClientKillByFilter(ctx context.Context, keys ...string) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "keys",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "clientKill(filters: ClientKillFilter | Array<ClientKillFilter>)",
+        "params": [
+          {
+            "name": "filters",
+            "type": "ClientKillFilter | Array<ClientKillFilter>",
+            "description": "One or more filters to match client connections to kill"
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String clientKill(String addr)",
+        "params": [
+          {
+            "name": "addr",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Long clientKill(KillArgs killArgs)",
+        "params": [
+          {
+            "name": "killArgs",
+            "type": "KillArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clientKill(String addr)",
+        "params": [
+          {
+            "name": "addr",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> clientKill(KillArgs killArgs)",
+        "params": [
+          {
+            "name": "killArgs",
+            "type": "KillArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clientKill(String addr)",
+        "params": [
+          {
+            "name": "addr",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Mono<Long> clientKill(KillArgs killArgs)",
+        "params": [
+          {
+            "name": "killArgs",
+            "type": "KillArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "client(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int|string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

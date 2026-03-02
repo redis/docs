@@ -1,0 +1,523 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "zrangestore(, dest: KeyT,, name: KeyT,, start: EncodableT,, end: EncodableT,, byscore: bool = False,, bylex: bool = False,, desc: bool = False,, offset: Optional[int] = None,, num: Optional[int] = None,)",
+        "params": [
+          {
+            "name": "dest",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "EncodableT",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "EncodableT",
+            "description": ""
+          },
+          {
+            "name": "byscore",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "bylex",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "desc",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "num",
+            "type": "Optional[int] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long zrangestore(byte[] dest, byte[] src, ZRangeParams zRangeParams)",
+        "params": [
+          {
+            "name": "dest",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "src",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "zRangeParams",
+            "type": "ZRangeParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long zrangestore(String dest, String src, ZRangeParams zRangeParams)",
+        "params": [
+          {
+            "name": "dest",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "src",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "zRangeParams",
+            "type": "ZRangeParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long zrangestore(K dstKey, K srcKey, Range<Long> range)",
+        "params": [
+          {
+            "name": "dstKey",
+            "type": "K",
+            "description": "the dst key."
+          },
+          {
+            "name": "srcKey",
+            "type": "K",
+            "description": "the src key."
+          },
+          {
+            "name": "range",
+            "type": "Range<Long>",
+            "description": "the rank."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the number of elements in the resulting sorted set. @since 6.2.1"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> zrangestore(K dstKey, K srcKey, Range<Long> range)",
+        "params": [
+          {
+            "name": "dstKey",
+            "type": "K",
+            "description": "the dst key."
+          },
+          {
+            "name": "srcKey",
+            "type": "K",
+            "description": "the src key."
+          },
+          {
+            "name": "range",
+            "type": "Range<Long>",
+            "description": "the rank."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the number of elements in the resulting sorted set. @since 6.2.1"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> zrangestore(K dstKey, K srcKey, Range<Long> range)",
+        "params": [
+          {
+            "name": "dstKey",
+            "type": "K",
+            "description": "the dst key."
+          },
+          {
+            "name": "srcKey",
+            "type": "K",
+            "description": "the src key."
+          },
+          {
+            "name": "range",
+            "type": "Range<Long>",
+            "description": "the rank."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the number of elements in the resulting sorted set. @since 6.2.1"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ZRangeStore(ctx context.Context, dst string, z ZRangeArgs)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "dst",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "z",
+            "type": "ZRangeArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ZRANGESTORE(destination: RedisArgument, source: RedisArgument, min: RedisArgument | number, max: RedisArgument | number, options?: ZRangeStoreOptions)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "source",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "RedisArgument | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "RedisArgument | number",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "ZRangeStoreOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "zrangestore(dst: RedisKey, src: RedisKey, min: string | Buffer | number, max: string | Buffer | number, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "dst",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "src",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrangestore(dst: RedisKey, src: RedisKey, min: string | Buffer | number, max: string | Buffer | number, offsetCountToken: \"LIMIT\", offset: number | string, count: number | string, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "dst",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "src",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "offsetCountToken",
+            "type": "\"LIMIT\"",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrangestore(dst: RedisKey, src: RedisKey, min: string | Buffer | number, max: string | Buffer | number, rev: \"REV\", callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "dst",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "src",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "rev",
+            "type": "\"REV\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrangestore(dst: RedisKey, src: RedisKey, min: string | Buffer | number, max: string | Buffer | number, rev: \"REV\", offsetCountToken: \"LIMIT\", offset: number | string, count: number | string, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "dst",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "src",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "rev",
+            "type": "\"REV\"",
+            "description": ""
+          },
+          {
+            "name": "offsetCountToken",
+            "type": "\"LIMIT\"",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrangestore(dst: RedisKey, src: RedisKey, min: string | Buffer | number, max: string | Buffer | number, byscore: \"BYSCORE\", callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "dst",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "src",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "byscore",
+            "type": "\"BYSCORE\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "zrangestore(string $destination, string $source, int|string $min, int|string $max, string|bool $by = false, bool $reversed = false, bool $limit = false, int $offset = 0, int $count = 0)",
+        "params": [
+          {
+            "name": "$destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$source",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$min",
+            "type": "int|string",
+            "description": ""
+          },
+          {
+            "name": "$max",
+            "type": "int|string",
+            "description": ""
+          },
+          {
+            "name": "string|bool $by = false",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "bool $reversed = false",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "bool $limit = false",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "int $offset = 0",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "int $count = 0",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

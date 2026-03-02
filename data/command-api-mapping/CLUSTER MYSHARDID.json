@@ -1,0 +1,44 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "String clusterMyShardId()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "The shard ID"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clusterMyShardId()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "The shard ID"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clusterMyShardId()",
+        "params": [],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "The shard ID"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

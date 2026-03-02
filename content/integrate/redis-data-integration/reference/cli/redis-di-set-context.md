@@ -17,20 +17,17 @@ Usage: redis-di set-context [OPTIONS] CONTEXT_NAME
 ## Options
 
 - `log_level`:
-
   - Type: Choice(['TRACE', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
   - Default: `info`
   - Usage: `--log-level
 -l`
 
 - `context_name` (REQUIRED):
-
   - Type: STRING
   - Default: `none`
   - Usage: `context-name`
 
 - `help`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--help`

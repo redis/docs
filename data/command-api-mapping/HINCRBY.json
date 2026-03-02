@@ -1,0 +1,618 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "hincrby(name: str, key: str, amount: int = 1)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "amount",
+            "type": "int = 1",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[int], int]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long hincrBy(final byte[] key, final byte[] field, final long value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value of key after the increment"
+        }
+      },
+      {
+        "signature": "long hincrBy(final String key, final String field, final long value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value of key after the increment"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long hincrby(K key, K field, long amount)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "field",
+            "type": "K",
+            "description": "the field type: key."
+          },
+          {
+            "name": "amount",
+            "type": "long",
+            "description": "the increment type: long."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the value at field after the increment operation."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> hincrby(K key, K field, long amount)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "field",
+            "type": "K",
+            "description": "the field type: key."
+          },
+          {
+            "name": "amount",
+            "type": "long",
+            "description": "the increment type: long."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the value at field after the increment operation."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> hincrby(K key, K field, long amount)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "field",
+            "type": "K",
+            "description": "the field type: key."
+          },
+          {
+            "name": "amount",
+            "type": "long",
+            "description": "the increment type: long."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the value at field after the increment operation."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "HIncrBy(ctx context.Context, key, field string, incr int64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "incr",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "HINCRBY(key: RedisArgument, field: RedisArgument, increment: number)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "hincrby(key: RedisKey, field: string | Buffer, increment: number | string, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "hincr(key: K, field: F, delta: D)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "F",
+            "description": ""
+          },
+          {
+            "name": "delta",
+            "type": "D",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(f64)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "hincr(key: K, field: F, delta: D)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "F",
+            "description": ""
+          },
+          {
+            "name": "delta",
+            "type": "D",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(f64)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "HashDecrement(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to decrement."
+          },
+          {
+            "name": "value",
+            "type": "long",
+            "description": "The amount to decrement by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value at field after the decrement operation."
+        }
+      },
+      {
+        "signature": "HashDecrement(RedisKey key, RedisValue hashField, double value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to decrement."
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": "The amount to decrement by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The value at field after the decrement operation."
+        }
+      },
+      {
+        "signature": "HashIncrement(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to increment."
+          },
+          {
+            "name": "value",
+            "type": "long",
+            "description": "The amount to increment by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value at field after the increment operation."
+        }
+      },
+      {
+        "signature": "HashIncrement(RedisKey key, RedisValue hashField, double value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to increment."
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": "The amount to increment by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The value at field after the increment operation."
+        }
+      },
+      {
+        "signature": "HashDecrement(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to decrement."
+          },
+          {
+            "name": "value",
+            "type": "long",
+            "description": "The amount to decrement by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value at field after the decrement operation."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "HashDecrement(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to decrement."
+          },
+          {
+            "name": "value",
+            "type": "long",
+            "description": "The amount to decrement by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value at field after the decrement operation."
+        }
+      },
+      {
+        "signature": "HashDecrement(RedisKey key, RedisValue hashField, double value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to decrement."
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": "The amount to decrement by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The value at field after the decrement operation."
+        }
+      },
+      {
+        "signature": "HashIncrement(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to increment."
+          },
+          {
+            "name": "value",
+            "type": "long",
+            "description": "The amount to increment by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value at field after the increment operation."
+        }
+      },
+      {
+        "signature": "HashIncrement(RedisKey key, RedisValue hashField, double value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to increment."
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": "The amount to increment by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The value at field after the increment operation."
+        }
+      },
+      {
+        "signature": "HashDecrement(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to decrement."
+          },
+          {
+            "name": "value",
+            "type": "long",
+            "description": "The amount to decrement by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value at field after the decrement operation."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "hincrby(string $key, string $field, int $increment)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$field",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$increment",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

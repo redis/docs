@@ -1,0 +1,158 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "aliasupdate(alias: str)",
+        "params": [
+          {
+            "name": "alias",
+            "type": "str",
+            "description": "The alias name to update"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String ftAliasUpdate(String aliasName, String indexName)",
+        "params": [
+          {
+            "name": "aliasName",
+            "type": "String",
+            "description": "The alias name"
+          },
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTAliasUpdate(ctx context.Context, index string, alias string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "alias",
+            "type": "string",
+            "description": "The alias name"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ALIASUPDATE(alias: RedisArgument, index: RedisArgument)",
+        "params": [
+          {
+            "name": "alias",
+            "type": "RedisArgument",
+            "description": "The alias name"
+          },
+          {
+            "name": "index",
+            "type": "RedisArgument",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "Promise<string>",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "bool AliasUpdate(string alias, string index)",
+        "params": [
+          {
+            "name": "alias",
+            "type": "string",
+            "description": "The alias name"
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the alias was updated"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<bool> AliasUpdateAsync(string alias, string index)",
+        "params": [
+          {
+            "name": "alias",
+            "type": "string",
+            "description": "The alias name"
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if the alias was updated"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftaliasupdate(string $alias, string $index)",
+        "params": [
+          {
+            "name": "$alias",
+            "type": "string",
+            "description": "The alias name"
+          },
+          {
+            "name": "$index",
+            "type": "string",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": "OK on success"
+        }
+      }
+    ]
+  }
+}
+

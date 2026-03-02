@@ -1,0 +1,843 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "bitcount(, key: KeyT,, start: Optional[int] = None,, end: Optional[int] = None,, mode: Optional[str] = None,)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "mode",
+            "type": "Optional[str] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long bitcount(final byte[] key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "long bitcount(final byte[] key, final long start, final long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "long bitcount(final byte[] key, final long start, final long end, final BitCountOption option)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "option",
+            "type": "BitCountOption",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "long bitcount(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "long bitcount(final String key, final long start, final long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long bitcount(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply The number of bits set to 1."
+        }
+      },
+      {
+        "signature": "Long bitcount(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply The number of bits set to 1."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> bitcount(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply The number of bits set to 1."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> bitcount(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply The number of bits set to 1."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> bitcount(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply The number of bits set to 1."
+        }
+      },
+      {
+        "signature": "Mono<Long> bitcount(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply The number of bits set to 1."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BitCount(ctx context.Context, key string, bitCount *BitCount)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "bitCount",
+            "type": "*BitCount",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "BITCOUNT(key: RedisArgument, range?: BitCountRange)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "range?",
+            "type": "BitCountRange",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "bitcount(key: RedisKey, callback?: Callback<number>): Result<number, Context>;, bitcount(, key: RedisKey, start: number | string, end: number | string, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>)",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bitcount(key: RedisKey, start: number | string, end: number | string, byte: \"BYTE\", callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "byte",
+            "type": "\"BYTE\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bitcount(key: RedisKey, start: number | string, end: number | string, bit: \"BIT\", callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "bit",
+            "type": "\"BIT\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "bitcount(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bitcount_range(key: K, start: usize, end: usize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "usize",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "usize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "bitcount(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bitcount_range(key: K, start: usize, end: usize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "usize",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "usize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StringBitCount(RedisKey key, long start, long end, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start byte to count at."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "The end byte to count at."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of bits set to 1."
+        }
+      },
+      {
+        "signature": "StringBitCount(RedisKey key, long start = 0, long end = -1, StringIndexType indexType = StringIndexType.Byte, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start byte to count at."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "The end byte to count at."
+          },
+          {
+            "name": "indexType",
+            "type": "StringIndexType",
+            "description": "In Redis 7+, we can choose if start and end specify a bit index or byte index (defaults to Byte)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of bits set to 1."
+        }
+      },
+      {
+        "signature": "StringBitCountAsync(RedisKey key, long start, long end, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StringBitCountAsync(RedisKey key, long start = 0, long end = -1, StringIndexType indexType = StringIndexType.Byte, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "indexType",
+            "type": "StringIndexType",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StringBitCount(RedisKey key, long start, long end, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start byte to count at."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "The end byte to count at."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of bits set to 1."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StringBitCountAsync(RedisKey key, long start, long end, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StringBitCountAsync(RedisKey key, long start = 0, long end = -1, StringIndexType indexType = StringIndexType.Byte, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "indexType",
+            "type": "StringIndexType",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StringBitCount(RedisKey key, long start, long end, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start byte to count at."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "The end byte to count at."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of bits set to 1."
+        }
+      },
+      {
+        "signature": "StringBitCount(RedisKey key, long start = 0, long end = -1, StringIndexType indexType = StringIndexType.Byte, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start byte to count at."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "The end byte to count at."
+          },
+          {
+            "name": "indexType",
+            "type": "StringIndexType",
+            "description": "In Redis 7+, we can choose if start and end specify a bit index or byte index (defaults to Byte)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of bits set to 1."
+        }
+      },
+      {
+        "signature": "StringBitCount(RedisKey key, long start, long end, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start byte to count at."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "The end byte to count at."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of bits set to 1."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "bitcount(string $key, $start = null, $end = null, string $index = 'byte')",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$start = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$end = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "string $index = 'byte'",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

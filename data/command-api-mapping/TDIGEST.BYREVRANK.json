@@ -1,0 +1,145 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "byrevrank(key, rank, *ranks)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "name": "rank",
+            "type": "int"
+          },
+          {
+            "name": "*ranks",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "type": "List[float]",
+          "description": "Values at the specified reverse ranks"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "tdigestByRevRank(String key, long... ranks)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "ranks",
+            "type": "long..."
+          }
+        ],
+        "returns": {
+          "type": "List<Double>",
+          "description": "Values at the specified reverse ranks"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TDigestByRevRank(ctx context.Context, key string, rank ...uint64) *FloatSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "rank",
+            "type": "...uint64"
+          }
+        ],
+        "returns": {
+          "type": "*FloatSliceCmd",
+          "description": "Values at the specified reverse ranks"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TDIGEST.BYREVRANK(key, ranks)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "ranks",
+            "type": "number[]"
+          }
+        ],
+        "returns": {
+          "type": "number[]",
+          "description": "Values at the specified reverse ranks"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "ByRevRank(key, ranks)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "ranks",
+            "type": "params long[]"
+          }
+        ],
+        "returns": {
+          "type": "double[]",
+          "description": "Values at the specified reverse ranks"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ByRevRankAsync(key, ranks)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "ranks",
+            "type": "params long[]"
+          }
+        ],
+        "returns": {
+          "type": "Task<double[]>",
+          "description": "Values at the specified reverse ranks"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tdigestbyrevrank($key, ...$ranks)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "ranks",
+            "type": "int..."
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Values at the specified reverse ranks"
+        }
+      }
+    ]
+  }
+}

@@ -17,6 +17,7 @@ To use a new feature introduced in a later feature set, you must upgrade the cor
 
 | Redis feature set | What's new |
 |-------------------|------------|
+| **Feature set version:** 8.6| See [here]({{< relref "/develop/whats-new/8-6" >}})|
 | **Feature set version:** 8.4| See [here]({{< relref "/develop/whats-new/8-4" >}})|
 | **Feature set version:** 8.2| See [here]({{< relref "/develop/whats-new/8-2" >}})|
 | **Feature set version:** 8.0| See [here]({{< relref "/develop/whats-new/8-0" >}})|

@@ -1,0 +1,295 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "vgetattr(key: KeyT, element: str)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "str",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Optional[Awaitable[dict]], Optional[dict]]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String vgetattr(String key, String element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "the name of the element whose attributes to retrieve"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "the attributes of the element as a JSON string, or null if the element doesn't exist or has no attributes"
+        }
+      },
+      {
+        "signature": "String vgetattr(String key, String element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "the name of the element whose attributes to retrieve"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "the attributes of the element as a JSON string, or null if the element doesn't exist or has no attributes"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String vgetattr(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "the attributes as a JSON string, or null if the key or element does not exist or has no attributes @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vgetattr/\">Redis Documentation: VGETATTR</a>"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> vgetattr(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "the attributes as a JSON string, or null if the key or element does not exist or has no attributes @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vgetattr/\">Redis Documentation: VGETATTR</a>"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> vgetattr(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "the attributes as a JSON string, or null if the key or element does not exist or has no attributes @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vgetattr/\">Redis Documentation: VGETATTR</a>"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "VGetAttr(ctx context.Context, key, element string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "VGETATTR(key: RedisArgument, element: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "vgetattr(key: K, element: E)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "E",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "vgetattr(key: K, element: E)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "E",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "VectorSetGetAttributesJson(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string?",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "VectorSetGetAttributesJsonAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<string?>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "vgetattr(string $key, string $elem, bool $asJson = false)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$elem",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "bool $asJson = false",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string|array|null",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

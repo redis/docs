@@ -75,7 +75,7 @@ This command's behavior varies in clustered Redis environments. See the [multi-k
 
 
 
-Get the sample with the highest timestamp from each time series matching a specific filter.
+Get the sample with the highest timestamp from each time series matching a specific filter. Starting from Redis 8.6, NaN values are included in the results.
 
 {{< note >}}
 This command will reply only if the current user has read access to all keys that match the filter.

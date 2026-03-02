@@ -17,20 +17,17 @@ Usage: redis-di add-context [OPTIONS] CONTEXT_NAME
 ## Options
 
 - `context_name` (REQUIRED):
-
   - Type: STRING
   - Default: `none`
   - Usage: `context-name`
 
 - `log_level`:
-
   - Type: Choice(['TRACE', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
   - Default: `info`
   - Usage: `--log-level
 -l`
 
 - `rdi_namespace`:
-
   - Type: STRING
   - Default: `rdi`
   - Usage: `--rdi-namespace`
@@ -38,7 +35,6 @@ Usage: redis-di add-context [OPTIONS] CONTEXT_NAME
   RDI Kubernetes namespace
 
 - `rdi_host` (REQUIRED):
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-host`
@@ -46,7 +42,6 @@ Usage: redis-di add-context [OPTIONS] CONTEXT_NAME
   Host/IP of RDI Database
 
 - `rdi_port` (REQUIRED):
-
   - Type: <IntRange 1<=x<=65535>
   - Default: `none`
   - Usage: `--rdi-port`
@@ -54,7 +49,6 @@ Usage: redis-di add-context [OPTIONS] CONTEXT_NAME
   Port of RDI Database
 
 - `rdi_user`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-user`
@@ -62,7 +56,6 @@ Usage: redis-di add-context [OPTIONS] CONTEXT_NAME
   RDI Database Username
 
 - `rdi_key`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-key`
@@ -70,7 +63,6 @@ Usage: redis-di add-context [OPTIONS] CONTEXT_NAME
   Private key file to authenticate with
 
 - `rdi_cert`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-cert`
@@ -78,7 +70,6 @@ Usage: redis-di add-context [OPTIONS] CONTEXT_NAME
   Client certificate file to authenticate with
 
 - `rdi_cacert`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-cacert`
@@ -86,7 +77,6 @@ Usage: redis-di add-context [OPTIONS] CONTEXT_NAME
   CA certificate file to verify with
 
 - `help`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--help`

@@ -1,0 +1,484 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "xinfo_consumers(name: KeyT, groupname: GroupT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "GroupT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Object> xinfoConsumers(byte[] key, byte[] group)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": "Stream name"
+          },
+          {
+            "name": "group",
+            "type": "byte[]",
+            "description": "Group name"
+          }
+        ],
+        "returns": {
+          "type": "List<Object>",
+          "description": "List of StreamConsumersInfo containing information about consumers that belong to the group @deprecated Use #xinfoConsumers2(java.lang.String, java.lang.String)."
+        }
+      },
+      {
+        "signature": "List<StreamConsumersInfo> xinfoConsumers(String key, String group)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "Stream name"
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": "Group name"
+          }
+        ],
+        "returns": {
+          "type": "List<StreamConsumersInfo>",
+          "description": "List of StreamConsumersInfo containing information about consumers that belong to the group @deprecated Use #xinfoConsumers2(java.lang.String, java.lang.String)."
+        }
+      },
+      {
+        "signature": "List<StreamConsumersInfo> xinfoConsumers(String key, String group)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "Stream name"
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": "Group name"
+          }
+        ],
+        "returns": {
+          "type": "List<StreamConsumersInfo>",
+          "description": "List of StreamConsumersInfo containing information about consumers that belong to the group @deprecated Use #xinfoConsumers2(java.lang.String, java.lang.String)."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Object> xinfoConsumers(K key, K group)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          }
+        ],
+        "returns": {
+          "type": "List<Object>",
+          "description": "List&lt;Object&gt; array-reply. @since 5.2"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Object>> xinfoConsumers(K key, K group)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Object>>",
+          "description": "List&lt;Object&gt; array-reply. @since 5.2"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Object> xinfoConsumers(K key, K group)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Object>",
+          "description": "Object array-reply. @since 5.2"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "XInfoConsumers(ctx context.Context, key string, group string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*XInfoConsumersCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "XINFO_CONSUMERS(key: RedisArgument, group: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "xinfo(subcommand: \"CONSUMERS\", key: RedisKey, groupname: string | Buffer, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"CONSUMERS\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xinfo(subcommand: \"GROUPS\", key: RedisKey, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"GROUPS\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xinfo(subcommand: \"HELP\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"HELP\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xinfo(subcommand: \"STREAM\", key: RedisKey, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"STREAM\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xinfo(subcommand: \"STREAM\", key: RedisKey, fullToken: \"FULL\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"STREAM\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "fullToken",
+            "type": "\"FULL\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "xinfo_consumers(key: K, group: G)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamInfoConsumersReply)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "xinfo_consumers(key: K, group: G)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamInfoConsumersReply)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StreamConsumerInfo(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The consumer group name."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamConsumerInfo[]",
+          "description": "An instance of StreamConsumerInfo for each of the consumer group's consumers."
+        }
+      },
+      {
+        "signature": "StreamConsumerInfo(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The consumer group name."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamConsumerInfo[]",
+          "description": "An instance of StreamConsumerInfo for each of the consumer group's consumers."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StreamConsumerInfo(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The consumer group name."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamConsumerInfo[]",
+          "description": "An instance of StreamConsumerInfo for each of the consumer group's consumers."
+        }
+      },
+      {
+        "signature": "StreamConsumerInfo(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The consumer group name."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamConsumerInfo[]",
+          "description": "An instance of StreamConsumerInfo for each of the consumer group's consumers."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "consumers(string $key, string $group)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$group",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

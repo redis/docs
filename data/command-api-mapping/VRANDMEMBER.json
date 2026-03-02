@@ -1,0 +1,359 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "vrandmember(key: KeyT, count: Optional[int] = None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String vrandmember(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "list of random element names"
+        }
+      },
+      {
+        "signature": "List<String> vrandmember(String key, int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "negative values allow duplicates"
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "list of random element names"
+        }
+      },
+      {
+        "signature": "String vrandmember(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "list of random element names"
+        }
+      },
+      {
+        "signature": "List<String> vrandmember(String key, int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "negative values allow duplicates"
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "list of random element names"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "V vrandmember(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          }
+        ],
+        "returns": {
+          "type": "V",
+          "description": "a list of random elements from the vector set, or an empty list if the key does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vrandmember/\">Redis Documentation: VRANDMEMBER</a>"
+        }
+      },
+      {
+        "signature": "List<V> vrandmember(K key, int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "the number of random elements to return"
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "a list of random elements from the vector set, or an empty list if the key does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vrandmember/\">Redis Documentation: VRANDMEMBER</a>"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<V> vrandmember(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<V>",
+          "description": "a list of random elements from the vector set, or an empty list if the key does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vrandmember/\">Redis Documentation: VRANDMEMBER</a>"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<V>> vrandmember(K key, int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "the number of random elements to return"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "a list of random elements from the vector set, or an empty list if the key does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vrandmember/\">Redis Documentation: VRANDMEMBER</a>"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<V> vrandmember(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          }
+        ],
+        "returns": {
+          "type": "Mono<V>",
+          "description": "a list of random elements from the vector set, or an empty list if the key does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vrandmember/\">Redis Documentation: VRANDMEMBER</a>"
+        }
+      },
+      {
+        "signature": "Flux<V> vrandmember(K key, int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "the number of random elements to return"
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "a list of random elements from the vector set, or an empty list if the key does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vrandmember/\">Redis Documentation: VRANDMEMBER</a>"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "VRandMember(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "VRANDMEMBER(key: RedisArgument, count?: number)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "count?",
+            "type": "number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "vrandmember(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "vrandmember(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "VectorSetRandomMember(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": ""
+        }
+      },
+      {
+        "signature": "VectorSetRandomMembers(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "VectorSetRandomMemberAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisValue>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "vrandmember(string $key, int $count = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "int $count = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string|array|null",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

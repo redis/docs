@@ -25,7 +25,7 @@ Redis Software uses a four-place numbering scheme to designate released cluster 
 The format is "Major1.Major2.Minor-Build".
 
 - Major sections of the version number represents fundamental changes and additions in
-    capabilities to Redis  Enterprise Software. The Major1 and Major2 part of the
+    capabilities to Redis Software. The Major1 and Major2 part of the
     version number are incremented based on the size and scale of the changes in each
     release.
 - The Minor section of the version number represents quality improvements, fixes to

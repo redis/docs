@@ -1,0 +1,100 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "role(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Object> role()",
+        "params": [],
+        "returns": {
+          "type": "List<Object>",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Role(ctx context.Context) *RoleCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*RoleCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ROLE()",
+        "params": [],
+        "returns": {
+          "type": "RoleReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Object> role()",
+        "params": [],
+        "returns": {
+          "type": "List<Object>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Object>> role()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<List<Object>>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<List<Object>> role()",
+        "params": [],
+        "returns": {
+          "type": "Mono<List<Object>>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "role()",
+        "params": [],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

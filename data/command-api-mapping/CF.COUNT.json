@@ -1,0 +1,156 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "count(key, item)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "item",
+            "type": "str",
+            "description": "The item to count"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "Number of times the item exists in the filter"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long cfCount(String key, String item)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "item",
+            "type": "String",
+            "description": "The item to count"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "Number of times the item exists"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "CFCount(ctx context.Context, key string, element interface{}) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "element",
+            "type": "interface{}",
+            "description": "The item to count"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": "Integer command result"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "CF.COUNT(key: RedisArgument, item: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "item",
+            "type": "RedisArgument",
+            "description": "The item to count"
+          }
+        ],
+        "returns": {
+          "type": "number",
+          "description": "Number of times the item exists"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "long Count(RedisKey key, RedisValue item)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "item",
+            "type": "RedisValue",
+            "description": "The item to count"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "Number of times the item exists"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "async Task<long> CountAsync(RedisKey key, RedisValue item)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "item",
+            "type": "RedisValue",
+            "description": "The item to count"
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "Number of times the item exists"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "cfcount(string $key, $item)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "$item",
+            "type": "mixed",
+            "description": "The item to count"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "Number of times the item exists"
+        }
+      }
+    ]
+  }
+}
