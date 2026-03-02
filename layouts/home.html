@@ -45,40 +45,40 @@
         </div>
       </nav>
     </div>
-    <div class="w-full flex flex-col">
-      <!-- Hero Section -->
-      <section class="relative flex flex-col items-center justify-center px-5 pt-12 pb-4 md:pt-16 md:pb-6 text-center overflow-hidden">
-        <!-- Background decorative elements -->
-        <div class="absolute inset-0 opacity-5">
-          <div class="absolute top-10 left-10 w-32 h-32">
-            {{ partial "icons/redis-cube.html" }}
-          </div>
-        </div>
-
-        <div class="max-w-5xl mx-auto flex flex-col gap-3 relative z-10">
-          <h1 class="text-xl md:text-2xl lg:text-3xl font-medium font-mono leading-tight">
-            Welcome to Redis Docs
-          </h1>
-          <p class="text-sm md:text-base text-gray-300 max-w-4xl mx-auto">
-          </p>
-          <div class="flex flex-col md:flex-row gap-4 justify-center mt-4">
-            <a href="./develop/" class="px-8 py-4 bg-redis-red-500 hover:bg-redis-red-600 text-white font-medium rounded-md transition-colors">
+    <div class="w-full flex flex-col gap-16 pt-12">
+      <!-- Welcome heading and buttons -->
+      <div class="flex flex-col gap-6 lg:px-11">
+        <h1 class="text-2xl md:text-3xl font-medium text-white text-center">Welcome to Redis Docs</h1>
+        <div class="flex flex-col items-center gap-4">
+          <div class="flex flex-col md:flex-row gap-4 justify-center">
+            <a href="./develop/" class="px-8 py-4 bg-redis-red-500 hover:bg-redis-red-600 text-white font-medium rounded-md transition-colors text-center">
               Develop with Redis Open Source
             </a>
-            <a href="./operate/rc/" class="px-8 py-4 border-2 border-white hover:bg-white hover:text-redis-ink-900 text-white font-medium rounded-md transition-colors">
+            <a href="./operate/rc/" class="px-8 py-4 border-2 border-white hover:bg-white hover:text-redis-ink-900 text-white font-medium rounded-md transition-colors text-center">
               Run Redis in production
             </a>
           </div>
-          <p class="text-sm text-gray-300 text-center mt-4">
-            Search the <a href="/commands" class="text-redis-yellow-500 hover:underline">complete command reference</a> and the <a href="/integrate" class="text-redis-yellow-500 hover:underline">integrated libraries and tools</a>
+          <p class="text-sm text-gray-300 text-center">
+            Search the <a href='{{ relURL "commands" }}' class="text-redis-yellow-500 hover:underline">complete command reference</a> and the <a href='{{ relURL "integrate" }}' class="text-redis-yellow-500 hover:underline">integrated libraries and tools</a>
           </p>
         </div>
-      </section>
+      </div>
 
       <!-- Use Cases Section -->
-      <section class="px-5 py-10 border-t border-redis-pen-600">
-        <div class="max-w-6xl mx-auto flex flex-col gap-4">
-          <h2 class="text-lg md:text-xl font-medium">Redis for AI and search</h2>
+      <section class="lg:px-11">
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col md:flex-row items-center gap-4">
+            <h2 class="text-xl font-medium flex-1">Redis for AI and search</h2>
+            <form class="flex flex-row items-center border border-white rounded-md px-4 gap-3 w-full md:w-auto md:w-[350px] bg-redis-ink-900" action="/chat">
+          <label class="" for="search-home" id="search-label-home">
+            {{ partial "icons/sparkles.html" }}
+          </label>
+          <input id="seach-home" name="q" class="appearance-none bg-transparent text-sm text-white placeholder-white w-full h-10 focus:outline-none"
+                 autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                 placeholder="Ask AI to explain..." maxlength="500" type="text" value="" tabindex=""/>
+          <input class="invisible" type="submit" class="hover:text-redis-pen-300" value=""/>
+        </form>
+          </div>
 
           <div class="flex flex-col lg:flex-row gap-4">
             <!-- Use Cases Grid -->
@@ -213,9 +213,8 @@
 
             <!-- Redis Cloud -->
             <div class="flex flex-col bg-redis-pen-800 border-2 border-redis-red-500 rounded-md overflow-hidden">
-              <a class="px-4 py-2 border-b border-redis-pen-400 hover:bg-redis-pen-700 transition-colors flex items-center justify-between" href="./operate/rc/">
+              <a class="px-4 py-2 border-b border-redis-pen-400 hover:bg-redis-pen-700 transition-colors" href="./operate/rc/">
                 <h3 class="text-base font-medium">Redis Cloud</h3>
-                <span class="px-2 py-1 bg-redis-red-500 text-base text-xs font-bold rounded-full">Recommended</span>
               </a>
               <div class="p-4 flex-1">
                 <p class="text-sm text-gray-300 mb-3">Global, managed, production workloads</p>
@@ -267,7 +266,7 @@
                 <h3 class="text-sm font-medium mb-2">Run AI in production</h3>
                 <p class="text-xs text-gray-300 mb-3">Deploy and scale Redis for production AI workloads</p>
                 <ul class="space-y-1 text-xs">
-                  <li><a href="https://redis.io/cloud/" class="text-redis-yellow-500 hover:underline">→ Redis Cloud</a></li>
+                  <li><a href="./operate/rc/databases/create-database/create-flex-database/" class="text-redis-yellow-500 hover:underline">→ Redis Flex</a></li>
                   <li><a href="./operate/" class="text-redis-yellow-500 hover:underline">→ Operate Redis</a></li>
                   <li><a href="./operate/kubernetes/" class="text-redis-yellow-500 hover:underline">→ Kubernetes</a></li>
                   <li><a href="./operate/#security" class="text-redis-yellow-500 hover:underline">→ Security & Compliance</a></li>
@@ -295,18 +294,7 @@
       <!-- Documentation Quick Access -->
       <section class="px-5 py-10 border-t border-redis-pen-600">
         <div class="max-w-6xl mx-auto">
-          <div class="flex flex-col md:flex-row items-start gap-3 mb-6">
-            <h2 class="text-xs md:text-sm font-medium flex-1">Explore the documentation</h2>
-            <form class="flex flex-row items-center border border-white rounded-md px-3 gap-2 w-full md:w-auto md:w-[300px] bg-redis-ink-900" action="/chat">
-              <label class="" for="search-home" id="search-label-home">
-                {{ partial "icons/sparkles.html" }}
-              </label>
-              <input id="seach-home" name="q" class="appearance-none bg-transparent text-xs text-white placeholder-white w-full h-8 focus:outline-none"
-                     autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                     placeholder="Ask our AI chatbot…" maxlength="500" type="text" value="" tabindex=""/>
-              <input class="invisible" type="submit" class="hover:text-redis-pen-300" value=""/>
-            </form>
-          </div>
+          <h2 class="text-xs md:text-sm font-medium mb-6">Explore the documentation</h2>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
             <a href="./ai-agent-resources/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-3 hover:bg-redis-pen-600 transition-colors group">
