@@ -31,7 +31,8 @@ The following table summarizes which configuration parameters can be set at run-
 
 | Parameter name<br />(version < 8.0) | Parameter name<br />(version &#8805; 8.0) | Run-time | Redis<br />Software | Redis<br />Cloud |
 | :------- | :------- | :------- | :------- | :------- |
-| BG_INDEX_SLEEP_GAP                | [search-bg-index-sleep-gap](#search-bg-index-sleep-gap)         | :white_large_square: |||
+| BG_INDEX_SLEEP_GAP                | [search-bg-index-sleep-gap](#search-bg-index-sleep-gap)         | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Not supported"><nobr>&#x274c; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| BG_INDEX_SLEEP_DURATION_US        | [search-bg-index-sleep-duration-us](#search-bg-index-sleep-duration-us) | :white_large_square: |||
 | CONCURRENT_WRITE_MODE             | [search-concurrent-write-mode](#search-concurrent-write-mode)   | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | CONN_PER_SHARD                    | [search-conn-per-shard](#search-conn-per-shard)                 | :white_check_mark:   |||
 | CURSOR_MAX_IDLE                   | [search-cursor-max-idle](#search-cursor-max-idle)               | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
@@ -95,6 +96,16 @@ Type: integer
 Valid range: `[1 .. 4294967295]`
 
 Default: `100`
+
+### search-bg-index-sleep-duration-us
+
+The sleep duration (in microseconds) used during background indexing. During background indexing (triggered by `FT.CREATE` on existing keys), Redis periodically sleeps to allow the main thread to process commands. This parameter controls how long each sleep lasts. Works in conjunction with [`search-bg-index-sleep-gap`](#search-bg-index-sleep-gap), which controls how many iterations occur between sleeps.
+
+Type: integer
+
+Valid range: `[1 .. 999999]`
+
+Default: `1`
 
 ### search-concurrent-write-mode
 
