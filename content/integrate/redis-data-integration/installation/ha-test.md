@@ -1,5 +1,5 @@
 ---
-Title: How to perform HA failover testing
+Title: Test HA failover
 alwaysopen: false
 categories:
 - docs
