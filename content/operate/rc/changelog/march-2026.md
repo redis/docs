@@ -1,15 +1,15 @@
 ---
-Title: Redis Cloud changelog (February 2026)
+Title: Redis Cloud changelog (March 2026)
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
 description: New features, enhancements, and other changes added to Redis Cloud during
-  February 2026.
+  March 2026.
 highlights: Redis 8.4 on Redis Cloud Pro, Automatic database upgrades
-linktitle: February 2026
-weight: 55
+linktitle: March 2026
+weight: 53
 tags:
 - changelog
 ---
