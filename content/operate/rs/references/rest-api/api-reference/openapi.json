@@ -651,6 +651,7 @@
         "type": "object"
       },
       "OcspConfig": {
+        "additionalProperties": false,
         "description": "OCSP configuration",
         "properties": {
           "ocsp_functionality": {
@@ -659,33 +660,34 @@
           },
           "query_frequency": {
             "description": "Determines the interval (in seconds) in which the control plane will poll the OCSP responder for a new status for the server certificate.",
+            "maximum": 86400,
+            "minimum": 60,
             "type": "integer"
           },
           "recovery_frequency": {
             "description": "Determines the interval (in seconds) in which the control plane will poll the OCSP responder for a new status for the server certificate when the current staple is invalid.",
+            "maximum": 86400,
+            "minimum": 60,
             "type": "integer"
           },
           "recovery_max_tries": {
             "description": "Determines the maximum number for the OCSP recovery attempts. After max number of tries passed, the control plane will revert back to the regular frequency.",
+            "maximum": 100,
+            "minimum": 1,
             "type": "integer"
           },
           "responder_url": {
             "description": "The OCSP server url embedded in the proxy certificate (if available)",
+            "readOnly": true,
             "type": "string"
           },
           "response_timeout": {
             "description": "Determines the time interval (in seconds) for which the request waits for a response from the OCSP responder.",
+            "maximum": 60,
+            "minimum": 1,
             "type": "integer"
           }
         },
-        "required": [
-          "ocsp_functionality",
-          "responder_url",
-          "query_frequency",
-          "response_timeout",
-          "recovery_frequency",
-          "recovery_max_tries"
-        ],
         "type": "object"
       },
       "OcspStatus": {
@@ -1817,6 +1819,53 @@
           }
         ],
         "summary": "Get OCSP configuration",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "put": {
+        "description": "Set or update the OCSP configuration for the cluster",
+        "operationId": "cluster_update_ocsp_config",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OcspConfig"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OcspConfig"
+                }
+              }
+            },
+            "description": "OCSP configuration"
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "406": {
+            "$ref": "#/components/responses/NotAcceptable"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "config_ocsp"
+            ]
+          }
+        ],
+        "summary": "Update OCSP configuration",
         "tags": [
           "Cluster"
         ],
