@@ -671,7 +671,7 @@
           {
             "attribute": "network.peer.address",
             "type": "string",
-            "description": "Peer address of the database node where the operation was performed. The resolved address.",
+            "description": "Peer address of the database node where the operation was performed.",
             "examples": "10.1.2.80; /tmp/my.sock",
             "requirement_level": "recommended"
           },
@@ -686,7 +686,7 @@
           {
             "attribute": "server.address",
             "type": "string",
-            "description": "Name of the database host. Database FQDN. Whatever was passed in the client init.",
+            "description": "Name of the database host.",
             "examples": "example.com; 10.1.2.80; /tmp/my.sock; redis-13206.aws-cluster-71165.cto.redislabs.com",
             "requirement_level": "recommended"
           },
@@ -701,10 +701,9 @@
           {
             "attribute": "db.client.connection.pool.name",
             "type": "string",
-            "description": "The name of the connection pool; unique within the instrumented application. In case the connection pool implementation doesn't provide a name, instrumentation SHOULD use a combination of parameters that would make the name unique, for example, combining attributes server.address, server.port, and db.namespace, formatted as server.address:server.port/db.namespace. Instrumentations that generate connection pool name following different patterns SHOULD document it. When an additional identifier is used for a specific client instance it should be added as a postfix: server.address:server.port-unique-client-id",
+            "description": "The name of the connection pool.",
             "examples": "10.1.2.8/0; mypool",
-            "requirement_level": "required",
-            "notes": "[1] db.operation.name: It is RECOMMENDED to capture the value as provided by the application without attempting to do any case normalization. For transactions and pipelined calls, if the individual operations are known to have the same command then that command SHOULD be used prepended by MULTI or PIPELINE. Otherwise db.operation.name SHOULD be MULTI or PIPELINE. [2] db.namespace: A connection's currently associated database index may change during its lifetime, e.g. from executing SELECT <index>. If instrumentation is unable to capture the connection's currently associated database index on each query without triggering an additional query to be executed, then it is RECOMMENDED to fallback and use the database index provided when the connection was established. Instrumentation SHOULD document if db.namespace reflects the database index provided when the connection was established. [3] db.response.status_code: All Redis error prefixes SHOULD be considered errors. [4] db.response.status_code: If the operation failed and status code is available. [5] error.type: The error.type SHOULD match the db.response.status_code returned by the database or the client library, or the canonical name of exception that occurred. When using canonical exception type name, instrumentation SHOULD do the best effort to report the most relevant type. For example, if the original exception is wrapped into a generic one, the original exception SHOULD be preferred. Instrumentations SHOULD document how error.type is populated. [6] server.port: When observed from the client side, and when communicating through an intermediary, server.port SHOULD represent the server port behind any intermediaries, for example proxies, if it's available. [7] server.port: If using a port other than the default port for this DBMS and if server.address is set."
+            "requirement_level": "required"
           },
           {
             "attribute": "db.client.connection.state",
@@ -716,21 +715,21 @@
           {
             "attribute": "db.client.geofailover.fail_from",
             "type": "string",
-            "description": "FQDN of database failover happened from",
+            "description": "FQDN of database from which failover happened.",
             "examples": "{ip}:{port}/{weight}",
             "requirement_level": "required"
           },
           {
             "attribute": "db.client.geofailover.fail_to",
             "type": "string",
-            "description": "FQDN of database failover happened to",
+            "description": "FQDN of database to which failover happened.",
             "examples": "{ip}:{port}/{weight}",
             "requirement_level": "required"
           },
           {
             "attribute": "db.client.geofailover.reason",
             "type": "string",
-            "description": "Reason for failover to happen",
+            "description": "Reason for failover to happen.",
             "examples": "automatic; manual",
             "requirement_level": "required",
             "requirement_condition": "for transactions and pipelined calls"
@@ -751,14 +750,14 @@
           {
             "attribute": "redis.client.operation.retry_attempts",
             "type": "int",
-            "description": "Shows how many times the command has been retried. In Grafana we can filter by redis.client.operation.retry_attempts >0 to see retried commands",
+            "description": "Shows how many times the command has been retried.",
             "examples": "0; 1; 2",
             "requirement_level": "required"
           },
           {
             "attribute": "redis.client.errors.internal",
             "type": "bool",
-            "description": "Specifies if the error has been handled internally or surfaced to the user",
+            "description": "Specifies whether the error has been handled internally or surfaced to the user.",
             "examples": "true; false",
             "requirement_level": "required",
             "requirement_condition": "for errors"
@@ -766,7 +765,7 @@
           {
             "attribute": "redis.client.errors.category",
             "type": "string",
-            "description": "To make grouping and filtering of errors easier, we group the errors by category.",
+            "description": "Error category, to facilitate grouping and filtering of errors.",
             "examples": "network (transport/DNS/socket issues); tls (security/TLS errors); auth (authentication/authorization); server (Redis server errors including cluster errors); other (uncategorized errors)",
             "requirement_level": "required",
             "requirement_condition": "for errors"
@@ -875,7 +874,7 @@
       "network.peer.address": {
         "attribute": "network.peer.address",
         "type": "string",
-        "description": "Peer address of the database node where the operation was performed. The resolved address.",
+        "description": "Peer address of the database node where the operation was performed.",
         "examples": "10.1.2.80; /tmp/my.sock",
         "requirement_level": "recommended",
         "definition_source_table": "semconv_defined_attributes"
@@ -892,7 +891,7 @@
       "server.address": {
         "attribute": "server.address",
         "type": "string",
-        "description": "Name of the database host. Database FQDN. Whatever was passed in the client init.",
+        "description": "Name of the database host.",
         "examples": "example.com; 10.1.2.80; /tmp/my.sock; redis-13206.aws-cluster-71165.cto.redislabs.com",
         "requirement_level": "recommended",
         "definition_source_table": "semconv_defined_attributes"
@@ -909,7 +908,7 @@
       "db.client.connection.pool.name": {
         "attribute": "db.client.connection.pool.name",
         "type": "string",
-        "description": "The name of the connection pool; unique within the instrumented application. In case the connection pool implementation doesn't provide a name, instrumentation SHOULD use a combination of parameters that would make the name unique, for example, combining attributes server.address, server.port, and db.namespace, formatted as server.address:server.port/db.namespace. Instrumentations that generate connection pool name following different patterns SHOULD document it. When an additional identifier is used for a specific client instance it should be added as a postfix: server.address:server.port-unique-client-id",
+        "description": "The name of the connection pool.",
         "examples": "10.1.2.8/0; mypool",
         "requirement_level": "required",
         "definition_source_table": "semconv_defined_attributes"
@@ -925,7 +924,7 @@
       "db.client.geofailover.fail_from": {
         "attribute": "db.client.geofailover.fail_from",
         "type": "string",
-        "description": "FQDN of database failover happened from",
+        "description": "FQDN of database from which failover happened.",
         "examples": "{ip}:{port}/{weight}",
         "requirement_level": "required",
         "definition_source_table": "semconv_defined_attributes"
@@ -933,7 +932,7 @@
       "db.client.geofailover.fail_to": {
         "attribute": "db.client.geofailover.fail_to",
         "type": "string",
-        "description": "FQDN of database failover happened to",
+        "description": "FQDN of database to which failover happened.",
         "examples": "{ip}:{port}/{weight}",
         "requirement_level": "required",
         "definition_source_table": "semconv_defined_attributes"
@@ -958,7 +957,7 @@
       "redis.client.operation.retry_attempts": {
         "attribute": "redis.client.operation.retry_attempts",
         "type": "int",
-        "description": "Shows how many times the command has been retried. In Grafana we can filter by redis.client.operation.retry_attempts >0 to see retried commands",
+        "description": "Shows how many times the command has been retried.",
         "examples": "0; 1; 2",
         "requirement_level": "required",
         "definition_source_table": "redis_defined_attributes"
@@ -966,7 +965,7 @@
       "redis.client.errors.internal": {
         "attribute": "redis.client.errors.internal",
         "type": "bool",
-        "description": "Specifies if the error has been handled internally or surfaced to the user",
+        "description": "Specifies whether the error has been handled internally or surfaced to the user.",
         "examples": "true; false",
         "requirement_level": "required",
         "requirement_condition": "for errors",
@@ -975,7 +974,7 @@
       "redis.client.errors.category": {
         "attribute": "redis.client.errors.category",
         "type": "string",
-        "description": "To make grouping and filtering of errors easier, we group the errors by category.",
+        "description": "Error category, to facilitate grouping and filtering of errors.",
         "examples": "network (transport/DNS/socket issues); tls (security/TLS errors); auth (authentication/authorization); server (Redis server errors including cluster errors); other (uncategorized errors)",
         "requirement_level": "required",
         "requirement_condition": "for errors",

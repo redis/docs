@@ -234,84 +234,76 @@ function renderAttributeTable(table) {
   title.textContent = table.title;
   tableDiv.appendChild(title);
 
-  // Create HTML table
-  const htmlTable = document.createElement('table');
-  htmlTable.className = 'attributes-list';
+  // Render each attribute as a card-like element
+  const attributesContainer = document.createElement('div');
+  attributesContainer.className = 'attributes-list';
 
-  // Table header
-  const thead = document.createElement('thead');
-  const headerRow = document.createElement('tr');
-  ['Attribute', 'Type', 'Description', 'Examples', 'Requirement'].forEach(text => {
-    const th = document.createElement('th');
-    th.textContent = text;
-    headerRow.appendChild(th);
-  });
-  thead.appendChild(headerRow);
-  htmlTable.appendChild(thead);
-
-  // Table body
-  const tbody = document.createElement('tbody');
   table.attributes.forEach(attr => {
-    const row = renderAttributeRow(attr);
-    tbody.appendChild(row);
+    const attrDiv = renderAttributeCard(attr);
+    attributesContainer.appendChild(attrDiv);
   });
-  htmlTable.appendChild(tbody);
 
-  tableDiv.appendChild(htmlTable);
+  tableDiv.appendChild(attributesContainer);
   return tableDiv;
 }
 
 /**
- * Render a single attribute row
+ * Render a single attribute as a card
  */
-function renderAttributeRow(attr) {
-  const row = document.createElement('tr');
-  row.id = `attr-${attr.attribute}`;
+function renderAttributeCard(attr) {
+  const attrDiv = document.createElement('div');
+  attrDiv.className = 'attribute-card';
+  attrDiv.id = `attr-${attr.attribute}`;
 
-  // Attribute name
-  const nameCell = document.createElement('td');
+  // Attribute name heading
+  const nameHeading = document.createElement('h4');
   const nameCode = document.createElement('code');
   nameCode.textContent = attr.attribute;
-  nameCell.appendChild(nameCode);
-  row.appendChild(nameCell);
+  nameCode.className = 'attribute-name';
+  nameHeading.appendChild(nameCode);
 
-  // Type
-  const typeCell = document.createElement('td');
-  const typeCode = document.createElement('code');
-  typeCode.textContent = attr.type;
-  typeCell.appendChild(typeCode);
-  row.appendChild(typeCell);
-
-  // Description
-  const descCell = document.createElement('td');
-  descCell.textContent = attr.description;
-  row.appendChild(descCell);
-
-  // Examples
-  const examplesCell = document.createElement('td');
-  const examplesCode = document.createElement('code');
-  examplesCode.textContent = attr.examples;
-  examplesCell.appendChild(examplesCode);
-  row.appendChild(examplesCell);
-
-  // Requirement
-  const reqCell = document.createElement('td');
+  // Add requirement badge
+  nameHeading.appendChild(document.createTextNode(' '));
   const reqBadge = document.createElement('span');
   reqBadge.className = `requirement-badge requirement-${attr.requirement_level}`;
   reqBadge.textContent = attr.requirement_level;
-  reqCell.appendChild(reqBadge);
+  nameHeading.appendChild(reqBadge);
 
+  attrDiv.appendChild(nameHeading);
+
+  // Type
+  const typeDiv = document.createElement('div');
+  typeDiv.className = 'attribute-type';
+  typeDiv.textContent = 'Type: ';
+  const typeCode = document.createElement('code');
+  typeCode.textContent = attr.type;
+  typeDiv.appendChild(typeCode);
+  attrDiv.appendChild(typeDiv);
+
+  // Description
+  const descDiv = document.createElement('p');
+  descDiv.className = 'attribute-description';
+  descDiv.textContent = attr.description;
+  attrDiv.appendChild(descDiv);
+
+  // Examples
+  const examplesDiv = document.createElement('div');
+  examplesDiv.className = 'attribute-examples';
+  examplesDiv.textContent = 'Examples: ';
+  const examplesCode = document.createElement('code');
+  examplesCode.textContent = attr.examples;
+  examplesDiv.appendChild(examplesCode);
+  attrDiv.appendChild(examplesDiv);
+
+  // Requirement condition (if present)
   if (attr.requirement_condition) {
-    reqCell.appendChild(document.createElement('br'));
-    const condition = document.createElement('small');
-    condition.textContent = attr.requirement_condition;
-    condition.className = 'requirement-condition';
-    reqCell.appendChild(condition);
+    const conditionDiv = document.createElement('div');
+    conditionDiv.className = 'attribute-requirement-condition';
+    conditionDiv.textContent = `Condition: ${attr.requirement_condition}`;
+    attrDiv.appendChild(conditionDiv);
   }
 
-  row.appendChild(reqCell);
-
-  return row;
+  return attrDiv;
 }
 
 /**
