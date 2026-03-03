@@ -1,6 +1,6 @@
 {
   "$schema": "https://redis.io/schemas/client-observability-metrics-v0.2.json",
-  "spec_version": "0.2-ai-optimized",
+  "spec_version": "0.2",
   "namespace_default": "redis.client",
   "metric_groups": [
     {

@@ -156,6 +156,6 @@ metric groups:
 
 When you configure the client to activate OTel, you can select which metric groups
 you are interested in, although all metrics in the group will be collected even
-if you don't use them. The sections below describe the metrics in each group in more detail.
+if you don't use them. The metrics in each group are described in more detail below.
 
-
+{{< otel-metric-groups >}}
