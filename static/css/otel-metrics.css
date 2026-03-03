@@ -61,7 +61,18 @@
   padding: 0;
 }
 
+/* Metric unit */
+.metric-unit {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0.25rem 0 0.5rem 0;
+}
+
 /* Metric type badge */
+.metric-type-badge-link {
+  text-decoration: none;
+}
+
 .metric-type-badge {
   display: inline-block;
   padding: 0.2rem 0.6rem;
@@ -71,7 +82,11 @@
   background: #0066cc;
   color: white;
   border-radius: 3px;
-  margin-left: 0.5rem;
+  transition: background 0.2s;
+}
+
+.metric-type-badge-link:hover .metric-type-badge {
+  background: #0052a3;
 }
 
 /* Collapsible attributes section */

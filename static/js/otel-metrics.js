@@ -115,43 +115,36 @@ function renderMetric(metric, namespaceDefault) {
 
   nameHeading.appendChild(nameLink);
 
-  // Add metric type badge
+  // Add metric type badge with link to OTel docs
+  nameHeading.appendChild(document.createTextNode(' '));
+  const typeBadgeLink = document.createElement('a');
+  typeBadgeLink.href = 'https://opentelemetry.io/docs/concepts/signals/metrics/#metric-instruments';
+  typeBadgeLink.target = '_blank';
+  typeBadgeLink.rel = 'noopener noreferrer';
+  typeBadgeLink.className = 'metric-type-badge-link';
+
   const typeBadge = document.createElement('span');
   typeBadge.className = 'metric-type-badge';
   typeBadge.textContent = metric.otel.instrument_kind;
-  nameHeading.appendChild(document.createTextNode(' '));
-  nameHeading.appendChild(typeBadge);
+
+  typeBadgeLink.appendChild(typeBadge);
+  nameHeading.appendChild(typeBadgeLink);
 
   metricDiv.appendChild(nameHeading);
+
+  // Unit (if present) - displayed right under the metric name
+  if (metric.unit) {
+    const unitDiv = document.createElement('div');
+    unitDiv.className = 'metric-unit';
+    unitDiv.textContent = `Unit: ${formatUnit(metric.unit)}`;
+    metricDiv.appendChild(unitDiv);
+  }
 
   // Description
   const desc = document.createElement('p');
   desc.textContent = metric.description;
   desc.className = 'metric-description';
   metricDiv.appendChild(desc);
-  
-  // Metadata table
-  const metaTable = document.createElement('table');
-  metaTable.className = 'metric-metadata';
-  
-  // Unit
-  if (metric.unit) {
-    addMetadataRow(metaTable, 'Unit', formatUnit(metric.unit));
-  }
-  
-  // Instrument details
-  const otelDetails = [];
-  if (metric.otel.monotonic !== undefined) {
-    otelDetails.push(`Monotonic: ${metric.otel.monotonic}`);
-  }
-  if (metric.otel.async !== undefined) {
-    otelDetails.push(`Async: ${metric.otel.async}`);
-  }
-  if (otelDetails.length > 0) {
-    addMetadataRow(metaTable, 'Instrument', otelDetails.join(', '));
-  }
-  
-  metricDiv.appendChild(metaTable);
 
   // Attributes in a collapsible details element
   if (metric.attributes && metric.attributes.length > 0) {
