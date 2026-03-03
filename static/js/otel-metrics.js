@@ -152,17 +152,22 @@ function renderMetric(metric, namespaceDefault) {
   }
   
   metricDiv.appendChild(metaTable);
-  
-  // Attributes
+
+  // Attributes in a collapsible details element
   if (metric.attributes && metric.attributes.length > 0) {
-    const attrsHeading = document.createElement('h5');
-    attrsHeading.textContent = 'Attributes';
-    metricDiv.appendChild(attrsHeading);
-    
+    const details = document.createElement('details');
+    details.className = 'metric-attributes-details';
+
+    const summary = document.createElement('summary');
+    summary.textContent = `Attributes (${metric.attributes.length})`;
+    details.appendChild(summary);
+
     const attrsList = renderAttributeReferences(metric.attributes);
-    metricDiv.appendChild(attrsList);
+    details.appendChild(attrsList);
+
+    metricDiv.appendChild(details);
   }
-  
+
   return metricDiv;
 }
 
@@ -173,18 +178,7 @@ function renderAttributeReferences(attributes) {
   const table = document.createElement('table');
   table.className = 'attribute-references';
 
-  // Table header
-  const thead = document.createElement('thead');
-  const headerRow = document.createElement('tr');
-  ['Attribute', 'Cardinality'].forEach(text => {
-    const th = document.createElement('th');
-    th.textContent = text;
-    headerRow.appendChild(th);
-  });
-  thead.appendChild(headerRow);
-  table.appendChild(thead);
-
-  // Table body
+  // Table body (no header)
   const tbody = document.createElement('tbody');
   attributes.forEach(attr => {
     const row = document.createElement('tr');

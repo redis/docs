@@ -74,6 +74,43 @@
   margin-left: 0.5rem;
 }
 
+/* Collapsible attributes section */
+.metric-attributes-details {
+  margin: 1rem 0;
+}
+
+.metric-attributes-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.5rem;
+  background: #f0f0f0;
+  border-radius: 4px;
+  user-select: none;
+  list-style: none;
+}
+
+.metric-attributes-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.metric-attributes-details summary::before {
+  content: '▶ ';
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.metric-attributes-details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.metric-attributes-details summary:hover {
+  background: #e8e8e8;
+}
+
+.metric-attributes-details .attribute-references {
+  margin-top: 0.5rem;
+}
+
 /* Metadata table */
 .metric-metadata {
   width: auto;
