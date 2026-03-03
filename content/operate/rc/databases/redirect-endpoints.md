@@ -18,7 +18,7 @@ You can redirect any database's dynamic endpoints to any Redis Cloud Pro databas
 
 Use endpoint redirection to seamlessly migrate your application traffic to a different database within the same Redis Cloud account. There is no need to update the endpoints in your application, since they'll remain the same. For example, you might want to:
 
-- Upgrade your database's subscription from an Essentials Plan to a Pro Plan
+- Upgrade your database's subscription from an [Essentials Plan to a Pro Plan]({{< relref "/operate/rc/subscriptions/upgrade-essentials-pro" >}})
 - Move between Redis Cloud offerings, such as Redis on RAM to Redis Flex
 - Split a subscription or combine databases from multiple subscriptions into one
 - Migrate your database to a different cloud provider, region, or availability zone
@@ -38,9 +38,25 @@ This phased approach minimizes risk and allows controlled client reconnections t
 
 Read the following sections to prepare for endpoint redirection.
 
-### Scope and behavior
+### Scope and impact
 
 This process redirects a source database's dynamic endpoints to a selected target database, including both public and private (if available) endpoints. **Redirecting endpoints does not migrate the data in your database.** You can choose to redirect the endpoints without migrating your data. If you need your data to be available in the target database, you must [migrate your data]({{< relref "/operate/rc/databases/migrate-databases" >}}) to the target database **before** you redirect your endpoints.
+
+Plan for the following impacts when redirecting your endpoints:
+- Short-lived connection disruptions may occur as clients reconnect to the database, depending on client reconnection behavior.
+- Application behavior may change if the target differs in configuration from the source database. See [Redirection compatibility](#redirection-compatibility) for a list of differences that can change application behavior.
+
+We recommend redirecting during a low-traffic window.
+
+#### Redirecting endpoints after data migration
+
+If you [migrated your data]({{< relref "/operate/rc/databases/migrate-databases" >}}) to the target database before redirecting your endpoints, make sure that:
+- The import or replication is finished.
+- Basic metrics for both the source and target databases are reporting normally.
+- The application authentication and authorization are set up correctly for the target database.
+- You have tested connection to the target database to confirm connectivity and credentials.
+
+Different applications have different availability and consistency requirements. Pausing writes during endpoint redirection is a standard best practice to help ensure data consistency. Still, you can choose the timing and behavior that fits your system (for example, whether to allow reads, how long to pause traffic, and what validation to run).
 
 ### Prerequisites
 
@@ -88,13 +104,13 @@ To redirect your database endpoints:
 
     {{<image filename="images/rc/migrate-data-redirect-pro-endpoints.png" alt="Select the target database from the database list." >}}
 
-    If the source database is a Redis Cloud Essentials database, you can choose whether to map the original endpoint to the **Public** or the **Private** endpoint.
-
-    {{<image filename="images/rc/migrate-data-redirect-essentials-endpoints.png" alt="Choose whether to map the original endpoint to the Public or Private endpoint." >}}
-
 1. If you want to assign the same [Role-based Access Control (RBAC) roles]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to the target database that are assigned to the source database, select **Assign the same ACLs to the target database**.
 
     {{<image filename="images/rc/migrate-data-redirect-assign-acls.png" alt="Select **Assign the same ACLs to the target database** to assign the same roles to the target database." >}}
+
+    {{< note >}}
+If you migrated your data and want a controlled transition from the source to the target database, this is the point to pause writes based on your application's consistency requirements. Pausing writes before redirecting your endpoints helps ensure data consistency.
+    {{< /note >}}
 
 1. Select **I acknowledge this action will redirect my database endpoints** to confirm that you understand that this action will redirect your database endpoints. Then select **Redirect endpoints**.
 

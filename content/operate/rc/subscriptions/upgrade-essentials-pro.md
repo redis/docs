@@ -34,10 +34,8 @@ To upgrade your Essentials database to Redis Cloud Pro:
 [Create a new database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) with the following specifications:
 
 - Select **Redis Cloud Pro** for your subscription type.
-- Select the **Version** that matches the Redis version your Essentials subscriptions use.
 - In the [**Sizing tab**]({{< relref "/operate/rc/databases/create-database/create-pro-database-new#sizing-tab" >}}), create your databases with the following specifications:
     - Set the memory limit to comply with [Active-Passive memory requirements]({{< relref "/operate/rc/databases/migrate-databases#active-passive-memory-requirements" >}}) if you want to migrate your database using [Active-Passive]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}).
-    - Select any advanced capabilities that your Essentials database offers. You can find a list of enabled advanced capabilities in the [Configuration tab]({{< relref "/operate/rc/databases/view-edit-database#configuration-details-tab" >}}) of your database.
     - In **More options**, set the **Port** to **Manually assign**, and enter the port of your Essentials database. You must set the port number to match the port of your Essentials database if you want to migrate your database endpoints. You can find the port in the endpoint of your database on the **Configuration** tab of your database.
 
 ### Migrate data
