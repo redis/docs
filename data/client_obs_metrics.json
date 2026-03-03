@@ -607,11 +607,6 @@
           }
         }
       ]
-    },
-    {
-      "id": "misc",
-      "title": "Misc",
-      "metrics": []
     }
   ],
   "attributes_definitions": {
