@@ -18,6 +18,8 @@ Redis Enterprise for Kubernetes gives you the speed and durability of [Redis Ent
 
 Kubernetes is a rapidly evolving platform with a short release cycle (around 4 months). This frequent influx of new features, enhancements and bug fixes means Kubernetes distributions move in and out of support quickly. Redis Enterprise is also a fast-moving product, and is compatible and tested only on distributions listed as [supported distributions.]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions">}})
 
+Redis Enterprise for Kubernetes is compatible with [CNCF-conformant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes platforms. The operator follows standard Kubernetes APIs and practices and is designed to run consistently across certified Kubernetes environments.
+
 Each version of Redis Enterprise for Kubernetes is tested to ensure the version of Redis Enterprise works with the [supported Kubernetes distributions]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions">}}) at the time. Both the Kubernetes version and the Redis Enterprise version must be supported for the operator to function correctly. We encourage you to upgrade Redis Enterprise for Kubernetes frequently, not only to get the benefit of enhancements and bug fixes, but to keep your software supported.
 
 Supported platforms are listed in the [release notes]({{<relref "/operate/kubernetes/release-notes">}}) and in the [supported platforms reference.]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions">}})
