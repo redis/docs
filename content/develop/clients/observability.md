@@ -43,7 +43,7 @@ client takes as it executes a command. Each step or *span* (in OTel terminology)
 represents a specific operation, such as sending a command to the server
 or waiting for a reply. In the trace, each span is recorded using an identifier
 to represent the type of operation along with its start and finish time, its
-completion or error status, and possibly other metadata.
+completion or error status, and other information about the operation.
 
 For example, a simple trace for a `GET` command might look like this:
 
@@ -108,3 +108,54 @@ over time. This can help you find operations that are slow on average
 compared to others (suggesting a performance bottleneck that could be optimized)
 or that have a high error rate (suggesting a deeper problem that could be fixed
 to improve reliability).
+
+### Elements of a span
+
+Each span in a trace contains the following information:
+
+- **Span ID**: A unique identifier for the span within the trace.
+- **Trace ID**: A unique identifier for the entire trace.
+- **Trace flags**: Boolean properties of the span, such as sampling status.
+- **Trace state**: An optional value specific to the vendor or application.
+- **Span name (operation name)**: A string that identifies the type of operation
+  represented by the span. For example, `redis.connection.command` or
+  `redis.connection.send`.
+- **Parent span ID**: The ID of the span that is the immediate parent of this span in
+  the trace tree. The top-level span in a trace has no parent and is called the *root span*.
+- **Span kind**: An enum value indicating the relationship of this span to others in the trace.
+  The available kinds are `client`, `server`, `producer`, `consumer`, and `internal`. See
+  [Span kind](https://uptrace.dev/opentelemetry/distributed-tracing#span-kind) in the
+  OpenTelemetry docs for more information.
+- **Start and end timestamps**: The time at which the span started and finished executing.
+- **Status**: An enum value indicating the success or failure of the operation. The available
+  statuses are `ok`, `error`, and `unset`.
+- **Attributes**: A set of key-value pairs that provide additional information about the operation.
+- **Events**: A list of events that occurred during the span's lifetime. Each event has a single
+  timestamp (since they represent immediate occurrences rather than durations) and a name, and may
+  also have a set of attributes.
+- **Links**: A list of links to other spans that are related to this one.
+
+See [Spans](https://uptrace.dev/opentelemetry/distributed-tracing#spans) in the
+OpenTelemetry docs for more information.
+
+## Redis metric groups
+
+In Redis clients, the metrics collected by OTel are organized into the following
+metric groups:
+
+- `resiliency`: data related to the availablility and health of the Redis connection.
+- `connection-basic`: minimal metrics about Redis connections made by the client.
+- `connection-advanced`: more detailed metrics about Redis connections.
+- `command`: metrics about Redis commands executed by the client.
+- `client-side-caching`: metrics about
+  [client-side caching]({{< relref "/develop/clients/client-side-caching" >}}) operations.
+- `streaming`: metrics about
+  [stream]({{< relref "/develop/data-types/streams" >}}) operations.
+- `pubsub`: metrics about
+  [pub/sub]({{< relref "/develop/data-types/pubsub" >}}) operations.
+
+When you configure the client to activate OTel, you can select which metric groups
+you are interested in, although all metrics in the group will be collected even
+if you don't use them. The sections below describe the metrics in each group in more detail.
+
+
