@@ -64,6 +64,10 @@ function renderMetricGroup(group, namespaceDefault) {
   titleLink.className = 'anchor-link';
   title.appendChild(titleLink);
 
+  // Add copy link icon
+  const copyIcon = createCopyLinkIcon(`#group-${group.id}`);
+  title.appendChild(copyIcon);
+
   // Add group ID in code font
   title.appendChild(document.createTextNode(' '));
   const groupIdCode = document.createElement('code');
@@ -114,6 +118,10 @@ function renderMetric(metric, namespaceDefault) {
   nameLink.appendChild(nameCode);
 
   nameHeading.appendChild(nameLink);
+
+  // Add copy link icon
+  const copyIcon = createCopyLinkIcon(`#metric-${fullName}`);
+  nameHeading.appendChild(copyIcon);
 
   // Add metric type badge with link to OTel docs
   nameHeading.appendChild(document.createTextNode(' '));
@@ -334,5 +342,46 @@ function formatUnit(unit) {
     return `${unit.symbol} (${unit.semantic})`;
   }
   return unit.symbol || unit.semantic || '';
+}
+
+/**
+ * Helper: Create a copy link icon
+ */
+function createCopyLinkIcon(anchor) {
+  const icon = document.createElement('a');
+  icon.href = anchor;
+  icon.className = 'copy-link-icon';
+  icon.setAttribute('aria-label', 'Copy link to clipboard');
+  icon.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+    </svg>
+  `;
+
+  // Copy link to clipboard on click
+  icon.addEventListener('click', function(e) {
+    e.preventDefault();
+    const fullUrl = window.location.origin + window.location.pathname + anchor;
+    navigator.clipboard.writeText(fullUrl).then(() => {
+      // Visual feedback
+      const originalHTML = icon.innerHTML;
+      icon.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      `;
+      icon.classList.add('copied');
+
+      setTimeout(() => {
+        icon.innerHTML = originalHTML;
+        icon.classList.remove('copied');
+      }, 2000);
+    }).catch(err => {
+      console.error('Failed to copy link:', err);
+    });
+  });
+
+  return icon;
 }
 

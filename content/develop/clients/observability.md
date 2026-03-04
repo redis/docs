@@ -143,16 +143,16 @@ OpenTelemetry docs for more information.
 In Redis clients, the metrics collected by OTel are organized into the following
 metric groups:
 
-- `resiliency`: data related to the availablility and health of the Redis connection.
-- `connection-basic`: minimal metrics about Redis connections made by the client.
-- `connection-advanced`: more detailed metrics about Redis connections.
-- `command`: metrics about Redis commands executed by the client.
-- `client-side-caching`: metrics about
+- [`resiliency`](#group-resiliency): data related to the availablility and health of the Redis connection.
+- [`connection-basic`](#group-connection-basic): minimal metrics about Redis connections made by the client.
+- [`connection-advanced`](#group-connection-advanced): more detailed metrics about Redis connections.
+- [`command`](#group-command): metrics about Redis commands executed by the client.
+- [`client-side-caching`](#group-client-side-caching): metrics about
   [client-side caching]({{< relref "/develop/clients/client-side-caching" >}}) operations.
-- `streaming`: metrics about
+- [`streaming`](#group-streaming): metrics about
   [stream]({{< relref "/develop/data-types/streams" >}}) operations.
-- `pubsub`: metrics about
-  [pub/sub]({{< relref "/develop/data-types/pubsub" >}}) operations.
+- [`pubsub`](#group-pubsub): metrics about
+  [pub/sub]({{< relref "/develop/pubsub" >}}) operations.
 
 When you configure the client to activate OTel, you can select which metric groups
 you are interested in, although all metrics in the group will be collected even

@@ -23,6 +23,13 @@
   border-bottom: none;
 }
 
+.otel-metric-group h3 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .group-description {
   color: #666;
   font-style: italic;
@@ -46,6 +53,13 @@
   background: #f9f9f9;
   border-left: 3px solid #0066cc;
   border-radius: 4px;
+}
+
+.otel-metric h4 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .metric-description {
@@ -324,6 +338,36 @@
 
 .anchor-link:hover {
   text-decoration: underline;
+}
+
+/* Copy link icon */
+.copy-link-icon {
+  display: inline-flex;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+  color: #666;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+h3:hover .copy-link-icon,
+h4:hover .copy-link-icon {
+  opacity: 1;
+}
+
+.copy-link-icon:hover {
+  color: #0066cc;
+}
+
+.copy-link-icon.copied {
+  color: #7cb342;
+}
+
+.copy-link-icon svg {
+  display: block;
+  width: 16px;
+  height: 16px;
 }
 
 /* Responsive adjustments */
