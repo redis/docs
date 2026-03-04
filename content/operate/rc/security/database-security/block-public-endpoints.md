@@ -49,6 +49,17 @@ To block the public endpoints of an existing Pro subscription:
 
 After your changes are saved, any incoming connections to the public endpoint of your database will be rejected, and only connections through a private connectivity method will be allowed.
 
+## Turn on passwordless authentication for the default user
+
+If you have blocked the public endpoint for your Redis Cloud Pro subscription, you can turn on passwordless authentication for the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) for any database in that subscription.
+
+To turn on passwordless authentication:
+
+1. From the database **Configuration** tab, select **Edit**.
+1. In the **Security** section, select **Use passwordless auth** to turn on passwordless authentication.
+    {{<image filename="images/rc/database-configuration-security-passwordless.png" alt="Turn on passwordless authentication for the default user." >}}
+1. Select **Save database** to save your changes.
+
 ## Private connectivity methods
 
 Redis Cloud supports the following private connectivity options:
