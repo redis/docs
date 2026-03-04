@@ -47,6 +47,14 @@ For more detailed release notes, select a build version from the following table
 
 - The fully qualified domain name is now validated using the FQDN library instead of a regex during cluster creation.
 
+### Breaking changes
+
+- Redis Software installation script changes:
+
+    - Added `--skip-updating-env-path` option to [`install.sh`]({{<relref "/operate/rs/installing-upgrading/install/install-script">}}).
+
+    - Added `skip_updating_env_path` parameter to the [installation answers file]({{<relref "/operate/rs/installing-upgrading/install/manage-installation-questions#configure-file-to-answer">}}).
+
 ### Reserved ports
 
 Make sure the following ports are open before upgrading Redis Software.
