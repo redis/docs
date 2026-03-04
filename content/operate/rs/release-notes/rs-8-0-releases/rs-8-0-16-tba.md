@@ -126,6 +126,12 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ## Version changes
 
+### Deprecations
+
+#### API deprecations
+
+- Deprecated `event_archive_cleanup_task_settings` for `job_scheduler` REST API requests.
+
 ### Supported platforms
 
 The following table provides a snapshot of supported platforms as of this Redis Software release. See the [supported platforms reference]({{< relref "/operate/rs/references/supported-platforms" >}}) for more details about operating system compatibility.

@@ -143,6 +143,8 @@ See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networ
 
 - Deprecated the `module_args` field for [database]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) REST API requests. Use the new module configuration objects `search`, `timeseries`, and `probabilistic` instead.
 
+- Deprecated `event_archive_cleanup_task_settings` for `job_scheduler` REST API requests.
+
 #### Redis Query Engine deprecations
 
 - Deprecated commands: `FT.ADD`, `FT.SAFEADD`, `FT.DEL`, `FT.GET`, `FT.MGET`, `FT.SYNADD`, `FT.DROP`, `FT._DROPIFX`, and `FT.CONFIG`.
