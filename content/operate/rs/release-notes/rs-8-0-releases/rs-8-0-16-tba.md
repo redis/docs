@@ -118,6 +118,12 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS128780: Reduced excessive logging by removing unnecessary "Dropping obsolete sample" message from the CCS log file.
 
+- RS185428: Improved error messages for missing root or chain of trust issues during certificate upload.
+
+- RS180061: Fixed an issue where user password update REST API requests would fail if the new password matched the current password.
+
+- RS176555: Fixed an issue that could cause the DMC to crash if a client disconnected during the authentication process.
+
 ## Version changes
 
 ### Supported platforms
