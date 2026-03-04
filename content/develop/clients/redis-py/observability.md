@@ -70,8 +70,8 @@ The available options for `OTelConfig` are described in the table below:
 | Option | Type | Description |
 | --- | --- | --- |
 | `metric_groups` | `List[MetricGroup]` | List of metric groups to enable. By default, only `CONNECTION_BASIC` and `RESILIENCY` are enabled. See [Redis metric groups]({{< relref "/develop/clients/observability#redis-metric-groups" >}}) for a list of available groups. |
-| `include_commands` | `List[str]` | List of Redis commands to track. If set, only these commands will be tracked. |
-| `exclude_commands` | `List[str]` | List of Redis commands to exclude from tracking. If set, all commands except these will be tracked. |
+| `include_commands` | `List[str]` | List of Redis commands to track. If set, only these commands will be tracked. Note that you should use the Redis command name rather than the Python method name where the two differ. |
+| `exclude_commands` | `List[str]` | List of Redis commands to exclude from tracking. If set, all commands except these will be tracked. Note that you should use the Redis command name rather than the Python method name where the two differ. |
 | `hide_pubsub_channel_names` | `bool` | If true, channel names in pub/sub metrics will be hidden. |
 | `hide_stream_names` | `bool` | If true, stream names in streaming metrics will be hidden. |
 | `buckets_operation_duration` | `List[float]` | List of bucket boundaries for the [`operation.duration`]({{< relref "/develop/clients/observability/#metric-redis.client.db.client.operation.duration" >}}) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |

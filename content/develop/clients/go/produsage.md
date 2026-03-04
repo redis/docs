@@ -72,7 +72,7 @@ more detailed discussion of error handling approaches in `go-redis`.
 `go-redis` supports [OpenTelemetry](https://opentelemetry.io/). This lets
 you trace command execution and monitor your server's performance.
 You can use this information to detect problems before they are reported
-by users. See [Observability]({{< relref "/develop/clients/go#observability" >}})
+by users. See [Observability]({{< relref "/develop/clients/go/observability" >}})
 for more information.
 
 ### Retries
