@@ -1,0 +1,12 @@
+{
+  "name": "node-redis-examples",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "node sample_test.js"
+  },
+  "dependencies": {
+    "redis": "^5.0.0"
+  }
+}
+

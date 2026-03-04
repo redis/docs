@@ -1,0 +1,2 @@
+# Redis Python client
+redis>=5.0.0

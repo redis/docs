@@ -1,0 +1,11 @@
+[package]
+name = "redis_examples"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+redis = "1.0"
+
+[dev-dependencies]
+# Tests use the same redis dependency
+
