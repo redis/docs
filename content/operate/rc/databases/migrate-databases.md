@@ -141,11 +141,22 @@ Active-Passive sync lets you migrate data while apps and other connections are u
 Do not write to the target database until turning off Active-Passive. Writing to the target database of an Active-Passive setup can cause data consistency issues and replication failures. See [Active-Passive replication considerations]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md#active-passive-replication-considerations" >}}) for more information.
 {{< /warning >}}
 
-## Active-Passive memory requirements
+### Active-Passive memory requirements
 
 Active-Passive sync requires more memory than data import.  On average, you need an extra 25% memory on top of other requirements, though specific requirements depend on the data types and other factors.  
 
 To illustrate, suppose you want to migrate a 1&nbsp;GB source database without replication to a target database with replication enabled.  Here, the target database memory limit should be at least 2.5&nbsp;GB to avoid data loss.
 
-Once the databases are synced, you can disable Active-Passive for the target database.  Before doing so, however, verify that apps and other connections have switched to the target database; otherwise, you may lose data.
+## Next steps
 
+If you want to redirect your application's connections to the target database, you can [redirect your database endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) to the target database. 
+
+Before you redirect your endpoints, make sure:
+- The import or replication is finished.
+- Basic metrics for both the source and target databases are reporting normally.
+- The application authentication and authorization are set up correctly for the target database.
+- You have tested connection to the target database to confirm connectivity and credentials.
+
+Different applications have different availability and consistency requirements. Pausing writes during endpoint redirection is a standard best practice to help ensure data consistency. Still, you can choose the timing and behavior that fits your system (for example, whether to allow reads, how long to pause traffic, and what validation to run).
+
+Once the databases are synced and the endpoints are redirected, you can turn off Active-Passive for the target database.  Before doing so, however, verify that apps and other connections have switched to the target database; otherwise, you may lose data.

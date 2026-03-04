@@ -11,7 +11,7 @@ linkTitle: Connect
 weight: 12
 ---
 
-After you [create your database]({{< relref "/operate/rc/databases/create-database" >}}), you can connect to it.
+After you [create your database]({{< relref "/operate/rc/databases/create-database" >}}), you can connect to it using the public or private endpoint.
 
 To connect to the database, you need your username and password. By default, your database is protected by a [**Default user**]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) called `default` and a masked **Default user password**. You can see the default user password in the **Security** section of the **Configuration** details for your database. Select the eye icon to show or hide the password.    
 
@@ -97,6 +97,12 @@ The connection wizard provides code snippets to connect to your database with th
 If the username and password are not already filled in, replace `<username>` and `<password>` with your username and password.
 
 See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients.
+
+{{< note >}}
+Databases created before {{RELEASE DATE}} have a set of default static endpoints and dynamic endpoints that can be redirected to a Redis Cloud Pro database. We recommend using the dynamic endpoints for your application so that you can migrate your database endpoints to a different database in the future without any code changes. See [Redirect dynamic endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) for more information.
+
+Databases created after {{RELEASE DATE}} only have dynamic endpoints. You can redirect those endpoints at any time.
+{{< /note >}}
 
 ### redis-cli {#using-rediscli}
 
