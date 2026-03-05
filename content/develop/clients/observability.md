@@ -32,8 +32,8 @@ observability framework to let you gather performance metrics and execution trac
 for your application. This can help you optimize performance and pinpoint problems
 quickly. Currently, the following clients support OTel:
 
-- [redis-py]({{< relref "/develop/clients/redis-py#observability" >}})
-- [go-redis]({{< relref "/develop/clients/go#observability" >}})
+- [redis-py]({{< relref "/develop/clients/redis-py/observability" >}})
+- [go-redis]({{< relref "/develop/clients/go/observability" >}})
 
 ## Tracing overview
 
