@@ -314,23 +314,6 @@ function renderAttributeCard(attr) {
 }
 
 /**
- * Helper: Add a metadata row to a table
- */
-function addMetadataRow(table, label, value) {
-  const row = document.createElement('tr');
-
-  const labelCell = document.createElement('th');
-  labelCell.textContent = label;
-  row.appendChild(labelCell);
-
-  const valueCell = document.createElement('td');
-  valueCell.textContent = value;
-  row.appendChild(valueCell);
-
-  table.appendChild(row);
-}
-
-/**
  * Helper: Format unit object
  */
 function formatUnit(unit) {
@@ -342,6 +325,54 @@ function formatUnit(unit) {
 }
 
 /**
+ * Helper: Create SVG link icon
+ */
+function createLinkSvg() {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  svg.setAttribute('width', '16');
+  svg.setAttribute('height', '16');
+  svg.setAttribute('viewBox', '0 0 24 24');
+  svg.setAttribute('fill', 'none');
+  svg.setAttribute('stroke', 'currentColor');
+  svg.setAttribute('stroke-width', '2');
+  svg.setAttribute('stroke-linecap', 'round');
+  svg.setAttribute('stroke-linejoin', 'round');
+
+  const path1 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path1.setAttribute('d', 'M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71');
+  svg.appendChild(path1);
+
+  const path2 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path2.setAttribute('d', 'M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71');
+  svg.appendChild(path2);
+
+  return svg;
+}
+
+/**
+ * Helper: Create SVG checkmark icon
+ */
+function createCheckmarkSvg() {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  svg.setAttribute('width', '16');
+  svg.setAttribute('height', '16');
+  svg.setAttribute('viewBox', '0 0 24 24');
+  svg.setAttribute('fill', 'none');
+  svg.setAttribute('stroke', 'currentColor');
+  svg.setAttribute('stroke-width', '2');
+  svg.setAttribute('stroke-linecap', 'round');
+  svg.setAttribute('stroke-linejoin', 'round');
+
+  const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+  polyline.setAttribute('points', '20 6 9 17 4 12');
+  svg.appendChild(polyline);
+
+  return svg;
+}
+
+/**
  * Helper: Create a copy link icon
  */
 function createCopyLinkIcon(anchor) {
@@ -349,29 +380,27 @@ function createCopyLinkIcon(anchor) {
   icon.href = anchor;
   icon.className = 'copy-link-icon';
   icon.setAttribute('aria-label', 'Copy link to clipboard');
-  icon.innerHTML = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-    </svg>
-  `;
+
+  // Add the link SVG icon
+  const linkSvg = createLinkSvg();
+  icon.appendChild(linkSvg);
 
   // Copy link to clipboard on click
   icon.addEventListener('click', function(e) {
     e.preventDefault();
     const fullUrl = window.location.origin + window.location.pathname + anchor;
     navigator.clipboard.writeText(fullUrl).then(() => {
-      // Visual feedback
-      const originalHTML = icon.innerHTML;
-      icon.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-      `;
+      // Visual feedback - replace link icon with checkmark
+      icon.removeChild(icon.firstChild);
+      const checkmarkSvg = createCheckmarkSvg();
+      icon.appendChild(checkmarkSvg);
       icon.classList.add('copied');
 
       setTimeout(() => {
-        icon.innerHTML = originalHTML;
+        // Restore link icon
+        icon.removeChild(icon.firstChild);
+        const linkSvg = createLinkSvg();
+        icon.appendChild(linkSvg);
         icon.classList.remove('copied');
       }, 2000);
     }).catch(err => {
