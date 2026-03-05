@@ -101,9 +101,8 @@ function renderMetric(metric, namespaceDefault) {
   const metricDiv = document.createElement('div');
   metricDiv.className = 'otel-metric';
 
-  // Determine full metric name
-  const namespace = metric.namespace || namespaceDefault;
-  const fullName = namespace ? `${namespace}.${metric.name}` : metric.name;
+  // Use metric name as-is (already includes full prefix)
+  const fullName = metric.name;
   metricDiv.id = `metric-${fullName}`;
 
   // Metric name heading in code font
@@ -338,10 +337,8 @@ function formatUnit(unit) {
   if (typeof unit === 'string') {
     return unit;
   }
-  if (unit.symbol && unit.semantic) {
-    return `${unit.symbol} (${unit.semantic})`;
-  }
-  return unit.symbol || unit.semantic || '';
+  // Prefer semantic value over symbol
+  return unit.semantic || unit.symbol || '';
 }
 
 /**
