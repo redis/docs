@@ -242,7 +242,7 @@ No shard restart is required. The new configuration applies automatically.
 
 See the [`query_performance_factor` object reference]({{<relref "/operate/rs/references/rest-api/objects/bdb/query_performance_factor">}}) for more details.
 
-### Prior to Redis 8 {#rest-api-prior}
+### Prior to Redis Software 8 {#rest-api-prior}
 
 You can configure the query performance factor when you [create a new database](#create-db-rest-api) or [update an existing database](#update-db-rest-api) using the Redis Software [REST API]({{<relref "/operate/rs/references/rest-api">}}).
 
