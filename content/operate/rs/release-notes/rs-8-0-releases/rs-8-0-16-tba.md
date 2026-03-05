@@ -77,7 +77,19 @@ For more information, see [Manage Active-Active databases]({{< relref "/operate/
 
 ### Enhancements
 
-- TBA
+- Added the ability to undo configuration overrides for an Active-Active database instance and reset it to the default database configuration using a REST API request to [update an Active-Active database]({{<relref "/operate/rs/references/rest-api/requests/crdbs#patch-crdbs">}}). For example:
+
+    ```sh
+    PATCH /v1/crdbs/<crdb_guid>
+    { "instances": [{
+        "db_uid": "<local_database_instance_id>",
+        "id": <instance_id>,
+        "db_config": { "<overridden_field_name>": null }
+      }
+    ]}
+    ```
+
+- For [smart client handoffs]({{<relref "/operate/rs/clusters/configure/sch">}}), the delay between notifying clients and performing an operation is now configurable using the new `state_machine_smart_client_handoffs_delay_ms` cluster setting in the REST API.
 
 ### Redis database versions
 
@@ -123,6 +135,8 @@ The following table shows which Redis modules are compatible with each Redis dat
 - RS180061: Fixed an issue where user password update REST API requests would fail if the new password matched the current password.
 
 - RS176555: Fixed an issue that could cause the DMC to crash if a client disconnected during the authentication process.
+
+- RS167847: Fixed an issue where turning off `alert_mgr` also turned off `event_log`.
 
 ## Version changes
 
