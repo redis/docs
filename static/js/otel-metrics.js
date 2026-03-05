@@ -64,16 +64,16 @@ function renderMetricGroup(group, namespaceDefault) {
   titleLink.className = 'anchor-link';
   title.appendChild(titleLink);
 
-  // Add copy link icon
-  const copyIcon = createCopyLinkIcon(`#group-${group.id}`);
-  title.appendChild(copyIcon);
-
   // Add group ID in code font
   title.appendChild(document.createTextNode(' '));
   const groupIdCode = document.createElement('code');
   groupIdCode.textContent = `(${group.id})`;
   groupIdCode.className = 'group-id';
   title.appendChild(groupIdCode);
+
+  // Add copy link icon
+  const copyIcon = createCopyLinkIcon(`#group-${group.id}`);
+  title.appendChild(copyIcon);
 
   groupDiv.appendChild(title);
 

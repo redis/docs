@@ -136,4 +136,20 @@ connect it to a Redis client and visualize the metric data as it arrives.
 
 ## Metrics reference
 
+The metric groups and the metrics they contain are described below. The
+name in parentheses after each group name is the group's identifier, which you
+use when you configure the client to select which metrics to collect.
+
+The metrics contain *attributes* that provide extra information (such as
+the client library and server details) that you can use to filter and
+aggregate the data. The attributes are described in the Attributes
+section following the metric groups. The badge shown after the attribute
+name can be any of the following:
+
+- `required`: This attribute will always be present in the metrics.
+- `optional`: This attribute may be present in the metrics.
+- `conditionally required`: This attribute will be present in the metrics only if a certain condition is met,
+  such as when a specific error occurs. The condition is described in the attribute description.
+- `recommended`: Specific client libraries may not support this attribute in some situations.
+
 {{< otel-metric-groups >}}
