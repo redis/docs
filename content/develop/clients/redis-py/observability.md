@@ -16,7 +16,7 @@ weight: 75
 ---
 
 `redis-py` has built-in support for [OpenTelemetry](https://opentelemetry.io/) (OTel)
-instrumentation to collect traces and metrics. This can be very helpful for
+instrumentation to collect metrics. This can be very helpful for
 diagnosing problems and improving the performance and connection resiliency of
 your application. See the
 [Observability overview]({{< relref "/develop/clients/observability" >}})
