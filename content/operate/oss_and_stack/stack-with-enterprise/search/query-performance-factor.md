@@ -180,7 +180,7 @@ After you update the query performance factor for an existing database, restart 
 
 ## Configure query performance factor with the REST API
 
-### Redis 8.x and later {#rest-api-v8}
+### Redis Software 8.x and later {#rest-api-v8}
 
 Starting with Redis Software 8.x, you can configure the query performance factor using the [`query_performance_factor`]({{<relref "/operate/rs/references/rest-api/objects/bdb/query_performance_factor">}}) object in the [BDB object]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}). You no longer need to manually set `sched_policy`, `conns`, or module `WORKERS` parameters. Changes take effect immediately without restarting shards.
 
