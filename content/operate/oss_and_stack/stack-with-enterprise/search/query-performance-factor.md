@@ -77,7 +77,7 @@ The following table shows the number of CPUs required for each performance facto
 
 ### Redis Software 8.x and later {#config-db-ui-v8}
 
-Starting with Redis Software 8.x, configuring the query performance factor is simplified. You can select the desired query performance factor directly from the Cluster Manager UI without manually setting connection routing, connection limits, or module parameters. Changes to the query performance factor for existing databases take effect immediately without restarting shards.
+Starting with Redis Software 8.x, configuring the query performance factor is simplified. You can select the query performance factor directly from the Cluster Manager UI without manually setting connection routing, connection limits, or module parameters. Changes to the query performance factor for existing databases take effect immediately without restarting shards.
 
 To configure the query performance factor:
 
