@@ -97,7 +97,7 @@ To configure the query performance factor:
 
 The new configuration applies automatically. No shard restart is required, even for existing databases.
 
-### Prior to Redis 8 {#config-db-ui-prior}
+### Prior to Redis Software 8 {#config-db-ui-prior}
 
 To manually configure the query performance factor in Redis Software versions prior to 8.x:
 
