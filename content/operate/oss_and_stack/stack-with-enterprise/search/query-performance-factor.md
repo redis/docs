@@ -87,7 +87,7 @@ To configure the query performance factor:
 
     {{<image filename="images/rs/screenshots/databases/rs-qpf-add-parameters-v8.png" alt="The Create database screen with the Add parameters button in the Capabilities section.">}}
 
-1. In the **Parameters** dialog, use the **Query performance factor** dropdown to select the desired performance factor value (Standard, 2x, 4x, 6x, 8x, 10x, 12x, 14x, or 16x).
+1. In the **Parameters** dialog, use the **Query performance factor** dropdown to select the performance factor value (Standard, 2x, 4x, 6x, 8x, 10x, 12x, 14x, or 16x).
 
     {{<image filename="images/rs/screenshots/databases/rs-qpf-select-factor-v8.png" alt="The Parameters dialog with the Query performance factor dropdown showing available scaling options.">}}
 
