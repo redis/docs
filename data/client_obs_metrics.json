@@ -94,9 +94,53 @@
             {
               "ref": "network.peer.address",
               "cardinality": "optional"
+            },
+            {
+              "ref": "network.peer.port",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "redis.client.connection.notification",
+              "cardinality": "optional"
             }
           ],
           "description": "Tracks server-side maintenance notifications",
+          "otel": {
+            "instrument_kind": "counter",
+            "monotonic": true,
+            "async": false
+          }
+        },
+        {
+          "name": "redis.client.geofailover.failovers",
+          "type": "Counter",
+          "unit": {
+            "symbol": "{failover}",
+            "semantic": "failovers"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.client.geofailover.reason",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.client.geofailover.fail_from",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.client.geofailover.fail_to",
+              "cardinality": "required"
+            }
+          ],
+          "description": "Tracks client-side geographic failovers",
           "otel": {
             "instrument_kind": "counter",
             "monotonic": true,
@@ -288,6 +332,14 @@
           "attributes": [
             {
               "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.client.connection.pool.name",
               "cardinality": "required"
             }
           ],
