@@ -12,6 +12,8 @@ weight: 10
 
 We thoroughly test each release of Redis Enterprise for Kubernetes against a set of Kubernetes distributions. The table below lists Redis Enterprise for Kubernetes versions and the Kubernetes distributions they support.
 
+Redis Enterprise for Kubernetes is compatible with [CNCF-conformant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes platforms. The operator follows standard Kubernetes APIs and practices and is designed to run consistently across certified Kubernetes environments.
+
 {{<note>}}x86 is currently the only computer architecture supported by Redis Enterprise for Kubernetes. Support for ARM architecture is coming in future releases.{{</note>}}
 
 <span title="Check mark icon">&#x2705;</span> Supported – This distribution is supported for this version of Redis Enterprise Software for Kubernetes.
