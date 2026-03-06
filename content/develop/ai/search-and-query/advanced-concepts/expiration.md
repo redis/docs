@@ -9,13 +9,13 @@ categories:
 - oss
 - kubernetes
 - clients
-description: How the Redis Query Engine handles expiring keys and hash fields
+description: How Redis Search handles expiring keys and hash fields
 linkTitle: Key and field expiration
 title: Key and field expiration behavior
 weight: 34
 ---
 
-The Redis Query Engine behavior with expiring keys and hash fields has been enhanced starting with Redis 8 to provide more consistent and predictable results.
+The Redis Search behavior with expiring keys and hash fields has been enhanced starting with Redis 8 to provide more consistent and predictable results.
 
 ## Key expiration
 

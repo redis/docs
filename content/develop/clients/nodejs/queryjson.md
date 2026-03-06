@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Learn how to use the Redis Query Engine with JSON and hash documents.
+description: Learn how to use Redis Search with JSON and hash documents.
 linkTitle: Index and query documents
 title: Index and query documents
 scope: example
@@ -17,7 +17,7 @@ relatedPages:
 - /develop/clients/nodejs/vecsearch
 - /develop/ai/search-and-query
 topics:
-- Redis Query Engine
+- Redis Search
 - JSON
 - hash
 weight: 2
@@ -156,5 +156,5 @@ also the same:
 
 ## More information
 
-See the [Redis Query Engine]({{< relref "/develop/ai/search-and-query" >}}) docs
+See the [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) docs
 for a full description of all query features with examples.

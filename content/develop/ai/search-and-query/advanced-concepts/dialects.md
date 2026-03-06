@@ -17,7 +17,7 @@ title: Query dialects
 weight: 16
 ---
 
-Redis Open Source currently supports four query dialects for use with the [`FT.SEARCH`]({{< relref "/commands/ft.search/" >}}), [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate/" >}}), and other Redis Query Engine commands.
+Redis Open Source currently supports four query dialects for use with the [`FT.SEARCH`]({{< relref "/commands/ft.search/" >}}), [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate/" >}}), and other Redis Search commands.
 Dialects provide for enhancing the query API incrementally, introducing innovative behaviors and new features that support new use cases in a way that does not break the API for existing applications.
 
 {{< note >}}Dialects 1, 3, and 4 are deprecated in Redis 8 in Redis Open Source. However, DIALECT 1 remains the default.
