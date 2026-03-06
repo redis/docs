@@ -29,6 +29,21 @@ Redis uses an [LRU (least recently used)]({{< relref "/develop/reference/evictio
 
 This process requires no application changes. Your existing Redis commands work across both storage tiers.
 
+### Utilization-aware RAM population
+
+Flex uses a hybrid memory model that balances performance with predictable behavior as the dataset grows. The goal is to maximize hot data in RAM while maintaining stable performance across all utilization levels.
+
+Flex considers both the configured RAM percentage and current dataset utilization:
+
+- When database utilization is below 50%, Flex uses up to 50% of configured RAM for hot data.
+- Above 50% utilization, Flex uses both RAM and flash proportionally, following the configured RAM-to-flash ratio.
+
+This ensures:
+
+- A stable performance curve across all utilization levels
+- No sudden drop-off in RAM hit-rate as the database fills
+- Predictable throughput and latency, especially for large deployments
+
 ### Storage engine
 
 Flex uses [Speedb](https://docs.speedb.io), a high-performance key-value storage engine optimized for flash drives:
@@ -75,12 +90,21 @@ For Redis Enterprise for Kubernetes version 7.22.2-22 or earlier, see [Auto Tier
 - Key and value offloading
   - Auto Tiering offloads only values to flash while keys remain in RAM.
   - Flex offloads both keys and values, which increases dataset density per node and reduces RAM consumption.
+- RAM requirements
+  - Auto Tiering requires enough RAM to hold all keys.
+  - Flex has no requirement to keep keys in RAM. Minimum RAM is based on performance goals, not key count. The minimum RAM-to-flash ratio is 10%, which enables high flash utilization without compromising architecture.
 - RAM population strategy
   - Auto Tiering fills all available RAM before offloading data to flash. This maximizes hot-data performance but can cause non-linear performance changes at high utilization.
-  - Flex uses utilization-aware RAM population. When database utilization is below 50%, Flex uses up to 50% of configured RAM for hot data. Above 50% utilization, Flex uses both RAM and flash proportionally, following the configured RAM-to-flash ratio. This provides a stable performance curve, consistent RAM hit-rate, and predictable throughput and latency.
+  - Flex uses utilization-aware RAM population. 
 - Storage engine
   - Auto Tiering uses either RocksDB or Speedb as the storage engine.
   - Flex uses Speedb only.
+- Hot data caching and dataset size
+  - Auto Tiering is limited by key memory overhead, which restricts maximum dataset size.
+  - Flex is more efficient because RAM holds hot keys and values, supporting larger datasets.
+- Performance consistency
+  - Auto Tiering depends on RAM pressure and key count.
+  - Flex provides higher RAM hit-rate and more stable latency.
 
 ## Next steps
 
