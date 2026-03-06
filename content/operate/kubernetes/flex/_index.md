@@ -76,12 +76,13 @@ Use Flex when you need to:
 
 ## Flex and Auto Tiering
 
-Flex replaces [Auto Tiering]({{< relref "/operate/kubernetes/7.22/re-clusters/auto-tiering" >}}) (formerly known as Redis on Flash). Redis Enterprise selects the implementation based on your Redis version:
+Flex replaces [Auto Tiering]({{< relref "/operate/kubernetes/7.22/re-clusters/auto-tiering" >}}) (formerly known as Redis on Flash). Redis Enterprise selects the implementation based on your database version:
 
-| Kubernetes operator version | Implementation |
-|-----------------------------|----------------|
-| 8.0.2-2 and later           | Flex           |
-| 7.22.2-22 and earlier       | Auto Tiering   |
+| Redis database version | Operator version | Redis Flex | Auto Tiering |
+|------------------------|------------------|------------|--------------|
+| 8.0 and later | 8.0.2-2 and later | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| 7.4 | 7.8.2-6 and later | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| 7.2 and earlier | 7.22.2-22 and earlier | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
 
 For Redis Enterprise for Kubernetes version 7.22.2-22 or earlier, see [Auto Tiering]({{< relref "/operate/kubernetes/7.22/re-clusters/auto-tiering" >}}).
 
