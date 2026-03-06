@@ -14,7 +14,7 @@ hideListLinks: true
 linkTitle: Coding patterns
 title: Coding patterns
 aliases: /develop/use/patterns
-weight: 60
+weight: 100
 ---
 
 The following documents describe some novel development patterns you can use with Redis.

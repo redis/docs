@@ -100,34 +100,6 @@ func main() {
 }
 ```
 
-## Observability
-
-`go-redis` supports [OpenTelemetry](https://opentelemetry.io/) instrumentation.
-to monitor performance and trace the execution of Redis commands.
-For example, the following code instruments Redis commands to collect traces, logs, and metrics:
-
-```go
-import (
-    "github.com/redis/go-redis/v9"
-    "github.com/redis/go-redis/extra/redisotel/v9"
-)
-
-client := redis.NewClient(&redis.Options{...})
-
-// Enable tracing instrumentation.
-if err := redisotel.InstrumentTracing(client); err != nil {
-	panic(err)
-}
-
-// Enable metrics instrumentation.
-if err := redisotel.InstrumentMetrics(client); err != nil {
-	panic(err)
-}
-```
-
-See the `go-redis` [GitHub repo](https://github.com/redis/go-redis/blob/master/example/otel/README.md).
-for more OpenTelemetry examples.
-
 ## More information
 
 See the other pages in this section for more information and examples.
