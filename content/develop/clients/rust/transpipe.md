@@ -33,8 +33,9 @@ There are two types of batch that you can use:
 To execute commands in a pipeline, you first create a pipeline object
 and then add commands to it using methods that resemble the standard
 command methods (for example, `set()` and `get()`). The commands are
-buffered in the pipeline and only execute when you call the `execute()`
-method on the pipeline object. This method returns a list that contains
+buffered in the pipeline and only execute when you call the `exec()`
+method on the pipeline object. If you need the results from the
+commands, use the `query()` method, which returns
 the results from all the commands in order.
 
 Note that the command methods for a pipeline always return the original
@@ -46,14 +47,10 @@ example below shows:
 
 ## Execute a transaction
 
-A pipeline actually executes as a transaction by default (that is to say,
-all commands are executed in an uninterrupted sequence). However, if you
-need to switch this behavior off, you can set the `transaction` parameter
-to `False` when you create the pipeline:
+You can execute a simple transaction by adding the `atomic()` method to a pipeline.
 
-```python
-pipe = r.pipeline(transaction=False)
-```
+{{< clients-example set="pipe_trans_tutorial" step="basic_trans" lang_filter="Rust-Sync" description="Foundational: Use transactions to execute multiple commands atomically without interruption from other clients" difficulty="beginner" >}}
+{{< /clients-example >}}
 
 ## Watch keys for changes
 
@@ -65,26 +62,15 @@ with the latest data from the keys. See
 [Transactions]({{< relref "develop/using-commands/transactions" >}})
 for more information about optimistic locking.
 
-The example below shows how to repeatedly attempt a transaction with a watched
-key until it succeeds. The code reads a string
-that represents a `PATH` variable for a command shell, then appends a new
-command path to the string before attempting to write it back. If the watched
-key is modified by another client before writing, the transaction aborts
-with a `WatchError` exception, and the loop executes again for another attempt.
-Otherwise, the loop terminates successfully.
+The example below shows how to use the `transaction()` function to
+automatically retry a transaction when watched keys are modified.
+Pass the list of keys you want to watch and a closure representing the transaction.
+The closure receives the original connection and a pipeline as parameters.
+Use the connection to read the latest values from the watched keys,
+but always use the pipeline to add all the commands that make up the watched transaction.
+If the watched keys are modified during the transaction, the `transaction()` function
+automatically retries the transaction until it succeeds.
 
-{{< clients-example set="pipe_trans_tutorial" step="trans_watch" lang_filter="Python" description="Optimistic locking: Use WATCH to monitor keys for changes and retry transactions when conflicts occur" difficulty="intermediate" >}}
+{{< clients-example set="pipe_trans_tutorial" step="trans_watch" lang_filter="Rust-Sync" description="Optimistic locking: Monitor keys for changes and retry the transaction when conflicts occur" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
-Because this is a common pattern, the library includes a convenience
-method called `transaction()` that handles the code to watch keys,
-execute the transaction, and retry if necessary. Pass
-`transaction()` a function that implements your main transaction code,
-and also pass the keys you want to watch. The example below implements
-the same basic transaction as the previous example but this time
-using `transaction()`. Note that `transaction()` can't add the `multi()`
-call automatically, so you must still place this correctly in your
-transaction function.
-
-{{< clients-example set="pipe_trans_tutorial" step="watch_conv_method" lang_filter="Python" description="Optimistic locking with convenience method: Use the transaction() helper to simplify watched transaction patterns" difficulty="intermediate" >}}
-{{< /clients-example >}}
