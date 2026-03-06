@@ -13,7 +13,7 @@ weight: 50
 
 redis-rs uses **Result types** following Rust's idiomatic error handling pattern. Code examples in the documentation often omit error handling for brevity,
 but it is essential in production code.
-This page explains how redis-rs's error handling works and how to apply
+This page explains how error handling works in redis-rs and how to apply
 some common error handling patterns. For an overview of error types and handling
 strategies, see [Error handling]({{< relref "/develop/clients/error-handling" >}}).
 
