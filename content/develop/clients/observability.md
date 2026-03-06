@@ -28,13 +28,14 @@ weight: 60
 ---
 
 Some Redis client libraries implement the [OpenTelemetry](https://opentelemetry.io/) (OTel)
-observability framework to let you gather performance metrics and execution traces
+observability framework to let you gather performance metrics
 for your application. This can help you optimize performance and pinpoint problems
 quickly. Currently, the following clients support OTel:
 
 - [redis-py]({{< relref "/develop/clients/redis-py/observability" >}})
 - [go-redis]({{< relref "/develop/clients/go/observability" >}})
 
+<!--
 ## Tracing overview
 
 An execution trace is a record of the sequence of steps that the Redis
@@ -99,6 +100,15 @@ in each trace is recorded, you can use monitoring tools such as
 This can help you find operations that are slow on average compared to others
 (suggesting a performance bottleneck that could be optimized) or that have a high
 error rate (suggesting a deeper problem that could be fixed to improve reliability).
+-->
+
+## Metrics overview
+
+Metrics are quantitative measurements of the behavior of your application. They
+provide information such as how often a certain operation occurs, how long it
+takes to complete, or how many errors have occurred. By analyzing these metrics,
+you can identify performance bottlenecks, errors, and other issues that need to
+be addressed.
 
 ## Redis metric groups
 
