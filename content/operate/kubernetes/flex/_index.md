@@ -35,7 +35,8 @@ Flex uses Speedb, a high-performance key-value storage engine optimized for flas
 
 - Redis handles all data operations in memory.
 - Speedb manages the flash storage layer.
-- This design delivers predictable latency and throughput as datasets grow beyond RAM limits.
+
+This design delivers predictable latency and throughput as datasets grow beyond RAM limits.
 
 ## When to use Flex
 
