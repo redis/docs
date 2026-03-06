@@ -18,14 +18,14 @@ relatedPages:
 - /develop/clients/nodejs/vecsets
 - /develop/ai/search-and-query
 topics:
-- Redis Query Engine
+- Redis Search
 - JSON
 - hash
 - vectors
 weight: 3
 ---
 
-[Redis Query Engine]({{< relref "/develop/ai/search-and-query" >}})
+[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
 lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
 or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
 [Vectors]({{< relref "/develop/ai/search-and-query/vectors" >}}) 
@@ -41,7 +41,7 @@ that closely match the query's meaning.
 In the example below, we use the
 [`@xenova/transformers`](https://www.npmjs.com/package/@xenova/transformers)
 library to generate vector embeddings to store and index with
-Redis Query Engine. The code is first demonstrated for hash documents with a
+Redis Search. The code is first demonstrated for hash documents with a
 separate section to explain the
 [differences with JSON documents](#differences-with-json-documents).
 

@@ -22,10 +22,10 @@ This data structure is useful for finding nearby points within a given radius or
 
 {{< note >}}Take care not to confuse the Geospatial data type with the
 [Geospatial]({{< relref "/develop/ai/search-and-query/advanced-concepts/geo" >}})
-features in [Redis Query Engine]({{< relref "/develop/ai/search-and-query" >}}).
+features in [Redis Search]({{< relref "/develop/ai/search-and-query" >}}).
 Although there are some similarities between these two features, the data type is intended
 for simpler use cases and doesn't have the range of format options and queries
-available in Redis Query Engine.
+available in Redis Search.
 {{< /note >}}
 
 ## Basic commands

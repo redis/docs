@@ -18,14 +18,14 @@ relatedPages:
 - /develop/clients/jedis/vecsets
 - /develop/ai/search-and-query
 topics:
-- Redis Query Engine
+- Redis Search
 - JSON
 - hash
 - vectors
 weight: 3
 ---
 
-[Redis Query Engine]({{< relref "/develop/ai/search-and-query" >}})
+[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
 lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
 or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
 [Vectors]({{< relref "/develop/ai/search-and-query/vectors" >}}) 
@@ -40,7 +40,7 @@ of their meaning.
 
 The example below uses the [HuggingFace](https://huggingface.co/) model
 [`all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
-to generate the vector embeddings to store and index with Redis Query Engine.
+to generate the vector embeddings to store and index with Redis Search.
 The code is first demonstrated for hash documents with a
 separate section to explain the
 [differences with JSON documents](#differences-with-json-documents).
@@ -102,7 +102,7 @@ Import the following classes in your source file:
 ## Define a helper method
 
 The embedding model represents the vectors as an array of `float` values,
-which is the format required by Redis Query Engine.
+which is the format required by Redis Search.
 Also, when you store vectors in a hash object, you must encode the vector
 array as a `byte` string. To simplify this situation, you can declare a helper
 method `floatsToByteString()` that takes the `float` array that the

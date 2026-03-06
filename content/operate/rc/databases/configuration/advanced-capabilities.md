@@ -71,6 +71,6 @@ The query performance factor adds extra compute power specifically for search an
 
 We recommend testing your application with a test database to see your baseline queries per second and determine how much you want to boost your query performance. After you have determined your queries per second and your desired performance factor, [create a new database]({{< relref "/operate/rc/databases/create-database" >}}) with the desired performance factor and [migrate data]({{< relref "/operate/rc/databases/migrate-databases" >}}) from the test database to your new database.
 
-For more info on how to use scalable search, see [Best practices for scalable Redis Query Engine]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/scalable-query-best-practices" >}}).
+For more info on how to use scalable search, see [Best practices for scalable Redis Search]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/scalable-query-best-practices" >}}).
 
 The query performance factor is available for Redis Cloud Pro databases on Redis 7.2 and later.

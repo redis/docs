@@ -7,7 +7,7 @@ categories:
 - develop
 - stack
 - oss
-description: Redis Query Engine best practices
+description: Redis Search best practices
 linkTitle: Best practices
 title: Best practices
 weight: 9
