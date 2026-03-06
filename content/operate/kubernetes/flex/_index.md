@@ -31,12 +31,22 @@ This process requires no application changes. Your existing Redis commands work 
 
 ### Storage engine
 
-Flex uses Speedb, a high-performance key-value storage engine optimized for flash drives:
+Flex uses [Speedb](https://docs.speedb.io), a high-performance key-value storage engine optimized for flash drives:
 
 - Redis handles all data operations in memory.
 - Speedb manages the flash storage layer.
 
 This design delivers predictable latency and throughput as datasets grow beyond RAM limits.
+
+## Compatibility
+
+Flex is compatible with the Redis API and supports all Redis data types, including JSON and probabilistic data structures (Bloom filters, Count-Min Sketch, Top-K).
+
+The following features are not yet supported with Flex:
+
+- Redis Query Engine (RQE)
+- Time series
+- Active-Active
 
 ## When to use Flex
 
@@ -47,7 +57,7 @@ Use Flex when you need to:
 - Operate large distributed caches with elastic scaling and consistent performance under heavy load
 - Reduce infrastructure costs by combining high-speed RAM with cost-efficient flash storage
 
-Flex does not replace long-term data persistence. For workloads that require durability and recovery across restarts or failures, use Redis persistence features like AOF (Append-Only File), RDB snapshots, or both. For more information, see [Database persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}}).
+{{<note>}}Flex does not replace long-term data persistence. For workloads that require durability and recovery across restarts or failures, use Redis persistence features like [AOF (Append-Only File)]({{< relref "/operate/oss_and_stack/management/persistence#append-only-file" >}}), [RDB snapshots]({{< relref "/operate/oss_and_stack/management/persistence#snapshotting" >}}), or both. For more information, see [Database persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}}).  
 
 ## Flex and Auto Tiering
 
@@ -63,15 +73,14 @@ For Redis Enterprise for Kubernetes version 7.22.2-22 or earlier, see [Auto Tier
 ### Differences between Flex and Auto Tiering
 
 - Key and value offloading
-    - Auto Tiering offloads only values to flash while keys remain in RAM.
-    - Flex offloads both keys and values, which increases dataset density per node and reduces RAM consumption.
+  - Auto Tiering offloads only values to flash while keys remain in RAM.
+  - Flex offloads both keys and values, which increases dataset density per node and reduces RAM consumption.
 - RAM population strategy
-    - Auto Tiering fills all available RAM before offloading data to flash. This maximizes hot-data performance but can cause non-linear performance changes at high utilization.
-    - Flex uses utilization-aware RAM population.
-        When database utilization is below 50%, Flex uses up to 50% of configured RAM for hot data. Above 50% utilization, Flex uses both RAM and flash proportionally, following the configured RAM-to-flash ratio. This provides a stable performance curve, consistent RAM hit-rate, and predictable throughput and latency.
+  - Auto Tiering fills all available RAM before offloading data to flash. This maximizes hot-data performance but can cause non-linear performance changes at high utilization.
+  - Flex uses utilization-aware RAM population. When database utilization is below 50%, Flex uses up to 50% of configured RAM for hot data. Above 50% utilization, Flex uses both RAM and flash proportionally, following the configured RAM-to-flash ratio. This provides a stable performance curve, consistent RAM hit-rate, and predictable throughput and latency.
 - Storage engine
-    - Auto Tiering uses either RocksDB or Speedb as the storage engine.
-    - Flex uses Speedb only.
+  - Auto Tiering uses either RocksDB or Speedb as the storage engine.
+  - Flex uses Speedb only.
 
 ## Next steps
 
