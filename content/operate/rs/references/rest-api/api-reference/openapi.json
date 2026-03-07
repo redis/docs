@@ -874,13 +874,6 @@
             "pattern": "^[a-zA-Z0-9_ \\[\\]()@,.;#-]+$",
             "type": "string"
           },
-          "permissions": {
-            "description": "Explicit permissions for this role. If not specified, permissions are inherited from the management role.",
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
           "resources": {
             "description": "Resources that restrict this role's access to specific resources.",
             "items": {
@@ -1900,6 +1893,40 @@
           }
         ],
         "summary": "Get OCSP status",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/ocsp/test": {
+      "post": {
+        "description": "Manually query the OCSP responder and return the parsed status",
+        "operationId": "cluster_test_ocsp_status",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OcspStatus"
+                }
+              }
+            },
+            "description": "OCSP status"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "test_ocsp_status"
+            ]
+          }
+        ],
+        "summary": "Test OCSP status",
         "tags": [
           "Cluster"
         ],
