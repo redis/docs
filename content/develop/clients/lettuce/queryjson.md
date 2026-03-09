@@ -127,5 +127,5 @@ a `List` of `SearchReply.SearchResult<String, String>` objects, as with JSON:
 
 ## More information
 
-See the [Redis query engine]({{< relref "/develop/ai/search-and-query" >}}) docs
+See the [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) docs
 for a full description of all query features with examples.

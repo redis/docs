@@ -48,7 +48,7 @@ separate section to explain the
 
 {{< note >}}From [v1.0.0](https://github.com/redis/NRedisStack/releases/tag/v1.0.0)
 onwards, `NRedisStack` uses query dialect 2 by default.
-Redis query engine methods such as [`FT().Search()`]({{< relref "/commands/ft.search" >}})
+Redis Search methods such as [`FT().Search()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See
 [Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})

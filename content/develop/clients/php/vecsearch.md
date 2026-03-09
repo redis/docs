@@ -46,7 +46,7 @@ separate section to explain the
 
 {{< note >}}From [v3.0.0](https://github.com/predis/predis/releases/tag/v3.0.0) onwards,
 `Predis` uses query dialect 2 by default.
-Redis query engine methods such as [`ftSearch()`]({{< relref "/commands/ft.search" >}})
+Redis Search methods such as [`ftSearch()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See
 [Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})

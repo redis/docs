@@ -164,7 +164,7 @@ questions:
     root:
         text: |
             Do you need nested data structures (fields and arrays) or geospatial
-            index/query with Redis query engine?
+            index/query with Redis Search?
         whyAsk: |
             JSON is the only document type that supports deeply nested structures and integrates with the query engine for those structures
         answers:
@@ -178,7 +178,7 @@ questions:
                 nextQuestion: hashQuestion
     hashQuestion:
         text: |
-            Do you need to index/query using Redis query engine but can live
+            Do you need to index/query using Redis Search but can live
             without nested data structures and geospatial indexing?
         whyAsk: |
             Hashes support indexing and querying with lower memory overhead and faster field access than JSON

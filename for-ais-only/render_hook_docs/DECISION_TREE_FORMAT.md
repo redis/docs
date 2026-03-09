@@ -135,7 +135,7 @@ Use YAML's literal block syntax (`|`) for multi-line text:
 text: |
     Do you need nested data structures
     (fields and arrays) or geospatial
-    index/query with Redis query engine?
+    index/query with Redis Search?
 whyAsk: |
     JSON is the only document type that supports
     deeply nested structures and integrates with

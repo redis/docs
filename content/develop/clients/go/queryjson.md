@@ -32,7 +32,7 @@ documents.
 
 {{< note >}}From [v9.8.0](https://github.com/redis/go-redis/releases/tag/v9.8.0) onwards,
 `go-redis` uses query dialect 2 by default.
-Redis query engine methods such as [`FTSearch()`]({{< relref "/commands/ft.search" >}})
+Redis Search methods such as [`FTSearch()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See
 [Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
@@ -48,7 +48,7 @@ haven't already done so.
 
 Add the following dependencies:
 
-{{< clients-example set="go_home_json" step="import" description="Foundational: Import go-redis package, which includes support for Redis query engine operations" difficulty="beginner" >}}
+{{< clients-example set="go_home_json" step="import" description="Foundational: Import go-redis package, which includes support for Redis Search operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create data
@@ -71,7 +71,7 @@ to learn more about the available connection options.
 
 {{< note >}}The connection options in the example specify
 [RESP2]({{< relref "/develop/reference/protocol-spec" >}}) in the `Protocol`
-field. We recommend that you use RESP2 for Redis query engine operations in `go-redis`
+field. We recommend that you use RESP2 for Redis Search operations in `go-redis`
 because some of the response structures for the default RESP3 are currently
 incomplete and so you must handle the "raw" responses in your own code.
 
@@ -186,5 +186,5 @@ in a string under the key "$"):
 
 ## More information
 
-See the [Redis query engine]({{< relref "/develop/ai/search-and-query" >}}) docs
+See the [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) docs
 for a full description of all query features with examples.

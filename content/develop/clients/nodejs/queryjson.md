@@ -32,7 +32,7 @@ documents.
 
 {{< note >}}From [v5.0.0](https://github.com/redis/node-redis/releases/tag/redis%405.0.0)
 onwards, `node-redis` uses query dialect 2 by default.
-Redis query engine methods such as [`ft.search()`]({{< relref "/commands/ft.search" >}})
+Redis Search methods such as [`ft.search()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See
 [Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
