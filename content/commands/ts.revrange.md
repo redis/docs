@@ -159,7 +159,7 @@ is end timestamp for the range query (integer Unix timestamp in milliseconds) or
 ## Optional arguments
 
 <details open>
-<summary><code>LATEST</code> (since RedisTimeSeries v1.8)</summary>
+<summary><code>LATEST</code> (since RedisTimeSeries 1.8)</summary>
 
 is used when a time series is a compaction. With `LATEST`, TS.REVRANGE also reports the compacted value of the latest, possibly partial, bucket, given that this bucket's start time falls within `[fromTimestamp, toTimestamp]`. Without `LATEST`, TS.REVRANGE does not report the latest, possibly partial, bucket. When a time series is not a compaction, `LATEST` is ignored.
   
@@ -210,23 +210,23 @@ aggregates samples into time buckets, where:
 
   - `aggregator` takes one of the following aggregation types:
 
-    | `aggregator` | Description                                                                    |
-    | ------------ | ------------------------------------------------------------------------------ |
-    | `avg`        | Arithmetic mean of all non-NaN values (ignores NaN values since Redis 8.6)    |
-    | `sum`        | Sum of all non-NaN values (ignores NaN values since Redis 8.6)                |
-    | `min`        | Minimum non-NaN value (ignores NaN values since Redis 8.6)                    |
-    | `max`        | Maximum non-NaN value (ignores NaN values since Redis 8.6)                    |
-    | `range`      | Difference between the maximum and the minimum non-NaN value (ignores NaN values since Redis 8.6) |
-    | `count`      | Number of non-NaN values (ignores NaN values since Redis 8.6)                 |
-    | `countNaN`   | Number of NaN values (since Redis 8.6)                                        |
-    | `countAll`   | Number of all values, both NaN and non-NaN (since Redis 8.6)                  |
-    | `first`      | Value with lowest timestamp in the bucket (ignores NaN values since Redis 8.6) |
-    | `last`       | Value with highest timestamp in the bucket (ignores NaN values since Redis 8.6) |
-    | `std.p`      | Population standard deviation of the non-NaN values (ignores NaN values since Redis 8.6) |
-    | `std.s`      | Sample standard deviation of the non-NaN values (ignores NaN values since Redis 8.6) |
-    | `var.p`      | Population variance of the non-NaN values (ignores NaN values since Redis 8.6) |
-    | `var.s`      | Sample variance of the non-NaN values (ignores NaN values since Redis 8.6)    |
-    | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values since Redis 8.6) |
+    | `aggregator` | Description                                                     |
+    | ------------ | --------------------------------------------------------------- |
+    | `avg`        | Arithmetic mean of all non-NaN values                           |
+    | `sum`        | Sum of all non-NaN values                                       |
+    | `min`        | Minimum non-NaN value                                           |
+    | `max`        | Maximum non-NaN value                                           |
+    | `range`      | Difference between the maximum and the minimum non-NaN values   |
+    | `count`      | Number of non-NaN values                                        |
+    | `countNaN`   | Number of NaN values (since Redis 8.6)                          |
+    | `countAll`   | Number of values, including NaN and non-NaN (since Redis 8.6)   |
+    | `first`      | The non-NaN Value with lowest timestamp in the bucket           |
+    | `last`       | The non-NaN Value with highest timestamp in the bucket          |
+    | `std.p`      | Population standard deviation of the non-NaN values             |
+    | `std.s`      | Sample standard deviation of the non-NaN values                 |
+    | `var.p`      | Population variance of the non-NaN values                       |
+    | `var.s`      | Sample variance of the non-NaN values                           |
+    | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values) (since RedisTimeSeries 1.8) |
 
   - `bucketDuration` is duration of each bucket, in milliseconds.
   
@@ -238,7 +238,7 @@ aggregates samples into time buckets, where:
 </details>
 
 <details open>
-<summary><code>[BUCKETTIMESTAMP bt]</code> (since RedisTimeSeries v1.8)</summary>
+<summary><code>[BUCKETTIMESTAMP bt]</code> (since RedisTimeSeries 1.8)</summary>
 
 controls how bucket timestamps are reported.
 
@@ -250,7 +250,7 @@ controls how bucket timestamps are reported.
 </details>
 
 <details open>
-<summary><code>[EMPTY]</code> (since RedisTimeSeries v1.8)</summary>
+<summary><code>[EMPTY]</code> (since RedisTimeSeries 1.8)</summary>
 is a flag, which, when specified, reports aggregations also for empty buckets.
 
 | `aggregator`         | Value reported for each empty bucket |
