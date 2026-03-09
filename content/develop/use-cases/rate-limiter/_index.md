@@ -30,7 +30,7 @@ The **token bucket algorithm** is a popular rate limiting approach that allows b
 The token bucket algorithm works like a bucket that holds tokens:
 
 1. **Initialization**: The bucket starts with a maximum capacity of tokens
-2. **Refill**: Tokens are added to the bucket at a constant rate (e.g., 1 token per second)
+2. **Refill**: Tokens are added to the bucket at a constant rate (for example, 1 token per second)
 3. **Consumption**: Each request consumes one token from the bucket
 4. **Decision**: If tokens are available, the request is allowed; otherwise, it's denied
 5. **Capacity limit**: The bucket never exceeds its maximum capacity
