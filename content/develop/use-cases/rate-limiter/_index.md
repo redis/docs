@@ -115,7 +115,8 @@ Using [`EVAL`]({{< relref "/commands/eval" >}}) or [`EVALSHA`]({{< relref "/comm
 
 ## Using the Python module
 
-The `TokenBucket` class provides a simple interface for rate limiting:
+The `TokenBucket` class provides a simple interface for rate limiting
+([source]({{< relref "/develop/use-cases/rate-limiter/token_bucket.py" >}})):
 
 ```python
 import redis
@@ -165,7 +166,8 @@ The `key` parameter identifies what you're rate limiting. Common patterns:
 
 ## Running the demo
 
-A demonstration web server is included to show the rate limiter in action:
+A demonstration web server is included to show the rate limiter in action
+([source]({{< relref "/develop/use-cases/rate-limiter/demo_server.py" >}})):
 
 ```bash
 # Install dependencies
@@ -187,57 +189,7 @@ The demo provides an interactive web interface where you can:
 
 Visit `http://localhost:8080` in your browser to try it out.
 
-## Customization
-
-### Different rate limits per key
-
-You can create multiple `TokenBucket` instances with different configurations:
-
-```python
-# Strict limit for anonymous users
-anon_limiter = TokenBucket(r, capacity=5, refill_rate=1, refill_interval=1.0)
-
-# More generous limit for authenticated users
-auth_limiter = TokenBucket(r, capacity=100, refill_rate=10, refill_interval=1.0)
-
-# Premium users get even higher limits
-premium_limiter = TokenBucket(r, capacity=1000, refill_rate=100, refill_interval=1.0)
-
-# Use the appropriate limiter based on user type
-if user.is_premium:
-    allowed, remaining = premium_limiter.allow(f'user:{user.id}')
-elif user.is_authenticated:
-    allowed, remaining = auth_limiter.allow(f'user:{user.id}')
-else:
-    allowed, remaining = anon_limiter.allow(f'ip:{request.ip}')
-```
-
-### Custom Redis connection
-
-You can use any Redis configuration, including Redis Cloud, Redis Cluster, or Sentinel:
-
-```python
-# Redis Cloud
-r = redis.Redis(
-    host='redis-12345.c1.us-east-1-2.ec2.cloud.redislabs.com',
-    port=12345,
-    password='your-password',
-    decode_responses=True,
-    ssl=True
-)
-
-# Redis Cluster
-from redis.cluster import RedisCluster
-r = RedisCluster(
-    host='localhost',
-    port=7000,
-    decode_responses=True
-)
-
-limiter = TokenBucket(redis_client=r)
-```
-
-### Response headers
+## Response headers
 
 It's common to include rate limit information in HTTP response headers:
 
