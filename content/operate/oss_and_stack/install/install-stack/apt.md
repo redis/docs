@@ -44,10 +44,14 @@ redis:
         500 https://packages.redis.io/deb bookworm/main all Packages
 {{< /highlight >}}
 
-To install an earlier version, say 7.4.2, run the following command:
+For example, to install Redis Open Source v7.4.2 on Ubuntu LTS 22.04 (Jammy Jellyfish), run the following command:
 
 {{< highlight bash >}}
-sudo apt-get install redis=6:7.4.2-1rl1~jammy1
+apt-get install \
+redis=6:7.4.2-1rl1~jammy1 \
+redis-server=6:7.4.2-1rl1~jammy1 \
+redis-sentinel=6:7.4.2-1rl1~jammy1 \
+redis-tools=6:7.4.2-1rl1~jammy1
 {{< /highlight >}}
 
 Redis should start automatically after the initial installation and also at boot time.
