@@ -116,7 +116,7 @@ Using [`EVAL`]({{< relref "/commands/eval" >}}) or [`EVALSHA`]({{< relref "/comm
 ## Using the Python module
 
 The `TokenBucket` class provides a simple interface for rate limiting
-([source]({{< relref "/develop/use-cases/rate-limiter/token_bucket.py" >}})):
+([source](token_bucket.py)):
 
 ```python
 import redis
@@ -167,14 +167,11 @@ The `key` parameter identifies what you're rate limiting. Common patterns:
 ## Running the demo
 
 A demonstration web server is included to show the rate limiter in action
-([source]({{< relref "/develop/use-cases/rate-limiter/demo_server.py" >}})):
+([source](demo_server.py)):
 
 ```bash
 # Install dependencies
 pip install redis
-
-# Start Redis (if not already running)
-redis-server
 
 # Run the demo server
 python demo_server.py
@@ -187,7 +184,8 @@ The demo provides an interactive web interface where you can:
 * Adjust rate limit parameters dynamically
 * Test different rate limiting scenarios
 
-Visit `http://localhost:8080` in your browser to try it out.
+The demo assumes Redis is running on `localhost:6379` but you can easily change the host
+and port in the `demo_server.py` script. Visit `http://localhost:8080` in your browser to try it out.
 
 ## Response headers
 
