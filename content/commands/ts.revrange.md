@@ -167,7 +167,7 @@ The data in the latest bucket of a compaction is possibly partial. A bucket is _
 </details>
 
 <details open>
-<summary><code>FILTER_BY_TS ts...</code> (since RedisTimeSeries v1.6)</summary>
+<summary><code>FILTER_BY_TS ts...</code> (since RedisTimeSeries 1.6)</summary>
 
 filters samples by a list of specific timestamps. A sample passes the filter if its exact timestamp is specified and falls within `[fromTimestamp, toTimestamp]`.
 
@@ -175,7 +175,7 @@ When used together with `AGGREGATION`: samples are filtered before being aggrega
 </details>
 
 <details open>
-<summary><code>FILTER_BY_VALUE min max</code> (since RedisTimeSeries v1.6)</summary>
+<summary><code>FILTER_BY_VALUE min max</code> (since RedisTimeSeries 1.6)</summary>
 
 filters samples by minimum and maximum values. `min` and `max` cannot be NaN values.
 
@@ -191,7 +191,7 @@ When used together with `AGGREGATION`: limits the number of reported buckets.
 </details>
 
 <details open>
-<summary><code>ALIGN align</code> (since RedisTimeSeries v1.6)</summary>
+<summary><code>ALIGN align</code> (since RedisTimeSeries 1.6)</summary>
 
 is a time bucket alignment control for `AGGREGATION`. It controls the time bucket timestamps by changing the reference timestamp on which a bucket is defined. 
 Values include:
