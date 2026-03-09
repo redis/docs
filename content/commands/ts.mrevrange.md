@@ -368,9 +368,9 @@ When combined with `AGGREGATION` the `GROUPBY`/`REDUCE` is applied post aggregat
     | `range`   | Difference between the maximum and the minimum non-NaN values; NaN if no such values (since RedisTimeSeries 1.8) |
     | `count`   | Number of non-NaN values (since RedisTimeSeries 1.8)                                                             |
     | `countNaN`| Number of NaN values (since Redis 8.6)                                                                           |
-    | `countAll`| Number of values, including NaN and non-NaN (since edis 8.6)                                                     |
+    | `countAll`| Number of values, including NaN and non-NaN (since Redis 8.6)                                                     |
     | `std.p`   | Population standard deviation of the non-NaN values; NaN if no such values (since RedisTimeSeries 1.8)           |
-    | `std.s`   | Sample standard deviation of thel non-NaN values; NaN if no such values (since RedisTimeSeries 1.8)              |
+    | `std.s`   | Sample standard deviation of the non-NaN values; NaN if no such values (since RedisTimeSeries 1.8)              |
     | `var.p`   | Population variance of the non-NaN values; NaN if no such values (since RedisTimeSeries 1.8)                     |
     | `var.s`   | Sample variance of the non-NaN values; NaN if no such values (since RedisTimeSeries 1.8)                         |
 
