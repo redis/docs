@@ -304,8 +304,8 @@ per time series, aggregates samples into time buckets, where:
     | `count`      | Number of non-NaN values                                        |
     | `countNaN`   | Number of NaN values (since Redis 8.6)                          |
     | `countAll`   | Number of values, including NaN and non-NaN (since Redis 8.6)   |
-    | `first`      | The non-NaN Value with lowest timestamp in the bucket           |
-    | `last`       | The non-NaN Value with highest timestamp in the bucket          |
+    | `first`      | The non-NaN value with the lowest timestamp in the bucket       |
+    | `last`       | The non-NaN value with the highest timestamp in the bucket      |
     | `std.p`      | Population standard deviation of the non-NaN values             |
     | `std.s`      | Sample standard deviation of the non-NaN values                 |
     | `var.p`      | Population variance of the non-NaN values                       |
