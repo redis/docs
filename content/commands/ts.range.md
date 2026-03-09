@@ -158,7 +158,7 @@ is end timestamp for the range query (integer Unix timestamp in milliseconds) or
 ## Optional arguments
 
 <details open>
-<summary><code>LATEST</code> (since RedisTimeSeries v1.8)</summary>
+<summary><code>LATEST</code> (since RedisTimeSeries 1.8)</summary>
 
 is used when a time series is a compaction. With `LATEST`, TS.RANGE also reports the compacted value of the latest, possibly partial, bucket, given that this bucket's start time falls within `[fromTimestamp, toTimestamp]`. Without `LATEST`, TS.RANGE does not report the latest, possibly partial, bucket. When a time series is not a compaction, `LATEST` is ignored.
   
