@@ -22,7 +22,7 @@ This tutorial will show you how to build a simple, RESTful API that reads, write
 
 Redis OM is an object-mapping library that provides high-level abstractions for working with Redis as a document database. You can use Redis OM to map Redis data types,specifically Hashes and JSON documents, to objects in your preferred programming language.
 
-Redis OM leverages the JSON and Redis Query Engine features included in Redis Stack, enabling you to:
+Redis OM leverages the JSON and Redis Search features included in Redis Stack, enabling you to:
 
 - **Model your data** as objects with schemas and validation
 - **Store and retrieve** complex data structures seamlessly

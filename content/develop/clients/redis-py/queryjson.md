@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Learn how to use the Redis query engine with JSON and hash documents.
+description: Learn how to use Redis Search with JSON and hash documents.
 linkTitle: Index and query documents
 title: Index and query documents
 scope: example
@@ -17,7 +17,7 @@ relatedPages:
 - /develop/clients/redis-py/vecsearch
 - /develop/ai/search-and-query
 topics:
-- Redis Query Engine
+- Redis Search
 - JSON
 - hash
 weight: 30
@@ -32,7 +32,7 @@ documents.
 
 {{< note >}}From [v6.0.0](https://github.com/redis/redis-py/releases/tag/v6.0.0) onwards,
 `redis-py` uses query dialect 2 by default.
-Redis query engine methods such as [`ft().search()`]({{< relref "/commands/ft.search" >}})
+Redis Search methods such as [`ft().search()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See
 [Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
@@ -51,7 +51,7 @@ except for the `Path` class, which is specific to JSON (see
 [Path]({{< relref "/develop/data-types/json/path" >}}) for a description of the
 JSON path syntax).
 
-{{< clients-example set="py_home_json" step="import" description="Foundational: Import required libraries for Redis query engine, JSON operations, and search functionality" difficulty="beginner" >}}
+{{< clients-example set="py_home_json" step="import" description="Foundational: Import required libraries for Redis Search, JSON operations, and search functionality" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create data
@@ -159,5 +159,5 @@ result `Document` object instead of in an enclosing `json` dictionary:
 
 ## More information
 
-See the [Redis query engine]({{< relref "/develop/ai/search-and-query" >}}) docs
+See the [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) docs
 for a full description of all query features with examples.

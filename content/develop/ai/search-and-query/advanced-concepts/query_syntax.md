@@ -437,9 +437,9 @@ You can't combine this with any other filters, field modifiers, or anything insi
 
         *=>[KNN 100 @doc_embedding $BLOB]=>{$SHARD_K_RATIO: 0.5; $YIELD_DISTANCE_AS: vector_distance}
 
-## Mapping common SQL predicates to Redis Query Engine
+## Mapping common SQL predicates to Redis Search
 
-| SQL Condition | Redis Query Engine Equivalent | Comments |
+| SQL Condition | Redis Search Equivalent | Comments |
 |---------------|-----------------------|----------|
 | WHERE x='foo' AND y='bar' | @x:foo @y:bar | for less ambiguity use (@x:foo) (@y:bar) |
 | WHERE x='foo' AND y!='bar' | @x:foo -@y:bar |

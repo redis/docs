@@ -1,11 +1,11 @@
 ---
-Title: Configure the query performance factor for Redis Query Engine in Redis Software
+Title: Configure the query performance factor for Redis Search in Redis Software
 alwaysopen: false
 categories:
 - docs
 - operate
 - stack
-description: Configure the query performance factor for Redis Query Engine in Redis Software to increase the performance of queries.
+description: Configure the query performance factor for Redis Search in Redis Software to increase the performance of queries.
 linkTitle: Configure query performance factor
 weight: 20
 aliases: /operate/oss_and_stack/stack-with-enterprise/search/scalable-search/
@@ -15,14 +15,14 @@ aliases: /operate/oss_and_stack/stack-with-enterprise/search/scalable-search/
 Query performance factors are intended to increase the performance of queries, including [vector search]({{<relref "/develop/ai/search-and-query/query/vector-search">}}). When enabled, it allows you to increase a database's compute capacity and query throughput by allocating more virtual CPUs per shard. This is in addition to horizontal scaling with more shards which enables a higher throughput of key value operations. This document describes how to configure the query performance factor.
 
 {{<note>}}
-Some use cases might not scale effectively. Redis experts can help determine if vertical scaling with the Redis Query Engine will boost performance for your use case and guide you on whether to use vertical scaling, horizontal scaling, or both.
+Some use cases might not scale effectively. Redis experts can help determine if vertical scaling with Redis Search will boost performance for your use case and guide you on whether to use vertical scaling, horizontal scaling, or both.
 {{</note>}}
 
 ## Prerequisites
 
-Redis Query Engine requires a cluster running Redis Software version 7.4.2-54 or later. For the simplified configuration experience (no shard restart required, new UI, and new REST API), Redis Software version 8.x or later is required.
+Redis Search requires a cluster running Redis Software version 7.4.2-54 or later. For the simplified configuration experience (no shard restart required, new UI, and new REST API), Redis Software version 8.x or later is required.
 
-If you do not have a cluster that supports Redis Query Engine, [install Redis Software]({{<relref "/operate/rs/installing-upgrading/install/install-on-linux">}}) version 7.4.2-54 or later on a new cluster, or [upgrade an existing cluster]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster">}}).
+If you do not have a cluster that supports Redis Search, [install Redis Software]({{<relref "/operate/rs/installing-upgrading/install/install-on-linux">}}) version 7.4.2-54 or later on a new cluster, or [upgrade an existing cluster]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster">}}).
 
 ## Sizing
 
@@ -32,7 +32,7 @@ If you do not have a cluster that supports Redis Query Engine, [install Redis So
 
     1. Calculate the RAM requirements using the [Index Size Calculator](https://redis.io/redisearch-sizing-calculator/). The total RAM required is the sum of the dataset and index sizes.
 
-1. [Determine the query performance factor](#calculate-query-performance-factor) you want and the required number of CPUs. Unused CPUs, above the 20% necessary for Redis, can be used for the scalable Redis Query Engine.
+1. [Determine the query performance factor](#calculate-query-performance-factor) you want and the required number of CPUs. Unused CPUs, above the 20% necessary for Redis, can be used for the scalable Redis Search.
 
 1. Create a new Redis database with the number of CPUs configured for the query performance factor.
 
@@ -40,19 +40,19 @@ If you do not have a cluster that supports Redis Query Engine, [install Redis So
 
 ### CPUs for query performance factor
 
-Vertical scaling of the Redis Query Engine is achieved by provisioning additional CPUs for the RediSearch module. At least 20% of the available CPUs must be reserved for Redis internal processing. Use the following formula to define the maximum number of CPUs that can be allocated to search.
+Vertical scaling of Redis Search is achieved by provisioning additional CPUs for the RediSearch module. At least 20% of the available CPUs must be reserved for Redis internal processing. Use the following formula to define the maximum number of CPUs that can be allocated to search.
 
 | Variable | Value |
 |----------|-------|
 | CPUs per node | x |
 | Redis internals | 20% |
-| Available CPUs for Redis Query Engine | floor(0.8 * x) |
+| Available CPUs for Redis Search | floor(0.8 * x) |
 
 ### Query performance factor versus CPUs
 
 The following table shows the number of CPUs required for each performance factor. This calculation is sensitive to how the search index and queries are defined. Certain scenarios might yield less throughput than the ratios in the following table.
 
-| Scale factor | Minimum CPUs required for Redis Query Engine <WORKERS> |
+| Scale factor | Minimum CPUs required for Redis Search <WORKERS> |
 |----------------|-----------------------------------------|
 | None (default) | 1 |
 | 2 | 3 |
@@ -335,7 +335,7 @@ curl -o /dev/null -s -k -u "<user>:<password>" https://<host>:9443/v1/bdbs/$DB_I
 }'
 ```
 
-## Monitoring Redis Query Engine
+## Monitoring Redis Search
 
 To monitor a database with a query performance factor configured:
 

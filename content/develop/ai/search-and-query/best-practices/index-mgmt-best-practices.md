@@ -1,7 +1,7 @@
 ---
 aliases:
 - /develop/interact/search-and-query/best-practices/index-mgmt-best-practices
-Title: Index management best practices for Redis Query Engine
+Title: Index management best practices for Redis Search
 alwaysopen: false
 categories:
 - docs
@@ -10,15 +10,15 @@ categories:
 - oss
 - kubernetes
 - clients
-linkTitle: RQE index management
+linkTitle: Redis Search index management
 weight: 3
 ---
-## Introduction to managing Redis Query Engine indexes
+## Introduction to managing Redis Search indexes
 
-The Redis Query Engine (RQE) is a powerful tool for executing complex search and query operations on structured, semi-structured, and unstructured data. Indexes are the backbone of this functionality, enabling fast and efficient data retrieval.
+Redis Search is a powerful tool for executing complex search and query operations on structured, semi-structured, and unstructured data. Indexes are the backbone of this functionality, enabling fast and efficient data retrieval.
 Proper management of these indexes is essential for optimal performance, scalability, and resource utilization.
 
-This guide outlines best practices for managing RQE indexes throughout their lifecycle. It provides recommendations on:
+This guide outlines best practices for managing Redis Search indexes throughout their lifecycle. It provides recommendations on:
 
 - Planning and creating indexes to suit your query patterns.
 - Using index aliasing to manage schema updates and minimize downtime.
@@ -59,7 +59,7 @@ Use tools like [`FT.PROFILE`]({{< relref "commands/ft.profile" >}}) to analyze q
 For example, assign weights to `TEXT` fields for prioritizing results or use the `PREFIX` option of [`FT.CREATE`]({{< relref "commands/ft.create" >}}) to limit indexing to specific key patterns. Note that you can use multiple `PREFIX` clauses when you create an index (see [below](#index-creation))
 After creating the index, validate its performance with real queries and monitor usage with the available tools:
 
-- [`FT.EXPLAIN`]({{< relref "commands/ft.explain" >}}) and [`FT.EXPLAINCLI`]({{< relref "commands/ft.explaincli" >}}) allow you to see how Redis Query Engine parses a given search query. `FT.EXPLAIN` returns a structured breakdown of the query execution plan, while `FT.EXPLAINCLI` presents a more readable, tree-like format for easier interpretation. These commands are useful for diagnosing query structure and ensuring it aligns with the intended logic.
+- [`FT.EXPLAIN`]({{< relref "commands/ft.explain" >}}) and [`FT.EXPLAINCLI`]({{< relref "commands/ft.explaincli" >}}) allow you to see how Redis Search parses a given search query. `FT.EXPLAIN` returns a structured breakdown of the query execution plan, while `FT.EXPLAINCLI` presents a more readable, tree-like format for easier interpretation. These commands are useful for diagnosing query structure and ensuring it aligns with the intended logic.
 - [`FT.INFO`]({{< relref "commands/ft.info" >}}) provides detailed statistics about an index, including the number of indexed documents, memory usage, and configuration settings. It helps in monitoring index growth, assessing memory consumption, and verifying index structure to detect potential inefficiencies.
 - [`FT.PROFILE`]({{< relref "commands/ft.profile" >}}) runs a query while capturing execution details, which helps to reveal query performance bottlenecks. It provides insights into processing time, key accesses, and filter application, making it a crucial tool for fine-tuning complex queries and optimizing search efficiency.
 

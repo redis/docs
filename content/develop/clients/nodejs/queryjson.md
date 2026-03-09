@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Learn how to use the Redis Query Engine with JSON and hash documents.
+description: Learn how to use Redis Search with JSON and hash documents.
 linkTitle: Index and query documents
 title: Index and query documents
 scope: example
@@ -17,7 +17,7 @@ relatedPages:
 - /develop/clients/nodejs/vecsearch
 - /develop/ai/search-and-query
 topics:
-- Redis Query Engine
+- Redis Search
 - JSON
 - hash
 weight: 2
@@ -32,7 +32,7 @@ documents.
 
 {{< note >}}From [v5.0.0](https://github.com/redis/node-redis/releases/tag/redis%405.0.0)
 onwards, `node-redis` uses query dialect 2 by default.
-Redis query engine methods such as [`ft.search()`]({{< relref "/commands/ft.search" >}})
+Redis Search methods such as [`ft.search()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See
 [Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
@@ -156,5 +156,5 @@ also the same:
 
 ## More information
 
-See the [Redis Query Engine]({{< relref "/develop/ai/search-and-query" >}}) docs
+See the [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) docs
 for a full description of all query features with examples.
