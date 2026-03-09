@@ -89,7 +89,7 @@ dotnet add package Azure.AI.OpenAI --prerelease
 Add the following imports to your source file:
 
 ```csharp
-// Redis connection and Query Engine.
+// Redis connection and Redis Search.
 using NRedisStack.RedisStackCommands;
 using StackExchange.Redis;
 using NRedisStack.Search;

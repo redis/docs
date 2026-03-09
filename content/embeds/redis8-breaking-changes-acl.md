@@ -15,7 +15,7 @@ These ACL changes may introduce breaking changes for some users, which must be a
 
 Before Redis 8, the existing ACL categories @read, @write, @dangerous, @admin, @slow, and @fast did not include commands for Redis Search and the JSON, time series, and probabilistic data structures.
 
-Starting with Redis 8, Redis includes all Query Engine, JSON, time series, Bloom filter, cuckoo filter, top-k, count-min sketch, and t-digest commands in these existing ACL categories.
+Starting with Redis 8, Redis includes all Redis Search, JSON, time series, Bloom filter, cuckoo filter, top-k, count-min sketch, and t-digest commands in these existing ACL categories.
 
 As a result:
 

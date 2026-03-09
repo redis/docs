@@ -82,8 +82,8 @@ can use hashes in many different ways inside your application.
 The field values are strings, but hashes provide commands to treat
 them as integers or floating-point numbers and perform simple arithmetic
 operations on them. You can set expirations on individual hash fields
-and you can also index and query hash documents using the Redis
-[query engine]({{< relref "/develop/ai/search-and-query" >}}).
+and you can also index and query hash documents using
+[Redis Search]({{< relref "/develop/ai/search-and-query" >}}).
 
 ### JSON
 
@@ -95,7 +95,7 @@ and you can also index and query hash documents using the Redis
 JSON provides rich data modeling capabilities with nested fields and arrays.
 You can use a simple path syntax to access any subset of the data within
 a JSON document. JSON also has more powerful and flexible
-[query engine]({{< relref "/develop/ai/search-and-query" >}})
+[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
 features compared to hashes.
 
 ### Lists
@@ -166,7 +166,7 @@ questions:
             Do you need nested data structures (fields and arrays) or geospatial
             index/query with Redis Search?
         whyAsk: |
-            JSON is the only document type that supports deeply nested structures and integrates with the query engine for those structures
+            JSON is the only document type that supports deeply nested structures and integrates with Redis Search for those structures
         answers:
             yes:
                 value: "Yes"

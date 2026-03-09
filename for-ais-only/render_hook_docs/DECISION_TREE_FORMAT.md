@@ -139,7 +139,7 @@ text: |
 whyAsk: |
     JSON is the only document type that supports
     deeply nested structures and integrates with
-    the query engine for those structures
+    Redis Search for those structures
 ```
 
 ## Code Block Attributes

@@ -260,7 +260,7 @@ FT.EXPLAINCLI idx:dialects "-(hello world)" DIALECT 2
 ```
 
 {{% alert title=Note %}}
-[`FT.EXPLAIN`]({{< relref "commands/ft.explain/" >}}) doesn't execute the query. It only explains the plan. It's a way to understand how your query is interpreted by the query engine, which can be invaluable when you're trying to optimize your searches.
+[`FT.EXPLAIN`]({{< relref "commands/ft.explain/" >}}) doesn't execute the query. It only explains the plan. It's a way to understand how your query is interpreted by Redis Search, which can be invaluable when you're trying to optimize your searches.
 {{% /alert %}}
 
 ## Change the default dialect

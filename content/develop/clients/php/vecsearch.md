@@ -75,7 +75,7 @@ require 'vendor/autoload.php';
 // TransformersPHP
 use function Codewithkyrian\Transformers\Pipelines\pipeline;
 
-// Redis client and query engine classes.
+// Redis client and Redis Search classes.
 use Predis\Client;
 use Predis\Command\Argument\Search\CreateArguments;
 use Predis\Command\Argument\Search\SearchArguments;
