@@ -19,7 +19,7 @@ development purposes.
 The proper way to configure Redis is by providing a Redis configuration file,
 usually called `redis.conf`. Beginning with Redis 8 in Redis Open Source, there are two configuration files:
 * `redis.conf` - contains the configuration settings for Redis server only.
-* `redis-full.conf` - contains configuration settings for Redis server and all available components: Redis Query Engine, Redis time series, and Redis probabilistic data structures. This file has as its first line `include redis.conf`, which pulls in the Redis server configuration settings at startup. Use `redis-full.conf` when you want to enable all available components. The file contains four `loadmodule` directives, one for each component, and also loads Redis JSON (though JSON has no configuration parameters).
+* `redis-full.conf` - contains configuration settings for Redis server and all available components: Redis Search, Redis time series, and Redis probabilistic data structures. This file has as its first line `include redis.conf`, which pulls in the Redis server configuration settings at startup. Use `redis-full.conf` when you want to enable all available components. The file contains four `loadmodule` directives, one for each component, and also loads Redis JSON (though JSON has no configuration parameters).
 
 If you are building Redis from source and choose to build Redis server without the available components, you can use `redis.conf` as your configuration file.
 
@@ -42,6 +42,7 @@ backslashed hexadecimal notation "\\xff".
 
 The list of configuration directives, along with comments describing their meaning and intended usage, is available in the self-documented sample files `redis.conf` and `redis-full.conf` files shipped with the Redis distributions.
 
+* Configuration files for Redis 8.6: [redis-full.conf](https://raw.githubusercontent.com/redis/redis/8.6/redis-full.conf) and [redis.conf](https://raw.githubusercontent.com/redis/redis/8.6/redis.conf).
 * Configuration files for Redis 8.4: [redis-full.conf](https://raw.githubusercontent.com/redis/redis/8.4/redis-full.conf) and [redis.conf](https://raw.githubusercontent.com/redis/redis/8.4/redis.conf).
 * Configuration files for Redis 8.2: [redis-full.conf](https://raw.githubusercontent.com/redis/redis/8.2/redis-full.conf) and [redis.conf](https://raw.githubusercontent.com/redis/redis/8.2/redis.conf).
 * Configuration files for Redis 8.0: [redis-full.conf](https://raw.githubusercontent.com/redis/redis/8.0/redis-full.conf) and [redis.conf](https://raw.githubusercontent.com/redis/redis/8.0/redis.conf).

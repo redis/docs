@@ -1,0 +1,622 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "zpopmax(name: KeyT, count: Optional[int] = None)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Tuple zpopmax(final byte[] key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Tuple",
+          "description": "The scores"
+        }
+      },
+      {
+        "signature": "List<Tuple> zpopmax(final byte[] key, final int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Tuple>",
+          "description": "The scores"
+        }
+      },
+      {
+        "signature": "Tuple zpopmax(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Tuple",
+          "description": "The scores"
+        }
+      },
+      {
+        "signature": "List<Tuple> zpopmax(final String key, final int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Tuple>",
+          "description": "The scores"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "ScoredValue<V> zpopmax(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "ScoredValue<V>",
+          "description": "List&lt;ScoredValue&lt;V&gt;&gt; array-reply list of popped scores and elements. @since 5.1"
+        }
+      },
+      {
+        "signature": "List<ScoredValue<V>> zpopmax(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "the number of elements to return."
+          }
+        ],
+        "returns": {
+          "type": "List<ScoredValue<V>>",
+          "description": "List&lt;ScoredValue&lt;V&gt;&gt; array-reply list of popped scores and elements. @since 5.1"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<ScoredValue<V>> zpopmax(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<ScoredValue<V>>",
+          "description": "List&lt;ScoredValue&lt;V&gt;&gt; array-reply list of popped scores and elements. @since 5.1"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<ScoredValue<V>>> zpopmax(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "the number of elements to return."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<ScoredValue<V>>>",
+          "description": "List&lt;ScoredValue&lt;V&gt;&gt; array-reply list of popped scores and elements. @since 5.1"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<ScoredValue<V>> zpopmax(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<ScoredValue<V>>",
+          "description": "ScoredValue&lt;V&gt; array-reply list of popped scores and elements. @since 5.1"
+        }
+      },
+      {
+        "signature": "Flux<ScoredValue<V>> zpopmax(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "the number of elements to return."
+          }
+        ],
+        "returns": {
+          "type": "Flux<ScoredValue<V>>",
+          "description": "ScoredValue&lt;V&gt; array-reply list of popped scores and elements. @since 5.1"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ZPopMax(ctx context.Context, key string, count ...int64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "...int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ZSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ZPOPMAX(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "zpopmax(key: RedisKey, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zpopmax(key: RedisKey, count: number | string, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "zpopmax(key: K, count: isize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "zpopmax(key: K, count: isize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SortedSetPop(RedisKey key, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by when popping items out of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for the operation."
+          }
+        ],
+        "returns": {
+          "type": "SortedSetEntry?",
+          "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
+        }
+      },
+      {
+        "signature": "SortedSetPop(RedisKey key, long count, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "The maximum number of records to pop out of the sorted set."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by when popping items out of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for the operation."
+          }
+        ],
+        "returns": {
+          "type": "SortedSetEntry[]",
+          "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
+        }
+      },
+      {
+        "signature": "SortedSetPop(RedisKey[] keys, long count, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys to check."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "The maximum number of records to pop out of the sorted set."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by when popping items out of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for the operation."
+          }
+        ],
+        "returns": {
+          "type": "SortedSetPopResult",
+          "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
+        }
+      },
+      {
+        "signature": "SortedSetPop(RedisKey key, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by when popping items out of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for the operation."
+          }
+        ],
+        "returns": {
+          "type": "SortedSetEntry?",
+          "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
+        }
+      },
+      {
+        "signature": "SortedSetPop(RedisKey key, long count, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "The maximum number of records to pop out of the sorted set."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by when popping items out of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for the operation."
+          }
+        ],
+        "returns": {
+          "type": "SortedSetEntry[]",
+          "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SortedSetPop(RedisKey key, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by when popping items out of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for the operation."
+          }
+        ],
+        "returns": {
+          "type": "SortedSetEntry?",
+          "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
+        }
+      },
+      {
+        "signature": "SortedSetPop(RedisKey key, long count, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "The maximum number of records to pop out of the sorted set."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by when popping items out of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for the operation."
+          }
+        ],
+        "returns": {
+          "type": "SortedSetEntry[]",
+          "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
+        }
+      },
+      {
+        "signature": "SortedSetPop(RedisKey[] keys, long count, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys to check."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "The maximum number of records to pop out of the sorted set."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by when popping items out of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for the operation."
+          }
+        ],
+        "returns": {
+          "type": "SortedSetPopResult",
+          "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
+        }
+      },
+      {
+        "signature": "SortedSetPop(RedisKey key, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by when popping items out of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for the operation."
+          }
+        ],
+        "returns": {
+          "type": "SortedSetEntry?",
+          "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
+        }
+      },
+      {
+        "signature": "SortedSetPop(RedisKey key, long count, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "The maximum number of records to pop out of the sorted set."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by when popping items out of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for the operation."
+          }
+        ],
+        "returns": {
+          "type": "SortedSetEntry[]",
+          "description": "A contiguous collection of sorted set entries with the key they were popped from, or Null if no non-empty sorted sets are found."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "zpopmax(string $key, int $count = 1)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "int $count = 1",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

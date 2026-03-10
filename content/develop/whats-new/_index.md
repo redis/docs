@@ -90,7 +90,7 @@ weight: 10
 
 - [Redis Open Source 8.2 documentation]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.2-release-notes" >}})
 - Updated [Redis 8.0 release notes]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.0-release-notes" >}})
-- [Redis Query Engine expiration capabilities]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}}) in Redis 8
+- [Redis Search expiration capabilities]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}}) in Redis 8
 - Enhanced [TAG documentation]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}}) per GitHub issues
 - [Vector quantization and compression]({{< relref "/develop/ai/search-and-query/vectors/svs-compression" >}}) moved to dedicated page
 
@@ -272,7 +272,7 @@ weight: 10
 
 * Updated the RESP3 specification document to include the [attribute type]({{< relref "/develop/reference/protocol-spec#attributes" >}}).
 * Updates to the [key eviction]({{< relref "/develop/reference/eviction" >}}) page.
-* Updates to the Redis Insight page related to its new Redis Query Engine auto-completion [feature]({{< relref "/develop/tools/insight#workbench">}}).
+* Updates to the Redis Insight page related to its new Redis Search auto-completion [feature]({{< relref "/develop/tools/insight#workbench">}}).
 * Restructured and added testable connection examples to the [client pages]({{< relref "/develop/clients" >}}).
 * Added [Redis Open Source]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce" >}}) and [Redis Stack]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisstack" >}}) release notes.
 * Added new [Redis for AI]({{< relref "/develop/ai" >}}) page.
@@ -287,6 +287,6 @@ weight: 10
 * Added new [client-side caching page]({{< relref "/develop/clients/client-side-caching" >}}).
 * Added new documentation for the [RDI in Redis Insight feature]({{< relref "/develop/tools/insight/rdi-connector" >}}).
 * Added new documentation for the [Redis for VS Code feature]({{< relref "/develop/tools/redis-for-vscode/" >}}).
-* Added multi-language code examples to the Redis Query Engine [query]({{< relref "/develop/ai/search-and-query/query">}}) pages.
+* Added multi-language code examples to Redis Search [query]({{< relref "/develop/ai/search-and-query/query">}}) pages.
 * Added client-side caching information to the [supported clients]({{< relref "/develop/clients/client-side-caching#which-client-libraries-support-client-side-caching" >}}) pages.
 * Numerous changes to the [Redis client content]({{< relref "/develop/clients" >}}).

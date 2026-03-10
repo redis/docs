@@ -104,7 +104,7 @@ OK
 OK
 {{< /clients-example >}}
 
-## Search and query using the Redis Query Engine
+## Search and query using Redis Search
 
 ### Wildcard query
 

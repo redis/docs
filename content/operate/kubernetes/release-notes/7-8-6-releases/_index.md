@@ -8,10 +8,10 @@ description: Releases with support for Redis Enterprise Software 7.8.6
 hideListLinks: true
 linkTitle: 7.8.6 releases
 title: Redis Enterprise for Kubernetes 7.8.6 release notes
-weight: 48
+weight: 68
 ---
 
-Redis Enterprise for Kubernetes 7.8.6 includes bug fixes, enhancements, and support for Redis Enterprise Software. The latest release is 7.8.6-8 with support for Redis Enterprise Software version 7.8.6-207.
+Redis Enterprise for Kubernetes 7.8.6 includes bug fixes, enhancements, and support for Redis Enterprise Software. The latest release is 7.8.6-13 with support for Redis Enterprise Software version 7.8.6-256.
 
 ## Detailed release notes
 
@@ -20,6 +20,20 @@ Redis Enterprise for Kubernetes 7.8.6 includes bug fixes, enhancements, and supp
 ## Breaking changes
 
 Customers who use load balancers for Active-Active replication endpoints and rely on the change introduced in RED-113626 (or the workaround described in the ticket) must set the spec.externalReplicationPort field in REAADB after upgrading. Otherwise, replication will fail (RED-149374).
+
+## RHEL9-based image
+
+As of version 7.8.2-6, Redis Enterprise images are based on Red Hat Enterprise Linux 9 (RHEL9). This means upgrades require:
+
+- [Cluster version of 7.4.2-2 or later](https://redis.io/docs/latest/operate/kubernetes/7.4.6/upgrade/).
+- Database version 7.2 or later.
+- RHEL9 compatible binaries for any modules you need.
+
+For detailed steps, see the relevant upgrade page:
+
+- [OpenShift CLI]({{<relref "/operate/kubernetes/upgrade/openshift-cli">}})
+- [OpenShift OperatorHub]({{<relref "/operate/kubernetes/upgrade/upgrade-olm">}})
+- [Kubernetes]({{<relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}})
 
 ## Known limitations
 

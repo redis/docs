@@ -31,6 +31,10 @@ API references are available for the following client libraries:
 See [Compare data types]({{< relref "/develop/data-types/compare-data-types" >}}) for advice 
 on which of the general-purpose data types is best for common tasks.
 
+## Redis patterns for coding agents
+
+Salvatore Sanfilippo (also known as *antirez*, the creator of Redis) has provided the Redis community with a resource containing very useful Redis-oriented design patterns. See [this page](https://redis.antirez.com/) for more information.
+
 ## Error handling
 
 See [Error handling]({{< relref "/develop/clients/error-handling" >}}) for a guide to handling errors in client libraries.

@@ -1,0 +1,413 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "arrpop(, name: str,, path: Optional[str] = Path.root_path(),, index: Optional[int] = -1,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Optional[str] = Path.root_path()",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "Optional[int] = -1",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List[Optional[str]]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Object jsonArrPop(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": ""
+        }
+      },
+      {
+        "signature": "<T> T jsonArrPop(String key, Class<T> clazz)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "clazz",
+            "type": "Class<T>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "<T> T",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Object jsonArrPop(String key, Path path)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": ""
+        }
+      },
+      {
+        "signature": "<T> T jsonArrPop(String key, Class<T> clazz, Path path)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "clazz",
+            "type": "Class<T>",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "<T> T",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Object jsonArrPop(String key, Path path, int index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<JsonValue> jsonArrpop(K key, JsonPath jsonPath, int index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<JsonValue>",
+          "description": "List<JsonValue> the removed element, or null if the specified path is not an array. @since 6.5"
+        }
+      },
+      {
+        "signature": "List<JsonValue> jsonArrpop(K key, JsonPath jsonPath)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<JsonValue>",
+          "description": "List<JsonValue> the removed element, or null if the specified path is not an array. @since 6.5"
+        }
+      },
+      {
+        "signature": "List<JsonValue> jsonArrpop(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          }
+        ],
+        "returns": {
+          "type": "List<JsonValue>",
+          "description": "List<JsonValue> the removed element, or null if the specified path is not an array. @since 6.5"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<JsonValue>> jsonArrpop(K key, JsonPath jsonPath, int index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<JsonValue>>",
+          "description": "List<JsonValue> the removed element, or null if the specified path is not an array. @since 6.5"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<JsonValue>> jsonArrpop(K key, JsonPath jsonPath)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<JsonValue>>",
+          "description": "List<JsonValue> the removed element, or null if the specified path is not an array. @since 6.5"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<JsonValue>> jsonArrpop(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<JsonValue>>",
+          "description": "List<JsonValue> the removed element, or null if the specified path is not an array. @since 6.5"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<JsonValue> jsonArrpop(K key, JsonPath jsonPath, int index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<JsonValue>",
+          "description": "List<JsonValue> the removed element, or null if the specified path is not an array. @since 6.5"
+        }
+      },
+      {
+        "signature": "Flux<JsonValue> jsonArrpop(K key, JsonPath jsonPath)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<JsonValue>",
+          "description": "List<JsonValue> the removed element, or null if the specified path is not an array. @since 6.5"
+        }
+      },
+      {
+        "signature": "Flux<JsonValue> jsonArrpop(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          }
+        ],
+        "returns": {
+          "type": "Flux<JsonValue>",
+          "description": "List<JsonValue> the removed element, or null if the specified path is not an array. @since 6.5"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "JSONArrPop(ctx context.Context, key, path string, index int)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ARRPOP(key: RedisArgument, options?: RedisArrPopOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "RedisArrPopOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "ArrPop(RedisKey key, string? path = null, long? index = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisResult[]",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "jsonarrpop(string $key, string $path = '$', int $index = -1)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "string $path = '$'",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "int $index = -1",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

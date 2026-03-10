@@ -1,0 +1,429 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "getrange(key: KeyT, start: int, end: int)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      },
+      {
+        "signature": "substr(name: KeyT, start: int, end: int = -1)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int = -1",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String substr(final String key, final int start, final int end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "The substring @deprecated Use Jedis#getrange(String, long, long) instead. Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 2.0.0."
+        }
+      },
+      {
+        "signature": "String getrange(final String key, final long startOffset, final long endOffset)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "startOffset",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "endOffset",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "V getrange(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end type: long."
+          }
+        ],
+        "returns": {
+          "type": "V",
+          "description": "V bulk-string-reply."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<V> getrange(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end type: long."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<V>",
+          "description": "V bulk-string-reply."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<V> getrange(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end type: long."
+          }
+        ],
+        "returns": {
+          "type": "Mono<V>",
+          "description": "V bulk-string-reply."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "GetRange(ctx context.Context, key string, start, end int64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "GETRANGE(key: RedisArgument, start: number, end: number)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "getrange(key: RedisKey, start: number | string, end: number | string, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "substr(key: RedisKey, start: number | string, end: number | string, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "getrange(key: K, from: isize, to: isize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "from",
+            "type": "isize",
+            "description": ""
+          },
+          {
+            "name": "to",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(String)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "getrange(key: K, from: isize, to: isize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "from",
+            "type": "isize",
+            "description": ""
+          },
+          {
+            "name": "to",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(String)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "GetRange(double value, Exclude exclude, bool isStart)",
+        "params": [
+          {
+            "name": "value",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": ""
+          },
+          {
+            "name": "isStart",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "GetRange(double value, Exclude exclude, bool isStart)",
+        "params": [
+          {
+            "name": "value",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": ""
+          },
+          {
+            "name": "isStart",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "getrange(string $key, $start, $end)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$start",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$end",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

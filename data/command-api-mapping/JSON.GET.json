@@ -1,0 +1,385 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "get(name: str, *args, no_escape: Optional[bool] = False)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "*args",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "no_escape",
+            "type": "Optional[bool] = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Optional[List[JsonType]]",
+          "description": ""
+        }
+      },
+      {
+        "signature": "jsonget(*args, **kwargs)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Object jsonGet(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": ""
+        }
+      },
+      {
+        "signature": "<T> T jsonGet(String key, Class<T> clazz)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "clazz",
+            "type": "Class<T>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "<T> T",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Object jsonGet(String key, Path... paths)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "paths",
+            "type": "Path...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": ""
+        }
+      },
+      {
+        "signature": "<T> T jsonGet(String key, Class<T> clazz, Path... paths)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "clazz",
+            "type": "Class<T>",
+            "description": ""
+          },
+          {
+            "name": "paths",
+            "type": "Path...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "<T> T",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Object jsonGet(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<JsonValue> jsonGet(K key, JsonGetArgs options, JsonPath... jsonPaths)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "options",
+            "type": "JsonGetArgs",
+            "description": ""
+          },
+          {
+            "name": "jsonPaths",
+            "type": "JsonPath...",
+            "description": "the JsonPaths to use to identify the values to get."
+          }
+        ],
+        "returns": {
+          "type": "List<JsonValue>",
+          "description": "JsonValue the value at path in JSON serialized form, or null if the path does not exist. @since 6.5"
+        }
+      },
+      {
+        "signature": "List<JsonValue> jsonGet(K key, JsonPath... jsonPaths)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPaths",
+            "type": "JsonPath...",
+            "description": "the JsonPaths to use to identify the values to get."
+          }
+        ],
+        "returns": {
+          "type": "List<JsonValue>",
+          "description": "JsonValue the value at path in JSON serialized form, or null if the path does not exist. @since 6.5"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<JsonValue>> jsonGet(K key, JsonGetArgs options, JsonPath... jsonPaths)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "options",
+            "type": "JsonGetArgs",
+            "description": ""
+          },
+          {
+            "name": "jsonPaths",
+            "type": "JsonPath...",
+            "description": "the JsonPaths to use to identify the values to get."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<JsonValue>>",
+          "description": "JsonValue the value at path in JSON serialized form, or null if the path does not exist. @since 6.5"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<JsonValue>> jsonGet(K key, JsonPath... jsonPaths)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPaths",
+            "type": "JsonPath...",
+            "description": "the JsonPaths to use to identify the values to get."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<JsonValue>>",
+          "description": "JsonValue the value at path in JSON serialized form, or null if the path does not exist. @since 6.5"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<JsonValue> jsonGet(K key, JsonGetArgs options, JsonPath... jsonPaths)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "options",
+            "type": "JsonGetArgs",
+            "description": ""
+          },
+          {
+            "name": "jsonPaths",
+            "type": "JsonPath...",
+            "description": "the JsonPaths to use to identify the values to get."
+          }
+        ],
+        "returns": {
+          "type": "Flux<JsonValue>",
+          "description": "JsonValue the value at path in JSON serialized form, or null if the path does not exist. @since 6.5"
+        }
+      },
+      {
+        "signature": "Flux<JsonValue> jsonGet(K key, JsonPath... jsonPaths)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPaths",
+            "type": "JsonPath...",
+            "description": "the JsonPaths to use to identify the values to get."
+          }
+        ],
+        "returns": {
+          "type": "Flux<JsonValue>",
+          "description": "JsonValue the value at path in JSON serialized form, or null if the path does not exist. @since 6.5"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "JSONGet(ctx context.Context, key string, paths ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "paths",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*JSONCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "GET(key: RedisArgument, options?: JsonGetOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "JsonGetOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Get<T>(RedisKey key, string path = \"$\", JsonSerializerOptions? serializerOptions = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "serializerOptions",
+            "type": "JsonSerializerOptions?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "public T?",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "jsonget(string $key, string $indent = '', string $newline = '', string $space = '', string ...$paths)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "string $indent = ''",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "string $newline = ''",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "string $space = ''",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$paths",
+            "type": "string ...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

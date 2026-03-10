@@ -1,0 +1,1030 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "hexpire(, name: KeyT,, seconds: ExpiryT,, *fields: str,, nx: bool = False,, xx: bool = False,, gt: bool = False,, lt: bool = False,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "ExpiryT",
+            "description": ""
+          },
+          {
+            "name": "*fields",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "gt",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "lt",
+            "type": "bool = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Long> hexpire(byte[] key, long seconds, byte[]... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> hexpire(byte[] key, long seconds, ExpiryOption condition, byte[]... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "ExpiryOption",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> hexpire(String key, long seconds, String... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> hexpire(String key, long seconds, ExpiryOption condition, String... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "ExpiryOption",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Long> hexpire(K key, long seconds, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": "the TTL Duration"
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is 0; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "List<Long> hexpire(K key, long seconds, ExpireArgs expireArgs, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": "the TTL Duration"
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the ExpireArgs."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is 0; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "List<Long> hexpire(K key, Duration seconds, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "seconds",
+            "type": "Duration",
+            "description": "the TTL Duration"
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is 0; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "List<Long> hexpire(K key, Duration seconds, ExpireArgs expireArgs, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "seconds",
+            "type": "Duration",
+            "description": "the TTL Duration"
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the ExpireArgs."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is 0; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Long>> hexpire(K key, long seconds, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": "the TTL Duration"
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is 0; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> hexpire(K key, long seconds, ExpireArgs expireArgs, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": "the TTL Duration"
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the ExpireArgs."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is 0; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> hexpire(K key, Duration seconds, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "seconds",
+            "type": "Duration",
+            "description": "the TTL Duration"
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is 0; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> hexpire(K key, Duration seconds, ExpireArgs expireArgs, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "seconds",
+            "type": "Duration",
+            "description": "the TTL Duration"
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the ExpireArgs."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is 0; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Long> hexpire(K key, long seconds, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": "the TTL Duration"
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is 0; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "Flux<Long> hexpire(K key, long seconds, ExpireArgs expireArgs, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": "the TTL Duration"
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the ExpireArgs."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is 0; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "Flux<Long> hexpire(K key, Duration seconds, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "seconds",
+            "type": "Duration",
+            "description": "the TTL Duration"
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is 0; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      },
+      {
+        "signature": "Flux<Long> hexpire(K key, Duration seconds, ExpireArgs expireArgs, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "seconds",
+            "type": "Duration",
+            "description": "the TTL Duration"
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the ExpireArgs."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to set the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "a list of Long values for each of the fields provided: 2 indicating the specific field is deleted already due to expiration, or provided expiry interval is 0; 1 indicating expiration time is set/updated; 0 indicating the expiration time is not set (a provided NX | XX | GT | LT condition is not met); -2 indicating there is no such field @since 6.4"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "HExpire(ctx context.Context, key string, expiration time.Duration, fields ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "expiration",
+            "type": "time.Duration",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "HEXPIRE(key: RedisArgument, fields: RedisVariadicArgument, seconds: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "mode?",
+            "type": "'NX' | 'XX' | 'GT' | 'LT'",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "hexpire(...args: [key: RedisKey, seconds: number | string, fieldsToken: 'FIELDS', numfields: number | string, ...fields: (string | Buffer)[], callback: Callback<number[]>])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hexpire(...args: [key: RedisKey, seconds: number | string, fieldsToken: 'FIELDS', numfields: number | string, ...fields: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<number[], Context>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hexpire(...args: [key: RedisKey, seconds: number | string, nx: 'NX', fieldsToken: 'FIELDS', numfields: number | string, ...fields: (string | Buffer)[], callback: Callback<number[]>]): Result<number[], Context>;, hexpire(...args: [key: RedisKey, seconds: number | string, nx: 'NX', fieldsToken: 'FIELDS', numfields: number | string, ...fields: (string | Buffer)[]]): Result<number[], Context>;, hexpire(...args: [key: RedisKey, seconds: number | string, xx: 'XX', fieldsToken: 'FIELDS', numfields: number | string, ...fields: (string | Buffer)[], callback: Callback<number[]>]): Result<number[], Context>;, hexpire(...args: [key: RedisKey, seconds: number | string, xx: 'XX', fieldsToken: 'FIELDS', numfields: number | string, ...fields: (string | Buffer)[]]): Result<number[], Context>;, hexpire(...args: [key: RedisKey, seconds: number | string, gt: 'GT', fieldsToken: 'FIELDS', numfields: number | string, ...fields: (string | Buffer)[], callback: Callback<number[]>]): Result<number[], Context>;, hexpire(...args: [key: RedisKey, seconds: number | string, gt: 'GT', fieldsToken: 'FIELDS', numfields: number | string, ...fields: (string | Buffer)[]]): Result<number[], Context>;, hexpire(...args: [key: RedisKey, seconds: number | string, lt: 'LT', fieldsToken: 'FIELDS', numfields: number | string, ...fields: (string | Buffer)[], callback: Callback<number[]>]): Result<number[], Context>;, hexpire(...args: [key: RedisKey, seconds: number | string, lt: 'LT', fieldsToken: 'FIELDS', numfields: number | string, ...fields: (string | Buffer)[]]): Result<number[], Context>;, /**, * Get the value of a hash field, * - _group_: hash, * - _complexity_: O(1), * - _since_: 2.0.0, */, hget(, key: RedisKey, field: string | Buffer, callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[key",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "hexpire(key: K, seconds: i64, opt: ExpireOption, fields: F)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "i64",
+            "description": ""
+          },
+          {
+            "name": "opt",
+            "type": "ExpireOption",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "F",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<IntegerReplyOrNoOp>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hexpire_at(key: K, ts: i64, opt: ExpireOption, fields: F)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "ts",
+            "type": "i64",
+            "description": ""
+          },
+          {
+            "name": "opt",
+            "type": "ExpireOption",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "F",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<IntegerReplyOrNoOp>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "hexpire(key: K, seconds: i64, opt: ExpireOption, fields: F)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "i64",
+            "description": ""
+          },
+          {
+            "name": "opt",
+            "type": "ExpireOption",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "F",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<IntegerReplyOrNoOp>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hexpire_at(key: K, ts: i64, opt: ExpireOption, fields: F)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "ts",
+            "type": "i64",
+            "description": ""
+          },
+          {
+            "name": "opt",
+            "type": "ExpireOption",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "F",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<IntegerReplyOrNoOp>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, TimeSpan expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to set expire time."
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan",
+            "description": "The exact date to expiry to set."
+          },
+          {
+            "name": "when",
+            "type": "ExpireWhen",
+            "description": "under which condition the expiration will be set using ExpireWhen."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "ExpireResult[]",
+          "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
+        }
+      },
+      {
+        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, DateTime expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to set expire time."
+          },
+          {
+            "name": "expiry",
+            "type": "DateTime",
+            "description": "The exact date to expiry to set."
+          },
+          {
+            "name": "when",
+            "type": "ExpireWhen",
+            "description": "under which condition the expiration will be set using ExpireWhen."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "ExpireResult[]",
+          "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
+        }
+      },
+      {
+        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, TimeSpan expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to set expire time."
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan",
+            "description": "The exact date to expiry to set."
+          },
+          {
+            "name": "when",
+            "type": "ExpireWhen",
+            "description": "under which condition the expiration will be set using ExpireWhen."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "ExpireResult[]",
+          "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
+        }
+      },
+      {
+        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, DateTime expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to set expire time."
+          },
+          {
+            "name": "expiry",
+            "type": "DateTime",
+            "description": "The exact date to expiry to set."
+          },
+          {
+            "name": "when",
+            "type": "ExpireWhen",
+            "description": "under which condition the expiration will be set using ExpireWhen."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "ExpireResult[]",
+          "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, TimeSpan expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to set expire time."
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan",
+            "description": "The exact date to expiry to set."
+          },
+          {
+            "name": "when",
+            "type": "ExpireWhen",
+            "description": "under which condition the expiration will be set using ExpireWhen."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "ExpireResult[]",
+          "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
+        }
+      },
+      {
+        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, DateTime expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to set expire time."
+          },
+          {
+            "name": "expiry",
+            "type": "DateTime",
+            "description": "The exact date to expiry to set."
+          },
+          {
+            "name": "when",
+            "type": "ExpireWhen",
+            "description": "under which condition the expiration will be set using ExpireWhen."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "ExpireResult[]",
+          "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
+        }
+      },
+      {
+        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, TimeSpan expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to set expire time."
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan",
+            "description": "The exact date to expiry to set."
+          },
+          {
+            "name": "when",
+            "type": "ExpireWhen",
+            "description": "under which condition the expiration will be set using ExpireWhen."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "ExpireResult[]",
+          "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
+        }
+      },
+      {
+        "signature": "HashFieldExpire(RedisKey key, RedisValue[] hashFields, DateTime expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to set expire time."
+          },
+          {
+            "name": "expiry",
+            "type": "DateTime",
+            "description": "The exact date to expiry to set."
+          },
+          {
+            "name": "when",
+            "type": "ExpireWhen",
+            "description": "under which condition the expiration will be set using ExpireWhen."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "ExpireResult[]",
+          "description": "Empty array if the key does not exist. Otherwise, returns an array where each item is the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>2</term> <description>Field deleted because the specified expiration time is due.</description> </item> <item> <term>1</term> <description>Expiration time set/updated.</description> </item> <item> <term>0</term> <description>Expiration time is not set/update (a specified ExpireWhen condition is not met).</description> </item> <item> <term>-1</term> <description>No such field exists.</description> </item> </list>"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "hexpire(string $key, int $seconds, array $fields, string $flag = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$seconds",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$fields",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "string $flag = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array|null",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

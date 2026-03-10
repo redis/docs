@@ -1,0 +1,731 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "hgetex(, name: KeyT,, *keys: str,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, persist: bool = False,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "*keys",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "ex",
+            "type": "Optional[ExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "px",
+            "type": "Optional[ExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "exat",
+            "type": "Optional[AbsExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "pxat",
+            "type": "Optional[AbsExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "persist",
+            "type": "bool = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<String> hgetex(String key, HGetExParams params, String... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "HGetExParams",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "Bulk reply"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<KeyValue<K, V>> hgetex(K key, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "fields to retrieve."
+          }
+        ],
+        "returns": {
+          "type": "List<KeyValue<K, V>>",
+          "description": "Long the number of fields that were removed from the hash."
+        }
+      },
+      {
+        "signature": "List<KeyValue<K, V>> hgetex(K key, HGetExArgs hGetExArgs, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "hGetExArgs",
+            "type": "HGetExArgs",
+            "description": "hgetex arguments."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "fields to retrieve."
+          }
+        ],
+        "returns": {
+          "type": "List<KeyValue<K, V>>",
+          "description": "Long the number of fields that were removed from the hash."
+        }
+      },
+      {
+        "signature": "Long hgetex(KeyValueStreamingChannel<K, V> channel, K key, HGetExArgs hGetExArgs, K... fields)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "KeyValueStreamingChannel<K, V>",
+            "description": "the channel."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "hGetExArgs",
+            "type": "HGetExArgs",
+            "description": "hgetex arguments."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "fields to retrieve."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long the number of fields that were removed from the hash."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<KeyValue<K, V>>> hgetex(K key, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "fields to retrieve."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<KeyValue<K, V>>>",
+          "description": "Long the number of fields that were removed from the hash."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<KeyValue<K, V>>> hgetex(K key, HGetExArgs hGetExArgs, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "hGetExArgs",
+            "type": "HGetExArgs",
+            "description": "hgetex arguments."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "fields to retrieve."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<KeyValue<K, V>>>",
+          "description": "Long the number of fields that were removed from the hash."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> hgetex(KeyValueStreamingChannel<K, V> channel, K key, HGetExArgs hGetExArgs, K... fields)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "KeyValueStreamingChannel<K, V>",
+            "description": "the channel."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "hGetExArgs",
+            "type": "HGetExArgs",
+            "description": "hgetex arguments."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "fields to retrieve."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long the number of fields that were removed from the hash."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<KeyValue<K, V>> hgetex(K key, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "fields to retrieve."
+          }
+        ],
+        "returns": {
+          "type": "Flux<KeyValue<K, V>>",
+          "description": "Long the number of fields that were removed from the hash."
+        }
+      },
+      {
+        "signature": "Flux<KeyValue<K, V>> hgetex(K key, HGetExArgs hGetExArgs, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "hGetExArgs",
+            "type": "HGetExArgs",
+            "description": "hgetex arguments."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "fields to retrieve."
+          }
+        ],
+        "returns": {
+          "type": "Flux<KeyValue<K, V>>",
+          "description": "Long the number of fields that were removed from the hash."
+        }
+      },
+      {
+        "signature": "Mono<Long> hgetex(KeyValueStreamingChannel<K, V> channel, K key, HGetExArgs hGetExArgs, K... fields)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "KeyValueStreamingChannel<K, V>",
+            "description": "the channel."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "hGetExArgs",
+            "type": "HGetExArgs",
+            "description": "hgetex arguments."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "fields to retrieve."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long the number of fields that were removed from the hash."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "HGetEX(ctx context.Context, key string, fields ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "hget_ex(key: K, fields: F, expire_at: Expiry)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "F",
+            "description": ""
+          },
+          {
+            "name": "expire_at",
+            "type": "Expiry",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "hget_ex(key: K, fields: F, expire_at: Expiry)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "F",
+            "description": ""
+          },
+          {
+            "name": "expire_at",
+            "type": "Expiry",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "HashFieldGetAndSetExpiry(RedisKey key, RedisValue hashField, TimeSpan? expiry = null, bool persist = false, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The exact date and time to set the expiration to."
+          },
+          {
+            "name": "persist",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The values of the specified hash fields."
+        }
+      },
+      {
+        "signature": "HashFieldGetAndSetExpiry(RedisKey key, RedisValue hashField, DateTime expiry, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "expiry",
+            "type": "DateTime",
+            "description": "The exact date and time to set the expiration to."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The values of the specified hash fields."
+        }
+      },
+      {
+        "signature": "HashFieldGetAndSetExpiry(RedisKey key, RedisValue[] hashFields, TimeSpan? expiry = null, bool persist = false, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to get and set the expiration for."
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The exact date and time to set the expiration to."
+          },
+          {
+            "name": "persist",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "The values of the specified hash fields."
+        }
+      },
+      {
+        "signature": "HashFieldGetAndSetExpiry(RedisKey key, RedisValue[] hashFields, DateTime expiry, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to get and set the expiration for."
+          },
+          {
+            "name": "expiry",
+            "type": "DateTime",
+            "description": "The exact date and time to set the expiration to."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "The values of the specified hash fields."
+        }
+      },
+      {
+        "signature": "HashFieldGetAndSetExpiry(RedisKey key, RedisValue hashField, TimeSpan? expiry = null, bool persist = false, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The exact date and time to set the expiration to."
+          },
+          {
+            "name": "persist",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The values of the specified hash fields."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "HashFieldGetAndSetExpiry(RedisKey key, RedisValue hashField, TimeSpan? expiry = null, bool persist = false, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The exact date and time to set the expiration to."
+          },
+          {
+            "name": "persist",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The values of the specified hash fields."
+        }
+      },
+      {
+        "signature": "HashFieldGetAndSetExpiry(RedisKey key, RedisValue hashField, DateTime expiry, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "expiry",
+            "type": "DateTime",
+            "description": "The exact date and time to set the expiration to."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The values of the specified hash fields."
+        }
+      },
+      {
+        "signature": "HashFieldGetAndSetExpiry(RedisKey key, RedisValue[] hashFields, TimeSpan? expiry = null, bool persist = false, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to get and set the expiration for."
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The exact date and time to set the expiration to."
+          },
+          {
+            "name": "persist",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "The values of the specified hash fields."
+        }
+      },
+      {
+        "signature": "HashFieldGetAndSetExpiry(RedisKey key, RedisValue[] hashFields, DateTime expiry, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to get and set the expiration for."
+          },
+          {
+            "name": "expiry",
+            "type": "DateTime",
+            "description": "The exact date and time to set the expiration to."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "The values of the specified hash fields."
+        }
+      },
+      {
+        "signature": "HashFieldGetAndSetExpiry(RedisKey key, RedisValue hashField, TimeSpan? expiry = null, bool persist = false, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The exact date and time to set the expiration to."
+          },
+          {
+            "name": "persist",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The values of the specified hash fields."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "hgetex(string $key, array $fields, string $modifier = HGETEX::NULL, int|bool $modifierValue = false)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$fields",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "string $modifier = HGETEX::NULL",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "int|bool $modifierValue = false",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array|null",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,422 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "get(name: KeyT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String get(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Bulk reply"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "V get(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "V",
+          "description": "V bulk-string-reply the value of key, or null when key does not exist."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<V> get(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<V>",
+          "description": "V bulk-string-reply the value of key, or null when key does not exist."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<V> get(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<V>",
+          "description": "V bulk-string-reply the value of key, or null when key does not exist."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Get(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "GET(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "get(key: RedisKey, callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "get(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "get(mut self, get: bool)",
+        "params": [
+          {
+            "name": "mut self",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "get",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Self",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "get(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "get(mut self, get: bool)",
+        "params": [
+          {
+            "name": "mut self",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "get",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Self",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StringGet(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The values of the strings with Null for keys do not exist."
+        }
+      },
+      {
+        "signature": "StringGet(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the strings."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "The values of the strings with Null for keys do not exist."
+        }
+      },
+      {
+        "signature": "StringGet(key, flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "Any",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": "The values of the strings with Null for keys do not exist."
+        }
+      },
+      {
+        "signature": "StringGet(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The values of the strings with Null for keys do not exist."
+        }
+      },
+      {
+        "signature": "StringGet(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the strings."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "The values of the strings with Null for keys do not exist."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StringGet(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The values of the strings with Null for keys do not exist."
+        }
+      },
+      {
+        "signature": "StringGet(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the strings."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "The values of the strings with Null for keys do not exist."
+        }
+      },
+      {
+        "signature": "StringGet(key, flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "Any",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": "The values of the strings with Null for keys do not exist."
+        }
+      },
+      {
+        "signature": "StringGet(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The values of the strings with Null for keys do not exist."
+        }
+      },
+      {
+        "signature": "StringGet(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the strings."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "The values of the strings with Null for keys do not exist."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "get(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string|null",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

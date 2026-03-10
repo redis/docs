@@ -1,0 +1,81 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "acl_dryrun(username: str, *args, **kwargs)",
+        "params": [
+          {
+            "name": "username",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "*args",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String aclDryRun(String username, String... args)",
+        "params": [
+          {
+            "name": "username",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "args",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "acl(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

@@ -1,0 +1,603 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "blmpop(, timeout: float,, numkeys: int,, *args: str,, direction: str,, count: Optional[int] = 1,)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "float",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "*args",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "direction",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = 1",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Optional[list]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "KeyValue<String, List<String>> blmpop(double timeout, ListDirection direction, String... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "seconds to block. A timeout of zero can be used to block indefinitely."
+          },
+          {
+            "name": "direction",
+            "type": "ListDirection",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<String, List<String>>",
+          "description": "The element being popped and pushed"
+        }
+      },
+      {
+        "signature": "KeyValue<String, List<String>> blmpop(double timeout, ListDirection direction, int count, String... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "seconds to block. A timeout of zero can be used to block indefinitely."
+          },
+          {
+            "name": "direction",
+            "type": "ListDirection",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<String, List<String>>",
+          "description": "The element being popped and pushed"
+        }
+      },
+      {
+        "signature": "KeyValue<String, List<String>> blmpop(double timeout, ListDirection direction, String... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "seconds to block. A timeout of zero can be used to block indefinitely."
+          },
+          {
+            "name": "direction",
+            "type": "ListDirection",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<String, List<String>>",
+          "description": "The element being popped and pushed"
+        }
+      },
+      {
+        "signature": "KeyValue<String, List<String>> blmpop(double timeout, ListDirection direction, int count, String... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "seconds to block. A timeout of zero can be used to block indefinitely."
+          },
+          {
+            "name": "direction",
+            "type": "ListDirection",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<String, List<String>>",
+          "description": "The element being popped and pushed"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "KeyValue<K, List<V>> blmpop(long timeout, LMPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "args",
+            "type": "LMPopArgs",
+            "description": "the additional command arguments."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<K, List<V>>",
+          "description": "KeyValue&lt;K,V&gt; array-reply specifically. null when key does not exist or the timeout was exceeded. @since 6.2"
+        }
+      },
+      {
+        "signature": "KeyValue<K, List<V>> blmpop(double timeout, LMPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "args",
+            "type": "LMPopArgs",
+            "description": "the additional command arguments."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<K, List<V>>",
+          "description": "KeyValue&lt;K,V&gt; array-reply specifically. null when key does not exist or the timeout was exceeded. @since 6.2"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<KeyValue<K, List<V>>> blmpop(long timeout, LMPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "args",
+            "type": "LMPopArgs",
+            "description": "the additional command arguments."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyValue<K, List<V>>>",
+          "description": "KeyValue&lt;K,V&gt; array-reply specifically. null when key does not exist or the timeout was exceeded. @since 6.2"
+        }
+      },
+      {
+        "signature": "RedisFuture<KeyValue<K, List<V>>> blmpop(double timeout, LMPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "args",
+            "type": "LMPopArgs",
+            "description": "the additional command arguments."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyValue<K, List<V>>>",
+          "description": "KeyValue&lt;K,V&gt; array-reply specifically. null when key does not exist or the timeout was exceeded. @since 6.2"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<KeyValue<K, List<V>>> blmpop(long timeout, LMPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "args",
+            "type": "LMPopArgs",
+            "description": "the additional command arguments."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyValue<K, List<V>>>",
+          "description": "KeyValue&lt;K,V&gt; array-reply specifically. null when key does not exist or the timeout was exceeded. @since 6.2"
+        }
+      },
+      {
+        "signature": "Mono<KeyValue<K, List<V>>> blmpop(double timeout, LMPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "args",
+            "type": "LMPopArgs",
+            "description": "the additional command arguments."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyValue<K, List<V>>>",
+          "description": "KeyValue&lt;K,V&gt; array-reply specifically. null when key does not exist or the timeout was exceeded. @since 6.2"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BLMPop(ctx context.Context, timeout time.Duration, direction string, count int64, keys ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "time.Duration",
+            "description": ""
+          },
+          {
+            "name": "direction",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int64",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*KeyValuesCmd",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "blmpop(...args: [, timeout: number | string, numkeys: number | string, ...keys: RedisKey[], left: \"LEFT\", callback: Callback<[key: string, members: string[]] | null>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, timeout",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "blmpop(...args: [, timeout: number | string, numkeys: number | string, keys: RedisKey[], left: \"LEFT\", callback: Callback<[key: string, members: string[]] | null>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, timeout",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "blmpop(...args: [, timeout: number | string, numkeys: number | string, ...keys: RedisKey[], left: \"LEFT\", ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, timeout",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "blmpop(...args: [, timeout: number | string, numkeys: number | string, keys: RedisKey[], left: \"LEFT\", ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, timeout",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "blmpop(...args: [, timeout: number | string, numkeys: number | string, ...keys: RedisKey[], left: \"LEFT\", countToken: \"COUNT\", count: number | string, callback: Callback<[key: string, members: string[]] | null>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, timeout",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "blmpop(timeout: f64, numkeys: usize, key: K, dir: Direction, count: usize)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "f64",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "usize",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "dir",
+            "type": "Direction",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "usize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<[String",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "blmpop(timeout: f64, numkeys: usize, key: K, dir: Direction, count: usize)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "f64",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "usize",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "dir",
+            "type": "Direction",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "usize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<[String",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "BLMPop(double timeout, RedisKey[] keys, ListSide listSide, long? count = null)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "listSide",
+            "type": "ListSide",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Tuple<RedisKey, List<RedisValue>>?",
+          "description": ""
+        }
+      },
+      {
+        "signature": "BLMPop(double timeout, RedisKey key, ListSide listSide, long? count = null)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "listSide",
+            "type": "ListSide",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Tuple<RedisKey, List<RedisValue>>?",
+          "description": ""
+        }
+      },
+      {
+        "signature": "BLMPop(db, timeout, [key], listSide, count)",
+        "params": [
+          {
+            "name": "db",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "[key]",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "listSide",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "blmpop(int $timeout, array $keys, string $modifier = 'left', int $count = 1)",
+        "params": [
+          {
+            "name": "$timeout",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$keys",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "string $modifier = 'left'",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "int $count = 1",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

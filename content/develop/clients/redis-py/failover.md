@@ -124,6 +124,14 @@ cfg = MultiDbConfig(
 )
 ```
 
+### Failback configuration
+
+The `MultiDbConfig` constructor provides the following option to configure the failback behavior:
+
+| Option | Description |
+| --- | --- |
+| `auto_fallback_interval` | Time interval between automatic failback attempts. Set this to `-1` to disable automatic failback. Default value is `30` seconds (which means failback is enabled by default). |
+
 ### General failover configuration
 
 There are also a few other options you can pass to the `MultiDbConfig` constructor to control the failover behavior:
@@ -132,7 +140,6 @@ There are also a few other options you can pass to the `MultiDbConfig` construct
 | --- | --- |
 | `failover_attempts` | Number of attempts to fail over to a new endpoint before giving up. Default is `10`. |
 | `failover_delay` | Time interval between successive failover attempts. Default is `12` seconds. |
-| `auto_fallback_interval` | Time interval between automatic failback attempts. Default is `30` seconds. |
 | `event_dispatcher` | `EventDispatcher` object to use for emitting events. Supply this to register custom event listeners (see [Failover callbacks](#failover-callbacks) below for more information). |
 
 ### Failover callbacks
@@ -187,26 +194,32 @@ client = MultiDBClient(config)
 ## Health check configuration
 
 Each health check consists of one or more separate "probes", each of which is a simple
-test (such as a [`PING`]({{< relref "/commands/ping" >}}) command) to determine if the database is available. The results of the separate probes are combined
-using a configurable policy to determine if the database is healthy. `MultiDbConfig` provides the following options to configure the health check behavior:
+test (such as a [`PING`]({{< relref "/commands/ping" >}}) command) to determine if the
+database is available. The results of the separate probes are combined
+using a configurable policy to determine if the database is healthy.
+
+Note that
+an initial health check is performed on each database when you create the client or when
+you add a new database. This initial health check has a separate configuration from the
+periodic health checks, so you can use a stricter policy here to ensure you don't add
+a database that is already unhealthy.
+
+`MultiDbConfig` provides the following options to configure the health check behavior:
 
 | Option | Description |
 | --- | --- |
 | `health_check_interval` | Time interval between successive health checks (each of which may consist of multiple probes). Default is `5` seconds. |
 | `health_check_probes` | Number of separate probes performed during each health check. Default is `3`. |
 | `health_check_probes_delay` | Delay between probes during a health check. Default is `0.5` seconds. |
-| `health_check_policy` | `HealthCheckPolicies` enum value to specify the policy for determining database health from the separate probes of a health check. The options are `HealthCheckPolicies.ALL` (all probes must succeed), `HealthCheckPolicies.ANY` (at least one probe must succeed), and `HealthCheckPolicies.MAJORITY` (more than half the probes must succeed). The default policy is `HealthCheckPolicies.MAJORITY`. |
+| `health_check_policy` | `HealthCheckPolicies` enum value to specify the policy for determining database health from the separate probes of a health check. The options are `HealthCheckPolicies.HEALTHY_ALL` (all probes must succeed), `HealthCheckPolicies.HEALTHY_ANY` (at least one probe must succeed), and `HealthCheckPolicies.HEALTHY_MAJORITY` (more than half the probes must succeed). The default policy is `HealthCheckPolicies.HEALTHY_MAJORITY`. |
 | `health_check` | Custom list of `HealthCheck` objects to specify how to perform each probe during a health check. This defaults to just the simple [`PingHealthCheck`](#pinghealthcheck-default). |
-
-
-
-### Health check strategies
+| `initial_health_check_policy` | `InitialHealthCheck` enum value to specify the policy to use during the initial health check. The options are `InitialHealthCheck.ALL_AVAILABLE` (all probes must succeed), `InitialHealthCheck.ANY_AVAILABLE` (at least one probe must succeed), and `InitialHealthCheck.MAJORITY_AVAILABLE` (more than half the probes must succeed). The default policy is `InitialHealthCheck.ALL_AVAILABLE`. |
 
 There are several strategies available for health checks that you can configure using the
 `MultiClusterClientConfig` builder. The sections below explain these strategies
 in more detail.
 
-#### `PingHealthCheck` (default)
+### `PingHealthCheck` (default)
 
 The default strategy, `PingHealthCheck`, periodically sends a Redis
 [`PING`]({{< relref "/commands/ping" >}}) command
@@ -214,7 +227,7 @@ and checks that it gives the expected response. Any unexpected response
 or exception indicates an unhealthy server. Although `PingHealthCheck` is
 very simple, it is a good basic approach for most Redis deployments.
 
-#### `LagAwareHealthCheck` (Redis Software only) {#lag-aware-health-check}
+### `LagAwareHealthCheck` (Redis Software only) {#lag-aware-health-check}
 
 `LagAwareHealthCheck` is designed specifically for
 Redis Software [Active-Active]({{< relref "/operate/rs/databases/active-active" >}})
@@ -279,7 +292,7 @@ The `LagAwareHealthCheck` constructor accepts the following options:
 | `client_key_file` | Path to client private key file for mutual TLS. |
 | `client_key_password` | Password for encrypted client private key |
 
-#### Custom health check strategy
+### Custom health check strategy
 
 You can supply your own custom health check strategy by
 deriving a new class from the `AbstractHealthCheck` class.
@@ -328,10 +341,6 @@ You can add and remove database endpoints, and update their weights:
 ```py
 from redis.multidb.client import MultiDBClient
 from redis.multidb.config import MultiDbConfig, DatabaseConfig
-from redis.multidb.database import Database
-from redis.multidb.circuit import PBCircuitBreakerAdapter
-import pybreaker
-from redis import Redis
 
 cfg = MultiDbConfig(
     databases_config = [
@@ -347,20 +356,26 @@ cfg = MultiDbConfig(
 )
 client = MultiDBClient(cfg)
 
-# Add a database programmatically.
-other = Database(
-    client=Redis.from_url("redis://redis-south.example.com/0"),
-    circuit=PBCircuitBreakerAdapter(pybreaker.CircuitBreaker(reset_timeout=5.0)),
-    weight=0.5,
-    health_check_url=None,
+# Add a database programmatically. The `skip_initial_health_check`
+# parameter defaults to `True`, which avoids adding the database if it
+# is unhealthy, but you can override this by setting it to `False`
+# explicitly.
+other = DatabaseConfig(
+    client_kwargs={"host": "redis-south.example.com", "port": "14000"},
+    weight=0.5
 )
-client.add_database(other)
+client.add_database(other, skip_initial_health_check=True)
 
-# Update the new database's weight.
-client.update_database_weight(other, 0.9)
+# Get a list of databases, sorted by weight.
+databases = client.get_databases()
 
-# Remove the database from the failover set.
-client.remove_database(other)
+# Update the weights of each database whose weight is less than 1.
+for db in databases:
+    if db.weight < 1.0:
+        client.update_database_weight(db, 0.9)
+
+# Remove a database from the failover set.
+client.remove_database(databases[0])
 ```
 
 ### Manual failback
@@ -376,6 +391,21 @@ Note that `set_active_database()` is thread-safe.
 
 If you decide to implement manual failback, you will need a way for external systems to trigger this method in your application. For example, if your application exposes a REST API, you might consider creating a REST endpoint to call `set_active_database()`.
 
+## Behavior when all endpoints are unhealthy
+
+In the extreme case where no endpoint is healthy, a command will throw a `TemporaryUnavailableException`.
+This indicates that the client is periodically checking to see if any endpoint becomes healthy again. The number of
+times it will keep checking is configured by the `failover_attempts` option in `MultiDbConfig` and
+the delay between attempts is configured by the `failover_delay` option (see [General failover configuration](#general-failover-configuration)). With the default settings, `failover_attempts` * `failover_delay` 
+gives a period of 120 seconds to find a healthy endpoint.
+
+You can still keep retrying commands after a `TemporaryUnavailableException` is thrown (for example,
+you could add this exception to the `supported_errors` list in your `Retry` configuration, as described
+in [Retries]({{< relref "/develop/clients/redis-py/produsage#retries" >}})). However, if the client exhausts
+all the available failover attempts before any endpoint becomes healthy again, commands will throw a `NoValidDatabaseException`. The client won't recover automatically from this situation, so you
+should handle it by reconnecting with the `MultiDBClient` constructor after a suitable delay (see
+[Failover configuration](#failover-configuration) for a connection example).
+
 ## Troubleshooting
 
 This section lists some common problems and their solutions.
@@ -384,12 +414,19 @@ This section lists some common problems and their solutions.
 
 If all health checks fail, you should first rule out authentication
 problems with the Redis server and also make sure there are no persistent
-network connectivity problems. If you are using
+network connectivity problems.
+
+If you are using [`PingHealthCheck`](#pinghealthcheck-default) or a
+[custom health check strategy](#custom-health-check-strategy),
+check that the `socket_timeout` is not too low for your network conditions
+(see [Timeouts]({{< relref "/develop/clients/redis-py/produsage#timeouts" >}}) for more information).
+
+For
 [`LagAwareHealthCheck`](#lag-aware-health-check), check that the `health_check_url`
-is set correctly for each endpoint. You can also try increasing the timeout
-for health checks and the interval between them. See
-[Health check configuration](#health-check-configuration) and
-[Endpoint configuration](#endpoint-configuration) for more information about these options.
+is set correctly for each endpoint. Note that health checks might be taking longer to
+execute than you anticipated, so make sure your `timeout` setting is not too low.
+
+
 
 ### Slow failback after recovery
 

@@ -110,6 +110,10 @@ sources:
     #   quarkus:
     #     banner.enabled: "false"
 
+    #   `java_options` (for RDI 1.15.1 and above) controls the JAVA_OPTS environment variable. Use it to modify the default values for
+    #       Java heap size and other Java options for the Debezium server.
+    #   java_options: "-Xmx2g -Xms512m"
+
 targets:
   # Redis target database connections.
   # The default connection must be named 'target' and is used when no
@@ -226,6 +230,8 @@ configuration contains the following data:
   - `quarkus`: Properties for the Debezium server, such as the log level. See the
     Quarkus [Configuration options](https://quarkus.io/guides/all-config)
     docs for the full set of available properties.
+  - `java_options`: controls the JAVA_OPTS environment variable (for RDI 1.15.1 and above). Use it to modify the default values for Java heap size and other Java options for the Debezium server.
+    For example, set it to `"-Xmx2g -Xms512m"` to set the maximum heap size to 2 GB and the initial heap size to 512 MB.
 
 ### Targets
 

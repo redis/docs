@@ -31,7 +31,7 @@ To use the synchronous API, add the `redis` crate as a dependency in your
 
 ```toml
 [dependencies]
-redis = "0.32.5"
+redis = "1.0.4"
 ```
 
 If you want to use the asynchronous API, you should also enable either
@@ -42,11 +42,11 @@ as your async platform:
 [dependencies]
 # if you use tokio
 tokio = { version = "1.32.0", features = ["full"] }
-redis = { version = "0.32.5", features = ["tokio-comp"] }
+redis = { version = "1.0.4", features = ["tokio-comp"] }
 
 # if you use smol
 smol = "2.0.2"
-redis = { version = "0.32.5", features = ["smol-comp"] }
+redis = { version = "1.0.4", features = ["smol-comp"] }
 ```
 
 ## Connect

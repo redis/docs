@@ -1,0 +1,265 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "reserve(key, k, width, depth, decay)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "name": "k",
+            "type": "int"
+          },
+          {
+            "name": "width",
+            "type": "int"
+          },
+          {
+            "name": "depth",
+            "type": "int"
+          },
+          {
+            "name": "decay",
+            "type": "float"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "True if the filter was created successfully"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "topkReserve(String key, long topk)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "topk",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "topkReserve(String key, long topk, long width, long depth, double decay)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "topk",
+            "type": "long"
+          },
+          {
+            "name": "width",
+            "type": "long"
+          },
+          {
+            "name": "depth",
+            "type": "long"
+          },
+          {
+            "name": "decay",
+            "type": "double"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TopKReserve(ctx context.Context, key string, k int64) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "k",
+            "type": "int64"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "Status command result"
+        }
+      },
+      {
+        "signature": "TopKReserveWithOptions(ctx context.Context, key string, k int64, width, depth int64, decay float64) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "k",
+            "type": "int64"
+          },
+          {
+            "name": "width",
+            "type": "int64"
+          },
+          {
+            "name": "depth",
+            "type": "int64"
+          },
+          {
+            "name": "decay",
+            "type": "float64"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "Status command result"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TOPK.RESERVE(key, topK, options?)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "name": "topK",
+            "type": "number"
+          },
+          {
+            "name": "options",
+            "type": "TopKReserveOptions",
+            "description": "Optional: { width, depth, decay }"
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Reserve(RedisKey key, long topk, long width = 7, long depth = 8, double decay = 0.9)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "topk",
+            "type": "long"
+          },
+          {
+            "name": "width",
+            "type": "long",
+            "description": "Default: 7"
+          },
+          {
+            "name": "depth",
+            "type": "long",
+            "description": "Default: 8"
+          },
+          {
+            "name": "decay",
+            "type": "double",
+            "description": "Default: 0.9"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "True if created successfully"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ReserveAsync(RedisKey key, long topk, long width = 7, long depth = 8, double decay = 0.9)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "topk",
+            "type": "long"
+          },
+          {
+            "name": "width",
+            "type": "long",
+            "description": "Default: 7"
+          },
+          {
+            "name": "depth",
+            "type": "long",
+            "description": "Default: 8"
+          },
+          {
+            "name": "decay",
+            "type": "double",
+            "description": "Default: 0.9"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "True if created successfully"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "topkreserve($key, $topk, $width = null, $depth = null, $decay = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "topk",
+            "type": "int"
+          },
+          {
+            "name": "width",
+            "type": "int",
+            "description": "Optional, default: 7"
+          },
+          {
+            "name": "depth",
+            "type": "int",
+            "description": "Optional, default: 8"
+          },
+          {
+            "name": "decay",
+            "type": "float",
+            "description": "Optional, default: 0.9"
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": "OK"
+        }
+      }
+    ]
+  }
+}

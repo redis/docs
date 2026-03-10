@@ -1,0 +1,68 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "client_trackinginfo(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "TrackingInfo clientTrackingInfo()",
+        "params": [],
+        "returns": {
+          "type": "TrackingInfo",
+          "description": "Tracking information"
+        }
+      }
+    ],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "TrackingInfo clientTrackinginfo()",
+        "params": [],
+        "returns": {
+          "type": "TrackingInfo",
+          "description": "Tracking information"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<TrackingInfo> clientTrackinginfo()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<TrackingInfo>",
+          "description": "Tracking information"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<TrackingInfo> clientTrackinginfo()",
+        "params": [],
+        "returns": {
+          "type": "Mono<TrackingInfo>",
+          "description": "Tracking information"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

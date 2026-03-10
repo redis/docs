@@ -1,0 +1,458 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "arrappend(name: str, path: Optional[str] = Path.root_path(), *args: JsonType)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Optional[str] = Path.root_path()",
+            "description": ""
+          },
+          {
+            "name": "*args",
+            "type": "JsonType",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List[Optional[int]]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Long jsonArrAppend(String key, Path path, Object... pojos)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path",
+            "description": ""
+          },
+          {
+            "name": "pojos",
+            "type": "Object...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> jsonArrAppend(String key, Path2 path, Object... objects)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path2",
+            "description": ""
+          },
+          {
+            "name": "objects",
+            "type": "Object...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Long> jsonArrappend(K key, JsonPath jsonPath, JsonValue... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "values",
+            "type": "JsonValue...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8"
+        }
+      },
+      {
+        "signature": "List<Long> jsonArrappend(K key, JsonValue... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "values",
+            "type": "JsonValue...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8"
+        }
+      },
+      {
+        "signature": "List<Long> jsonArrappend(K key, String... jsonStrings)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonStrings",
+            "type": "String...",
+            "description": "one or more JSON strings to be appended."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8"
+        }
+      },
+      {
+        "signature": "List<Long> jsonArrappend(K key, JsonPath jsonPath, String... jsonStrings)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "jsonStrings",
+            "type": "String...",
+            "description": "one or more JSON strings to be appended."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Long>> jsonArrappend(K key, JsonPath jsonPath, JsonValue... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "values",
+            "type": "JsonValue...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> jsonArrappend(K key, JsonValue... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "values",
+            "type": "JsonValue...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> jsonArrappend(K key, String... jsonStrings)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonStrings",
+            "type": "String...",
+            "description": "one or more JSON strings to be appended."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Long>> jsonArrappend(K key, JsonPath jsonPath, String... jsonStrings)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "jsonStrings",
+            "type": "String...",
+            "description": "one or more JSON strings to be appended."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Long> jsonArrappend(K key, JsonPath jsonPath, JsonValue... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "values",
+            "type": "JsonValue...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8"
+        }
+      },
+      {
+        "signature": "Flux<Long> jsonArrappend(K key, JsonValue... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "values",
+            "type": "JsonValue...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8"
+        }
+      },
+      {
+        "signature": "Flux<Long> jsonArrappend(K key, String... jsonStrings)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonStrings",
+            "type": "String...",
+            "description": "one or more JSON strings to be appended."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8"
+        }
+      },
+      {
+        "signature": "Flux<Long> jsonArrappend(K key, JsonPath jsonPath, String... jsonStrings)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the array inside the document."
+          },
+          {
+            "name": "jsonStrings",
+            "type": "String...",
+            "description": "one or more JSON strings to be appended."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "JSONArrAppend(ctx context.Context, key, path string, values ...interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "...interface{}",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ARRAPPEND(key: RedisArgument, path: RedisArgument, json: RedisJSON, ...jsons: Array<RedisJSON>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "json",
+            "type": "RedisJSON",
+            "description": ""
+          },
+          {
+            "name": "...jsons",
+            "type": "Array<RedisJSON>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "ArrAppend(RedisKey key, string? path = null, params object[] values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "object[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long?[]",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "jsonarrappend(string $key, string $path = '$', ...$value)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "string $path = '$'",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

@@ -119,8 +119,8 @@ Stand alone RediSearch, RedisJSON, RedisTimeSeries, and RedisBloom modules are n
   - (a) the Redis Source Available License 2.0 (RSALv2); or
   - (b) the Server Side Public License v1 (SSPLv1); or
   - (c) the GNU Affero General Public License (AGPLv3)
-- Redis Query Engine and 8 new data structures are now an integral part of Redis 8.
-  - (1) Redis Query Engine, which now supports both horizontal and vertical scaling for search, query, and vector workloads.
+- Redis Search and 8 new data structures are now an integral part of Redis 8.
+  - (1) Redis Search, which now supports both horizontal and vertical scaling for search, query, and vector workloads.
   - (2) JSON, a queryable JSON document data type.
   - (3) Time series.
   - (4-8) Five probabilistic data structures: Bloom filter, Cuckoo filter, Count-min sketch, Top-k, and t-digest.
@@ -129,7 +129,7 @@ Stand alone RediSearch, RedisJSON, RedisTimeSeries, and RedisBloom modules are n
 
   - See the [build instructions]({{< relref "/operate/oss_and_stack/install/build-stack" >}}) for information about building from source code.
   - New configuration file: `redis-full.conf`, loads Redis with all components, 
-    and contains new configuration parameters for Redis Query Engine and the new data structures.
+    and contains new configuration parameters for Redis Search and the new data structures.
   - New ACL categories: `@search`, `@json`, `@timeseries`, `@bloom`, `@cuckoo`, `@cms`, `@topk`, and `@tdigest` commands are also included in the existing ACL categories such as `@read` and `@write`. See [below]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.0-release-notes/#potentially-breaking-changes-to-acls" >}}) for information about potentially breaking changes.
 - More than 30 performance and resource utilization improvements.
 - A new I/O threading implementation, which enables throughput increase on multi-core environments
@@ -176,7 +176,7 @@ For more details, see the release notes for the [8.0-M01](https://github.com/red
 
 | New ACL commands category names | Included commands               |
 | :----                           | :----                           |
-| `search`                        | All Redis Query Engine commands |
+| `search`                        | All Redis Search commands |
 | `json`                          | All JSON commands               |
 | `timeseries`                    | All time series commands        |
 | `bloom`                         | All Bloom filter commands       |
@@ -195,9 +195,9 @@ There can be a case where a user may have to only some of the matching keys. In 
 
 On the other hand, `TS.QUERYINDEX` does not require `@read` access to the keys that match the specified filter, as it accesses only time series metadata (name and labels) and not content (measurements).
 
-### Redis Query Engine notes
+### Redis Search notes
 
-The following Redis Query Engine commands may retrieve data from all keys that match the prefixes defined in the index (that is, all indexed documents, per-index):
+The following Redis Search commands may retrieve data from all keys that match the prefixes defined in the index (that is, all indexed documents, per-index):
 
 - `FT.SEARCH`  
 - `FT.AGGREGATE` (may be followed by `FT.CURSOR`)  

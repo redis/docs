@@ -1,0 +1,377 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "lmpop(, num_keys: int,, *args: str,, direction: str,, count: Optional[int] = 1,)",
+        "params": [
+          {
+            "name": "num_keys",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "*args",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "direction",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = 1",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[list], list]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "KeyValue<String, List<String>> lmpop(ListDirection direction, String... keys)",
+        "params": [
+          {
+            "name": "direction",
+            "type": "ListDirection",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<String, List<String>>",
+          "description": "The element being popped and pushed"
+        }
+      },
+      {
+        "signature": "KeyValue<String, List<String>> lmpop(ListDirection direction, int count, String... keys)",
+        "params": [
+          {
+            "name": "direction",
+            "type": "ListDirection",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<String, List<String>>",
+          "description": "The element being popped and pushed"
+        }
+      },
+      {
+        "signature": "KeyValue<String, List<String>> lmpop(ListDirection direction, String... keys)",
+        "params": [
+          {
+            "name": "direction",
+            "type": "ListDirection",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<String, List<String>>",
+          "description": "The element being popped and pushed"
+        }
+      },
+      {
+        "signature": "KeyValue<String, List<String>> lmpop(ListDirection direction, int count, String... keys)",
+        "params": [
+          {
+            "name": "direction",
+            "type": "ListDirection",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<String, List<String>>",
+          "description": "The element being popped and pushed"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "KeyValue<K, List<V>> lmpop(LMPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "args",
+            "type": "LMPopArgs",
+            "description": "the additional command arguments."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<K, List<V>>",
+          "description": "KeyValue&lt;K,V&gt; array-reply specifically. null when key does not exist. @since 6.2"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<KeyValue<K, List<V>>> lmpop(LMPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "args",
+            "type": "LMPopArgs",
+            "description": "the additional command arguments."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyValue<K, List<V>>>",
+          "description": "KeyValue&lt;K,V&gt; array-reply specifically. null when key does not exist. @since 6.2"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<KeyValue<K, List<V>>> lmpop(LMPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "args",
+            "type": "LMPopArgs",
+            "description": "the additional command arguments."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyValue<K, List<V>>>",
+          "description": "KeyValue&lt;K,V&gt; array-reply specifically. null when key does not exist. @since 6.2"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "LMPop(ctx context.Context, direction string, count int64, keys ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "direction",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int64",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*KeyValuesCmd",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "lmpop(...args: [, numkeys: number | string, ...keys: RedisKey[], left: \"LEFT\", callback: Callback<[key: string, members: string[]] | null>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "lmpop(...args: [, numkeys: number | string, keys: RedisKey[], left: \"LEFT\", callback: Callback<[key: string, members: string[]] | null>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "lmpop(...args: [numkeys: number | string, ...keys: RedisKey[], left: \"LEFT\"])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "lmpop(...args: [numkeys: number | string, keys: RedisKey[], left: \"LEFT\"])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "lmpop(...args: [, numkeys: number | string, ...keys: RedisKey[], left: \"LEFT\", countToken: \"COUNT\", count: number | string, callback: Callback<[key: string, members: string[]] | null>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "lmpop( numkeys: usize, key: K, dir: Direction, count: usize)",
+        "params": [
+          {
+            "name": "numkeys",
+            "type": "usize",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "dir",
+            "type": "Direction",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "usize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<(String, Vec<String>)>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "lmpop( numkeys: usize, key: K, dir: Direction, count: usize)",
+        "params": [
+          {
+            "name": "numkeys",
+            "type": "usize",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "dir",
+            "type": "Direction",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "usize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<(String, Vec<String>)>)",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "lmpop(array $keys, string $modifier = 'left', int $count = 1)",
+        "params": [
+          {
+            "name": "$keys",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "string $modifier = 'left'",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "int $count = 1",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array|null",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

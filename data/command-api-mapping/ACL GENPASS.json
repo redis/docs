@@ -1,0 +1,183 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "acl_genpass(bits: int | None = None, **kwargs)",
+        "params": [
+          {
+            "name": "bits",
+            "type": "int | None",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String aclGenPass()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String aclGenPass(int bits)",
+        "params": [
+          {
+            "name": "bits",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ACLGenPass(ctx context.Context, bits ...int) *StringCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "bits",
+            "type": "...int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "aclGenPass(bits?: number)",
+        "params": [
+          {
+            "name": "bits",
+            "type": "number",
+            "description": "Optional number of bits for password entropy"
+          }
+        ],
+        "returns": {
+          "type": "BlobStringReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String aclGenpass()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String aclGenpass(int bits)",
+        "params": [
+          {
+            "name": "bits",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> aclGenpass()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "RedisFuture<String> aclGenpass(int bits)",
+        "params": [
+          {
+            "name": "bits",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> aclGenpass()",
+        "params": [],
+        "returns": {
+          "type": "Mono<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Mono<String> aclGenpass(int bits)",
+        "params": [
+          {
+            "name": "bits",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "acl(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

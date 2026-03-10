@@ -10924,7 +10924,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -11004,7 +11004,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -11312,7 +11312,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -11330,7 +11330,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -11526,6 +11526,10 @@
             "description": "Optional. If specified, redisVersion defines the Redis database version. If omitted, the Redis version will be set to the default version (available in 'GET /subscriptions/redis-versions')",
             "example": "7.2"
           },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. Automatically upgrades the database to newer minor versions within the same major release. Applies to version 8.4 and above. Default: true."
+          },
           "shardingType": {
             "type": "string",
             "description": "Optional. Database [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy).",
@@ -11586,7 +11590,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           },
@@ -12044,6 +12048,10 @@
             "format": "int32",
             "example": 20
           },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. Automatically upgrades the database to newer minor versions within the same major release. Applies to version 8.4 and above."
+          },
           "commandType": {
             "type": "string",
             "readOnly": true
@@ -12235,7 +12243,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -12538,7 +12546,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -12678,7 +12686,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -12850,7 +12858,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -13060,7 +13068,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           },
@@ -13180,7 +13188,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -13330,7 +13338,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -13794,7 +13802,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           },
@@ -13838,7 +13846,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -13962,7 +13970,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           },
@@ -14077,7 +14085,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14288,7 +14296,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14325,7 +14333,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14363,7 +14371,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14724,7 +14732,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14805,7 +14813,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14858,7 +14866,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14939,7 +14947,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -15244,7 +15252,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -15450,7 +15458,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -15501,7 +15509,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -15951,6 +15959,10 @@
               "noeviction"
             ]
           },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. Automatically upgrades the database to newer minor versions within the same major release. Applies to version 8.4 and above."
+          },
           "commandType": {
             "type": "string",
             "readOnly": true
@@ -16108,6 +16120,10 @@
             "type": "string",
             "description": "Optional. If specified, redisVersion defines the Redis database version. If omitted, the Redis version will be set to the default version (available in 'GET /subscriptions/redis-versions')",
             "example": "7.2"
+          },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. Automatically upgrades the database to newer minor versions within the same major release. Applies to version 8.4 and above. Default: true."
           },
           "respVersion": {
             "type": "string",
@@ -16578,6 +16594,7 @@
               "DATABASE_IMPORT_MULTIPLE_REDIS_SOURCES",
               "DATABASE_IMPORT_REDIS_BAD_URI",
               "DATABASE_REPLICA_OF_BAD_URI",
+              "DATABASE_REPLICA_OF_DYNAMIC_ENDPOINT_NOT_ALLOWED",
               "DATABASE_IMPORT_S3_BAD_URI",
               "DATABASE_IMPORT_HTTP_BAD_URI",
               "DATABASE_IMPORT_FTP_BAD_URI",
@@ -16696,6 +16713,7 @@
               "PAYMENT_INFO_NOT_ALLOWED_IN_GCP_ACCOUNT",
               "CLOUD_PROVIDER_IS_NOT_GCP_IN_GCP_ACCOUNT",
               "PAYMENT_INFO_NOT_ALLOWED_IN_CONTRACT_ASSOCIATED_ACCOUNT",
+              "PAYMENT_INFO_CHANGE_PROHIBITED_FOR_PRO_UNDER_CONTRACT",
               "LOCAL_THROUGHPUT_READ_AND_WRITE_OPERATIONS_PER_SECOND_VALUES_MUST_BE_IN_INCREMENTS_OF_500_OR_MINIMUM",
               "MISSING_REGIONS_BETWEEN_CLOUD_PROVIDERS_AND_DATABASES_LOCAL_THROUGHPUT_MEASUREMENTS",
               "MISSING_REGIONS_BETWEEN_LOCAL_THROUGHPUT_MEASUREMENTS_AND_SUBSCRIPTION_REGIONS",
@@ -16986,7 +17004,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           },
@@ -17096,6 +17114,20 @@
         },
         "description": "Database backup request message"
       },
+      "ReplicaAsSourceEndpoints": {
+        "type": "object",
+        "properties": {
+          "public": {
+            "type": "string",
+            "description": "Public cluster endpoint that can be used as source for replication"
+          },
+          "private": {
+            "type": "string",
+            "description": "Private cluster endpoint that can be used as source for replication"
+          }
+        },
+        "description": "Endpoints to use when configuring another database to replicate from this database (Make sure to use this instead of the dynamic endpoints)."
+      },
       "DataPersistenceOptions": {
         "type": "object",
         "properties": {
@@ -17110,7 +17142,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -17800,12 +17832,15 @@
           "dynamicEndpoints": {
             "$ref": "#/components/schemas/DynamicEndpoints"
           },
+          "replicaAsSourceEndpoints": {
+            "$ref": "#/components/schemas/ReplicaAsSourceEndpoints"
+          },
           "links": {
             "type": "array",
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }

@@ -15,7 +15,7 @@ Redis stores and indexes vector embeddings that semantically represent unstructu
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
   {{< image-card image="images/ai-lib.svg" alt="AI Redis icon" title="Redis vector Python client library documentation" url="/develop/ai/redisvl/" >}}
-  {{< image-card image="images/ai-cube.svg" alt="AI Redis icon" title="Use Redis Query Engine to search data" url="/develop/ai/search-and-query/" >}}
+  {{< image-card image="images/ai-cube.svg" alt="AI Redis icon" title="Use Redis Search to search data" url="/develop/ai/search-and-query/" >}}
   {{< image-card image="images/ai-brain.svg" alt="AI Redis icon" title="Use LangCache to store LLM responses" url="/develop/ai/langcache/" >}}
 </div>
 
@@ -125,3 +125,9 @@ See how we stack up against the competition.
 ## Best practices
 See how leaders in the industry are building their RAG apps.
 * [Get better RAG responses with Ragas](https://redis.io/blog/get-better-rag-responses-with-ragas/)
+
+## Continue learning with Redis University
+
+* [Context Engineering with Redis & LangChain](https://university.redis.io/course/vsgabnbkd3f5cd?tab=details)
+* [Vector Search with RedisVL](https://university.redis.io/course/1npvvtfft2agew?tab=details)
+* [Build a RAG Chatbot](https://university.redis.io/course/ihjs7iip0gpkrw?tab=details)

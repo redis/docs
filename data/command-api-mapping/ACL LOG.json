@@ -1,0 +1,114 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "acl_log(count: int | None = None, **kwargs)",
+        "params": [
+          {
+            "name": "count",
+            "type": "int | None",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<AccessControlLogEntry> aclLog()",
+        "params": [],
+        "returns": {
+          "type": "List<AccessControlLogEntry>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<AccessControlLogEntry> aclLog(int limit)",
+        "params": [
+          {
+            "name": "limit",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<AccessControlLogEntry>",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ACLLog(ctx context.Context, count int64) *ACLLogCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "count",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ACLLogCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "aclLog(count?: number)",
+        "params": [
+          {
+            "name": "count",
+            "type": "number",
+            "description": "Optional maximum number of entries to return"
+          }
+        ],
+        "returns": {
+          "type": "AclLogReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "acl(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

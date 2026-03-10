@@ -79,6 +79,8 @@ The Service Provider certificate is used by the cluster to sign SAML requests an
       certificates:
         ssoServiceCertificateSecretName: sso-service-cert
       sso:
+        enabled: false  # SSO not yet active - set to true in Step 7 after completing configuration
+        enforceSSO: false  # Optional: set to true to disable local authentication for non-admin users
         saml:
           spMetadataSecretName: sp-metadata  # Optional: store SP metadata in a secret
           serviceProvider:
@@ -238,6 +240,8 @@ Using IdP metadata XML is the recommended approach as it's less error-prone.
         ssoServiceCertificateSecretName: sso-service-cert
         ssoIssuerCertificateSecretName: sso-issuer-cert
       sso:
+        enabled: false  # SSO not yet active - set to true in Step 7 after completing configuration
+        enforceSSO: false  # Optional: set to true to disable local authentication for non-admin users
         saml:
           idpMetadataSecretName: idp-metadata
           spMetadataSecretName: sp-metadata
@@ -263,6 +267,8 @@ If IdP metadata XML is unavailable, you can manually configure the issuer settin
         ssoServiceCertificateSecretName: sso-service-cert
         ssoIssuerCertificateSecretName: sso-issuer-cert
       sso:
+        enabled: false  # SSO not yet active - set to true in Step 7 after completing configuration
+        enforceSSO: false  # Optional: set to true to disable local authentication for non-admin users
         saml:
           issuer:
             entityID: "urn:sso:example:idp"

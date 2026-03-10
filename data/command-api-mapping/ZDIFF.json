@@ -1,0 +1,219 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "zdiff(keys: KeysT, withscores: bool = False)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "KeysT",
+            "description": ""
+          },
+          {
+            "name": "withscores",
+            "type": "bool = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<String> zdiff(String... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "1 if the new element was added, 0 if the element was already a member of the sorted set and the score was updated"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<V> zdiff(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "List&lt;V&gt; array-reply list of elements. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<V>> zdiff(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "List&lt;V&gt; array-reply list of elements. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<V> zdiff(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "V array-reply list of elements. @since 6.1"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ZDiff(ctx context.Context, keys ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ZDIFF(keys: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "zdiff(...args: [, numkeys: number | string, ...keys: RedisKey[], callback: Callback<string[]>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zdiff(...args: [, numkeys: number | string, keys: RedisKey[], callback: Callback<string[]>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zdiff(...args: [numkeys: number | string, ...keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zdiff(...args: [numkeys: number | string, keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zdiff(...args: [, numkeys: number | string, ...keys: RedisKey[], withscores: \"WITHSCORES\", callback: Callback<string[]>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "zdiff(array $keys, bool $withScores = false)",
+        "params": [
+          {
+            "name": "$keys",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "bool $withScores = false",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

@@ -17,14 +17,12 @@ Usage: redis-di dump-support-package [OPTIONS]
 ## Options
 
 - `log_level`:
-
   - Type: Choice(['TRACE', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
   - Default: `info`
   - Usage: `--log-level
 -l`
 
 - `rdi_namespace`:
-
   - Type: STRING
   - Default: `rdi`
   - Usage: `--rdi-namespace`
@@ -32,7 +30,6 @@ Usage: redis-di dump-support-package [OPTIONS]
   RDI Kubernetes namespace
 
 - `rdi_host` (REQUIRED):
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-host`
@@ -40,7 +37,6 @@ Usage: redis-di dump-support-package [OPTIONS]
   Host/IP of RDI Database
 
 - `rdi_port` (REQUIRED):
-
   - Type: <IntRange 1<=x<=65535>
   - Default: `none`
   - Usage: `--rdi-port`
@@ -48,7 +44,6 @@ Usage: redis-di dump-support-package [OPTIONS]
   Port of RDI Database
 
 - `rdi_user`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-user`
@@ -56,7 +51,6 @@ Usage: redis-di dump-support-package [OPTIONS]
   RDI Database Username
 
 - `rdi_password`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-password`
@@ -64,7 +58,6 @@ Usage: redis-di dump-support-package [OPTIONS]
   RDI Database Password
 
 - `rdi_key`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-key`
@@ -72,7 +65,6 @@ Usage: redis-di dump-support-package [OPTIONS]
   Private key file to authenticate with
 
 - `rdi_cert`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-cert`
@@ -80,7 +72,6 @@ Usage: redis-di dump-support-package [OPTIONS]
   Client certificate file to authenticate with
 
 - `rdi_cacert`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-cacert`
@@ -88,7 +79,6 @@ Usage: redis-di dump-support-package [OPTIONS]
   CA certificate file to verify with
 
 - `rdi_key_password`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-key-password`
@@ -96,7 +86,6 @@ Usage: redis-di dump-support-package [OPTIONS]
   Password for unlocking an encrypted private key
 
 - `directory`:
-
   - Type: STRING
   - Default: `.`
   - Usage: `--dir`
@@ -104,7 +93,6 @@ Usage: redis-di dump-support-package [OPTIONS]
   Directory where the support file should be generated
 
 - `dump_rejected`:
-
   - Type: INT
   - Default: `none`
   - Usage: `--dump-rejected`
@@ -112,7 +100,6 @@ Usage: redis-di dump-support-package [OPTIONS]
   Dumps rejected records
 
 - `trace_timeout`:
-
   - Type: <IntRange 1<=x<=600>
   - Default: `none`
   - Usage: `--trace-timeout`
@@ -120,7 +107,6 @@ Usage: redis-di dump-support-package [OPTIONS]
   Stops the trace after exceeding this timeout (in seconds)
 
 - `max_change_records`:
-
   - Type: <IntRange x>=1>
   - Default: `10`
   - Usage: `--max-change-records`
@@ -128,7 +114,6 @@ Usage: redis-di dump-support-package [OPTIONS]
   Maximum traced change records
 
 - `trace_only_rejected`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--trace-only-rejected`
@@ -136,15 +121,13 @@ Usage: redis-di dump-support-package [OPTIONS]
   Trace only rejected change records
 
 - `log_days`:
-
-  - Type: <IntRange 0<=x>
+  - Type: <IntRange x>=0>
   - Default: `2`
   - Usage: `--log-days`
 
   Number of days to look back for log files
 
 - `help`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--help`
@@ -181,6 +164,6 @@ Options:
                                   Maximum traced change records  [x>=1]
   --trace-only-rejected           Trace only rejected change records
   --log-days INTEGER RANGE        Number of days to look back for log files
-                                  [default: 2; 0<=x]
+                                  [default: 2; x>=0]
   --help                          Show this message and exit.
 ```

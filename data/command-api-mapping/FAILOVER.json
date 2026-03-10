@@ -1,0 +1,188 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "failover(option: str | None = None, target_host: str | None = None, target_port: int | None = None, timeout: int | None = None, **kwargs)",
+        "params": [
+          {
+            "name": "option",
+            "type": "str | None",
+            "description": ""
+          },
+          {
+            "name": "target_host",
+            "type": "str | None",
+            "description": ""
+          },
+          {
+            "name": "target_port",
+            "type": "int | None",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "int | None",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String failover()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String failover(FailoverParams failoverParams)",
+        "params": [
+          {
+            "name": "failoverParams",
+            "type": "FailoverParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Failover(ctx context.Context) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "failover(options?: FailoverOptions)",
+        "params": [
+          {
+            "name": "options",
+            "type": "FailoverOptions",
+            "description": "Failover options including target host, abort flag, and timeout"
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String failover()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String failover(FailoverParams params)",
+        "params": [
+          {
+            "name": "params",
+            "type": "FailoverParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> failover()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "RedisFuture<String> failover(FailoverParams params)",
+        "params": [
+          {
+            "name": "params",
+            "type": "FailoverParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> failover()",
+        "params": [],
+        "returns": {
+          "type": "Mono<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Mono<String> failover(FailoverParams params)",
+        "params": [
+          {
+            "name": "params",
+            "type": "FailoverParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "failover(...$args)",
+        "params": [
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

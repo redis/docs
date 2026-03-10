@@ -1,0 +1,247 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "delex(, name: KeyT,, ifeq: Optional[Union[bytes, str]] = None,, ifne: Optional[Union[bytes, str]] = None,, ifdeq: Optional[str] = None,, ifdne: Optional[str] = None,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "ifeq",
+            "type": "Optional[Union[bytes, str]] = None",
+            "description": ""
+          },
+          {
+            "name": "ifne",
+            "type": "Optional[Union[bytes, str]] = None",
+            "description": ""
+          },
+          {
+            "name": "ifdeq",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "ifdne",
+            "type": "Optional[str] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long delex(final byte[] key, final CompareCondition condition)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "CompareCondition",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value of key"
+        }
+      },
+      {
+        "signature": "long delex(final String key, final CompareCondition condition)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "condition",
+            "type": "CompareCondition",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value of key"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long delex(K key, CompareCondition<V> compareCondition)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "compareCondition",
+            "type": "CompareCondition<V>",
+            "description": "the compare condition, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of keys that were removed. @since 7.1"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> delex(K key, CompareCondition<V> compareCondition)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "compareCondition",
+            "type": "CompareCondition<V>",
+            "description": "the compare condition, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of keys that were removed. @since 7.1"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> delex(K key, CompareCondition<V> compareCondition)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "compareCondition",
+            "type": "CompareCondition<V>",
+            "description": "the compare condition, must not be null."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of keys that were removed. @since 7.1"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "DelExArgs(ctx context.Context, key string, a DelExArgs)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "a",
+            "type": "DelExArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StringDelete(RedisKey key, ValueCondition when, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "when",
+            "type": "ValueCondition",
+            "description": "The condition to enforce."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StringDelete(RedisKey key, ValueCondition when, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "when",
+            "type": "ValueCondition",
+            "description": "The condition to enforce."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "delex(string $key, string $flag, $flagValue)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$flag",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$flagValue",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
