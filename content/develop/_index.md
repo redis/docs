@@ -5,10 +5,12 @@ linkTitle: Develop
 hideListLinks: true
 ---
 
+
+
 Get a Redis server running in minutes with a free trial of
 [Redis Cloud]({{< relref "/operate/rc" >}}), or install
 [Redis Open Source]({{< relref "/operate/oss_and_stack" >}}) locally
-on your machine. Then, explore Redis with your favorite
+on your machine. Check out the <a href="https://hub.docker.com/_/redis">Redis Docker Hub</a> for the latest release. Then, explore Redis with your favorite
 [programming language]({{< relref "/develop/clients" >}})
 or analyze and manage your database with our
 [UI tools]({{< relref "/develop/tools" >}}):
