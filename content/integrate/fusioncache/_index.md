@@ -42,7 +42,7 @@ See the [FusionCache docs](https://github.com/ZiggyCreatures/FusionCache/blob/ma
 
 First, install the packages for Redis (with JSON serialization):
 
-```ps
+```powershell
 dotnet add package ZiggyCreatures.FusionCache
 dotnet add package Microsoft.Extensions.Caching.StackExchangeRedis
 dotnet add package ZiggyCreatures.FusionCache.Serialization.SystemTextJson
