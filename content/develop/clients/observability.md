@@ -127,8 +127,8 @@ metric groups:
   [pub/sub]({{< relref "/develop/pubsub" >}}) operations.
 
 When you configure the client to activate OTel, you can select which metric groups
-you are interested in, although all metrics in the group will be collected even
-if you don't use them. The metrics in each group are described in the
+you are interested in. By default, only the `resiliency` and `connection-basic` groups are enabled.
+The metrics in each group are described in the
 [Metrics reference](#metrics-reference) below.
 
 ## Record and visualize metrics
