@@ -15,11 +15,6 @@ title: FusionCache
 type: integration
 weight: 9
 ---
-
-FusionCache is an easy to use, fast and robust hybrid cache with advanced resiliency features for C#/.NET applications.
-
-## Overview
-
 FusionCache can transparently handle multiple cache levels by mixing a memory cache and a distributed cache together, getting the best of both worlds. It allows for a sophisticated yet incredibly easy to use developer experience by handling all the complexities of a modern, fast and robust hybrid cache that can deal with the most complex and demanding scenarios. When coupled with Redis, performance, robustness and scaling will not be a problem anymore.
 
 ## Key Features
