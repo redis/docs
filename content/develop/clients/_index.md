@@ -37,10 +37,10 @@ for eight main languages:
 | [PHP](https://www.php.net/)| [`Predis`](https://github.com/predis/predis) | [`Predis` guide]({{< relref "/develop/clients/php" >}}) | Best effort [*](#best-effort) |
 | [C](https://en.wikipedia.org/wiki/C_(programming_language)) | [`hiredis`](https://github.com/redis/hiredis) | [`hiredis` guide]({{< relref "/develop/clients/hiredis" >}}) | Yes |
 | [Rust](https://www.rust-lang.org/) | [`redis-rs`](https://github.com/redis-rs/redis-rs) | [`redis-rs` guide]({{< relref "/develop/clients/rust" >}}) | Best effort [*](#best-effort) |
-| [Ruby](https://www.ruby-lang.org/en/) | [`redis-rb`](https://github.com/redis/redis-rb) | [`redis-rb` guide]({{< relref "/develop/clients/ruby" >}}) | Best effort [*](#best-effort) |
+| [Ruby](https://www.ruby-lang.org/en/) | [`redis-rb`](https://github.com/redis/redis-rb) | [`redis-rb` guide]({{< relref "/develop/clients/ruby" >}}) | Yes |
 
-
-{{< note >}}*<a name="best-effort"></a> Redis does not provide official support for third-party client libraries.
+{{< note >}}*<a name="best-effort"></a>
+Redis does not provide official support for third-party client libraries.
 However, we contribute new features, offer guidance, and collaborate with the community
 on a best-effort basis to help ensure these libraries remain reliable and up-to-date.
 {{< /note >}}

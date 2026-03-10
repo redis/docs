@@ -19,10 +19,6 @@ weight: 11
 The sections below explain how to install `redis-rb` and connect your application
 to a Redis database.
 
-{{< note >}}Although we provide basic documentation for `redis-rb`, it is a third-party
-client library and is not developed or supported directly by Redis.
-{{< /note >}}
-
 `redis-rb` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
 
 ## Install
