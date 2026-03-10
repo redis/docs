@@ -166,11 +166,11 @@
           <div>
             <h2 class="text-base md:text-lg font-medium mb-2">From open source to production scale</h2>
             <p class="text-sm text-gray-300">
-              Start with Redis Open Source. Run Redis Software in your environment. Scale globally with Redis Cloud.
+              Start with Redis Open Source. Run Redis Software in your environment or on Kubernetes. Scale globally with Redis Cloud.
             </p>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
             <!-- Redis Open Source -->
             <div class="flex flex-col bg-redis-pen-700 border border-redis-pen-400 rounded-md overflow-hidden">
               <a class="px-4 py-2 border-b border-redis-pen-400 hover:bg-redis-pen-600 transition-colors" href="./operate/oss_and_stack/">
@@ -208,6 +208,26 @@
               <div class="flex border-t border-redis-pen-400">
                 <a class="flex-1 px-3 py-2 text-sm text-center border-r border-redis-pen-400 hover:bg-redis-pen-700 transition-colors" href="./operate/rs/installing-upgrading/">Install</a>
                 <a class="flex-1 px-3 py-2 text-sm text-center hover:bg-redis-pen-700 transition-colors" href="./operate/rs/installing-upgrading/quickstarts/docker-quickstart/#run-the-container">Quick start</a>
+              </div>
+            </div>
+
+            <!-- Redis for Kubernetes -->
+            <div class="flex flex-col bg-redis-pen-800 border border-redis-pen-400 rounded-md overflow-hidden">
+              <a class="px-4 py-2 border-b border-redis-pen-400 hover:bg-redis-pen-700 transition-colors" href="./operate/kubernetes/">
+                <h3 class="text-base font-medium">Redis for Kubernetes</h3>
+              </a>
+              <div class="p-4 flex-1">
+                <p class="text-sm text-gray-300 mb-3">Enterprise on Kubernetes</p>
+                <ul class="space-y-1 text-xs text-gray-400">
+                  <li>• Cloud-native deployment</li>
+                  <li>• Kubernetes operator</li>
+                  <li>• Auto-scaling & HA</li>
+                  <li>• Enterprise support</li>
+                </ul>
+              </div>
+              <div class="flex border-t border-redis-pen-400">
+                <a class="flex-1 px-3 py-2 text-sm text-center border-r border-redis-pen-400 hover:bg-redis-pen-700 transition-colors" href="./operate/kubernetes/">Overview</a>
+                <a class="flex-1 px-3 py-2 text-sm text-center hover:bg-redis-pen-700 transition-colors" href="./operate/kubernetes/deployment/quick-start/">Quick start</a>
               </div>
             </div>
 
@@ -251,7 +271,7 @@
               <div class="p-3 flex-1">
                 <h3 class="text-sm font-medium mb-2">Build AI apps</h3>
                 <p class="text-xs text-gray-300 mb-3">Start building with vector search, semantic caching, and agent memory</p>
-                <ul class="space-y-1 text-xs">
+                <ul class="space-y-1 text-sm">
                   <li><a href="./develop/get-started/rag/" class="text-redis-yellow-500 hover:underline">→ RAG quick start</a></li>
                   <li><a href="./develop/ai/search-and-query/vectors/" class="text-redis-yellow-500 hover:underline">→ Vector search</a></li>
                   <li><a href="./develop/ai/langcache/" class="text-redis-yellow-500 hover:underline">→ Semantic cache</a></li>
@@ -265,7 +285,7 @@
               <div class="p-3 flex-1">
                 <h3 class="text-sm font-medium mb-2">Run AI in production</h3>
                 <p class="text-xs text-gray-300 mb-3">Deploy and scale Redis for production AI workloads</p>
-                <ul class="space-y-1 text-xs">
+                <ul class="space-y-1 text-sm">
                   <li><a href="./operate/rc/databases/create-database/create-flex-database/" class="text-redis-yellow-500 hover:underline">→ Flex</a></li>
                   <li><a href="./operate/" class="text-redis-yellow-500 hover:underline">→ Operate Redis</a></li>
                   <li><a href="./operate/kubernetes/" class="text-redis-yellow-500 hover:underline">→ Kubernetes</a></li>
@@ -279,7 +299,7 @@
               <div class="p-3 flex-1">
                 <h3 class="text-sm font-medium mb-2">Get Redis tools</h3>
                 <p class="text-xs text-gray-300 mb-3">Explore CLI, GUI, and VS Code tools</p>
-                <ul class="space-y-1 text-xs">
+                <ul class="space-y-1 text-sm">
                   <li><a href="./develop/tools/" class="text-redis-yellow-500 hover:underline">→ Client tools</a></li>
                   <li><a href="./develop/tools/cli/" class="text-redis-yellow-500 hover:underline">→ Redis CLI</a></li>
                   <li><a href="./develop/tools/insight/" class="text-redis-yellow-500 hover:underline">→ Redis Insight GUI</a></li>
@@ -298,25 +318,25 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
             <a href="./ai-agent-resources/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-3 hover:bg-redis-pen-600 transition-colors group">
-              <h3 class="text-xs font-medium mb-1 group-hover:text-redis-yellow-500">AI Agent Resources</h3>
+              <h3 class="text-sm font-medium mb-1 group-hover:text-redis-yellow-500">AI Agent Resources</h3>
               <p class="text-xs text-gray-400">Documentation for AI agents</p>
             </a>
 
             <a href="https://university.redis.io/academy" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-3 hover:bg-redis-pen-600 transition-colors group">
-              <h3 class="text-xs font-medium mb-1 group-hover:text-redis-yellow-500">Redis University</h3>
+              <h3 class="text-sm font-medium mb-1 group-hover:text-redis-yellow-500">Redis University</h3>
               <p class="text-xs text-gray-400">Free courses and certifications</p>
             </a>
 
             <a href="https://redis.io/blog/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-3 hover:bg-redis-pen-600 transition-colors group">
-              <h3 class="text-xs font-medium mb-1 group-hover:text-redis-yellow-500">Blog</h3>
+              <h3 class="text-sm font-medium mb-1 group-hover:text-redis-yellow-500">Blog</h3>
               <p class="text-xs text-gray-400">Latest updates and insights</p>
             </a>
 
             <a href="https://support.redislabs.com/hc/en-us" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-3 hover:bg-redis-pen-600 transition-colors group">
-              <h3 class="text-xs font-medium mb-1 group-hover:text-redis-yellow-500">Redis Knowledge Base</h3>
+              <h3 class="text-sm font-medium mb-1 group-hover:text-redis-yellow-500">Redis Knowledge Base</h3>
               <p class="text-xs text-gray-400">Search support articles</p>
             </a>
-            
+
           </div>
         </div>
       </section>
