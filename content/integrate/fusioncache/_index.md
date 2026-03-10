@@ -40,9 +40,7 @@ Other packages are also available to work with different distributed caches, ser
 See the [FusionCache docs](https://github.com/ZiggyCreatures/FusionCache/blob/main/docs/README.md) for more information.
 ## Getting Started
 
-Getting started with FusionCache + Redis cannot be easier.
-
-Just install the packages for the full Redis experience (with JSON serialization):
+First, install the packages for Redis (with JSON serialization):
 
 ```ps
 dotnet add package ZiggyCreatures.FusionCache
