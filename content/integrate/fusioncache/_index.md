@@ -37,7 +37,7 @@ dotnet add package ZiggyCreatures.FusionCache
 ```
 
 Other packages are also available to work with different distributed caches, serializers, backplanes and more.
-
+See the [FusionCache docs](https://github.com/ZiggyCreatures/FusionCache/blob/main/docs/README.md) for more information.
 ## Getting Started
 
 Getting started with FusionCache + Redis cannot be easier.
