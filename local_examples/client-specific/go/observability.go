@@ -73,14 +73,12 @@ func main() {
 		// You must enable OTel explicitly
 		WithEnabled(true).
 		// Enable the metric groups you want to collect. Use bitwise OR
-		// to combine multiple groups. The group `MetricGroupFlagAll`
-		// includes all groups.
+		// to combine multiple groups. The default is `MetricGroupAll`
+		// which includes all groups.
 		WithMetricGroups(redisotel.MetricGroupFlagCommand |
 			redisotel.MetricGroupFlagConnectionBasic |
 			redisotel.MetricGroupFlagResiliency |
-			redisotel.MetricGroupFlagConnectionAdvanced |
-			redisotel.MetricGroupFlagPubSub |
-			redisotel.MetricGroupFlagStream).
+			redisotel.MetricGroupFlagConnectionAdvanced).
 		// Filter which commands to track
 		WithIncludeCommands([]string{"GET", "SET"}).
 		WithExcludeCommands([]string{"DEBUG", "SLOWLOG"}).
