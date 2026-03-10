@@ -49,7 +49,7 @@ Start by importing the required OTel and Redis modules:
 
 Otel uses a [Meter provider](https://opentelemetry.io/docs/concepts/signals/metrics/#meter-provider)
 to create the objects that collect the metric information. The example below
-configures a meter provider to export metrics to a local Grafana instance
+configures a meter provider to export metrics to a local Otel collector
 every 10 seconds, but see the [OpenTelemetry Go docs](https://opentelemetry.io/docs/languages/go/)
 to learn more about other export options.
 
