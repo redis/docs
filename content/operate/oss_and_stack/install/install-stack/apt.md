@@ -31,27 +31,45 @@ apt policy redis
 
 redis:
   Installed: (none)
-  Candidate: 6:8.0.0-1rl1~bookworm1
+  Candidate: 6:8.6.1-1rl1~noble1
   Version table:
-     6:8.0.0-1rl1~bookworm1 500
-        500 https://packages.redis.io/deb bookworm/main arm64 Packages
-        500 https://packages.redis.io/deb bookworm/main all Packages
-     6:7.4.3-1rl1~bookworm1 500
-        500 https://packages.redis.io/deb bookworm/main arm64 Packages
-        500 https://packages.redis.io/deb bookworm/main all Packages
-     6:7.4.2-1rl1~bookworm1 500
-        500 https://packages.redis.io/deb bookworm/main arm64 Packages
-        500 https://packages.redis.io/deb bookworm/main all Packages
+     6:8.6.1-1rl1~noble1 500
+        500 https://packages.redis.io/deb noble/main amd64 Packages
+        500 https://packages.redis.io/deb noble/main all Packages
+     6:8.6.0-1rl1~noble1 500
+        500 https://packages.redis.io/deb noble/main amd64 Packages
+        500 https://packages.redis.io/deb noble/main all Packages
+     ...
+     6:8.0.0-1rl1~noble1 500
+        500 https://packages.redis.io/deb noble/main amd64 Packages
+        500 https://packages.redis.io/deb noble/main all Packages
+     6:7.4.8-1rl1~noble1 500
+        500 https://packages.redis.io/deb noble/main amd64 Packages
+        500 https://packages.redis.io/deb noble/main all Packages
 {{< /highlight >}}
 
-For example, to install Redis Open Source v7.4.2 on Ubuntu LTS 22.04 (Jammy Jellyfish), run the following command:
+For example, to install Redis Open Source v7.4.8 on Ubuntu LTS 24.04 (Noble Numbat), run the following command:
 
 {{< highlight bash >}}
 apt-get install \
-redis=6:7.4.2-1rl1~jammy1 \
-redis-server=6:7.4.2-1rl1~jammy1 \
-redis-sentinel=6:7.4.2-1rl1~jammy1 \
-redis-tools=6:7.4.2-1rl1~jammy1
+redis=6:7.4.8-1rl1~noble1 1001 \
+redis-server=6:7.4.8-1rl1~noble1 1001 \
+redis-sentinel=6:7.4.8-1rl1~noble1 1001 \
+redis-tools=6:7.4.8-1rl1~noble1 1001
+{{< /highlight >}}
+
+Alternatively, you can also set up a preferences file to pin a particular release:
+
+```
+Package: redis redis-server redis-sentinel redis-tools
+Pin: version 6:7.4.*
+Pin-Priority: 1001
+```
+
+In this case, `6:7.4.8-1rl1~noble1 1001` is the latest version that matches the pinned version and it will be installed when you run this command:
+
+{{< highlight bash >}}
+sudo apt-get install redis-server redis-sentinel redis-tools
 {{< /highlight >}}
 
 Redis should start automatically after the initial installation and also at boot time.
