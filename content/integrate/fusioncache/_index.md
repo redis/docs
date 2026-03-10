@@ -64,7 +64,7 @@ services.AddFusionCache()
     );
 ```
 
-And if we want to share the same underlying connection multiplexer, we can just:
+Use code like the following to share the Redis connection multiplexer:
 
 ```csharp
 var muxer = ConnectionMultiplexer.Connect("localhost:6379")
