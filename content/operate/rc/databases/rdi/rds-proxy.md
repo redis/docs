@@ -21,7 +21,7 @@ Only use RDS Proxy if you have specific requirements that necessitate it.
 
 ## Overview
 
-RDS Proxy is a fully managed, highly available database proxy for Amazon RDS. While it can be used with RDI, we recommend the Lambda function approach instead for the following reasons:
+RDS Proxy is a fully managed, highly available database proxy for Amazon RDS. While it can be used with RDI, we recommend the [Lambda function approach]({{< relref "/operate/rc/databases/rdi/setup#setup-lambda-function" >}}) instead for the following reasons:
 
 - **PostgreSQL incompatibility**: RDS Proxy does not support PostgreSQL logical replication, which is required for CDC (Change Data Capture).
 - **Added complexity**: RDS Proxy adds an additional layer between RDI and your database.
