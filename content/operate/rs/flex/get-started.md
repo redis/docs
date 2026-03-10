@@ -58,7 +58,7 @@ docker run -d --cap-add sys_resource --name rp -p 8443:8443 -p 12000:12000 redis
 
 ## Prepare and format flash memory
 
-After you [install Redis Software](#install-redis-enterprise-software), use the `prepare_flash` script to prepare and format flash memory:
+After you [install Redis Software](#install-redis-software), use the `prepare_flash` script to prepare and format flash memory:
 
 ```sh
 sudo /opt/redislabs/sbin/prepare_flash.sh
