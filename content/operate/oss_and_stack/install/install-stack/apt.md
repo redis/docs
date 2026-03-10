@@ -51,22 +51,24 @@ redis:
 For example, to install Redis Open Source v7.4.8 on Ubuntu LTS 24.04 (Noble Numbat), run the following command:
 
 {{< highlight bash >}}
-apt-get install \
-redis=6:7.4.8-1rl1~noble1 1001 \
-redis-server=6:7.4.8-1rl1~noble1 1001 \
-redis-sentinel=6:7.4.8-1rl1~noble1 1001 \
-redis-tools=6:7.4.8-1rl1~noble1 1001
+sudo apt-get install \
+redis=6:7.4.8-1rl1~noble1 \
+redis-server=6:7.4.8-1rl1~noble1 \
+redis-sentinel=6:7.4.8-1rl1~noble1 \
+redis-tools=6:7.4.8-1rl1~noble1
 {{< /highlight >}}
 
 Alternatively, you can also set up a preferences file to pin a particular release:
 
-```
+{{< highlight bash >}}
 Package: redis redis-server redis-sentinel redis-tools
 Pin: version 6:7.4.*
 Pin-Priority: 1001
-```
+{{< /highlight >}}
 
-In this case, `6:7.4.8-1rl1~noble1 1001` is the latest version that matches the pinned version and it will be installed when you run this command:
+See [this document](https://manpages.debian.org/buster/apt/apt_preferences.5.en.html#How_APT_Interprets_Priorities) for more information on `Pin-Priority`.
+
+With the example preferences file give above, `6:7.4.8-1rl1~noble1` is the latest version that matches the pinned version and it will be installed when you run this command:
 
 {{< highlight bash >}}
 sudo apt-get install redis-server redis-sentinel redis-tools
