@@ -81,7 +81,7 @@ services.AddFusionCache()
     );
 ```
 
-Finally, it's just a matter of simply using it:
+FusionCache is now ready to use. The simple example below demonstrates the `GetOrSetAsync` method but see [Core Methods](https://github.com/ZiggyCreatures/FusionCache/blob/main/docs/CoreMethods.md) in the FusionCache docs for full details of the API.
 
 ```csharp
 var product1 = await cache.GetOrSetAsync<Product>(
