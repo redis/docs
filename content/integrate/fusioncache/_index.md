@@ -32,7 +32,7 @@ FusionCache can transparently handle multiple cache levels by mixing a memory ca
 
 Using the dotnet CLI, run:
 
-```ps
+```powershell
 dotnet add package ZiggyCreatures.FusionCache
 ```
 
