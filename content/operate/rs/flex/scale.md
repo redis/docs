@@ -33,7 +33,7 @@ Before you scale a self-managed Flex deployment, verify that your cluster has su
 
 If your dataset requires more capacity while maintaining performance, you can prepare a Flex database to store more data using one of the following options:
 
-1. Increase the database limit and [add shards](scale-volume-add-shards).
+1. Increase the database limit and [add shards](#scale-volume-add-shards).
 
 1. Increase the database limit and [decrease the RAM-to-flash ratio](#decrease-ram-to-flash-ratio).
 
@@ -57,11 +57,7 @@ To increase the dataset capacity and shards using the Cluster Manager UI:
 
 ### Decrease RAM-to-flash ratio
 
-You can allocate more data to the flash tier while keeping the same amount of RAM to increase the database capacity. This strategy increases the total volume without requiring additional RAM or vCPU.
-Maintains existing shard count while improving hardware utilization.
-Recommended when: scaling for volume only, and SSD resources are underutilized.
-
-This will increase the DB with flash storage without needing additional vCPU or memory. Usually best for when scaling only volume is required and there is unutilized SSD space.
+You can allocate more data to the flash tier to increase the database capacity while keeping the same amount of RAM, shards, and vCPU. This strategy is recommended when scaling for volume only and SSD resources are underutilized.
 
 To increase the dataset capacity and decrease the RAM-to-flash ratio using the Cluster Manager UI:
 
