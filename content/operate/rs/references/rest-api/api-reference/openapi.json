@@ -226,6 +226,91 @@
         ],
         "type": "object"
       },
+      "ClusterCertificatesResponse": {
+        "properties": {
+          "api_cert": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "api_key": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "ccs_internode_encryption_cert": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "ccs_internode_encryption_key": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "cm_cert": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "cm_key": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "data_internode_encryption_cert": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "data_internode_encryption_key": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "ldap_client_cert": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "ldap_client_key": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "metrics_exporter_cert": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "metrics_exporter_key": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "mtls_trusted_ca_cert": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "proxy_cert": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "proxy_key": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "sso_issuer_cert": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "sso_service_cert": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "sso_service_key": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "syncer_cert": {
+            "type": "string",
+            "x-omitempty": true
+          },
+          "syncer_key": {
+            "type": "string",
+            "x-omitempty": true
+          }
+        },
+        "type": "object"
+      },
       "ClusterHealthReport": {
         "description": "Cluster health report.",
         "properties": {
@@ -1733,6 +1818,37 @@
         "summary": "Reset a database's default user password",
         "tags": [
           "Database"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/cluster/certificates": {
+      "get": {
+        "description": "Get cluster certificates.",
+        "operationId": "cluster_get_cluster_certificates",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClusterCertificatesResponse"
+                }
+              }
+            },
+            "description": "Cluster certificates retrieved successfully."
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_cluster_info"
+            ]
+          }
+        ],
+        "summary": "Get cluster certificates.",
+        "tags": [
+          "Cluster"
         ],
         "x-publish-docs": true,
         "x-stability-level": "stable"
