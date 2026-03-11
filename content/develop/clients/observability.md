@@ -110,6 +110,34 @@ takes to complete, or how many errors have occurred. By analyzing these metrics,
 you can identify performance bottlenecks, errors, and other issues that need to
 be addressed.
 
+Redis clients follow the OTel push model. This uses the
+[OLTP](https://opentelemetry.io/docs/specs/otlp/) 
+protocol to send metrics to a [collector](https://opentelemetry.io/docs/collector/)
+(both [OLTP/gRPC](https://opentelemetry.io/docs/specs/otlp/#otlpgrpc) and
+[OTLP/HTTP](https://opentelemetry.io/docs/specs/otlp/#otlphttp) are supported).
+A storage layer (such as [Prometheus](https://prometheus.io/)) can then pull the
+metrics from a collector endpoint, making the data available for monitoring tools
+(such as [Grafana](https://grafana.com/)) to query and visualize. The basic
+flow of data is shown below.
+
+```mermaid {width="100%"}
+sequenceDiagram
+    participant App as Redis Client
+    participant Collector as OTel Collector
+    participant Storage as Storage Layer<br/>(Prometheus)
+    participant Monitor as Monitoring Tool<br/>(Grafana)
+
+    App->>Collector: Push metrics
+    Note over App,Collector: OTel push model
+
+    Storage->>Collector: Pull metrics from endpoint
+    Collector-->>Storage: Return metrics
+
+    Monitor->>Storage: Query metrics data
+    Storage-->>Monitor: Return metrics
+    Note over Monitor: Visualize
+```
+
 ## Redis metric groups
 
 In Redis clients, the metrics collected by OTel are organized into the following
