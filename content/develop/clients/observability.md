@@ -138,6 +138,10 @@ sequenceDiagram
     Note over Monitor: Visualize
 ```
 
+The [Redis client observability demonstration](https://github.com/redis-developer/redis-client-observability)
+on GitHub contains examples showing how to set up a local Grafana instance, then
+connect it to a Redis client and visualize the metric data as it arrives.
+
 ## Redis metric groups
 
 In Redis clients, the metrics collected by OTel are organized into the following
@@ -158,19 +162,6 @@ When you configure the client to activate OTel, you can select which metric grou
 you are interested in. By default, only the `resiliency` and `connection-basic` groups are enabled.
 The metrics in each group are described in the
 [Metrics reference](#metrics-reference) below.
-
-## Record and visualize metrics
-
-You can use a monitoring tool (such as [Grafana](https://grafana.com/)) to record and
-visualize the metrics collected by OTel. This provides a target endpoint
-that you specify when you configure the client in your application. The tool then
-collects the metrics from your application transparently as it runs. When you
-have collected the data, you can visualize it using the tool's dashboarding
-and graphing features.
-
-The [Redis client observability demonstration](https://github.com/redis-developer/redis-client-observability)
-on GitHub contains examples showing how to set up a local Grafana instance, then
-connect it to a Redis client and visualize the metric data as it arrives.
 
 ## Metrics reference
 
