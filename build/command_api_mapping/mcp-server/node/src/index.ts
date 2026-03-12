@@ -13,6 +13,7 @@ import { extractDocComments } from "./tools/extract-doc-comments.js";
 import { validateSignature } from "./tools/validate-signature.js";
 import { getClientInfo } from "./tools/get-client-info.js";
 import { listClients } from "./tools/list-clients.js";
+import { analyzeMetadataSize } from "./tools/analyze-metadata.js";
 
 // Import schemas
 import {
@@ -22,6 +23,7 @@ import {
   ValidateSignatureInputSchema,
   GetClientInfoInputSchema,
   ListClientsInputSchema,
+  AnalyzeMetadataSizeInputSchema,
 } from "./tools/schemas.js";
 
 // Create MCP server with tools capability
@@ -160,6 +162,23 @@ const TOOLS = [
       },
     },
   },
+  {
+    name: "analyze_metadata_size",
+    description: "Analyze the size of JSON metadata embedded in a documentation page. Returns total size and breakdown by section (e.g., tableOfContents, codeExamples, arguments). Useful for understanding context window usage.",
+    inputSchema: {
+      type: "object" as const,
+      properties: {
+        file_path: {
+          type: "string",
+          description: "Path to the documentation file (HTML or Markdown) containing JSON metadata",
+        },
+        content: {
+          type: "string",
+          description: "Raw content to analyze (use this OR file_path, not both)",
+        },
+      },
+    },
+  },
 ];
 
 // Register tools
@@ -199,6 +218,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case "list_clients":
         result = await listClients(args);
+        break;
+
+      case "analyze_metadata_size":
+        result = await analyzeMetadataSize(args);
         break;
 
       default:
