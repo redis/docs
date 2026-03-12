@@ -13,15 +13,15 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Searching and querying Redis data using the Redis Query Engine
+description: Searching and querying Redis data using Redis Search
 highlighted: true
-linkTitle: Redis Query Engine
+linkTitle: Redis Search
 stack: true
-title: Redis Query Engine
+title: Redis Search
 weight: 10
 ---
 
-The Redis Query Engine offers an enhanced Redis experience via the following search and query features:
+Redis Search offers an enhanced Redis experience via the following search and query features:
 
 - A rich query language
 - Incremental indexing on JSON and hash documents
@@ -32,7 +32,7 @@ The Redis Query Engine offers an enhanced Redis experience via the following sea
 
 You can find a complete list of features in the [reference documentation]({{< relref "/develop/ai/search-and-query/advanced-concepts/" >}}).
 
-The Redis Query Engine features allow you to use Redis as a:
+Redis Search features allow you to use Redis as a:
 
 - Document database
 - Vector database
@@ -47,9 +47,9 @@ Here are the next steps to get you started:
 1. [Install Redis Insight]({{< relref "/operate/redisinsight" >}}), connect it to your Redis database, and then use [Redis Copilot]({{< relref "/develop/tools/insight" >}}#redis-copilot) to help you learn how to execute complex queries against your own data using simple, plain language prompts.
 
 
-## Enable the Redis Query Engine
+## Enable Redis Search
 
-The Redis Query Engine is available in Redis Open Source, Redis Software, and Redis Cloud.
+Redis Search is available in Redis Open Source, Redis Software, and Redis Cloud.
 See
 [Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
 [Install Redis Software]({{< relref "/operate/rs/installing-upgrading/install" >}})
@@ -57,7 +57,7 @@ for full installation instructions.
 
 ## License and source code
 
-The Redis Query Engine features of Redis are available under the Source Available License 2.0 (RSALv2), the Server Side Public License v1 (SSPLv1), or the GNU Affero General Public License version 3 (AGPLv3). Please read the [license file](https://raw.githubusercontent.com/RediSearch/RediSearch/master/LICENSE.txt) for further details. The source code and the [detailed release notes](https://github.com/RediSearch/RediSearch/releases) are available on [GitHub](https://github.com/RediSearch/RediSearch).
+The Redis Search features of Redis are available under the Source Available License 2.0 (RSALv2), the Server Side Public License v1 (SSPLv1), or the GNU Affero General Public License version 3 (AGPLv3). Please read the [license file](https://raw.githubusercontent.com/RediSearch/RediSearch/master/LICENSE.txt) for further details. The source code and the [detailed release notes](https://github.com/RediSearch/RediSearch/releases) are available on [GitHub](https://github.com/RediSearch/RediSearch).
 
 Do you have questions? Feel free to ask at the [RediSearch forum](https://forum.redis.com/c/modules/redisearch/).
 

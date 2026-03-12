@@ -1,5 +1,7 @@
 ---
-aliases: /develop/connect/insight
+aliases:
+- /develop/connect/insight
+- /ui/insight/
 categories:
 - docs
 - develop
@@ -106,7 +108,7 @@ Workbench is an advanced command line interface with intelligent command auto-co
 
 * Built-in guides: you can conveniently discover Redis and Redis Open Source features using the built-in guides.
 * Command auto-complete support for all features in Redis and Redis Open Source.
-* Advanced, schema-aware auto-complete for Redis Query Engine, which provides for faster query building with context-sensitive suggestions that recognize indexes, schemas, and fields based on your current query. Start typing any Redis Query Engine command in to try this feature. See below for an example of an in-progress `FT.SEARCH` command.
+* Advanced, schema-aware auto-complete for Redis Search, which provides for faster query building with context-sensitive suggestions that recognize indexes, schemas, and fields based on your current query. Start typing any Redis Search command in to try this feature. See below for an example of an in-progress `FT.SEARCH` command.
 
 {{< image filename="images/ri/ri-workbench.png" alt="An example of an in-progress FT.SEARCH command" >}}
 

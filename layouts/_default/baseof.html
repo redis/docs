@@ -35,6 +35,10 @@
     {{ partial "scss.html" (dict "path" "scss/style.scss") }}
     {{ partialCached "css.html" . }}
 
+    {{ if .Page.Store.Get "hasOtelMetrics" }}
+    <link rel="stylesheet" href="{{ "css/otel-metrics.css" | relURL }}">
+    {{ end }}
+
     {{ block "head" . }}{{ end }}
 
     {{ partial "ai-metadata.html" . }}
@@ -113,6 +117,11 @@
     <!-- Decision tree functionality -->
     {{ if .Page.Store.Get "hasDecisionTree" }}
     <script src="{{ "js/decision-tree.js" | relURL }}"></script>
+    {{ end }}
+
+    <!-- OpenTelemetry metrics functionality -->
+    {{ if .Page.Store.Get "hasOtelMetrics" }}
+    <script src="{{ "js/otel-metrics.js" | relURL }}"></script>
     {{ end }}
 
     <!-- Timeline functionality -->

@@ -1,0 +1,121 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "queryindex(filters: List[str])",
+        "params": [
+          {
+            "name": "filters",
+            "type": "List[str]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<String> tsQueryIndex(String... filters)",
+        "params": [
+          {
+            "name": "filters",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "list of timeseries keys"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TSQueryIndex(ctx context.Context, filterExpr []string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "filterExpr",
+            "type": "[]string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "QUERYINDEX(filter: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "filter",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "QueryIndex(IReadOnlyCollection<string> filter)",
+        "params": [
+          {
+            "name": "filter",
+            "type": "IReadOnlyCollection<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "IReadOnlyList<string>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "QueryIndexAsync(IReadOnlyCollection<string> filter)",
+        "params": [
+          {
+            "name": "filter",
+            "type": "IReadOnlyCollection<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<IReadOnlyList<string>>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tsqueryindex(string ...$filterExpression)",
+        "params": [
+          {
+            "name": "$filterExpression",
+            "type": "string ...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

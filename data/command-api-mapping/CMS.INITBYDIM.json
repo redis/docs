@@ -1,0 +1,173 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "initbydim(key, width, depth)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "name": "width",
+            "type": "int",
+            "description": "Number of counters in each array"
+          },
+          {
+            "name": "depth",
+            "type": "int",
+            "description": "Number of counter-arrays"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "True if created successfully"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "cmsInitByDim(String key, long width, long depth)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "width",
+            "type": "long"
+          },
+          {
+            "name": "depth",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "CMSInitByDim(ctx context.Context, key string, width, depth int64) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "width",
+            "type": "int64"
+          },
+          {
+            "name": "depth",
+            "type": "int64"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "Status command result"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "CMS.INITBYDIM(key, width, depth)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "name": "width",
+            "type": "number",
+            "description": "Number of counters in each array"
+          },
+          {
+            "name": "depth",
+            "type": "number",
+            "description": "Number of counter arrays"
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "InitByDim(RedisKey key, long width, long depth)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "width",
+            "type": "long"
+          },
+          {
+            "name": "depth",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "True if created successfully"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "InitByDimAsync(RedisKey key, long width, long depth)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "width",
+            "type": "long"
+          },
+          {
+            "name": "depth",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "True if created successfully"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "cmsinitbydim($key, $width, $depth)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "width",
+            "type": "int"
+          },
+          {
+            "name": "depth",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": "OK"
+        }
+      }
+    ]
+  }
+}

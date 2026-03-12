@@ -1,0 +1,944 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "xgroup_create(, name: KeyT,, groupname: GroupT,, id: StreamIdT = \"$\",, mkstream: bool = False,, entries_read: Optional[int] = None,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "GroupT",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "StreamIdT = \"$\"",
+            "description": ""
+          },
+          {
+            "name": "mkstream",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "entries_read",
+            "type": "Optional[int] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String xgroupCreate(byte[] key, byte[] consumer, byte[] id, boolean makeStream)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "makeStream",
+            "type": "boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String xgroupCreate(final String key, final String groupName, final StreamEntryID id final boolean makeStream)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "makeStream",
+            "type": "StreamEntryID id final boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String xgroupCreate(String key, String groupName, StreamEntryID id, boolean makeStream)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "StreamEntryID",
+            "description": ""
+          },
+          {
+            "name": "makeStream",
+            "type": "boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String xgroupCreate(StreamOffset<K> streamOffset, K group)",
+        "params": [
+          {
+            "name": "streamOffset",
+            "type": "StreamOffset<K>",
+            "description": "name of the stream containing the offset to set."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "simple-reply true if successful. @since 5.2"
+        }
+      },
+      {
+        "signature": "String xgroupCreate(StreamOffset<K> streamOffset, K group, XGroupCreateArgs args)",
+        "params": [
+          {
+            "name": "streamOffset",
+            "type": "StreamOffset<K>",
+            "description": "name of the stream containing the offset to set."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          },
+          {
+            "name": "args",
+            "type": "XGroupCreateArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "simple-reply true if successful. @since 5.2"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> xgroupCreate(StreamOffset<K> streamOffset, K group)",
+        "params": [
+          {
+            "name": "streamOffset",
+            "type": "StreamOffset<K>",
+            "description": "name of the stream containing the offset to set."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "simple-reply true if successful. @since 5.2"
+        }
+      },
+      {
+        "signature": "RedisFuture<String> xgroupCreate(StreamOffset<K> streamOffset, K group, XGroupCreateArgs args)",
+        "params": [
+          {
+            "name": "streamOffset",
+            "type": "StreamOffset<K>",
+            "description": "name of the stream containing the offset to set."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          },
+          {
+            "name": "args",
+            "type": "XGroupCreateArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "simple-reply true if successful. @since 5.2"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> xgroupCreate(StreamOffset<K> streamOffset, K group)",
+        "params": [
+          {
+            "name": "streamOffset",
+            "type": "StreamOffset<K>",
+            "description": "name of the stream containing the offset to set."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "simple-reply true if successful. @since 5.2"
+        }
+      },
+      {
+        "signature": "Mono<String> xgroupCreate(StreamOffset<K> streamOffset, K group, XGroupCreateArgs args)",
+        "params": [
+          {
+            "name": "streamOffset",
+            "type": "StreamOffset<K>",
+            "description": "name of the stream containing the offset to set."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          },
+          {
+            "name": "args",
+            "type": "XGroupCreateArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "simple-reply true if successful. @since 5.2"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "XGroupCreate(ctx context.Context, stream, group, start string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "stream",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "XGroupCreateMkStream(ctx context.Context, stream, group, start string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "stream",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "XGROUP_CREATE(key: RedisArgument, group: RedisArgument, id: RedisArgument, options?: XGroupCreateOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "XGroupCreateOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"CREATE\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"CREATE\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "entriesReadToken",
+            "type": "\"ENTRIESREAD\"",
+            "description": ""
+          },
+          {
+            "name": "entriesRead",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"CREATE\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "mkstream",
+            "type": "\"MKSTREAM\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, id: string | Buffer | number, mkstream: \"MKSTREAM\", entriesReadToken: \"ENTRIESREAD\", entriesRead: number | string, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"CREATE\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "mkstream",
+            "type": "\"MKSTREAM\"",
+            "description": ""
+          },
+          {
+            "name": "entriesReadToken",
+            "type": "\"ENTRIESREAD\"",
+            "description": ""
+          },
+          {
+            "name": "entriesRead",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xgroup(subcommand: \"CREATE\", key: RedisKey, groupname: string | Buffer, newId: \"$\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "subcommand",
+            "type": "\"CREATE\"",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "newId",
+            "type": "\"$\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "xgroup_create(key: K, group: G, id: ID)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "ID",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xgroup_create_mkstream(key: K, group: G, id: ID)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "ID",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "xgroup_create(key: K, group: G, id: ID)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "ID",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xgroup_create_mkstream(key: K, group: G, id: ID)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "ID",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "()",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StreamCreateConsumerGroup(RedisKey key, RedisValue groupName, RedisValue? position, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the group to create."
+          },
+          {
+            "name": "position",
+            "type": "RedisValue?",
+            "description": "The position to begin reading the stream. Defaults to NewMessages."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the group was created, false otherwise."
+        }
+      },
+      {
+        "signature": "StreamCreateConsumerGroup(RedisKey key, RedisValue groupName, RedisValue? position = null, bool createStream = true, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the group to create."
+          },
+          {
+            "name": "position",
+            "type": "RedisValue?",
+            "description": "The position to begin reading the stream. Defaults to NewMessages."
+          },
+          {
+            "name": "createStream",
+            "type": "bool",
+            "description": "Create the stream if it does not already exist."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the group was created, false otherwise."
+        }
+      },
+      {
+        "signature": "StreamCreateConsumerGroup(RedisKey key, RedisValue groupName, RedisValue? position, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the group to create."
+          },
+          {
+            "name": "position",
+            "type": "RedisValue?",
+            "description": "The position to begin reading the stream. Defaults to NewMessages."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the group was created, false otherwise."
+        }
+      },
+      {
+        "signature": "StreamCreateConsumerGroup(RedisKey key, RedisValue groupName, RedisValue? position = null, bool createStream = true, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the group to create."
+          },
+          {
+            "name": "position",
+            "type": "RedisValue?",
+            "description": "The position to begin reading the stream. Defaults to NewMessages."
+          },
+          {
+            "name": "createStream",
+            "type": "bool",
+            "description": "Create the stream if it does not already exist."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the group was created, false otherwise."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StreamCreateConsumerGroup(RedisKey key, RedisValue groupName, RedisValue? position, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the group to create."
+          },
+          {
+            "name": "position",
+            "type": "RedisValue?",
+            "description": "The position to begin reading the stream. Defaults to NewMessages."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the group was created, false otherwise."
+        }
+      },
+      {
+        "signature": "StreamCreateConsumerGroup(RedisKey key, RedisValue groupName, RedisValue? position = null, bool createStream = true, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the group to create."
+          },
+          {
+            "name": "position",
+            "type": "RedisValue?",
+            "description": "The position to begin reading the stream. Defaults to NewMessages."
+          },
+          {
+            "name": "createStream",
+            "type": "bool",
+            "description": "Create the stream if it does not already exist."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the group was created, false otherwise."
+        }
+      },
+      {
+        "signature": "StreamCreateConsumerGroup(RedisKey key, RedisValue groupName, RedisValue? position, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the group to create."
+          },
+          {
+            "name": "position",
+            "type": "RedisValue?",
+            "description": "The position to begin reading the stream. Defaults to NewMessages."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the group was created, false otherwise."
+        }
+      },
+      {
+        "signature": "StreamCreateConsumerGroup(RedisKey key, RedisValue groupName, RedisValue? position = null, bool createStream = true, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the group to create."
+          },
+          {
+            "name": "position",
+            "type": "RedisValue?",
+            "description": "The position to begin reading the stream. Defaults to NewMessages."
+          },
+          {
+            "name": "createStream",
+            "type": "bool",
+            "description": "Create the stream if it does not already exist."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the group was created, false otherwise."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "create(string $key, string $group, string $id, bool $mkStream = false, ?string $entriesRead = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$group",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$id",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "bool $mkStream = false",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "?string $entriesRead = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

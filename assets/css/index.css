@@ -108,7 +108,7 @@ section.prose {
 .prose h4[id],
 .prose h5[id],
 .prose h6[id] {
-  @apply mt-16 scroll-mt-6;
+	  @apply mt-16 scroll-mt-24;
 }
 
 /* Reduce top margin when headers immediately follow other headers */

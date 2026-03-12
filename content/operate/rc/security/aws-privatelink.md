@@ -47,12 +47,13 @@ Be aware of the following limitations when using PrivateLink with Redis Cloud:
 
     We recommend avoiding these availability zones when creating your Redis Cloud database if you plan to use AWS PrivateLink.
 - Redis Cloud [Bring your Own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) subscriptions are not supported with PrivateLink.
+- The pre-handoff feature of [Smart client handoffs]({{< relref "/develop/clients/sch#redis-cloud" >}}) is not currently supported with AWS PrivateLink, but relaxed timeouts are available and enabled by default.
 
 ## Prerequisites
 
 Before you can connect to Redis Cloud with an AWS PrivateLink VPC resource endpoint, you must have:
 
-- A [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
+- A [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) and the **Owner** or **Manager** role for your Redis Cloud account.
 - An [AWS VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html) with the following:
     - A [security group](https://docs.aws.amazon.com/vpc/latest/userguide/creating-security-groups.html) that allows ingress traffic to the following ports: 
         - The database port range (port 10000-19999)

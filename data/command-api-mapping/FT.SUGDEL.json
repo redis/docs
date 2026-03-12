@@ -1,0 +1,163 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "sugdel(key: str, string: str)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "string",
+            "type": "str",
+            "description": "The suggestion string to delete"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "1 if the suggestion was deleted, 0 otherwise"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "boolean ftSugDel(String key, String string)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "string",
+            "type": "String",
+            "description": "The suggestion string to delete"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "true if the suggestion was deleted"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTSugDel(ctx context.Context, key string, suggestion string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "suggestion",
+            "type": "string",
+            "description": "The suggestion string to delete"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": "1 if the suggestion was deleted, 0 otherwise"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SUGDEL(key: RedisArgument, string: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "string",
+            "type": "RedisArgument",
+            "description": "The suggestion string to delete"
+          }
+        ],
+        "returns": {
+          "type": "Promise<number>",
+          "description": "1 if the suggestion was deleted, 0 otherwise"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "bool SugDel(string key, string str)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "str",
+            "type": "string",
+            "description": "The suggestion string to delete"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the suggestion was deleted"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<bool> SugDelAsync(string key, string str)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "str",
+            "type": "string",
+            "description": "The suggestion string to delete"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if the suggestion was deleted"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftsugdel(string $key, string $string)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "$string",
+            "type": "string",
+            "description": "The suggestion string to delete"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "1 if deleted, 0 if not found"
+        }
+      }
+    ]
+  }
+}
+

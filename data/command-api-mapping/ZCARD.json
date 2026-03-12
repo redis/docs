@@ -1,0 +1,364 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "zcard(name: KeyT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long zcard(final byte[] key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The cardinality (number of elements) of the set as an integer"
+        }
+      },
+      {
+        "signature": "long zcard(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The cardinality (number of elements) of the set as an integer"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long zcard(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the cardinality (number of elements) of the sorted set, or false if key does not exist."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> zcard(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the cardinality (number of elements) of the sorted set, or false if key does not exist."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> zcard(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the cardinality (number of elements) of the sorted set, or false if key does not exist."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ZCard(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ZCARD(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "zcard(key: RedisKey, callback?: Callback<number>): Result<number, Context>;, /**, * Count the members in a sorted set with scores within the given values, * - _group_: sorted-set, * - _complexity_: O(log(N)) with N being the number of elements in the sorted set., * - _since_: 2.0.0, */, zcount(, key: RedisKey, min: number | string, max: number | string, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>)",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "zcard(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "zcard(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SortedSetLength(RedisKey key, double min = double.NegativeInfinity, double max = double.PositiveInfinity, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": "The min score to filter by (defaults to negative infinity)."
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": "The max score to filter by (defaults to positive infinity)."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Whether to exclude min and max from the range check (defaults to both inclusive)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The cardinality (number of elements) of the sorted set, or 0 if key does not exist."
+        }
+      },
+      {
+        "signature": "SortedSetLength(RedisKey key, double min = double.NegativeInfinity, double max = double.PositiveInfinity, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": "The min score to filter by (defaults to negative infinity)."
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": "The max score to filter by (defaults to positive infinity)."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Whether to exclude min and max from the range check (defaults to both inclusive)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The cardinality (number of elements) of the sorted set, or 0 if key does not exist."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SortedSetLength(RedisKey key, double min = double.NegativeInfinity, double max = double.PositiveInfinity, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": "The min score to filter by (defaults to negative infinity)."
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": "The max score to filter by (defaults to positive infinity)."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Whether to exclude min and max from the range check (defaults to both inclusive)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The cardinality (number of elements) of the sorted set, or 0 if key does not exist."
+        }
+      },
+      {
+        "signature": "SortedSetLength(RedisKey key, double min = double.NegativeInfinity, double max = double.PositiveInfinity, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "min",
+            "type": "double",
+            "description": "The min score to filter by (defaults to negative infinity)."
+          },
+          {
+            "name": "max",
+            "type": "double",
+            "description": "The max score to filter by (defaults to positive infinity)."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Whether to exclude min and max from the range check (defaults to both inclusive)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The cardinality (number of elements) of the sorted set, or 0 if key does not exist."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "zcard(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

@@ -3,6 +3,7 @@
   {{ $pages := .pages -}}
   {{ range $pages -}}
     {{ $isActive := eq $page . -}}
+    {{ if and .Params.hidden (not $isActive) }}{{ continue }}{{ end -}}
     {{ $isActivePath := $page.IsDescendant . -}}
     {{ $childPages := (union .Pages .Sections).ByWeight -}}
     <li class="my-2">

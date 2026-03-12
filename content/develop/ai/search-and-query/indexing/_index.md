@@ -333,10 +333,6 @@ Now you can do full text search for light colored headphones:
   - `null` values are skipped
   - Any other value type will cause an indexing failure
 
-- `SORTBY` only sorts by the first value
-- No `HIGHLIGHT` and `SUMMARIZE` support
-- `RETURN` of a Schema attribute, whose JSONPath leads to multiple values, returns only the first value (as a JSON String)
-- If a JSONPath is specified by the `RETURN`, instead of a Schema attribute, all values are returned (as a JSON String)
 
 ### Handling phrases in different array slots:
 
@@ -595,9 +591,13 @@ This query returns the field as the alias `"stock"` instead of the JSONPath expr
 
 You can [highlight]({{< relref "/develop/ai/search-and-query/advanced-concepts/highlight" >}}) relevant search terms in any indexed `TEXT` attribute.
 
-For [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}), you have to explicitly set which attributes you want highlighted after the `RETURN` and `HIGHLIGHT` parameters.
+For JSON documents, you must use the `RETURN` parameter to specify the attributes, followed by `HIGHLIGHT` to indicate which of those attributes to highlight.
 
 Use the optional `TAGS` keyword to specify the strings that will surround (or highlight) the matching search terms.
+
+{{< note >}}
+`HIGHLIGHT` and `SUMMARIZE` are not supported when the JSONPath leads to multiple values (such as arrays indexed as `TEXT`). See [Index limitations](#index-limitations) for details.
+{{< /note >}}
 
 For example, highlight the word "bluetooth" with bold HTML tags in item names and descriptions:
 
@@ -693,6 +693,11 @@ During index creation, you need to map the JSON elements to `SCHEMA` fields as f
 - You cannot index JSON objects. Index the individual elements as separate attributes instead.
 - `null` values are ignored.
 
-### Sortable tags
+### JSONPath with multiple values
 
-If you create an index for JSON documents with a JSONPath leading to an array or to multiple values, only the first value is considered by the sort.
+When a JSONPath leads to an array or to multiple values:
+
+- No `HIGHLIGHT` and `SUMMARIZE` support.
+- `SORTBY` only sorts by the first value.
+- `RETURN` of a schema attribute returns the values as a JSON string.
+- If a JSONPath is specified by the `RETURN`, instead of a schema attribute, all values are returned (as a JSON string).

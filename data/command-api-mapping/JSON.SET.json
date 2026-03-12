@@ -1,0 +1,697 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "set(, name: str,, path: str,, obj: JsonType,, nx: Optional[bool] = False,, xx: Optional[bool] = False,, decode_keys: Optional[bool] = False,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "obj",
+            "type": "JsonType",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "Optional[bool] = False",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "Optional[bool] = False",
+            "description": ""
+          },
+          {
+            "name": "decode_keys",
+            "type": "Optional[bool] = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Optional[str]",
+          "description": ""
+        }
+      },
+      {
+        "signature": "jsonset(*args, **kwargs)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "return jsonSet(key, Path.ROOT_PATH, pojo)",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "Path.ROOT_PATH",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "pojo",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": ""
+        }
+      },
+      {
+        "signature": "return jsonSet(key, Path.ROOT_PATH, pojo, params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "Path.ROOT_PATH",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "pojo",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String jsonSet(String key, Path path, Object pojo)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path",
+            "description": ""
+          },
+          {
+            "name": "pojo",
+            "type": "Object",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String jsonSet(String key, Path path, Object pojo, JsonSetParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path",
+            "description": ""
+          },
+          {
+            "name": "pojo",
+            "type": "Object",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "JsonSetParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "default String jsonSet(String key, Object object)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "object",
+            "type": "Object",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "default String",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String jsonSet(K key, JsonPath jsonPath, JsonValue value, JsonSetArgs options)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value(s) where we want to set the value."
+          },
+          {
+            "name": "value",
+            "type": "JsonValue",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "JsonSetArgs",
+            "description": "the JsonSetArgs the options for setting the value."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String \"OK\" if the set was successful, null if the JsonSetArgs conditions are not met. @since 6.8"
+        }
+      },
+      {
+        "signature": "String jsonSet(K key, JsonPath jsonPath, JsonValue value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value(s) where we want to set the value."
+          },
+          {
+            "name": "value",
+            "type": "JsonValue",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String \"OK\" if the set was successful, null if the JsonSetArgs conditions are not met. @since 6.8"
+        }
+      },
+      {
+        "signature": "String jsonSet(K key, JsonPath jsonPath, String jsonString)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value(s) where we want to set the value."
+          },
+          {
+            "name": "jsonString",
+            "type": "String",
+            "description": "the JSON string to set."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String \"OK\" if the set was successful, null if the JsonSetArgs conditions are not met. @since 6.8"
+        }
+      },
+      {
+        "signature": "String jsonSet(K key, JsonPath jsonPath, String jsonString, JsonSetArgs options)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value(s) where we want to set the value."
+          },
+          {
+            "name": "jsonString",
+            "type": "String",
+            "description": "the JSON string to set."
+          },
+          {
+            "name": "options",
+            "type": "JsonSetArgs",
+            "description": "the JsonSetArgs the options for setting the value."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String \"OK\" if the set was successful, null if the JsonSetArgs conditions are not met. @since 6.8"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> jsonSet(K key, JsonPath jsonPath, JsonValue value, JsonSetArgs options)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value(s) where we want to set the value."
+          },
+          {
+            "name": "value",
+            "type": "JsonValue",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "JsonSetArgs",
+            "description": "the JsonSetArgs the options for setting the value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String \"OK\" if the set was successful, null if the JsonSetArgs conditions are not met. @since 6.8"
+        }
+      },
+      {
+        "signature": "RedisFuture<String> jsonSet(K key, JsonPath jsonPath, JsonValue value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value(s) where we want to set the value."
+          },
+          {
+            "name": "value",
+            "type": "JsonValue",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String \"OK\" if the set was successful, null if the JsonSetArgs conditions are not met. @since 6.8"
+        }
+      },
+      {
+        "signature": "RedisFuture<String> jsonSet(K key, JsonPath jsonPath, String jsonString)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value(s) where we want to set the value."
+          },
+          {
+            "name": "jsonString",
+            "type": "String",
+            "description": "the JSON string to set."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String \"OK\" if the set was successful, null if the JsonSetArgs conditions are not met. @since 6.8"
+        }
+      },
+      {
+        "signature": "RedisFuture<String> jsonSet(K key, JsonPath jsonPath, String jsonString, JsonSetArgs options)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value(s) where we want to set the value."
+          },
+          {
+            "name": "jsonString",
+            "type": "String",
+            "description": "the JSON string to set."
+          },
+          {
+            "name": "options",
+            "type": "JsonSetArgs",
+            "description": "the JsonSetArgs the options for setting the value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String \"OK\" if the set was successful, null if the JsonSetArgs conditions are not met. @since 6.8"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> jsonSet(K key, JsonPath jsonPath, JsonValue value, JsonSetArgs options)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value(s) where we want to set the value."
+          },
+          {
+            "name": "value",
+            "type": "JsonValue",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "JsonSetArgs",
+            "description": "the JsonSetArgs the options for setting the value."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String \"OK\" if the set was successful, null if the JsonSetArgs conditions are not met. @since 6.8"
+        }
+      },
+      {
+        "signature": "Mono<String> jsonSet(K key, JsonPath jsonPath, JsonValue value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value(s) where we want to set the value."
+          },
+          {
+            "name": "value",
+            "type": "JsonValue",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String \"OK\" if the set was successful, null if the JsonSetArgs conditions are not met. @since 6.8"
+        }
+      },
+      {
+        "signature": "Mono<String> jsonSet(K key, JsonPath jsonPath, String jsonString)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value(s) where we want to set the value."
+          },
+          {
+            "name": "jsonString",
+            "type": "String",
+            "description": "the JSON string to set."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String \"OK\" if the set was successful, null if the JsonSetArgs conditions are not met. @since 6.8"
+        }
+      },
+      {
+        "signature": "Mono<String> jsonSet(K key, JsonPath jsonPath, String jsonString, JsonSetArgs options)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value(s) where we want to set the value."
+          },
+          {
+            "name": "jsonString",
+            "type": "String",
+            "description": "the JSON string to set."
+          },
+          {
+            "name": "options",
+            "type": "JsonSetArgs",
+            "description": "the JsonSetArgs the options for setting the value."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String \"OK\" if the set was successful, null if the JsonSetArgs conditions are not met. @since 6.8"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "JSONSet(ctx context.Context, key, path string, value interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "interface{}",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SET(key: RedisArgument, path: RedisArgument, json: RedisJSON, options?: JsonSetOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "json",
+            "type": "RedisJSON",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "JsonSetOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Set(key, path, json, when)",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "json",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "when",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Set(RedisKey key, RedisValue path, RedisValue json, When when = When.Always)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "json",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "when",
+            "type": "When",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Set(key, path, fileContent, when)",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "fileContent",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "when",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "jsonset(string $key, string $path, string $value, ?string $subcommand = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "?string $subcommand = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

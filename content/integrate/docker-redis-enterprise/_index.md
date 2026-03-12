@@ -27,7 +27,7 @@ Redis Software with Docker provides a containerized version of Redis Software, p
 - **High Availability**: Built-in clustering and automatic failover
 - **Advanced Security**: Role-based access control and encryption
 - **Monitoring Dashboard**: Web-based management interface
-- **Advanced capability support**: JSON, time series, and probabilistic data structures, and Redis Query Engine.
+- **Advanced capability support**: JSON, time series, and probabilistic data structures, and Redis Search.
 - **Easy Setup**: Quick deployment with Docker Compose or single container
 - **Development Ready**: Perfect for local development and testing environments
 

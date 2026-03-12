@@ -1,0 +1,113 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "max(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "type": "float",
+          "description": "Maximum value"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "tdigestMax(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "Maximum value"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TDigestMax(ctx context.Context, key string) *FloatCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "*FloatCmd",
+          "description": "Maximum value"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TDIGEST.MAX(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "number",
+          "description": "Maximum value"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Max(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "Maximum value"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "MaxAsync(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          }
+        ],
+        "returns": {
+          "type": "Task<double>",
+          "description": "Maximum value"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tdigestmax($key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "float",
+          "description": "Maximum value"
+        }
+      }
+    ]
+  }
+}

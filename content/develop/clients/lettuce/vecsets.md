@@ -205,8 +205,8 @@ about text embeddings and other AI techniques you can use with Redis.
 
 You may also be interested in
 [vector search]({{< relref "/develop/clients/lettuce/vecsearch" >}}).
-This is a feature of the
-[Redis query engine]({{< relref "/develop/ai/search-and-query" >}})
+This is a feature of
+[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
 that lets you retrieve
 [JSON]({{< relref "/develop/data-types/json" >}}) and
 [hash]({{< relref "/develop/data-types/hashes" >}}) documents based on

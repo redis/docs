@@ -52,6 +52,7 @@ rladmin tune cluster
         [ default_recovery_wait_time <value> ]
         [ default_tracking_table_max_keys_policy <value> ]
         [ default_oss_sharding { enabled | disabled } ]
+        [ filter_node_wd_health_metrics { enabled | disabled } ]
  ]
 ```
 
@@ -74,6 +75,7 @@ rladmin tune cluster
 | default_tracking_table_max_keys_policy | integer (default: 1000000) | Defines the default value of the client-side caching invalidation table size for new databases. 0 makes the cache unlimited. |
 | expose_hostnames_for_all_suffixes      | `enabled`<br />`disabled`       | Exposes hostnames for all DNS suffixes                                                                                       |
 | failure_detection_sensitivity | `high`<br />`low` | Predefined thresholds and timeouts for failure detection (previously known as `watchdog_profile`)<br />• `high` (previously `local-network`) – high failure detection sensitivity, lower thresholds, faster failure detection and failover<br />• `low` (previously `cloud`) – low failure detection sensitivity, higher tolerance for latency variance (also called network jitter) |
+| filter_node_wd_health_metrics | `enabled`<br />`disabled` | When enabled, `node_wd` health metrics (<span class="break-all">`shard_ping_failures`</span>, <span class="break-all">`endpoint_ping_failures`</span>, <span class="break-all">`dmc_ping_failures`</span> and their duration counterparts) are not emitted to `statsd` |
 | login_lockout_counter_reset_after      | time in seconds                   | Time after failed login attempt before the counter resets to 0                                                                   |
 | login_lockout_duration                 | time in seconds                   | Time a locked account remains locked ( "0" means only an admin can unlock the account)                                   |
 | login_lockout_threshold                | integer                           | Number of failed sign-in attempts to trigger locking a user account ("0" means never lock the account)                   |

@@ -172,6 +172,7 @@ Once you remove all of your Private Service Connect endpoints and deactivate it,
 Private Service Connect has the following limitations in Redis Cloud:
 
 - Although Redis Cloud supports using Private Service Connect with Enterprise clustering, you cannot use the [Cluster API]({{< relref "/operate/rc/databases/create-database#oss-cluster-api" >}}) with Private Service Connect enabled.
+- The pre-handoff feature of [Smart client handoffs]({{< relref "/develop/clients/sch#redis-cloud" >}}) is not currently supported with Private Service Connect, but relaxed timeouts are available and enabled by default.
 
 ## Continue learning with Redis University
 

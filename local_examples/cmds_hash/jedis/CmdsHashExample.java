@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.Arrays;
 
 // HIDE_START
-import redis.clients.jedis.UnifiedJedis;
+import redis.clients.jedis.RedisClient;
 // HIDE_END
 
 import static java.util.stream.Collectors.toList;
@@ -25,7 +25,7 @@ public class CmdsHashExample {
 
     @Test
     public void run() {
-        UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
+        RedisClient jedis = RedisClient.create("redis://localhost:6379");
 
         //REMOVE_START
         // Clear any keys here before using them in tests.

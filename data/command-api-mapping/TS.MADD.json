@@ -1,0 +1,121 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "madd(ktv_tuples: List[Tuple[KeyT, Union[int, str], Union[Number, str]]])",
+        "params": [
+          {
+            "name": "ktv_tuples",
+            "type": "List[Tuple[KeyT, Union[int, str], Union[Number, str]]]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": "A list that contains, for each sample, either the timestamp that was used, or an error, if the sample could not be added."
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Long> tsMAdd(Map.Entry<String, TSElement>... entries)",
+        "params": [
+          {
+            "name": "entries",
+            "type": "Map.Entry<String, TSElement>...",
+            "description": "key, timestamp, value"
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "timestamps"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TSMAdd(ctx context.Context, ktvSlices [][]interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "ktvSlices",
+            "type": "[][]interface{}",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "MADD(toAdd: Array<TsMAddSample>)",
+        "params": [
+          {
+            "name": "toAdd",
+            "type": "Array<TsMAddSample>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "MAdd(IReadOnlyCollection<(string key, TimeStamp timestamp, double value)",
+        "params": [
+          {
+            "name": "IReadOnlyCollection<(string key, TimeStamp timestamp, double value",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "IReadOnlyList<TimeStamp>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "MAddAsync(IReadOnlyCollection<(string key, TimeStamp timestamp, double value)",
+        "params": [
+          {
+            "name": "IReadOnlyCollection<(string key, TimeStamp timestamp, double value",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<IReadOnlyList<TimeStamp>>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tsmadd(mixed ...$keyTimestampValue)",
+        "params": [
+          {
+            "name": "$keyTimestampValue",
+            "type": "mixed ...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

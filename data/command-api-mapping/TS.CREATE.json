@@ -1,0 +1,297 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "create(, key: KeyT,, retention_msecs: Optional[int] = None,, uncompressed: Optional[bool] = False,, labels: Optional[Dict[str, str]] = None,, chunk_size: Optional[int] = None,, duplicate_policy: Optional[str] = None,, ignore_max_time_diff: Optional[int] = None,, ignore_max_val_diff: Optional[Number] = None,)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "retention_msecs",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "uncompressed",
+            "type": "Optional[bool] = False",
+            "description": ""
+          },
+          {
+            "name": "labels",
+            "type": "Optional[Dict[str, str]] = None",
+            "description": ""
+          },
+          {
+            "name": "chunk_size",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "duplicate_policy",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "ignore_max_time_diff",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "ignore_max_val_diff",
+            "type": "Optional[Number] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String tsCreate(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String tsCreate(String key, TSCreateParams createParams)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "createParams",
+            "type": "TSCreateParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TSCreate(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "TSCreateWithArgs(ctx context.Context, key string, options *TSOptions)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "*TSOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "CREATE(key: RedisArgument, options?: TsCreateOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "TsCreateOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Create(string key, long? retentionTime = null, IReadOnlyCollection<TimeSeriesLabel>? labels = null, bool? uncompressed = null, long? chunkSizeBytes = null, TsDuplicatePolicy? duplicatePolicy = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "retentionTime",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "labels",
+            "type": "IReadOnlyCollection<TimeSeriesLabel>?",
+            "description": ""
+          },
+          {
+            "name": "uncompressed",
+            "type": "bool?",
+            "description": ""
+          },
+          {
+            "name": "chunkSizeBytes",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "duplicatePolicy",
+            "type": "TsDuplicatePolicy?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Create(string key, TsCreateParams parameters)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "parameters",
+            "type": "TsCreateParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "CreateAsync(string key, long? retentionTime = null, IReadOnlyCollection<TimeSeriesLabel>? labels = null, bool? uncompressed = null, long? chunkSizeBytes = null, TsDuplicatePolicy? duplicatePolicy = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "retentionTime",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "labels",
+            "type": "IReadOnlyCollection<TimeSeriesLabel>?",
+            "description": ""
+          },
+          {
+            "name": "uncompressed",
+            "type": "bool?",
+            "description": ""
+          },
+          {
+            "name": "chunkSizeBytes",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "duplicatePolicy",
+            "type": "TsDuplicatePolicy?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "CreateAsync(string key, TsCreateParams parameters)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "parameters",
+            "type": "TsCreateParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tscreate(string $key, ?TSCreateArguments $arguments = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "?TSCreateArguments $arguments = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

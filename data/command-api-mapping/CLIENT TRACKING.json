@@ -1,0 +1,146 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "client_tracking(on: bool = True, client_id: int | None = None, prefix: list | None = None, bcast: bool = False, optin: bool = False, optout: bool = False, noloop: bool = False, **kwargs)",
+        "params": [
+          {
+            "name": "on",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "client_id",
+            "type": "int | None",
+            "description": ""
+          },
+          {
+            "name": "prefix",
+            "type": "list | None",
+            "description": ""
+          },
+          {
+            "name": "bcast",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "optin",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "optout",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "noloop",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String clientTracking(TrackingParams params)",
+        "params": [
+          {
+            "name": "params",
+            "type": "TrackingParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "String clientTracking(TrackingArgs args)",
+        "params": [
+          {
+            "name": "args",
+            "type": "TrackingArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clientTracking(TrackingArgs args)",
+        "params": [
+          {
+            "name": "args",
+            "type": "TrackingArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clientTracking(TrackingArgs args)",
+        "params": [
+          {
+            "name": "args",
+            "type": "TrackingArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "client(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

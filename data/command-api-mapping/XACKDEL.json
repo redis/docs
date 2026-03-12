@@ -1,0 +1,768 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "xackdel(, name: KeyT,, groupname: GroupT,, *ids: StreamIdT,, ref_policy: Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\",)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "GroupT",
+            "description": ""
+          },
+          {
+            "name": "*ids",
+            "type": "StreamIdT",
+            "description": ""
+          },
+          {
+            "name": "ref_policy",
+            "type": "Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\"",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<StreamEntryDeletionResult> xackdel(byte[] key, byte[] group, byte[]... ids)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<StreamEntryDeletionResult>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<StreamEntryDeletionResult> xackdel(byte[] key, byte[] group, StreamDeletionPolicy trimMode, byte[]... ids)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "trimMode",
+            "type": "StreamDeletionPolicy",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<StreamEntryDeletionResult>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<StreamEntryDeletionResult> xackdel(final String key, final String group, final StreamEntryID... ids)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "StreamEntryID...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<StreamEntryDeletionResult>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<StreamEntryDeletionResult> xackdel(final String key, final String group, final StreamDeletionPolicy trimMode, final StreamEntryID... ids)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "trimMode",
+            "type": "StreamDeletionPolicy",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "StreamEntryID...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<StreamEntryDeletionResult>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<StreamEntryDeletionResult> xackdel(String key, String group, StreamEntryID... ids)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "StreamEntryID...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<StreamEntryDeletionResult>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<StreamEntryDeletionResult> xackdel(K key, K group, String... messageIds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          },
+          {
+            "name": "messageIds",
+            "type": "String...",
+            "description": "message Id's to acknowledge and delete."
+          }
+        ],
+        "returns": {
+          "type": "List<StreamEntryDeletionResult>",
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8"
+        }
+      },
+      {
+        "signature": "List<StreamEntryDeletionResult> xackdel(K key, K group, StreamDeletionPolicy policy, String... messageIds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          },
+          {
+            "name": "policy",
+            "type": "StreamDeletionPolicy",
+            "description": "the deletion policy to apply."
+          },
+          {
+            "name": "messageIds",
+            "type": "String...",
+            "description": "message Id's to acknowledge and delete."
+          }
+        ],
+        "returns": {
+          "type": "List<StreamEntryDeletionResult>",
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<StreamEntryDeletionResult>> xackdel(K key, K group, String... messageIds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          },
+          {
+            "name": "messageIds",
+            "type": "String...",
+            "description": "message Id's to acknowledge and delete."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<StreamEntryDeletionResult>>",
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<StreamEntryDeletionResult>> xackdel(K key, K group, StreamDeletionPolicy policy, String... messageIds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          },
+          {
+            "name": "policy",
+            "type": "StreamDeletionPolicy",
+            "description": "the deletion policy to apply."
+          },
+          {
+            "name": "messageIds",
+            "type": "String...",
+            "description": "message Id's to acknowledge and delete."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<StreamEntryDeletionResult>>",
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<StreamEntryDeletionResult> xackdel(K key, K group, String... messageIds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          },
+          {
+            "name": "messageIds",
+            "type": "String...",
+            "description": "message Id's to acknowledge and delete."
+          }
+        ],
+        "returns": {
+          "type": "Flux<StreamEntryDeletionResult>",
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8"
+        }
+      },
+      {
+        "signature": "Flux<StreamEntryDeletionResult> xackdel(K key, K group, StreamDeletionPolicy policy, String... messageIds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": "name of the consumer group."
+          },
+          {
+            "name": "policy",
+            "type": "StreamDeletionPolicy",
+            "description": "the deletion policy to apply."
+          },
+          {
+            "name": "messageIds",
+            "type": "String...",
+            "description": "message Id's to acknowledge and delete."
+          }
+        ],
+        "returns": {
+          "type": "Flux<StreamEntryDeletionResult>",
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "XAckDel(ctx context.Context, stream string, group string, mode string, ids ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "stream",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "mode",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*SliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "XACKDEL(key: RedisArgument, group: RedisArgument, id: RedisVariadicArgument, policy?: StreamDeletionPolicy)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          },
+          {
+            "name": "policy?",
+            "type": "StreamDeletionPolicy",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "xack_del(key: K, group: G, ids: &'a [ID], options: streams::StreamDeletionPolicy)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "&'a [ID]",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "streams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<streams::XAckDelStatusCode>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "xack_del(key: K, group: G, ids: &'a [ID], options: streams::StreamDeletionPolicy)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "&'a [ID]",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "streams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<streams::XAckDelStatusCode>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "mode",
+            "type": "StreamTrimMode",
+            "description": ""
+          },
+          {
+            "name": "messageId",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "StreamTrimResult",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "mode",
+            "type": "StreamTrimMode",
+            "description": ""
+          },
+          {
+            "name": "messageIds",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "StreamTrimResult[]",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "mode",
+            "type": "StreamTrimMode",
+            "description": ""
+          },
+          {
+            "name": "messageId",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "StreamTrimResult",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "mode",
+            "type": "StreamTrimMode",
+            "description": ""
+          },
+          {
+            "name": "messageIds",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "StreamTrimResult[]",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "mode",
+            "type": "StreamTrimMode",
+            "description": ""
+          },
+          {
+            "name": "messageId",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "StreamTrimResult",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "mode",
+            "type": "StreamTrimMode",
+            "description": ""
+          },
+          {
+            "name": "messageIds",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "StreamTrimResult[]",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue messageId, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "mode",
+            "type": "StreamTrimMode",
+            "description": ""
+          },
+          {
+            "name": "messageId",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "StreamTrimResult",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "mode",
+            "type": "StreamTrimMode",
+            "description": ""
+          },
+          {
+            "name": "messageIds",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "StreamTrimResult[]",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "xackdel(string $key, string $group, string $mode, array $ids)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$group",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$mode",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$ids",
+            "type": "array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

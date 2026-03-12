@@ -1,0 +1,394 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "zrank(, name: KeyT,, value: EncodableT,, withscore: bool = False,, score_cast_func: Union[type, Callable] = float,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "EncodableT",
+            "description": ""
+          },
+          {
+            "name": "withscore",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "score_cast_func",
+            "type": "Union[type, Callable] = float",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Long zrank(final byte[] key, final byte[] member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "The element as an integer if the element exists. A 'nil' bulk reply if there is no such element."
+        }
+      },
+      {
+        "signature": "Long zrank(final String key, final String member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "The element as an integer if the element exists. A 'nil' bulk reply if there is no such element."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long zrank(K key, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member type: value."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the rank of member. If member does not exist in the sorted set or key does not exist,."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> zrank(K key, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member type: value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the rank of member. If member does not exist in the sorted set or key does not exist,."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> zrank(K key, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member type: value."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the rank of member. If member does not exist in the sorted set or key does not exist,."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ZRank(ctx context.Context, key, member string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ZRANK(key: RedisArgument, member: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "zrank(key: RedisKey, member: string | Buffer | number, callback?: Callback<number | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "zrank(key: K, member: M)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<usize>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "zrank(key: K, member: M)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<usize>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SortedSetRank(RedisKey key, RedisValue member, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": "The member to get the rank of."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by (defaults to ascending)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long?",
+          "description": "If member exists in the sorted set, the rank of member. If member does not exist in the sorted set or key does not exist, null."
+        }
+      },
+      {
+        "signature": "SortedSetRank(RedisKey key, RedisValue member, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": "The member to get the rank of."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by (defaults to ascending)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long?",
+          "description": "If member exists in the sorted set, the rank of member. If member does not exist in the sorted set or key does not exist, null."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SortedSetRank(RedisKey key, RedisValue member, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": "The member to get the rank of."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by (defaults to ascending)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long?",
+          "description": "If member exists in the sorted set, the rank of member. If member does not exist in the sorted set or key does not exist, null."
+        }
+      },
+      {
+        "signature": "SortedSetRank(RedisKey key, RedisValue member, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": "The member to get the rank of."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by (defaults to ascending)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long?",
+          "description": "If member exists in the sorted set, the rank of member. If member does not exist in the sorted set or key does not exist, null."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "zrank(string $key, string $member)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$member",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int|null",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
