@@ -80,15 +80,15 @@
 <div class="command-group-foldout my-4 border border-slate-200 dark:border-slate-700 rounded-lg">
   <div class="command-group-header flex items-center justify-between px-4 py-2 bg-slate-50 dark:bg-slate-800 rounded-t-lg">
     <span class="flex items-center gap-2 flex-wrap">
-      <span class="font-semibold text-slate-900 dark:text-slate-100">{{ $title }}</span>
+      <span class="text-sm font-semibold text-slate-900 dark:text-slate-100">{{ $title }}</span>
       {{ if $showLink }}
         <a href="{{ absURL (printf "commands/?group=%s" $group) }}"
-           class="text-sm text-redis-red-600 dark:text-redis-red-400 hover:underline"
+           class="text-xs text-redis-red-600 dark:text-redis-red-400 hover:underline"
            onclick="event.stopPropagation()">
           (view reference, {{ len $sortedCommands }} commands)
         </a>
       {{ else }}
-        <span class="text-sm text-slate-500 dark:text-slate-400">({{ len $sortedCommands }} commands)</span>
+        <span class="text-xs text-slate-500 dark:text-slate-400">({{ len $sortedCommands }} commands)</span>
       {{ end }}
     </span>
     <button
@@ -97,33 +97,40 @@
       aria-controls="{{ $uniqueId }}"
       onclick="toggleCommandGroup(this)">
       <span class="command-group-chevron transition-transform duration-200">
-        <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
         </svg>
       </span>
     </button>
   </div>
-  <div id="{{ $uniqueId }}" class="command-group-content hidden px-4 py-3">
-    <ul class="space-y-2">
+  <div id="{{ $uniqueId }}" class="command-group-content hidden px-4 py-2 max-h-96 overflow-y-auto">
+    <ul class="space-y-1 list-none">
       {{ range $sortedCommands }}
         {{ $cmdName := .name }}
         {{ $cmdData := .data }}
         {{ $cmdSlug := lower (replace $cmdName " " "-") }}
-        <li class="border-l-2 border-slate-200 dark:border-slate-600 pl-3 py-1">
-          <div class="flex flex-col gap-0.5">
-            <div class="flex items-center gap-2 flex-wrap">
-              <a href="{{ absURL (printf "commands/%s/" $cmdSlug) }}" 
-                 class="font-mono text-redis-ink-900 dark:text-redis-pen-200 hover:text-redis-red-600 dark:hover:text-redis-red-400 font-medium">
+        <li class="py-0.5">
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <a href="{{ absURL (printf "commands/%s/" $cmdSlug) }}"
+                 class="text-sm font-mono text-redis-ink-900 dark:text-redis-pen-200 hover:text-redis-red-600 dark:hover:text-redis-red-400 font-medium">
                 {{ $cmdName }}
               </a>
               {{ with $cmdData.since }}
-                <span class="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded">
+                <span class="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 px-1 py-0 rounded">
                   v{{ . }}
                 </span>
               {{ end }}
+              {{ with $cmdData.acl_categories }}
+                {{ range . }}
+                  <span class="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 px-1 py-0 rounded">
+                    {{ . }}
+                  </span>
+                {{ end }}
+              {{ end }}
             </div>
             {{ with $cmdData.summary }}
-              <p class="text-sm text-slate-600 dark:text-slate-400">{{ . }}</p>
+              <span class="block text-xs !text-xs text-slate-600 dark:text-slate-400 leading-tight">{{ . }}</span>
             {{ end }}
           </div>
         </li>
