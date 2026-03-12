@@ -109,30 +109,35 @@
         {{ $cmdName := .name }}
         {{ $cmdData := .data }}
         {{ $cmdSlug := lower (replace $cmdName " " "-") }}
-        <li class="py-0.5">
-          <div class="flex flex-col">
-            <div class="flex items-center gap-1.5 flex-wrap">
-              <a href="{{ absURL (printf "commands/%s/" $cmdSlug) }}"
-                 class="text-sm font-mono text-redis-ink-900 dark:text-redis-pen-200 hover:text-redis-red-600 dark:hover:text-redis-red-400 font-medium">
-                {{ $cmdName }}
-              </a>
-              {{ with $cmdData.since }}
-                <span class="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 px-1 py-0 rounded">
-                  v{{ . }}
+        <li>
+          <a href="{{ absURL (printf "commands/%s/" $cmdSlug) }}"
+             class="block px-3 py-1.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors no-underline hover:no-underline">
+            <div class="flex flex-col">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="text-sm font-mono text-redis-ink-900 dark:text-redis-pen-200 font-medium">
+                  {{ $cmdName }}
                 </span>
-              {{ end }}
-              {{ with $cmdData.acl_categories }}
-                {{ range . }}
+                {{ with $cmdData.since }}
                   <span class="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 px-1 py-0 rounded">
-                    {{ . }}
+                    v{{ . }}
                   </span>
                 {{ end }}
+                {{ with $cmdData.acl_categories }}
+                  {{ range . }}
+                    <span class="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 px-1 py-0 rounded">
+                      {{ . }}
+                    </span>
+                  {{ end }}
+                {{ end }}
+              </div>
+              {{ with $cmdData.summary }}
+                <span class="block text-xs !text-xs text-slate-600 dark:text-slate-400 leading-tight">{{ . }}</span>
+              {{ end }}
+              {{ with $cmdData.complexity }}
+                <span class="block text-xs !text-xs text-slate-500 dark:text-slate-500 leading-tight italic">{{ . }}</span>
               {{ end }}
             </div>
-            {{ with $cmdData.summary }}
-              <span class="block text-xs !text-xs text-slate-600 dark:text-slate-400 leading-tight">{{ . }}</span>
-            {{ end }}
-          </div>
+          </a>
         </li>
       {{ end }}
     </ul>
