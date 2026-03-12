@@ -1,0 +1,151 @@
+{{/*
+  Command Group shortcode - displays all commands for a specific command group
+
+  Parameters:
+  - group (required): The command group name (e.g., "hash", "sorted-set", "string")
+  - title (optional): Custom title for the foldout (defaults to "<Group> commands")
+  - show_link (optional): Whether to include a link to the filtered commands page (default: false)
+
+  Usage:
+    command-group group="hash"
+    command-group group="sorted-set" title="Sorted set commands" show_link=true
+*/}}
+
+{{ $group := .Get "group" }}
+{{ $title := .Get "title" }}
+{{ $showLink := .Get "show_link" | default false }}
+
+{{/* Validate required parameter */}}
+{{ if not $group }}
+  {{ errorf "command-group shortcode requires 'group' parameter" }}
+{{ end }}
+
+{{/* Normalize group for comparison */}}
+{{ $groupLower := lower $group }}
+
+{{/* Generate default title if not provided */}}
+{{ if not $title }}
+  {{ $title = printf "%s commands" (title (replace $groupLower "-" " ")) }}
+{{ end }}
+
+{{/* Merge all command data sources */}}
+{{ $allCommands := dict }}
+
+{{ with site.Data.commands_core }}
+  {{ range $name, $cmd := . }}
+    {{ $allCommands = merge $allCommands (dict $name $cmd) }}
+  {{ end }}
+{{ end }}
+
+{{ with site.Data.commands_redisearch }}
+  {{ range $name, $cmd := . }}
+    {{ $allCommands = merge $allCommands (dict $name $cmd) }}
+  {{ end }}
+{{ end }}
+
+{{ with site.Data.commands_redisjson }}
+  {{ range $name, $cmd := . }}
+    {{ $allCommands = merge $allCommands (dict $name $cmd) }}
+  {{ end }}
+{{ end }}
+
+{{ with site.Data.commands_redistimeseries }}
+  {{ range $name, $cmd := . }}
+    {{ $allCommands = merge $allCommands (dict $name $cmd) }}
+  {{ end }}
+{{ end }}
+
+{{ with site.Data.commands_redisbloom }}
+  {{ range $name, $cmd := . }}
+    {{ $allCommands = merge $allCommands (dict $name $cmd) }}
+  {{ end }}
+{{ end }}
+
+{{/* Filter commands by group */}}
+{{ $matchedCommands := slice }}
+{{ range $name, $cmd := $allCommands }}
+  {{ if and $cmd.group (eq (lower $cmd.group) $groupLower) }}
+    {{ $matchedCommands = $matchedCommands | append (dict "name" $name "data" $cmd) }}
+  {{ end }}
+{{ end }}
+
+{{/* Sort commands alphabetically by name */}}
+{{ $sortedCommands := sort $matchedCommands "name" }}
+
+{{/* Generate unique ID for this instance */}}
+{{ $uniqueId := printf "cmd-group-%s-%d" $groupLower (now.UnixNano) }}
+
+{{/* Render the foldout */}}
+{{ if gt (len $sortedCommands) 0 }}
+<div class="command-group-foldout my-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+  <div class="command-group-header flex items-center justify-between px-4 py-2 bg-slate-50 dark:bg-slate-800 rounded-t-lg">
+    <span class="flex items-center gap-2 flex-wrap">
+      <span class="font-semibold text-slate-900 dark:text-slate-100">{{ $title }}</span>
+      {{ if $showLink }}
+        <a href="{{ absURL (printf "commands/?group=%s" $group) }}"
+           class="text-sm text-redis-red-600 dark:text-redis-red-400 hover:underline"
+           onclick="event.stopPropagation()">
+          (view reference, {{ len $sortedCommands }} commands)
+        </a>
+      {{ else }}
+        <span class="text-sm text-slate-500 dark:text-slate-400">({{ len $sortedCommands }} commands)</span>
+      {{ end }}
+    </span>
+    <button
+      class="command-group-toggle flex items-center gap-2 hover:text-redis-red-500 transition-colors cursor-pointer"
+      aria-expanded="false"
+      aria-controls="{{ $uniqueId }}"
+      onclick="toggleCommandGroup(this)">
+      <span class="command-group-chevron transition-transform duration-200">
+        <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </span>
+    </button>
+  </div>
+  <div id="{{ $uniqueId }}" class="command-group-content hidden px-4 py-3">
+    <ul class="space-y-2">
+      {{ range $sortedCommands }}
+        {{ $cmdName := .name }}
+        {{ $cmdData := .data }}
+        {{ $cmdSlug := lower (replace $cmdName " " "-") }}
+        <li class="border-l-2 border-slate-200 dark:border-slate-600 pl-3 py-1">
+          <div class="flex flex-col gap-0.5">
+            <div class="flex items-center gap-2 flex-wrap">
+              <a href="{{ absURL (printf "commands/%s/" $cmdSlug) }}" 
+                 class="font-mono text-redis-ink-900 dark:text-redis-pen-200 hover:text-redis-red-600 dark:hover:text-redis-red-400 font-medium">
+                {{ $cmdName }}
+              </a>
+              {{ with $cmdData.since }}
+                <span class="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded">
+                  v{{ . }}
+                </span>
+              {{ end }}
+            </div>
+            {{ with $cmdData.summary }}
+              <p class="text-sm text-slate-600 dark:text-slate-400">{{ . }}</p>
+            {{ end }}
+          </div>
+        </li>
+      {{ end }}
+    </ul>
+  </div>
+</div>
+
+<script>
+function toggleCommandGroup(button) {
+  const content = document.getElementById(button.getAttribute('aria-controls'));
+  const isExpanded = button.getAttribute('aria-expanded') === 'true';
+  const chevron = button.querySelector('.command-group-chevron');
+  
+  button.setAttribute('aria-expanded', !isExpanded);
+  content.classList.toggle('hidden');
+  chevron.classList.toggle('rotate-180');
+}
+</script>
+{{ else }}
+<div class="my-4 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg">
+  <p class="text-amber-800 dark:text-amber-200">No commands found for group: <code>{{ $group }}</code></p>
+</div>
+{{ end }}
+
