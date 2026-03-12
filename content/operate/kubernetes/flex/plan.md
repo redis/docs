@@ -18,11 +18,7 @@ Review the hardware requirements, sizing guidelines, and known limitations befor
 Redis Flex requires:
 
 - Redis Enterprise for Kubernetes version 8.0.2-2 or later
-- Redis version 8.0 or later
-
-{{<note>}}
-Redis 7.4 preview uses Auto Tiering regardless of cluster policy. Upgrade to Redis 8.0 or later to use Redis Flex.
-{{</note>}}
+- Redis database version 8.2 or later
 
 ## Hardware requirements
 
@@ -70,38 +66,12 @@ Use these standard building blocks for capacity planning:
 
 For example, a 1 TB dataset requires 20 shards (20 × 50 GB).
 
-### RAM percentage impact on performance
+### RAM-to-flash ratio
 
-The RAM-to-Flash ratio directly affects throughput and latency:
+The RAM-to-flash ratio directly affects throughput and latency:
 
 - More RAM: Higher throughput and lower latency
 - Less RAM: Lower throughput, higher latency, and lower cost
-
-The following table shows expected performance per 50 GB shard with 1 vCPU:
-
-| RAM % | Throughput   | Latency (p99) |
-|-------|--------------|---------------|
-| 10%   | 5K ops/sec   | ~10 ms        |
-| 20%   | 10K ops/sec  | ~6-8 ms       |
-| 30%   | 15K ops/sec  | ~5 ms         |
-| 40%   | 20K ops/sec  | ~3-4 ms       |
-| 50%   | 25K ops/sec  | <3 ms         |
-
-{{<note>}}
-These figures assume uniform key distribution and a mixed read/write workload. Actual performance varies based on your data model, command mix, and network latency.
-{{</note>}}
-
-### Example: 1 TB deployment
-
-The following table shows aggregate throughput for a 1 TB dataset (20 shards) at different RAM percentages:
-
-| RAM % | Shards | vCPU total | Approx. throughput |
-|-------|--------|------------|-------------------|
-| 10%   | 20     | 20         | 100K ops/sec      |
-| 20%   | 20     | 20         | 200K ops/sec      |
-| 30%   | 20     | 20         | 300K ops/sec      |
-| 40%   | 20     | 20         | 400K ops/sec      |
-| 50%   | 20     | 20         | 500K ops/sec      |
 
 ## Module compatibility
 
@@ -123,41 +93,18 @@ Redis Flex doesn't support:
 
 ## Best practices
 
-### Key and value sizes
-
-- Store small keys and values when possible. Avoid objects larger than 10 KB.
-- Large objects reduce performance because the entire value moves between RAM and Flash.
-- Keys or values larger than 4 GB can't be stored in Flash and remain in RAM only.
-
-If you attempt to store oversized objects, warnings appear in the Redis logs:
-
-```text
-WARNING: key too big for disk driver, size: 4703717276, key: subactinfo:htable
-```
-
-### Replication configuration
-
-Enable replication before populating the database with data. If you enable replication after the database is created, recovery can fail because required persistence files might be missing.
-
-### RAM population strategy (Redis 8.2+)
-
-Starting with Redis 8.2, Redis Flex uses utilization-aware RAM population:
-
-- Below 50% utilization: Uses up to 50% of configured RAM for hot data
-- Above 50% utilization: Uses RAM and Flash proportionally based on the configured ratio
-
-This strategy delivers a stable performance curve across all utilization levels.
+- Store small keys and values (under 10 KB) when possible. Large objects reduce performance, and objects larger than 4 GB can't be stored in Flash.
+- Enable replication before populating the database with data. If you enable replication after the database is created, recovery can fail because required persistence files might be missing.
+- Increase RAM percentage if 99th-percentile latency exceeds your target or cache hit rates drop.
+- Decrease RAM percentage if memory utilization is high but latency remains stable to lower cost and improve efficiency.
+- Re-evaluate the ratio of RAM to Flash periodically as dataset size and access patterns evolve.
 
 ## Known limitations
 
-{{<warning>}}
-Redis Flex doesn't support Active-Active databases.
-{{</warning>}}
-
-- **PVC expansion**: Not supported with `redisOnFlashSpec`. Don't enable `enablePersistentVolumeResize` in the REC `persistentSpec`.
-- **Redis 7.4 preview**: Uses Auto Tiering regardless of cluster policy.
-- **Maximum object size**: Keys or values larger than 4 GB remain in RAM only.
 - **Flash storage**: Must be locally attached. Network storage isn't supported.
+- **Active-Active**: Not supported with Flex.
+- **PVC expansion**: Not supported with `redisOnFlashSpec`. Don't enable `enablePersistentVolumeResize` in the REC `persistentSpec`.
+- **Maximum object size**: Keys or values larger than 4 GB remain in RAM only.
 
 ### Deprecated fields
 
