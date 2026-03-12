@@ -271,16 +271,16 @@
               <div class="p-3 flex-1">
                 <h3 class="text-sm font-medium mb-2">Build AI apps</h3>
                 <ul class="space-y-1 text-sm">
-                  <li><a href="./develop/ai/redisvl/" class="text-redis-yellow-500 hover:underline">→ Redis vector library (Python)</a></li>
-                  <li><a href="./develop/clients/redis-py/" class="text-redis-yellow-500 hover:underline">→ Python (redis-py)</a></li>
-                  <li><a href="./develop/clients/nodejs/" class="text-redis-yellow-500 hover:underline">→ Node.js (node-redis)</a></li>
-                  <li><a href="./develop/clients/jedis/" class="text-redis-yellow-500 hover:underline">→ Java (Jedis)</a></li>
-                  <li><a href="./develop/clients/lettuce/" class="text-redis-yellow-500 hover:underline">→ Java (Lettuce)</a></li>
-                  <li><a href="./develop/clients/dotnet/" class="text-redis-yellow-500 hover:underline">→ .NET (NRedisStack)</a></li>
-                  <li><a href="./develop/clients/go/" class="text-redis-yellow-500 hover:underline">→ Go (go-redis)</a></li>
-                  <li><a href="./develop/clients/rust/" class="text-redis-yellow-500 hover:underline">→ Rust (redis-rs)</a></li>
-                  <li><a href="./develop/clients/php/" class="text-redis-yellow-500 hover:underline">→ PHP (Predis)</a></li>
-                  <li><a href="./develop/clients/hiredis/" class="text-redis-yellow-500 hover:underline">→ C (hiredis)</a></li>
+                  <li><a href="./develop/ai/redisvl/" class="text-redis-yellow-500 hover:underline">→ Redis vector library</a></li>
+                  <li><a href="./develop/clients/redis-py/" class="text-redis-yellow-500 hover:underline">→ Python</a></li>
+                  <li><a href="./develop/clients/nodejs/" class="text-redis-yellow-500 hover:underline">→ Node.js</a></li>
+                  <li><a href="./develop/clients/jedis/" class="text-redis-yellow-500 hover:underline">→ Java Jedis</a></li>
+                  <li><a href="./develop/clients/lettuce/" class="text-redis-yellow-500 hover:underline">→ Java Lettuce</a></li>
+                  <li><a href="./develop/clients/dotnet/" class="text-redis-yellow-500 hover:underline">→ C#/.NET</a></li>
+                  <li><a href="./develop/clients/go/" class="text-redis-yellow-500 hover:underline">→ Go</a></li>
+                  <li><a href="./develop/clients/rust/" class="text-redis-yellow-500 hover:underline">→ Rust</a></li>
+                  <li><a href="./develop/clients/php/" class="text-redis-yellow-500 hover:underline">→ PHP</a></li>
+                  <li><a href="./develop/clients/hiredis/" class="text-redis-yellow-500 hover:underline">→ C</a></li>
                 </ul>
               </div>
             </div>
@@ -294,8 +294,6 @@
                   <li><a href="./operate/" class="text-redis-yellow-500 hover:underline">→ Operate Redis</a></li>
                   <li><a href="./operate/rc/databases/create-database/create-flex-database/" class="text-redis-yellow-500 hover:underline">→ Flex</a></li>
                   <li><a href="./develop/ai/langcache/" class="text-redis-yellow-500 hover:underline">→ LangCache</a></li>
-                  <li><a href="https://github.com/redis/agent-skills" class="text-redis-yellow-500 hover:underline">→ Agent skills</a></li>
-                  <li><a href="./integrate/redis-mcp/" class="text-redis-yellow-500 hover:underline">→ Redis MCP</a></li>
                   <li><a href="./integrate/langchain-redis/" class="text-redis-yellow-500 hover:underline">→ LangChain</a></li>
                   <li><a href="./integrate/amazon-bedrock/" class="text-redis-yellow-500 hover:underline">→ Amazon Bedrock</a></li>
                   <li><a href="./integrate/spring-framework-cache/" class="text-redis-yellow-500 hover:underline">→ Spring Data</a></li>
@@ -307,16 +305,62 @@
             <div class="flex flex-col bg-redis-pen-700 border border-redis-pen-400 rounded-md overflow-hidden hover:border-redis-yellow-500 transition-colors">
               <div class="p-3 flex-1">
                 <h3 class="text-sm font-medium mb-2">Get Redis tools</h3>
-                <p class="text-xs text-gray-300 mb-3">Explore CLI, GUI, and VS Code tools. Get started with JSON and vector queries in the Redis Sandbox.</p>
+                <p class="text-xs text-gray-300 mb-3">Explore CLI, GUI, VS Code, and MCP tools. Get started with JSON and vector queries in the Redis Sandbox.</p>
                 <ul class="space-y-1 text-sm">
                   <li><a href="./develop/tools/" class="text-redis-yellow-500 hover:underline">→ Client tools</a></li>
                   <li><a href="./develop/tools/cli/" class="text-redis-yellow-500 hover:underline">→ Redis CLI</a></li>
                   <li><a href="./develop/tools/insight/" class="text-redis-yellow-500 hover:underline">→ Redis Insight GUI</a></li>
                   <li><a href="./develop/tools/redis-for-vscode/" class="text-redis-yellow-500 hover:underline">→ Redis for VS Code</a></li>
+                  <li><a href="./integrate/redis-mcp/" class="text-redis-yellow-500 hover:underline">→ Redis MCP</a></li>
                   <li><a href="https://redis.io/try/sandbox/" class="text-redis-yellow-500 hover:underline">→ Try Redis Sandbox</a></li>
                 </ul>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Data Integration & Observability -->
+      <section class="px-5 py-10 border-t border-redis-pen-600">
+        <div class="max-w-6xl mx-auto flex flex-col gap-3">
+          <h2 class="text-sm md:text-base font-medium">Data integration & observability</h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 w-full">
+            <!-- RIOT -->
+            <a href="./integrate/riot/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
+              <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">RIOT</h3>
+              <p class="text-sm text-gray-300">Redis Input/Output Tools for data migration</p>
+            </a>
+
+            <!-- Redis Data Integration -->
+            <a href="./integrate/redis-data-integration/quick-start-guide/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
+              <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">Redis Data Integration</h3>
+              <p class="text-sm text-gray-300">Ingest live data from databases to Redis</p>
+            </a>
+
+            <!-- Prometheus & Grafana -->
+            <a href="./integrate/prometheus-with-redis-enterprise/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
+              <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">Prometheus & Grafana</h3>
+              <p class="text-sm text-gray-300">Collect and visualize Redis metrics</p>
+            </a>
+
+            <!-- Datadog -->
+            <a href="./integrate/datadog-with-redis-cloud/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
+              <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">Datadog</h3>
+              <p class="text-sm text-gray-300">Monitor Redis Cloud with Datadog</p>
+            </a>
+
+            <!-- Dynatrace -->
+            <a href="./integrate/dynatrace-with-redis-cloud/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
+              <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">Dynatrace</h3>
+              <p class="text-sm text-gray-300">Monitor Redis Cloud with Dynatrace</p>
+            </a>
+
+            <!-- New Relic -->
+            <a href="./integrate/new-relic-with-redis-cloud/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
+              <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">New Relic</h3>
+              <p class="text-sm text-gray-300">Monitor Redis Cloud with New Relic</p>
+            </a>
           </div>
         </div>
       </section>
