@@ -7,7 +7,7 @@ categories:
 - rc
 description: New features, enhancements, and other changes added to Redis Cloud during
   March 2026.
-highlights: Redis 8.4 on Redis Cloud Pro, Automatic database upgrades
+highlights: Metrics resolution updates, Redis 8.4 on Redis Cloud Pro, Automatic database upgrades
 linktitle: March 2026
 weight: 53
 tags:
@@ -27,3 +27,15 @@ Redis 8.4 builds on the foundation of Redis 8.2 with significant enhancements to
 All Redis Cloud databases running Redis 8.4 and later will be automatically upgraded to the next minor version upon release. For example, all Redis 8.4 databases will be upgraded to Redis 8.6 when it is available on Redis Cloud.
 
 Redis Cloud Pro users can opt out of minor version auto-upgrades. See [Version management]({{< relref "/operate/rc/databases/version-management" >}}) for more details.
+
+## Enhancements
+
+### Metrics resolution updates
+
+{{< note >}}
+This change only affects Redis on RAM databases. Flex and Auto Tiering databases continue to use the previous metrics time ranges.
+{{< /note >}}
+
+The [metrics tab of a Redis Cloud database]({{< relref "/operate/rc/databases/monitor-performance#view-database-metrics" >}}) now displays database metrics at different levels of granularity depending on the selected time range. Short time ranges now show finer granularity for detailed investigation, and longer time ranges use aggregated intervals for clearer trend analysis. See [Metric intervals]({{< relref "/operate/rc/databases/monitor-performance#metric-intervals" >}}) for a list of available intervals and their corresponding resolutions.
+
+To simplify the monitoring experience and ensure each time range provides meaningful insight, the 1 minute and 1 year ranges have been removed. The 1 year range has been replaced with a 3 month range.
