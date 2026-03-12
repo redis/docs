@@ -17,6 +17,8 @@ title: Redis sorted sets
 weight: 50
 ---
 
+{{< command-group group="sorted-set" title="Sorted set command summary" show_link=true >}}
+
 A Redis sorted set is a collection of unique strings (members) ordered by an associated score.
 When more than one string has the same score, the strings are ordered lexicographically.
 Some use cases for sorted sets include:

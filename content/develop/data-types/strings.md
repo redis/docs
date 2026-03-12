@@ -16,6 +16,8 @@ title: Redis Strings
 weight: 10
 ---
 
+{{< command-group group="string" title="String command summary" show_link=true >}}
+
 Redis strings store sequences of bytes, including text, serialized objects, and binary arrays.
 As such, strings are the simplest type of value you can associate with a Redis key.
 They're often used for caching, but they support additional functionality that lets you implement counters and perform bitwise operations, too.
