@@ -33,11 +33,13 @@ jobs:
         sudo rm -rf /opt/hostedtoolcache/CodeQL
 
     - name: Validate the branch name
+      env:
+        BRANCH_NAME: ${{ github.ref_name }}
       run: |
-        if [[ "${{ github.ref_name }}" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
-          echo "The branch name ${{ github.ref_name }} is valid."
+        if [[ "$BRANCH_NAME" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
+          echo "The branch name $BRANCH_NAME is valid."
         else
-          echo "ERROR: Invalid branch name ${{ github.ref_name }}!"
+          echo "ERROR: Invalid branch name $BRANCH_NAME!"
           exit 1
         fi
 

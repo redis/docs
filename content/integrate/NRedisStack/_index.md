@@ -24,7 +24,7 @@ NRedisStack is a comprehensive .NET client library for Redis that extends StackE
 
 ## Key Features
 
-- **Redis Stack (v7.4 and earlier) and Redis 8 support**: Native support for JSON, time series, and probabilistic data structures, and Redis Query Engine.
+- **Redis Stack (v7.4 and earlier) and Redis 8 support**: Native support for JSON, time series, and probabilistic data structures, and Redis Search.
 - **Strongly Typed**: Type-safe APIs with full IntelliSense support in Visual Studio
 - **Async/Await**: Native asynchronous programming support for high-performance applications
 - **StackExchange.Redis Integration**: Built on the proven StackExchange.Redis foundation

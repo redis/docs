@@ -21,7 +21,8 @@
         "redis_vl",
         "redis_rs_sync",
         "redis_rs_async",
-        "hi_redis"
+        "hi_redis",
+        "redis_rb"
     ],
     "assets": [],
     "website": {

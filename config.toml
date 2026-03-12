@@ -46,7 +46,7 @@ tagManagerId = "GTM-TKZ6J9R"
 gitHubRepo = "https://github.com/redis/docs"
 
 # Display and sort order for client examples
-clientsExamples = ["Python", "Node.js", "ioredis", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
+clientsExamples = ["Python", "Node.js", "ioredis", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Ruby", "Rust-Sync", "Rust-Async"]
 searchService = "/convai/api/search-service"
 ratingsService = "/docusight/api/rate/docs"
 
@@ -74,6 +74,7 @@ rdi_current_version = "1.16.1"
 "C#-Async"={quickstartSlug="dotnet", langId="csharp", clientId="stackexchange-redis", clientName="StackExchange.Redis", mappingClientId="nredisstack_async"}
 "RedisVL"={quickstartSlug="redis-vl", langId="python", clientId="redis-vl", clientName="RedisVL", mappingClientId="redis_vl"}
 "PHP"={quickstartSlug="php", langId="php", clientId="predis", clientName="Predis", mappingClientId="php"}
+"Ruby"={quickstartSlug="redis-rb", langId="ruby", clientId="redis-rb", clientName="redis-rb", mappingClientId="redis_rb"}
 "Rust-Sync"={quickstartSlug="rust", langId="rust", clientId="redis-rs", clientName="redis-rs", mappingClientId="redis_rs_sync"}
 "Rust-Async"={quickstartSlug="rust", langId="rust", clientId="redis-rs", clientName="redis-rs", mappingClientId="redis_rs_async"}
 

@@ -159,4 +159,4 @@ Release Candidates are feature-complete pre-releases. Pre-releases are not suita
 
 ### Known bugs and limitations
 
-- Redis Query Engine: In case of load rebalancing operations (such as Atomic Slot Migration) taking place during the lifetime of a cursor, there is a chance that some results may be missing.
+- Redis Search: In case of load rebalancing operations (such as Atomic Slot Migration) taking place during the lifetime of a cursor, there is a chance that some results may be missing.
