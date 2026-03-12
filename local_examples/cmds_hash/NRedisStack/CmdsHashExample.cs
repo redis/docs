@@ -1,15 +1,33 @@
 // EXAMPLE: cmds_hash
+// HIDE_START
 using StackExchange.Redis;
-using Xunit;
-using System.Linq;
+// HIDE_END
+// REMOVE_START
+using NRedisStack.Tests;
 
 namespace Doc;
 
+[Collection("DocsTests")]
+// REMOVE_END
+
+// HIDE_START
 public class CmdsHashExample
+// REMOVE_START
+: AbstractNRedisStackTest, IDisposable
+// REMOVE_END
 {
-    [Fact]
+    // REMOVE_START
+    public CmdsHashExample(EndpointsFixture fixture) : base(fixture) { }
+
+    [SkippableFact]
+    // REMOVE_END
     public void Run()
     {
+        //REMOVE_START
+        // This is needed because we're constructing ConfigurationOptions in the test before calling GetConnection
+        SkipIfTargetConnectionDoesNotExist(EndpointsFixture.Env.Standalone);
+        var _ = GetCleanDatabase(EndpointsFixture.Env.Standalone);
+        //REMOVE_END
         var muxer = ConnectionMultiplexer.Connect("localhost:6379");
         var db = muxer.GetDatabase();
         // Clear any keys here before using them in tests.

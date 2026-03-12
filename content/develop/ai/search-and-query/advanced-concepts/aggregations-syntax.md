@@ -17,7 +17,7 @@ weight: 4
 
 ## Overview
 
-[`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) is a powerful Redis Query Engine (RQE) command for performing advanced data aggregation, filtering, sorting, and transformations on indexed hash or JSON documents. This reference page provides a structured breakdown of syntax, ordering rules, and best practices.
+[`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) is a powerful Redis Search command for performing advanced data aggregation, filtering, sorting, and transformations on indexed hash or JSON documents. This reference page provides a structured breakdown of syntax, ordering rules, and best practices.
 
 The [main aggregations page]({{< relref "/develop/ai/search-and-query/advanced-concepts/aggregations" >}}) has a simple diagram showing how `FT.AGGREGATE` pipelines are constructed, but it doesn't tell the whole story. For example, you can create more complex aggregation pipelines by applying multiple `REDUCE` functions under a single `GROUPBY` clause, or you can chain groupings and mix in additional mapping steps:
 
@@ -373,4 +373,4 @@ See the following resources for more information:
 
 - [Aggregations]({{< relref "/develop/ai/search-and-query/advanced-concepts/aggregations" >}}) discussion page.
 - [`FT.AGGREGATE` command page](https://redis.io/docs/latest/commands/ft.aggregate/)
-- [RQE source code](https://github.com/RediSearch/RediSearch/tree/master/src/aggregate)
+- [Redis Search source code](https://github.com/RediSearch/RediSearch/tree/master/src/aggregate)

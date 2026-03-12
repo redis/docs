@@ -19,7 +19,7 @@ title: Search concepts
 weight: 7
 ---
 
-Redis Open Source supports the following Redis Query Engine features. This article provides you an overview.
+Redis Open Source supports the following Redis Search features. This article provides you an overview.
 
 ## Indexing features
 
@@ -58,7 +58,7 @@ Redis Open Source supports the following Redis Query Engine features. This artic
 
 ## Cluster support
 
-The Redis Query Engine features of Redis Open Source are also available for distributed databases that can scale to billions of documents and hundreds of servers.
+The Redis Search features of Redis Open Source are also available for distributed databases that can scale to billions of documents and hundreds of servers.
 
 ## Supported platforms
 Redis Open Source is developed and tested on Linux and macOS on x86_64 CPUs.

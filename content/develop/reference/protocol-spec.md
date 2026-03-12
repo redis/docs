@@ -46,7 +46,7 @@ Using RESP with Redis 1.2 was optional and had mainly served the purpose of work
 
 In Redis 2.0, the protocol's next version, a.k.a RESP2, became the standard communication method for clients with the Redis server.
 
-[RESP3](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md) is a superset of RESP2 that mainly aims to make a client author's life a little bit easier.
+[RESP3](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md) is mostly a superset of RESP2 that mainly aims to make a client author's life a little bit easier.
 Redis 6.0 introduced experimental opt-in support of RESP3's features (excluding streaming strings and streaming aggregates).
 In addition, the introduction of the [`HELLO`]({{< relref "/commands/hello" >}}) command allows clients to handshake and upgrade the connection's protocol version (see [Client handshake](#client-handshake)).
 

@@ -6,23 +6,74 @@
 {{- $toc = $toc | replaceRE "<nav[^>]*>" "" -}}
 {{- $toc = $toc | replaceRE "</nav>" "" -}}
 {{- $toc = $toc | replaceRE "\\n\\s*" "" -}}
+{{- /* Strip inline HTML elements (like <code>, <em>, <strong>) from anchor text */ -}}
+{{- $toc = $toc | replaceRE "<code>([^<]*)</code>" "$1" -}}
+{{- $toc = $toc | replaceRE "<em>([^<]*)</em>" "$1" -}}
+{{- $toc = $toc | replaceRE "<strong>([^<]*)</strong>" "$1" -}}
+{{- $toc = $toc | replaceRE "<span[^>]*>([^<]*)</span>" "$1" -}}
+{{- /* Check if there's any content left (i.e., at least one <ul>) */ -}}
+{{- if not (findRE "<ul>" $toc) -}}
+{{- /* No TOC content - return empty sections array */ -}}
+{"sections":[]}
+{{- else -}}
 {{- /* Step 1: Replace <ul> with opening bracket for children array */ -}}
 {{- $toc = $toc | replaceRE "<ul>" "[" -}}
 {{- $toc = $toc | replaceRE "</ul>" "]" -}}
 {{- /* Step 2: Replace <li><a href="#ID">TITLE</a> with {"id":"ID","title":"TITLE" */ -}}
 {{- $toc = $toc | replaceRE "<li><a href=\"#([^\"]+)\">([^<]+)</a>" "{\"id\":\"$1\",\"title\":\"$2\"" -}}
+{{- /* Step 2b: Remove any remaining <li> or <a> tags that weren't matched (orphaned entries) */ -}}
+{{- $toc = $toc | replaceRE "<li>" "" -}}
+{{- $toc = $toc | replaceRE "<a [^>]*>[^<]*</a>" "" -}}
 {{- /* Step 3: Replace </li> with } */ -}}
 {{- $toc = $toc | replaceRE "</li>" "}" -}}
 {{- /* Step 4: Handle nested structure - replace ][ with ],[ (sibling arrays) */ -}}
 {{- $toc = $toc | replaceRE "\\]\\[" "],[" -}}
-{{- /* Step 4b: Handle nested structure - replace [  with ,"children":[ (child arrays) */ -}}
+{{- /* Step 4b: Handle nested structure - replace "[ with ,"children":[ (child arrays) */ -}}
 {{- $toc = $toc | replaceRE "\"\\[" "\",\"children\":[" -}}
 {{- /* Step 5: Add commas between sibling objects - replace }{ with },{ */ -}}
 {{- $toc = $toc | replaceRE "\\}\\{" "},{" -}}
-{{- /* Step 6: Wrap the entire structure */ -}}
+{{- /* Step 5b: Fix multiple root-level arrays: replace ],[ at root with just concatenated items */ -}}
+{{- /* First wrap in sections */ -}}
 {{- $toc = print "{\"sections\":" $toc "}" -}}
+{{- /* Step 6: Clean up any remaining malformed patterns */ -}}
+{{- /* Fix multiple root-level <ul> elements: ]},[ becomes },{ */ -}}
+{{- $toc = $toc | replaceRE "\\]\\},\\[" "]},{" -}}
+{{- /* Fix nested arrays at root: [[...]] pattern */ -}}
+{{- $toc = $toc | replaceRE "\"sections\":\\[\\[" "\"sections\":[" -}}
+{{- /* Fix ]},{ pattern - close sections and start new object - flatten into array */ -}}
+{{- $toc = $toc | replaceRE "\\]\\},\\{" "],{" -}}
+{{- /* Fix closing ]] patterns */ -}}
+{{- $toc = $toc | replaceRE "\\]\\],\\}" "]}" -}}
+{{- $toc = $toc | replaceRE "\\]\\]\\}" "]}" -}}
+{{- /* Flatten sibling arrays: ],[{ becomes ,{ */ -}}
+{{- $toc = $toc | replaceRE "\\],\\[\\{" ",{" -}}
+{{- $toc = $toc | replaceRE "\\}\\],\\[\\{" "},{" -}}
+{{- /* Remove any leftover empty braces or malformed sequences */ -}}
+{{- $toc = $toc | replaceRE "\\[\\}" "[]" -}}
+{{- $toc = $toc | replaceRE "\\{\\]" "[]" -}}
+{{- $toc = $toc | replaceRE ",\\}" "}" -}}
+{{- $toc = $toc | replaceRE ",\\]" "]" -}}
+{{- /* Fix empty children followed by sibling: "children":[],{ becomes "children":[]},{ */ -}}
+{{- $toc = $toc | replaceRE "\"children\":\\[\\],\\{" "\"children\":[]},{" -}}
+{{- /* Fix: [,{ pattern (malformed array start) */ -}}
+{{- $toc = $toc | replaceRE "\\[,\\{" "[{" -}}
 {{- /* Step 7: Remove all newlines and extra whitespace for clean output */ -}}
 {{- $toc = $toc | replaceRE "\\n\\s*" "" -}}
+{{- /* Validation: Check for common invalid patterns and fallback to empty if found */ -}}
+{{- /* Check for: HTML tags, double brackets, malformed arrays/objects, objects outside sections */ -}}
+{{- $invalid := false -}}
+{{- if findRE "<" $toc -}}{{- $invalid = true -}}{{- end -}}
+{{- if findRE "\\[\\[" $toc -}}{{- $invalid = true -}}{{- end -}}
+{{- if findRE "\\]\\]" $toc -}}{{- $invalid = true -}}{{- end -}}
+{{- if findRE "\\}\\],\\{" $toc -}}{{- $invalid = true -}}{{- end -}}
+{{- if findRE "\\[\\],\\{" $toc -}}{{- $invalid = true -}}{{- end -}}
+{{- if findRE "\\}\\},\\{" $toc -}}{{- $invalid = true -}}{{- end -}}
+{{- if findRE "\\]\\},\\{" $toc -}}{{- $invalid = true -}}{{- end -}}
+{{- if $invalid -}}
+{"sections":[]}
+{{- else -}}
 {{- /* Output the JSON - use safeHTML to prevent quote escaping */ -}}
 {{- $toc | safeHTML -}}
+{{- end -}}
+{{- end -}}
 

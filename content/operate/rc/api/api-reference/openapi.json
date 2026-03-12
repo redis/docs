@@ -11526,6 +11526,10 @@
             "description": "Optional. If specified, redisVersion defines the Redis database version. If omitted, the Redis version will be set to the default version (available in 'GET /subscriptions/redis-versions')",
             "example": "7.2"
           },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. Automatically upgrades the database to newer minor versions within the same major release. Applies to version 8.4 and above. Default: true."
+          },
           "shardingType": {
             "type": "string",
             "description": "Optional. Database [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy).",
@@ -12043,6 +12047,10 @@
             "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Must be between 10 and 50 in steps of 10 (10, 20, 30, 40, 50).",
             "format": "int32",
             "example": 20
+          },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. Automatically upgrades the database to newer minor versions within the same major release. Applies to version 8.4 and above."
           },
           "commandType": {
             "type": "string",
@@ -15951,6 +15959,10 @@
               "noeviction"
             ]
           },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. Automatically upgrades the database to newer minor versions within the same major release. Applies to version 8.4 and above."
+          },
           "commandType": {
             "type": "string",
             "readOnly": true
@@ -16108,6 +16120,10 @@
             "type": "string",
             "description": "Optional. If specified, redisVersion defines the Redis database version. If omitted, the Redis version will be set to the default version (available in 'GET /subscriptions/redis-versions')",
             "example": "7.2"
+          },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. Automatically upgrades the database to newer minor versions within the same major release. Applies to version 8.4 and above. Default: true."
           },
           "respVersion": {
             "type": "string",

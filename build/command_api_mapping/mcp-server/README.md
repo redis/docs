@@ -123,6 +123,7 @@ The server exposes the following tools:
 4. **validate_signature** - Validate a method signature
 5. **get_client_info** - Get information about a specific client
 6. **list_clients** - List all supported Redis clients
+7. **analyze_metadata_size** - Analyze JSON metadata size in documentation pages
 
 ## Validation & Testing Tools
 
@@ -169,6 +170,7 @@ This MCP server is fully integrated with Augment. To use it with Augment:
 - `validate_signature` - Validate a method signature
 - `get_client_info` - Get information about a specific client
 - `list_clients` - List all supported Redis clients
+- `analyze_metadata_size` - Analyze JSON metadata size in documentation pages
 
 See [augment-workflow.md](./augment-workflow.md) for workflow examples and [AUGMENT_INTEGRATION.md](./AUGMENT_INTEGRATION.md) for setup instructions.
 

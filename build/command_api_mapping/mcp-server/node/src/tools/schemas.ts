@@ -208,3 +208,49 @@ export const ListClientsOutputSchema = z.object({
 
 export type ListClientsOutput = z.infer<typeof ListClientsOutputSchema>;
 
+// ============================================================================
+// Tool 7: Analyze Metadata Size
+// ============================================================================
+
+export const AnalyzeMetadataSizeInputSchema = z.object({
+  /** Path to the documentation file containing JSON metadata */
+  file_path: z.string().optional(),
+  /** Raw content to analyze (if not using file_path) */
+  content: z.string().optional(),
+}).refine(
+  (data) => data.file_path || data.content,
+  { message: "Either file_path or content must be provided" }
+);
+
+export type AnalyzeMetadataSizeInput = z.infer<typeof AnalyzeMetadataSizeInputSchema>;
+
+export const SectionSizeSchema = z.object({
+  /** Size in bytes (UTF-8 encoded) */
+  bytes: z.number(),
+  /** Size in characters */
+  chars: z.number(),
+  /** Number of items (for arrays/objects) */
+  item_count: z.number().nullable().optional(),
+});
+
+export type SectionSize = z.infer<typeof SectionSizeSchema>;
+
+export const AnalyzeMetadataSizeOutputSchema = z.object({
+  /** Path to the analyzed file (if file_path was provided) */
+  file_path: z.string().optional(),
+  /** Whether metadata was found in the content */
+  metadata_found: z.boolean(),
+  /** Total size of the metadata block in bytes */
+  total_bytes: z.number(),
+  /** Total size of the metadata block in characters */
+  total_chars: z.number(),
+  /** Size breakdown by top-level section/field */
+  sections: z.record(SectionSizeSchema),
+  /** The format in which metadata was found (html-head, html-body, markdown) */
+  format: z.string().nullable().optional(),
+  /** Any errors encountered during analysis */
+  errors: z.array(z.string()).optional(),
+});
+
+export type AnalyzeMetadataSizeOutput = z.infer<typeof AnalyzeMetadataSizeOutputSchema>;
+

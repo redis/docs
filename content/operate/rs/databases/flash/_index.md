@@ -69,7 +69,7 @@ All data is accessed through RAM. If a key or value in flash memory is accessed,
 
 Inactive or infrequently accessed data is referred to as "warm data" and stored in flash memory. When more space is needed in RAM, warm keys and values are moved from RAM to flash storage.
 
-{{<note>}} When using Redis Flex with RediSearch, it’s important to note that RediSearch indexes are also stored in RAM.{{</note>}}
+{{<note>}} When using Auto Tiering with Redis Search, indexes are also stored in RAM. Redis Flex does not support Redis Search.{{</note>}}
 
 ## RAM to Flash ratio
 
@@ -109,16 +109,18 @@ We specifically recommend "[Storage Optimized I4i - High I/O Instances](https://
 
 When you begin planning the deployment of Redis Flex in production, we recommend working closely with the Redis technical team for sizing and performance tuning.
 
-On-premises environments support more deployment options than other environments such as:
+On-premises environments support more deployment options than other environments.
 
-- Using Redis Stack features:
-  - [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}})
-  - [Probabilistic data structures]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}})
+The following table shows which data types and features are supported for Flex and Auto Tiering:
 
-- The following Redis Software features are not supported when using Redis Flex:
-  - [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) 
-  - [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}})
-  - [Active-Active distributed databases]({{<relref "/operate/rs/databases/active-active">}})
+| Data type/feature | Flex support | Auto Tiering support |
+|-------------------|--------------|----------------------|
+| [Active-Active databases]({{<relref "/operate/rs/databases/active-active">}}) | <span title="Not supported">&#x274c;</span> |<span title="Supported">&#x2705;</span> Requires Redis<br />technical team's approval |
+| [JSON]({{<relref "/develop/data-types/json">}}) | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| [Probabilistic data structures]({{<relref "/develop/data-types/#probabilistic-data-types">}}) | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| [Redis Search]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}}) | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
+| Standard [Redis data types]({{<relref "/develop/data-types">}}) | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| [Time series]({{<relref "/develop/data-types/timeseries">}}) | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
 
 {{<warning>}} Redis Flex is not supported running on network attached storage (NAS), storage area network (SAN), or with local HDD drives. {{</warning>}}
 

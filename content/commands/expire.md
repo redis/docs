@@ -265,9 +265,9 @@ still take the full state of the expires existing in the dataset, so when a
 replica is elected to master it will be able to expire the keys independently,
 fully acting as a master.
 
-### Redis Query Engine and expiration
+###  Redis Search and expiration
 
-Starting with Redis 8, the Redis Query Engine has enhanced behavior when handling expiring keys. For detailed information about how [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) and [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) commands interact with expiring keys, see [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}}).
+Starting with Redis 8, Redis Search has enhanced behavior when handling expiring keys. For detailed information about how [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) and [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) commands interact with expiring keys, see [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}}).
 
 ## Redis Software and Redis Cloud compatibility
 

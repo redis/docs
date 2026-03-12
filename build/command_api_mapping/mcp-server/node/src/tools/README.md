@@ -1,6 +1,6 @@
 # MCP Tools
 
-This directory contains the implementation of all 6 MCP tools for the Redis Command-to-API Mapping server.
+This directory contains the implementation of all 7 MCP tools for the Redis Command-to-API Mapping server.
 
 ## Tools Overview
 
@@ -367,6 +367,62 @@ const result = await validateSignature({
 - Includes caching for performance
 - All tests passing (2/2 tool integration tests)
 
+### 7. analyze_metadata_size
+**Purpose**: Analyze the size of JSON metadata embedded in documentation pages to help AI agents understand context window usage.
+
+**Input**:
+- `file_path` (string, optional) - Path to local HTML or Markdown file
+- `content` (string, optional) - Raw content to analyze (one of file_path or content required)
+
+**Output**:
+- `metadata_found` (boolean) - Whether metadata was found
+- `total_bytes` (number) - Total size in bytes
+- `total_chars` (number) - Total size in characters
+- `sections` (object) - Breakdown by top-level JSON field:
+  - `{field_name}` → `{ bytes, chars, item_count? }`
+- `format` (string | null) - Detected format: `html-head`, `html-body`, or `markdown`
+- `file_path` (string, optional) - Resolved file path if reading from file
+- `errors` (array, optional) - Any errors encountered
+
+**Status**: ✅ Fully Implemented
+
+**Implementation Details**:
+- Rust WASM function extracts and parses metadata JSON
+- Supports three metadata formats:
+  - HTML head: `<script type="application/json" data-ai-metadata>...</script>`
+  - HTML body: `<div hidden data-redis-metadata="page">...</div>`
+  - Markdown: ` ```json metadata\n...\n``` `
+- Reports per-section breakdown with item counts for arrays/objects
+- Gracefully handles malformed JSON with descriptive error messages
+- See `for-ais-only/metadata_docs/PAGE_METADATA_FORMAT.md` for metadata spec
+
+**Example Usage**:
+```typescript
+// Analyze a local file
+const result = await analyzeMetadataSize({
+  file_path: '/path/to/docs/public/develop/data-types/streams/index.html'
+});
+
+// Analyze raw content
+const result = await analyzeMetadataSize({
+  content: '<script data-ai-metadata>{"title":"Test"}</script>'
+});
+
+// Example output:
+// {
+//   metadata_found: true,
+//   total_bytes: 34630,
+//   total_chars: 34630,
+//   sections: {
+//     codeExamples: { bytes: 32303, chars: 32303, item_count: 34 },
+//     tableOfContents: { bytes: 2108, chars: 2108, item_count: 1 },
+//     categories: { bytes: 71, chars: 71, item_count: 9 },
+//     ...
+//   },
+//   format: "html-head"
+// }
+```
+
 ## File Structure
 
 ```
@@ -378,7 +434,8 @@ tools/
 ├── extract-doc-comments.ts        # Tool 3 handler
 ├── validate-signature.ts          # Tool 4 handler
 ├── get-client-info.ts             # Tool 5 handler
-└── list-clients.ts                # Tool 6 handler
+├── list-clients.ts                # Tool 6 handler
+└── analyze-metadata.ts            # Tool 7 handler (metadata size analysis)
 ```
 
 ## Adding a New Tool
@@ -404,6 +461,72 @@ tools/
    - Import the handler and schemas
    - Add tool definition to TOOLS array
    - Add case in CallToolRequestSchema handler
+
+## WASM Integration Patterns
+
+### ⚠️ Critical: Map-to-Object Conversion
+
+When using `serde-wasm-bindgen` (v0.4), Rust `HashMap`, `serde_json::Map`, and nested objects are serialized to JavaScript `Map` objects, **NOT plain objects**. This causes:
+- `JSON.stringify(result)` → `"{}"` (empty object)
+- Object spread `{...result}` → empty object
+- Zod validation → fails silently
+
+**Solution**: Add a recursive `mapToObject()` helper in your TypeScript wrapper:
+
+```typescript
+/**
+ * Recursively convert Map objects to plain objects.
+ * WASM with serde-wasm-bindgen returns Map objects instead of plain objects.
+ */
+function mapToObject(value: unknown): unknown {
+  if (value instanceof Map) {
+    const obj: Record<string, unknown> = {};
+    value.forEach((v, k) => {
+      obj[k] = mapToObject(v);
+    });
+    return obj;
+  }
+  if (Array.isArray(value)) {
+    return value.map(mapToObject);
+  }
+  if (value !== null && typeof value === 'object') {
+    const obj: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(value)) {
+      obj[k] = mapToObject(v);
+    }
+    return obj;
+  }
+  return value;
+}
+
+// Usage:
+const rawResult = wasm_function(input);
+const result = mapToObject(rawResult) as ExpectedType;
+```
+
+**Example**: See `go-parser.ts` and `analyze-metadata.ts` for working implementations.
+
+### Testing WASM Tools from Command Line
+
+Since the WASM module uses ESM, you need the experimental VM modules flag:
+
+```bash
+cd node && node --experimental-vm-modules -e "
+(async () => {
+  const { myToolFunction } = await import('./dist/tools/my-tool.js');
+  const result = await myToolFunction({ input: 'test' });
+  console.log(JSON.stringify(result, null, 2));
+})();
+"
+```
+
+### Debugging WASM Serialization Issues
+
+If you see empty objects `{}` in output:
+1. **Check raw WASM output**: Log `typeof result` and `result instanceof Map`
+2. **Add Rust unit tests**: Test the extraction logic in isolation with `cargo test`
+3. **Verify JSON structure**: Use `console.log(result)` before `JSON.stringify`
+4. **Look at existing parsers**: `go-parser.ts`, `python-parser.ts` show correct patterns
 
 ## Error Handling
 
