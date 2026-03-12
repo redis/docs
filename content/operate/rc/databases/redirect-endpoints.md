@@ -26,7 +26,9 @@ Use endpoint redirection to seamlessly migrate your application traffic to a dif
 
 ## Applications that use legacy static endpoints
 
-Databases created before {{RELEASE DATE}} have both legacy static endpoints and dynamic endpoints. You can only migrate the dynamic endpoints to point to a new database. If your application uses the static endpoints, it will connect to the source database instead of the target database after redirection. You can find both the static and dynamic endpoints for these databases on the database's **Configuration** page.
+Databases created before March 22, 2026 have both legacy static endpoints and dynamic endpoints. You can only migrate the dynamic endpoints to point to a new database. If your application uses the static endpoints, it will connect to the source database instead of the target database after redirection. You can find both the static and dynamic endpoints for these databases on the database's **Configuration** page.
+
+{{<image filename="images/rc/databases-configuration-general-endpoints-legacy.png" alt="The General section of the Configuration tab of the database details page for a database created before March 22, 2026. The dynamic endpoints are listed under the **Dynamic endpoints** section." >}}
 
 Transitioning from the static to the dynamic endpoint does not cause downtime and allows you to gradually manage client disconnections. To migrate to the dynamic endpoint safely:
 - Move clients one-by-one (or service-by-service) from legacy static endpoints to dynamic endpoints. Note that during the transition period, both static and Dynamic endpoints can be used concurrently.

@@ -18,7 +18,7 @@ tags:
 
 ### Dynamic endpoints
 
-As of {{RELEASE DATE}}, Redis Cloud now generates dynamic endpoints for all databases. Databases created before {{RELEASE DATE}} can still view both legacy static endpoints and dynamic endpoints. Static endpoints will still work at this time, but they may be deprecated in the future.
+As of March 22, 2026, Redis Cloud now generates dynamic endpoints for all databases. Databases created before March 22, 2026 can still view both legacy static endpoints and dynamic endpoints. Static endpoints will still work at this time, but they may be deprecated in the future.
 
 We recommend slowly migrating connections to the dynamic endpoints. Moving connections from the static endpoints to the dynamic endpoints does not cause any downtime. See [Applications that use legacy static endpoints]({{< relref "/operate/rc/databases/redirect-endpoints#applications-that-use-legacy-static-endpoints" >}}) for more information.
 
