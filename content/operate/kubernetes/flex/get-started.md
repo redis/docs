@@ -9,6 +9,7 @@ description: Configure Flex on your Redis Enterprise cluster for Kubernetes.
 hideListLinks: true
 linkTitle: Get started
 weight: 20
+aliases: /operate/kubernetes/re-clusters/redis-flex/
 ---
 
 {{<note>}}
