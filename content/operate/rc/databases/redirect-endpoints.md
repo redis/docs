@@ -44,6 +44,13 @@ Read the following sections to prepare for endpoint redirection.
 
 This process redirects a source database's dynamic endpoints to a selected target database, including both public and private (if available) endpoints. **Redirecting endpoints does not migrate the data in your database.** You can choose to redirect the endpoints without migrating your data. If you need your data to be available in the target database, you must [migrate your data]({{< relref "/operate/rc/databases/migrate-databases" >}}) to the target database **before** you redirect your endpoints.
 
+To ensure all connections are redirected to the target database, Redis Cloud will stop all traffic to the source database for 5 minutes after the redirection. During this time:
+- All existing connections to the source database will be terminated and new connections will be refused.
+- Clients will automatically reconnect with refreshed DNS.
+- New connections are established to the target database.
+
+If you choose to revert the redirection, traffic to the source will resume, even if the 5-minute window has not passed.
+
 Plan for the following impacts when redirecting your endpoints:
 - Short-lived connection disruptions may occur as clients reconnect to the database, depending on client reconnection behavior.
 - Application behavior may change if the target differs in configuration from the source database. See [Redirection compatibility](#redirection-compatibility) for a list of differences that can change application behavior.
@@ -110,15 +117,11 @@ To redirect your database endpoints:
 
     {{<image filename="images/rc/migrate-data-redirect-assign-acls.png" alt="Select **Assign the same ACLs to the target database** to assign the same roles to the target database." >}}
 
-    {{< note >}}
-If you migrated your data and want a controlled transition from the source to the target database, this is the point to pause writes based on your application's consistency requirements. Pausing writes before redirecting your endpoints helps ensure data consistency.
-    {{< /note >}}
-
 1. Select **I acknowledge this action will redirect my database endpoints** to confirm that you understand that this action will redirect your database endpoints. Then select **Redirect endpoints**.
 
     {{<image filename="images/rc/migrate-data-redirect-acknowledge.png" alt="The **Redirect endpoints** button redirects the source database endpoints to the target database." >}}
 
-After you redirect your database endpoints, you can go to the **Configuration** tab of the target database to verify that the endpoints now point to the target database. 
+After you redirect your database endpoints, you can go to the **Configuration** tab of the target database to verify that the endpoints now point to the target database. To ensure all connections are redirected to the target database, Redis Cloud will stop all traffic to the source database for 5 minutes after the redirection.
 
 ## Revert endpoint redirection
 
