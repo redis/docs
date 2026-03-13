@@ -19,7 +19,7 @@ This guide describes the steps required to prepare a Snowflake database as a sou
 
 RDI uses the [RIOTX](https://redis.github.io/riotx/) collector to stream data from Snowflake to Redis. 
 During the [snapshot]({{< relref "/integrate/redis-data-integration/data-pipelines#pipeline-lifecycle" >}}) phase, RDI reads the current state of the database using the JDBC driver. In the 
-[streaming]({{< relref "/integrate/redis-data-integration/data-pipelines#pipeline-lifecycle" >}})
+[Change data capture (CDC)]({{< relref "/integrate/redis-data-integration/data-pipelines#pipeline-lifecycle" >}})
 phase, RDI uses [Snowflake Streams](https://docs.snowflake.com/en/user-guide/streams) to 
 capture changes related to the monitored tables. Note that RIOTX will automatically create and manage 
 the required streams.
