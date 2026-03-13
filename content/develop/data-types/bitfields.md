@@ -17,17 +17,13 @@ title: Redis bitfields
 weight: 130
 ---
 
+{{< command-group group="bitmap" title="Bitmap/bitfield command summary" show_link=true >}}
+
 Redis bitfields let you set, increment, and get integer values of arbitrary bit length.
 For example, you can operate on anything from unsigned 1-bit integers to signed 63-bit integers.
 
 These values are stored using binary-encoded Redis strings.
 Bitfields support atomic read, write and increment operations, making them a good choice for managing counters and similar numerical values.
-
-
-## Basic commands
-
-* [`BITFIELD`]({{< relref "/commands/bitfield" >}}) atomically sets, increments and reads one or more values.
-* [`BITFIELD_RO`]({{< relref "/commands/bitfield_ro" >}}) is a read-only variant of [`BITFIELD`]({{< relref "/commands/bitfield" >}}).
 
 ## Example
 
