@@ -17,6 +17,8 @@ title: Redis sorted sets
 weight: 50
 ---
 
+{{< command-group group="sorted-set" title="Sorted set command summary" show_link=true >}}
+
 A Redis sorted set is a collection of unique strings (members) ordered by an associated score.
 When more than one string has the same score, the strings are ordered lexicographically.
 Some use cases for sorted sets include:
@@ -227,15 +229,6 @@ the #4932 best score here").
 
 You'll see that [`ZADD`]({{< relref "/commands/zadd" >}}) returns 0 when the member already exists (the score is updated), while [`ZINCRBY`]({{< relref "/commands/zincrby" >}}) returns the new score. The score for racer Henshaw went from 100, was changed to 150 with no regard for what score was there before, and then was incremented by 50 to 200.
 
-## Basic commands
-
-* [`ZADD`]({{< relref "/commands/zadd" >}}) adds a new member and associated score to a sorted set. If the member already exists, the score is updated.
-* [`ZRANGE`]({{< relref "/commands/zrange" >}}) returns members of a sorted set, sorted within a given range.
-* [`ZRANK`]({{< relref "/commands/zrank" >}}) returns the rank of the provided member, assuming the sorted set is in ascending order.
-* [`ZREVRANK`]({{< relref "/commands/zrevrank" >}}) returns the rank of the provided member, assuming the sorted set is in descending order.
- 
-See the [complete list of sorted set commands]({{< relref "/commands/" >}}?group=sorted-set).
-
 ## Performance
 
 Most sorted set operations are O(log(n)), where _n_ is the number of members.
@@ -246,7 +239,7 @@ This command's time complexity is O(log(n) + m), where _m_ is the number of resu
 ## Alternatives
 
 Redis sorted sets are sometimes used for indexing other Redis data structures.
-If you need to index and query your data, consider the [JSON]({{< relref "/develop/data-types/json/" >}}) data type and the [Redis Query Engine]({{< relref "/develop/ai/search-and-query/" >}}) features.
+If you need to index and query your data, consider the [JSON]({{< relref "/develop/data-types/json/" >}}) data type and the [Redis Search]({{< relref "/develop/ai/search-and-query/" >}}) features.
 
 ## Learn more
 

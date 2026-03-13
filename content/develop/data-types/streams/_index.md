@@ -15,12 +15,14 @@ title: Redis Streams
 weight: 60
 ---
 
+{{< command-group group="stream" title="Stream command summary" show_link=true >}}
+
 A Redis stream is a data structure that acts like an append-only log but also implements several operations to overcome some of the limits of a typical append-only log. These include random access in O(1) time and complex consumption strategies, such as consumer groups.
 You can use streams to record and simultaneously syndicate events in real time.
 Examples of Redis stream use cases include:
 
 * Event sourcing (e.g., tracking user actions, clicks, etc.)
-* Sensor monitoring (e.g., readings from devices in the field) 
+* Sensor monitoring (e.g., readings from devices in the field)
 * Notifications (e.g., storing a record of each user's notifications in a separate stream)
 
 Redis generates a unique ID for each stream entry.
@@ -29,17 +31,6 @@ You can use these IDs to retrieve their associated entries later or to read and 
 Redis streams support several trimming strategies (to prevent streams from growing unbounded) and more than one consumption strategy (see [`XREAD`]({{< relref "/commands/xread" >}}), [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), and [`XRANGE`]({{< relref "/commands/xrange" >}})). Starting with Redis 8.2, the `XACKDEL`, `XDELEX`, `XADD`, and `XTRIM` commands provide fine-grained control over how stream operations interact with multiple consumer groups, simplifying the coordination of message processing across different applications.
 
 Beginning with Redis 8.6, Redis streams support idempotent message processing (at-most-once production) to prevent duplicate entries when using at-least-once delivery patterns. This feature enables reliable message submission with automatic deduplication. See [Idempotent Message Processing]({{< relref "/develop/data-types/streams/idempotency" >}}) for more information.
-
-## Basic commands
-
-* [`XADD`]({{< relref "/commands/xadd" >}}) adds a new entry to a stream.
-* [`XREAD`]({{< relref "/commands/xread" >}}) reads one or more entries, starting at a given position and moving forward in time.
-* [`XRANGE`]({{< relref "/commands/xrange" >}}) returns a range of entries between two supplied entry IDs.
-* [`XLEN`]({{< relref "/commands/xlen" >}}) returns the length of a stream.
-* [`XDEL`]({{< relref "/commands/xdel" >}}) removes entries from a stream.
-* [`XTRIM`]({{< relref "/commands/xtrim" >}}) trims a stream by removing older entries.
-
-See the [complete list of stream commands]({{< relref "/commands/" >}}?group=stream).
 
 ## Examples
 

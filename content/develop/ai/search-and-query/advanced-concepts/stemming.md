@@ -80,27 +80,35 @@ redis> FT.SEARCH idx:german '@wort:(stuck)' German
 
 The following languages are supported and can be passed to the engine when indexing or querying using lowercase:
 
-* arabic
-* armenian
-* danish
-* dutch
-* english
-* finnish
-* french
-* german
-* hungarian
-* italian
-* norwegian
-* portuguese
-* romanian
-* russian
-* serbian
-* spanish
-* swedish
-* tamil
-* turkish
-* yiddish
-* chinese (see below)
+* `arabic`
+* `armenian`
+* `basque`
+* `catalan`
+* `danish`
+* `dutch`
+* `english`
+* `finnish`
+* `french`
+* `german`
+* `greek`
+* `hindi`
+* `hungarian`
+* `indonesian`
+* `irish`
+* `italian`
+* `lithuanian`
+* `nepali`
+* `norwegian`
+* `portuguese`
+* `romanian`
+* `russian`
+* `serbian`
+* `spanish`
+* `swedish`
+* `tamil`
+* `turkish`
+* `yiddish`
+* `chinese` (see below)
 
 ## Chinese support
 

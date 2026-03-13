@@ -9,7 +9,7 @@ description: New features, enhancements, and other changes added to Redis Cloud 
   January 2026.
 highlights: Redis 8.4 on Redis Cloud Essentials
 linktitle: January 2026
-weight: 55
+weight: 54
 tags:
 - changelog
 ---

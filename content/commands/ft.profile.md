@@ -167,7 +167,7 @@ For queries using batch modes (`HYBRID_BATCHES` or `HYBRID_BATCHES_TO_ADHOC_BF`)
 
 ### Result processor profiles
 
-Result processors form a powerful pipeline in Redis Query Engine. They work in stages to gather, filter, score, sort, and return results as efficiently as possible based on complex query needs. Each processor reports `Time` information, which represents the total duration (in milliseconds, or ms) spent by the processor to complete its operation, and `Results processed` information, which indicates the number of times the processor was invoked during the query.
+Result processors form a powerful pipeline in Redis Search. They work in stages to gather, filter, score, sort, and return results as efficiently as possible based on complex query needs. Each processor reports `Time` information, which represents the total duration (in milliseconds, or ms) spent by the processor to complete its operation, and `Results processed` information, which indicates the number of times the processor was invoked during the query.
 
 | Type            | Definition |
 |:--              |:--         |

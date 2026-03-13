@@ -30,6 +30,7 @@ EXTENSION_TO_LANGUAGE = {
     '.cs': 'c#',
     '.java': 'java',
     '.php': 'php',
+    '.rb': 'ruby',
     '.rs': 'rust'
 }
 
@@ -42,6 +43,7 @@ LANGUAGE_TO_CLIENT = {
     'c#': 'C#-Sync',
     'java': 'Java-Sync',  # Default to sync, could be overridden
     'php': 'PHP',
+    'ruby': 'Ruby',
     'redisvl': 'RedisVL',
     'rust': 'Rust-Sync'
 }

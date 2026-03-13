@@ -46,9 +46,10 @@ jobs:
           aws-region: us-east-1
 
       - name: 'Fetch release'
+        env:
+          RELEASE: ${{ github.event.inputs.release }}
+          BUCKET_FOLDER: ${{ github.event.inputs.bucket_folder }}
         run: |-
-          RELEASE="${{ github.event.inputs.release }}"
-          BUCKET_FOLDER="${{ github.event.inputs.bucket_folder }}"
           aws s3 cp "s3://redislabs-k8s/${BUCKET_FOLDER}/redis-enterprise-operator-${RELEASE}.tar.gz" .
 
           tar xf "redis-enterprise-operator-${RELEASE}.tar.gz"
@@ -199,8 +200,8 @@ jobs:
       - name: 'Send pull request'
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          RELEASE: ${{ github.event.inputs.release }}
         run: |-
-          RELEASE="${{ github.event.inputs.release }}"
           BRANCH="k8s_apis_docs_${RELEASE}"
 
           # Setup git email and username
