@@ -86,14 +86,6 @@ Storing the IP address or any other kind of personal identifier is against the l
 
 One HyperLogLog is created per page (video/song) per period, and every IP/identifier is added to it on every visit.
 
-## Basic commands
-
-* [`PFADD`]({{< relref "/commands/pfadd" >}}) adds an item to a HyperLogLog.
-* [`PFCOUNT`]({{< relref "/commands/pfcount" >}}) returns an estimate of the number of items in the set.
-* [`PFMERGE`]({{< relref "/commands/pfmerge" >}}) combines two or more HyperLogLogs into one.
-
-See the [complete list of HyperLogLog commands]({{< relref "/commands/" >}}?group=hyperloglog).
-
 ## Performance
 
 Writing ([`PFADD`]({{< relref "/commands/pfadd" >}})) to and reading from ([`PFCOUNT`]({{< relref "/commands/pfcount" >}})) the HyperLogLog is done in constant time and space.
