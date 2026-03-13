@@ -3,7 +3,7 @@
   "info": {
     "title": "Redis Data Integration API",
     "description": "API for Redis Data Integration services",
-    "version": "1.16.0"
+    "version": "0.0.202602241257"
   },
   "paths": {
     "/": {
@@ -2978,6 +2978,283 @@
         "security": [{ "JWTBearer": [] }]
       }
     },
+    "/api/v2/pipelines/{name}/dlqs": {
+      "get": {
+        "tags": ["v2", "dlq"],
+        "summary": "Get all DLQ streams with counts",
+        "description": "Returns all tables that have DLQ records with their total counts. Table names are returned in the format: source_name.schema_name.table_name (for PostgreSQL, Oracle, SQL Server, Spanner) or source_name.database_name.table_name (for MySQL, MariaDB, MongoDB).",
+        "operationId": "get_all_dlqs_api_v2_pipelines__name__dlqs_get",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Pipeline name",
+              "title": "Name"
+            },
+            "description": "Pipeline name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DlqListResponse" }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/v2/pipelines/{name}/dlqs/{full_table_name}/records": {
+      "get": {
+        "tags": ["v2", "dlq"],
+        "summary": "Get DLQ records for a specific stream",
+        "description": "Returns the DLQ records for a specific table with pagination. The stream name must be in the format: source_name.schema_name.table_name (e.g., 'postgres.public.users') or source_name.database_name.table_name (e.g., 'mysql.mydb.users').",
+        "operationId": "get_dlq_records_api_v2_pipelines__name__dlqs__full_table_name__records_get",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Pipeline name",
+              "title": "Name"
+            },
+            "description": "Pipeline name"
+          },
+          {
+            "name": "full_table_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Full stream name in format: source_name.schema_name.table_name (e.g., 'postgres.public.users') or source_name.database_name.table_name (e.g., 'mysql.mydb.users')",
+              "title": "Full Table Name"
+            },
+            "description": "Full stream name in format: source_name.schema_name.table_name (e.g., 'postgres.public.users') or source_name.database_name.table_name (e.g., 'mysql.mydb.users')"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "description": "Number of records to return",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of records to return"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Starting position for pagination",
+              "default": 0,
+              "title": "Offset"
+            },
+            "description": "Starting position for pagination"
+          },
+          {
+            "name": "sort_order",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/SortOrder",
+              "description": "Sort order: 'asc' (oldest first) or 'desc' (newest first)",
+              "default": "desc"
+            },
+            "description": "Sort order: 'asc' (oldest first) or 'desc' (newest first)"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "description": "Comma-separated list of fields to include in projection",
+              "title": "Fields"
+            },
+            "description": "Comma-separated list of fields to include in projection"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DlqRecordsResponse" }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/v2/pipelines/{name}/dlqs/{full_table_name}": {
+      "get": {
+        "tags": ["v2", "dlq"],
+        "summary": "Get DLQ info for a specific stream",
+        "description": "Returns the DLQ count for a specific stream. The stream name must be in the format: source_name.schema_name.table_name (e.g., 'postgres.public.users') or source_name.database_name.table_name (e.g., 'mysql.mydb.users').",
+        "operationId": "get_dlq_by_table_name_api_v2_pipelines__name__dlqs__full_table_name__get",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Pipeline name",
+              "title": "Name"
+            },
+            "description": "Pipeline name"
+          },
+          {
+            "name": "full_table_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Full stream name in format: source_name.schema_name.table_name (e.g., 'postgres.public.users') or source_name.database_name.table_name (e.g., 'mysql.mydb.users')",
+              "title": "Full Table Name"
+            },
+            "description": "Full stream name in format: source_name.schema_name.table_name (e.g., 'postgres.public.users') or source_name.database_name.table_name (e.g., 'mysql.mydb.users')"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DlqTableResponse" }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/v2/pipelines": {
       "get": {
         "tags": ["v2", "pipelines"],
@@ -3803,7 +4080,7 @@
             }
           }
         },
-        "security": [{ "HTTPBearer": [] }]
+        "security": []
       }
     }
   },
@@ -4177,6 +4454,48 @@
         ],
         "title": "DbType",
         "description": "Defines supported databases."
+      },
+      "DlqListResponse": {
+        "additionalProperties": { "$ref": "#/components/schemas/DlqTableInfo" },
+        "type": "object",
+        "title": "DlqListResponse",
+        "description": "Response model for listing all DLQ tables with their counts.\n\nReturns a dictionary mapping table names to their DLQ info.\nExample: {\"source.schema.table1\": {\"total_count\": 100}, ...}"
+      },
+      "DlqRecordsResponse": {
+        "properties": {
+          "records": {
+            "items": { "additionalProperties": true, "type": "object" },
+            "type": "array",
+            "title": "Records",
+            "description": "List of DLQ records"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "DlqRecordsResponse",
+        "description": "Response model for DLQ records."
+      },
+      "DlqTableInfo": {
+        "properties": {
+          "total_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total Count",
+            "description": "Total number of records in the DLQ stream",
+            "examples": [1500]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["total_count"],
+        "title": "DlqTableInfo",
+        "description": "Model representing DLQ info for a single table."
+      },
+      "DlqTableResponse": {
+        "additionalProperties": { "$ref": "#/components/schemas/DlqTableInfo" },
+        "type": "object",
+        "title": "DlqTableResponse",
+        "description": "Response model for a single DLQ table info.\n\nReturns a dictionary with single table name mapped to its DLQ info.\nExample: {\"source.schema.table\": {\"total_count\": 100}}"
       },
       "Entity": {
         "properties": {
@@ -4828,6 +5147,12 @@
         "type": "string",
         "enum": ["running", "failed", "paused", "completed", "N/A"],
         "title": "SnapshotStatus"
+      },
+      "SortOrder": {
+        "type": "string",
+        "enum": ["asc", "desc"],
+        "title": "SortOrder",
+        "description": "Sort order for DLQ records."
       },
       "Source": {
         "properties": {
