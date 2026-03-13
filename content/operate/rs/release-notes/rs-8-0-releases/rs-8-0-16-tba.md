@@ -138,6 +138,10 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS167847: Fixed an issue where turning off `alert_mgr` also turned off `event_log`.
 
+- RS182007: Modified the custom installer script to prevent the creation of circular symlinks during cluster upgrades.
+
+- RS188362: Fixed an issue with missing metrics in the Cluster Manager UI.
+
 ## Version changes
 
 ### Deprecations
