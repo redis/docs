@@ -15,7 +15,7 @@ title: Redis vector sets
 weight: 55
 ---
 
-{{< command-group group="module" title="Vector set command summary" show_link=true >}}
+{{< command-group group="module" url_group="vector_set" title="Vector set command summary" show_link=true >}}
 
 Vector sets are a data type similar to sorted sets, but instead of a score, vector set elements have a string representation of a vector.
 Vector sets allow you to add items to a set, and then either:

@@ -5,15 +5,18 @@
   - group (required): The command group name (e.g., "hash", "sorted-set", "string")
   - title (optional): Custom title for the foldout (defaults to "<Group> commands")
   - show_link (optional): Whether to include a link to the filtered commands page (default: false)
+  - url_group (optional): Override group name for the URL (useful when data group differs from URL filter)
 
   Usage:
     command-group group="hash"
     command-group group="sorted-set" title="Sorted set commands" show_link=true
+    command-group group="module" url_group="vector_set" title="Vector set commands" show_link=true
 */}}
 
 {{ $group := .Get "group" }}
 {{ $title := .Get "title" }}
 {{ $showLink := .Get "show_link" | default false }}
+{{ $urlGroup := .Get "url_group" | default $group }}
 
 {{/* Validate required parameter */}}
 {{ if not $group }}
@@ -82,7 +85,7 @@
     <span class="flex items-center gap-2 flex-wrap">
       <span class="text-sm font-semibold text-slate-900 dark:text-slate-100">{{ $title }}</span>
       {{ if $showLink }}
-        <a href="{{ absURL (printf "commands/?group=%s" $group) }}"
+        <a href="{{ absURL (printf "commands/?group=%s" $urlGroup) }}"
            class="text-xs text-redis-red-600 dark:text-redis-red-400 hover:underline"
            onclick="event.stopPropagation()">
           (view reference, {{ len $sortedCommands }} commands)
