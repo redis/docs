@@ -440,6 +440,12 @@ const result = await analyzeMetadataSize({
 - `word_count` (number) - Total number of whitespace-delimited words
 - `total_tokens` (number) - Total number of tokens according to the tokenizer
 
+**Encoding selection behavior**:
+- If `model` is omitted, the tool assumes `gpt-4.1` and uses the `o200k_base` encoding.
+- For modern models like `gpt-4.1*`, `gpt-4o*`, and `gpt-4o-mini*`, the tool uses `o200k_base`.
+- For older GPT-4 / GPT-3.5-style models (names starting with `gpt-4` or `gpt-3.5`), the tool uses `cl100k_base`.
+- For unknown model names, the tool falls back to the default encoding (`o200k_base`) but still echoes the provided `model` in the output.
+
 **Status**: ✅ Implemented (local token counting only, no external API calls)
 
 ## File Structure

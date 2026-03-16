@@ -13,8 +13,40 @@ type Encoder = {
 };
 
 const DEFAULT_MODEL = "gpt-4.1";
-// Most modern OpenAI models (gpt-4.1, gpt-4o, etc.) use the o200k_base encoding.
+// Default encoding chosen for modern GPT-4.1/4o-style models.
 const DEFAULT_ENCODING = "o200k_base";
+
+/**
+ * Very small, explicit mapping from model name → encoding.
+ *
+ * This keeps the behavior predictable without depending on any
+ * model-name-specific helpers from the tokenizer library.
+ */
+function getEncodingForModel(model: string | undefined): {
+  modelUsed: string;
+  encodingName: string;
+} {
+  const modelUsed = model || DEFAULT_MODEL;
+  const m = modelUsed.toLowerCase();
+
+  // Modern OpenAI models that are known to use o200k_base.
+  if (
+    m.startsWith("gpt-4.1") ||
+    m.startsWith("gpt-4o") ||
+    m.startsWith("gpt-4o-mini") ||
+    m.includes("-o1")
+  ) {
+    return { modelUsed, encodingName: "o200k_base" };
+  }
+
+  // Older GPT-4 / 3.5-turbo style models typically use cl100k_base.
+  if (m.startsWith("gpt-4") || m.startsWith("gpt-3.5")) {
+    return { modelUsed, encodingName: "cl100k_base" };
+  }
+
+  // Fallback: use the default encoding.
+  return { modelUsed, encodingName: DEFAULT_ENCODING };
+}
 
 async function loadEncoder(
   model: string | undefined
@@ -34,12 +66,7 @@ async function loadEncoder(
     );
   }
 
-  const modelUsed = model || DEFAULT_MODEL;
-
-  // For now we keep a simple mapping: we use o200k_base for the primary OpenAI
-  // GPT-4.1-style models. This can be extended later if you need other
-  // encodings like cl100k_base for older models.
-  const encodingName = DEFAULT_ENCODING;
+  const { modelUsed, encodingName } = getEncodingForModel(model);
   const encoder = get_encoding(encodingName) as Encoder;
 
   return { modelUsed, encodingName, encoder };
