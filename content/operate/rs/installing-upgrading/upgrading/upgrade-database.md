@@ -81,42 +81,70 @@ To upgrade a database:
 
 1.  _(Optional)_  Back up the database to minimize the risk of data loss.
 
-1.  Use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/upgrade" >}}) to upgrade the database. During the upgrade process, the database will restart without losing any data. Use the `preserve_roles` option to keep the database's current state, including primary shard placement, and prevent the cluster from becoming unbalanced.
+1.  Upgrade the database using one of the following methods. During the upgrade process, the database will restart without losing any data.
 
-    - To upgrade a database and its modules:
+    {{< multitabs id="upgrade-db"
+    tab1="Cluster Manager UI"
+    tab2="rladmin" >}}
 
-        ``` shell
-        rladmin upgrade db <database name | database ID> preserve_roles
-        ```
+To upgrade a database using the Cluster Manager UI:
 
-        Example of a successful upgrade:
+1. Select the database from the **Databases** list and go to its **Configuration** screen.
 
-        ``` shell
-        rladmin> upgrade db demo
-        Monitoring d194c4a3-631c-4726-b799-331b399fc85c
-        active - SMUpgradeBDB init
-        active - SMUpgradeBDB wait_for_version
-        active - SMUpgradeBDB configure_shards
-        completed - SMUpgradeBDB
-        Done
-        ```
+1. Click the **More actions** button (**&vellip;**).
 
-    - To upgrade the database to a version other than the default version, use the `redis_version` parameter:
+1. Select **Upgrade version** from the list.
 
-        ```sh
-        rladmin upgrade db <database name | database ID> redis_version <version> preserve_roles
-        ```
+1. For **Select version**, choose the Redis version for the database upgrade from the list.
 
-1. Check the Redis database compatibility version for the database to confirm the upgrade.  
+1. Click **Upgrade**.
 
-    To do so:
+-tab-sep-
 
-    - Use the Cluster Manager UI to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" class="inline" >}} **About**.
+You can use [`rladmin upgrade db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/upgrade" >}}) to upgrade the database. Use the `preserve_roles` option to keep the database's current state, including primary shard placement, and prevent the cluster from becoming unbalanced.
 
-    - Use [`rladmin status databases extra all`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-databases" >}}) to display a list of the databases in your cluster and their current Redis database compatibility version:
+To upgrade a database and its modules:
 
-        ```sh
-        rladmin status databases extra all
-        ```
+``` sh
+rladmin upgrade db <database name | database ID> preserve_roles
+```
+
+Example of a successful upgrade:
+
+``` sh
+rladmin> upgrade db demo
+Monitoring d194c4a3-631c-4726-b799-331b399fc85c
+active - SMUpgradeBDB init
+active - SMUpgradeBDB wait_for_version
+active - SMUpgradeBDB configure_shards
+completed - SMUpgradeBDB
+Done
+```
+
+To upgrade the database to a version other than the default version, use the `redis_version` parameter:
+
+```sh
+rladmin upgrade db <database name | database ID> redis_version <version> preserve_roles
+```
+
+    {{< /multitabs >}}
+
+1. Check the Redis database compatibility version for the database to confirm the upgrade using one of the following methods:
+
+    {{< multitabs id="check-db-version"
+    tab1="Cluster Manager UI"
+    tab2="rladmin" >}}
+
+In the Cluster Manager UI, open the **Configuration** tab for the database and select the **About** button (&#9432;).
+
+-tab-sep-
+
+Use [`rladmin status databases extra all`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-databases" >}}) to display a list of the databases in your cluster and their current Redis database compatibility version:
+
+```sh
+rladmin status databases extra all
+```
+
+    {{< /multitabs >}}
 
     Verify that the Redis version is set to the expected value.
