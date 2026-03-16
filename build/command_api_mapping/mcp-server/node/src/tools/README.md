@@ -1,6 +1,6 @@
 # MCP Tools
 
-This directory contains the implementation of all 7 MCP tools for the Redis Command-to-API Mapping server.
+This directory contains the implementation of all 8 MCP tools for the Redis Command-to-API Mapping server.
 
 ## Tools Overview
 
@@ -423,6 +423,25 @@ const result = await analyzeMetadataSize({
 // }
 ```
 
+### 8. analyze_token_usage
+
+**Purpose**: Estimate how much context window space documentation content will consume by measuring character, word, and token counts using a tiktoken-compatible tokenizer.
+
+**Input**:
+- `file_path` (string, optional) - Path to local HTML or Markdown file
+- `content` (string, optional) - Raw content to analyze (one of file_path or content required)
+- `model` (string, optional) - Model name used to select tokenizer encoding (e.g., `gpt-4.1`)
+
+**Output**:
+- `file_path` (string, optional) - Resolved file path if reading from file
+- `model` (string) - Model name that was used when selecting the tokenizer encoding
+- `encoding` (string) - Name of the underlying tokenizer encoding (e.g., `o200k_base`)
+- `char_count` (number) - Total number of characters in the analyzed text
+- `word_count` (number) - Total number of whitespace-delimited words
+- `total_tokens` (number) - Total number of tokens according to the tokenizer
+
+**Status**: ✅ Implemented (local token counting only, no external API calls)
+
 ## File Structure
 
 ```
@@ -435,7 +454,8 @@ tools/
 ├── validate-signature.ts          # Tool 4 handler
 ├── get-client-info.ts             # Tool 5 handler
 ├── list-clients.ts                # Tool 6 handler
-└── analyze-metadata.ts            # Tool 7 handler (metadata size analysis)
+├── analyze-metadata.ts            # Tool 7 handler (metadata size analysis)
+└── analyze-token-usage.ts         # Tool 8 handler (token usage analysis)
 ```
 
 ## Adding a New Tool

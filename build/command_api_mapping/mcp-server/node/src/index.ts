@@ -14,6 +14,7 @@ import { validateSignature } from "./tools/validate-signature.js";
 import { getClientInfo } from "./tools/get-client-info.js";
 import { listClients } from "./tools/list-clients.js";
 import { analyzeMetadataSize } from "./tools/analyze-metadata.js";
+import { analyzeTokenUsage } from "./tools/analyze-token-usage.js";
 
 // Import schemas
 import {
@@ -24,6 +25,7 @@ import {
   GetClientInfoInputSchema,
   ListClientsInputSchema,
   AnalyzeMetadataSizeInputSchema,
+  AnalyzeTokenUsageInputSchema,
 } from "./tools/schemas.js";
 
 // Create MCP server with tools capability
@@ -179,6 +181,31 @@ const TOOLS = [
       },
     },
   },
+  {
+    name: "analyze_token_usage",
+    description:
+      "Analyze character, word, and token usage of documentation content for a given model using a tiktoken-compatible tokenizer.",
+    inputSchema: {
+      type: "object" as const,
+      properties: {
+        file_path: {
+          type: "string",
+          description:
+            "Path to the documentation file (Markdown or HTML) whose token usage should be analyzed",
+        },
+        content: {
+          type: "string",
+          description:
+            "Raw content to analyze (use this OR file_path, not both)",
+        },
+        model: {
+          type: "string",
+          description:
+            "Optional model name used to select the tokenizer encoding (e.g., 'gpt-4.1')",
+        },
+      },
+    },
+  },
 ];
 
 // Register tools
@@ -222,6 +249,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case "analyze_metadata_size":
         result = await analyzeMetadataSize(args);
+        break;
+
+      case "analyze_token_usage":
+        result = await analyzeTokenUsage(args);
         break;
 
       default:
