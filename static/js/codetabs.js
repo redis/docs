@@ -21,8 +21,30 @@ function copyCodeToClipboardForCodetabs(button) {
   const visiblePanel = codetabsContainer.querySelector('.panel:not(.panel-hidden)');
   if (!visiblePanel) return;
 
-  // Get the code from the visible panel
-  const code = [...visiblePanel.querySelectorAll('code')].pop().textContent;
+  let code;
+
+  // Check if visibility toggle is enabled (aria-expanded means all lines are visible)
+  const isFullyExpanded = visiblePanel.hasAttribute('aria-expanded');
+
+  if (isFullyExpanded) {
+    // Copy all code when fully expanded
+    code = [...visiblePanel.querySelectorAll('code')].pop().textContent;
+  } else {
+    // Copy only visible (highlighted) lines when not expanded
+    const codeElement = [...visiblePanel.querySelectorAll('code')].pop();
+    const highlightedLines = codeElement.querySelectorAll('.line.hl');
+
+    if (highlightedLines.length > 0) {
+      // Extract text from highlighted lines only
+      code = Array.from(highlightedLines)
+        .map(line => line.textContent)
+        .join('\n');
+    } else {
+      // Fallback to all code if no highlighted lines found
+      code = codeElement.textContent;
+    }
+  }
+
   navigator.clipboard.writeText(code);
 
   // Toggle tooltip
