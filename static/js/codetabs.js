@@ -35,9 +35,9 @@ function copyCodeToClipboardForCodetabs(button) {
     const highlightedLines = codeElement.querySelectorAll('.line.hl');
 
     if (highlightedLines.length > 0) {
-      // Extract text from highlighted lines only
+      // Extract text from highlighted lines only, trimming trailing newlines to avoid double line breaks
       code = Array.from(highlightedLines)
-        .map(line => line.textContent)
+        .map(line => line.textContent.replace(/\n$/, ''))
         .join('\n');
     } else {
       // Fallback to all code if no highlighted lines found
