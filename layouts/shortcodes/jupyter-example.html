@@ -52,7 +52,6 @@
 
 {{/* Parse file line by line to extract full file and track current step lines */}}
 {{ $lines := split $content "\n" }}
-{{ $fullFileLines := slice }}
 {{ $fullFileSections := slice }}  {{/* Track sections for spacing */}}
 {{ $currentSection := slice }}
 {{ $currentSectionType := "context" }}  {{/* context, step, or current-step */}}
@@ -146,7 +145,6 @@
       {{ if $inAnyStep }}
         {{/* Skip comment-only lines in steps */}}
         {{ if or (eq $trimmed "") (not (hasPrefix $trimmed $commentPrefix)) }}
-          {{ $fullFileLines = $fullFileLines | append . }}
           {{ $currentSection = $currentSection | append . }}
           {{ $lineNumber = add $lineNumber 1 }}
           {{ if $inCurrentStep }}
@@ -155,7 +153,6 @@
         {{ end }}
       {{ else }}
         {{/* Context lines (outside any step) - include empty lines for consistent spacing */}}
-        {{ $fullFileLines = $fullFileLines | append . }}
         {{ $currentSection = $currentSection | append . }}
         {{ $lineNumber = add $lineNumber 1 }}
       {{ end }}
