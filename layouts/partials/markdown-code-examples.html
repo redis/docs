@@ -302,10 +302,11 @@
           {{- $displayName = $lang -}}
         {{- end -}}
 
-        {{- /* Get standard code fence language */ -}}
-        {{- $codeFenceLang := index $codeFenceLangs $langCode -}}
+        {{- /* Get standard code fence language (always use lowercase for consistency) */ -}}
+        {{- $langCodeLower := lower $langCode -}}
+        {{- $codeFenceLang := index $codeFenceLangs $langCodeLower -}}
         {{- if not $codeFenceLang -}}
-          {{- $codeFenceLang = $langCode -}}
+          {{- $codeFenceLang = $langCodeLower -}}
         {{- end -}}
 
         {{- /* Standardize Java variants to just 'java' for code fences */ -}}
@@ -481,10 +482,11 @@
               {{- $displayName = $client -}}
             {{- end -}}
 
-            {{- /* Get code fence language */ -}}
-            {{- $codeFenceLang := index $codeFenceLangs (lower $language) -}}
+            {{- /* Get code fence language (always use lowercase for consistency) */ -}}
+            {{- $langLower := lower $language -}}
+            {{- $codeFenceLang := index $codeFenceLangs $langLower -}}
             {{- if not $codeFenceLang -}}
-              {{- $codeFenceLang = $language -}}
+              {{- $codeFenceLang = $langLower -}}
             {{- end -}}
 
             {{- /* Standardize Java variants to just 'java' for code fences */ -}}
