@@ -3,7 +3,8 @@
 
 {{- $content := .RawContent -}}
 
-{{- /* Unescape HTML entities in the raw content first */ -}}
+{{- /* NOTE: Content has HTML-escaped entities (&lt; &gt; &#34;) */ -}}
+{{- /* Unescape them first so patterns can use literal characters */ -}}
 {{- $content = $content | replaceRE "&#34;" "\"" -}}
 {{- $content = $content | replaceRE "&quot;" "\"" -}}
 {{- $content = $content | replaceRE "&lt;" "<" -}}

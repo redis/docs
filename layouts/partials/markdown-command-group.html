@@ -4,22 +4,28 @@
 
 {{- $content := .RawContent -}}
 
+{{- /* NOTE: Content has HTML-escaped entities (&lt; &gt; &#34;) */ -}}
+{{- /* Unescape them first so patterns can use literal characters */ -}}
+{{- $content = $content | replaceRE "&#34;" "\"" -}}
+{{- $content = $content | replaceRE "&quot;" "\"" -}}
+{{- $content = $content | replaceRE "&lt;" "<" -}}
+{{- $content = $content | replaceRE "&gt;" ">" -}}
+{{- $content = $content | replaceRE "&amp;" "&" -}}
+{{- $content = $content | replaceRE "&#39;" "'" -}}
+
 {{- /* Pattern to match command-group shortcodes */ -}}
-{{- /* NOTE: Hugo's .RawContent HTML-escapes < and > to &lt; and &gt; */ -}}
-{{- /* So the shortcode appears as: {{&lt; command-group ... &gt;}} */ -}}
-{{- /* Use [^}]+ to match anything except closing braces */ -}}
-{{- $pattern := `\{\{&lt;\s*command-group[^}]+\}\}` -}}
+{{- /* Content is now unescaped, so the shortcode appears as: {{< command-group ... >}} */ -}}
+{{- $pattern := `\{\{<\s*command-group[^>]+>\}\}` -}}
 
 {{- $processed := $content -}}
 {{- $matches := findRE $pattern $content -}}
 
 {{- range $match := $matches -}}
   {{- /* Extract parameters from the shortcode */ -}}
-  {{- /* NOTE: Quotes are HTML-escaped as &#34; so we need to match that */ -}}
-  {{- $groupMatch := findRE `group=&#34;([^&]+)&#34;` $match -}}
-  {{- $titleMatch := findRE `title=&#34;([^&]+)&#34;` $match -}}
+  {{- $groupMatch := findRE `group="([^"]+)"` $match -}}
+  {{- $titleMatch := findRE `title="([^"]+)"` $match -}}
   {{- $showLinkMatch := findRE `show_link=(\w+)` $match -}}
-  {{- $urlGroupMatch := findRE `url_group=&#34;([^&]+)&#34;` $match -}}
+  {{- $urlGroupMatch := findRE `url_group="([^"]+)"` $match -}}
 
   {{- $group := "" -}}
   {{- $title := "" -}}
@@ -27,11 +33,11 @@
   {{- $urlGroup := "" -}}
 
   {{- if $groupMatch -}}
-    {{- $group = replaceRE `group=&#34;([^&]+)&#34;` "$1" (index $groupMatch 0) -}}
+    {{- $group = replaceRE `group="([^"]+)"` "$1" (index $groupMatch 0) -}}
   {{- end -}}
 
   {{- if $titleMatch -}}
-    {{- $title = replaceRE `title=&#34;([^&]+)&#34;` "$1" (index $titleMatch 0) -}}
+    {{- $title = replaceRE `title="([^"]+)"` "$1" (index $titleMatch 0) -}}
   {{- end -}}
 
   {{- if $showLinkMatch -}}
@@ -42,7 +48,7 @@
   {{- end -}}
 
   {{- if $urlGroupMatch -}}
-    {{- $urlGroup = replaceRE `url_group=&#34;([^&]+)&#34;` "$1" (index $urlGroupMatch 0) -}}
+    {{- $urlGroup = replaceRE `url_group="([^"]+)"` "$1" (index $urlGroupMatch 0) -}}
   {{- else -}}
     {{- $urlGroup = $group -}}
   {{- end -}}
