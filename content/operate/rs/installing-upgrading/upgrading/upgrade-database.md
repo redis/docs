@@ -87,13 +87,29 @@ To upgrade a database:
     tab1="Cluster Manager UI"
     tab2="rladmin" >}}
 
-To upgrade a database using the Cluster Manager UI:
+You can upgrade a database and its modules from the **Databases** screen or an individual database's **Configuration** screen in the Cluster Manager UI.
+
+To upgrade a database from the **Databases** screen:
+
+1. Expand the database in the **Databases** list to show details.
+
+    <img src="../../../../../images/rs/screenshots/databases/expand-db-details.png" alt="The database details are expanded, including an upgrade option.">
+
+1. Click **Upgrade**.
+
+1. For **Select version**, choose the Redis version for the database upgrade from the list.
+
+1. Click **Upgrade**.
+
+To upgrade a database from its **Configuration** screen:
 
 1. Select the database from the **Databases** list and go to its **Configuration** screen.
 
 1. Click the **More actions** button (**&vellip;**).
 
 1. Select **Upgrade version** from the list.
+
+    <img src="../../../../../images/rs/screenshots/databases/db-more-actions-upgrade-version.png" alt="The upgrade version option is selected in the more actions list.">
 
 1. For **Select version**, choose the Redis version for the database upgrade from the list.
 
@@ -135,7 +151,13 @@ rladmin upgrade db <database name | database ID> redis_version <version> preserv
     tab1="Cluster Manager UI"
     tab2="rladmin" >}}
 
-In the Cluster Manager UI, open the **Configuration** tab for the database and select the **About** button (&#9432;).
+You can check a database's version from the **Databases** screen or an individual database's **Configuration** screen in the Cluster Manager UI.
+
+To check a database's version from the **Databases** screen, expand the database in the **Databases** list.
+
+<img src="../../../../../images/rs/screenshots/databases/expand-db-details.png" alt="The database details are expanded, including the database version.">
+
+To check a database's version from its **Configuration** screen, click the **About** button (&#9432;).
 
 -tab-sep-
 
