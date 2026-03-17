@@ -12,7 +12,7 @@
 {{- /* Extract all headers */ -}}
 {{- $headerMatches := findRE $headerPattern $content -}}
 
-{{- /* Track current h2 section for nesting h3 subsections */ -}}
+{{- /* Track current h2 section for nesting h3 children */ -}}
 {{- $currentH2 := dict -}}
 {{- $currentH2Index := -1 -}}
 
@@ -50,12 +50,12 @@
   {{- /* Add to sections array */ -}}
   {{- if and $id $title -}}
     {{- if $isH3 -}}
-      {{- /* H3: Add as subsection to current H2 if one exists */ -}}
+      {{- /* H3: Add as child to current H2 if one exists */ -}}
       {{- if ge $currentH2Index 0 -}}
         {{- $existingH2 := index $sections $currentH2Index -}}
-        {{- $subsections := $existingH2.subsections | default slice -}}
-        {{- $subsections = $subsections | append (dict "id" $id "title" $title) -}}
-        {{- $updatedH2 := merge $existingH2 (dict "subsections" $subsections) -}}
+        {{- $children := $existingH2.children | default slice -}}
+        {{- $children = $children | append (dict "id" $id "title" $title) -}}
+        {{- $updatedH2 := merge $existingH2 (dict "children" $children) -}}
         {{- /* Save elements after current H2 BEFORE modifying $sections */ -}}
         {{- $remainingElements := slice -}}
         {{- if lt (add $currentH2Index 1) (len $sections) -}}
