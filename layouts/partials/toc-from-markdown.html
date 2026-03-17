@@ -7,16 +7,26 @@
 
 {{- /* Find all ## and ### headers in the raw markdown */ -}}
 {{- /* Pattern matches lines starting with ## or ### followed by space and title */ -}}
-{{- $h2Pattern := `(?m)^## +(.+)$` -}}
-{{- $h3Pattern := `(?m)^### +(.+)$` -}}
+{{- $headerPattern := `(?m)^(#{2,3}) +(.+)$` -}}
 
-{{- /* Extract all h2 headers */ -}}
-{{- $h2Matches := findRE $h2Pattern $content -}}
+{{- /* Extract all headers */ -}}
+{{- $headerMatches := findRE $headerPattern $content -}}
 
-{{- /* Process each h2 header */ -}}
-{{- range $h2Match := $h2Matches -}}
-  {{- /* Extract the title (remove the ## prefix) */ -}}
-  {{- $title := replaceRE `^## +` "" $h2Match -}}
+{{- /* Track current h2 section for nesting h3 subsections */ -}}
+{{- $currentH2 := dict -}}
+{{- $currentH2Index := -1 -}}
+
+{{- /* Process each header */ -}}
+{{- range $headerMatch := $headerMatches -}}
+  {{- /* Determine header level and extract title */ -}}
+  {{- $isH3 := hasPrefix $headerMatch "### " -}}
+  {{- $title := "" -}}
+  {{- if $isH3 -}}
+    {{- $title = replaceRE `^### +` "" $headerMatch -}}
+  {{- else -}}
+    {{- $title = replaceRE `^## +` "" $headerMatch -}}
+  {{- end -}}
+
   {{- /* Remove inline code markers */ -}}
   {{- $title = replaceRE "`([^`]+)`" "$1" $title -}}
   {{- /* Remove other inline formatting */ -}}
@@ -25,7 +35,7 @@
   {{- $title = replaceRE `_([^_]+)_` "$1" $title -}}
   {{- /* Trim whitespace */ -}}
   {{- $title = $title | strings.TrimSpace -}}
-  
+
   {{- /* Generate ID (slug) from title */ -}}
   {{- $id := $title | lower -}}
   {{- /* Replace spaces with hyphens */ -}}
@@ -36,10 +46,26 @@
   {{- $id = $id | replaceRE `-+` "-" -}}
   {{- /* Trim leading/trailing hyphens */ -}}
   {{- $id = $id | replaceRE `^-+|-+$` "" -}}
-  
+
   {{- /* Add to sections array */ -}}
   {{- if and $id $title -}}
-    {{- $sections = $sections | append (dict "id" $id "title" $title) -}}
+    {{- if $isH3 -}}
+      {{- /* H3: Add as subsection to current H2 if one exists */ -}}
+      {{- if ge $currentH2Index 0 -}}
+        {{- $existingH2 := index $sections $currentH2Index -}}
+        {{- $subsections := $existingH2.subsections | default slice -}}
+        {{- $subsections = $subsections | append (dict "id" $id "title" $title) -}}
+        {{- $updatedH2 := merge $existingH2 (dict "subsections" $subsections) -}}
+        {{- $sections = $sections | first $currentH2Index | append $updatedH2 -}}
+        {{- if lt (add $currentH2Index 1) (len $sections) -}}
+          {{- $sections = $sections | append (after (add $currentH2Index 1) $sections) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- else -}}
+      {{- /* H2: Add as new top-level section */ -}}
+      {{- $sections = $sections | append (dict "id" $id "title" $title) -}}
+      {{- $currentH2Index = sub (len $sections) 1 -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 
