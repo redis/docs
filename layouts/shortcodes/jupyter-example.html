@@ -139,6 +139,8 @@
       {{/* Skip EXAMPLE marker */}}
     {{ else if and (ne $trimmed "") (hasPrefix $trimmed (printf "%s BINDER_ID" $commentPrefix)) }}
       {{/* Skip BINDER_ID marker */}}
+    {{ else if and (ne $trimmed "") (hasPrefix $trimmed (printf "%s KERNEL_NAME" $commentPrefix)) }}
+      {{/* Skip KERNEL_NAME marker */}}
     {{ else }}
       {{/* Regular line - add to full file */}}
       {{ if $inAnyStep }}
