@@ -1,0 +1,48 @@
+{{- /* Generate table of contents JSON from raw Markdown content */ -}}
+{{- /* This parses ## and ### headers directly from .RawContent */ -}}
+{{- /* since Hugo's .TableOfContents may be empty for custom templates */ -}}
+
+{{- $content := .RawContent -}}
+{{- $sections := slice -}}
+
+{{- /* Find all ## and ### headers in the raw markdown */ -}}
+{{- /* Pattern matches lines starting with ## or ### followed by space and title */ -}}
+{{- $h2Pattern := `(?m)^## +(.+)$` -}}
+{{- $h3Pattern := `(?m)^### +(.+)$` -}}
+
+{{- /* Extract all h2 headers */ -}}
+{{- $h2Matches := findRE $h2Pattern $content -}}
+
+{{- /* Process each h2 header */ -}}
+{{- range $h2Match := $h2Matches -}}
+  {{- /* Extract the title (remove the ## prefix) */ -}}
+  {{- $title := replaceRE `^## +` "" $h2Match -}}
+  {{- /* Remove inline code markers */ -}}
+  {{- $title = replaceRE "`([^`]+)`" "$1" $title -}}
+  {{- /* Remove other inline formatting */ -}}
+  {{- $title = replaceRE `\*\*([^*]+)\*\*` "$1" $title -}}
+  {{- $title = replaceRE `\*([^*]+)\*` "$1" $title -}}
+  {{- $title = replaceRE `_([^_]+)_` "$1" $title -}}
+  {{- /* Trim whitespace */ -}}
+  {{- $title = $title | strings.TrimSpace -}}
+  
+  {{- /* Generate ID (slug) from title */ -}}
+  {{- $id := $title | lower -}}
+  {{- /* Replace spaces with hyphens */ -}}
+  {{- $id = $id | replaceRE `\s+` "-" -}}
+  {{- /* Remove special characters except hyphens */ -}}
+  {{- $id = $id | replaceRE `[^a-z0-9-]` "" -}}
+  {{- /* Remove consecutive hyphens */ -}}
+  {{- $id = $id | replaceRE `-+` "-" -}}
+  {{- /* Trim leading/trailing hyphens */ -}}
+  {{- $id = $id | replaceRE `^-+|-+$` "" -}}
+  
+  {{- /* Add to sections array */ -}}
+  {{- if and $id $title -}}
+    {{- $sections = $sections | append (dict "id" $id "title" $title) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Output JSON */ -}}
+{"sections":{{ $sections | jsonify }}}
+

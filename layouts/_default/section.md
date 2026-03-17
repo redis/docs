@@ -17,7 +17,7 @@
   "topics": {{ .Params.topics | jsonify }}{{ end }}{{ if .Params.relatedPages }},
   "relatedPages": {{ .Params.relatedPages | jsonify }}{{ end }}{{ if .Params.scope }},
   "scope": {{ .Params.scope | jsonify }}{{ end }},
-  "tableOfContents": {{ partial "toc-json-regex.html" . }},
+  "tableOfContents": {{ partial "toc-from-markdown.html" . }},
   "codeExamples": {{ partial "code-examples-json.html" . }}
 }
 ```
