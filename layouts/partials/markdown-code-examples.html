@@ -309,8 +309,18 @@
         {{- end -}}
 
         {{- /* Standardize Java variants to just 'java' for code fences */ -}}
-        {{- if or (eq $codeFenceLang "java-async") (eq $codeFenceLang "java-reactive") -}}
+        {{- if or (eq $codeFenceLang "java-sync") (eq $codeFenceLang "java-async") (eq $codeFenceLang "java-reactive") -}}
           {{- $codeFenceLang = "java" -}}
+        {{- end -}}
+
+        {{- /* Standardize C# variants to just 'csharp' for code fences */ -}}
+        {{- if or (eq $codeFenceLang "c#-sync") (eq $codeFenceLang "c#-async") -}}
+          {{- $codeFenceLang = "csharp" -}}
+        {{- end -}}
+
+        {{- /* Standardize Rust variants to just 'rust' for code fences */ -}}
+        {{- if or (eq $codeFenceLang "rust-sync") (eq $codeFenceLang "rust-async") -}}
+          {{- $codeFenceLang = "rust" -}}
         {{- end -}}
 
         {{- $replacement = printf "%s**%s:**\n\n```%s\n%s\n```\n\n" $replacement $displayName $codeFenceLang $displayContent -}}
@@ -475,6 +485,21 @@
             {{- $codeFenceLang := index $codeFenceLangs (lower $language) -}}
             {{- if not $codeFenceLang -}}
               {{- $codeFenceLang = $language -}}
+            {{- end -}}
+
+            {{- /* Standardize Java variants to just 'java' for code fences */ -}}
+            {{- if or (eq $codeFenceLang "java-sync") (eq $codeFenceLang "java-async") (eq $codeFenceLang "java-reactive") -}}
+              {{- $codeFenceLang = "java" -}}
+            {{- end -}}
+
+            {{- /* Standardize C# variants to just 'csharp' for code fences */ -}}
+            {{- if or (eq $codeFenceLang "c#-sync") (eq $codeFenceLang "c#-async") -}}
+              {{- $codeFenceLang = "csharp" -}}
+            {{- end -}}
+
+            {{- /* Standardize Rust variants to just 'rust' for code fences */ -}}
+            {{- if or (eq $codeFenceLang "rust-sync") (eq $codeFenceLang "rust-async") -}}
+              {{- $codeFenceLang = "rust" -}}
             {{- end -}}
 
             {{- if $displayContent -}}
