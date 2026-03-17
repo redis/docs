@@ -1,0 +1,625 @@
+{{/* Thebe Interactive Code Cell from Example File */}}
+{{/* Usage: {{< jupyter-example source="path/to/file.py" step="step_name" title="Description" quickstart_url="/develop/clients/redis-py/" quickstart_title="Python Quick-Start" >}}{{< /jupyter-example >}} */}}
+{{/* Extracts code between # STEP_START {step} and # STEP_END markers */}}
+{{/* BINDER_ID is automatically extracted from the source file (e.g., # BINDER_ID python-landing) */}}
+{{/* Optional parameters: quickstart_url (shows footer with link), quickstart_title (defaults to "Python Quick-Start") */}}
+
+{{ .Page.Store.Set "hasThebe" true }}
+
+{{ $source := .Get "source" }}
+{{ $step := .Get "step" }}
+{{ $title := .Get "title" | default "" }}
+{{ $id := .Get "id" | default $step }}
+{{ $depends := .Get "depends" | default "" }}
+{{ $noOutput := .Get "no_output" | default "false" }}
+{{ $quickstartUrl := .Get "quickstart_url" | default "" }}
+{{ $quickstartTitle := .Get "quickstart_title" | default "Python Quick-Start" }}
+
+{{/* Read the source file */}}
+{{ $content := readFile $source }}
+
+{{/* Detect comment style */}}
+{{ $commentPrefix := "#" }}
+{{ $isJavaScript := false }}
+{{ if findRE `// STEP_START` $content 1 }}
+  {{ $commentPrefix = "//" }}
+  {{ $isJavaScript = true }}
+{{ end }}
+
+{{/* Extract BINDER_ID from source file */}}
+{{ $binder := "" }}
+{{ $binderPattern := printf `%s BINDER_ID ([a-zA-Z0-9_-]+)` $commentPrefix }}
+{{ $binderMatches := findRE $binderPattern $content 1 }}
+{{ if gt (len $binderMatches) 0 }}
+  {{/* Extract just the ID portion after "BINDER_ID " */}}
+  {{ $binderLine := index $binderMatches 0 }}
+  {{ $binder = replaceRE (printf `^%s BINDER_ID ` $commentPrefix) "" $binderLine }}
+  {{/* Store binder ref in page scratch for use in baseof.html */}}
+  {{ .Page.Scratch.Set "binderRef" $binder }}
+{{ end }}
+
+{{/* Extract KERNEL_NAME from source file - NO DEFAULTS */}}
+{{ $kernelName := "" }}
+{{ $kernelPattern := printf `%s KERNEL_NAME ([a-zA-Z0-9_-]+)` $commentPrefix }}
+{{ $kernelMatches := findRE $kernelPattern $content 1 }}
+{{ if gt (len $kernelMatches) 0 }}
+  {{/* Extract kernel name from KERNEL_NAME marker */}}
+  {{ $kernelLine := index $kernelMatches 0 }}
+  {{ $kernelName = replaceRE (printf `^%s KERNEL_NAME ` $commentPrefix) "" $kernelLine }}
+{{ end }}
+{{/* Store kernel name in page scratch for use in baseof.html - empty string if not found */}}
+{{ .Page.Scratch.Set "kernelName" $kernelName }}
+
+{{/* Parse file line by line to extract full file and track current step lines */}}
+{{ $lines := split $content "\n" }}
+{{ $fullFileLines := slice }}
+{{ $fullFileSections := slice }}  {{/* Track sections for spacing */}}
+{{ $currentSection := slice }}
+{{ $currentSectionType := "context" }}  {{/* context, step, or current-step */}}
+{{ $currentStepLines := slice }}
+{{ $inCurrentStep := false }}
+{{ $inAnyStep := false }}
+{{ $inHideBlock := false }}
+{{ $currentStepStartLine := 0 }}
+{{ $currentStepEndLine := 0 }}
+{{ $lineNumber := 0 }}
+
+{{ range $lines }}
+  {{ $trimmed := trim . " \t" }}
+
+  {{/* Handle HIDE blocks */}}
+  {{ if hasPrefix $trimmed (printf "%s HIDE_START" $commentPrefix) }}
+    {{ $inHideBlock = true }}
+  {{ else if hasPrefix $trimmed (printf "%s HIDE_END" $commentPrefix) }}
+    {{ $inHideBlock = false }}
+  {{ else if not $inHideBlock }}
+    {{/* Skip marker comments */}}
+    {{ if hasPrefix $trimmed (printf "%s STEP_START %s" $commentPrefix $step) }}
+      {{/* Save previous section if it has non-empty content */}}
+      {{ if gt (len $currentSection) 0 }}
+        {{/* Check if section has any non-empty lines */}}
+        {{ $hasContent := false }}
+        {{ range $currentSection }}
+          {{ if ne (trim . " \t") "" }}
+            {{ $hasContent = true }}
+          {{ end }}
+        {{ end }}
+        {{ if $hasContent }}
+          {{ $fullFileSections = $fullFileSections | append (dict "type" $currentSectionType "lines" $currentSection) }}
+        {{ end }}
+        {{ $currentSection = slice }}
+      {{ end }}
+      {{/* Found the current step */}}
+      {{ $inCurrentStep = true }}
+      {{ $inAnyStep = true }}
+      {{ $currentSectionType = "current-step" }}
+      {{ $currentStepStartLine = add $lineNumber 1 }}
+    {{ else if hasPrefix $trimmed (printf "%s STEP_START" $commentPrefix) }}
+      {{/* Save previous section if it has non-empty content */}}
+      {{ if gt (len $currentSection) 0 }}
+        {{/* Check if section has any non-empty lines */}}
+        {{ $hasContent := false }}
+        {{ range $currentSection }}
+          {{ if ne (trim . " \t") "" }}
+            {{ $hasContent = true }}
+          {{ end }}
+        {{ end }}
+        {{ if $hasContent }}
+          {{ $fullFileSections = $fullFileSections | append (dict "type" $currentSectionType "lines" $currentSection) }}
+        {{ end }}
+        {{ $currentSection = slice }}
+      {{ end }}
+      {{/* Found a different step */}}
+      {{ $inCurrentStep = false }}
+      {{ $inAnyStep = true }}
+      {{ $currentSectionType = "step" }}
+    {{ else if hasPrefix $trimmed (printf "%s STEP_END" $commentPrefix) }}
+      {{/* Save current section if it has non-empty content */}}
+      {{ if gt (len $currentSection) 0 }}
+        {{/* Check if section has any non-empty lines */}}
+        {{ $hasContent := false }}
+        {{ range $currentSection }}
+          {{ if ne (trim . " \t") "" }}
+            {{ $hasContent = true }}
+          {{ end }}
+        {{ end }}
+        {{ if $hasContent }}
+          {{ $fullFileSections = $fullFileSections | append (dict "type" $currentSectionType "lines" $currentSection) }}
+        {{ end }}
+        {{ $currentSection = slice }}
+      {{ end }}
+      {{/* End of a step */}}
+      {{ if $inCurrentStep }}
+        {{ $currentStepEndLine = $lineNumber }}
+        {{ $inCurrentStep = false }}
+      {{ end }}
+      {{ $inAnyStep = false }}
+      {{ $currentSectionType = "context" }}
+    {{ else if and (ne $trimmed "") (hasPrefix $trimmed (printf "%s EXAMPLE" $commentPrefix)) }}
+      {{/* Skip EXAMPLE marker */}}
+    {{ else if and (ne $trimmed "") (hasPrefix $trimmed (printf "%s BINDER_ID" $commentPrefix)) }}
+      {{/* Skip BINDER_ID marker */}}
+    {{ else }}
+      {{/* Regular line - add to full file */}}
+      {{ if $inAnyStep }}
+        {{/* Skip comment-only lines in steps */}}
+        {{ if or (eq $trimmed "") (not (hasPrefix $trimmed $commentPrefix)) }}
+          {{ $fullFileLines = $fullFileLines | append . }}
+          {{ $currentSection = $currentSection | append . }}
+          {{ $lineNumber = add $lineNumber 1 }}
+          {{ if $inCurrentStep }}
+            {{ $currentStepLines = $currentStepLines | append . }}
+          {{ end }}
+        {{ end }}
+      {{ else }}
+        {{/* Context lines (outside any step) - include empty lines for consistent spacing */}}
+        {{ $fullFileLines = $fullFileLines | append . }}
+        {{ $currentSection = $currentSection | append . }}
+        {{ $lineNumber = add $lineNumber 1 }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{/* Save final section if it has non-empty content */}}
+{{ if gt (len $currentSection) 0 }}
+  {{/* Check if section has any non-empty lines */}}
+  {{ $hasContent := false }}
+  {{ range $currentSection }}
+    {{ if ne (trim . " \t") "" }}
+      {{ $hasContent = true }}
+    {{ end }}
+  {{ end }}
+  {{ if $hasContent }}
+    {{ $fullFileSections = $fullFileSections | append (dict "type" $currentSectionType "lines" $currentSection) }}
+  {{ end }}
+{{ end }}
+
+{{/* Build the code sections */}}
+{{/* Build fullFileCode from sections with exactly one empty line between them */}}
+{{ $fullFileCode := "" }}
+{{ range $idx, $section := $fullFileSections }}
+  {{ if gt $idx 0 }}
+    {{ $fullFileCode = printf "%s\n\n%s" $fullFileCode (delimit $section.lines "\n") }}
+  {{ else }}
+    {{ $fullFileCode = delimit $section.lines "\n" }}
+  {{ end }}
+{{ end }}
+{{ $stepCode := delimit $currentStepLines "\n" }}
+
+{{/* Calculate highlight lines (only the current step) */}}
+{{ $hlLines := "" }}
+{{ if and (gt $currentStepStartLine 0) (gt $currentStepEndLine 0) }}
+  {{ $hlLines = printf "%d-%d" $currentStepStartLine $currentStepEndLine }}
+{{ end }}
+
+<div class="cli group box-border rounded-lg mt-0 mb-4 mx-auto bg-slate-900 thebe-container" id="{{ $id }}" {{ if $depends }}data-depends="{{ $depends }}"{{ end }}{{ if $binder }} data-binder-ref="{{ $binder }}"{{ end }}>
+    <!-- Header matching standard code blocks -->
+    <div class="codetabs-header flex flex-col px-4 py-2 bg-slate-900 rounded-t-lg">
+        <div class="flex items-start justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-xs text-slate-400 mr-3 whitespace-nowrap">Language:</span>
+                {{/* Static Python indicator styled like dropdown */}}
+                <span class="max-w-xs px-3 py-1 text-sm bg-slate-700 text-white border border-slate-600 rounded-md">Python</span>
+            </div>
+            <div class="flex items-center gap-2">
+                {{/* Run here link - styled like "Run in browser" link */}}
+                {{/* All cells start disabled until kernel is ready */}}
+                {{/* Cells with depends attribute remain disabled until first cell runs */}}
+                {{/* Uses text-slate-500 class for disabled state - JS uses this to identify disabled buttons */}}
+                <button class="thebe-run-btn thebe-btn-blocked thebe-btn-kernel-unavailable text-xs underline whitespace-nowrap flex items-center gap-1 text-slate-500 cursor-not-allowed"
+                        data-original-depends="{{ if $depends }}true{{ else }}false{{ end }}"
+                        title="Kernel server not available">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"></path>
+                    </svg>
+                    <span>Run here</span>
+                </button>
+                {{/* Run in browser link (opens BinderHub notebook) */}}
+                {{ if $binder }}
+                <a href="https://redis.io/binder/v2/gh/redis/binder-launchers/{{ $binder }}?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="text-xs text-slate-300 hover:text-white underline whitespace-nowrap flex items-center gap-1 mr-2"
+                   title="Run this example in an interactive Jupyter notebook">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"></path>
+                    </svg>
+                    <span>Run in browser</span>
+                </a>
+                {{ end }}
+                {{/* Copy link button - matching standard code blocks */}}
+                <button tabindex="1" class="copy-link-button text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx relative"
+                        title="Copy link to code block" data-codetabs-id="{{ $id }}" onclick="copyJupyterLinkToClipboard(this)">
+                    <svg class="inline-block w-4 h-4 align-baseline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                    </svg>
+                    <span class="tooltiptext absolute bottom-full right-0 mb-2 bg-slate-200 rounded text-slate-800 text-center text-xs px-2 py-1 whitespace-nowrap pointer-events-none opacity-0 transition-opacity duration-200">Copied!</span>
+                </button>
+                {{/* Visibility button - matching standard code blocks */}}
+                <button tabindex="1" class="visibility-button text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx"
+                        title="Toggle visibility" data-codetabs-id="{{ $id }}" onclick="toggleJupyterVisibility(this)">
+                    <svg class="visibility-icon-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
+                        <path d="M24 31.5q3.55 0 6.025-2.475Q32.5 26.55 32.5 23q0-3.55-2.475-6.025Q27.55 14.5 24 14.5q-3.55 0-6.025 2.475Q15.5 19.45 15.5 23q0 3.55 2.475 6.025Q20.45 31.5 24 31.5Zm0-2.9q-2.35 0-3.975-1.625T18.4 23q0-2.35 1.625-3.975T24 17.4q2.35 0 3.975 1.625T29.6 23q0 2.35-1.625 3.975T24 28.6Zm0 9.4q-7.3 0-13.2-4.15Q4.9 29.7 2 23q2.9-6.7 8.8-10.85Q16.7 8 24 8q7.3 0 13.2 4.15Q43.1 16.3 46 23q-2.9 6.7-8.8 10.85Q31.3 38 24 38Zm0-15Zm0 12q6.05 0 11.125-3.275T42.85 23q-2.65-5.45-7.725-8.725Q30.05 11 24 11t-11.125 3.275Q7.8 17.55 5.1 23q2.7 5.45 7.775 8.725Q17.95 35 24 35Z"/>
+                    </svg>
+                    <svg class="visibility-icon-off hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
+                        <path d="m31.45 27.05-2.2-2.2q1.3-3.55-1.35-5.9-2.65-2.35-5.75-1.2l-2.2-2.2q.85-.55 1.9-.8 1.05-.25 2.15-.25 3.55 0 6.025 2.475Q32.5 19.45 32.5 23q0 1.1-.275 2.175-.275 1.075-.775 1.875Zm6.45 6.45-2-2q2.45-1.8 4.275-4.025Q42 25.25 42.85 23q-2.5-5.55-7.5-8.775Q30.35 11 24.5 11q-2.1 0-4.3.4-2.2.4-3.45.95L14.45 10q1.75-.8 4.475-1.4Q21.65 8 24.25 8q7.15 0 13.075 4.075Q43.25 16.15 46 23q-1.3 3.2-3.35 5.85-2.05 2.65-4.75 4.65Zm2.9 11.3-8.4-8.25q-1.75.7-3.95 1.075T24 38q-7.3 0-13.25-4.075T2 23q1-2.6 2.775-5.075T9.1 13.2L2.8 6.9l2.1-2.15L42.75 42.6ZM11.15 15.3q-1.85 1.35-3.575 3.55Q5.85 21.05 5.1 23q2.55 5.55 7.675 8.775Q17.9 35 24.4 35q1.65 0 3.25-.2t2.4-.6l-3.2-3.2q-.55.25-1.35.375T24 31.5q-3.5 0-6-2.45T15.5 23q0-.75.125-1.5T16 20.15Zm15.25 7.1Zm-5.8 2.9Z"/>
+                    </svg>
+                </button>
+                {{/* Copy to clipboard button - matching standard code blocks */}}
+                <button tabindex="1" class="clipboard-button text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx"
+                        title="Copy to clipboard" data-codetabs-id="{{ $id }}" onclick="copyJupyterCodeToClipboard(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
+                        <path d="M9 43.95q-1.2 0-2.1-.9-.9-.9-.9-2.1V10.8h3v30.15h23.7v3Zm6-6q-1.2 0-2.1-.9-.9-.9-.9-2.1v-28q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1v28q0 1.2-.9 2.1-.9.9-2.1.9Zm0-3h22v-28H15v28Zm0 0v-28 28Z"/>
+                    </svg>
+                    <div class="tooltip relative inline-block">
+                        <span class="tooltiptext hidden bg-slate-200 rounded rounded-mx text-slate-800 text-center text-xs p-1 absolute right-6 bottom-4">Copied!</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+        {{ if $title }}<div class="text-xs text-slate-400 mt-2 w-full">{{ $title }}</div>{{ end }}
+    </div>
+
+    {{/* Panel starts with no aria-expanded attribute - this means step code is shown at full opacity */}}
+    {{/* aria-expanded is only set when user clicks toggle to show full file */}}
+    <div class="panel" role="tabpanel">
+        {{/* Hint positioned outside step-code-view so it stays visible when toggling views */}}
+        <span class="run-hint">Ctrl+Enter to run</span>
+        {{/* Step code view - shown by default and when CodeMirror is active */}}
+        <div class="step-code-view">
+            <div data-executable="true" data-language="python" class="thebe-cell">
+                {{- highlight $stepCode "python" "" -}}
+            </div>
+        </div>
+
+        {{/* Full file view - shown only when toggled and NOT activated */}}
+        {{- if gt (len $fullFileSections) 0 }}
+        <div class="full-file-view" style="display:none;">
+            {{- range $idx, $section := $fullFileSections }}
+                {{- /* Do NOT trim blank lines - preserve spacing to match fullFileCode */ -}}
+                {{- $sectionCode := delimit $section.lines "\n" -}}
+                {{- $sectionClass := "code-section" -}}
+                {{- $highlightOptions := "" -}}
+                {{- if eq $section.type "current-step" -}}
+                    {{- $sectionClass = "code-section code-section-current" -}}
+                    {{- /* Highlight all lines in the current step section */ -}}
+                    {{- $numLines := len $section.lines -}}
+                    {{- if gt $numLines 0 -}}
+                        {{- $highlightOptions = printf "linenos=false,hl_lines=1-%d" $numLines -}}
+                    {{- end -}}
+                {{- else if eq $section.type "step" -}}
+                    {{- $sectionClass = "code-section code-section-other" -}}
+                {{- else -}}
+                    {{- $sectionClass = "code-section code-section-context" -}}
+                {{- end -}}
+                <div class="{{ $sectionClass }}">
+                    {{- highlight $sectionCode "python" $highlightOptions -}}
+                </div>
+            {{- end }}
+        </div>
+        {{- end }}
+
+        {{/* Output container - conditionally visible based on no_output parameter */}}
+        {{ if ne $noOutput "true" }}
+        <div class="thebe-output-container"></div>
+        {{ end }}
+    </div>
+
+    {{/* Footer with Quick-Start link - only shown if quickstart_url is provided */}}
+    {{ if $quickstartUrl }}
+    <div class="cli-footer flex flex-col rounded-b-md bg-slate-900 mt-0 px-4 py-2 mb-0">
+        <div class="flex items-center justify-between">
+            <a href="{{ $quickstartUrl }}" tabindex="1" class="rounded rounded-mx px-3 py-1 text-white text-xs
+                hover:text-white hover:bg-slate-600 hover:border-transparent focus:outline-none
+                focus:ring-2 focus:white focus:border-slate-500" title="{{ $quickstartTitle }}">
+                {{ $quickstartTitle }}
+            </a>
+            <div class="flex-1"></div>
+        </div>
+    </div>
+    {{ end }}
+
+    <script type="text-x-clean-source" style="display:none">{{ $stepCode | safeHTML }}</script>
+    <script type="text-x-full-file-source" style="display:none">{{ $fullFileCode | safeHTML }}</script>
+    {{/* Store line range information for read-only marking */}}
+    <script type="text-x-line-ranges" style="display:none">
+    {{- $lineRanges := slice -}}
+    {{- $currentLine := 0 -}}
+    {{- range $idx, $section := $fullFileSections -}}
+        {{- /* Account for the empty line separator between sections */ -}}
+        {{- if gt $idx 0 -}}
+            {{- $currentLine = add $currentLine 1 -}}
+        {{- end -}}
+        {{- $numLines := len $section.lines -}}
+        {{- if gt $numLines 0 -}}
+            {{- $rangeStart := $currentLine -}}
+            {{- $rangeEnd := add $currentLine (sub $numLines 1) -}}
+            {{- $lineRanges = $lineRanges | append (dict "start" $rangeStart "end" $rangeEnd "type" $section.type) -}}
+            {{- $currentLine = add $currentLine $numLines -}}
+        {{- end -}}
+    {{- end -}}
+    {{- jsonify $lineRanges -}}
+    </script>
+</div>
+
+<style>
+/* Keyboard shortcut hint */
+.panel {
+  position: relative;
+}
+.run-hint {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 0.65rem;
+  color: #64748b;
+  z-index: 10;
+  opacity: 0;  /* Transparent by default */
+  pointer-events: none;  /* Don't interfere with clicks */
+  transition: opacity 0.2s;  /* Smooth fade in/out */
+}
+/* Show hint when cell is runnable (kernel ready and not disabled) */
+.thebe-container.kernel-ready .run-hint {
+  opacity: 1;
+}
+
+/* Ensure code is visible on initial load */
+.thebe-container .step-code-view .highlight,
+.thebe-container .step-code-view .chroma,
+.thebe-container .step-code-view pre,
+.thebe-container .step-code-view code {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Spacing between code sections in full file view */
+/* No margin needed - source code already has empty lines between sections */
+.full-file-view .code-section {
+    margin-bottom: 0;
+}
+
+/* No special highlighting for current step section - all code sections look the same */
+
+/* Ensure highlight containers don't add extra spacing */
+.full-file-view .code-section .highlight {
+    margin: 0 !important;
+}
+
+/* Override prose pre margin in full file view */
+.full-file-view .code-section pre {
+    margin: 0 !important;
+}
+
+/* Ensure step code view and full file view don't both show */
+.panel .step-code-view,
+.panel .full-file-view {
+    width: 100%;
+}
+
+/* Read-only context code styling in CodeMirror */
+.thebe-cell .CodeMirror .cm-readonly-context {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Prevent editing in read-only sections */
+.thebe-cell .CodeMirror .cm-readonly-context::selection {
+    background-color: transparent;
+}
+</style>
+
+<script>
+// Copy code to clipboard for jupyter cells
+function copyJupyterCodeToClipboard(button) {
+    const container = button.closest('.thebe-container');
+    const panel = container.querySelector('.panel');
+
+    // Check if we're in expanded (full file) view
+    const isExpanded = panel && panel.getAttribute('aria-expanded') === 'true';
+
+    let text = '';
+    if (isExpanded) {
+        // Full file view - copy entire file
+        const fullFileSource = container.querySelector('script[type="text-x-full-file-source"]');
+        text = fullFileSource ? fullFileSource.textContent : '';
+    } else {
+        // Step view - copy only the step code
+        const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
+        text = cleanSource ? cleanSource.textContent : '';
+    }
+
+    navigator.clipboard.writeText(text).then(() => {
+        const tooltip = button.querySelector('.tooltiptext');
+        if (tooltip) {
+            tooltip.classList.remove('hidden');
+            setTimeout(() => {
+                tooltip.classList.add('hidden');
+            }, 2000);
+        }
+    }).catch(err => {
+        console.error('Copy failed', err);
+    });
+}
+
+// Copy link to code block
+function copyJupyterLinkToClipboard(button) {
+    const container = button.closest('.thebe-container');
+    const id = container.id;
+    const url = window.location.origin + window.location.pathname + '#' + id;
+
+    navigator.clipboard.writeText(url).then(() => {
+        const tooltip = button.querySelector('.tooltiptext');
+        if (tooltip) {
+            tooltip.style.opacity = '1';
+            setTimeout(() => {
+                tooltip.style.opacity = '0';
+            }, 2000);
+        }
+    }).catch(err => {
+        console.error('Copy link failed', err);
+    });
+}
+
+// Helper function to apply read-only markers to CodeMirror
+function applyReadOnlyMarkers(codeMirror, lineRanges) {
+    // Clear any existing read-only markers
+    if (codeMirror._readOnlyMarkers) {
+        codeMirror._readOnlyMarkers.forEach(function(marker) {
+            marker.clear();
+        });
+    }
+    codeMirror._readOnlyMarkers = [];
+
+    // Mark non-current-step ranges as read-only
+    lineRanges.forEach(function(range) {
+        if (range.type !== 'current-step') {
+            const marker = codeMirror.markText(
+                {line: range.start, ch: 0},
+                {line: range.end + 1, ch: 0},
+                {
+                    readOnly: true,
+                    className: 'cm-readonly-context',
+                    inclusiveLeft: true,
+                    inclusiveRight: true
+                }
+            );
+            codeMirror._readOnlyMarkers.push(marker);
+        }
+    });
+}
+
+// Helper function to clear read-only markers
+function clearReadOnlyMarkers(codeMirror) {
+    if (codeMirror._readOnlyMarkers) {
+        codeMirror._readOnlyMarkers.forEach(function(marker) {
+            marker.clear();
+        });
+        codeMirror._readOnlyMarkers = [];
+    }
+}
+
+// Toggle visibility for jupyter cells
+function toggleJupyterVisibility(button) {
+    const container = button.closest('.thebe-container');
+    const panel = container.querySelector('.panel');
+    const iconOn = button.querySelector('.visibility-icon-on');
+    const iconOff = button.querySelector('.visibility-icon-off');
+
+    // Check if we're currently showing full file
+    // Note: aria-expanded might not be set initially (undefined), treat as false
+    const isExpanded = panel.getAttribute('aria-expanded') === 'true';
+
+    // Check if cell has been activated (CodeMirror is present)
+    const isActivated = container.classList.contains('activated');
+
+    const stepCodeView = panel.querySelector('.step-code-view');
+    const fullFileView = panel.querySelector('.full-file-view');
+    const thebeCell = stepCodeView ? stepCodeView.querySelector('.thebe-cell') : null;
+
+    // Get the source code from hidden script elements
+    const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
+    const fullFileSource = container.querySelector('script[type="text-x-full-file-source"]');
+    const lineRangesScript = container.querySelector('script[type="text-x-line-ranges"]');
+    const stepCode = cleanSource ? cleanSource.textContent : '';
+    const fullFileCode = fullFileSource ? fullFileSource.textContent : '';
+    let lineRanges = [];
+    if (lineRangesScript) {
+        try {
+            lineRanges = JSON.parse(lineRangesScript.textContent.trim());
+        } catch (e) {
+            console.error('Failed to parse line ranges:', e);
+        }
+    }
+
+    if (isExpanded) {
+        // Collapse: Show only step code
+        panel.removeAttribute('aria-expanded');
+        iconOn.classList.remove('hidden');
+        iconOff.classList.add('hidden');
+
+        if (!isActivated) {
+            // Not activated yet - swap the highlighted code display
+            if (stepCodeView && fullFileView) {
+                stepCodeView.style.display = '';
+                fullFileView.style.display = 'none';
+            }
+        } else {
+            // After activation: Extract edited step code from current CodeMirror content
+            const codeMirrorElement = thebeCell ? thebeCell.querySelector('.CodeMirror') : null;
+            if (codeMirrorElement && codeMirrorElement.CodeMirror) {
+                const cm = codeMirrorElement.CodeMirror;
+
+                // Extract the current step code (preserving edits)
+                let extractedStepCode = stepCode; // fallback to original
+                if (lineRanges && lineRanges.length > 0) {
+                    const currentStepRange = lineRanges.find(r => r.type === 'current-step');
+                    if (currentStepRange) {
+                        const currentContent = cm.getValue();
+                        const lines = currentContent.split('\n');
+                        const stepLines = lines.slice(currentStepRange.start, currentStepRange.end + 1);
+                        extractedStepCode = stepLines.join('\n');
+                    }
+                }
+
+                clearReadOnlyMarkers(cm);
+                // Save scroll position before setValue to prevent unwanted scroll
+                const scrollY = window.scrollY;
+                cm.setValue(extractedStepCode);
+                // Restore scroll position after setValue
+                window.scrollTo(0, scrollY);
+            }
+        }
+    } else {
+        // Expand: Show full file
+        panel.setAttribute('aria-expanded', 'true');
+        iconOn.classList.add('hidden');
+        iconOff.classList.remove('hidden');
+
+        if (!isActivated) {
+            // Not activated yet - swap to show full file
+            if (stepCodeView && fullFileView) {
+                stepCodeView.style.display = 'none';
+                fullFileView.style.display = '';
+            }
+        } else {
+            // After activation: Merge edited step code into full file
+            const codeMirrorElement = thebeCell ? thebeCell.querySelector('.CodeMirror') : null;
+            if (codeMirrorElement && codeMirrorElement.CodeMirror) {
+                const cm = codeMirrorElement.CodeMirror;
+
+                // Get current step code (with edits)
+                const currentStepCode = cm.getValue();
+
+                // Rebuild full file with edited step code
+                let rebuiltFullFile = fullFileCode; // fallback to original
+                if (lineRanges && lineRanges.length > 0) {
+                    const currentStepRange = lineRanges.find(r => r.type === 'current-step');
+                    if (currentStepRange) {
+                        const originalLines = fullFileCode.split('\n');
+                        const stepLines = currentStepCode.split('\n');
+
+                        // Replace the step section with edited content
+                        const beforeStep = originalLines.slice(0, currentStepRange.start);
+                        const afterStep = originalLines.slice(currentStepRange.end + 1);
+                        rebuiltFullFile = [...beforeStep, ...stepLines, ...afterStep].join('\n');
+                    }
+                }
+
+                // Save scroll position before setValue to prevent unwanted scroll
+                const scrollY2 = window.scrollY;
+                cm.setValue(rebuiltFullFile);
+                // Restore scroll position after setValue
+                window.scrollTo(0, scrollY2);
+                // Apply read-only markers after a brief delay to ensure text is set
+                setTimeout(function() {
+                    applyReadOnlyMarkers(cm, lineRanges);
+                }, 50);
+            }
+        }
+    }
+}
+</script>
+
