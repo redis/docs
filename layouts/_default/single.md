@@ -39,6 +39,8 @@
 {{- $content := partial "markdown-code-examples.html" (dict "RawContent" $content "Site" .Site) -}}
 {{- /* Process command-group shortcodes to include command lists */ -}}
 {{- $content := partial "markdown-command-group.html" (dict "RawContent" $content "Site" .Site) -}}
+{{- /* Process multitabs shortcodes to expand tab content */ -}}
+{{- $content := partial "markdown-multitabs.html" (dict "RawContent" $content "Site" .Site) -}}
 {{- /* Remove remaining shortcodes (note: < and > are HTML-escaped to &lt; and &gt;) */ -}}
 {{- $content := $content | replaceRE `\{\{&lt;\s*/?[^&]*&gt;\}\}` "" -}}
 {{- $content := $content | replaceRE `\{\{%\s*/?[^%]*%\}\}` "" -}}

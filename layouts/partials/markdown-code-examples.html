@@ -50,10 +50,15 @@
 {{- $codeFenceLangs = merge $codeFenceLangs (dict "rust" "rust") -}}
 
 {{- /* Process each clients-example shortcode */ -}}
+{{- /* Pattern for paired shortcodes: {{< clients-example ... >}} content {{< /clients-example >}} */ -}}
 {{- $pattern := `\{\{<\s*clients-example\s+(?:set|id)="([^"]+)"(?:\s+step="([^"]*)")?(?:\s+description="([^"]*)")?(?:\s+difficulty="([^"]*)")?(?:\s+buildsUpon="([^"]*)")?[^>]*>\s*([\s\S]*?)\s*\{\{<\s*/clients-example\s*>\}\}` -}}
+
+{{- /* Pattern for self-closing shortcodes: {{< clients-example ... />}} */ -}}
+{{- $selfClosingPattern := `\{\{<\s*clients-example\s+(?:set|id)="([^"]+)"(?:\s+step="([^"]*)")?(?:\s+description="([^"]*)")?(?:\s+difficulty="([^"]*)")?(?:\s+buildsUpon="([^"]*)")?[^/]*/>\}\}` -}}
 
 {{- $processed := $content -}}
 {{- $matches := findRE $pattern $content -}}
+{{- $selfClosingMatches := findRE $selfClosingPattern $content -}}
 
 {{- range $match := $matches -}}
   {{- $exampleId := replaceRE $pattern `$1` $match -}}
@@ -314,6 +319,177 @@
     {{- /* Replace the shortcode with the rendered examples */ -}}
     {{- $processed = replace $processed $match $replacement 1 -}}
   {{- end -}}
+{{- end -}}
+
+{{- /* Process self-closing clients-example shortcodes (no CLI content between tags) */ -}}
+{{- range $match := $selfClosingMatches -}}
+  {{- $exampleId := replaceRE $selfClosingPattern `$1` $match -}}
+  {{- $stepName := replaceRE $selfClosingPattern `$2` $match -}}
+  {{- $description := replaceRE $selfClosingPattern `$3` $match -}}
+  {{- $difficulty := replaceRE $selfClosingPattern `$4` $match -}}
+  {{- $buildsUponStr := replaceRE $selfClosingPattern `$5` $match -}}
+
+  {{- /* Unescape HTML entities in description */ -}}
+  {{- if $description -}}
+    {{- $description = $description | replaceRE "&#34;" "\"" -}}
+    {{- $description = $description | replaceRE "&quot;" "\"" -}}
+    {{- $description = $description | replaceRE "&lt;" "<" -}}
+    {{- $description = $description | replaceRE "&gt;" ">" -}}
+    {{- $description = $description | replaceRE "&amp;" "&" -}}
+    {{- $description = $description | replaceRE "&#39;" "'" -}}
+    {{- $description = $description | replaceRE "&apos;" "'" -}}
+  {{- end -}}
+
+  {{- /* Look up the examples data from examples.json */ -}}
+  {{- $clientExamples := index $.Site.Data.examples $exampleId -}}
+
+  {{- /* Build the replacement content */ -}}
+  {{- $replacement := "" -}}
+
+  {{- if or $description $difficulty -}}
+    {{- $replacement = printf "#### Code Examples\n\n" -}}
+    {{- if $description -}}
+      {{- $replacement = printf "%s%s\n\n" $replacement $description -}}
+    {{- end -}}
+    {{- if $difficulty -}}
+      {{- $replacement = printf "%s**Difficulty:** %s\n\n" $replacement (title $difficulty) -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $replacement = "#### Code Examples\n\n" -}}
+  {{- end -}}
+
+  {{- /* Extract commands used from steps_commands if available */ -}}
+  {{- if $clientExamples -}}
+    {{- if $clientExamples.steps_commands -}}
+      {{- $commands := index $clientExamples.steps_commands $stepName -}}
+      {{- if $commands -}}
+        {{- $replacement = printf "%s**Commands:** %s\n\n" $replacement (delimit $commands ", ") -}}
+        {{- /* Look up complexity for each command */ -}}
+        {{- $complexities := slice -}}
+        {{- range $cmdName := $commands -}}
+          {{- $cmdData := (index $.Site.Data.commands_core $cmdName) | default (index $.Site.Data.commands_redisearch $cmdName) | default (index $.Site.Data.commands_redisjson $cmdName) | default (index $.Site.Data.commands_redistimeseries $cmdName) | default (index $.Site.Data.commands_redisbloom $cmdName) -}}
+          {{- if $cmdData -}}
+            {{- if $cmdData.complexity -}}
+              {{- $complexityMatch := findRE `^O\([^)]*\)(?:\s+amortized)?` $cmdData.complexity -}}
+              {{- if $complexityMatch -}}
+                {{- $complexities = $complexities | append (printf "%s: %s" $cmdName (index $complexityMatch 0)) -}}
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+        {{- if gt (len $complexities) 0 -}}
+          {{- $replacement = printf "%s**Complexity:**\n" $replacement -}}
+          {{- range $c := $complexities -}}
+            {{- $replacement = printf "%s- %s\n" $replacement $c -}}
+          {{- end -}}
+          {{- $replacement = printf "%s\n" $replacement -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- /* List available languages and output code */ -}}
+    {{- $availableLangs := slice -}}
+    {{- range $client := $.Site.Params.clientsexamples -}}
+      {{- $example := index $clientExamples $client -}}
+      {{- if $example -}}
+        {{- $displayName := index $keyNames $client -}}
+        {{- if not $displayName -}}
+          {{- $displayName = $client -}}
+        {{- end -}}
+        {{- $availableLangs = $availableLangs | append $displayName -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if gt (len $availableLangs) 0 -}}
+      {{- $replacement = printf "%s**Available in:** %s\n\n" $replacement (delimit $availableLangs ", ") -}}
+    {{- end -}}
+
+    {{- /* Output code from each available client */ -}}
+    {{- range $client := $.Site.Params.clientsexamples -}}
+      {{- $example := index $clientExamples $client -}}
+      {{- if $example -}}
+        {{- $targetPath := index $example "target" -}}
+        {{- $language := index $example "language" -}}
+        {{- if and $targetPath $language -}}
+          {{- /* Read the file content */ -}}
+          {{- $rawContent := "" -}}
+          {{- with $targetPath -}}
+            {{- $rawContent = readFile . -}}
+          {{- end -}}
+          {{- if $rawContent -}}
+            {{- /* Extract step-specific lines if named_steps is available */ -}}
+            {{- $displayContent := $rawContent -}}
+            {{- if and $stepName (isset $example "named_steps") -}}
+              {{- $lineSpec := index $example.named_steps $stepName -}}
+              {{- if $lineSpec -}}
+                {{- /* Parse line range like "5-15" */ -}}
+                {{- $lines := split $rawContent "\n" -}}
+                {{- $parts := split $lineSpec "-" -}}
+                {{- if eq (len $parts) 2 -}}
+                  {{- $startLine := sub (int (index $parts 0)) 1 -}}
+                  {{- $endLine := int (index $parts 1) -}}
+                  {{- $selectedLines := slice -}}
+                  {{- range $i, $line := $lines -}}
+                    {{- if and (ge $i $startLine) (lt $i $endLine) -}}
+                      {{- $selectedLines = $selectedLines | append $line -}}
+                    {{- end -}}
+                  {{- end -}}
+                  {{- $displayContent = delimit $selectedLines "\n" -}}
+                {{- end -}}
+              {{- end -}}
+            {{- else if isset $example "highlight" -}}
+              {{- /* Use highlight spec for non-step examples */ -}}
+              {{- $highlightSpec := index $example "highlight" -}}
+              {{- if $highlightSpec -}}
+                {{- $lineSpec := "" -}}
+                {{- if reflect.IsSlice $highlightSpec -}}
+                  {{- $lineSpec = index $highlightSpec 0 -}}
+                {{- else -}}
+                  {{- $lineSpec = $highlightSpec -}}
+                {{- end -}}
+                {{- if $lineSpec -}}
+                  {{- $lines := split $rawContent "\n" -}}
+                  {{- $parts := split $lineSpec "-" -}}
+                  {{- if eq (len $parts) 2 -}}
+                    {{- $startLine := sub (int (index $parts 0)) 1 -}}
+                    {{- $endLine := int (index $parts 1) -}}
+                    {{- $selectedLines := slice -}}
+                    {{- range $i, $line := $lines -}}
+                      {{- if and (ge $i $startLine) (lt $i $endLine) -}}
+                        {{- $selectedLines = $selectedLines | append $line -}}
+                      {{- end -}}
+                    {{- end -}}
+                    {{- $displayContent = delimit $selectedLines "\n" -}}
+                  {{- end -}}
+                {{- end -}}
+              {{- end -}}
+            {{- end -}}
+
+            {{- /* Get display name */ -}}
+            {{- $displayName := index $keyNames $client -}}
+            {{- if not $displayName -}}
+              {{- $displayName = $client -}}
+            {{- end -}}
+
+            {{- /* Get code fence language */ -}}
+            {{- $codeFenceLang := index $codeFenceLangs (lower $language) -}}
+            {{- if not $codeFenceLang -}}
+              {{- $codeFenceLang = $language -}}
+            {{- end -}}
+
+            {{- if $displayContent -}}
+              {{- $replacement = printf "%s**%s:**\n\n```%s\n%s\n```\n\n" $replacement $displayName $codeFenceLang $displayContent -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- else -}}
+    {{- /* No data found - indicate the example is unavailable */ -}}
+    {{- $replacement = printf "%s*Code examples not available for this command.*\n\n" $replacement -}}
+  {{- end -}}
+
+  {{- /* Replace the shortcode with the rendered examples */ -}}
+  {{- $processed = replace $processed $match $replacement 1 -}}
 {{- end -}}
 
 {{- $processed -}}

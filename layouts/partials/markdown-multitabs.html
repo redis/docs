@@ -1,0 +1,64 @@
+{{- /* Expand multitabs shortcodes into Markdown format for AI-friendly output */ -}}
+{{- /* This partial processes {{< multitabs >}} shortcodes and renders them as labeled sections */ -}}
+
+{{- $content := .RawContent -}}
+
+{{- /* Unescape HTML entities in the raw content first */ -}}
+{{- $content = $content | replaceRE "&#34;" "\"" -}}
+{{- $content = $content | replaceRE "&quot;" "\"" -}}
+{{- $content = $content | replaceRE "&lt;" "<" -}}
+{{- $content = $content | replaceRE "&gt;" ">" -}}
+{{- $content = $content | replaceRE "&amp;" "&" -}}
+{{- $content = $content | replaceRE "&#39;" "'" -}}
+
+{{- /* Pattern for multitabs shortcode - matches multiline content */ -}}
+{{- /* Format: {{< multitabs id="..." tab1="..." tab2="..." >}} content -tab-sep- content {{< /multitabs >}} */ -}}
+{{- $pattern := `\{\{<\s*multitabs\s+([^>]+)>\}\}\s*([\s\S]*?)\s*\{\{<\s*/multitabs\s*>\}\}` -}}
+
+{{- $processed := $content -}}
+{{- $matches := findRE $pattern $content -}}
+
+{{- range $match := $matches -}}
+  {{- /* Extract the attributes string and inner content */ -}}
+  {{- $attrsStr := replaceRE $pattern `$1` $match -}}
+  {{- $innerContent := replaceRE $pattern `$2` $match -}}
+
+  {{- /* Parse tab titles from attributes (tab1="...", tab2="...", etc.) */ -}}
+  {{- $tabTitles := slice -}}
+  {{- range $i := seq 1 10 -}}
+    {{- $tabPattern := printf `tab%d="([^"]*)"` $i -}}
+    {{- $titleMatches := findRE $tabPattern $attrsStr -}}
+    {{- if $titleMatches -}}
+      {{- $title := replaceRE $tabPattern `$1` (index $titleMatches 0) -}}
+      {{- $tabTitles = $tabTitles | append $title -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* Split content by -tab-sep- separator */ -}}
+  {{- $sections := split $innerContent "-tab-sep-" -}}
+
+  {{- /* Build the replacement content */ -}}
+  {{- $replacement := "" -}}
+  
+  {{- range $index, $section := $sections -}}
+    {{- $trimmedSection := $section | strings.TrimSpace -}}
+    {{- if $trimmedSection -}}
+      {{- /* Get tab title */ -}}
+      {{- $title := "" -}}
+      {{- if lt $index (len $tabTitles) -}}
+        {{- $title = index $tabTitles $index -}}
+      {{- else -}}
+        {{- $title = printf "Tab %d" (add $index 1) -}}
+      {{- end -}}
+      
+      {{- /* Add titled section */ -}}
+      {{- $replacement = printf "%s**%s:**\n\n%s\n\n" $replacement $title $trimmedSection -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* Replace the shortcode with the rendered content */ -}}
+  {{- $processed = replace $processed $match $replacement 1 -}}
+{{- end -}}
+
+{{- $processed -}}
+
