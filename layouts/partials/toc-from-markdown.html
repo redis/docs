@@ -56,9 +56,15 @@
         {{- $subsections := $existingH2.subsections | default slice -}}
         {{- $subsections = $subsections | append (dict "id" $id "title" $title) -}}
         {{- $updatedH2 := merge $existingH2 (dict "subsections" $subsections) -}}
-        {{- $sections = $sections | first $currentH2Index | append $updatedH2 -}}
+        {{- /* Save elements after current H2 BEFORE modifying $sections */ -}}
+        {{- $remainingElements := slice -}}
         {{- if lt (add $currentH2Index 1) (len $sections) -}}
-          {{- $sections = $sections | append (after (add $currentH2Index 1) $sections) -}}
+          {{- $remainingElements = after (add $currentH2Index 1) $sections -}}
+        {{- end -}}
+        {{- /* Rebuild sections: elements before H2 + updated H2 + elements after H2 */ -}}
+        {{- $sections = $sections | first $currentH2Index | append $updatedH2 -}}
+        {{- range $remainingElements -}}
+          {{- $sections = $sections | append . -}}
         {{- end -}}
       {{- end -}}
     {{- else -}}
