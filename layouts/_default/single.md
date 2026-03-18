@@ -17,7 +17,7 @@
   "topics": {{ .Params.topics | jsonify }}{{ end }}{{ if .Params.relatedPages }},
   "relatedPages": {{ .Params.relatedPages | jsonify }}{{ end }}{{ if .Params.scope }},
   "scope": {{ .Params.scope | jsonify }}{{ end }},
-  "tableOfContents": {{ partial "toc-json-regex.html" . }},
+  "tableOfContents": {{ partial "toc-from-markdown.html" . }},
   "codeExamples": {{ partial "code-examples-json.html" . }}
 }
 ```
@@ -31,15 +31,31 @@
 {{- $legendAdded = true -}}
 {{- end -}}
 {{- end -}}
-{{- /* Fix relrefs */ -}}
-{{- $content := $content | replaceRE "\\{\\{< ?relref \"([^\"]+)\" ?>\\}\\}" "https://redis.io/docs/latest$1" -}}
+{{- /* Fix relrefs (content has escaped entities: &lt; &gt; &#34;) */ -}}
+{{- $content := $content | replaceRE "\\{\\{&lt; ?relref &#34;([^&]+)&#34; ?&gt;\\}\\}" "https://redis.io/docs/latest$1" -}}
 {{- /* Fix images */ -}}
-{{- $content := $content | replaceRE "\\{\\{< ?image filename=\"([^\"]+)\" ?>\\}\\}" "![$1](https://redis.io/docs/latest$1)" -}}
+{{- $content := $content | replaceRE "\\{\\{&lt; ?image filename=&#34;([^&]+)&#34; ?&gt;\\}\\}" "![$1](https://redis.io/docs/latest$1)" -}}
 {{- /* Process clients-example shortcodes to include all languages */ -}}
 {{- $content := partial "markdown-code-examples.html" (dict "RawContent" $content "Site" .Site) -}}
-{{- /* Remove remaining shortcodes */ -}}
-{{- $content := $content | replaceRE "\\{\\{< ?/?[^>]*>\\}\\}" "" -}}
-{{- $content := $content | replaceRE "\\{\\{% ?/?.*%\\}\\}" "" -}}
+{{- /* Unescape after first partial (Hugo re-escapes partial output) */ -}}
+{{- /* This prevents subsequent partials from re-unescaping already-processed code file content */ -}}
+{{- $content = $content | replaceRE "&#34;" "\"" -}}
+{{- $content = $content | replaceRE "&quot;" "\"" -}}
+{{- $content = $content | replaceRE "&#39;" "'" -}}
+{{- $content = $content | replaceRE "&lt;" "<" -}}
+{{- $content = $content | replaceRE "&gt;" ">" -}}
+{{- $content = $content | replaceRE "&amp;" "&" -}}
+{{- /* Process command-group shortcodes to include command lists */ -}}
+{{- $content := partial "markdown-command-group.html" (dict "RawContent" $content "Site" .Site) -}}
+{{- /* Unescape after second partial */ -}}
+{{- $content = $content | replaceRE "&#34;" "\"" -}}
+{{- $content = $content | replaceRE "&quot;" "\"" -}}
+{{- $content = $content | replaceRE "&#39;" "'" -}}
+{{- $content = $content | replaceRE "&lt;" "<" -}}
+{{- $content = $content | replaceRE "&gt;" ">" -}}
+{{- $content = $content | replaceRE "&amp;" "&" -}}
+{{- /* Process multitabs shortcodes to expand tab content */ -}}
+{{- $content := partial "markdown-multitabs.html" (dict "RawContent" $content "Site" .Site) -}}
 {{- /* Unescape HTML entities for plain text output */ -}}
 {{- $content := $content | replaceRE "&#34;" "\"" -}}
 {{- $content := $content | replaceRE "&quot;" "\"" -}}
@@ -47,5 +63,9 @@
 {{- $content := $content | replaceRE "&gt;" ">" -}}
 {{- $content := $content | replaceRE "&amp;" "&" -}}
 {{- $content := $content | replaceRE "&#39;" "'" -}}
+{{- $content := $content | replaceRE "&#43;" "+" -}}
+{{- /* Remove remaining shortcodes AFTER unescape (content now has literal < and >) */ -}}
+{{- $content := $content | replaceRE `\{\{<\s*/?[^>]*>\}\}` "" -}}
+{{- $content := $content | replaceRE `\{\{%\s*/?[^%]*%\}\}` "" -}}
 
 {{ $content }}
