@@ -1,20 +1,67 @@
 {{/* Thebe Interactive Code Cell from Example File */}}
-{{/* Usage: {{< jupyter-example source="path/to/file.py" step="step_name" title="Description" quickstart_url="/develop/clients/redis-py/" quickstart_title="Python Quick-Start" >}}{{< /jupyter-example >}} */}}
+{{/* Usage: {{< jupyter-example set="landing" step="connect" lang_filter="Python" description="Connect to a Redis server..." >}}{{< /jupyter-example >}} */}}
 {{/* Extracts code between # STEP_START {step} and # STEP_END markers */}}
-{{/* BINDER_ID is automatically extracted from the source file (e.g., # BINDER_ID python-landing) */}}
-{{/* Optional parameters: quickstart_url (shows footer with link), quickstart_title (defaults to "Python Quick-Start") */}}
+{{/* Auto-derives source/binder/kernel from data/examples.json and quick-start metadata from site config */}}
+{{/* Optional overrides: source, binder, quickstart_url, quickstart_title */}}
 
 {{ .Page.Store.Set "hasThebe" true }}
 
 {{ $source := .Get "source" }}
+{{ $binder := .Get "binder" | default "" }}
 {{ $step := .Get "step" }}
-{{ $title := .Get "title" | default "" }}
+{{ $description := .Get "description" | default "" }}
 {{ $id := .Get "id" | default $step }}
 {{ $depends := .Get "depends" | default "" }}
 {{ $noOutput := .Get "no_output" | default "false" }}
 {{ $quickstartUrl := .Get "quickstart_url" | default "" }}
-{{ $quickstartTitle := .Get "quickstart_title" | default "Python Quick-Start" }}
+{{ $quickstartTitle := .Get "quickstart_title" | default "" }}
 {{ $inner := .Inner | default "" }}
+{{ $set := .Get "set" }}
+{{ $langFilter := .Get "lang_filter" | default "" }}
+{{ $kernelName := "" }}
+
+{{ if not $description }}
+  {{ $description = .Get "title" | default "" }}
+{{ end }}
+
+{{ if not $langFilter }}
+  {{ $langFilter = .Get "lang" | default "" }}
+{{ end }}
+
+{{/* set/lang_filter lookup from data/examples.json */}}
+{{ if and $set $langFilter }}
+  {{/* Look up from data/examples.json */}}
+  {{ with index $.Site.Data.examples $set }}
+    {{ with index . $langFilter }}
+      {{ if not $source }}
+        {{ $source = index . "source" }}
+      {{ end }}
+      {{ if not $binder }}
+        {{ $binder = index . "binderId" }}
+      {{ end }}
+      {{ $kernelName = index . "kernelName" }}
+    {{ else }}
+      {{ errorf "jupyter-example: No example found for set=%s lang_filter=%s" $set $langFilter }}
+    {{ end }}
+  {{ else }}
+    {{ errorf "jupyter-example: No example found for set=%s lang_filter=%s" $set $langFilter }}
+  {{ end }}
+{{ end }}
+
+{{/* Look up quick-start info from site config when not explicitly provided */}}
+{{ $langKey := $langFilter }}
+{{ if $langKey }}
+  {{ with index $.Site.Params.clientsConfig $langKey }}
+    {{ $slug := index . "quickstartSlug" }}
+    {{ $clientName := index . "clientName" }}
+    {{ if and (not $quickstartUrl) $slug }}
+      {{ $quickstartUrl = printf "/develop/clients/%s/" $slug }}
+    {{ end }}
+    {{ if and (not $quickstartTitle) $clientName }}
+      {{ $quickstartTitle = printf "%s Quick-Start" $clientName }}
+    {{ end }}
+  {{ end }}
+{{ end }}
 
 {{/* Read the source file */}}
 {{ $content := readFile $source }}
@@ -27,26 +74,28 @@
   {{ $isJavaScript = true }}
 {{ end }}
 
-{{/* Extract BINDER_ID from source file */}}
-{{ $binder := "" }}
-{{ $binderPattern := printf `%s BINDER_ID ([a-zA-Z0-9_-]+)` $commentPrefix }}
-{{ $binderMatches := findRE $binderPattern $content 1 }}
-{{ if gt (len $binderMatches) 0 }}
-  {{/* Extract just the ID portion after "BINDER_ID " */}}
-  {{ $binderLine := index $binderMatches 0 }}
-  {{ $binder = replaceRE (printf `^%s BINDER_ID ` $commentPrefix) "" $binderLine }}
-  {{/* Store binder ref in page scratch for use in baseof.html */}}
-  {{ .Page.Scratch.Set "binderRef" $binder }}
+{{/* Extract BINDER_ID from source file unless already provided */}}
+{{ if not $binder }}
+  {{ $binderPattern := printf `%s BINDER_ID ([a-zA-Z0-9_-]+)` $commentPrefix }}
+  {{ $binderMatches := findRE $binderPattern $content 1 }}
+  {{ if gt (len $binderMatches) 0 }}
+    {{/* Extract just the ID portion after "BINDER_ID " */}}
+    {{ $binderLine := index $binderMatches 0 }}
+    {{ $binder = replaceRE (printf `^%s BINDER_ID ` $commentPrefix) "" $binderLine }}
+  {{ end }}
 {{ end }}
+{{/* Store binder ref in page scratch for use in baseof.html */}}
+{{ .Page.Scratch.Set "binderRef" $binder }}
 
-{{/* Extract KERNEL_NAME from source file - NO DEFAULTS */}}
-{{ $kernelName := "" }}
-{{ $kernelPattern := printf `%s KERNEL_NAME ([a-zA-Z0-9_-]+)` $commentPrefix }}
-{{ $kernelMatches := findRE $kernelPattern $content 1 }}
-{{ if gt (len $kernelMatches) 0 }}
-  {{/* Extract kernel name from KERNEL_NAME marker */}}
-  {{ $kernelLine := index $kernelMatches 0 }}
-  {{ $kernelName = replaceRE (printf `^%s KERNEL_NAME ` $commentPrefix) "" $kernelLine }}
+{{/* Extract KERNEL_NAME from source file - NO DEFAULTS unless set/lang_filter lookup derived it */}}
+{{ if not $kernelName }}
+  {{ $kernelPattern := printf `%s KERNEL_NAME ([a-zA-Z0-9_-]+)` $commentPrefix }}
+  {{ $kernelMatches := findRE $kernelPattern $content 1 }}
+  {{ if gt (len $kernelMatches) 0 }}
+    {{/* Extract kernel name from KERNEL_NAME marker */}}
+    {{ $kernelLine := index $kernelMatches 0 }}
+    {{ $kernelName = replaceRE (printf `^%s KERNEL_NAME ` $commentPrefix) "" $kernelLine }}
+  {{ end }}
 {{ end }}
 {{/* Store kernel name in page scratch for use in baseof.html - empty string if not found */}}
 {{ .Page.Scratch.Set "kernelName" $kernelName }}
@@ -259,7 +308,7 @@
                 </button>
             </div>
         </div>
-        {{ if $title }}<div class="text-xs text-slate-400 mt-2 w-full">{{ $title }}</div>{{ end }}
+        {{ if $description }}<div class="text-xs text-slate-400 mt-2 w-full">{{ $description }}</div>{{ end }}
     </div>
 
     {{/* Panel starts with no aria-expanded attribute - this means step code is shown at full opacity */}}
@@ -307,7 +356,7 @@
         {{ end }}
     </div>
 
-    {{/* Footer with Quick-Start link - only shown if quickstart_url is provided */}}
+    {{/* Footer with Quick-Start link - only shown if available explicitly or via config */}}
     {{ if $quickstartUrl }}
     <div class="cli-footer flex flex-col rounded-b-md bg-slate-900 mt-0 px-4 py-2 mb-0">
         <div class="flex items-center justify-between">

@@ -48,19 +48,19 @@ pip install redis[hiredis]
 
 Connect to localhost on port 6379, set a value in Redis, and retrieve it. All responses are returned as bytes in Python. To receive decoded strings, set `decode_responses=True`. For more connection options, see [these examples](https://redis.readthedocs.io/en/stable/examples.html).
 
-{{< jupyter-example source="local_examples/client-specific/redis-py/landing.py" step="connect" id="connect" title="Connect to a Redis server and establish a client connection" binder="python-landing" quickstart_url="/develop/clients/redis-py/" quickstart_title="Python Quick-Start" />}}
+{{< jupyter-example set="landing" step="connect" lang_filter="Python" description="Connect to a Redis server and establish a client connection" />}}
 
 Store and retrieve a simple string.
 
-{{< jupyter-example source="local_examples/client-specific/redis-py/landing.py" step="set_get_string" depends="connect" title="Set and retrieve string values using SET and GET commands" binder="python-landing" quickstart_url="/develop/clients/redis-py/" quickstart_title="Python Quick-Start" />}}
+{{< jupyter-example set="landing" step="set_get_string" depends="connect" lang_filter="Python" description="Set and retrieve string values using SET and GET commands" />}}
 
 Store and retrieve a dict.
 
-{{< jupyter-example source="local_examples/client-specific/redis-py/landing.py" step="hash_operations" depends="connect" title="Store and retrieve hash data structures using HSET and HGETALL" binder="python-landing" quickstart_url="/develop/clients/redis-py/" quickstart_title="Python Quick-Start" />}}
+{{< jupyter-example set="landing" step="hash_operations" depends="connect" lang_filter="Python" description="Store and retrieve hash data structures using HSET and HGETALL" />}}
 
 Close the connection when you're done.
 
-{{< jupyter-example source="local_examples/client-specific/redis-py/landing.py" step="close" depends="connect" title="Close the Redis connection" binder="python-landing" no_output="true" quickstart_url="/develop/clients/redis-py/" quickstart_title="Python Quick-Start" />}}
+{{< jupyter-example set="landing" step="close" depends="connect" lang_filter="Python" description="Close the Redis connection" no_output="true" />}}
 
 ## More information
 
