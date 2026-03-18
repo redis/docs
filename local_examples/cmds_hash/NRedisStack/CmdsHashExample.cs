@@ -1,10 +1,12 @@
 // EXAMPLE: cmds_hash
 // HIDE_START
+
 using StackExchange.Redis;
-// HIDE_END
-// REMOVE_START
 using NRedisStack.Tests;
 
+// HIDE_END
+
+// REMOVE_START
 namespace Doc;
 
 [Collection("DocsTests")]
@@ -30,8 +32,11 @@ public class CmdsHashExample
         //REMOVE_END
         var muxer = ConnectionMultiplexer.Connect("localhost:6379");
         var db = muxer.GetDatabase();
+        // REMOVE_START
         // Clear any keys here before using them in tests.
         db.KeyDelete("myhash");
+        // REMOVE_END
+        // HIDE_END
 
         // STEP_START hdel
         bool hdelRes1 = db.HashSet("myhash", "field1", "foo");
