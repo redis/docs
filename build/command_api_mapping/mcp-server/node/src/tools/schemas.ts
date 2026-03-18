@@ -253,4 +253,39 @@ export const AnalyzeMetadataSizeOutputSchema = z.object({
 });
 
 export type AnalyzeMetadataSizeOutput = z.infer<typeof AnalyzeMetadataSizeOutputSchema>;
+// =========================================================================
+// Tool 8: Analyze Token Usage
+// =========================================================================
 
+export const AnalyzeTokenUsageInputSchema = z
+  .object({
+    /** Path to the documentation file whose token usage should be analyzed */
+    file_path: z.string().optional(),
+    /** Raw content to analyze (if not using file_path) */
+    content: z.string().optional(),
+    /** Optional model name to select tokenizer encoding (e.g., 'gpt-4.1') */
+    model: z.string().optional(),
+  })
+  .refine(
+    (data) => data.file_path || data.content,
+    { message: "Either file_path or content must be provided" }
+  );
+
+export type AnalyzeTokenUsageInput = z.infer<typeof AnalyzeTokenUsageInputSchema>;
+
+export const AnalyzeTokenUsageOutputSchema = z.object({
+  /** Path to the analyzed file (if file_path was provided) */
+  file_path: z.string().optional(),
+  /** Model name that was used to select the tokenizer encoding */
+  model: z.string(),
+  /** Name of the tiktoken encoding used (e.g., 'o200k_base') */
+  encoding: z.string(),
+  /** Total number of characters in the analyzed text */
+  char_count: z.number(),
+  /** Total number of whitespace-delimited words in the analyzed text */
+  word_count: z.number(),
+  /** Total number of tokens in the analyzed text */
+  total_tokens: z.number(),
+});
+
+export type AnalyzeTokenUsageOutput = z.infer<typeof AnalyzeTokenUsageOutputSchema>;

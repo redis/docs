@@ -55,6 +55,8 @@ For more detailed release notes, select a build version from the following table
 
 ### Breaking changes
 
+- LDAP filters for `user_dn_query` and `dn_group_query` now strictly require parentheses to function correctly. Filters that previously worked without parentheses will no longer work after upgrading to Redis Software 8.0.x. For example, you must include the parentheses in `(sAMAccountName=%u)`.
+
 - Redis Software installation script changes:
 
     - Changed the `--skip-updating-env-path` option to `--update-env-path` when running [`install.sh`]({{<relref "/operate/rs/installing-upgrading/install/install-script">}}).
