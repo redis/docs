@@ -19,7 +19,7 @@ public class CmdsHashExample
     // REMOVE_START
     public CmdsHashExample(EndpointsFixture fixture) : base(fixture) { }
 
-    [SkippableFact]
+    [Fact]
     // REMOVE_END
     public void Run()
     {
@@ -64,6 +64,27 @@ public class CmdsHashExample
         Assert.True(hgetRes1);
         Assert.Equal("foo", hgetRes2);
         Assert.Equal(RedisValue.Null, hgetRes3);
+        db.KeyDelete("myhash");
+        // REMOVE_END
+
+        // STEP_START hmget
+        db.HashSet("myhash",
+            [
+                new("field1", "Hello"),
+                new("field2", "World")
+            ]
+        );
+
+        RedisValue[] hmgetResult = db.HashGet("myhash", new RedisValue[] { "field1", "field2", "nofield" });
+        Console.WriteLine(string.Join(", ", hmgetResult.Select(v => v.IsNull ? "null" : v.ToString())));
+        // >>> Hello, World, null
+        // STEP_END
+
+        // REMOVE_START
+        Assert.Equal(3, hmgetResult.Length);
+        Assert.Equal("Hello", hmgetResult[0]);
+        Assert.Equal("World", hmgetResult[1]);
+        Assert.True(hmgetResult[2].IsNull);
         db.KeyDelete("myhash");
         // REMOVE_END
 
