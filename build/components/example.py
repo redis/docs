@@ -174,6 +174,7 @@ class Example(object):
                 if match:
                     self.kernel_name = match.group(1)
                     logging.debug(f'Found KERNEL_NAME: {self.kernel_name} in {self.path}:L{curr+1}')
+                output = False
             elif self.language == "go" and re.search(go_output, l):
                 if output:
                     logging.error("Nested Go Output anchor in {self.path}:L{curr+1} - aborting.")
