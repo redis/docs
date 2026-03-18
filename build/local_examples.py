@@ -201,6 +201,10 @@ def process_local_examples(local_examples_dir: str = 'local_examples',
             if example.binder_id:
                 example_metadata['binderId'] = example.binder_id
 
+            # Add kernelName only if it exists
+            if example.kernel_name:
+                example_metadata['kernelName'] = example.kernel_name
+
             # Extract and enrich CLI commands if present
             cli_commands = extract_cli_commands(example.content)
             if cli_commands:
