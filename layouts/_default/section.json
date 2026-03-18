@@ -1,0 +1,39 @@
+{{- /* AI-friendly JSON output for section/list pages */ -}}
+{{- /* Based on redis_docs_ai_json_guide.md specification */ -}}
+
+{{- /* Build the JSON object for the section itself */ -}}
+{{- /* Handle pages where .File may be nil (e.g., taxonomy pages) */ -}}
+{{- $id := "" -}}
+{{- with .File -}}
+  {{- $id = .ContentBaseName | default $.Title | urlize -}}
+{{- else -}}
+  {{- $id = .Title | urlize -}}
+{{- end -}}
+{{- $summary := (.Params.description | default .Description) | plainify | replaceRE "\\s+" " " | strings.TrimSpace -}}
+{{- $tags := .Params.categories | default (slice) -}}
+{{- $lastUpdated := .Lastmod.Format "2006-01-02T15:04:05Z07:00" -}}
+
+{{- /* Build list of child pages */ -}}
+{{- $children := slice -}}
+{{- range .Pages -}}
+  {{- $childId := "" -}}
+  {{- with .File -}}
+    {{- $childId = .ContentBaseName | default $.Title | urlize -}}
+  {{- else -}}
+    {{- $childId = .Title | urlize -}}
+  {{- end -}}
+  {{- $childSummary := (.Params.description | default .Description) | plainify | replaceRE "\\s+" " " | strings.TrimSpace -}}
+  {{- $child := dict "id" $childId "title" .Title "url" .Permalink "summary" $childSummary -}}
+  {{- $children = $children | append $child -}}
+{{- end -}}
+
+{
+  "id": {{ $id | jsonify }},
+  "title": {{ .Title | jsonify }},
+  "url": {{ .Permalink | jsonify }},
+  "summary": {{ $summary | jsonify }},
+  "tags": {{ $tags | jsonify }},
+  "last_updated": {{ $lastUpdated | jsonify }},
+  "children": {{ $children | jsonify }}
+}
+
