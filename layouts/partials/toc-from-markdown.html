@@ -3,6 +3,14 @@
 {{- /* since Hugo's .TableOfContents may be empty for custom templates */ -}}
 
 {{- $content := .RawContent -}}
+
+{{- /* Unescape HTML entities that may be present in .RawContent */ -}}
+{{- $content = $content | replaceRE "&#34;" "\"" -}}
+{{- $content = $content | replaceRE "&quot;" "\"" -}}
+{{- $content = $content | replaceRE "&lt;" "<" -}}
+{{- $content = $content | replaceRE "&gt;" ">" -}}
+{{- $content = $content | replaceRE "&amp;" "&" -}}
+
 {{- $sections := slice -}}
 
 {{- /* Find all ## and ### headers in the raw markdown */ -}}
