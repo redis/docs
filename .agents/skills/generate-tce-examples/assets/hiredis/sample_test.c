@@ -46,7 +46,8 @@ int main(int argc, char **argv) {
 
     // REMOVE_START
     // Clean up any existing data before tests
-    redisCommand(c, "DEL mykey myhash bike:1 bike:1:stats");
+    redisReply *del_reply = redisCommand(c, "DEL mykey myhash bike:1 bike:1:stats");
+    freeReplyObject(del_reply);
     // REMOVE_END
 
     // STEP_START string_ops
@@ -68,7 +69,8 @@ int main(int argc, char **argv) {
     // STEP_END
 
     // REMOVE_START
-    redisCommand(c, "DEL mykey");
+    del_reply = redisCommand(c, "DEL mykey");
+    freeReplyObject(del_reply);
     // REMOVE_END
 
     // STEP_START hash_ops
@@ -103,7 +105,8 @@ int main(int argc, char **argv) {
     // STEP_END
 
     // REMOVE_START
-    redisCommand(c, "DEL myhash");
+    del_reply = redisCommand(c, "DEL myhash");
+    freeReplyObject(del_reply);
     // REMOVE_END
 
     // STEP_START hash_tutorial
@@ -147,7 +150,8 @@ int main(int argc, char **argv) {
     // STEP_END
 
     // REMOVE_START
-    redisCommand(c, "DEL bike:1 bike:1:stats");
+    del_reply = redisCommand(c, "DEL bike:1 bike:1:stats");
+    freeReplyObject(del_reply);
     // REMOVE_END
 
     // STEP_START disconnect
