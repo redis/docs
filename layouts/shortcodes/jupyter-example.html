@@ -73,7 +73,7 @@
     {{ $inHideBlock = false }}
   {{ else if not $inHideBlock }}
     {{/* Skip marker comments */}}
-    {{ if hasPrefix $trimmed (printf "%s STEP_START %s" $commentPrefix $step) }}
+    {{ if eq $trimmed (printf "%s STEP_START %s" $commentPrefix $step) }}
       {{/* Save previous section if it has non-empty content */}}
       {{ if gt (len $currentSection) 0 }}
         {{/* Check if section has any non-empty lines */}}
