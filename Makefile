@@ -2,7 +2,7 @@ HUGO_CONTENT=./content
 HUGO_DEBUG=--logLevel debug
 HUGO_BUILD=--gc
 
-all: clean deps components hugo
+all: clean deps components hugo json_transform ndjson
 serve: clean deps components serve_hugo
 localserve: clean deps components_local serve_hugo
 
@@ -19,6 +19,14 @@ components_local:
 
 hugo:
 	@hugo $(HUGO_DEBUG) $(HUGO_BUILD)
+
+json_transform:
+	@echo "Transforming JSON files for RAG..."
+	@npx tsx build/transform_json_sections.ts
+
+ndjson:
+	@echo "Generating NDJSON feed..."
+	@python3 build/generate_ndjson.py
 
 serve_hugo:
 	@hugo serve
