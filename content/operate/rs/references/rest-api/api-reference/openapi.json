@@ -3391,7 +3391,7 @@
         "x-publish-docs": true
       }
     },
-    "/v4/db/{db_id}/health": {
+    "/v4/db/{uid}/health": {
       "get": {
         "description": "Database health check indication.",
         "operationId": "cluster_database_health_report",
@@ -3399,7 +3399,7 @@
           {
             "description": "database ID",
             "in": "path",
-            "name": "db_id",
+            "name": "uid",
             "required": true,
             "schema": {
               "type": "string"
