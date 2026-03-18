@@ -142,6 +142,8 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS188362: Fixed an issue with missing metrics in the Cluster Manager UI.
 
+- RS189517: Fixed a breaking change where LDAP filters for `user_dn_query` and `dn_group_query` strictly required parentheses to function correctly. This change caused filters that previously worked without parentheses to stop working after upgrading to Redis Software version 8.0.x. As of version 8.0.16, this breaking change no longer applies, and both `(sAMAccountName=%u)` and `sAMAccountName=%u` are valid filters.
+
 ## Version changes
 
 ### Deprecations
