@@ -14,6 +14,7 @@
 {{ $noOutput := .Get "no_output" | default "false" }}
 {{ $quickstartUrl := .Get "quickstart_url" | default "" }}
 {{ $quickstartTitle := .Get "quickstart_title" | default "Python Quick-Start" }}
+{{ $inner := .Inner | default "" }}
 
 {{/* Read the source file */}}
 {{ $content := readFile $source }}
