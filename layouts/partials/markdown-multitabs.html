@@ -3,14 +3,8 @@
 
 {{- $content := .RawContent -}}
 
-{{- /* NOTE: Content has HTML-escaped entities (&lt; &gt; &#34;) */ -}}
-{{- /* Unescape them first so patterns can use literal characters */ -}}
-{{- $content = $content | replaceRE "&#34;" "\"" -}}
-{{- $content = $content | replaceRE "&quot;" "\"" -}}
-{{- $content = $content | replaceRE "&lt;" "<" -}}
-{{- $content = $content | replaceRE "&gt;" ">" -}}
-{{- $content = $content | replaceRE "&amp;" "&" -}}
-{{- $content = $content | replaceRE "&#39;" "'" -}}
+{{- /* NOTE: Content is already unescaped by the parent template (single.md/section.md) */ -}}
+{{- /* The parent unescapes after each partial call to prevent re-unescaping code file content */ -}}
 
 {{- /* Pattern for multitabs shortcode - matches multiline content */ -}}
 {{- /* Format: {{< multitabs id="..." tab1="..." tab2="..." >}} content -tab-sep- content {{< /multitabs >}} */ -}}

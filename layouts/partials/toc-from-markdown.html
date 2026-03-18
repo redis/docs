@@ -7,6 +7,7 @@
 {{- /* Unescape HTML entities that may be present in .RawContent */ -}}
 {{- $content = $content | replaceRE "&#34;" "\"" -}}
 {{- $content = $content | replaceRE "&quot;" "\"" -}}
+{{- $content = $content | replaceRE "&#39;" "'" -}}
 {{- $content = $content | replaceRE "&lt;" "<" -}}
 {{- $content = $content | replaceRE "&gt;" ">" -}}
 {{- $content = $content | replaceRE "&amp;" "&" -}}
