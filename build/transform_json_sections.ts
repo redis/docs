@@ -182,7 +182,9 @@ function splitContentIntoSections(content: string): { sections: Section[]; examp
     const nextIndex = i + 1 < matches.length ? matches[i + 1].index : content.length;
 
     // Get content after heading until next heading
-    const headingEnd = content.indexOf('\n', current.index) + 1;
+    const newlinePos = content.indexOf('\n', current.index);
+    // If no newline after heading (heading is last line), use end of content
+    const headingEnd = newlinePos === -1 ? content.length : newlinePos + 1;
     const sectionText = content.slice(headingEnd, nextIndex).trim();
 
     const id = slugify(current.title);
