@@ -64,11 +64,12 @@
 {{- /* Build list of child pages */ -}}
 {{- $children := slice -}}
 {{- range .Pages -}}
+  {{- $childTitle := .Title -}}
   {{- $childId := "" -}}
   {{- with .File -}}
-    {{- $childId = .ContentBaseName | default $.Title | urlize -}}
+    {{- $childId = .ContentBaseName | default $childTitle | urlize -}}
   {{- else -}}
-    {{- $childId = .Title | urlize -}}
+    {{- $childId = $childTitle | urlize -}}
   {{- end -}}
   {{- $childSummary := (.Params.description | default .Description) | plainify | replaceRE "\\s+" " " | strings.TrimSpace -}}
   {{- $child := dict "id" $childId "title" .Title "url" .Permalink "summary" $childSummary -}}
