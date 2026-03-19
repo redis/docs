@@ -227,7 +227,10 @@ function splitContentIntoSections(content: string): { sections: Section[]; examp
   // Filter out unwanted sections (like "Code Examples Legend")
   const sections = rawSections.filter(s => !FILTERED_SECTION_IDS.has(s.id));
 
-  return { sections, examples: allExamples };
+  // Also filter out examples from filtered sections to avoid orphaned references
+  const examples = allExamples.filter(e => !FILTERED_SECTION_IDS.has(e.section_id));
+
+  return { sections, examples };
 }
 
 /**
