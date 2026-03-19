@@ -59,6 +59,8 @@ To increase the dataset capacity and shards using the Cluster Manager UI:
 
 You can allocate more data to the flash tier to increase the database capacity while keeping the same amount of RAM, shards, and vCPU. This strategy is recommended when scaling for volume only and SSD resources are underutilized.
 
+This scaling strategy increases capacity without adding CPU or RAM, but might reduce RAM hit rate and increase p99 latency. You should monitor metrics before and after this change.
+
 To increase the dataset capacity and decrease the RAM-to-flash ratio using the Cluster Manager UI:
 
 1. On the **Databases** screen, select the database you want to edit.
@@ -72,6 +74,12 @@ To increase the dataset capacity and decrease the RAM-to-flash ratio using the C
     1. Decrease the **RAM limit**.
 
 1. Click **Save**.
+
+For example, to lower the RAM-to-flash ratio from 30% to 20% on a 1 TB database:
+
+- You can increase the memory limit from 1 TB to 1.5 TB for more total capacity.
+
+- If you keep the RAM limit at 300 GB, it becomes 20% of the new total capacity.
 
 ## Scale throughput
 
