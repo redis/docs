@@ -57,6 +57,20 @@ For every `field` that does not exist in the hash, a `nil` value is returned.
 Because non-existing keys are treated as empty hashes, running `HMGET` against
 a non-existing `key` will return a list of `nil` values.
 
+{{< clients-example set="cmds_hash" step="hmget" description="Foundational: Retrieve multiple field values from a hash using HMGET (returns nil if field or key doesn't exist)" difficulty="beginner" >}}
+> HSET myhash field1 "Hello"
+(integer) 1
+> HSET myhash field2 "World"
+(integer) 1
+> HMGET myhash field1 field2 nofield
+1) "Hello"
+2) "World"
+3) (nil)
+>
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 HSET myhash field1 "Hello"
 HSET myhash field2 "World"
