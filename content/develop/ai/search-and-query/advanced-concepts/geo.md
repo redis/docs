@@ -19,17 +19,17 @@ title: Geospatial
 weight: 49
 ---
 
-Redis Query Engine supports geospatial data. This feature
+Redis Search supports geospatial data. This feature
 lets you store geographical locations and geometric shapes
 in the fields of JSON objects.
 
 {{< note >}}Take care not to confuse the geospatial indexing
-features in Redis Query Engine with the
+features in Redis Search with the
 [Geospatial data type]({{< relref "/develop/data-types/geospatial" >}})
 that Redis also supports. Although there are some similarities between
 these two features, the data type is intended for simpler use
 cases and doesn't have the range of format options and queries
-available in Redis Query Engine.
+available in Redis Search.
 {{< /note >}}
 
 You can index these fields and use queries to find the objects
@@ -200,7 +200,7 @@ for examples of indexing `GEOSHAPE` fields.
 
 Planet Earth is actually shaped more like an
 [ellipsoid](https://en.wikipedia.org/wiki/Earth_ellipsoid) than a perfect sphere.
-The spherical coordinate system used by Redis Query Engine is a close
+The spherical coordinate system used by Redis Search is a close
 approximation to the shape of the Earth but not exact. For most practical
 uses of geospatial queries, the approximation works very well, but you
 shouldn't rely on it if you need very precise location data (for example, to track

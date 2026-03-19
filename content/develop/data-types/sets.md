@@ -17,22 +17,14 @@ title: Redis sets
 weight: 30
 ---
 
+{{< command-group group="set" title="Set command summary" show_link=true >}}
+
 A Redis set is an unordered collection of unique strings (members).
 You can use Redis sets to efficiently:
 
 * Track unique items (e.g., track all unique IP addresses accessing a given blog post).
 * Represent relations (e.g., the set of all users with a given role).
 * Perform common set operations such as intersection, unions, and differences.
-
-## Basic commands
-
-* [`SADD`]({{< relref "/commands/sadd" >}}) adds a new member to a set.
-* [`SREM`]({{< relref "/commands/srem" >}}) removes the specified member from the set.
-* [`SISMEMBER`]({{< relref "/commands/sismember" >}}) tests a string for set membership.
-* [`SINTER`]({{< relref "/commands/sinter" >}}) returns the set of members that two or more sets have in common (i.e., the intersection).
-* [`SCARD`]({{< relref "/commands/scard" >}}) returns the size (a.k.a. cardinality) of a set.
-
-See the [complete list of set commands]({{< relref "/commands/" >}}?group=set).
 
 ## Examples
 
@@ -190,7 +182,7 @@ Sets membership checks on large datasets (or on streaming data) can use a lot of
 If you're concerned about memory usage and don't need perfect precision, consider a [Bloom filter or Cuckoo filter]({{< relref "/develop/data-types/probabilistic/bloom-filter" >}}) as an alternative to a set.
 
 Redis sets are frequently used as a kind of index.
-If you need to index and query your data, consider the [JSON]({{< relref "/develop/data-types/json/" >}}) data type and the [Redis Query Engine]({{< relref "/develop/ai/search-and-query/" >}}) features.
+If you need to index and query your data, consider the [JSON]({{< relref "/develop/data-types/json/" >}}) data type and the [Redis Search]({{< relref "/develop/ai/search-and-query/" >}}) features.
 
 ## Learn more
 

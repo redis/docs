@@ -17,6 +17,8 @@ title: Redis hashes
 weight: 40
 ---
 
+{{< command-group group="hash" title="Hash command summary" show_link=true >}}
+
 Redis hashes are record types structured as collections of field-value pairs.
 You can use hashes to represent basic objects and to store groupings of counters, among other things.
 
@@ -67,15 +69,6 @@ You can find the [full list of hash commands in the documentation]({{< relref "/
 
 It is worth noting that small hashes (i.e., a few elements with small values) are
 encoded in special way in memory that make them very memory efficient.
-
-## Basic commands
-
-* [`HSET`]({{< relref "/commands/hset" >}}): sets the value of one or more fields on a hash.
-* [`HGET`]({{< relref "/commands/hget" >}}): returns the value at a given field.
-* [`HMGET`]({{< relref "/commands/hmget" >}}): returns the values at one or more given fields.
-* [`HINCRBY`]({{< relref "/commands/hincrby" >}}): increments the value at a given field by the integer provided.
-
-See the [complete list of hash commands]({{< relref "/commands/" >}}?group=hash).
 
 ## Examples
 

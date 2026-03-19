@@ -2,7 +2,7 @@
 package io.redis.examples.async;
 
 // STEP_START import
-// Lettuce client and query engine classes.
+// Lettuce client and Redis Search classes.
 import io.lettuce.core.*;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.async.RedisAsyncCommands;

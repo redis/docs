@@ -226,6 +226,112 @@
         ],
         "type": "object"
       },
+      "ClusterCertificatesResponse": {
+        "description": "Cluster certificates response",
+        "properties": {
+          "api_cert": {
+            "description": "PEM-encoded API certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "api_key": {
+            "description": "PEM-encoded private key for the API certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "ccs_internode_encryption_cert": {
+            "description": "PEM-encoded CCS internode encryption certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "ccs_internode_encryption_key": {
+            "description": "PEM-encoded private key for the CCS internode encryption certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "cm_cert": {
+            "description": "PEM-encoded cluster manager certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "cm_key": {
+            "description": "PEM-encoded private key for the cluster manager certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "data_internode_encryption_cert": {
+            "description": "PEM-encoded data internode encryption certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "data_internode_encryption_key": {
+            "description": "PEM-encoded private key for the data internode encryption certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "ldap_client_cert": {
+            "description": "PEM-encoded LDAP client certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "ldap_client_key": {
+            "description": "PEM-encoded private key for the LDAP client certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "metrics_exporter_cert": {
+            "description": "PEM-encoded metrics exporter certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "metrics_exporter_key": {
+            "description": "PEM-encoded private key for the metrics exporter certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "mtls_trusted_ca_cert": {
+            "description": "PEM-encoded trusted CA certificate for mTLS client authentication",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "proxy_cert": {
+            "description": "PEM-encoded proxy certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "proxy_key": {
+            "description": "PEM-encoded private key for the proxy certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "sso_issuer_cert": {
+            "description": "PEM-encoded SSO issuer certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "sso_service_cert": {
+            "description": "PEM-encoded SSO service certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "sso_service_key": {
+            "description": "PEM-encoded private key for the SSO service certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "syncer_cert": {
+            "description": "PEM-encoded syncer certificate",
+            "type": "string",
+            "x-omitempty": true
+          },
+          "syncer_key": {
+            "description": "PEM-encoded private key for the syncer certificate",
+            "type": "string",
+            "x-omitempty": true
+          }
+        },
+        "type": "object"
+      },
       "ClusterHealthReport": {
         "description": "Cluster health report.",
         "properties": {
@@ -873,13 +979,6 @@
             "description": "Role's name.",
             "pattern": "^[a-zA-Z0-9_ \\[\\]()@,.;#-]+$",
             "type": "string"
-          },
-          "permissions": {
-            "description": "Explicit permissions for this role. If not specified, permissions are inherited from the management role.",
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
           },
           "resources": {
             "description": "Resources that restrict this role's access to specific resources.",
@@ -1745,6 +1844,37 @@
         "x-stability-level": "stable"
       }
     },
+    "/v1/cluster/certificates": {
+      "get": {
+        "description": "Get cluster certificates.",
+        "operationId": "cluster_get_cluster_certificates",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClusterCertificatesResponse"
+                }
+              }
+            },
+            "description": "Cluster certificates retrieved successfully."
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_cluster_info"
+            ]
+          }
+        ],
+        "summary": "Get cluster certificates.",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
     "/v1/cluster/change_password_hashing_algorithm": {
       "patch": {
         "description": "Change the password hashing algorithm used for all users in the cluster.\nThis will re-hash all existing user passwords with the new algorithm.\n",
@@ -1900,6 +2030,40 @@
           }
         ],
         "summary": "Get OCSP status",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/ocsp/test": {
+      "post": {
+        "description": "Manually query the OCSP responder and return the parsed status",
+        "operationId": "cluster_test_ocsp_status",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OcspStatus"
+                }
+              }
+            },
+            "description": "OCSP status"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "test_ocsp_status"
+            ]
+          }
+        ],
+        "summary": "Test OCSP status",
         "tags": [
           "Cluster"
         ],
@@ -3227,7 +3391,7 @@
         "x-publish-docs": true
       }
     },
-    "/v4/db/{db_id}/health": {
+    "/v4/db/{uid}/health": {
       "get": {
         "description": "Database health check indication.",
         "operationId": "cluster_database_health_report",
@@ -3235,7 +3399,7 @@
           {
             "description": "database ID",
             "in": "path",
-            "name": "db_id",
+            "name": "uid",
             "required": true,
             "schema": {
               "type": "string"

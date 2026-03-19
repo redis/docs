@@ -12,6 +12,19 @@ min-version-rs: blah
 weight: 20
 ---
 
+## Redis Open Source 8.6.1 (February 2026)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- A user can manipulate data read by a connection by injecting `\r\n` sequences into a Redis error reply.
+
+### Bug fixes
+
+- [#14785](https://github.com/redis/redis/pull/14785) `HOTKEYS`: The `INFO` command may display module information, and the missing `HOTKEYS HELP` subcommand has been added.
+- [#14789](https://github.com/redis/redis/pull/14789) Bug in RDB loading prevented hash table expansion, increasing load time.
+
 ## Redis Open Source 8.6.0 (February 2026)
 
 This is the General Availability release of Redis 8.6 in Redis Open Source.
@@ -159,4 +172,4 @@ Release Candidates are feature-complete pre-releases. Pre-releases are not suita
 
 ### Known bugs and limitations
 
-- Redis Query Engine: In case of load rebalancing operations (such as Atomic Slot Migration) taking place during the lifetime of a cursor, there is a chance that some results may be missing.
+- Redis Search: In case of load rebalancing operations (such as Atomic Slot Migration) taking place during the lifetime of a cursor, there is a chance that some results may be missing.

@@ -18,6 +18,8 @@ title: HyperLogLog
 weight: 1
 ---
 
+{{< command-group group="hyperloglog" title="HyperLogLog command summary" show_link=true >}}
+
 HyperLogLog is a probabilistic data structure that estimates the cardinality of a set, trading perfect accuracy for efficient space utilization. The Redis implementation uses up to 12 KB of memory and provides a standard error rate of 0.81%.
 
 Counting unique items usually requires an amount of memory
@@ -83,14 +85,6 @@ Storing the IP address or any other kind of personal identifier is against the l
 {{% /alert %}}
 
 One HyperLogLog is created per page (video/song) per period, and every IP/identifier is added to it on every visit.
-
-## Basic commands
-
-* [`PFADD`]({{< relref "/commands/pfadd" >}}) adds an item to a HyperLogLog.
-* [`PFCOUNT`]({{< relref "/commands/pfcount" >}}) returns an estimate of the number of items in the set.
-* [`PFMERGE`]({{< relref "/commands/pfmerge" >}}) combines two or more HyperLogLogs into one.
-
-See the [complete list of HyperLogLog commands]({{< relref "/commands/" >}}?group=hyperloglog).
 
 ## Performance
 

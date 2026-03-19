@@ -519,7 +519,7 @@ The **cluster** section contains a single field:
 
 The **modules** section contains additional information about loaded modules if the modules provide it. The field part of property lines in this section are always prefixed with the module's name.
 
-_Redis Query Engine fields_
+_Redis Search fields_
 
 *   `search_gc_bytes_collected`: The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. <sup>[3](#tnote-3)</sup>
 *   `search_bytes_collected`: The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. Deprecated in 8.0 (renamed `search_gc_bytes_collected`), but still available in older versions. <sup>[1](#tnote-1)</sup>

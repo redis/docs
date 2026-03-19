@@ -18,14 +18,14 @@ relatedPages:
 - /develop/clients/lettuce/vecsets
 - /develop/ai/search-and-query
 topics:
-- Redis Query Engine
+- Redis Search
 - JSON
 - hash
 - vectors
 weight: 3
 ---
 
-[Redis Query Engine]({{< relref "/develop/ai/search-and-query" >}})
+[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
 lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
 or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
 [Vectors]({{< relref "/develop/ai/search-and-query/vectors" >}}) 
@@ -40,7 +40,7 @@ of their meaning.
 
 The example below uses the [HuggingFace](https://huggingface.co/) model
 [`all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
-to generate the vector embeddings to store and index with Redis Query Engine.
+to generate the vector embeddings to store and index with Redis Search.
 The code is first demonstrated for hash documents with a
 separate section to explain the
 [differences with JSON documents](#differences-with-json-documents).

@@ -1,7 +1,7 @@
 ---
 aliases:
 - /develop/interact/search-and-query/best-practices/scalable-query-best-practices
-Title: Best practices for Redis Query Engine performance
+Title: Best practices for Redis Search performance
 alwaysopen: false
 categories:
 - docs
@@ -10,16 +10,16 @@ categories:
 - oss
 - kubernetes
 - clients
-linkTitle: RQE performance
+linkTitle: Redis Search performance
 weight: 1
 ---
 
 {{< note >}}
-If you're using Redis Software or Redis Cloud, see the [best practices for scalable Redis Query Engine]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/scalable-query-best-practices" >}}) page.
+If you're using Redis Software or Redis Cloud, see the [best practices for scalable Redis Search]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/scalable-query-best-practices" >}}) page.
 {{< /note >}}
 
 ## Checklist
-Below are some basic steps to ensure good performance of the Redis Query Engine (RQE).
+Below are some basic steps to ensure good performance of Redis Search .
 
 * Create a Redis data model with your query patterns in mind.
 * Ensure the Redis architecture has been sized for the expected load using the [sizing calculator](https://redis.io/redisearch-sizing-calculator/).
@@ -66,7 +66,7 @@ The following informational items are available for analysis:
 
 ## Anti-patterns
 
-When designing and querying indexes in RQE, certain practices can hinder performance, scalability, and maintainability. Below are some common anti-patterns to avoid:
+When designing and querying indexes in Redis Search, certain practices can hinder performance, scalability, and maintainability. Below are some common anti-patterns to avoid:
 
 - **Large documents**: storing excessively large documents in Redis makes data retrieval slower and increases memory usage. Break data into smaller, focused records whenever possible.
 - **Deeply-nested fields**: retrieving or indexing deeply-nested JSON fields is computationally expensive. Use a flatter schema for better performance.
@@ -74,7 +74,7 @@ When designing and querying indexes in RQE, certain practices can hinder perform
 - **Wildcarding**: using wildcard patterns indiscriminately in queries can lead to large and inefficient scans, especially if the index size is significant.
 - **Large projections**: including excessive fields in query results increases memory overhead and slows down query execution. Limit projections to essential fields.
 
-The following examples depict an anti-pattern index schema and query, followed by corrected versions designed for scalability with RQE.
+The following examples depict an anti-pattern index schema and query, followed by corrected versions designed for scalability with Redis Search.
 
 ### Anti-pattern index schema
 
@@ -149,4 +149,4 @@ Improvements:
 
 - Targeted projection: the `LOAD` clause specifies only essential fields (`id, t, name, lastname, loc, ver`), reducing memory and network overhead.
 - Limited results: the `LIMIT` clause ensures the query retrieves only the first 10 results, avoiding large result sets.
-- [`DIALECT 2`]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects#dialect-2" >}}): enables the latest RQE syntax and features, ensuring compatibility with modern capabilities.
+- [`DIALECT 2`]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects#dialect-2" >}}): enables the latest Redis Search syntax and features, ensuring compatibility with modern capabilities.

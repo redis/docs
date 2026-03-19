@@ -17,6 +17,8 @@ title: t-digest
 weight: 40
 ---
 
+{{< command-group group="tdigest" title="t-digest command summary" show_link=true >}}
+
 The t-digest is a sketch data structure in Redis Open Source for estimating percentiles from a data stream or a large dataset using a compact sketch.
 
 It can answer questions like:

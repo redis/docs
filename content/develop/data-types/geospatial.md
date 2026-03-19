@@ -17,24 +17,18 @@ title: Redis geospatial
 weight: 80
 ---
 
+{{< command-group group="geo" title="Geospatial command summary" show_link=true >}}
+
 Redis geospatial indexes let you store coordinates and search for them.
 This data structure is useful for finding nearby points within a given radius or bounding box.
 
 {{< note >}}Take care not to confuse the Geospatial data type with the
 [Geospatial]({{< relref "/develop/ai/search-and-query/advanced-concepts/geo" >}})
-features in [Redis Query Engine]({{< relref "/develop/ai/search-and-query" >}}).
+features in [Redis Search]({{< relref "/develop/ai/search-and-query" >}}).
 Although there are some similarities between these two features, the data type is intended
 for simpler use cases and doesn't have the range of format options and queries
-available in Redis Query Engine.
+available in Redis Search.
 {{< /note >}}
-
-## Basic commands
-
-* [`GEOADD`]({{< relref "/commands/geoadd" >}}) adds a location to a given geospatial index (note that longitude comes before latitude with this command).
-* [`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) returns locations with a given radius or a bounding box.
-
-See the [complete list of geospatial index commands]({{< relref "/commands/" >}}?group=geo).
-
 
 ## Examples
 

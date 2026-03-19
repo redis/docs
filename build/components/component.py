@@ -280,6 +280,9 @@ class Client(Component):
                 if e.binder_id:
                     example_metadata['binderId'] = e.binder_id
 
+                if e.kernel_name:
+                    example_metadata['kernelName'] = e.kernel_name
+
                 # Extract and enrich CLI commands if present
                 cli_commands = extract_cli_commands(e.content)
                 if cli_commands:
