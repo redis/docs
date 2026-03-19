@@ -13,6 +13,16 @@ weight: 10
 
 Review the following hardware requirements, sizing guidelines, best practices, and known limitations before you deploy a Redis Software cluster for Flex databases.
 
+## Checklist
+
+Before you deploy Flex, verify:
+
+```checklist {id="rs-flex-list"}
+- [ ] You have locally attached NVMe or SSD dedicated to Flex data and keys.
+- [ ] The flash capacity is greater than the total provisioned database size.
+- [ ] Your working set is much smaller than the total dataset and fits a high-RAM hit-rate pattern.
+```
+
 ## Version requirements
 
 To create Flex databases, you need:
@@ -53,7 +63,7 @@ For example, a 1 TB dataset requires 20 shards, with 50 GB per shard.
 
 ### CPU allocation
 
-Throughput capacity scales with both CPU cores. At minimum, allocate 1 vCPU per 50 GB shard.
+Throughput capacity scales with both CPU cores and the RAM-to-flash ratio. At minimum, allocate 1 vCPU per 50 GB shard.
 
 ### RAM-to-flash ratio
 
