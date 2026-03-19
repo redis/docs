@@ -14,14 +14,18 @@ Example:
 
 import argparse
 import json
-import os
 import sys
 from pathlib import Path
 
 
-def find_json_files(public_dir: Path) -> list[Path]:
-    """Find all index.json files in the public directory."""
-    json_files = []
+def load_and_validate_json_files(public_dir: Path) -> list[tuple[Path, dict]]:
+    """
+    Find and load all index.json files in the public directory.
+
+    Returns a list of (path, parsed_data) tuples for valid files.
+    This avoids parsing each file twice (once for validation, once for output).
+    """
+    valid_files = []
     for json_file in public_dir.rglob("index.json"):
         # Skip any JSON files that aren't our AI output format
         # (e.g., data files, search indexes, etc.)
@@ -30,32 +34,30 @@ def find_json_files(public_dir: Path) -> list[Path]:
                 data = json.load(f)
                 # Check for our expected fields
                 if all(key in data for key in ['id', 'title', 'url']):
-                    json_files.append(json_file)
+                    valid_files.append((json_file, data))
         except (json.JSONDecodeError, KeyError):
             # Not a valid JSON file or not our format, skip it
             continue
-    return sorted(json_files)
+    # Sort by path for deterministic output
+    return sorted(valid_files, key=lambda x: x[0])
 
 
-def generate_ndjson(json_files: list[Path], output_path: Path) -> int:
+def generate_ndjson(validated_files: list[tuple[Path, dict]], output_path: Path) -> int:
     """
-    Concatenate JSON files into NDJSON format.
-    
-    Returns the number of pages processed.
+    Write pre-loaded JSON data to NDJSON format.
+
+    Args:
+        validated_files: List of (path, parsed_data) tuples from load_and_validate_json_files
+        output_path: Output file path
+
+    Returns the number of pages written.
     """
-    count = 0
     with open(output_path, 'w', encoding='utf-8') as out:
-        for json_file in json_files:
-            try:
-                with open(json_file, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                # Write as single line (NDJSON format)
-                out.write(json.dumps(data, ensure_ascii=False, separators=(',', ':')))
-                out.write('\n')
-                count += 1
-            except (json.JSONDecodeError, IOError) as e:
-                print(f"Warning: Skipping {json_file}: {e}", file=sys.stderr)
-    return count
+        for json_file, data in validated_files:
+            # Write as single line (NDJSON format)
+            out.write(json.dumps(data, ensure_ascii=False, separators=(',', ':')))
+            out.write('\n')
+    return len(validated_files)
 
 
 def main():
@@ -85,16 +87,16 @@ def main():
         sys.exit(1)
     
     print(f"Scanning {public_dir} for index.json files...")
-    json_files = find_json_files(public_dir)
-    
-    if not json_files:
+    validated_files = load_and_validate_json_files(public_dir)
+
+    if not validated_files:
         print("No index.json files found. Make sure Hugo generated JSON output.")
         sys.exit(1)
-    
-    print(f"Found {len(json_files)} JSON files.")
+
+    print(f"Found {len(validated_files)} JSON files.")
     print(f"Generating {output_path}...")
-    
-    count = generate_ndjson(json_files, output_path)
+
+    count = generate_ndjson(validated_files, output_path)
     
     print(f"Done! Wrote {count} pages to {output_path}")
     print(f"File size: {output_path.stat().st_size / 1024 / 1024:.2f} MB")

@@ -1,53 +1,8 @@
 {{- /* AI-friendly JSON output for section/list pages */ -}}
 {{- /* Based on redis_docs_ai_json_guide.md specification */ -}}
 
-{{- /* Process content with shortcode expansion (same logic as single.json) */ -}}
-{{- $content := .RawContent -}}
-
-{{- /* Add legend for code examples at the beginning if content contains clients-example shortcodes */ -}}
-{{- if findRE "clients-example" $content -}}
-{{- $content = printf "## Code Examples Legend\n\nThe code examples below show how to perform the same operations in different programming languages and client libraries:\n\n- **Redis CLI**: Command-line interface for Redis\n- **C# (Synchronous)**: StackExchange.Redis synchronous client\n- **C# (Asynchronous)**: StackExchange.Redis asynchronous client\n- **Go**: go-redis client\n- **Java (Synchronous - Jedis)**: Jedis synchronous client\n- **Java (Asynchronous - Lettuce)**: Lettuce asynchronous client\n- **Java (Reactive - Lettuce)**: Lettuce reactive/streaming client\n- **JavaScript (Node.js)**: node-redis client\n- **PHP**: Predis client\n- **Python**: redis-py client\n- **Rust (Synchronous)**: redis-rs synchronous client\n- **Rust (Asynchronous)**: redis-rs asynchronous client\n\nEach code example demonstrates the same basic operation across different languages. The specific syntax and patterns vary based on the language and client library, but the underlying Redis commands and behavior remain consistent.\n\n---\n\n%s" $content -}}
-{{- end -}}
-
-{{- /* Fix relrefs (content has escaped entities: &lt; &gt; &#34;) */ -}}
-{{- $content = $content | replaceRE "\\{\\{&lt; ?relref &#34;([^&]+)&#34; ?&gt;\\}\\}" "https://redis.io/docs/latest$1" -}}
-{{- /* Fix images */ -}}
-{{- $content = $content | replaceRE "\\{\\{&lt; ?image filename=&#34;([^&]+)&#34; ?&gt;\\}\\}" "![$1](https://redis.io/docs/latest$1)" -}}
-
-{{- /* Process clients-example shortcodes to include all languages */ -}}
-{{- $content = partial "markdown-code-examples.html" (dict "RawContent" $content "Site" .Site) -}}
-{{- /* Unescape after first partial (Hugo re-escapes partial output) */ -}}
-{{- $content = $content | replaceRE "&#34;" "\"" -}}
-{{- $content = $content | replaceRE "&quot;" "\"" -}}
-{{- $content = $content | replaceRE "&#39;" "'" -}}
-{{- $content = $content | replaceRE "&lt;" "<" -}}
-{{- $content = $content | replaceRE "&gt;" ">" -}}
-{{- $content = $content | replaceRE "&amp;" "&" -}}
-
-{{- /* Process command-group shortcodes to include command lists */ -}}
-{{- $content = partial "markdown-command-group.html" (dict "RawContent" $content "Site" .Site) -}}
-{{- /* Unescape after second partial */ -}}
-{{- $content = $content | replaceRE "&#34;" "\"" -}}
-{{- $content = $content | replaceRE "&quot;" "\"" -}}
-{{- $content = $content | replaceRE "&#39;" "'" -}}
-{{- $content = $content | replaceRE "&lt;" "<" -}}
-{{- $content = $content | replaceRE "&gt;" ">" -}}
-{{- $content = $content | replaceRE "&amp;" "&" -}}
-
-{{- /* Process multitabs shortcodes to expand tab content */ -}}
-{{- $content = partial "markdown-multitabs.html" (dict "RawContent" $content "Site" .Site) -}}
-{{- /* Final unescape of HTML entities */ -}}
-{{- $content = $content | replaceRE "&#34;" "\"" -}}
-{{- $content = $content | replaceRE "&quot;" "\"" -}}
-{{- $content = $content | replaceRE "&lt;" "<" -}}
-{{- $content = $content | replaceRE "&gt;" ">" -}}
-{{- $content = $content | replaceRE "&amp;" "&" -}}
-{{- $content = $content | replaceRE "&#39;" "'" -}}
-{{- $content = $content | replaceRE "&#43;" "+" -}}
-
-{{- /* Remove remaining shortcodes AFTER unescape (content now has literal < and >) */ -}}
-{{- $content = $content | replaceRE `\{\{<\s*/?[^>]*>\}\}` "" -}}
-{{- $content = $content | replaceRE `\{\{%\s*/?[^%]*%\}\}` "" -}}
+{{- /* Process content with shared partial (shortcode expansion, HTML unescaping, etc.) */ -}}
+{{- $content := partial "process-markdown-content.html" (dict "RawContent" .RawContent "Site" .Site) -}}
 
 {{- /* Build the JSON object for the section itself */ -}}
 {{- /* Handle pages where .File may be nil (e.g., taxonomy pages) */ -}}
