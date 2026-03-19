@@ -112,6 +112,9 @@ mod cmds_generic_tests {
             }
         }
         // STEP_END
+        // REMOVE_START
+        let _: Result<i32, _> = r.del(&["key1", "key2"]);
+        // REMOVE_END
 
         // STEP_START expire
         if let Ok(res) = r.set("mykey", "Hello") {
@@ -269,6 +272,66 @@ mod cmds_generic_tests {
             },
             Err(e) => {
                 println!("Error getting key TTL: {e}");
+                return;
+            }
+        }
+        // STEP_END
+
+        // STEP_START keys
+        match r.mset(&[("firstname", "Jack"), ("lastname", "Stuntman"), ("age", "35")]) {
+            Ok(res) => {
+                let res: String = res;
+                println!("{res}");    // >>> OK
+                // REMOVE_START
+                assert_eq!(res, "OK");
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting keys: {e}");
+                return;
+            }
+        }
+
+        match r.keys::<&str, Vec<String>>("*name*") {
+            Ok(res) => {
+                let mut sorted_res = res.clone();
+                sorted_res.sort();
+                println!("{sorted_res:?}");    // >>> ["firstname", "lastname"]
+                // REMOVE_START
+                assert_eq!(sorted_res, vec!["firstname", "lastname"]);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting keys: {e}");
+                return;
+            }
+        }
+
+        match r.keys::<&str, Vec<String>>("a??") {
+            Ok(res) => {
+                println!("{res:?}");    // >>> ["age"]
+                // REMOVE_START
+                assert_eq!(res, vec!["age"]);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting keys: {e}");
+                return;
+            }
+        }
+
+        match r.keys::<&str, Vec<String>>("*") {
+            Ok(res) => {
+                let mut sorted_res = res.clone();
+                sorted_res.sort();
+                println!("{sorted_res:?}");    // >>> ["age", "firstname", "lastname"]
+                // REMOVE_START
+                assert_eq!(sorted_res, vec!["age", "firstname", "lastname"]);
+                let _: Result<i32, _> = r.del(&["firstname", "lastname", "age"]);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting keys: {e}");
                 return;
             }
         }
