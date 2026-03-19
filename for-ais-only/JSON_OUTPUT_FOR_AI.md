@@ -14,6 +14,7 @@ The Redis documentation build system generates AI-friendly JSON output alongside
 |------|----------|-------------|
 | Per-page JSON | `public/<path>/index.json` | Individual page data with sections |
 | NDJSON feed | `public/docs.ndjson` | All pages in newline-delimited JSON |
+| NDJSON (gzip) | `public/docs.ndjson.gz` | Compressed version (~85% smaller) |
 
 ## Build Pipeline
 
@@ -233,7 +234,8 @@ jq -s '[.[].sections[]?.role] | group_by(.) | map({role: .[0], count: length})' 
 | Format | Approximate Size |
 |--------|------------------|
 | Per-page JSON (avg) | 5-15 KB |
-| NDJSON (all pages) | ~32 MB |
+| NDJSON (all pages) | ~30 MB |
+| NDJSON gzipped | ~5 MB |
 
 The `content_hash` field enables incremental updates—consumers can check if content changed without downloading full text.
 

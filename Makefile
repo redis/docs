@@ -27,6 +27,8 @@ json_transform:
 ndjson:
 	@echo "Generating NDJSON feed..."
 	@python3 build/generate_ndjson.py
+	@echo "Compressing NDJSON feed..."
+	@gzip -kf public/docs.ndjson
 
 serve_hugo:
 	@hugo serve

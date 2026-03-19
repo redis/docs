@@ -23,9 +23,12 @@ Redis documentation is available in structured JSON format optimized for RAG (Re
 
 A single file containing all documentation pages in [NDJSON](https://github.com/ndjson/ndjson-spec) format (one JSON object per line):
 
-- **URL**: [https://redis.io/docs/latest/docs.ndjson](https://redis.io/docs/latest/docs.ndjson)
-- **Size**: ~34 MB
-- **Pages**: ~4,100 documents
+| Format | URL | Size |
+|--------|-----|------|
+| NDJSON | [docs.ndjson](https://redis.io/docs/latest/docs.ndjson) | ~30 MB |
+| Gzipped | [docs.ndjson.gz](https://redis.io/docs/latest/docs.ndjson.gz) | ~5 MB |
+
+Both files contain ~4,100 documents.
 
 ### Per-page JSON
 
