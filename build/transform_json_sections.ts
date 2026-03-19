@@ -16,8 +16,8 @@ import { createHash } from 'crypto';
 // Note: Order matters! More specific patterns must come before general ones.
 // e.g., "version history" must match 'history' before "version" matches 'compatibility'
 const ROLE_PATTERNS: [RegExp, string][] = [
-  [/^(overview|introduction|about|description)$/i, 'overview'],
-  [/^(syntax|usage|command|signature)$/i, 'syntax'],
+  [/^(overview|introduction|about|description)/i, 'overview'],
+  [/^(syntax|usage|command|signature)/i, 'syntax'],
   [/^(example|demo|sample|code example)/i, 'example'],
   [/^(option|parameter|argument|flag)/i, 'parameters'],
   [/^(return|response|output|result)/i, 'returns'],
