@@ -59,6 +59,14 @@ Each page produces a JSON object with this structure:
       "role": "parameters",
       "text": "The SET command supports..."
     }
+  ],
+  "examples": [
+    {
+      "id": "overview-ex0",
+      "language": "plaintext",
+      "code": "> SET mykey \"Hello\"\nOK",
+      "section_id": "overview"
+    }
   ]
 }
 ```
@@ -71,10 +79,11 @@ Each page produces a JSON object with this structure:
 | `title` | string | Page title |
 | `url` | string | Canonical URL |
 | `summary` | string | Short description |
-| `content_hash` | string | SHA256 hash of original content (for cache invalidation) |
+| `content_hash` | string | SHA256 hash of `summary + sections[].text + examples[].code` |
 | `tags` | string[] | Category tags |
 | `last_updated` | string | ISO 8601 timestamp |
 | `sections` | Section[] | Content split by headings |
+| `examples` | CodeExample[] | Code blocks extracted from sections |
 
 ### Section Object
 
@@ -83,7 +92,16 @@ Each page produces a JSON object with this structure:
 | `id` | string | Slugified heading (e.g., `"learn-more"`) |
 | `title` | string | Original heading text |
 | `role` | string | Semantic role (see below) |
-| `text` | string | Section content (Markdown) |
+| `text` | string | Section content (code blocks replaced with `[code example]`) |
+
+### CodeExample Object
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | string | Unique ID: `{section_id}-ex{index}` |
+| `language` | string | Language tag from code fence (e.g., `python`, `go`, `plaintext`) |
+| `code` | string | The code content |
+| `section_id` | string | Which section this example came from |
 
 ### Semantic Roles
 
@@ -106,6 +124,30 @@ Roles are assigned based on heading text patterns:
 | `compatibility` | Compatible, Support, Version |
 | `history` | History, Changelog, Version History |
 | `content` | (default for unmatched headings) |
+
+### Filtered Sections
+
+The following sections are automatically removed during transformation as they are metadata noise:
+- `code-examples-legend` — Automatically injected by Hugo templates, explains code example formatting
+
+### Verifying content_hash
+
+The `content_hash` is computed deterministically so consumers can verify it:
+
+```python
+import hashlib
+
+def verify_hash(page):
+    parts = [page.get('summary', '')]
+    for section in page.get('sections', []):
+        parts.append(section['text'])
+    for example in page.get('examples', []):
+        parts.append(example['code'])
+
+    content = '\n'.join(parts)
+    expected = hashlib.sha256(content.encode('utf-8')).hexdigest()
+    return expected == page.get('content_hash')
+```
 
 ## Key Files
 

@@ -37,6 +37,13 @@ interface Section {
   text: string;
 }
 
+interface CodeExample {
+  id: string;
+  language: string;
+  code: string;
+  section_id: string;
+}
+
 interface PageJsonInput {
   id: string;
   title: string;
@@ -58,6 +65,7 @@ interface PageJsonOutput {
   last_updated: string;
   children?: unknown[];
   sections: Section[];
+  examples: CodeExample[];
 }
 
 function assignRole(title: string, index: number, total: number): string {
@@ -78,8 +86,48 @@ function slugify(text: string): string {
     .replace(/^-|-$/g, '');
 }
 
-function splitContentIntoSections(content: string): Section[] {
-  const sections: Section[] = [];
+// Section IDs to filter out (metadata noise, not useful for RAG)
+const FILTERED_SECTION_IDS = new Set([
+  'code-examples-legend',
+]);
+
+/**
+ * Extract fenced code blocks from text.
+ * Returns the code blocks and the text with code blocks removed.
+ */
+function extractCodeBlocks(text: string, sectionId: string): {
+  examples: CodeExample[];
+  textWithoutCode: string;
+} {
+  const examples: CodeExample[] = [];
+  let exampleIndex = 0;
+
+  // Match fenced code blocks: ```language\ncode\n```
+  const codeBlockPattern = /```(\w*)\n([\s\S]*?)```/g;
+
+  let textWithoutCode = text.replace(codeBlockPattern, (match, lang, code) => {
+    const language = lang || 'plaintext';
+    const trimmedCode = code.trim();
+
+    if (trimmedCode) {
+      examples.push({
+        id: `${sectionId}-ex${exampleIndex++}`,
+        language,
+        code: trimmedCode,
+        section_id: sectionId,
+      });
+    }
+
+    // Replace code block with placeholder to preserve structure
+    return '[code example]';
+  });
+
+  return { examples, textWithoutCode };
+}
+
+function splitContentIntoSections(content: string): { sections: Section[]; examples: CodeExample[] } {
+  const rawSections: Section[] = [];
+  const allExamples: CodeExample[] = [];
 
   // Match ## headings (level 2) - these are main sections
   // Also capture ### for subsections if needed
@@ -100,24 +148,28 @@ function splitContentIntoSections(content: string): Section[] {
   if (matches.length === 0) {
     const text = content.trim();
     if (text) {
-      sections.push({
+      const { examples, textWithoutCode } = extractCodeBlocks(text, 'content');
+      allExamples.push(...examples);
+      rawSections.push({
         id: 'content',
         title: 'Content',
         role: 'content',
-        text,
+        text: textWithoutCode,
       });
     }
-    return sections;
+    return { sections: rawSections, examples: allExamples };
   }
 
   // Extract text before first heading as intro/overview
   const introText = content.slice(0, matches[0].index).trim();
   if (introText) {
-    sections.push({
+    const { examples, textWithoutCode } = extractCodeBlocks(introText, 'overview');
+    allExamples.push(...examples);
+    rawSections.push({
       id: 'overview',
       title: 'Overview',
       role: 'overview',
-      text: introText,
+      text: textWithoutCode,
     });
   }
 
@@ -131,20 +183,48 @@ function splitContentIntoSections(content: string): Section[] {
     const sectionText = content.slice(headingEnd, nextIndex).trim();
 
     const id = slugify(current.title);
-    const role = assignRole(current.title, sections.length, matches.length);
+    const role = assignRole(current.title, rawSections.length, matches.length);
 
-    sections.push({
+    // Extract code blocks from section text
+    const { examples, textWithoutCode } = extractCodeBlocks(sectionText, id);
+    allExamples.push(...examples);
+
+    rawSections.push({
       id,
       title: current.title,
       role,
-      text: sectionText,
+      text: textWithoutCode,
     });
   }
 
-  return sections;
+  // Filter out unwanted sections (like "Code Examples Legend")
+  const sections = rawSections.filter(s => !FILTERED_SECTION_IDS.has(s.id));
+
+  return { sections, examples: allExamples };
 }
 
-function computeHash(content: string): string {
+/**
+ * Compute a deterministic hash from summary, section texts, and example code.
+ * This allows consumers to verify the hash themselves.
+ */
+function computeContentHash(
+  summary: string,
+  sections: Section[],
+  examples: CodeExample[]
+): string {
+  // Concatenate: summary + all section texts + all example code
+  const parts: string[] = [summary || ''];
+
+  for (const section of sections) {
+    parts.push(section.text);
+  }
+
+  for (const example of examples) {
+    parts.push(example.code);
+  }
+
+  // Join with newlines for consistent hashing
+  const content = parts.join('\n');
   return createHash('sha256').update(content, 'utf-8').digest('hex');
 }
 
@@ -158,28 +238,36 @@ function transformJsonFile(filePath: string, dryRun: boolean): boolean {
       return false;
     }
 
-    // Compute hash before removing content
-    const content_hash = computeHash(data.content);
+    // Split content into sections and extract examples
+    const { sections, examples } = splitContentIntoSections(data.content);
 
-    // Split content into sections
-    const sections = splitContentIntoSections(data.content);
+    // Compute hash from the structured data (verifiable by consumers)
+    const content_hash = computeContentHash(data.summary, sections, examples);
 
-    // Create new structure: replace content with content_hash, add sections
+    // Create new structure: replace content with content_hash, add sections and examples
     const { content: _removed, ...rest } = data;
     const newData: PageJsonOutput = {
       ...rest,
       content_hash,
       sections,
+      examples,
     };
 
     if (dryRun) {
       console.log(`Would transform: ${filePath}`);
       console.log(`  Hash: ${content_hash.slice(0, 16)}...`);
-      console.log(`  Sections: ${sections.length}`);
+      console.log(`  Sections: ${sections.length}, Examples: ${examples.length}`);
       sections.slice(0, 3).forEach(s =>
         console.log(`    - ${s.id} (${s.role}): ${s.text.length} chars`)
       );
       if (sections.length > 3) console.log(`    ... and ${sections.length - 3} more`);
+      if (examples.length > 0) {
+        console.log(`  Code examples:`);
+        examples.slice(0, 3).forEach(e =>
+          console.log(`    - ${e.id} (${e.language}): ${e.code.length} chars`)
+        );
+        if (examples.length > 3) console.log(`    ... and ${examples.length - 3} more`);
+      }
     } else {
       writeFileSync(filePath, JSON.stringify(newData, null, 2) + '\n');
     }
