@@ -13,6 +13,8 @@ import { join } from 'path';
 import { createHash } from 'crypto';
 
 // Role assignment based on common section title patterns
+// Note: Order matters! More specific patterns must come before general ones.
+// e.g., "version history" must match 'history' before "version" matches 'compatibility'
 const ROLE_PATTERNS: [RegExp, string][] = [
   [/^(overview|introduction|about|description)$/i, 'overview'],
   [/^(syntax|usage|command|signature)$/i, 'syntax'],
@@ -26,8 +28,8 @@ const ROLE_PATTERNS: [RegExp, string][] = [
   [/^(install|setup|getting started|quickstart)/i, 'setup'],
   [/^(configur|setting)/i, 'configuration'],
   [/^(security|auth|permission|acl)/i, 'security'],
-  [/^(compatib|support|version)/i, 'compatibility'],
   [/^(history|changelog|version history)/i, 'history'],
+  [/^(compatib|support|version)/i, 'compatibility'],
 ];
 
 interface Section {
