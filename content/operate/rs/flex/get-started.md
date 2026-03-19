@@ -11,10 +11,11 @@ weight: 20
 ---
 This page guides you through a quick setup of [Flex]({{< relref "/operate/rs/flex" >}}) with a single node for testing and demo purposes.
 
-For production environments, you can find more detailed installation instructions in the [install and setup]({{< relref "/operate/rs/installing-upgrading" >}}) section.
+For production environments, see [Plan a Flex deployment for Redis Software]({{<relref "/operate/rs/flex/plan">}}) and more detailed installation instructions in the [install and setup]({{< relref "/operate/rs/installing-upgrading" >}}) section.
 
-To set up a Redis Software cluster using Flex
-with a single node:
+To set up a Redis Software cluster using Flex with a single node:
+
+1. Review the [version requirements](#version-requirements).
 
 1. [Install Redis Software](#install-redis-software) or run it in a [Docker container](#dockerbased-installation).
 
@@ -25,6 +26,14 @@ with a single node:
 1. [Create a new database](#create-a-database) with flash enabled.
 
 1. [Connect to your new database](#connect-to-your-database).
+
+## Version requirements
+
+To create Flex databases, you need:
+
+- Redis Software cluster version 8.0.2-17 or later
+
+- Redis database version 8.2 or later
 
 ## Install Redis Software
 
