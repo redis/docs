@@ -35,10 +35,6 @@
     {{ partial "scss.html" (dict "path" "scss/style.scss") }}
     {{ partialCached "css.html" . }}
 
-    {{ if .Page.Store.Get "hasOtelMetrics" }}
-    <link rel="stylesheet" href="{{ "css/otel-metrics.css" | relURL }}">
-    {{ end }}
-
     {{ block "head" . }}{{ end }}
 
     {{ partial "ai-metadata.html" . }}
@@ -55,6 +51,7 @@
 
     <script>window.HUGO_BASEURL = "{{ .Site.BaseURL }}"</script>
 
+    {{/* Compatibility fallback: shortcode body render sets these globals after <head>. */}}
     {{ $binderRef := .Scratch.Get "binderRef" }}
     {{ $kernelName := .Scratch.Get "kernelName" }}
     {{ if $binderRef }}
@@ -128,11 +125,6 @@
     <script src="{{ "js/decision-tree.js" | relURL }}"></script>
     {{ end }}
 
-    <!-- OpenTelemetry metrics functionality -->
-    {{ if .Page.Store.Get "hasOtelMetrics" }}
-    <script src="{{ "js/otel-metrics.js" | relURL }}"></script>
-    {{ end }}
-
     <!-- Timeline functionality -->
     {{ if .Page.Store.Get "hasTimeline" }}
     <script src="{{ "js/timeline.js" | relURL }}"></script>
@@ -192,12 +184,18 @@
         display: none !important;
       }
 
-      /* Session expired message - inline in header row */
-      .session-expired-message {
-        color: #e57373; /* red-300 */
+      /* Inline Thebe status messages shown in the header row */
+      .session-expired-message,
+      .thebe-rate-limit-message {
         font-size: 0.85em;
         margin-right: 12px;
         white-space: nowrap;
+      }
+      .session-expired-message {
+        color: #e57373; /* red-300 */
+      }
+      .thebe-rate-limit-message {
+        color: #fbbf24; /* amber-400 */
       }
 
 
@@ -599,6 +597,9 @@
         let thebeBootstrapped = false;
         let notebookAttached = false;  // Track when notebook is attached to session
         let firstCellExecuted = false; // Track if first cell has run to prevent re-disabling dependent buttons
+        let lastBinderRateLimitError = null;
+        let thebeStatusHandlerAttached = false;
+        const RATE_LIMIT_MESSAGE = "Too many requests. Please try again later.";
 
         // Function to restore clean cells from the hidden script element
         // The script element is NEVER touched by Thebe, so it's always clean
@@ -624,11 +625,16 @@
         // This prevents Thebe from auto-processing cells on page load
         let thebeLoaded = false;
         let thebeLoading = false;
+        let thebeLoadError = null;
 
         function loadThebe() {
           return new Promise(function(resolve, reject) {
             if (thebeLoaded) {
               resolve();
+              return;
+            }
+            if (thebeLoadError) {
+              reject(thebeLoadError);
               return;
             }
             if (thebeLoading) {
@@ -637,6 +643,9 @@
                 if (thebeLoaded) {
                   clearInterval(checkLoaded);
                   resolve();
+                } else if (thebeLoadError) {
+                  clearInterval(checkLoaded);
+                  reject(thebeLoadError);
                 }
               }, 100);
               return;
@@ -656,11 +665,13 @@
             script.onload = function() {
               thebeLoaded = true;
               thebeLoading = false;
+              thebeLoadError = null;
               resolve();
             };
             script.onerror = function() {
               thebeLoading = false;
-              reject(new Error('Failed to load Thebe script'));
+              thebeLoadError = new Error('Failed to load Thebe script');
+              reject(thebeLoadError);
             };
             document.head.appendChild(script);
           });
@@ -669,7 +680,7 @@
         // Configure page-specific session storage
         // Get current page path for unique session key
         const pagePath = window.location.pathname.replace(/\//g, '-').replace(/^-|-$/g, '') || 'home';
-        // Get dynamic binder ref and kernel name from window (set by Hugo .Scratch)
+        // Get dynamic binder ref and kernel name from window (set by shortcode render; head is fallback only)
         if (!window.thebeBinderRef || !window.thebeKernelName) {
           console.error('[Thebe] Missing binder ref or kernel name. Interactive notebooks require both.');
           return; // Skip all Thebe initialization
@@ -737,6 +748,340 @@
               // Skip invalid JSON
             }
           }
+        }
+
+        function clearContainerMessages(container) {
+          container.querySelectorAll('.session-expired-message, .thebe-rate-limit-message').forEach(function(message) {
+            message.remove();
+          });
+        }
+
+        function showContainerMessage(container, className, message) {
+          // Find the header row (contains the action buttons)
+          var header = container.querySelector('.codetabs-header .flex.items-center.gap-2:last-child');
+          if (!header) return;
+
+          clearContainerMessages(container);
+
+          var msg = document.createElement('span');
+          msg.className = className;
+          msg.textContent = message;
+
+          var firstButton = header.querySelector('button, a');
+          if (firstButton) {
+            header.insertBefore(msg, firstButton);
+          }
+        }
+
+        function setRunButtonState(btn, enabled, title) {
+          const hasDependencies = btn.getAttribute('data-original-depends') === 'true';
+          btn.classList.remove(
+            'loading',
+            'thebe-btn-kernel-unavailable',
+            'thebe-btn-blocked',
+            'text-slate-500',
+            'cursor-not-allowed',
+            'text-slate-300',
+            'hover:text-white'
+          );
+
+          if (!enabled || hasDependencies) {
+            btn.classList.add('text-slate-500', 'cursor-not-allowed');
+            btn.title = title || 'Run the first cell to start the kernel';
+            return;
+          }
+
+          btn.classList.add('text-slate-300', 'hover:text-white');
+          btn.title = title || 'Run this code on the page';
+        }
+
+        function resetButtonsForFreshKernelStart() {
+          document.querySelectorAll('.thebe-run-btn').forEach(function(btn) {
+            const hasDependencies = btn.getAttribute('data-original-depends') === 'true';
+            setRunButtonState(btn, !hasDependencies, hasDependencies ? 'Run the first cell to start the kernel' : 'Run this code on the page');
+          });
+        }
+
+        function resetThebeAfterBootstrapFailure() {
+          kernelReady = false;
+          notebookAttached = false;
+          thebeBootstrapped = false;
+          firstCellExecuted = false;
+          executedCells.clear();
+          existingSession = null;
+          lastBinderRateLimitError = null;
+          sessionStorage.removeItem(SESSION_RESTORE_KEY);
+
+          if (sessionStorageKey_actual) {
+            localStorage.removeItem(sessionStorageKey_actual);
+            sessionStorageKey_actual = null;
+          }
+
+          document.querySelectorAll('.thebe-container').forEach(function(container) {
+            if (container._outputObserver) {
+              container._outputObserver.disconnect();
+              delete container._outputObserver;
+            }
+
+            container.classList.remove('loading', 'reconnecting', 'kernel-ready', 'activated');
+
+            if (container._wasHidden) {
+              const panel = container.querySelector('.panel');
+              const stepCodeView = panel ? panel.querySelector('.step-code-view') : null;
+              const fullFileView = panel ? panel.querySelector('.full-file-view') : null;
+              if (stepCodeView) {
+                stepCodeView.style.display = 'none';
+              }
+              if (fullFileView) {
+                fullFileView.style.display = '';
+              }
+              delete container._wasHidden;
+            }
+
+            clearContainerMessages(container);
+
+            const outputContainer = container.querySelector('.thebe-output-container');
+            if (outputContainer) {
+              outputContainer.innerHTML = '';
+            }
+          });
+
+          restoreCleanCells();
+          resetButtonsForFreshKernelStart();
+        }
+
+        function getRequestUrl(input) {
+          if (typeof input === 'string') {
+            return input;
+          }
+          if (input && typeof input.url === 'string') {
+            return input.url;
+          }
+          return '';
+        }
+
+        function isBinderHubRequest(input) {
+          const url = getRequestUrl(input);
+          return !!(url && url.includes('/binder/') && url.includes('/build/'));
+        }
+
+        function getCloudflareMitigation(response) {
+          if (!response || !response.headers || typeof response.headers.get !== 'function') {
+            return '';
+          }
+
+          return (response.headers.get('cf-mitigated') || '').toLowerCase();
+        }
+
+        function isCloudflareChallengePage(response) {
+          if (!response) {
+            return false;
+          }
+
+          if (response.status === 403 || response.status === 429) {
+            return true;
+          }
+
+          if (getCloudflareMitigation(response) === 'challenge') {
+            return true;
+          }
+
+          const contentType = response && response.headers && typeof response.headers.get === 'function'
+            ? (response.headers.get('content-type') || '').toLowerCase()
+            : '';
+
+          return contentType.includes('text/html');
+        }
+
+        function isRateLimitError(error) {
+          if (!error) {
+            return false;
+          }
+
+          const message = [error.message, error.reason, error.error]
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase();
+
+          return error.status === 429 ||
+            error.status === 403 ||
+            error.statusCode === 429 ||
+            error.statusCode === 403 ||
+            isCloudflareChallengePage(error.response) ||
+            isCloudflareChallengePage(error.cause) ||
+            error.cfMitigated === 'challenge' ||
+            message.includes('429') ||
+            message.includes('403') ||
+            message.includes('rate limit') ||
+            message.includes('too many requests') ||
+            message.includes('challenge');
+        }
+
+        function createRateLimitError(message, response) {
+          const error = new Error(message || RATE_LIMIT_MESSAGE);
+          error.status = response && typeof response.status === 'number' ? response.status : 429;
+          if (response) {
+            error.response = response;
+            const cfMitigated = getCloudflareMitigation(response);
+            if (cfMitigated) {
+              error.cfMitigated = cfMitigated;
+            }
+          }
+          return error;
+        }
+
+        async function probeBinderHubRateLimit(url, fetchImpl) {
+          const requestUrl = getRequestUrl(url);
+          if (!isBinderHubRequest(requestUrl) || typeof fetchImpl !== 'function') {
+            return null;
+          }
+
+          try {
+            const response = await fetchImpl(requestUrl, {
+              method: 'HEAD',
+              headers: {
+                'Accept': 'text/event-stream'
+              }
+            });
+
+            if (response && isCloudflareChallengePage(response)) {
+              const error = createRateLimitError(RATE_LIMIT_MESSAGE, response);
+              lastBinderRateLimitError = error;
+              return error;
+            }
+          } catch (error) {
+            if (isRateLimitError(error)) {
+              lastBinderRateLimitError = error;
+              return error;
+            }
+          }
+
+          return null;
+        }
+
+        async function preflightRateLimitCheck(binderUrl, repo, ref) {
+          console.log('[Thebe Debug] preflightRateLimitCheck called:', { binderUrl, repo, ref });
+
+          const normalizedBinderUrl = typeof binderUrl === 'string' && binderUrl
+            ? (binderUrl.endsWith('/') ? binderUrl : binderUrl + '/')
+            : '';
+
+          if (!normalizedBinderUrl || !repo || !ref || typeof window.fetch !== 'function') {
+            console.log('[Thebe Debug] preflightRateLimitCheck early return - missing params');
+            return null;
+          }
+
+          const buildUrl = `${normalizedBinderUrl}build/gh/${repo}/${ref}`;
+
+          console.log('[Thebe Debug] preflightRateLimitCheck URL:', buildUrl);
+
+          try {
+            const response = await window.fetch(buildUrl, {
+              method: 'HEAD',
+              mode: 'cors',
+              credentials: 'omit'
+            });
+
+            console.log('[Thebe Debug] preflightRateLimitCheck response:', {
+              status: response.status,
+              ok: response.ok,
+              contentType: response.headers.get('content-type'),
+              cfMitigated: response.headers.get('cf-mitigated')
+            });
+
+            if (response && isCloudflareChallengePage(response)) {
+              console.log('[Thebe Debug] Cloudflare challenge detected!');
+              const error = createRateLimitError(RATE_LIMIT_MESSAGE, response);
+              lastBinderRateLimitError = error;
+              return error;
+            }
+
+            console.log('[Thebe Debug] preflightRateLimitCheck - no rate limit detected');
+          } catch (error) {
+            console.log('[Thebe Debug] preflightRateLimitCheck error:', error.message, error);
+          }
+
+          return null;
+        }
+
+        async function withBinderRateLimitDetection(fn) {
+          const originalFetch = typeof window.fetch === 'function' ? window.fetch.bind(window) : null;
+          const OriginalEventSource = typeof window.EventSource === 'function' ? window.EventSource : null;
+          const binderRateLimitChecks = [];
+
+          if (originalFetch) {
+            window.fetch = async function(input, init) {
+              const response = await originalFetch(input, init);
+
+              if (isBinderHubRequest(input) && response && isCloudflareChallengePage(response)) {
+                let responseText = '';
+                try {
+                  responseText = await response.clone().text();
+                } catch (readError) {
+                  // Ignore response body read errors - status code is enough
+                }
+
+                const error = createRateLimitError(responseText || RATE_LIMIT_MESSAGE, response);
+                lastBinderRateLimitError = error;
+                throw error;
+              }
+
+              return response;
+            };
+          }
+
+          if (OriginalEventSource && originalFetch) {
+            class RateLimitAwareEventSource extends OriginalEventSource {
+              constructor(url, eventSourceInitDict) {
+                super(url, eventSourceInitDict);
+
+                const requestUrl = getRequestUrl(url);
+                if (isBinderHubRequest(requestUrl)) {
+                  let rateLimitCheck = null;
+                  const maybeDetectRateLimit = () => {
+                    if (lastBinderRateLimitError) {
+                      return;
+                    }
+                    if (!rateLimitCheck) {
+                      rateLimitCheck = probeBinderHubRateLimit(requestUrl, originalFetch)
+                        .catch(function() {
+                          return null;
+                        });
+                      binderRateLimitChecks.push(rateLimitCheck);
+                    }
+                  };
+
+                  this.addEventListener('error', maybeDetectRateLimit);
+                }
+              }
+            }
+
+            window.EventSource = RateLimitAwareEventSource;
+          }
+
+          try {
+            return await fn();
+          } catch (error) {
+            if (!lastBinderRateLimitError && binderRateLimitChecks.length > 0) {
+              await Promise.allSettled(binderRateLimitChecks);
+            }
+            throw lastBinderRateLimitError || error;
+          } finally {
+            if (originalFetch) {
+              window.fetch = originalFetch;
+            }
+            if (OriginalEventSource) {
+              window.EventSource = OriginalEventSource;
+            }
+          }
+        }
+
+        function handleRateLimitError(error) {
+          console.warn('[Thebe Session] BinderHub rate limit detected:', error);
+          resetThebeAfterBootstrapFailure();
+          document.querySelectorAll('.thebe-container').forEach(function(container) {
+            showContainerMessage(container, 'thebe-rate-limit-message', RATE_LIMIT_MESSAGE);
+          });
         }
 
         // Function to enable all buttons when kernel is ready
@@ -811,26 +1156,8 @@
           // This ensures the next page load starts in clean state
           localStorage.setItem('thebe-session-expired', 'true');
 
-          // Show message in header row, before the "Run here" button
           document.querySelectorAll('.thebe-container').forEach(function(container) {
-            // Find the header row (contains the action buttons)
-            var header = container.querySelector('.codetabs-header .flex.items-center.gap-2:last-child');
-            if (!header) return;
-
-            // Remove any existing message first
-            var existing = container.querySelector('.session-expired-message');
-            if (existing) existing.remove();
-
-            // Create message element
-            var msg = document.createElement('span');
-            msg.className = 'session-expired-message';
-            msg.textContent = 'Please refresh the page to start a new session.';
-
-            // Insert before the first button (Run here button)
-            var firstButton = header.querySelector('button, a');
-            if (firstButton) {
-              header.insertBefore(msg, firstButton);
-            }
+            showContainerMessage(container, 'session-expired-message', 'Please refresh the page to start a new session.');
           });
         }
 
@@ -851,10 +1178,11 @@
         // Function to bootstrap Thebe (extracted for reuse)
         async function bootstrapThebe(isAutoReconnect = false) {
           if (thebeBootstrapped) {
-            return;
+            return true;
           }
 
           thebeBootstrapped = true;
+          lastBinderRateLimitError = null;
 
           // Mark session restore in progress to protect against rapid refreshes
           sessionStorage.setItem(SESSION_RESTORE_KEY, Date.now().toString());
@@ -870,8 +1198,14 @@
             await new Promise(function(r) { setTimeout(r, 100); });
 
             // Set up Thebe status event listener
-            if (typeof thebelab !== 'undefined' && thebelab.on) {
+            if (!thebeStatusHandlerAttached && typeof thebelab !== 'undefined' && thebelab.on) {
+              thebeStatusHandlerAttached = true;
               thebelab.on("status", function (evt, data) {
+                if (isRateLimitError(data) || lastBinderRateLimitError) {
+                  handleRateLimitError(lastBinderRateLimitError || data);
+                  return;
+                }
+
                 // Check for real kernel death (not just temporary shutdown)
                 if (data.status === "failed" || data.status === "disconnected" || data.status === "dead") {
                   handleKernelExpired();
@@ -923,6 +1257,11 @@
                   // Don't set kernelReady here - wait for "attached" event
                 }
               });
+              thebelab.on("error", function (evt, data) {
+                if (isRateLimitError(data) || lastBinderRateLimitError) {
+                  handleRateLimitError(lastBinderRateLimitError || data);
+                }
+              });
             }
 
             // Override Thebe config with page-specific storage prefix
@@ -936,7 +1275,7 @@
                 try {
                   const config = JSON.parse(configScript.textContent);
 
-                  // Use binder ref and kernel name from window (set by Hugo .Scratch)
+                  // Use binder ref and kernel name from window (set by shortcode render; head is fallback only)
                   if (!window.thebeBinderRef || !window.thebeKernelName) {
                     console.error('[Thebe] Missing binder ref or kernel name. Interactive notebooks require both.');
                     return; // Skip bootstrap
@@ -956,16 +1295,47 @@
                   if (config.binderOptions && config.binderOptions.savedSession) {
                     config.binderOptions.savedSession.storagePrefix = sessionStorageKey + '-';
                   }
+
+                  if (!isAutoReconnect && config.binderOptions) {
+                    console.log('[Thebe Debug] About to call preflightRateLimitCheck with:', {
+                      binderUrl: config.binderOptions.binderUrl,
+                      repo: config.binderOptions.repo,
+                      ref: config.binderOptions.ref
+                    });
+
+                    const preflightRateLimitError = await preflightRateLimitCheck(
+                      config.binderOptions.binderUrl,
+                      config.binderOptions.repo,
+                      config.binderOptions.ref
+                    );
+
+                    if (preflightRateLimitError) {
+                      console.warn('[Thebe Session] Pre-flight rate limit detected');
+                      handleRateLimitError(preflightRateLimitError);
+                      return false;
+                    }
+                  }
+
                   config.requestKernel = true;
                   // Bootstrap with updated config
-                  await thebelab.bootstrap(config);
+                  await withBinderRateLimitDetection(function() {
+                    return thebelab.bootstrap(config);
+                  });
                 } catch (e) {
+                  if (isRateLimitError(e) || lastBinderRateLimitError) {
+                    handleRateLimitError(lastBinderRateLimitError || e);
+                    return false;
+                  }
                   console.error('[Thebe Session] Failed to parse/update config:', e);
                   // Fallback to default bootstrap
-                  await thebelab.bootstrap();
+                  await withBinderRateLimitDetection(function() {
+                    return thebelab.bootstrap();
+                  });
                 }
               } else {
-                await thebelab.bootstrap();
+                await withBinderRateLimitDetection(function() {
+                  return thebelab.bootstrap();
+                });
               }
 
               // Hook into WebSocket close event after bootstrap
@@ -1016,9 +1386,17 @@
               });
             }
           } catch (e) {
+            if (isRateLimitError(e) || lastBinderRateLimitError) {
+              handleRateLimitError(lastBinderRateLimitError || e);
+              return false;
+            }
             console.error('[Thebe Session] Error during bootstrap:', e);
             sessionStorage.removeItem(SESSION_RESTORE_KEY);
+            thebeBootstrapped = false;
+            return false;
           }
+
+          return true;
         }
 
         // If a valid session exists, auto-bootstrap Thebe immediately
@@ -1174,6 +1552,10 @@
             return;
           }
 
+          document.querySelectorAll('.thebe-container').forEach(function(thebeContainer) {
+            clearContainerMessages(thebeContainer);
+          });
+
           // Mark container as activated to enable editing
           container.classList.add('activated');
 
@@ -1274,7 +1656,15 @@
             }
 
             // Call the extracted bootstrap function
-            await bootstrapThebe();
+            const bootstrapped = await bootstrapThebe();
+            if (!bootstrapped) {
+              btn.classList.remove('loading');
+              container.classList.remove('loading', 'reconnecting', 'kernel-ready');
+              if (window.scrollY !== initialScrollY) {
+                window.scrollTo(0, initialScrollY);
+              }
+              return;
+            }
           }
 
           // Add loading state (kernel-ready class determines the message)
