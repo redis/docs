@@ -35,7 +35,11 @@ AI-ready output
 
 ## JSON Schema
 
-Each page produces a JSON object with this structure:
+Each page produces a JSON object with this structure. There are two page types:
+
+### Content Page (page_type: "content")
+
+Pages with prose content, sections, and code examples:
 
 ```json
 {
@@ -43,6 +47,7 @@ Each page produces a JSON object with this structure:
   "title": "SET",
   "url": "https://redis.io/commands/set/",
   "summary": "Sets the string value of a key...",
+  "page_type": "content",
   "content_hash": "a1b2c3d4e5f6...",
   "tags": ["docs", "develop", "commands"],
   "last_updated": "2026-03-13T10:33:30Z",
@@ -52,12 +57,6 @@ Each page produces a JSON object with this structure:
       "title": "Overview",
       "role": "overview",
       "text": "The SET command sets..."
-    },
-    {
-      "id": "options",
-      "title": "Options",
-      "role": "parameters",
-      "text": "The SET command supports..."
     }
   ],
   "examples": [
@@ -71,6 +70,28 @@ Each page produces a JSON object with this structure:
 }
 ```
 
+### Index Page (page_type: "index")
+
+Navigation/listing pages with no prose content:
+
+```json
+{
+  "id": "commands",
+  "title": "Commands",
+  "url": "https://redis.io/commands/",
+  "summary": "Redis commands reference",
+  "page_type": "index",
+  "tags": ["docs", "commands"],
+  "last_updated": "2026-03-13T10:33:30Z",
+  "sections": [],
+  "examples": [],
+  "children": [
+    {"id": "set", "title": "SET", "url": "..."},
+    {"id": "get", "title": "GET", "url": "..."}
+  ]
+}
+```
+
 ### Field Descriptions
 
 | Field | Type | Description |
@@ -79,11 +100,13 @@ Each page produces a JSON object with this structure:
 | `title` | string | Page title |
 | `url` | string | Canonical URL |
 | `summary` | string | Short description |
-| `content_hash` | string | SHA256 hash of `summary + sections[].text + examples[].code` |
+| `page_type` | string | `"content"` or `"index"` |
+| `content_hash` | string? | SHA256 hash (content pages only) |
 | `tags` | string[] | Category tags |
 | `last_updated` | string | ISO 8601 timestamp |
-| `sections` | Section[] | Content split by headings |
-| `examples` | CodeExample[] | Code blocks extracted from sections |
+| `sections` | Section[] | Content sections (empty for index pages) |
+| `examples` | CodeExample[] | Code examples (empty for index pages) |
+| `children` | Child[]? | Child pages (index pages only) |
 
 ### Section Object
 

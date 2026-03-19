@@ -49,18 +49,21 @@ interface PageJsonInput {
   title: string;
   url: string;
   summary: string;
-  content: string;
+  content?: string;
   tags: string[];
   last_updated: string;
   children?: unknown[];
 }
+
+type PageType = 'content' | 'index';
 
 interface PageJsonOutput {
   id: string;
   title: string;
   url: string;
   summary: string;
-  content_hash: string;
+  page_type: PageType;
+  content_hash?: string;
   tags: string[];
   last_updated: string;
   children?: unknown[];
@@ -233,40 +236,50 @@ function transformJsonFile(filePath: string, dryRun: boolean): boolean {
     const fileContent = readFileSync(filePath, 'utf-8');
     const data: PageJsonInput = JSON.parse(fileContent);
 
-    // Skip if no content field
-    if (!data.content) {
-      return false;
+    // Remove content field from output
+    const { content: rawContent, ...rest } = data;
+
+    let newData: PageJsonOutput;
+
+    if (rawContent && rawContent.trim()) {
+      // Content page: has prose content to process
+      const { sections, examples } = splitContentIntoSections(rawContent);
+      const content_hash = computeContentHash(data.summary, sections, examples);
+
+      newData = {
+        ...rest,
+        page_type: 'content',
+        content_hash,
+        sections,
+        examples,
+      };
+    } else {
+      // Index page: no content, just navigation/children
+      newData = {
+        ...rest,
+        page_type: 'index',
+        sections: [],
+        examples: [],
+      };
     }
-
-    // Split content into sections and extract examples
-    const { sections, examples } = splitContentIntoSections(data.content);
-
-    // Compute hash from the structured data (verifiable by consumers)
-    const content_hash = computeContentHash(data.summary, sections, examples);
-
-    // Create new structure: replace content with content_hash, add sections and examples
-    const { content: _removed, ...rest } = data;
-    const newData: PageJsonOutput = {
-      ...rest,
-      content_hash,
-      sections,
-      examples,
-    };
 
     if (dryRun) {
       console.log(`Would transform: ${filePath}`);
-      console.log(`  Hash: ${content_hash.slice(0, 16)}...`);
-      console.log(`  Sections: ${sections.length}, Examples: ${examples.length}`);
-      sections.slice(0, 3).forEach(s =>
+      console.log(`  Type: ${newData.page_type}`);
+      if (newData.content_hash) {
+        console.log(`  Hash: ${newData.content_hash.slice(0, 16)}...`);
+      }
+      console.log(`  Sections: ${newData.sections.length}, Examples: ${newData.examples.length}`);
+      newData.sections.slice(0, 3).forEach(s =>
         console.log(`    - ${s.id} (${s.role}): ${s.text.length} chars`)
       );
-      if (sections.length > 3) console.log(`    ... and ${sections.length - 3} more`);
-      if (examples.length > 0) {
+      if (newData.sections.length > 3) console.log(`    ... and ${newData.sections.length - 3} more`);
+      if (newData.examples.length > 0) {
         console.log(`  Code examples:`);
-        examples.slice(0, 3).forEach(e =>
+        newData.examples.slice(0, 3).forEach(e =>
           console.log(`    - ${e.id} (${e.language}): ${e.code.length} chars`)
         );
-        if (examples.length > 3) console.log(`    ... and ${examples.length - 3} more`);
+        if (newData.examples.length > 3) console.log(`    ... and ${newData.examples.length - 3} more`);
       }
     } else {
       writeFileSync(filePath, JSON.stringify(newData, null, 2) + '\n');
