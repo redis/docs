@@ -23,7 +23,8 @@ int main(int argc, char **argv) {
     // STEP_END
 
     // REMOVE_START
-    redisCommand(c, "DEL firstname lastname age");
+    redisReply *del_reply = redisCommand(c, "DEL firstname lastname age");
+    freeReplyObject(del_reply);
     // REMOVE_END
 
     // STEP_START keys
@@ -86,7 +87,8 @@ int main(int argc, char **argv) {
     // STEP_END
 
     // REMOVE_START
-    redisCommand(c, "DEL firstname lastname age");
+    reply = redisCommand(c, "DEL firstname lastname age");
+    freeReplyObject(reply);
     // REMOVE_END
 
     // STEP_START disconnect
