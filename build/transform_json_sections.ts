@@ -134,6 +134,22 @@ function splitContentIntoSections(content: string): { sections: Section[]; examp
   const rawSections: Section[] = [];
   const allExamples: CodeExample[] = [];
 
+  // First, find all code block ranges to avoid matching headings inside them
+  const codeBlockRanges: { start: number; end: number }[] = [];
+  const codeBlockPattern = /```[\s\S]*?```/g;
+  let codeMatch;
+  while ((codeMatch = codeBlockPattern.exec(content)) !== null) {
+    codeBlockRanges.push({
+      start: codeMatch.index,
+      end: codeMatch.index + codeMatch[0].length,
+    });
+  }
+
+  // Helper to check if a position is inside a code block
+  const isInsideCodeBlock = (pos: number): boolean => {
+    return codeBlockRanges.some(range => pos >= range.start && pos < range.end);
+  };
+
   // Match ## headings (level 2) - these are main sections
   // Also capture ### for subsections if needed
   const headingPattern = /^(#{2,3})\s+(.+)$/gm;
@@ -142,6 +158,10 @@ function splitContentIntoSections(content: string): { sections: Section[]; examp
   let match;
 
   while ((match = headingPattern.exec(content)) !== null) {
+    // Skip headings that are inside code blocks (e.g., Python ## comments)
+    if (isInsideCodeBlock(match.index)) {
+      continue;
+    }
     matches.push({
       level: match[1].length,
       title: match[2].trim(),
