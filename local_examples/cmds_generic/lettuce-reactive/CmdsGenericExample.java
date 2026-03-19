@@ -61,6 +61,9 @@ public class CmdsGenericExample {
             // STEP_END
 
             Mono.when(existsExample).block();
+            // REMOVE_START
+            reactiveCommands.del("key1", "key2").block();
+            // REMOVE_END
 
             // STEP_START keys
             Mono<Void> keysExample = reactiveCommands.mset(Map.of(

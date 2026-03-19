@@ -69,6 +69,9 @@ public class CmdsGenericExample {
             }).toCompletableFuture();
             // STEP_END
             existsExample.join();
+            // REMOVE_START
+            asyncCommands.del("key1", "key2").toCompletableFuture().join();
+            // REMOVE_END
 
             // STEP_START keys
             CompletableFuture<Void> keysExample = asyncCommands.mset(Map.of(

@@ -101,8 +101,9 @@ public class CmdsGenericExample
         Assert.False(existsResult3);
         Assert.True(existsResult4);
         Assert.Equal(2, existsResult5);
+        db.KeyDelete(["key1", "key2"]);
         // REMOVE_END
-        
+
         // STEP_START expire
         bool expireResult1 = db.StringSet("mykey", "Hello");
         Console.WriteLine(expireResult1);   // >>> true
