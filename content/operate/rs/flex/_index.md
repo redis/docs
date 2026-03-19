@@ -12,7 +12,7 @@ linktitle: Flex databases
 weight: 38
 ---
 
-Flex extends your database capacity by combining RAM and flash (SSD) storage. This tiered architecture keeps frequently accessed (hot) data in RAM for sub-millisecond latency while storing less active (warm) data on flash to reduce costs and increase capacity.
+Flex extends your database capacity by combining RAM and flash (SSD) storage. This tiered architecture keeps frequently accessed (hot) data in RAM for sub-millisecond latency while storing less active (warm) data on flash to reduce costs and increase capacity. Flex frees RAM for hot data, leads to a higher RAM hit rate, and allows bigger datasets per node.
 
 Flex databases work with your existing Redis applications and the Redis API without modification.
 
@@ -78,7 +78,7 @@ For Redis Software version 7.22.2-22 or earlier, see [Auto Tiering]({{< relref "
 
 - Key and value offloading
   - Auto Tiering offloads only values to flash while keys remain in RAM.
-  - Flex offloads both keys and values, which increases dataset density per node and reduces RAM consumption.
+  - Flex offloads both keys and values, which increases dataset density per node and reduces RAM consumption. This change frees RAM for hot data, leads to a higher RAM hit rate, and allows bigger datasets per node.
 - RAM population strategy
   - Auto Tiering fills all available RAM before offloading data to flash. This maximizes hot-data performance but can cause non-linear performance changes at high utilization.
   - Flex uses utilization-aware RAM population. When database utilization is below 50%, Flex uses up to 50% of configured RAM for hot data. Above 50% utilization, Flex uses both RAM and flash proportionally, following the configured RAM-to-flash ratio. This provides a stable performance curve, consistent RAM hit-rate, and predictable throughput and latency.
