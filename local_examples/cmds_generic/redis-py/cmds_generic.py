@@ -123,6 +123,34 @@ r.delete("mykey")
 # REMOVE_END
 # STEP_END
 
+# STEP_START keys
+res = r.mset({"firstname": "Jack", "lastname": "Stuntman", "age": "35"})
+print(res)
+# >>> True
+
+res = r.keys("*name*")
+print(sorted(res))
+# >>> ['firstname', 'lastname']
+# REMOVE_START
+assert sorted(res) == ["firstname", "lastname"]
+# REMOVE_END
+
+res = r.keys("a??")
+print(res)
+# >>> ['age']
+# REMOVE_START
+assert res == ["age"]
+# REMOVE_END
+
+res = r.keys("*")
+print(sorted(res))
+# >>> ['age', 'firstname', 'lastname']
+# REMOVE_START
+assert sorted(res) == ["age", "firstname", "lastname"]
+r.delete("firstname", "lastname", "age")
+# REMOVE_END
+# STEP_END
+
 # STEP_START scan1
 res = r.sadd("myset", *set([1, 2, 3, "foo", "foobar", "feelsgood"]))
 print(res)

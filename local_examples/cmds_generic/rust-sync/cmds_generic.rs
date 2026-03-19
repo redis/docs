@@ -291,7 +291,7 @@ mod cmds_generic_tests {
 
         match r.sscan_match("myset", "f*") {
             Ok(iter) => {
-                let res: Vec<String> = iter.collect();
+                let res: Vec<String> = iter.filter_map(|r| r.ok()).collect();
                 println!("{res:?}");    // >>> ["foo", "foobar", "feelsgood"]
                 // REMOVE_START
                 let mut sorted_res = res.clone();
@@ -321,14 +321,14 @@ mod cmds_generic_tests {
         // This simulates the Python cursor-based output but uses the available API
         match r.scan_match("*11*") {
             Ok(iter) => {
-                let keys: Vec<String> = iter.collect();
+                let keys: Vec<String> = iter.filter_map(|r| r.ok()).collect();
                 // REMOVE_START
                 assert_eq!(keys.len(), 19); // key:11, key:110-119, key:211, key:311, etc.
 
                 // Clean up all keys
                 match r.scan_match("key:*") {
                     Ok(iter) => {
-                        let all_keys: Vec<String> = iter.collect();
+                        let all_keys: Vec<String> = iter.filter_map(|r| r.ok()).collect();
                         if !all_keys.is_empty() {
                             let key_refs: Vec<&str> = all_keys.iter().map(|s| s.as_str()).collect();
                             let _: Result<i32, _> = r.del(&key_refs);
@@ -455,7 +455,7 @@ mod cmds_generic_tests {
 
         match r.hscan("myhash") {
             Ok(iter) => {
-                let fields: std::collections::HashMap<String, String> = iter.collect();
+                let fields: std::collections::HashMap<String, String> = iter.filter_map(|r| r.ok()).collect();
                 println!("{fields:?}");    // >>> {"a": "1", "b": "2"}
                 // REMOVE_START
                 assert_eq!(fields.get("a"), Some(&"1".to_string()));

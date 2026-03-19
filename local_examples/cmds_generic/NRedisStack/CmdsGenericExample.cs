@@ -168,12 +168,36 @@ public class CmdsGenericExample
 
 
         // STEP_START keys
+        bool keysResult1 = db.StringSet(
+            new KeyValuePair<RedisKey, RedisValue>[] {
+                new("firstname", "Jack"),
+                new("lastname", "Stuntman"),
+                new("age", "35")
+            }
+        );
+        Console.WriteLine(keysResult1);  // >>> True
 
+        IServer server = muxer.GetServer("localhost:6379");
+
+        RedisKey[] keysResult2 = server.Keys(pattern: "*name*").ToArray();
+        Array.Sort(keysResult2, (a, b) => a.ToString().CompareTo(b.ToString()));
+        Console.WriteLine(string.Join(", ", keysResult2.Select(k => k.ToString())));  // >>> firstname, lastname
+
+        RedisKey[] keysResult3 = server.Keys(pattern: "a??").ToArray();
+        Console.WriteLine(string.Join(", ", keysResult3.Select(k => k.ToString())));  // >>> age
+
+        RedisKey[] keysResult4 = server.Keys(pattern: "*").ToArray();
+        Array.Sort(keysResult4, (a, b) => a.ToString().CompareTo(b.ToString()));
+        Console.WriteLine(string.Join(", ", keysResult4.Select(k => k.ToString())));  // >>> age, firstname, lastname
         // STEP_END
 
         // Tests for 'keys' step.
         // REMOVE_START
-
+        Assert.True(keysResult1);
+        Assert.Equal(2, keysResult2.Length);
+        Assert.Single(keysResult3);
+        Assert.Equal(3, keysResult4.Length);
+        db.KeyDelete(new RedisKey[] { "firstname", "lastname", "age" });
         // REMOVE_END
 
 
