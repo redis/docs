@@ -1873,7 +1873,7 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
             // Multi-line signatures start with method_name( and the line ends with just "(" or has params continuing
             let is_multiline_start = !is_single_line_interface_method &&
                 line.starts_with("  ") && !line.starts_with("    ") &&
-                trimmed.ends_with("(") || (trimmed.contains("(") && !trimmed.contains(")"));
+                (trimmed.ends_with("(") || (trimmed.contains("(") && !trimmed.contains(")")));
 
             if !is_single_line_interface_method && !is_multiline_start {
                 line_num += 1;
