@@ -69,6 +69,10 @@
 {{- if findRE "\\[\\],\\{" $toc -}}{{- $invalid = true -}}{{- end -}}
 {{- if findRE "\\}\\},\\{" $toc -}}{{- $invalid = true -}}{{- end -}}
 {{- if findRE "\\]\\},\\{" $toc -}}{{- $invalid = true -}}{{- end -}}
+{{- /* Fix: catch ]},] patterns (nested children ending improperly) */ -}}
+{{- if findRE "\\]\\},\\]" $toc -}}{{- $invalid = true -}}{{- end -}}
+{{- /* Fix: catch ]}]} patterns (double-nested children) */ -}}
+{{- if findRE "\\]\\}\\]\\}" $toc -}}{{- $invalid = true -}}{{- end -}}
 {{- if $invalid -}}
 {"sections":[]}
 {{- else -}}

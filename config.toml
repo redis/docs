@@ -112,7 +112,14 @@ rdi_current_version = "1.16.1"
     mediaType = "text/markdown"
     isPlainText = true
 
+  # Add JSON output for AI/LLM consumption (per-page JSON files)
+  [outputFormats.json]
+    name = "json"
+    baseName = "index"
+    mediaType = "application/json"
+    isPlainText = true
+
 # Comment out if you don't want the "print entire section" link enabled.
 [outputs]
-section = ["HTML", "RSS", "Markdown"] # print
-page = ["HTML", "Markdown"]
+section = ["HTML", "RSS", "Markdown", "JSON"]
+page = ["HTML", "Markdown", "JSON"]
