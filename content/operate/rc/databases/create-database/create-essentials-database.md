@@ -24,7 +24,6 @@ Redis Cloud Essentials is cost-efficient and designed for low-throughput scenari
     {{< note >}}
 This guide shows how to create a paid Essentials database.
 - If you want to create a free Essentials database, see [Create a free database]({{< relref "/operate/rc/rc-quickstart" >}}). You can only have one free database per account.
-- If you'd rather create a Redis Flex database on Redis Cloud Essentials, see [Create a Redis Flex database]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}})
 - If you'd rather create a Pro database, see [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}).
 - If you already have a Pro subscription and want to add a database to it, see [Create a Pro database in an existing subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}).
     {{< /note >}}
@@ -33,6 +32,8 @@ This guide shows how to create a paid Essentials database.
 
     {{<image filename="images/rc/create-database-essentials-cloud-vendor.png" alt="The database name, cloud vendor, version, region, type, and durability settings.">}}
 
+1. Select **RAM** or **Flex** to choose between a database that uses only RAM or one that uses both RAM and Flash memory. To learn more about Flex, see [Create a Flex database]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}).
+
 1. Redis will generate a database name for you. If you want to change it, you can do so in the **Name** field.  
 
 1. Choose a **Cloud vendor** for your database from the list. You can choose between **Amazon Web Services (AWS)**, **Google Cloud**, and **Microsoft Azure** for the Cloud Vendor. 
@@ -40,6 +41,16 @@ This guide shows how to create a paid Essentials database.
     {{<image filename="images/rc/create-database-essentials-cloud-vendor-list.png" alt="The list of available cloud vendors.">}}
 
 1. Choose a **Region** from the list. See [Supported regions]({{< relref "/operate/rc/supported-regions" >}}) for a list of supported regions by cloud vendor.
+
+1. Select the **Database version** you want to use.
+
+1. The **Type** of database controls the protocol and advanced capabilities. Leave this as **Redis** unless you have a legacy application that uses **Memcached**.
+
+1. Select your desired memory limit.
+
+    {{<image filename="images/rc/subscription-new-fixed-tiers.png" alt="Available Essentials plans." >}}
+
+    For a comparison of available plans, see [Redis Cloud Essentials plans]({{< relref "/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details" >}}).
 
 1. Choose your **High availability (replication)** settings.
 
@@ -53,23 +64,13 @@ This guide shows how to create a paid Essentials database.
 
 1. Choose your **Data persistence** settings from the list.
 
-    Redis Cloud supports the following Data persistence options:
+    Redis Cloud supports the following data persistence options:
 
     - An **Append-Only File** maintains a record (sometimes called a _redo log_ or _journal_) of write operations.  This allows the data to be restored by using the record to reconstruct the database up to the point of failure. For Essentials databases, Redis updates the Append-Only file every second.
 
     - A **Snapshot** is a copy of the in-memory database, taken at periodic intervals (one, six, or twelve hours). You can restore data to the snapshot's point in time. 
     
     See [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) for more information about these settings.
-
-1. Select the **Database version** you want to use.
-
-1. The **Type** of database controls the protocol and advanced capabilities. Leave this as **Redis** unless you have a legacy application that uses **Memcached**.
-    
-1. Select your desired memory limit.
-
-    {{<image filename="images/rc/subscription-new-fixed-tiers.png" alt="Available Essentials plans." >}}
-
-    For a comparison of available plans, see [Redis Cloud Essentials plans]({{< relref "/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details" >}}).
 
 1.  Enter your payment details.
 
