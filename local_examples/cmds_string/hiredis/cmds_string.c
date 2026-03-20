@@ -64,11 +64,11 @@ int main(int argc, char **argv) {
     if (reply->element[2]->type != REDIS_REPLY_NIL) {
         printf("ASSERTION FAILED: Expected nil for nonexisting\n");
     }
-    freeReplyObject(reply);
+    // REMOVE_END
 
+    freeReplyObject(reply);
     cleanup = redisCommand(c, "DEL key1 key2 nonexisting");
     freeReplyObject(cleanup);
-    // REMOVE_END
 
     // STEP_START disconnect
     redisFree(c);

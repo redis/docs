@@ -8,7 +8,7 @@ await client.connect().catch(console.error);
 // HIDE_END
 
 // REMOVE_START
-await client.del('key1', 'key2', 'nonexisting');
+await client.del(['key1', 'key2', 'nonexisting']);
 // REMOVE_END
 
 // STEP_START mget
@@ -21,7 +21,7 @@ console.log(mgetResult); // >>> [ 'Hello', 'World', null ]
 
 // REMOVE_START
 assert.deepEqual(mgetResult, ['Hello', 'World', null]);
-await client.del('key1', 'key2', 'nonexisting');
+await client.del(['key1', 'key2', 'nonexisting']);
 // REMOVE_END
 
 // HIDE_START
