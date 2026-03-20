@@ -51,7 +51,11 @@ RDI requires some changes to database parameters. On AWS Aurora, you change thes
 ```
 
 1. <a id="aurora-create-a-parameter-group"></a>
-    In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/),navigate to **Parameter groups > Create parameter group**. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.Creating.html) with the following settings:
+    In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/), navigate to **Parameter groups**.
+    
+    If you have no existing parameter group,
+    [create a new parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.CreatingCluster.html)
+    with the following settings:
 
     | Name | Value |
     | :-- | :-- |
@@ -63,8 +67,18 @@ RDI requires some changes to database parameters. On AWS Aurora, you change thes
 
     Select **Create** to create the parameter group.
 
+    If you *do* have an existing parameter group, select it and then either:
+
+    -   Select **Edit** from **Parameter group actions** to 
+        [modify the parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.ModifyingCluster.html)
+        with the settings shown in the table above.
+    -   Select **Copy** from **Parameter group actions** to
+        [copy the existing parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.CopyingCluster.html)
+        and then modify the copy with the settings shown in the table above.
+
 1. <a id="aurora-apply-the-parameter-group"></a>
-    Navigate to **Parameter groups** in the console. Select the parameter group you have just created and then select **Edit**. Change the following parameters:
+    Ensure that the parameter group you have just created or modified is selected
+    and then select **Edit**. Change the following parameters:
 
     | Name | Value |
     | :-- | :-- |
@@ -106,7 +120,11 @@ RDI requires some changes to database parameters. On AWS RDS, you change these p
 ```
 
 1. <a id="rds-create-a-parameter-group"></a>
-    In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/),navigate to **Parameter groups > Create parameter group**. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.Creating.html) with the following settings:
+    In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/), navigate to **Parameter groups**.
+    
+    If you have no existing parameter group,
+    [create a new parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.CreatingCluster.html)
+    with the following settings:
 
     | Name | Value |
     | :-- | :-- |
@@ -117,8 +135,18 @@ RDI requires some changes to database parameters. On AWS RDS, you change these p
 
     Select **Create** to create the parameter group.
 
+    If you *do* have an existing parameter group, select it and then either:
+
+    -   Select **Edit** from **Parameter group actions** to 
+        [modify the parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.ModifyingCluster.html)
+        with the settings shown in the table above.
+    -   Select **Copy** from **Parameter group actions** to
+        [copy the existing parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.CopyingCluster.html)
+        and then modify the copy with the settings shown in the table above.
+
 1. <a id="rds-apply-the-parameter-group"></a>
-    Navigate to **Parameter groups** in the console. Select the parameter group you have just created and then select **Edit**. Change the following parameters:
+    Ensure that the parameter group you have just created or modified is selected
+    and then select **Edit**. Change the following parameters:
 
     | Name | Value |
     | :-- | :-- |
