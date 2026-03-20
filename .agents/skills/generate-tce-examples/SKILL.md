@@ -49,7 +49,7 @@ New or modified examples should be placed here for testing:
 
 | Client | Directory |
 |--------|-----------|
-| C# (NRedisStack) | `clients/examples/nredisstack/` |
+| C# (NRedisStack) | `clients/examples/NRedisStack/`* |
 | Go (go-redis) | `clients/examples/go-redis/` |
 | JavaScript (ioredis) | `clients/examples/ioredis/` |
 | Java (Jedis) | `clients/examples/jedis/src/test/java/io/redis/examples/` |
@@ -60,6 +60,9 @@ New or modified examples should be placed here for testing:
 | Python (redis-py) | `clients/examples/redis-py/` |
 | Rust (async) | `clients/examples/rust-async/tests/` |
 | Rust (sync) | `clients/examples/rust-sync/tests/` |
+
+\* Note: the NRedisStack client examples directory given above is actually a clone of the redis/NRedisStack repo.
+Tests go in the tests/Doc directory. There may already be existing tests there, but they can be overwritten by new examples.
 
 ### Command-API Mapping (`docs/data/command-api-mapping/`)
 
@@ -227,6 +230,36 @@ New or modified examples should be written to `../clients/examples/` for testing
 
 > **Note on ioredis and hiredis**: These clients typically don't have existing doc test examples in the client repos or `local_examples/`. When adding steps for these clients, you will usually need to create a new file from scratch using the templates in `assets/ioredis/` and `assets/hiredis/`. This is expected behavior.
 
+### Adding Examples to Existing Sets
+
+Sometimes you need to add examples for a subset of clients rather than all of them. Common scenarios:
+
+| Scenario | Action |
+|----------|--------|
+| New client added to supported list | Add examples for the new client only, matching existing step names/structure |
+| Client was skipped previously | Backfill the missing client, matching existing implementations |
+| Client implementation was broken | Fix or recreate the specific client's example |
+
+**Key principles:**
+1. **Match existing step names exactly** - If other clients have `scan1`, `scan2`, use those same names
+2. **Match the example structure** - Follow the same Redis command sequence as existing implementations
+3. **Only create missing pieces** - Don't regenerate clients that already have working examples
+4. **Implement ALL existing steps** - When adding a new client to an existing group (e.g., adding ioredis to `cmds_generic`), implement all steps that exist for other clients, not just a subset
+
+**Example: Adding ioredis to an existing cmds_hash set:**
+
+```bash
+# Step 1: Check what step names exist in other clients
+grep "STEP_START" ../clients/examples/redis-py/cmds_hash.py
+# Output: STEP_START hset, STEP_START hget, STEP_START hmget
+
+# Step 2: Create ioredis implementation with the same steps
+# (use assets/ioredis/sample_test.js as template, implement hset, hget, hmget steps)
+
+# Step 3: Test the new implementation
+cd ../clients/examples/ioredis && ./run.sh cmds-hash.js
+```
+
 **Example: Adding `hmget` step to redis-py (file exists in local_examples):**
 
 ```bash
@@ -290,6 +323,12 @@ Follow the conventions in `for-ais-only/tcedocs/SPECIFICATION.md` and the `*_TES
 | `// STEP_END` | End named code section |
 | `// HIDE_START/HIDE_END` | Code hidden but executed |
 | `// REMOVE_START/REMOVE_END` | Code removed from docs (tests, cleanup) |
+
+**Step Naming Convention:**
+
+- For command pages with a **single example**: use the command name (e.g., `hmget`, `lpush`)
+- For command pages with **multiple examples**: use numbered names (e.g., `scan1`, `scan2`, `scan3`)
+- Keep step names lowercase and concise
 
 **Code Structure Pattern:**
 
