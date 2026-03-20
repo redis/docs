@@ -253,7 +253,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "renamenx(old_name, new_name)",
+        "params": [
+          {
+            "name": "old_name",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "new_name",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "whether the key was renamed or not"
+        }
+      }
     ]
   }
 }
-

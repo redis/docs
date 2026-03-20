@@ -359,6 +359,27 @@
           "description": "1 if at least 1 HyperLogLog internal register was altered, 0 otherwise"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "pfadd(key, member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String, Array<String>",
+            "description": "one member, or array of members"
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "true if at least 1 HyperLogLog internal register was altered"
+        }
+      }
     ]
   }
 }

@@ -692,6 +692,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "hset(key, *attrs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*attrs",
+            "type": "Array<String> | Hash<String, String>",
+            "description": "array or hash of fields and values"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "The number of fields that were added to the hash"
+        }
+      }
     ]
   }
 }

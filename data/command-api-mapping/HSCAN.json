@@ -775,6 +775,42 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "hscan(key, cursor, **options)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "cursor",
+            "type": "String, Integer",
+            "description": "the cursor of the iteration"
+          },
+          {
+            "name": "match",
+            "type": "String",
+            "description": "only return keys matching the pattern"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "return count keys at most per iteration"
+          },
+          {
+            "name": "novalues",
+            "type": "Boolean",
+            "description": "whether or not to include values in the output"
+          }
+        ],
+        "returns": {
+          "type": "Array",
+          "description": "the next cursor and all found keys"
+        }
+      }
     ]
   }
 }

@@ -1081,6 +1081,42 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xtrim(key, len_or_id, strategy: 'MAXLEN', approximate: false, limit: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          },
+          {
+            "name": "len_or_id",
+            "type": "Integer, String",
+            "description": "max length or minimum id"
+          },
+          {
+            "name": "strategy",
+            "type": "String",
+            "description": "MAXLEN or MINID"
+          },
+          {
+            "name": "approximate",
+            "type": "Boolean",
+            "description": "whether to add ~ modifier"
+          },
+          {
+            "name": "limit",
+            "type": "Integer",
+            "description": "maximum count of entries to be evicted"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of entries actually deleted"
+        }
+      }
     ]
   }
 }

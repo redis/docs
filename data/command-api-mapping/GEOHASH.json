@@ -535,6 +535,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "geohash(key, member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String, Array<String>",
+            "description": "one member or array of members"
+          }
+        ],
+        "returns": {
+          "type": "Array<String, nil>",
+          "description": "array containing geohash string if member is present, nil otherwise"
+        }
+      }
     ]
   }
 }

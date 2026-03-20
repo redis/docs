@@ -682,6 +682,37 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xread(keys, ids, count: nil, block: nil)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "Array<String>",
+            "description": "one or multiple stream keys"
+          },
+          {
+            "name": "ids",
+            "type": "Array<String>",
+            "description": "one or multiple entry ids"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "the number of entries as limit per stream"
+          },
+          {
+            "name": "block",
+            "type": "Integer",
+            "description": "the number of milliseconds as blocking timeout"
+          }
+        ],
+        "returns": {
+          "type": "Hash",
+          "description": "the entries"
+        }
+      }
     ]
   }
 }

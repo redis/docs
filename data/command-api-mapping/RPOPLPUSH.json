@@ -238,6 +238,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "rpoplpush(source, destination)",
+        "params": [
+          {
+            "name": "source",
+            "type": "String",
+            "description": "source key"
+          },
+          {
+            "name": "destination",
+            "type": "String",
+            "description": "destination key"
+          }
+        ],
+        "returns": {
+          "type": "nil, String",
+          "description": "the element, or nil when the source key does not exist"
+        }
+      }
     ]
   }
 }

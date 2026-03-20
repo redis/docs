@@ -613,6 +613,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "hincrby(key, field, increment)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "Integer",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "value of the field after incrementing it"
+        }
+      }
     ]
   }
 }
