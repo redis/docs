@@ -73,7 +73,7 @@ interface PageJsonOutput {
   examples: CodeExample[];
 }
 
-function assignRole(title: string, index: number, total: number): string {
+function assignRole(title: string, index: number): string {
   // Check patterns first
   for (const [pattern, role] of ROLE_PATTERNS) {
     if (pattern.test(title)) return role;
@@ -108,7 +108,8 @@ function extractCodeBlocks(text: string, sectionId: string): {
   let exampleIndex = 0;
 
   // Match fenced code blocks: ```language\ncode\n```
-  const codeBlockPattern = /```(\w*)\n([\s\S]*?)```/g;
+  // Use [^\n]* instead of \w* to handle languages with special chars (e.g., c++, redis-cli)
+  const codeBlockPattern = /```([^\n]*)\n([\s\S]*?)```/g;
 
   let textWithoutCode = text.replace(codeBlockPattern, (match, lang, code) => {
     const language = lang || 'plaintext';
@@ -210,7 +211,7 @@ function splitContentIntoSections(content: string): { sections: Section[]; examp
     const sectionText = content.slice(headingEnd, nextIndex).trim();
 
     const id = slugify(current.title);
-    const role = assignRole(current.title, rawSections.length, matches.length);
+    const role = assignRole(current.title, rawSections.length);
 
     // Extract code blocks from section text
     const { examples, textWithoutCode } = extractCodeBlocks(sectionText, id);
