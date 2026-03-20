@@ -1492,6 +1492,10 @@
           const cell = container.querySelector('.thebe-cell');
           const outputContainer = container.querySelector('.thebe-output-container');
 
+          if (container._outputObserver) {
+            container._outputObserver.disconnect();
+          }
+
           if (!cell) {
             return;
           }
