@@ -1168,6 +1168,18 @@
           return contentType.includes('text/html');
         }
 
+        function isCloudflareChallengePreflight(response) {
+          if (!response) {
+            return false;
+          }
+
+          if (response.status === 403 || response.status === 429) {
+            return true;
+          }
+
+          return getCloudflareMitigation(response) === 'challenge';
+        }
+
         function isRateLimitError(error) {
           if (!error) {
             return false;
@@ -1252,7 +1264,7 @@
               credentials: 'omit'
             });
 
-            if (response && isCloudflareChallengePage(response)) {
+            if (response && isCloudflareChallengePreflight(response)) {
               const error = createRateLimitError(RATE_LIMIT_MESSAGE, response);
               lastBinderRateLimitError = error;
               return error;
