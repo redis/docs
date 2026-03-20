@@ -738,6 +738,55 @@
         }
       }
 
+      function splitCodeIntoLines(code) {
+        return code === '' ? [] : code.split('\n');
+      }
+
+      function getCurrentStepRange(lineRanges) {
+        return lineRanges.find(function(range) {
+          return range.type === 'current-step';
+        }) || null;
+      }
+
+      function getFullFileParts(fullFileCode, lineRanges) {
+        const currentStepRange = getCurrentStepRange(lineRanges);
+        const fullFileLines = splitCodeIntoLines(fullFileCode);
+
+        if (!currentStepRange) {
+          return {
+            prefixLines: [],
+            stepLines: fullFileLines,
+            suffixLines: []
+          };
+        }
+
+        return {
+          prefixLines: fullFileLines.slice(0, currentStepRange.start),
+          stepLines: fullFileLines.slice(currentStepRange.start, currentStepRange.end + 1),
+          suffixLines: fullFileLines.slice(currentStepRange.end + 1)
+        };
+      }
+
+      function buildExpandedCode(fullFileCode, lineRanges, stepCode) {
+        const parts = getFullFileParts(fullFileCode, lineRanges);
+        const stepLines = splitCodeIntoLines(stepCode);
+
+        return parts.prefixLines.concat(stepLines, parts.suffixLines).join('\n');
+      }
+
+      function extractStepCodeFromExpandedCode(expandedCode, fullFileCode, lineRanges, fallbackStepCode) {
+        const parts = getFullFileParts(fullFileCode, lineRanges);
+        const expandedLines = splitCodeIntoLines(expandedCode);
+        const startIndex = parts.prefixLines.length;
+        const endIndex = expandedLines.length - parts.suffixLines.length;
+
+        if (endIndex < startIndex) {
+          return fallbackStepCode;
+        }
+
+        return expandedLines.slice(startIndex, endIndex).join('\n');
+      }
+
       function toggleJupyterVisibility(button) {
         const container = button.closest('.thebe-container');
         const panel = container.querySelector('.panel');
@@ -753,6 +802,7 @@
         const lineRangesScript = container.querySelector('script[type="text-x-line-ranges"]');
         const stepCode = getEmbeddedSourceText(cleanSource);
         const fullFileCode = getEmbeddedSourceText(fullFileSource);
+        const storedStepCode = typeof container._currentStepCode === 'string' ? container._currentStepCode : stepCode;
         let lineRanges = [];
 
         if (lineRangesScript) {
@@ -777,21 +827,11 @@
             const codeMirrorElement = thebeCell ? thebeCell.querySelector('.CodeMirror') : null;
             if (codeMirrorElement && codeMirrorElement.CodeMirror) {
               const cm = codeMirrorElement.CodeMirror;
-              let extractedStepCode = stepCode;
-
-              if (lineRanges && lineRanges.length > 0) {
-                const currentStepRange = lineRanges.find(r => r.type === 'current-step');
-                if (currentStepRange) {
-                  const currentContent = cm.getValue();
-                  const lines = currentContent.split('\n');
-                  const stepLines = lines.slice(currentStepRange.start, currentStepRange.end + 1);
-                  extractedStepCode = stepLines.join('\n');
-                }
-              }
-
+              const nextStepCode = extractStepCodeFromExpandedCode(cm.getValue(), fullFileCode, lineRanges, storedStepCode);
+              container._currentStepCode = nextStepCode;
               clearReadOnlyMarkers(cm);
               const scrollY = window.scrollY;
-              cm.setValue(extractedStepCode);
+              cm.setValue(nextStepCode);
               window.scrollTo(0, scrollY);
             }
           }
@@ -809,22 +849,11 @@
             const codeMirrorElement = thebeCell ? thebeCell.querySelector('.CodeMirror') : null;
             if (codeMirrorElement && codeMirrorElement.CodeMirror) {
               const cm = codeMirrorElement.CodeMirror;
-              const currentStepCode = cm.getValue();
-              let rebuiltFullFile = fullFileCode;
-
-              if (lineRanges && lineRanges.length > 0) {
-                const currentStepRange = lineRanges.find(r => r.type === 'current-step');
-                if (currentStepRange) {
-                  const originalLines = fullFileCode.split('\n');
-                  const stepLines = currentStepCode.split('\n');
-                  const beforeStep = originalLines.slice(0, currentStepRange.start);
-                  const afterStep = originalLines.slice(currentStepRange.end + 1);
-                  rebuiltFullFile = [...beforeStep, ...stepLines, ...afterStep].join('\n');
-                }
-              }
-
+              const nextStepCode = cm.getValue();
+              const expandedCode = buildExpandedCode(fullFileCode, lineRanges, nextStepCode);
+              container._currentStepCode = nextStepCode;
               const scrollY = window.scrollY;
-              cm.setValue(rebuiltFullFile);
+              cm.setValue(expandedCode);
               window.scrollTo(0, scrollY);
               setTimeout(function() {
                 applyReadOnlyMarkers(cm, lineRanges);
@@ -1819,48 +1848,30 @@
                 if (codeMirrorElement && codeMirrorElement.CodeMirror) {
                   const fullFileSource = container.querySelector('script[type="text-x-full-file-source"]');
                   const fullFileCode = getEmbeddedSourceText(fullFileSource);
+                  const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
+                  const stepCode = typeof container._currentStepCode === 'string'
+                    ? container._currentStepCode
+                    : getEmbeddedSourceText(cleanSource);
                   if (fullFileCode) {
-                    // Save scroll position before setValue to prevent unwanted scroll
-                    const scrollY = window.scrollY;
-                    codeMirrorElement.CodeMirror.setValue(fullFileCode);
-                    // Restore scroll position after setValue
-                    window.scrollTo(0, scrollY);
-
-                    // Apply read-only markers
                     const lineRangesScript = container.querySelector('script[type="text-x-line-ranges"]');
+                    let lineRanges = [];
+
                     if (lineRangesScript) {
                       try {
-                        const lineRanges = JSON.parse(lineRangesScript.textContent.trim());
-                        const cm = codeMirrorElement.CodeMirror;
-
-                        // Clear any existing read-only markers
-                        if (cm._readOnlyMarkers) {
-                          cm._readOnlyMarkers.forEach(function(marker) {
-                            marker.clear();
-                          });
-                        }
-                        cm._readOnlyMarkers = [];
-
-                        // Mark non-current-step ranges as read-only
-                        lineRanges.forEach(function(range) {
-                          if (range.type !== 'current-step') {
-                            const marker = cm.markText(
-                              {line: range.start, ch: 0},
-                              {line: range.end + 1, ch: 0},
-                              {
-                                readOnly: true,
-                                className: 'cm-readonly-context',
-                                inclusiveLeft: true,
-                                inclusiveRight: true
-                              }
-                            );
-                            cm._readOnlyMarkers.push(marker);
-                          }
-                        });
+                        lineRanges = JSON.parse(lineRangesScript.textContent.trim());
                       } catch (e) {
                         console.error('[Thebe] Failed to parse line ranges:', e);
                       }
                     }
+
+                    // Save scroll position before setValue to prevent unwanted scroll
+                    const scrollY = window.scrollY;
+                    codeMirrorElement.CodeMirror.setValue(buildExpandedCode(fullFileCode, lineRanges, stepCode));
+                    // Restore scroll position after setValue
+                    window.scrollTo(0, scrollY);
+
+                    // Apply read-only markers
+                    applyReadOnlyMarkers(codeMirrorElement.CodeMirror, lineRanges);
                   }
                 }
 
@@ -1901,67 +1912,38 @@
             container.classList.add('kernel-ready');
           }
 
-          // CRITICAL FIX: Before execution, ensure we execute STEP CODE only
-          // When expanded, CodeMirror contains full file code, but we must execute only the step
-          // EXCEPTION: If wasHidden=true, CodeMirror still contains step code (initialization pending)
-          // Reuse panel variable from earlier in the function
+          // Execute whatever is currently visible in CodeMirror.
+          // If activation started while expanded, sync the editor to full-file content first.
           const isExpandedForExec = panel && panel.getAttribute('aria-expanded') === 'true';
           const stepCodeViewForExec = panel ? panel.querySelector('.step-code-view') : null;
           const thebeCellForExec = stepCodeViewForExec ? stepCodeViewForExec.querySelector('.thebe-cell') : null;
           const codeMirrorElementForExec = thebeCellForExec ? thebeCellForExec.querySelector('.CodeMirror') : null;
-          let fullFileCode = null;
-          let lineRanges = null;
 
-          // Skip code swap if this is first execution in expanded mode (wasHidden=true)
-          // In that case, CodeMirror still contains step code and will be updated by setTimeout
-          if (isExpandedForExec && codeMirrorElementForExec && codeMirrorElementForExec.CodeMirror && !container._wasHidden) {
+          if (isExpandedForExec && container._wasHidden && codeMirrorElementForExec && codeMirrorElementForExec.CodeMirror) {
             const cm = codeMirrorElementForExec.CodeMirror;
-            fullFileCode = cm.getValue(); // Save full file content (with edits)
+            const fullFileSource = container.querySelector('script[type="text-x-full-file-source"]');
+            const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
+            const fullFileCode = getEmbeddedSourceText(fullFileSource);
+            const stepCode = typeof container._currentStepCode === 'string'
+              ? container._currentStepCode
+              : getEmbeddedSourceText(cleanSource);
+            let lineRangesForExec = [];
 
-            // Get line ranges to extract the editable step portion
             const lineRangesScript = container.querySelector('script[type="text-x-line-ranges"]');
             if (lineRangesScript) {
               try {
-                lineRanges = JSON.parse(lineRangesScript.textContent.trim());
+                lineRangesForExec = JSON.parse(lineRangesScript.textContent.trim());
               } catch (e) {
                 console.error('[Thebe] Failed to parse line ranges:', e);
               }
             }
 
-            // Extract CURRENT step code from CodeMirror (preserving edits)
-            let stepCode = '';
-            if (lineRanges && lineRanges.length > 0) {
-              const currentStepRange = lineRanges.find(r => r.type === 'current-step');
-              if (currentStepRange) {
-                // Extract the editable lines from current CodeMirror content
-                const lines = fullFileCode.split('\n');
-                const stepLines = lines.slice(currentStepRange.start, currentStepRange.end + 1);
-                stepCode = stepLines.join('\n');
-              }
+            if (fullFileCode) {
+              const scrollY = window.scrollY;
+              cm.setValue(buildExpandedCode(fullFileCode, lineRangesForExec, stepCode));
+              window.scrollTo(0, scrollY);
+              applyReadOnlyMarkers(cm, lineRangesForExec);
             }
-
-            // Fallback to original step code if extraction failed
-            if (!stepCode) {
-              const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
-              stepCode = getEmbeddedSourceText(cleanSource);
-            }
-
-            // Temporarily set step code for execution
-            // Save scroll position before setValue to prevent unwanted scroll
-            const scrollY1 = window.scrollY;
-            cm.setValue(stepCode);
-            // Restore scroll position after setValue
-            window.scrollTo(0, scrollY1);
-
-            // Clear read-only markers during execution
-            if (cm._readOnlyMarkers) {
-              cm._readOnlyMarkers.forEach(function(marker) {
-                marker.clear();
-              });
-              cm._readOnlyMarkers = [];
-            }
-          } else if (container._wasHidden) {
-            // Skipping code swap - first execution in expanded mode, CodeMirror still contains step code
           }
 
           // RACE CONDITION FIX: Wait for notebook to be attached to session
@@ -1989,40 +1971,6 @@
 
           // After execution, kernel is definitely ready
           kernelReady = true;
-
-          // CRITICAL FIX: Restore full file view if we were expanded
-          if (isExpandedForExec && fullFileCode && codeMirrorElementForExec && codeMirrorElementForExec.CodeMirror) {
-            const cm = codeMirrorElementForExec.CodeMirror;
-            // Save scroll position before setValue to prevent unwanted scroll
-            const scrollY2 = window.scrollY;
-            cm.setValue(fullFileCode);
-            // Restore scroll position after setValue
-            window.scrollTo(0, scrollY2);
-
-            // Re-apply read-only markers
-            if (lineRanges && lineRanges.length > 0) {
-              setTimeout(function() {
-                if (!cm._readOnlyMarkers) {
-                  cm._readOnlyMarkers = [];
-                }
-                lineRanges.forEach(function(range) {
-                  if (range.type !== 'current-step') {
-                    const marker = cm.markText(
-                      {line: range.start, ch: 0},
-                      {line: range.end + 1, ch: 0},
-                      {
-                        readOnly: true,
-                        className: 'cm-readonly-context',
-                        inclusiveLeft: true,
-                        inclusiveRight: true
-                      }
-                    );
-                    cm._readOnlyMarkers.push(marker);
-                  }
-                });
-              }, 50);
-            }
-          }
 
           // Move any output that was created to the dedicated container
           // Wait a bit for output to be fully rendered
