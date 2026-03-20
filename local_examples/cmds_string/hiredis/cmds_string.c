@@ -67,8 +67,8 @@ int main(int argc, char **argv) {
     // REMOVE_END
 
     freeReplyObject(reply);
-    cleanup = redisCommand(c, "DEL key1 key2 nonexisting");
-    freeReplyObject(cleanup);
+    redisReply *cleanup2 = redisCommand(c, "DEL key1 key2 nonexisting");
+    freeReplyObject(cleanup2);
 
     // STEP_START disconnect
     redisFree(c);
