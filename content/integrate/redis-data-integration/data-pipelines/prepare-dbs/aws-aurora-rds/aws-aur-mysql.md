@@ -44,7 +44,7 @@ You can also create one during database creation by selecting **Create an Aurora
 RDI requires some changes to database parameters. On AWS Aurora, you change these parameters via a parameter group.
 
 ```checklist {id="auroramysql-param-group" nointeractive="true" }
-- [ ] [Create a parameter group](#aurora-create-a-parameter-group)
+- [ ] [Create/modify a parameter group](#aurora-create-a-parameter-group)
 - [ ] [Apply the parameter group](#aurora-apply-the-parameter-group)
 - [ ] [Apply the parameter group to the database](#aurora-apply-the-parameter-group-to-the-database)
 - [ ] [Reboot the database instance](#aurora-reboot-the-database-instance)
@@ -113,7 +113,7 @@ RDI requires some changes to database parameters. On AWS Aurora, you change thes
 RDI requires some changes to database parameters. On AWS RDS, you change these parameters via a parameter group.
 
 ```checklist {id="rds-mysql-param-group" nointeractive="true" }
-- [ ] [Create a parameter group](#rds-create-a-parameter-group)
+- [ ] [Create/modify a parameter group](#rds-create-a-parameter-group)
 - [ ] [Apply the parameter group](#rds-apply-the-parameter-group)
 - [ ] [Apply the parameter group to the database](#rds-apply-the-parameter-group-to-the-database)
 - [ ] [Reboot the database instance](#rds-reboot-the-database-instance)
