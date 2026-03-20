@@ -1679,10 +1679,15 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
                 "constructor", "super", "function",
             ];
 
-            // Check if this is actually a multi-line definition (doesn't end with ) { or ) or ):)
+            // Check if this is actually a multi-line definition (doesn't end with ) { or ) or ): etc.)
+            // For interface method signatures, we also need to check for lines ending with ;
+            // which indicate a complete single-line signature
             let is_multiline = !first_line_params.contains(") {")
                 && !first_line_params.ends_with(")")
-                && !first_line_params.ends_with(");");
+                && !first_line_params.ends_with(");")
+                && !first_line_params.ends_with(">;")  // TypeScript interface method with generic return type
+                && !first_line_params.ends_with("];")  // Array return type
+                && !(first_line_params.contains("): ") && first_line_params.ends_with(";")); // Any interface method with return type ending in ;
 
             if !method_name.is_empty() && !skip_names.contains(&method_name.as_str()) && is_multiline {
                 let start_line = line_num;
@@ -1859,40 +1864,95 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
             // Check if the line ends with semicolon (interface method) or has Result/Promise return type
             // This helps distinguish interface methods from regular function calls
             let trimmed = line.trim();
-            let is_interface_method = trimmed.ends_with(";") ||
+            let is_single_line_interface_method = trimmed.ends_with(";") ||
                 trimmed.contains("): Result<") ||
                 trimmed.contains("): Promise<") ||
                 trimmed.contains("Callback<");
 
-            if !is_interface_method {
-                // For multi-line signatures, check if this looks like the start of an interface method
-                // Interface methods in ioredis start with 2 spaces of indentation
-                if !line.starts_with("  ") || line.starts_with("    ") {
+            // Check if this looks like the start of a multi-line interface method
+            // Multi-line signatures start with method_name( and the line ends with just "(" or has params continuing
+            let is_multiline_start = !is_single_line_interface_method &&
+                line.starts_with("  ") && !line.starts_with("    ") &&
+                trimmed.ends_with("(") || (trimmed.contains("(") && !trimmed.contains(")"));
+
+            if !is_single_line_interface_method && !is_multiline_start {
+                line_num += 1;
+                continue;
+            }
+
+            // For multi-line signatures, collect all lines until we find the closing ): and ;
+            let (full_signature, params_str_owned, return_type, end_line) = if is_multiline_start {
+                let mut full_sig_parts: Vec<String> = vec![trimmed.to_string()];
+                let mut search_line = line_num + 1;
+                let mut found_end = false;
+
+                while search_line < lines.len() && search_line < line_num + 20 {
+                    let next_line = lines[search_line].trim();
+                    full_sig_parts.push(next_line.to_string());
+
+                    // Check if this line ends the signature (contains ): followed by return type and ;)
+                    if next_line.ends_with(";") && next_line.contains("): ") {
+                        found_end = true;
+                        break;
+                    }
+                    // Also check for simpler ending like just );
+                    if next_line.ends_with(");") {
+                        found_end = true;
+                        break;
+                    }
+                    search_line += 1;
+                }
+
+                if !found_end {
                     line_num += 1;
                     continue;
                 }
-            }
 
-            // Extract parameters - for multi-line signatures, we'll just use what's on this line
-            let params_start = line.find('(').map(|i| i + 1).unwrap_or(0);
-            let params_end = line.find(')').unwrap_or(line.len());
-            let params_str = if params_start < params_end {
-                &line[params_start..params_end]
+                // Join all parts and parse
+                let full_sig = full_sig_parts.join(" ");
+
+                // Extract params: everything between first ( and last )
+                let params_start = full_sig.find('(').map(|i| i + 1).unwrap_or(0);
+                let params_end = full_sig.rfind(')').unwrap_or(full_sig.len());
+                let params = if params_start < params_end {
+                    full_sig[params_start..params_end].to_string()
+                } else {
+                    String::new()
+                };
+
+                // Extract return type: everything after ): and before ;
+                let ret_type = if let Some(colon_pos) = full_sig.rfind("): ") {
+                    let after_colon = &full_sig[colon_pos + 3..];
+                    let end = after_colon.find(';').unwrap_or(after_colon.len());
+                    Some(after_colon[..end].trim().to_string())
+                } else {
+                    None
+                };
+
+                (full_sig, params, ret_type, search_line)
             } else {
-                ""
+                // Single line - extract parameters and return type from this line
+                let params_start = line.find('(').map(|i| i + 1).unwrap_or(0);
+                let params_end = line.find(')').unwrap_or(line.len());
+                let params = if params_start < params_end {
+                    line[params_start..params_end].to_string()
+                } else {
+                    String::new()
+                };
+
+                let ret_type = if let Some(colon_pos) = line.rfind("): ") {
+                    let after_colon = &line[colon_pos + 3..];
+                    let end = after_colon.find(';').unwrap_or(after_colon.len());
+                    Some(after_colon[..end].trim().to_string())
+                } else {
+                    None
+                };
+
+                (trimmed.to_string(), params, ret_type, line_num)
             };
 
-            // Extract return type if present on the same line
-            let return_type = if let Some(colon_pos) = line.rfind("): ") {
-                let after_colon = &line[colon_pos + 3..];
-                let end = after_colon.find(';').unwrap_or(after_colon.len());
-                Some(after_colon[..end].trim().to_string())
-            } else {
-                None
-            };
-
-            let parameters = parse_parameters(params_str);
-            let signature = format!("{}({})", method_name, params_str);
+            let parameters = parse_parameters(&params_str_owned);
+            let signature = format!("{}({})", method_name, params_str_owned);
 
             signatures.push(TypeScriptSignature {
                 method_name,
@@ -1902,6 +1962,9 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
                 line_number: line_num + 1,
                 is_async: false,
             });
+
+            // Skip to end of multi-line signature
+            line_num = end_line;
         }
 
         line_num += 1;
