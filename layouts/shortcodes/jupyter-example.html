@@ -88,9 +88,6 @@
     {{ $binder = replaceRE (printf `^%s BINDER_ID ` $commentPrefix) "" $binderLine }}
   {{ end }}
 {{ end }}
-{{/* Store binder ref in page scratch for use in baseof.html */}}
-{{ .Page.Scratch.Set "binderRef" $binder }}
-
 {{/* Extract KERNEL_NAME from source file - NO DEFAULTS unless set/lang_filter lookup derived it */}}
 {{ if not $kernelName }}
   {{ $kernelPattern := printf `%s KERNEL_NAME ([a-zA-Z0-9_-]+)` $commentPrefix }}
@@ -101,9 +98,6 @@
     {{ $kernelName = replaceRE (printf `^%s KERNEL_NAME ` $commentPrefix) "" $kernelLine }}
   {{ end }}
 {{ end }}
-{{/* Store kernel name in page scratch for use in baseof.html - empty string if not found */}}
-{{ .Page.Scratch.Set "kernelName" $kernelName }}
-
 {{/* Parse file line by line to extract full file and track current step lines */}}
 {{ $lines := split $content "\n" }}
 {{ $fullFileSections := slice }}  {{/* Track sections for spacing */}}
@@ -361,8 +355,8 @@
     </div>
     {{ end }}
 
-    <script type="text-x-clean-source" style="display:none">{{ $stepCode | safeHTML }}</script>
-    <script type="text-x-full-file-source" style="display:none">{{ $fullFileCode | safeHTML }}</script>
+    <script type="text-x-clean-source" style="display:none">{{ $stepCode | jsonify }}</script>
+    <script type="text-x-full-file-source" style="display:none">{{ $fullFileCode | jsonify }}</script>
     {{/* Store line range information for read-only marking */}}
     <script type="text-x-line-ranges" style="display:none">
     {{- $lineRanges := slice -}}
@@ -384,287 +378,11 @@
     </script>
 </div>
 
-<style>
-/* Keyboard shortcut hint */
-.panel {
-  position: relative;
-}
-.run-hint {
-  position: absolute;
-  top: 8px;
-  right: 12px;
-  font-size: 0.65rem;
-  color: #64748b;
-  z-index: 10;
-  opacity: 0;  /* Transparent by default */
-  pointer-events: none;  /* Don't interfere with clicks */
-  transition: opacity 0.2s;  /* Smooth fade in/out */
-}
-/* Show hint when cell is runnable (kernel ready and not disabled) */
-.thebe-container.kernel-ready .run-hint {
-  opacity: 1;
-}
-
-/* Ensure code is visible on initial load */
-.thebe-container .step-code-view .highlight,
-.thebe-container .step-code-view .chroma,
-.thebe-container .step-code-view pre,
-.thebe-container .step-code-view code {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-
-/* Spacing between code sections in full file view */
-/* No margin needed - source code already has empty lines between sections */
-.full-file-view .code-section {
-    margin-bottom: 0;
-}
-
-/* No special highlighting for current step section - all code sections look the same */
-
-/* Ensure highlight containers don't add extra spacing */
-.full-file-view .code-section .highlight {
-    margin: 0 !important;
-}
-
-/* Override prose pre margin in full file view */
-.full-file-view .code-section pre {
-    margin: 0 !important;
-}
-
-/* Ensure step code view and full file view don't both show */
-.panel .step-code-view,
-.panel .full-file-view {
-    width: 100%;
-}
-
-/* Read-only context code styling in CodeMirror */
-.thebe-cell .CodeMirror .cm-readonly-context {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* Prevent editing in read-only sections */
-.thebe-cell .CodeMirror .cm-readonly-context::selection {
-    background-color: transparent;
-}
-</style>
-
-<script>
-// Copy code to clipboard for jupyter cells
-function copyJupyterCodeToClipboard(button) {
-    const container = button.closest('.thebe-container');
-    const panel = container.querySelector('.panel');
-
-    // Check if we're in expanded (full file) view
-    const isExpanded = panel && panel.getAttribute('aria-expanded') === 'true';
-
-    let text = '';
-    if (isExpanded) {
-        // Full file view - copy entire file
-        const fullFileSource = container.querySelector('script[type="text-x-full-file-source"]');
-        text = fullFileSource ? fullFileSource.textContent : '';
-    } else {
-        // Step view - copy only the step code
-        const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
-        text = cleanSource ? cleanSource.textContent : '';
-    }
-
-    navigator.clipboard.writeText(text).then(() => {
-        const tooltip = button.querySelector('.tooltiptext');
-        if (tooltip) {
-            tooltip.classList.remove('hidden');
-            setTimeout(() => {
-                tooltip.classList.add('hidden');
-            }, 2000);
-        }
-    }).catch(err => {
-        console.error('Copy failed', err);
-    });
-}
-
-// Copy link to code block
-function copyJupyterLinkToClipboard(button) {
-    const container = button.closest('.thebe-container');
-    const id = container.id;
-    const url = window.location.origin + window.location.pathname + '#' + id;
-
-    navigator.clipboard.writeText(url).then(() => {
-        const tooltip = button.querySelector('.tooltiptext');
-        if (tooltip) {
-            tooltip.style.opacity = '1';
-            setTimeout(() => {
-                tooltip.style.opacity = '0';
-            }, 2000);
-        }
-    }).catch(err => {
-        console.error('Copy link failed', err);
-    });
-}
-
-// Helper function to apply read-only markers to CodeMirror
-function applyReadOnlyMarkers(codeMirror, lineRanges) {
-    // Clear any existing read-only markers
-    if (codeMirror._readOnlyMarkers) {
-        codeMirror._readOnlyMarkers.forEach(function(marker) {
-            marker.clear();
-        });
-    }
-    codeMirror._readOnlyMarkers = [];
-
-    // Mark non-current-step ranges as read-only
-    lineRanges.forEach(function(range) {
-        if (range.type !== 'current-step') {
-            const marker = codeMirror.markText(
-                {line: range.start, ch: 0},
-                {line: range.end + 1, ch: 0},
-                {
-                    readOnly: true,
-                    className: 'cm-readonly-context',
-                    inclusiveLeft: true,
-                    inclusiveRight: true
-                }
-            );
-            codeMirror._readOnlyMarkers.push(marker);
-        }
-    });
-}
-
-// Helper function to clear read-only markers
-function clearReadOnlyMarkers(codeMirror) {
-    if (codeMirror._readOnlyMarkers) {
-        codeMirror._readOnlyMarkers.forEach(function(marker) {
-            marker.clear();
-        });
-        codeMirror._readOnlyMarkers = [];
-    }
-}
-
-// Toggle visibility for jupyter cells
-function toggleJupyterVisibility(button) {
-    const container = button.closest('.thebe-container');
-    const panel = container.querySelector('.panel');
-    const iconOn = button.querySelector('.visibility-icon-on');
-    const iconOff = button.querySelector('.visibility-icon-off');
-
-    // Check if we're currently showing full file
-    // Note: aria-expanded might not be set initially (undefined), treat as false
-    const isExpanded = panel.getAttribute('aria-expanded') === 'true';
-
-    // Check if cell has been activated (CodeMirror is present)
-    const isActivated = container.classList.contains('activated');
-
-    const stepCodeView = panel.querySelector('.step-code-view');
-    const fullFileView = panel.querySelector('.full-file-view');
-    const thebeCell = stepCodeView ? stepCodeView.querySelector('.thebe-cell') : null;
-
-    // Get the source code from hidden script elements
-    const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
-    const fullFileSource = container.querySelector('script[type="text-x-full-file-source"]');
-    const lineRangesScript = container.querySelector('script[type="text-x-line-ranges"]');
-    const stepCode = cleanSource ? cleanSource.textContent : '';
-    const fullFileCode = fullFileSource ? fullFileSource.textContent : '';
-    let lineRanges = [];
-    if (lineRangesScript) {
-        try {
-            lineRanges = JSON.parse(lineRangesScript.textContent.trim());
-        } catch (e) {
-            console.error('Failed to parse line ranges:', e);
-        }
-    }
-
-    if (isExpanded) {
-        // Collapse: Show only step code
-        panel.removeAttribute('aria-expanded');
-        iconOn.classList.remove('hidden');
-        iconOff.classList.add('hidden');
-
-        if (!isActivated) {
-            // Not activated yet - swap the highlighted code display
-            if (stepCodeView && fullFileView) {
-                stepCodeView.style.display = '';
-                fullFileView.style.display = 'none';
-            }
-        } else {
-            // After activation: Extract edited step code from current CodeMirror content
-            const codeMirrorElement = thebeCell ? thebeCell.querySelector('.CodeMirror') : null;
-            if (codeMirrorElement && codeMirrorElement.CodeMirror) {
-                const cm = codeMirrorElement.CodeMirror;
-
-                // Extract the current step code (preserving edits)
-                let extractedStepCode = stepCode; // fallback to original
-                if (lineRanges && lineRanges.length > 0) {
-                    const currentStepRange = lineRanges.find(r => r.type === 'current-step');
-                    if (currentStepRange) {
-                        const currentContent = cm.getValue();
-                        const lines = currentContent.split('\n');
-                        const stepLines = lines.slice(currentStepRange.start, currentStepRange.end + 1);
-                        extractedStepCode = stepLines.join('\n');
-                    }
-                }
-
-                clearReadOnlyMarkers(cm);
-                // Save scroll position before setValue to prevent unwanted scroll
-                const scrollY = window.scrollY;
-                cm.setValue(extractedStepCode);
-                // Restore scroll position after setValue
-                window.scrollTo(0, scrollY);
-            }
-        }
-    } else {
-        // Expand: Show full file
-        panel.setAttribute('aria-expanded', 'true');
-        iconOn.classList.add('hidden');
-        iconOff.classList.remove('hidden');
-
-        if (!isActivated) {
-            // Not activated yet - swap to show full file
-            if (stepCodeView && fullFileView) {
-                stepCodeView.style.display = 'none';
-                fullFileView.style.display = '';
-            }
-        } else {
-            // After activation: Merge edited step code into full file
-            const codeMirrorElement = thebeCell ? thebeCell.querySelector('.CodeMirror') : null;
-            if (codeMirrorElement && codeMirrorElement.CodeMirror) {
-                const cm = codeMirrorElement.CodeMirror;
-
-                // Get current step code (with edits)
-                const currentStepCode = cm.getValue();
-
-                // Rebuild full file with edited step code
-                let rebuiltFullFile = fullFileCode; // fallback to original
-                if (lineRanges && lineRanges.length > 0) {
-                    const currentStepRange = lineRanges.find(r => r.type === 'current-step');
-                    if (currentStepRange) {
-                        const originalLines = fullFileCode.split('\n');
-                        const stepLines = currentStepCode.split('\n');
-
-                        // Replace the step section with edited content
-                        const beforeStep = originalLines.slice(0, currentStepRange.start);
-                        const afterStep = originalLines.slice(currentStepRange.end + 1);
-                        rebuiltFullFile = [...beforeStep, ...stepLines, ...afterStep].join('\n');
-                    }
-                }
-
-                // Save scroll position before setValue to prevent unwanted scroll
-                const scrollY2 = window.scrollY;
-                cm.setValue(rebuiltFullFile);
-                // Restore scroll position after setValue
-                window.scrollTo(0, scrollY2);
-                // Apply read-only markers after a brief delay to ensure text is set
-                setTimeout(function() {
-                    applyReadOnlyMarkers(cm, lineRanges);
-                }, 50);
-            }
-        }
-    }
-}
-</script>
-
+{{- if not (.Page.Store.Get "thebeGlobalsEmitted") -}}
 <script>
   window.thebeBinderRef = "{{ $binder }}";
   window.thebeKernelName = "{{ $kernelName }}";
 </script>
+{{- .Page.Store.Set "thebeGlobalsEmitted" true -}}
+{{- end -}}
 

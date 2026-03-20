@@ -645,6 +645,20 @@
       }
     </style>
     <script>
+      function getEmbeddedSourceText(scriptElement) {
+        if (!scriptElement) {
+          return '';
+        }
+
+        const rawText = scriptElement.textContent || '';
+
+        try {
+          return JSON.parse(rawText);
+        } catch (error) {
+          return rawText;
+        }
+      }
+
       function copyJupyterCodeToClipboard(button) {
         const container = button.closest('.thebe-container');
         const panel = container.querySelector('.panel');
@@ -653,10 +667,10 @@
         let text = '';
         if (isExpanded) {
           const fullFileSource = container.querySelector('script[type="text-x-full-file-source"]');
-          text = fullFileSource ? fullFileSource.textContent : '';
+          text = getEmbeddedSourceText(fullFileSource);
         } else {
           const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
-          text = cleanSource ? cleanSource.textContent : '';
+          text = getEmbeddedSourceText(cleanSource);
         }
 
         navigator.clipboard.writeText(text).then(() => {
@@ -737,8 +751,8 @@
         const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
         const fullFileSource = container.querySelector('script[type="text-x-full-file-source"]');
         const lineRangesScript = container.querySelector('script[type="text-x-line-ranges"]');
-        const stepCode = cleanSource ? cleanSource.textContent : '';
-        const fullFileCode = fullFileSource ? fullFileSource.textContent : '';
+        const stepCode = getEmbeddedSourceText(cleanSource);
+        const fullFileCode = getEmbeddedSourceText(fullFileSource);
         let lineRanges = [];
 
         if (lineRangesScript) {
@@ -839,7 +853,7 @@
             const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
             const cell = container.querySelector('.thebe-cell');
             if (cleanSource && cell) {
-              const cleanCode = cleanSource.textContent;
+              const cleanCode = getEmbeddedSourceText(cleanSource);
               // Nuke everything in the cell and recreate with clean code
               cell.innerHTML = '<code></code>';
               cell.querySelector('code').textContent = cleanCode;
@@ -1804,7 +1818,7 @@
                 const codeMirrorElement = thebeCell ? thebeCell.querySelector('.CodeMirror') : null;
                 if (codeMirrorElement && codeMirrorElement.CodeMirror) {
                   const fullFileSource = container.querySelector('script[type="text-x-full-file-source"]');
-                  const fullFileCode = fullFileSource ? fullFileSource.textContent : '';
+                  const fullFileCode = getEmbeddedSourceText(fullFileSource);
                   if (fullFileCode) {
                     // Save scroll position before setValue to prevent unwanted scroll
                     const scrollY = window.scrollY;
@@ -1929,7 +1943,7 @@
             // Fallback to original step code if extraction failed
             if (!stepCode) {
               const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
-              stepCode = cleanSource ? cleanSource.textContent : '';
+              stepCode = getEmbeddedSourceText(cleanSource);
             }
 
             // Temporarily set step code for execution
