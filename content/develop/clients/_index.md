@@ -246,15 +246,26 @@ questions:
         answers:
             yes:
                 value: "Yes"
-                outcome:
-                    label: |
-                        Use ioredis (but see the migration guide if you want to update to node-redis)
-                    id: ioredisOutcome
+                nextQuestion: ioredisAdvancedFeaturesQuestion
             no:
                 value: "No"
                 outcome:
                     label: Use node-redis
                     id: nodeRedisOutcome
+
+    ioredisAdvancedFeaturesQuestion:
+        text: Do you want to use advanced Redis features (search, vector database, JSON, etc.)?
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: Migrate to node-redis using our migration guide
+                    id: migrateToNodeRedisOutcome
+            no:
+                value: "No"
+                outcome:
+                    label: Continue using ioredis
+                    id: continueIoredisOutcome
 
     phpLowLevelQuestion:
         text: |
