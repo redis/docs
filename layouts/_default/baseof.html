@@ -960,20 +960,15 @@
         }
 
         async function preflightRateLimitCheck(binderUrl, repo, ref) {
-          console.log('[Thebe Debug] preflightRateLimitCheck called:', { binderUrl, repo, ref });
-
           const normalizedBinderUrl = typeof binderUrl === 'string' && binderUrl
             ? (binderUrl.endsWith('/') ? binderUrl : binderUrl + '/')
             : '';
 
           if (!normalizedBinderUrl || !repo || !ref || typeof window.fetch !== 'function') {
-            console.log('[Thebe Debug] preflightRateLimitCheck early return - missing params');
             return null;
           }
 
           const buildUrl = `${normalizedBinderUrl}build/gh/${repo}/${ref}`;
-
-          console.log('[Thebe Debug] preflightRateLimitCheck URL:', buildUrl);
 
           try {
             const response = await window.fetch(buildUrl, {
@@ -982,23 +977,12 @@
               credentials: 'omit'
             });
 
-            console.log('[Thebe Debug] preflightRateLimitCheck response:', {
-              status: response.status,
-              ok: response.ok,
-              contentType: response.headers.get('content-type'),
-              cfMitigated: response.headers.get('cf-mitigated')
-            });
-
             if (response && isCloudflareChallengePage(response)) {
-              console.log('[Thebe Debug] Cloudflare challenge detected!');
               const error = createRateLimitError(RATE_LIMIT_MESSAGE, response);
               lastBinderRateLimitError = error;
               return error;
             }
-
-            console.log('[Thebe Debug] preflightRateLimitCheck - no rate limit detected');
           } catch (error) {
-            console.log('[Thebe Debug] preflightRateLimitCheck error:', error.message, error);
           }
 
           return null;
@@ -1297,12 +1281,6 @@
                   }
 
                   if (!isAutoReconnect && config.binderOptions) {
-                    console.log('[Thebe Debug] About to call preflightRateLimitCheck with:', {
-                      binderUrl: config.binderOptions.binderUrl,
-                      repo: config.binderOptions.repo,
-                      ref: config.binderOptions.ref
-                    });
-
                     const preflightRateLimitError = await preflightRateLimitCheck(
                       config.binderOptions.binderUrl,
                       config.binderOptions.repo,
