@@ -15,7 +15,8 @@
 {{ $noOutput := .Get "no_output" | default "false" }}
 {{ $quickstartUrl := .Get "quickstart_url" | default "" }}
 {{ $quickstartTitle := .Get "quickstart_title" | default "" }}
-{{ $inner := .Inner | default "" }}
+{{/* Reference .Inner so paired shortcode syntax remains valid without keeping an unused local */}}
+{{ with .Inner }}{{ end }}
 {{ $set := .Get "set" }}
 {{ $langFilter := .Get "lang_filter" | default "" }}
 {{ $kernelName := "" }}
@@ -41,11 +42,16 @@
       {{ end }}
       {{ $kernelName = index . "kernelName" }}
     {{ else }}
-      {{ errorf "jupyter-example: No example found for set=%s lang_filter=%s" $set $langFilter }}
+      {{ errorf "jupyter-example: Example '%s' not found for language '%s' in examples.json. Run 'python3 build/local_examples.py' to generate data." $set $langFilter }}
     {{ end }}
   {{ else }}
-    {{ errorf "jupyter-example: No example found for set=%s lang_filter=%s" $set $langFilter }}
+    {{ errorf "jupyter-example: Example '%s' not found for language '%s' in examples.json. Run 'python3 build/local_examples.py' to generate data." $set $langFilter }}
   {{ end }}
+{{ end }}
+
+{{/* Validate source file is specified */}}
+{{ if not $source }}
+  {{ errorf "jupyter-example: No source file specified. Either provide source= parameter or use set=/lang_filter= to look up from examples.json" }}
 {{ end }}
 
 {{/* Look up quick-start info from site config when not explicitly provided */}}
@@ -109,8 +115,6 @@
 {{ $inCurrentStep := false }}
 {{ $inAnyStep := false }}
 {{ $inHideBlock := false }}
-{{ $currentStepStartLine := 0 }}
-{{ $currentStepEndLine := 0 }}
 {{ $lineNumber := 0 }}
 
 {{ range $lines }}
@@ -142,7 +146,6 @@
       {{ $inCurrentStep = true }}
       {{ $inAnyStep = true }}
       {{ $currentSectionType = "current-step" }}
-      {{ $currentStepStartLine = add $lineNumber 1 }}
     {{ else if hasPrefix $trimmed (printf "%s STEP_START" $commentPrefix) }}
       {{/* Save previous section if it has non-empty content */}}
       {{ if gt (len $currentSection) 0 }}
@@ -179,7 +182,6 @@
       {{ end }}
       {{/* End of a step */}}
       {{ if $inCurrentStep }}
-        {{ $currentStepEndLine = $lineNumber }}
         {{ $inCurrentStep = false }}
       {{ end }}
       {{ $inAnyStep = false }}
@@ -235,12 +237,6 @@
   {{ end }}
 {{ end }}
 {{ $stepCode := delimit $currentStepLines "\n" }}
-
-{{/* Calculate highlight lines (only the current step) */}}
-{{ $hlLines := "" }}
-{{ if and (gt $currentStepStartLine 0) (gt $currentStepEndLine 0) }}
-  {{ $hlLines = printf "%d-%d" $currentStepStartLine $currentStepEndLine }}
-{{ end }}
 
 <div class="cli group box-border rounded-lg mt-0 mb-4 mx-auto bg-slate-900 thebe-container" id="{{ $id }}" {{ if $depends }}data-depends="{{ $depends }}"{{ end }}{{ if $binder }} data-binder-ref="{{ $binder }}"{{ end }}>
     <!-- Header matching standard code blocks -->
@@ -670,5 +666,10 @@ function toggleJupyterVisibility(button) {
         }
     }
 }
+</script>
+
+<script>
+  window.thebeBinderRef = "{{ $binder }}";
+  window.thebeKernelName = "{{ $kernelName }}";
 </script>
 
