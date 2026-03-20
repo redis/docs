@@ -630,6 +630,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "incrby(key, increment)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "Integer",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "value after incrementing it"
+        }
+      }
     ]
   }
 }

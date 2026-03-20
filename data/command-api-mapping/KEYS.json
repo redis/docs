@@ -218,6 +218,43 @@
           "description": ""
         }
       }
+    ],
+    "ioredis": [
+      {
+        "signature": "keys(pattern: string, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "callback",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Result<string[], Context>",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "keys(pattern = \"*\")",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": ""
+        }
+      }
     ]
   }
 }

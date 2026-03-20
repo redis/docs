@@ -561,6 +561,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "hincrbyfloat(key, field, increment)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "Float",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Float",
+          "description": "value of the field after incrementing it"
+        }
+      }
     ]
   }
 }

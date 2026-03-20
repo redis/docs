@@ -492,6 +492,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "smismember(key, *members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*members",
+            "type": "String, Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Array<Boolean>",
+          "description": ""
+        }
+      }
     ]
   }
 }

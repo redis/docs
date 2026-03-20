@@ -503,6 +503,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "hmget(key, *fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*fields",
+            "type": "Array<String>",
+            "description": "array of fields"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": "an array of values for the specified fields"
+        }
+      }
     ]
   }
 }

@@ -913,6 +913,37 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zinterstore(destination, keys, weights: nil, aggregate: nil)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "String",
+            "description": "destination key"
+          },
+          {
+            "name": "keys",
+            "type": "Array<String>",
+            "description": "source keys"
+          },
+          {
+            "name": "weights",
+            "type": "Array<Float>",
+            "description": "weights to associate with source sorted sets"
+          },
+          {
+            "name": "aggregate",
+            "type": "String",
+            "description": "aggregate function to use (sum, min, max)"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "number of elements in the resulting sorted set"
+        }
+      }
     ]
   }
 }

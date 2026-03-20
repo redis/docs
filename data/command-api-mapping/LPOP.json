@@ -557,6 +557,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "lpop(key, count = nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "number of elements to remove"
+          }
+        ],
+        "returns": {
+          "type": "nil, String, Array<String>",
+          "description": "the values of the first elements"
+        }
+      }
     ]
   }
 }

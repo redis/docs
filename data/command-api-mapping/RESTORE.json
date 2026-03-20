@@ -544,7 +544,37 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "restore(key, ttl, serialized_value, replace: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "serialized_value",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "replace",
+            "type": "Boolean",
+            "description": "if false, raises an error if key already exists"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\""
+        }
+      }
     ]
   }
 }
-

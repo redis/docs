@@ -933,6 +933,52 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xreadgroup(group, consumer, keys, ids, count: nil, block: nil, noack: nil)",
+        "params": [
+          {
+            "name": "group",
+            "type": "String",
+            "description": "the consumer group name"
+          },
+          {
+            "name": "consumer",
+            "type": "String",
+            "description": "the consumer name"
+          },
+          {
+            "name": "keys",
+            "type": "Array<String>",
+            "description": "one or multiple stream keys"
+          },
+          {
+            "name": "ids",
+            "type": "Array<String>",
+            "description": "one or multiple entry ids"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "the number of entries as limit"
+          },
+          {
+            "name": "block",
+            "type": "Integer",
+            "description": "the number of milliseconds as blocking timeout"
+          },
+          {
+            "name": "noack",
+            "type": "Boolean",
+            "description": "whether message loss is acceptable or not"
+          }
+        ],
+        "returns": {
+          "type": "Hash",
+          "description": "the entries"
+        }
+      }
     ]
   }
 }

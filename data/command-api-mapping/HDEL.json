@@ -459,6 +459,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "hdel(key, *fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*fields",
+            "type": "String, Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of fields that were removed from the hash"
+        }
+      }
     ]
   }
 }

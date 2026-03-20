@@ -941,6 +941,67 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xclaim(key, group, consumer, min_idle_time, *ids, **opts)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": "the consumer group name"
+          },
+          {
+            "name": "consumer",
+            "type": "String",
+            "description": "the consumer name"
+          },
+          {
+            "name": "min_idle_time",
+            "type": "Integer",
+            "description": "the number of milliseconds"
+          },
+          {
+            "name": "*ids",
+            "type": "Array<String>",
+            "description": "one or multiple entry ids"
+          },
+          {
+            "name": "idle",
+            "type": "Integer",
+            "description": "the number of milliseconds as last time it was delivered"
+          },
+          {
+            "name": "time",
+            "type": "Integer",
+            "description": "the number of milliseconds as a specific Unix Epoch time"
+          },
+          {
+            "name": "retrycount",
+            "type": "Integer",
+            "description": "the number of retry counter"
+          },
+          {
+            "name": "force",
+            "type": "Boolean",
+            "description": "whether to create the pending entry"
+          },
+          {
+            "name": "justid",
+            "type": "Boolean",
+            "description": "whether to fetch just an array of entry ids"
+          }
+        ],
+        "returns": {
+          "type": "Hash, Array<String>",
+          "description": "the entries successfully claimed"
+        }
+      }
     ]
   }
 }

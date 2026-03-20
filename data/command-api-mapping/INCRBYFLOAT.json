@@ -461,6 +461,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "incrbyfloat(key, increment)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "Float",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Float",
+          "description": "value after incrementing it"
+        }
+      }
     ]
   }
 }

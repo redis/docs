@@ -516,6 +516,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zlexcount(key, min, max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "number of members within the specified lexicographical range"
+        }
+      }
     ]
   }
 }

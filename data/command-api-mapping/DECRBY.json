@@ -582,6 +582,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "decrby(key, decrement)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "decrement",
+            "type": "Integer",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "value after decrementing it"
+        }
+      }
     ]
   }
 }

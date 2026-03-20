@@ -375,7 +375,37 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "copy(source, destination, db: nil, replace: false)",
+        "params": [
+          {
+            "name": "source",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "db",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "replace",
+            "type": "Boolean",
+            "description": "removes the destination key before copying value to it"
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "whether the key was copied or not"
+        }
+      }
     ]
   }
 }
-
