@@ -74,10 +74,8 @@
 
 {{/* Detect comment style */}}
 {{ $commentPrefix := "#" }}
-{{ $isJavaScript := false }}
 {{ if findRE `// STEP_START` $content 1 }}
   {{ $commentPrefix = "//" }}
-  {{ $isJavaScript = true }}
 {{ end }}
 
 {{/* Extract BINDER_ID from source file unless already provided */}}
