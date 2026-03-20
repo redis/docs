@@ -113,7 +113,6 @@
 {{ $inCurrentStep := false }}
 {{ $inAnyStep := false }}
 {{ $inHideBlock := false }}
-{{ $lineNumber := 0 }}
 
 {{ range $lines }}
   {{ $trimmed := trim . " \t" }}
@@ -196,7 +195,6 @@
         {{/* Skip comment-only lines in steps */}}
         {{ if or (eq $trimmed "") (not (hasPrefix $trimmed $commentPrefix)) }}
           {{ $currentSection = $currentSection | append . }}
-          {{ $lineNumber = add $lineNumber 1 }}
           {{ if $inCurrentStep }}
             {{ $currentStepLines = $currentStepLines | append . }}
           {{ end }}
@@ -204,7 +202,6 @@
       {{ else }}
         {{/* Context lines (outside any step) - include empty lines for consistent spacing */}}
         {{ $currentSection = $currentSection | append . }}
-        {{ $lineNumber = add $lineNumber 1 }}
       {{ end }}
     {{ end }}
   {{ end }}
