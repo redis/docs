@@ -54,16 +54,6 @@
 
     <script>window.HUGO_BASEURL = "{{ .Site.BaseURL }}"</script>
 
-    {{/* Compatibility fallback: shortcode body render sets these globals after <head>. */}}
-    {{ $binderRef := .Scratch.Get "binderRef" }}
-    {{ $kernelName := .Scratch.Get "kernelName" }}
-    {{ if $binderRef }}
-    <script>
-      window.thebeBinderRef = "{{ $binderRef }}";
-      window.thebeKernelName = "{{ $kernelName }}";
-    </script>
-    {{ end }}
-
     <script src='{{ "js/index.js" | relURL }}' defer></script>
     {{ partial "segment.html" . }}
     {{ partial "fullstory.html" . }}
@@ -303,6 +293,63 @@
       .thebe-run-btn.text-slate-500:not(.thebe-btn-kernel-unavailable):hover::after {
         opacity: 1;
         visibility: visible;
+      }
+
+      /* Keyboard shortcut hint */
+      .panel {
+        position: relative;
+      }
+      .run-hint {
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        font-size: 0.65rem;
+        color: #64748b;
+        z-index: 10;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+      }
+      .thebe-container.kernel-ready .run-hint {
+        opacity: 1;
+      }
+
+      /* Ensure code is visible on initial load */
+      .thebe-container .step-code-view .highlight,
+      .thebe-container .step-code-view .chroma,
+      .thebe-container .step-code-view pre,
+      .thebe-container .step-code-view code {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+
+      /* Spacing between code sections in full file view */
+      .full-file-view .code-section {
+        margin-bottom: 0;
+      }
+
+      /* Ensure highlight containers don't add extra spacing */
+      .full-file-view .code-section .highlight,
+      .full-file-view .code-section pre {
+        margin: 0 !important;
+      }
+
+      /* Ensure step code view and full file view don't both show */
+      .panel .step-code-view,
+      .panel .full-file-view {
+        width: 100%;
+      }
+
+      /* Read-only context code styling in CodeMirror */
+      .thebe-cell .CodeMirror .cm-readonly-context {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      /* Prevent editing in read-only sections */
+      .thebe-cell .CodeMirror .cm-readonly-context::selection {
+        background-color: transparent;
       }
 
       /* Loading spinner animation */
@@ -598,6 +645,182 @@
       }
     </style>
     <script>
+      function copyJupyterCodeToClipboard(button) {
+        const container = button.closest('.thebe-container');
+        const panel = container.querySelector('.panel');
+        const isExpanded = panel && panel.getAttribute('aria-expanded') === 'true';
+
+        let text = '';
+        if (isExpanded) {
+          const fullFileSource = container.querySelector('script[type="text-x-full-file-source"]');
+          text = fullFileSource ? fullFileSource.textContent : '';
+        } else {
+          const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
+          text = cleanSource ? cleanSource.textContent : '';
+        }
+
+        navigator.clipboard.writeText(text).then(() => {
+          const tooltip = button.querySelector('.tooltiptext');
+          if (tooltip) {
+            tooltip.classList.remove('hidden');
+            setTimeout(() => {
+              tooltip.classList.add('hidden');
+            }, 2000);
+          }
+        }).catch(err => {
+          console.error('Copy failed', err);
+        });
+      }
+
+      function copyJupyterLinkToClipboard(button) {
+        const container = button.closest('.thebe-container');
+        const id = container.id;
+        const url = window.location.origin + window.location.pathname + '#' + id;
+
+        navigator.clipboard.writeText(url).then(() => {
+          const tooltip = button.querySelector('.tooltiptext');
+          if (tooltip) {
+            tooltip.style.opacity = '1';
+            setTimeout(() => {
+              tooltip.style.opacity = '0';
+            }, 2000);
+          }
+        }).catch(err => {
+          console.error('Copy link failed', err);
+        });
+      }
+
+      function applyReadOnlyMarkers(codeMirror, lineRanges) {
+        if (codeMirror._readOnlyMarkers) {
+          codeMirror._readOnlyMarkers.forEach(function(marker) {
+            marker.clear();
+          });
+        }
+        codeMirror._readOnlyMarkers = [];
+
+        lineRanges.forEach(function(range) {
+          if (range.type !== 'current-step') {
+            const marker = codeMirror.markText(
+              {line: range.start, ch: 0},
+              {line: range.end + 1, ch: 0},
+              {
+                readOnly: true,
+                className: 'cm-readonly-context',
+                inclusiveLeft: true,
+                inclusiveRight: true
+              }
+            );
+            codeMirror._readOnlyMarkers.push(marker);
+          }
+        });
+      }
+
+      function clearReadOnlyMarkers(codeMirror) {
+        if (codeMirror._readOnlyMarkers) {
+          codeMirror._readOnlyMarkers.forEach(function(marker) {
+            marker.clear();
+          });
+          codeMirror._readOnlyMarkers = [];
+        }
+      }
+
+      function toggleJupyterVisibility(button) {
+        const container = button.closest('.thebe-container');
+        const panel = container.querySelector('.panel');
+        const iconOn = button.querySelector('.visibility-icon-on');
+        const iconOff = button.querySelector('.visibility-icon-off');
+        const isExpanded = panel.getAttribute('aria-expanded') === 'true';
+        const isActivated = container.classList.contains('activated');
+        const stepCodeView = panel.querySelector('.step-code-view');
+        const fullFileView = panel.querySelector('.full-file-view');
+        const thebeCell = stepCodeView ? stepCodeView.querySelector('.thebe-cell') : null;
+        const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
+        const fullFileSource = container.querySelector('script[type="text-x-full-file-source"]');
+        const lineRangesScript = container.querySelector('script[type="text-x-line-ranges"]');
+        const stepCode = cleanSource ? cleanSource.textContent : '';
+        const fullFileCode = fullFileSource ? fullFileSource.textContent : '';
+        let lineRanges = [];
+
+        if (lineRangesScript) {
+          try {
+            lineRanges = JSON.parse(lineRangesScript.textContent.trim());
+          } catch (e) {
+            console.error('Failed to parse line ranges:', e);
+          }
+        }
+
+        if (isExpanded) {
+          panel.removeAttribute('aria-expanded');
+          iconOn.classList.remove('hidden');
+          iconOff.classList.add('hidden');
+
+          if (!isActivated) {
+            if (stepCodeView && fullFileView) {
+              stepCodeView.style.display = '';
+              fullFileView.style.display = 'none';
+            }
+          } else {
+            const codeMirrorElement = thebeCell ? thebeCell.querySelector('.CodeMirror') : null;
+            if (codeMirrorElement && codeMirrorElement.CodeMirror) {
+              const cm = codeMirrorElement.CodeMirror;
+              let extractedStepCode = stepCode;
+
+              if (lineRanges && lineRanges.length > 0) {
+                const currentStepRange = lineRanges.find(r => r.type === 'current-step');
+                if (currentStepRange) {
+                  const currentContent = cm.getValue();
+                  const lines = currentContent.split('\n');
+                  const stepLines = lines.slice(currentStepRange.start, currentStepRange.end + 1);
+                  extractedStepCode = stepLines.join('\n');
+                }
+              }
+
+              clearReadOnlyMarkers(cm);
+              const scrollY = window.scrollY;
+              cm.setValue(extractedStepCode);
+              window.scrollTo(0, scrollY);
+            }
+          }
+        } else {
+          panel.setAttribute('aria-expanded', 'true');
+          iconOn.classList.add('hidden');
+          iconOff.classList.remove('hidden');
+
+          if (!isActivated) {
+            if (stepCodeView && fullFileView) {
+              stepCodeView.style.display = 'none';
+              fullFileView.style.display = '';
+            }
+          } else {
+            const codeMirrorElement = thebeCell ? thebeCell.querySelector('.CodeMirror') : null;
+            if (codeMirrorElement && codeMirrorElement.CodeMirror) {
+              const cm = codeMirrorElement.CodeMirror;
+              const currentStepCode = cm.getValue();
+              let rebuiltFullFile = fullFileCode;
+
+              if (lineRanges && lineRanges.length > 0) {
+                const currentStepRange = lineRanges.find(r => r.type === 'current-step');
+                if (currentStepRange) {
+                  const originalLines = fullFileCode.split('\n');
+                  const stepLines = currentStepCode.split('\n');
+                  const beforeStep = originalLines.slice(0, currentStepRange.start);
+                  const afterStep = originalLines.slice(currentStepRange.end + 1);
+                  rebuiltFullFile = [...beforeStep, ...stepLines, ...afterStep].join('\n');
+                }
+              }
+
+              const scrollY = window.scrollY;
+              cm.setValue(rebuiltFullFile);
+              window.scrollTo(0, scrollY);
+              setTimeout(function() {
+                applyReadOnlyMarkers(cm, lineRanges);
+              }, 50);
+            }
+          }
+        }
+      }
+    </script>
+    <script>
       document.addEventListener('DOMContentLoaded', function() {
         // Track which cells have been executed and kernel state
         const executedCells = new Set();
@@ -688,7 +911,7 @@
         // Configure page-specific session storage
         // Get current page path for unique session key
         const pagePath = window.location.pathname.replace(/\//g, '-').replace(/^-|-$/g, '') || 'home';
-        // Get dynamic binder ref and kernel name from window (set by shortcode render; head is fallback only)
+        // Get dynamic binder ref and kernel name from window (set by shortcode render)
         if (!window.thebeBinderRef || !window.thebeKernelName) {
           console.error('[Thebe] Missing binder ref or kernel name. Interactive notebooks require both.');
           return; // Skip all Thebe initialization
@@ -1267,7 +1490,7 @@
                 try {
                   const config = JSON.parse(configScript.textContent);
 
-                  // Use binder ref and kernel name from window (set by shortcode render; head is fallback only)
+                  // Use binder ref and kernel name from window (set by shortcode render)
                   if (!window.thebeBinderRef || !window.thebeKernelName) {
                     console.error('[Thebe] Missing binder ref or kernel name. Interactive notebooks require both.');
                     return; // Skip bootstrap
