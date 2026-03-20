@@ -254,7 +254,7 @@ questions:
                     id: nodeRedisOutcome
 
     ioredisAdvancedFeaturesQuestion:
-        text: Do you want to use advanced Redis features (search, vector database, JSON, etc.)?
+        text: Do you want to use advanced Redis features such as search, vector database, and JSON?
         answers:
             yes:
                 value: "Yes"
