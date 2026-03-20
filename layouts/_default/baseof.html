@@ -908,8 +908,8 @@
               return;
             }
             if (thebeLoadError) {
-              reject(thebeLoadError);
-              return;
+              console.log('[Thebe Session] Clearing previous load error, attempting retry');
+              thebeLoadError = null;
             }
             if (thebeLoading) {
               // Wait for existing load
@@ -1084,6 +1084,7 @@
           executedCells.clear();
           existingSession = null;
           lastBinderRateLimitError = null;
+          thebeLoadError = null;
           sessionStorage.removeItem(SESSION_RESTORE_KEY);
 
           if (sessionStorageKey_actual) {
