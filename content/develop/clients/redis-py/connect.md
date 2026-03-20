@@ -262,7 +262,8 @@ lets a client take action to avoid disruptions in service.
 See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
 for more information about SCH.
 
-SCH is enabled on the client by default, but you can configure it
+By default, `redis-py` always attempts to connect via SCH but falls back to
+a non-SCH connection if the server doesn't support it. However, you can configure SCH
 explicitly by passing a `MaintNotificationsConfig` object during the connection,
 as shown in the following example:
 
