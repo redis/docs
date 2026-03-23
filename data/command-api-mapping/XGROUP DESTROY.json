@@ -554,6 +554,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xgroup(:destroy, key, group)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": "the consumer group name"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "effected count"
+        }
+      }
     ]
   }
 }

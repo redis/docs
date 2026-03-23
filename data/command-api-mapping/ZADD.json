@@ -1163,6 +1163,57 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zadd(key, *args, nx: nil, xx: nil, lt: nil, gt: nil, ch: nil, incr: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*args",
+            "type": "[Float, String], Array<[Float, String]>",
+            "description": "a single [score, member] pair or an array of pairs"
+          },
+          {
+            "name": "nx",
+            "type": "Boolean",
+            "description": "Only add elements that do not already exist"
+          },
+          {
+            "name": "xx",
+            "type": "Boolean",
+            "description": "Only update elements that already exist"
+          },
+          {
+            "name": "lt",
+            "type": "Boolean",
+            "description": "Only update existing elements if the new score is less than the current score"
+          },
+          {
+            "name": "gt",
+            "type": "Boolean",
+            "description": "Only update existing elements if the new score is greater than the current score"
+          },
+          {
+            "name": "ch",
+            "type": "Boolean",
+            "description": "Return the total number of elements changed"
+          },
+          {
+            "name": "incr",
+            "type": "Boolean",
+            "description": "ZADD acts like ZINCRBY"
+          }
+        ],
+        "returns": {
+          "type": "Boolean, Integer, Float",
+          "description": ""
+        }
+      }
     ]
   }
 }

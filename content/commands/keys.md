@@ -76,6 +76,21 @@ To use pattern with hash tag, see [Hash tags]({{< relref "operate/oss_and_stack/
 
 ## Examples
 
+{{< clients-example set="cmds_generic" step="keys" description="Returns all key names that match a pattern" difficulty="beginner" >}}
+> MSET firstname Jack lastname Stuntman age 35
+"OK"
+> KEYS *name*
+1) "lastname"
+2) "firstname"
+> KEYS a??
+1) "age"
+> KEYS *
+1) "age"
+2) "lastname"
+3) "firstname"
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
 {{% redis-cli %}}
 MSET firstname Jack lastname Stuntman age 35
 KEYS *name*

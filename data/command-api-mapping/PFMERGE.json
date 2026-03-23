@@ -369,6 +369,27 @@
           "description": "OK"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "pfmerge(dest_key, *source_key)",
+        "params": [
+          {
+            "name": "dest_key",
+            "type": "String",
+            "description": "destination key"
+          },
+          {
+            "name": "*source_key",
+            "type": "String, Array<String>",
+            "description": "source key, or array of keys"
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": ""
+        }
+      }
     ]
   }
 }

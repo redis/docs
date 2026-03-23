@@ -110,7 +110,7 @@ The command reports on the following statistics:
 * `NETWORK-BYTES-OUT`: Total outbound network traffic (in bytes) sent from the slot.
 
 {{< note>}}
-`MEMORY-BYTES` requires that you set `cluster-slot-stats-enabled` to `yes` in your `redis.conf` file.
+All metrics except `KEY-COUNT` require that `cluster-slot-stats-enabled` is set to `yes` in the `redis.conf` file.
 {{< /note >}}
 
 ## Redis Software and Redis Cloud compatibility

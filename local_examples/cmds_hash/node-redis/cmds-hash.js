@@ -7,6 +7,10 @@ const client = createClient();
 await client.connect().catch(console.error);
 // HIDE_END
 
+// REMOVE_START
+await client.del('myhash');
+// REMOVE_END
+
 // STEP_START hdel
 const hDel1 = await client.hSet('myhash', 'field1', 'Hello')
 console.log(hDel1) // 1
@@ -80,6 +84,18 @@ assert.equal(res7, 1);
 assert.equal(res8, 'foo');
 assert.equal(res9, null);
 await client.del('myhash')
+// REMOVE_END
+// STEP_END
+
+// STEP_START hmget
+await client.hSet('myhash', { field1: 'Hello', field2: 'World' });
+
+const hmgetResult = await client.hmGet('myhash', ['field1', 'field2', 'nofield']);
+console.log(hmgetResult); // ['Hello', 'World', null]
+
+// REMOVE_START
+assert.deepEqual(hmgetResult, ['Hello', 'World', null]);
+await client.del('myhash');
 // REMOVE_END
 // STEP_END
 

@@ -446,7 +446,47 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "pexpireat(key, ms_unix_time, nx: nil, xx: nil, gt: nil, lt: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ms_unix_time",
+            "type": "Integer",
+            "description": "expiry time specified as number of milliseconds from UNIX Epoch"
+          },
+          {
+            "name": "nx",
+            "type": "Boolean",
+            "description": "Set expiry only when the key has no expiry."
+          },
+          {
+            "name": "xx",
+            "type": "Boolean",
+            "description": "Set expiry only when the key has an existing expiry."
+          },
+          {
+            "name": "gt",
+            "type": "Boolean",
+            "description": "Set expiry only when the new expiry is greater than current one."
+          },
+          {
+            "name": "lt",
+            "type": "Boolean",
+            "description": "Set expiry only when the new expiry is less than current one."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "whether the timeout was set or not"
+        }
+      }
     ]
   }
 }
-

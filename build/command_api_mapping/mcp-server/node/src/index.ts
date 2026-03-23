@@ -15,6 +15,7 @@ import { getClientInfo } from "./tools/get-client-info.js";
 import { listClients } from "./tools/list-clients.js";
 import { analyzeMetadataSize } from "./tools/analyze-metadata.js";
 import { analyzeTokenUsage } from "./tools/analyze-token-usage.js";
+import { analyzeRagQuality } from "./tools/analyze-rag-quality.js";
 
 // Import schemas
 import {
@@ -26,6 +27,7 @@ import {
   ListClientsInputSchema,
   AnalyzeMetadataSizeInputSchema,
   AnalyzeTokenUsageInputSchema,
+  AnalyzeRagQualityInputSchema,
 } from "./tools/schemas.js";
 
 // Create MCP server with tools capability
@@ -206,6 +208,38 @@ const TOOLS = [
       },
     },
   },
+  {
+    name: "analyze_rag_quality",
+    description:
+      "Analyze a documentation page for RAG retrieval quality. " +
+      "Evaluates how well the page will chunk for AI retrieval systems. " +
+      "Returns structural issues, hard-fail conditions, scores, and actionable recommendations.",
+    inputSchema: {
+      type: "object" as const,
+      properties: {
+        file_path: {
+          type: "string",
+          description: "Path to Markdown documentation file",
+        },
+        content: {
+          type: "string",
+          description: "Raw Markdown content (use this OR file_path)",
+        },
+        max_chunk_tokens: {
+          type: "number",
+          description: "Target max tokens per chunk (default: 512)",
+        },
+        page_type: {
+          type: "string",
+          enum: ["auto", "index", "tutorial", "reference", "concept"],
+          description:
+            "Page type for adjusted scoring. 'auto' (default) detects from content. " +
+            "'index' = navigation pages, 'tutorial' = step-by-step guides, " +
+            "'reference' = API docs, 'concept' = explanatory content.",
+        },
+      },
+    },
+  },
 ];
 
 // Register tools
@@ -253,6 +287,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case "analyze_token_usage":
         result = await analyzeTokenUsage(args);
+        break;
+
+      case "analyze_rag_quality":
+        result = await analyzeRagQuality(args);
         break;
 
       default:

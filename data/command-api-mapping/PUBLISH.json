@@ -172,7 +172,27 @@
           "description": "Number of clients that received the message"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "publish(channel, message)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "message",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "number of clients that received the message"
+        }
+      }
     ]
   }
 }
-

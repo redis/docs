@@ -12,6 +12,14 @@ min-version-rs: blah
 weight: 40
 ---
 
+## Redis Open Source 8.4.2 (February 2026)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- A user can manipulate data read by a connection by injecting `\r\n` sequences into a Redis error reply.
+
 ## Redis Open Source 8.4.1 (February 2026)
 
 Update urgency: `SECURITY`: There are security fixes in the release.

@@ -125,7 +125,16 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "randomkey",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
     ]
   }
 }
-

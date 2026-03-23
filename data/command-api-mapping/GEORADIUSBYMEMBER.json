@@ -704,6 +704,52 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "georadiusbymember(*args, **geoptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "Float",
+            "description": ""
+          },
+          {
+            "name": "unit",
+            "type": "String",
+            "description": "m|km|ft|mi"
+          },
+          {
+            "name": "sort",
+            "type": "String",
+            "description": "asc or desc"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "limit the results"
+          },
+          {
+            "name": "options",
+            "type": "String",
+            "description": "WITHDIST, WITHCOORD, WITHHASH"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": ""
+        }
+      }
     ]
   }
 }

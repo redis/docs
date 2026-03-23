@@ -368,6 +368,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "hrandfield(key, count = nil, with_values: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "with_values",
+            "type": "Boolean",
+            "description": "include values in output"
+          }
+        ],
+        "returns": {
+          "type": "nil, String, Array<String>, Array<[String, String]>",
+          "description": ""
+        }
+      }
     ]
   }
 }
