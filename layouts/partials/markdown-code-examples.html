@@ -98,8 +98,8 @@
     {{- /* Build replacement with all languages */ -}}
     {{- $replacement := "" -}}
 
-    {{- /* Add section header for this example group */ -}}
-    {{- $replacement = printf "#### Code Examples\n\n" -}}
+    {{- /* Note: We don't emit a heading here - the source file provides the parent heading */ -}}
+    {{- /* This allows the description/metadata to fill the parent section, avoiding empty sections */ -}}
 
     {{- /* Add description if provided */ -}}
     {{- if $description -}}
@@ -216,15 +216,16 @@
     {{- end -}}
     {{- $availableLangs = $sortedLangs -}}
 
+    {{- /* Add language availability summary first (before individual language examples) */ -}}
+    {{- $replacement = printf "%s**Available in:** %s\n\n" $replacement (delimit $availableLangs ", ") -}}
+
     {{- /* Add CLI example first if provided */ -}}
     {{- if $cliContent -}}
       {{- /* Clean up the CLI content - remove leading/trailing whitespace and stray }} */ -}}
       {{- $cliContent = replaceRE "^\\s*\\}\\}\\s*" "" $cliContent -}}
-      {{- $replacement = printf "%s**Redis CLI:**\n\n```\n%s\n```\n\n" $replacement $cliContent -}}
+      {{- /* Use H5 heading for Redis CLI - consistent with other language examples */ -}}
+      {{- $replacement = printf "%s##### Redis CLI\n\n```\n%s\n```\n\n" $replacement $cliContent -}}
     {{- end -}}
-
-    {{- /* Add language availability summary */ -}}
-    {{- $replacement = printf "%s**Available in:** %s\n\n" $replacement (delimit $availableLangs ", ") -}}
 
     {{- /* Sort language examples by display name (alphabetically) */ -}}
     {{- $sortedLangExamples := slice -}}
@@ -324,7 +325,8 @@
           {{- $codeFenceLang = "rust" -}}
         {{- end -}}
 
-        {{- $replacement = printf "%s**%s:**\n\n```%s\n%s\n```\n\n" $replacement $displayName $codeFenceLang $displayContent -}}
+        {{- /* Use H5 heading for each language - creates independently retrievable chunks for RAG */ -}}
+        {{- $replacement = printf "%s##### %s\n\n```%s\n%s\n```\n\n" $replacement $displayName $codeFenceLang $displayContent -}}
       {{- end -}}
     {{- end -}}
 
@@ -356,18 +358,15 @@
   {{- $clientExamples := index $.Site.Data.examples $exampleId -}}
 
   {{- /* Build the replacement content */ -}}
+  {{- /* Note: We don't emit a heading here - the source file provides the parent heading */ -}}
+  {{- /* This allows the description/metadata to fill the parent section, avoiding empty sections */ -}}
   {{- $replacement := "" -}}
 
-  {{- if or $description $difficulty -}}
-    {{- $replacement = printf "#### Code Examples\n\n" -}}
-    {{- if $description -}}
-      {{- $replacement = printf "%s%s\n\n" $replacement $description -}}
-    {{- end -}}
-    {{- if $difficulty -}}
-      {{- $replacement = printf "%s**Difficulty:** %s\n\n" $replacement (title $difficulty) -}}
-    {{- end -}}
-  {{- else -}}
-    {{- $replacement = "#### Code Examples\n\n" -}}
+  {{- if $description -}}
+    {{- $replacement = printf "%s\n\n" $description -}}
+  {{- end -}}
+  {{- if $difficulty -}}
+    {{- $replacement = printf "%s**Difficulty:** %s\n\n" $replacement (title $difficulty) -}}
   {{- end -}}
 
   {{- /* Extract commands used from steps_commands if available */ -}}
@@ -504,8 +503,9 @@
               {{- $codeFenceLang = "rust" -}}
             {{- end -}}
 
+            {{- /* Use H5 heading for each language - creates independently retrievable chunks for RAG */ -}}
             {{- if $displayContent -}}
-              {{- $replacement = printf "%s**%s:**\n\n```%s\n%s\n```\n\n" $replacement $displayName $codeFenceLang $displayContent -}}
+              {{- $replacement = printf "%s##### %s\n\n```%s\n%s\n```\n\n" $replacement $displayName $codeFenceLang $displayContent -}}
             {{- end -}}
           {{- end -}}
         {{- end -}}
