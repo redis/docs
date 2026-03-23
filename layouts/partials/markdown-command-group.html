@@ -101,34 +101,57 @@
     
     {{- /* Build Markdown replacement */ -}}
     {{- $replacement := "" -}}
-    
+
+    {{- /* Chunk size for RAG-friendly tables (keeps each chunk under ~400 tokens) */ -}}
+    {{- $chunkSize := 10 -}}
+
     {{- if gt (len $sortedCommands) 0 -}}
+      {{- $totalCommands := len $sortedCommands -}}
+      {{- $totalChunks := div (add $totalCommands (sub $chunkSize 1)) $chunkSize -}}
+
+      {{- /* First chunk gets the main heading and metadata */ -}}
       {{- $replacement = printf "### %s\n\n" $title -}}
-      {{- $replacement = printf "%s**%d commands in this group:**\n\n" $replacement (len $sortedCommands) -}}
-      
+      {{- $replacement = printf "%s**%d commands in this group:**\n\n" $replacement $totalCommands -}}
+
       {{- if $showLink -}}
         {{- $replacement = printf "%s[View all %s commands](https://redis.io/commands/?group=%s)\n\n" $replacement $groupLower $urlGroup -}}
       {{- end -}}
-      
-      {{- $replacement = printf "%s| Command | Summary | Complexity | Since |\n" $replacement -}}
-      {{- $replacement = printf "%s|---------|---------|------------|-------|\n" $replacement -}}
-      
-      {{- range $sortedCommands -}}
-        {{- $cmdName := .name -}}
-        {{- $cmdData := .data -}}
+
+      {{- /* Process commands in chunks */ -}}
+      {{- $chunkNum := 0 -}}
+      {{- range $index, $cmd := $sortedCommands -}}
+        {{- $posInChunk := mod $index $chunkSize -}}
+
+        {{- /* Start new table at beginning of each chunk */ -}}
+        {{- if eq $posInChunk 0 -}}
+          {{- $chunkNum = add $chunkNum 1 -}}
+
+          {{- /* Add chunk heading for chunks after the first */ -}}
+          {{- if gt $chunkNum 1 -}}
+            {{- $replacement = printf "%s\n#### %s (part %d)\n\n" $replacement $title $chunkNum -}}
+          {{- end -}}
+
+          {{- /* Add table headers */ -}}
+          {{- $replacement = printf "%s| Command | Summary | Complexity | Since |\n" $replacement -}}
+          {{- $replacement = printf "%s|---------|---------|------------|-------|\n" $replacement -}}
+        {{- end -}}
+
+        {{- /* Add command row */ -}}
+        {{- $cmdName := $cmd.name -}}
+        {{- $cmdData := $cmd.data -}}
         {{- $cmdSlug := lower (replace $cmdName " " "-") -}}
         {{- $summary := $cmdData.summary | default "" -}}
         {{- $complexity := $cmdData.complexity | default "N/A" -}}
         {{- $since := $cmdData.since | default "N/A" -}}
-        
+
         {{- /* Truncate long complexity strings for table readability */ -}}
         {{- if gt (len $complexity) 50 -}}
           {{- $complexity = printf "%s..." (substr $complexity 0 47) -}}
         {{- end -}}
-        
+
         {{- $replacement = printf "%s| [%s](https://redis.io/commands/%s/) | %s | %s | %s |\n" $replacement $cmdName $cmdSlug $summary $complexity $since -}}
       {{- end -}}
-      
+
       {{- $replacement = printf "%s\n" $replacement -}}
     {{- else -}}
       {{- $replacement = printf "### %s\n\nNo commands found for group: %s\n\n" $title $group -}}
