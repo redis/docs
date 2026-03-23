@@ -34,6 +34,7 @@ export interface Section {
   hasCodeBlock: boolean;
   hasTable: boolean;
   hadOnlyMetadata?: boolean;  // True if section content was only a metadata block
+  lineNumberMap?: number[];   // Maps filtered content line index to original file line number
 }
 
 export interface DocStructure {
@@ -185,9 +186,15 @@ function buildSections(
   metadataBlockRanges: Array<{ startLine: number; endLine: number }>
 ): Section[] {
   // Helper to filter out metadata block lines from a range
-  // Returns { content, hadOnlyMetadata }
-  const getFilteredContent = (start: number, end: number): { content: string; hadOnlyMetadata: boolean } => {
+  // Returns { content, hadOnlyMetadata, lineNumberMap }
+  // lineNumberMap maps each index in filteredLines to its original 1-based line number
+  const getFilteredContent = (start: number, end: number): {
+    content: string;
+    hadOnlyMetadata: boolean;
+    lineNumberMap: number[];
+  } => {
     const filteredLines: string[] = [];
+    const lineNumberMap: number[] = [];  // Maps filtered index to original line number
     let metadataLinesInRange = 0;
     let totalNonHeadingLines = 0;
 
@@ -210,6 +217,7 @@ function buildSections(
 
       if (!isInMetadataBlock) {
         filteredLines.push(line);
+        lineNumberMap.push(lineNum);  // Track original line number
       }
     }
 
@@ -218,12 +226,12 @@ function buildSections(
       totalNonHeadingLines > 0 &&
       metadataLinesInRange >= totalNonHeadingLines;
 
-    return { content: filteredLines.join('\n'), hadOnlyMetadata };
+    return { content: filteredLines.join('\n'), hadOnlyMetadata, lineNumberMap };
   };
 
   if (headings.length === 0) {
     // No headings - entire doc is one section
-    const { content, hadOnlyMetadata } = getFilteredContent(1, lines.length);
+    const { content, hadOnlyMetadata, lineNumberMap } = getFilteredContent(1, lines.length);
     return [{
       headingPath: ['(untitled)'],
       headingLevel: 0,
@@ -233,6 +241,7 @@ function buildSections(
       hasCodeBlock: codeBlocks.length > 0,
       hasTable: tables.length > 0,
       hadOnlyMetadata,
+      lineNumberMap,
     }];
   }
 
@@ -254,7 +263,7 @@ function buildSections(
     // Extract content for this section (excluding metadata blocks)
     const startLine = heading.startLine;
     const endLine = heading.endLine;
-    const { content, hadOnlyMetadata } = getFilteredContent(startLine, endLine);
+    const { content, hadOnlyMetadata, lineNumberMap } = getFilteredContent(startLine, endLine);
 
     // Check if section contains code blocks or tables
     const hasCodeBlock = codeBlocks.some(
@@ -273,6 +282,7 @@ function buildSections(
       hasCodeBlock,
       hasTable,
       hadOnlyMetadata,
+      lineNumberMap,
     });
   }
 
