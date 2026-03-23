@@ -4,52 +4,38 @@ categories:
 - docs
 - operate
 - kubernetes
-description: Releases with support for Redis Enterprise Software 7.8.6
+description: Releases with support for Redis Enterprise Software 8.0.16
 hideListLinks: true
-linkTitle: 7.8.6 releases
-title: Redis Enterprise for Kubernetes 7.8.6 release notes
-weight: 92
+linkTitle: 8.0.16 releases
+title: Redis Enterprise for Kubernetes 8.0.16 release notes
+weight: 86
 ---
 
-Redis Enterprise for Kubernetes 7.8.6 includes bug fixes, enhancements, and support for Redis Enterprise Software. The latest release is 7.8.6-13 with support for Redis Enterprise Software version 7.8.6-256.
+Redis Enterprise for Kubernetes 8.0.16-24 is a maintenance release of Redis Enterprise for Kubernetes 8.0.10. The latest release is 8.0.16-24 with support for Redis Enterprise Software version 8.0.16-29.
 
 ## Detailed release notes
 
 {{<table-children columnNames="Version&nbsp;(Release&nbsp;date)&nbsp;,Major changes" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}
 
-## Breaking changes
-
-Customers who use load balancers for Active-Active replication endpoints and rely on the change introduced in RED-113626 (or the workaround described in the ticket) must set the spec.externalReplicationPort field in REAADB after upgrading. Otherwise, replication will fail (RED-149374).
-
-## RHEL9-based image
-
-As of version 7.8.2-6, Redis Enterprise images are based on Red Hat Enterprise Linux 9 (RHEL9). This means upgrades require:
-
-- [Cluster version of 7.4.2-2 or later](https://redis.io/docs/latest/operate/kubernetes/7.4.6/upgrade/).
-- Database version 7.2 or later.
-- RHEL9 compatible binaries for any modules you need.
-
-For detailed steps, see the relevant upgrade page:
-
-- [OpenShift CLI]({{<relref "/operate/kubernetes/upgrade/openshift-cli">}})
-- [OpenShift OperatorHub]({{<relref "/operate/kubernetes/upgrade/upgrade-olm">}})
-- [Kubernetes]({{<relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}})
-
 ## Known limitations
 
-- **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 7.8.2-6 or later.
+### New limitations
 
-- **When changing the REDB field `spec.modulesList`, version might be upgraded to latest, even if a different version is specified.** To prevent the upgrade to latest, set  `spec.upgradeSpec.setModuleToLatest` to `false` before upgrading to 7.8.2-6.
+- **SSO configuration doesn't work with IPv6 or dual stack (IPv4/IPv6) clusters.** <!--RED-180550-->
+
+### Existing limitations
+
+- **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 8.0.10-21.
 
 - **Missing endpoint for admission endpoint (rare) (RED-119469)** Restart the operator pod.
 
-- **The REDB "redisVersion" field can’t be used for memcached databases(RED-119152)**
+- **The REDB "redisVersion" field can't be used for memcached databases (RED-119152)**
 
 - **When modifying the database suffix for an Active-Active database, while the service-rigger is in a terminating state, the services-rigger will delete and create the ingress or route resources in a loop (RED-107687)** Wait until the services rigger pod has finished to terminate it.
 
 - **REAADB changes might fail with "gateway timeout" errors, mostly on OpenShift (RED-103048)** Retry the operation.
 
-- **Creating two databases with the same name directly on Redis Enterprise software will cause the service to be deleted and the database will not be available (RED-99997)** Avoid duplicating database names. Database creation via K8s has validation in place to prevent this.
+- **Creating two databases with the same name directly in the Redis Enterprise cluster manager UI will cause the service to be deleted and the database will not be available (RED-99997)** Avoid duplicating database names. The admission controller prevents duplicate database names when databases are created via the Kubernetes operator.
 
 - **Installing the operator bundle produces warning: `Warning: would violate PodSecurity "restricted: v1.24"` (RED-97381)** Ignore the warning. This issue is documented as benign on official Red Hat documentation.
 
@@ -90,3 +76,4 @@ For detailed steps, see the relevant upgrade page:
 - **Long cluster names cause routes to be rejected  (RED-25871)** A cluster name longer than 20 characters will result in a rejected route configuration because the host part of the domain name exceeds 63 characters. The workaround is to limit the cluster name to 20 characters or fewer.
 
 - **Cluster CR (REC) errors are not reported after invalid updates (RED-25542)** A cluster CR specification error is not reported if two or more invalid CR resources are updated in sequence.
+

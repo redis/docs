@@ -8,7 +8,7 @@ description: Releases with support for Redis Enterprise Software 8.0.6
 hideListLinks: true
 linkTitle: 8.0.6 releases
 title: Redis Enterprise for Kubernetes 8.0.6 release notes
-weight: 1
+weight: 88
 ---
 
 Redis Enterprise for Kubernetes 8.0.6 includes bug fixes, enhancements, and support for Redis Enterprise Software 8.0.6. The latest release is 8.0.6-8 with support for Redis Enterprise Software version 8.0.6-54.
