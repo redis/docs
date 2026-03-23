@@ -11,7 +11,7 @@
 import { DocStructure, Section } from './markdown-parser.js';
 import { Chunk } from './structure-chunker.js';
 import { HardFail, CategoryScores, RagQualityLabel } from '../tools/schemas.js';
-import { computeVariance } from './token-counter.js';
+import { computeStdDev } from './token-counter.js';
 
 /**
  * Compute all category scores.
@@ -125,7 +125,7 @@ function computeEfficiency(chunks: Chunk[], maxTokens: number): number {
   
   const tokenCounts = chunks.map(c => c.tokenCount);
   const avgTokens = tokenCounts.reduce((a, b) => a + b, 0) / tokenCounts.length;
-  const variance = computeVariance(tokenCounts);
+  const stdDev = computeStdDev(tokenCounts);
   
   let score = MAX_SCORE;
   
@@ -137,8 +137,8 @@ function computeEfficiency(chunks: Chunk[], maxTokens: number): number {
   const largeChunks = tokenCounts.filter(t => t > maxTokens * 1.5).length;
   score -= Math.min(largeChunks * 2, 4);
   
-  // Deduct for high variance (chunks very inconsistent in size)
-  const cvRatio = variance / avgTokens; // Coefficient of variation
+  // Deduct for high coefficient of variation (chunks very inconsistent in size)
+  const cvRatio = stdDev / avgTokens; // CV = σ/μ
   if (cvRatio > 1.0) score -= 2;
   else if (cvRatio > 0.5) score -= 1;
   

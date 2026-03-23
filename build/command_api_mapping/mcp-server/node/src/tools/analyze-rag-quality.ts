@@ -25,7 +25,7 @@ import { chunkByStructure } from "../chunking/structure-chunker.js";
 import { detectHardFails } from "../chunking/hard-fail-detector.js";
 import { computeScores, computeOverallScore, computeLabel } from "../chunking/scorer.js";
 import { generateRecommendations, generateIssues } from "../chunking/recommender.js";
-import { initTokenCounter, computeVariance } from "../chunking/token-counter.js";
+import { initTokenCounter, computeStdDev } from "../chunking/token-counter.js";
 import { detectPageType, getScoringAdjustments } from "../chunking/page-type-detector.js";
 
 /**
@@ -108,7 +108,7 @@ export async function analyzeRagQuality(
       : 0,
     max_chunk_tokens: tokenCounts.length > 0 ? Math.max(...tokenCounts) : 0,
     min_chunk_tokens: tokenCounts.length > 0 ? Math.min(...tokenCounts) : 0,
-    variance: Math.round(computeVariance(tokenCounts)),
+    std_dev: Math.round(computeStdDev(tokenCounts)),
   };
   
   // Generate chunk previews (first 5)

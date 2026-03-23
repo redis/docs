@@ -372,7 +372,7 @@ export const ChunkMetricsSchema = z.object({
   avg_chunk_tokens: z.number(),
   max_chunk_tokens: z.number(),
   min_chunk_tokens: z.number(),
-  variance: z.number(),
+  std_dev: z.number().describe("Standard deviation of chunk token counts"),
 });
 export type ChunkMetrics = z.infer<typeof ChunkMetricsSchema>;
 

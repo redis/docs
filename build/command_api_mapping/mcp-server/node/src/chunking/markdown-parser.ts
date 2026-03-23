@@ -237,16 +237,19 @@ function buildSections(
   }
 
   const sections: Section[] = [];
-  const headingStack: string[] = [];
+  // Track both heading text and its level to handle skipped levels correctly
+  const headingStack: Array<{ text: string; level: number }> = [];
 
   for (let i = 0; i < headings.length; i++) {
     const heading = headings[i];
 
-    // Update heading stack based on level
-    while (headingStack.length >= heading.level) {
+    // Pop headings that are at the same level or deeper than current heading
+    // This correctly handles skipped levels (e.g., H2 followed by H2 when there's no H1)
+    while (headingStack.length > 0 &&
+           headingStack[headingStack.length - 1].level >= heading.level) {
       headingStack.pop();
     }
-    headingStack.push(heading.text);
+    headingStack.push({ text: heading.text, level: heading.level });
 
     // Extract content for this section (excluding metadata blocks)
     const startLine = heading.startLine;
@@ -262,7 +265,7 @@ function buildSections(
     );
 
     sections.push({
-      headingPath: [...headingStack],
+      headingPath: headingStack.map(h => h.text),
       headingLevel: heading.level,
       startLine,
       endLine,

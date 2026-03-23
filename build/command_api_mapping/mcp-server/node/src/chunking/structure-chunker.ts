@@ -65,6 +65,9 @@ export function chunkByStructure(
 /**
  * Split an oversized section into smaller chunks.
  * Strategy: split at paragraph boundaries, keeping code blocks intact.
+ *
+ * Note: Uses section.content (already filtered to exclude metadata blocks)
+ * to ensure consistency with single-chunk sections.
  */
 function splitOversizedSection(
   section: Section,
@@ -73,7 +76,8 @@ function splitOversizedSection(
   structure: DocStructure
 ): Chunk[] {
   const chunks: Chunk[] = [];
-  const sectionLines = allLines.slice(section.startLine - 1, section.endLine);
+  // Use section.content (filtered) instead of raw allLines to exclude metadata blocks
+  const sectionLines = section.content.split('\n');
   
   // Find safe split points (paragraph boundaries, not inside code blocks)
   const splitPoints = findSplitPoints(sectionLines, section.startLine, structure);

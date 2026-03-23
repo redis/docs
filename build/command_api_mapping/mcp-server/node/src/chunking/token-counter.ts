@@ -91,13 +91,15 @@ export function cleanupTokenCounter(): void {
 }
 
 /**
- * Compute variance of token counts.
+ * Compute standard deviation of token counts.
+ * Used for coefficient of variation (CV = stdDev / mean) in scoring.
  */
-export function computeVariance(values: number[]): number {
+export function computeStdDev(values: number[]): number {
   if (values.length === 0) return 0;
-  
+
   const mean = values.reduce((a, b) => a + b, 0) / values.length;
   const squaredDiffs = values.map(v => Math.pow(v - mean, 2));
-  return Math.sqrt(squaredDiffs.reduce((a, b) => a + b, 0) / values.length);
+  const variance = squaredDiffs.reduce((a, b) => a + b, 0) / values.length;
+  return Math.sqrt(variance);
 }
 
