@@ -26,13 +26,11 @@ export interface ChunkingResult {
  */
 export function chunkByStructure(
   structure: DocStructure,
-  content: string,
   maxTokens: number
 ): ChunkingResult {
   const chunks: Chunk[] = [];
   const oversizedSections: Section[] = [];
-  const lines = content.split('\n');
-  
+
   for (const section of structure.sections) {
     const sectionContent = section.content;
     const tokenCount = countTokens(sectionContent);

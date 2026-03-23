@@ -207,11 +207,14 @@ function buildSections(
         range => lineNum >= range.startLine && lineNum <= range.endLine
       );
 
-      if (isInMetadataBlock) {
+      // Only count non-empty, non-heading lines for consistent comparison
+      const isNonEmptyContent = !isHeadingLine && line.trim().length > 0;
+
+      if (isInMetadataBlock && isNonEmptyContent) {
         metadataLinesInRange++;
       }
 
-      if (!isHeadingLine && line.trim().length > 0) {
+      if (isNonEmptyContent) {
         totalNonHeadingLines++;
       }
 

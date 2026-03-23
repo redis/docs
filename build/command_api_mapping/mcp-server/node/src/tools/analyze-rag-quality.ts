@@ -64,11 +64,7 @@ export async function analyzeRagQuality(
   const structure = parseMarkdownStructure(content);
 
   // Phase 2: Chunk by structure
-  const { chunks, oversizedSections } = chunkByStructure(
-    structure,
-    content,
-    maxTokens
-  );
+  const { chunks, oversizedSections } = chunkByStructure(structure, maxTokens);
 
   // Phase 2.5: Detect or use specified page type
   let pageType: PageType = validatedInput.page_type;
