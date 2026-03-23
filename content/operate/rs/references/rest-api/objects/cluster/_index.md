@@ -83,6 +83,7 @@ An API object that represents the cluster.
 | smtp_tls_mode | "none"<br />"starttls"<br />"tls" | Specifies which TLS mode to use for SMTP access |
 | smtp_use_tls | boolean (default: false) | Use TLS for SMTP access (deprecated as of Redis Software v4.3.3, use smtp_tls_mode field instead) |
 | smtp_username | string | SMTP server username (pattern does not allow special characters &,\<,>,") |
+| <span class="break-all">state_machine_smart_client_handoffs_delay_ms</span> | integer (range: 0-10000) (default: 2000) | For smart client handoffs feature, the time in milliseconds to pause the state machine between sending the notification to clients and performing the operation |
 | syncer_certificate | string | Cluster's syncer certificate |
 | upgrade_mode | boolean (default: false) | Is cluster currently in upgrade mode |
 | use_external_ipv6 | boolean (default: true) | Should redislabs services listen on ipv6 |

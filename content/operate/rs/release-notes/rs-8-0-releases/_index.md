@@ -55,7 +55,7 @@ For more detailed release notes, select a build version from the following table
 
 ### Breaking changes
 
-- LDAP filters for `user_dn_query` and `dn_group_query` now strictly require parentheses to function correctly. Filters that previously worked without parentheses will no longer work after upgrading to Redis Software 8.0.x. For example, you must include the parentheses in `(sAMAccountName=%u)`.
+- For Redis Software versions 8.0.2 through 8.0.10, LDAP filters for `user_dn_query` and `dn_group_query` strictly require parentheses to function correctly. Filters that previously worked without parentheses will no longer work after upgrading to these versions. For example, you must include the parentheses in `(sAMAccountName=%u)`. As of version 8.0.16, this breaking change no longer applies, and both `(sAMAccountName=%u)` and `sAMAccountName=%u` are valid filters.
 
 - Redis Software installation script changes:
 
@@ -144,6 +144,8 @@ See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networ
 - Deprecated the `policy` field for [bootstrap]({{<relref "/operate/rs/references/rest-api/requests/bootstrap">}}) REST API requests. Use [`PUT /v1/cluster/policy`]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) to change cluster policies after cluster creation instead.
 
 - Deprecated the `module_args` field for [database]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) REST API requests. Use the new module configuration objects `search`, `timeseries`, and `probabilistic` instead.
+
+- Deprecated `event_archive_cleanup_task_settings` for `job_scheduler` REST API requests.
 
 #### Redis Search deprecations
 
