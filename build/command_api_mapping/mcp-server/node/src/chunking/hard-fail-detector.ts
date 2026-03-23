@@ -156,9 +156,12 @@ function detectEmptySections(sections: Section[]): HardFail[] {
       continue;
     }
 
-    // Remove heading line and check if anything meaningful remains
+    // Check if anything meaningful remains after removing the heading line
+    // Note: sections with headingLevel 0 (preamble/untitled) don't have a heading line
     const lines = section.content.split('\n');
-    const contentLines = lines.slice(1).filter(line => line.trim().length > 0);
+    const hasHeadingLine = section.headingLevel > 0;
+    const contentLines = (hasHeadingLine ? lines.slice(1) : lines)
+      .filter(line => line.trim().length > 0);
 
     if (contentLines.length === 0) {
       hardFails.push({
