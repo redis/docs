@@ -289,3 +289,124 @@ export const AnalyzeTokenUsageOutputSchema = z.object({
 });
 
 export type AnalyzeTokenUsageOutput = z.infer<typeof AnalyzeTokenUsageOutputSchema>;
+
+// ============================================================================
+// Tool 9: Analyze RAG Quality
+// ============================================================================
+
+/** Page types for adjusted scoring */
+export const PageType = z.enum([
+  "auto",       // Auto-detect from content (default)
+  "index",      // Navigation/overview page with links to subpages
+  "tutorial",   // Step-by-step guide with substantial content
+  "reference",  // API/command reference with code examples
+  "concept",    // Explanatory content about concepts
+]);
+export type PageType = z.infer<typeof PageType>;
+
+export const AnalyzeRagQualityInputSchema = z.object({
+  /** Path to the Markdown documentation file */
+  file_path: z.string().optional(),
+  /** Raw Markdown content to analyze (if not using file_path) */
+  content: z.string().optional(),
+  /** Target max tokens per chunk (default: 512) */
+  max_chunk_tokens: z.number().default(512),
+  /** Page type for adjusted scoring (default: auto-detect) */
+  page_type: PageType.default("auto"),
+}).refine(
+  (data) => data.file_path || data.content,
+  { message: "Either file_path or content must be provided" }
+);
+
+export type AnalyzeRagQualityInput = z.infer<typeof AnalyzeRagQualityInputSchema>;
+
+/** Quality label for the page */
+export const RagQualityLabel = z.enum(["GREEN", "YELLOW", "RED"]);
+export type RagQualityLabel = z.infer<typeof RagQualityLabel>;
+
+/** Hard-fail types that block good retrieval */
+export const HardFailType = z.enum([
+  "SPLIT_CODE_BLOCK",
+  "SPLIT_TABLE",
+  "ORPHANED_SYNTAX",
+  "EMPTY_SECTION"
+]);
+export type HardFailType = z.infer<typeof HardFailType>;
+
+/** Location in the document */
+export const LocationSchema = z.object({
+  line: z.number(),
+  heading: z.string().optional(),
+});
+export type Location = z.infer<typeof LocationSchema>;
+
+/** A hard-fail issue that blocks good retrieval */
+export const HardFailSchema = z.object({
+  type: HardFailType,
+  location: LocationSchema,
+  description: z.string(),
+});
+export type HardFail = z.infer<typeof HardFailSchema>;
+
+/** A non-blocking issue or warning */
+export const RagIssueSchema = z.object({
+  severity: z.enum(["warning", "info"]),
+  type: z.string(),
+  location: LocationSchema.optional(),
+  description: z.string(),
+});
+export type RagIssue = z.infer<typeof RagIssueSchema>;
+
+/** Preview of a chunk */
+export const ChunkPreviewSchema = z.object({
+  index: z.number(),
+  heading_path: z.array(z.string()),
+  token_count: z.number(),
+  first_line: z.string(),
+});
+export type ChunkPreview = z.infer<typeof ChunkPreviewSchema>;
+
+/** Chunk metrics */
+export const ChunkMetricsSchema = z.object({
+  chunk_count: z.number(),
+  avg_chunk_tokens: z.number(),
+  max_chunk_tokens: z.number(),
+  min_chunk_tokens: z.number(),
+  variance: z.number(),
+});
+export type ChunkMetrics = z.infer<typeof ChunkMetricsSchema>;
+
+/** Category scores */
+export const CategoryScoresSchema = z.object({
+  structural_integrity: z.number(),  // 0-25
+  self_containment: z.number(),      // 0-15
+  efficiency: z.number(),            // 0-10
+  ordering_risk: z.number(),         // 0-5
+});
+export type CategoryScores = z.infer<typeof CategoryScoresSchema>;
+
+/** Full output of RAG quality analysis */
+export const AnalyzeRagQualityOutputSchema = z.object({
+  /** Path to the analyzed file (if file_path was provided) */
+  file_path: z.string().optional(),
+  /** Detected or specified page type */
+  page_type: PageType,
+  /** Overall quality label */
+  label: RagQualityLabel,
+  /** Overall score (0-55) */
+  overall_score: z.number(),
+  /** Chunk metrics */
+  metrics: ChunkMetricsSchema,
+  /** Scores by category */
+  category_scores: CategoryScoresSchema,
+  /** Blocking issues that cause retrieval problems */
+  hard_fails: z.array(HardFailSchema),
+  /** Non-blocking issues and warnings */
+  issues: z.array(RagIssueSchema),
+  /** Actionable recommendations */
+  recommendations: z.array(z.string()),
+  /** Preview of chunks (optional) */
+  chunks_preview: z.array(ChunkPreviewSchema).optional(),
+});
+
+export type AnalyzeRagQualityOutput = z.infer<typeof AnalyzeRagQualityOutputSchema>;
