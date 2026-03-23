@@ -252,6 +252,35 @@ function buildSections(
   // Track both heading text and its level to handle skipped levels correctly
   const headingStack: Array<{ text: string; level: number }> = [];
 
+  // Check for content before the first heading (preamble)
+  const firstHeadingLine = headings[0].startLine;
+  if (firstHeadingLine > 1) {
+    const preambleEnd = firstHeadingLine - 1;
+    const { content, hadOnlyMetadata, lineNumberMap } = getFilteredContent(1, preambleEnd);
+
+    // Only add preamble section if it has non-whitespace content
+    if (content.trim().length > 0) {
+      const hasCodeBlock = codeBlocks.some(
+        cb => cb.startLine >= 1 && cb.endLine <= preambleEnd
+      );
+      const hasTable = tables.some(
+        t => t.startLine >= 1 && t.endLine <= preambleEnd
+      );
+
+      sections.push({
+        headingPath: ['(preamble)'],
+        headingLevel: 0,
+        startLine: 1,
+        endLine: preambleEnd,
+        content,
+        hasCodeBlock,
+        hasTable,
+        hadOnlyMetadata,
+        lineNumberMap,
+      });
+    }
+  }
+
   for (let i = 0; i < headings.length; i++) {
     const heading = headings[i];
 
