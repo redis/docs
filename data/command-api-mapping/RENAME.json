@@ -243,7 +243,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "rename(old_name, new_name)",
+        "params": [
+          {
+            "name": "old_name",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "new_name",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\""
+        }
+      }
     ]
   }
 }
-

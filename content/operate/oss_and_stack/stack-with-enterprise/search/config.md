@@ -35,7 +35,7 @@ For Redis Software, use one of the following methods:
 
   1. Enter the setting name and setting value in the **RediSearch** box.
   
-      In the **Query Performance Factor** section, you can configure settings to improve query performance. See [Configure the query performance factor for Redis Query Engine in Redis Software]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor">}}) for more information.
+      In the **Query Performance Factor** section, you can configure settings to improve query performance. See [Configure the query performance factor for Redis Search in Redis Software]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor">}}) for more information.
 
       {{<image filename="images/rs/screenshots/databases/rs-config-search-params.png" alt="The Parameters dialog includes sections to edit RediSearch settings and the Query Performance Factor settings.">}}
 

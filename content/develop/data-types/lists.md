@@ -17,32 +17,13 @@ title: Redis lists
 weight: 20
 ---
 
+{{< command-group group="list" title="List command summary" show_link=true >}}
+
 Redis lists are linked lists of string values.
 Redis lists are frequently used to:
 
 * Implement stacks and queues.
 * Build queue management for background worker systems.
-
-## Basic commands
-
-* [`LPUSH`]({{< relref "/commands/lpush" >}}) adds a new element to the head of a list; [`RPUSH`]({{< relref "/commands/rpush" >}}) adds to the tail.
-* [`LPOP`]({{< relref "/commands/lpop" >}}) removes and returns an element from the head of a list; [`RPOP`]({{< relref "/commands/rpop" >}}) does the same but from the tails of a list. 
-* [`LLEN`]({{< relref "/commands/llen" >}}) returns the length of a list.
-* [`LMOVE`]({{< relref "/commands/lmove" >}}) atomically moves elements from one list to another.
-* [`LRANGE`]({{< relref "/commands/lrange" >}}) extracts a range of elements from a list.
-* [`LTRIM`]({{< relref "/commands/ltrim" >}}) reduces a list to the specified range of elements.
-
-### Blocking commands
-
-Lists support several blocking commands.
-For example:
-
-* [`BLPOP`]({{< relref "/commands/blpop" >}}) removes and returns an element from the head of a list.
-  If the list is empty, the command blocks until an element becomes available or until the specified timeout is reached.
-* [`BLMOVE`]({{< relref "/commands/blmove" >}}) atomically moves elements from a source list to a target list.
-  If the source list is empty, the command will block until a new element becomes available.
-
-See the [complete series of list commands]({{< relref "/commands/" >}}?group=list).
 
 ## Examples
 

@@ -29,13 +29,18 @@ Both services are created in the same namespace as your database and follow pred
 
 Redis Enterprise supports three service types for database access:
 
-| Service Type | Access Scope | Use Case |
-|--------------|--------------|----------|
-| `ClusterIP` | Cluster-internal only | Applications running within the same Kubernetes cluster |
-| `headless` | Cluster-internal only | Direct pod access, service discovery, StatefulSet scenarios |
-| `LoadBalancer` | External access | Applications outside the Kubernetes cluster |
+| Service Type | Rigger Spec Exact Name | Access Scope | Use Case |
+|--------------|--------------|--------------|----------|
+| `ClusterIP` | `cluster_ip` | Cluster-internal only | Applications running within the same Kubernetes cluster |
+| `headless` | `headless` | Cluster-internal only | Direct pod access, service discovery, StatefulSet scenarios |
+| `LoadBalancer` | `load_balancer` | External access | Applications outside the Kubernetes cluster |
 
 To configure the service type, use the `databaseServiceType` field in your REC's `servicesRiggerSpec`.
+
+For example, to enable the three Service options, you may use:
+```
+  {"spec":{"servicesRiggerSpec":{"databaseServiceType":"cluster_ip,headless,load_balancer"}}}
+```
 
 ## In-cluster database access
 

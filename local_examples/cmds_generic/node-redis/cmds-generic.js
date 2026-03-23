@@ -108,6 +108,30 @@ await client.del('mykey');
 // REMOVE_END
 // STEP_END
 
+// STEP_START keys
+const keysRes1 = await client.mSet({ firstname: 'Jack', lastname: 'Stuntman', age: '35' });
+console.log(keysRes1); // OK
+
+const keysRes2 = await client.keys('*name*');
+console.log(keysRes2.sort()); // ['firstname', 'lastname']
+// REMOVE_START
+assert.deepEqual(keysRes2.sort(), ['firstname', 'lastname']);
+// REMOVE_END
+
+const keysRes3 = await client.keys('a??');
+console.log(keysRes3); // ['age']
+// REMOVE_START
+assert.deepEqual(keysRes3, ['age']);
+// REMOVE_END
+
+const keysRes4 = await client.keys('*');
+console.log(keysRes4.sort()); // ['age', 'firstname', 'lastname']
+// REMOVE_START
+assert.deepEqual(keysRes4.sort(), ['age', 'firstname', 'lastname']);
+await client.del(['firstname', 'lastname', 'age']);
+// REMOVE_END
+// STEP_END
+
 // STEP_START scan1
 const scan1Res1 = await client.sAdd('myset', ['1', '2', '3', 'foo', 'foobar', 'feelsgood']);
 console.log(scan1Res1); // 6

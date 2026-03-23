@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Learn how to use the Redis query engine with JSON and hash documents.
+description: Learn how to use Redis Search with JSON and hash documents.
 linkTitle: Index and query documents
 title: Index and query documents
 scope: example
@@ -17,7 +17,7 @@ relatedPages:
 - /develop/clients/dotnet/vecsearch
 - /develop/ai/search-and-query
 topics:
-- Redis Query Engine
+- Redis Search
 - JSON
 - hash
 weight: 30
@@ -32,7 +32,7 @@ documents.
 
 {{< note >}}From [v1.0.0](https://github.com/redis/NRedisStack/releases/tag/v1.0.0)
 onwards, `NRedisStack` uses query dialect 2 by default.
-Redis query engine methods such as [`FT().Search()`]({{< relref "/commands/ft.search" >}})
+Redis Search methods such as [`FT().Search()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See
 [Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
@@ -48,7 +48,7 @@ haven't already done so.
 
 Add the following dependencies:
 
-{{< clients-example set="cs_home_json" step="import" description="Foundational: Import required libraries for Redis query engine, JSON operations, and search functionality" difficulty="beginner" >}}
+{{< clients-example set="cs_home_json" step="import" description="Foundational: Import required libraries for Redis Search, JSON operations, and search functionality" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create data
@@ -151,5 +151,5 @@ in a string under the key `json`):
 
 ## More information
 
-See the [Redis query engine]({{< relref "/develop/ai/search-and-query" >}}) docs
+See the [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) docs
 for a full description of all query features with examples.

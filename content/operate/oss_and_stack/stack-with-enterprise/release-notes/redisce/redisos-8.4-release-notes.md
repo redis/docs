@@ -12,6 +12,14 @@ min-version-rs: blah
 weight: 40
 ---
 
+## Redis Open Source 8.4.2 (February 2026)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- A user can manipulate data read by a connection by injecting `\r\n` sequences into a Redis error reply.
+
 ## Redis Open Source 8.4.1 (February 2026)
 
 Update urgency: `SECURITY`: There are security fixes in the release.
@@ -203,7 +211,7 @@ Release Candidates are feature-complete pre-releases. Pre-releases are not suita
 - RedisBloom/RedisBloom[#892](https://github.com/redisbloom/redisbloom/pull/892) `HELP` and `COMMAND DOCS` now support probabilistic commands (MOD-8133).
 - RediSearch/RediSearch[#7076](https://github.com/redisearch/redisearch/pull/7076), RediSearch/RediSearch[#6857](https://github.com/redisearch/redisearch/pull/6857) New Command: `FT.HYBRID` - hybrid queries with RRF and LINEAR combination.
 - RediSearch/RediSearch[#7022](https://github.com/redisearch/redisearch/pull/7022) Support index updates when atomic slot migrations occur.
-- RediSearch/RediSearch[#6313](https://github.com/redisearch/redisearch/pull/6313) Support multiple I/O threads for RQE cluster manager - Coordinator (MOD-10562).
+- RediSearch/RediSearch[#6313](https://github.com/redisearch/redisearch/pull/6313) Support multiple I/O threads for Redis Search cluster manager - Coordinator (MOD-10562).
 
 ### Bug fixes (compared to 8.2.3)
 

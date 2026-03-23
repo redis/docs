@@ -322,6 +322,22 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "hgetall(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Hash<String, String>",
+          "description": ""
+        }
+      }
     ]
   }
 }

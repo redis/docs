@@ -598,6 +598,37 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "blmpop(timeout, *keys, modifier: \"LEFT\", count: nil)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "Float",
+            "description": "maximum number of seconds to block"
+          },
+          {
+            "name": "*keys",
+            "type": "String, Array<String>",
+            "description": "one or more keys with lists"
+          },
+          {
+            "name": "modifier",
+            "type": "String",
+            "description": "LEFT or RIGHT"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "a number of elements to pop"
+          }
+        ],
+        "returns": {
+          "type": "Array<String, Array<String>>",
+          "description": "list of popped elements or nil"
+        }
+      }
     ]
   }
 }

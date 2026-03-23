@@ -187,7 +187,7 @@ Prevents the creation of a new stream if the key does not exist. Available since
 Enables idempotent message processing (at-most-once production) to prevent duplicate entries. Available since Redis 8.6.
 
 - `IDMPAUTO producer-id`: Automatically generates a unique idempotent ID (iid) for the specified producer-id. Redis tracks this iid to prevent duplicate messages from the same producer-id.
-- `IDMP producer-id idempotent-id`: Uses the specified idempotent-id for the given producer-id. If this producer-id/idempotent-id combination was already used, the command returns the ID of the existing entry instead of creating a duplicate.
+- `IDMP producer-id idempotent-id`: Uses the specified idempotent-id for the given producer-id. If this producer-id/idempotent-id combination was already used, the command returns the ID of the original entry instead of creating a duplicate.
 
 The producer-id identifies the source of the message, while the idempotent-id ensures uniqueness within that producer-id's message stream. Redis maintains an internal map of recent producer-id/idempotent-id combinations to detect and prevent duplicates.
 
@@ -336,13 +336,13 @@ XCFGSET mystream IDMP-DURATION 300 IDMP-MAXSIZE 1000
     tab2="RESP3" >}}
 
 One of the following:
-* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the existing entry.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the original entry.
 * [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the NOMKSTREAM option is given and the key doesn't exist.
 
 -tab-sep-
 
 One of the following:
-* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the existing entry.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the original entry.
 * [Null reply](../../develop/reference/protocol-spec#nulls): if the NOMKSTREAM option is given and the key doesn't exist.
 
 {{< /multitabs >}}

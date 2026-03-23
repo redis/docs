@@ -16,10 +16,12 @@ title: JSON
 weight: 11
 ---
 
+{{< command-group group="json" title="JSON command summary" show_link=true >}}
+
 [![Discord](https://img.shields.io/discord/697882427875393627?style=flat-square)](https://discord.gg/QUkjSsk)
 [![Github](https://img.shields.io/static/v1?label=&message=repository&color=5961FF&logo=github)](https://github.com/RedisJSON/RedisJSON/)
 
-The JSON capability of Redis Open Source provides JavaScript Object Notation (JSON) support for Redis. It lets you store, update, and retrieve JSON values in a Redis database, similar to any other Redis data type. Redis JSON also works seamlessly with the [Redis Query Engine]({{< relref "/develop/ai/search-and-query/" >}}) to let you [index and query JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}}).
+The JSON capability of Redis Open Source provides JavaScript Object Notation (JSON) support for Redis. It lets you store, update, and retrieve JSON values in a Redis database, similar to any other Redis data type. Redis JSON also works seamlessly with [Redis Search]({{< relref "/develop/ai/search-and-query/" >}}) to let you [index and query JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}}).
 
 ## Primary features
 

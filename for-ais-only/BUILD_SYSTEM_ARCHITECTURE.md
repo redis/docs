@@ -18,7 +18,15 @@ Source Markdown Files
 [4] Render Hook Processing
     ↓
 Static HTML Site
+    ↓
+[5] JSON Transform (for AI/RAG)
+    ↓
+[6] NDJSON Aggregation
+    ↓
+AI-ready JSON output (index.json per page + docs.ndjson)
 ```
+
+See `for-ais-only/JSON_OUTPUT_FOR_AI.md` for details on the AI/RAG output format.
 
 ## Stage 1: Metadata Extraction & Validation
 

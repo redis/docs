@@ -914,6 +914,67 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "set(key, value, ex: nil, px: nil, exat: nil, pxat: nil, nx: nil, xx: nil, keepttl: nil, get: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ex",
+            "type": "Integer",
+            "description": "Set the specified expire time, in seconds."
+          },
+          {
+            "name": "px",
+            "type": "Integer",
+            "description": "Set the specified expire time, in milliseconds."
+          },
+          {
+            "name": "exat",
+            "type": "Integer",
+            "description": "Set the specified Unix time at which the key will expire, in seconds."
+          },
+          {
+            "name": "pxat",
+            "type": "Integer",
+            "description": "Set the specified Unix time at which the key will expire, in milliseconds."
+          },
+          {
+            "name": "nx",
+            "type": "Boolean",
+            "description": "Only set the key if it does not already exist."
+          },
+          {
+            "name": "xx",
+            "type": "Boolean",
+            "description": "Only set the key if it already exists."
+          },
+          {
+            "name": "keepttl",
+            "type": "Boolean",
+            "description": "Retain the time to live associated with the key."
+          },
+          {
+            "name": "get",
+            "type": "Boolean",
+            "description": "Return the old string stored at key, or nil if key did not exist."
+          }
+        ],
+        "returns": {
+          "type": "String, Boolean",
+          "description": "\"OK\" or true, false if :nx => true or :xx => true"
+        }
+      }
     ]
   }
 }

@@ -1679,10 +1679,15 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
                 "constructor", "super", "function",
             ];
 
-            // Check if this is actually a multi-line definition (doesn't end with ) { or ) or ):)
+            // Check if this is actually a multi-line definition (doesn't end with ) { or ) or ): etc.)
+            // For interface method signatures, we also need to check for lines ending with ;
+            // which indicate a complete single-line signature
             let is_multiline = !first_line_params.contains(") {")
                 && !first_line_params.ends_with(")")
-                && !first_line_params.ends_with(");");
+                && !first_line_params.ends_with(");")
+                && !first_line_params.ends_with(">;")  // TypeScript interface method with generic return type
+                && !first_line_params.ends_with("];")  // Array return type
+                && !(first_line_params.contains("): ") && first_line_params.ends_with(";")); // Any interface method with return type ending in ;
 
             if !method_name.is_empty() && !skip_names.contains(&method_name.as_str()) && is_multiline {
                 let start_line = line_num;
@@ -1859,40 +1864,95 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
             // Check if the line ends with semicolon (interface method) or has Result/Promise return type
             // This helps distinguish interface methods from regular function calls
             let trimmed = line.trim();
-            let is_interface_method = trimmed.ends_with(";") ||
+            let is_single_line_interface_method = trimmed.ends_with(";") ||
                 trimmed.contains("): Result<") ||
                 trimmed.contains("): Promise<") ||
                 trimmed.contains("Callback<");
 
-            if !is_interface_method {
-                // For multi-line signatures, check if this looks like the start of an interface method
-                // Interface methods in ioredis start with 2 spaces of indentation
-                if !line.starts_with("  ") || line.starts_with("    ") {
+            // Check if this looks like the start of a multi-line interface method
+            // Multi-line signatures start with method_name( and the line ends with just "(" or has params continuing
+            let is_multiline_start = !is_single_line_interface_method &&
+                line.starts_with("  ") && !line.starts_with("    ") &&
+                (trimmed.ends_with("(") || (trimmed.contains("(") && !trimmed.contains(")")));
+
+            if !is_single_line_interface_method && !is_multiline_start {
+                line_num += 1;
+                continue;
+            }
+
+            // For multi-line signatures, collect all lines until we find the closing ): and ;
+            let (full_signature, params_str_owned, return_type, end_line) = if is_multiline_start {
+                let mut full_sig_parts: Vec<String> = vec![trimmed.to_string()];
+                let mut search_line = line_num + 1;
+                let mut found_end = false;
+
+                while search_line < lines.len() && search_line < line_num + 20 {
+                    let next_line = lines[search_line].trim();
+                    full_sig_parts.push(next_line.to_string());
+
+                    // Check if this line ends the signature (contains ): followed by return type and ;)
+                    if next_line.ends_with(";") && next_line.contains("): ") {
+                        found_end = true;
+                        break;
+                    }
+                    // Also check for simpler ending like just );
+                    if next_line.ends_with(");") {
+                        found_end = true;
+                        break;
+                    }
+                    search_line += 1;
+                }
+
+                if !found_end {
                     line_num += 1;
                     continue;
                 }
-            }
 
-            // Extract parameters - for multi-line signatures, we'll just use what's on this line
-            let params_start = line.find('(').map(|i| i + 1).unwrap_or(0);
-            let params_end = line.find(')').unwrap_or(line.len());
-            let params_str = if params_start < params_end {
-                &line[params_start..params_end]
+                // Join all parts and parse
+                let full_sig = full_sig_parts.join(" ");
+
+                // Extract params: everything between first ( and last )
+                let params_start = full_sig.find('(').map(|i| i + 1).unwrap_or(0);
+                let params_end = full_sig.rfind(')').unwrap_or(full_sig.len());
+                let params = if params_start < params_end {
+                    full_sig[params_start..params_end].to_string()
+                } else {
+                    String::new()
+                };
+
+                // Extract return type: everything after ): and before ;
+                let ret_type = if let Some(colon_pos) = full_sig.rfind("): ") {
+                    let after_colon = &full_sig[colon_pos + 3..];
+                    let end = after_colon.find(';').unwrap_or(after_colon.len());
+                    Some(after_colon[..end].trim().to_string())
+                } else {
+                    None
+                };
+
+                (full_sig, params, ret_type, search_line)
             } else {
-                ""
+                // Single line - extract parameters and return type from this line
+                let params_start = line.find('(').map(|i| i + 1).unwrap_or(0);
+                let params_end = line.find(')').unwrap_or(line.len());
+                let params = if params_start < params_end {
+                    line[params_start..params_end].to_string()
+                } else {
+                    String::new()
+                };
+
+                let ret_type = if let Some(colon_pos) = line.rfind("): ") {
+                    let after_colon = &line[colon_pos + 3..];
+                    let end = after_colon.find(';').unwrap_or(after_colon.len());
+                    Some(after_colon[..end].trim().to_string())
+                } else {
+                    None
+                };
+
+                (trimmed.to_string(), params, ret_type, line_num)
             };
 
-            // Extract return type if present on the same line
-            let return_type = if let Some(colon_pos) = line.rfind("): ") {
-                let after_colon = &line[colon_pos + 3..];
-                let end = after_colon.find(';').unwrap_or(after_colon.len());
-                Some(after_colon[..end].trim().to_string())
-            } else {
-                None
-            };
-
-            let parameters = parse_parameters(params_str);
-            let signature = format!("{}({})", method_name, params_str);
+            let parameters = parse_parameters(&params_str_owned);
+            let signature = format!("{}({})", method_name, params_str_owned);
 
             signatures.push(TypeScriptSignature {
                 method_name,
@@ -1902,6 +1962,9 @@ fn extract_typescript_signatures(code: &str) -> Result<Vec<TypeScriptSignature>,
                 line_number: line_num + 1,
                 is_async: false,
             });
+
+            // Skip to end of multi-line signature
+            line_num = end_line;
         }
 
         line_num += 1;
@@ -3860,6 +3923,162 @@ fn validate_php_signature(signature: &str) -> ValidationResult {
     ValidationResult { valid: errors.is_empty(), errors, warnings }
 }
 
+// ============================================================================
+// Metadata Size Analysis
+// ============================================================================
+
+/// Size information for a single section/field in the metadata
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct SectionSize {
+    /// Size in bytes (UTF-8 encoded)
+    pub bytes: usize,
+    /// Size in characters
+    pub chars: usize,
+    /// Number of items (for arrays)
+    pub item_count: Option<usize>,
+}
+
+/// Result of analyzing metadata size
+#[derive(Serialize, Deserialize, Debug)]
+pub struct MetadataSizeAnalysis {
+    /// Whether metadata was found in the content
+    pub metadata_found: bool,
+    /// Total size of the metadata block in bytes
+    pub total_bytes: usize,
+    /// Total size of the metadata block in characters
+    pub total_chars: usize,
+    /// Size breakdown by top-level section (using serde_json::Map for better WASM serialization)
+    pub sections: serde_json::Map<String, Value>,
+    /// The format in which metadata was found
+    pub format: Option<String>,
+    /// Any errors encountered during analysis
+    pub errors: Vec<String>,
+}
+
+/// Extract JSON metadata from content based on the format
+/// Supports:
+/// - HTML: <script type="application/json" data-ai-metadata>...</script>
+/// - HTML: <div hidden data-redis-metadata="page">...</div>
+/// - Markdown: ```json metadata\n...\n```
+fn extract_metadata_json(content: &str) -> Option<(String, String)> {
+    // Try HTML script tag format first (primary)
+    let script_pattern = Regex::new(
+        r#"<script[^>]*data-ai-metadata[^>]*>\s*([\s\S]*?)\s*</script>"#
+    ).ok()?;
+
+    if let Some(caps) = script_pattern.captures(content) {
+        if let Some(json_match) = caps.get(1) {
+            return Some((json_match.as_str().trim().to_string(), "html-head".to_string()));
+        }
+    }
+
+    // Try HTML hidden div format (fallback)
+    let div_pattern = Regex::new(
+        r#"<div[^>]*hidden[^>]*data-redis-metadata="page"[^>]*>\s*([\s\S]*?)\s*</div>"#
+    ).ok()?;
+
+    if let Some(caps) = div_pattern.captures(content) {
+        if let Some(json_match) = caps.get(1) {
+            return Some((json_match.as_str().trim().to_string(), "html-body".to_string()));
+        }
+    }
+
+    // Also try with attributes in different order
+    let div_pattern_alt = Regex::new(
+        r#"<div[^>]*data-redis-metadata="page"[^>]*hidden[^>]*>\s*([\s\S]*?)\s*</div>"#
+    ).ok()?;
+
+    if let Some(caps) = div_pattern_alt.captures(content) {
+        if let Some(json_match) = caps.get(1) {
+            return Some((json_match.as_str().trim().to_string(), "html-body".to_string()));
+        }
+    }
+
+    // Try Markdown code block format
+    let md_pattern = Regex::new(
+        r"```json\s+metadata\s*\n([\s\S]*?)\n```"
+    ).ok()?;
+
+    if let Some(caps) = md_pattern.captures(content) {
+        if let Some(json_match) = caps.get(1) {
+            return Some((json_match.as_str().trim().to_string(), "markdown".to_string()));
+        }
+    }
+
+    None
+}
+
+/// Calculate the size of a JSON value when serialized
+fn calculate_json_value_size(value: &Value) -> SectionSize {
+    let serialized = serde_json::to_string(value).unwrap_or_default();
+    let bytes = serialized.len();
+    let chars = serialized.chars().count();
+
+    let item_count = match value {
+        Value::Array(arr) => Some(arr.len()),
+        Value::Object(obj) => Some(obj.len()),
+        _ => None,
+    };
+
+    SectionSize {
+        bytes,
+        chars,
+        item_count,
+    }
+}
+
+/// Analyze the size of JSON metadata in a document
+#[wasm_bindgen]
+pub fn analyze_metadata_size(content: &str) -> JsValue {
+    let mut analysis = MetadataSizeAnalysis {
+        metadata_found: false,
+        total_bytes: 0,
+        total_chars: 0,
+        sections: serde_json::Map::new(),
+        format: None,
+        errors: Vec::new(),
+    };
+
+    // Try to extract JSON metadata
+    let (json_str, format) = match extract_metadata_json(content) {
+        Some((json, fmt)) => (json, fmt),
+        None => {
+            analysis.errors.push("No metadata block found in content".to_string());
+            return serde_wasm_bindgen::to_value(&analysis).unwrap_or(JsValue::NULL);
+        }
+    };
+
+    analysis.metadata_found = true;
+    analysis.format = Some(format);
+    analysis.total_bytes = json_str.len();
+    analysis.total_chars = json_str.chars().count();
+
+    // Parse the JSON to analyze sections
+    let parsed: Value = match serde_json::from_str(&json_str) {
+        Ok(v) => v,
+        Err(e) => {
+            analysis.errors.push(format!("Failed to parse metadata JSON: {}", e));
+            return serde_wasm_bindgen::to_value(&analysis).unwrap_or(JsValue::NULL);
+        }
+    };
+
+    // Analyze each top-level field
+    if let Value::Object(obj) = parsed {
+        for (key, value) in obj.iter() {
+            let size = calculate_json_value_size(value);
+            // Convert SectionSize to JSON Value for better WASM serialization
+            let size_value = serde_json::to_value(&size).unwrap_or(Value::Null);
+            analysis.sections.insert(key.clone(), size_value);
+        }
+    } else {
+        analysis.errors.push("Metadata is not a JSON object".to_string());
+    }
+
+    // Convert to serde_json::Value first, then to JsValue for better WASM compatibility
+    let json_value = serde_json::to_value(&analysis).unwrap_or(Value::Null);
+    serde_wasm_bindgen::to_value(&json_value).unwrap_or(JsValue::NULL)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -3872,5 +4091,73 @@ mod tests {
     #[test]
     fn test_greet() {
         assert_eq!(greet("World"), "Hello, World!");
+    }
+
+    #[test]
+    fn test_extract_metadata_json() {
+        let html = r#"
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="application/json" data-ai-metadata>
+  {
+    "title": "Redis Strings",
+    "description": "Learn about strings",
+    "categories": ["docs", "develop"]
+  }
+  </script>
+</head>
+</html>
+"#;
+        let result = extract_metadata_json(html);
+        assert!(result.is_some(), "Should extract metadata");
+        let (json_str, format) = result.unwrap();
+        assert_eq!(format, "html-head");
+        println!("Extracted JSON: {}", json_str);
+
+        // Parse the JSON
+        let parsed: Value = serde_json::from_str(&json_str).expect("Should parse JSON");
+        println!("Parsed JSON: {:?}", parsed);
+
+        if let Value::Object(obj) = &parsed {
+            println!("Object has {} keys: {:?}", obj.len(), obj.keys().collect::<Vec<_>>());
+            for (key, value) in obj.iter() {
+                let size = calculate_json_value_size(value);
+                println!("Section '{}': {:?}", key, size);
+            }
+        }
+    }
+
+    #[test]
+    fn test_metadata_analysis_struct() {
+        let html = r#"<script type="application/json" data-ai-metadata>{"title":"Test","items":[1,2,3]}</script>"#;
+
+        let (json_str, format) = extract_metadata_json(html).expect("Should extract");
+        println!("JSON: {}", json_str);
+        println!("Format: {}", format);
+
+        let parsed: Value = serde_json::from_str(&json_str).expect("Should parse");
+
+        let mut analysis = MetadataSizeAnalysis {
+            metadata_found: true,
+            total_bytes: json_str.len(),
+            total_chars: json_str.chars().count(),
+            sections: serde_json::Map::new(),
+            format: Some(format),
+            errors: Vec::new(),
+        };
+
+        if let Value::Object(obj) = parsed {
+            for (key, value) in obj.iter() {
+                let size = calculate_json_value_size(&value);
+                let size_value = serde_json::to_value(&size).unwrap_or(Value::Null);
+                analysis.sections.insert(key.clone(), size_value);
+            }
+        }
+
+        println!("Analysis sections: {:?}", analysis.sections);
+        assert!(!analysis.sections.is_empty(), "Sections should not be empty");
+        assert!(analysis.sections.contains_key("title"), "Should have 'title' section");
+        assert!(analysis.sections.contains_key("items"), "Should have 'items' section");
     }
 }

@@ -1175,6 +1175,57 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "georadius(*args, **geoptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "longitude",
+            "type": "Float",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "Float",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "Float",
+            "description": ""
+          },
+          {
+            "name": "unit",
+            "type": "String",
+            "description": "m|km|ft|mi"
+          },
+          {
+            "name": "sort",
+            "type": "String",
+            "description": "asc or desc"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "limit the results"
+          },
+          {
+            "name": "options",
+            "type": "String",
+            "description": "WITHDIST, WITHCOORD, WITHHASH"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -345,9 +345,10 @@ if set, indicates the default language for documents in the index. Default is En
 
 is a document attribute set as the document language.
 
-A stemmer is used for the supplied language during indexing. If an unsupported language is sent, the command returns an error. The supported languages are Arabic, Basque, Catalan, Danish, Dutch, English, Finnish, French, German, Greek, Hungarian,
-Indonesian, Irish, Italian, Lithuanian, Nepali, Norwegian, Portuguese, Romanian, Russian,
-Spanish, Swedish, Tamil, Turkish, and Chinese.
+A stemmer is used for the supplied language during indexing. If an unsupported language is sent, the command returns an error. The supported
+languages are `arabic`, `armenian`, `basque`, `catalan`, `danish`, `dutch`, `english`, `finnish`, `french`, `german`, `greek`, `hindi`,
+`hungarian`, `indonesian`, `irish`, `italian`, `lithuanian`, `nepali`, `norwegian`, `portuguese`, `romanian`, `russian`, `serbian`,
+`spanish`, `swedish`, `tamil`, `turkish`, `yiddish`, and `chinese`.
 
 When adding Chinese language documents, set `LANGUAGE chinese` for the indexer to properly tokenize the terms. If you use the default language, then search terms are extracted based on punctuation characters and whitespace. The Chinese language tokenizer makes use of a segmentation algorithm (via [Friso](https://github.com/lionsoul2014/friso)), which segments text and checks it against a predefined dictionary. See [Stemming]({{< relref "/develop/ai/search-and-query/advanced-concepts/stemming" >}}) for more information.
 </details>

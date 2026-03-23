@@ -538,6 +538,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "sunionstore(destination, *keys)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "String",
+            "description": "destination key"
+          },
+          {
+            "name": "*keys",
+            "type": "String, Array<String>",
+            "description": "keys pointing to sets to unify"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "number of elements in the resulting set"
+        }
+      }
     ]
   }
 }

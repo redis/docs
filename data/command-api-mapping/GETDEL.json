@@ -265,6 +265,22 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "getdel(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "the old value stored in the key, or nil if the key did not exist"
+        }
+      }
     ]
   }
 }

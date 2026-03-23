@@ -450,6 +450,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zmpop(*keys, modifier: \"MIN\", count: nil)",
+        "params": [
+          {
+            "name": "*keys",
+            "type": "String, Array<String>",
+            "description": "one or more keys with sorted sets"
+          },
+          {
+            "name": "modifier",
+            "type": "String",
+            "description": "MIN or MAX"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "a number of members to pop"
+          }
+        ],
+        "returns": {
+          "type": "Array<String, Array<String, Float>>",
+          "description": "list of popped elements and scores"
+        }
+      }
     ]
   }
 }

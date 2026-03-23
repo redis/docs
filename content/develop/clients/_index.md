@@ -37,9 +37,10 @@ for eight main languages:
 | [PHP](https://www.php.net/)| [`Predis`](https://github.com/predis/predis) | [`Predis` guide]({{< relref "/develop/clients/php" >}}) | Best effort [*](#best-effort) |
 | [C](https://en.wikipedia.org/wiki/C_(programming_language)) | [`hiredis`](https://github.com/redis/hiredis) | [`hiredis` guide]({{< relref "/develop/clients/hiredis" >}}) | Yes |
 | [Rust](https://www.rust-lang.org/) | [`redis-rs`](https://github.com/redis-rs/redis-rs) | [`redis-rs` guide]({{< relref "/develop/clients/rust" >}}) | Best effort [*](#best-effort) |
+| [Ruby](https://www.ruby-lang.org/en/) | [`redis-rb`](https://github.com/redis/redis-rb) | [`redis-rb` guide]({{< relref "/develop/clients/ruby" >}}) | Yes |
 
-
-{{< note >}}*<a name="best-effort"></a> Redis does not provide official support for third-party client libraries.
+{{< note >}}*<a name="best-effort"></a>
+Redis does not provide official support for third-party client libraries.
 However, we contribute new features, offer guidance, and collaborate with the community
 on a best-effort basis to help ensure these libraries remain reliable and up-to-date.
 {{< /note >}}
@@ -61,7 +62,6 @@ Redis does not document directly:
 | [C++](https://en.wikipedia.org/wiki/C%2B%2B) | Boost.Redis | https://github.com/boostorg/redis | https://www.boost.org/doc/libs/develop/libs/redis/doc/html/index.html |
 | [Dart](https://dart.dev/) | redis_dart_link | https://github.com/toolsetlink/redis_dart_link | https://github.com/toolsetlink/redis_dart_link |
 | [PHP](https://www.php.net/) | PhpRedis extension | https://github.com/phpredis/phpredis | https://github.com/phpredis/phpredis/blob/develop/README.md |
-| [Ruby](https://www.ruby-lang.org/en/) | redis-rb | https://github.com/redis/redis-rb | https://rubydoc.info/gems/redis |
 
 
 ## Requirements
@@ -246,15 +246,26 @@ questions:
         answers:
             yes:
                 value: "Yes"
-                outcome:
-                    label: |
-                        Use ioredis (but see the migration guide if you want to update to node-redis)
-                    id: ioredisOutcome
+                nextQuestion: ioredisAdvancedFeaturesQuestion
             no:
                 value: "No"
                 outcome:
                     label: Use node-redis
                     id: nodeRedisOutcome
+
+    ioredisAdvancedFeaturesQuestion:
+        text: Do you want to use advanced Redis features such as search, vector database, and JSON?
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: Migrate to node-redis using our migration guide
+                    id: migrateToNodeRedisOutcome
+            no:
+                value: "No"
+                outcome:
+                    label: Continue using ioredis
+                    id: continueIoredisOutcome
 
     phpLowLevelQuestion:
         text: |

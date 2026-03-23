@@ -13,6 +13,9 @@ import { extractDocComments } from "./tools/extract-doc-comments.js";
 import { validateSignature } from "./tools/validate-signature.js";
 import { getClientInfo } from "./tools/get-client-info.js";
 import { listClients } from "./tools/list-clients.js";
+import { analyzeMetadataSize } from "./tools/analyze-metadata.js";
+import { analyzeTokenUsage } from "./tools/analyze-token-usage.js";
+import { analyzeRagQuality } from "./tools/analyze-rag-quality.js";
 
 // Import schemas
 import {
@@ -22,6 +25,9 @@ import {
   ValidateSignatureInputSchema,
   GetClientInfoInputSchema,
   ListClientsInputSchema,
+  AnalyzeMetadataSizeInputSchema,
+  AnalyzeTokenUsageInputSchema,
+  AnalyzeRagQualityInputSchema,
 } from "./tools/schemas.js";
 
 // Create MCP server with tools capability
@@ -160,6 +166,80 @@ const TOOLS = [
       },
     },
   },
+  {
+    name: "analyze_metadata_size",
+    description: "Analyze the size of JSON metadata embedded in a documentation page. Returns total size and breakdown by section (e.g., tableOfContents, codeExamples, arguments). Useful for understanding context window usage.",
+    inputSchema: {
+      type: "object" as const,
+      properties: {
+        file_path: {
+          type: "string",
+          description: "Path to the documentation file (HTML or Markdown) containing JSON metadata",
+        },
+        content: {
+          type: "string",
+          description: "Raw content to analyze (use this OR file_path, not both)",
+        },
+      },
+    },
+  },
+  {
+    name: "analyze_token_usage",
+    description:
+      "Analyze character, word, and token usage of documentation content for a given model using a tiktoken-compatible tokenizer.",
+    inputSchema: {
+      type: "object" as const,
+      properties: {
+        file_path: {
+          type: "string",
+          description:
+            "Path to the documentation file (Markdown or HTML) whose token usage should be analyzed",
+        },
+        content: {
+          type: "string",
+          description:
+            "Raw content to analyze (use this OR file_path, not both)",
+        },
+        model: {
+          type: "string",
+          description:
+            "Optional model name used to select the tokenizer encoding (e.g., 'gpt-4.1')",
+        },
+      },
+    },
+  },
+  {
+    name: "analyze_rag_quality",
+    description:
+      "Analyze a documentation page for RAG retrieval quality. " +
+      "Evaluates how well the page will chunk for AI retrieval systems. " +
+      "Returns structural issues, hard-fail conditions, scores, and actionable recommendations.",
+    inputSchema: {
+      type: "object" as const,
+      properties: {
+        file_path: {
+          type: "string",
+          description: "Path to Markdown documentation file",
+        },
+        content: {
+          type: "string",
+          description: "Raw Markdown content (use this OR file_path)",
+        },
+        max_chunk_tokens: {
+          type: "number",
+          description: "Target max tokens per chunk (default: 512)",
+        },
+        page_type: {
+          type: "string",
+          enum: ["auto", "index", "tutorial", "reference", "concept"],
+          description:
+            "Page type for adjusted scoring. 'auto' (default) detects from content. " +
+            "'index' = navigation pages, 'tutorial' = step-by-step guides, " +
+            "'reference' = API docs, 'concept' = explanatory content.",
+        },
+      },
+    },
+  },
 ];
 
 // Register tools
@@ -199,6 +279,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case "list_clients":
         result = await listClients(args);
+        break;
+
+      case "analyze_metadata_size":
+        result = await analyzeMetadataSize(args);
+        break;
+
+      case "analyze_token_usage":
+        result = await analyzeTokenUsage(args);
+        break;
+
+      case "analyze_rag_quality":
+        result = await analyzeRagQuality(args);
         break;
 
       default:

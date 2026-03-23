@@ -675,6 +675,37 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "linsert(key, where, pivot, value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "where",
+            "type": "String, Symbol",
+            "description": "BEFORE or AFTER"
+          },
+          {
+            "name": "pivot",
+            "type": "String",
+            "description": "reference element"
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "length of the list after the insert operation, or -1 when the element pivot was not found"
+        }
+      }
     ]
   }
 }

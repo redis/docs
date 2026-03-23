@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 // REMOVE_END
 import reactor.core.publisher.Mono;
 
+import java.util.Collections;
+import java.util.Map;
+
 // REMOVE_START
 import static org.assertj.core.api.Assertions.assertThat;
 // REMOVE_END
@@ -23,6 +26,10 @@ public class CmdsGenericExample {
 
         try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
             RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();
+            // REMOVE_START
+            reactiveCommands.del("key1", "key2", "nosuchkey").block();
+            reactiveCommands.del("firstname", "lastname", "age").block();
+            // REMOVE_END
 
             // STEP_START exists
             Mono<Void> existsExample = reactiveCommands.set("key1", "Hello").doOnNext(res1 -> {
@@ -54,6 +61,44 @@ public class CmdsGenericExample {
             // STEP_END
 
             Mono.when(existsExample).block();
+            // REMOVE_START
+            reactiveCommands.del("key1", "key2").block();
+            // REMOVE_END
+
+            // STEP_START keys
+            Mono<Void> keysExample = reactiveCommands.mset(Map.of(
+                    "firstname", "Jack",
+                    "lastname", "Stuntman",
+                    "age", "35"
+            )).doOnNext(res1 -> {
+                System.out.println(res1); // >>> OK
+                // REMOVE_START
+                assertThat(res1).isEqualTo("OK");
+                // REMOVE_END
+            }).then(reactiveCommands.keys("*name*").collectList()).doOnNext(res2 -> {
+                Collections.sort(res2);
+                System.out.println(res2); // >>> [firstname, lastname]
+                // REMOVE_START
+                assertThat(res2).hasSize(2);
+                // REMOVE_END
+            }).then(reactiveCommands.keys("a??").collectList()).doOnNext(res3 -> {
+                System.out.println(res3); // >>> [age]
+                // REMOVE_START
+                assertThat(res3).containsExactly("age");
+                // REMOVE_END
+            }).then(reactiveCommands.keys("*").collectList()).doOnNext(res4 -> {
+                Collections.sort(res4);
+                System.out.println(res4); // >>> [age, firstname, lastname]
+                // REMOVE_START
+                assertThat(res4).hasSize(3);
+                // REMOVE_END
+            }).then();
+            // STEP_END
+
+            Mono.when(keysExample).block();
+            // REMOVE_START
+            reactiveCommands.del("firstname", "lastname", "age").block();
+            // REMOVE_END
 
         } finally {
             redisClient.shutdown();

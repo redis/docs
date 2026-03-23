@@ -28,7 +28,22 @@
           "description": "Unsubscription confirmation messages"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "sunsubscribe(*channels)",
+        "params": [
+          {
+            "name": "*channels",
+            "type": "Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "nil",
+          "description": ""
+        }
+      }
     ]
   }
 }
-

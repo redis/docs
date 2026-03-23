@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Learn how to use the Redis query engine with JSON and hash documents.
+description: Learn how to use Redis Search with JSON and hash documents.
 linkTitle: Index and query documents
 title: Index and query documents
 scope: example
@@ -17,7 +17,7 @@ relatedPages:
 - /develop/clients/php/vecsearch
 - /develop/ai/search-and-query
 topics:
-- Redis Query Engine
+- Redis Search
 - JSON
 - hash
 weight: 20
@@ -32,7 +32,7 @@ documents.
 
 {{< note >}}From [v3.0.0](https://github.com/predis/predis/releases/tag/v3.0.0) onwards,
 `Predis` uses query dialect 2 by default.
-Redis query engine methods such as [`ftSearch()`]({{< relref "/commands/ft.search" >}})
+Redis Search methods such as [`ftSearch()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See
 [Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
@@ -48,7 +48,7 @@ haven't already done so.
 
 Add the following dependencies:
 
-{{< clients-example set="php_home_json" step="import" description="Foundational: Import required dependencies for Redis query engine and JSON operations" difficulty="beginner" >}}
+{{< clients-example set="php_home_json" step="import" description="Foundational: Import required dependencies for Redis Search and JSON operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create data
@@ -142,5 +142,5 @@ result array rather than in a JSON string with `$` as its key:
 
 ## More information
 
-See the [Redis query engine]({{< relref "/develop/ai/search-and-query" >}}) docs
+See the [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) docs
 for a full description of all query features with examples.

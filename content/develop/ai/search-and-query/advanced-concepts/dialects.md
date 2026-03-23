@@ -17,7 +17,7 @@ title: Query dialects
 weight: 16
 ---
 
-Redis Open Source currently supports four query dialects for use with the [`FT.SEARCH`]({{< relref "/commands/ft.search/" >}}), [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate/" >}}), and other Redis Query Engine commands.
+Redis Open Source currently supports four query dialects for use with the [`FT.SEARCH`]({{< relref "/commands/ft.search/" >}}), [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate/" >}}), and other Redis Search commands.
 Dialects provide for enhancing the query API incrementally, introducing innovative behaviors and new features that support new use cases in a way that does not break the API for existing applications.
 
 {{< note >}}Dialects 1, 3, and 4 are deprecated in Redis 8 in Redis Open Source. However, DIALECT 1 remains the default.
@@ -260,7 +260,7 @@ FT.EXPLAINCLI idx:dialects "-(hello world)" DIALECT 2
 ```
 
 {{% alert title=Note %}}
-[`FT.EXPLAIN`]({{< relref "commands/ft.explain/" >}}) doesn't execute the query. It only explains the plan. It's a way to understand how your query is interpreted by the query engine, which can be invaluable when you're trying to optimize your searches.
+[`FT.EXPLAIN`]({{< relref "commands/ft.explain/" >}}) doesn't execute the query. It only explains the plan. It's a way to understand how your query is interpreted by Redis Search, which can be invaluable when you're trying to optimize your searches.
 {{% /alert %}}
 
 ## Change the default dialect

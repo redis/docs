@@ -737,6 +737,37 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "sscan(key, cursor, **options)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "cursor",
+            "type": "String, Integer",
+            "description": "the cursor of the iteration"
+          },
+          {
+            "name": "match",
+            "type": "String",
+            "description": "only return keys matching the pattern"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "return count keys at most per iteration"
+          }
+        ],
+        "returns": {
+          "type": "Array",
+          "description": "the next cursor and all found members"
+        }
+      }
     ]
   }
 }

@@ -27,7 +27,7 @@ This version offers:
 
 - Redis Flex revamped engine
 
-- Redis Query Engine upgrades
+- Redis Search upgrades
 
 - Lag-aware availability API
 
@@ -55,6 +55,8 @@ For more detailed release notes, select a build version from the following table
 
 ### Breaking changes
 
+- For Redis Software versions 8.0.2 through 8.0.10, LDAP filters for `user_dn_query` and `dn_group_query` strictly require parentheses to function correctly. Filters that previously worked without parentheses will no longer work after upgrading to these versions. For example, you must include the parentheses in `(sAMAccountName=%u)`. As of version 8.0.16, this breaking change no longer applies, and both `(sAMAccountName=%u)` and `sAMAccountName=%u` are valid filters.
+
 - Redis Software installation script changes:
 
     - Changed the `--skip-updating-env-path` option to `--update-env-path` when running [`install.sh`]({{<relref "/operate/rs/installing-upgrading/install/install-script">}}).
@@ -67,7 +69,7 @@ When new major versions of Redis Open Source change existing commands, upgrading
 
 #### ACL behavior changes
 
-Before Redis 8, the existing [ACL]({{<relref "/operate/rs/security/access-control/redis-acl-overview">}}) categories `@read`, `@write`, `@dangerous`, `@admin`, `@slow`, and `@fast` did not include commands for the Redis Query Engine and the JSON, time series, and probabilistic data structures.
+Before Redis 8, the existing [ACL]({{<relref "/operate/rs/security/access-control/redis-acl-overview">}}) categories `@read`, `@write`, `@dangerous`, `@admin`, `@slow`, and `@fast` did not include commands for Redis Search and the JSON, time series, and probabilistic data structures.
 
 Starting with Redis 8, Redis includes all Query Engine, JSON, time series, Bloom filter, cuckoo filter, top-k, count-min sketch, and t-digest commands in these existing ACL categories.
 
@@ -89,9 +91,9 @@ As a result:
 
 Note that the `@all` category did not change, as it always included all the commands.
 
-#### Redis Query Engine changes
+#### Redis Search changes
 
-The following changes affect behavior and validation in the Redis Query Engine:
+The following changes affect behavior and validation in Redis Search:
 
 - Enforces validation for `LIMIT` arguments (offset must be 0 if limit is 0).
 
@@ -143,7 +145,9 @@ See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networ
 
 - Deprecated the `module_args` field for [database]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) REST API requests. Use the new module configuration objects `search`, `timeseries`, and `probabilistic` instead.
 
-#### Redis Query Engine deprecations
+- Deprecated `event_archive_cleanup_task_settings` for `job_scheduler` REST API requests.
+
+#### Redis Search deprecations
 
 - Deprecated commands: `FT.ADD`, `FT.SAFEADD`, `FT.DEL`, `FT.GET`, `FT.MGET`, `FT.SYNADD`, `FT.DROP`, `FT._DROPIFX`, and `FT.CONFIG`.
 
