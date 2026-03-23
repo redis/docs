@@ -1168,18 +1168,6 @@
           return contentType.includes('text/html');
         }
 
-        function isCloudflareChallengePreflight(response) {
-          if (!response) {
-            return false;
-          }
-
-          if (response.status === 403 || response.status === 429) {
-            return true;
-          }
-
-          return getCloudflareMitigation(response) === 'challenge';
-        }
-
         function isRateLimitError(error) {
           if (!error) {
             return false;
@@ -1241,35 +1229,6 @@
               lastBinderRateLimitError = error;
               return error;
             }
-          }
-
-          return null;
-        }
-
-        async function preflightRateLimitCheck(binderUrl, repo, ref) {
-          const normalizedBinderUrl = typeof binderUrl === 'string' && binderUrl
-            ? (binderUrl.endsWith('/') ? binderUrl : binderUrl + '/')
-            : '';
-
-          if (!normalizedBinderUrl || !repo || !ref || typeof window.fetch !== 'function') {
-            return null;
-          }
-
-          const buildUrl = `${normalizedBinderUrl}build/gh/${repo}/${ref}`;
-
-          try {
-            const response = await window.fetch(buildUrl, {
-              method: 'HEAD',
-              mode: 'cors',
-              credentials: 'omit'
-            });
-
-            if (response && isCloudflareChallengePreflight(response)) {
-              const error = createRateLimitError(RATE_LIMIT_MESSAGE, response);
-              lastBinderRateLimitError = error;
-              return error;
-            }
-          } catch (error) {
           }
 
           return null;
@@ -1565,20 +1524,6 @@
                   // Update storage prefix to be page-specific
                   if (config.binderOptions && config.binderOptions.savedSession) {
                     config.binderOptions.savedSession.storagePrefix = sessionStorageKey + '-';
-                  }
-
-                  if (!isAutoReconnect && config.binderOptions) {
-                    const preflightRateLimitError = await preflightRateLimitCheck(
-                      config.binderOptions.binderUrl,
-                      config.binderOptions.repo,
-                      config.binderOptions.ref
-                    );
-
-                    if (preflightRateLimitError) {
-                      console.warn('[Thebe Session] Pre-flight rate limit detected');
-                      handleRateLimitError(preflightRateLimitError);
-                      return false;
-                    }
                   }
 
                   config.requestKernel = true;
