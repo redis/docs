@@ -13,6 +13,10 @@ hideListLinks: true
 | {{<color-bubble color="bg-red-bubble">}} **Redis Insight** | {{<color-bubble color="bg-white-bubble">}} **Redis Data Integration (RDI)** |
 | <ul><li> [Install Redis Insight]({{< relref "/operate/redisinsight/install" >}}) </li><li> [Use Redis Insight]({{< relref "/develop/tools/insight" >}}) </li><li> [Download Redis Insight](https://redis.io/downloads/#insight) </li></ul> | <ul><li> [RDI overview]({{< relref "/integrate/redis-data-integration/" >}}) </li><li> [Install RDI]({{< relref "/integrate/redis-data-integration/installation" >}}) </li> <li> [RDI pipelines]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) </li> </ul> |
 
+## Additional products
+
+- [Featureform]({{< relref "/operate/featureform/" >}}): Deploy and operate Featureform on Kubernetes, then guide application teams to the user-facing workflows in [Redis for AI and search]({{< relref "/develop/ai/featureform/" >}}).
+
 ## Product features
 
 ### High availability and durability
@@ -51,4 +55,3 @@ hideListLinks: true
 | Self-signed certificates |  | [Certificates]({{<relref "/operate/rs/security/certificates">}}) | [Certificate configuration]({{< relref "/operate/oss_and_stack/management/security/encryption#certificate-configuration" >}}) | [REC certificates]({{<relref "operate/kubernetes/security/manage-rec-certificates/">}}) |
 | Internode encryption | [Encryption at rest]({{< relref "/operate/rc/security/encryption-at-rest" >}}) | [Internode encryption]({{<relref "/operate/rs/security/encryption/internode-encryption">}}) |  | [Enable internode encryption]({{<relref "operate/kubernetes/security/internode-encryption/">}}) |
 | Auditing |  | [Audit events]({{<relref "/operate/rs/security/audit-events">}}) | [Keyspace notifications]({{< relref "/develop/pubsub/keyspace-notifications" >}}) |  |
-
