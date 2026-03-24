@@ -19,6 +19,7 @@
 {{ with .Inner }}{{ end }}
 {{ $set := .Get "set" }}
 {{ $langFilter := .Get "lang_filter" | default "" }}
+{{ $language := .Get "language" | default "" }}
 {{ $kernelName := "" }}
 
 {{ if not $description }}
@@ -37,6 +38,9 @@
       {{ if not $source }}
         {{ $source = index . "source" }}
       {{ end }}
+      {{ with index . "language" }}
+        {{ $language = . }}
+      {{ end }}
       {{ if not $binder }}
         {{ $binder = index . "binderId" }}
       {{ end }}
@@ -52,6 +56,14 @@
 {{/* Validate source file is specified */}}
 {{ if not $source }}
   {{ errorf "jupyter-example: No source file specified. Either provide source= parameter or use set=/lang_filter= to look up from examples.json" }}
+{{ end }}
+
+{{ if not $language }}
+  {{ if $langFilter }}
+    {{ $language = lower $langFilter }}
+  {{ else }}
+    {{ errorf "jupyter-example: No language specified. Provide lang_filter=, lang=, or language= parameter." }}
+  {{ end }}
 {{ end }}
 
 {{/* Look up quick-start info from site config when not explicitly provided */}}
@@ -233,8 +245,7 @@
         <div class="flex items-start justify-between">
             <div class="flex items-center gap-2">
                 <span class="text-xs text-slate-400 mr-3 whitespace-nowrap">Language:</span>
-                {{/* Static Python indicator styled like dropdown */}}
-                <span class="max-w-xs px-3 py-1 text-sm bg-slate-700 text-white border border-slate-600 rounded-md">Python</span>
+                <span class="max-w-xs px-3 py-1 text-sm bg-slate-700 text-white border border-slate-600 rounded-md">{{ $langFilter | default (title $language) }}</span>
             </div>
             <div class="flex items-center gap-2">
                 {{/* Run here link - styled like "Run in browser" link */}}
@@ -303,8 +314,8 @@
         <span class="run-hint">Ctrl+Enter to run</span>
         {{/* Step code view - shown by default and when CodeMirror is active */}}
         <div class="step-code-view">
-            <div data-executable="true" data-language="python" class="thebe-cell">
-                {{- highlight $stepCode "python" "" -}}
+            <div data-executable="true" data-language="{{ $language }}" class="thebe-cell">
+                {{- highlight $stepCode $language "" -}}
             </div>
         </div>
 
@@ -329,7 +340,7 @@
                     {{- $sectionClass = "code-section code-section-context" -}}
                 {{- end -}}
                 <div class="{{ $sectionClass }}">
-                    {{- highlight $sectionCode "python" $highlightOptions -}}
+                    {{- highlight $sectionCode $language $highlightOptions -}}
                 </div>
             {{- end }}
         </div>
