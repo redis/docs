@@ -18,7 +18,7 @@ An object that represents an Active-Active database.
 |------|------------|-------------|
 | guid | string | The global unique ID of the Active-Active database |
 | causal_consistency | boolean | Enables causal consistency across CRDT instances |
-| default_db_config| [CRDB database_config]({{< relref "/operate/rs/7.4/references/rest-api/objects/crdb/database_config" >}}) object | Default database configuration |
+| default_db_config| [CRDB database_config]({{< relref "/operate/rs/7.4/references/rest-api/objects/crdb/database_config" >}}) object | Default database configuration applied to all instances in the CRDB object. Use this for settings that should be consistent across all instances. For instance-specific settings, use `db_config` in the individual [instance objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/crdb/instance_info" >}}). |
 | encryption | boolean | Encrypt communication |
 | featureset_version | integer | Active-Active database active FeatureSet version
 | instances | array of [CRDB instance_info]({{< relref "/operate/rs/7.4/references/rest-api/objects/crdb/instance_info" >}}) objects | |

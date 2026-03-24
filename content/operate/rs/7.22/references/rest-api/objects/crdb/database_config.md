@@ -11,7 +11,11 @@ weight: $weight
 url: '/operate/rs/7.22/references/rest-api/objects/crdb/database_config/'
 ---
 
-An object that represents the database configuration.
+An object that represents the database configuration. This configuration object is used in two contexts within CRDB objects:
+
+- As `default_db_config` in the main [CRDB object]({{< relref "/operate/rs/7.22/references/rest-api/objects/crdb" >}}) for settings that apply to all instances.
+
+- As `db_config` in individual [instance objects]({{< relref "/operate/rs/7.22/references/rest-api/objects/crdb/instance_info" >}}) for instance-specific settings.
 
 | Name | Type/Value | Description |
 |------|------------|-------------|
