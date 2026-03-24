@@ -342,8 +342,9 @@
       }
 
       /* Read-only context code styling in CodeMirror */
-      .thebe-cell .CodeMirror .cm-readonly-context {
-        opacity: 0.5;
+      .thebe-cell .CodeMirror .cm-readonly-context,
+      .thebe-cell .CodeMirror .cm-readonly-context span {
+        opacity: 0.5 !important;
         cursor: not-allowed;
       }
 
@@ -704,7 +705,18 @@
         });
       }
 
-      function applyReadOnlyMarkers(codeMirror, lineRanges) {
+      function getDynamicCurrentStepRange(fullFileCode, lineRanges, stepCode) {
+        const parts = getFullFileParts(fullFileCode, lineRanges);
+        const prefixLength = parts.prefixLines.length;
+        const stepLength = splitCodeIntoLines(stepCode).length;
+
+        return {
+          start: prefixLength,
+          end: prefixLength + stepLength - 1
+        };
+      }
+
+      function applyReadOnlyMarkers(codeMirror, lineRanges, stepStartLine, stepEndLine) {
         if (codeMirror._readOnlyMarkers) {
           codeMirror._readOnlyMarkers.forEach(function(marker) {
             marker.clear();
@@ -712,21 +724,58 @@
         }
         codeMirror._readOnlyMarkers = [];
 
-        lineRanges.forEach(function(range) {
-          if (range.type !== 'current-step') {
-            const marker = codeMirror.markText(
-              {line: range.start, ch: 0},
-              {line: range.end + 1, ch: 0},
-              {
-                readOnly: true,
-                className: 'cm-readonly-context',
-                inclusiveLeft: true,
-                inclusiveRight: true
-              }
-            );
-            codeMirror._readOnlyMarkers.push(marker);
-          }
-        });
+        const currentStepRange = stepStartLine !== undefined && stepEndLine !== undefined
+          ? {start: stepStartLine, end: stepEndLine, type: 'current-step'}
+          : lineRanges.find(function(range) {
+            return range.type === 'current-step';
+          });
+
+        const totalLines = codeMirror.lineCount();
+        const lastLine = Math.max(totalLines - 1, 0);
+        const lastCh = codeMirror.getLine(lastLine).length;
+
+        if (!currentStepRange) {
+          const marker = codeMirror.markText(
+            {line: 0, ch: 0},
+            {line: lastLine, ch: lastCh},
+            {
+              readOnly: true,
+              className: 'cm-readonly-context',
+              inclusiveLeft: true,
+              inclusiveRight: true
+            }
+          );
+          codeMirror._readOnlyMarkers.push(marker);
+          return;
+        }
+
+        if (currentStepRange.start > 0) {
+          const beforeMarker = codeMirror.markText(
+            {line: 0, ch: 0},
+            {line: currentStepRange.start, ch: 0},
+            {
+              readOnly: true,
+              className: 'cm-readonly-context',
+              inclusiveLeft: true,
+              inclusiveRight: true
+            }
+          );
+          codeMirror._readOnlyMarkers.push(beforeMarker);
+        }
+
+        if (currentStepRange.end < totalLines - 1) {
+          const afterMarker = codeMirror.markText(
+            {line: currentStepRange.end + 1, ch: 0},
+            {line: lastLine, ch: lastCh},
+            {
+              readOnly: true,
+              className: 'cm-readonly-context',
+              inclusiveLeft: true,
+              inclusiveRight: true
+            }
+          );
+          codeMirror._readOnlyMarkers.push(afterMarker);
+        }
       }
 
       function clearReadOnlyMarkers(codeMirror) {
@@ -831,8 +880,15 @@
               container._currentStepCode = nextStepCode;
               clearReadOnlyMarkers(cm);
               const scrollY = window.scrollY;
+              const currentMode = cm.getOption('mode');
+              const modeSpec = currentMode || (thebeCell ? thebeCell.getAttribute('data-language') : null);
               cm.setValue(nextStepCode);
+              if (modeSpec) {
+                cm.setOption('mode', null);
+                cm.setOption('mode', modeSpec);
+              }
               window.scrollTo(0, scrollY);
+              cm.refresh();
             }
           }
         } else {
@@ -851,12 +907,20 @@
               const cm = codeMirrorElement.CodeMirror;
               const nextStepCode = cm.getValue();
               const expandedCode = buildExpandedCode(fullFileCode, lineRanges, nextStepCode);
+              const dynamicCurrentStepRange = getDynamicCurrentStepRange(fullFileCode, lineRanges, nextStepCode);
               container._currentStepCode = nextStepCode;
               const scrollY = window.scrollY;
+              const currentMode = cm.getOption('mode');
+              const modeSpec = currentMode || (thebeCell ? thebeCell.getAttribute('data-language') : null);
               cm.setValue(expandedCode);
+              if (modeSpec) {
+                cm.setOption('mode', null);
+                cm.setOption('mode', modeSpec);
+              }
               window.scrollTo(0, scrollY);
               setTimeout(function() {
-                applyReadOnlyMarkers(cm, lineRanges);
+                applyReadOnlyMarkers(cm, lineRanges, dynamicCurrentStepRange.start, dynamicCurrentStepRange.end);
+                cm.refresh();
               }, 50);
             }
           }
@@ -908,7 +972,6 @@
               return;
             }
             if (thebeLoadError) {
-              console.log('[Thebe Session] Clearing previous load error, attempting retry');
               thebeLoadError = null;
             }
             if (thebeLoading) {
@@ -1680,6 +1743,10 @@
                 // Save scroll position before clicking Thebe's internal button
                 // This prevents Thebe from scrolling the page
                 const scrollY = window.scrollY;
+                const cm = cell.querySelector('.CodeMirror');
+                if (cm && cm.CodeMirror) {
+                }
+                const panel = container.querySelector('.panel');
                 btn.click();
                 // Restore scroll position immediately after click
                 window.scrollTo(0, scrollY);
@@ -1823,13 +1890,22 @@
                     }
 
                     // Save scroll position before setValue to prevent unwanted scroll
+                    const cm = codeMirrorElement.CodeMirror;
                     const scrollY = window.scrollY;
-                    codeMirrorElement.CodeMirror.setValue(buildExpandedCode(fullFileCode, lineRanges, stepCode));
+                    const currentMode = cm.getOption('mode');
+                    const modeSpec = currentMode || (thebeCell ? thebeCell.getAttribute('data-language') : null);
+                    const dynamicCurrentStepRange = getDynamicCurrentStepRange(fullFileCode, lineRanges, stepCode);
+                    cm.setValue(buildExpandedCode(fullFileCode, lineRanges, stepCode));
+                    if (modeSpec) {
+                      cm.setOption('mode', null);
+                      cm.setOption('mode', modeSpec);
+                    }
                     // Restore scroll position after setValue
                     window.scrollTo(0, scrollY);
 
                     // Apply read-only markers
-                    applyReadOnlyMarkers(codeMirrorElement.CodeMirror, lineRanges);
+                    applyReadOnlyMarkers(cm, lineRanges, dynamicCurrentStepRange.start, dynamicCurrentStepRange.end);
+                    cm.refresh();
                   }
                 }
 
@@ -1870,19 +1946,20 @@
             container.classList.add('kernel-ready');
           }
 
-          // Execute whatever is currently visible in CodeMirror.
-          // If activation started while expanded, sync the editor to full-file content first.
+          // In expanded view, execute only the editable step code.
+          // The surrounding full-file context is for visual reference only.
           const isExpandedForExec = panel && panel.getAttribute('aria-expanded') === 'true';
           const stepCodeViewForExec = panel ? panel.querySelector('.step-code-view') : null;
           const thebeCellForExec = stepCodeViewForExec ? stepCodeViewForExec.querySelector('.thebe-cell') : null;
           const codeMirrorElementForExec = thebeCellForExec ? thebeCellForExec.querySelector('.CodeMirror') : null;
+          let restoreExpandedExecutionView = null;
 
-          if (isExpandedForExec && container._wasHidden && codeMirrorElementForExec && codeMirrorElementForExec.CodeMirror) {
+          if (isExpandedForExec && codeMirrorElementForExec && codeMirrorElementForExec.CodeMirror) {
             const cm = codeMirrorElementForExec.CodeMirror;
             const fullFileSource = container.querySelector('script[type="text-x-full-file-source"]');
             const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
             const fullFileCode = getEmbeddedSourceText(fullFileSource);
-            const stepCode = typeof container._currentStepCode === 'string'
+            const fallbackStepCode = typeof container._currentStepCode === 'string'
               ? container._currentStepCode
               : getEmbeddedSourceText(cleanSource);
             let lineRangesForExec = [];
@@ -1896,12 +1973,42 @@
               }
             }
 
-            if (fullFileCode) {
+            const expandedCode = cm.getValue();
+            const currentMode = cm.getOption('mode');
+            const modeSpec = currentMode || (thebeCellForExec ? thebeCellForExec.getAttribute('data-language') : null);
+            const stepCodeForExec = fullFileCode
+              ? extractStepCodeFromExpandedCode(expandedCode, fullFileCode, lineRangesForExec, fallbackStepCode)
+              : fallbackStepCode || expandedCode;
+
+            container._currentStepCode = stepCodeForExec;
+
+            const setCodeMirrorValuePreservingView = function(nextValue) {
               const scrollY = window.scrollY;
-              cm.setValue(buildExpandedCode(fullFileCode, lineRangesForExec, stepCode));
+              clearReadOnlyMarkers(cm);
+              cm.setValue(nextValue);
+              if (modeSpec) {
+                cm.setOption('mode', null);
+                cm.setOption('mode', modeSpec);
+              }
               window.scrollTo(0, scrollY);
-              applyReadOnlyMarkers(cm, lineRangesForExec);
-            }
+              cm.refresh();
+            };
+
+            setCodeMirrorValuePreservingView(stepCodeForExec);
+
+            restoreExpandedExecutionView = function() {
+              const restoredExpandedCode = fullFileCode
+                ? buildExpandedCode(fullFileCode, lineRangesForExec, stepCodeForExec)
+                : expandedCode;
+
+              setCodeMirrorValuePreservingView(restoredExpandedCode);
+
+              if (fullFileCode) {
+                const dynamicCurrentStepRange = getDynamicCurrentStepRange(fullFileCode, lineRangesForExec, stepCodeForExec);
+                applyReadOnlyMarkers(cm, lineRangesForExec, dynamicCurrentStepRange.start, dynamicCurrentStepRange.end);
+                cm.refresh();
+              }
+            };
           }
 
           // RACE CONDITION FIX: Wait for notebook to be attached to session
@@ -1925,7 +2032,22 @@
           }
 
           // Run only this cell (no automatic dependency execution)
-          await executeCell(container.id);
+          try {
+            await executeCell(container.id);
+          } finally {
+            if (restoreExpandedExecutionView) {
+              restoreExpandedExecutionView();
+            }
+          }
+
+          // Debug where Thebe placed output after execution completes.
+          setTimeout(function() {
+            const allOutputs = container.querySelectorAll('.thebe-output');
+            allOutputs.forEach(function(el, i) {
+            });
+
+            const jpOutputs = container.querySelectorAll('.jp-OutputArea');
+          }, 500);
 
           // After execution, kernel is definitely ready
           kernelReady = true;
