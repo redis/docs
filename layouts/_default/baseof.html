@@ -664,9 +664,12 @@
         const container = button.closest('.thebe-container');
         const panel = container.querySelector('.panel');
         const isExpanded = panel && panel.getAttribute('aria-expanded') === 'true';
+        const codeMirrorElement = container.querySelector('.thebe-cell .CodeMirror');
 
         let text = '';
-        if (isExpanded) {
+        if (codeMirrorElement && codeMirrorElement.CodeMirror) {
+          text = codeMirrorElement.CodeMirror.getValue();
+        } else if (isExpanded) {
           const fullFileSource = container.querySelector('script[type="text-x-full-file-source"]');
           text = getEmbeddedSourceText(fullFileSource);
         } else {
@@ -1743,9 +1746,6 @@
                 // Save scroll position before clicking Thebe's internal button
                 // This prevents Thebe from scrolling the page
                 const scrollY = window.scrollY;
-                const cm = cell.querySelector('.CodeMirror');
-                if (cm && cm.CodeMirror) {
-                }
                 const panel = container.querySelector('.panel');
                 btn.click();
                 // Restore scroll position immediately after click
@@ -2039,15 +2039,6 @@
               restoreExpandedExecutionView();
             }
           }
-
-          // Debug where Thebe placed output after execution completes.
-          setTimeout(function() {
-            const allOutputs = container.querySelectorAll('.thebe-output');
-            allOutputs.forEach(function(el, i) {
-            });
-
-            const jpOutputs = container.querySelectorAll('.jp-OutputArea');
-          }, 500);
 
           // After execution, kernel is definitely ready
           kernelReady = true;
