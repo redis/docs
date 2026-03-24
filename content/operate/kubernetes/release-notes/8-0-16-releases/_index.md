@@ -25,7 +25,7 @@ Redis Enterprise for Kubernetes 8.0.16-24 is a maintenance release of Redis Ente
 
 ### Existing limitations
 
-- **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 8.0.10-21.
+- **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading.
 
 - **Missing endpoint for admission endpoint (rare) (RED-119469)** Restart the operator pod.
 
