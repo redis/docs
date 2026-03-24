@@ -1219,19 +1219,11 @@
             return false;
           }
 
-          if (response.status === 403 || response.status === 429) {
-            return true;
-          }
-
           if (getCloudflareMitigation(response) === 'challenge') {
             return true;
           }
 
-          const contentType = response && response.headers && typeof response.headers.get === 'function'
-            ? (response.headers.get('content-type') || '').toLowerCase()
-            : '';
-
-          return contentType.includes('text/html');
+          return response.status === 403 || response.status === 429;
         }
 
         function isRateLimitError(error) {
