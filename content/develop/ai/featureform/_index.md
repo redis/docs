@@ -9,7 +9,7 @@ description: Build feature engineering workflows with Featureform and Redis.
 linkTitle: Featureform
 hideListLinks: true
 weight: 60
-bannerText: Featureform is currently in preview and subject to change.
+bannerText: Featureform is currently in preview and subject to change. To request access to the Featureform Docker image, contact your Redis account team.
 bannerChildren: true
 ---
 
