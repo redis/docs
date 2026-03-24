@@ -40,4 +40,3 @@ Featureform also includes a dashboard for viewing registered resources and tasks
 
 - [Quickstart]({{< relref "/develop/ai/featureform/quickstart" >}})
 - [Connect providers]({{< relref "/develop/ai/featureform/providers" >}})
-- [Deploy and operate Featureform]({{< relref "/operate/featureform/" >}})

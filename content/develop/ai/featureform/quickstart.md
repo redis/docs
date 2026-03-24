@@ -28,8 +28,6 @@ Before you start, make sure you have:
 - access to a Redis deployment for online serving
 - credentials for the systems you register in this guide
 
-For platform setup, see [Deploy and operate Featureform]({{< relref "/operate/featureform/" >}}).
-
 ## Connect to Featureform
 
 ```python
@@ -174,4 +172,3 @@ features = client.serve_feature_view(
 - [Connect providers]({{< relref "/develop/ai/featureform/providers" >}})
 - [Define datasets and transformations]({{< relref "/develop/ai/featureform/datasets-and-transformations" >}})
 - [Define features and labels]({{< relref "/develop/ai/featureform/features-and-labels" >}})
-- [Deploy and operate Featureform]({{< relref "/operate/featureform/" >}})

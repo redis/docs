@@ -29,7 +29,6 @@ Featureform works with offline systems such as Snowflake, BigQuery, and Databric
 ## Next steps
 
 - [Streaming features]({{< relref "/develop/ai/featureform/streaming" >}})
-- [Deploy and operate Featureform]({{< relref "/operate/featureform/" >}})
 
 ## What this section covers
 

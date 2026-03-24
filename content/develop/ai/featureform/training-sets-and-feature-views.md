@@ -88,4 +88,3 @@ That distinction matters when you troubleshoot missing online data. A successful
 ## What to read next
 
 - [Streaming features]({{< relref "/develop/ai/featureform/streaming" >}})
-- [Deploy and operate Featureform]({{< relref "/operate/featureform/" >}})
