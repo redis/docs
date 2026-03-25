@@ -170,6 +170,9 @@ jobs:
     - name: Install dependencies
       run: make deps
 
+    - name: Generate components
+      run: make components
+
     - name: Build Kubernetes ${{ matrix.version }}
       run: |
         set -x
@@ -244,6 +247,9 @@ jobs:
 
     - name: Install dependencies
       run: make deps
+
+    - name: Generate components
+      run: make components
 
     - name: Build RS ${{ matrix.version }}
       run: |
@@ -320,6 +326,9 @@ jobs:
     - name: Install dependencies
       run: make deps
 
+    - name: Generate components
+      run: make components
+
     - name: Build RDI ${{ matrix.version }}
       run: |
         set -x
@@ -394,6 +403,9 @@ jobs:
 
     - name: Install dependencies
       run: make deps
+
+    - name: Generate components
+      run: make components
 
     - name: Build RedisVL ${{ matrix.version }}
       run: |
