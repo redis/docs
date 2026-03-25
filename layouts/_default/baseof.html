@@ -942,19 +942,41 @@
         let thebeStatusHandlerAttached = false;
         const RATE_LIMIT_MESSAGE = "Too many requests. Please try again later.";
 
-        // Function to restore clean cells from the hidden script element
-        // The script element is NEVER touched by Thebe, so it's always clean
+        function storeOriginalCellHTML() {
+          document.querySelectorAll('.thebe-container').forEach(function(container) {
+            if (container._originalCellHTML) {
+              return;
+            }
+
+            const cell = container.querySelector('.thebe-cell');
+            if (cell) {
+              container._originalCellHTML = cell.innerHTML;
+            }
+          });
+        }
+
+        // Restore the original Hugo-rendered cell HTML when available.
+        // Fall back to rebuilding plain code only for already-activated editors.
         function restoreCleanCells() {
           document.querySelectorAll('.thebe-container').forEach(function(container) {
             const cell = container.querySelector('.thebe-cell');
-            const hasCodeMirror = cell && cell.querySelector('.CodeMirror');
+            const hasCodeMirror = cell && (cell.querySelector('.CodeMirror') || cell.querySelector('.cm-editor'));
+
+            if (!cell) {
+              return;
+            }
+
+            if (container._originalCellHTML) {
+              cell.innerHTML = container._originalCellHTML;
+              return;
+            }
 
             if (!hasCodeMirror) {
               return;
             }
 
             const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
-            if (cleanSource && cell) {
+            if (cleanSource) {
               const cleanCode = getEmbeddedSourceText(cleanSource);
               // Nuke everything in the cell and recreate with clean code
               cell.innerHTML = '<code></code>';
@@ -1480,6 +1502,9 @@
 
           // Mark session restore in progress to protect against rapid refreshes
           sessionStorage.setItem(SESSION_RESTORE_KEY, Date.now().toString());
+
+          // Preserve the original Hugo-rendered cell HTML before Thebe mutates it.
+          storeOriginalCellHTML();
 
           // NOTE: Loading state is now managed by individual click handlers (lines 1189-1190)
           // This prevents all blocks from showing "Starting kernel..." when only one is clicked
