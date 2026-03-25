@@ -48,13 +48,13 @@
     <div class="w-full flex flex-col gap-16 pt-12">
       <!-- Welcome heading and buttons -->
       <div class="flex flex-col gap-6 lg:px-11">
-        <h1 class="text-2xl md:text-3xl font-medium text-white text-center">Welcome to Redis Docs</h1>
+        <h1 class="text-2xl md:text-3xl font-sans font-medium text-white text-center">Welcome to Redis Docs</h1>
         <div class="flex flex-col items-center gap-4">
           <div class="flex flex-col md:flex-row gap-4 justify-center">
-            <a href="./develop/" class="px-8 py-4 bg-redis-red-500 hover:bg-redis-red-600 text-white font-medium rounded-md transition-colors text-center">
+            <a href="./develop/" class="px-8 py-4 bg-redis-red-10 border border-redis-red-500 hover:bg-redis-red-500 text-white font-medium rounded-md transition-colors text-center">
               Develop with Redis Open Source
             </a>
-            <a href="./operate/rc/" class="px-8 py-4 border-2 border-white hover:bg-white hover:text-redis-ink-900 text-white font-medium rounded-md transition-colors text-center">
+            <a href="./operate/rc/" class="px-8 py-4 bg-redis-pen-800 border border-redis-pen-700 hover:bg-redis-pen-700 text-white font-medium rounded-md transition-colors text-center">
               Run Redis in production
             </a>
           </div>
@@ -65,10 +65,10 @@
       </div>
 
       <!-- Use Cases Section -->
-      <section class="lg:px-11">
+      <section class="px-5">
         <div class="flex flex-col gap-4">
           <div class="flex flex-col md:flex-row items-center gap-4">
-            <h2 class="text-xl font-medium flex-1">Redis for AI and search</h2>
+            <h2 class="text-xl font-sans font-medium flex-1">Redis for AI and search</h2>
             <form class="flex flex-row items-center border border-white rounded-md px-4 gap-3 w-full md:w-auto md:w-[350px] bg-redis-ink-900" action="/chat">
           <label class="" for="search-home" id="search-label-home">
             {{ partial "icons/sparkles.html" }}
@@ -83,77 +83,93 @@
           <div class="flex flex-col lg:flex-row gap-4">
             <!-- Use Cases Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1">
-              <!-- Vector Search -->
-              <a href="./develop/ai/search-and-query/vectors/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
-                <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">Vector search</h3>
-                <p class="text-sm text-gray-300">Real-time retrieval for RAG</p>
+              <!-- AI Development -->
+              <a href="./develop/ai/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
+                <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                  <path d="M12 8v8M8 12h8" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">AI development</h3>
+                <p class="text-sm text-gray-300">Build AI applications with Redis</p>
               </a>
 
               <!-- Vector Sets -->
               <a href="./develop/data-types/vector-sets/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
+                <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2"/>
+                  <rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2"/>
+                  <rect x="3" y="14" width="7" height="7" rx="1" stroke-width="2"/>
+                  <rect x="14" y="14" width="7" height="7" rx="1" stroke-width="2"/>
+                </svg>
                 <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">Vector sets</h3>
                 <p class="text-sm text-gray-300">Fast vector similarity search</p>
               </a>
 
               <!-- Agent Builder -->
               <a href="./develop/ai/agent-builder/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
+                <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2L2 7v10c0 5.5 3.8 9.7 10 11 6.2-1.3 10-5.5 10-11V7L12 2z" stroke-width="2" stroke-linejoin="round"/>
+                  <circle cx="12" cy="12" r="3" stroke-width="2"/>
+                </svg>
                 <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">Agent builder</h3>
                 <p class="text-sm text-gray-300">Build AI agents with memory</p>
               </a>
 
               <!-- Vector Database -->
               <a href="./develop/get-started/vector-database/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
+                <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <ellipse cx="12" cy="6" rx="8" ry="3" stroke-width="2"/>
+                  <path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6" stroke-width="2"/>
+                  <path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" stroke-width="2"/>
+                </svg>
                 <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">Vector database</h3>
                 <p class="text-sm text-gray-300">Get started with vector databases</p>
               </a>
             </div>
 
             <!-- AI Stack Visual (Half Width) -->
-            <div class="w-full lg:w-1/2 flex flex-col gap-2 relative bg-gradient-to-b from-redis-ink-900 to-redis-pen-900 p-4 rounded-lg">
+            <div class="w-full lg:w-5/12 flex flex-col gap-2 relative p-4 rounded-lg">
               <!-- Top Layer: Applications -->
               <div class="bg-redis-pen-700 border border-redis-pen-400 rounded-lg p-3 shadow-lg text-center">
                 <div class="text-sm font-medium text-white mb-1">AI Applications</div>
-                <div class="text-xs text-gray-400">Chatbots, Agents, RAG systems</div>
+                <div class="text-xs text-gray-400">Chatbots, agents, RAG systems</div>
               </div>
 
               <!-- Connection Arrow -->
               <div class="flex justify-center -my-1">
                 <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M20 5 L20 35 M20 35 L15 30 M20 35 L25 30" stroke="#DCFF1E" stroke-width="3" stroke-linecap="round"/>
+                  <path d="M20 5 L20 35 M20 35 L15 30 M20 35 L25 30" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round"/>
                 </svg>
               </div>
 
               <!-- Middle Layer: Redis (Highlighted) -->
-              <div class="relative bg-gradient-to-br from-redis-red-500 to-redis-red-600 border-2 border-redis-yellow-500 rounded-lg p-4 shadow-xl text-center">
-                <!-- Redis Logo -->
-                <div class="flex justify-center mb-2">
-                  <div class="w-16 text-white">
+              <div class="relative bg-redis-red-10 border border-redis-red-500 rounded-lg p-4 shadow-xl text-center">
+                <!-- Redis Logo Badge -->
+                <div class="absolute -right-8 top-1/2 -translate-y-1/2 bg-redis-red-10 border border-redis-red-500 rounded-full p-2">
+                  <div class="w-12 text-redis-red-500">
                     {{ partial "icons/logo-script.html" }}
                   </div>
                 </div>
 
-                <div class="text-xs uppercase tracking-wider text-redis-yellow-500 mb-2">Real-time Infrastructure Layer</div>
+                <div class="text-xs tracking-wider text-white mb-2">Real-time context engine</div>
 
-                <!-- Capability Pills -->
-                <div class="flex flex-wrap justify-center gap-1 mt-2">
-                  <span class="px-2 py-1 bg-redis-ink-900 rounded-full text-xs font-medium border border-redis-yellow-500">Memory</span>
-                  <span class="px-2 py-1 bg-redis-ink-900 rounded-full text-xs font-medium border border-redis-yellow-500">Retrieval</span>
-                  <span class="px-2 py-1 bg-redis-ink-900 rounded-full text-xs font-medium border border-redis-yellow-500">State</span>
-                  <span class="px-2 py-1 bg-redis-ink-900 rounded-full text-xs font-medium border border-redis-yellow-500">Streaming</span>
+                <!-- Capabilities -->
+                <div class="text-xs text-redis-red-200 mt-2">
+                  Memory, retrieval, state, streaming
                 </div>
               </div>
 
               <!-- Connection Arrow -->
               <div class="flex justify-center -my-1">
                 <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M20 5 L20 35 M20 35 L15 30 M20 35 L25 30" stroke="#DCFF1E" stroke-width="3" stroke-linecap="round"/>
+                  <path d="M20 5 L20 35 M20 35 L15 30 M20 35 L25 30" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round"/>
                 </svg>
               </div>
 
               <!-- Bottom Layer: Models -->
               <div class="bg-redis-pen-700 border border-redis-pen-400 rounded-lg p-3 shadow-lg text-center">
                 <div class="text-sm font-medium text-white mb-1">AI models & infrastructure</div>
-                <div class="text-xs text-gray-400">LLMs, Embeddings, Vector models</div>
+                <div class="text-xs text-gray-400">LLMs, embeddings, vector models</div>
               </div>
             </div>
           </div>
@@ -161,95 +177,74 @@
       </section>
 
       <!-- Product Continuum Section -->
-      <section class="px-5 py-10 border-t border-redis-pen-600">
-        <div class="max-w-6xl mx-auto flex flex-col gap-4">
-          <div>
-            <h2 class="text-base md:text-lg font-medium mb-2">From open source to production scale</h2>
-            <p class="text-sm text-gray-300">
-              Start with Redis Open Source. Run Redis Software in your environment or on Kubernetes. Scale globally with Redis Cloud.
-            </p>
-          </div>
+      <section class="px-5 py-6">
+        <div class="flex flex-col gap-4">
+          <h2 class="text-xl font-sans font-medium">From open source to production scale</h2>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
             <!-- Redis Open Source -->
-            <div class="flex flex-col bg-redis-pen-700 border border-redis-pen-400 rounded-md overflow-hidden">
-              <a class="px-4 py-2 border-b border-redis-pen-400 hover:bg-redis-pen-600 transition-colors" href="./operate/oss_and_stack/">
-                <h3 class="text-base font-medium">Redis Open Source</h3>
-              </a>
-              <div class="p-4 flex-1">
-                <p class="text-sm text-gray-300 mb-3">Experimentation and local development</p>
-                <ul class="space-y-1 text-xs text-gray-400">
-                  <li>• Core data structures</li>
-                  <li>• Vector search</li>
-                  <li>• Streams & pub/sub</li>
-                  <li>• Community support</li>
-                </ul>
-              </div>
-              <div class="flex border-t border-redis-pen-400">
-                <a class="flex-1 px-3 py-2 text-sm text-center border-r border-redis-pen-400 hover:bg-redis-pen-600 transition-colors" href="./operate/oss_and_stack/install/install-stack/">Install</a>
-                <a class="flex-1 px-3 py-2 text-sm text-center hover:bg-redis-pen-600 transition-colors" href="./develop/data-types/">Data types</a>
-              </div>
-            </div>
+            <a href="./operate/oss_and_stack/" class="flex flex-col bg-redis-pen-700 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group">
+              <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <h3 class="text-base font-medium mb-2 group-hover:text-redis-yellow-500">Redis Open Source</h3>
+              <p class="text-sm text-gray-300 mb-3">Experimentation and local development</p>
+              <ul class="space-y-1 text-xs text-gray-400">
+                <li>• Core data structures</li>
+                <li>• Vector search</li>
+                <li>• Streams & pub/sub</li>
+                <li>• Community support</li>
+              </ul>
+            </a>
 
             <!-- Redis Software -->
-            <div class="flex flex-col bg-redis-pen-800 border border-redis-pen-400 rounded-md overflow-hidden">
-              <a class="px-4 py-2 border-b border-redis-pen-400 hover:bg-redis-pen-700 transition-colors" href="./operate/rs/">
-                <h3 class="text-base font-medium">Redis Software</h3>
-              </a>
-              <div class="p-4 flex-1">
-                <p class="text-sm text-gray-300 mb-3">Enterprise on-prem / hybrid</p>
-                <ul class="space-y-1 text-xs text-gray-400">
-                  <li>• Active-Active geo-distribution</li>
-                  <li>• Auto-tiering</li>
-                  <li>• 99.999% uptime SLA</li>
-                  <li>• Enterprise support</li>
-                </ul>
-              </div>
-              <div class="flex border-t border-redis-pen-400">
-                <a class="flex-1 px-3 py-2 text-sm text-center border-r border-redis-pen-400 hover:bg-redis-pen-700 transition-colors" href="./operate/rs/installing-upgrading/">Install</a>
-                <a class="flex-1 px-3 py-2 text-sm text-center hover:bg-redis-pen-700 transition-colors" href="./operate/rs/installing-upgrading/quickstarts/docker-quickstart/#run-the-container">Quick start</a>
-              </div>
-            </div>
+            <a href="./operate/rs/" class="flex flex-col bg-redis-pen-800 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-700 transition-colors group">
+              <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="2"/>
+                <path d="M3 9h18M9 3v18" stroke-width="2"/>
+              </svg>
+              <h3 class="text-base font-medium mb-2 group-hover:text-redis-yellow-500">Redis Software</h3>
+              <p class="text-sm text-gray-300 mb-3">Enterprise on-prem / hybrid</p>
+              <ul class="space-y-1 text-xs text-gray-400">
+                <li>• Active-Active geo-distribution</li>
+                <li>• Auto-tiering</li>
+                <li>• 99.999% uptime SLA</li>
+                <li>• Enterprise support</li>
+              </ul>
+            </a>
 
             <!-- Redis for Kubernetes -->
-            <div class="flex flex-col bg-redis-pen-800 border border-redis-pen-400 rounded-md overflow-hidden">
-              <a class="px-4 py-2 border-b border-redis-pen-400 hover:bg-redis-pen-700 transition-colors" href="./operate/kubernetes/">
-                <h3 class="text-base font-medium">Redis for Kubernetes</h3>
-              </a>
-              <div class="p-4 flex-1">
-                <p class="text-sm text-gray-300 mb-3">Enterprise on Kubernetes</p>
-                <ul class="space-y-1 text-xs text-gray-400">
-                  <li>• Cloud-native deployment</li>
-                  <li>• Kubernetes operator</li>
-                  <li>• Auto-scaling & HA</li>
-                  <li>• Enterprise support</li>
-                </ul>
-              </div>
-              <div class="flex border-t border-redis-pen-400">
-                <a class="flex-1 px-3 py-2 text-sm text-center border-r border-redis-pen-400 hover:bg-redis-pen-700 transition-colors" href="./operate/kubernetes/">Overview</a>
-                <a class="flex-1 px-3 py-2 text-sm text-center hover:bg-redis-pen-700 transition-colors" href="./operate/kubernetes/deployment/quick-start/">Quick start</a>
-              </div>
-            </div>
+            <a href="./operate/kubernetes/" class="flex flex-col bg-redis-pen-800 border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-700 transition-colors group">
+              <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9" stroke-width="2"/>
+                <path d="M12 3v3m0 12v3m9-9h-3m-12 0H3" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 8l2 4-2 4-2-4 2-4z" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+              <h3 class="text-base font-medium mb-2 group-hover:text-redis-yellow-500">Redis for Kubernetes</h3>
+              <p class="text-sm text-gray-300 mb-3">Enterprise on Kubernetes</p>
+              <ul class="space-y-1 text-xs text-gray-400">
+                <li>• Cloud-native deployment</li>
+                <li>• Kubernetes operator</li>
+                <li>• Auto-scaling & HA</li>
+                <li>• Enterprise support</li>
+              </ul>
+            </a>
 
             <!-- Redis Cloud -->
-            <div class="flex flex-col bg-redis-pen-800 border-2 border-redis-red-500 rounded-md overflow-hidden">
-              <a class="px-4 py-2 border-b border-redis-pen-400 hover:bg-redis-pen-700 transition-colors" href="./operate/rc/">
-                <h3 class="text-base font-medium">Redis Cloud</h3>
-              </a>
-              <div class="p-4 flex-1">
-                <p class="text-sm text-gray-300 mb-3">Global, managed, production workloads</p>
-                <ul class="space-y-1 text-xs text-gray-400">
-                  <li>• Fully managed service</li>
-                  <li>• Fast cloud deployment</li>
-                  <li>• Auto-scaling</li>
-                  <li>• 24/7 support available</li>
-                </ul>
-              </div>
-              <div class="flex border-t border-redis-pen-400">
-                <a class="flex-1 px-3 py-2 text-sm text-center border-r border-redis-pen-400 hover:bg-redis-pen-700 transition-colors" href="https://redis.io/try-free/">Try Redis</a>
-                <a class="flex-1 px-3 py-2 text-sm text-center hover:bg-redis-pen-700 transition-colors" href="./operate/rc/rc-quickstart/">Quick start</a>
-              </div>
-            </div>
+            <a href="./operate/rc/" class="flex flex-col bg-redis-pen-800 border-2 border-redis-red-500 rounded-md p-4 hover:bg-redis-pen-700 transition-colors group">
+              <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M3 15c0 1.5 1.5 3 4 3h10c2.5 0 4-1.5 4-3 0-2-2-3-4-3-1 0-1.5-.5-1.5-1.5C15.5 8 13 6 10 6 7 6 4.5 8 4.5 11c0 .5-.5 1-1.5 1C1.5 12 0 13.5 0 15.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="translate(3, 3)"/>
+              </svg>
+              <h3 class="text-base font-medium mb-2 group-hover:text-redis-yellow-500">Redis Cloud</h3>
+              <p class="text-sm text-gray-300 mb-3">Global, managed, production workloads</p>
+              <ul class="space-y-1 text-xs text-gray-400">
+                <li>• Fully managed service</li>
+                <li>• Fast cloud deployment</li>
+                <li>• Auto-scaling</li>
+                <li>• 24/7 support available</li>
+              </ul>
+            </a>
           </div>
 
           <div class="mt-2 text-center">
@@ -261,9 +256,9 @@
       </section>
 
       <!-- Intent-Based Routing Section -->
-      <section class="px-5 py-10 border-t border-redis-pen-600">
-        <div class="max-w-6xl mx-auto flex flex-col gap-3">
-          <h2 class="text-sm md:text-base font-medium">Choose your next step</h2>
+      <section class="px-5 pt-0 pb-0">
+        <div class="flex flex-col gap-3">
+          <h2 class="text-xl font-sans font-medium">Choose your next step</h2>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3 w-full">
             <!-- Build AI Apps -->
@@ -321,9 +316,9 @@
       </section>
 
       <!-- Data Integration & Observability -->
-      <section class="px-5 py-10 border-t border-redis-pen-600">
-        <div class="max-w-6xl mx-auto flex flex-col gap-3">
-          <h2 class="text-sm md:text-base font-medium">Data integration & observability</h2>
+      <section class="px-5 pt-0 pb-0">
+        <div class="flex flex-col gap-3">
+          <h2 class="text-xl font-sans font-medium">Data integration & observability</h2>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3 w-full">
             <!-- RIOT -->
@@ -366,9 +361,9 @@
       </section>
 
       <!-- Documentation Quick Access -->
-      <section class="px-5 py-10 border-t border-redis-pen-600">
-        <div class="max-w-6xl mx-auto">
-          <h2 class="text-xs md:text-sm font-medium mb-6">Explore the documentation</h2>
+      <section class="px-5 pt-0 pb-1">
+        <div>
+          <h2 class="text-xl font-sans font-medium mb-6">Explore the documentation</h2>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
             <a href="./ai-agent-resources/" class="bg-redis-pen-700 border border-redis-pen-400 rounded-md p-3 hover:bg-redis-pen-600 transition-colors group">
