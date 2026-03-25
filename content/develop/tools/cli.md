@@ -387,6 +387,9 @@ syntax hints. Like command history, this behavior can be turned on and off via t
 
 Reverse history searches, such as `CTRL-R` in terminals, is supported.
 
+Starting with Redis 8.8, `redis-cli` supports word-jump navigation (`Alt/Option + ←/→`, `Ctrl + ←/→`), which makes
+editing long commands much more efficient.
+
 ### Preferences
 
 There are two ways to customize `redis-cli` behavior. The file `.redisclirc`
