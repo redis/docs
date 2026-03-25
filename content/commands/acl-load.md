@@ -38,6 +38,10 @@ sure to have an *all or nothing* behavior, that is:
 * If every line in the file is valid, all the ACLs are loaded.
 * If one or more line in the file is not valid, nothing is loaded, and the old ACL rules defined in the server memory continue to be used.
 
+Starting with Redis 8.8, your ACL file is allowed to have comment lines; lines that begin with the `#` character.
+Any such comment lines are stripped when the ACL file is loaded and they are not persisted across `ACL LOAD`/`ACL SAVE` commands.
+Make sure you save a backup of your ACL file. This is the only way to preserve comments.
+
 ## Examples
 
 ```
