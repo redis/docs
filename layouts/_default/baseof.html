@@ -130,12 +130,12 @@
 
     <!-- Thebe interactive code functionality -->
     {{ if .Page.Store.Get "hasThebe" }}
-    <!-- Thebe 0.9.0-rc with proper BinderHub support -->
+    <!-- Thebe 0.9.0-rc.0 with proper BinderHub support -->
     <!-- Script AND CSS are loaded dynamically on first "Run here" click to prevent:
          1. Auto-initialization of cells
          2. Thebe CSS from hiding/breaking code display before activation -->
-    <!-- <script type="text/javascript" src="https://unpkg.com/thebe@rc/lib/index.js"></script> -->
-    <!-- <link rel="stylesheet" href="https://unpkg.com/thebe@rc/lib/thebe.css" /> -->
+    <!-- <script type="text/javascript" src="https://unpkg.com/thebe@0.9.0-rc.0/lib/index.js"></script> -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/thebe@0.9.0-rc.0/lib/thebe.css" /> -->
 
     <!-- Thebe configuration for Redis BinderHub -->
     <script type="text/x-thebe-config">
@@ -996,12 +996,12 @@
             // Load Thebe CSS first
             const link = document.createElement('link');
             link.rel = 'stylesheet';
-            link.href = 'https://unpkg.com/thebe@rc/lib/thebe.css';
+            link.href = 'https://unpkg.com/thebe@0.9.0-rc.0/lib/thebe.css';
             document.head.appendChild(link);
 
             // Then load Thebe script
             const script = document.createElement('script');
-            script.src = 'https://unpkg.com/thebe@rc/lib/index.js';
+            script.src = 'https://unpkg.com/thebe@0.9.0-rc.0/lib/index.js';
             script.onload = function() {
               thebeLoaded = true;
               thebeLoading = false;
