@@ -165,14 +165,14 @@
     </script>
 
     <style>
-      /* Override Thebe CSS variables - prevent invisible text on dark background */
-      :root {
-        --jp-content-font-color1: rgb(255 255 255) !important;
-        --jp-content-font-color0: rgb(255 255 255) !important;
-        --jp-layout-color0: rgb(15 23 42) !important;
-        --jp-layout-color1: rgb(15 23 42) !important;
-        --jp-cell-editor-background: rgb(15 23 42) !important;
-        --jp-code-font-family: Space Mono, SF Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+      /* Scope Thebe CSS variables to interactive containers */
+      .thebe-container {
+        --jp-content-font-color1: rgb(255 255 255);
+        --jp-content-font-color0: rgb(255 255 255);
+        --jp-layout-color0: rgb(15 23 42);
+        --jp-layout-color1: rgb(15 23 42);
+        --jp-cell-editor-background: rgb(15 23 42);
+        --jp-code-font-family: Space Mono, SF Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       }
 
 
