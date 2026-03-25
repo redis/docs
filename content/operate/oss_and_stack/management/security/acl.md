@@ -570,6 +570,8 @@ The external ACL file however is more powerful. You can do the following:
 Note that [`CONFIG REWRITE`](/commands/config-rewrite) does not also trigger [`ACL SAVE`](/commands/acl-save). When you use
 an ACL file, the configuration and the ACLs are handled separately.
 
+Starting with Redis 8.8, the `ACL LOAD` command will allow comment lines starting with the `#` character. Any such comment lines are stripped when the ACL file is loaded and they are not persisted across `ACL LOAD`/`ACL SAVE` commands.
+
 ## ACL rules for Sentinel and Replicas
 
 In case you don't want to provide Redis replicas and Redis Sentinel instances
