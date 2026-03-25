@@ -18,8 +18,9 @@ container: HOTKEYS
 description: Returns helpful text about HOTKEYS commands and parameters.
 function: hotkeysCommand
 group: server
-hidden: false
+hidden: true
 linkTitle: HOTKEYS HELP
+railroad_diagram: /images/railroad/hotkeys-help.svg
 reply_schema:
   description: Helpful text about subcommands.
   items:
