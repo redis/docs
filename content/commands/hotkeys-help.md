@@ -1,4 +1,6 @@
 ---
+acl_categories:
+- '@admin'
 arity: 2
 categories:
 - docs
@@ -11,8 +13,8 @@ categories:
 - kubernetes
 - clients
 command_flags:
-- LOADING
-- STALE
+- loading
+- stale
 complexity: O(1)
 container: HOTKEYS
 description: Returns helpful text about HOTKEYS commands and parameters.
