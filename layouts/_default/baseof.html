@@ -946,8 +946,14 @@
         // The script element is NEVER touched by Thebe, so it's always clean
         function restoreCleanCells() {
           document.querySelectorAll('.thebe-container').forEach(function(container) {
-            const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
             const cell = container.querySelector('.thebe-cell');
+            const hasCodeMirror = cell && cell.querySelector('.CodeMirror');
+
+            if (!hasCodeMirror) {
+              return;
+            }
+
+            const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
             if (cleanSource && cell) {
               const cleanCode = getEmbeddedSourceText(cleanSource);
               // Nuke everything in the cell and recreate with clean code
