@@ -336,6 +336,10 @@ The required secrets depend on your source database's security configuration. Th
 | mTLS connection | <ul><li>Credentials secret (username and password for the RDI pipeline user)</li><li>CA Certificate secret (server certificate)</li><li>Client certificate secret</li><li>Client key secret</li></ul> |
 | mTLS connection with client key passphrase | <ul><li>Credentials secret (username and password for the RDI pipeline user)</li><li>CA Certificate secret (server certificate)</li><li>Client certificate secret</li><li>Client key secret</li><li>Client key passphrase secret</li></ul> |
 
+{{< note >}}
+{{< embed-md "rdi-tls-secrets.md" >}}
+{{< /note >}}
+
 Select a tab to learn how to create the required secret.
 
 {{< multitabs id="rdi-cloud-secrets"
