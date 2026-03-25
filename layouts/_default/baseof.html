@@ -1680,8 +1680,13 @@
               enableAllButtons();
 
               // Auto-bootstrap Thebe to reconnect to existing session (silent reconnection)
-              bootstrapThebe(true).catch(function(err) {
+              bootstrapThebe(true).then(function(bootstrapped) {
+                if (!bootstrapped) {
+                  resetThebeAfterBootstrapFailure();
+                }
+              }).catch(function(err) {
                 console.error('[Thebe Session] Auto-bootstrap failed:', err);
+                resetThebeAfterBootstrapFailure();
               });
             }
           } catch (e) {
