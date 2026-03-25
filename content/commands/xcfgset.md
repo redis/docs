@@ -34,14 +34,18 @@ description: Sets the IDMP configuration parameters for a stream.
 group: stream
 hidden: false
 key_specs:
-- begin_search:
-    index:
-      pos: 1
+- RW: true
+  begin_search:
+    spec:
+      index: 1
+    type: index
   find_keys:
-    range:
+    spec:
+      keystep: 1
       lastkey: 0
       limit: 0
-      step: 1
+    type: range
+  update: true
 linkTitle: XCFGSET
 railroad_diagram: /images/railroad/xcfgset.svg
 since: 8.6.0
