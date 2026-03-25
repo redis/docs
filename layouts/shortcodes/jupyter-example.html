@@ -71,12 +71,11 @@
 {{ if $langKey }}
   {{ with index $.Site.Params.clientsConfig $langKey }}
     {{ $slug := index . "quickstartSlug" }}
-    {{ $clientName := index . "clientName" }}
     {{ if and (not $quickstartUrl) $slug }}
-      {{ $quickstartUrl = printf "/develop/clients/%s/" $slug }}
+      {{ $quickstartUrl = printf "develop/clients/%s/" $slug | relURL }}
     {{ end }}
-    {{ if and (not $quickstartTitle) $clientName }}
-      {{ $quickstartTitle = printf "%s Quick-Start" $clientName }}
+    {{ if not $quickstartTitle }}
+      {{ $quickstartTitle = printf "%s Quick-Start" $langKey }}
     {{ end }}
   {{ end }}
 {{ end }}
