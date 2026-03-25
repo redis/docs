@@ -513,6 +513,28 @@ select {
   @apply block;
 }
 
+/* Jupyter example toggle visibility - same pattern as codetabs */
+/* When aria-expanded is not set (initial state), show all lines at full opacity */
+/* This is the default state showing only the step code */
+
+/* When aria-expanded="true", show full file with context lines dimmed */
+.thebe-container > .panel[aria-expanded="true"] .full-file-view .highlight .chroma > code > .line:not(.hl),
+.thebe-container > .panel[aria-expanded="true"] .full-file-view .highlight .chroma > .lntable .lntd code > .lnt,
+.thebe-container > .panel[aria-expanded="true"] .full-file-view .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
+  @apply opacity-60;
+}
+
+/* Ensure highlighted lines (current step) have full opacity when expanded */
+.thebe-container > .panel[aria-expanded="true"] .full-file-view .highlight .chroma > code > .hl,
+.thebe-container > .panel[aria-expanded="true"] .full-file-view .highlight .chroma > .lntable .lntd code > .hl {
+  opacity: 1 !important;
+}
+
+.thebe-container > .panel .highlight .chroma > code > .hl,
+.thebe-container > .panel .highlight .chroma > .lntable .lntd code > .hl {
+  @apply bg-inherit;
+}
+
 .download-cards {
   @apply space-y-6 lg:space-y-0 max-w-[47rem] lg:max-w-full mx-auto lg:mx-0 lg:grid grid-cols-2 gap-x-6 items-start mb-[3.25rem];
 }
