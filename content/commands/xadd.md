@@ -26,29 +26,23 @@ arguments:
   optional: true
   type: oneof
 - arguments:
+  - display_text: producer-id
+    name: pid
+    token: IDMPAUTO
+    type: string
   - arguments:
-    - name: idmpauto-token
-      token: IDMPAUTO
-      type: pure-token
-    - display_text: producer-id
-      name: pid
-      type: string
-    name: idmpauto-with-pid
-    type: block
-  - arguments:
-    - name: idmp-token
-      token: IDMP
-      type: pure-token
     - display_text: producer-id
       name: pid
       type: string
     - display_text: idempotent-id
       name: iid
       type: string
-    name: idmp-with-pid-iid
+    name: idmp
+    token: IDMP
     type: block
   name: idmp
   optional: true
+  since: 8.6.0
   type: oneof
 - arguments:
   - arguments:
@@ -124,20 +118,18 @@ history:
   - Added the `NOMKSTREAM` option, `MINID` trimming strategy and the `LIMIT` option.
 - - 7.0.0
   - Added support for the `<ms>-*` explicit ID form.
+- - 8.2.0
+  - Added the `KEEPREF`, `DELREF` and `ACKED` options.
 key_specs:
-- RW: true
-  begin_search:
-    spec:
-      index: 1
-    type: index
+- begin_search:
+    index:
+      pos: 1
   find_keys:
-    spec:
-      keystep: 1
+    range:
       lastkey: 0
       limit: 0
     type: range
   notes: UPDATE instead of INSERT because of the optional trimming feature
-  update: true
 linkTitle: XADD
 railroad_diagram: /images/railroad/xadd.svg
 since: 5.0.0

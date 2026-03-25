@@ -1,28 +1,20 @@
 ---
 acl_categories:
-- STREAM
+- '@write'
+- '@stream'
+- '@fast'
 arguments:
 - key_spec_index: 0
   name: key
   type: key
-- arguments:
-  - name: duration-token
-    token: IDMP-DURATION
-    type: pure-token
-  - name: duration
-    type: integer
-  name: duration-block
+- name: idmp-duration
   optional: true
-  type: block
-- arguments:
-  - name: maxsize-token
-    token: IDMP-MAXSIZE
-    type: pure-token
-  - name: maxsize
-    type: integer
-  name: maxsize-block
+  token: IDMP-DURATION
+  type: integer
+- name: idmp-maxsize
   optional: true
-  type: block
+  token: IDMP-MAXSIZE
+  type: integer
 arity: -2
 categories:
 - docs
@@ -35,11 +27,10 @@ categories:
 - kubernetes
 - clients
 command_flags:
-- WRITE
-- FAST
+- write
+- fast
 complexity: O(1)
 description: Sets the IDMP configuration parameters for a stream.
-function: xcfgsetCommand
 group: stream
 hidden: false
 key_specs:
@@ -51,15 +42,11 @@ key_specs:
       lastkey: 0
       limit: 0
       step: 1
-  flags:
-  - RW
-  - UPDATE
 linkTitle: XCFGSET
-reply_schema:
-  const: OK
+railroad_diagram: /images/railroad/xcfgset.svg
 since: 8.6.0
 summary: Sets the IDMP configuration parameters for a stream.
-syntax_fmt: XCFGSET key [IDMP-DURATION duration] [IDMP-MAXSIZE maxsize]
+syntax_fmt: "XCFGSET key [IDMP-DURATION\_idmp-duration]\n  [IDMP-MAXSIZE\_idmp-maxsize]"
 title: XCFGSET
 ---
 Sets the IDMP (Idempotent Message Processing) configuration parameters for a stream. This command configures how long idempotent IDs are retained and the maximum number of idempotent IDs tracked per producer.
@@ -74,7 +61,7 @@ The name of the stream key. The stream must already exist.
 
 ## Optional arguments
 
-<details open><summary><code>IDMP-DURATION duration</code></summary>
+<details open><summary><code>IDMP-DURATION idmp-duration</code></summary>
 
 Sets the duration in seconds that each idempotent ID (iid) is kept in the stream's IDMP map. Valid range: 1-86,400 seconds. Default: 100 seconds.
 
@@ -82,7 +69,7 @@ When an idempotent ID expires, it can be reused for new messages. This provides 
 
 </details>
 
-<details open><summary><code>IDMP-MAXSIZE maxsize</code></summary>
+<details open><summary><code>IDMP-MAXSIZE idmp-maxsize</code></summary>
 
 Sets the maximum number of most recent idempotent IDs kept for each producer in the stream's IDMP map. Valid range: 1-10,000 entries. Default: 100 entries.
 
