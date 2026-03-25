@@ -17,7 +17,7 @@ url: '/operate/rs/7.8/references/rest-api/requests/services/'
 |--------|------|-------------|
 | [GET](#get-local-services) | `/v1/local/services` | List Redis Enterprise services on the local node |
 | [POST](#post-local-services) | `/v1/local/services` | Modify or perform operations on local processes |
-| [POST](#post-services) | `/v1/services` | Apply cluster-wide changes to services |
+| [POST](#post-services) | `/v1/services` | Modify or perform operations on primary node processes |
 
 {{<warning>}}
 This API is dangerous and should only be run with guidance from [Redis support](https://redis.io/support/).
@@ -92,7 +92,7 @@ Possible `status` values:
 POST /v1/local/services
 ```
 
-Modify Redis Enterprise services or perform operations that directly interact with processes. For cluster-wide changes that are not node-specific, use [`POST /v1/services`](#post-services) instead.
+Modify Redis Enterprise services or perform operations that directly interact with processes on the local node. To perform operations on the primary node, use [`POST /v1/services`](#post-services) instead.
 
 Supported `operation_type` values:
 
@@ -155,13 +155,13 @@ Returns a JSON object that shows whether the operation ran successfully or faile
 |------|-------------|
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error. |
 
-## Apply cluster-wide service changes {#post-services}
+## Modify primary node services {#post-services}
 
 ```sh
 POST /v1/services
 ```
 
-Makes cluster-wide changes that are not node-specific on Redis Enterprise services. The master node handles these changes. For operations that directly interact with processes, use [`POST /v1/local/services`](#post-local-services) instead.
+Modify Redis Enterprise services or perform operations that directly interact with processes on the primary node. For operations on secondary nodes, use [`POST /v1/local/services`](#post-local-services) instead.
 
 Supported `operation_type` values:
 
