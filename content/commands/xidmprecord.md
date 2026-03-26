@@ -54,7 +54,8 @@ syntax_fmt: XIDMPRECORD key pid iid stream-id
 title: XIDMPRECORD
 ---
 
-An internal command for setting IDMP metadata on an existing stream message, which would be replayed during AOF loading.
+`XIDMPRECORD` is an internal command for setting IDMP metadata on an existing stream message, which would be replayed during AOF loading.
+Users should not call this command directly.
 
 ## Required arguments
 
