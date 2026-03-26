@@ -306,7 +306,7 @@ For more information about Redis streams, see the
 
 ## Examples
 
-{{< clients-example set="cmds_stream" step="xadd1" description="Basic XADD: Add entries to a stream with auto-generated IDs, check stream th, and read entries" difficulty="beginner" >}}
+{{< clients-example set="cmds_stream" step="xadd1" description="Basic XADD: Add entries to a stream with auto-generated IDs, check stream the stream size, and read entries" difficulty="beginner" >}}
 > XADD mystream * name Sara surname OConnor
 4378417975-0"
 > XADD mystream * field1 value1 field2 value2 field3 value3
