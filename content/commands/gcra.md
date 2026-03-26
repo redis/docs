@@ -90,7 +90,7 @@ is the key associated with a specific rate limiting case. The key stores the int
 
 <details open><summary><code>max-burst</code></summary>
 
-is the maximum number of tokens allowed as a burst, in addition to the sustained rate. This controls how many requests can be made at once before rate limiting kicks in. The maximum number of requests that can be made immediately is `max_burst + 1`. Minimum value: `0`.
+is the maximum number of tokens allowed as a burst, in addition to the sustained rate. This controls how many requests can be made at once before rate limiting starts. The maximum number of requests that can be made immediately is `max_burst + 1`. Minimum value: `0`.
 
 </details>
 
