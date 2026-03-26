@@ -95,7 +95,7 @@ One of the following:
 - A [simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) in one of the following cases:
     - the key does not exist
     - the key does not refer to a stream
-    - the stream ID refers to an non-existing or deleted entry
+    - the stream ID refers to an non-existent or deleted entry
     - pid and/or iid are empty
     - the pid/iid pair already maps to a different stream ID
 
@@ -107,7 +107,7 @@ One of the following:
 - A [simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) in one of the following cases:
     - the key does not exist
     - the key does not refer to a stream
-    - the stream ID refers to an non-existing or deleted entry
+    - the stream ID refers to an non-existent or deleted entry
     - pid and/or iid are empty
     - the pid/iid pair already maps to a different stream ID
 
