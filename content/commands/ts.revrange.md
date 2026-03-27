@@ -44,30 +44,11 @@ arguments:
     type: string
   - name: bucketDuration
     type: integer
-  - arguments:
-    - name: '-'
-      token: '-'
-      type: pure-token
-    - name: start
-      token: start
-      type: pure-token
-    - name: +
-      token: +
-      type: pure-token
-    - name: end
-      token: end
-      type: pure-token
-    - name: '~'
-      token: '~'
-      type: pure-token
-    - name: mid
-      token: mid
-      type: pure-token
-    name: buckettimestamp
+  - name: buckettimestamp
     optional: true
     since: 1.8.0
     token: BUCKETTIMESTAMP
-    type: oneof
+    type: pure-token
   - name: empty
     optional: true
     since: 1.8.0
@@ -102,8 +83,8 @@ syntax: "TS.REVRANGE key fromTimestamp toTimestamp\n  [LATEST]\n  [FILTER_BY_TS 
   \ bucketDuration [BUCKETTIMESTAMP bt] [EMPTY]]\n"
 syntax_fmt: "TS.REVRANGE key fromTimestamp toTimestamp [LATEST]\n  [FILTER_BY_TS\_\
   Timestamp [Timestamp ...]] [FILTER_BY_VALUE min max]\n  [COUNT\_count] [[ALIGN\_\
-  value] AGGREGATION\ aggregationType[,aggregationType ...]\n  bucketDuration [BUCKETTIMESTAMP\_<- | start\
-  \ | + | end | ~ | mid>]\n  [EMPTY]]"
+  value] AGGREGATION\_aggregationType[,aggregationType ...]\n  bucketDuration [BUCKETTIMESTAMP]\
+  \ [EMPTY]]"
 title: TS.REVRANGE
 ---
 

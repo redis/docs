@@ -8,11 +8,10 @@ arguments:
   type: string
 - name: toTimestamp
   type: string
-- name: latest
+- name: LATEST
   optional: true
   since: 1.8.0
-  token: LATEST
-  type: pure-token
+  type: string
 - multiple: true
   name: Timestamp
   optional: true
