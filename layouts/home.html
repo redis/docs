@@ -10,10 +10,10 @@
 {{ end }}
 
 {{ define "main" }}
-<main class="bg-redis-ink-900 text-white font-mono">
+<main class="bg-redis-ink-900 text-white font-sans">
   {{ partial "second-header.html" "disabled" }}
-  <div class="flex flex-col lg:flex-row gap-8 mx-auto px-5 max-w-[1920px] bg-redis-ink-900 text-white font-mono" style="padding-top: 2px; padding-bottom: 24px;">
-    <div class="md:block w-full md:w-96 h-fit md:h-full shrink-0 text-base font-mono font-normal py-6">
+  <div class="flex flex-col lg:flex-row gap-8 mx-auto px-5 max-w-[1920px] bg-redis-ink-900 text-white font-sans" style="padding-top: 2px; padding-bottom: 24px;">
+    <div class="md:block w-full md:w-96 h-fit md:h-full shrink-0 text-base font-sans font-normal py-6">
       <nav class="md:hidden w-full md:w-96 z-40 bg-redis-ink-900 h-fit md:h-full leading-7">
         <div class="border border-opacity-50 border-white rounded-md flex flex-col bg-redis-ink-900">
           <button class="px-6 py-4 text-white font-medium flex justify-between cursor-pointer md:cursor-default" onclick="dropdownToggle()">
@@ -57,7 +57,7 @@
               </label>
               <input id="search-welcome" name="q" class="appearance-none bg-transparent text-xs text-white placeholder-white w-full h-8 focus:outline-none"
                      autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                     placeholder="Ask our chatbot" maxlength="500" type="text" value="" tabindex=""/>
+                     placeholder="Ask our chatbot to explain" maxlength="500" type="text" value="" tabindex=""/>
               <input class="invisible" type="submit" class="hover:text-redis-pen-300" value=""/>
             </form>
           </div>
@@ -218,7 +218,7 @@
             <!-- Use Cases Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1">
               <!-- Vector Database (Top Left) -->
-              <a href="./develop/get-started/vector-database/" class="border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
+              <a href="./develop/get-started/vector-database/" class="border border-redis-pen-700 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
                 <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <ellipse cx="12" cy="6" rx="8" ry="3" stroke-width="2"/>
                   <path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6" stroke-width="2"/>
@@ -229,7 +229,7 @@
               </a>
 
               <!-- AI Development (Top Right) -->
-              <a href="./develop/ai/" class="border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
+              <a href="./develop/ai/" class="border border-redis-pen-700 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
                 <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="10" stroke-width="2"/>
                   <path d="M12 8v8M8 12h8" stroke-width="2" stroke-linecap="round"/>
@@ -239,7 +239,7 @@
               </a>
 
               <!-- Vector Sets (Bottom Left) -->
-              <a href="./develop/data-types/vector-sets/" class="border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
+              <a href="./develop/data-types/vector-sets/" class="border border-redis-pen-700 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
                 <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2"/>
                   <rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2"/>
@@ -251,7 +251,7 @@
               </a>
 
               <!-- Agent Builder (Bottom Right) -->
-              <a href="./develop/ai/agent-builder/" class="border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
+              <a href="./develop/ai/agent-builder/" class="border border-redis-pen-700 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
                 <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2L2 7v10c0 5.5 3.8 9.7 10 11 6.2-1.3 10-5.5 10-11V7L12 2z" stroke-width="2" stroke-linejoin="round"/>
                   <circle cx="12" cy="12" r="3" stroke-width="2"/>
@@ -264,7 +264,7 @@
             <!-- AI Stack Visual (Half Width) -->
             <div class="w-full lg:w-5/12 flex flex-col gap-2 relative p-4 rounded-lg">
               <!-- Top Layer: Applications -->
-              <div class="border border-redis-pen-400 rounded-lg p-3 shadow-lg text-center" style="background-color: #0C212C;">
+              <div class="border border-redis-pen-700 rounded-lg p-3 shadow-lg text-center" style="background-color: #0C212C;">
                 <div class="text-sm font-medium text-white mb-1">AI Applications</div>
                 <div class="text-xs text-gray-400">Chatbots, agents, RAG systems</div>
               </div>
@@ -309,7 +309,7 @@
               </div>
 
               <!-- Bottom Layer: Models -->
-              <div class="border border-redis-pen-400 rounded-lg p-3 shadow-lg text-center" style="background-color: #0C212C;">
+              <div class="border border-redis-pen-700 rounded-lg p-3 shadow-lg text-center" style="background-color: #0C212C;">
                 <div class="text-sm font-medium text-white mb-1">AI models & infrastructure</div>
                 <div class="text-xs text-gray-400">LLMs, embeddings, vector models</div>
               </div>
@@ -325,7 +325,7 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
             <!-- Redis Open Source -->
-            <a href="./operate/oss_and_stack/" class="flex flex-col border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
+            <a href="./operate/oss_and_stack/" class="flex flex-col border border-redis-pen-700 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
               <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2L2 7l10 5 10-5-10-5z" stroke-width="2" stroke-linejoin="round"/>
                 <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -341,7 +341,7 @@
             </a>
 
             <!-- Redis Software -->
-            <a href="./operate/rs/" class="flex flex-col border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
+            <a href="./operate/rs/" class="flex flex-col border border-redis-pen-700 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
               <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="2"/>
                 <path d="M3 9h18M9 3v18" stroke-width="2"/>
@@ -357,7 +357,7 @@
             </a>
 
             <!-- Redis for Kubernetes -->
-            <a href="./operate/kubernetes/" class="flex flex-col border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
+            <a href="./operate/kubernetes/" class="flex flex-col border border-redis-pen-700 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
               <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="9" stroke-width="2"/>
                 <path d="M12 3v3m0 12v3m9-9h-3m-12 0H3" stroke-width="2" stroke-linecap="round"/>
@@ -404,7 +404,7 @@
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3 w-full">
             <!-- Build Fast Apps -->
-            <div class="flex flex-col border border-redis-pen-400 rounded-md overflow-hidden hover:border-redis-yellow-500 transition-colors" style="background-color: #0C212C;">
+            <div class="flex flex-col border border-redis-pen-700 rounded-md overflow-hidden hover:border-redis-yellow-500 transition-colors" style="background-color: #0C212C;">
               <div class="p-3 flex-1">
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="mb-3 opacity-60">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M12 18C13.1046 18 14 18.8954 14 20V26C14 27.1046 13.1046 28 12 28H6C4.96435 28 4.11301 27.2128 4.01074 26.2041L4 26V20L4.01074 19.7959C4.1062 18.8543 4.85435 18.1062 5.7959 18.0107L6 18H12ZM6 19.3301C5.62997 19.3301 5.33008 19.63 5.33008 20V26C5.33008 26.37 5.62997 26.6699 6 26.6699H12C12.37 26.6699 12.6699 26.37 12.6699 26V20C12.6699 19.63 12.37 19.3301 12 19.3301H6Z" fill="white"/>
@@ -430,7 +430,7 @@
             </div>
 
             <!-- Run Redis in Production -->
-            <div class="flex flex-col border border-redis-pen-400 rounded-md overflow-hidden hover:border-redis-yellow-500 transition-colors" style="background-color: #0C212C;">
+            <div class="flex flex-col border border-redis-pen-700 rounded-md overflow-hidden hover:border-redis-yellow-500 transition-colors" style="background-color: #0C212C;">
               <div class="p-3 flex-1">
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="mb-3 opacity-60">
                   <path d="M12.584 6.86182C13.1527 6.86195 13.659 7.22394 13.8428 7.76221L16.4873 15.5103L24.2373 18.1577C24.7757 18.3416 25.1377 18.8476 25.1377 19.4165C25.1376 19.9853 24.7756 20.4915 24.2373 20.6753L16.4883 23.3208L13.8428 31.0698C13.659 31.6081 13.1527 31.9701 12.584 31.9702C12.0151 31.9702 11.509 31.6082 11.3252 31.0698L8.67773 23.3198L0.929688 20.6753C0.391421 20.4915 0.0294315 19.9853 0.0292969 19.4165C0.0292969 18.8476 0.391321 18.3416 0.929688 18.1577L8.67871 15.5112L11.3252 7.76221L11.3633 7.66357C11.5724 7.18009 12.0506 6.86182 12.584 6.86182ZM9.72656 16.5591L1.35938 19.4165L9.72656 22.2729L12.584 30.6401L15.4404 22.2729L23.8076 19.4165L15.4404 16.5591L12.584 8.19189L9.72656 16.5591Z" fill="white"/>
@@ -450,7 +450,7 @@
             </div>
 
             <!-- Get Redis tools-->
-            <div class="flex flex-col border border-redis-pen-400 rounded-md overflow-hidden hover:border-redis-yellow-500 transition-colors" style="background-color: #0C212C;">
+            <div class="flex flex-col border border-redis-pen-700 rounded-md overflow-hidden hover:border-redis-yellow-500 transition-colors" style="background-color: #0C212C;">
               <div class="p-3 flex-1">
                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg" class="mb-3 opacity-60">
                   <path d="M12.4133 2.90532C10.8484 1.34043 8.30534 1.01483 6.05551 1.61333L10.0544 5.61221L9.14703 8.74171L9.04552 9.09319L5.56384 10.1028L1.56842 6.10732C1.00589 8.30931 1.41628 10.7516 2.99161 12.327C4.88667 14.222 7.37372 14.8741 9.68702 13.9345L10.0958 13.7688L24.5245 28.1975L23.5847 29.1373L9.76782 15.3204C7.00655 16.2516 4.15233 15.3687 2.0511 13.2675C-0.237044 10.9793 -0.46989 7.40335 0.658982 4.62336L1.03601 3.69391L5.94847 8.60636L7.97105 8.0201L8.558 5.99684L3.64554 1.08438L4.575 0.707346C7.32617 -0.409865 11.0483 -0.34062 13.3538 1.96481C15.4831 4.09416 16.1475 7.01893 15.2106 9.75334L29.0896 23.6324L28.1491 24.5729L13.6576 10.0813L13.8233 9.67255C14.7784 7.32149 14.2776 4.76968 12.4133 2.90532Z" fill="white"/>
@@ -479,37 +479,37 @@
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3 w-full">
             <!-- RIOT -->
-            <a href="./integrate/riot/" class="border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
+            <a href="./integrate/riot/" class="border border-redis-pen-700 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
               <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">RIOT</h3>
               <p class="text-sm text-gray-300">Redis Input/Output Tools for data migration</p>
             </a>
 
             <!-- Redis Data Integration -->
-            <a href="./integrate/redis-data-integration/quick-start-guide/" class="border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
+            <a href="./integrate/redis-data-integration/quick-start-guide/" class="border border-redis-pen-700 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
               <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">Redis Data Integration</h3>
               <p class="text-sm text-gray-300">Ingest live data from databases to Redis</p>
             </a>
 
             <!-- Prometheus & Grafana -->
-            <a href="./integrate/prometheus-with-redis-enterprise/" class="border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
+            <a href="./integrate/prometheus-with-redis-enterprise/" class="border border-redis-pen-700 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
               <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">Prometheus & Grafana</h3>
               <p class="text-sm text-gray-300">Collect and visualize Redis metrics</p>
             </a>
 
             <!-- Datadog -->
-            <a href="./integrate/datadog-with-redis-cloud/" class="border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
+            <a href="./integrate/datadog-with-redis-cloud/" class="border border-redis-pen-700 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
               <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">Datadog</h3>
               <p class="text-sm text-gray-300">Monitor Redis Cloud with Datadog</p>
             </a>
 
             <!-- Dynatrace -->
-            <a href="./integrate/dynatrace-with-redis-cloud/" class="border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
+            <a href="./integrate/dynatrace-with-redis-cloud/" class="border border-redis-pen-700 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
               <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">Dynatrace</h3>
               <p class="text-sm text-gray-300">Monitor Redis Cloud with Dynatrace</p>
             </a>
 
             <!-- New Relic -->
-            <a href="./integrate/new-relic-with-redis-cloud/" class="border border-redis-pen-400 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
+            <a href="./integrate/new-relic-with-redis-cloud/" class="border border-redis-pen-700 rounded-md p-4 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
               <h3 class="text-base font-medium mb-1 group-hover:text-redis-yellow-500">New Relic</h3>
               <p class="text-sm text-gray-300">Monitor Redis Cloud with New Relic</p>
             </a>
@@ -523,22 +523,22 @@
           <h2 class="text-xl font-sans font-medium mb-6">Explore additional resources</h2>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-            <a href="./ai-agent-resources/" class="border border-redis-pen-400 rounded-md p-3 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
-              <h3 class="text-sm font-medium mb-1 group-hover:text-redis-yellow-500">AI Agent Resources</h3>
-              <p class="text-xs text-gray-400">Documentation for AI agents</p>
+            <a href="https://redis.io/tutorials/" class="border border-redis-pen-700 rounded-md p-3 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
+              <h3 class="text-sm font-medium mb-1 group-hover:text-redis-yellow-500">Tutorials</h3>
+              <p class="text-xs text-gray-400">Step-by-step guides and examples</p>
             </a>
 
-            <a href="https://university.redis.io/academy" class="border border-redis-pen-400 rounded-md p-3 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
+            <a href="https://university.redis.io/academy" class="border border-redis-pen-700 rounded-md p-3 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
               <h3 class="text-sm font-medium mb-1 group-hover:text-redis-yellow-500">Redis University</h3>
               <p class="text-xs text-gray-400">Free courses and certifications</p>
             </a>
 
-            <a href="https://redis.io/blog/" class="border border-redis-pen-400 rounded-md p-3 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
+            <a href="https://redis.io/blog/" class="border border-redis-pen-700 rounded-md p-3 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
               <h3 class="text-sm font-medium mb-1 group-hover:text-redis-yellow-500">Blog</h3>
               <p class="text-xs text-gray-400">Latest updates and insights</p>
             </a>
 
-            <a href="https://support.redislabs.com/hc/en-us" class="border border-redis-pen-400 rounded-md p-3 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
+            <a href="https://support.redislabs.com/hc/en-us" class="border border-redis-pen-700 rounded-md p-3 hover:bg-redis-pen-600 transition-colors group" style="background-color: #0C212C;">
               <h3 class="text-sm font-medium mb-1 group-hover:text-redis-yellow-500">Redis Knowledge Base</h3>
               <p class="text-xs text-gray-400">Search support articles</p>
             </a>
@@ -551,10 +551,10 @@
       <section class="px-5 py-6">
         <div class="flex flex-col gap-4">
           <h2 class="text-xl font-sans font-medium">Contribute</h2>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
             <!-- Rate Pages -->
-            <div class="border border-redis-pen-400 rounded-md p-4" style="background-color: #0C212C;">
+            <div class="border border-redis-pen-700 rounded-md p-4" style="background-color: #0C212C;">
               <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" stroke-width="2"/>
               </svg>
@@ -563,7 +563,7 @@
             </div>
 
             <!-- GitHub Contributions -->
-            <div class="border border-redis-pen-400 rounded-md p-4" style="background-color: #0C212C;">
+            <div class="border border-redis-pen-700 rounded-md p-4" style="background-color: #0C212C;">
               <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -573,13 +573,24 @@
             </div>
 
             <!-- AI Chatbot Feedback -->
-            <div class="border border-redis-pen-400 rounded-md p-4" style="background-color: #0C212C;">
+            <div class="border border-redis-pen-700 rounded-md p-4" style="background-color: #0C212C;">
               <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               <h3 class="text-base font-medium mb-2">Improve our AI chatbot</h3>
               <p class="text-sm text-gray-300 mb-3">Provide feedback on AI chatbot answers to help us improve</p>
               <a href="https://redis.io/chat" class="text-redis-yellow-500 hover:underline text-xs" target="_blank" rel="noopener noreferrer">Try the chatbot →</a>
+            </div>
+
+            <!-- AI Agent Resources -->
+            <div class="border border-redis-pen-700 rounded-md p-4" style="background-color: #0C212C;">
+              <svg class="w-6 h-6 text-white opacity-60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 7v10c0 5.5 3.8 9.7 10 11 6.2-1.3 10-5.5 10-11V7L12 2z" stroke-width="2" stroke-linejoin="round"/>
+                <circle cx="12" cy="12" r="3" stroke-width="2"/>
+              </svg>
+              <h3 class="text-base font-medium mb-2">AI Agent Resources</h3>
+              <p class="text-sm text-gray-300 mb-3">Documentation and guides for AI agents</p>
+              <a href="./ai-agent-resources/" class="text-redis-yellow-500 hover:underline text-xs">Explore resources →</a>
             </div>
 
           </div>
