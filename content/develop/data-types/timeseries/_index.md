@@ -383,7 +383,7 @@ bucket by an aggregate value, such as the average or maximum value.
 For example, if you expect to collect more than one billion data points in a day, you could aggregate the data using buckets of one minute. Since each bucket is represented by a single value, this reduces 
 the dataset size to 1,440 data points (24 hours x 60 minutes = 1,440 minutes).
 
-The range query commands let you specify an aggregation function and bucket size.
+The range query commands let you specify one or more aggregation function and bucket size.
 The available aggregation functions are:
 
 - `avg`: Arithmetic mean of all values
@@ -417,6 +417,12 @@ aggregated values with only one value used to calculate the average for the last
    2) 1.78
 ```
 {{< /clients-example >}}
+
+To use multiple aggregators in a single query, separate the aggregators with comma characters as in the following example.
+
+```bash
+TS.RANGE rg:2 - + AGGREGATION min,avg,max 2
+```
 
 <note><b>NaN Handling (Redis 8.6+):</b> Starting from Redis 8.6, all existing aggregation functions ignore NaN values when computing results. For example, if a bucket contains values [1.0, NaN, 3.0], the `avg` aggregator will return 2.0 (average of 1.0 and 3.0), and the `count` aggregator will return 2. Use the new `countNaN` and `countAll` aggregators to count NaN values and total values respectively.</note>
 

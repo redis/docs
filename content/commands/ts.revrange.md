@@ -39,57 +39,35 @@ arguments:
     optional: true
     token: ALIGN
     type: integer
-  - arguments:
-    - name: avg
-      token: AVG
-      type: pure-token
-    - name: first
-      token: FIRST
-      type: pure-token
-    - name: last
-      token: LAST
-      type: pure-token
-    - name: min
-      token: MIN
-      type: pure-token
-    - name: max
-      token: MAX
-      type: pure-token
-    - name: sum
-      token: SUM
-      type: pure-token
-    - name: range
-      token: RANGE
-      type: pure-token
-    - name: count
-      token: COUNT
-      type: pure-token
-    - name: std.p
-      token: STD.P
-      type: pure-token
-    - name: std.s
-      token: STD.S
-      type: pure-token
-    - name: var.p
-      token: VAR.P
-      type: pure-token
-    - name: var.s
-      token: VAR.S
-      type: pure-token
-    - name: twa
-      since: 1.8.0
-      token: TWA
-      type: pure-token
-    name: aggregator
+  - name: aggregationType
     token: AGGREGATION
-    type: oneof
+    type: string
   - name: bucketDuration
     type: integer
-  - name: buckettimestamp
+  - arguments:
+    - name: '-'
+      token: '-'
+      type: pure-token
+    - name: start
+      token: start
+      type: pure-token
+    - name: +
+      token: +
+      type: pure-token
+    - name: end
+      token: end
+      type: pure-token
+    - name: '~'
+      token: '~'
+      type: pure-token
+    - name: mid
+      token: mid
+      type: pure-token
+    name: buckettimestamp
     optional: true
     since: 1.8.0
     token: BUCKETTIMESTAMP
-    type: pure-token
+    type: oneof
   - name: empty
     optional: true
     since: 1.8.0
@@ -120,12 +98,12 @@ since: 1.4.0
 stack_path: docs/data-types/timeseries
 summary: Query a range in reverse direction
 syntax: "TS.REVRANGE key fromTimestamp toTimestamp\n  [LATEST]\n  [FILTER_BY_TS ts...]\n\
-  \  [FILTER_BY_VALUE min max]\n  [COUNT count]\n  [[ALIGN align] AGGREGATION aggregator\
+  \  [FILTER_BY_VALUE min max]\n  [COUNT count]\n  [[ALIGN align] AGGREGATION aggregationType[,aggregationType ...]\
   \ bucketDuration [BUCKETTIMESTAMP bt] [EMPTY]]\n"
 syntax_fmt: "TS.REVRANGE key fromTimestamp toTimestamp [LATEST]\n  [FILTER_BY_TS\_\
   Timestamp [Timestamp ...]] [FILTER_BY_VALUE min max]\n  [COUNT\_count] [[ALIGN\_\
-  value] AGGREGATION\_<AVG | FIRST | LAST | MIN\n  | MAX | SUM | RANGE | COUNT | STD.P\
-  \ | STD.S | VAR.P | VAR.S | TWA>\n  bucketDuration [BUCKETTIMESTAMP] [EMPTY]]"
+  value] AGGREGATION\ aggregationType[,aggregationType ...]\n  bucketDuration [BUCKETTIMESTAMP\_<- | start\
+  \ | + | end | ~ | mid>]\n  [EMPTY]]"
 title: TS.REVRANGE
 ---
 
@@ -205,12 +183,12 @@ Values include:
 </details>
 
 <details open>
-<summary><code>AGGREGATION aggregator bucketDuration</code></summary>
+<summary><code>AGGREGATION aggregationType[,aggregationType ...] bucketDuration</code></summary>
 aggregates samples into time buckets, where:
 
-  - `aggregator` takes one of the following aggregation types:
+  - `aggregationType` takes one or more of the following aggregation types:
 
-    | `aggregator` | Description                                                     |
+    | `aggregationType` | Description                                                     |
     | ------------ | --------------------------------------------------------------- |
     | `avg`        | Arithmetic mean of all non-NaN values                           |
     | `sum`        | Sum of all non-NaN values                                       |
@@ -253,7 +231,7 @@ controls how bucket timestamps are reported.
 <summary><code>[EMPTY]</code> (since RedisTimeSeries 1.8)</summary>
 is a flag, which, when specified, reports aggregations also for empty buckets.
 
-| `aggregator`         | Value reported for each empty bucket |
+| `aggregationType`         | Value reported for each empty bucket |
 | -------------------- | ------------------------------------ |
 | `sum`, `count`       | `0`                                  |
 | `last`               | The value of the last sample before the bucket's start. `NaN` when no such sample. |
@@ -297,12 +275,14 @@ TS.REVRANGE temp:TLV - + FILTER_BY_VALUE -100 100
    2) 30
 {{< / highlight >}}
 
-Now, retrieve the average value, while ignoring out-of-range values.
+Now, retrieve the minimum, average, and maximum values, while ignoring out-of-range values.
 
 {{< highlight bash >}}
-TS.REVRANGE temp:TLV - + FILTER_BY_VALUE -100 100 AGGREGATION avg 1000
+TS.REVRANGE temp:TLV - + FILTER_BY_VALUE -100 100 AGGREGATION min,avg,max 1000
 1) 1) (integer) 1000
-   2) 35
+   2) 30
+   3) 35
+   4) 40
 {{< / highlight >}}
 </details>
 
