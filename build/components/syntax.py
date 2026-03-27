@@ -216,7 +216,7 @@ class Argument:
 
                     # Token + first arg + [additional args ...]
                     token_part = railroad.Terminal(self._token)
-                    component = railroad.Sequence(token_part, railroad.OneOrMore(arg_part, railroad.Terminal(',')))
+                    component = railroad.Sequence(token_part, railroad.OneOrMore(arg_part))
             else:
                 # Multiple without token: arg [arg ...]
                 component = railroad.OneOrMore(component)
