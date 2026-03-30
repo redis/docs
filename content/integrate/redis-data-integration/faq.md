@@ -92,8 +92,8 @@ command from the CLI.
 
 By default, RDI requires persistence to be enabled on the RDI database. This ensures that RDI can recover both its configuration and the last known state if the cluster crashes.
 
-If you are not allowed to persist date due to compliance or other reasons, you can disable
-the persistence check on the RDI database (Helm installation only). In this case, RDI will not be 
+If you don't have permissions to use persistence due to compliance or other reasons, you can disable
+the persistence check on the RDI database (Helm installation only). If you do this, RDI will not be 
 able to recover from a crash, and you will have to perform a new deploy to reinitialize the pipeline.
 
 To disable the persistence check, set the `aofRequired` value to `false` in the `operator->prerequisiteChecks`
