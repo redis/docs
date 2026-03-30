@@ -39,7 +39,7 @@ arguments:
     optional: true
     token: ALIGN
     type: integer
-  - name: aggregationType
+  - name: aggregators
     token: AGGREGATION
     type: string
   - name: bucketDuration
@@ -79,11 +79,11 @@ since: 1.4.0
 stack_path: docs/data-types/timeseries
 summary: Query a range in reverse direction
 syntax: "TS.REVRANGE key fromTimestamp toTimestamp\n  [LATEST]\n  [FILTER_BY_TS ts...]\n\
-  \  [FILTER_BY_VALUE min max]\n  [COUNT count]\n  [[ALIGN align] AGGREGATION aggregationType[,aggregationType ...]\
+  \  [FILTER_BY_VALUE min max]\n  [COUNT count]\n  [[ALIGN align] AGGREGATION aggregators\
   \ bucketDuration [BUCKETTIMESTAMP bt] [EMPTY]]\n"
 syntax_fmt: "TS.REVRANGE key fromTimestamp toTimestamp [LATEST]\n  [FILTER_BY_TS\_\
   Timestamp [Timestamp ...]] [FILTER_BY_VALUE min max]\n  [COUNT\_count] [[ALIGN\_\
-  value] AGGREGATION\_aggregationType[,aggregationType ...]\n  bucketDuration [BUCKETTIMESTAMP]\
+  value] AGGREGATION\_aggregators\n  bucketDuration [BUCKETTIMESTAMP]\
   \ [EMPTY]]"
 title: TS.REVRANGE
 ---
@@ -164,12 +164,13 @@ Values include:
 </details>
 
 <details open>
-<summary><code>AGGREGATION aggregationType[,aggregationType ...] bucketDuration</code></summary>
-aggregates samples into time buckets, where:
+<summary><code>AGGREGATION aggregators bucketDuration</code></summary>
 
-  - `aggregationType` takes one or more of the following aggregation types:
+for each time series, aggregates samples into time buckets, where:
 
-    | `aggregationType` | Description                                                     |
+  - `aggregators` is one or more comma-separated aggregator from the following table:
+
+    | aggregator | Description                                                     |
     | ------------ | --------------------------------------------------------------- |
     | `avg`        | Arithmetic mean of all non-NaN values                           |
     | `sum`        | Sum of all non-NaN values                                       |
@@ -188,7 +189,12 @@ aggregates samples into time buckets, where:
     | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values) (since RedisTimeSeries 1.8) |
 
   - `bucketDuration` is duration of each bucket, in milliseconds.
-  
+
+  Note: `aggregators` can either be a single aggregator or multiple aggregators separated by commas as shown below.
+  No whitespace is allowed between aggregators.
+
+  AGGREGATION min,avg,max
+
   Without `ALIGN`, bucket start times are multiples of `bucketDuration`.
   
   With `ALIGN align`, bucket start times are multiples of `bucketDuration` with remainder `align % bucketDuration`.
@@ -212,7 +218,7 @@ controls how bucket timestamps are reported.
 <summary><code>[EMPTY]</code> (since RedisTimeSeries 1.8)</summary>
 is a flag, which, when specified, reports aggregations also for empty buckets.
 
-| `aggregationType`         | Value reported for each empty bucket |
+| `aggregators`         | Value reported for each empty bucket |
 | -------------------- | ------------------------------------ |
 | `sum`, `count`       | `0`                                  |
 | `last`               | The value of the last sample before the bucket's start. `NaN` when no such sample. |

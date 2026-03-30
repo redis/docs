@@ -383,7 +383,7 @@ bucket by an aggregate value, such as the average or maximum value.
 For example, if you expect to collect more than one billion data points in a day, you could aggregate the data using buckets of one minute. Since each bucket is represented by a single value, this reduces 
 the dataset size to 1,440 data points (24 hours x 60 minutes = 1,440 minutes).
 
-The range query commands let you specify one or more aggregation function and bucket size.
+The range query commands let you specify one or more aggregation functions and bucket size.
 The available aggregation functions are:
 
 - `avg`: Arithmetic mean of all values
