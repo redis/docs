@@ -298,22 +298,42 @@ For more information about Redis streams, see the
 
 ## Examples
 
-{{% redis-cli %}}
-XADD mystream * name Sara surname OConnor
-XADD mystream * field1 value1 field2 value2 field3 value3
-XLEN mystream
-XRANGE mystream - +
-{{% /redis-cli %}}
+{{< clients-example set="cmds_stream" step="xadd1" description="Basic XADD: Add entries to a stream with auto-generated IDs, check stream the stream size, and read entries" difficulty="beginner" >}}
+> XADD mystream * name Sara surname OConnor
+4378417975-0"
+> XADD mystream * field1 value1 field2 value2 field3 value3
+4378417976-0"
+> XLEN mystream
+eger) 2
+> XRANGE mystream - +
+1) 1) "1774378417975-0"
+   2) 1) "name"
+      2) "Sara"
+      3) "surname"
+      4) "OConnor"
+2) 1) "1774378417976-0"
+   2) 1) "field1"
+      2) "value1"
+      3) "field2"
+      4) "value2"
+      5) "field3"
+      6) "value3"
+{{< /clients-example >}}
 
 ### Idempotent message processing examples
 
-{{% redis-cli %}}
-XADD mystream IDMP producer1 msg1 * field value
-XADD mystream IDMP producer1 msg1 * field different_value
-XADD mystream IDMPAUTO producer2 * field value
-XADD mystream IDMPAUTO producer2 * field value
-XCFGSET mystream IDMP-DURATION 300 IDMP-MAXSIZE 1000
-{{% /redis-cli %}}
+{{< clients-example set="cmds_stream" step="xadd2" description="Idempotent XADD (Redis 8.6+): Use IDMP and IDMPAUTO for at-most-once message delivery, preventing duplicate entries" difficulty="intermediate" >}}
+> XADD mystream IDMP producer1 msg1 * field value
+"1774378417976-0"
+> XADD mystream IDMP producer1 msg1 * field different_value
+"1774378417976-0"
+> XADD mystream IDMPAUTO producer2 * field value
+"1774378417977-0"
+> XADD mystream IDMPAUTO producer2 * field value
+"1774378417977-0"
+> XCFGSET mystream IDMP-DURATION 300 IDMP-MAXSIZE 1000
+"OK"
+{{< /clients-example >}}
 
 ## Redis Software and Redis Cloud compatibility
 
