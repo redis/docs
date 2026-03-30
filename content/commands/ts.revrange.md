@@ -168,9 +168,9 @@ Values include:
 
 for each time series, aggregates samples into time buckets, where:
 
-  - `aggregators` is one or more comma-separated aggregator from the following table:
+  - `aggregators` is one or more comma-separated aggregators from the following table:
 
-    | aggregator | Description                                                     |
+    | aggregator   | Description                                                     |
     | ------------ | --------------------------------------------------------------- |
     | `avg`        | Arithmetic mean of all non-NaN values                           |
     | `sum`        | Sum of all non-NaN values                                       |
@@ -218,7 +218,7 @@ controls how bucket timestamps are reported.
 <summary><code>[EMPTY]</code> (since RedisTimeSeries 1.8)</summary>
 is a flag, which, when specified, reports aggregations also for empty buckets.
 
-| `aggregators`         | Value reported for each empty bucket |
+| aggregator           | Value reported for each empty bucket |
 | -------------------- | ------------------------------------ |
 | `sum`, `count`       | `0`                                  |
 | `last`               | The value of the last sample before the bucket's start. `NaN` when no such sample. |
