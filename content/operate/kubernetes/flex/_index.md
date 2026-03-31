@@ -9,6 +9,7 @@ description: Extend Redis databases with flash storage for large-scale, cost-eff
 hideListLinks: true
 linkTitle: Flex
 weight: 41
+aliases: /operate/kubernetes/re-clusters/redis-flex/
 ---
 
 Flex extends your database capacity by combining RAM and flash (SSD) storage. This tiered architecture keeps frequently accessed (hot) data in RAM for sub-millisecond latency while storing less active (warm) data on flash to reduce costs and increase capacity.
