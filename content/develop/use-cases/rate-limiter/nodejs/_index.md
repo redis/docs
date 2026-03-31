@@ -25,6 +25,94 @@ Rate limiting is a critical technique for controlling the rate at which operatio
 
 The **token bucket algorithm** is a popular rate limiting approach that allows bursts of traffic while maintaining an average rate limit over time. This guide covers the Node.js implementation using the [`node-redis`]({{< relref "/develop/clients/nodejs" >}}) client library.
 
+## How it works
+
+The token bucket algorithm works like a bucket that holds tokens:
+
+1. **Initialization**: The bucket starts with a maximum capacity of tokens
+2. **Refill**: Tokens are added to the bucket at a constant rate (for example, 1 token per second)
+3. **Consumption**: Each request consumes one token from the bucket
+4. **Decision**: If tokens are available, the request is allowed; otherwise, it's denied
+5. **Capacity limit**: The bucket never exceeds its maximum capacity
+
+This approach allows for burst traffic (using accumulated tokens) while enforcing an average rate limit over time.
+
+### Why use Redis?
+
+Redis is ideal for distributed rate limiting because:
+
+* **Atomic operations**: Lua scripts execute atomically, preventing race conditions
+* **Shared state**: Multiple application servers can share the same rate limit counters
+* **High performance**: In-memory operations provide microsecond latency
+* **Automatic expiration**: Keys can be set to expire automatically (though not used in this implementation)
+
+## The Lua script
+
+The core of this implementation is a Lua script that runs atomically on the Redis server. This ensures that checking and updating the token bucket happens in a single operation, preventing race conditions in distributed environments.
+
+Here's how the script works:
+
+```lua
+local key = KEYS[1]
+local capacity = tonumber(ARGV[1])
+local refill_rate = tonumber(ARGV[2])
+local refill_interval = tonumber(ARGV[3])
+local now = tonumber(ARGV[4])
+
+-- Get current state or initialize
+local bucket = redis.call('HMGET', key, 'tokens', 'last_refill')
+local tokens = tonumber(bucket[1])
+local last_refill = tonumber(bucket[2])
+
+-- Initialize if this is the first request
+if tokens == nil then
+    tokens = capacity
+    last_refill = now
+end
+
+-- Calculate token refill
+local time_passed = now - last_refill
+local refills = math.floor(time_passed / refill_interval)
+
+if refills > 0 then
+    tokens = math.min(capacity, tokens + (refills * refill_rate))
+    last_refill = last_refill + (refills * refill_interval)
+end
+
+-- Try to consume a token
+local allowed = 0
+if tokens >= 1 then
+    tokens = tokens - 1
+    allowed = 1
+end
+
+-- Update state
+redis.call('HMSET', key, 'tokens', tokens, 'last_refill', last_refill)
+
+-- Return result: allowed (1 or 0) and remaining tokens
+return {allowed, tokens}
+```
+
+### Script breakdown
+
+1. **State retrieval**: Uses [`HMGET`]({{< relref "/commands/hmget" >}}) to fetch the current token count and last refill time from a hash
+2. **Initialization**: On first use, sets tokens to full capacity
+3. **Token refill calculation**: Computes how many tokens should be added based on elapsed time
+4. **Capacity enforcement**: Uses `math.min()` to ensure tokens never exceed capacity
+5. **Token consumption**: Decrements the token count if available
+6. **State update**: Uses [`HMSET`]({{< relref "/commands/hmset" >}}) to save the new state
+7. **Return value**: Returns both the decision (allowed/denied) and remaining tokens
+
+### Why atomicity matters
+
+Without atomic execution, race conditions could occur:
+
+* **Double spending**: Two requests could read the same token count and both succeed when only one should
+* **Lost updates**: Concurrent updates could overwrite each other's changes
+* **Inconsistent state**: Token count and refill time could become desynchronized
+
+Using [`EVAL`]({{< relref "/commands/eval" >}}) or [`EVALSHA`]({{< relref "/commands/evalsha" >}}) ensures the entire operation executes atomically, making it safe for distributed systems.
+
 ## Installation
 
 Install the `redis` package from npm:
@@ -36,11 +124,11 @@ npm install redis
 ## Using the Node.js module
 
 The `TokenBucket` class provides an async interface for rate limiting
-([source](token_bucket.js)):
+([source](tokenBucket.js)):
 
 ```javascript
-import { createClient } from 'redis';
-import { TokenBucket } from './token_bucket.js';
+const { createClient } = require('redis');
+const { TokenBucket } = require('./tokenBucket');
 
 // Create a Redis connection
 const client = createClient({ url: 'redis://localhost:6379' });
@@ -104,12 +192,12 @@ const result2 = await limiter.allow('user:123'); // Uses EVALSHA (faster)
 
 ## Running the demo
 
-A demonstration Express server is included to show the rate limiter in action
-([source](demo_server.js)):
+A demonstration HTTP server is included to show the rate limiter in action
+([source](demoServer.js)):
 
 ```bash
 # Install dependencies
-npm install redis express
+npm install redis
 
 # Run the demo server
 node demo_server.js
@@ -122,7 +210,7 @@ The demo provides an interactive web interface where you can:
 * Adjust rate limit parameters dynamically
 * Test different rate limiting scenarios
 
-The demo assumes Redis is running on `localhost:6379` but you can easily change the host and port by setting the `REDIS_URL` environment variable. Visit `http://localhost:8080` in your browser to try it out.
+The demo assumes Redis is running on `localhost:6379` but you can specify a different host and port using the `--redis-host HOST` and `--redis-port PORT` command-line arguments. Visit `http://localhost:8080` in your browser to try it out.
 
 ## Response headers
 
