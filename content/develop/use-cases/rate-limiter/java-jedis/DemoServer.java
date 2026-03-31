@@ -65,7 +65,7 @@ public class DemoServer {
         }
 
         // Initialize the rate limiter
-        limiter = new TokenBucket(jedisPool, capacity, refillRate, refillInterval);
+        limiter = new TokenBucket(capacity, refillRate, refillInterval, jedisPool);
 
         // Start the server
         try {
@@ -136,7 +136,7 @@ public class DemoServer {
                     refillInterval = Double.parseDouble(params.get("refill_interval"));
                 }
 
-                limiter = new TokenBucket(jedisPool, capacity, refillRate, refillInterval);
+                limiter = new TokenBucket(capacity, refillRate, refillInterval, jedisPool);
 
                 json = String.format(
                     "{\"success\":true,\"config\":{\"capacity\":%d,\"refill_rate\":%d,\"refill_interval\":%.1f}}",
