@@ -19,11 +19,11 @@ Use the following table to determine the best scaling strategy for your Flex dep
 
 | Goal | Recommended action |
 |------|--------------------|
-| Increase data capacity only without adding CPU | Increase `memorySize` and decrease RAM percentage |
-| Increase throughput only | Add shards and vCPU |
-| Increase data capacity and throughput | Add shards |
-| Improve latency under higher load | Increase RAM percentage |
-| Reduce cost while maintaining performance | Tune RAM-to-flash ratio |
+| Increase data capacity only without adding CPU | [Increase `memorySize` and decrease RAM percentage](#decrease-ram-to-flash-ratio) |
+| Increase throughput only | [Add shards and vCPU](#add-shards-or-nodes) |
+| Increase data capacity and throughput | [Add shards](#add-shards) |
+| Improve latency under higher load | [Increase RAM percentage](#increase-ram-to-flash-ratio) |
+| Reduce cost while maintaining performance | [Tune RAM-to-flash ratio](#decrease-ram-to-flash-ratio) |
 
 ## Prerequisites
 
@@ -87,7 +87,7 @@ If your workload's read/write rate increases and latency starts to rise, you can
 
 You can add more shards or nodes to distribute traffic and increase throughput without changing the RAM-to-flash ratio. Dataset size capacity also typically increases as a result of additional shards and infrastructure. This strategy is recommended when the dataset size and traffic are expected to grow together.
 
-Before you add shards or nodes, you need to add more RAM and vCPUs to handle the increased number of shards or nodes.
+Before you add shards or nodes, you need to add more RAM and vCPUs to handle the increased number of shards or nodes. This increases capacity and potential throughput but requires more RAM, vCPUs, and a rebalance operation.
 
 To add shards:
 
@@ -111,7 +111,7 @@ kubectl edit rec <cluster-name>
 
 To improve throughput and lower latency, you can expand the in-memory tier to serve a higher proportion of requests directly from RAM. This strategy is recommended when low latency is your primary goal and you don't need to increase the dataset size.
 
-Before increasing the RAM-to-flash ratio, you might need to add more nodes to accommodate additional RAM.
+Before increasing the RAM-to-flash ratio, you might need to add more nodes to accommodate additional RAM. This improves throughput and lowers latency by serving more requests from RAM, at the cost of higher RAM usage.
 
 To increase the RAM-to-flash ratio:
 

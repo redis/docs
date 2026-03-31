@@ -72,7 +72,7 @@ Use Flex when you need to:
 - Operate large distributed caches with elastic scaling and consistent performance under heavy load
 - Reduce infrastructure costs by combining high-speed RAM with cost-efficient flash storage
 
-{{<note>}}Flex does not replace long-term data persistence. For workloads that require durability and recovery across restarts or failures, use Redis persistence features like [AOF (Append-Only File)]({{< relref "/operate/oss_and_stack/management/persistence#append-only-file" >}}), [RDB snapshots]({{< relref "/operate/oss_and_stack/management/persistence#snapshotting" >}}), or both. For more information, see [Database persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}}).{{</note>}}
+{{<warning>}}Flex does not replace long-term data persistence. For workloads that require durability and recovery across restarts or failures, use Redis persistence features like [AOF (Append-Only File)]({{< relref "/operate/oss_and_stack/management/persistence#append-only-file" >}}), [RDB snapshots]({{< relref "/operate/oss_and_stack/management/persistence#snapshotting" >}}), or both. For more information, see [Database persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}}).{{</warning>}}
 
 ## Flex and Auto Tiering
 
