@@ -49,23 +49,6 @@ key_specs:
   - access
   - update
 linkTitle: GCRA
-reply_schema:
-  description: Rate limiting result
-  items:
-  - description: 'Limited: 0 if allowed, 1 if rate limited'
-    type: integer
-  - description: 'Max request number: always equal to max_burst+1'
-    type: integer
-  - description: Number of requests available immediately
-    type: integer
-  - description: 'Retry after: seconds after which caller should retry. Always -1
-      if not limited'
-    type: integer
-  - description: 'Full burst after: seconds after which a full burst will be allowed'
-    type: integer
-  maxItems: 5
-  minItems: 5
-  type: array
 since: 8.8.0
 summary: Rate limit via GCRA (Generic Cell Rate Algorithm).
 syntax_fmt: "GCRA key max-burst tokens-per-period period [TOKENS\_count]"
