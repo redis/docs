@@ -106,6 +106,11 @@ Redis Flex doesn't support:
 - **PVC expansion**: Not supported with `redisOnFlashSpec`. Don't enable `enablePersistentVolumeResize` in the REC `persistentSpec`.
 - **Maximum object size**: Keys or values larger than 4 GB remain in RAM only.
 
+Avoid Flex in the following situations:
+
+- Your working set is significantly smaller than the total dataset and access is biased toward recent data (high RAM hit rate).
+- Your workload uses very long key names, broad or random access patterns, or a very large working set. These patterns reduce Flex benefits and increase flash I/O.
+
 ### Deprecated fields
 
 The `flashStorageEngine` field is deprecated. Use `bigStoreDriver` instead.
