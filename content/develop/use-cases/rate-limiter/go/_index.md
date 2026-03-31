@@ -133,6 +133,7 @@ import (
     "context"
     "fmt"
     "log"
+    "time"
 
     "github.com/redis/go-redis/v9"
 )
@@ -147,10 +148,10 @@ func main() {
 
     // Create a rate limiter: 10 requests per second
     limiter := NewTokenBucket(TokenBucketConfig{
-        RedisClient:    rdb,
-        Capacity:       10,  // Maximum burst size
-        RefillRate:     1,   // Add 1 token per interval
-        RefillInterval: 1.0, // Every 1 second
+        Client:         rdb,
+        Capacity:       10,           // Maximum burst size
+        RefillRate:     1,            // Add 1 token per interval
+        RefillInterval: time.Second,  // Every 1 second
     })
 
     // Check if a request should be allowed
@@ -208,10 +209,10 @@ The `TokenBucket` struct is safe for concurrent use from multiple goroutines. Yo
 
 ```go
 limiter := NewTokenBucket(TokenBucketConfig{
-    RedisClient:    rdb,
+    Client:         rdb,
     Capacity:       10,
     RefillRate:     1,
-    RefillInterval: 1.0,
+    RefillInterval: time.Second,
 })
 
 // Safe to call from multiple goroutines
@@ -236,12 +237,25 @@ wg.Wait()
 A demonstration HTTP server is included to show the rate limiter in action
 ([source](demo_server.go)):
 
+To run the demo, create a `main.go` file that calls the exported `RunDemoServer()` function:
+
+```go
+package main
+
+import "ratelimiter"
+
+func main() { ratelimiter.RunDemoServer() }
+```
+
+Then build and run:
+
 ```bash
 # Install dependencies
 go get github.com/redis/go-redis/v9
 
-# Run the demo server
-go run demo_server.go token_bucket.go
+# Build and run the demo server
+go build -o demo ./...
+./demo
 ```
 
 The demo provides an interactive web interface where you can:
@@ -258,6 +272,17 @@ The demo assumes Redis is running on `localhost:6379` but you can specify a diff
 It's common to include rate limit information in HTTP response headers:
 
 ```go
+// Store config values for use in response headers
+capacity := 10
+refillInterval := time.Second
+
+limiter := NewTokenBucket(TokenBucketConfig{
+    Client:         rdb,
+    Capacity:       capacity,
+    RefillRate:     1,
+    RefillInterval: refillInterval,
+})
+
 allowed, remaining, err := limiter.Allow(ctx, fmt.Sprintf("user:%s", userID))
 if err != nil {
     http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -265,13 +290,13 @@ if err != nil {
 }
 
 // Add standard rate limit headers
-w.Header().Set("X-RateLimit-Limit", strconv.Itoa(limiter.Capacity))
+w.Header().Set("X-RateLimit-Limit", strconv.Itoa(capacity))
 w.Header().Set("X-RateLimit-Remaining", strconv.FormatFloat(remaining, 'f', 0, 64))
-w.Header().Set("X-RateLimit-Reset", strconv.FormatInt(time.Now().Add(
-    time.Duration(limiter.RefillInterval*float64(time.Second))).Unix(), 10))
+w.Header().Set("X-RateLimit-Reset", strconv.FormatInt(
+    time.Now().Add(refillInterval).Unix(), 10))
 
 if !allowed {
-    w.Header().Set("Retry-After", strconv.FormatFloat(limiter.RefillInterval, 'f', 0, 64))
+    w.Header().Set("Retry-After", strconv.FormatFloat(refillInterval.Seconds(), 'f', 0, 64))
     http.Error(w, "Too Many Requests", http.StatusTooManyRequests)
     return
 }
