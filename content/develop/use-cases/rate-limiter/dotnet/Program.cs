@@ -11,9 +11,8 @@
 //     REDIS_HOST   - Redis host (default: localhost)
 //     REDIS_PORT   - Redis port (default: 6379)
 
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.Json;
+using RateLimiter;
 using StackExchange.Redis;
 
 var port = 8080;
@@ -63,7 +62,7 @@ catch (Exception ex)
 var capacity = 10;
 var refillRate = 1;
 var refillInterval = 1.0;
-var limiter = new TokenBucket(redis.GetDatabase(), capacity, refillRate, refillInterval);
+var limiter = new TokenBucket(capacity, refillRate, refillInterval, redis.GetDatabase());
 var lockObj = new object();
 
 var builder = WebApplication.CreateBuilder();
@@ -118,7 +117,7 @@ app.MapPost("/config", async (HttpContext ctx) =>
             if (form.TryGetValue("refill_interval", out var intervalVal))
                 refillInterval = double.Parse(intervalVal!);
 
-            limiter = new TokenBucket(redis.GetDatabase(), capacity, refillRate, refillInterval);
+            limiter = new TokenBucket(capacity, refillRate, refillInterval, redis.GetDatabase());
         }
 
         return Results.Json(new
@@ -139,111 +138,6 @@ Console.WriteLine("  Press Ctrl+C to stop the server");
 
 app.Run();
 return 0;
-
-// ---------------------------------------------------------------------------
-// TokenBucket — Redis-based token bucket rate limiter
-// ---------------------------------------------------------------------------
-
-/// <summary>
-/// Token bucket rate limiter using Redis for distributed rate limiting.
-/// Uses a Lua script for atomic check-and-update operations.
-/// </summary>
-public class TokenBucket
-{
-    private const string LuaScript = @"
-local key = KEYS[1]
-local capacity = tonumber(ARGV[1])
-local refill_rate = tonumber(ARGV[2])
-local refill_interval = tonumber(ARGV[3])
-local now = tonumber(ARGV[4])
-
-local bucket = redis.call('HMGET', key, 'tokens', 'last_refill')
-local tokens = tonumber(bucket[1])
-local last_refill = tonumber(bucket[2])
-
-if tokens == nil then
-    tokens = capacity
-    last_refill = now
-end
-
-local elapsed = now - last_refill
-local refills = math.floor(elapsed / refill_interval)
-
-if refills > 0 then
-    tokens = math.min(capacity, tokens + refills * refill_rate)
-    last_refill = last_refill + refills * refill_interval
-end
-
-local allowed = 0
-if tokens >= 1 then
-    tokens = tokens - 1
-    allowed = 1
-end
-
-redis.call('HMSET', key, 'tokens', tokens, 'last_refill', last_refill)
-
-return {allowed, tokens}
-";
-
-    private readonly IDatabase _db;
-    private readonly int _capacity;
-    private readonly int _refillRate;
-    private readonly double _refillInterval;
-    private byte[]? _scriptSha;
-
-    /// <summary>
-    /// Create a new TokenBucket rate limiter.
-    /// </summary>
-    /// <param name="db">Redis database instance.</param>
-    /// <param name="capacity">Maximum number of tokens in the bucket (default: 10).</param>
-    /// <param name="refillRate">Number of tokens added per refill interval (default: 1).</param>
-    /// <param name="refillInterval">Time in seconds between refills (default: 1.0).</param>
-    public TokenBucket(IDatabase db, int capacity = 10, int refillRate = 1, double refillInterval = 1.0)
-    {
-        _db = db;
-        _capacity = capacity;
-        _refillRate = refillRate;
-        _refillInterval = refillInterval;
-        _scriptSha = SHA1.HashData(Encoding.UTF8.GetBytes(LuaScript));
-    }
-
-    /// <summary>
-    /// Check if a request should be allowed for the given key.
-    /// </summary>
-    /// <param name="key">The rate limit key (e.g., "user:123").</param>
-    /// <returns>A tuple of (allowed, remaining_tokens).</returns>
-    public (bool Allowed, double Remaining) Allow(string key)
-    {
-        var now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() / 1000.0;
-
-        RedisKey[] keys = { key };
-        RedisValue[] argv =
-        {
-            _capacity,
-            _refillRate,
-            _refillInterval,
-            now
-        };
-
-        RedisResult[] result;
-        try
-        {
-            result = (RedisResult[])_db.ScriptEvaluate(_scriptSha!, keys, argv)!;
-        }
-        catch (RedisServerException)
-        {
-            result = (RedisResult[])_db.ScriptEvaluate(LuaScript, keys, argv)!;
-            _scriptSha = null;
-        }
-
-        var allowed = (int)result[0] == 1;
-        var remaining = (double)(int)result[1];
-
-        return (allowed, remaining);
-    }
-}
-
-
 
 // ---------------------------------------------------------------------------
 // HtmlPage — generates the interactive demo UI
