@@ -59,7 +59,7 @@ To increase the dataset capacity and shards:
 
 ### Decrease RAM-to-flash ratio
 
-You can allocate more data to the flash tier to increase the database capacity while keeping the same amount of RAM, shards, and vCPU. This strategy is recommended when scaling for volume only and SSD resources are underutilized.
+You can allocate more data to the flash tier to increase the database capacity while keeping the same amount of RAM, shards, and vCPU. This strategy is recommended when scaling for volume only and SSD resources are underutilized. This increases capacity without adding CPU or RAM but can lower RAM hit-rate and increase p99 latency; monitor metrics before and after the change.
 
 To increase the dataset capacity and decrease the RAM-to-flash ratio:
 
