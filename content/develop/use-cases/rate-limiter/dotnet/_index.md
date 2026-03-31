@@ -23,7 +23,7 @@ Rate limiting is a critical technique for controlling the rate at which operatio
 * Ensuring fair resource allocation across multiple clients
 * Throttling background jobs or batch operations
 
-The **token bucket algorithm** is a popular rate limiting approach that allows bursts of traffic while maintaining an average rate limit over time. This guide covers the .NET implementation using the [`StackExchange.Redis`]({{< relref "/develop/clients/dotnet" >}}) client library, taking advantage of C#'s `async/await` for non-blocking Redis calls, `ConnectionMultiplexer` for connection management, and `record` types for clean result types.
+The **token bucket algorithm** is a popular rate limiting approach that allows bursts of traffic while maintaining an average rate limit over time. This guide covers the .NET implementation using the [`StackExchange.Redis`]({{< relref "/develop/clients/dotnet" >}}) client library, taking advantage of `ConnectionMultiplexer` for connection management and `record` types for clean result types.
 
 ## How it works
 
@@ -129,7 +129,7 @@ Or add it directly to your `.csproj` file:
 
 ## Using the .NET class
 
-The `TokenBucket` class provides an async interface for rate limiting
+The `TokenBucket` class provides an interface for rate limiting
 ([source](TokenBucket.cs)):
 
 ```csharp
@@ -148,7 +148,7 @@ var limiter = new TokenBucket(
 );
 
 // Check if a request should be allowed
-var result = await limiter.AllowAsync("user:123");
+var result = limiter.Allow("user:123");
 
 if (result.Allowed)
 {
@@ -162,7 +162,7 @@ else
 }
 ```
 
-The `AllowAsync` method is fully asynchronous, using StackExchange.Redis's built-in async support. The `ConnectionMultiplexer` manages connections automatically, including reconnection and multiplexing commands across a single TCP connection. The result is returned as a `RateLimitResult` record containing both the decision and the remaining token count.
+The `Allow` method executes the Lua script synchronously via StackExchange.Redis. The `ConnectionMultiplexer` manages connections automatically, including reconnection and multiplexing commands across a single TCP connection. The result is returned as a `RateLimitResult` record containing both the decision and the remaining token count.
 
 ### Configuration parameters
 
@@ -191,8 +191,8 @@ The .NET implementation uses [`EVALSHA`]({{< relref "/commands/evalsha" >}}) for
 ```csharp
 // The class handles script caching automatically.
 // First call loads the script, subsequent calls use EVALSHA.
-var result1 = await limiter.AllowAsync("user:123"); // Uses EVAL + caches
-var result2 = await limiter.AllowAsync("user:123"); // Uses EVALSHA (faster)
+var result1 = limiter.Allow("user:123"); // Uses EVAL + caches
+var result2 = limiter.Allow("user:123"); // Uses EVALSHA (faster)
 ```
 
 ### Thread safety
@@ -203,19 +203,19 @@ The `TokenBucket` class is thread-safe. StackExchange.Redis's `IDatabase` is des
 // Create a shared limiter instance
 var limiter = new TokenBucket(db, capacity: 10, refillRate: 1, refillInterval: 1.0);
 
-// Safe to call from multiple async tasks
-var tasks = Enumerable.Range(0, 20).Select(async i =>
+// Safe to call from multiple threads
+var tasks = Enumerable.Range(0, 20).Select(i =>
 {
-    var result = await limiter.AllowAsync("shared:resource");
-    Console.WriteLine($"Task {i}: allowed={result.Allowed} remaining={result.Remaining}");
-});
-await Task.WhenAll(tasks);
+    var result = limiter.Allow("shared:resource");
+    Console.WriteLine($"Request {i}: allowed={result.Allowed} remaining={result.Remaining}");
+    return result;
+}).ToList();
 ```
 
 ## Running the demo
 
 A demonstration HTTP server is included to show the rate limiter in action
-([source](DemoServer.cs)):
+([source](Program.cs)):
 
 ```bash
 # Run the demo server
@@ -240,7 +240,7 @@ int capacity = 10;
 double refillInterval = 1.0;
 var limiter = new TokenBucket(db, capacity: capacity, refillRate: 1, refillInterval: refillInterval);
 
-var result = await limiter.AllowAsync($"user:{userId}");
+var result = limiter.Allow($"user:{userId}");
 
 // Add standard rate limit headers
 Response.Headers["X-RateLimit-Limit"] = capacity.ToString();
@@ -276,7 +276,7 @@ public class RateLimitMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
         var key = $"ip:{context.Connection.RemoteIpAddress}";
-        var result = await _limiter.AllowAsync(key);
+        var result = _limiter.Allow(key);
 
         context.Response.Headers["X-RateLimit-Remaining"] =
             ((int)result.Remaining).ToString();
@@ -296,12 +296,12 @@ public class RateLimitMiddleware
 
 ### Error handling
 
-The `AllowAsync` method may throw a `RedisException` if the Redis connection is lost. Wrap calls in try/catch blocks for production use:
+The `Allow` method may throw a `RedisException` if the Redis connection is lost. Wrap calls in try/catch blocks for production use:
 
 ```csharp
 try
 {
-    var result = await limiter.AllowAsync("user:123");
+    var result = limiter.Allow("user:123");
     // Handle result
 }
 catch (RedisException ex)
