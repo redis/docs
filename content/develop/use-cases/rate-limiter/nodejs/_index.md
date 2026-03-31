@@ -200,7 +200,7 @@ A demonstration HTTP server is included to show the rate limiter in action
 npm install redis
 
 # Run the demo server
-node demo_server.js
+node demoServer.js
 ```
 
 The demo provides an interactive web interface where you can:
