@@ -139,26 +139,21 @@ The `TokenBucket` class provides a thread-safe interface for rate limiting
 ([source](TokenBucket.java)):
 
 ```java
-import redis.clients.jedis.JedisPooled;
+import redis.clients.jedis.JedisPool;
 
 public class Main {
     public static void main(String[] args) {
-        // Create a Redis connection using JedisPooled (includes built-in connection pooling)
-        JedisPooled jedis = new JedisPooled("localhost", 6379);
+        // Create a Redis connection pool
+        JedisPool jedisPool = new JedisPool("localhost", 6379);
 
         // Create a rate limiter: 10 requests per second
-        TokenBucket limiter = new TokenBucket.Builder()
-                .jedis(jedis)
-                .capacity(10)        // Maximum burst size
-                .refillRate(1)       // Add 1 token per interval
-                .refillInterval(1.0) // Every 1 second
-                .build();
+        TokenBucket limiter = new TokenBucket(10, 1, 1.0, jedisPool);
 
         // Check if a request should be allowed
-        TokenBucket.Result result = limiter.allow("user:123");
+        TokenBucket.RateLimitResult result = limiter.allow("user:123");
 
-        if (result.isAllowed()) {
-            System.out.printf("Request allowed. %.0f tokens remaining.%n", result.getRemaining());
+        if (result.allowed()) {
+            System.out.printf("Request allowed. %.0f tokens remaining.%n", result.remaining());
             // Process the request
         } else {
             System.out.println("Request denied. Rate limit exceeded.");
@@ -168,7 +163,7 @@ public class Main {
 }
 ```
 
-Jedis operations are synchronous and thread-safe when using `JedisPooled`, which manages a pool of connections internally. The `allow()` method returns a `Result` object containing both the decision and the remaining token count.
+Jedis operations are synchronous and thread-safe when using `JedisPool`, which manages a pool of connections internally. The `allow()` method returns a `RateLimitResult` record containing both the decision and the remaining token count.
 
 ### Configuration parameters
 
@@ -197,8 +192,8 @@ The Java implementation uses [`EVALSHA`]({{< relref "/commands/evalsha" >}}) for
 ```java
 // The class handles script caching automatically.
 // First call loads the script, subsequent calls use EVALSHA.
-TokenBucket.Result result1 = limiter.allow("user:123"); // Uses EVAL + caches
-TokenBucket.Result result2 = limiter.allow("user:123"); // Uses EVALSHA (faster)
+TokenBucket.RateLimitResult result1 = limiter.allow("user:123"); // Uses EVAL + caches
+TokenBucket.RateLimitResult result2 = limiter.allow("user:123"); // Uses EVALSHA (faster)
 ```
 
 ### Thread safety
@@ -207,21 +202,16 @@ The `TokenBucket` class is thread-safe. You can share a single instance across y
 
 ```java
 // Create a shared limiter instance
-TokenBucket limiter = new TokenBucket.Builder()
-        .jedis(jedis)
-        .capacity(10)
-        .refillRate(1)
-        .refillInterval(1.0)
-        .build();
+TokenBucket limiter = new TokenBucket(10, 1, 1.0, jedisPool);
 
 // Safe to call from multiple threads
 ExecutorService executor = Executors.newFixedThreadPool(10);
 for (int i = 0; i < 20; i++) {
     final int id = i;
     executor.submit(() -> {
-        TokenBucket.Result result = limiter.allow("shared:resource");
+        TokenBucket.RateLimitResult result = limiter.allow("shared:resource");
         System.out.printf("thread %d: allowed=%b remaining=%.0f%n",
-                id, result.isAllowed(), result.getRemaining());
+                id, result.allowed(), result.remaining());
     });
 }
 executor.shutdown();
@@ -254,16 +244,20 @@ The demo assumes Redis is running on `localhost:6379` but you can specify a diff
 It's common to include rate limit information in HTTP response headers:
 
 ```java
-TokenBucket.Result result = limiter.allow("user:" + userId);
+int capacity = 10;
+double refillInterval = 1.0;
+TokenBucket limiter = new TokenBucket(capacity, 1, refillInterval, jedisPool);
+
+TokenBucket.RateLimitResult result = limiter.allow("user:" + userId);
 
 // Add standard rate limit headers
-response.setHeader("X-RateLimit-Limit", String.valueOf(limiter.getCapacity()));
-response.setHeader("X-RateLimit-Remaining", String.valueOf((int) result.getRemaining()));
+response.setHeader("X-RateLimit-Limit", String.valueOf(capacity));
+response.setHeader("X-RateLimit-Remaining", String.valueOf((int) result.remaining()));
 response.setHeader("X-RateLimit-Reset",
-        String.valueOf(System.currentTimeMillis() / 1000 + (long) limiter.getRefillInterval()));
+        String.valueOf(System.currentTimeMillis() / 1000 + (long) refillInterval));
 
-if (!result.isAllowed()) {
-    response.setHeader("Retry-After", String.valueOf((int) limiter.getRefillInterval()));
+if (!result.allowed()) {
+    response.setHeader("Retry-After", String.valueOf((int) refillInterval));
     response.setStatus(429); // Too Many Requests
 }
 ```
@@ -280,13 +274,8 @@ public class RateLimitFilter implements Filter {
 
     @Override
     public void init(FilterConfig config) {
-        JedisPooled jedis = new JedisPooled("localhost", 6379);
-        limiter = new TokenBucket.Builder()
-                .jedis(jedis)
-                .capacity(10)
-                .refillRate(1)
-                .refillInterval(1.0)
-                .build();
+        JedisPool jedisPool = new JedisPool("localhost", 6379);
+        limiter = new TokenBucket(10, 1, 1.0, jedisPool);
     }
 
     @Override
@@ -296,12 +285,12 @@ public class RateLimitFilter implements Filter {
         HttpServletResponse httpRes = (HttpServletResponse) res;
 
         String key = "ip:" + httpReq.getRemoteAddr();
-        TokenBucket.Result result = limiter.allow(key);
+        TokenBucket.RateLimitResult result = limiter.allow(key);
 
         httpRes.setHeader("X-RateLimit-Remaining",
-                String.valueOf((int) result.getRemaining()));
+                String.valueOf((int) result.remaining()));
 
-        if (!result.isAllowed()) {
+        if (!result.allowed()) {
             httpRes.setStatus(429);
             httpRes.getWriter().write("{\"error\": \"Rate limit exceeded\"}");
             return;
@@ -317,7 +306,7 @@ The `allow()` method may throw a `JedisException` if the Redis connection is los
 
 ```java
 try {
-    TokenBucket.Result result = limiter.allow("user:123");
+    TokenBucket.RateLimitResult result = limiter.allow("user:123");
     // Handle result
 } catch (JedisException e) {
     System.err.println("Rate limiter error: " + e.getMessage());
