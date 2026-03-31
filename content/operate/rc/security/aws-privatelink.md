@@ -8,7 +8,6 @@ categories:
 description: null
 linkTitle: AWS PrivateLink
 weight: 80
-bannerText: AWS PrivateLink is currently in preview. Features and behavior are subject to change. Redis does not recommend using AWS PrivateLink in production environments.
 ---
 
 [Amazon Web Services (AWS) PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-access-resources.html) allows service providers to securely expose specific services without exposing the entire service provider and consumer VPCs to each other. With AWS PrivateLink, Redis Cloud exposes a VPC endpoint service that you connect to as a consumer from your own VPC. Traffic stays within the AWS network and is isolated from external networks. 
@@ -25,7 +24,9 @@ AWS PrivateLink provides the following benefits:
 - **Network Flexibility**: PrivateLink enables cross-account and cross-VPC connectivity and can be configured even when the Redis Cloud VPC and your consumer VPC have overlapping CIDR/IP ranges.
 - **Simplified architecture and low latency**: PrivateLink does not require NAT, internet gateways, or VPNs. It provides simplified network routing, without the need for a network load balancer between the application and the Redis database.
 
+{{< video-link >}}
 See [Connect to Redis Cloud with AWS PrivateLink](https://www.youtube.com/watch?v=i3aTmcyFihY) for a short video tutorial on how to connect to Redis Cloud with AWS PrivateLink.
+{{< /video-link >}}
 
 ## Limitations
 

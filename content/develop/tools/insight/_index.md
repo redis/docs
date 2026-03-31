@@ -48,6 +48,19 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis, m
 When you add a Redis database for a particular user using the `username` and `password` fields, that user must be able to run the `INFO` command. See the [access control list (ACL) documentation]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) for more information.
 {{< /note >}}
 
+### Connect to Azure Managed Redis with ease
+
+Automatically discover databases across subscriptions and connect using Microsoft Entra ID (OAuth) with passwordless authentication and background token refresh. Redis Insight supports both Azure Managed Redis and Azure Cache for Redis tiers, with:
+
+- Auto-discovery of subscriptions and databases
+- One-click import and connection
+- Multi-account support for switching between Azure accounts
+- Improved, user-friendly error handling
+
+{{< note >}}
+This feature requires Azure-side configuration. Please coordinate with your Azure administrator and follow [the setup guide](https://github.com/redis/RedisInsight/blob/main/docs/azure-setup.md) to configure the necessary permissions.
+{{< /note>}}
+
 ### Redis Copilot
 
 Redis Copilot is an AI-powered developer assistant that helps you learn about Redis, explore your Redis data, and build search queries in a conversational manner. It is available in Redis Insight as well as within the Redis public documentation.

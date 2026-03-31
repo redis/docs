@@ -55,6 +55,8 @@ For more detailed release notes, select a build version from the following table
 
 ### Breaking changes
 
+- Upgrading to Redis Software version 8.0.10 through 8.0.16-29 can cause LDAP authentication to fail with "certificate signed by unknown authority" errors if your cluster currently uses LDAP authentication. This issue was fixed in [Redis Software version 8.0.16-33]({{<relref "/operate/rs/release-notes/rs-8-0-releases/rs-8-0-16-33">}}).
+
 - For Redis Software versions 8.0.2 through 8.0.10, LDAP filters for `user_dn_query` and `dn_group_query` strictly require parentheses to function correctly. Filters that previously worked without parentheses will no longer work after upgrading to these versions. For example, you must include the parentheses in `(sAMAccountName=%u)`. As of version 8.0.16, this breaking change no longer applies, and both `(sAMAccountName=%u)` and `sAMAccountName=%u` are valid filters.
 
 - Redis Software installation script changes:
