@@ -142,7 +142,7 @@ $redis = new Client([
 
 // Create a rate limiter: 10 requests per second
 $limiter = new TokenBucket(
-    redisClient: $redis,
+    redis: $redis,
     capacity: 10,        // Maximum burst size
     refillRate: 1,       // Add 1 token per interval
     refillInterval: 1.0  // Every 1 second
@@ -203,7 +203,7 @@ A demonstration web server is included to show the rate limiter in action
 composer require predis/predis
 
 # Run the demo server
-php demo_server.php
+php -S localhost:8080 demo_server.php
 ```
 
 The demo provides an interactive web interface where you can:
@@ -213,22 +213,38 @@ The demo provides an interactive web interface where you can:
 * Adjust rate limit parameters dynamically
 * Test different rate limiting scenarios
 
-The demo assumes Redis is running on `localhost:6379` but you can specify a different host and port using the `--redis-host` and `--redis-port` command-line arguments. Visit `http://localhost:8080` in your browser to try it out.
+The demo assumes Redis is running on `localhost:6379` but you can specify a different host and port using the `REDIS_HOST` and `REDIS_PORT` environment variables:
+
+```bash
+REDIS_HOST=myhost REDIS_PORT=6380 php -S localhost:8080 demo_server.php
+```
+
+Visit `http://localhost:8080` in your browser to try it out.
 
 ## Response headers
 
 It's common to include rate limit information in HTTP response headers:
 
 ```php
+$capacity = 10;
+$refillInterval = 1.0;
+
+$limiter = new TokenBucket(
+    redis: $redis,
+    capacity: $capacity,
+    refillRate: 1,
+    refillInterval: $refillInterval,
+);
+
 $result = $limiter->allow("user:{$userId}");
 
 // Add standard rate limit headers
-header('X-RateLimit-Limit: ' . $limiter->getCapacity());
+header('X-RateLimit-Limit: ' . $capacity);
 header('X-RateLimit-Remaining: ' . (int) $result['remaining']);
-header('X-RateLimit-Reset: ' . (int) (time() + $limiter->getRefillInterval()));
+header('X-RateLimit-Reset: ' . (int) (time() + $refillInterval));
 
 if (!$result['allowed']) {
-    header('Retry-After: ' . (int) $limiter->getRefillInterval());
+    header('Retry-After: ' . (int) $refillInterval);
     http_response_code(429);
     echo json_encode(['error' => 'Too Many Requests']);
     exit;
