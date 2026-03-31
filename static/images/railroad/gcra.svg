@@ -1,4 +1,4 @@
-<svg class="railroad-diagram" height="71" viewBox="0 0 883.0 71" width="883.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg class="railroad-diagram" height="71" viewBox="0 0 815.0 71" width="815.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs>
 <style type="text/css"><![CDATA[
 svg.railroad-diagram { background-color: transparent; }
@@ -44,14 +44,14 @@ circle { fill: #DC382D !important; stroke: #DC382D !important; }
 /* ]]> */
 </style><g>
 <path d="M20 30v20m10 -20v20m-10 -10h20"></path></g><path d="M40 40h10"></path><g>
-<path d="M50 40h0.0"></path><path d="M833.0 40h0.0"></path><g class="terminal ">
+<path d="M50 40h0.0"></path><path d="M765.0 40h0.0"></path><g class="terminal ">
 <path d="M50.0 40h0.0"></path><path d="M104.0 40h0.0"></path><rect height="22" rx="10" ry="10" width="54.0" x="50.0" y="29"></rect><text x="77.0" y="44">GCRA</text></g><path d="M104.0 40h10"></path><path d="M114.0 40h10"></path><g class="non-terminal ">
 <path d="M124.0 40h0.0"></path><path d="M169.5 40h0.0"></path><rect height="22" width="45.5" x="124.0" y="29"></rect><text x="146.75" y="44">key</text></g><path d="M169.5 40h10"></path><path d="M179.5 40h10"></path><g class="non-terminal ">
 <path d="M189.5 40h0.0"></path><path d="M286.0 40h0.0"></path><rect height="22" width="96.5" x="189.5" y="29"></rect><text x="237.75" y="44">max-burst</text></g><path d="M286.0 40h10"></path><path d="M296.0 40h10"></path><g class="non-terminal ">
-<path d="M306.0 40h0.0"></path><path d="M487.5 40h0.0"></path><rect height="22" width="181.5" x="306.0" y="29"></rect><text x="396.75" y="44">requests-per-period</text></g><path d="M487.5 40h10"></path><path d="M497.5 40h10"></path><g class="non-terminal ">
-<path d="M507.5 40h0.0"></path><path d="M578.5 40h0.0"></path><rect height="22" width="71.0" x="507.5" y="29"></rect><text x="543.0" y="44">period</text></g><path d="M578.5 40h10"></path><g>
-<path d="M588.5 40h0.0"></path><path d="M833.0 40h0.0"></path><path d="M588.5 40a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
-<path d="M608.5 20h204.5"></path></g><path d="M813.0 20a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M588.5 40h20"></path><g>
-<path d="M608.5 40h0.0"></path><path d="M813.0 40h0.0"></path><g class="terminal ">
-<path d="M608.5 40h0.0"></path><path d="M730.5 40h0.0"></path><rect height="22" rx="10" ry="10" width="122.0" x="608.5" y="29"></rect><text x="669.5" y="44">NUM&#95;REQUESTS</text></g><path d="M730.5 40h10"></path><path d="M740.5 40h10"></path><g class="non-terminal ">
-<path d="M750.5 40h0.0"></path><path d="M813.0 40h0.0"></path><rect height="22" width="62.5" x="750.5" y="29"></rect><text x="781.75" y="44">count</text></g></g><path d="M813.0 40h20"></path></g></g><path d="M833.0 40h10"></path><path d="M 843.0 40 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>
+<path d="M306.0 40h0.0"></path><path d="M470.5 40h0.0"></path><rect height="22" width="164.5" x="306.0" y="29"></rect><text x="388.25" y="44">tokens-per-period</text></g><path d="M470.5 40h10"></path><path d="M480.5 40h10"></path><g class="non-terminal ">
+<path d="M490.5 40h0.0"></path><path d="M561.5 40h0.0"></path><rect height="22" width="71.0" x="490.5" y="29"></rect><text x="526.0" y="44">period</text></g><path d="M561.5 40h10"></path><g>
+<path d="M571.5 40h0.0"></path><path d="M765.0 40h0.0"></path><path d="M571.5 40a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
+<path d="M591.5 20h153.5"></path></g><path d="M745.0 20a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M571.5 40h20"></path><g>
+<path d="M591.5 40h0.0"></path><path d="M745.0 40h0.0"></path><g class="terminal ">
+<path d="M591.5 40h0.0"></path><path d="M662.5 40h0.0"></path><rect height="22" rx="10" ry="10" width="71.0" x="591.5" y="29"></rect><text x="627.0" y="44">TOKENS</text></g><path d="M662.5 40h10"></path><path d="M672.5 40h10"></path><g class="non-terminal ">
+<path d="M682.5 40h0.0"></path><path d="M745.0 40h0.0"></path><rect height="22" width="62.5" x="682.5" y="29"></rect><text x="713.75" y="44">count</text></g></g><path d="M745.0 40h20"></path></g></g><path d="M765.0 40h10"></path><path d="M 775.0 40 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>

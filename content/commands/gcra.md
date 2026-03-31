@@ -8,13 +8,13 @@ arguments:
   type: key
 - name: max-burst
   type: integer
-- name: requests-per-period
+- name: tokens-per-period
   type: integer
 - name: period
   type: double
 - name: count
   optional: true
-  token: NUM_REQUESTS
+  token: TOKENS
   type: integer
 arity: -5
 categories:
@@ -68,15 +68,19 @@ reply_schema:
   type: array
 since: 8.8.0
 summary: Rate limit via GCRA (Generic Cell Rate Algorithm).
-syntax_fmt: "GCRA key max-burst requests-per-period period [NUM_REQUESTS\_count]"
+syntax_fmt: "GCRA key max-burst tokens-per-period period [TOKENS\_count]"
 title: GCRA
 ---
 
 Performs rate limiting using the [Generic Cell Rate Algorithm (GCRA)](https://en.wikipedia.org/wiki/Generic_cell_rate_algorithm).
 
-GCRA is a popular rate limiting algorithm known for its simplicity and speed. It allows a sustained rate of `requests_per_period` requests per `period` seconds, with a minimum spacing (emission interval) of `period / requests_per_period` seconds between each request. The `max_burst` parameter allows for occasional spikes by granting up to `max_burst` additional requests to be consumed at once beyond the sustained rate.
+GCRA is a popular rate limiting algorithm known for its simplicity and speed. Each key request is associated with a given number of tokens; the default is one token per request. In general, GCRA allows a sustained rate of `tokens-per-period` requests per `period` seconds, with a minimum spacing (emission interval) of `period / tokens-per-period` seconds between each request. The `max_burst` parameter allows for occasional spikes by granting up to `max_burst` additional tokens to be consumed at once beyond the sustained rate.
 
 The implementation is based on the popular [redis-cell](https://github.com/brandur/redis-cell) module with small changes in the API. Unlike redis-cell and most other implementations where `period` is given as an integer number of seconds, this command accepts `period` as a floating-point number for greater flexibility. Internally, time periods are calculated with microsecond granularity.
+
+The `GCRA` command is used either to establish a new rate limiter (if the key doesn't exist) or use an existing one (if the key exists).
+All the parameters need to be repeated on each call, and clients don't need to validate that the key exists before using an existing rate limiter.
+Under normal usage, `max-burst`, `tokens-per-period`, and `period` should not change between calls, though this command supports such changes.
 
 See the [rate limiting docs]({{< relref "/develop/using-commands/rate-limiting" >}}) for more information.
 
@@ -94,29 +98,29 @@ is the maximum number of tokens allowed as a burst, in addition to the sustained
 
 </details>
 
-<details open><summary><code>requests-per-period</code></summary>
+<details open><summary><code>tokens-per-period</code></summary>
 
-is the number of requests allowed per `period` at a sustained rate. This defines the steady-state throughput of the rate limiter. Minimum value: `1`.
+is the number of tokens allowed per `period` at a sustained rate. This defines the steady-state throughput of the rate limiter. Minimum value: `1`.
 
 </details>
 
 <details open><summary><code>period</code></summary>
 
-is the time period in seconds, specified as a floating-point number, used for calculating the sustained rate. The emission interval (minimum spacing between requests) is calculated as `period / requests_per_period`. Minimum value: `1.0`.
+is the time period in seconds, specified as a floating-point number, used for calculating the sustained rate. The emission interval (minimum spacing between requests) is calculated as `period / tokens-per-period`. Minimum value: `1.0`.
 
 </details>
 
 ## Optional arguments
 
-<details open><summary><code>NUM_REQUESTS count</code></summary>
+<details open><summary><code>TOKENS count</code></summary>
 
-is the cost (or weight) of this rate-limiting request. A higher cost drains the allowance faster. This is useful when different operations have different costs. Default value: `1`.
+is the number of tokens that can be consumed for a single request. A higher number of tokens drains the allowance faster. This is useful when different operations have different costs. Default value: `1`.
 
 </details>
 
 ## Examples
 
-Rate limit an API endpoint to 10 requests per 60 seconds with a burst of 5:
+Rate limit an API endpoint to 10 tokens per 60 seconds with a burst of 5:
 
 ```
 127.0.0.1:6379> GCRA api:user:123 5 10 60
@@ -142,10 +146,10 @@ After exhausting the burst allowance:
 
 This time the request is rate limited (`1`), `0` requests are available, and the caller should retry after `6` seconds.
 
-Using the `NUM_REQUESTS` option to apply a higher cost:
+Using the `TOKENS` option to apply a higher cost:
 
 ```
-127.0.0.1:6379> GCRA api:user:123 5 10 60 NUM_REQUESTS 3
+127.0.0.1:6379> GCRA api:user:123 5 10 60 TOKENS 3
 1) (integer) 0
 2) (integer) 6
 3) (integer) 2
@@ -162,24 +166,24 @@ Using the `NUM_REQUESTS` option to apply a higher cost:
 One of the following:
 
 - Returns an [array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with exactly 5 elements:
-    1. **limited** - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `0` if the request is allowed, `1` if the request is rate limited.
-    1. **max-req-num** - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the maximum number of requests allowed. Always equal to `max_burst + 1`.
-    1. **num-avail-req** - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of requests available to be made immediately.
-    1. **retry-after** - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of seconds after which the caller should retry. Always returns `-1` if the request is not limited.
-    1. **full-burst-after** - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of seconds after which a full burst will be available again.
+    1. [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `0` if the request is allowed, `1` if the request is blocked.
+    1. [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the maximum number of tokens that can be requested (if no previous requests were made, or if they were made long enough ago). Always equal to `max_burst` + 1 (+1 to allow requests when `max_burst` is 0).
+    1. [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of remaining tokens that can be requested immediately (the remaining burst).
+    1. [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of milliseconds until the caller can retry, or -1 if the request was allowed. 
+    1. [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of milliseconds until the full burst will be allowed again.
 - A [simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) for the following cases: wrong number of arguments,
 incorrect value for `max_burst`, `tokens_per_period` <= 1, `period` <= 1, or `tokens` <= 1.
 
 -tab-sep-
 
-Returns an [array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with exactly 5 elements:
+One of the following:
 
 - Returns an [array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with exactly 5 elements:
-    1. **limited** - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `0` if the request is allowed, `1` if the request is rate limited.
-    1. **max-req-num** - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the maximum number of requests allowed. Always equal to `max_burst + 1`.
-    1. **num-avail-req** - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of requests available to be made immediately.
-    1. **retry-after** - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of seconds after which the caller should retry. Always returns `-1` if the request is not limited.
-    1. **full-burst-after** - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of seconds after which a full burst will be available again.
+    1. [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `0` if the request is allowed, `1` if the request is blocked.
+    1. [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the maximum number of tokens that can be requested (if no previous requests were made, or if they were made long enough ago). Always equal to `max_burst` + 1 (+1 to allow requests when `max_burst` is 0).
+    1. [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of remaining tokens that can be requested immediately (the remaining burst).
+    1. [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of milliseconds until the caller can retry, or -1 if the request was allowed. 
+    1. [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of milliseconds until the full burst will be allowed again.
 - A [simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) for the following cases: wrong number of arguments,
 incorrect value for `max_burst`, `tokens_per_period` <= 1, `period` <= 1, or `tokens` <= 1.
 

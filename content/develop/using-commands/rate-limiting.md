@@ -16,8 +16,18 @@ weight: 40
 ---
 
 Rate limiting controls how often a user or client can perform an action within
-a given time period. It's essential for protecting APIs from abuse, enforcing
-usage quotas, and ensuring fair resource allocation across clients.
+a given time period. Common use cases include:
+
+- **Preventing DDoS attacks**: throttle incoming requests to keep services
+  available during traffic floods.
+- **Blocking brute-force attacks**: limit login attempts per account to slow
+  down credential stuffing.
+- **Preventing API abuse**: enforce per-user or per-key request quotas on
+  public APIs.
+- **Preventing web scraping**: restrict how quickly an IP address or user agent
+  can crawl your pages.
+- **Limiting resource consumption by subscription tier**: give free-tier users
+  a lower request allowance than paying customers.
 
 Redis is a natural fit for rate limiting because it offers fast, atomic
 operations with low latency. Starting in version 8.8, Redis provides the
@@ -34,8 +44,8 @@ rate limited until enough time passes for it to drain.
 
 Two parameters control the behavior:
 
-- **Sustained rate**: defined as `requests_per_period / period`. This is the
-  steady-state throughput. For example, 10 requests per 60 seconds means
+- **Sustained rate**: defined as `tokens_per_period / period`. This is the
+  steady-state throughput. For example, 10 tokens per 60 seconds means
   one request is allowed every 6 seconds on average.
 - **Burst allowance**: defined by `max_burst`. This lets clients make a short
   burst of requests above the sustained rate. The total number of requests
@@ -46,10 +56,10 @@ Two parameters control the behavior:
 The [`GCRA`]({{< relref "/commands/gcra" >}}) command has the following syntax:
 
 ```
-GCRA key max_burst requests_per_period period [NUM_REQUESTS count]
+GCRA key max_burst tokens_per_period period [TOKENS count]
 ```
 
-For example, to allow 30 requests per minute with a burst of up to 5 extra
+For example, to allow 30 tokens per minute with a burst of up to 5 extra
 requests:
 
 ```
@@ -89,11 +99,11 @@ element indicates the client should wait 2 seconds before retrying.
 
 ## Weighted requests
 
-Some operations cost more than others. Use the `NUM_REQUESTS` option to
+Some operations cost more than others. Use the `TOKENS` option to
 assign a higher cost to expensive operations:
 
 ```
-> GCRA api:user:123 5 30 60 NUM_REQUESTS 3
+> GCRA api:user:123 5 30 60 TOKENS 3
 1) (integer) 0
 2) (integer) 6
 3) (integer) 2
@@ -203,19 +213,48 @@ def rate_limited_request(user_id, action):
         print("Still rate limited. Try again later.")
 ```
 
-## Common patterns
+## Real-world examples
 
-### Per-user API rate limiting
+### Limit credit card transactions
 
-Use a key that includes the user identifier to track each user separately:
+A payment processor needs to flag suspicious activity. Limit each user to
+5 transaction attempts per minute with a small burst of 2 to handle
+rapid legitimate retries:
 
 ```
-GCRA api:user:42 10 100 60
+GCRA txn:user:8841 2 5 60
 ```
 
-This allows user 42 up to 100 requests per minute with a burst of 10.
+If the response returns `limited = 1`, reject the transaction and prompt
+the user to wait before trying again.
 
-### Per-endpoint rate limiting
+### Throttle profile views on a dating site
+
+To prevent scraping of user profiles, limit each member to 60 profile
+views per hour with a burst of 10:
+
+```
+GCRA profiles:user:2297 10 60 3600
+```
+
+This lets a user browse through a handful of profiles quickly, but
+enforces a steady pace over the course of an hour.
+
+### Restrict downloads by subscription tier
+
+A file-hosting service offers different download limits for free and
+paid users. Free-tier users get 10 downloads per day with no burst.
+Premium users get 100 downloads per day with a burst of 20:
+
+```
+# Free tier
+GCRA downloads:user:5510 0 10 86400
+
+# Premium tier
+GCRA downloads:user:5510 20 100 86400
+```
+
+### Per-endpoint API rate limiting
 
 Combine the user and endpoint in the key for more granular control:
 
@@ -227,23 +266,11 @@ GCRA api:user:42:/export 0 2 3600
 The search endpoint allows 10 requests per minute with a burst of 2.
 The export endpoint allows 2 requests per hour with no burst.
 
-### Tiered rate limits
-
-Apply different limits based on subscription tier by varying the parameters:
-
-```
-# Free tier: 10 requests per minute, burst of 2
-GCRA api:user:42 2 10 60
-
-# Premium tier: 100 requests per minute, burst of 20
-GCRA api:user:42 20 100 60
-```
-
-## Choosing parameter values
+## Choose parameter values
 
 When configuring rate limits, consider these guidelines:
 
-- **`requests_per_period` and `period`** define the sustained rate. Choose
+- **`tokens_per_period` and `period`** define the sustained rate. Choose
   values that reflect your actual capacity. A period of `60` (one minute) is
   a common starting point.
 - **`max_burst`** controls how tolerant you are of traffic spikes. A value of
@@ -252,21 +279,6 @@ When configuring rate limits, consider these guidelines:
 - **`period`** accepts floating-point values (minimum `1.0`), which gives you
   fine-grained control. Internally, Redis calculates timing with microsecond
   precision.
-
-## Comparison with other approaches
-
-Before the `GCRA` command, common approaches for rate limiting in Redis
-included:
-
-- **Lua scripts**: flexible but add scripting complexity.
-- **`SET` with `IFEQ`/`IFNE` options**: enables compare-and-set patterns for
-  simple counters, but requires client-side logic to implement the algorithm.
-- **External modules** like redis-cell: effective but require installing and
-  maintaining a separate module.
-
-The built-in `GCRA` command provides the same functionality with better
-performance and no external dependencies. The API is based on the popular
-[redis-cell](https://github.com/brandur/redis-cell) module by Brandur Leach.
 
 ## Learn more
 
