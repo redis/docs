@@ -157,7 +157,7 @@ public class Main {
         StatefulRedisConnection<String, String> connection = redisClient.connect();
 
         // Create a rate limiter: 10 requests per second
-        TokenBucket limiter = new TokenBucket(10, 1, 1.0, connection);
+        TokenBucket limiter = new TokenBucket(10, 1, 1.0, connection.sync());
 
         // Check if a request should be allowed
         TokenBucket.RateLimitResult result = limiter.allow("user:123");
@@ -201,7 +201,7 @@ The `key` parameter identifies what you're rate limiting. Common patterns:
 
 ### Script caching with EVALSHA
 
-The Java implementation uses [`EVALSHA`]({{< relref "/commands/evalsha" >}}) for optimal performance. On first use, the Lua script is loaded into Redis using Lettuce's `scriptLoad()` command, and subsequent calls use the cached SHA1 hash. If the script is evicted from the cache, the class automatically falls back to [`EVAL`]({{< relref "/commands/eval" >}}) and reloads the script. The script loading uses `volatile` and synchronization to ensure thread safety.
+The Java implementation uses [`EVALSHA`]({{< relref "/commands/evalsha" >}}) for optimal performance. On first use, the Lua script is loaded into Redis using Lettuce's `scriptLoad()` command, and subsequent calls use the cached SHA1 hash. If the script is evicted from the cache, the class automatically falls back to [`EVAL`]({{< relref "/commands/eval" >}}) and reloads the script. The script SHA is computed once on first use and cached for subsequent calls.
 
 ```java
 // The class handles script caching automatically.
@@ -218,7 +218,7 @@ The `TokenBucket` class is thread-safe because Lettuce's `StatefulRedisConnectio
 // Create shared resources
 RedisClient redisClient = RedisClient.create("redis://localhost:6379");
 StatefulRedisConnection<String, String> connection = redisClient.connect();
-TokenBucket limiter = new TokenBucket(10, 1, 1.0, connection);
+TokenBucket limiter = new TokenBucket(10, 1, 1.0, connection.sync());
 
 // Safe to call from multiple threads
 ExecutorService executor = Executors.newFixedThreadPool(10);
@@ -296,7 +296,7 @@ int capacity = 10;
 double refillInterval = 1.0;
 RedisClient redisClient = RedisClient.create("redis://localhost:6379");
 StatefulRedisConnection<String, String> connection = redisClient.connect();
-TokenBucket limiter = new TokenBucket(capacity, 1, refillInterval, connection);
+TokenBucket limiter = new TokenBucket(capacity, 1, refillInterval, connection.sync());
 
 TokenBucket.RateLimitResult result = limiter.allow("user:" + userId);
 
@@ -328,7 +328,7 @@ public class RateLimitFilter implements Filter {
     public void init(FilterConfig config) {
         redisClient = RedisClient.create("redis://localhost:6379");
         connection = redisClient.connect();
-        limiter = new TokenBucket(10, 1, 1.0, connection);
+        limiter = new TokenBucket(10, 1, 1.0, connection.sync());
     }
 
     @Override
