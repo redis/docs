@@ -20,6 +20,25 @@ arguments:
   name: condition
   optional: true
   type: oneof
+- arguments:
+  - arguments:
+    - name: FP16
+      token: FP16
+      type: pure-token
+    - name: BF16
+      token: BF16
+      type: pure-token
+    - name: FP32
+      token: FP32
+      type: pure-token
+    - name: FP64
+      token: FP64
+      type: pure-token
+    name: fpha-type
+    type: oneof
+  name: fpha
+  optional: true
+  type: block
 categories:
 - docs
 - develop
@@ -43,7 +62,7 @@ railroad_diagram: /images/railroad/json.set.svg
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Sets or updates the JSON value at a path
-syntax_fmt: JSON.SET key path value [NX | XX]
+syntax_fmt: JSON.SET key path value [NX | XX] [FPHA FP16 | BF16 | FP32 | FP64]
 title: JSON.SET
 ---
 
@@ -93,6 +112,16 @@ Sets the value only if `path` has no matches.
 Sets the value only if `path` has one or more matches.
 </details>
 
+<details open><summary><code>FPHA <FP16 | BF16 | FP32 | FP64></code></summary>
+
+force Redis to use the specified floating point homogeneous array (FHPA) type for storing all FP arrays in `value`. Added in Redis 8.8.
+
+A FP array is any array that is composed of numeric values, where at least one of the values is a FP value.
+A FP value contains a fractional part (including "`.`", "`.0`", and "`.00`") or an exponent part (for example, "`4e5`").
+
+If at least one of the specified values within the FP array doesn’t fit into the type specified by `FPHA`, the command will issue and error.
+</details>
+
 ## Examples
 
 <details open>
@@ -118,6 +147,17 @@ redis> JSON.SET doc $.b '8'
 OK
 redis> JSON.GET doc $
 "[{\"a\":2,\"b\":8}]"
+{{< / highlight >}}
+</details>
+
+<details open>
+<summary><b>Add a new value with FPHA</b></summary>
+
+{{< highlight bash >}}
+redis> JSON.SET doc $ '[[1,2,3,4e3],[5,6.0,7,8]]' FHPA FP16
+OK
+redis> JSON.GET doc $
+"[[[1.0,2.0,3.0,4000.0],[5.0,6.0,7.0,8.0]]]"
 {{< / highlight >}}
 </details>
 
@@ -185,6 +225,7 @@ One of the following:
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR new objects must be created at the root` - if `key` does not exist and `path` is not root (`$` or `.`).
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR wrong static path` - if a dynamic path expression has no matching locations.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR index out of bounds` - if the path refers to an array index outside the array bounds.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) value out of range for F16 ...` - if one or more values of a FP array are out of range for the given type.
 
 -tab-sep-
 
@@ -196,6 +237,8 @@ One of the following:
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR new objects must be created at the root` - if `key` does not exist and `path` is not root (`$` or `.`).
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR wrong static path` - if a dynamic path expression has no matching locations.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) ERR index out of bounds` - if the path refers to an array index outside the array bounds.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}): `(error) value out of range for F16 ...` - if one or more values of a FP array are out of range for the given type.
+
 {{< /multitabs >}}
 
 ## See also
