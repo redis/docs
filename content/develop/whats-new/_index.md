@@ -83,6 +83,7 @@ weight: 10
 #### Java (Lettuce)
 - Added failover documentation
 - Added `LagAwareStrategy` dependencies
+- Added Smart client handoffs section in the Connect page
 
 #### .NET (NRedisStack)
 - Added [FusionCache integration page]({{< relref "/integrate/fusioncache" >}})
