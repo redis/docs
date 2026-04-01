@@ -172,10 +172,13 @@ class AgentMessageStream:
 
 # Example: Multi-agent task coordination
 stream = AgentMessageStream(
-    redis_client=Redis(host='localhost', port=6379, decode_responses=True),
+    redis_client=Redis(host='localhost', port=6379),
     stream_name='agent:tasks',
     producer_id='agent-orchestrator-1'
 )
+
+# Create consumer group before publishing so workers receive all messages
+stream.create_consumer_group('task-workers', start_from='0')
 
 # Agent orchestrator publishes task
 task_id = 'task-123'
@@ -185,8 +188,11 @@ stream.publish_event(
     idempotent_id=task_id  # Use task_id as idempotent ID
 )
 
-# Worker agents consume tasks
-stream.create_consumer_group('task-workers', start_from='$')
+
+def execute_task(data: dict) -> str:
+    """Execute an agent task and return the result."""
+    return f"completed_{data['action']}"
+
 
 # Worker 1 processes tasks
 events = stream.consume_events(
