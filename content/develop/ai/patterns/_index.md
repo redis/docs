@@ -3,6 +3,7 @@ title: "AI agent patterns"
 linkTitle: "Patterns"
 description: "Production-ready patterns for AI agents using Redis"
 weight: 50
+hideListLinks: true
 ---
 
 This section provides production-ready patterns for building AI agents with Redis. Each pattern combines high-level abstractions with raw Redis commands, enabling both rapid development and deep debugging.
