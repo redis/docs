@@ -108,6 +108,9 @@ weight: 10
 - Added observability overview with OpenTelemetry metrics
 - Added client-specific observability pages for Python and Go
 
+- Added Smart client handoffs overview
+- Docs for n8n Redis vector store integration
+
 ---
 
 ### Redis Version Updates
