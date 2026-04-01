@@ -87,6 +87,10 @@ weight: 10
 #### .NET (NRedisStack)
 - Added [FusionCache integration page]({{< relref "/integrate/fusioncache" >}})
 
+#### Go
+- Added observability page
+- Added Smart client handoffs section in the Connect page
+
 ---
 
 ### Documentation Updates
