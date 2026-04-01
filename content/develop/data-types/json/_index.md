@@ -86,7 +86,7 @@ OK
 "[[\"Deimos\",{\"crashes\":0}]]"
 {{< /clients-example >}}
 
-Beginning with Redis 8.8, the JSON data type supports floating point homogeneous arrays (FPHA) using the `FPHA BF16|FP16|FP32|FP64` option to the [`JSON.SET`]({{< relref "commands/json.set/" >}}) command. Here's an example:
+Beginning with Redis 8.8, the JSON data type supports the ability to force a particular type when storing floating point homogeneous arrays (FPHAs)using the `FPHA BF16|FP16|FP32|FP64` option to the [`JSON.SET`]({{< relref "/commands/json.set" >}}) command. Here's an example:
 
 ```
 > JSON.SET fp_array $ '[[1,2,3,4e3],[5,6.0,7,8]]' FPHA FP16
@@ -94,8 +94,6 @@ OK
 > JSON.GET fp_array $
 "[[[1.0,2.0,3.0,4000.0],[5.0,6.0,7.0,8.0]]]"
 ```
-
-If at least one of the array values is a floating point number, then all array values will be stored as floating point.
 
 The [`JSON.DEL`]({{< relref "commands/json.del/" >}}) command deletes any JSON value you specify with the `path` parameter.
 
