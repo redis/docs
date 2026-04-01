@@ -147,17 +147,17 @@ redis = Redis.new(host: 'localhost', port: 6379)
 
 # Create a rate limiter: 10 requests per second
 limiter = TokenBucket.new(
-  redis_client: redis,
+  redis: redis,
   capacity: 10,          # Maximum burst size
   refill_rate: 1,        # Add 1 token per interval
   refill_interval: 1.0   # Every 1 second
 )
 
 # Check if a request should be allowed
-allowed, remaining = limiter.allow('user:123')
+result = limiter.allow('user:123')
 
-if allowed
-  puts "Request allowed. #{remaining} tokens remaining."
+if result[:allowed]
+  puts "Request allowed. #{result[:remaining]} tokens remaining."
   # Process the request
 else
   puts 'Request denied. Rate limit exceeded.'
@@ -165,7 +165,7 @@ else
 end
 ```
 
-Ruby's keyword arguments make the constructor parameters self-documenting, and the `allow` method returns an array that can be destructured with parallel assignment.
+Ruby's keyword arguments make the constructor parameters self-documenting, and the `allow` method returns a Hash with `:allowed` and `:remaining` keys.
 
 ### Configuration parameters
 
@@ -225,14 +225,14 @@ The demo assumes Redis is running on `localhost:6379` but you can specify a diff
 It's common to include rate limit information in HTTP response headers:
 
 ```ruby
-allowed, remaining = limiter.allow("user:#{user_id}")
+result = limiter.allow("user:#{user_id}")
 
 # Add standard rate limit headers
 response['X-RateLimit-Limit'] = limiter.capacity.to_s
-response['X-RateLimit-Remaining'] = remaining.to_i.to_s
+response['X-RateLimit-Remaining'] = result[:remaining].to_i.to_s
 response['X-RateLimit-Reset'] = (Time.now.to_i + limiter.refill_interval).to_s
 
-unless allowed
+unless result[:allowed]
   response.status = 429 # Too Many Requests
   response['Retry-After'] = limiter.refill_interval.ceil.to_s
 end
@@ -254,11 +254,11 @@ class RateLimitMiddleware
 
   def call(env)
     key = @key_proc.call(env)
-    allowed, remaining = @limiter.allow(key)
+    result = @limiter.allow(key)
 
-    if allowed
+    if result[:allowed]
       status, headers, body = @app.call(env)
-      headers['X-RateLimit-Remaining'] = remaining.to_i.to_s
+      headers['X-RateLimit-Remaining'] = result[:remaining].to_i.to_s
       [status, headers, body]
     else
       [429, { 'Content-Type' => 'application/json', 'Retry-After' => @limiter.refill_interval.ceil.to_s },
@@ -277,7 +277,7 @@ The `allow` method may raise an error if the Redis connection is lost. Wrap call
 
 ```ruby
 begin
-  allowed, remaining = limiter.allow('user:123')
+  result = limiter.allow('user:123')
   # Handle result
 rescue Redis::BaseError => e
   puts "Rate limiter error: #{e.message}"
