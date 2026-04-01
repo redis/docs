@@ -171,7 +171,7 @@ impl TokenBucket {
 
         let remaining = match result.get(1) {
             Some(redis::Value::Int(v)) => *v as f64,
-            Some(redis::Value::BulkString(v)) => {
+            Some(redis::Value::Data(v)) => {
                 String::from_utf8_lossy(v).parse::<f64>().unwrap_or(0.0)
             }
             _ => 0.0,
