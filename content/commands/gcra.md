@@ -57,13 +57,15 @@ title: GCRA
 
 Performs rate limiting using the [Generic Cell Rate Algorithm (GCRA)](https://en.wikipedia.org/wiki/Generic_cell_rate_algorithm).
 
-GCRA is a popular rate limiting algorithm known for its simplicity and speed. Each key request is associated with a given number of tokens; the default is one token per request. In general, GCRA allows a sustained rate of `tokens-per-period` requests per `period` seconds, with a minimum spacing (emission interval) of `period / tokens-per-period` seconds between each request. The `max_burst` parameter allows for occasional spikes by granting up to `max_burst` additional tokens to be consumed at once beyond the sustained rate.
+GCRA is a popular rate limiting algorithm known for its simplicity and speed. Each request (a single call to this command) consumes a number of tokens; the default cost is one token per request. The sustained rate is `tokens-per-period` tokens per `period` seconds, with a minimum spacing (emission interval) of `period / tokens-per-period` seconds between requests. The `max_burst` parameter allows for occasional spikes by granting up to `max_burst` additional tokens that can be consumed at once beyond the sustained rate.
 
 The implementation is based on the popular [redis-cell](https://github.com/brandur/redis-cell) module with small changes in the API. Unlike redis-cell and most other implementations where `period` is given as an integer number of seconds, this command accepts `period` as a floating-point number for greater flexibility. Internally, time periods are calculated with microsecond granularity.
 
 The `GCRA` command is used either to establish a new rate limiter (if the key doesn't exist) or use an existing one (if the key exists).
 All the parameters need to be repeated on each call, and clients don't need to validate that the key exists before using an existing rate limiter.
 Under normal usage, `max-burst`, `tokens-per-period`, and `period` should not change between calls, though this command supports such changes.
+
+In a typical deployment, the application server calls `GCRA` on behalf of the end user. Based on the response, the application server either fulfills the end user's request or rejects it.
 
 See the [rate limiting docs]({{< relref "/develop/using-commands/rate-limiting" >}}) for more information.
 
@@ -77,19 +79,19 @@ is the key associated with a specific rate limiting case. The key stores the int
 
 <details open><summary><code>max-burst</code></summary>
 
-is the maximum number of tokens allowed as a burst, in addition to the sustained rate. This controls how many requests can be made at once before rate limiting starts. The maximum number of requests that can be made immediately is `max_burst + 1`. Minimum value: `0`.
+The maximum number of additional tokens allowed as a burst, above the sustained rate. This controls how many tokens can be consumed at once before rate limiting starts. The total token capacity is `max_burst + 1`. Minimum value: `0`.
 
 </details>
 
 <details open><summary><code>tokens-per-period</code></summary>
 
-is the number of tokens allowed per `period` at a sustained rate. This defines the steady-state throughput of the rate limiter. Minimum value: `1`.
+The number of tokens replenished per `period`, which defines the sustained rate of the rate limiter. Minimum value: `1`.
 
 </details>
 
 <details open><summary><code>period</code></summary>
 
-is the time period in seconds, specified as a floating-point number, used for calculating the sustained rate. The emission interval (minimum spacing between requests) is calculated as `period / tokens-per-period`. Minimum value: `1.0`.
+The time period in seconds, specified as a floating-point number, over which `tokens-per-period` tokens are replenished. The emission interval (minimum spacing between single-token requests) is `period / tokens-per-period`. Minimum value: `1.0`.
 
 </details>
 
@@ -97,7 +99,7 @@ is the time period in seconds, specified as a floating-point number, used for ca
 
 <details open><summary><code>TOKENS count</code></summary>
 
-is the number of tokens that can be consumed for a single request. A higher number of tokens drains the allowance faster. This is useful when different operations have different costs. Default value: `1`.
+The number of tokens consumed by this request. A higher value drains the token allowance faster, which is useful when different operations have different costs. Default value: `1`.
 
 </details>
 
@@ -114,9 +116,9 @@ Rate limit an API endpoint to 10 tokens per 60 seconds with a burst of 5:
 5) (integer) 30
 ```
 
-The response shows: the request is not rate limited (`0`), the maximum number of requests is `6` (`max_burst + 1`), `5` requests are available immediately, retry-after is `-1` (not limited), and a full burst will be available after `30` seconds.
+The response shows: the request is allowed (`0`), the total token capacity is `6` (`max_burst + 1`), `5` tokens are available immediately, retry-after is `-1` (not limited), and the full token allowance will be restored after `30` seconds.
 
-After exhausting the burst allowance:
+After exhausting the token allowance:
 
 ```
 127.0.0.1:6379> GCRA api:user:123 5 10 60
@@ -127,9 +129,9 @@ After exhausting the burst allowance:
 5) (integer) 36
 ```
 
-This time the request is rate limited (`1`), `0` requests are available, and the caller should retry after `6` seconds.
+This time the request is denied (`1`), `0` tokens remain, and the application server should retry after `6` seconds.
 
-Using the `TOKENS` option to apply a higher cost:
+Using the `TOKENS` option to assign a higher cost to a request:
 
 ```
 127.0.0.1:6379> GCRA api:user:123 5 10 60 TOKENS 3
@@ -139,6 +141,8 @@ Using the `TOKENS` option to apply a higher cost:
 4) (integer) -1
 5) (integer) 24
 ```
+
+This request consumes 3 tokens instead of the default 1.
 
 ## Return information
 

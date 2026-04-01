@@ -37,19 +37,25 @@ limiting directly in the server using the
 
 ## How GCRA works
 
+In a typical deployment, the application server calls
+[`GCRA`]({{< relref "/commands/gcra" >}}) on behalf of the end user.
+Based on the response, the application server either fulfills the end user's
+request or rejects it.
+
 GCRA models rate limiting as a leaky bucket that drains at a steady rate.
-Each request adds to the bucket, and the bucket drains over time at the
-sustained rate you configure. If the bucket is full, further requests are
-rate limited until enough time passes for it to drain.
+Each request (a single call to the command) consumes a number of tokens from
+the bucket, and tokens replenish over time at the sustained rate you configure.
+If not enough tokens are available, the request is denied until enough time
+passes for tokens to replenish.
 
 Two parameters control the behavior:
 
 - **Sustained rate**: defined as `tokens_per_period / period`. This is the
-  steady-state throughput. For example, 10 tokens per 60 seconds means
-  one request is allowed every 6 seconds on average.
-- **Burst allowance**: defined by `max_burst`. This lets clients make a short
-  burst of requests above the sustained rate. The total number of requests
-  that can be made immediately is `max_burst + 1`.
+  steady-state token throughput. For example, 10 tokens per 60 seconds means
+  one token replenishes every 6 seconds.
+- **Burst allowance**: defined by `max_burst`. This lets clients consume a
+  burst of tokens above the sustained rate. The total token capacity is
+  `max_burst + 1`.
 
 ## Basic usage
 
@@ -59,8 +65,8 @@ The [`GCRA`]({{< relref "/commands/gcra" >}}) command has the following syntax:
 GCRA key max_burst tokens_per_period period [TOKENS count]
 ```
 
-For example, to allow 30 tokens per minute with a burst of up to 5 extra
-requests:
+For example, to allow a sustained rate of 30 tokens per minute with a burst
+allowance of 5 additional tokens:
 
 ```
 > GCRA api:user:123 5 30 60
@@ -73,17 +79,17 @@ requests:
 
 The response is an array of five integers:
 
-1. **Limited**: `0` means the request is allowed; `1` means it's rate limited.
-2. **Max requests**: the maximum number of requests that can be made in a burst
-   (`max_burst + 1`).
-3. **Remaining**: the number of requests available right now.
-4. **Retry after**: seconds until the client should retry. Returns `-1` when
-   the request isn't limited.
-5. **Reset after**: seconds until the full burst allowance is restored.
+1. **Limited**: `0` means the request is allowed; `1` means it's denied.
+2. **Max tokens**: the total token capacity (`max_burst + 1`).
+3. **Remaining tokens**: the number of tokens available right now.
+4. **Retry after**: seconds until the application server should retry.
+   Returns `-1` when the request isn't denied.
+5. **Reset after**: seconds until the full token allowance is restored.
 
 ## Handling rate-limited requests
 
-When a request is rate limited, the response tells you exactly when to retry:
+When a request is denied, the response tells the application server exactly
+when to retry:
 
 ```
 > GCRA api:user:123 5 30 60
@@ -95,12 +101,12 @@ When a request is rate limited, the response tells you exactly when to retry:
 ```
 
 The first element is `1`, which means the request was denied. The fourth
-element indicates the client should wait 2 seconds before retrying.
+element tells the application server to wait 2 seconds before retrying.
 
 ## Weighted requests
 
 Some operations cost more than others. Use the `TOKENS` option to
-assign a higher cost to expensive operations:
+assign a higher token cost to expensive operations:
 
 ```
 > GCRA api:user:123 5 30 60 TOKENS 3
@@ -111,65 +117,66 @@ assign a higher cost to expensive operations:
 5) (integer) 16
 ```
 
-This consumes 3 units of the rate limit allowance in a single call. The
-remaining count decreases by 3 instead of 1.
+This request consumes 3 tokens instead of the default 1, so the remaining
+token count drops by 3.
 
 ## Example: rate limiting in action
 
 The following example walks through a sequence of requests to show how the
-rate limit allowance drains and recovers over time. It configures a limit of
-5 requests per 10 seconds with a burst of 3.
+token allowance drains and recovers over time. It configures a sustained rate
+of 5 tokens per 10 seconds with a burst allowance of 3 additional tokens (total
+capacity of 4).
 
-The first request arrives on a fresh key. The full burst is available:
+The first request arrives on a fresh key. The full token allowance is
+available:
 
 ```
 > GCRA api:user:1 3 5 10
 1) (integer) 0        # allowed
-2) (integer) 4        # max requests (max_burst + 1)
-3) (integer) 3        # 3 remaining
-4) (integer) -1       # not limited, so retry-after is -1
-5) (integer) 2        # full burst restored in 2 seconds
+2) (integer) 4        # total token capacity (max_burst + 1)
+3) (integer) 3        # 3 tokens remaining
+4) (integer) -1       # not denied, so retry-after is -1
+5) (integer) 2        # full allowance restored in 2 seconds
 ```
 
-Three more requests arrive immediately. Each one drains the remaining
-allowance:
+Three more requests arrive immediately. Each one consumes a token:
 
 ```
 > GCRA api:user:1 3 5 10
 1) (integer) 0        # allowed
 2) (integer) 4
-3) (integer) 2        # 2 remaining
+3) (integer) 2        # 2 tokens remaining
 4) (integer) -1
 5) (integer) 4
 
 > GCRA api:user:1 3 5 10
 1) (integer) 0        # allowed
 2) (integer) 4
-3) (integer) 1        # 1 remaining
+3) (integer) 1        # 1 token remaining
 4) (integer) -1
 5) (integer) 6
 
 > GCRA api:user:1 3 5 10
 1) (integer) 0        # allowed
 2) (integer) 4
-3) (integer) 0        # 0 remaining — burst is exhausted
+3) (integer) 0        # 0 tokens remaining — allowance exhausted
 4) (integer) -1
 5) (integer) 8
 ```
 
-The next request exceeds the allowance and is rate limited:
+The next request is denied because no tokens are available:
 
 ```
 > GCRA api:user:1 3 5 10
 1) (integer) 1        # DENIED
 2) (integer) 4
-3) (integer) 0        # still 0 remaining
+3) (integer) 0        # still 0 tokens remaining
 4) (integer) 2        # retry after 2 seconds
 5) (integer) 8
 ```
 
-After waiting for the retry-after period, the allowance has partially
-recovered and the request succeeds:
+After waiting for the retry-after period, a token has replenished and the
+request succeeds:
 
 ```
 > GCRA api:user:1 3 5 10
@@ -182,8 +189,8 @@ recovered and the request succeeds:
 
 ### Using GCRA in application code
 
-The following Python example shows how to check the rate limit response and
-back off when a request is denied:
+The following Python example shows how an application server checks the
+rate limit before handling an end user's request:
 
 ```python
 import redis
@@ -191,60 +198,55 @@ import time
 
 r = redis.Redis()
 
-def rate_limited_request(user_id, action):
-    """Attempt an action, respecting the rate limit."""
+def handle_request(user_id, action):
+    """Check the rate limit and handle the end user's request."""
     key = f"api:user:{user_id}"
-    # 5 requests per 10 seconds, burst of 3
-    result = r.execute_command("GCRA", key, 3, 5, 10)
-
-    limited, max_req, remaining, retry_after, reset_after = result
+    # Sustained rate: 5 tokens per 10 seconds, burst of 3 tokens
+    limited, max_tokens, remaining, retry_after, reset_after = (
+        r.execute_command("GCRA", key, 3, 5, 10)
+    )
 
     if limited:
-        print(f"Rate limited. Retry after {retry_after} seconds.")
-        time.sleep(retry_after)
-        # Retry once after waiting
-        result = r.execute_command("GCRA", key, 3, 5, 10)
-        limited = result[0]
+        # Deny the end user's request
+        return {"error": "Too many requests", "retry_after": retry_after}
 
-    if not limited:
-        print(f"Request allowed. {result[2]} remaining.")
-        perform_action(action)
-    else:
-        print("Still rate limited. Try again later.")
+    # Tokens available — fulfill the end user's request
+    result = perform_action(action)
+    return {"result": result, "remaining_tokens": remaining}
 ```
 
 ## Real-world examples
 
 ### Limit credit card transactions
 
-A payment processor needs to flag suspicious activity. Limit each user to
-5 transaction attempts per minute with a small burst of 2 to handle
+A payment processor needs to flag suspicious activity. The application server
+limits each user to 5 tokens per minute with a small burst of 2 to handle
 rapid legitimate retries:
 
 ```
 GCRA txn:user:8841 2 5 60
 ```
 
-If the response returns `limited = 1`, reject the transaction and prompt
-the user to wait before trying again.
+If the response returns `limited = 1`, the application server rejects the
+end user's transaction and returns an error prompting them to wait.
 
 ### Throttle profile views on a dating site
 
-To prevent scraping of user profiles, limit each member to 60 profile
-views per hour with a burst of 10:
+To prevent scraping of user profiles, the application server allocates 60
+tokens per hour per member with a burst of 10:
 
 ```
 GCRA profiles:user:2297 10 60 3600
 ```
 
-This lets a user browse through a handful of profiles quickly, but
+This lets an end user browse through a handful of profiles quickly, but
 enforces a steady pace over the course of an hour.
 
 ### Restrict downloads by subscription tier
 
-A file-hosting service offers different download limits for free and
-paid users. Free-tier users get 10 downloads per day with no burst.
-Premium users get 100 downloads per day with a burst of 20:
+A file-hosting service offers different token budgets for free and
+paid users. Free-tier users get 10 tokens per day with no burst.
+Premium users get 100 tokens per day with a burst of 20:
 
 ```
 # Free tier
@@ -263,8 +265,8 @@ GCRA api:user:42:/search 2 10 60
 GCRA api:user:42:/export 0 2 3600
 ```
 
-The search endpoint allows 10 requests per minute with a burst of 2.
-The export endpoint allows 2 requests per hour with no burst.
+The search endpoint allows 10 tokens per minute with a burst of 2.
+The export endpoint allows 2 tokens per hour with no burst.
 
 ## Choose parameter values
 
