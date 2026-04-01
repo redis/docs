@@ -65,6 +65,9 @@ weight: 10
 #### ioredis (NEW)
 - Added [ioredis connect page]({{< relref "/develop/clients/ioredis/connect" >}})
 
+#### node-redis (JavaScript)
+- Added Smart client handoffs section in the Connect page
+
 #### Rust
 - Added [Rust AMR/EntraID connection page]({{< relref "/develop/clients/rust/amr" >}})
 - Added Rust error handling documentation
