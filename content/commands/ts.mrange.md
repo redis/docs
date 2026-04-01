@@ -53,50 +53,9 @@ arguments:
     optional: true
     token: ALIGN
     type: integer
-  - arguments:
-    - name: avg
-      token: AVG
-      type: pure-token
-    - name: first
-      token: FIRST
-      type: pure-token
-    - name: last
-      token: LAST
-      type: pure-token
-    - name: min
-      token: MIN
-      type: pure-token
-    - name: max
-      token: MAX
-      type: pure-token
-    - name: sum
-      token: SUM
-      type: pure-token
-    - name: range
-      token: RANGE
-      type: pure-token
-    - name: count
-      token: COUNT
-      type: pure-token
-    - name: std.p
-      token: STD.P
-      type: pure-token
-    - name: std.s
-      token: STD.S
-      type: pure-token
-    - name: var.p
-      token: VAR.P
-      type: pure-token
-    - name: var.s
-      token: VAR.S
-      type: pure-token
-    - name: twa
-      since: 1.8.0
-      token: TWA
-      type: pure-token
-    name: aggregator
+  - name: aggregationType
     token: AGGREGATION
-    type: oneof
+    type: string
   - name: bucketDuration
     type: integer
   - name: buckettimestamp
@@ -165,15 +124,14 @@ stack_path: docs/data-types/timeseries
 summary: Query a range across multiple time series by filters in forward direction
 syntax: "TS.MRANGE fromTimestamp toTimestamp\n  [LATEST]\n  [FILTER_BY_TS ts...]\n\
   \  [FILTER_BY_VALUE min max]\n  [WITHLABELS | <SELECTED_LABELS label...>]\n  [COUNT\
-  \ count]\n  [[ALIGN align] AGGREGATION aggregator bucketDuration [BUCKETTIMESTAMP\
+  \ count]\n  [[ALIGN align] AGGREGATION aggregators bucketDuration [BUCKETTIMESTAMP\
   \ bt] [EMPTY]]\n  FILTER filterExpr...\n  [GROUPBY label REDUCE reducer]\n"
 syntax_fmt: "TS.MRANGE fromTimestamp toTimestamp [LATEST] [FILTER_BY_TS\_Timestamp\n\
   \  [Timestamp ...]] [FILTER_BY_VALUE min max] [WITHLABELS |\n  SELECTED_LABELS label1\
-  \ [label1 ...]] [COUNT\_count] [[ALIGN\_value]\n  AGGREGATION\_<AVG | FIRST | LAST\
-  \ | MIN | MAX | SUM | RANGE | COUNT\n  | STD.P | STD.S | VAR.P | VAR.S | TWA> bucketDuration\n\
-  \  [BUCKETTIMESTAMP] [EMPTY]] FILTER\_<l=v | l!=v | l= | l!= |\n  l=(v1,v2,...)\
-  \ | l!=(v1,v2,...) [l=v | l!=v | l= | l!= |\n  l=(v1,v2,...) | l!=(v1,v2,...) ...]>\
-  \ [GROUPBY label REDUCE\n  reducer]"
+  \ [label1 ...]] [COUNT\_count] [[ALIGN\_value]\n  AGGREGATION\ aggregators bucketDuration\
+  \ [BUCKETTIMESTAMP]\n  [EMPTY]] FILTER\_<l=v | l!=v | l= | l!= | l=(v1,v2,...) |\n\
+  \  l!=(v1,v2,...) [l=v | l!=v | l= | l!= | l=(v1,v2,...) |\n  l!=(v1,v2,...) ...]>\
+  \ [GROUPBY label REDUCE reducer]"
 title: TS.MRANGE
 ---
 {{< note >}}
@@ -288,13 +246,13 @@ Values include:
 </details>
 
 <details open>
-<summary><code>AGGREGATION aggregator bucketDuration</code></summary>
+<summary><code>AGGREGATION aggregators bucketDuration</code></summary>
 
-per time series, aggregates samples into time buckets, where:
+for each time series, aggregates samples into time buckets, where:
 
-  - `aggregator` takes one of the following aggregation types:
+  - `aggregators` is one or more comma-separated aggregators from the following table:
 
-    | `aggregator` | Description                                                     |
+    | aggregator   | Description                                                     |
     | ------------ | --------------------------------------------------------------- |
     | `avg`        | Arithmetic mean of all non-NaN values                           |
     | `sum`        | Sum of all non-NaN values                                       |
@@ -313,6 +271,11 @@ per time series, aggregates samples into time buckets, where:
     | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values) (since RedisTimeSeries 1.8) |
 
   - `bucketDuration` is duration of each bucket, in milliseconds.
+
+  Note: `aggregators` can either be a single aggregator or multiple aggregators separated by commas as shown below.
+  No whitespace is allowed between aggregators.
+
+  AGGREGATION min,avg,max
   
   Without `ALIGN`, bucket start times are multiples of `bucketDuration`.
   
@@ -338,7 +301,7 @@ controls how bucket timestamps are reported.
 
 is a flag, which, when specified, reports aggregations also for empty buckets.
 
-| `aggregator`         | Value reported for each empty bucket |
+| aggregator           | Value reported for each empty bucket |
 | -------------------- | ------------------------------------ |
 | `sum`, `count`       | `0`                                  |
 | `last`               | The value of the last sample before the bucket's start. `NaN` when no such sample. |
@@ -354,6 +317,7 @@ Regardless of the values of `fromTimestamp` and `toTimestamp`, no data is report
 splits time series into groups, each group contains time series that share the same value for the provided label name, then aggregates results in each group.
 
 When combined with `AGGREGATION` the `GROUPBY`/`REDUCE` is applied post aggregation stage.
+`GROUPBY`/`REDUCE` is not permitted when multiple aggregators are specified.
 
   - `label` is label name. A group is created for all time series that share the same value for this label.
 

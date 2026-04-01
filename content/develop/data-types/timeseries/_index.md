@@ -31,7 +31,7 @@ weight: 150
 The Redis time series data type lets you store real-valued data points
 along with the time they were collected. You can combine the values from a selection
 of time series and query them by time or value range. You can also compute
-aggregate functions of the data over periods of time and create new time series
+aggregators of the data over periods of time and create new time series
 from the results. When you create a time series, you can specify a maximum
 retention period for the data, relative to the last reported timestamp, to
 prevent the time series from growing indefinitely.
@@ -383,26 +383,28 @@ bucket by an aggregate value, such as the average or maximum value.
 For example, if you expect to collect more than one billion data points in a day, you could aggregate the data using buckets of one minute. Since each bucket is represented by a single value, this reduces 
 the dataset size to 1,440 data points (24 hours x 60 minutes = 1,440 minutes).
 
-The range query commands let you specify an aggregation function and bucket size.
-The available aggregation functions are:
+The range query commands let you specify one or more aggregators and bucket size.
+The available aggregators are:
 
-- `avg`: Arithmetic mean of all values
-- `sum`: Sum of all values
-- `min`: Minimum value
-- `max`: Maximum value
-- `range`: Difference between the highest and the lowest value
-- `count`: Number of values
-- `countNaN`: Number of NaN values (since Redis 8.6)
-- `countAll`: Number of all values, both NaN and non-NaN (since Redis 8.6)
-- `first`: Value with lowest timestamp in the bucket
-- `last`:  Value with highest timestamp in the bucket
-- `std.p`: Population standard deviation of the values
-- `std.s`: Sample standard deviation of the values
-- `var.p`: Population variance of the values
-- `var.s`: Sample variance of the values
-- `twa`: Time-weighted average over the bucket's timeframe (since RedisTimeSeries v1.8)
+| aggregator   | Description                                                     |
+| ------------ | --------------------------------------------------------------- |
+| `avg`        | Arithmetic mean of all non-NaN values                           |
+| `sum`        | Sum of all non-NaN values                                       |
+| `min`        | Minimum non-NaN value                                           |
+| `max`        | Maximum non-NaN value                                           |
+| `range`      | Difference between the maximum and the minimum non-NaN values   |
+| `count`      | Number of non-NaN values                                        |
+| `countNaN`   | Number of NaN values (since Redis 8.6)                          |
+| `countAll`   | Number of values, including NaN and non-NaN (since Redis 8.6)   |
+| `first`      | The non-NaN value with the lowest timestamp in the bucket       |
+| `last`       | The non-NaN value with the highest timestamp in the bucket      |
+| `std.p`      | Population standard deviation of the non-NaN values             |
+| `std.s`      | Sample standard deviation of the non-NaN values                 |
+| `var.p`      | Population variance of the non-NaN values                       |
+| `var.s`      | Sample variance of the non-NaN values                           |
+| `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values) (since RedisTimeSeries 1.8) |
 
-For example, the example below shows an aggregation with the `avg` function over all
+For example, the example below shows an aggregation with the `avg` aggregator over all
 five data points in the `rg:2` time series. The bucket size is 2ms, so there are three
 aggregated values with only one value used to calculate the average for the last bucket.
 
@@ -418,13 +420,19 @@ aggregated values with only one value used to calculate the average for the last
 ```
 {{< /clients-example >}}
 
-<note><b>NaN Handling (Redis 8.6+):</b> Starting from Redis 8.6, all existing aggregation functions ignore NaN values when computing results. For example, if a bucket contains values [1.0, NaN, 3.0], the `avg` aggregator will return 2.0 (average of 1.0 and 3.0), and the `count` aggregator will return 2. Use the new `countNaN` and `countAll` aggregators to count NaN values and total values respectively.</note>
+To use multiple aggregators in a single query, separate the aggregators with comma characters as in the following example.
+
+```bash
+TS.RANGE rg:2 - + AGGREGATION min,avg,max 2
+```
+
+<note><b>NaN Handling (Redis 8.6+):</b> Starting from Redis 8.6, all existing aggregators ignore NaN values when computing results. For example, if a bucket contains values [1.0, NaN, 3.0], the `avg` aggregator will return 2.0 (average of 1.0 and 3.0), and the `count` aggregator will return 2. Use the new `countNaN` and `countAll` aggregators to count NaN values and total values respectively.</note>
 
 ### Bucket alignment
 
 The sequence of buckets has a reference timestamp, which is the timestamp where
 the first bucket in the sequence starts. By default, the reference timestamp is zero.
-For example, the following commands create a time series and apply a `min` aggregation
+For example, the following commands create a time series and apply a `min` aggregator
 with a bucket size of 25 milliseconds at the default zero alignment.
 
 {{< clients-example set="time_series_tutorial" step="agg_bucket" description="Bucket alignment: Use AGGREGATION with default zero alignment to group data into fixed-size time buckets when you need consistent time-based aggregations" difficulty="intermediate" buildsUpon="agg" >}}
@@ -578,7 +586,7 @@ NaN values are useful in scenarios where you need to distinguish between:
 
 - **Adding NaN values**: Use [`TS.ADD`]({{< relref "commands/ts.add/" >}}) and [`TS.MADD`]({{< relref "commands/ts.madd/" >}}) to insert NaN values
 - **Querying NaN values**: All raw measurement queries ([`TS.GET`]({{< relref "commands/ts.get/" >}}), [`TS.RANGE`]({{< relref "commands/ts.range/" >}}), etc.) include NaN values in results
-- **Aggregation with NaN**: All existing aggregation functions except `countNaN` and `countAll` ignore NaN values. Use `countNaN` and `countAll` to count NaN and total values
+- **Aggregation with NaN**: All existing aggregators except `countNaN` and `countAll` ignore NaN values. Use `countNaN` and `countAll` to count NaN and total values
 - **Increment/Decrement**: [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}) and [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}) return errors when the current value or operand is NaN
 - **Duplicate policies**: Special handling for `MIN`, `MAX`, and `SUM` policies when mixing NaN and non-NaN values
 - **Filtering**: [`FILTER_BY_VALUE`]({{< relref "commands/ts.range#filter_by_value-min-max-since-redistimeseries-v16" >}}) parameters cannot be NaN values
@@ -639,8 +647,8 @@ aggregation buckets are stored in a separate time series, leaving the original
 series unchanged.
 
 Use [`TS.CREATERULE`]({{< relref "commands/ts.createrule/" >}}) to create a
-compaction rule, specifying the source and destination time series keys, the
-aggregation function, and the bucket duration. Note that the destination time
+compaction rule, specifying the source and destination time series keys, an
+aggregator, and the bucket duration. Note that the destination time
 series must already exist when you create the rule and also that the compaction will
 only process data that is added to the source series after you create the rule.
 
