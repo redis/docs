@@ -84,6 +84,23 @@ section.prose {
   @apply text-base;
 }
 
+/* Nested ordered list styling for alphabetic numbering on sublists */
+.prose ol {
+  list-style-type: decimal;
+}
+
+.prose ol ol {
+  list-style-type: lower-alpha;
+}
+
+.prose ol ol ol {
+  list-style-type: lower-roman;
+}
+
+.prose ol ol ol ol {
+  list-style-type: decimal;
+}
+
 .prose pre {
   @apply bg-slate-900 rounded-lg;
 }
