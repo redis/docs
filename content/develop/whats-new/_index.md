@@ -73,6 +73,8 @@ weight: 10
 #### Python (redis-py)
 - Updated failover documentation with initial health checks
 - Added failback configuration details
+- Added observability page
+- Added Smart client handoffs section in the Connect page
 
 #### Java (Jedis)
 - Added failback configuration section
