@@ -41,17 +41,17 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HVALS
+railroad_diagram: /images/railroad/hvals.svg
 since: 2.0.0
 summary: Returns all values in a hash.
 syntax_fmt: HVALS key
-syntax_str: ''
 title: HVALS
 ---
 Returns all values in the hash stored at `key`.
 
 ## Examples
 
-{{< clients-example cmds_hash hvals >}}
+{{< clients-example set="cmds_hash" step="hvals" description="Foundational: Retrieve all values from a hash using HVALS (returns only values without field names, useful when you only need the data)" difficulty="beginner" >}}
 redis> HSET myhash field1 "Hello"
 (integer) 1
 redis> HSET myhash field2 "World"
@@ -68,6 +68,12 @@ HSET myhash field1 "Hello"
 HSET myhash field2 "World"
 HVALS myhash
 {{% /redis-cli %}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -58,12 +58,26 @@ Returns a JSON array with all data required by the migration orchestrator.
 #### Example response body
 
 ```json
-"migration": {
-    "status": "foo",
-    "lag": 123,
-    "run_id": "5",
-    "flush_counter": 2,
-    "source_shards": [{"replication_id": "1", "replication_offset": 2}]
+{
+  "migration": {
+    "status": "string",
+    "lag": 0,
+    "rdb_size": 0,
+    "rdb_transferred": 0,
+    "run_id": "string",
+    "flush_counter": 0,
+    "source_shards": [
+      {
+        "replication_id": "string",
+        "replication_offset": 0
+      }
+    ],
+    "error": {
+      "error_code": "string",
+      "message": "string",
+      "timestamp": "2019-08-24T14:15:22Z"
+    }
+  }
 }
 ```
 

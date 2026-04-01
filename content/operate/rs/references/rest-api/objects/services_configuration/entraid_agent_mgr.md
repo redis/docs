@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the entraid_agent_mgr object used with Redis Enterprise Software REST API calls.
+description: Documents the entraid_agent_mgr object used with Redis Software REST API calls.
 linkTitle: entraid_agent_mgr
 weight: $weight
 ---

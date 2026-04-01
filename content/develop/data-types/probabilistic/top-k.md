@@ -17,6 +17,8 @@ title: Top-K
 weight: 50
 ---
 
+{{< command-group group="topk" title="Top-K command summary" show_link=true >}}
+
 Top K is a probabilistic data structure in Redis Open Source used to estimate the `K` highest-rank elements from a stream.
 
 "Highest-rank" in this case means "elements with a highest number or score attached to them", where the score can be a count of how many times the element has appeared in the stream - thus making the data structure perfect for finding the elements with the highest frequency in a stream.
@@ -56,7 +58,7 @@ In the example below, "pedals" displaces "handlebars", which is returned after "
  * Use [`TOPK.LIST`]({{< relref "commands/topk.list/" >}}) to list the items entered thus far.
 ​
  * Use [`TOPK.QUERY`]({{< relref "commands/topk.query/" >}}) to see if an item is on the top K list. Just like [`TOPK.ADD`]({{< relref "commands/topk.add/" >}}) multiple items can be queried at the same time.
-{{< clients-example topk_tutorial topk >}}
+{{< clients-example set="topk_tutorial" step="topk" description="Top-K operations: Use TOPK.RESERVE to initialize a sketch, TOPK.ADD to track item frequencies, TOPK.LIST to retrieve top items, and TOPK.QUERY to check membership when you need to identify the most frequent items in a data stream" difficulty="intermediate" >}}
 > TOPK.RESERVE bikes:keywords 5 2000 7 0.925
 OK
 > TOPK.ADD bikes:keywords store seat handlebars handles pedals tires store seat
@@ -100,4 +102,4 @@ Insertion in a top-k has time complexity of O(K + depth) ≈ O(K) and lookup has
 - [HeavyKeeper: An Accurate Algorithm for Finding Top-k Elephant Flows.](https://yangtonghome.github.io/uploads/HeavyKeeper_ToN.pdf)
 
 ## References
-- [Meet Top-K: an Awesome Probabilistic Addition to RedisBloom](https://redis.com/blog/meet-top-k-awesome-probabilistic-addition-redisbloom/)
+- [Meet Top-K: an Awesome Probabilistic Addition to Redis](https://redis.com/blog/meet-top-k-awesome-probabilistic-addition-redis/)

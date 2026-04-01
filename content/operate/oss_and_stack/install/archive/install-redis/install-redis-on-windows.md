@@ -6,7 +6,7 @@ categories:
 - operate
 - stack
 - oss
-description: Use Redis on Windows through Mamurai, official Redis partner for Windows compatibility
+description: Use Redis on Windows through Memurai, official Redis partner for Windows compatibility
 linkTitle: Windows
 title: Install Redis on Windows
 weight: 1
@@ -41,7 +41,7 @@ sudo apt-get install redis
 Lastly, start the Redis server like so:
 
 {{< highlight bash  >}}
-sudo service redis-server start
+redis-server --daemonize yes
 {{< / highlight  >}}
 
 ### Connect to Redis

@@ -139,6 +139,22 @@ result_print(index.query(v))
 <table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th><th>last_updated</th></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td><td>1741627789</td></tr><tr><td>0.217882037163</td><td>taimur</td><td>low</td><td>15</td><td>CEO</td><td>-122.0839,37.3861</td><td>1742232589</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td><td>1742232589</td></tr></table>
 
 
+**Performance Tip:** For HNSW and SVS-VAMANA indexes, you can add runtime parameters to tune search performance:
+
+```python
+# Example with runtime parameters for better recall
+v = VectorQuery(
+    vector=[0.1, 0.1, 0.5],
+    vector_field_name="user_embedding",
+    return_fields=["user", "credit_score", "age"],
+    filter_expression=t,
+    ef_runtime=100,  # HNSW: higher for better recall
+    search_window_size=40  # SVS-VAMANA: larger window for better recall
+)
+```
+
+These parameters can be adjusted at query time without rebuilding the index. See the [Advanced Queries guide](11_advanced_queries.ipynb) for more details.
+
 
 ```python
 # use multiple tags as a list

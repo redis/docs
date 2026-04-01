@@ -36,7 +36,7 @@ The steps below use the following placeholders to indicate command line paramete
 1. Add the Redis repository.
 
    ```sh
-   helm repo add <repo-name> https://helm.redis.io/
+   helm repo add <repo-name> https://helm.redis.io
    ```
 
 2. Install the Helm chart into a new namespace.
@@ -148,6 +148,10 @@ To upgrade with OpenShift, add `--set openshift.mode=true`.
 The upgrade process automatically updates the operator and its components, including the Custom Resource Definitions (CRDs). The CRDs are versioned and update only if the new version is higher than the existing version.
 
 After you upgrade the operator, you might need to upgrade your Redis Enterprise clusters, depending on the Redis software version bundled with the operator. For detailed information about the upgrade process, see [Redis Enterprise for Kubernetes upgrade documentation](https://redis.io/docs/latest/operate/kubernetes/upgrade/).
+
+{{< note >}}
+If your databases use user-defined modules (custom non-bundled modules), you must take additional steps during the upgrade process. See [Upgrade with user-defined modules]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster#user-defined-modules" >}}) for details.
+{{< /note >}}
 
 For more information and options when upgrading charts, see [helm upgrade](https://helm.sh/docs/helm/helm_upgrade/).
 

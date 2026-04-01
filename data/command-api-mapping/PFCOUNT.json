@@ -1,0 +1,333 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "pfcount(*sources: KeyT)",
+        "params": [
+          {
+            "name": "*sources",
+            "type": "KeyT",
+            "description": "One or more HyperLogLog keys"
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": "The approximated number of unique elements observed via PFADD"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long pfcount(final byte[] key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": "The HyperLogLog key"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The approximated number of unique elements"
+        }
+      },
+      {
+        "signature": "long pfcount(final byte[]... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "byte[]...",
+            "description": "One or more HyperLogLog keys"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The approximated number of unique elements across all keys"
+        }
+      },
+      {
+        "signature": "long pfcount(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The HyperLogLog key"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The approximated number of unique elements"
+        }
+      },
+      {
+        "signature": "long pfcount(final String... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": "One or more HyperLogLog keys"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The approximated number of unique elements across all keys"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long pfcount(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "The keys"
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "The approximated number of unique elements observed via PFADD"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> pfcount(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "The keys"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "The approximated number of unique elements observed via PFADD"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> pfcount(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "The keys"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "The approximated number of unique elements observed via PFADD"
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "pfcount(...keys: RedisKey[], callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "...keys",
+            "type": "RedisKey[]",
+            "description": "One or more HyperLogLog keys"
+          },
+          {
+            "name": "callback",
+            "type": "Callback<number>",
+            "description": "Optional callback"
+          }
+        ],
+        "returns": {
+          "type": "Result<number, Context>",
+          "description": "The approximated number of unique elements"
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "pfcount(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The HyperLogLog key"
+          }
+        ],
+        "returns": {
+          "type": "usize",
+          "description": "The approximated number of unique elements"
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "pfcount(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The HyperLogLog key"
+          }
+        ],
+        "returns": {
+          "type": "usize",
+          "description": "The approximated number of unique elements"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "HyperLogLogLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The HyperLogLog key"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The approximated number of unique elements observed via HyperLogLogAdd"
+        }
+      },
+      {
+        "signature": "HyperLogLogLength(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the HyperLogLogs"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The approximated number of unique elements observed via HyperLogLogAdd"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "HyperLogLogLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The HyperLogLog key"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation"
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "The approximated number of unique elements observed via HyperLogLogAdd"
+        }
+      },
+      {
+        "signature": "HyperLogLogLengthAsync(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the HyperLogLogs"
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation"
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "The approximated number of unique elements observed via HyperLogLogAdd"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "pfcount(string[]|string $keyOrKeys, string ...$keys = null)",
+        "params": [
+          {
+            "name": "$keyOrKeys",
+            "type": "string[]|string",
+            "description": "One or more HyperLogLog keys"
+          },
+          {
+            "name": "...$keys",
+            "type": "string",
+            "description": "Additional keys (optional)"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "The approximated number of unique elements"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "PFCount(ctx context.Context, keys ...string) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context for the command"
+          },
+          {
+            "name": "keys",
+            "type": "...string",
+            "description": "One or more HyperLogLog keys"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": "The approximated number of unique elements"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "PFCOUNT(keys: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisVariadicArgument",
+            "description": "One or more keys of HyperLogLog structures to count"
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": "The approximated number of unique elements"
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "pfcount(*keys)",
+        "params": [
+          {
+            "name": "*keys",
+            "type": "String, Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

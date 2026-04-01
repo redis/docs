@@ -1,0 +1,13 @@
+{{ $fname := .Get "filename" | strings.TrimLeft "/" }}
+{{ $cleanFname := $fname | strings.TrimSuffix "#no-click" }}
+{{ $noClick := strings.HasSuffix $fname "#no-click" }}
+{{ if not (hasPrefix $cleanFname "/") }}
+	{{ .Scratch.Set "file" (printf "/%s" $cleanFname) }}
+{{ else }}
+	{{ .Scratch.Set "file" $cleanFname }}
+{{ end }}
+<img src='{{ relURL $cleanFname }}'
+	 {{ with .Get "width" }} width="{{.}}"{{ end }}
+	 {{ with .Get "height" }} height="{{.}}"{{ end }}
+	 {{ with .Get "alt"}} alt="{{.}}"{{ end }}
+	 class="inline align-middle m-0 p-0{{ if $noClick }} pointer-events-none cursor-default{{ end }}{{ with .Get "class" }} {{.}}{{ end }}"/>

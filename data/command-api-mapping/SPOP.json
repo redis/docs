@@ -1,0 +1,497 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "spop(name: KeyT, count: Optional[int] = None)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[Union[str, List, None]], str, List, None]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String spop(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Bulk reply"
+        }
+      },
+      {
+        "signature": "Set<String> spop(final String key, final long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Set<String>",
+          "description": "Bulk reply"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "V spop(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "V",
+          "description": "V bulk-string-reply the removed element, or null when key does not exist."
+        }
+      },
+      {
+        "signature": "Set<V> spop(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "number of members to pop."
+          }
+        ],
+        "returns": {
+          "type": "Set<V>",
+          "description": "V bulk-string-reply the removed element, or null when key does not exist."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<V> spop(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<V>",
+          "description": "V bulk-string-reply the removed element, or null when key does not exist."
+        }
+      },
+      {
+        "signature": "RedisFuture<Set<V>> spop(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "number of members to pop."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Set<V>>",
+          "description": "V bulk-string-reply the removed element, or null when key does not exist."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<V> spop(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<V>",
+          "description": "V bulk-string-reply the removed element, or null when key does not exist."
+        }
+      },
+      {
+        "signature": "Flux<V> spop(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "number of members to pop."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "V bulk-string-reply the removed element, or null when key does not exist."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SPop(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SPOP(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "spop(key: RedisKey, callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "spop(key: RedisKey, count: number | string, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "spop(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Generic",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "spop(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Generic",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SetPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "An array of elements, or an empty array when key does not exist."
+        }
+      },
+      {
+        "signature": "SetPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "The number of elements to return."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "An array of elements, or an empty array when key does not exist."
+        }
+      },
+      {
+        "signature": "SetPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "An array of elements, or an empty array when key does not exist."
+        }
+      },
+      {
+        "signature": "SetPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "The number of elements to return."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "An array of elements, or an empty array when key does not exist."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SetPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "An array of elements, or an empty array when key does not exist."
+        }
+      },
+      {
+        "signature": "SetPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "The number of elements to return."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "An array of elements, or an empty array when key does not exist."
+        }
+      },
+      {
+        "signature": "SetPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "An array of elements, or an empty array when key does not exist."
+        }
+      },
+      {
+        "signature": "SetPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "The number of elements to return."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "An array of elements, or an empty array when key does not exist."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "spop(string $key, ?int $count = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "?int $count = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string|array|null",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "spop(key, count = nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

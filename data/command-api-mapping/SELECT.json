@@ -1,0 +1,87 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "select(index: int, **kwargs)",
+        "params": [
+          {
+            "name": "index",
+            "type": "int",
+            "description": "The database index"
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String select(final int index)",
+        "params": [
+          {
+            "name": "index",
+            "type": "int",
+            "description": "The database index"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Select(ctx context.Context, index int) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": "Database index"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "select(int $database)",
+        "params": [
+          {
+            "name": "$database",
+            "type": "int",
+            "description": "Database index"
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

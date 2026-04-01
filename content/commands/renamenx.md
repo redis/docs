@@ -61,12 +61,17 @@ key_specs:
     type: range
   insert: true
 linkTitle: RENAMENX
+railroad_diagram: /images/railroad/renamenx.svg
 since: 1.0.0
 summary: Renames a key only when the target key name doesn't exist.
 syntax_fmt: RENAMENX key newkey
-syntax_str: newkey
 title: RENAMENX
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Renames `key` to `newkey` if `newkey` does not yet exist.
 It returns an error when `key` does not exist.
 
@@ -80,6 +85,12 @@ SET myotherkey "World"
 RENAMENX mykey myotherkey
 GET myotherkey
 {{% /redis-cli %}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | For Active-Active or clustered databases, the original key and new key must be in the same hash slot. |
 
 ## Return information
 

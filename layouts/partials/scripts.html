@@ -2,16 +2,20 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
-        // don't run script for tabbed code examples
-        if (!document.querySelector('.codetabs.cli.group.flex.justify-start.items-center.flex-wrap.box-border.rounded-lg.mt-0.mb-0.mx-auto.bg-slate-900')) {
-            document.querySelectorAll('div.highlight').forEach(block => {
+        // Add copy buttons to code blocks (but skip those inside codetabs or thebe-container)
+        document.querySelectorAll('div.highlight').forEach(block => {
+            // Skip if this code block is inside a codetabs container or thebe-container
+            if (block.closest('.codetabs') || block.closest('.thebe-container')) {
+                return;
+            }
                 // Create a wrapper for the button and message
                 const wrapper = document.createElement('div');
+                wrapper.className = 'copy-button-wrapper';
 
                 if (block.parentElement.classList.contains("expand-content")) {
-                    wrapper.style = 'position:absolute;top:24px;right:20px;z-index:1;display:flex;align-items:center;gap:6px;';
+                    wrapper.classList.add('expand-content-wrapper');
                 } else {
-                    wrapper.style = 'position:absolute;top:24px;right:10px;z-index:1;display:flex;align-items:center;gap:6px;';
+                    wrapper.classList.add('standard-wrapper');
                 }
 
                 // Check if this is a YAML embed with download functionality
@@ -80,10 +84,9 @@
                     wrapper.appendChild(downloadButton);
                 }
 
-                block.style.position = 'relative';
-                block.appendChild(wrapper);
-            });
-        }
+            block.style.position = 'relative';
+            block.appendChild(wrapper);
+        });
     });
 </script>
 
@@ -94,6 +97,7 @@
         var currentUrl = window.location.href
         const regex_kubernetes = new RegExp('/docs/(latest|staging\/.+)/operate/kubernetes/.*')
         const regex_rs = new RegExp('/docs/(latest|staging\/.+)/operate/rs/.*')
+        const regex_redisvl = new RegExp('/docs/(latest|staging\/.+)/develop/ai/redisvl/.*')
 
         if (regex_kubernetes.test(currentUrl)){
             // unhide kubernetes version selector
@@ -102,6 +106,10 @@
         else if (regex_rs.test(currentUrl)) {
             // unhide rs version selector
             document.getElementById( 'versionSelectorRs' ).style.display = '';
+        }
+        else if (regex_redisvl.test(currentUrl)) {
+            // unhide redisvl version selector
+            document.getElementById( 'versionSelectorRedisvl' ).style.display = '';
         }
     }
 
@@ -137,7 +145,13 @@
         var versionsDropdown = document.getElementById("versionDropdown" + product).children
         var versionsDropdownLength = versionsDropdown.length
 
-        const regex = new RegExp(String.raw`^.+\/operate\/${productLowercase}`,"g");
+        let regex;
+        if (productLowercase == "kubernetes" || productLowercase == "rs") {
+            regex = new RegExp(String.raw`^.+\/operate\/${productLowercase}`,"g");
+        }
+        else {
+            regex = new RegExp(String.raw`^.+\/develop\/ai\/${productLowercase}`,"g");
+        }
         const versionRegex = /^(\/\d+\.\d+(?:\.\d+)?(?:\-\d+)?)?/g;
 
         // for each version in dropdown, edit its href link

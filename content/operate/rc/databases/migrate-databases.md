@@ -1,15 +1,15 @@
 ---
-Title: Migrate data to new subscription
+Title: Migrate data between Redis Cloud databases
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
-description: Shows two ways to migrate data to a database in a new subscription.
+description: Shows two ways to migrate data from one Redis Cloud database to another.
 linkTitle: Migrate databases
 weight: 30
 ---
-There are times when you need to migrate data from one database to another.  
+There are times when you need to migrate data from one Redis Cloud database to another.  
 
 Here are two common ways to do this.
 
@@ -61,7 +61,7 @@ Before you use Active-Passive, be aware of the following limitations:
 - Turning on Active-Passive will flush the target database. Make sure that your target database has no important data before you turn on Active-Passive.
 {{< /note >}}
 
-### Detailed Active-Passive syncing process
+### Detailed Active-Passive syncing process {#sync-using-active-passive}
 
 Follow these detailed steps to migrate data using Active-Passive syncing:
 
@@ -115,13 +115,13 @@ Follow these detailed steps to migrate data using Active-Passive syncing:
 
 1. Select **Save Active-Passive** to save your Active-Passive settings.
 
-    {{<image filename="images/rc/icon-database-save-active-passive.png" alt="The **Save** button verifies the Source URI and you can't save until it validates." width="150px">}}
+    {{<image filename="images/rc/icon-database-save-active-passive.png" alt="The **Save Active-Passive** button saves the active-passive settings." width="150px">}}
 
     For an external database, we'll verify the endpoint at this step. If the endpoint can't be verified, make sure that you've copied the details directly from the source database and that the value you entered starts with `redis://`.
 
 1.  Select **Save Database** to begin updating the database.
 
-    {{<image filename="images/rc/button-database-save.png" alt="Use the **Save Database** button to save your changes, deploy the database, and to start data migration." >}}
+    {{<image filename="images/rc/button-database-save.png" alt="Use the **Save Database** button to save your changes, deploy the database, and to start data migration." width="150px" >}}
 
     Initially, the database status is __Pending__, which means the update task is still running.  
 

@@ -9,12 +9,12 @@ weight: 05
 
 
 Out of the box, Redis provides a [variety of data structures](https://redis.com/redis-enterprise/data-structures/) that can adapt to your domain specific applications and use cases.
-In this notebook, we will demonstrate how to use RedisVL with both [Hash](https://redis.io/docs/data-types/hashes/) and [JSON](https://redis.io/docs/data-types/json/) data.
+In this notebook, we will demonstrate how to use RedisVL with both [Hash](https://redis.io/docs/latest/develop/data-types/#hashes) and [JSON](https://redis.io/docs/latest/develop/data-types/json/) data.
 
 
 Before running this notebook, be sure to
 1. Have installed ``redisvl`` and have that environment active for this notebook.
-2. Have a running Redis Stack or Redis Enterprise instance with RediSearch > 2.4 activated.
+2. Have a running Redis Stack or Redis Software instance with RediSearch > 2.4 activated.
 
 For example, you can run [Redis Stack](https://redis.io/docs/install/install-stack/) locally with Docker:
 
@@ -494,9 +494,8 @@ results
 
 
 
-# Cleanup
-
 
 ```python
+# Cleanup
 bike_index.delete()
 ```

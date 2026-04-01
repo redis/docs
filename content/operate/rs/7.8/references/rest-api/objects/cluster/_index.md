@@ -52,6 +52,7 @@ An API object that represents the cluster.
 | <span class="break-all">mtls_certificate_authentication</span> | boolean | Require authentication of client certificates for mTLS connections to the cluster. The API_CA certificate should be configured as a prerequisite. |
 | <span class="break-all">mtls_client_cert_subject_validation_type</span> | `disabled`<br />`san_cn`<br />`full_subject` | Enables additional certificate validations that further limit connections to clients with valid certificates during TLS client authentication.<br />Values:<br />**disabled**: Authenticates clients with valid certificates. No additional validations are enforced.<br />**san_cn**: A client certificate is valid only if its Common Name (CN) matches an entry in the list of valid subjects. Ignores other Subject attributes.<br />**full_subject**: A client certificate is valid only if its Subject attributes match an entry in the list of valid subjects. |
 | name | string | Cluster's fully qualified domain name (read-only) |
+| options_method_forbidden | boolean (default: false) | Make OPTIONS http method forbidden over CNM HTTPS port. |
 | password_complexity | boolean (default:&nbsp;false) | Enforce password complexity policy |
 | <span class="break-all">password_expiration_duration</span> | integer (default:&nbsp;0) | The number of days a password is valid until the user is required to replace it |
 | password_min_length | integer, (range: 8-256) (default: 8) | The minimum length required for a password. |
@@ -61,7 +62,6 @@ An API object that represents the cluster.
 | reserved_ports | array of strings | List of reserved ports and/or port ranges to avoid using for database endpoints (for example `"reserved_ports": ["11000", "13000-13010"]`) |
 | s3_ca_cert | string | Filepath to the PEM-encoded CA certificate to use for validating TLS connections to the S3 server |
 | s3_url | string | Specifies the URL for S3 export and import |
-| saslauthd_ldap_conf | string | saslauthd LDAP configuration |
 | sentinel_cipher_suites | array | Specifies the list of enabled ciphers for the sentinel service. The supported ciphers are those implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package. |
 | <span class="break-all">sentinel_cipher_suites_tls_1_3<span> | string | Specifies the list of enabled TLS 1.3 ciphers for the discovery (sentinel) service. The supported ciphers are those implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package.(read-only) |
 | sentinel_tls_mode | 'allowed'<br />'disabled' <br />'required' | Determines whether the discovery service allows, blocks, or requires TLS connections (previously named `sentinel_ssl_policy`)<br />**allowed**: Allows both TLS and non-TLS connections<br />**disabled**: Allows only non-TLS connections<br />**required**: Allows only TLS connections |

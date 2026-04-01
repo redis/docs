@@ -9,22 +9,22 @@ description: null
 linkTitle: Install
 weight: 60
 ---
-Before you can use RedisGears, you have to install the RedisGears module on your Redis Enterprise cluster.
+Before you can use RedisGears, you have to install the RedisGears module on your Redis Software cluster.
 
 ## Minimum requirements
 
-- Redis Enterprise 6.0.12 or later
+- Redis Software 6.0.12 or later
 - The [cluster is setup]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}) and all of the nodes are joined to the cluster
 
 ## Install RedisGears
 
-If your cluster uses Redis Enterprise v6.0.12 or later and has internet access, you only need to download the RedisGears package. It automatically fetches dependencies like the Python and JVM plugins during online installation.
+If your cluster uses Redis Software v6.0.12 or later and has internet access, you only need to download the RedisGears package. It automatically fetches dependencies like the Python and JVM plugins during online installation.
 
 Offline installation requires you to manually upload dependencies to the primary node.
 
 ### Install RedisGears and dependencies
 
-1. Download the **RedisGears** package from the Redis Enterprise [download center](https://cloud.redis.io/#/rlec-downloads).
+1. Download the **RedisGears** package from the Redis Software [download center](https://cloud.redis.io/#/rlec-downloads).
 
     {{<note>}}
 For offline installation of RedisGears v1.2 and later, you also need to download the **RedisGears Dependencies** packages for both Python and Java.
@@ -54,7 +54,7 @@ Skip this step unless your cluster does not have internet access.
 
     Replace these fields with your own values:
 
-    - `<OS>`: the operating system running Redis Enterprise
+    - `<OS>`: the operating system running Redis Software
     - `<version>`: the RedisGears version `(x.y.z)`
     - `<version-integer>`: the RedisGears version as an integer, calculated as <nobr>`(x*10000 + y*100 + z)`</nobr>
 
@@ -72,7 +72,7 @@ Skip this step unless your cluster does not have internet access.
 
 Here, the *module* parameter specifies the full path of the module package and must be submitted as form-data. In addition, the package must be available and accessible to the server processing the request.
 
-After the install is complete, RedisGears will appear in the list of available modules on the **settings** and **create database** pages of the Redis Enterprise admin console.
+After the install is complete, RedisGears will appear in the list of available modules on the **settings** and **create database** pages of the Redis Software admin console.
 
 ### Enable RedisGears for a database
 

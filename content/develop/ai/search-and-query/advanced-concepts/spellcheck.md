@@ -14,7 +14,7 @@ categories:
 description: Query spelling correction support
 linkTitle: Spellchecking
 title: Spellchecking
-weight: 13
+weight: 46
 ---
 
 Query spelling correction provides suggestions for misspelled search terms. For example, the term 'reids' may be a misspelled version of 'redis'.

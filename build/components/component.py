@@ -11,6 +11,8 @@ import requests
 from .structured_data import load_dict, dump_dict
 from .util import die, mkdir_p, rsync, run, rm_rf
 from .example import Example
+from .cli_parser import extract_cli_commands
+from .command_enricher import enrich_commands
 
 def parseUri(uri: str) -> Tuple[ParseResult, str, str]:
     logging.debug("ENTERING: ")
@@ -273,6 +275,21 @@ class Client(Component):
                 example_metadata['sourceUrl'] = (
                     f'{ex["git_uri"]}/tree/{default_branch}/{ex["path"]}/{os.path.basename(f)}'
                 )
+
+                # Add binderId only if it exists
+                if e.binder_id:
+                    example_metadata['binderId'] = e.binder_id
+
+                if e.kernel_name:
+                    example_metadata['kernelName'] = e.kernel_name
+
+                # Extract and enrich CLI commands if present
+                cli_commands = extract_cli_commands(e.content)
+                if cli_commands:
+                    enriched_commands = enrich_commands(cli_commands)
+                    example_metadata['cli_commands'] = enriched_commands
+                    logging.debug(f"Found {len(cli_commands)} CLI commands in {example_id}")
+
                 examples = self._root._examples
                 if example_id not in examples:
                     examples[example_id] = {}

@@ -5,12 +5,12 @@ categories:
 - docs
 - operate
 - rs
-description: Customize Redis Enterprise Software installation directories.
+description: Customize Redis Software installation directories.
 linkTitle: Customize install locations
 weight: 30
 ---
 
-When you install Redis Enterprise Software on Red Hat Enterprise Linux, you can customize the installation directories.
+When you install Redis Software on Red Hat Enterprise Linux, you can customize the installation directories.
 
 The files are installed in the `redislabs` directory located in the path that you specify.
 
@@ -78,10 +78,10 @@ To configure different mount points for data and log directories, use symbolic l
 
 ## Customize storage paths
 
-When you install Redis Enterprise Software to custom directories, you can specify custom storage paths for persistent and ephemeral storage during [cluster setup]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}) or when [adding nodes]({{< relref "/operate/rs/clusters/add-node" >}}).
+When you install Redis Software to custom directories, you can specify custom storage paths for persistent and ephemeral storage during [cluster setup]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}) or when [adding nodes]({{< relref "/operate/rs/clusters/add-node" >}}).
 
 
-1. Specify the custom file location with the `--var-dir` option when you install Redis Enterprise Software:
+1. Specify the custom file location with the `--var-dir` option when you install Redis Software:
 
     ```sh
     sudo ./install.sh --var-dir <path>
@@ -108,10 +108,10 @@ For more information about storage requirements, see [Persistent and ephemeral n
 
 ## Limitations
 
-Several Redis Enterprise Software installation reference files are installed to the directory `/etc/opt/redislabs/` even if you use custom installation directories.
+Several Redis Software installation reference files are installed to the directory `/etc/opt/redislabs/` even if you use custom installation directories.
 
-As a workaround to install Redis Enterprise Software without using any root directories, do the following before installing Redis Enterprise Software:
+As a workaround to install Redis Software without using any root directories, do the following before installing Redis Software:
 
-1. Create all custom, non-root directories you want to use with Redis Enterprise Software.
+1. Create all custom, non-root directories you want to use with Redis Software.
 
 1. Mount `/etc/opt/redislabs` to one of the custom, non-root directories.

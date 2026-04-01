@@ -26,68 +26,20 @@ Before configuring a multi-namespace deployment, you must have a running [Redis 
 
 ## Create role and role binding for managed namespaces
 
-Both the operator and the RedisEnterpriseCluster (REC) resource need access to each namespace the REC will manage. For each **managed** namespace, create a `role.yaml` and `role_binding.yaml` file within the managed namespace, as shown in the examples below.
+Both the operator and the RedisEnterpriseCluster (REC) resource need access to each namespace the REC will manage. For each **managed** namespace, create a `consumer_role.yaml` and `consumer_role_binding.yaml` file within the managed namespace, as shown in the examples below.
 
 {{<note>}}These will need to be reapplied each time you [upgrade]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}}). {{</note>}}
 
 Replace `<rec-namespace>` with the namespace the REC resides in.
 Replace `<service-account-name>` with your own value (defaults to the REC name).
 
-`role.yaml` example: 
+`consumer_role.yaml` example: 
 
-```yaml
-kind: Role
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: redb-role
-  labels:
-    app: redis-enterprise
-rules:
-  - apiGroups:
-      - app.redislabs.com
-    resources: ["redisenterpriseclusters", "redisenterpriseclusters/status", "redisenterpriseclusters/finalizers",
-                "redisenterprisedatabases", "redisenterprisedatabases/status", "redisenterprisedatabases/finalizers",
-                "redisenterpriseremoteclusters", "redisenterpriseremoteclusters/status",
-                "redisenterpriseremoteclusters/finalizers",
-                "redisenterpriseactiveactivedatabases", "redisenterpriseactiveactivedatabases/status",
-                "redisenterpriseactiveactivedatabases/finalizers"]
-    verbs: ["delete", "deletecollection", "get", "list", "patch", "create", "update", "watch"]
-  - apiGroups: [""]
-    resources: ["secrets"]
-    verbs: ["update", "get", "read", "list", "listallnamespaces", "watch", "watchlist",
-            "watchlistallnamespaces", "create","patch","replace","delete","deletecollection"]
-  - apiGroups: [""]
-    resources: ["endpoints"]
-    verbs: ["get", "list", "watch"]
-  - apiGroups: [""]
-    resources: ["events"]
-    verbs: ["create"]
-  - apiGroups: [""]
-    resources: ["services"]
-    verbs: ["get", "watch", "list", "update", "patch", "create", "delete"]
-```
+{{<embed-yaml "k8s/multi-ns_role.md" "consumer_role.yaml">}}
 
-`role_binding.yaml` example:
+`consumer_role_binding.yaml` example:
 
-```yaml
-kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: redb-role
-  labels:
-    app: redis-enterprise
-subjects:
-- kind: ServiceAccount
-  name: redis-enterprise-operator
-  namespace: <rec-namespace>
-- kind: ServiceAccount
-  name: <service-account-name>
-  namespace: <rec-namespace>
-roleRef:
-  kind: Role
-  name: redb-role
-  apiGroup: rbac.authorization.k8s.io
-```
+{{<embed-yaml "k8s/multi-ns_role_binding.md" "consumer_role_binding.yaml">}}
 
 {{<note>}}
 **Alternative approach**: Instead of creating individual `Role` objects for each namespace, you can create a single `ClusterRole` and bind it with multiple `RoleBinding` objects. This reduces the number of objects and simplifies role management.
@@ -101,8 +53,8 @@ To use this approach:
 Apply the files, replacing `<managed-namespace>` with your own values:
 
 ```sh
-kubectl apply -f role.yaml -n <managed-namespace>
-kubectl apply -f role_binding.yaml -n <managed-namespace>
+kubectl apply -f consumer_role.yaml -n <managed-namespace>
+kubectl apply -f consumer_role_binding.yaml -n <managed-namespace>
 ```
 
 {{<note>}}
@@ -128,37 +80,11 @@ Only configure the operator to watch a namespace after the namespace is created 
 
   `operator_cluster_role.yaml` example:
 
-  ```yaml
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRole
-    metadata:
-      name: redis-enterprise-operator-consumer-ns
-      labels:
-        app: redis-enterprise
-    rules:
-      - apiGroups: [""]
-        resources: ["namespaces"]
-        verbs: ["list", "watch"]
-  ```
+{{<embed-yaml "k8s/multi-ns_operator_cluster_role.md" "operator_cluster_role.yaml">}}
 
   `operator_cluster_role_binding.yaml` example:
 
-  ```yaml
-    kind: ClusterRoleBinding
-    apiVersion: rbac.authorization.k8s.io/v1
-    metadata:
-      name: redis-enterprise-operator-consumer-ns
-      labels:
-        app: redis-enterprise
-    subjects:
-    - kind: ServiceAccount
-      name: redis-enterprise-operator
-      namespace: <rec-namespace>
-    roleRef:
-      kind: ClusterRole
-      name: redis-enterprise-operator-consumer-ns
-      apiGroup: rbac.authorization.k8s.io
-  ```
+{{<embed-yaml "k8s/multi-ns_operator_cluster_role_binding.md" "operator_cluster_role_binding.yaml">}}
 
 2. Apply the files.
 

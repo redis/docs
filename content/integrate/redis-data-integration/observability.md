@@ -25,8 +25,11 @@ to query the metrics and plot simple graphs or with
 [Grafana](https://grafana.com/) to produce more complex visualizations and
 dashboards.
 
-RDI exposes two endpoints, one for [CDC collector metrics](#collector-metrics) and
-another for [stream processor metrics](#stream-processor-metrics).
+RDI exposes three endpoints:
+- **Collector metrics**: CDC collector performance and connectivity
+- **Stream processor metrics**: Data processing performance and throughput  
+- **Operator metrics**: Kubernetes operator health and Pipeline resource states
+
 The sections below explain these sets of metrics in more detail.
 See the
 [architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}})
@@ -37,9 +40,67 @@ RDI metrics with the RDI monitoring screen in Redis Insight or with the
 [`redis-di status`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-status" >}})
 command from the CLI.{{< /note >}}
 
-## Collector metrics
+## Accessing the metrics
 
-The endpoint for the collector metrics is `https://<RDI_HOST>/metrics/collector-source`
+The way you access the metrics endpoints depends on whether you are using a VM installation or a Helm installation for RDI. The sections below describe the correct approach for each installation type.
+
+### VM Installation
+
+For VM installations, the metrics are available by default on the following endpoints:
+- Collector metrics: `https://<RDI_HOST>/collector-source/metrics`
+- Stream processor metrics: `https://<RDI_HOST>/metrics`
+- Operator metrics: `https://<RDI_HOST>/operator/metrics`
+
+Please note that for RDI versions prior to 1.16.0 the collector metrics are not accessible.
+
+### Helm installation
+
+For Helm installations, the metrics are available via autodiscovery in the K8s cluster. Follow the steps below to use them:
+1. Make sure you have the Prometheus Operator installed in your K8s cluster (see the
+   [Prometheus Operator installation guide](https://prometheus-operator.dev/docs/getting-started/installation/) for more information about this).
+
+2. Update your values.yaml file to enable metrics for the operator, collector and stream processor components.
+
+    - For the collector, update the `collector` section, under the `dataPlane` section:
+        ```yaml
+        dataPlane:
+          collector:
+            # Enable service monitor
+            serviceMonitor:
+              enabled: true
+
+              # Make sure to label the ServiceMonitor so that Prometheus can discover it
+              labels:
+                release: prometheus
+        ```
+
+    - For the stream processor, update the `rdiMetricsExporter` section:
+        ```yaml
+        rdiMetricsExporter:
+          # Enable service monitor
+          serviceMonitor:
+            enabled: true
+
+            # Make sure to label the ServiceMonitor so that Prometheus can discover it
+            labels:
+              release: prometheus
+        ```
+
+    - For the operator, update the `operator` section:
+        ```yaml
+        operator:
+          prometheus:
+            enabled: true
+            labels:
+              release: prometheus
+          metrics:
+            enabled: true
+        ```
+
+{{< note >}}The Prometheus service discovery loop runs at regular intervals. This means that after deploying or updating RDI with the above configuration, it may take a few minutes for Prometheus to discover the new ServiceMonitors and start scraping metrics from the RDI components.
+{{< /note >}}
+
+## Collector metrics
 
 These metrics are divided into three groups:
 
@@ -89,10 +150,8 @@ The following table lists all collector metrics and their descriptions:
 {{< note >}}
 Many metrics include context labels that specify the phase (`snapshot` or `streaming`), database name, and other contextual information. Metrics with a value of `-1` typically indicate that the measurement is not applicable in the current state.
 {{< /note >}}
-  
-## Stream processor metrics
 
-The endpoint for the stream processor metrics is `https://<RDI_HOST>/metrics/rdi`
+## Stream processor metrics
 
 RDI reports metrics during the two main phases of the ingest pipeline, the *snapshot*
 phase and the *change data capture (CDC)* phase. (See the
@@ -113,6 +172,25 @@ RDI reports with their descriptions.
 | `monitor_time_elapsed_created` | Gauge | Timestamp when the monitor time elapsed counter was created | Informational - no alerting needed |
 | `rdi_incoming_entries` | Gauge | Count of incoming events by `data_source` and `operation` type (pending, inserted, updated, deleted, filtered, rejected) | Informational - monitor for trends, alert only on "rejected" > 0 |
 | `rdi_stream_event_latency_ms` | Gauge | Latency in milliseconds of the oldest event in each data stream, labeled by `data_source` | Informational - monitor based on business SLA requirements |
+| **Processor Performance Total Metrics** | | | |
+| `rdi_processed_batches_total` | Counter | Total number of processed batches | Informational - use for data ingestion and load tracking |
+| `rdi_processor_batch_size_total` | Counter | Total batch size across all processed batches | Informational - use for throughput analysis |
+| `rdi_processor_read_time_ms_total` | Counter | Total read time in milliseconds across all batches | Informational - use for performance analysis |
+| `rdi_processor_transform_time_ms_total` | Counter | Total transform time in milliseconds across all batches | Informational - use for performance analysis |
+| `rdi_processor_write_time_ms_total` | Counter | Total write time in milliseconds across all batches | Informational - use for performance analysis |
+| `rdi_processor_process_time_ms_total` | Counter | Total process time in milliseconds across all batches | Informational - use for performance analysis |
+| `rdi_processor_ack_time_ms_total` | Counter | Total acknowledgment time in milliseconds across all batches | Informational - use for performance analysis |
+| `rdi_processor_total_time_ms_total` | Counter | Sum of the total `read_time`, `process_time` and `ack_time` values in milliseconds across all batches | Informational - use for performance analysis |
+| `rdi_processor_rec_per_sec_total` | Gauge | Total records per second across all batches | Informational - use for throughput analysis |
+| **Processor Performance Last Batch Metrics** | | | |
+| `rdi_processor_batch_size_last` | Gauge | Last batch size processed | Informational - use for real-time monitoring |
+| `rdi_processor_read_time_ms_last` | Gauge | Last batch read time in milliseconds | Informational - use for real-time performance monitoring |
+| `rdi_processor_transform_time_ms_last` | Gauge | Last batch transform time in milliseconds | Informational - use for real-time performance monitoring |
+| `rdi_processor_write_time_ms_last` | Gauge | Last batch write time in milliseconds | Informational - use for real-time performance monitoring |
+| `rdi_processor_process_time_ms_last` | Gauge | Last batch process time in milliseconds | Informational - use for real-time performance monitoring |
+| `rdi_processor_ack_time_ms_last` | Gauge | Last batch acknowledgment time in milliseconds | Informational - use for real-time performance monitoring |
+| `rdi_processor_total_time_ms_last` | Gauge | Last batch total time in milliseconds | Informational - use for real-time performance monitoring |
+| `rdi_processor_rec_per_sec_last` | Gauge | Last batch records per second | Informational - use for real-time throughput monitoring |
 
 {{< note >}}
 **Additional information about stream processor metrics:**
@@ -121,21 +199,79 @@ RDI reports with their descriptions.
 - Metrics with the `_created` suffix are automatically generated by Prometheus for counters and gauges to track when they were first created.
 - The `rdi_incoming_entries` metric provides a detailed breakdown for each data source by operation type.
 - The `rdi_stream_event_latency_ms` metric helps monitor data freshness and processing delays.
+- The processor performance metrics are divided into two categories:
+  - **Total metrics**: Accumulate values across all processed batches for historical analysis
+  - **Last batch metrics**: Show real-time performance data for the most recently processed batch
 {{< /note >}}
+
+## Operator metrics
+
+The RDI operator exposes Prometheus metrics at the `/metrics` endpoint to monitor the health and state of the operator itself and the Pipeline resources it manages.
+
+The endpoint for operator metrics is `https://<RDI_HOST>/operator/metrics` (or the operator service endpoint in Kubernetes environments).
+
+### Operator metric types
+
+Most of the metrics exposed by the RDI operator are standard controller-runtime [metrics](https://book.kubebuilder.io/reference/metrics-reference).
+The metrics that are relevant for RDI operations are listed in the table below:
+
+| Metric Name | Metric Type | Metric Description | Alerting Recommendations |
+|-------------|-------------|-------------------|-------------------------|
+| `rdi_operator_pipeline_phase` | Gauge | Current phase of each Pipeline resource with labels for `namespace`, `name`, and `phase` (Active, Inactive, Pending, Resetting, Error) | **Critical Alert**: Alert if the phase is "Error" for periods longer than 2 minutes |
+| `rdi_operator_is_leader` | Gauge | Leadership status of the operator instance (1 = leader, 0 = not leader) with label for `instance_id` | Informational - monitor to ensure that the correct RDI instance is the leader in HA or DR deployments |
+
+### Understanding operator metrics
+
+**Pipeline phase tracking**: The `rdi_operator_pipeline_phase` metric helps you monitor the lifecycle state of each RDI Pipeline resource. Each pipeline reports its current phase (Active, Inactive, Pending, Resetting, or Error) as a gauge value of `1`, while all other phases for that pipeline are set to `0`. This allows you to track phase transitions and identify pipelines that are stuck in error states.
+
+**Leader election**: In high availability (HA) or disaster recovery (DR) deployments with multiple RDI instances, the `rdi_operator_is_leader` metric indicates which RDI instance is actively managing Pipeline resources. Only one RDI instance should have a value of `1` at any time, while all other instances should report `0`. This metric is useful for troubleshooting leader election issues in HA or DR deployments.
+
+### Accessing operator metrics
+
+In Kubernetes deployments, you can configure Prometheus to scrape operator metrics by enabling the Prometheus ServiceMonitor in your Helm values:
+
+```yaml
+operator:
+  prometheus:
+    enabled: true
+    labels:
+      release: prometheus
+```
+**Note:** The ServiceMonitor resources must be labelled correctly for metrics to be auto-scraped by Prometheus. The correct label is configured in Prometheus, by default it is `release: prometheus`.
+You can also expose the metrics endpoint externally using an Ingress:
+
+```yaml
+operator:
+  ingress:
+    enabled: true
+    hosts:
+      - operator.example.com
+    pathPrefix: ""
+```
+
+Then access metrics at `https://operator.example.com/operator/metrics`.
 
 ## Recommended alerting strategy
 
-The alerting strategy described in the sections below focuses on system failures and data integrity issues that require immediate attention. Most ther metrics are informational, so you should monitor them for trends rather than trigger alerts.
+The alerting strategy described in the sections below focuses on system failures and data integrity issues that require immediate attention. Most other metrics are informational, so you should monitor them for trends rather than trigger alerts.
 
 ### Critical alerts (immediate response required)
 
 These are the only alerts that require immediate action:
 
-- **`Connected = 0`**: Database connectivity has been lost. RDI cannot function without a database connection. 
-- **`NumberOfErroneousEvents > 0`**: Errors are occurring during data processing. This indicates data corruption or processing failures.
-- **`rejected_records_total > 0`**: Records are being rejected. This indicates data quality issues or processing failures.
-- **`SnapshotAborted = 1`**: The snapshot process has failed, so the initial sync is incomplete.
-- **`rdi_engine_state`**: This is an alert only if the state indicates a clear failure condition (not just "not running").
+**Collector alerts:**
+- `Connected = 0`: Database connectivity has been lost. RDI cannot function without a database connection.
+- `NumberOfErroneousEvents > 0`: Errors are occurring during data processing. This indicates data corruption or processing failures.
+- `SnapshotAborted = 1`: The snapshot process has failed, so the initial sync is incomplete.
+
+**Processor alerts:**
+- `rejected_records_total > 0`: Records are being rejected. This indicates data quality issues or processing failures.
+- `rdi_engine_state`: Alert only if the state indicates a clear failure condition (not just "not running").
+
+**Operator alerts:**
+- `rdi_operator_pipeline_phase` with `phase="Error"` for more than 2 minutes: A Pipeline resource has entered an error state and requires investigation.
+- No leader in HA or DR setups: If both RDI instances report `rdi_operator_is_leader = 0` for more than 2 minutes, the RDI pipeline is not active. 
+- Multiple leaders in HA or DR setups: If both RDI instances report `rdi_operator_is_leader = 1`, RDI is in a "split brain" state.
 
 ### Important monitoring (but not alerts)
 

@@ -26,11 +26,11 @@ group: cms
 hidden: false
 linkTitle: CMS.INITBYPROB
 module: Bloom
+railroad_diagram: /images/railroad/cms.initbyprob.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Initializes a Count-Min Sketch to accommodate requested tolerances.
 syntax_fmt: CMS.INITBYPROB key error probability
-syntax_str: error probability
 title: CMS.INITBYPROB
 ---
 Initializes a Count-Min Sketch to accommodate requested tolerances.
@@ -53,9 +53,15 @@ redis> CMS.INITBYPROB test 0.001 0.01
 OK
 ```
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
 ## Return information
 
-{{< multitabs id=“cms-initbyprob-return-info" 
+{{< multitabs id="cms-initbyprob-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

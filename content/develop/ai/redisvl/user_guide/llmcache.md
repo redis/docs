@@ -1,11 +1,27 @@
 ---
-linkTitle: First, we will import [openai](https://platform.openai.com) to use their API for responding to user prompts. we will also create a simple `ask_openai` helper method to assist.
-title: First, we will import [OpenAI](https://platform.openai.com) to use their API for responding to user prompts. We will also create a simple `ask_openai` helper method to assist.
+linkTitle: LLM caching
+title: LLM Caching
 aliases:
 - /integrate/redisvl/user_guide/03_llmcache
 weight: 03
 ---
 
+
+This notebook demonstrates how to use RedisVL's `SemanticCache` to cache LLM responses based on semantic similarity. Semantic caching can significantly reduce API costs and latency by retrieving cached responses for semantically similar prompts instead of making redundant API calls.
+
+Key features covered:
+- Basic cache operations (store, check, clear)
+- Customizing semantic similarity thresholds
+- TTL policies for cache expiration
+- Performance benchmarking
+- Access controls with tags and filters for multi-user scenarios
+
+Prerequisites:
+- Ensure `redisvl` is installed in your Python environment
+- Have a running instance of [Redis Stack](https://redis.io/docs/install/install-stack/) or [Redis Cloud](https://redis.io/cloud)
+- OpenAI API key for the examples
+
+First, we will import [OpenAI](https://platform.openai.com) to use their API for responding to user prompts. We will also create a simple `ask_openai` helper method to assist.
 
 
 ```python

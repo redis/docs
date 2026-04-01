@@ -86,3 +86,18 @@ queue is stored as a capped stream in the RDI staging database. You can see its 
 with Redis Insight or with the 
 [`redis-di get-rejected`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-get-rejected" >}})
 command from the CLI.
+
+
+## Can I use RDI without persistence enabled?
+
+By default, RDI requires persistence to be enabled on the RDI database. This ensures that RDI can recover both its configuration and the last known state if the cluster crashes.
+
+If you don't have permissions to use persistence due to compliance or other reasons, you can disable
+the persistence check on the RDI database (Helm installation only). If you do this, RDI will not be 
+able to recover from a crash, and you will have to perform a new deploy to reinitialize the pipeline.
+
+To disable the persistence check, set the `aofRequired` value to `false` in the `operator->prerequisiteChecks`
+section of the `values.yaml` file.
+
+This option is available in RDI 1.16.2 and later.
+

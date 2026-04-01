@@ -29,7 +29,7 @@ More info: [Active-Active geo-distributed Redis]({{<relref "/operate/rs/database
 {{%/definition%}}
 
 {{%definition "Active-Active database instance"%}}
-A “member database” of a global [Active-Active database]({{<relref "#active-active">}}) which is made up of its own master and replica [shards]({{<relref "#shard">}}) spanning a single [cluster]({{<relref "#cluster">}}).
+A "member database" of a global [Active-Active database]({{<relref "#active-active">}}) which is made up of its own master and replica [shards]({{<relref "#shard">}}) spanning a single [cluster]({{<relref "#cluster">}}).
 
 More info: [Active-Active database instances]({{<relref "/operate/rs/databases/active-active/create">}})
 {{%/definition%}}
@@ -195,7 +195,7 @@ More info: [`fsync` man page](https://man7.org/linux/man-pages/man2/fsync.2.html
 {{%definition "full-text search"%}}
 A search technique that examines all words in every stored document to find matches to search criteria. Redis provides full-text search capabilities through its Search and Query features.
 
-More info: [Search and query]({{<relref "/develop/ai/search-and-query">}}), [Full-text search]({{<relref "/develop/ai/search-and-query/query/full-text">}})
+More info: [Redis Search]({{<relref "/develop/ai/search-and-query">}}), [Full-text search]({{<relref "/develop/ai/search-and-query/query/full-text">}})
 {{%/definition%}}
 
 ## G - J {#letter-g}
@@ -203,7 +203,7 @@ More info: [Search and query]({{<relref "/develop/ai/search-and-query">}}), [Ful
 {{%definition "indexing"%}}
 The process of creating data structures that improve the speed of data retrieval operations. Redis supports various types of indexing including secondary indexing, vector indexing, and full-text indexing.
 
-More info: [Search and query]({{<relref "/develop/ai/search-and-query">}}), [Indexing concepts]({{<relref "/develop/ai/search-and-query/advanced-concepts">}})
+More info: [Redis Search]({{<relref "/develop/ai/search-and-query">}}), [Indexing concepts]({{<relref "/develop/ai/search-and-query/advanced-concepts">}})
 {{%/definition%}}
 
 {{%definition "JSON"%}}
@@ -325,7 +325,7 @@ More info: [operator pattern](https://kubernetes.io/docs/concepts/extend-kuberne
 {{%/definition%}}
 
 {{%definition "Out-of-Memory (OOM)"%}}
-If a member [Active-Active database]({{<relref "#active-active">}}) is in an out of memory situation, that member is marked “inconsistent” by Redis Enterprise Software, the member stops responding to user traffic, and the [syncer]({{<relref "#syncer">}}) initiates full reconciliation with other peers in the Active-Active database.
+If a member [Active-Active database]({{<relref "#active-active">}}) is in an out of memory situation, that member is marked "inconsistent" by Redis Enterprise Software, the member stops responding to user traffic, and the [syncer]({{<relref "#syncer">}}) initiates full reconciliation with other peers in the Active-Active database.
 
 More info: [Active-Active database troubleshooting]({{<relref "/operate/rs/databases/active-active/syncer">}}), [Memory management]({{<relref "/operate/rs/databases/memory-performance">}})
 {{%/definition%}}
@@ -451,7 +451,7 @@ More info: [Redis Open Source]({{<relref "/operate/oss_and_stack">}}), [Database
 {{%definition "Auto Tiering "%}}
 Previously known as Redis on Flash. Enables your Redis databases to span both RAM and dedicated flash memory (SSD). Auto Tiering manages the location of key values (RAM vs Flash) in the database via a LRU-based (least-recently-used) mechanism.
 
-More info: [Auto Tiering]({{<relref "/operate/rs/databases/auto-tiering/">}}), [Auto Tiering  quick start]({{<relref "/operate/rs/databases/auto-tiering/quickstart">}})
+More info: [Auto Tiering]({{<relref "/operate/rs/databases/flash/">}}), [Auto Tiering  quick start]({{<relref "/operate/rs/databases/flash/quickstart">}})
 {{%/definition%}}
 
 {{%definition "replica high availability (replicaHA)"%}}
@@ -505,13 +505,13 @@ More info: [Role and ClusterRole](https://kubernetes.io/docs/reference/access-au
 {{%definition "search"%}}
 The ability to query and retrieve data using various search methods including full-text search, vector search, and secondary indexing. Redis provides search capabilities through its Search and Query features.
 
-More info: [Search and query]({{<relref "/develop/ai/search-and-query">}}), [RedisSearch]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}})
+More info: [Redis Search]({{<relref "/develop/ai/search-and-query">}}), [RedisSearch]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}})
 {{%/definition%}}
 
 {{%definition "secondary indexing"%}}
 Creating additional data structures to enable fast lookups on fields other than the primary key. Redis supports secondary indexing for JSON documents, hashes, and other data types.
 
-More info: [Search and query]({{<relref "/develop/ai/search-and-query">}}), [Indexing concepts]({{<relref "/develop/ai/search-and-query/advanced-concepts">}})
+More info: [Redis Search]({{<relref "/develop/ai/search-and-query">}}), [Indexing concepts]({{<relref "/develop/ai/search-and-query/advanced-concepts">}})
 {{%/definition%}}
 
 {{%definition "secret"%}}

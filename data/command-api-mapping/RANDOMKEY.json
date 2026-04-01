@@ -1,0 +1,140 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "randomkey()",
+        "params": [],
+        "returns": {
+          "type": "str",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "byte[] randomBinaryKey()",
+        "params": [],
+        "returns": {
+          "type": "byte[]",
+          "description": "the random key, or null when the database is empty."
+        }
+      },
+      {
+        "signature": "String randomKey()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "the random key, or null when the database is empty."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "RandomKey(ctx context.Context)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "RANDOMKEY()",
+        "params": [],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "K randomkey()",
+        "params": [],
+        "returns": {
+          "type": "K",
+          "description": "K bulk-string-reply the random key, or null when the database is empty."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<K> randomkey()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<K>",
+          "description": "K bulk-string-reply the random key, or null when the database is empty."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<K> randomkey()",
+        "params": [],
+        "returns": {
+          "type": "Mono<K>",
+          "description": "K bulk-string-reply the random key, or null when the database is empty."
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "KeyRandom(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisKey",
+          "description": "The random key, or null when the database is empty."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "KeyRandomAsync(CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisKey>",
+          "description": "The random key, or null when the database is empty."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "randomKey()",
+        "params": [],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "randomkey",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

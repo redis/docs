@@ -241,7 +241,7 @@ spec:
           protocol: TCP
         livenessProbe: # Probe to check container health
           httpGet:
-            path: /healthcheck/ # exposed RI endpoint for healthcheck
+            path: /api/health/ # exposed RI endpoint for healthcheck
             port: 5540 # exposed container port
           initialDelaySeconds: 5 # number of seconds to wait after the container starts to perform liveness probe
           periodSeconds: 5 # period in seconds after which liveness probe is performed

@@ -1,0 +1,419 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "bzpopmax(keys: KeysT, timeout: TimeoutSecT = 0)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "KeysT",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "TimeoutSecT = 0",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "KeyValue<String, Tuple> bzpopmax(double timeout, String... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<String, Tuple>",
+          "description": "BLPOP returns a two-elements array via a multi bulk reply in order to return both the unblocking key and the popped value. When a non-zero timeout is specified, and the BLPOP operation timed out, the return value is a nil multi bulk reply. Most connection values will return false or nil accordingly to the programming language used."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "KeyValue<K, ScoredValue<V>> bzpopmax(long timeout, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<K, ScoredValue<V>>",
+          "description": "KeyValue&lt;K, ScoredValue&lt;V&gt;&gt; multi-bulk containing the name of the key, the score and the popped member. @since 6.1.3"
+        }
+      },
+      {
+        "signature": "KeyValue<K, ScoredValue<V>> bzpopmax(double timeout, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<K, ScoredValue<V>>",
+          "description": "KeyValue&lt;K, ScoredValue&lt;V&gt;&gt; multi-bulk containing the name of the key, the score and the popped member. @since 6.1.3"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<KeyValue<K, ScoredValue<V>>> bzpopmax(long timeout, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyValue<K, ScoredValue<V>>>",
+          "description": "KeyValue&lt;K, ScoredValue&lt;V&gt;&gt; multi-bulk containing the name of the key, the score and the popped member. @since 6.1.3"
+        }
+      },
+      {
+        "signature": "RedisFuture<KeyValue<K, ScoredValue<V>>> bzpopmax(double timeout, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyValue<K, ScoredValue<V>>>",
+          "description": "KeyValue&lt;K, ScoredValue&lt;V&gt;&gt; multi-bulk containing the name of the key, the score and the popped member. @since 6.1.3"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<KeyValue<K, ScoredValue<V>>> bzpopmax(long timeout, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyValue<K, ScoredValue<V>>>",
+          "description": "KeyValue&lt;K, ScoredValue&lt;V&gt;&gt; multi-bulk containing the name of the key, the score and the popped member. @since 6.1.3"
+        }
+      },
+      {
+        "signature": "Mono<KeyValue<K, ScoredValue<V>>> bzpopmax(double timeout, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyValue<K, ScoredValue<V>>>",
+          "description": "KeyValue&lt;K, ScoredValue&lt;V&gt;&gt; multi-bulk containing the name of the key, the score and the popped member. @since 6.1.3"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BZPopMax(ctx context.Context, timeout time.Duration, keys ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "time.Duration",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ZWithKeyCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "BZPOPMAX(keys: RedisVariadicArgument, timeout: number)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "bzpopmax(...args: [, ...keys: RedisKey[], timeout: number | string, callback: Callback<[key: string, member: string, score: string] | null>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, ...keys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bzpopmax(...args: [, keys: RedisKey[], timeout: number | string, callback: Callback<[key: string, member: string, score: string] | null>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, keys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bzpopmax(...args: [...keys: RedisKey[], timeout: number | string])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[...keys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bzpopmax(...args: [keys: RedisKey[], timeout: number | string])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[keys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "bzpopmax(key: K, timeout: f64)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "f64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<(String, String, f64)>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "bzpopmax(key: K, timeout: f64)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "f64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<(String, String, f64)>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "BZPopMax(RedisKey[] keys, double timeout)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely."
+          }
+        ],
+        "returns": {
+          "type": "Tuple<RedisKey, RedisValueWithScore>?",
+          "description": "A sorted set entry paired with its score, together with the key it was popped from, or nullif the server timeout expires."
+        }
+      },
+      {
+        "signature": "BZPopMax(RedisKey key, double timeout)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to check."
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely."
+          }
+        ],
+        "returns": {
+          "type": "Tuple<RedisKey, RedisValueWithScore>?",
+          "description": "A sorted set entry paired with its score, together with the key it was popped from, or nullif the server timeout expires."
+        }
+      },
+      {
+        "signature": "BZPopMax(db, [key], timeout)",
+        "params": [
+          {
+            "name": "db",
+            "type": "Any",
+            "description": "The IDatabase class where this extension method is applied."
+          },
+          {
+            "name": "[key]",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "Any",
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely."
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": "A sorted set entry paired with its score, together with the key it was popped from, or nullif the server timeout expires."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "bzpopmax(array $keys, int $timeout)",
+        "params": [
+          {
+            "name": "$keys",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "$timeout",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bzpopmax(*args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array<String>",
+            "description": "one or multiple keys of the sorted sets"
+          },
+          {
+            "name": "timeout",
+            "type": "Integer",
+            "description": "the maximum number of seconds to block"
+          }
+        ],
+        "returns": {
+          "type": "Array<String, String, Float>",
+          "description": "a tuple of key, member and score"
+        }
+      }
+    ]
+  }
+}

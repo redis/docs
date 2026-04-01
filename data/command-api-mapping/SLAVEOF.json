@@ -1,0 +1,198 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "slaveof(host: str | None = None, port: int | str | None = None, **kwargs)",
+        "params": [
+          {
+            "name": "host",
+            "type": "str | None",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "int | str | None",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String slaveof(String host, int port)",
+        "params": [
+          {
+            "name": "host",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String slaveofNoOne()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SlaveOf(ctx context.Context, host, port string) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "host",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "String slaveof(String host, int port)",
+        "params": [
+          {
+            "name": "host",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String slaveofNoOne()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> slaveof(String host, int port)",
+        "params": [
+          {
+            "name": "host",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "RedisFuture<String> slaveofNoOne()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> slaveof(String host, int port)",
+        "params": [
+          {
+            "name": "host",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Mono<String> slaveofNoOne()",
+        "params": [],
+        "returns": {
+          "type": "Mono<String>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "slaveof(string $host, int $port)",
+        "params": [
+          {
+            "name": "$host",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$port",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

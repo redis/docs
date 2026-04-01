@@ -95,19 +95,18 @@ key_specs:
     type: range
   update: true
 linkTitle: HSETEX
+railroad_diagram: /images/railroad/hsetex.svg
 since: 8.0.0
 summary: Set the value of one or more fields of a given hash key, and optionally set
   their expiration.
 syntax_fmt: "HSETEX key [FNX | FXX] [EX\_seconds | PX\_milliseconds |\n  EXAT\_unix-time-seconds\
   \ | PXAT\_unix-time-milliseconds | KEEPTTL]\n  FIELDS\_numfields field value [field\
   \ value ...]"
-syntax_str: "[FNX | FXX] [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds\
-  \ | PXAT\_unix-time-milliseconds | KEEPTTL] FIELDS\_numfields field value [field\
-  \ value ...]"
 title: HSETEX
 ---
 
-Set the value of one or more fields of a given hash key, and optionally set their expiration time or time-to-live (TTL).
+Set the value of one or more fields of a given hash key and optionally
+set their expiration time or time-to-live (TTL). If the given key already holds a value, it is overwritten and any previous TTLs associated with the key are discarded.
 
 ## Options
 
@@ -141,6 +140,12 @@ redis> HTTL mykey FIELDS 2 field1 field2
 1) (integer) 55481
 2) (integer) 55481
 ```
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

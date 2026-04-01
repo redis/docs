@@ -24,11 +24,11 @@ group: cf
 hidden: false
 linkTitle: CF.DEL
 module: Bloom
+railroad_diagram: /images/railroad/cf.del.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Deletes an item from a Cuckoo Filter
 syntax_fmt: CF.DEL key item
-syntax_str: item
 title: CF.DEL
 ---
 Deletes an item once from the filter.
@@ -75,9 +75,15 @@ redis> CF.DEL cf item2
 (integer) 0
 {{< / highlight >}}
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
 ## Return information
 
-{{< multitabs id=“cf-del-return-info" 
+{{< multitabs id="cf-del-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

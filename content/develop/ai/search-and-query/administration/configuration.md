@@ -12,26 +12,27 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Redis Query Engine can be tuned through multiple configuration parameters. Some of these parameters can only be set at load-time, while other parameters can be set either at load-time or at run-time.
+description: Redis Search can be tuned through multiple configuration parameters. Some of these parameters can only be set at load-time, while other parameters can be set either at load-time or at run-time.
 linkTitle: Configuration parameters
 title: Configuration parameters
 weight: 1
 ---
 {{< note >}}
-As of Redis 8 in Redis Open Source (Redis 8), configuration parameters for the time series data structure are now set in the following ways:
+As of Redis 8 in Redis Open Source (Redis 8), configuration parameters for Redis Search are now set in the following ways:
 * At load time via your `redis.conf` file.
 * At run time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
 
-Also, Redis 8 persists RQE configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite/" >}}) command).
+Also, Redis 8 persists Redis Search configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite/" >}}) command).
 {{< /note >}}
 
-## RQE configuration parameters
+## Redis Search configuration parameters
 
 The following table summarizes which configuration parameters can be set at run-time, and compatibility with Redis Software and Redis Cloud.
 
 | Parameter name<br />(version < 8.0) | Parameter name<br />(version &#8805; 8.0) | Run-time | Redis<br />Software | Redis<br />Cloud |
 | :------- | :------- | :------- | :------- | :------- |
-| BG_INDEX_SLEEP_GAP                | [search-bg-index-sleep-gap](#search-bg-index-sleep-gap)         | :white_large_square: |||
+| BG_INDEX_SLEEP_GAP                | [search-bg-index-sleep-gap](#search-bg-index-sleep-gap)         | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Not supported"><nobr>&#x274c; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| BG_INDEX_SLEEP_DURATION_US        | [search-bg-index-sleep-duration-us](#search-bg-index-sleep-duration-us) | :white_large_square: |||
 | CONCURRENT_WRITE_MODE             | [search-concurrent-write-mode](#search-concurrent-write-mode)   | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | CONN_PER_SHARD                    | [search-conn-per-shard](#search-conn-per-shard)                 | :white_check_mark:   |||
 | CURSOR_MAX_IDLE                   | [search-cursor-max-idle](#search-cursor-max-idle)               | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
@@ -64,6 +65,7 @@ The following table summarizes which configuration parameters can be set at run-
 | PARTIAL_INDEXED_DOCS              | [search-partial-indexed-docs](#search-partial-indexed-docs)     | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | RAW_DOCID_ENCODING                | [search-raw-docid-encoding](#search-raw-docid-encoding)         | :white_large_square: |||
 | SEARCH_THREADS                    | [search-threads](#search-threads)                               | :white_large_square: |||
+| SEARCH_IO_THREADS                 | [search-io-threads](#search-io-threads)                         | :white_large_square: |||
 | TIERED_HNSW_BUFFER_LIMIT          | [search-tiered-hnsw-buffer-limit](#search-tiered-hnsw-buffer-limit) | :white_large_square: |||
 | TIMEOUT                           | [search-timeout](#search-timeout)                               | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | TOPOLOGY_VALIDATION_TIMEOUT       | [search-topology-validation-timeout](#search-topology-validation-timeout) | :white_check_mark: |||
@@ -94,6 +96,18 @@ Type: integer
 Valid range: `[1 .. 4294967295]`
 
 Default: `100`
+
+### search-bg-index-sleep-duration-us
+
+Added in v8.2.
+
+The sleep duration (in microseconds) used during background indexing. During background indexing (triggered by `FT.CREATE` on existing keys), Redis periodically sleeps to allow the main thread to process commands. This parameter controls how long each sleep lasts. Works in conjunction with [`search-bg-index-sleep-gap`](#search-bg-index-sleep-gap), which controls how many iterations occur between sleeps.
+
+Type: integer
+
+Valid range: `[1 .. 999999]`
+
+Default: `1`
 
 ### search-concurrent-write-mode
 
@@ -251,7 +265,7 @@ Redis Cloud defaults:
 
 Added in v2.10.8.
 
-The maximum number of cursors that can be opened, per shard, at any given time. Cursors can be opened by the user via [`FT.AGGREGATE WITHCURSOR`]({{< relref "/commands/ft.aggregate/" >}}). Cursors are also opened internally by the RQE for long-running queries. Once `INDEX_CURSOR_LIMIT` is reached, any further attempts to open a cursor will result in an error.
+The maximum number of cursors that can be opened, per shard, at any given time. Cursors can be opened by the user via [`FT.AGGREGATE WITHCURSOR`]({{< relref "/commands/ft.aggregate/" >}}). Cursors are also opened internally by  Redis Search for long-running queries. Once `INDEX_CURSOR_LIMIT` is reached, any further attempts to open a cursor will result in an error.
 
 {{% alert title="Notes" color="info" %}}
 * Caution should be used in modifying this parameter.  Every open cursor results in additional memory usage.
@@ -377,7 +391,7 @@ Default: `100`
 
 ### search-no-mem-pools
 
-Set RQE to run without memory pools.
+Set Redis Search to run without memory pools.
 
 Type: boolean
 
@@ -435,6 +449,16 @@ Sets the number of search threads in the coordinator thread pool.
 
 Type: integer
 
+### search-io-threads
+
+Sets the number of threads used in the coordinator to run I/O tasks with other shards.
+
+Type: integer
+
+Valid range: `[1 .. 256]`
+
+Default: 1
+
 ### search-tiered-hnsw-buffer-limit
 
 Used for setting the buffer limit threshold for vector tiered HNSW indexes. If Redis is using `WORKERS` for indexing, and the number of vectors waiting in the buffer to be indexed exceeds this limit, new vectors are inserted directly into HNSW.
@@ -490,7 +514,7 @@ Default: `20`
 ### search-upgrade-index
 
 Relevant only when loading an v1.x RDB file. Specify the argument for upgrading the index.
-This configuration setting is a special configuration option introduced to upgrade indexes from v1.x RQE versions, otherwise known as legacy indexes. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [FT.CREATE]({{< relref "/commands/ft.create/" >}}) command page. 
+This configuration setting is a special configuration option introduced to upgrade indexes from v1.x Redis Search versions, otherwise known as legacy indexes. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [FT.CREATE]({{< relref "/commands/ft.create/" >}}) command page. 
 
 Type: string
 
@@ -541,6 +565,24 @@ Valid range: `[0 .. 8192]`
 
 Default: `0`
 
+### search-on-oom
+
+Specifies the response policy for queries when the server's current memory usage exceeds the configured [maxmemory](https://redis.io/docs/latest/develop/reference/eviction/#maxmem) limit.
+
+* `IGNORE`: Execute the query regardless of current memory usage.
+* `RETURN`: In cluster mode, the query returns partial results from shards that did not exceed the memory limit. Shards that exceed the limit will not contribute results.
+* `FAIL`: Will return an error if memory usage exceeds the memory limit.
+
+Type: string
+
+Valid values: `IGNORE`, `RETURN`, `FAIL`
+
+Default: `IGNORE`
+
+{{% alert title="Notes" color="info" %}}
+To prevent potential out-of-memory conditions, it is recommended that you set this parameter to FAIL or RETURN rather than IGNORE.
+{{% /alert %}}
+
 ## Set configuration parameters at module load-time (deprecated)
 
 These methods are deprecated beginning with Redis 8.
@@ -569,7 +611,7 @@ $ redis-server --loadmodule ./redisearch.so [OPT VAL]...
 
 These methods are deprecated beginning with Redis 8.
 
-RQE exposes the `FT.CONFIG` endpoint to allow for the setting and retrieval of configuration parameters at run-time.
+Redis Search exposes the `FT.CONFIG` endpoint to allow for the setting and retrieval of configuration parameters at run-time.
 
 To set the value of a configuration parameter at run-time (for supported parameters), simply run:
 

@@ -10,7 +10,7 @@ hideListLinks: true
 weight: 60
 ---
 
-Redis Enterprise Software provides various features to secure your Redis Enterprise Software deployment:
+Redis Software provides various features to secure your deployment:
 
 | Login and passwords | Users and roles | Encryption and TLS | Certificates and audit |
 |---------------------|-----------------|--------------------|-----------------------|
@@ -19,10 +19,11 @@ Redis Enterprise Software provides various features to secure your Redis Enterpr
 | [Password expiration]({{<relref "/operate/rs/security/access-control/manage-passwords/password-expiration">}}) | [Create roles]({{<relref "/operate/rs/security/access-control/create-combined-roles">}}) | [Configure cipher suites]({{<relref "/operate/rs/security/encryption/tls/ciphers">}}) | [Update certificates]({{<relref "/operate/rs/security/certificates/updating-certificates">}}) |
 | [Default database access]({{<relref "/operate/rs/security/access-control/manage-users/default-user">}}) | [Redis ACLs]({{<relref "/operate/rs/security/access-control/redis-acl-overview">}}) | [Encrypt private keys on disk]({{<relref "/operate/rs/security/encryption/pem-encryption">}}) | [Enable OCSP stapling]({{<relref "/operate/rs/security/certificates/ocsp-stapling">}}) |
 | [Rotate user passwords]({{<relref "/operate/rs/security/access-control/manage-passwords/rotate-passwords">}}) | [Integrate with LDAP]({{<relref "/operate/rs/security/access-control/ldap">}}) | [Internode encryption]({{<relref "/operate/rs/security/encryption/internode-encryption">}}) | [Audit database connections]({{<relref "/operate/rs/security/audit-events">}}) |
+| [Single sign-on (SSO)]({{<relref "/operate/rs/security/access-control/saml-sso">}}) | | | |
 
 ## Recommended security practices
 
-See [Recommended security practices]({{<relref "/operate/rs/security/recommended-security-practices">}}) to learn how to protect Redis Enterprise Software.
+See [Recommended security practices]({{<relref "/operate/rs/security/recommended-security-practices">}}) to learn how to protect Redis Software.
 
 ## Redis Trust Center
 

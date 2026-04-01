@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 - rc
-description: Documents the metrics that are tracked with Redis Enterprise Software.
+description: Documents the metrics that are tracked with Redis Software.
 hideListLinks: true
 linkTitle: Metrics
 weight: $weight
@@ -14,21 +14,23 @@ weight: $weight
 
 ## Cluster manager metrics
 
-In the Redis Enterprise Cluster Manager UI, you can see real-time performance metrics for clusters, nodes, databases, and shards, and configure alerts that send notifications based on alert parameters. Select the **Metrics** tab to view the metrics for each component. For more information, see [Monitoring with metrics and alerts]({{< relref "/operate/rs/monitoring" >}}).
+In the Redis Software Cluster Manager UI, you can see real-time performance metrics for clusters, nodes, databases, and shards, and configure alerts that send notifications based on alert parameters. Select the **Metrics** tab to view the metrics for each component. For more information, see [Monitoring with metrics and alerts]({{< relref "/operate/rs/monitoring" >}}).
+
+{{<image filename="images/rs/screenshots/metrics/db-metrics.png" alt="The database metrics page.">}}
 
 See the following topics for metrics definitions:
 - [Database operations]({{< relref "/operate/rs/references/metrics/database-operations" >}}) for database metrics
 - [Resource usage]({{< relref "/operate/rs/references/metrics/resource-usage" >}}) for resource and database usage metrics
-- [Auto Tiering]({{< relref "/operate/rs/references/metrics/auto-tiering" >}}) for additional metrics for [Auto Tiering ]({{< relref "/operate/rs/databases/auto-tiering" >}}) databases
+- [Auto Tiering]({{< relref "/operate/rs/references/metrics/auto-tiering" >}}) for additional metrics for [Auto Tiering ]({{< relref "/operate/rs/databases/flash" >}}) databases
 
 ## Prometheus metrics
 
 To collect and display metrics data from your databases and other cluster components,
-you can connect your [Prometheus](https://prometheus.io/) and [Grafana](https://grafana.com/) server to your Redis Enterprise Software cluster. We recommend you use Prometheus and Grafana to view metrics history and trends.
+you can connect your [Prometheus](https://prometheus.io/) and [Grafana](https://grafana.com/) server to your Redis Software cluster. We recommend you use Prometheus and Grafana to view metrics history and trends.
 
-See [Prometheus integration]({{< relref "/operate/rs/monitoring/prometheus_and_grafana" >}}) to learn how to connect Prometheus and Grafana to your Redis Enterprise database.
+See [Prometheus integration]({{< relref "/operate/rs/monitoring/get-started" >}}) to learn how to connect Prometheus and Grafana to your Redis Software database.
 
-Redis Enterprise Software version 7.8.2 introduces a preview of the new metrics stream engine that exposes the v2  Prometheus scraping endpoint at `https://<IP>:8070/v2`.
+The new metrics stream engine that exposes the v2 Prometheus scraping endpoint at `https://<IP>:8070/v2` is generally available as of Redis Software version 8.0.
 This new engine exports all time-series metrics to external monitoring tools such as Grafana, DataDog, NewRelic, and Dynatrace using Prometheus.
 
 The new engine enables real-time monitoring, including full monitoring during maintenance operations, providing full visibility into performance during events such as shards' failovers and scaling operations.
@@ -37,7 +39,7 @@ For a list of available metrics, see the following references:
 
 - [Prometheus metrics v1]({{<relref "operate/rs/references/metrics/prometheus-metrics-v1">}})
 
-- [Prometheus metrics v2 preview]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v2">}})
+- [Prometheus metrics v2]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v2">}})
 
 If you are already using the existing scraping endpoint for integration, follow [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) to transition and try the new engine. It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.
 
@@ -45,7 +47,7 @@ If you are already using the existing scraping endpoint for integration, follow 
 
 ### Shard limit
 
-Metrics information is not shown for clusters with more than 128 shards. For large clusters, we recommend you use [Prometheus and Grafana]({{< relref "/operate/rs/monitoring/prometheus_and_grafana" >}}) to view metrics.
+Metrics information is not shown for clusters with more than 128 shards. For large clusters, we recommend you use [Prometheus and Grafana]({{< relref "/operate/rs/monitoring/get-started" >}}) to view metrics.
 
 ### Metrics not shown during shard migration
 

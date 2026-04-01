@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the bdb status field used with Redis Enterprise Software REST
+description: Documents the bdb status field used with Redis Software REST
   API calls.
 linkTitle: status
 weight: $weight

@@ -17,6 +17,8 @@ title: Cuckoo filter
 weight: 20
 ---
 
+{{< command-group group="cf" title="Cuckoo filter command summary" show_link=true >}}
+
 A Cuckoo filter, just like a Bloom filter, is a probabilistic data structure in Redis Open Source that enables you to check if an element is present in a set in a very fast and space efficient way, while also allowing for deletions and showing better performance than Bloom in some scenarios.
 
 While the Bloom filter is a bit array with flipped bits at positions decided by the hash function, a Cuckoo filter is an array of buckets, storing fingerprints of the values in one of the buckets at positions decided by the two hash functions. A membership query for item `x` searches the possible buckets for the fingerprint of `x`, and returns true if an identical fingerprint is found. A cuckoo filter's fingerprint size will directly determine the false positive rate.
@@ -49,7 +51,7 @@ Note> In addition to these two cases, Cuckoo filters serve very well all the Blo
 
 > You'll learn how to create an empty cuckoo filter with an initial capacity for 1,000 items, add items, check their existence, and remove them. Even though the [`CF.ADD`]({{< relref "commands/cf.add/" >}}) command can create a new filter if one isn't present, it might not be optimally sized for your needs. It's better to use the [`CF.RESERVE`]({{< relref "commands/cf.reserve/" >}}) command to set up a filter with your preferred capacity.
 
-{{< clients-example cuckoo_tutorial cuckoo >}}
+{{< clients-example set="cuckoo_tutorial" step="cuckoo" description="Cuckoo filter operations: Use CF.RESERVE to create a filter, CF.ADD to add items, CF.EXISTS to check membership, and CF.DEL to remove items when you need space-efficient probabilistic set membership testing with deletion support" difficulty="intermediate" >}}
 > CF.RESERVE bikes:models 1000
 OK
 > CF.ADD bikes:models "Smoky Mountain Striker"

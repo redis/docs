@@ -72,10 +72,10 @@ key_specs:
     type: range
   update: true
 linkTitle: XACKDEL
+railroad_diagram: /images/railroad/xackdel.svg
 since: 8.2.0
 summary: Acknowledges and conditionally deletes one or multiple entries for a stream consumer group.
 syntax_fmt: "XACKDEL key group [KEEPREF | DELREF | ACKED] IDS\_numids id [id ...]"
-syntax_str: "group [KEEPREF | DELREF | ACKED] IDS\_numids id [id ...]"
 title: XACKDEL
 ---
 
@@ -125,16 +125,44 @@ When using multiple consumer groups, users are encouraged to use `XACKDEL` with 
 
 ## Examples
 
-{{% redis-cli %}}
-XADD mystream * field1 value1
-XADD mystream * field2 value2
-XGROUP CREATE mystream mygroup 0
-XREADGROUP GROUP mygroup consumer1 COUNT 2 STREAMS mystream >
-XPENDING mystream mygroup
-XACKDEL mystream mygroup KEEPREF IDS 2 1526919030474-55 1526919030474-56
-XPENDING mystream mygroup
-XRANGE mystream - +
-{{% /redis-cli %}}
+```
+> XADD mystream * field1 value1
+"1755870377536-0"
+> XADD mystream * field2 value2
+"1755870387045-0"
+> XGROUP CREATE mystream mygroup 0
+OK
+> XREADGROUP GROUP mygroup consumer1 COUNT 2 STREAMS mystream >
+1) 1) "mystream"
+   2) 1) 1) "1755870377536-0"
+         2) 1) "field1"
+            2) "value1"
+      2) 1) "1755870387045-0"
+         2) 1) "field2"
+            2) "value2"
+> XPENDING mystream mygroup
+1) (integer) 2
+2) "1755870377536-0"
+3) "1755870387045-0"
+4) 1) 1) "consumer1"
+      2) "2"
+> XACKDEL mystream mygroup KEEPREF IDS 2 1755870377536-0 1755870387045-0
+1) (integer) 1
+2) (integer) 1
+> XPENDING mystream mygroup
+1) (integer) 0
+2) (nil)
+3) (nil)
+4) (nil)
+> XRANGE mystream - +
+(empty array)
+```
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

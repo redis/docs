@@ -134,7 +134,7 @@ As of release 0.6, the implementation uses a multi-level range tree, saving rang
 
 ## Auto-complete and fuzzy suggestions
 
-Another important feature for searching and querying is auto-completion or suggestion. It allows you to create dictionaries of weighted terms, and then query them for completion suggestions to a given user prefix.  For example, if you put the term “lcd tv” into a dictionary, sending the prefix “lc” will return it as a result. The dictionary is modeled as a compressed trie (prefix tree) with weights, that is traversed to find the top suffixes of a prefix.
+Another important feature for searching and querying is auto-completion or suggestion. It allows you to create dictionaries of weighted terms, and then query them for completion suggestions to a given user prefix.  For example, if you put the term "lcd tv" into a dictionary, sending the prefix "lc" will return it as a result. The dictionary is modeled as a compressed trie (prefix tree) with weights, that is traversed to find the top suffixes of a prefix.
 
 Redis Open Source also allows for fuzzy suggestions, meaning you can get suggestions to user prefixes even if the user has a typo in the prefix. This is enabled using a Levenshtein automaton, allowing efficient searching of a dictionary for all terms within a maximal Levenshtein distance of a term or prefix. Suggestions are weighted based on both their original score and their distance from a prefix typed by the user. Only suggestions where the prefix is up to one Levenshtein distance away from the typed prefix are supported for performance reasons.
 

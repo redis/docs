@@ -22,6 +22,7 @@ In the example below, data is captured from the source table named `invoice` and
 When writing to a set, you must supply an extra argument, `member`, which specifies the field that will be written. In this case, the result will be a Redis set with key names based on the key expression (for example, `invoices:Germany`, `invoices:USA`) and with an expiration of 100 seconds. If you don't supply an `expire` parameter, the keys will never expire.    
 
 ```yaml
+name: Write invoices to set by country
 source:
   schema: public
   table: invoice

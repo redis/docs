@@ -34,9 +34,14 @@
 
     {{ partial "scss.html" (dict "path" "scss/style.scss") }}
     {{ partialCached "css.html" . }}
+    {{ if .Page.Store.Get "hasOtelMetrics" }}
+    <link rel="stylesheet" href="{{ "css/otel-metrics.css" | relURL }}">
+    {{ end }}
 
     {{ block "head" . }}{{ end }}
-    
+
+    {{ partial "ai-metadata.html" . }}
+
     {{ partial "fonts.html" . }}
     
     {{ if hugo.IsProduction -}}
@@ -46,13 +51,19 @@
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','{{ .Site.Params.tagManagerId }}');</script>
     {{ end -}}
-    
+
+    <script>window.HUGO_BASEURL = "{{ .Site.BaseURL }}"</script>
+
     <script src='{{ "js/index.js" | relURL }}' defer></script>
+    {{ partial "segment.html" . }}
+    {{ partial "fullstory.html" . }}
     {{ if .Params.math }}
         {{ partial "mathjax.html" }}
     {{ end }}
   </head>
   <body class="antialiased tracking-[-0.01em] bg-white w-full">
+    {{ partial "ai-metadata-body.html" . }}
+
     {{ if hugo.IsProduction -}}
       <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ .Site.Params.tagManagerId }}"
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -76,5 +87,2059 @@
     {{ partial "toc-js.html" . }}
 
     {{ partial "search-modal.html" . }}
+
+    {{ if .Store.Get "hasMermaid" }}
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        themeVariables: {
+          fontFamily: 'Space Mono',
+          primaryColor: '#ffffff',
+          primaryBorderColor: '#ee0000'
+        }
+      });
+    </script>
+    {{ end }}
+
+    <!-- Checklist functionality -->
+    {{ if .Page.Store.Get "hasChecklist" }}
+    <script src="{{ "js/checklist.js" | relURL }}"></script>
+    {{ end }}
+
+    <!-- Hierarchy functionality -->
+    {{ if .Page.Store.Get "hasHierarchy" }}
+    <script src="{{ "js/hierarchy.js" | relURL }}"></script>
+    {{ end }}
+
+    <!-- Decision tree functionality -->
+    {{ if .Page.Store.Get "hasDecisionTree" }}
+    <script src="{{ "js/decision-tree.js" | relURL }}"></script>
+    {{ end }}
+
+    <!-- OpenTelemetry metrics functionality -->
+    {{ if .Page.Store.Get "hasOtelMetrics" }}
+    <script src="{{ "js/otel-metrics.js" | relURL }}"></script>
+    {{ end }}
+
+    <!-- Timeline functionality -->
+    {{ if .Page.Store.Get "hasTimeline" }}
+    <script src="{{ "js/timeline.js" | relURL }}"></script>
+    {{ end }}
+
+    <!-- Thebe interactive code functionality -->
+    {{ if .Page.Store.Get "hasThebe" }}
+    <!-- Thebe 0.9.0-rc.12 with proper BinderHub support -->
+    <!-- Script AND CSS are loaded dynamically on first "Run here" click to prevent:
+         1. Auto-initialization of cells
+         2. Thebe CSS from hiding/breaking code display before activation -->
+    <!-- <script type="text/javascript" src="https://unpkg.com/thebe@0.9.0-rc.12/lib/index.js"></script> -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/thebe@0.9.0-rc.12/lib/thebe.css" /> -->
+
+    <!-- Thebe configuration for Redis BinderHub -->
+    <script type="text/x-thebe-config">
+      {
+        "bootstrap": false,
+        "requestKernel": false,
+        "binderOptions": {
+          "repo": "redis/binder-launchers",
+          "ref": "",
+          "binderUrl": "https://redis.io/binder/",
+          "repoProvider": "github",
+          "savedSession": {
+            "enabled": true,
+            "storagePrefix": "thebe-redis-"
+          }
+        },
+        "kernelOptions": {
+          "kernelName": ""
+        },
+        "codeMirrorConfig": {
+          "lineNumbers": false
+        },
+        "mountActivateWidget": false,
+        "mountStatusWidget": false,
+        "selector": ".thebe-cell"
+      }
+    </script>
+
+    <style>
+      /* Scope Thebe CSS variables to interactive containers */
+      .thebe-container {
+        --jp-content-font-color1: rgb(255 255 255);
+        --jp-content-font-color0: rgb(255 255 255);
+        --jp-layout-color0: rgb(15 23 42);
+        --jp-layout-color1: rgb(15 23 42);
+        --jp-cell-editor-background: rgb(15 23 42);
+        --jp-code-font-family: Space Mono, SF Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      }
+
+
+
+      /* Hide Thebe default widgets completely */
+      .thebe-activate, .thebe-status {
+        display: none !important;
+      }
+
+      /* Inline Thebe status messages shown in the header row */
+      .session-expired-message,
+      .thebe-rate-limit-message {
+        font-size: 0.85em;
+        margin-right: 12px;
+        white-space: nowrap;
+      }
+      .session-expired-message {
+        color: #e57373; /* red-300 */
+      }
+      .thebe-rate-limit-message {
+        color: #fbbf24; /* amber-400 */
+      }
+
+
+
+      /* Loading overlay for cells */
+      .thebe-container.loading .thebe-cell::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(15, 23, 42, 0.9);
+        z-index: 10;
+      }
+      .thebe-container.loading .thebe-cell::after {
+        content: 'Connecting to kernel...';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-family: Space Mono, monospace;
+        font-size: 0.875rem;
+        z-index: 11;
+      }
+      .thebe-container.loading.reconnecting .thebe-cell::after {
+        content: 'Connecting to existing kernel...';
+      }
+      .thebe-container.loading.kernel-ready .thebe-cell::after {
+        content: 'Running...';
+      }
+      .thebe-container {
+        position: relative;
+      }
+      .thebe-container .thebe-cell {
+        position: relative;
+      }
+
+      /* BLOCKED state - button is blocked until clean code is stored */
+      .thebe-run-btn.thebe-btn-blocked {
+        pointer-events: none;
+        opacity: 0.5;
+      }
+
+      /* Disabled state for all disabled buttons */
+      .thebe-run-btn.text-slate-500 {
+        position: relative;
+        cursor: not-allowed;
+      }
+
+      /* CSS tooltip for kernel unavailable state */
+      .thebe-run-btn.thebe-btn-kernel-unavailable::after {
+        content: 'Kernel server not available';
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgb(30 41 59);
+        color: white;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        z-index: 50;
+        margin-bottom: 0.5rem;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.15s ease;
+        pointer-events: none;
+      }
+      .thebe-run-btn.thebe-btn-kernel-unavailable:hover::after {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* CSS tooltip for dependent cells (after kernel is ready) */
+      .thebe-run-btn.text-slate-500:not(.thebe-btn-kernel-unavailable)::after {
+        content: 'Run the first code snippet to start the kernel';
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgb(30 41 59);
+        color: white;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        z-index: 50;
+        margin-bottom: 0.5rem;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.15s ease;
+        pointer-events: none;
+      }
+      .thebe-run-btn.text-slate-500:not(.thebe-btn-kernel-unavailable):hover::after {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Keyboard shortcut hint */
+      .panel {
+        position: relative;
+      }
+      .run-hint {
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        font-size: 0.65rem;
+        color: #64748b;
+        z-index: 10;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+      }
+      .thebe-container.kernel-ready .run-hint {
+        opacity: 1;
+      }
+
+      /* Ensure code is visible on initial load */
+      .thebe-container .step-code-view .highlight,
+      .thebe-container .step-code-view .chroma,
+      .thebe-container .step-code-view pre,
+      .thebe-container .step-code-view code {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+
+      /* Spacing between code sections in full file view */
+      .full-file-view .code-section {
+        margin-bottom: 0;
+      }
+
+      /* Ensure highlight containers don't add extra spacing */
+      .full-file-view .code-section .highlight,
+      .full-file-view .code-section pre {
+        margin: 0 !important;
+      }
+
+      /* Ensure step code view and full file view don't both show */
+      .panel .step-code-view,
+      .panel .full-file-view {
+        width: 100%;
+      }
+
+      /* Read-only context code styling in CodeMirror */
+      .thebe-cell .CodeMirror .cm-readonly-context,
+      .thebe-cell .CodeMirror .cm-readonly-context span {
+        opacity: 0.5 !important;
+        cursor: not-allowed;
+      }
+
+      /* Prevent editing in read-only sections */
+      .thebe-cell .CodeMirror .cm-readonly-context::selection {
+        background-color: transparent;
+      }
+
+      /* Loading spinner animation */
+      .thebe-run-btn.loading {
+        pointer-events: none;
+      }
+      .thebe-run-btn.loading svg {
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      /* Thebe cell inside codetabs container */
+      .thebe-cell {
+        margin: 0;
+        border-radius: 0 0 0.5rem 0.5rem;
+        background-color: rgb(15 23 42);
+        overflow: hidden;
+        cursor: default;
+        transition: box-shadow 0.2s ease;
+        /* Ensure cell is always visible - override Thebe CSS */
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+      /* Only show interactive styles after activation */
+      .thebe-container.activated .thebe-cell {
+        cursor: text;
+      }
+      .thebe-container.activated .thebe-cell:hover {
+        box-shadow: inset 0 0 0 1px rgb(71 85 105);
+      }
+      .thebe-container.activated .thebe-cell:focus-within {
+        box-shadow: inset 0 0 0 2px rgb(89 97 255);
+      }
+      .thebe-cell code {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        padding: 0.5rem 1rem;
+        white-space: pre;
+        font-family: Space Mono, SF Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 0.875rem;
+        line-height: 1.625;
+        color: rgb(255 255 255);
+        background-color: rgb(15 23 42);
+        min-height: 1.625em; /* Ensure code block has minimum height even before font loads */
+      }
+      /* Hide the original code element once CodeMirror takes over */
+      .thebe-cell .CodeMirror ~ code,
+      .thebe-cell .cm-editor ~ code {
+        display: none !important;
+      }
+
+      /* CodeMirror 5 editor dark theme - initially not interactive */
+      .thebe-cell .CodeMirror {
+        position: relative; /* Positioning context for session expired message */
+        background-color: rgb(15 23 42) !important;
+        color: rgb(255 255 255) !important;
+        font-family: Space Mono, SF Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 0.875rem;
+        line-height: 1.625;
+        height: auto !important;
+        padding: 1rem;
+        border-radius: 0.5rem 0.5rem 0 0;
+        cursor: default;
+        pointer-events: none;
+      }
+      /* Enable CodeMirror 5 interaction after activation */
+      .thebe-container.activated .thebe-cell .CodeMirror {
+        cursor: text;
+        pointer-events: auto;
+      }
+      /* Hide CodeMirror 5 gutters and line numbers for cleaner look */
+      .thebe-cell .CodeMirror-gutters,
+      .thebe-cell .CodeMirror-linenumber {
+        display: none !important;
+      }
+      .thebe-cell .CodeMirror-lines {
+        padding-left: 0 !important;
+      }
+
+      /* CodeMirror 6 support (Thebe 0.9.x uses CM6) */
+      .thebe-cell .cm-editor {
+        background-color: rgb(15 23 42) !important;
+        color: rgb(255 255 255) !important;
+        font-family: Space Mono, SF Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+        font-size: 0.875rem !important;
+        line-height: 1.625 !important;
+        height: auto !important;
+        padding: 1rem;
+        border-radius: 0.5rem 0.5rem 0 0;
+        cursor: default;
+        pointer-events: none;
+      }
+      /* Enable CodeMirror 6 interaction after activation */
+      .thebe-container.activated .thebe-cell .cm-editor {
+        cursor: text;
+        pointer-events: auto;
+      }
+      /* Hide CodeMirror 6 gutters and line numbers */
+      .thebe-cell .cm-gutters,
+      .thebe-cell .cm-lineNumbers,
+      .thebe-cell .cm-gutter {
+        display: none !important;
+      }
+      /* Ensure CM6 lines display as blocks */
+      .thebe-cell .cm-line {
+        display: block !important;
+      }
+      .thebe-cell .cm-content {
+        padding: 0 !important;
+        display: block !important;
+      }
+      .thebe-cell .cm-scroller {
+        overflow: visible !important;
+      }
+
+      /* Cursor (caret) - hidden by default - CM5 */
+      .thebe-cell .CodeMirror-cursor {
+        border-left: 2px solid rgb(255 255 255) !important;
+        visibility: hidden !important;
+      }
+      .thebe-cell .CodeMirror-cursors {
+        visibility: hidden !important;
+      }
+      /* Show cursor with blink animation ONLY when CodeMirror is focused - CM5 */
+      .thebe-cell .CodeMirror.CodeMirror-focused .CodeMirror-cursor {
+        visibility: visible !important;
+        animation: blink 1s step-end infinite !important;
+      }
+      .thebe-cell .CodeMirror.CodeMirror-focused .CodeMirror-cursors {
+        visibility: visible !important;
+      }
+      /* Cursor - CM6 */
+      .thebe-cell .cm-cursor {
+        border-left: 2px solid rgb(255 255 255) !important;
+        visibility: hidden !important;
+      }
+      /* Show cursor ONLY when CM6 editor is focused */
+      .thebe-cell .cm-editor.cm-focused .cm-cursor {
+        visibility: visible !important;
+      }
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+
+      /* Thebe cell highlight - inherit site Chroma styles, just reset container */
+      .thebe-cell .highlight {
+        background: transparent !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+      }
+      .thebe-cell .highlight pre,
+      .thebe-cell .highlight .chroma {
+        background: transparent !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+      }
+      .thebe-cell .highlight code {
+        background: transparent !important;
+        color: inherit !important;
+      }
+
+      /* CodeMirror classes (after Thebe activation) - match site Chroma colors */
+      .thebe-cell .cm-keyword {
+        color: rgb(248 113 113) !important; /* text-red-400 */
+      }
+      .thebe-cell .cm-builtin,
+      .thebe-cell .cm-def {
+        color: rgb(196 181 253) !important; /* text-purple-300 */
+        font-weight: 700;
+      }
+      .thebe-cell .cm-string,
+      .thebe-cell .cm-string-2,
+      .thebe-cell .cm-number,
+      .thebe-cell .cm-atom {
+        color: rgb(96 165 250) !important; /* text-blue-400 */
+      }
+      .thebe-cell .cm-comment {
+        color: rgb(100 116 139) !important; /* text-slate-500 */
+        font-style: italic;
+      }
+      .thebe-cell .cm-operator {
+        color: rgb(248 113 113) !important; /* text-red-400 */
+        font-weight: 700;
+      }
+      .thebe-cell .cm-variable,
+      .thebe-cell .cm-variable-2,
+      .thebe-cell .cm-variable-3,
+      .thebe-cell .cm-property {
+        color: inherit !important;
+      }
+      .thebe-cell .cm-meta {
+        color: rgb(196 181 253) !important; /* text-purple-300 */
+      }
+      .thebe-cell .cm-error {
+        color: rgb(248 113 113) !important; /* text-red-400 */
+      }
+
+      /* Hide empty output area */
+      .thebe-output:empty,
+      .thebe-output:not(:has(*)),
+      .thebe-output .jp-OutputArea:empty,
+      .thebe-output:has(.jp-OutputArea:empty) {
+        display: none !important;
+      }
+
+      /* Output area styling - CLEAN BASELINE (no container animation) */
+      .thebe-output {
+        background-color: rgb(15 23 42) !important;
+        color: rgb(203 213 225) !important;
+        font-family: Space Mono, SF Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+        font-size: 0.875rem !important;
+        line-height: 1.625 !important;
+      }
+      .thebe-output:has(.jp-OutputArea-child) {
+        padding: 0.5rem 1rem;
+        margin-top: 0;
+        border-radius: 0 0 0.5rem 0.5rem;
+      }
+      .thebe-output * {
+        background-color: rgb(15 23 42) !important;
+        color: rgb(203 213 225) !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        line-height: inherit !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      /* Simple fade animation on CONTENT only (not container) */
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      .thebe-output .jp-OutputArea-child {
+        animation: fadeIn 0.2s ease-out;
+      }
+
+      /* Output container - always visible at panel level */
+      .thebe-output-container {
+        width: 100%;
+        display: block !important; /* Force display regardless of parent state */
+      }
+
+      /* Hide empty output container */
+      .thebe-output-container:empty {
+        display: none !important;
+      }
+
+      /* Ensure output is visible in both collapsed and expanded views */
+      .panel[aria-expanded="true"] .thebe-output-container,
+      .panel:not([aria-expanded]) .thebe-output-container {
+        display: block !important;
+      }
+
+      /* Force output elements to be visible */
+      .thebe-output-container .thebe-output {
+        display: block !important;
+      }
+
+      /* But still hide if empty */
+      .thebe-output-container .thebe-output:empty,
+      .thebe-output-container .thebe-output .jp-OutputArea:empty,
+      .thebe-output-container .thebe-output:has(.jp-OutputArea:empty) {
+        display: none !important;
+      }
+
+      /* Hide Thebe's default buttons visually but keep in DOM for clicking */
+      .thebe-cell .thebelab-run-button,
+      .thebe-cell > button:not(.thebe-run-btn),
+      .thebelab-button,
+      .thebe-controls,
+      .thebelab-controls,
+      .thebe-button,
+      [data-thebe-ui],
+      .jp-Toolbar,
+      .jp-Toolbar-item,
+      .lm-Widget.jp-Toolbar,
+      button[data-commandlinker-command] {
+        position: absolute !important;
+        left: -9999px !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        width: 1px !important;
+        height: 1px !important;
+        overflow: hidden !important;
+      }
+    </style>
+    <script>
+      function getEmbeddedSourceText(scriptElement) {
+        if (!scriptElement) {
+          return '';
+        }
+
+        const rawText = scriptElement.textContent || '';
+
+        try {
+          return JSON.parse(rawText);
+        } catch (error) {
+          return rawText;
+        }
+      }
+
+      function copyJupyterCodeToClipboard(button) {
+        const container = button.closest('.thebe-container');
+        const panel = container.querySelector('.panel');
+        const isExpanded = panel && panel.getAttribute('aria-expanded') === 'true';
+        const codeMirrorElement = container.querySelector('.thebe-cell .CodeMirror');
+
+        let text = '';
+        if (codeMirrorElement && codeMirrorElement.CodeMirror) {
+          text = codeMirrorElement.CodeMirror.getValue();
+        } else if (isExpanded) {
+          const fullFileSource = container.querySelector('script[type="text-x-full-file-source"]');
+          text = getEmbeddedSourceText(fullFileSource);
+        } else {
+          const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
+          text = getEmbeddedSourceText(cleanSource);
+        }
+
+        navigator.clipboard.writeText(text).then(() => {
+          const tooltip = button.querySelector('.tooltiptext');
+          if (tooltip) {
+            tooltip.classList.remove('hidden');
+            setTimeout(() => {
+              tooltip.classList.add('hidden');
+            }, 2000);
+          }
+        }).catch(err => {
+          console.error('Copy failed', err);
+        });
+      }
+
+      function copyJupyterLinkToClipboard(button) {
+        const container = button.closest('.thebe-container');
+        const id = container.id;
+        const url = window.location.origin + window.location.pathname + '#' + id;
+
+        navigator.clipboard.writeText(url).then(() => {
+          const tooltip = button.querySelector('.tooltiptext');
+          if (tooltip) {
+            tooltip.style.opacity = '1';
+            setTimeout(() => {
+              tooltip.style.opacity = '0';
+            }, 2000);
+          }
+        }).catch(err => {
+          console.error('Copy link failed', err);
+        });
+      }
+
+      function getDynamicCurrentStepRange(fullFileCode, lineRanges, stepCode) {
+        const parts = getFullFileParts(fullFileCode, lineRanges);
+        const prefixLength = parts.prefixLines.length;
+        const stepLength = splitCodeIntoLines(stepCode).length;
+
+        return {
+          start: prefixLength,
+          end: prefixLength + stepLength - 1
+        };
+      }
+
+      function applyReadOnlyMarkers(codeMirror, lineRanges, stepStartLine, stepEndLine) {
+        if (codeMirror._readOnlyMarkers) {
+          codeMirror._readOnlyMarkers.forEach(function(marker) {
+            marker.clear();
+          });
+        }
+        codeMirror._readOnlyMarkers = [];
+
+        const currentStepRange = stepStartLine !== undefined && stepEndLine !== undefined
+          ? {start: stepStartLine, end: stepEndLine, type: 'current-step'}
+          : lineRanges.find(function(range) {
+            return range.type === 'current-step';
+          });
+
+        const totalLines = codeMirror.lineCount();
+        const lastLine = Math.max(totalLines - 1, 0);
+        const lastCh = codeMirror.getLine(lastLine).length;
+
+        if (!currentStepRange) {
+          const marker = codeMirror.markText(
+            {line: 0, ch: 0},
+            {line: lastLine, ch: lastCh},
+            {
+              readOnly: true,
+              className: 'cm-readonly-context',
+              inclusiveLeft: true,
+              inclusiveRight: true
+            }
+          );
+          codeMirror._readOnlyMarkers.push(marker);
+          return;
+        }
+
+        if (currentStepRange.start > 0) {
+          const beforeMarker = codeMirror.markText(
+            {line: 0, ch: 0},
+            {line: currentStepRange.start, ch: 0},
+            {
+              readOnly: true,
+              className: 'cm-readonly-context',
+              inclusiveLeft: true,
+              inclusiveRight: true
+            }
+          );
+          codeMirror._readOnlyMarkers.push(beforeMarker);
+        }
+
+        if (currentStepRange.end < totalLines - 1) {
+          const afterMarker = codeMirror.markText(
+            {line: currentStepRange.end + 1, ch: 0},
+            {line: lastLine, ch: lastCh},
+            {
+              readOnly: true,
+              className: 'cm-readonly-context',
+              inclusiveLeft: true,
+              inclusiveRight: true
+            }
+          );
+          codeMirror._readOnlyMarkers.push(afterMarker);
+        }
+      }
+
+      function clearReadOnlyMarkers(codeMirror) {
+        if (codeMirror._readOnlyMarkers) {
+          codeMirror._readOnlyMarkers.forEach(function(marker) {
+            marker.clear();
+          });
+          codeMirror._readOnlyMarkers = [];
+        }
+      }
+
+      function splitCodeIntoLines(code) {
+        return code === '' ? [] : code.split('\n');
+      }
+
+      function getCurrentStepRange(lineRanges) {
+        return lineRanges.find(function(range) {
+          return range.type === 'current-step';
+        }) || null;
+      }
+
+      function getFullFileParts(fullFileCode, lineRanges) {
+        const currentStepRange = getCurrentStepRange(lineRanges);
+        const fullFileLines = splitCodeIntoLines(fullFileCode);
+
+        if (!currentStepRange) {
+          return {
+            prefixLines: [],
+            stepLines: fullFileLines,
+            suffixLines: []
+          };
+        }
+
+        return {
+          prefixLines: fullFileLines.slice(0, currentStepRange.start),
+          stepLines: fullFileLines.slice(currentStepRange.start, currentStepRange.end + 1),
+          suffixLines: fullFileLines.slice(currentStepRange.end + 1)
+        };
+      }
+
+      function buildExpandedCode(fullFileCode, lineRanges, stepCode) {
+        const parts = getFullFileParts(fullFileCode, lineRanges);
+        const stepLines = splitCodeIntoLines(stepCode);
+
+        return parts.prefixLines.concat(stepLines, parts.suffixLines).join('\n');
+      }
+
+      function extractStepCodeFromExpandedCode(expandedCode, fullFileCode, lineRanges, fallbackStepCode) {
+        const parts = getFullFileParts(fullFileCode, lineRanges);
+        const expandedLines = splitCodeIntoLines(expandedCode);
+        const startIndex = parts.prefixLines.length;
+        const endIndex = expandedLines.length - parts.suffixLines.length;
+
+        if (endIndex < startIndex) {
+          return fallbackStepCode;
+        }
+
+        return expandedLines.slice(startIndex, endIndex).join('\n');
+      }
+
+      function toggleJupyterVisibility(button) {
+        const container = button.closest('.thebe-container');
+        const panel = container.querySelector('.panel');
+        const iconOn = button.querySelector('.visibility-icon-on');
+        const iconOff = button.querySelector('.visibility-icon-off');
+        const isExpanded = panel.getAttribute('aria-expanded') === 'true';
+        const isActivated = container.classList.contains('activated');
+        const stepCodeView = panel.querySelector('.step-code-view');
+        const fullFileView = panel.querySelector('.full-file-view');
+        const thebeCell = stepCodeView ? stepCodeView.querySelector('.thebe-cell') : null;
+        const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
+        const fullFileSource = container.querySelector('script[type="text-x-full-file-source"]');
+        const lineRangesScript = container.querySelector('script[type="text-x-line-ranges"]');
+        const stepCode = getEmbeddedSourceText(cleanSource);
+        const fullFileCode = getEmbeddedSourceText(fullFileSource);
+        const storedStepCode = typeof container._currentStepCode === 'string' ? container._currentStepCode : stepCode;
+        let lineRanges = [];
+
+        if (lineRangesScript) {
+          try {
+            lineRanges = JSON.parse(lineRangesScript.textContent.trim());
+          } catch (e) {
+            console.error('Failed to parse line ranges:', e);
+          }
+        }
+
+        if (isExpanded) {
+          panel.removeAttribute('aria-expanded');
+          iconOn.classList.remove('hidden');
+          iconOff.classList.add('hidden');
+
+          if (!isActivated) {
+            if (stepCodeView && fullFileView) {
+              stepCodeView.style.display = '';
+              fullFileView.style.display = 'none';
+            }
+          } else {
+            const codeMirrorElement = thebeCell ? thebeCell.querySelector('.CodeMirror') : null;
+            if (codeMirrorElement && codeMirrorElement.CodeMirror) {
+              const cm = codeMirrorElement.CodeMirror;
+              const nextStepCode = extractStepCodeFromExpandedCode(cm.getValue(), fullFileCode, lineRanges, storedStepCode);
+              container._currentStepCode = nextStepCode;
+              clearReadOnlyMarkers(cm);
+              const scrollY = window.scrollY;
+              const currentMode = cm.getOption('mode');
+              const modeSpec = currentMode || (thebeCell ? thebeCell.getAttribute('data-language') : null);
+              cm.setValue(nextStepCode);
+              if (modeSpec) {
+                cm.setOption('mode', null);
+                cm.setOption('mode', modeSpec);
+              }
+              window.scrollTo(0, scrollY);
+              cm.refresh();
+            }
+          }
+        } else {
+          panel.setAttribute('aria-expanded', 'true');
+          iconOn.classList.add('hidden');
+          iconOff.classList.remove('hidden');
+
+          if (!isActivated) {
+            if (stepCodeView && fullFileView) {
+              stepCodeView.style.display = 'none';
+              fullFileView.style.display = '';
+            }
+          } else {
+            const codeMirrorElement = thebeCell ? thebeCell.querySelector('.CodeMirror') : null;
+            if (codeMirrorElement && codeMirrorElement.CodeMirror) {
+              const cm = codeMirrorElement.CodeMirror;
+              const nextStepCode = cm.getValue();
+              const expandedCode = buildExpandedCode(fullFileCode, lineRanges, nextStepCode);
+              const dynamicCurrentStepRange = getDynamicCurrentStepRange(fullFileCode, lineRanges, nextStepCode);
+              container._currentStepCode = nextStepCode;
+              const scrollY = window.scrollY;
+              const currentMode = cm.getOption('mode');
+              const modeSpec = currentMode || (thebeCell ? thebeCell.getAttribute('data-language') : null);
+              cm.setValue(expandedCode);
+              if (modeSpec) {
+                cm.setOption('mode', null);
+                cm.setOption('mode', modeSpec);
+              }
+              window.scrollTo(0, scrollY);
+              setTimeout(function() {
+                applyReadOnlyMarkers(cm, lineRanges, dynamicCurrentStepRange.start, dynamicCurrentStepRange.end);
+                cm.refresh();
+              }, 50);
+            }
+          }
+        }
+      }
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Track which cells have been executed and kernel state
+        const executedCells = new Set();
+        let kernelReady = false;
+        let thebeBootstrapped = false;
+        let notebookAttached = false;  // Track when notebook is attached to session
+        let firstCellExecuted = false; // Track if first cell has run to prevent re-disabling dependent buttons
+        let lastBinderRateLimitError = null;
+        let thebeStatusHandlerAttached = false;
+        const RATE_LIMIT_MESSAGE = "Too many requests. Please try again later.";
+
+        function storeOriginalCellHTML() {
+          document.querySelectorAll('.thebe-container').forEach(function(container) {
+            if (container._originalCellHTML) {
+              return;
+            }
+
+            const cell = container.querySelector('.thebe-cell');
+            if (cell) {
+              container._originalCellHTML = cell.innerHTML;
+            }
+          });
+        }
+
+        // Restore the original Hugo-rendered cell HTML when available.
+        // Fall back to rebuilding plain code only for already-activated editors.
+        function restoreCleanCells() {
+          document.querySelectorAll('.thebe-container').forEach(function(container) {
+            const cell = container.querySelector('.thebe-cell');
+            const hasCodeMirror = cell && (cell.querySelector('.CodeMirror') || cell.querySelector('.cm-editor'));
+
+            if (!cell) {
+              return;
+            }
+
+            if (container._originalCellHTML) {
+              cell.innerHTML = container._originalCellHTML;
+              return;
+            }
+
+            if (!hasCodeMirror) {
+              return;
+            }
+
+            const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
+            if (cleanSource) {
+              const cleanCode = getEmbeddedSourceText(cleanSource);
+              // Nuke everything in the cell and recreate with clean code
+              cell.innerHTML = '<code></code>';
+              cell.querySelector('code').textContent = cleanCode;
+            }
+          });
+        }
+
+        // Unblock buttons - the hidden source element is always clean, no need to wait
+        document.querySelectorAll('.thebe-run-btn.thebe-btn-blocked').forEach(function(btn) {
+          btn.classList.remove('thebe-btn-blocked');
+        });
+
+        // Lazy-load Thebe script - only load when user clicks "Run here"
+        // This prevents Thebe from auto-processing cells on page load
+        let thebeLoaded = false;
+        let thebeLoading = false;
+        let thebeLoadError = null;
+
+        function loadThebe() {
+          return new Promise(function(resolve, reject) {
+            if (thebeLoaded) {
+              resolve();
+              return;
+            }
+            if (thebeLoadError) {
+              thebeLoadError = null;
+            }
+            if (thebeLoading) {
+              // Wait for existing load
+              const checkLoaded = setInterval(function() {
+                if (thebeLoaded) {
+                  clearInterval(checkLoaded);
+                  resolve();
+                } else if (thebeLoadError) {
+                  clearInterval(checkLoaded);
+                  reject(thebeLoadError);
+                }
+              }, 100);
+              return;
+            }
+
+            thebeLoading = true;
+
+            // Load Thebe CSS first
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'https://unpkg.com/thebe@0.9.0-rc.12/lib/thebe.css';
+            document.head.appendChild(link);
+
+            // Then load Thebe script
+            const script = document.createElement('script');
+            script.src = 'https://unpkg.com/thebe@0.9.0-rc.12/lib/index.js';
+            script.onload = function() {
+              thebeLoaded = true;
+              thebeLoading = false;
+              thebeLoadError = null;
+              resolve();
+            };
+            script.onerror = function() {
+              thebeLoading = false;
+              thebeLoadError = new Error('Failed to load Thebe script');
+              reject(thebeLoadError);
+            };
+            document.head.appendChild(script);
+          });
+        }
+
+        // Configure page-specific session storage
+        // Get current page path for unique session key
+        const pagePath = window.location.pathname.replace(/\//g, '-').replace(/^-|-$/g, '') || 'home';
+        // Get dynamic binder ref and kernel name from window (set by shortcode render)
+        if (!window.thebeBinderRef || !window.thebeKernelName) {
+          console.error('[Thebe] Missing binder ref or kernel name. Interactive notebooks require both.');
+          return; // Skip all Thebe initialization
+        }
+        const binderRef = window.thebeBinderRef;
+        const sessionStorageKey = 'thebe-redis-' + pagePath + '-' + binderRef;
+
+        // Protection against rapid refresh corruption:
+        // Use sessionStorage (cleared on tab close, but persists across refreshes)
+        // to detect if a session restore is in progress
+        const SESSION_RESTORE_KEY = 'thebe-session-restore-in-progress';
+        const SESSION_RESTORE_TIMEOUT = 10000; // 10 seconds max for restore
+
+        // Check if a restore was in progress when we refreshed
+        const restoreInProgress = sessionStorage.getItem(SESSION_RESTORE_KEY);
+        if (restoreInProgress) {
+          const restoreStartTime = parseInt(restoreInProgress, 10);
+          const elapsed = Date.now() - restoreStartTime;
+          if (elapsed < SESSION_RESTORE_TIMEOUT) {
+            console.warn('[Thebe Session] Detected rapid refresh during session restore. Waiting...');
+            // Clear the flag after a brief delay to allow Thebe to settle
+            setTimeout(function() {
+              sessionStorage.removeItem(SESSION_RESTORE_KEY);
+            }, 500);
+          } else {
+            // Restore took too long, clear the stale flag
+            sessionStorage.removeItem(SESSION_RESTORE_KEY);
+          }
+        }
+
+        // Check for session expiration flag (set by handleKernelExpired)
+        // This flag survives page refresh and ensures we start in clean state
+        const sessionExpired = localStorage.getItem('thebe-session-expired');
+        if (sessionExpired) {
+          // Clear the flag
+          localStorage.removeItem('thebe-session-expired');
+          // Clear any stale session data that might still be in localStorage
+          for (let i = localStorage.length - 1; i >= 0; i--) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('thebe-binder-')) {
+              localStorage.removeItem(key);
+            }
+          }
+        }
+
+        // Check for existing Thebe binder session in localStorage
+        // The actual key format is: thebe-binder-{binderUrl}/build/gh/{repo}/{ref}
+        let existingSession = null;
+        let sessionStorageKey_actual = null;
+
+        // Search for any thebe-binder- key in localStorage
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('thebe-binder-')) {
+            try {
+              const data = localStorage.getItem(key);
+              const sessionData = JSON.parse(data);
+              // Check if it has valid session fields (id and token)
+              if (sessionData && sessionData.id && sessionData.token) {
+                existingSession = data;
+                sessionStorageKey_actual = key;
+                break;
+              }
+            } catch (e) {
+              // Skip invalid JSON
+            }
+          }
+        }
+
+        function clearContainerMessages(container) {
+          container.querySelectorAll('.session-expired-message, .thebe-rate-limit-message').forEach(function(message) {
+            message.remove();
+          });
+        }
+
+        function showContainerMessage(container, className, message) {
+          // Find the header row (contains the action buttons)
+          var header = container.querySelector('.codetabs-header .flex.items-center.gap-2:last-child');
+          if (!header) return;
+
+          clearContainerMessages(container);
+
+          var msg = document.createElement('span');
+          msg.className = className;
+          msg.textContent = message;
+
+          var firstButton = header.querySelector('button, a');
+          if (firstButton) {
+            header.insertBefore(msg, firstButton);
+          }
+        }
+
+        function setRunButtonState(btn, enabled, title) {
+          const hasDependencies = btn.getAttribute('data-original-depends') === 'true';
+          btn.classList.remove(
+            'loading',
+            'thebe-btn-kernel-unavailable',
+            'thebe-btn-blocked',
+            'text-slate-500',
+            'cursor-not-allowed',
+            'text-slate-300',
+            'hover:text-white'
+          );
+
+          if (!enabled || hasDependencies) {
+            btn.classList.add('text-slate-500', 'cursor-not-allowed');
+            btn.title = title || 'Run the first cell to start the kernel';
+            return;
+          }
+
+          btn.classList.add('text-slate-300', 'hover:text-white');
+          btn.title = title || 'Run this code on the page';
+        }
+
+        function resetButtonsForFreshKernelStart() {
+          document.querySelectorAll('.thebe-run-btn').forEach(function(btn) {
+            const hasDependencies = btn.getAttribute('data-original-depends') === 'true';
+            setRunButtonState(btn, !hasDependencies, hasDependencies ? 'Run the first cell to start the kernel' : 'Run this code on the page');
+          });
+        }
+
+        function resetThebeAfterBootstrapFailure() {
+          kernelReady = false;
+          notebookAttached = false;
+          thebeBootstrapped = false;
+          firstCellExecuted = false;
+          executedCells.clear();
+          existingSession = null;
+          lastBinderRateLimitError = null;
+          thebeLoadError = null;
+          sessionStorage.removeItem(SESSION_RESTORE_KEY);
+
+          if (sessionStorageKey_actual) {
+            localStorage.removeItem(sessionStorageKey_actual);
+            sessionStorageKey_actual = null;
+          }
+
+          document.querySelectorAll('.thebe-container').forEach(function(container) {
+            if (container._outputObserver) {
+              container._outputObserver.disconnect();
+              delete container._outputObserver;
+            }
+
+            container.classList.remove('loading', 'reconnecting', 'kernel-ready', 'activated');
+
+            if (container._wasHidden) {
+              const panel = container.querySelector('.panel');
+              const stepCodeView = panel ? panel.querySelector('.step-code-view') : null;
+              const fullFileView = panel ? panel.querySelector('.full-file-view') : null;
+              if (stepCodeView) {
+                stepCodeView.style.display = 'none';
+              }
+              if (fullFileView) {
+                fullFileView.style.display = '';
+              }
+              delete container._wasHidden;
+            }
+
+            clearContainerMessages(container);
+
+            const outputContainer = container.querySelector('.thebe-output-container');
+            if (outputContainer) {
+              outputContainer.innerHTML = '';
+            }
+          });
+
+          restoreCleanCells();
+          resetButtonsForFreshKernelStart();
+        }
+
+        function getRequestUrl(input) {
+          if (typeof input === 'string') {
+            return input;
+          }
+          if (input && typeof input.url === 'string') {
+            return input.url;
+          }
+          return '';
+        }
+
+        function isBinderHubRequest(input) {
+          const url = getRequestUrl(input);
+          return !!(url && url.includes('/binder/') && url.includes('/build/'));
+        }
+
+        function getCloudflareMitigation(response) {
+          if (!response || !response.headers || typeof response.headers.get !== 'function') {
+            return '';
+          }
+
+          return (response.headers.get('cf-mitigated') || '').toLowerCase();
+        }
+
+        function isCloudflareChallengePage(response) {
+          if (!response) {
+            return false;
+          }
+
+          if (getCloudflareMitigation(response) === 'challenge') {
+            return true;
+          }
+
+          return response.status === 403 || response.status === 429;
+        }
+
+        function isRateLimitError(error) {
+          if (!error) {
+            return false;
+          }
+
+          const message = [error.message, error.reason, error.error]
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase();
+
+          return error.status === 429 ||
+            error.status === 403 ||
+            error.statusCode === 429 ||
+            error.statusCode === 403 ||
+            isCloudflareChallengePage(error.response) ||
+            isCloudflareChallengePage(error.cause) ||
+            error.cfMitigated === 'challenge' ||
+            message.includes('429') ||
+            message.includes('403') ||
+            message.includes('rate limit') ||
+            message.includes('too many requests') ||
+            message.includes('challenge');
+        }
+
+        function createRateLimitError(message, response) {
+          const error = new Error(message || RATE_LIMIT_MESSAGE);
+          error.status = response && typeof response.status === 'number' ? response.status : 429;
+          if (response) {
+            error.response = response;
+            const cfMitigated = getCloudflareMitigation(response);
+            if (cfMitigated) {
+              error.cfMitigated = cfMitigated;
+            }
+          }
+          return error;
+        }
+
+        async function probeBinderHubRateLimit(url, fetchImpl) {
+          const requestUrl = getRequestUrl(url);
+          if (!isBinderHubRequest(requestUrl) || typeof fetchImpl !== 'function') {
+            return null;
+          }
+
+          try {
+            const response = await fetchImpl(requestUrl, {
+              method: 'HEAD',
+              headers: {
+                'Accept': 'text/event-stream'
+              }
+            });
+
+            if (response && isCloudflareChallengePage(response)) {
+              const error = createRateLimitError(RATE_LIMIT_MESSAGE, response);
+              lastBinderRateLimitError = error;
+              return error;
+            }
+          } catch (error) {
+            if (isRateLimitError(error)) {
+              lastBinderRateLimitError = error;
+              return error;
+            }
+          }
+
+          return null;
+        }
+
+        async function withBinderRateLimitDetection(fn) {
+          const originalFetch = typeof window.fetch === 'function' ? window.fetch.bind(window) : null;
+          const OriginalEventSource = typeof window.EventSource === 'function' ? window.EventSource : null;
+          const binderRateLimitChecks = [];
+
+          if (originalFetch) {
+            window.fetch = async function(input, init) {
+              const response = await originalFetch(input, init);
+
+              if (isBinderHubRequest(input) && response && isCloudflareChallengePage(response)) {
+                let responseText = '';
+                try {
+                  responseText = await response.clone().text();
+                } catch (readError) {
+                  // Ignore response body read errors - status code is enough
+                }
+
+                const error = createRateLimitError(responseText || RATE_LIMIT_MESSAGE, response);
+                lastBinderRateLimitError = error;
+                throw error;
+              }
+
+              return response;
+            };
+          }
+
+          if (OriginalEventSource && originalFetch) {
+            class RateLimitAwareEventSource extends OriginalEventSource {
+              constructor(url, eventSourceInitDict) {
+                super(url, eventSourceInitDict);
+
+                const requestUrl = getRequestUrl(url);
+                if (isBinderHubRequest(requestUrl)) {
+                  let rateLimitCheck = null;
+                  const maybeDetectRateLimit = () => {
+                    if (lastBinderRateLimitError) {
+                      return;
+                    }
+                    if (!rateLimitCheck) {
+                      rateLimitCheck = probeBinderHubRateLimit(requestUrl, originalFetch)
+                        .catch(function() {
+                          return null;
+                        });
+                      binderRateLimitChecks.push(rateLimitCheck);
+                    }
+                  };
+
+                  this.addEventListener('error', maybeDetectRateLimit);
+                }
+              }
+            }
+
+            window.EventSource = RateLimitAwareEventSource;
+          }
+
+          try {
+            return await fn();
+          } catch (error) {
+            if (!lastBinderRateLimitError && binderRateLimitChecks.length > 0) {
+              await Promise.allSettled(binderRateLimitChecks);
+            }
+            throw lastBinderRateLimitError || error;
+          } finally {
+            if (originalFetch) {
+              window.fetch = originalFetch;
+            }
+            if (OriginalEventSource) {
+              window.EventSource = OriginalEventSource;
+            }
+          }
+        }
+
+        function handleRateLimitError(error) {
+          console.warn('[Thebe Session] BinderHub rate limit detected:', error);
+          resetThebeAfterBootstrapFailure();
+          document.querySelectorAll('.thebe-container').forEach(function(container) {
+            showContainerMessage(container, 'thebe-rate-limit-message', RATE_LIMIT_MESSAGE);
+          });
+        }
+
+        // Function to enable all buttons when kernel is ready
+        function enableAllButtons() {
+          document.querySelectorAll('.thebe-run-btn').forEach(function(btn) {
+            // Remove kernel unavailable state AND blocked state
+            btn.classList.remove('thebe-btn-kernel-unavailable', 'thebe-btn-blocked', 'text-slate-500', 'cursor-not-allowed');
+
+            // Check if this button has dependencies
+            const hasDependencies = btn.getAttribute('data-original-depends') === 'true';
+
+            if (hasDependencies && !firstCellExecuted) {
+              // Keep dependent buttons disabled until first cell runs
+              // BUT: if first cell has already run, enable them immediately
+              btn.classList.add('text-slate-500', 'cursor-not-allowed');
+              btn.title = 'Run the first cell to start the kernel';
+            } else {
+              // Enable non-dependent buttons (or dependent buttons if first cell has run)
+              btn.classList.add('text-slate-300', 'hover:text-white');
+              btn.title = 'Run this code on the page';
+            }
+          });
+        }
+
+
+
+        // Function to configure CodeMirror keyboard shortcuts
+        // This is the proper way to add shortcuts to CodeMirror - it's how Jupyter does it
+        function configureCodeMirrorShortcuts() {
+          document.querySelectorAll('.CodeMirror').forEach(function(cmElement) {
+            if (cmElement.CodeMirror) {
+              const cm = cmElement.CodeMirror;
+              const existingKeys = cm.getOption('extraKeys') || {};
+
+              // Define the handler function for both shortcuts
+              const executeHandler = function(cm) {
+                // Find the container and run button
+                const cell = cm.getWrapperElement().closest('.thebe-cell');
+                const container = cell ? cell.closest('.thebe-container') : null;
+
+                if (container) {
+                  const runButton = container.querySelector('.thebe-run-btn');
+                  if (runButton && !runButton.classList.contains('text-slate-500')) {
+                    // Dispatch a MouseEvent that will properly bubble for event delegation
+                    const clickEvent = new MouseEvent('click', {
+                      bubbles: true,
+                      cancelable: true,
+                      view: window
+                    });
+                    runButton.dispatchEvent(clickEvent);
+                  }
+                }
+              };
+
+              // Add both Cmd-Enter (Mac) and Ctrl-Enter (Windows/Linux)
+              cm.setOption('extraKeys', Object.assign({}, existingKeys, {
+                'Cmd-Enter': executeHandler,
+                'Ctrl-Enter': executeHandler
+              }));
+            }
+          });
+        }
+
+        // Function to handle kernel expiration/disconnection
+        function handleKernelExpired() {
+          // Clear localStorage session so fresh start on reload
+          if (sessionStorageKey_actual) {
+            localStorage.removeItem(sessionStorageKey_actual);
+          }
+
+          // Set a flag to indicate session expired (survives page refresh)
+          // This ensures the next page load starts in clean state
+          localStorage.setItem('thebe-session-expired', 'true');
+
+          document.querySelectorAll('.thebe-container').forEach(function(container) {
+            showContainerMessage(container, 'session-expired-message', 'Please refresh the page to start a new session.');
+          });
+        }
+
+        // Expose for testing
+        window.handleKernelExpired = handleKernelExpired;
+
+        // Function to enable dependent cell buttons (called after first cell runs)
+        function enableDependentButtons() {
+          firstCellExecuted = true; // Mark that first cell has run
+          const dependentButtons = document.querySelectorAll('.thebe-container[data-depends] .thebe-run-btn');
+          dependentButtons.forEach(function(btn) {
+            btn.classList.remove('text-slate-500', 'cursor-not-allowed');
+            btn.classList.add('text-slate-300', 'hover:text-white');
+            btn.title = 'Run this code on the page';
+          });
+        }
+
+        // Function to bootstrap Thebe (extracted for reuse)
+        async function bootstrapThebe(isAutoReconnect = false) {
+          if (thebeBootstrapped) {
+            return true;
+          }
+
+          thebeBootstrapped = true;
+          lastBinderRateLimitError = null;
+
+          // Mark session restore in progress to protect against rapid refreshes
+          sessionStorage.setItem(SESSION_RESTORE_KEY, Date.now().toString());
+
+          // Preserve the original Hugo-rendered cell HTML before Thebe mutates it.
+          storeOriginalCellHTML();
+
+          // NOTE: Loading state is now managed by individual click handlers (lines 1189-1190)
+          // This prevents all blocks from showing "Starting kernel..." when only one is clicked
+
+          try {
+            // Load Thebe using shared loader
+            await loadThebe();
+
+            // Wait for Thebe to finish any auto-initialization
+            await new Promise(function(r) { setTimeout(r, 100); });
+
+            // Set up Thebe status event listener
+            if (!thebeStatusHandlerAttached && typeof thebelab !== 'undefined' && thebelab.on) {
+              thebeStatusHandlerAttached = true;
+              thebelab.on("status", function (evt, data) {
+                if (isRateLimitError(data) || lastBinderRateLimitError) {
+                  handleRateLimitError(lastBinderRateLimitError || data);
+                  return;
+                }
+
+                // Check for real kernel death (not just temporary shutdown)
+                if (data.status === "failed" || data.status === "disconnected" || data.status === "dead") {
+                  handleKernelExpired();
+                  return;
+                }
+
+                // For "shutdown" status, only trigger if the message indicates permanent death
+                if (data.status === "shutdown") {
+                  const msg = data.message || '';
+                  if (msg.includes('[dead]') || msg.includes('disposed')) {
+                    handleKernelExpired();
+                    return;
+                  }
+                  // Ignore other shutdown messages (like [unknown]) - they may be temporary
+                }
+
+                // Check for WebSocket connection loss (kernel pod deleted or died)
+                if (data.message && (data.message.includes("Connection lost") ||
+                    data.message.includes("reconnecting"))) {
+                  handleKernelExpired();
+                  return;
+                }
+
+                // Track when notebook is attached to session - this is the true "ready" state
+                if (data.status === "attached" && data.subject === "notebook") {
+                  notebookAttached = true;
+                  kernelReady = true;
+                  // Clear the protection flag - session is now stable
+                  sessionStorage.removeItem(SESSION_RESTORE_KEY);
+                  // Add kernel-ready class to all containers
+                  document.querySelectorAll('.thebe-container').forEach(function(c) {
+                    c.classList.add('kernel-ready');
+                  });
+                  // CRITICAL: Add 'activated' class to enable CodeMirror editing
+                  // This is needed for auto-bootstrap to make editors editable
+                  document.querySelectorAll('.thebe-container').forEach(function(c) {
+                    c.classList.add('activated');
+                  });
+                  // Enable all buttons now that kernel is ready
+                  enableAllButtons();
+                  // Configure CodeMirror keyboard shortcuts (Cmd+Enter / Ctrl+Enter)
+                  configureCodeMirrorShortcuts();
+                  // Note: Removed focus() call that was causing scroll jump on page refresh
+                  // Users can click into any editor to focus when they want to edit
+                }
+
+                // Also handle server-ready/ready for backwards compatibility
+                if (data.status === "server-ready" || data.status === "ready") {
+                  // Don't set kernelReady here - wait for "attached" event
+                }
+              });
+              thebelab.on("error", function (evt, data) {
+                if (isRateLimitError(data) || lastBinderRateLimitError) {
+                  handleRateLimitError(lastBinderRateLimitError || data);
+                }
+              });
+            }
+
+            // Override Thebe config with page-specific storage prefix
+            if (typeof thebelab !== 'undefined' && thebelab.bootstrap) {
+              // CRITICAL: Restore clean cells before bootstrap to prevent garbage
+              restoreCleanCells();
+
+              // Get the existing config
+              const configScript = document.querySelector('script[type="text/x-thebe-config"]');
+              if (configScript) {
+                try {
+                  const config = JSON.parse(configScript.textContent);
+
+                  // Use binder ref and kernel name from window (set by shortcode render)
+                  if (!window.thebeBinderRef || !window.thebeKernelName) {
+                    console.error('[Thebe] Missing binder ref or kernel name. Interactive notebooks require both.');
+                    return; // Skip bootstrap
+                  }
+
+                  // Update binder ref to use dynamic value from source file
+                  if (config.binderOptions) {
+                    config.binderOptions.ref = window.thebeBinderRef;
+                  }
+
+                  // Update kernel name to use dynamic value from source file
+                  if (config.kernelOptions) {
+                    config.kernelOptions.kernelName = window.thebeKernelName;
+                  }
+
+                  // Update storage prefix to be page-specific
+                  if (config.binderOptions && config.binderOptions.savedSession) {
+                    config.binderOptions.savedSession.storagePrefix = sessionStorageKey + '-';
+                  }
+
+                  config.requestKernel = true;
+                  // Bootstrap with updated config
+                  await withBinderRateLimitDetection(function() {
+                    return thebelab.bootstrap(config);
+                  });
+                } catch (e) {
+                  if (isRateLimitError(e) || lastBinderRateLimitError) {
+                    handleRateLimitError(lastBinderRateLimitError || e);
+                    return false;
+                  }
+                  console.error('[Thebe Session] Failed to parse/update config:', e);
+                  // Fallback to default bootstrap
+                  await withBinderRateLimitDetection(function() {
+                    return thebelab.bootstrap();
+                  });
+                }
+              } else {
+                await withBinderRateLimitDetection(function() {
+                  return thebelab.bootstrap();
+                });
+              }
+
+              // Hook into WebSocket close event after bootstrap
+              try {
+                // Wait a bit for Thebe to set up the kernel connection
+                await new Promise(function(r) { setTimeout(r, 1000); });
+
+                // Try to access the WebSocket through various possible paths
+                let ws = null;
+
+                // Try thebelab.manager (Thebe 0.9.x structure)
+                if (thebelab.manager && thebelab.manager.kernel && thebelab.manager.kernel.ws) {
+                  ws = thebelab.manager.kernel.ws;
+                }
+                // Try thebelab.kernel (older structure)
+                else if (thebelab.kernel && thebelab.kernel.ws) {
+                  ws = thebelab.kernel.ws;
+                }
+
+                // If we found the WebSocket, add close listener
+                if (ws) {
+                  ws.addEventListener('close', function(event) {
+                    handleKernelExpired();
+                  });
+                }
+              } catch (e) {
+                console.error('[Thebe WebSocket] Failed to hook into WebSocket:', e);
+              }
+            }
+
+            // Wait for kernel to be ready (with timeout)
+            if (!kernelReady) {
+              await new Promise(function(resolve) {
+                const maxWait = 60000; // 60 seconds max
+                const startTime = Date.now();
+                const checkReady = function() {
+                  if (kernelReady) {
+                    resolve();
+                  } else if (Date.now() - startTime > maxWait) {
+                    console.warn('[Thebe Session] Timed out waiting for kernel');
+                    sessionStorage.removeItem(SESSION_RESTORE_KEY);
+                    resolve();
+                  } else {
+                    setTimeout(checkReady, 100);
+                  }
+                };
+                checkReady();
+              });
+            }
+          } catch (e) {
+            if (isRateLimitError(e) || lastBinderRateLimitError) {
+              handleRateLimitError(lastBinderRateLimitError || e);
+              return false;
+            }
+            console.error('[Thebe Session] Error during bootstrap:', e);
+            sessionStorage.removeItem(SESSION_RESTORE_KEY);
+            thebeBootstrapped = false;
+            return false;
+          }
+
+          return true;
+        }
+
+        // If a valid session exists, auto-bootstrap Thebe immediately
+        if (existingSession) {
+          try {
+            const sessionData = JSON.parse(existingSession);
+            // Check if session data looks valid (has id and token fields)
+            if (sessionData && sessionData.id && sessionData.token) {
+              // Mark that we have an existing session to restore
+              // Don't set kernelReady yet - that happens after successful bootstrap
+              // Set firstCellExecuted to true since kernel was already running
+              firstCellExecuted = true;
+              enableAllButtons();
+
+              // Auto-bootstrap Thebe to reconnect to existing session (silent reconnection)
+              bootstrapThebe(true).then(function(bootstrapped) {
+                if (!bootstrapped) {
+                  resetThebeAfterBootstrapFailure();
+                }
+              }).catch(function(err) {
+                console.error('[Thebe Session] Auto-bootstrap failed:', err);
+                resetThebeAfterBootstrapFailure();
+              });
+            }
+          } catch (e) {
+            console.warn('[Thebe Session] Session validation failed:', e);
+          }
+        } else {
+          // No existing session - enable the first button (without dependencies) so users can start a new kernel
+          document.querySelectorAll('.thebe-run-btn').forEach(function(btn) {
+            // Remove kernel unavailable state from all buttons
+            btn.classList.remove('thebe-btn-kernel-unavailable');
+
+            // Check if this button has dependencies
+            const hasDependencies = btn.getAttribute('data-original-depends') === 'true';
+
+            if (hasDependencies) {
+              // Keep dependent buttons disabled until first cell runs
+              btn.classList.add('text-slate-500', 'cursor-not-allowed');
+              btn.title = 'Run the first cell to start the kernel';
+            } else {
+              // Enable non-dependent buttons (first button)
+              btn.classList.remove('text-slate-500', 'cursor-not-allowed');
+              btn.classList.add('text-slate-300', 'hover:text-white');
+              btn.title = 'Run this code on the page';
+            }
+          });
+        }
+
+
+
+        // Function to execute a cell by its container ID
+        function executeCell(containerId) {
+          const container = document.getElementById(containerId);
+          if (!container) {
+            return Promise.resolve();
+          }
+
+          const cell = container.querySelector('.thebe-cell');
+          if (!cell) {
+            return Promise.resolve();
+          }
+
+          return new Promise(function(resolve) {
+            const allButtons = cell.querySelectorAll('button');
+            let clicked = false;
+
+            allButtons.forEach(function(btn) {
+              if (btn.classList.contains('thebe-run-btn')) {
+                return;
+              }
+              if (!clicked) {
+                const origStyle = btn.getAttribute('style') || '';
+                btn.style.cssText = 'position:static !important; left:auto !important; opacity:1 !important; pointer-events:auto !important; width:auto !important; height:auto !important;';
+
+                // Save scroll position before clicking Thebe's internal button
+                // This prevents Thebe from scrolling the page
+                const scrollY = window.scrollY;
+                const panel = container.querySelector('.panel');
+                btn.click();
+                // Restore scroll position immediately after click
+                window.scrollTo(0, scrollY);
+
+                btn.style.cssText = origStyle;
+                clicked = true;
+                executedCells.add(containerId);
+              }
+            });
+
+            setTimeout(resolve, 100);
+          });
+        }
+
+        // Move output from thebe-cell to dedicated container
+        // This ensures output is visible regardless of which view (step/full) is active
+        function moveOutputToContainer(container) {
+          const cell = container.querySelector('.thebe-cell');
+          const outputContainer = container.querySelector('.thebe-output-container');
+
+          if (!cell || !outputContainer) return;
+
+          // Find any .thebe-output elements in the cell
+          const outputs = cell.querySelectorAll('.thebe-output');
+          if (outputs.length > 0) {
+            outputs.forEach(function(output) {
+              outputContainer.appendChild(output);
+            });
+          }
+        }
+
+        // Set up MutationObserver to move output to dedicated container
+        function setupOutputObserver(container) {
+          const cell = container.querySelector('.thebe-cell');
+          const outputContainer = container.querySelector('.thebe-output-container');
+
+          if (container._outputObserver) {
+            container._outputObserver.disconnect();
+          }
+
+          if (!cell) {
+            return;
+          }
+          if (!outputContainer) {
+            return;
+          }
+
+          // Observer to watch for output being added to the cell
+          const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+              mutation.addedNodes.forEach(function(node) {
+                // Check if the added node is the thebe-output element
+                if (node.nodeType === 1 && node.classList && node.classList.contains('thebe-output')) {
+                  // Move the output to the dedicated container
+                  outputContainer.appendChild(node);
+                }
+              });
+            });
+          });
+
+          // Start observing the cell for child additions
+          observer.observe(cell, { childList: true, subtree: true });
+
+          // Store observer reference for cleanup if needed
+          container._outputObserver = observer;
+        }
+
+        // Use event delegation to catch clicks on run buttons
+        document.body.addEventListener('click', async function(e) {
+          const btn = e.target.closest('.thebe-run-btn');
+          if (!btn) return;
+
+          // CRITICAL: Save scroll position at the very start to prevent any scroll
+          const initialScrollY = window.scrollY;
+
+          e.preventDefault();
+          e.stopPropagation();
+
+          const container = btn.closest('.thebe-container');
+          if (!container) return;
+
+          // Ignore clicks on disabled buttons
+          if (btn.classList.contains('text-slate-500')) {
+            return;
+          }
+
+          document.querySelectorAll('.thebe-container').forEach(function(thebeContainer) {
+            clearContainerMessages(thebeContainer);
+          });
+
+          // Mark container as activated to enable editing
+          container.classList.add('activated');
+
+          // CRITICAL FIX: If panel is in expanded mode, temporarily show step-code-view
+          // so CodeMirror can initialize properly (CodeMirror fails to initialize in hidden containers)
+          const panel = container.querySelector('.panel');
+          const stepCodeView = panel ? panel.querySelector('.step-code-view') : null;
+          const fullFileView = panel ? panel.querySelector('.full-file-view') : null;
+          const isExpanded = panel && panel.getAttribute('aria-expanded') === 'true';
+          let wasHidden = false;
+
+          if (isExpanded && stepCodeView && stepCodeView.style.display === 'none') {
+            stepCodeView.style.display = '';
+            // CRITICAL: Also hide full-file-view to prevent both views from showing simultaneously
+            if (fullFileView) {
+              fullFileView.style.display = 'none';
+            }
+            wasHidden = true;
+          }
+
+          // Set up output observer to move output to dedicated container
+          setupOutputObserver(container);
+
+          // If we temporarily showed step-code-view, we need to:
+          // 1. Wait for CodeMirror to initialize with step code
+          // 2. Update CodeMirror to show full file content (since we're in expanded mode)
+          // 3. Apply read-only markers to non-editable sections
+          if (wasHidden) {
+            setTimeout(function() {
+              if (stepCodeView && panel && panel.getAttribute('aria-expanded') === 'true') {
+                // Update CodeMirror to show full file content
+                const thebeCell = stepCodeView.querySelector('.thebe-cell');
+                const codeMirrorElement = thebeCell ? thebeCell.querySelector('.CodeMirror') : null;
+                if (codeMirrorElement && codeMirrorElement.CodeMirror) {
+                  const fullFileSource = container.querySelector('script[type="text-x-full-file-source"]');
+                  const fullFileCode = getEmbeddedSourceText(fullFileSource);
+                  const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
+                  const stepCode = typeof container._currentStepCode === 'string'
+                    ? container._currentStepCode
+                    : getEmbeddedSourceText(cleanSource);
+                  if (fullFileCode) {
+                    const lineRangesScript = container.querySelector('script[type="text-x-line-ranges"]');
+                    let lineRanges = [];
+
+                    if (lineRangesScript) {
+                      try {
+                        lineRanges = JSON.parse(lineRangesScript.textContent.trim());
+                      } catch (e) {
+                        console.error('[Thebe] Failed to parse line ranges:', e);
+                      }
+                    }
+
+                    // Save scroll position before setValue to prevent unwanted scroll
+                    const cm = codeMirrorElement.CodeMirror;
+                    const scrollY = window.scrollY;
+                    const currentMode = cm.getOption('mode');
+                    const modeSpec = currentMode || (thebeCell ? thebeCell.getAttribute('data-language') : null);
+                    const dynamicCurrentStepRange = getDynamicCurrentStepRange(fullFileCode, lineRanges, stepCode);
+                    cm.setValue(buildExpandedCode(fullFileCode, lineRanges, stepCode));
+                    if (modeSpec) {
+                      cm.setOption('mode', null);
+                      cm.setOption('mode', modeSpec);
+                    }
+                    // Restore scroll position after setValue
+                    window.scrollTo(0, scrollY);
+
+                    // Apply read-only markers
+                    applyReadOnlyMarkers(cm, lineRanges, dynamicCurrentStepRange.start, dynamicCurrentStepRange.end);
+                    cm.refresh();
+                  }
+                }
+
+                // step-code-view stays visible after activation (it contains the CodeMirror editor)
+              }
+            }, 500); // Increased delay to ensure CodeMirror is fully initialized
+          }
+
+          // Store the wasHidden flag on the container so we can access it later
+          container._wasHidden = wasHidden;
+
+          // On first click, bootstrap Thebe to start the kernel
+          if (!thebeBootstrapped) {
+            // Show loading status - different message for new vs existing session
+            btn.classList.add('loading');
+            container.classList.add('loading');
+            // If we have an existing session, show "Connecting to existing kernel..."
+            if (existingSession) {
+              container.classList.add('reconnecting');
+            }
+
+            // Call the extracted bootstrap function
+            const bootstrapped = await bootstrapThebe();
+            if (!bootstrapped) {
+              btn.classList.remove('loading');
+              container.classList.remove('loading', 'reconnecting', 'kernel-ready');
+              if (window.scrollY !== initialScrollY) {
+                window.scrollTo(0, initialScrollY);
+              }
+              return;
+            }
+          }
+
+          // Add loading state (kernel-ready class determines the message)
+          btn.classList.add('loading');
+          container.classList.add('loading');
+          if (kernelReady) {
+            container.classList.add('kernel-ready');
+          }
+
+          // In expanded view, execute only the editable step code.
+          // The surrounding full-file context is for visual reference only.
+          const isExpandedForExec = panel && panel.getAttribute('aria-expanded') === 'true';
+          const stepCodeViewForExec = panel ? panel.querySelector('.step-code-view') : null;
+          const thebeCellForExec = stepCodeViewForExec ? stepCodeViewForExec.querySelector('.thebe-cell') : null;
+          const codeMirrorElementForExec = thebeCellForExec ? thebeCellForExec.querySelector('.CodeMirror') : null;
+          let restoreExpandedExecutionView = null;
+
+          if (isExpandedForExec && codeMirrorElementForExec && codeMirrorElementForExec.CodeMirror) {
+            const cm = codeMirrorElementForExec.CodeMirror;
+            const fullFileSource = container.querySelector('script[type="text-x-full-file-source"]');
+            const cleanSource = container.querySelector('script[type="text-x-clean-source"]');
+            const fullFileCode = getEmbeddedSourceText(fullFileSource);
+            const fallbackStepCode = typeof container._currentStepCode === 'string'
+              ? container._currentStepCode
+              : getEmbeddedSourceText(cleanSource);
+            let lineRangesForExec = [];
+
+            const lineRangesScript = container.querySelector('script[type="text-x-line-ranges"]');
+            if (lineRangesScript) {
+              try {
+                lineRangesForExec = JSON.parse(lineRangesScript.textContent.trim());
+              } catch (e) {
+                console.error('[Thebe] Failed to parse line ranges:', e);
+              }
+            }
+
+            const expandedCode = cm.getValue();
+            const currentMode = cm.getOption('mode');
+            const modeSpec = currentMode || (thebeCellForExec ? thebeCellForExec.getAttribute('data-language') : null);
+            const stepCodeForExec = fullFileCode
+              ? extractStepCodeFromExpandedCode(expandedCode, fullFileCode, lineRangesForExec, fallbackStepCode)
+              : fallbackStepCode || expandedCode;
+
+            container._currentStepCode = stepCodeForExec;
+
+            const setCodeMirrorValuePreservingView = function(nextValue) {
+              const scrollY = window.scrollY;
+              clearReadOnlyMarkers(cm);
+              cm.setValue(nextValue);
+              if (modeSpec) {
+                cm.setOption('mode', null);
+                cm.setOption('mode', modeSpec);
+              }
+              window.scrollTo(0, scrollY);
+              cm.refresh();
+            };
+
+            setCodeMirrorValuePreservingView(stepCodeForExec);
+
+            restoreExpandedExecutionView = function() {
+              const restoredExpandedCode = fullFileCode
+                ? buildExpandedCode(fullFileCode, lineRangesForExec, stepCodeForExec)
+                : expandedCode;
+
+              setCodeMirrorValuePreservingView(restoredExpandedCode);
+
+              if (fullFileCode) {
+                const dynamicCurrentStepRange = getDynamicCurrentStepRange(fullFileCode, lineRangesForExec, stepCodeForExec);
+                applyReadOnlyMarkers(cm, lineRangesForExec, dynamicCurrentStepRange.start, dynamicCurrentStepRange.end);
+                cm.refresh();
+              }
+            };
+          }
+
+          // RACE CONDITION FIX: Wait for notebook to be attached to session
+          // This is the true "ready" state - when cells can execute
+          if (!notebookAttached) {
+            await new Promise(function(resolve) {
+              const maxWait = 30000; // 30 seconds for first-time startup
+              const startTime = Date.now();
+              const checkAttached = function() {
+                if (notebookAttached) {
+                  resolve();
+                } else if (Date.now() - startTime > maxWait) {
+                  console.warn('[Thebe] Timed out waiting for notebook attachment');
+                  resolve();
+                } else {
+                  setTimeout(checkAttached, 100);
+                }
+              };
+              checkAttached();
+            });
+          }
+
+          // Run only this cell (no automatic dependency execution)
+          try {
+            await executeCell(container.id);
+          } finally {
+            if (restoreExpandedExecutionView) {
+              restoreExpandedExecutionView();
+            }
+          }
+
+          // After execution, kernel is definitely ready
+          kernelReady = true;
+
+          // Move any output that was created to the dedicated container
+          // Wait a bit for output to be fully rendered
+          setTimeout(function() {
+            moveOutputToContainer(container);
+
+            // Clean up the wasHidden flag
+            if (container._wasHidden) {
+              delete container._wasHidden;
+            }
+
+            // Remove loading state AFTER output is displayed
+            // This ensures "Running..." disappears when output appears, not before
+            btn.classList.remove('loading');
+            container.classList.remove('loading');
+
+            // Refocus CodeMirror after execution completes
+            // This ensures arrow keys move the cursor instead of scrolling the page
+            const cell = container.querySelector('.thebe-cell');
+            if (cell) {
+              const codeMirrorElement = cell.querySelector('.CodeMirror');
+              if (codeMirrorElement && codeMirrorElement.CodeMirror) {
+                codeMirrorElement.CodeMirror.focus();
+              }
+            }
+
+            // CRITICAL: Final scroll restoration to ensure we're back at original position
+            // This catches any scroll that might have happened during async operations
+            if (window.scrollY !== initialScrollY) {
+              window.scrollTo(0, initialScrollY);
+            }
+          }, 100);
+
+          // Enable dependent buttons after first cell runs
+          enableDependentButtons();
+        }, true);
+      });
+
+      // Add Ctrl+Enter / Cmd+Enter keyboard shortcut to execute code
+      // Use capture phase (true) to intercept before CodeMirror's handlers
+      document.addEventListener('keydown', function(e) {
+        // Check for Ctrl+Enter or Cmd+Enter
+        if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+          // Find which CodeMirror is focused
+          const focusedCM = document.querySelector('.CodeMirror-focused');
+          if (focusedCM) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Find the parent thebe-cell and container
+            const cell = focusedCM.closest('.thebe-cell');
+            const container = cell ? cell.closest('.thebe-container') : null;
+            if (container) {
+              // Find the "Run here" button for this container
+              const runButton = container.querySelector('.thebe-run-btn');
+              if (runButton && !runButton.classList.contains('text-slate-500')) {
+                // Dispatch a MouseEvent that will properly bubble for event delegation
+                const clickEvent = new MouseEvent('click', {
+                  bubbles: true,
+                  cancelable: true,
+                  view: window
+                });
+                runButton.dispatchEvent(clickEvent);
+              }
+            }
+          }
+        }
+      }, true);  // Use capture phase to intercept before CodeMirror
+    </script>
+    {{ end }}
   </body>
 </html>

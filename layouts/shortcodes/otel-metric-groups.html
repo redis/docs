@@ -1,0 +1,13 @@
+{{- /* Load the JSON data from data/client_obs_metrics.json */ -}}
+{{- $jsonPath := "data/client_obs_metrics.json" -}}
+{{- $jsonContent := os.ReadFile $jsonPath -}}
+{{- $jsonData := unmarshal $jsonContent -}}
+
+{{- /* Preserve JSON in <pre> for AI agents and non-JS users */ -}}
+<pre class="otel-metrics-source" data-otel-metrics-id="client-observability">
+{{- $jsonData | jsonify (dict "indent" "  ") -}}
+</pre>
+
+{{- /* Set page store flag for conditional JavaScript loading (future use) */ -}}
+{{- .Page.Store.Set "hasOtelMetrics" true -}}
+

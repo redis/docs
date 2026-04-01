@@ -1,0 +1,427 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "hsetex(, name: str,, key: Optional[str] = None,, value: Optional[str] = None,, mapping: Optional[dict] = None,, items: Optional[list] = None,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, data_persist_option: Optional[HashDataPersistOptions] = None,, keepttl: bool = False,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "mapping",
+            "type": "Optional[dict] = None",
+            "description": ""
+          },
+          {
+            "name": "items",
+            "type": "Optional[list] = None",
+            "description": ""
+          },
+          {
+            "name": "ex",
+            "type": "Optional[ExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "px",
+            "type": "Optional[ExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "exat",
+            "type": "Optional[AbsExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "pxat",
+            "type": "Optional[AbsExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "data_persist_option",
+            "type": "Optional[HashDataPersistOptions] = None",
+            "description": ""
+          },
+          {
+            "name": "keepttl",
+            "type": "bool = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[int], int]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long hsetex(byte[] key, HSetExParams params, byte[] field, byte[] value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "HSetExParams",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "If the field already exists, and the HSET just produced an update of the value, 0 is returned, otherwise if a new field is created 1 is returned."
+        }
+      },
+      {
+        "signature": "long hsetex(byte[] key, HSetExParams params, Map<byte[], byte[]> hash)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "HSetExParams",
+            "description": ""
+          },
+          {
+            "name": "hash",
+            "type": "Map<byte[], byte[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "If the field already exists, and the HSET just produced an update of the value, 0 is returned, otherwise if a new field is created 1 is returned."
+        }
+      },
+      {
+        "signature": "long hsetex(String key, HSetExParams params, String field, String value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "HSetExParams",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "If the field already exists, and the HSET just produced an update of the value, 0 is returned, otherwise if a new field is created 1 is returned."
+        }
+      },
+      {
+        "signature": "long hsetex(String key, HSetExParams params, Map<String, String> hash)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "HSetExParams",
+            "description": ""
+          },
+          {
+            "name": "hash",
+            "type": "Map<String, String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "If the field already exists, and the HSET just produced an update of the value, 0 is returned, otherwise if a new field is created 1 is returned."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long hsetex(K key, Map<K, V> map)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the hash."
+          },
+          {
+            "name": "map",
+            "type": "Map<K, V>",
+            "description": "the field/value pairs to update."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long long-reply: 0 if no fields were set, 1 if all the fields were set @since 6.6"
+        }
+      },
+      {
+        "signature": "Long hsetex(K key, HSetExArgs hSetExArgs, Map<K, V> map)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the hash."
+          },
+          {
+            "name": "hSetExArgs",
+            "type": "HSetExArgs",
+            "description": "hsetex arguments."
+          },
+          {
+            "name": "map",
+            "type": "Map<K, V>",
+            "description": "the field/value pairs to update."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long long-reply: 0 if no fields were set, 1 if all the fields were set @since 6.6"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> hsetex(K key, Map<K, V> map)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the hash."
+          },
+          {
+            "name": "map",
+            "type": "Map<K, V>",
+            "description": "the field/value pairs to update."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long long-reply: 0 if no fields were set, 1 if all the fields were set @since 6.6"
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> hsetex(K key, HSetExArgs hSetExArgs, Map<K, V> map)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the hash."
+          },
+          {
+            "name": "hSetExArgs",
+            "type": "HSetExArgs",
+            "description": "hsetex arguments."
+          },
+          {
+            "name": "map",
+            "type": "Map<K, V>",
+            "description": "the field/value pairs to update."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long long-reply: 0 if no fields were set, 1 if all the fields were set @since 6.6"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> hsetex(K key, Map<K, V> map)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the hash."
+          },
+          {
+            "name": "map",
+            "type": "Map<K, V>",
+            "description": "the field/value pairs to update."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long long-reply: 0 if no fields were set, 1 if all the fields were set @since 6.6"
+        }
+      },
+      {
+        "signature": "Mono<Long> hsetex(K key, HSetExArgs hSetExArgs, Map<K, V> map)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the hash."
+          },
+          {
+            "name": "hSetExArgs",
+            "type": "HSetExArgs",
+            "description": "hsetex arguments."
+          },
+          {
+            "name": "map",
+            "type": "Map<K, V>",
+            "description": "the field/value pairs to update."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long long-reply: 0 if no fields were set, 1 if all the fields were set @since 6.6"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "HSetEX(ctx context.Context, key string, fieldsAndValues ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "fieldsAndValues",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "hset_ex(key: K, hash_field_expiration_options: &'a HashFieldExpirationOptions, fields_values: &'a [(F, V)])",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "hash_field_expiration_options",
+            "type": "&'a HashFieldExpirationOptions",
+            "description": ""
+          },
+          {
+            "name": "fields_values",
+            "type": "&'a [(F, V)]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "hset_ex(key: K, hash_field_expiration_options: &'a HashFieldExpirationOptions, fields_values: &'a [(F, V)])",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "hash_field_expiration_options",
+            "type": "&'a HashFieldExpirationOptions",
+            "description": ""
+          },
+          {
+            "name": "fields_values",
+            "type": "&'a [(F, V)]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "hsetex(string $key, array $fieldValueMap, string $setModifier = HSETEX::SET_NULL, string $ttlModifier = HSETEX::TTL_NULL, int|bool $ttlModifierValue = false)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$fieldValueMap",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "string $setModifier = HSETEX::SET_NULL",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "string $ttlModifier = HSETEX::TTL_NULL",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "int|bool $ttlModifierValue = false",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

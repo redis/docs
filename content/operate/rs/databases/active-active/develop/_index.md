@@ -5,7 +5,6 @@ categories:
 - docs
 - operate
 - rs
-- rc
 description: General information to keep in mind while developing applications for
   an Active-Active database.
 hideListLinks: true
@@ -14,7 +13,7 @@ weight: 99
 ---
 Developing globally distributed applications can be challenging, as
 developers have to think about race conditions and complex combinations
-of events under geo-failovers and cross-region write conflicts. In Redis Enterprise Software (RS), Active-Active databases
+of events under geo-failovers and cross-region write conflicts. In Redis Software (RS), Active-Active databases
 simplify developing such applications by directly using built-in smarts
 for handling conflicting writes based on the data type in use. Instead
 of depending on just simplistic "last-writer-wins" type conflict
@@ -39,29 +38,17 @@ cross-region writes to the same data.
 
 {{< image filename="/images/rs/crdbs.png" alt="Geo-replication world map">}}
 
-Active-Active databases replicate data between multiple Redis Enterprise Software
+Active-Active databases replicate data between multiple Redis Software
 clusters. Common uses for Active-Active databases include disaster recovery,
 geographically redundant applications, and keeping data closer to your
 users' locations. MMR is always multi-directional amongst the clusters
 configured in the Active-Active database. For unidirectional replication, please see the
-Replica Of capabilities in Redis Enterprise Software.
+Replica Of capabilities in Redis Software.
 
 ## Example of synchronization
 
-In the example below, database writes are concurrent at the points in
-time t1 and t2 and happen before a sync can communicate the changes.
-However, writes at times t4 and t6 are not concurrent as a sync happened
-in between.
-
-|  **Time** | **CRDB Instance1** | **CRDB Instance2** |
-|  ------: | :------: | :------: |
-|  t1 | SET key1 “a” |  |
-|  t2 |  | SET key1 “b” |
-|  t3 | — Sync — | — Sync — |
-|  t4 | SET key1 “c” |  |
-|  t5 | — Sync — | — Sync — |
-|  t6 |  | SET key1 “d” |
+{{< embed-md "rc-rs-aa-synchronization.md" >}}
 
 [Learn more about
 synchronization for
-each supported data type]({{< relref "/operate/rs/databases/active-active/develop/data-types/" >}}) and [how to develop applications]({{< relref "/operate/rs/databases/active-active/develop/develop-for-aa.md" >}}) with them on Redis Enterprise Software.
+each supported data type]({{< relref "/operate/rs/databases/active-active/develop/data-types/" >}}) and [how to develop applications]({{< relref "/operate/rs/databases/active-active/develop/develop-for-aa.md" >}}) with them on Redis Software.

@@ -1,5 +1,5 @@
 ---
-Title: Enable Private Service Connect
+Title: Enable Google Cloud Private Service Connect
 alwaysopen: false
 categories:
 - docs
@@ -7,9 +7,9 @@ categories:
 - rc
 description: Private Service Connect creates a private endpoint that allows secure
   connections to Redis Cloud databases without exposing your application VPC.
-linkTitle: Private Service Connect
+linkTitle: Google Cloud Private Service Connect
 toc: 'true'
-weight: 50
+weight: 80
 ---
 
 [Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) (PSC) creates a private endpoint that allows secure connections to Redis Cloud databases without exposing your application's [virtual private cloud](https://en.wikipedia.org/wiki/Virtual_private_cloud) (VPC). 
@@ -172,6 +172,7 @@ Once you remove all of your Private Service Connect endpoints and deactivate it,
 Private Service Connect has the following limitations in Redis Cloud:
 
 - Although Redis Cloud supports using Private Service Connect with Enterprise clustering, you cannot use the [Cluster API]({{< relref "/operate/rc/databases/create-database#oss-cluster-api" >}}) with Private Service Connect enabled.
+- The pre-handoff feature of [Smart client handoffs]({{< relref "/develop/clients/sch#redis-cloud" >}}) is not currently supported with Private Service Connect, but relaxed timeouts are available and enabled by default.
 
 ## Continue learning with Redis University
 

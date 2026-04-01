@@ -4,33 +4,126 @@
 {{ $btnQuickStartText := "Quick-Start" }}
 {{ $btnRIText := "Get Redis Insight" }}
 {{ $btnRIUrl := "https://redis.com/redis-enterprise/redis-insight/" }}
-{{ $footerText := "Are you tired of using redis-cli? Try Redis Insight - the developer GUI for Redis." }}
 {{ $showFooter := (.showFooter) }}
+{{ $exampleId := .exampleId }}
+{{ $description := .description }}
+{{ $difficulty := .difficulty }}
+{{ $buildsUpon := .buildsUpon }}
+
+{{- /* Build metadata map for each language/client combination */ -}}
+{{- $codetabsMeta := dict -}}
+{{- range $tab := $tabs -}}
+  {{- $tabTitle := index $tab "title" -}}
+  {{- $clientConfig := index $.Site.Params.clientsConfig $tabTitle -}}
+  {{- $tabMeta := dict -}}
+
+  {{- /* For redis-cli, use special handling */ -}}
+  {{- if eq $tabTitle "redis-cli" -}}
+    {{- $tabMeta = dict "language" "redis-cli" "client" "redis-cli" -}}
+  {{- else if $clientConfig -}}
+    {{- /* Extract language and client from config */ -}}
+    {{- $langId := index $clientConfig "langId" -}}
+    {{- $clientId := index $clientConfig "clientId" -}}
+    {{- $tabMeta = dict "language" $langId "client" $clientId -}}
+
+    {{- /* Add mode if it's a Java variant */ -}}
+    {{- if or (eq $tabTitle "Java-Sync") (eq $tabTitle "Java-Async") (eq $tabTitle "Java-Reactive") -}}
+      {{- $mode := "" -}}
+      {{- if eq $tabTitle "Java-Sync" -}}
+        {{- $mode = "sync" -}}
+      {{- else if eq $tabTitle "Java-Async" -}}
+        {{- $mode = "async" -}}
+      {{- else if eq $tabTitle "Java-Reactive" -}}
+        {{- $mode = "reactive" -}}
+      {{- end -}}
+      {{- $tabMeta = merge $tabMeta (dict "mode" $mode) -}}
+    {{- end -}}
+
+    {{- /* Add mode if it's a C# variant */ -}}
+    {{- if or (eq $tabTitle "C#-Sync") (eq $tabTitle "C#-Async") -}}
+      {{- $mode := "" -}}
+      {{- if eq $tabTitle "C#-Sync" -}}
+        {{- $mode = "sync" -}}
+      {{- else if eq $tabTitle "C#-Async" -}}
+        {{- $mode = "async" -}}
+      {{- end -}}
+      {{- $tabMeta = merge $tabMeta (dict "mode" $mode) -}}
+    {{- end -}}
+
+    {{- /* Add mode if it's a Rust variant */ -}}
+    {{- if or (eq $tabTitle "Rust-Sync") (eq $tabTitle "Rust-Async") -}}
+      {{- $mode := "" -}}
+      {{- if eq $tabTitle "Rust-Sync" -}}
+        {{- $mode = "sync" -}}
+      {{- else if eq $tabTitle "Rust-Async" -}}
+        {{- $mode = "async" -}}
+      {{- end -}}
+      {{- $tabMeta = merge $tabMeta (dict "mode" $mode) -}}
+    {{- end -}}
+  {{- else -}}
+    {{- /* Fallback for unknown clients */ -}}
+    {{- $tabMeta = dict "language" $tabTitle "client" $tabTitle -}}
+  {{- end -}}
+
+  {{- $codetabsMeta = merge $codetabsMeta (dict $tabTitle $tabMeta) -}}
+{{- end -}}
+{{- $codetabsMetaJson := $codetabsMeta | jsonify -}}
 
 <!-- spellchecker-disable -->
-<div class="codetabs cli group flex justify-start items-center flex-wrap box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}">
-    {{ range $i, $tab := $tabs }}
-        {{ $tid := printf "%s_%s" (replace (replace (index $tab "title") "#" "sharp") "." "") $id }}
-        {{ $pid := printf "panel_%s" $tid }}
-        {{ $dataLang := replace (or (index $tab "language") "redis-cli") "C#" "dotnet" }}
-        {{ $dataLang := replace $dataLang "." "-" }}
-        <input tabindex="1" type="radio" name="{{ $id }}" id="{{ $tid }}" data-lang="{{ $dataLang }}" class="radiotab w-0 h-0"
-               {{ if eq $i 0 }}checked{{ end }}
-        />
-        <label class="justify-left label ml-0.5 pt-3.5 px-1 pb-1 cursor-pointer text-sm text-center bg-redis-ink-900
-        hover:text-redis-red-600  rounded rounded-mx transition duration-150 ease-in-out"
-               title="Open example" for="{{ $tid }}">
-            {{ if eq (index $tab "title") "redis-cli" }}
-                {{ or (index $tab "displayName") $cliName }}
-            {{ else }}
-                {{ index $tab "title" }}
-            {{ end }}
-        </label>
+{{- if $exampleId -}}
+<a id="{{ $exampleId }}" class="relative"{{ if $description }} data-description="{{ $description | htmlEscape }}"{{ end }}{{ if $difficulty }} data-difficulty="{{ $difficulty | htmlEscape }}"{{ end }}{{ if $buildsUpon }} data-builds-upon="{{ delimit $buildsUpon "," }}"{{ end }} data-codetabs-id="{{ $id }}"></a>
+{{- end -}}
+<div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}" data-codetabs-meta="{{ $codetabsMetaJson | htmlEscape }}">
+    <!-- Language selector dropdown with controls -->
+    <div class="codetabs-header flex flex-col px-4 py-2 bg-slate-900 rounded-t-lg">
+        <div class="flex items-start justify-between">
+            <div class="flex items-center gap-2">
+                <label for="lang-select-{{ $id }}" class="text-xs text-slate-400 mr-3 whitespace-nowrap">Language:</label>
+                <select id="lang-select-{{ $id }}"
+                        class="lang-selector max-w-xs px-3 py-1 text-sm bg-slate-700 text-white border border-slate-600 rounded-md cursor-pointer
+                               hover:bg-slate-600 focus:outline-none
+                               transition duration-150 ease-in-out appearance-none"
+                        data-codetabs-id="{{ $id }}">
+                {{ range $i, $tab := $tabs }}
+                    {{ $dataLang := replace (or (index $tab "language") "redis-cli") "C#" "dotnet" }}
+                    {{ $dataLang := replace $dataLang "." "-" }}
+                    {{ $displayName := "" }}
+                    {{ if eq (index $tab "title") "redis-cli" }}
+                        {{ $displayName = or (index $tab "displayName") $cliName }}
+                    {{ else }}
+                        {{ $displayName = or (index $tab "displayName") (index $tab "title") }}
+                    {{ end }}
+                    <option value="{{ $dataLang }}" data-index="{{ $i }}" {{ if eq $i 0 }}selected{{ end }}>
+                        {{ $displayName }}
+                    </option>
+                {{ end }}
+                </select>
+            </div>
 
-        <div class="panel order-last hidden w-full mt-0 {{ if not $showFooter}}pb-8{{end}} relative" id="{{ $pid }}" role="tabpanel" tabindex="0" aria-labelledby="tab-{{ $id }}">
-            {{ index $tab "content" }}
-            <button tabindex="1" class="clipboard-button text-neutral-400 hover:text-slate-100 bg-slate-600 absolute -top-8 right-10 h-7 w-7 mr-2 mt-2 p-1 rounded rounded-mx"
-                    title="Copy to clipboard" onclick="copyCodeToClipboard('#{{ $pid }}')">
+            <div class="flex items-center gap-2">
+            {{/* BinderHub "Run in browser" link - shown conditionally based on current tab's binderId */}}
+            <div id="binder-link-container-{{ $id }}" class="flex items-center">
+                {{/* Link will be shown/hidden by JavaScript based on selected tab */}}
+            </div>
+            <button tabindex="1" class="copy-link-button text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx relative"
+                    title="Copy link to code block" data-codetabs-id="{{ $id }}" onclick="copyCodeBlockLinkToClipboard(this)">
+                <svg class="inline-block w-4 h-4 align-baseline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg>
+                <span class="tooltiptext absolute bottom-full right-0 mb-2 bg-slate-200 rounded text-slate-800 text-center text-xs px-2 py-1 whitespace-nowrap pointer-events-none opacity-0 transition-opacity duration-200">Copied!</span>
+            </button>
+            <button tabindex="1" class="visibility-button text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx"
+                    title="Toggle visibility" data-codetabs-id="{{ $id }}" onclick="toggleVisibleLinesForCodetabs(this)">
+                <svg class="visibility-icon-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
+                    <path d="M24 31.5q3.55 0 6.025-2.475Q32.5 26.55 32.5 23q0-3.55-2.475-6.025Q27.55 14.5 24 14.5q-3.55 0-6.025 2.475Q15.5 19.45 15.5 23q0 3.55 2.475 6.025Q20.45 31.5 24 31.5Zm0-2.9q-2.35 0-3.975-1.625T18.4 23q0-2.35 1.625-3.975T24 17.4q2.35 0 3.975 1.625T29.6 23q0 2.35-1.625 3.975T24 28.6Zm0 9.4q-7.3 0-13.2-4.15Q4.9 29.7 2 23q2.9-6.7 8.8-10.85Q16.7 8 24 8q7.3 0 13.2 4.15Q43.1 16.3 46 23q-2.9 6.7-8.8 10.85Q31.3 38 24 38Zm0-15Zm0 12q6.05 0 11.125-3.275T42.85 23q-2.65-5.45-7.725-8.725Q30.05 11 24 11t-11.125 3.275Q7.8 17.55 5.1 23q2.7 5.45 7.775 8.725Q17.95 35 24 35Z"/>
+                </svg>
+                <svg class="visibility-icon-off hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
+                    <path d="m31.45 27.05-2.2-2.2q1.3-3.55-1.35-5.9-2.65-2.35-5.75-1.2l-2.2-2.2q.85-.55 1.9-.8 1.05-.25 2.15-.25 3.55 0 6.025 2.475Q32.5 19.45 32.5 23q0 1.1-.275 2.175-.275 1.075-.775 1.875Zm6.45 6.45-2-2q2.45-1.8 4.275-4.025Q42 25.25 42.85 23q-2.5-5.55-7.5-8.775Q30.35 11 24.5 11q-2.1 0-4.3.4-2.2.4-3.45.95L14.45 10q1.75-.8 4.475-1.4Q21.65 8 24.25 8q7.15 0 13.075 4.075Q43.25 16.15 46 23q-1.3 3.2-3.35 5.85-2.05 2.65-4.75 4.65Zm2.9 11.3-8.4-8.25q-1.75.7-3.95 1.075T24 38q-7.3 0-13.25-4.075T2 23q1-2.6 2.775-5.075T9.1 13.2L2.8 6.9l2.1-2.15L42.75 42.6ZM11.15 15.3q-1.85 1.35-3.575 3.55Q5.85 21.05 5.1 23q2.55 5.55 7.675 8.775Q17.9 35 24.4 35q1.65 0 3.25-.2t2.4-.6l-3.2-3.2q-.55.25-1.35.375T24 31.5q-3.5 0-6-2.45T15.5 23q0-.75.125-1.5T16 20.15Zm15.25 7.1Zm-5.8 2.9Z"/>
+                </svg>
+            </button>
+            <button tabindex="1" class="clipboard-button text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx"
+                    title="Copy to clipboard" data-codetabs-id="{{ $id }}" onclick="copyCodeToClipboardForCodetabs(this)">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
                     <path d="M9 43.95q-1.2 0-2.1-.9-.9-.9-.9-2.1V10.8h3v30.15h23.7v3Zm6-6q-1.2 0-2.1-.9-.9-.9-.9-2.1v-28q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1v28q0 1.2-.9 2.1-.9.9-2.1.9Zm0-3h22v-28H15v28Zm0 0v-28 28Z"/>
                 </svg>
@@ -38,21 +131,43 @@
                     <span class="tooltiptext hidden bg-slate-200 rounded rounded-mx text-slate-800 text-center text-xs p-1 absolute right-6 bottom-4">Copied!</span>
                 </div>
             </button>
-            {{ if or (ne (index $tab "title") "redis-cli") (lt (index $tab "limit") 100) }}
-            <button tabindex="1" class="visibility-button text-neutral-400 hover:text-slate-100 bg-slate-600 absolute -top-8 right-2 h-7 w-7 mr-2 mt-2 p-1 rounded rounded-mx"
-                    title="Toggle visibility" aria-controls="{{ $pid }}" onclick="toggleVisibleLines(this)">
-                <svg id="visibility-off" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
-                    <path d="m31.45 27.05-2.2-2.2q1.3-3.55-1.35-5.9-2.65-2.35-5.75-1.2l-2.2-2.2q.85-.55 1.9-.8 1.05-.25 2.15-.25 3.55 0 6.025 2.475Q32.5 19.45 32.5 23q0 1.1-.275 2.175-.275 1.075-.775 1.875Zm6.45 6.45-2-2q2.45-1.8 4.275-4.025Q42 25.25 42.85 23q-2.5-5.55-7.5-8.775Q30.35 11 24.5 11q-2.1 0-4.3.4-2.2.4-3.45.95L14.45 10q1.75-.8 4.475-1.4Q21.65 8 24.25 8q7.15 0 13.075 4.075Q43.25 16.15 46 23q-1.3 3.2-3.35 5.85-2.05 2.65-4.75 4.65Zm2.9 11.3-8.4-8.25q-1.75.7-3.95 1.075T24 38q-7.3 0-13.25-4.075T2 23q1-2.6 2.775-5.075T9.1 13.2L2.8 6.9l2.1-2.15L42.75 42.6ZM11.15 15.3q-1.85 1.35-3.575 3.55Q5.85 21.05 5.1 23q2.55 5.55 7.675 8.775Q17.9 35 24.4 35q1.65 0 3.25-.2t2.4-.6l-3.2-3.2q-.55.25-1.35.375T24 31.5q-3.5 0-6-2.45T15.5 23q0-.75.125-1.5T16 20.15Zm15.25 7.1Zm-5.8 2.9Z"/>
-                </svg>
-                <svg id="visibility-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
-                    <path d="M24 31.5q3.55 0 6.025-2.475Q32.5 26.55 32.5 23q0-3.55-2.475-6.025Q27.55 14.5 24 14.5q-3.55 0-6.025 2.475Q15.5 19.45 15.5 23q0 3.55 2.475 6.025Q20.45 31.5 24 31.5Zm0-2.9q-2.35 0-3.975-1.625T18.4 23q0-2.35 1.625-3.975T24 17.4q2.35 0 3.975 1.625T29.6 23q0 2.35-1.625 3.975T24 28.6Zm0 9.4q-7.3 0-13.2-4.15Q4.9 29.7 2 23q2.9-6.7 8.8-10.85Q16.7 8 24 8q7.3 0 13.2 4.15Q43.1 16.3 46 23q-2.9 6.7-8.8 10.85Q31.3 38 24 38Zm0-15Zm0 12q6.05 0 11.125-3.275T42.85 23q-2.65-5.45-7.725-8.725Q30.05 11 24 11t-11.125 3.275Q7.8 17.55 5.1 23q2.7 5.45 7.775 8.725Q17.95 35 24 35Z"/>
-                </svg>
-            </button>
-            {{ end }}
+            </div>
+        </div>
+        {{- if $description -}}
+        <div class="text-xs text-slate-400 mt-2 w-full">{{ $description }}</div>
+        {{- end -}}
+    </div>
+
+    <!-- Tab panels -->
+    {{ range $i, $tab := $tabs }}
+        {{ $tid := printf "%s_%s" (replace (replace (index $tab "title") "#" "sharp") "." "") $id }}
+        {{ $pid := printf "panel_%s" $tid }}
+        {{ $dataLang := replace (or (index $tab "language") "redis-cli") "C#" "dotnet" }}
+        {{ $dataLang := replace $dataLang "." "-" }}
+        {{ $binderId := index $tab "binderId" }}
+        {{ $commands := index $tab "commands" }}
+
+        <div class="panel {{ if ne $i 0 }}panel-hidden{{ end }} w-full mt-0 {{ if not $showFooter}}pb-8{{end}}"
+             id="{{ $pid }}"
+             data-lang="{{ $dataLang }}"
+             {{ if $binderId }}data-binder-id="{{ $binderId }}"{{ end }}
+             {{ if $commands }}data-required-commands="{{ delimit $commands "," }}"{{ end }}
+             data-codetabs-id="{{ $id }}"
+             role="tabpanel"
+             tabindex="0"
+             aria-labelledby="lang-select-{{ $id }}">
+            {{ index $tab "content" }}
 
             {{ if $showFooter }}
-            <div class="cli-footer flex items-center justify-between rounded-b-md bg-slate-900 mt-0 px-4 pt-0 mb-0 transition-opacity ease-in-out duration-300 opacity-0 invisible
-group-hover:opacity-100 group-hover:visible">
+            <div class="cli-footer flex flex-col rounded-b-md bg-slate-900 mt-0 px-4 pt-0 mb-0">
+
+            {{/* Commands foldout section */}}
+            {{ if $commands }}
+                {{ $tabTitle := index $tab "title" }}
+                {{ partial "commands-foldout.html" (dict "commands" $commands "id" $id "tabTitle" $tabTitle) }}
+            {{ end }}
+
+            <div class="flex items-center justify-between">
             {{ if eq (index $tab "title") "redis-cli" }}
                 {{ $displayName := index $tab "displayName" }}
                 {{ $hasCustomTabName := and $displayName (ne $displayName $cliName) }}
@@ -72,25 +187,18 @@ group-hover:opacity-100 group-hover:visible">
                     {{ if $hasCustomTabName }}
                         <div class="flex-1"></div>
                     {{ else }}
-                        <div class="flex-1 text-xs text-white overflow-ellipsis">{{ $footerText }}</div>
-                    {{ end }}
-                    <div class="text-right">
-                        <a href="{{ $btnRIUrl }}" tabindex="1" class="rounded rounded-mx px-2 py-1 flex items-center text-white text-xs
+                        <a href="{{ absURL "develop/tools/cli/" }}" tabindex="1" class="rounded rounded-mx px-3 py-1 text-white text-xs
                         hover:text-white hover:bg-slate-600 hover:border-transparent focus:outline-none
-                        focus:ring-2 focus:white focus:border-slate-500" title="{{$btnRIText}}">
-                            <svg class="w-4 h-4 mr-1" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2.26236 5.66895L1.21732 6.07172L7.00018 8.65693V7.79842L2.26236 5.66895Z" fill="#fca5a5"/>
-                                <path d="M2.26236 8.02271L1.21732 8.42548L7.00018 11.0119V10.1516L2.26236 8.02271Z" fill="#fca5a5"/>
-                                <path d="M1.21732 3.7175L7.00018 6.30392V2.87805L8.66273 2.13423L7.00018 1.49512L1.21732 3.7175Z" fill="#fca5a5"/>
-                                <path d="M7.00018 2.8781V6.30366L1.21732 3.71724V5.20004L7.00018 7.79705V8.65526L1.21732 6.07217V7.55496L7.00018 10.1553V11.0135L1.21732 8.42376V9.90656H1.18878L7.00018 12.5051L8.66273 11.7613V2.13428L7.00018 2.8781Z" fill="#f87171"/>
-                                <path d="M9.07336 11.5777L10.7359 10.8338V4.01538L9.07336 4.7592V11.5777Z" fill="#f87171"/>
-                                <path d="M9.07336 4.75867L10.7359 4.01485L9.07336 3.37573V4.75867Z" fill="#fca5a5"/>
-                                <path d="M11.1481 10.6497L12.8112 9.90591V5.896L11.1487 6.63982L11.1481 10.6497Z" fill="#f87171"/>
-                                <path d="M11.1481 6.63954L12.8112 5.89572L11.1481 5.25781V6.63954Z" fill="#fca5a5"/>
-                            </svg>
-                            <span>{{$btnRIText}}</span>
+                        focus:ring-2 focus:white focus:border-slate-500" title="Redis CLI guide">
+                            Redis CLI guide
                         </a>
-                    </div>
+                        <div class="flex-1 text-xs text-white text-center">
+                            Also, check out our other client tools
+                            <a href="{{ absURL "develop/tools/insight/" }}" tabindex="1" class="text-white hover:underline"><strong>Redis Insight</strong></a>
+                            and
+                            <a href="{{ absURL "develop/tools/redis-for-vscode/" }}" tabindex="1" class="text-white hover:underline"><strong>Redis for VS Code</strong></a>.
+                        </div>
+                    {{ end }}
                 {{ end }}
             {{ else }}
               <!--<a href='/docs/latest/develop/clients/{{ index $tab "quickstartSlug" }}/' tabindex="1" class="rounded rounded-mx px-3 py-1 text-white text-xs-->
@@ -111,7 +219,8 @@ group-hover:opacity-100 group-hover:visible">
                 {{ end }}
               </div>
            {{ end }}
-           </div>
+            </div>
+            </div>
            {{ end }}
         </div>
 
@@ -119,3 +228,126 @@ group-hover:opacity-100 group-hover:visible">
 
 </div>
 <!-- spellchecker-enable -->
+
+<script>
+// Global function to toggle commands foldout
+window.toggleCommandsFoldout = window.toggleCommandsFoldout || function(button) {
+    const details = button.nextElementSibling;
+    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+    const icon = button.querySelector('.toggle-icon');
+
+    // Toggle visibility
+    details.classList.toggle('hidden');
+    button.setAttribute('aria-expanded', !isExpanded);
+
+    // Rotate icon
+    if (icon) {
+        icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+    }
+
+    // Toggle the footer visibility class on the currently visible panel
+    const codetabsId = button.getAttribute('data-codetabs-id');
+    if (codetabsId) {
+        const codetabsContainer = document.getElementById(codetabsId);
+        if (codetabsContainer) {
+            // Find the currently visible panel (not hidden)
+            const visiblePanel = codetabsContainer.querySelector('.panel:not(.panel-hidden)');
+            if (visiblePanel) {
+                const footer = visiblePanel.querySelector('.cli-footer');
+                if (footer) {
+                    footer.classList.toggle('commands-foldout-open');
+                }
+            }
+        }
+    }
+};
+
+// Global function to toggle API method signatures mini-foldout
+window.toggleApiSignatures = window.toggleApiSignatures || function(button) {
+    const details = button.nextElementSibling;
+    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+    const icon = button.querySelector('.api-sig-icon');
+
+    // Toggle visibility
+    details.classList.toggle('hidden');
+    button.setAttribute('aria-expanded', !isExpanded);
+
+    // Rotate icon
+    if (icon) {
+        icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(90deg)';
+    }
+};
+
+// Global function to update all binder links on the page
+// This is called whenever the language selection changes
+window.updateAllBinderLinks = window.updateAllBinderLinks || function() {
+    // Find all binder link containers and their corresponding language selectors
+    const containers = document.querySelectorAll('[id^="binder-link-container-"]');
+
+    containers.forEach((container) => {
+        // Extract the codetabs ID from the container ID
+        const codetabsId = container.id.replace('binder-link-container-', '');
+        const langSelect = document.getElementById('lang-select-' + codetabsId);
+
+        if (!langSelect) return;
+
+        // Get the currently selected tab index
+        const selectedOption = langSelect.options[langSelect.selectedIndex];
+        const tabIndex = parseInt(selectedOption.getAttribute('data-index'));
+
+        // Find the corresponding panel
+        const panels = document.querySelectorAll('[data-codetabs-id="' + codetabsId + '"].panel');
+        if (!panels || tabIndex >= panels.length) return;
+
+        const currentPanel = panels[tabIndex];
+        const binderId = currentPanel.getAttribute('data-binder-id');
+
+        // Clear existing content
+        container.innerHTML = '';
+
+        // Only show the link if the CURRENTLY SELECTED tab has a binderId
+        if (binderId) {
+            const binderUrl = 'https://redis.io/binder/v2/gh/redis/binder-launchers/' +
+                            binderId +
+                            '?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb';
+
+            const link = document.createElement('a');
+            link.href = binderUrl;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.className = 'text-xs text-slate-300 hover:text-white hover:underline whitespace-nowrap flex items-center gap-1';
+            link.title = 'Run this example in an interactive Jupyter notebook';
+
+            // Add Binder icon (rocket/play icon)
+            link.innerHTML = `
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <span>Run in browser</span>
+            `;
+
+            container.appendChild(link);
+        }
+    });
+};
+
+(function() {
+    // Initialize BinderHub link for this codetabs instance
+    const codetabsId = '{{ $id }}';
+    const langSelect = document.getElementById('lang-select-' + codetabsId);
+
+    // Initialize on page load - use a delay to allow codetabs.js to restore localStorage selection
+    // codetabs.js is deferred, so it runs after DOM is ready, but we need to wait for it to complete
+    setTimeout(() => {
+        window.updateAllBinderLinks();
+    }, 100);
+
+    // Update all binder links when language changes
+    // We need to use a small delay to allow codetabs.js to synchronize all dropdowns first
+    if (langSelect) {
+        langSelect.addEventListener('change', () => {
+            setTimeout(window.updateAllBinderLinks, 10);
+        });
+    }
+})();
+</script>

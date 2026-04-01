@@ -88,7 +88,7 @@ First, locate the configuration file by selecting **Settings** from the menu, th
             "type": "stdio",
             "command": "uvx",
             "args": [
-                "--from", "git+https://github.com/redis/mcp-redis.git",
+                "--from", "redis-mcp-server@latest",
                 "redis-mcp-server",
                 "--url", "redis://localhost:6379/0"
             ]
@@ -107,7 +107,7 @@ You can also optionally set the environment for the command shell here in the
     "type": "stdio",
     "command": "uvx",
     "args": [
-        "--from", "git+https://github.com/redis/mcp-redis.git",
+        "--from", "redis-mcp-server@latest",
         "redis-mcp-server",
         "--url", "redis://localhost:6379/0"
     ],
@@ -191,7 +191,7 @@ with [`uvx`](https://docs.astral.sh/uv/guides/tools/#running-tools):
         "type": "stdio",
         "command": "uvx", 
         "args": [
-            "--from", "git+https://github.com/redis/mcp-redis.git",
+            "--from", "redis-mcp-server@latest",
             "redis-mcp-server",
             "--url", "redis://localhost:6379/0"
         ]

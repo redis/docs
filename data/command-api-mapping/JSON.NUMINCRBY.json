@@ -1,0 +1,267 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "numincrby(name: str, path: str, number: int)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "number",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "double jsonNumIncrBy(String key, Path path, double value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Object jsonNumIncrBy(String key, Path2 path, double value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path2",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Number> jsonNumincrby(K key, JsonPath jsonPath, Number number)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value to increment."
+          },
+          {
+            "name": "number",
+            "type": "Number",
+            "description": "the increment value."
+          }
+        ],
+        "returns": {
+          "type": "List<Number>",
+          "description": "a List of the new values after the increment. @since 6.5"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Number>> jsonNumincrby(K key, JsonPath jsonPath, Number number)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value to increment."
+          },
+          {
+            "name": "number",
+            "type": "Number",
+            "description": "the increment value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Number>>",
+          "description": "a List of the new values after the increment. @since 6.5"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Number> jsonNumincrby(K key, JsonPath jsonPath, Number number)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value to increment."
+          },
+          {
+            "name": "number",
+            "type": "Number",
+            "description": "the increment value."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Number>",
+          "description": "a List of the new values after the increment. @since 6.5"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "JSONNumIncrBy(ctx context.Context, key, path string, value float64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "float64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*JSONCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "NUMINCRBY(key: RedisArgument, path: RedisArgument, by: number)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "by",
+            "type": "number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "NumIncrby(RedisKey key, string path, double value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "double?[]",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "jsonnumincrby(string $key, string $path, int $value)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-compatibleOSSVersion: Redis 6.2.6
+compatibleOSSVersion: Redis 6.2, 6.0
 description: Database auditing. Private key encryption. Active-Active database support
   for MEMORY USAGE command.
 headerRange: '[1-2]'

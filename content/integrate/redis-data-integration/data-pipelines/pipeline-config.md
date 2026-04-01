@@ -110,6 +110,10 @@ sources:
     #   quarkus:
     #     banner.enabled: "false"
 
+    #   `java_options` (for RDI 1.15.1 and above) controls the JAVA_OPTS environment variable. Use it to modify the default values for
+    #       Java heap size and other Java options for the Debezium server.
+    #   java_options: "-Xmx2g -Xms512m"
+
 targets:
   # Redis target database connections.
   # The default connection must be named 'target' and is used when no
@@ -144,9 +148,6 @@ processors:
   # Time (in ms) after which data will be read from stream even if
   # read_batch_size was not reached.
   # duration: 100
-  # Data type to use in Redis target database: `hash` for Redis Hash,
-  # `json` for JSON (which requires the RedisJSON module).
-  # target_data_type: hash
   # The batch size for writing data to the target Redis database. Should be
   # less than or equal to the read_batch_size.
   # write_batch_size: 200
@@ -155,8 +156,26 @@ processors:
   # Max size of the deduplication set (default: 1024).
   # dedup_max_size: <DEDUP_MAX_SIZE>
   # Error handling strategy: ignore - skip, dlq - store rejected messages
-  # in a dead letter queue
+  # in a dead letter queue.
   # error_handling: dlq
+  # Dead letter queue max messages per stream.
+  # dlq_max_messages: 1000
+  # Data type to use in Redis target database: `hash` for Redis Hash,
+  # `json` for JSON (which requires the RedisJSON module).
+  # target_data_type: hash
+  # Number of processes to use when syncing initial data.
+  # initial_sync_processes: 4
+  # Checks if the batch has been written to the replica shard.
+  # wait_enabled: false
+  # Timeout in milliseconds when checking write to the replica shard.
+  # wait_timeout: 1000
+  # Ensures that a batch has been written to the replica shard and keeps
+  # retrying if not.
+  # retry_on_replica_failure: true
+  # Enable merge as the default strategy to writing JSON documents.
+  # json_update_strategy: merge
+  # Use native JSON merge if the target RedisJSON module supports it.
+  # use_native_json_merge: true
 ```
 
 ## Sections
@@ -211,6 +230,8 @@ configuration contains the following data:
   - `quarkus`: Properties for the Debezium server, such as the log level. See the
     Quarkus [Configuration options](https://quarkus.io/guides/all-config)
     docs for the full set of available properties.
+  - `java_options`: controls the JAVA_OPTS environment variable (for RDI 1.15.1 and above). Use it to modify the default values for Java heap size and other Java options for the Debezium server.
+    For example, set it to `"-Xmx2g -Xms512m"` to set the maximum heap size to 2 GB and the initial heap size to 512 MB.
 
 ### Targets
 

@@ -17,6 +17,8 @@ title: Count-min sketch
 weight: 60
 ---
 
+{{< command-group group="cms" title="Count-min sketch command summary" show_link=true >}}
+
 Count-Min Sketch is a probabilistic data structure in Redis Open Source that can be used to estimate the frequency of events/elements in a stream of data.
 
 It uses a sub-linear space at the expense of over-counting some events due to collisions. It consumes a stream of events/elements and keeps estimated counters of their frequency.
@@ -32,9 +34,9 @@ This application answers this question: What was the sales volume (on a certain 
 Use one Count-Min sketch created per day (period). Every product sale goes into the CMS. The CMS give reasonably accurate results for the products that contribute the most toward the sales. Products with low percentage of the total sales are ignored. 
 
 ## Examples
-Assume you select an error rate of 0.1% (0.001) with a certainty of 99.8% (0.998). This means you have an error probability of 0.02% (0.002). Your sketch strives to keep the error within 0.1% of the total count of all elements you've added. There's a 0.02% chance the error might exceed this—like when an element below the threshold overlaps with one above it. When you add a few items to the CMS and evaluate their frequency, remember that in such a small sample, collisions are rare, as seen with other probabilistic data structures.
+Assume you select an error rate of 0.1% (0.001) with a certainty of 99.8% (0.998). This means you have an error probability of 0.2% (0.002). Your sketch strives to keep the error within 0.1% of the total count of all elements you've added. There's a 0.2% chance the error might exceed this—like when an element below the threshold overlaps with one above it. When you add a few items to the CMS and evaluate their frequency, remember that in such a small sample, collisions are rare, as seen with other probabilistic data structures.
 
-{{< clients-example cms_tutorial cms >}}
+{{< clients-example set="cms_tutorial" step="cms" description="Count-min sketch operations: Use CMS.INITBYPROB to create a sketch, CMS.INCRBY to increment element counts, CMS.QUERY to estimate frequencies, and CMS.INFO to inspect sketch properties when you need to estimate element frequencies in a data stream" difficulty="intermediate" >}}
 > CMS.INITBYPROB bikes:profit 0.001 0.002
 OK
 > CMS.INCRBY bikes:profit "Smokey Mountain Striker" 100

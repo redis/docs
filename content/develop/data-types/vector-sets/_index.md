@@ -13,9 +13,9 @@ description: Introduction to Redis vector sets
 linkTitle: Vector sets
 title: Redis vector sets
 weight: 55
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
-bannerChildren: true
 ---
+
+{{< command-group group="module" url_group="vector_set" title="Vector set command summary" show_link=true >}}
 
 Vector sets are a data type similar to sorted sets, but instead of a score, vector set elements have a string representation of a vector.
 Vector sets allow you to add items to a set, and then either:
@@ -24,21 +24,6 @@ Vector sets allow you to add items to a set, and then either:
 * retrieve a subset of items that are the most similar to the vector of an element that is already part of the vector set.
 
 Vector sets also provide for optional [filtered search]({{< relref "/develop/data-types/vector-sets/filtered-search" >}}). You can associate attributes with all or some elements in a vector set, and then use the `FILTER` option of the [`VSIM`]({{< relref "/commands/vsim" >}}) command to retrieve items similar to a given vector while applying simple mathematical filters to those attributes. Here's a sample filter: `".year > 1950"`.
-
-The following commands are available for vector sets:
-
-- [VADD]({{< relref "/commands/vadd" >}}) - add an element to a vector set, creating a new set if it didn't already exist.
-- [VCARD]({{< relref "/commands/vcard" >}}) - retrieve the number of elements in a vector set.
-- [VDIM]({{< relref "/commands/vdim" >}}) - retrieve the dimension of the vectors in a vector set.
-- [VEMB]({{< relref "/commands/vemb" >}}) - retrieve the approximate vector associated with a vector set element.
-- [VGETATTR]({{< relref "/commands/vgetattr" >}}) - retrieve the attributes of a vector set element.
-- [VINFO]({{< relref "/commands/vinfo" >}}) - retrieve metadata and internal details about a vector set, including size, dimensions, quantization type, and graph structure.
-- [VISMEMBER]({{< relref "/commands/vismember" >}}) - check if an element exists in a vector set.
-- [VLINKS]({{< relref "/commands/vlinks" >}}) - retrieve the neighbors of a specified element in a vector set; the connections for each layer of the HNSW graph.
-- [VRANDMEMBER]({{< relref "/commands/vrandmember" >}}) - retrieve random elements of a vector set.
-- [VREM]({{< relref "/commands/vrem" >}}) - remove an element from a vector set.
-- [VSETATTR]({{< relref "/commands/vsetattr" >}}) - set or replace attributes on a vector set element.
-- [VSIM]({{< relref "/commands/vsim" >}}) - retrieve elements similar to a given vector or element with optional filtering.
 
 ## Endianness considerations for FP32 format
 
@@ -69,7 +54,7 @@ Start by adding the point vectors to a set called `points` using
 The [`TYPE`]({{< relref "/commands/type" >}}) command returns a type of `vectorset`
 for this object.
 
-{{< clients-example vecset_tutorial vadd >}}
+{{< clients-example set="vecset_tutorial" step="vadd" description="Foundational: Use VADD to create a new vector set and populate it with vectors" >}}
 > VADD points VALUES 2 1.0 1.0 pt:A
 (integer) 1
 > VADD points VALUES 2 -1.0 -1.0 pt:B
@@ -89,7 +74,7 @@ Get the number of elements in the set (also known as the *cardinality* of the se
 using [`VCARD`]({{< relref "/commands/vcard" >}}) and the number of dimensions of
 the vectors using [`VDIM`]({{< relref "/commands/vdim" >}}):
 
-{{< clients-example vecset_tutorial vcardvdim >}}
+{{< clients-example set="vecset_tutorial" step="vcardvdim" description="Metadata retrieval: Use VCARD to get the number of elements and VDIM to get vector dimensions when you need to inspect vector set properties" buildsUpon="vadd" >}}
 > VCARD points
 (integer) 5
 > VDIM points
@@ -102,7 +87,7 @@ the vector because
 [quantization]({{< relref "/develop/data-types/vector-sets/performance#quantization-effects" >}})
 is applied to improve performance.
 
-{{< clients-example vecset_tutorial vemb >}}
+{{< clients-example set="vecset_tutorial" step="vemb" description="Vector retrieval: Use VEMB to retrieve the approximate vector values of elements when you need to inspect the actual vector data stored in the set" buildsUpon="vadd" >}}
 > VEMB points pt:A
 1) "0.9999999403953552"
 2) "0.9999999403953552"
@@ -120,40 +105,40 @@ is applied to improve performance.
 2) "0"
 {{< /clients-example >}}
 
+Remove an unwanted element with [`VREM`]({{< relref "/commands/vrem" >}})
+
+{{< clients-example set="vecset_tutorial" step="vrem" description="Element removal: Use VREM to delete elements from a vector set when you need to remove vectors from the collection" buildsUpon="vadd" >}}
+> VADD points VALUES 2 0 0 pt:F
+(integer) 1
+> VCARD points
+(integer) 6
+> VREM points pt:F
+(integer) 1
+> VCARD points
+(integer) 5
+{{< /clients-example >}}
+
 Set and retrieve an element's JSON attribute data using
 [`VSETATTR`]({{< relref "/commands/vsetattr" >}})
 and [`VGETATTR`]({{< relref "/commands/vgetattr" >}}). You can also pass an empty string
 to `VSETATTR` to delete the attribute data:
 
-{{< clients-example vecset_tutorial attr >}}
-> VSETATTR points pt:A "{\"name\": \"Point A\", \"description\": \"First point added\"}" 
+{{< clients-example set="vecset_tutorial" step="attr" description="Attribute management: Use VSETATTR to store JSON attributes on elements and VGETATTR to retrieve them when you need to associate metadata with vectors" buildsUpon="vadd" >}}
+> VSETATTR points pt:A "{\"name\": \"Point A\", \"description\": \"First point added\"}"
 (integer) 1
 > VGETATTR points pt:A
 "{\"name\": \"Point A\", \"description\": \"First point added\"}"
-> VSETATTR points pt:A "" 
+> VSETATTR points pt:A ""
 (integer) 1
 > VGETATTR points pt:A
 (nil)
-{{< /clients-example >}}
-
-Remove an unwanted element with [`VREM`]({{< relref "/commands/vrem" >}})
-
-{{< clients-example vecset_tutorial vrem >}}
-> VADD points VALUES 2 0 0 pt:F
-(integer) 1
-127.0.0.1:6379> VCARD points
-(integer) 6
-127.0.0.1:6379> VREM points pt:F
-(integer) 1
-127.0.0.1:6379> VCARD points
-(integer) 5
 {{< /clients-example >}}
 
 ### Vector similarity search
 
 Use [`VSIM`]({{< relref "/commands/vsim" >}}) to rank the points in order of their vector distance from a sample point:
 
-{{< clients-example vecset_tutorial vsim_basic >}}
+{{< clients-example set="vecset_tutorial" step="vsim_basic" description="Similarity search: Use VSIM to find elements most similar to a query vector when you need to perform vector similarity searches" difficulty="intermediate" buildsUpon="vadd" >}}
 > VSIM points values 2 0.9 0.1
 1) "pt:E"
 2) "pt:A"
@@ -164,7 +149,7 @@ Use [`VSIM`]({{< relref "/commands/vsim" >}}) to rank the points in order of the
 
 Find the four elements that are closest to point A and show their distance "scores":
 
-{{< clients-example vecset_tutorial vsim_options >}}
+{{< clients-example set="vecset_tutorial" step="vsim_options" description="Similarity with options: Use VSIM with ELE, WITHSCORES, and COUNT options to find similar elements with scores and limits when you need detailed similarity results" difficulty="intermediate" buildsUpon="vadd" >}}
 > VSIM points ELE pt:A WITHSCORES COUNT 4
 1) "pt:A"
 2) "1"
@@ -180,7 +165,7 @@ Add some JSON attributes and use
 [filter expressions]({{< relref "/develop/data-types/vector-sets/filtered-search" >}})
 to include them in the search:
 
-{{< clients-example vecset_tutorial vsim_filter >}}
+{{< clients-example set="vecset_tutorial" step="vsim_filter" description="Filtered similarity search: Use VSIM with FILTER option to apply attribute-based conditions to similarity results when you need to combine vector similarity with attribute filtering" difficulty="advanced" buildsUpon="vadd" >}}
 > VSETATTR points pt:A "{\"size\":\"large\",\"price\": 18.99}"
 (integer) 1
 > VSETATTR points pt:B "{\"size\":\"large\",\"price\": 35.99}"

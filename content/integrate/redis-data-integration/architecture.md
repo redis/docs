@@ -14,7 +14,7 @@ linkTitle: Architecture
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 3
+weight: 30
 ---
 
 ## Overview

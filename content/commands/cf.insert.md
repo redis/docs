@@ -38,12 +38,12 @@ group: cf
 hidden: false
 linkTitle: CF.INSERT
 module: Bloom
+railroad_diagram: /images/railroad/cf.insert.svg
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds one or more items to a Cuckoo Filter. A filter will be created if it
   does not exist
 syntax_fmt: "CF.INSERT key [CAPACITY\_capacity] [NOCREATE] ITEMS item [item ...]"
-syntax_str: "[CAPACITY\_capacity] [NOCREATE] ITEMS item [item ...]"
 title: CF.INSERT
 ---
 Adds one or more items to a cuckoo filter, allowing the filter to be created with a custom capacity if it does not exist yet.
@@ -107,9 +107,15 @@ redis> CF.INSERT cf2 ITEMS 1 1 1 1
 4) (integer) -1
 {{< / highlight >}}
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
 ## Return information
 
-{{< multitabs id=“cf-insert-return-info" 
+{{< multitabs id="cf-insert-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

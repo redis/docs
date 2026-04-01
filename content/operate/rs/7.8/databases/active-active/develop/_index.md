@@ -56,12 +56,12 @@ in between.
 
 |  **Time** | **CRDB Instance1** | **CRDB Instance2** |
 |  ------: | :------: | :------: |
-|  t1 | SET key1 “a” |  |
-|  t2 |  | SET key1 “b” |
+|  t1 | SET key1 "a" |  |
+|  t2 |  | SET key1 "b" |
 |  t3 | — Sync — | — Sync — |
-|  t4 | SET key1 “c” |  |
+|  t4 | SET key1 "c" |  |
 |  t5 | — Sync — | — Sync — |
-|  t6 |  | SET key1 “d” |
+|  t6 |  | SET key1 "d" |
 
 [Learn more about
 synchronization for

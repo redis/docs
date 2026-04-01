@@ -8,7 +8,7 @@ description: Releases with support for Redis Enterprise Software 7.4.6.
 hideListLinks: true
 linkTitle: 7.4.6 releases
 title: Redis Enterprise for Kubernetes 7.4.6 release notes
-weight: 52
+weight: 95
 ---
 
 ## Detailed release notes
@@ -67,7 +67,7 @@ Any distribution not listed below is not supported for production workloads.
 
 - **Missing endpoint for admission endpoint (rare) (RED-119469)** Restart the operator pod.
 
-- **The REDB “redisVersion” field can’t be used for memcached databases(RED-119152)**
+- **The REDB "redisVersion" field can’t be used for memcached databases(RED-119152)**
 
 - **When modifying the database suffix for an Active-Active database, while the service-rigger is in a terminating state, the services-rigger will delete and create the ingress or route resources in a loop (RED-107687)** Wait until the services rigger pod has finished to terminate it.
 

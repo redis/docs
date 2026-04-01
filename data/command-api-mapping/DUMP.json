@@ -1,0 +1,209 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "dump(name: KeyT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bytes",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "byte[] dump(final byte[] key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "byte[]",
+          "description": "the serialized value"
+        }
+      },
+      {
+        "signature": "byte[] dump(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "byte[]",
+          "description": "the serialized value"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Dump(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "DUMP(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "byte[] dump(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "byte[]",
+          "description": "byte[] bulk-string-reply the serialized value."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<byte[]> dump(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<byte[]>",
+          "description": "byte[] bulk-string-reply the serialized value."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<byte[]> dump(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<byte[]>",
+          "description": "byte[] bulk-string-reply the serialized value."
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "KeyDump(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to dump."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "byte[]",
+          "description": "The serialized value."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "KeyDumpAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to dump."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task<byte[]>",
+          "description": "The serialized value."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "dump(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "dump(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "serialized_value"
+        }
+      }
+    ]
+  }
+}

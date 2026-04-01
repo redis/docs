@@ -44,10 +44,10 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HMGET
+railroad_diagram: /images/railroad/hmget.svg
 since: 2.0.0
 summary: Returns the values of all fields in a hash.
 syntax_fmt: HMGET key field [field ...]
-syntax_str: field [field ...]
 title: HMGET
 ---
 Returns the values associated with the specified `fields` in the hash stored at
@@ -57,11 +57,31 @@ For every `field` that does not exist in the hash, a `nil` value is returned.
 Because non-existing keys are treated as empty hashes, running `HMGET` against
 a non-existing `key` will return a list of `nil` values.
 
+{{< clients-example set="cmds_hash" step="hmget" description="Foundational: Retrieve multiple field values from a hash using HMGET (returns nil if field or key doesn't exist)" difficulty="beginner" >}}
+> HSET myhash field1 "Hello"
+(integer) 1
+> HSET myhash field2 "World"
+(integer) 1
+> HMGET myhash field1 field2 nofield
+1) "Hello"
+2) "World"
+3) (nil)
+>
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 HSET myhash field1 "Hello"
 HSET myhash field2 "World"
 HMGET myhash field1 field2 nofield
 {{% /redis-cli %}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

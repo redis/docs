@@ -10,6 +10,7 @@ description: Get started with Auto Tiering quickly, creating a cluster and datab
 linkTitle: Quick start
 weight: 80
 url: '/operate/rs/7.8/databases/auto-tiering/quickstart/'
+aliases: /operate/rs/7.8/databases/flash/quickstart/
 ---
 This page guides you through a quick setup of [Auto Tiering]({{< relref "/operate/rs/7.8/databases/auto-tiering/" >}}) with a single node for testing and demo purposes. 
 

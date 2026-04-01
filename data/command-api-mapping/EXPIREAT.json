@@ -1,0 +1,578 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "expireat(name: KeyT, when: AbsExpiryT, nx: bool = False, xx: bool = False, gt: bool = False, lt: bool = False)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "when",
+            "type": "AbsExpiryT",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "gt",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "lt",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long expireAt(final byte[] key, final long unixTime)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "unixTime",
+            "type": "long",
+            "description": "timestamp"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the timeout was set, 0 otherwise"
+        }
+      },
+      {
+        "signature": "long expireAt(final byte[] key, final long unixTime, final ExpiryOption expiryOption)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "unixTime",
+            "type": "long",
+            "description": "timestamp"
+          },
+          {
+            "name": "expiryOption",
+            "type": "ExpiryOption",
+            "description": "can be NX, XX, GT or LT"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the timeout was set, 0 otherwise"
+        }
+      },
+      {
+        "signature": "long expireAt(final String key, final long unixTime)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "unixTime",
+            "type": "long",
+            "description": "timestamp"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the timeout was set, 0 otherwise"
+        }
+      },
+      {
+        "signature": "long expireAt(final String key, final long unixTime, final ExpiryOption expiryOption)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "unixTime",
+            "type": "long",
+            "description": "timestamp"
+          },
+          {
+            "name": "expiryOption",
+            "type": "ExpiryOption",
+            "description": "can be NX, XX, GT or LT"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the timeout was set, 0 otherwise"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ExpireAt(ctx context.Context, key string, tm time.Time)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "tm",
+            "type": "time.Time",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*BoolCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "EXPIREAT(key: RedisArgument, timestamp: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "timestamp",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "mode?",
+            "type": "'NX' | 'XX' | 'GT' | 'LT'",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Boolean expireat(K key, long timestamp)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "long",
+            "description": "the timestamp."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "Boolean expireat(K key, long timestamp, ExpireArgs expireArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "long",
+            "description": "the timestamp."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "Boolean expireat(K key, Date timestamp)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "Date",
+            "description": "the timestamp."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "Boolean expireat(K key, Date timestamp, ExpireArgs expireArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "Date",
+            "description": "the timestamp."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "Boolean expireat(K key, Instant timestamp)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "Instant",
+            "description": "the timestamp."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "Boolean expireat(K key, Instant timestamp, ExpireArgs expireArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "Instant",
+            "description": "the timestamp."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Boolean> expireat(K key, long timestamp)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "long",
+            "description": "the timestamp."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "RedisFuture<Boolean> expireat(K key, long timestamp, ExpireArgs expireArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "long",
+            "description": "the timestamp."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "RedisFuture<Boolean> expireat(K key, Date timestamp)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "Date",
+            "description": "the timestamp."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "RedisFuture<Boolean> expireat(K key, Date timestamp, ExpireArgs expireArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "Date",
+            "description": "the timestamp."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Boolean> expireat(K key, long timestamp)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "long",
+            "description": "the timestamp."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      },
+      {
+        "signature": "Mono<Boolean> expireat(K key, long timestamp, ExpireArgs expireArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "timestamp",
+            "type": "long",
+            "description": "the timestamp."
+          },
+          {
+            "name": "expireArgs",
+            "type": "ExpireArgs",
+            "description": "the expiry arguments."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "KeyExpire(RedisKey key, DateTime? expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to set the expiration for."
+          },
+          {
+            "name": "expiry",
+            "type": "DateTime?",
+            "description": "The exact date to expire at."
+          },
+          {
+            "name": "when",
+            "type": "ExpireWhen",
+            "description": "In Redis 7+, we choose under which condition the expiration will be set using ExpireWhen."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "KeyExpireAsync(RedisKey key, DateTime? expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to set the expiration for."
+          },
+          {
+            "name": "expiry",
+            "type": "DateTime?",
+            "description": "The exact date to expire at."
+          },
+          {
+            "name": "when",
+            "type": "ExpireWhen",
+            "description": "In Redis 7+, we choose under which condition the expiration will be set using ExpireWhen."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if the timeout was set. false if key does not exist or the timeout could not be set."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "expireAt(string $key, int $timestamp, string $expireOption = '')",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$timestamp",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$expireOption",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "expireat(key, unix_time, nx: nil, xx: nil, gt: nil, lt: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "unix_time",
+            "type": "Integer",
+            "description": "expiry time specified as a UNIX timestamp"
+          },
+          {
+            "name": "nx",
+            "type": "Boolean",
+            "description": "Set expiry only when the key has no expiry."
+          },
+          {
+            "name": "xx",
+            "type": "Boolean",
+            "description": "Set expiry only when the key has an existing expiry."
+          },
+          {
+            "name": "gt",
+            "type": "Boolean",
+            "description": "Set expiry only when the new expiry is greater than current one."
+          },
+          {
+            "name": "lt",
+            "type": "Boolean",
+            "description": "Set expiry only when the new expiry is less than current one."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "whether the timeout was set or not"
+        }
+      }
+    ]
+  }
+}

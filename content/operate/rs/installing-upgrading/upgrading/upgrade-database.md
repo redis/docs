@@ -1,11 +1,11 @@
 ---
-Title: Upgrade a Redis Enterprise Software database
+Title: Upgrade a Redis Software database
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Upgrade a Redis Enterprise Software database.
+description: Upgrade a Redis Software database.
 linkTitle: Upgrade database
 weight: 50
 ---
@@ -14,20 +14,20 @@ weight: 50
 
 When you upgrade an existing database, it uses the latest bundled Redis version unless you specify a different version with the `redis_version` option in the [REST API]({{< relref "/operate/rs/references/rest-api/requests/bdbs" >}}) or [`rladmin upgrade db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db" >}}).
 
-Redis Enterprise Software v6.x includes two Redis database versions: 6.0 and 6.2.
-As of version 7.2, Redis Enterprise Software includes three Redis database versions.
-
 To view available Redis database versions:
 
 - In the Cluster Manager UI, see **Redis database versions** on the **Cluster > Configuration** screen.
 
 - Send a [`GET /nodes` REST API request]({{< relref "/operate/rs/references/rest-api/requests/nodes" >}}) and see `supported_database_versions` in the response.
 
-The default Redis database version differs between Redis Enterprise releases as follows:
+The default Redis database version differs between Redis Software releases as follows:
 
 <a name="db-versions-table"></a>
 | Redis<br />Software | Bundled Redis<br />DB versions | Default DB version<br />(upgraded/new databases) |
 |-------|----------|-----|
+| 8.0.10 | 6.2, 7.2, 7.4, 8.0, 8.2, 8.4 | 8.4 |
+| 8.0.6 | 6.2, 7.2, 7.4, 8.0, 8.2 | 8.2 |
+| 8.0.2 | 6.2, 7.2, 7.4, 8.0, 8.2 | 8.2 |
 | 7.22.x | 6.2, 7.2, 7.4 | 7.4 |
 | 7.8.x | 6.2, 7.2, 7.4 | 7.4 |
 | 7.4.x | 6.0, 6.2, 7.2 | 7.2 |
@@ -35,16 +35,13 @@ The default Redis database version differs between Redis Enterprise releases as 
 | 6.4.2 | 6.0, 6.2 | 6.2 |
 | 6.2.x | 6.0, 6.2 | 6.0 |
 
-
-The upgrade policy is only relevant for Redis Enterprise Software versions 6.2.4 through 6.2.18. For more information about upgrade policies, see the [6.2 version of this document](https://docs.redis.com/6.2/rs/installing-upgrading/upgrading/#redis-upgrade-policy).
-
 ## Upgrade prerequisites
 
 Before upgrading a database:
 
 - Review the relevant [release notes]({{< relref "/operate/rs/release-notes" >}}) for any preparation instructions.
 
-- Verify that both the [current database version and the target database version are supported](#db-versions-table) by the cluster's Redis Enterprise Software version.
+- Verify that both the [current database version and the target database version are supported](#db-versions-table) by the cluster's Redis Software version.
 
     To determine the current database version:
 
@@ -80,46 +77,82 @@ Before upgrading a database:
 
 To upgrade a database:
 
+{{< multitabs id="upgrade-db"
+    tab1="Cluster Manager UI"
+    tab2="rladmin" >}}
+
 1. Complete all [prerequisites](#upgrade-prerequisites) before starting the upgrade.
 
-1.  _(Optional)_  Back up the database to minimize the risk of data loss.
+1. Optionally, back up the database to minimize the risk of data loss.
 
-1.  Use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/upgrade" >}}) to upgrade the database. During the upgrade process, the database will restart without losing any data.
+1. Upgrade the database and its modules from the **Databases** screen or an individual database's **Configuration** screen in the Cluster Manager UI. During the upgrade process, the database will restart without losing any data.
 
-    - To upgrade a database and its modules:
+    To upgrade a database from the **Databases** screen:
 
-        ``` shell
-        rladmin upgrade db <database name | database ID>
-        ```
+    1. Expand the database in the **Databases** list to show details.
 
-        Example of a successful upgrade:
+        <img src="../../../../../images/rs/screenshots/databases/expand-db-details.png" alt="The database details are expanded, including an upgrade option.">
 
-        ``` shell
-        rladmin> upgrade db demo
-        Monitoring d194c4a3-631c-4726-b799-331b399fc85c
-        active - SMUpgradeBDB init
-        active - SMUpgradeBDB wait_for_version
-        active - SMUpgradeBDB configure_shards
-        completed - SMUpgradeBDB
-        Done
-        ```
+    1. Click **Upgrade**.
 
-    - To upgrade the database to a version other than the default version, use the `redis_version` parameter:
+    1. For **Select version**, choose the Redis version for the database upgrade from the list.
 
-        ```sh
-        rladmin upgrade db <database name | database ID> redis_version <version>
-        ```
+    1. Click **Upgrade**.
 
-1. Check the Redis database compatibility version for the database to confirm the upgrade.  
+    1. After the upgrade process finishes, check the expanded database details to verify that the Redis version is set to the expected value.
 
-    To do so:
+    To upgrade a database from its **Configuration** screen:
 
-    - Use the Cluster Manager UI to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" class="inline" >}} **About**.
+    1. Select the database from the **Databases** list and go to its **Configuration** screen.
 
-    - Use [`rladmin status databases extra all`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-databases" >}}) to display a list of the databases in your cluster and their current Redis database compatibility version:
+    1. Click the **More actions** button (**&vellip;**).
 
-        ```sh
-        rladmin status databases extra all
-        ```
+    1. Select **Upgrade version** from the list.
 
-    Verify that the Redis version is set to the expected value.
+        <img src="../../../../../images/rs/screenshots/databases/db-more-actions-upgrade-version.png" alt="The upgrade version option is selected in the more actions list.">
+
+    1. For **Select version**, choose the Redis version for the database upgrade from the list.
+
+    1. Click **Upgrade**.
+
+    1. After the upgrade process finishes, click the **About** button (&#9432;) and verify that the Redis version is set to the expected value.
+
+-tab-sep-
+
+1. Complete all [prerequisites](#upgrade-prerequisites) before starting the upgrade.
+
+1. Optionally, back up the database to minimize the risk of data loss.
+
+1. Upgrade the database using [`rladmin upgrade db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/upgrade" >}}). During the upgrade process, the database will restart without losing any data. Use the `preserve_roles` option to keep the database's current state, including primary shard placement, and prevent the cluster from becoming unbalanced.
+
+    To upgrade a database and its modules:
+
+    ```sh
+    rladmin upgrade db <database name | database ID> preserve_roles
+    ```
+
+    Example of a successful upgrade:
+
+    ```sh
+    rladmin> upgrade db demo
+    Monitoring d194c4a3-631c-4726-b799-331b399fc85c
+    active - SMUpgradeBDB init
+    active - SMUpgradeBDB wait_for_version
+    active - SMUpgradeBDB configure_shards
+    completed - SMUpgradeBDB
+    Done
+    ```
+
+    To upgrade the database to a version other than the default version, use the `redis_version` parameter:
+
+    ```sh
+    rladmin upgrade db <database name | database ID> redis_version <version> preserve_roles
+    ```
+
+1. Use [`rladmin status databases extra all`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-databases" >}}) to display a list of the databases in your cluster and their current Redis database compatibility version. Verify that the Redis version is set to the expected value.
+
+    ```sh
+    rladmin status databases extra all
+    ```
+
+{{< /multitabs >}}

@@ -1,0 +1,63 @@
+<svg class="railroad-diagram" height="79" viewBox="0 0 865.0 79" width="865.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<style type="text/css"><![CDATA[
+svg.railroad-diagram { background-color: transparent; }
+.terminal rect { fill: #DC382D !important; stroke: #DC382D !important; }
+.terminal text { fill: white !important; font-weight: bold; }
+.nonterminal rect { fill: none !important; stroke: #DC382D !important; stroke-width: 2; }
+.nonterminal text { fill: #DC382D !important; font-weight: bold; }
+path { stroke: #DC382D !important; stroke-width: 2; fill: none; }
+circle { fill: #DC382D !important; stroke: #DC382D !important; }
+]]></style>
+</defs>
+<g transform="translate(.5 .5)">
+<style>/* <![CDATA[ */
+	svg.railroad-diagram {
+		background-color: transparent;
+	}
+	svg.railroad-diagram path {
+		stroke-width:3;
+		stroke: #DC382D;
+		fill:rgba(0,0,0,0);
+	}
+	svg.railroad-diagram text {
+		font:bold 14px monospace;
+		text-anchor:middle;
+	}
+	svg.railroad-diagram text.label{
+		text-anchor:start;
+	}
+	svg.railroad-diagram text.comment{
+		font:italic 12px monospace;
+	}
+	svg.railroad-diagram rect{
+		stroke-width:3;
+		stroke: #DC382D;
+		fill: none;
+	}
+	svg.railroad-diagram rect.group-box {
+		stroke: #DC382D;
+		stroke-dasharray: 10 5;
+		fill: none;
+	}
+
+/* ]]> */
+</style><g>
+<path d="M20 38v20m10 -20v20m-10 -10h20"></path></g><path d="M40 48h10"></path><g>
+<path d="M50 48h0.0"></path><path d="M815.0 48h0.0"></path><g class="terminal ">
+<path d="M50.0 48h0.0"></path><path d="M112.5 48h0.0"></path><rect height="22" rx="10" ry="10" width="62.5" x="50.0" y="37"></rect><text x="81.25" y="52">HELLO</text></g><path d="M112.5 48h10"></path><g>
+<path d="M122.5 48h0.0"></path><path d="M815.0 48h0.0"></path><path d="M122.5 48a10 10 0 0 0 10 -10v-8a10 10 0 0 1 10 -10"></path><g>
+<path d="M142.5 20h652.5"></path></g><path d="M795.0 20a10 10 0 0 1 10 10v8a10 10 0 0 0 10 10"></path><path d="M122.5 48h20"></path><g>
+<path d="M142.5 48h0.0"></path><path d="M795.0 48h0.0"></path><g class="non-terminal ">
+<path d="M142.5 48h0.0"></path><path d="M230.5 48h0.0"></path><rect height="22" width="88.0" x="142.5" y="37"></rect><text x="186.5" y="52">protover</text></g><path d="M230.5 48h10"></path><g>
+<path d="M240.5 48h0.0"></path><path d="M550.5 48h0.0"></path><path d="M240.5 48a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
+<path d="M260.5 28h270.0"></path></g><path d="M530.5 28a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M240.5 48h20"></path><g>
+<path d="M260.5 48h0.0"></path><path d="M530.5 48h0.0"></path><g class="terminal ">
+<path d="M260.5 48h0.0"></path><path d="M314.5 48h0.0"></path><rect height="22" rx="10" ry="10" width="54.0" x="260.5" y="37"></rect><text x="287.5" y="52">AUTH</text></g><path d="M314.5 48h10"></path><path d="M324.5 48h10"></path><g class="non-terminal ">
+<path d="M334.5 48h0.0"></path><path d="M422.5 48h0.0"></path><rect height="22" width="88.0" x="334.5" y="37"></rect><text x="378.5" y="52">username</text></g><path d="M422.5 48h10"></path><path d="M432.5 48h10"></path><g class="non-terminal ">
+<path d="M442.5 48h0.0"></path><path d="M530.5 48h0.0"></path><rect height="22" width="88.0" x="442.5" y="37"></rect><text x="486.5" y="52">password</text></g></g><path d="M530.5 48h20"></path></g><g>
+<path d="M550.5 48h0.0"></path><path d="M795.0 48h0.0"></path><path d="M550.5 48a10 10 0 0 0 10 -10v0a10 10 0 0 1 10 -10"></path><g>
+<path d="M570.5 28h204.5"></path></g><path d="M775.0 28a10 10 0 0 1 10 10v0a10 10 0 0 0 10 10"></path><path d="M550.5 48h20"></path><g>
+<path d="M570.5 48h0.0"></path><path d="M775.0 48h0.0"></path><g class="terminal ">
+<path d="M570.5 48h0.0"></path><path d="M650.0 48h0.0"></path><rect height="22" rx="10" ry="10" width="79.5" x="570.5" y="37"></rect><text x="610.25" y="52">SETNAME</text></g><path d="M650.0 48h10"></path><path d="M660.0 48h10"></path><g class="non-terminal ">
+<path d="M670.0 48h0.0"></path><path d="M775.0 48h0.0"></path><rect height="22" width="105.0" x="670.0" y="37"></rect><text x="722.5" y="52">clientname</text></g></g><path d="M775.0 48h20"></path></g></g><path d="M795.0 48h20"></path></g></g><path d="M815.0 48h10"></path><path d="M 825.0 48 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>

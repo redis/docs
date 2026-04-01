@@ -6,7 +6,7 @@ import os
 lang_cache = LangCache(
     server_url=f"https://{os.getenv('HOST', '')}",
     cache_id=os.getenv("CACHE_ID", ""),
-    service_key=os.getenv("API_KEY", "")
+    api_key=os.getenv("API_KEY", "")
 )
 # STEP_END
 
@@ -23,6 +23,18 @@ print(res)
 res = lang_cache.search(
     prompt="User prompt text",
     attributes={"customAttributeName": "customAttributeValue"},
+    similarity_threshold=0.9,
+)
+
+print(res)
+# STEP_END
+
+# STEP_START search_strategies
+from langcache.models import SearchStrategy
+
+res = lang_cache.search(
+    prompt="User prompt text",
+    search_strategies=[SearchStrategy.EXACT, SearchStrategy.SEMANTIC],
     similarity_threshold=0.9,
 )
 
@@ -60,4 +72,8 @@ res = lang_cache.delete_query(
 )
 
 print(res)
+# STEP_END
+
+# STEP_START flush
+lang_cache.flush()
 # STEP_END

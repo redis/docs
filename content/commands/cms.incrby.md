@@ -29,11 +29,11 @@ group: cms
 hidden: false
 linkTitle: CMS.INCRBY
 module: Bloom
+railroad_diagram: /images/railroad/cms.incrby.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Increases the count of one or more items by increment
 syntax_fmt: CMS.INCRBY key item increment [item increment ...]
-syntax_str: item increment [item increment ...]
 title: CMS.INCRBY
 ---
 
@@ -53,9 +53,15 @@ redis> CMS.INCRBY test foo 10 bar 42
 2) (integer) 42
 ```
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
 ## Return information
 
-{{< multitabs id=“cms-incrby-return-info" 
+{{< multitabs id="cms-incrby-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

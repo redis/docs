@@ -4,62 +4,70 @@ acl_categories:
 - '@stream'
 - '@fast'
 arguments:
-- display_text: key
-  key_spec_index: 0
+- key_spec_index: 0
   name: key
   type: key
-- display_text: nomkstream
-  name: nomkstream
+- name: nomkstream
   optional: true
   since: 6.2.0
   token: NOMKSTREAM
   type: pure-token
 - arguments:
-  - display_text: keepref
-    name: keepref
+  - name: keepref
     token: KEEPREF
     type: pure-token
-  - display_text: delref
-    name: delref
+  - name: delref
     token: DELREF
     type: pure-token
-  - display_text: acked
-    name: acked
+  - name: acked
     token: ACKED
     type: pure-token
   name: condition
   optional: true
   type: oneof
 - arguments:
+  - display_text: producer-id
+    name: pid
+    token: IDMPAUTO
+    type: string
   - arguments:
-    - display_text: maxlen
-      name: maxlen
+    - display_text: producer-id
+      name: pid
+      type: string
+    - display_text: idempotent-id
+      name: iid
+      type: string
+    name: idmp
+    token: IDMP
+    type: block
+  name: idmp
+  optional: true
+  since: 8.6.0
+  type: oneof
+- arguments:
+  - arguments:
+    - name: maxlen
       token: MAXLEN
       type: pure-token
-    - display_text: minid
-      name: minid
+    - name: minid
       since: 6.2.0
       token: MINID
       type: pure-token
     name: strategy
     type: oneof
   - arguments:
-    - display_text: equal
-      name: equal
+    - name: equal
       token: '='
       type: pure-token
-    - display_text: approximately
-      name: approximately
+    - name: approximately
       token: '~'
       type: pure-token
     name: operator
     optional: true
     type: oneof
-  - display_text: threshold
-    name: threshold
+  - name: threshold
     type: string
-  - display_text: count
-    name: count
+  - name: count
     optional: true
     since: 6.2.0
     token: LIMIT
@@ -68,21 +76,17 @@ arguments:
   optional: true
   type: block
 - arguments:
-  - display_text: auto-id
-    name: auto-id
+  - name: auto-id
     token: '*'
     type: pure-token
-  - display_text: id
-    name: id
+  - name: id
     type: string
   name: id-selector
   type: oneof
 - arguments:
-  - display_text: field
-    name: field
+  - name: field
     type: string
-  - display_text: value
-    name: value
+  - name: value
     type: string
   multiple: true
   name: data
@@ -117,26 +121,23 @@ history:
 - - 8.2.0
   - Added the `KEEPREF`, `DELREF` and `ACKED` options.
 key_specs:
-- RW: true
-  begin_search:
-    spec:
-      index: 1
-    type: index
+- begin_search:
+    index:
+      pos: 1
   find_keys:
-    spec:
-      keystep: 1
+    range:
       lastkey: 0
       limit: 0
     type: range
   notes: UPDATE instead of INSERT because of the optional trimming feature
-  update: true
 linkTitle: XADD
+railroad_diagram: /images/railroad/xadd.svg
 since: 5.0.0
 summary: Appends a new message to a stream. Creates the key if it doesn't exist.
-syntax_fmt: "XADD key [NOMKSTREAM] [KEEPREF | DELREF | ACKED] [<MAXLEN | MINID>\n\
-  \  [= | ~] threshold [LIMIT\_count]] <* | id> field value [field value\n  ...]"
-syntax_str: "[NOMKSTREAM] [KEEPREF | DELREF | ACKED] [<MAXLEN | MINID> [= | ~] threshold\
-  \ [LIMIT\_count]] <* | id> field value [field value ...]"
+syntax_fmt: "XADD key [NOMKSTREAM] [KEEPREF | DELREF | ACKED]\n \
+  \ [IDMPAUTO producer-id | IDMP producer-id idempotent-id]\n \
+  \ [<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count]] <* | id>\n \
+  \ field value [field value ...]"
 title: XADD
 ---
 
@@ -173,9 +174,29 @@ Prevents the creation of a new stream if the key does not exist. Available since
 </details>
 
 <details open>
+<summary><code>IDMPAUTO producer-id | IDMP producer-id idempotent-id</code></summary>
+
+Enables idempotent message processing (at-most-once production) to prevent duplicate entries. Available since Redis 8.6.
+
+- `IDMPAUTO producer-id`: Automatically generates a unique idempotent ID (iid) for the specified producer-id. Redis tracks this iid to prevent duplicate messages from the same producer-id.
+- `IDMP producer-id idempotent-id`: Uses the specified idempotent-id for the given producer-id. If this producer-id/idempotent-id combination was already used, the command returns the ID of the original entry instead of creating a duplicate.
+
+The producer-id identifies the source of the message, while the idempotent-id ensures uniqueness within that producer-id's message stream. Redis maintains an internal map of recent producer-id/idempotent-id combinations to detect and prevent duplicates.
+
+Both modes can only be specified when the entry ID is `*` (auto-generated).
+
+Use [`XCFGSET`]({{< relref "/commands/xcfgset" >}}) to configure how long idempotent IDs are retained (`IDMP-DURATION`) and the maximum number tracked per producer (`IDMP-MAXSIZE`).
+
+See [Idempotent message processing]({{< relref "/develop/data-types/streams/idempotency" >}}) for more information.
+
+</details>
+
+<details open>
 <summary><code>KEEPREF | DELREF | ACKED</code></summary>
 
-Specifies how to handle consumer group references when trimming. Available since Redis 8.2. If no option is specified, `KEEPREF` is used by default. Unlike the `XDELEX` and `XACKDEL` commands where one of these options is required, here they are optional to maintain backward compatibility:
+Specifies how to handle consumer group references when trimming. If there are no consumer groups, these arguments have no effect. Available since Redis 8.2.
+
+If no option is specified, `KEEPREF` is used by default. Unlike the `XDELEX` and `XACKDEL` commands where one of these options is required, here they are optional to maintain backward compatibility:
 
 - `KEEPREF` (default): When trimming, removes entries from the stream according to the specified strategy (`MAXLEN` or `MINID`), regardless of whether they are referenced by any consumer groups, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List).
 - `DELREF`: When trimming, removes entries from the stream according to the specified strategy and also removes all references to these entries from all consumer groups' PEL.
@@ -183,17 +204,42 @@ Specifies how to handle consumer group references when trimming. Available since
 </details>
 
 <details open>
-<summary><code>MAXLEN | MINID [= | ~] threshold [LIMIT count]</code></summary>
+<summary><code>MAXLEN | MINID [= | ~] threshold [LIMIT count]></code></summary>
 
 Trims the stream to maintain a specific size or remove old entries:
-- `MAXLEN`: Limits the stream to a maximum number of entries
-- `MINID`: Removes entries with IDs lower than the specified threshold (available since Redis 6.2.0)
-- `=`: Exact trimming (default)
-- `~`: Approximate trimming (more efficient)
-- `threshold`: The maximum number of entries (for MAXLEN) or minimum ID (for MINID)
-- `LIMIT count`: Limits the number of entries to examine during trimming (available since Redis 6.2.0)
+
+<details open>
+<summary><code>MAXLEN | MINID</code></summary>
+
+The trimming strategy:
+- `MAXLEN`: Evicts entries as long as the stream's length exceeds the specified threshold
+- `MINID`: Evicts entries with IDs lower than the specified threshold (available since Redis 6.2.0)
 </details>
 
+<details open>
+<summary><code>= | ~</code></summary>
+
+The trimming operator:
+- `=`: Exact trimming (default) - trims to the exact threshold
+- `~`: Approximate trimming - more efficient, may leave slightly more entries than the threshold
+</details>
+
+<details open>
+<summary><code>threshold</code></summary>
+
+The trimming threshold:
+- For `MAXLEN`: `threshold` is a non-negative integer specifying the maximum number of entries that may remain in the stream after trimming. Redis enforces this by removing the oldest entries - that is, the entries with the lowest stream IDs - so that only the newest entries are kept.
+- For `MINID`: `threshold` is a stream ID. All entries whose IDs are less than `threshold` are trimmed. All entries with IDs greater than or equal to `threshold` are kept.
+</details>
+
+<details open>
+<summary><code>LIMIT count</code></summary>
+
+Limits the number of entries to examine during trimming. Available since Redis 6.2.0. When not specified, Redis uses a default value of 100 * the number of entries in a macro node. Specifying 0 disables the limiting mechanism entirely.
+</details>
+
+</details>
+  
 Each entry consists of a list of field-value pairs.
 Redis stores the field-value pairs in the same order you provide them.
 Commands that read the stream, such as [`XRANGE`]({{< relref "/commands/xrange" >}}) or [`XREAD`]({{< relref "/commands/xread" >}}), return the fields and values in exactly the same order you added them with `XADD`.
@@ -252,12 +298,48 @@ For more information about Redis streams, see the
 
 ## Examples
 
-{{% redis-cli %}}
-XADD mystream * name Sara surname OConnor
-XADD mystream * field1 value1 field2 value2 field3 value3
-XLEN mystream
-XRANGE mystream - +
-{{% /redis-cli %}}
+{{< clients-example set="cmds_stream" step="xadd1" description="Basic XADD: Add entries to a stream with auto-generated IDs, check stream the stream size, and read entries" difficulty="beginner" >}}
+> XADD mystream * name Sara surname OConnor
+4378417975-0"
+> XADD mystream * field1 value1 field2 value2 field3 value3
+4378417976-0"
+> XLEN mystream
+eger) 2
+> XRANGE mystream - +
+1) 1) "1774378417975-0"
+   2) 1) "name"
+      2) "Sara"
+      3) "surname"
+      4) "OConnor"
+2) 1) "1774378417976-0"
+   2) 1) "field1"
+      2) "value1"
+      3) "field2"
+      4) "value2"
+      5) "field3"
+      6) "value3"
+{{< /clients-example >}}
+
+### Idempotent message processing examples
+
+{{< clients-example set="cmds_stream" step="xadd2" description="Idempotent XADD (Redis 8.6+): Use IDMP and IDMPAUTO for at-most-once message delivery, preventing duplicate entries" difficulty="intermediate" >}}
+> XADD mystream IDMP producer1 msg1 * field value
+"1774378417976-0"
+> XADD mystream IDMP producer1 msg1 * field different_value
+"1774378417976-0"
+> XADD mystream IDMPAUTO producer2 * field value
+"1774378417977-0"
+> XADD mystream IDMPAUTO producer2 * field value
+"1774378417977-0"
+> XCFGSET mystream IDMP-DURATION 300 IDMP-MAXSIZE 1000
+"OK"
+{{< /clients-example >}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 
@@ -266,13 +348,13 @@ XRANGE mystream - +
     tab2="RESP3" >}}
 
 One of the following:
-* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the original entry.
 * [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the NOMKSTREAM option is given and the key doesn't exist.
 
 -tab-sep-
 
 One of the following:
-* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion.
+* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the original entry.
 * [Null reply](../../develop/reference/protocol-spec#nulls): if the NOMKSTREAM option is given and the key doesn't exist.
 
 {{< /multitabs >}}

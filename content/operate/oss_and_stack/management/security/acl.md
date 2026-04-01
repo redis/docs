@@ -284,44 +284,44 @@ you should be absolutely sure that you won't include what you did not mean to.
 
 The following is a list of command categories and their meanings:
 
-* **admin** - Administrative commands. Normal applications will never need to use
+* <a id="admin"></a>**admin** - Administrative commands. Normal applications will never need to use
   these. Includes [`REPLICAOF`](/commands/replicaof), [`CONFIG`](/commands/config), [`DEBUG`](/commands/debug), [`SAVE`](/commands/save), [`MONITOR`](/commands/monitor), [`ACL`](/commands/acl), [`SHUTDOWN`](/commands/shutdown), etc.
-* **bitmap** - Data type: all bitmap related commands.
-* **blocking** - Potentially blocking the connection until released by another
+* <a id="bitmap"></a>**bitmap** - Data type: all bitmap related commands.
+* <a id="blocking"></a>**blocking** - Potentially blocking the connection until released by another
   command.
-* **bloom** - Data type: all Bloom filter related commands. <sup>[1](#cmd-note-1)</sup>
-* **cms** - Data type: count-min sketch related commands. <sup>[1](#cmd-note-1)</sup>
-* **connection** - Commands affecting the connection or other connections.
+* <a id="bloom"></a>**bloom** - Data type: all Bloom filter related commands. <sup>[1](#cmd-note-1)</sup>
+* <a id="cms"></a>**cms** - Data type: count-min sketch related commands. <sup>[1](#cmd-note-1)</sup>
+* <a id="connection"></a>**connection** - Commands affecting the connection or other connections.
   This includes [`AUTH`](/commands/auth), [`SELECT`](/commands/select), [`COMMAND`](/commands/command), [`CLIENT`](/commands/client), [`ECHO`](/commands/echo), [`PING`](/commands/ping), etc.
-* **cuckoo** - Data type: all Cuckoo filter related commands. <sup>[1](#cmd-note-1)</sup>
-* **dangerous** - Potentially dangerous commands (each should be considered with care for
+* <a id="cuckoo"></a>**cuckoo** - Data type: all Cuckoo filter related commands. <sup>[1](#cmd-note-1)</sup>
+* <a id="dangerous"></a>**dangerous** - Potentially dangerous commands (each should be considered with care for
   various reasons). This includes [`FLUSHALL`](/commands/flushall), [`MIGRATE`](/commands/migrate), [`RESTORE`](/commands/restore), [`SORT`](/commands/sort), [`KEYS`](/commands/keys),
   [`CLIENT`](/commands/client), [`DEBUG`](/commands/debug), [`INFO`](/commands/info), [`CONFIG`](/commands/config), [`SAVE`](/commands/save), [`REPLICAOF`](/commands/replicaof), etc.
-* **fast** - Fast O(1) commands. May loop on the number of arguments, but not the number of elements in the key.
-* **geo** - Data type: all geospatial index related commands.
-* **hash** - Data type: all hash related commands.
-* **hyperloglog** - Data type: all hyperloglog related commands.
-* **json** - Data type: all JSON related commands. <sup>[1](#cmd-note-1)</sup>
-* **keyspace** - Writing or reading from keys, databases, or their metadata 
+* <a id="fast"></a>**fast** - Fast O(1) commands. May loop on the number of arguments, but not the number of elements in the key.
+* <a id="geo"></a>**geo** - Data type: all geospatial index related commands.
+* <a id="hash"></a>**hash** - Data type: all hash related commands.
+* <a id="hyperloglog"></a>**hyperloglog** - Data type: all hyperloglog related commands.
+* <a id="json"></a>**json** - Data type: all JSON related commands. <sup>[1](#cmd-note-1)</sup>
+* <a id="keyspace"></a>**keyspace** - Writing or reading from keys, databases, or their metadata
   in a type agnostic way. Includes [`DEL`](/commands/del), [`RESTORE`](/commands/restore), [`DUMP`](/commands/dump), [`RENAME`](/commands/rename), [`EXISTS`](/commands/exists), [`DBSIZE`](/commands/dbsize),
   [`KEYS`](/commands/keys), [`SCAN`](/commands/scan), [`EXPIRE`](/commands/expire), [`TTL`](/commands/ttl), [`FLUSHALL`](/commands/flushall), etc. Commands that may modify the keyspace,
   key, or metadata will also have the `write` category. Commands that only read
   the keyspace, key, or metadata will have the `read` category.
-* **list** - Data type: all list related commands.
-* **pubsub** - all pubsub related commands.
-* **read** - Reading from keys (values or metadata). Note that commands that don't interact with keys, will not have either `read` or `write`.
-* **scripting** - Scripting related.
-* **search** - All search related commands. Only ACL users with access to a superset of the key prefixes defined during index creation can create, modify, or read the index. For example, a user with the key ACL pattern `h:*` can create an index with keys prefixed by `h:*` or `h:p*`, but not keys prefixed by `h*`, `k:*`, or `k*`, because these prefixes may involve keys to which the user does not have access. <sup>[1](#cmd-note-1)</sup>
-* **set** - Data type: all set related commands.
-* **sortedset** - Data type: all sorted set related commands.
-* **slow** - All commands that are not `fast`.
-* **stream** - Data type: all stream related commands.
-* **string** - Data type: all string related commands.
-* **tdigest** - Data type: all t-digest related commands. <sup>[1](#cmd-note-1)</sup>
-* **timeseries** - Data type: all time series related commands. <sup>[1](#cmd-note-1)</sup>
-* **topk** - Data type: all top-k related commands. <sup>[1](#cmd-note-1)</sup>
-* **transaction** - [`WATCH`](/commands/watch) / [`MULTI`](/commands/multi) / [`EXEC`](/commands/exec) related commands.
-* **write** - Writing to keys (values or metadata). Note that commands that don't interact with keys, will not have either `read` or `write`.
+* <a id="list"></a>**list** - Data type: all list related commands.
+* <a id="pubsub"></a>**pubsub** - all pubsub related commands.
+* <a id="read"></a>**read** - Reading from keys (values or metadata). Note that commands that don't interact with keys, will not have either `read` or `write`.
+* <a id="scripting"></a>**scripting** - Scripting related.
+* <a id="search"></a>**search** - All search related commands. Only ACL users with access to a superset of the key prefixes defined during index creation can create, modify, or read the index. For example, a user with the key ACL pattern `h:*` can create an index with keys prefixed by `h:*` or `h:p*`, but not keys prefixed by `h*`, `k:*`, or `k*`, because these prefixes may involve keys to which the user does not have access. <sup>[1](#cmd-note-1)</sup>
+* <a id="set"></a>**set** - Data type: all set related commands.
+* <a id="sortedset"></a>**sortedset** - Data type: all sorted set related commands.
+* <a id="slow"></a>**slow** - All commands that are not `fast`.
+* <a id="stream"></a>**stream** - Data type: all stream related commands.
+* <a id="string"></a>**string** - Data type: all string related commands.
+* <a id="tdigest"></a>**tdigest** - Data type: all t-digest related commands. <sup>[1](#cmd-note-1)</sup>
+* <a id="timeseries"></a>**timeseries** - Data type: all time series related commands. <sup>[1](#cmd-note-1)</sup>
+* <a id="topk"></a>**topk** - Data type: all top-k related commands. <sup>[1](#cmd-note-1)</sup>
+* <a id="transaction"></a>**transaction** - [`WATCH`](/commands/watch) / [`MULTI`](/commands/multi) / [`EXEC`](/commands/exec) related commands.
+* <a id="write"></a>**write** - Writing to keys (values or metadata). Note that commands that don't interact with keys, will not have either `read` or `write`.
 
 1. <a name="cmd-note-1"></a> See the [Redis 8 release notes]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.0-release-notes/#potentially-breaking-changes-to-acls" >}}) for more information about these command categories, which may introduce breaking changes to your Redis deployments.
 

@@ -48,8 +48,11 @@ rladmin tune cluster
         [ acl_pubsub_default { resetchannels | allchannels } ]
         [ resp3_default { enabled | disabled } ]
         [ automatic_node_offload { enabled | disabled } ]
+        [ auto_recovery { enabled | disabled } ]
+        [ default_recovery_wait_time <value> ]
         [ default_tracking_table_max_keys_policy <value> ]
         [ default_oss_sharding { enabled | disabled } ]
+        [ filter_node_wd_health_metrics { enabled | disabled } ]
  ]
 ```
 
@@ -59,17 +62,20 @@ rladmin tune cluster
 |----------------------------------------|-----------------------------------|------------------------------------------------------------------------------------------------------------------------------|
 | acl_pubsub_default | `resetchannels`<br /> `allchannels` | Default pub/sub ACL rule for all databases in the cluster:<br />•`resetchannels` blocks access to all channels (restrictive)<br />•`allchannels` allows access to all channels (permissive) |
 | automatic_node_offload | `enabled`<br />`disabled` | Define whether automatic node offload migration will take place |
+| auto_recovery | `enabled`<br />`disabled` | Defines whether to use automatic recovery after shard failure |
 | data_internode_encryption              | `enabled`<br />`disabled`       | Activates or deactivates [internode encryption]({{< relref "/operate/rs/security/encryption/internode-encryption" >}}) for new databases    |
 | db_conns_auditing                      | `enabled`<br /> `disabled`      | Activates or deactivates [connection auditing]({{< relref "/operate/rs/security/audit-events" >}}) by default for new databases of a cluster                                                                  |
 | default_concurrent_restore_actions     | integer<br />`all`              | Default number of concurrent actions when restoring a node from a snapshot (positive integer or "all")                         |
 | default_non_sharded_proxy_policy | `single`<br /><br />`all-master-shards`<br /><br />`all-nodes` | Default [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) for newly created non-sharded databases' endpoints |
 | default_oss_sharding | `enabled`<br />`disabled` | Default hashing policy to use for new databases. Set to `disabled` by default. This field is for future use only and should not be changed. |
+| default_recovery_wait_time | integer | The default time for new databases to wait for the persistence file to be available during automatic recovery. After the wait time expires, auto recovery completes with potential data loss. The default `-1` means to wait forever. |
 | default_redis_version                  | version number                    | The default Redis database compatibility version used to create new databases.<br/><br/>  The value parameter should be a version number in the form of "x.y" where _x_ represents the major version number and _y_ represents the minor version number.  The final value corresponds to the desired version of Redis.<br/><br/>You cannot set _default_redis_version_ to a value higher than that supported by the current _redis_upgrade_policy_ value. |
 | default_sharded_proxy_policy | `single`<br /><br />`all-master-shards`<br /><br />`all-nodes` | Default [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) for newly created sharded databases' endpoints |
 | default_shards_placement | `dense`<br />`sparse` | New databases place shards according to the default [shard placement policy]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy" >}}) |
 | default_tracking_table_max_keys_policy | integer (default: 1000000) | Defines the default value of the client-side caching invalidation table size for new databases. 0 makes the cache unlimited. |
 | expose_hostnames_for_all_suffixes      | `enabled`<br />`disabled`       | Exposes hostnames for all DNS suffixes                                                                                       |
 | failure_detection_sensitivity | `high`<br />`low` | Predefined thresholds and timeouts for failure detection (previously known as `watchdog_profile`)<br />• `high` (previously `local-network`) – high failure detection sensitivity, lower thresholds, faster failure detection and failover<br />• `low` (previously `cloud`) – low failure detection sensitivity, higher tolerance for latency variance (also called network jitter) |
+| filter_node_wd_health_metrics | `enabled`<br />`disabled` | When enabled, `node_wd` health metrics (<span class="break-all">`shard_ping_failures`</span>, <span class="break-all">`endpoint_ping_failures`</span>, <span class="break-all">`dmc_ping_failures`</span> and their duration counterparts) are not emitted to `statsd` |
 | login_lockout_counter_reset_after      | time in seconds                   | Time after failed login attempt before the counter resets to 0                                                                   |
 | login_lockout_duration                 | time in seconds                   | Time a locked account remains locked ( "0" means only an admin can unlock the account)                                   |
 | login_lockout_threshold                | integer                           | Number of failed sign-in attempts to trigger locking a user account ("0" means never lock the account)                   |
@@ -85,11 +91,11 @@ rladmin tune cluster
 | repl_diskless                          | `enabled`<br />`disabled`       | Activates or deactivates diskless replication (can be overridden per database)                                              |
 | resp3_default | `enabled` <br /> `disabled` | Determines the default value of the `resp3` option upon upgrading a database to version 7.2 (defaults to `enabled`) |
 | show_internals                         | `enabled`<br />`disabled`       | Controls the visibility of internal databases that are only used for the cluster's management                                |
-| slave_ha                               | `enabled` <br /> `disabled`   | Activates or deactivates [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) in the cluster<br />(enabled by default; use [`rladmin tune db`](#tune-db) to change `slave_ha` for a specific database)<br /><br />Deprecated as of Redis Enterprise Software v7.2.4. |
+| slave_ha                               | `enabled` <br /> `disabled`   | Activates or deactivates [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) in the cluster<br />(enabled by default; use [`rladmin tune db`](#tune-db) to change `slave_ha` for a specific database)<br /><br />Deprecated as of Redis Software v7.2.4. |
 | slave_ha_bdb_cooldown_period           | time in seconds (default: 7200) | Time (in seconds) a database must wait after its shards are relocated by [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) before it can go through another shard migration if another node fails (default is 2 hours) |
 | slave_ha_cooldown_period               | time in seconds (default: 3600) | Time (in seconds) [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) must wait after relocating shards due to node failure before performing another shard migration for any database in the cluster (default is 1 hour) |
 | slave_ha_grace_period                  | time in seconds (default: 600) | Time (in seconds) between when a node fails and when [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) starts relocating shards to another node      |
-| watchdog_profile                       | `cloud` <br /> `local-network` | Watchdog profiles with preconfigured thresholds and timeouts (deprecated as of Redis Enterprise Software v6.4.2-69; use <span class="break-all">`failure_detection_sensitivity`</span> instead)<br />• `cloud` is suitable for common cloud environments and has a higher tolerance for latency variance (also called network jitter).<br />• `local-network` is suitable for dedicated LANs and has better failure detection and failover times. |
+| watchdog_profile                       | `cloud` <br /> `local-network` | Watchdog profiles with preconfigured thresholds and timeouts (deprecated as of Redis Software v6.4.2-69; use <span class="break-all">`failure_detection_sensitivity`</span> instead)<br />• `cloud` is suitable for common cloud environments and has a higher tolerance for latency variance (also called network jitter).<br />• `local-network` is suitable for dedicated LANs and has better failure detection and failover times. |
 
 ### Returns
 
@@ -144,10 +150,11 @@ rladmin tune db { db:<id> | <name> }
         [ syncer_mode { distributed | centralized }]
         [ syncer_monitoring { enabled | disabled } ]
         [ mtls_allow_weak_hashing { enabled | disabled } ]
-        [ mtls_allow_outdated_cert { enabled | disabled } ]
+        [ mtls_allow_outdated_certs { enabled | disabled } ]
         [ data_internode_encryption { enabled | disabled } ]
         [ db_conns_auditing { enabled | disabled } ]
         [ resp3 { enabled | disabled } ]
+        [ shards_placement { dense | sparse } ]
         [ tracking_table_max_keys <size> ]
 ```
 
@@ -179,7 +186,7 @@ rladmin tune db { db:<id> | <name> }
 | mkms                                 | `enabled`<br /> `disabled`       | Activates multi-key multi-slot commands                                                                                               |
 | module_config_params | string | Configures module arguments at runtime. Enclose `module_config_params` within quotation marks. |
 | module_name | `search`<br />`ReJSON`<br />`graph`<br />`timeseries`<br />`bf`<br />`rg` | The module to configure with `module_config_params` |
-| mtls_allow_outdated_cert             | `enabled`<br /> `disabled`       | Activates outdated certificates in mTLS connections                                   |
+| mtls_allow_outdated_certs             | `enabled`<br /> `disabled`       | If enabled, allows outdated certificates in mTLS connections                                   |
 | mtls_allow_weak_hashing              | `enabled`<br /> `disabled`       | Activates weak hashing (less than 2048 bits) in mTLS connections                       |
 | oss_cluster                          | `enabled`<br /> `disabled`       | Activates OSS cluster API                                                                                                             |
 | oss_cluster_api_preferred_ip_type    | `internal`<br /> `external`      | IP type for the endpoint and database in the OSS cluster API (default is internal)                                     |
@@ -188,6 +195,7 @@ rladmin tune db { db:<id> | <name> }
 | repl_timeout                         | time in seconds                  | Replication timeout (in seconds)                                                                                                      |
 | resp3 | `enabled`<br /> `disabled` | Enables or deactivates RESP3 support (defaults to `enabled`) |
 | schedpolicy                          | `cmp`<br /> `mru`<br /> `spread`<br /> `mnp` | Controls how server-side connections are used when forwarding traffic to shards                                           |
+| shards_placement | `dense`<br /> `sparse` | Configures the [shard placement policy]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy" >}}) for the database |
 | skip_import_analyze                  | `enabled`<br /> `disabled`       | Skips the analyzing step when importing a database                                                                                    |
 | slave_buffer                         | `auto`<br />value in MB<br /> hard:soft:time | Redis replica output buffer limits<br />• `auto`: dynamically adjusts the buffer limit based on the shard’s current used memory<br />• value in MB: sets the buffer limit in MB<br />• hard:soft:time: sets the hard limit (maximum buffer size in MB), soft limit in MB, and the time in seconds that the soft limit can be exceeded |
 | slave_ha                             | `enabled`<br /> `disabled`       | Activates or deactivates replica high availability (defaults to the cluster setting)                                                      |

@@ -43,7 +43,7 @@ You can choose a predefined endpoint configuration to use the recommended databa
 
 ### Database proxy
 
-Redis Enterprise Software uses [proxies]({{< relref "/operate/rs/references/terminology#proxy" >}}) to manage and optimize access to database shards. Each node in the cluster runs a single proxy process, which can be active (receives incoming traffic) or passive (waits for failovers).
+Redis Software uses [proxies]({{< relref "/operate/rs/references/terminology#proxy" >}}) to manage and optimize access to database shards. Each node in the cluster runs a single proxy process, which can be active (receives incoming traffic) or passive (waits for failovers).
 
 You can configure default [proxy policies]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) to determine which nodes' proxies are active and bound to new databases by default.
 

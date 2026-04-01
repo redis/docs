@@ -1,0 +1,1358 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "xadd(, name: KeyT,, fields: Dict[FieldT, EncodableT],, id: StreamIdT = \"*\",, maxlen: Optional[int] = None,, approximate: bool = True,, nomkstream: bool = False,, minid: Union[StreamIdT, None] = None,, limit: Optional[int] = None,, ref_policy: Optional[Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"]] = None,, idmpauto: Optional[str] = None,, idmp: Optional[tuple[str, bytes]] = None,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "Dict[FieldT, EncodableT]",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "StreamIdT = \"*\"",
+            "description": ""
+          },
+          {
+            "name": "maxlen",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "approximate",
+            "type": "bool = True",
+            "description": ""
+          },
+          {
+            "name": "nomkstream",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "minid",
+            "type": "Union[StreamIdT, None] = None",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "ref_policy",
+            "type": "Optional[Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"]] = None",
+            "description": ""
+          },
+          {
+            "name": "idmpauto",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "idmp",
+            "type": "Optional[tuple[str, bytes]] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "StreamEntryID xadd(final String key, final StreamEntryID id, final Map<String, String> hash)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "StreamEntryID",
+            "description": ""
+          },
+          {
+            "name": "hash",
+            "type": "Map<String, String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "StreamEntryID",
+          "description": "the ID of the added entry"
+        }
+      },
+      {
+        "signature": "StreamEntryID xadd(final String key, final XAddParams params, final Map<String, String> hash)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "XAddParams",
+            "description": ""
+          },
+          {
+            "name": "hash",
+            "type": "Map<String, String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "StreamEntryID",
+          "description": "the ID of the added entry"
+        }
+      },
+      {
+        "signature": "StreamEntryID xadd(String key, StreamEntryID id, Map<String, String> hash)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "StreamEntryID",
+            "description": ""
+          },
+          {
+            "name": "hash",
+            "type": "Map<String, String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "StreamEntryID",
+          "description": "the ID of the added entry"
+        }
+      },
+      {
+        "signature": "default StreamEntryID xadd(String key, Map<String, String> hash, XAddParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "hash",
+            "type": "Map<String, String>",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "XAddParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "default StreamEntryID",
+          "description": "the ID of the added entry"
+        }
+      },
+      {
+        "signature": "return xadd(key, params, hash)",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "hash",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": "the ID of the added entry"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String xadd(K key, Map<K, V> body)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "body",
+            "type": "Map<K, V>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "simple-reply the message Id."
+        }
+      },
+      {
+        "signature": "String xadd(K key, XAddArgs args, Map<K, V> body)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XAddArgs",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "type": "Map<K, V>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "simple-reply the message Id."
+        }
+      },
+      {
+        "signature": "String xadd(K key, Object... keysAndValues)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "keysAndValues",
+            "type": "Object...",
+            "description": "message body."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "simple-reply the message Id."
+        }
+      },
+      {
+        "signature": "String xadd(K key, XAddArgs args, Object... keysAndValues)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XAddArgs",
+            "description": ""
+          },
+          {
+            "name": "keysAndValues",
+            "type": "Object...",
+            "description": "message body."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "simple-reply the message Id."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> xadd(K key, Map<K, V> body)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "body",
+            "type": "Map<K, V>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "simple-reply the message Id."
+        }
+      },
+      {
+        "signature": "RedisFuture<String> xadd(K key, XAddArgs args, Map<K, V> body)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XAddArgs",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "type": "Map<K, V>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "simple-reply the message Id."
+        }
+      },
+      {
+        "signature": "RedisFuture<String> xadd(K key, Object... keysAndValues)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "keysAndValues",
+            "type": "Object...",
+            "description": "message body."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "simple-reply the message Id."
+        }
+      },
+      {
+        "signature": "RedisFuture<String> xadd(K key, XAddArgs args, Object... keysAndValues)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XAddArgs",
+            "description": ""
+          },
+          {
+            "name": "keysAndValues",
+            "type": "Object...",
+            "description": "message body."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "simple-reply the message Id."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> xadd(K key, Map<K, V> body)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "body",
+            "type": "Map<K, V>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "simple-reply the message Id."
+        }
+      },
+      {
+        "signature": "Mono<String> xadd(K key, XAddArgs args, Map<K, V> body)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XAddArgs",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "type": "Map<K, V>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "simple-reply the message Id."
+        }
+      },
+      {
+        "signature": "Mono<String> xadd(K key, Object... keysAndValues)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "keysAndValues",
+            "type": "Object...",
+            "description": "message body."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "simple-reply the message Id."
+        }
+      },
+      {
+        "signature": "Mono<String> xadd(K key, XAddArgs args, Object... keysAndValues)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XAddArgs",
+            "description": ""
+          },
+          {
+            "name": "keysAndValues",
+            "type": "Object...",
+            "description": "message body."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "simple-reply the message Id."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "XAdd(ctx context.Context, a *XAddArgs)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "a",
+            "type": "*XAddArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "XADD(...args: Tail<Parameters<typeof parseXAddArguments>>)",
+        "params": [
+          {
+            "name": "...args",
+            "type": "Tail<Parameters<typeof parseXAddArguments>>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "xadd(...args: [, key: RedisKey, ...args: RedisValue[], callback: Callback<string | null>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xadd(...args: [key: RedisKey, ...args: RedisValue[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "xadd(key: K, id: ID, items: &'a [(F, V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "ID",
+            "description": ""
+          },
+          {
+            "name": "items",
+            "type": "&'a [(F, V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xadd_map(key: K, id: ID, map: BTM)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "ID",
+            "description": ""
+          },
+          {
+            "name": "map",
+            "type": "BTM",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xadd_options(key: K, id: ID, items: I, options: &'a streams::StreamAddOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "ID",
+            "description": ""
+          },
+          {
+            "name": "items",
+            "type": "I",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "&'a streams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xadd_maxlen(key: K, maxlen: streams::StreamMaxlen, id: ID, items: &'a [(F, V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "maxlen",
+            "type": "streams",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "ID",
+            "description": ""
+          },
+          {
+            "name": "items",
+            "type": "&'a [(F, V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xadd_maxlen_map(key: K, maxlen: streams::StreamMaxlen, id: ID, map: BTM)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "maxlen",
+            "type": "streams",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "ID",
+            "description": ""
+          },
+          {
+            "name": "map",
+            "type": "BTM",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "xadd(key: K, id: ID, items: &'a [(F, V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "ID",
+            "description": ""
+          },
+          {
+            "name": "items",
+            "type": "&'a [(F, V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xadd_map(key: K, id: ID, map: BTM)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "ID",
+            "description": ""
+          },
+          {
+            "name": "map",
+            "type": "BTM",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xadd_options(key: K, id: ID, items: I, options: &'a streams::StreamAddOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "ID",
+            "description": ""
+          },
+          {
+            "name": "items",
+            "type": "I",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "&'a streams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xadd_maxlen(key: K, maxlen: streams::StreamMaxlen, id: ID, items: &'a [(F, V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "maxlen",
+            "type": "streams",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "ID",
+            "description": ""
+          },
+          {
+            "name": "items",
+            "type": "&'a [(F, V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xadd_maxlen_map(key: K, maxlen: streams::StreamMaxlen, id: ID, map: BTM)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "maxlen",
+            "type": "streams",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "ID",
+            "description": ""
+          },
+          {
+            "name": "map",
+            "type": "BTM",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StreamAdd(RedisKey key, RedisValue streamField, RedisValue streamValue, RedisValue? messageId, int? maxLength, bool useApproximateMaxLength, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "streamField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "streamValue",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "messageId",
+            "type": "RedisValue?",
+            "description": "The ID to assign to the stream entry, defaults to an auto-generated ID (\"*\")."
+          },
+          {
+            "name": "maxLength",
+            "type": "int?",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The ID of the newly created message."
+        }
+      },
+      {
+        "signature": "StreamAdd(RedisKey key, NameValueEntry[] streamPairs, RedisValue? messageId, int? maxLength, bool useApproximateMaxLength, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "streamPairs",
+            "type": "NameValueEntry[]",
+            "description": "The fields and their associated values to set in the stream entry."
+          },
+          {
+            "name": "messageId",
+            "type": "RedisValue?",
+            "description": "The ID to assign to the stream entry, defaults to an auto-generated ID (\"*\")."
+          },
+          {
+            "name": "maxLength",
+            "type": "int?",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The ID of the newly created message."
+        }
+      },
+      {
+        "signature": "StreamAdd(RedisKey key, RedisValue streamField, RedisValue streamValue, RedisValue? messageId = null, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "streamField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "streamValue",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "messageId",
+            "type": "RedisValue?",
+            "description": "The ID to assign to the stream entry, defaults to an auto-generated ID (\"*\")."
+          },
+          {
+            "name": "maxLength",
+            "type": "long?",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "limit",
+            "type": "long?",
+            "description": "Specifies the maximal count of entries that will be evicted."
+          },
+          {
+            "name": "trimMode",
+            "type": "StreamTrimMode",
+            "description": "Determines how stream trimming should be performed."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The ID of the newly created message."
+        }
+      },
+      {
+        "signature": "StreamAdd(RedisKey key, RedisValue streamField, RedisValue streamValue, StreamIdempotentId idempotentId, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "streamField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "streamValue",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "idempotentId",
+            "type": "StreamIdempotentId",
+            "description": ""
+          },
+          {
+            "name": "maxLength",
+            "type": "long?",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "limit",
+            "type": "long?",
+            "description": "Specifies the maximal count of entries that will be evicted."
+          },
+          {
+            "name": "trimMode",
+            "type": "StreamTrimMode",
+            "description": "Determines how stream trimming should be performed."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The ID of the newly created message."
+        }
+      },
+      {
+        "signature": "StreamAdd(RedisKey key, NameValueEntry[] streamPairs, RedisValue? messageId = null, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "streamPairs",
+            "type": "NameValueEntry[]",
+            "description": "The fields and their associated values to set in the stream entry."
+          },
+          {
+            "name": "messageId",
+            "type": "RedisValue?",
+            "description": "The ID to assign to the stream entry, defaults to an auto-generated ID (\"*\")."
+          },
+          {
+            "name": "maxLength",
+            "type": "long?",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "limit",
+            "type": "long?",
+            "description": "Specifies the maximal count of entries that will be evicted."
+          },
+          {
+            "name": "trimMode",
+            "type": "StreamTrimMode",
+            "description": "Determines how stream trimming should be performed."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The ID of the newly created message."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StreamAdd(RedisKey key, RedisValue streamField, RedisValue streamValue, RedisValue? messageId, int? maxLength, bool useApproximateMaxLength, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "streamField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "streamValue",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "messageId",
+            "type": "RedisValue?",
+            "description": "The ID to assign to the stream entry, defaults to an auto-generated ID (\"*\")."
+          },
+          {
+            "name": "maxLength",
+            "type": "int?",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The ID of the newly created message."
+        }
+      },
+      {
+        "signature": "StreamAdd(RedisKey key, NameValueEntry[] streamPairs, RedisValue? messageId, int? maxLength, bool useApproximateMaxLength, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "streamPairs",
+            "type": "NameValueEntry[]",
+            "description": "The fields and their associated values to set in the stream entry."
+          },
+          {
+            "name": "messageId",
+            "type": "RedisValue?",
+            "description": "The ID to assign to the stream entry, defaults to an auto-generated ID (\"*\")."
+          },
+          {
+            "name": "maxLength",
+            "type": "int?",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The ID of the newly created message."
+        }
+      },
+      {
+        "signature": "StreamAdd(RedisKey key, RedisValue streamField, RedisValue streamValue, RedisValue? messageId = null, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "streamField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "streamValue",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "messageId",
+            "type": "RedisValue?",
+            "description": "The ID to assign to the stream entry, defaults to an auto-generated ID (\"*\")."
+          },
+          {
+            "name": "maxLength",
+            "type": "long?",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "limit",
+            "type": "long?",
+            "description": "Specifies the maximal count of entries that will be evicted."
+          },
+          {
+            "name": "trimMode",
+            "type": "StreamTrimMode",
+            "description": "Determines how stream trimming should be performed."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The ID of the newly created message."
+        }
+      },
+      {
+        "signature": "StreamAdd(RedisKey key, RedisValue streamField, RedisValue streamValue, StreamIdempotentId idempotentId, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "streamField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "streamValue",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "idempotentId",
+            "type": "StreamIdempotentId",
+            "description": ""
+          },
+          {
+            "name": "maxLength",
+            "type": "long?",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "limit",
+            "type": "long?",
+            "description": "Specifies the maximal count of entries that will be evicted."
+          },
+          {
+            "name": "trimMode",
+            "type": "StreamTrimMode",
+            "description": "Determines how stream trimming should be performed."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The ID of the newly created message."
+        }
+      },
+      {
+        "signature": "StreamAdd(RedisKey key, NameValueEntry[] streamPairs, RedisValue? messageId = null, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "streamPairs",
+            "type": "NameValueEntry[]",
+            "description": "The fields and their associated values to set in the stream entry."
+          },
+          {
+            "name": "messageId",
+            "type": "RedisValue?",
+            "description": "The ID to assign to the stream entry, defaults to an auto-generated ID (\"*\")."
+          },
+          {
+            "name": "maxLength",
+            "type": "long?",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "limit",
+            "type": "long?",
+            "description": "Specifies the maximal count of entries that will be evicted."
+          },
+          {
+            "name": "trimMode",
+            "type": "StreamTrimMode",
+            "description": "Determines how stream trimming should be performed."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The ID of the newly created message."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "xadd(string $key, array $dictionary, string $id = '*', array $options = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$dictionary",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "string $id = '*'",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "array $options = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xadd(key, entry, approximate: nil, maxlen: nil, minid: nil, nomkstream: nil, id: '*')",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          },
+          {
+            "name": "entry",
+            "type": "Hash",
+            "description": "one or multiple field-value pairs"
+          },
+          {
+            "name": "approximate",
+            "type": "Boolean",
+            "description": "whether to add ~ modifier of maxlen/minid or not"
+          },
+          {
+            "name": "maxlen",
+            "type": "Integer",
+            "description": "max length of entries to keep"
+          },
+          {
+            "name": "minid",
+            "type": "Integer",
+            "description": "min id of entries to keep"
+          },
+          {
+            "name": "nomkstream",
+            "type": "Boolean",
+            "description": "whether to add NOMKSTREAM"
+          },
+          {
+            "name": "id",
+            "type": "String",
+            "description": "the entry id, default value is *"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "the entry id"
+        }
+      }
+    ]
+  }
+}

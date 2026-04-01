@@ -1,0 +1,38 @@
+{{- /* Render hook for decision tree code blocks */ -}}
+{{- /* Check if content is empty (used to trigger JS loading without rendering) */ -}}
+{{- $trimmedContent := strings.TrimSpace .Inner -}}
+{{- if eq $trimmedContent "" -}}
+  {{- /* Empty code block - just set the flag to load the JS, don't render anything */ -}}
+  {{ .Page.Store.Set "hasDecisionTree" true }}
+{{- else -}}
+  {{- /* Preserve YAML source for visual display and JavaScript parsing */ -}}
+  <pre class="decision-tree-source">{{ .Inner | htmlEscape | safeHTML }}</pre>
+
+  {{- /* Extract id and scope from YAML for metadata (only top-level fields) */ -}}
+  {{- $lines := split .Inner "\n" -}}
+  {{- $id := "" -}}
+  {{- $scope := "" -}}
+  {{- range $lines -}}
+    {{- /* Only process lines that don't start with whitespace (top-level fields) */ -}}
+    {{- if and (gt (len .) 0) (ne (index . 0) 32) (ne (index . 0) 9) -}}
+      {{- $trimmed := strings.TrimSpace . -}}
+      {{- if strings.HasPrefix $trimmed "id:" -}}
+        {{- $afterPrefix := strings.Replace $trimmed "id:" "" 1 -}}
+        {{- $id = strings.TrimSpace $afterPrefix -}}
+      {{- end -}}
+      {{- if strings.HasPrefix $trimmed "scope:" -}}
+        {{- $afterPrefix := strings.Replace $trimmed "scope:" "" 1 -}}
+        {{- $scope = strings.TrimSpace $afterPrefix -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* Embed metadata as custom JSON for AI agents */ -}}
+  {{- $metadata := dict "type" "decision-tree" "id" $id "scope" $scope -}}
+
+  {{ $jsonMetadata := $metadata | jsonify (dict "indent" "  ") }}
+  {{ printf "<script type=\"application/json\" data-redis-metadata=\"decision-tree\">\n%s\n</script>" $jsonMetadata | safeHTML }}
+
+  {{ .Page.Store.Set "hasDecisionTree" true }}
+{{- end -}}
+

@@ -9,13 +9,13 @@ description: Search and query Active-Active databases.
 linkTitle: Search Active-Active databases
 weight: 30
 ---
-Starting with RediSearch 2.x, supported in Redis Enterprise Software (RS) 6.0 and later, you can [enable search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database" >}}) for [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}) at the time of creation.
+Starting with RediSearch 2.x, supported in Redis Software (RS) 6.0 and later, you can [enable search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database" >}}) for [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}) at the time of creation.
 
 You can run search operations on any instance of an Active-Active database.
 
 ## How it works
 
-1. Create an Active-Active database with RediSearch 2.x enabled.
+1. Create an Active-Active database with RediSearch 2.x enabled. Active-Active databases created with or upgraded to Redis version 8 or later automatically enable search and query.
 1. [Create the index]({{< relref "commands/ft.create" >}}) on each instance of the database.
 1. If you are using [synonyms]({{< relref "/develop/ai/search-and-query/advanced-concepts/synonyms" >}}), you need to add them to each replica.
 1. The index is maintained by each instance outside of the database keyspace, so only updates to the hashes in the databases are synchronized.

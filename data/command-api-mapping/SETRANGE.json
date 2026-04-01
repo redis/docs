@@ -1,0 +1,470 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "setrange(name: KeyT, offset: int, value: EncodableT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "EncodableT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long setrange(final byte[] key, final long offset, final byte[] value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long setrange(final String key, final long offset, final String value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long setrange(K key, long offset, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": "the offset type: long."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the length of the string after it was modified by the command."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> setrange(K key, long offset, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": "the offset type: long."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the length of the string after it was modified by the command."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> setrange(K key, long offset, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": "the offset type: long."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the length of the string after it was modified by the command."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SetRange(ctx context.Context, key string, offset int64, value string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "int64",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SETRANGE(key: RedisArgument, offset: number, value: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "setrange(key: RedisKey, offset: number | string, value: string | Buffer | number, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "setrange(key: K, offset: isize, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "isize",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "setrange(key: K, offset: isize, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "isize",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StringSetRange(RedisKey key, long offset, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": "The offset in the string to overwrite."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to overwrite with."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The length of the string after it was modified by the command."
+        }
+      },
+      {
+        "signature": "StringSetRange(RedisKey key, long offset, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": "The offset in the string to overwrite."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to overwrite with."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The length of the string after it was modified by the command."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StringSetRange(RedisKey key, long offset, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": "The offset in the string to overwrite."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to overwrite with."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The length of the string after it was modified by the command."
+        }
+      },
+      {
+        "signature": "StringSetRange(RedisKey key, long offset, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": "The offset in the string to overwrite."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to overwrite with."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The length of the string after it was modified by the command."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "setrange(string $key, $offset, $value)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$offset",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "setrange(key, offset, value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "Integer",
+            "description": "byte offset"
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "length of the string after it was modified"
+        }
+      }
+    ]
+  }
+}

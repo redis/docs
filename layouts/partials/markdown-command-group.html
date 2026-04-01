@@ -1,0 +1,143 @@
+{{- /* Expand command-group shortcodes for Markdown output */ -}}
+{{- /* This partial processes {{< command-group >}} shortcodes and renders them as Markdown lists */ -}}
+{{- /* Enhanced for AI agent readability with command details */ -}}
+
+{{- $content := .RawContent -}}
+
+{{- /* NOTE: Content is already unescaped by the parent template (single.md/section.md) */ -}}
+{{- /* The parent unescapes after each partial call to prevent re-unescaping code file content */ -}}
+
+{{- /* Pattern to match command-group shortcodes */ -}}
+{{- /* Content is now unescaped, so the shortcode appears as: {{< command-group ... >}} */ -}}
+{{- $pattern := `\{\{<\s*command-group[^>]+>\}\}` -}}
+
+{{- $processed := $content -}}
+{{- $matches := findRE $pattern $content -}}
+
+{{- range $match := $matches -}}
+  {{- /* Extract parameters from the shortcode */ -}}
+  {{- $groupMatch := findRE `group="([^"]+)"` $match -}}
+  {{- $titleMatch := findRE `title="([^"]+)"` $match -}}
+  {{- $showLinkMatch := findRE `show_link=(\w+)` $match -}}
+  {{- $urlGroupMatch := findRE `url_group="([^"]+)"` $match -}}
+
+  {{- $group := "" -}}
+  {{- $title := "" -}}
+  {{- $showLink := false -}}
+  {{- $urlGroup := "" -}}
+
+  {{- if $groupMatch -}}
+    {{- $group = replaceRE `group="([^"]+)"` "$1" (index $groupMatch 0) -}}
+  {{- end -}}
+
+  {{- if $titleMatch -}}
+    {{- $title = replaceRE `title="([^"]+)"` "$1" (index $titleMatch 0) -}}
+  {{- end -}}
+
+  {{- if $showLinkMatch -}}
+    {{- $showLinkVal := replaceRE `show_link=(\w+)` "$1" (index $showLinkMatch 0) -}}
+    {{- if eq $showLinkVal "true" -}}
+      {{- $showLink = true -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- if $urlGroupMatch -}}
+    {{- $urlGroup = replaceRE `url_group="([^"]+)"` "$1" (index $urlGroupMatch 0) -}}
+  {{- else -}}
+    {{- $urlGroup = $group -}}
+  {{- end -}}
+  
+  {{- if $group -}}
+    {{- $groupLower := lower $group -}}
+    
+    {{- /* Generate default title if not provided */ -}}
+    {{- if not $title -}}
+      {{- $title = printf "%s commands" (title (replace $groupLower "-" " ")) -}}
+    {{- end -}}
+    
+    {{- /* Merge all command data sources */ -}}
+    {{- $allCommands := dict -}}
+    
+    {{- with $.Site.Data.commands_core -}}
+      {{- range $name, $cmd := . -}}
+        {{- $allCommands = merge $allCommands (dict $name $cmd) -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{- with $.Site.Data.commands_redisearch -}}
+      {{- range $name, $cmd := . -}}
+        {{- $allCommands = merge $allCommands (dict $name $cmd) -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{- with $.Site.Data.commands_redisjson -}}
+      {{- range $name, $cmd := . -}}
+        {{- $allCommands = merge $allCommands (dict $name $cmd) -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{- with $.Site.Data.commands_redistimeseries -}}
+      {{- range $name, $cmd := . -}}
+        {{- $allCommands = merge $allCommands (dict $name $cmd) -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{- with $.Site.Data.commands_redisbloom -}}
+      {{- range $name, $cmd := . -}}
+        {{- $allCommands = merge $allCommands (dict $name $cmd) -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{- /* Filter commands by group */ -}}
+    {{- $matchedCommands := slice -}}
+    {{- range $name, $cmd := $allCommands -}}
+      {{- if and $cmd.group (eq (lower $cmd.group) $groupLower) -}}
+        {{- $matchedCommands = $matchedCommands | append (dict "name" $name "data" $cmd) -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{- /* Sort commands alphabetically by name */ -}}
+    {{- $sortedCommands := sort $matchedCommands "name" -}}
+    
+    {{- /* Build Markdown replacement */ -}}
+    {{- $replacement := "" -}}
+    
+    {{- if gt (len $sortedCommands) 0 -}}
+      {{- $replacement = printf "### %s\n\n" $title -}}
+      {{- $replacement = printf "%s**%d commands in this group:**\n\n" $replacement (len $sortedCommands) -}}
+      
+      {{- if $showLink -}}
+        {{- $replacement = printf "%s[View all %s commands](https://redis.io/commands/?group=%s)\n\n" $replacement $groupLower $urlGroup -}}
+      {{- end -}}
+      
+      {{- $replacement = printf "%s| Command | Summary | Complexity | Since |\n" $replacement -}}
+      {{- $replacement = printf "%s|---------|---------|------------|-------|\n" $replacement -}}
+      
+      {{- range $sortedCommands -}}
+        {{- $cmdName := .name -}}
+        {{- $cmdData := .data -}}
+        {{- $cmdSlug := lower (replace $cmdName " " "-") -}}
+        {{- $summary := $cmdData.summary | default "" -}}
+        {{- $complexity := $cmdData.complexity | default "N/A" -}}
+        {{- $since := $cmdData.since | default "N/A" -}}
+        
+        {{- /* Truncate long complexity strings for table readability */ -}}
+        {{- if gt (len $complexity) 50 -}}
+          {{- $complexity = printf "%s..." (substr $complexity 0 47) -}}
+        {{- end -}}
+        
+        {{- $replacement = printf "%s| [%s](https://redis.io/commands/%s/) | %s | %s | %s |\n" $replacement $cmdName $cmdSlug $summary $complexity $since -}}
+      {{- end -}}
+      
+      {{- $replacement = printf "%s\n" $replacement -}}
+    {{- else -}}
+      {{- $replacement = printf "### %s\n\nNo commands found for group: %s\n\n" $title $group -}}
+    {{- end -}}
+    
+    {{- /* Replace the shortcode with the rendered command list */ -}}
+    {{- $processed = replace $processed $match $replacement 1 -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $processed -}}
+

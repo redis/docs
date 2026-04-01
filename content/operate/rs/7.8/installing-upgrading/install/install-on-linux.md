@@ -90,7 +90,7 @@ To skip the installation questions, use one of the following methods:
 
 If you want to use Auto Tiering for your databases, review the prerequisites, storage requirements, and [other considerations]({{< relref "/operate/rs/7.8/databases/auto-tiering/" >}}) for Auto Tiering databases and prepare and format the flash memory.
 
-After you [install on Linux](#install-on-linux), use the `prepare_flash` script to prepare and format flash memory:
+After you install Redis Enterprise Software, use the `prepare_flash` script to prepare and format flash memory:
 
 ```sh
 sudo /opt/redislabs/sbin/prepare_flash.sh

@@ -23,16 +23,17 @@ function filterGridItems() {
     // Loop through each grid item
     gridItems.forEach(item => {
         const itemName = item.dataset.name.toLowerCase(); // Get the value of data-name attribute
+        const itemSummary = (item.dataset.summary || '').toLowerCase(); // Get the value of data-summary attribute
         const itemGroup = item.dataset.group; // Get the value of data-group attribute
         const firstLetter = itemName.charAt(0); // Get the first letter of the item name
-      
+
         // Check if the item matches the selected group (or if no group is selected), the name query, and the command query
         const matchesGroup = selectedGroup === '' || selectedGroup === itemGroup;
-        const matchesName = itemName.includes(nameQuery);
+        const matchesName = itemName.includes(nameQuery) || itemSummary.includes(nameQuery);
         const matchesAlpha = !selectedAlpha || firstLetter === selectedAlpha;
 
         console.log(selectedGroup)
-      
+
         // Show the item if it matches the selected group (or no group selected), the name query, and the command query, otherwise hide it
         item.style.display = matchesGroup && matchesName && matchesAlpha ? 'flex' : 'none';
     });

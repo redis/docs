@@ -18,7 +18,7 @@ For this quick start tutorial, you need:
 
     - A [Redis Cloud]({{< relref "/operate/oss_and_stack/stack-with-enterprise/stack-quickstart" >}}) database
 
-    - A [Redis Enterprise Software]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database" >}}) database
+    - A [Redis Software]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database" >}}) database
 
 - [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) command-line tool
 
@@ -219,9 +219,7 @@ You can use the [Redis Insight]({{< relref "/develop/tools/insight" >}}) workben
 
 1. Connect to your database with Redis Insight. You can [connect manually]({{< relref "develop/tools/insight#add-a-standalone-redis-database" >}}) or use the [auto-discovery]({{< relref "develop/tools/insight#auto-discovery-for-redis-cloud-databases" >}}) feature.
 
-1. Select the **Workbench** button:
-
-   {{<image filename="images/ri/icon-workbench.png" width="30px" alt="The Workbench icon">}}
+1. Select the **Workbench** button.
 
 1. Enter a graph query in the text editor.
 
@@ -231,9 +229,7 @@ You can use the [Redis Insight]({{< relref "/develop/tools/insight" >}}) workben
    GRAPH.QUERY MotoGP "MATCH (n) RETURN n"
    ```
 
-1. Select **Run**:
-
-   {{<image filename="images/ri/icon-run-command.png" width="30px" alt="The Run command icon">}}
+1. Select **Run** to run the query.
 
 After you run a query, the output log displays a visual representation of your graph's nodes and relationships:
 

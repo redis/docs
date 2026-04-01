@@ -17,14 +17,12 @@ Usage: redis-di status [OPTIONS]
 ## Options
 
 - `log_level`:
-
   - Type: Choice(['TRACE', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
   - Default: `info`
   - Usage: `--log-level
 -l`
 
 - `rdi_namespace`:
-
   - Type: STRING
   - Default: `rdi`
   - Usage: `--rdi-namespace`
@@ -32,7 +30,6 @@ Usage: redis-di status [OPTIONS]
   RDI Kubernetes namespace
 
 - `rdi_host` (REQUIRED):
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-host`
@@ -40,7 +37,6 @@ Usage: redis-di status [OPTIONS]
   Host/IP of RDI Database
 
 - `rdi_port` (REQUIRED):
-
   - Type: <IntRange 1<=x<=65535>
   - Default: `none`
   - Usage: `--rdi-port`
@@ -48,7 +44,6 @@ Usage: redis-di status [OPTIONS]
   Port of RDI Database
 
 - `rdi_user`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-user`
@@ -56,7 +51,6 @@ Usage: redis-di status [OPTIONS]
   RDI Database Username
 
 - `rdi_password`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-password`
@@ -64,7 +58,6 @@ Usage: redis-di status [OPTIONS]
   RDI Database Password
 
 - `rdi_key`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-key`
@@ -72,7 +65,6 @@ Usage: redis-di status [OPTIONS]
   Private key file to authenticate with
 
 - `rdi_cert`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-cert`
@@ -80,7 +72,6 @@ Usage: redis-di status [OPTIONS]
   Client certificate file to authenticate with
 
 - `rdi_cacert`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-cacert`
@@ -88,7 +79,6 @@ Usage: redis-di status [OPTIONS]
   CA certificate file to verify with
 
 - `rdi_key_password`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-key-password`
@@ -96,7 +86,6 @@ Usage: redis-di status [OPTIONS]
   Password for unlocking an encrypted private key
 
 - `live`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--live
@@ -105,7 +94,6 @@ Usage: redis-di status [OPTIONS]
   Live data flow monitoring
 
 - `page_number`:
-
   - Type: <IntRange x>=1>
   - Default: `none`
   - Usage: `--page-number
@@ -114,7 +102,6 @@ Usage: redis-di status [OPTIONS]
   Set the page number (live mode only)
 
 - `page_size`:
-
   - Type: <IntRange x>=1>
   - Default: `none`
   - Usage: `--page-size
@@ -123,7 +110,6 @@ Usage: redis-di status [OPTIONS]
   Set the page size (live mode only)
 
 - `ingested_only`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--ingested-only
@@ -132,7 +118,6 @@ Usage: redis-di status [OPTIONS]
   Display ingested data streams (live mode only)
 
 - `help`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--help`

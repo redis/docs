@@ -56,13 +56,13 @@ FT.SEARCH index "@text_field:( value1 value2 ... )"
 
 The following example shows you a query that finds bicycles in new condition and in a price range from 500 USD to 1000 USD:
 
-{{< clients-example query_combined combined1 >}}
+{{< clients-example set="query_combined" step="combined1" description="AND operator: Combine multiple query expressions using space to find documents matching all criteria when you need to narrow results with multiple filters" difficulty="beginner" >}}
 FT.SEARCH idx:bicycle "@price:[500 1000] @condition:{new}"
 {{< /clients-example >}}
 
 You might also be interested in bicycles for kids. The query below shows you how to combine a full-text search with the criteria from the previous query:
 
-{{< clients-example query_combined combined2 >}}
+{{< clients-example set="query_combined" step="combined2" description="AND with full-text: Combine full-text search with structured queries using AND when you need to find documents with specific text and matching field values" difficulty="beginner" >}}
 FT.SEARCH idx:bicycle "kids (@price:[500 1000] @condition:{used})"
 {{< /clients-example >}}
 
@@ -91,19 +91,19 @@ FT.SEARCH index "@tag_field:{ value1 | value2 | ... }"
 
 The following query shows you how to find used bicycles that contain either the word 'kids' or 'small':
 
-{{< clients-example query_combined combined3 >}}
+{{< clients-example set="query_combined" step="combined3" description="OR operator: Combine multiple expressions using the pipe operator to find documents matching any criteria when you need to broaden results with alternatives" difficulty="intermediate" >}}
 FT.SEARCH idx:bicycle "(kids | small) @condition:{used}"
 {{< /clients-example >}}
 
 The previous query searches across all text fields. The following example shows you how to limit the search to the description field:
 
-{{< clients-example query_combined combined4 >}}
+{{< clients-example set="query_combined" step="combined4" description="OR within a field: Use OR to search for multiple values within a single field when you need to match any of several options in one field" difficulty="intermediate" >}}
 FT.SEARCH idx:bicycle "@description:(kids | small) @condition:{used}"
 {{< /clients-example >}}
 
 If you want to extend the search to new bicycles, then the below example shows you how to do that:
 
-{{< clients-example query_combined combined5 >}}
+{{< clients-example set="query_combined" step="combined5" description="OR across multiple fields: Combine OR operators across different fields when you need to match alternatives in multiple field criteria" difficulty="intermediate" >}}
 FT.SEARCH idx:bicycle "@description:(kids | small) @condition:{new | used}"
 {{< /clients-example >}}
 
@@ -117,7 +117,7 @@ FT.SEARCH index "-(expr)"
 
 If you want to exclude new bicycles from the search within the previous price range, you can use this query:
 
-{{< clients-example query_combined combined6 >}}
+{{< clients-example set="query_combined" step="combined6" description="NOT operator: Negate query expressions using minus to exclude documents matching criteria when you need to filter out unwanted results" difficulty="intermediate" >}}
 FT.SEARCH idx:bicycle "@price:[500 1000] -@condition:{new}"
 {{< /clients-example >}}
 
@@ -142,7 +142,7 @@ FT.SEARCH index "(filter_expr)=>[KNN num_neighbours @field $vector]" PARAMS 2 ve
 
 Here is an example:
 
-{{< clients-example query_combined combined7 >}}
+{{< clients-example set="query_combined" step="combined7" description="Vector pre-filtering: Use structured queries as pre-filters before KNN vector search when you need to find similar items within a specific subset of data" difficulty="advanced" >}}
 FT.SEARCH idx:bikes_vss "(@price:[500 1000] @condition:{new})=>[KNN 3 @vector $query_vector]" PARAMS 2 "query_vector" "Z\xf8\x15:\xf23\xa1\xbfZ\x1dI>\r\xca9..." DIALECT 2
 {{< /clients-example >}}
 

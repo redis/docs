@@ -1,4 +1,5 @@
 ```yaml
+---
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -18,8 +19,8 @@ rules:
   - apiGroups: [""]
     resources: ["secrets"]
     verbs: ["update", "get", "watch", "create", "patch", "list"]
-  - apiGroups: [""]
-    resources: ["endpoints"]
+  - apiGroups: ["discovery.k8s.io"]
+    resources: ["endpointslices"]
     verbs: ["get", "list", "watch"]
   - apiGroups: [""]
     resources: ["events"]

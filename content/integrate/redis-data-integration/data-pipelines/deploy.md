@@ -49,13 +49,8 @@ secrets are only relevant for TLS/mTLS connections.
 | `TARGET_DB_KEY` | (For mTLS only) Target database private key |
 | `TARGET_DB_KEY_PASSWORD` | (For mTLS only) Target database private key password |
 
-{{< note >}}When creating secrets for TLS or mTLS, ensure that all certificates and keys are in `PEM` format. The only exception to this is that for PostgreSQL, the private key `SOURCE_DB_KEY` secret must be in `DER` format. If you have a key in `PEM` format, you must convert it to `DER` before creating the `SOURCE_DB_KEY` secret using the command:
-
-```bash
-openssl pkcs8 -topk8 -inform PEM -outform DER -in /path/to/myclient.pem -out /path/to/myclient.pk8 -nocrypt
-```
-
-This command assumes that the private key is not encrypted. See the [`openssl` documentation](https://docs.openssl.org/master/) to learn how to convert an encrypted private key.
+{{< note >}}
+{{< embed-md "rdi-tls-secrets.md" >}}
 {{< /note >}}
   
 ### Set secrets for VM deployment

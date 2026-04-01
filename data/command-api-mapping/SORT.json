@@ -1,0 +1,739 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "sort(name: KeyT, start: Optional[int] = None, num: Optional[int] = None, by: Optional[str] = None, get: Optional[List[str]] = None, desc: bool = False, alpha: bool = False, store: Optional[KeyT] = None, groups: bool = False)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Optional[int]",
+            "description": ""
+          },
+          {
+            "name": "num",
+            "type": "Optional[int]",
+            "description": ""
+          },
+          {
+            "name": "by",
+            "type": "Optional[str]",
+            "description": ""
+          },
+          {
+            "name": "get",
+            "type": "Optional[List[str]]",
+            "description": ""
+          },
+          {
+            "name": "desc",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "alpha",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "store",
+            "type": "Optional[KeyT]",
+            "description": ""
+          },
+          {
+            "name": "groups",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<byte[]> sort(final byte[] key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<byte[]>",
+          "description": "Sorted elements"
+        }
+      },
+      {
+        "signature": "List<byte[]> sort(final byte[] key, final SortingParams sortingParams)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "sortingParams",
+            "type": "SortingParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<byte[]>",
+          "description": "Sorted elements"
+        }
+      },
+      {
+        "signature": "List<String> sort(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "Sorted elements"
+        }
+      },
+      {
+        "signature": "List<String> sort(final String key, final SortingParams sortingParams)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "sortingParams",
+            "type": "SortingParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "Sorted elements"
+        }
+      },
+      {
+        "signature": "long sort(final byte[] key, final byte[] dstkey)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "dstkey",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the sorted list"
+        }
+      },
+      {
+        "signature": "long sort(final byte[] key, final SortingParams sortingParams, final byte[] dstkey)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "sortingParams",
+            "type": "SortingParams",
+            "description": ""
+          },
+          {
+            "name": "dstkey",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the sorted list"
+        }
+      },
+      {
+        "signature": "long sort(final String key, final String dstkey)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstkey",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the sorted list"
+        }
+      },
+      {
+        "signature": "long sort(final String key, final SortingParams sortingParams, final String dstkey)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "sortingParams",
+            "type": "SortingParams",
+            "description": ""
+          },
+          {
+            "name": "dstkey",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the sorted list"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Sort(ctx context.Context, key string, sort *Sort)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "sort",
+            "type": "*Sort",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "SortStore(ctx context.Context, key, store string, sort *Sort)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "store",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "sort",
+            "type": "*Sort",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SORT(key: RedisArgument, options?: SortOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "SortOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<V> sort(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "List<V> array-reply list of sorted elements."
+        }
+      },
+      {
+        "signature": "List<V> sort(K key, SortArgs sortArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "sortArgs",
+            "type": "SortArgs",
+            "description": "sort arguments."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "List<V> array-reply list of sorted elements."
+        }
+      },
+      {
+        "signature": "Long sortStore(K key, SortArgs sortArgs, K destination)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "sortArgs",
+            "type": "SortArgs",
+            "description": "sort arguments."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination key."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of elements in the sorted list."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<V>> sort(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "List<V> array-reply list of sorted elements."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<V>> sort(K key, SortArgs sortArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "sortArgs",
+            "type": "SortArgs",
+            "description": "sort arguments."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "List<V> array-reply list of sorted elements."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> sortStore(K key, SortArgs sortArgs, K destination)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "sortArgs",
+            "type": "SortArgs",
+            "description": "sort arguments."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of elements in the sorted list."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<V> sort(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "List<V> array-reply list of sorted elements."
+        }
+      },
+      {
+        "signature": "Flux<V> sort(K key, SortArgs sortArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "sortArgs",
+            "type": "SortArgs",
+            "description": "sort arguments."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "List<V> array-reply list of sorted elements."
+        }
+      },
+      {
+        "signature": "Mono<Long> sortStore(K key, SortArgs sortArgs, K destination)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "sortArgs",
+            "type": "SortArgs",
+            "description": "sort arguments."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of elements in the sorted list."
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Sort(RedisKey key, long skip = 0, long take = -1, Order order = Order.Ascending, SortType sortType = SortType.Numeric, RedisValue by = default, RedisValue[] get = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to sort."
+          },
+          {
+            "name": "skip",
+            "type": "long",
+            "description": "The number of elements to skip."
+          },
+          {
+            "name": "take",
+            "type": "long",
+            "description": "The number of elements to take."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The sort order."
+          },
+          {
+            "name": "sortType",
+            "type": "SortType",
+            "description": "The sort type."
+          },
+          {
+            "name": "by",
+            "type": "RedisValue",
+            "description": "The pattern to sort by."
+          },
+          {
+            "name": "get",
+            "type": "RedisValue[]",
+            "description": "The patterns to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "The sorted elements."
+        }
+      },
+      {
+        "signature": "SortAndStore(RedisKey destination, RedisKey key, long skip = 0, long take = -1, Order order = Order.Ascending, SortType sortType = SortType.Numeric, RedisValue by = default, RedisValue[] get = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The destination key."
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to sort."
+          },
+          {
+            "name": "skip",
+            "type": "long",
+            "description": "The number of elements to skip."
+          },
+          {
+            "name": "take",
+            "type": "long",
+            "description": "The number of elements to take."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The sort order."
+          },
+          {
+            "name": "sortType",
+            "type": "SortType",
+            "description": "The sort type."
+          },
+          {
+            "name": "by",
+            "type": "RedisValue",
+            "description": "The pattern to sort by."
+          },
+          {
+            "name": "get",
+            "type": "RedisValue[]",
+            "description": "The patterns to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the sorted list."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SortAsync(RedisKey key, long skip = 0, long take = -1, Order order = Order.Ascending, SortType sortType = SortType.Numeric, RedisValue by = default, RedisValue[] get = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to sort."
+          },
+          {
+            "name": "skip",
+            "type": "long",
+            "description": "The number of elements to skip."
+          },
+          {
+            "name": "take",
+            "type": "long",
+            "description": "The number of elements to take."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The sort order."
+          },
+          {
+            "name": "sortType",
+            "type": "SortType",
+            "description": "The sort type."
+          },
+          {
+            "name": "by",
+            "type": "RedisValue",
+            "description": "The pattern to sort by."
+          },
+          {
+            "name": "get",
+            "type": "RedisValue[]",
+            "description": "The patterns to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisValue[]>",
+          "description": "The sorted elements."
+        }
+      },
+      {
+        "signature": "SortAndStoreAsync(RedisKey destination, RedisKey key, long skip = 0, long take = -1, Order order = Order.Ascending, SortType sortType = SortType.Numeric, RedisValue by = default, RedisValue[] get = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The destination key."
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to sort."
+          },
+          {
+            "name": "skip",
+            "type": "long",
+            "description": "The number of elements to skip."
+          },
+          {
+            "name": "take",
+            "type": "long",
+            "description": "The number of elements to take."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The sort order."
+          },
+          {
+            "name": "sortType",
+            "type": "SortType",
+            "description": "The sort type."
+          },
+          {
+            "name": "by",
+            "type": "RedisValue",
+            "description": "The pattern to sort by."
+          },
+          {
+            "name": "get",
+            "type": "RedisValue[]",
+            "description": "The patterns to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "The number of elements in the sorted list."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "sort(string $key, array|null $options = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$options",
+            "type": "array|null",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array|int|bool",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "sort(key, by: nil, limit: nil, get: nil, order: nil, store: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "by",
+            "type": "String",
+            "description": "use external key to sort elements by"
+          },
+          {
+            "name": "limit",
+            "type": "Array",
+            "description": "[offset, count] skip offset elements, return max count elements"
+          },
+          {
+            "name": "get",
+            "type": "String, Array<String>",
+            "description": "keys to retrieve per element"
+          },
+          {
+            "name": "order",
+            "type": "String",
+            "description": "combination of ASC, DESC and optionally ALPHA"
+          },
+          {
+            "name": "store",
+            "type": "String",
+            "description": "key to store the result at"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>, Integer",
+          "description": "array of elements or count when store is specified"
+        }
+      }
+    ]
+  }
+}

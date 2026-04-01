@@ -22,11 +22,11 @@ group: tdigest
 hidden: false
 linkTitle: TDIGEST.RESET
 module: Bloom
+railroad_diagram: /images/railroad/tdigest.reset.svg
 since: 2.4.0
 stack_path: docs/data-types/probabilistic
-summary: Resets a t-digest sketch (empties the sketch and re-initializes it).
+summary: 'Resets a t-digest sketch: empty the sketch and re-initializes it.'
 syntax_fmt: TDIGEST.RESET key
-syntax_str: ''
 title: TDIGEST.RESET
 ---
 Resets a t-digest sketch: empties the sketch and re-initializes it.
@@ -38,7 +38,6 @@ Resets a t-digest sketch: empties the sketch and re-initializes it.
 is the key name for an existing t-digest sketch.
 </details>
 
-
 ## Example
 
 {{< highlight bash >}}
@@ -46,9 +45,15 @@ redis> TDIGEST.RESET t
 OK
 {{< / highlight >}}
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
 ## Return information
 
-{{< multitabs id=“tdigest-reset-return-info" 
+{{< multitabs id="tdigest-reset-return-info" 
     tab1="RESP2" 
     tab2="RESP3" >}}
 

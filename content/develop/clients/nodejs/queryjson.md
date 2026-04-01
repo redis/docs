@@ -9,9 +9,17 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Learn how to use the Redis Query Engine with JSON and hash documents.
+description: Learn how to use Redis Search with JSON and hash documents.
 linkTitle: Index and query documents
 title: Index and query documents
+scope: example
+relatedPages:
+- /develop/clients/nodejs/vecsearch
+- /develop/ai/search-and-query
+topics:
+- Redis Search
+- JSON
+- hash
 weight: 2
 ---
 
@@ -24,7 +32,7 @@ documents.
 
 {{< note >}}From [v5.0.0](https://github.com/redis/node-redis/releases/tag/redis%405.0.0)
 onwards, `node-redis` uses query dialect 2 by default.
-Redis query engine methods such as [`ft.search()`]({{< relref "/commands/ft.search" >}})
+Redis Search methods such as [`ft.search()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See
 [Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
@@ -40,42 +48,16 @@ haven't already done so.
 
 Add the following dependencies:
 
-```js
-import {
-    createClient,
-    SCHEMA_FIELD_TYPE,
-    FT_AGGREGATE_GROUP_BY_REDUCERS,
-    FT_AGGREGATE_STEPS,
-} from 'redis';
-```
+{{< clients-example set="js_home_query" step="import" lang_filter="Node.js" description="Foundational: Import required modules for Redis client and query operations" difficulty="beginner" >}}
+{{< /clients-example >}}
 
 ## Create data
 
 Create some test data to add to your database. The example data shown
 below is compatible with both JSON and hash objects.
 
-```js
-const user1 = {
-    name: 'Paul John',
-    email: 'paul.john@example.com',
-    age: 42,
-    city: 'London'
-};
-
-const user2 = {
-    name: 'Eden Zamir',
-    email: 'eden.zamir@example.com',
-    age: 29,
-    city: 'Tel Aviv'
-};
-
-const user3 = {
-    name: 'Paul Zamir',
-    email: 'paul.zamir@example.com',
-    age: 35,
-    city: 'Tel Aviv'
-};
-```
+{{< clients-example set="js_home_query" step="create_data" lang_filter="Node.js" description="Foundational: Define sample data structures for indexing and querying examples" difficulty="beginner" >}}
+{{< /clients-example >}}
 
 ## Add the index
 
@@ -84,32 +66,21 @@ basic connection but see
 [Connect to the server]({{< relref "/develop/clients/nodejs/connect" >}})
 to learn more about the available connection options.
 
-```js
-const client = await createClient();
-await client.connect();
-```
+{{< clients-example set="js_home_query" step="connect" lang_filter="Node.js" description="Foundational: Establish a connection to Redis for query operations" difficulty="beginner" >}}
+{{< /clients-example >}}
 
 Create an index. In this example, only JSON documents with the key prefix `user:` are indexed. For more information, see [Query syntax]({{< relref "/develop/ai/search-and-query/query/" >}}).
 
-```js
-await client.ft.create('idx:users', {
-    '$.name': {
-        type: SchemaFieldTypes.TEXT,
-        AS: 'name'
-    },
-    '$.city': {
-        type: SchemaFieldTypes.TEXT,
-        AS: 'city'
-    },
-    '$.age': {
-        type: SchemaFieldTypes.NUMERIC,
-        AS: 'age'
-    }
-}, {
-    ON: 'JSON',
-    PREFIX: 'user:'
-});
-```
+First, drop any existing index to avoid a collision. (The callback is required
+to avoid an error if the index doesn't already exist.)
+
+{{< clients-example set="js_home_query" step="cleanup_json" lang_filter="Node.js" description="Foundational: Drop an existing search index safely using error handling to avoid collisions" difficulty="intermediate" >}}
+{{< /clients-example >}}
+
+Then create the index:
+
+{{< clients-example set="js_home_query" step="create_index" lang_filter="Node.js" description="Foundational: Create a search index for JSON documents with field definitions and aliases" difficulty="intermediate" >}}
+{{< /clients-example >}}
 
 ## Add the data
 
@@ -121,13 +92,8 @@ the commands in a `Promise.all()` call is an easy way to create a
 [pipeline]({{< relref "/develop/clients/nodejs/transpipe" >}}),
 which is more efficient than sending the commands individually.
 
-```js
-const [user1Reply, user2Reply, user3Reply] = await Promise.all([
-    client.json.set('user:1', '$', user1),
-    client.json.set('user:2', '$', user2),
-    client.json.set('user:3', '$', user3)
-]);
-```
+{{< clients-example set="js_home_query" step="add_data" lang_filter="Node.js" description="Foundational: Add JSON documents with indexed key prefixes using Promise.all() for efficient pipelining" difficulty="intermediate" >}}
+{{< /clients-example >}}
 
 ## Query the data
 
@@ -136,58 +102,20 @@ You can now use the index to search the JSON objects. The
 below searches for objects that have the text "Paul" in any field
 and have an `age` value in the range 30 to 40:
 
-```js
-let findPaulResult = await client.ft.search('idx:users', 'Paul @age:[30 40]');
-
-console.log(findPaulResult.total); // >>> 1
-
-findPaulResult.documents.forEach(doc => {
-    console.log(`ID: ${doc.id}, name: ${doc.value.name}, age: ${doc.value.age}`);
-});
-```
+{{< clients-example set="js_home_query" step="query1" lang_filter="Node.js" description="Query data: Execute a full-text search combined with numeric range filtering on indexed JSON documents" difficulty="intermediate" >}}
+{{< /clients-example >}}
 
 Specify query options to return only the `city` field:
 
-```js
-let citiesResult = await client.ft.search('idx:users', '*',{
-    RETURN: 'city'
-});
-
-console.log(citiesResult.total); // >>> 3
-
-citiesResult.documents.forEach(cityDoc => {
-    console.log(cityDoc.value);
-});
-```
+{{< clients-example set="js_home_query" step="query2" lang_filter="Node.js" description="Restrict query results: Project specific fields in query results to reduce data transfer and improve performance" difficulty="intermediate" >}}
+{{< /clients-example >}}
 
 Use an
 [aggregation query]({{< relref "/develop/ai/search-and-query/query/aggregation" >}})
 to count all users in each city.
 
-```js
-let aggResult = await client.ft.aggregate('idx:users', '*', {
-    STEPS: [{
-        type: AggregateSteps.GROUPBY,
-        properties: '@city',
-        REDUCE: [{
-            type: AggregateGroupByReducers.COUNT,
-            AS: 'count'
-        }]
-    }]
-});
-
-console.log(aggResult.total); // >>> 2
-
-aggResult.results.forEach(result => {
-    console.log(`${result.city} - ${result.count}`);
-});
-```
-
-Finally, close the connection to Redis.
-
-```js
-await client.quit();
-```
+{{< clients-example set="js_home_query" step="query3" lang_filter="Node.js" description="Aggregate query results: Use aggregation queries to group and count results by field values for analytics" difficulty="advanced" >}}
+{{< /clients-example >}}
 
 ## Differences with hash documents
 
@@ -201,54 +129,32 @@ when you create the index. The code below shows these changes with
 a new index called `hash-idx:users`, which is otherwise the same as
 the `idx:users` index used for JSON documents in the previous examples.
 
-```js
-await client.ft.create('hash-idx:users', {
-    'name': {
-        type: SchemaFieldTypes.TEXT
-    },
-    'city': {
-        type: SchemaFieldTypes.TEXT
-    },
-    'age': {
-        type: SchemaFieldTypes.NUMERIC
-    }
-}, {
-    ON: 'HASH',
-    PREFIX: 'huser:'
-});
-```
+First, drop any existing index to avoid a collision.
+
+{{< clients-example set="js_home_query" step="cleanup_hash" lang_filter="Node.js" description="Foundational: Drop an existing search index safely using error handling to avoid collisions" difficulty="intermediate" >}}
+{{< /clients-example >}}
+
+Then create the new index:
+
+{{< clients-example set="js_home_query" step="create_hash_index" lang_filter="Node.js" description="Foundational: Create a search index for hash documents with HASH type specification" difficulty="intermediate" >}}
+{{< /clients-example >}}
 
 You use [`hSet()`]({{< relref "/commands/hset" >}}) to add the hash
 documents instead of [`json.set()`]({{< relref "/commands/json.set" >}}),
 but the same flat `userX` objects work equally well with either
 hash or JSON:
 
-```js
-const [huser1Reply, huser2Reply, huser3Reply] = await Promise.all([
-    client.hSet('huser:1', user1),
-    client.hSet('huser:2', user2),
-    client.hSet('huser:3', user3)
-]);
-```
+{{< clients-example set="js_home_query" step="add_hash_data" lang_filter="Node.js" description="Foundational: Add hash documents with indexed key prefixes using hSet() for automatic indexing" difficulty="intermediate" >}}
+{{< /clients-example >}}
 
 The query commands work the same here for hash as they do for JSON (but
 the name of the hash index is different). The format of the result is
 also the same:
 
-```js
-let findPaulHashResult = await client.ft.search(
-    'hash-idx:users', 'Paul @age:[30 40]'
-);
-
-console.log(findPaulHashResult.total); // >>> 1
-
-findPaulHashResult.documents.forEach(doc => {
-    console.log(`ID: ${doc.id}, name: ${doc.value.name}, age: ${doc.value.age}`);
-});
-// >>> ID: huser:3, name: Paul Zamir, age: 35
-```
+{{< clients-example set="js_home_query" step="query1_hash" lang_filter="Node.js" description="Query data: Execute the same full-text query pattern on hash documents as on JSON documents" difficulty="intermediate" >}}
+{{< /clients-example >}}
 
 ## More information
 
-See the [Redis Query Engine]({{< relref "/develop/ai/search-and-query" >}}) docs
+See the [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) docs
 for a full description of all query features with examples.

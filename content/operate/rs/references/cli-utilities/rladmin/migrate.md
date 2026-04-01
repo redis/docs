@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Moves Redis Enterprise Software shards or endpoints to a new node in
+description: Moves Redis Software shards or endpoints to a new node in
   the same cluster.
 headerRange: '[1-2]'
 linkTitle: migrate
@@ -13,7 +13,7 @@ toc: 'true'
 weight: $weight
 ---
 
-Moves Redis Enterprise shards or endpoints to a new node in the same cluster.
+Moves Redis Software shards or endpoints to a new node in the same cluster.
 
 For more information about shard migration use cases and considerations, see [Migrate database shards]({{<relref "/operate/rs/databases/migrate-shards">}}).
 

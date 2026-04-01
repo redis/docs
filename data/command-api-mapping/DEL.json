@@ -1,0 +1,280 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "delete(*names: KeyT)",
+        "params": [
+          {
+            "name": "names",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long del(final byte[]... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "An integer greater than 0 if one or more keys were removed, 0 if none of the specified keys existed"
+        }
+      },
+      {
+        "signature": "long del(final byte[] key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "An integer greater than 0 if one or more keys were removed, 0 if none of the specified keys existed"
+        }
+      },
+      {
+        "signature": "long del(final String... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "An integer greater than 0 if one or more keys were removed, 0 if none of the specified keys existed"
+        }
+      },
+      {
+        "signature": "long del(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "An integer greater than 0 if one or more keys were removed, 0 if none of the specified keys existed"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Del(ctx context.Context, keys ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "DEL(keys: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long del(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply The number of keys that were removed."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> del(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply The number of keys that were removed."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> del(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply The number of keys that were removed."
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "KeyDelete(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of keys that were removed."
+        }
+      },
+      {
+        "signature": "KeyDelete(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys to delete."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of keys that were removed."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "KeyDeleteAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "The number of keys that were removed."
+        }
+      },
+      {
+        "signature": "KeyDeleteAsync(RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys to delete."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "The number of keys that were removed."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "del(string[]|string $keyOrKeys, string ...$keys = null)",
+        "params": [
+          {
+            "name": "$keyOrKeys",
+            "type": "string[]|string",
+            "description": ""
+          },
+          {
+            "name": "$keys",
+            "type": "string ...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "del(*keys)",
+        "params": [
+          {
+            "name": "*keys",
+            "type": "String, Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "number of keys that were deleted"
+        }
+      }
+    ]
+  }
+}

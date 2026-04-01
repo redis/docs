@@ -1,0 +1,711 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "linsert(name: KeyT, where: str, refvalue: str, value: str)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "where",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "refvalue",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "str",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[int], int]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long linsert(final byte[] key, final ListPosition where, final byte[] pivot final byte[] value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "where",
+            "type": "ListPosition",
+            "description": "can be BEFORE or AFTER"
+          },
+          {
+            "name": "value",
+            "type": "byte[] pivot final byte[]",
+            "description": "the value"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the list after the insert operation, or -1 when the value pivot was not found"
+        }
+      },
+      {
+        "signature": "long linsert(final String key, final ListPosition where, final String pivot final String value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "where",
+            "type": "ListPosition",
+            "description": "can be BEFORE or AFTER"
+          },
+          {
+            "name": "value",
+            "type": "String pivot final String",
+            "description": "the value"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the list after the insert operation, or -1 when the value pivot was not found"
+        }
+      },
+      {
+        "signature": "long linsert(String key, ListPosition where, String pivot, String value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "where",
+            "type": "ListPosition",
+            "description": "can be BEFORE or AFTER"
+          },
+          {
+            "name": "pivot",
+            "type": "String",
+            "description": "reference value"
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": "the value"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the list after the insert operation, or -1 when the value pivot was not found"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long linsert(K key, boolean before, V pivot, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "before",
+            "type": "boolean",
+            "description": "the before."
+          },
+          {
+            "name": "pivot",
+            "type": "V",
+            "description": "the pivot."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the length of the list after the insert operation, or -1 when the value pivot was not found."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> linsert(K key, boolean before, V pivot, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "before",
+            "type": "boolean",
+            "description": "the before."
+          },
+          {
+            "name": "pivot",
+            "type": "V",
+            "description": "the pivot."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the length of the list after the insert operation, or -1 when the value pivot was not found."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> linsert(K key, boolean before, V pivot, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "before",
+            "type": "boolean",
+            "description": "the before."
+          },
+          {
+            "name": "pivot",
+            "type": "V",
+            "description": "the pivot."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the length of the list after the insert operation, or -1 when the value pivot was not found."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "LInsert(ctx context.Context, key, op string, pivot, value interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "op",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "pivot",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "interface{}",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "linsert(key: RedisKey, before: \"BEFORE\", pivot: string | Buffer | number, element: string | Buffer | number, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "before",
+            "type": "\"BEFORE\"",
+            "description": ""
+          },
+          {
+            "name": "pivot",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "linsert(key: RedisKey, after: \"AFTER\", pivot: string | Buffer | number, element: string | Buffer | number, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "after",
+            "type": "\"AFTER\"",
+            "description": ""
+          },
+          {
+            "name": "pivot",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "linsert_before(key: K, pivot: P, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "pivot",
+            "type": "P",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(isize)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "linsert_after(key: K, pivot: P, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "pivot",
+            "type": "P",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(isize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "linsert_before(key: K, pivot: P, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "pivot",
+            "type": "P",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(isize)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "linsert_after(key: K, pivot: P, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "pivot",
+            "type": "P",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(isize)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "ListInsertAfter(RedisKey key, RedisValue pivot, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "pivot",
+            "type": "RedisValue",
+            "description": "The value to insert after."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to insert."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the list after the insert operation, or -1 when the value pivot was not found."
+        }
+      },
+      {
+        "signature": "ListInsertBefore(RedisKey key, RedisValue pivot, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "pivot",
+            "type": "RedisValue",
+            "description": "The value to insert before."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to insert."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the list after the insert operation, or -1 when the value pivot was not found."
+        }
+      },
+      {
+        "signature": "ListInsertAfter(RedisKey key, RedisValue pivot, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "pivot",
+            "type": "RedisValue",
+            "description": "The value to insert after."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to insert."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the list after the insert operation, or -1 when the value pivot was not found."
+        }
+      },
+      {
+        "signature": "ListInsertBefore(RedisKey key, RedisValue pivot, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "pivot",
+            "type": "RedisValue",
+            "description": "The value to insert before."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to insert."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the list after the insert operation, or -1 when the value pivot was not found."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ListInsertAfter(RedisKey key, RedisValue pivot, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "pivot",
+            "type": "RedisValue",
+            "description": "The value to insert after."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to insert."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the list after the insert operation, or -1 when the value pivot was not found."
+        }
+      },
+      {
+        "signature": "ListInsertBefore(RedisKey key, RedisValue pivot, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "pivot",
+            "type": "RedisValue",
+            "description": "The value to insert before."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to insert."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the list after the insert operation, or -1 when the value pivot was not found."
+        }
+      },
+      {
+        "signature": "ListInsertAfter(RedisKey key, RedisValue pivot, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "pivot",
+            "type": "RedisValue",
+            "description": "The value to insert after."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to insert."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the list after the insert operation, or -1 when the value pivot was not found."
+        }
+      },
+      {
+        "signature": "ListInsertBefore(RedisKey key, RedisValue pivot, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "pivot",
+            "type": "RedisValue",
+            "description": "The value to insert before."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": "The value to insert."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the list after the insert operation, or -1 when the value pivot was not found."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "linsert(string $key, $whence, $pivot, $value)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$whence",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$pivot",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "linsert(key, where, pivot, value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "where",
+            "type": "String, Symbol",
+            "description": "BEFORE or AFTER"
+          },
+          {
+            "name": "pivot",
+            "type": "String",
+            "description": "reference element"
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "length of the list after the insert operation, or -1 when the element pivot was not found"
+        }
+      }
+    ]
+  }
+}

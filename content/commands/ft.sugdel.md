@@ -23,14 +23,11 @@ group: suggestion
 hidden: false
 linkTitle: FT.SUGDEL
 module: Search
+railroad_diagram: /images/railroad/ft.sugdel.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Deletes a string from a suggestion index
-syntax: 'FT.SUGDEL key string
-
-  '
 syntax_fmt: FT.SUGDEL key string
-syntax_str: string
 title: FT.SUGDEL
 ---
 
@@ -64,6 +61,12 @@ is suggestion string to index.
 (integer) 0
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |
 
 ## Return information
 

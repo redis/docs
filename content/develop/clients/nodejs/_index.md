@@ -16,9 +16,16 @@ title: node-redis guide (JavaScript)
 weight: 4
 ---
 
-[node-redis](https://github.com/redis/node-redis) is the Redis client for Node.js/JavaScript.
+[`node-redis`](https://github.com/redis/node-redis) is the Redis client for Node.js/JavaScript.
 The sections below explain how to install `node-redis` and connect your application
 to a Redis database.
+
+{{< note >}}node-redis is the recommended client library for Node.js/JavaScript,
+but we also support and document our older JavaScript client
+[`ioredis`]({{< relref "/develop/clients/ioredis" >}}). See
+[Migrate from ioredis]({{< relref "/develop/clients/nodejs/migration" >}})
+if you are interested in converting an existing `ioredis` project to `node-redis`.
+{{< /note >}}
 
 `node-redis` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
 
@@ -36,46 +43,20 @@ npm install redis
 
 ## Connect and test
 
-Connect to localhost on port 6379. 
+Connect to localhost on port 6379.
 
-```js
-import { createClient } from 'redis';
-
-const client = createClient();
-
-client.on('error', err => console.log('Redis Client Error', err));
-
-await client.connect();
-```
+{{< clients-example set="landing" step="connect" lang_filter="Node.js" description="Foundational: Create a client connection to a Redis server using node-redis" difficulty="beginner" >}}
+{{< /clients-example >}}
 
 Store and retrieve a simple string.
 
-```js
-await client.set('key', 'value');
-const value = await client.get('key');
-```
+{{< clients-example set="landing" step="set_get_string" lang_filter="Node.js" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" >}}
+{{< /clients-example >}}
 
 Store and retrieve a map.
 
-```js
-await client.hSet('user-session:123', {
-    name: 'John',
-    surname: 'Smith',
-    company: 'Redis',
-    age: 29
-})
-
-let userSession = await client.hGetAll('user-session:123');
-console.log(JSON.stringify(userSession, null, 2));
-/*
-{
-  "surname": "Smith",
-  "name": "John",
-  "company": "Redis",
-  "age": "29"
-}
- */
-```
+{{< clients-example set="landing" step="set_get_hash" lang_filter="Node.js" description="Foundational: Store and retrieve hash data structures using HSET and HGET commands" difficulty="beginner" >}}
+{{< /clients-example >}}
 
 To connect to a different host or port, use a connection string in the format `redis[s]://[[username][:password]@][host][:port][/db-number]`:
 
@@ -85,6 +66,11 @@ createClient({
 });
 ```
 To check if the client is connected and ready to send commands, use `client.isReady`, which returns a Boolean. `client.isOpen` is also available. This returns `true` when the client's underlying socket is open, and `false` when it isn't (for example, when the client is still connecting or reconnecting after a network error).
+
+When you have finished using a connection, close it with `client.quit()`.
+
+{{< clients-example set="landing" step="close" lang_filter="Node.js" description="Foundational: Close a Redis client connection using the quit() method" difficulty="beginner" >}}
+{{< /clients-example >}}
 
 ## More information
 

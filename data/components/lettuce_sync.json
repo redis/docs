@@ -1,0 +1,16 @@
+{
+  "id": "lettuce_sync",
+  "type": "client",
+  "name": "lettuce_sync",
+  "language": "Lettuce-Sync",
+  "label": "Lettuce-Sync",
+  "repository": {
+      "git_uri": "https://github.com/redis/lettuce"
+  },
+  "examples": {
+      "git_uri": "https://github.com/redis/lettuce",
+      "path": "src/test/java/io/redis/examples/sync",
+      "pattern": "*.java"
+  }
+}
+

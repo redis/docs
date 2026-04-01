@@ -50,10 +50,6 @@ arguments:
     type: pure-token
   name: policy
   optional: true
-  token: DUPLICATE_POLICY
-  type: oneof
-- name: policy_ovr
-  optional: true
   token: ON_DUPLICATE
   type: oneof
 - arguments:
@@ -82,19 +78,17 @@ group: timeseries
 hidden: false
 linkTitle: TS.ADD
 module: TimeSeries
+railroad_diagram: /images/railroad/ts.add.svg
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Append a sample to a time series
 syntax: "TS.ADD key timestamp value \n  [RETENTION retentionPeriod] \n  [ENCODING\
-  \ <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [ON_DUPLICATE policy_ovr] \n\
-  \  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n\
-  \  [LABELS [label value ...]]\n"
+  \ <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy]\
+  \ \n  [ON_DUPLICATE policy_ovr] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff]\
+  \ \n  [LABELS [label value ...]]\n"
 syntax_fmt: "TS.ADD key timestamp value [RETENTION\_retentionPeriod]\n  [ENCODING\_\
-  <COMPRESSED | UNCOMPRESSED>] [CHUNK_SIZE\_size]\n  [DUPLICATE_POLICY\_policy] \n  [ON_DUPLICATE\_<BLOCK | FIRST\
-  \ | LAST | MIN | MAX | SUM>]\n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff]\n  [LABELS\ [label value ...]]"
-syntax_str: "timestamp value [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED\
-  \ | UNCOMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_policy] [ON_DUPLICATE\_<BLOCK | FIRST | LAST | MIN |\
-  \ MAX | SUM>] [LABELS\ [label value ...]]"
+  <UNCOMPRESSED | COMPRESSED>] [CHUNK_SIZE\_size]\n  [ON_DUPLICATE\_<BLOCK | FIRST\
+  \ | LAST | MIN | MAX | SUM>]\n  [LABELS\_label value [label value ...]]"
 title: TS.ADD
 ---
 
@@ -118,7 +112,7 @@ Unix time is the number of milliseconds that have elapsed since 00:00:00 UTC on 
 
 <details open><summary><code>value</code></summary> 
 
-is (double) numeric data value of the sample. The double number should follow [RFC 7159](https://tools.ietf.org/html/rfc7159) (JSON standard). In particular, the parser rejects overly large values that do not fit in binary64. It does not accept NaN or infinite values.
+is (double) numeric data value of the sample. The double number should follow [RFC 7159](https://tools.ietf.org/html/rfc7159) (JSON standard). In particular, the parser rejects overly large values that do not fit in binary64. It does not accept infinite values. NaN (Not a Number) values are supported starting from Redis 8.6.
 </details>
 
 <note><b>Notes:</b>
@@ -179,6 +173,8 @@ This override is effective only for this single command and does not set the tim
   - `MAX`: only override if the value is higher than the existing value
   - `SUM`: If a previous sample exists, add the new sample to it so that the updated value is set to (previous + new). If no previous sample exists, the value is set to the new value.
 
+<note><b>NaN Handling (Redis 8.6+):</b> When using `MIN`, `MAX`, or `SUM` policies, an error is returned if there is an existing value in the specified timestamp and either the previous or the new value (but not both) are NaN.</note>
+
 This argument has no effect when a new time series is created by this command.
 </details>
 
@@ -197,6 +193,8 @@ where `max_timestamp` is the timestamp of the sample with the largest timestamp 
 When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< relref "develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff" >}}) and [IGNORE_MAX_VAL_DIFF]({{< relref "develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff" >}}), which are, by default, both set to 0.
 
 These parameters are used when creating a new time series to set the per-key parameters, and are ignored when called with an existing time series (the existing per-key configuration parameters is used).
+
+<note><b>NaN Handling (Redis 8.6+):</b> NaN values are never regarded as duplicates when using the `IGNORE` parameters.</note>
 
 </details>
 
@@ -238,6 +236,12 @@ Add a sample to the time series, setting the sample's timestamp to the current U
 (integer) 1662042954573
 {{< / highlight >}}
 </details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

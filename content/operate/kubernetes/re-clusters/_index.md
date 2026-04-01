@@ -27,7 +27,7 @@ Manage your Redis Enterprise cluster lifecycle and configuration:
 
 Optimize storage and performance for your Redis Enterprise cluster:
 
-- [Auto Tiering]({{< relref "/operate/kubernetes/re-clusters/auto-tiering" >}}) - Configure automatic data tiering between RAM and flash storage
+- [Redis Flex]({{< relref "/operate/kubernetes/re-clusters/redis-flex" >}}) - Configure automatic data tiering between RAM and flash storage
 - [Expand PVC]({{< relref "/operate/kubernetes/re-clusters/expand-pvc" >}}) - Expand persistent volume claims for additional storage
 
 ## Monitoring and observability
@@ -35,6 +35,21 @@ Optimize storage and performance for your Redis Enterprise cluster:
 Monitor cluster health and performance:
 
 - [Connect to Prometheus operator]({{< relref "/operate/kubernetes/re-clusters/connect-prometheus-operator" >}}) - Integrate with Prometheus for metrics collection and monitoring
+
+### Call home client
+
+The call home client sends health or error data from your deployment(s) back to Redis. You can disable it by adding the following to your REC specification:
+
+```yaml
+spec:
+  usageMeter:
+    callHomeClient:
+      disabled: true
+```
+
+{{<note>}}
+The REST API approach used for Redis Software deployments will have no effect on Kubernetes deployments. You must use the REC specification method shown above.
+{{</note>}}
 
 ## Recovery and troubleshooting
 

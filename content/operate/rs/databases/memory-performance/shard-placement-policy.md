@@ -9,7 +9,7 @@ description: Detailed info about the shard placement policy.
 linkTitle: Shard placement policy
 weight: 30
 ---
-In Redis Enterprise Software, the location of master and replica shards on the cluster nodes can impact the database and node performance.
+In Redis Software, the location of master and replica shards on the cluster nodes can impact the database and node performance.
 Master shards and their corresponding replica shards are always placed on separate nodes for data resiliency.
 The shard placement policy helps to maintain optimal performance and resiliency.
 

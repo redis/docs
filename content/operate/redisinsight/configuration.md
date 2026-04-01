@@ -44,7 +44,7 @@ Redis Insight allows you to preconfigure database connections using environment 
 | RI_REDIS_ALIAS* | Alias of a database connection. | `{host}:{port}` |  |
 | RI_REDIS_USERNAME* | Username to connect to a Redis database. | `default` |  |
 | RI_REDIS_PASSWORD* | Password to connect to a Redis database. | No password |  |
-| RI_REDIS_TLS* | Indicates whether TLS certificates should be used to connect. | `FALSE` | Accepts `TRUE` or `FALSE` |
+| RI_REDIS_TLS* | Indicates whether TLS certificates should be used to connect. | `false` | Accepts `true` or `false` |
 | RI_REDIS_TLS_CA_BASE64* | CA certificate in base64 format. | N/A | Specify a CA certificate in this environment variable or provide a file path using `RI_REDIS_TLS_CA_PATH*`. |
 | RI_REDIS_TLS_CA_PATH* | Path to the CA certificate file. | N/A |  |
 | RI_REDIS_TLS_CERT_BASE64* | Client certificate in base64 format. | N/A | Specify a client certificate in this environment variable or provide a file path using `RI_REDIS_TLS_CERT_PATH*`. |

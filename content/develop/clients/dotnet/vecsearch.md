@@ -12,10 +12,20 @@ categories:
 description: Learn how to index and query vector embeddings with Redis
 linkTitle: Index and query vectors
 title: Index and query vectors
+scope: example
+relatedPages:
+- /develop/clients/dotnet/queryjson
+- /develop/clients/dotnet/vecsets
+- /develop/ai/search-and-query
+topics:
+- Redis Search
+- JSON
+- hash
+- vectors
 weight: 40
 ---
 
-[Redis Query Engine]({{< relref "/develop/ai/search-and-query" >}})
+[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
 lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
 or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
 [Vectors]({{< relref "/develop/ai/search-and-query/vectors" >}}) 
@@ -29,7 +39,7 @@ or JSON fields, Redis can retrieve documents that closely match the query in ter
 of their meaning.
 
 In the example below, we use [Microsoft.ML](https://dotnet.microsoft.com/en-us/apps/ai/ml-dotnet)
-to generate the vector embeddings to store and index with Redis Query Engine.
+to generate the vector embeddings to store and index with Redis Search.
 We also show how to adapt the code to use
 [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/embeddings?tabs=csharp)
 for the embeddings. The code is first demonstrated for hash documents with a
@@ -38,7 +48,7 @@ separate section to explain the
 
 {{< note >}}From [v1.0.0](https://github.com/redis/NRedisStack/releases/tag/v1.0.0)
 onwards, `NRedisStack` uses query dialect 2 by default.
-Redis query engine methods such as [`FT().Search()`]({{< relref "/commands/ft.search" >}})
+Redis Search methods such as [`FT().Search()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See
 [Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
@@ -79,7 +89,7 @@ dotnet add package Azure.AI.OpenAI --prerelease
 Add the following imports to your source file:
 
 ```csharp
-// Redis connection and Query Engine.
+// Redis connection and Redis Search.
 using NRedisStack.RedisStackCommands;
 using StackExchange.Redis;
 using NRedisStack.Search;
@@ -207,7 +217,7 @@ for more information.
 
 ```csharp
 private static byte[] GetEmbeddingFromAzure(string sentence){
-	Uri oaiEndpoint = new ("your-azure-openai-endpoint”);
+	Uri oaiEndpoint = new ("your-azure-openai-endpoint");
 	string oaiKey = "your-openai-key";
 
 	AzureKeyCredential credentials = new (oaiKey);

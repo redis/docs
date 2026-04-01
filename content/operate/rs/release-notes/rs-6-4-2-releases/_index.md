@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-compatibleOSSVersion: Redis 6.2.10
+compatibleOSSVersion: Redis 6.2, 6.0
 description: Pub/sub ACLs & default permissions. Validate client certificates by subject
   attributes. Ubuntu 20.04 support.
 headerRange: '[1-2]'

@@ -1,0 +1,518 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "smismember(name: KeyT, values: List, *args: List)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "List",
+            "description": ""
+          },
+          {
+            "name": "*args",
+            "type": "List",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Boolean> smismember(final byte[] key, final byte[]... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Boolean>",
+          "description": "List representing the membership of the given elements, in the same order as they are requested"
+        }
+      },
+      {
+        "signature": "List<Boolean> smismember(final String key, final String... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Boolean>",
+          "description": "List representing the membership of the given elements, in the same order as they are requested"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Boolean> smismember(K key, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the member type: value."
+          }
+        ],
+        "returns": {
+          "type": "List<Boolean>",
+          "description": "List&lt;Boolean&gt; array-reply list representing the membership of the given elements, in the same order as they are requested. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Boolean>> smismember(K key, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the member type: value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Boolean>>",
+          "description": "List&lt;Boolean&gt; array-reply list representing the membership of the given elements, in the same order as they are requested. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Boolean> smismember(K key, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the member type: value."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Boolean>",
+          "description": "Boolean array-reply list representing the membership of the given elements, in the same order as they are requested. @since 6.1"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SMIsMember(ctx context.Context, key string, members ...interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...interface{}",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*BoolSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SMISMEMBER(key: RedisArgument, members: Array<RedisArgument>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "Array<RedisArgument>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "smismember(...args: [, key: RedisKey, ...members: (string | Buffer | number)[], callback: Callback<number[]>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "smismember(...args: [, key: RedisKey, members: (string | Buffer | number)[], callback: Callback<number[]>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "smismember(...args: [key: RedisKey, ...members: (string | Buffer | number)[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "smismember(...args: [key: RedisKey, members: (string | Buffer | number)[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "smismember(key: K, members: M)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<bool>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "smismember(key: K, members: M)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<bool>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SetContains(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the element is a member of the set. false if the element is not a member of the set, or if key does not exist."
+        }
+      },
+      {
+        "signature": "SetContains(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "values",
+            "type": "RedisValue[]",
+            "description": "The members to check for."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool[]",
+          "description": "true if the element is a member of the set. false if the element is not a member of the set, or if key does not exist."
+        }
+      },
+      {
+        "signature": "SetContains(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the element is a member of the set. false if the element is not a member of the set, or if key does not exist."
+        }
+      },
+      {
+        "signature": "SetContains(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "values",
+            "type": "RedisValue[]",
+            "description": "The members to check for."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool[]",
+          "description": "true if the element is a member of the set. false if the element is not a member of the set, or if key does not exist."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SetContains(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the element is a member of the set. false if the element is not a member of the set, or if key does not exist."
+        }
+      },
+      {
+        "signature": "SetContains(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "values",
+            "type": "RedisValue[]",
+            "description": "The members to check for."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool[]",
+          "description": "true if the element is a member of the set. false if the element is not a member of the set, or if key does not exist."
+        }
+      },
+      {
+        "signature": "SetContains(RedisKey key, RedisValue value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the element is a member of the set. false if the element is not a member of the set, or if key does not exist."
+        }
+      },
+      {
+        "signature": "SetContains(RedisKey key, RedisValue[] values, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "values",
+            "type": "RedisValue[]",
+            "description": "The members to check for."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool[]",
+          "description": "true if the element is a member of the set. false if the element is not a member of the set, or if key does not exist."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "smismember(string $key, string ...$members)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$members",
+            "type": "string ...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "smismember(key, *members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*members",
+            "type": "String, Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Array<Boolean>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

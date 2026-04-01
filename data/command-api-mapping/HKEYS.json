@@ -1,0 +1,343 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "hkeys(name: str)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[List], List]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Set<String> hkeys(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Set<String>",
+          "description": "All the fields names contained into a hash."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<K> hkeys(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "List<K>",
+          "description": "Long count of the keys."
+        }
+      },
+      {
+        "signature": "Long hkeys(KeyStreamingChannel<K> channel, K key)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "KeyStreamingChannel<K>",
+            "description": "the channel."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long count of the keys."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<K>> hkeys(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<K>>",
+          "description": "Long count of the keys."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> hkeys(KeyStreamingChannel<K> channel, K key)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "KeyStreamingChannel<K>",
+            "description": "the channel."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long count of the keys."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<K> hkeys(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Flux<K>",
+          "description": "Long count of the keys. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #hkeys."
+        }
+      },
+      {
+        "signature": "Mono<Long> hkeys(KeyStreamingChannel<K> channel, K key)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "KeyStreamingChannel<K>",
+            "description": "the channel."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long count of the keys. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #hkeys."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "HKeys(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "HKEYS(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "hkeys(key: RedisKey, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "hkeys(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "hkeys(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "HashKeys(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of fields in the hash, or an empty list when key does not exist."
+        }
+      },
+      {
+        "signature": "HashKeys(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of fields in the hash, or an empty list when key does not exist."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "HashKeys(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of fields in the hash, or an empty list when key does not exist."
+        }
+      },
+      {
+        "signature": "HashKeys(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of fields in the hash, or an empty list when key does not exist."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "hkeys(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "hkeys(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

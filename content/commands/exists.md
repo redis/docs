@@ -46,17 +46,32 @@ key_specs:
       limit: 0
     type: range
 linkTitle: EXISTS
+railroad_diagram: /images/railroad/exists.svg
 since: 1.0.0
 summary: Determines whether one or more keys exist.
 syntax_fmt: EXISTS key [key ...]
-syntax_str: ''
 title: EXISTS
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Returns if `key` exists.
 
 The user should be aware that if the same existing key is mentioned in the arguments multiple times, it will be counted multiple times. So if `somekey` exists, `EXISTS somekey somekey` will return 2.
 
 ## Examples
+
+{{< clients-example set="cmds_generic" step="exists" description="Foundational: Check if one or more keys exist using EXISTS (returns count of existing keys, useful for conditional logic)" difficulty="beginner" >}}
+SET key1 "Hello"
+EXISTS key1
+EXISTS nosuchkey
+SET key2 "World"
+EXISTS key1 key2 nosuchkey
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
 
 {{% redis-cli %}}
 SET key1 "Hello"
@@ -65,6 +80,12 @@ EXISTS nosuchkey
 SET key2 "World"
 EXISTS key1 key2 nosuchkey
 {{% /redis-cli %}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

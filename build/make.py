@@ -7,6 +7,7 @@ import tempfile
 from components.component import All
 from components.util import mkdir_p
 from local_examples import process_local_examples
+from enrich_examples_from_markdown import enrich_examples_with_markdown_commands
 
 
 def parse_args() -> argparse.Namespace:
@@ -45,6 +46,10 @@ if __name__ == '__main__':
     # Process local examples
     print('Processing local examples')
     process_local_examples()
+
+    # Enrich examples with CLI commands from markdown
+    print('Enriching examples with CLI commands from markdown')
+    enrich_examples_with_markdown_commands()
 
     total = datetime.now() - start
     print(f'+OK ({total.microseconds / 1000} ms)')

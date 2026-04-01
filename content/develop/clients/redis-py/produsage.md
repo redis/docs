@@ -24,13 +24,15 @@ Each item in the checklist below links to the section
 for a recommendation. Use the checklist icons to record your
 progress in implementing the recommendations.
 
-{{< checklist "pyprodlist" >}}
-    {{< checklist-item "#client-side-caching" >}}Client-side caching{{< /checklist-item >}}
-    {{< checklist-item "#retries" >}}Retries{{< /checklist-item >}}
-    {{< checklist-item "#health-checks" >}}Health checks{{< /checklist-item >}}
-    {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
-    {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
-{{< /checklist >}}
+```checklist {id="pyprodlist"}
+- [ ] [Client-side caching](#client-side-caching)
+- [ ] [Retries](#retries)
+- [ ] [Health checks](#health-checks)
+- [ ] [Exception handling](#exception-handling)
+- [ ] [Timeouts](#timeouts)
+- [ ] [Smart client handoffs](#smart-client-handoffs)
+- [ ] [Monitor performance and errors](#monitor-performance-and-errors)
+```
 
 ## Recommendations
 
@@ -197,3 +199,23 @@ If you use timeouts that are too short, then `redis-py` might retry
 commands that would have succeeded if given more time. However, if the
 timeouts are too long, your app might hang unnecessarily while waiting for a
 response that will never arrive.
+
+### Smart client handoffs
+
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
+Redis Software servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+
+See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+for more information about SCH and
+[Connect using Smart client handoffs]({{< relref "/develop/clients/redis-py/connect#connect-using-smart-client-handoffs-sch" >}})
+for example code.
+
+### Monitor performance and errors
+
+`redis-py` supports [OpenTelemetry](https://opentelemetry.io/). This lets
+you trace command execution and monitor your server's performance.
+You can use this information to detect problems before they are reported
+by users. See [Observability]({{< relref "/develop/clients/redis-py/observability" >}})
+for more information.

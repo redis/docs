@@ -5,7 +5,7 @@ import { LangCache } from "@redis-ai/langcache";
 const langCache = new LangCache({
     serverURL: "https://" + process.env.HOST,
     cacheId: process.env.CACHE_ID,
-    serviceKey: process.env.API_KEY,
+    apiKey: process.env.API_KEY,
   });
 // STEP_END
 
@@ -36,6 +36,22 @@ async function searchAttributes() {
 }
 
 searchAttributes();
+// STEP_END
+
+// STEP_START search_strategies
+import { SearchStrategy } from '@redis-ai/langcache/models/searchstrategy.js';
+
+async function searchStrategies() {
+    const result = await langCache.search({
+      prompt: "User prompt text",
+      searchStrategies: [SearchStrategy.Exact, SearchStrategy.Semantic],
+      similarityThreshold: 0.9,
+    });
+
+    console.log(result);
+}
+
+searchStrategies();
 // STEP_END
 
 // STEP_START store_basic
@@ -91,4 +107,12 @@ async function deleteQuery() {
 }
 
 deleteQuery();
+// STEP_END
+
+// STEP_START flush
+async function flush() {
+    await langCache.flush();
+}
+
+flush();
 // STEP_END

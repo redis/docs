@@ -9,7 +9,7 @@ description: null
 linkTitle: Module lifecycle
 weight: 7
 ---
-Redis Enterprise Software follows the [Redis Enterprise lifecycle]({{< relref "/operate/rs/installing-upgrading/product-lifecycle" >}}).  (For complete details, see the Redis Enterprise Software [subscription agreement](https://redis.com/software-subscription-agreement).)
+Redis Software follows the [Redis Software lifecycle]({{< relref "/operate/rs/installing-upgrading/product-lifecycle" >}}).  (For complete details, see the Redis Software [subscription agreement](https://redis.com/software-subscription-agreement).)
 
 The modules included in Redis Stack also follow a release lifecycle and schedule. Here, you'll find the "end-of-life" dates for each module and release.
 
@@ -17,7 +17,7 @@ The modules included in Redis Stack also follow a release lifecycle and schedule
 
 Redis modules use a three-place numbering scheme to identify released versions.
 
-The format is “Major1.Major2.Minor”.
+The format is "Major1.Major2.Minor".
 
 - Major sections of the version number represent fundamental changes to functionality and feature capabilities. The _Major1_ and _Major2_ part of the version number are incremented according to the size and scale of the changes in each release.
 

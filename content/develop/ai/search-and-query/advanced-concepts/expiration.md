@@ -9,13 +9,13 @@ categories:
 - oss
 - kubernetes
 - clients
-description: How the Redis Query Engine handles expiring keys and hash fields
+description: How Redis Search handles expiring keys and hash fields
 linkTitle: Key and field expiration
 title: Key and field expiration behavior
-weight: 8
+weight: 34
 ---
 
-The Redis Query Engine behavior with expiring keys and hash fields has been enhanced starting with Redis 8 to provide more consistent and predictable results.
+The Redis Search behavior with expiring keys and hash fields has been enhanced starting with Redis 8 to provide more consistent and predictable results.
 
 ## Key expiration
 
@@ -23,7 +23,7 @@ The Redis Query Engine behavior with expiring keys and hash fields has been enha
 
 **Before Redis 8**: Expiration times were not taken into account when computing the result set.
 
-**Redis 8 and later**: The query engine returns only documents that are valid (not expired) at the time when the query or cursor read started.
+**Redis 8 and later**: Redis Search returns only documents that are valid (not expired) at the time when the query or cursor read started.
 
 ### Active expiration
 
@@ -45,7 +45,7 @@ Field expiration was introduced in Redis 7.4 and provides fine-grained control o
 
 **Before Redis 8**: Field expiration times were not taken into account when computing the result set.
 
-**Redis 8 and later**: The query engine returns only documents that are valid (fields not expired) at the time when the query or cursor read started.
+**Redis 8 and later**: Redis Search returns only documents that are valid (fields not expired) at the time when the query or cursor read started.
 
 ### Active expiration
 
@@ -55,7 +55,7 @@ Similar to key expiration, active field expiration can affect the number of resu
 
 ### Passive expiration
 
-**Before Redis 8**: The query engine could return documents without fields that were passively expired, even if the expired field caused the document to match the query. This behavior depended to some degree on the `SORTABLE` keyword usage.
+**Before Redis 8**: Redis Search could return documents without fields that were passively expired, even if the expired field caused the document to match the query. This behavior depended to some degree on the `SORTABLE` keyword usage.
 
 **Redis 8 and later**: Documents will return with all fields that existed when the query or cursor read started. Passively expired fields are handled consistently.
 

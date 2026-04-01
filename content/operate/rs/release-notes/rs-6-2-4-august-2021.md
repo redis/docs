@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-compatibleOSSVersion: Redis 6.2
+compatibleOSSVersion: Redis 6.2, 6.0
 description: Internode encryption. Nginx replaced by envoy.  New upgrade policies/behavior.
 linkTitle: 6.2.4 (August 2021)
 weight: 76

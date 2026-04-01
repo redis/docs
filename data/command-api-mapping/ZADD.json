@@ -1,0 +1,1219 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "zadd(, name: KeyT,, mapping: Mapping[AnyKeyT, EncodableT],, nx: bool = False,, xx: bool = False,, ch: bool = False,, incr: bool = False,, gt: bool = False,, lt: bool = False,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "mapping",
+            "type": "Mapping[AnyKeyT, EncodableT]",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "ch",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "incr",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "gt",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "lt",
+            "type": "bool = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long zadd(final byte[] key, final double score, final byte[] member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the new element was added, 0 if the element was already a member of the sorted set and the score was updated"
+        }
+      },
+      {
+        "signature": "long zadd(final byte[] key, final double score, final byte[] member final ZAddParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "byte[] member final ZAddParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the new element was added, 0 if the element was already a member of the sorted set and the score was updated"
+        }
+      },
+      {
+        "signature": "long zadd(final byte[] key, final Map<byte[], Double> scoreMembers)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "scoreMembers",
+            "type": "Map<byte[], Double>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the new element was added, 0 if the element was already a member of the sorted set and the score was updated"
+        }
+      },
+      {
+        "signature": "long zadd(final byte[] key, final Map<byte[], Double> scoreMembers, final ZAddParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "scoreMembers",
+            "type": "Map<byte[], Double>",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "ZAddParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the new element was added, 0 if the element was already a member of the sorted set and the score was updated"
+        }
+      },
+      {
+        "signature": "long zadd(final String key, final double score, final String member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the new element was added, 0 if the element was already a member of the sorted set and the score was updated"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long zadd(K key, double score, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the ke."
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply specifically: The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "Long zadd(K key, Object... scoresAndValues)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the ke."
+          },
+          {
+            "name": "scoresAndValues",
+            "type": "Object...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply specifically: The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "Long zadd(K key, ScoredValue<V>... scoredValues)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the ke."
+          },
+          {
+            "name": "scoredValues",
+            "type": "ScoredValue<V>...",
+            "description": "the scored values."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply specifically: The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "Long zadd(K key, ZAddArgs zAddArgs, double score, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the ke."
+          },
+          {
+            "name": "zAddArgs",
+            "type": "ZAddArgs",
+            "description": "arguments for zadd."
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply specifically: The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "Long zadd(K key, ZAddArgs zAddArgs, Object... scoresAndValues)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the ke."
+          },
+          {
+            "name": "zAddArgs",
+            "type": "ZAddArgs",
+            "description": "arguments for zadd."
+          },
+          {
+            "name": "scoresAndValues",
+            "type": "Object...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply specifically: The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> zadd(K key, double score, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the ke."
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply specifically: The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> zadd(K key, Object... scoresAndValues)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the ke."
+          },
+          {
+            "name": "scoresAndValues",
+            "type": "Object...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply specifically: The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> zadd(K key, ScoredValue<V>... scoredValues)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the ke."
+          },
+          {
+            "name": "scoredValues",
+            "type": "ScoredValue<V>...",
+            "description": "the scored values."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply specifically: The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> zadd(K key, ZAddArgs zAddArgs, double score, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the ke."
+          },
+          {
+            "name": "zAddArgs",
+            "type": "ZAddArgs",
+            "description": "arguments for zadd."
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply specifically: The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> zadd(K key, ZAddArgs zAddArgs, Object... scoresAndValues)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the ke."
+          },
+          {
+            "name": "zAddArgs",
+            "type": "ZAddArgs",
+            "description": "arguments for zadd."
+          },
+          {
+            "name": "scoresAndValues",
+            "type": "Object...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply specifically: The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> zadd(K key, double score, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the ke."
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply specifically: The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "Mono<Long> zadd(K key, Object... scoresAndValues)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the ke."
+          },
+          {
+            "name": "scoresAndValues",
+            "type": "Object...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply specifically: The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "Mono<Long> zadd(K key, ScoredValue<V>... scoredValues)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the ke."
+          },
+          {
+            "name": "scoredValues",
+            "type": "ScoredValue<V>...",
+            "description": "the scored values."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply specifically: The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "Mono<Long> zadd(K key, ZAddArgs zAddArgs, double score, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the ke."
+          },
+          {
+            "name": "zAddArgs",
+            "type": "ZAddArgs",
+            "description": "arguments for zadd."
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply specifically: The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "Mono<Long> zadd(K key, ZAddArgs zAddArgs, Object... scoresAndValues)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the ke."
+          },
+          {
+            "name": "zAddArgs",
+            "type": "ZAddArgs",
+            "description": "arguments for zadd."
+          },
+          {
+            "name": "scoresAndValues",
+            "type": "Object...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply specifically: The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ZAdd(ctx context.Context, key string, members ...Z)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...Z",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ZADD(key: RedisArgument, members: SortedSetMember | Array<SortedSetMember>, options?: ZAddOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "SortedSetMember | Array<SortedSetMember>",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "ZAddOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "zadd(...args: [, key: RedisKey, ...scoreMembers: (string | Buffer | number)[], callback: Callback<number>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zadd(...args: [key: RedisKey, ...scoreMembers: (string | Buffer | number)[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zadd(...args: [, key: RedisKey, incr: \"INCR\", ...scoreMembers: (string | Buffer | number)[], callback: Callback<string>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zadd(...args: [, key: RedisKey, incr: \"INCR\", ...scoreMembers: (string | Buffer | number)[], ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zadd(...args: [, key: RedisKey, ch: \"CH\", ...scoreMembers: (string | Buffer | number)[], callback: Callback<number>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "zadd(key: K, member: M, score: S)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "M",
+            "description": ""
+          },
+          {
+            "name": "score",
+            "type": "S",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "usize",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zadd_multiple(key: K, items: &'a [(S, M)])",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "items",
+            "type": "&'a [(S, M)]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zadd_options(key: K, member: M, score: S, options:&'a SortedSetAddOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "M",
+            "description": ""
+          },
+          {
+            "name": "score",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "&'a SortedSetAddOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "usize",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zadd_multiple_options(key: K, items: &'a [(S, M)], options:&'a SortedSetAddOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "items",
+            "type": "&'a [(S, M)]",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "&'a SortedSetAddOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "zadd(key: K, member: M, score: S)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "M",
+            "description": ""
+          },
+          {
+            "name": "score",
+            "type": "S",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "usize",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zadd_multiple(key: K, items: &'a [(S, M)])",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "items",
+            "type": "&'a [(S, M)]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zadd_options(key: K, member: M, score: S, options:&'a SortedSetAddOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "M",
+            "description": ""
+          },
+          {
+            "name": "score",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "&'a SortedSetAddOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "usize",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zadd_multiple_options(key: K, items: &'a [(S, M)], options:&'a SortedSetAddOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "items",
+            "type": "&'a [(S, M)]",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "&'a SortedSetAddOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SortedSetAdd(RedisKey key, RedisValue member, double score, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "SortedSetAdd(RedisKey key, RedisValue member, double score, When when, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "when",
+            "type": "When",
+            "description": "What conditions to add the element under (defaults to always)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "SortedSetAdd(RedisKey key, RedisValue member, double score, SortedSetWhen when = SortedSetWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "when",
+            "type": "SortedSetWhen",
+            "description": "What conditions to add the element under (defaults to always)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "SortedSetAdd(RedisKey key, SortedSetEntry[] values, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "values",
+            "type": "SortedSetEntry[]",
+            "description": "The members and values to add to the sorted set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "SortedSetAdd(RedisKey key, SortedSetEntry[] values, When when, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "values",
+            "type": "SortedSetEntry[]",
+            "description": "The members and values to add to the sorted set."
+          },
+          {
+            "name": "when",
+            "type": "When",
+            "description": "What conditions to add the element under (defaults to always)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SortedSetAdd(RedisKey key, RedisValue member, double score, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "SortedSetAdd(RedisKey key, RedisValue member, double score, When when, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "when",
+            "type": "When",
+            "description": "What conditions to add the element under (defaults to always)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "SortedSetAdd(RedisKey key, RedisValue member, double score, SortedSetWhen when = SortedSetWhen.Always, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "when",
+            "type": "SortedSetWhen",
+            "description": "What conditions to add the element under (defaults to always)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "SortedSetAdd(RedisKey key, SortedSetEntry[] values, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "values",
+            "type": "SortedSetEntry[]",
+            "description": "The members and values to add to the sorted set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      },
+      {
+        "signature": "SortedSetAdd(RedisKey key, SortedSetEntry[] values, When when, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "values",
+            "type": "SortedSetEntry[]",
+            "description": "The members and values to add to the sorted set."
+          },
+          {
+            "name": "when",
+            "type": "When",
+            "description": "What conditions to add the element under (defaults to always)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements added to the sorted sets, not including elements already existing for which the score was updated."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "zadd(string $key, array $membersAndScoresDictionary)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$membersAndScoresDictionary",
+            "type": "array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zadd(key, *args, nx: nil, xx: nil, lt: nil, gt: nil, ch: nil, incr: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*args",
+            "type": "[Float, String], Array<[Float, String]>",
+            "description": "a single [score, member] pair or an array of pairs"
+          },
+          {
+            "name": "nx",
+            "type": "Boolean",
+            "description": "Only add elements that do not already exist"
+          },
+          {
+            "name": "xx",
+            "type": "Boolean",
+            "description": "Only update elements that already exist"
+          },
+          {
+            "name": "lt",
+            "type": "Boolean",
+            "description": "Only update existing elements if the new score is less than the current score"
+          },
+          {
+            "name": "gt",
+            "type": "Boolean",
+            "description": "Only update existing elements if the new score is greater than the current score"
+          },
+          {
+            "name": "ch",
+            "type": "Boolean",
+            "description": "Return the total number of elements changed"
+          },
+          {
+            "name": "incr",
+            "type": "Boolean",
+            "description": "ZADD acts like ZINCRBY"
+          }
+        ],
+        "returns": {
+          "type": "Boolean, Integer, Float",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

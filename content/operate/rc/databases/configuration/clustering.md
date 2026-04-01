@@ -52,14 +52,6 @@ When creating or editing a Redis database on Redis Cloud, the
 system automatically calculates the number of shards needed based on
 the database memory limit and required throughput.
 
-<!--  DOC-439: Stubbing out for initial pass
-{{< note >}}
-For Redis Cloud Essentials, clustering is only available in the
-"Pay-As-You-Go" subscription.
-{{< image filename="/images/rc/clustering-subscription.png" >}}
-{{< /note >}}
--->
-
 ## Multi-key operations {#multikey-operations}
 
 Operations on multiple keys in a sharded Redis Cloud cluster
@@ -98,13 +90,9 @@ You can use the `{...}` pattern to direct related keys to the same hash slot, so
 
 Redis Cloud offers 3 hashing policies, which differ in how hash tags are processed. These hashing policies are not always available.
 
-For accounts created after March 31, 2025, Redis defaults to the [Redis hashing policy](#redis-hashing-policy) **when creating a new database**. For all other accounts, Redis defaults to the [standard hashing policy](#standard-hashing-policy). 
+Redis Cloud defaults to the [Redis hashing policy](#redis-hashing-policy) **when creating a new database**. You can select a different hashing policy during database creation, but you cannot change the hashing policy to or from the Redis hashing policy after the database is created. 
 
 ### Redis hashing policy
-
-{{< note >}}
-This policy is available for selected accounts and will be rolled out gradually to other accounts in the future.
-{{< /note >}}
 
 The Redis hashing policy is identical to the [hashing policy used by Redis Open Source]({{< relref "/operate/oss_and_stack/reference/cluster-spec#hash-tags" >}}). This policy is recommended for most users and you should select it if any of the following conditions apply:
 - This is your first Redis Cloud account, and you are starting fresh.
@@ -121,14 +109,14 @@ The Standard hashing policy is mostly consistent with the Redis hashing policy, 
 1. Keys without a hashtag: when a key doesn't contain the '{...}' pattern, the entire key's name is used for hashing
 
 In some cases, the Standard hashing policy behaves differently from the Redis hashing policy:
-1. Using empty hashtags (“{}”): the Standard hashing policy does not ignore empty hashtags, so two keys that start with empty hashtags will be hashed to the same hashslot (while the Redis hashing policy would ignore them). 
+1. Using empty hashtags ("{}"): the Standard hashing policy does not ignore empty hashtags, so two keys that start with empty hashtags will be hashed to the same hashslot (while the Redis hashing policy would ignore them). 
     For example: given 2 keys {}foo and {}bar, hashing would be:
     - Standard hashing policy: to the same hash slot
     - Redis hashing policy: to different hash slots
 2. Using multiple curly brackets: when a key’s name contains multiple curly brackets, the Standard hashing calculation might be different than the Redis hashing policy. 
     For example: given 2 keys {foo}bar} and {foo}qux}:
-    - Standard hashing policy: substrings “foo}bar” and “foo}qux” will be used for the 1st and 2nd key respectively, hashed each key to a different hash-slot.
-    - Redis hashing policy: the substring “foo” will be used for both keys, hashing them to the same slot.
+    - Standard hashing policy: substrings "foo}bar" and "foo}qux" will be used for the 1st and 2nd key respectively, hashed each key to a different hash-slot.
+    - Redis hashing policy: the substring "foo" will be used for both keys, hashing them to the same slot.
 
 {{< note >}}
 To allow seamless transition between hashing policies, the following techniques are not recommended:
@@ -196,14 +184,14 @@ These changes include:
    - **PCRE_ANCHORED:** the pattern is constrained to match only at
         the start of the string which is being searched.
 
-## Cluster API {#oss-cluster-api}
+## OSS Cluster API {#oss-cluster-api}
 
 {{< embed-md "oss-cluster-api-intro.md"  >}}
 
-The Cluster API is only supported on Redis Cloud Pro databases. You can enable it in the Performance section of the configuration screen.
+The OSS Cluster API is only supported on Redis Cloud Pro databases. You can enable it in the **Performance** section of the configuration screen.
 
 After you select OSS Cluster API, you can select **Use external endpoint** if you want to use the external endpoint for the database. Selecting **Use external endpoint** will block the private endpoint for this database.
 
-The Redis Cluster API is supported only when a database uses the [standard hashing policy](#standard-hashing-policy) and does not use Search and Query or Time Series advanced capabilities.
+The OSS Cluster API is supported only when a database uses the [standard hashing policy](#standard-hashing-policy).
 
-Review [Redis Cluster API architecture]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
+Review [OSS Cluster API architecture]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.

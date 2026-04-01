@@ -216,7 +216,7 @@ All VSS queries or any query using the `PARAMS` option must use Dialect version 
 
     This index is a modified implementation of the library written by the author of this influential [academic paper](https://arxiv.org/abs/1603.09320). An HNSW vector index is used when the speed of query execution is preferred over recall. The results returned are approximate nearest neighbors (ANNs).
 
-    You can try out different HNSW index parameters (`M`, `EFCONSTRUCTION`, `EFRUNTIME`) to improve the “recall versus speed” balance.
+    You can try out different HNSW index parameters (`M`, `EFCONSTRUCTION`, `EFRUNTIME`) to improve the "recall versus speed" balance.
 
 - Use `FT.SEARCH` to retrieve the top K hashes with the most similar vectors to a given query vector.
 
@@ -224,7 +224,7 @@ All VSS queries or any query using the `PARAMS` option must use Dialect version 
 
   Use hybrid queries to retrieve Redis hashes that match a combination of vector and non-vector search criteria. Non-vector search criteria can include expressions combining `NUMERIC`, `TEXT`, `TAG`, and `GEO` fields.
 
-  Hybrid queries are often used in modern ecommerce search applications featuring “visual” similarity plus metadata similarity.
+  Hybrid queries are often used in modern ecommerce search applications featuring "visual" similarity plus metadata similarity.
   For example, you can use a single hybrid query to find products that are visually similar to a given image within a price range and/or geo-location.
 
 - Use [`FT.CONFIG SET`]({{< relref "commands/ft.config-set" >}}) to set `DEFAULT_DIALECT` at the module level. By default, `DEFAULT_DIALECT` is set to 1.

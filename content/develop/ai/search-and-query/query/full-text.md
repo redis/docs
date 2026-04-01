@@ -48,7 +48,7 @@ Words that occur very often in natural language, such as `the` or `a` for the En
 
 The following example searches for all bicycles that have the word 'kids' in the description:
 
-{{< clients-example query_ft ft1 >}}
+{{< clients-example set="query_ft" step="ft1" description="Foundational: Search for single words across text fields using simple word queries when you need to find documents containing specific terms" difficulty="beginner" >}}
 FT.SEARCH idx:bicycle "@description: kids"
 {{< /clients-example >}}
 
@@ -75,7 +75,7 @@ The prefix needs to be at least two characters long.
 
 Here is an example that shows you how to search for bicycles with a brand that starts with 'ka':
 
-{{< clients-example query_ft ft2 >}}
+{{< clients-example set="query_ft" step="ft2" description="Prefix matching: Search for words with a specific prefix using wildcard syntax when you need to find documents with words starting with certain characters" difficulty="intermediate" >}}
 FT.SEARCH idx:bicycle "@model: ka*"
 {{< /clients-example >}}
 
@@ -95,7 +95,7 @@ FT.SEARCH index "*infix*"
 
 Here is an example that finds all brands that end with 'bikes':
 
-{{< clients-example query_ft ft3 >}}
+{{< clients-example set="query_ft" step="ft3" description="Suffix/infix matching: Search for words with a specific suffix or infix using wildcard syntax when you need to find documents with words ending or containing certain characters" difficulty="intermediate" >}}
 FT.SEARCH idx:bicycle "@brand:*bikes"
 {{< /clients-example >}}
 
@@ -111,19 +111,49 @@ FT.SEARCH index "%word%"
 
 The following example finds all documents that contain a word that has a distance of one to the incorrectly spelled word 'optamized'. You can see that this matches the word 'optimized'.
 
-{{< clients-example query_ft ft4 >}}
+{{< clients-example set="query_ft" step="ft4" description="Fuzzy search: Search for words with approximate matches using fuzzy search with single % delimiters when you need to find documents despite spelling variations or typos" difficulty="intermediate" >}}
 FT.SEARCH idx:bicycle "%optamized%"
 {{< /clients-example >}}
 
 If you want to increase the maximum word distance to two, you can use the following query:
 
-{{< clients-example query_ft ft5 >}}
+{{< clients-example set="query_ft" step="ft5" description="Fuzzy search: Search for words with larger approximate matches using fuzzy search with double %% delimiters when you need to tolerate greater spelling variations" difficulty="intermediate" >}}
 FT.SEARCH idx:bicycle "%%optamised%%"
 {{< /clients-example >}}
 
+### Fuzzy search on a specific attribute
+
+To perform a fuzzy search on a specific text field, use the `@field:(...)` syntax with the fuzzy term inside parentheses.
+
+```
+FT.SEARCH index "@field:(%word%)"
+```
+
+{{% alert title="Important" %}}
+Do not use quotes around the fuzzy term when targeting a specific field. Wrapping the term in quotes (for example, `@field:("%word%")`) converts the query into an exact match search, and the `%` characters are treated as literal characters rather than fuzzy operators.
+{{% /alert  %}}
+
+The following example shows the correct way to perform a fuzzy search with distance one on the `description` field:
+
+```
+FT.SEARCH idx:bicycle "@description:(%optamized%)"
+```
+
+For a fuzzy search with distance two on a specific field:
+
+```
+FT.SEARCH idx:bicycle "@description:(%%optamised%%)"
+```
+
+You can also combine fuzzy searches on multiple fields using boolean operators:
+
+```
+FT.SEARCH idx:bicycle "@description:(%optamized%) | @model:(%jigar%)"
+```
+
 ## Unicode considerations
 
-Redis Query Engine only supports Unicode characters in the [basic multilingual plane](https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane); U+0000 to U+FFFF. Unicode characters beyond U+FFFF, such as Emojis, are not supported and would not be retrieved by queries including such characters in the following use cases:
+Redis Search only supports Unicode characters in the [basic multilingual plane](https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane); U+0000 to U+FFFF. Unicode characters beyond U+FFFF, such as Emojis, are not supported and would not be retrieved by queries including such characters in the following use cases:
 
 * Querying TEXT fields with Prefix/Suffix/Infix
 * Querying TEXT fields with fuzzy

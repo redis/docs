@@ -65,7 +65,7 @@ When errors occur, the server returns a JSON object with `error_code` and `messa
 |------|-------------|
 | no_responder_url | Tried to test OCSP status with no responder URL configured |
 | ocsp_unsupported_by_capability | Not all nodes support OCSP capability |
-| task_queued_for_too_long | OCSP polling task was in status “queued” for over 5 seconds |
+| task_queued_for_too_long | OCSP polling task was in status "queued" for over 5 seconds |
 | invalid_ocsp_response | The server returned a response that is not compatible with OCSP |
 
 ### Status codes {#post-status-codes} 

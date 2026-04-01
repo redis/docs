@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: This document explains the structure of Redis Enterprise Software log
+description: This document explains the structure of Redis Software log
   entries in `rsyslog` and how to use these log entries to identify events.
 hideListLinks: true
 linktitle: rsyslog
@@ -14,7 +14,7 @@ weight: $weight
 
 ## Log concepts
 
-Redis Enterprise Software logs information from a variety of components in response to actions and events that occur within the cluster.
+Redis Software logs information from a variety of components in response to actions and events that occur within the cluster.
 
 In some cases, a single action, such as removing a node from the cluster, may actually consist of several events. These actions may generate multiple log entries.
 
@@ -50,7 +50,7 @@ You can see the log entries for alerts and events in the `/var/log/messages` fil
 - `%pri­text%` ­adds the severity
 - `%timegenerated%` ­adds the timestamp
 - `%HOSTNAME%` ­adds the machine name
-- `%syslogtag%` adds ­the Redis Enterprise Software message. See the [log entry structure](#log-entry-structure) section for more details.
+- `%syslogtag%` adds ­the Redis Software message. See the [log entry structure](#log-entry-structure) section for more details.
 - `%msg:::drop­last­lf%n` ­removes duplicated log entries
 
 ## Log entry structure

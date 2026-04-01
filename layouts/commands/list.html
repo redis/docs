@@ -43,7 +43,7 @@
           <option value="list" data-kind="core">List</option>
           <option value="pubsub" data-kind="core">Pub/Sub</option>
           <option value="scripting" data-kind="core">Scripting and functions</option>
-          <option value="search" data-kind="stack">Redis Query Engine</option>
+          <option value="search" data-kind="stack">Redis Search</option>
           <option value="server" data-kind="core">Server management</option>
           <option value="set" data-kind="core">Set</option>
           <option value="sorted-set" data-kind="core">Sorted set</option>
@@ -111,8 +111,20 @@
             data-version
             data-top
           >
-            <h1 class="truncate font-mono font-medium text-lg mb-1.5 px-6">
-              {{ .Title }}
+            <h1 class="font-mono font-medium text-lg mb-1.5 px-6">
+              <div class="command-title-deprecated">
+                <span class="truncate">{{ .Title }}</span>
+                {{ if (and (isset .Params "doc_flags") (in .Params.doc_flags "deprecated")) }}
+                  <div class="deprecated-tooltip-trigger">
+                    <span class="deprecated-badge">Deprecated</span>
+                    {{ if (isset .Params "replaced_by") }}
+                      <div class="deprecated-tooltip">
+                        Use {{ .Params.replaced_by | markdownify | plainify }} instead
+                      </div>
+                    {{ end }}
+                  </div>
+                {{ end }}
+              </div>
             </h1>
             <p class="px-6">
               {{ .Params.summary }}

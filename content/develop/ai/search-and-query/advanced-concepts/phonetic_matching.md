@@ -14,16 +14,16 @@ categories:
 description: Details about phonetic matching capabilities
 linkTitle: Phonetic
 title: Phonetic matching
-weight: 14
+weight: 52
 ---
 
 Phonetic matching, for example "Jon" vs. "John", allows searching for terms based on their pronunciation. This capability can be a useful tool when searching for names of people.
 
 Phonetic matching is based on the use of a phonetic algorithm. A phonetic algorithm transforms the input term to an approximate representation of its pronunciation. This allows terms to be indexed and searched by their pronunciation.
 
-As of v1.4, Redis Query Engine, which is included in Redis Open Source, provides phonetic matching of text fields specified with the `PHONETIC` attribute. This causes the terms in such fields to be indexed both by their textual value as well as their phonetic approximation.
+As of v1.4, Redis Search, which is included in Redis Open Source, provides phonetic matching of text fields specified with the `PHONETIC` attribute. This causes the terms in such fields to be indexed both by their textual value as well as their phonetic approximation.
 
-Performing a search on `PHONETIC` fields will, by default, also return results for phonetically similar terms. This behavior can be controlled with the [`$phonetic` query attribute]({{< relref "/develop/ai/search-and-query/query/#query-attributes" >}}).
+Performing a search on `PHONETIC` fields will, by default, also return results for phonetically similar terms. This behavior can be controlled with the [`$phonetic` query attribute]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_attributes" >}}).
 
 ## Phonetic algorithms support
 

@@ -17,10 +17,12 @@ title: Redis hashes
 weight: 40
 ---
 
+{{< command-group group="hash" title="Hash command summary" show_link=true >}}
+
 Redis hashes are record types structured as collections of field-value pairs.
 You can use hashes to represent basic objects and to store groupings of counters, among other things.
 
-{{< clients-example hash_tutorial set_get_all >}}
+{{< clients-example set="hash_tutorial" step="set_get_all" description="Foundational: Set and retrieve hash fields using HSET and HGET (overwrites existing field values)" >}}
 > HSET bike:1 model Deimos brand Ergonom type 'Enduro bikes' price 4972
 (integer) 4
 > HGET bike:1 model
@@ -46,7 +48,7 @@ hashes in many different ways inside your application.
 The command [`HSET`]({{< relref "/commands/hset" >}}) sets multiple fields of the hash, while [`HGET`]({{< relref "/commands/hget" >}}) retrieves
 a single field. [`HMGET`]({{< relref "/commands/hmget" >}}) is similar to [`HGET`]({{< relref "/commands/hget" >}}) but returns an array of values:
 
-{{< clients-example hash_tutorial hmget >}}
+{{< clients-example set="hash_tutorial" step="hmget" description="Retrieve multiple field values from a hash using HMGET when you need to reduce round trips to the server" buildsUpon="set_get_all" >}}
 > HMGET bike:1 model price no-such-field
 1) "Deimos"
 2) "4972"
@@ -56,7 +58,7 @@ a single field. [`HMGET`]({{< relref "/commands/hmget" >}}) is similar to [`HGET
 There are commands that are able to perform operations on individual fields
 as well, like [`HINCRBY`]({{< relref "/commands/hincrby" >}}):
 
-{{< clients-example hash_tutorial hincrby >}}
+{{< clients-example set="hash_tutorial" step="hincrby" description="Increment hash field values for counters using HINCRBY (creates field if missing, initializes to 0)" buildsUpon="set_get_all" >}}
 > HINCRBY bike:1 price 100
 (integer) 5072
 > HINCRBY bike:1 price -100
@@ -68,19 +70,10 @@ You can find the [full list of hash commands in the documentation]({{< relref "/
 It is worth noting that small hashes (i.e., a few elements with small values) are
 encoded in special way in memory that make them very memory efficient.
 
-## Basic commands
-
-* [`HSET`]({{< relref "/commands/hset" >}}): sets the value of one or more fields on a hash.
-* [`HGET`]({{< relref "/commands/hget" >}}): returns the value at a given field.
-* [`HMGET`]({{< relref "/commands/hmget" >}}): returns the values at one or more given fields.
-* [`HINCRBY`]({{< relref "/commands/hincrby" >}}): increments the value at a given field by the integer provided.
-
-See the [complete list of hash commands]({{< relref "/commands/" >}}?group=hash).
-
 ## Examples
 
 * Store counters for the number of times bike:1 has been ridden, has crashed, or has changed owners:
-{{< clients-example hash_tutorial incrby_get_mget >}}
+{{< clients-example set="hash_tutorial" step="incrby_get_mget" description="Practical pattern: Combine HINCRBY and HMGET to track multiple counters when you need atomic updates across multiple fields" difficulty="intermediate" buildsUpon="hincrby, hmget" >}}
 > HINCRBY bike:1:stats rides 1
 (integer) 1
 > HINCRBY bike:1:stats rides 1
@@ -100,7 +93,7 @@ See the [complete list of hash commands]({{< relref "/commands/" >}}?group=hash)
 
 ## Field expiration
 
-New in Redis Open Source 7.4 is the ability to specify an expiration time or a time-to-live (TTL) value for individual hash fields.
+Redis 7.4 introduced the ability to specify an expiration time or a time-to-live (TTL) value for individual hash fields.
 This capability is comparable to [key expiration]({{< relref "/develop/using-commands/keyspace#key-expiration" >}}) and includes a number of similar commands.
 
 Use the following commands to set either an exact expiration time or a TTL value for specific fields:
@@ -122,6 +115,11 @@ Use the following commands to retrieve either the exact time when or the remaini
 Use the following command to remove the expiration of specific fields:
 
 * [`HPERSIST`]({{< relref "/commands/hpersist" >}}): remove the expiration.
+
+Redis 8.0 introduced the following commands:
+
+* [`HGETEX`]({{< relref "/commands/HGETEX" >}}): Get the value of one or more fields of a given hash key and optionally set their expiration time or time-to-live (TTL).
+* [`HSETEX`]({{< relref "/commands/HSETEX" >}}): Set the value of one or more fields of a given hash key and optionally set their expiration time or time-to-live (TTL).
 
 ### Common field expiration use cases
 

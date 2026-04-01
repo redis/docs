@@ -13,6 +13,14 @@ categories:
 description: Server-assisted, client-side caching in Redis
 linkTitle: Client-side caching
 title: Client-side caching introduction
+scope: overview
+relatedPages:
+- /develop/clients/redis-py/connect#connect-using-client-side-caching
+- /develop/clients/nodejs/connect#connect-using-client-side-caching
+- /develop/clients/jedis/connect#connect-using-client-side-caching
+topics:
+- client-side-caching
+- performance
 weight: 30
 ---
 
@@ -98,7 +106,7 @@ will use cached data, except for the following:
     [`HSCAN`]({{< relref "/commands/hscan" >}}),
     and [`ZRANDMEMBER`]({{< relref "/commands/zrandmember" >}}). By design, these commands
     give different results each time they are called.
--   Redis Query Engine commands (with the `FT.*` prefix), such as
+-   Redis Search commands (with the `FT.*` prefix), such as
     [`FT.SEARCH`]({{< relref "commands/ft.search" >}}).
 
 You can use the [`MONITOR`]({{< relref "/commands/monitor" >}}) command to

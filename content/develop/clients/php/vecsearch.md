@@ -12,10 +12,19 @@ categories:
 description: Learn how to index and query vector embeddings with Redis
 linkTitle: Index and query vectors
 title: Index and query vectors
+scope: example
+relatedPages:
+- /develop/clients/php/queryjson
+- /develop/ai/search-and-query
+topics:
+- Redis Search
+- JSON
+- hash
+- vectors
 weight: 30
 ---
 
-[Redis Query Engine]({{< relref "/develop/ai/search-and-query" >}})
+[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
 lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
 or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
 [Vectors]({{< relref "/develop/ai/search-and-query/vectors" >}}) 
@@ -30,14 +39,14 @@ of their meaning.
 
 The example below uses the [HuggingFace](https://huggingface.co/) model
 [`all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
-to generate the vector embeddings to store and index with Redis Query Engine.
+to generate the vector embeddings to store and index with Redis Search.
 The code is first demonstrated for hash documents with a
 separate section to explain the
 [differences with JSON documents](#differences-with-json-documents).
 
 {{< note >}}From [v3.0.0](https://github.com/predis/predis/releases/tag/v3.0.0) onwards,
 `Predis` uses query dialect 2 by default.
-Redis query engine methods such as [`ftSearch()`]({{< relref "/commands/ft.search" >}})
+Redis Search methods such as [`ftSearch()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See
 [Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
@@ -66,7 +75,7 @@ require 'vendor/autoload.php';
 // TransformersPHP
 use function Codewithkyrian\Transformers\Pipelines\pipeline;
 
-// Redis client and query engine classes.
+// Redis client and Redis Search classes.
 use Predis\Client;
 use Predis\Command\Argument\Search\CreateArguments;
 use Predis\Command\Argument\Search\SearchArguments;

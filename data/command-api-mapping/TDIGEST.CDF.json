@@ -1,0 +1,145 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "cdf(key, value, *values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "name": "value",
+            "type": "float"
+          },
+          {
+            "name": "*values",
+            "type": "float"
+          }
+        ],
+        "returns": {
+          "type": "List[float]",
+          "description": "CDF values for each element"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "tdigestCDF(String key, double... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "values",
+            "type": "double..."
+          }
+        ],
+        "returns": {
+          "type": "List<Double>",
+          "description": "CDF values for each element"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TDigestCDF(ctx context.Context, key string, elements ...float64) *FloatSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "elements",
+            "type": "...float64"
+          }
+        ],
+        "returns": {
+          "type": "*FloatSliceCmd",
+          "description": "CDF values for each element"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TDIGEST.CDF(key, values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "values",
+            "type": "number[]"
+          }
+        ],
+        "returns": {
+          "type": "number[]",
+          "description": "CDF values for each element"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "CDF(key, values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "values",
+            "type": "params double[]"
+          }
+        ],
+        "returns": {
+          "type": "double[]",
+          "description": "CDF values for each element"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "CDFAsync(key, values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "values",
+            "type": "params double[]"
+          }
+        ],
+        "returns": {
+          "type": "Task<double[]>",
+          "description": "CDF values for each element"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tdigestcdf($key, ...$values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "values",
+            "type": "float..."
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "CDF values for each element"
+        }
+      }
+    ]
+  }
+}

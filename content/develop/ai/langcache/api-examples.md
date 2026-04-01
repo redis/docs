@@ -11,7 +11,7 @@ title: Use the LangCache API and SDK
 weight: 10
 ---
 
-Use the [LangCache API]({{< relref "/develop/ai/langcache/api-reference" >}}) from your client app to store and retrieve LLM, RAG, or agent responses. 
+Use the [LangCache API]({{< relref "/develop/ai/langcache/api-reference" >}}) from your client app to store and retrieve LLM, RAG, or agent responses.
 
 You can use any standard REST client or library to access the API. If your app is written in Python or Javascript, you can also use the LangCache Software Development Kits (SDKs) to access the API:
 
@@ -30,11 +30,11 @@ When you call the API, you need to pass the LangCache API key in the `Authorizat
 
 For example:
 
-{{< clients-example set="langcache_sdk" step="imports_setup" dft_tab_name="cURL" footer="hide" >}}
+{{< clients-example set="langcache_sdk" step="imports_setup" dft_tab_name="cURL" show_footer="false" description="Foundational: Authenticate with the LangCache API using Bearer token authorization in the request header" difficulty="beginner" >}}
 curl -s -X POST "https://$HOST/v1/caches/$CACHE_ID/entries/search" \
     -H "accept: application/json" \
     -H "Authorization: Bearer $API_KEY" \
-    -d "{ 'prompt': 'What is semantic caching' }"
+    -d '{ "prompt": "What is semantic caching" }'
 {{< /clients-example >}}
 
 This example expects several variables to be set in the shell:
@@ -49,7 +49,7 @@ This example expects several variables to be set in the shell:
 
 Use [`POST /v1/caches/{cacheId}/entries/search`]({{< relref "/develop/ai/langcache/api-reference#tag/Cache-Entries/operation/search" >}}) to search the cache for matching responses to a user prompt.
 
-{{< clients-example set="langcache_sdk" step="search_basic" dft_tab_name="REST API" footer="hide" >}}
+{{< clients-example set="langcache_sdk" step="search_basic" dft_tab_name="REST API" show_footer="false" description="Foundational: Search the cache for semantically similar responses to a user prompt" difficulty="beginner" >}}
 POST https://[host]/v1/caches/{cacheId}/entries/search
 {
     "prompt": "User prompt text"
@@ -60,9 +60,10 @@ Place this call in your client app right before you call your LLM's REST API. If
 
 If LangCache does not return a response, you should call your LLM's REST API to generate a new response. After you get a response from the LLM, you can [store it in LangCache](#store-a-new-response-in-langcache) for future use.
 
+#### Attributes
 You can also scope the responses returned from LangCache by adding an `attributes` object to the request. LangCache will only return responses that match the attributes you specify.
 
-{{< clients-example set="langcache_sdk" step="search_attributes" dft_tab_name="REST API" footer="hide" >}}
+{{< clients-example set="langcache_sdk" step="search_attributes" dft_tab_name="REST API" show_footer="false" description="Filter responses: Filter cached responses by custom attributes to scope search results to specific contexts or metadata" difficulty="intermediate" >}}
 POST https://[host]/v1/caches/{cacheId}/entries/search
 {
     "prompt": "User prompt text",
@@ -72,11 +73,27 @@ POST https://[host]/v1/caches/{cacheId}/entries/search
 }
 {{< /clients-example >}}
 
+#### Search strategies
+LangCache supports two search strategies when looking for a cached response:
+
+- **`exact`**: Returns a result only when the stored prompt matches the query exactly (case insensitive).
+- `**semantic**`: Uses vector similarity to find semantically similar prompts and responses.
+
+By default, LangCache uses `semantic` search only. You can specify one or more search strategies in the request body.
+
+{{< clients-example set="langcache_sdk" step="search_strategies" dft_tab_name="REST API" show_footer="false" description="Hybrid search: Combine exact and semantic search strategies to find both identical and semantically similar cached responses" difficulty="intermediate" >}}
+POST https://[host]/v1/caches/{cacheId}/entries/search
+{
+    "prompt": "User prompt text",
+    "searchStrategies": ["exact", "semantic"]
+}
+{{< /clients-example >}}
+
 ### Store a new response in LangCache
 
 Use [`POST /v1/caches/{cacheId}/entries`]({{< relref "/develop/ai/langcache/api-reference#tag/Cache-Entries/operation/set" >}}) to store a new response in the cache.
 
-{{< clients-example set="langcache_sdk" step="store_basic" dft_tab_name="REST API" footer="hide" >}}
+{{< clients-example set="langcache_sdk" step="store_basic" dft_tab_name="REST API" show_footer="false" description="Foundational: Store a new LLM response in the cache with its corresponding prompt for future retrieval" difficulty="beginner" >}}
 POST https://[host]/v1/caches/{cacheId}/entries
 {
     "prompt": "User prompt text",
@@ -88,7 +105,7 @@ Place this call in your client app after you get a response from the LLM. This w
 
 You can also store the responses with custom attributes by adding an `attributes` object to the request.
 
-{{< clients-example set="langcache_sdk" step="store_attributes" dft_tab_name="REST API" footer="hide" >}}
+{{< clients-example set="langcache_sdk" step="store_attributes" dft_tab_name="REST API" show_footer="false" description="Custom attributes: Store cached responses with custom attributes to enable filtering and scoping of future searches" difficulty="intermediate" >}}
 POST https://[host]/v1/caches/{cacheId}/entries
 {
     "prompt": "User prompt text",
@@ -103,11 +120,11 @@ POST https://[host]/v1/caches/{cacheId}/entries
 
 Use [`DELETE /v1/caches/{cacheId}/entries/{entryId}`]({{< relref "/develop/ai/langcache/api-reference#tag/Cache-Entries/operation/delete" >}}) to delete a cached response from the cache.
 
-{{< clients-example set="langcache_sdk" step="delete_entry" dft_tab_name="REST API" footer="hide" >}}
+{{< clients-example set="langcache_sdk" step="delete_entry" dft_tab_name="REST API" show_footer="false" description="Foundational: Delete a specific cached response by its entry ID when you need to remove outdated or incorrect cache entries" difficulty="beginner" >}}
 DELETE https://[host]/v1/caches/{cacheId}/entries/{entryId}
 {{< /clients-example >}}
 
-You can also use [`DELETE /v1/caches/{cacheId}/entries`]({{< relref "/develop/ai/langcache/api-reference#tag/Cache-Entries/operation/deleteQuery" >}}) to delete multiple cached responses based on the `attributes` you specify. If you specify multiple `attributes`, LangCache will delete entries that contain all given attributes. 
+You can also use [`DELETE /v1/caches/{cacheId}/entries`]({{< relref "/develop/ai/langcache/api-reference#tag/Cache-Entries/operation/deleteQuery" >}}) to delete multiple cached responses based on the `attributes` you specify. If you specify multiple `attributes`, LangCache will delete entries that contain all given attributes.
 
 {{< warning >}}
 If you do not specify any `attributes`, all responses in the cache will be deleted. This cannot be undone.
@@ -115,7 +132,7 @@ If you do not specify any `attributes`, all responses in the cache will be delet
 
 <br/>
 
-{{< clients-example set="langcache_sdk" step="delete_query" dft_tab_name="REST API" footer="hide" >}}
+{{< clients-example set="langcache_sdk" step="delete_query" dft_tab_name="REST API" show_footer="false" description="Delete by attribute: Delete multiple cached responses based on attribute filters when you need to remove entries matching specific criteria" difficulty="intermediate" >}}
 DELETE https://[host]/v1/caches/{cacheId}/entries
 {
     "attributes": {
@@ -124,3 +141,12 @@ DELETE https://[host]/v1/caches/{cacheId}/entries
 }
 {{< /clients-example >}}
 
+### Flush the cache
+
+Use
+[POST /v1/caches/{cacheId}/flush](https://redis.io/docs/latest/develop/ai/langcache/api-reference/#tag/Cache-Entries/operation/flush)
+to flush all entries from the cache.
+
+{{< clients-example set="langcache_sdk" step="flush" dft_tab_name="REST API" show_footer="false" description="Flush cache: Clear all cached responses from the cache in a single operation (use with caution as this cannot be undone)" difficulty="advanced" >}}
+POST https://[host]/v1/caches/{cacheId}/flush
+{{< /clients-example >}}

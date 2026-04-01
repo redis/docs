@@ -16,10 +16,26 @@ weight: 96
 ---
 ## Requirements
 
-RedisTimeSeries v1.8.17 requires:
+RedisTimeSeries v1.8.19 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v1.8.19 (October 2025)
+
+This is a maintenance release for RedisTimeSeries 1.8.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+Bug fixes:
+
+- [#1776](https://github.com/redistimeseries/redistimeseries/pull/1776) Potential crash on `TS.RANGE` with `ALIGN +`, `AGGREGATION twa` and `EMPTY` (MOD-11620, MOD-10484).
+
+Improvements:
+
+- Added support for Rocky Linux 9 and RHEL9 ARM.
 
 ## v1.8.17 (April 2025)
 

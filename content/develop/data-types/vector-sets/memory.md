@@ -66,7 +66,7 @@ High-dimensional vectors increase storage:
 
 You can reduce this using the `REDUCE` option during [`VADD`]({{< relref "/commands/vadd" >}}), which applies [random projection](https://en.wikipedia.org/wiki/Random_projection):
 
-{{< clients-example vecset_tutorial add_reduce >}}
+{{< clients-example set="vecset_tutorial" step="add_reduce" description="Dimension reduction: Use the REDUCE option with VADD to apply random projection and reduce vector dimensions when you need to optimize memory usage while maintaining search quality" difficulty="advanced" >}}
 >VADD setNotReduced VALUES 300 ... element
 (integer) 1
 > VDIM setNotReduced

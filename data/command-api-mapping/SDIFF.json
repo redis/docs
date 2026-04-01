@@ -1,0 +1,512 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "sdiff(keys: List, *args: List)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "List",
+            "description": ""
+          },
+          {
+            "name": "*args",
+            "type": "List",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[list], list]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Set<String> sdiff(final String... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Set<String>",
+          "description": "A set with members of the resulting set"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Set<V> sdiff(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Set<V>",
+          "description": "Long count of members of the resulting set."
+        }
+      },
+      {
+        "signature": "Long sdiff(ValueStreamingChannel<V> channel, K... keys)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>",
+            "description": "the channel."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long count of members of the resulting set."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Set<V>> sdiff(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Set<V>>",
+          "description": "Long count of members of the resulting set."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> sdiff(ValueStreamingChannel<V> channel, K... keys)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>",
+            "description": "the channel."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long count of members of the resulting set."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<V> sdiff(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "Long count of members of the resulting set. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #sdiff."
+        }
+      },
+      {
+        "signature": "Mono<Long> sdiff(ValueStreamingChannel<V> channel, K... keys)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>",
+            "description": "the channel."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long count of members of the resulting set. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #sdiff."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SDiff(ctx context.Context, keys ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SDIFF(keys: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "sdiff(...args: [...keys: RedisKey[], callback: Callback<string[]>])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[...keys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sdiff(...args: [keys: RedisKey[], callback: Callback<string[]>])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[keys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sdiff(...args: [...keys: RedisKey[]]): Result<string[], Context>;, sdiffBuffer(...args: [...keys: RedisKey[]]): Result<Buffer[], Context>;, sdiff(...args: [keys: RedisKey[]]): Result<string[], Context>;, sdiffBuffer(...args: [keys: RedisKey[]]): Result<Buffer[], Context>;, /**, * Subtract multiple sets and store the resulting set in a key, * - _group_: set, * - _complexity_: O(N) where N is the total number of elements in all given sets., * - _since_: 1.0.0, */, sdiffstore(, ...args: [, destination: RedisKey, ...keys: RedisKey[], callback: Callback<number>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[...keys",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "[, destination",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "sdiff(keys: K)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(HashSet<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "sdiff(keys: K)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(HashSet<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SetCombine(SetOperation operation, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "first",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "second",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List with members of the resulting set."
+        }
+      },
+      {
+        "signature": "SetCombine(SetOperation operation, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sets to operate on."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List with members of the resulting set."
+        }
+      },
+      {
+        "signature": "SetCombine(SetOperation operation, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "first",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "second",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List with members of the resulting set."
+        }
+      },
+      {
+        "signature": "SetCombine(SetOperation operation, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sets to operate on."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List with members of the resulting set."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SetCombine(SetOperation operation, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "first",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "second",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List with members of the resulting set."
+        }
+      },
+      {
+        "signature": "SetCombine(SetOperation operation, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sets to operate on."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List with members of the resulting set."
+        }
+      },
+      {
+        "signature": "SetCombine(SetOperation operation, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "first",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "second",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List with members of the resulting set."
+        }
+      },
+      {
+        "signature": "SetCombine(SetOperation operation, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sets to operate on."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List with members of the resulting set."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "sdiff(array|string $keys)",
+        "params": [
+          {
+            "name": "$keys",
+            "type": "array|string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string[]",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "sdiff(*keys)",
+        "params": [
+          {
+            "name": "*keys",
+            "type": "String, Array<String>",
+            "description": "keys pointing to sets to subtract"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": "members in the difference"
+        }
+      }
+    ]
+  }
+}

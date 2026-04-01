@@ -17,7 +17,7 @@ You can monitor a LangCache service's performance from the **Metrics** tab of th
 
 The **Metrics** tab provides a series of graphs showing performance data for your LangCache service.
 
-You can switch between daily and weekly stats using the **Day** and **Week** buttons at the top of the page. Each graph also includes minimum, average, maximum, and latest values.
+You can switch between hourly, daily, and weekly stats using the **Hour**, **Day**, and **Week** buttons at the top of the page. Each graph also includes minimum, average, maximum, and latest values.
 
 ## LangCache metrics reference
 
@@ -49,7 +49,3 @@ High cache latency may indicate one of the following:
 - Large cache requiring longer comparison times
 - Network latency between the cache and embedding provider
 - Resource constraints
-
-### Cache items
-
-The total number of entries stores in your cache. Each item includes the query string, embedding, response, and other metadata.

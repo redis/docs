@@ -1,0 +1,86 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "module_loadex(path: str, options: list | None = None, args: list | None = None, **kwargs)",
+        "params": [
+          {
+            "name": "path",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "list | None",
+            "description": ""
+          },
+          {
+            "name": "args",
+            "type": "list | None",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String moduleLoadex(String path, ModuleLoadExParams params)",
+        "params": [
+          {
+            "name": "path",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "ModuleLoadExParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "module(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

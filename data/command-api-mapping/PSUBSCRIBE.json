@@ -1,0 +1,73 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [
+      {
+        "signature": "void psubscribe(BinaryJedisPubSub jedisPubSub, final byte[]... patterns)",
+        "params": [
+          {
+            "name": "jedisPubSub",
+            "type": "BinaryJedisPubSub",
+            "description": "Pub/sub listener object"
+          },
+          {
+            "name": "patterns",
+            "type": "byte[]...",
+            "description": "Channel patterns to subscribe to"
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": "Blocks until unsubscribed"
+        }
+      },
+      {
+        "signature": "void psubscribe(final JedisPubSub jedisPubSub, final String... patterns)",
+        "params": [
+          {
+            "name": "jedisPubSub",
+            "type": "JedisPubSub",
+            "description": "Pub/sub listener object"
+          },
+          {
+            "name": "patterns",
+            "type": "String...",
+            "description": "Channel patterns to subscribe to"
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": "Blocks until unsubscribed"
+        }
+      }
+    ],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rb": [
+      {
+        "signature": "psubscribe(*channels, &block)",
+        "params": [
+          {
+            "name": "*channels",
+            "type": "Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "nil",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

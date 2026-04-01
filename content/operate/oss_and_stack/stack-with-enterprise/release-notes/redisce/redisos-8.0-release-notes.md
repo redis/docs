@@ -9,8 +9,57 @@ description: Redis Open Source 8.0 release notes.
 linkTitle: v8.0.0 (May 2025)
 min-version-db: blah
 min-version-rs: blah
-weight: 40
+weight: 80
 ---
+
+## Redis Open Source 8.0.6 (February 2026)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- A user can manipulate data read by a connection by injecting `\r\n` sequences into a Redis error reply.
+
+## Redis Open Source 8.0.5 (November 2025)
+
+Update urgency: `HIGH`: There are critical bugs that may affect a subset of users.
+
+### Bug fixes
+
+- `HGETEX` - potential crash when `FIELDS` is used  and `numfields` is missing
+- Potential crash on HyperLogLog with 2GB+ entries
+- Cuckoo filter - Division by zero in Cuckoo filter insertion
+- Cuckoo filter - Counter overflow
+- Bloom filter - Arbitrary memory read/write with invalid filter
+- Bloom filter - Out-of-bounds access with empty chain
+- Bloom filter - Restore invalid filter
+- Top-k - Out-of-bounds access
+
+## Redis Open Source 8.0.4 (October 2025)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- (CVE-2025-49844) A Lua script may lead to remote code execution
+- (CVE-2025-46817) A Lua script may lead to integer overflow and potential RCE
+- (CVE-2025-46818) A Lua script can be executed in the context of another user
+- (CVE-2025-46819) LUA out-of-bound read
+
+### New Features
+
+- [#14223](https://github.com/redis/redis/pull/14223) `VSIM`: new `EPSILON` argument to specify maximum distance
+
+### Bug fixes
+
+- [#14330](https://github.com/redis/redis/pull/14330) Potential use-after-free after pubsub and Lua defrag
+- [#14319](https://github.com/redis/redis/pull/14319) Potential crash on Lua script defrag
+- [#14224](https://github.com/redis/redis/pull/14224) `HINCRBYFLOAT` removes field expiration on replica
+- [#14164](https://github.com/redis/redis/pull/14164) Prevent `CLIENT UNBLOCK` from unblocking `CLIENT PAUSE`
+- [#14165](https://github.com/redis/redis/pull/14165) Endless client blocking for blocking commands
+- [#14144](https://github.com/redis/redis/pull/14144) Vector sets - RDB format is not compatible with big endian machines
+- [#14163](https://github.com/redis/redis/pull/14163) `EVAL` crash when error table is empty
+- [#14143](https://github.com/redis/redis/pull/14143) Gracefully handle short read errors for hashes with TTL during full sync
 
 ## Redis Open Source 8.0.3 (July 2025)
 
@@ -79,8 +128,8 @@ Stand alone RediSearch, RedisJSON, RedisTimeSeries, and RedisBloom modules are n
   - (a) the Redis Source Available License 2.0 (RSALv2); or
   - (b) the Server Side Public License v1 (SSPLv1); or
   - (c) the GNU Affero General Public License (AGPLv3)
-- Redis Query Engine and 8 new data structures are now an integral part of Redis 8.
-  - (1) Redis Query Engine, which now supports both horizontal and vertical scaling for search, query, and vector workloads.
+- Redis Search and 8 new data structures are now an integral part of Redis 8.
+  - (1) Redis Search, which now supports both horizontal and vertical scaling for search, query, and vector workloads.
   - (2) JSON, a queryable JSON document data type.
   - (3) Time series.
   - (4-8) Five probabilistic data structures: Bloom filter, Cuckoo filter, Count-min sketch, Top-k, and t-digest.
@@ -89,7 +138,7 @@ Stand alone RediSearch, RedisJSON, RedisTimeSeries, and RedisBloom modules are n
 
   - See the [build instructions]({{< relref "/operate/oss_and_stack/install/build-stack" >}}) for information about building from source code.
   - New configuration file: `redis-full.conf`, loads Redis with all components, 
-    and contains new configuration parameters for Redis Query Engine and the new data structures.
+    and contains new configuration parameters for Redis Search and the new data structures.
   - New ACL categories: `@search`, `@json`, `@timeseries`, `@bloom`, `@cuckoo`, `@cms`, `@topk`, and `@tdigest` commands are also included in the existing ACL categories such as `@read` and `@write`. See [below]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.0-release-notes/#potentially-breaking-changes-to-acls" >}}) for information about potentially breaking changes.
 - More than 30 performance and resource utilization improvements.
 - A new I/O threading implementation, which enables throughput increase on multi-core environments
@@ -136,7 +185,7 @@ For more details, see the release notes for the [8.0-M01](https://github.com/red
 
 | New ACL commands category names | Included commands               |
 | :----                           | :----                           |
-| `search`                        | All Redis Query Engine commands |
+| `search`                        | All Redis Search commands |
 | `json`                          | All JSON commands               |
 | `timeseries`                    | All time series commands        |
 | `bloom`                         | All Bloom filter commands       |
@@ -151,13 +200,13 @@ You can use these new categories in your ACL rules.
 
 The following time series commands retrieve data from all keys that match a given filter expression: `TS.MGET`, `TS.MRANGE`, and `TS.MREVRANGE`. 
 
-There can be a case where a user may have to only some of the matching keys. In such cases, the command’s result is an error message: “*current user doesn't have read permission to one or more keys that match the specified filter*”.
+There can be a case where a user may have to only some of the matching keys. In such cases, the command’s result is an error message: "*current user doesn't have read permission to one or more keys that match the specified filter*".
 
 On the other hand, `TS.QUERYINDEX` does not require `@read` access to the keys that match the specified filter, as it accesses only time series metadata (name and labels) and not content (measurements).
 
-### Redis Query Engine notes
+### Redis Search notes
 
-The following Redis Query Engine commands may retrieve data from all keys that match the prefixes defined in the index (that is, all indexed documents, per-index):
+The following Redis Search commands may retrieve data from all keys that match the prefixes defined in the index (that is, all indexed documents, per-index):
 
 - `FT.SEARCH`  
 - `FT.AGGREGATE` (may be followed by `FT.CURSOR`)  
