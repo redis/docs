@@ -37,3 +37,4 @@ The typical pattern is:
 * [Node.js]({{< relref "/develop/use-cases/session-store/nodejs" >}}) - Build a Redis-backed session store with `node-redis` and a local Node.js demo server
 * [Go]({{< relref "/develop/use-cases/session-store/go" >}}) - Build a Redis-backed session store with `go-redis` and a local Go demo server
 * [Java]({{< relref "/develop/use-cases/session-store/java-jedis" >}}) - Build a Redis-backed session store with Jedis and a local Java demo server
+* [.NET]({{< relref "/develop/use-cases/session-store/dotnet" >}}) - Build a Redis-backed session store with `StackExchange.Redis` and a local ASP.NET Core demo server
