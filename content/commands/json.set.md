@@ -116,7 +116,7 @@ Sets the value only if `path` has one or more matches.
 
 Force floating point homogeneous arrays (FPHAs) to use a specified FP type. Added in Redis 8.8.
 
-The available types offer a trade-off between precision and efficiency. FP64 (64-bit) and FP32 (32-bit) provide higher precision for scientific and general computing workloads. BF16 and FP16 (both 16-bit) use half the memory of FP32 and offer higher throughput, making them well suited for AI training and inference. A common strategy is to store and compute in BF16/FP16 for speed while accumulating results in FP32 to maintain accuracy.
+The available types offer a trade-off between precision and memory footprint. FP64 (64-bit) and FP32 (32-bit) provide higher precision for scientific and general computing workloads. BF16 and FP16 (both 16-bit) use half the memory of FP32 and require less memory, making them well suited for AI training and inference. A common strategy is to store and compute in BF16/FP16 for speed while accumulating results in FP32 to maintain accuracy.
 
 Since JSON's numeric representation is textual, Redis cannot always infer the best FP type to use for FPHAs (for example, for vector embeddings). If your JSON was generated from an array of FP values with a given FP type, you should pass this type here.
 
