@@ -23,7 +23,7 @@ Rate limiting is a critical technique for controlling the rate at which operatio
 * Ensuring fair resource allocation across multiple clients
 * Throttling background jobs or batch operations
 
-The **token bucket algorithm** is a popular rate limiting approach that allows bursts of traffic while maintaining an average rate limit over time. This guide covers the Java implementation using the [`Lettuce`]({{< relref "/develop/clients/lettuce" >}}) client library, taking advantage of Lettuce's `RedisClient` for connection management, `StatefulRedisConnection` for multiplexed connections, and support for both synchronous and asynchronous command execution.
+The **token bucket algorithm** is a popular rate limiting approach that allows bursts of traffic while maintaining an average rate limit over time. This guide covers the Java implementation using the [`Lettuce`]({{< relref "/develop/clients/lettuce" >}}) client library, taking advantage of Lettuce's `RedisClient` for connection management, `StatefulRedisConnection` for multiplexed connections, and support for synchronous, asynchronous, and reactive command execution.
 
 ## How it works
 
@@ -239,30 +239,56 @@ redisClient.shutdown();
 
 ### Asynchronous usage
 
-Unlike Jedis, Lettuce supports asynchronous command execution. While the `TokenBucket` class uses synchronous commands internally, you can easily adapt the pattern for async usage with Lettuce's async API:
+Lettuce also supports asynchronous command execution. The async version of the rate limiter
+([source](AsyncTokenBucket.java)) returns a `CompletableFuture<RateLimitResult>`:
 
 ```java
-import io.lettuce.core.api.async.RedisAsyncCommands;
-import io.lettuce.core.ScriptOutputType;
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.api.StatefulRedisConnection;
 
-RedisAsyncCommands<String, String> asyncCommands = connection.async();
+RedisClient redisClient = RedisClient.create("redis://localhost:6379");
+StatefulRedisConnection<String, String> connection = redisClient.connect();
 
-// Execute the Lua script asynchronously
-RedisFuture<List<Long>> future = asyncCommands.evalsha(
-        scriptSha,
-        ScriptOutputType.MULTI,
-        new String[]{"user:123"},
-        String.valueOf(capacity),
-        String.valueOf(refillRate),
-        String.valueOf(refillInterval),
-        String.valueOf(System.currentTimeMillis() / 1000.0)
-);
+AsyncTokenBucket limiter = new AsyncTokenBucket(10, 1, 1.0, connection.async());
 
-// Process the result when ready
-future.thenAccept(result -> {
-    boolean allowed = result.get(0) == 1L;
-    System.out.println("Allowed: " + allowed);
-});
+limiter.allow("user:123").thenAccept(result -> {
+    if (result.allowed()) {
+        System.out.printf("Request allowed. %.0f tokens remaining.%n", result.remaining());
+    } else {
+        System.out.println("Request denied. Rate limit exceeded.");
+    }
+}).join();
+
+connection.close();
+redisClient.shutdown();
+```
+
+### Reactive usage
+
+Lettuce's reactive API is useful when you are already using Reactor in a non-blocking application.
+The reactive version of the rate limiter ([source](ReactiveTokenBucket.java)) returns a `Mono<RateLimitResult>`:
+
+```java
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.api.StatefulRedisConnection;
+
+RedisClient redisClient = RedisClient.create("redis://localhost:6379");
+StatefulRedisConnection<String, String> connection = redisClient.connect();
+
+ReactiveTokenBucket limiter = new ReactiveTokenBucket(10, 1, 1.0, connection.reactive());
+
+limiter.allow("user:123")
+        .doOnNext(result -> {
+            if (result.allowed()) {
+                System.out.printf("Request allowed. %.0f tokens remaining.%n", result.remaining());
+            } else {
+                System.out.println("Request denied. Rate limit exceeded.");
+            }
+        })
+        .block();
+
+connection.close();
+redisClient.shutdown();
 ```
 
 ## Running the demo
