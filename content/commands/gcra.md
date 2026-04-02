@@ -62,10 +62,10 @@ GCRA is a popular rate limiting algorithm known for its simplicity and speed. Ea
 The implementation is based on the popular [redis-cell](https://github.com/brandur/redis-cell) module with small changes in the API. Unlike redis-cell and most other implementations where `period` is given as an integer number of seconds, this command accepts `period` as a floating-point number for greater flexibility. Internally, time periods are calculated with microsecond granularity.
 
 The `GCRA` command is used either to establish a new rate limiter (if the key doesn't exist) or use an existing one (if the key exists).
-All the parameters need to be repeated on each call, and clients don't need to validate that the key exists before using an existing rate limiter.
+All the parameters need to be repeated on each call, and clients don't need to validate that the key exists before using a rate limiter.
 Under normal usage, `max-burst`, `tokens-per-period`, and `period` should not change between calls, though this command supports such changes.
 
-In a typical deployment, the application server calls `GCRA` on behalf of the end user. Based on the response, the application server either fulfills the end user's request or rejects it.
+In a typical deployment, the application server calls `GCRA` on each end user's request. Based on the response, the application server either fulfills the end user's request or rejects it.
 
 See the [rate limiting docs]({{< relref "/develop/using-commands/rate-limiting" >}}) for more information.
 
@@ -116,7 +116,7 @@ Rate limit an API endpoint to 10 tokens per 60 seconds with a burst of 5:
 5) (integer) 30
 ```
 
-The response shows: the request is allowed (`0`), the total token capacity is `6` (`max_burst + 1`), `5` tokens are available immediately, retry-after is `-1` (not limited), and the full token allowance will be restored after `30` seconds.
+The response shows: the request is allowed (`0`), the total token capacity is `6` (`max_burst + 1`), `5` tokens are available immediately, retry-after is `-1` (the request was allowed; no need to retry), and the full token allowance will be restored after `30` seconds.
 
 After exhausting the token allowance:
 
@@ -153,8 +153,8 @@ This request consumes 3 tokens instead of the default 1.
 One of the following:
 
 - Returns an [array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with exactly 5 elements:
-    1. [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `0` if the request is allowed, `1` if the request is blocked.
-    1. [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the maximum number of tokens that can be requested (if no previous requests were made, or if they were made long enough ago). Always equal to `max_burst` + 1 (+1 to allow requests when `max_burst` is 0).
+    1. [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `0` if the request is allowed, `1` if the request is denied.
+    1. [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): The maximum number of tokens that can be requested if no previous requests have been made, or if earlier requests are no longer within the relevant time window. Always equal to `max_burst` + 1 (+1 to allow requests when `max_burst` is 0).
     1. [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of remaining tokens that can be requested immediately (the remaining burst).
     1. [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of milliseconds until the caller can retry, or -1 if the request was allowed. 
     1. [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of milliseconds until the full burst will be allowed again.

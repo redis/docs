@@ -38,15 +38,18 @@ limiting directly in the server using the
 ## How GCRA works
 
 In a typical deployment, the application server calls
-[`GCRA`]({{< relref "/commands/gcra" >}}) on behalf of the end user.
-Based on the response, the application server either fulfills the end user's
+[`GCRA`]({{< relref "/commands/gcra" >}}) on each end user's request.
+Based on the response, the application server either fulfills the
 request or rejects it.
 
-GCRA models rate limiting as a leaky bucket that drains at a steady rate.
-Each request (a single call to the command) consumes a number of tokens from
-the bucket, and tokens replenish over time at the sustained rate you configure.
-If not enough tokens are available, the request is denied until enough time
-passes for tokens to replenish.
+GCRA uses a [leaky bucket](https://en.wikipedia.org/wiki/Leaky_bucket) model.
+Imagine a bucket with a fixed capacity. Water
+leaks out of the bucket at a constant rate, and each accepted request adds
+water to it. The available tokens correspond to the empty space in the bucket —
+the more empty space, the more requests can be accepted. If a request would
+cause the bucket to overflow, it's rejected. Over time the bucket leaks,
+freeing up capacity for new requests.
+There's an excellent visual aid for this process on [this page](https://davecturner.github.io/2016/12/01/rate-limiting.html).
 
 Two parameters control the behavior:
 
