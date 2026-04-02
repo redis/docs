@@ -136,7 +136,11 @@ class RedisSessionStore:
         if not data:
             return True
 
-        payload = {field: str(value) for field, value in data.items()}
+        payload = {
+            field: str(value)
+            for field, value in data.items()
+            if field not in RESERVED_SESSION_FIELDS
+        }
         payload["last_accessed_at"] = self._timestamp()
 
         pipeline = self.redis.pipeline()
