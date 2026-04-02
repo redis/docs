@@ -130,9 +130,9 @@ class RedisSessionStore:
         pipeline = self.redis.pipeline()
         pipeline.hset(key, mapping=payload)
         pipeline.expire(key, session_ttl)
-        updated_fields, _ = pipeline.execute()
+        pipeline.execute()
 
-        return updated_fields > 0
+        return True
 
     def increment_field(
         self,

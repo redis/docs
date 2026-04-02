@@ -574,6 +574,12 @@ class SessionDemoHandler(BaseHTTPRequestHandler):
         body: new URLSearchParams(formData),
       }});
       const data = await response.json();
+
+      if (!response.ok) {{
+        setStatus(data.error || "Unable to create the session.", "error");
+        return;
+      }}
+
       renderSession(data);
       setStatus("Session created in Redis and cookie issued.", "ok");
     }});
