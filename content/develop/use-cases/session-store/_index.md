@@ -35,3 +35,4 @@ The typical pattern is:
 
 * [redis-py]({{< relref "/develop/use-cases/session-store/redis-py" >}}) - Build a Python session store and a local demo server using the standard library HTTP server
 * [Node.js]({{< relref "/develop/use-cases/session-store/nodejs" >}}) - Build a Redis-backed session store with `node-redis` and a local Node.js demo server
+* [Go]({{< relref "/develop/use-cases/session-store/go" >}}) - Build a Redis-backed session store with `go-redis` and a local Go demo server
