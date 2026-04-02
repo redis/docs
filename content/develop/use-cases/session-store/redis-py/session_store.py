@@ -47,6 +47,21 @@ class RedisSessionStore:
     def _timestamp(self) -> str:
         return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
 
+    def _load_session_data(
+        self,
+        pipeline: redis.client.Pipeline,
+        key: str,
+    ) -> Optional[dict[str, str]]:
+        """Load a session hash and ensure its internal fields are present."""
+        session = pipeline.hgetall(key)
+        if not session:
+            return None
+
+        if not RESERVED_SESSION_FIELDS.issubset(session):
+            return None
+
+        return session
+
     def create_session(
         self,
         data: Optional[dict[str, str]] = None,
@@ -85,9 +100,6 @@ class RedisSessionStore:
     def get_configured_ttl(self, session_id: str) -> Optional[int]:
         """Return the configured TTL for a session, or None if it does not exist."""
         key = self._session_key(session_id)
-        if self.redis.exists(key) != 1:
-            return None
-
         stored_ttl = self.redis.hget(key, "session_ttl")
         if stored_ttl is None:
             return None
@@ -102,53 +114,71 @@ class RedisSessionStore:
         """Return session data for a session ID, or None if it does not exist."""
         key = self._session_key(session_id)
 
-        if self.redis.exists(key) != 1:
-            return None
+        with self.redis.pipeline() as pipeline:
+            while True:
+                try:
+                    pipeline.watch(key)
+                    session = self._load_session_data(pipeline, key)
+                    if session is None:
+                        pipeline.unwatch()
+                        return None
 
-        session_ttl = self.get_configured_ttl(session_id)
-        if session_ttl is None:
-            return None
+                    session_ttl = self._normalize_ttl(int(session["session_ttl"]))
 
-        if not refresh_ttl:
-            session = self.redis.hgetall(key)
-            return session or None
+                    if not refresh_ttl:
+                        pipeline.unwatch()
+                        return session
 
-        now = self._timestamp()
-        pipeline = self.redis.pipeline()
-        pipeline.hset(key, mapping={"last_accessed_at": now})
-        pipeline.expire(key, session_ttl)
-        pipeline.hgetall(key)
-        _, _, session = pipeline.execute()
+                    now = self._timestamp()
+                    pipeline.multi()
+                    pipeline.hset(key, mapping={"last_accessed_at": now})
+                    pipeline.expire(key, session_ttl)
+                    pipeline.hgetall(key)
+                    _, _, refreshed_session = pipeline.execute()
 
-        return session or None
+                    if not refreshed_session:
+                        return None
+
+                    if not RESERVED_SESSION_FIELDS.issubset(refreshed_session):
+                        return None
+
+                    return refreshed_session
+                except redis.WatchError:
+                    continue
 
     def update_session(self, session_id: str, data: dict[str, str]) -> bool:
         """Update session fields and refresh the TTL."""
         key = self._session_key(session_id)
-
-        if self.redis.exists(key) != 1:
-            return False
-
-        session_ttl = self.get_configured_ttl(session_id)
-        if session_ttl is None:
-            return False
-
-        if not data:
-            return True
 
         payload = {
             field: str(value)
             for field, value in data.items()
             if field not in RESERVED_SESSION_FIELDS
         }
-        payload["last_accessed_at"] = self._timestamp()
 
-        pipeline = self.redis.pipeline()
-        pipeline.hset(key, mapping=payload)
-        pipeline.expire(key, session_ttl)
-        pipeline.execute()
+        with self.redis.pipeline() as pipeline:
+            while True:
+                try:
+                    pipeline.watch(key)
+                    session = self._load_session_data(pipeline, key)
+                    if session is None:
+                        pipeline.unwatch()
+                        return False
 
-        return True
+                    if not payload:
+                        pipeline.unwatch()
+                        return True
+
+                    session_ttl = self._normalize_ttl(int(session["session_ttl"]))
+                    payload["last_accessed_at"] = self._timestamp()
+
+                    pipeline.multi()
+                    pipeline.hset(key, mapping=payload)
+                    pipeline.expire(key, session_ttl)
+                    pipeline.execute()
+                    return True
+                except redis.WatchError:
+                    continue
 
     def increment_field(
         self,
@@ -159,40 +189,53 @@ class RedisSessionStore:
         """Increment a numeric session field and refresh the TTL."""
         key = self._session_key(session_id)
 
-        if self.redis.exists(key) != 1:
-            return None
+        with self.redis.pipeline() as pipeline:
+            while True:
+                try:
+                    pipeline.watch(key)
+                    session = self._load_session_data(pipeline, key)
+                    if session is None:
+                        pipeline.unwatch()
+                        return None
 
-        session_ttl = self.get_configured_ttl(session_id)
-        if session_ttl is None:
-            return None
+                    session_ttl = self._normalize_ttl(int(session["session_ttl"]))
 
-        pipeline = self.redis.pipeline()
-        pipeline.hincrby(key, field, amount)
-        pipeline.hset(key, mapping={"last_accessed_at": self._timestamp()})
-        pipeline.expire(key, session_ttl)
-        new_value, _, _ = pipeline.execute()
-
-        return int(new_value)
+                    pipeline.multi()
+                    pipeline.hincrby(key, field, amount)
+                    pipeline.hset(key, mapping={"last_accessed_at": self._timestamp()})
+                    pipeline.expire(key, session_ttl)
+                    new_value, _, _ = pipeline.execute()
+                    return int(new_value)
+                except redis.WatchError:
+                    continue
 
     def set_session_ttl(self, session_id: str, ttl: int) -> bool:
         """Update the configured TTL for a session and apply it immediately."""
         key = self._session_key(session_id)
-
-        if self.redis.exists(key) != 1:
-            return False
-
         session_ttl = self._normalize_ttl(ttl)
-        pipeline = self.redis.pipeline()
-        pipeline.hset(
-            key,
-            mapping={
-                "session_ttl": str(session_ttl),
-                "last_accessed_at": self._timestamp(),
-            },
-        )
-        pipeline.expire(key, session_ttl)
-        pipeline.execute()
-        return True
+
+        with self.redis.pipeline() as pipeline:
+            while True:
+                try:
+                    pipeline.watch(key)
+                    session = self._load_session_data(pipeline, key)
+                    if session is None:
+                        pipeline.unwatch()
+                        return False
+
+                    pipeline.multi()
+                    pipeline.hset(
+                        key,
+                        mapping={
+                            "session_ttl": str(session_ttl),
+                            "last_accessed_at": self._timestamp(),
+                        },
+                    )
+                    pipeline.expire(key, session_ttl)
+                    pipeline.execute()
+                    return True
+                except redis.WatchError:
+                    continue
 
     def delete_session(self, session_id: str) -> bool:
         """Delete a session from Redis."""
