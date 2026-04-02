@@ -44,10 +44,6 @@ Return the keys in the object that's referenced by `path`
 
 is the name of the key that holds the JSON document.
 
-If the key does not exist:
-- returns error if `path` is `.`-based
-- returns  `(nil)` if `path` is `$`-based
-- returns  `(nil)` if `path` is not specified
 </details>
 
 ## Optional arguments
@@ -55,10 +51,6 @@ If the key does not exist:
 <details open><summary><code>path</code></summary> 
 
 A JSONPath expression that resolves to zero or more locations within the JSON document. Default is `.`.
-
-If `path` has no matches:
-- returns error if `path` is `.`-based
-- returns `(nil)` if `path` is `$`-based
 
 </details>
 
@@ -85,16 +77,33 @@ redis> JSON.OBJKEYS doc $..a
     tab1="RESP2"
     tab2="RESP3" >}}
 
-With `$`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [array replies]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each nested array contains the key names in the object, or `null` if the matching value is not an object.
+With a `$`-based `path`: 
 
-With `.`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the key names in the object, or error if a matching value is not an object.
+- Returns `(nil)` if the key does not exist
+- Returns `(nil)` if `path` has no matches
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [array replies]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each nested array contains the key names in the object, or `null` if the matching value is not an object.
+
+With a `.`-based `path`:
+
+- Returns error if the key does not exist
+- Returns error if `path` has no matches
+- Returns error if a matching value is not an object
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the key names in the object
 
 -tab-sep-
 
+With a `$`-based `path`: 
 
-With `$`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [array replies]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each nested array contains the key names in the object, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an object.
+- Returns `(nil)` if `key` does not exist
+- Returns `(nil)` if `path` has no matches
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [array replies]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each nested array contains the key names in the object, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an object.
 
-With `.`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the key names in the object, or error if a matching value is not an object.
+With a `.`-based `path`:
+
+- Returns error if `key` does not exist
+- Returns error if `path` has no matches
+- Returns error if a matching value is not an object
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the key names in the object
 
 {{< /multitabs >}}
 
