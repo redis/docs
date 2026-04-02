@@ -18,4 +18,4 @@ This section provides practical examples and reference implementations for commo
 ## Available use cases
 
 * [Rate limiting]({{< relref "/develop/use-cases/rate-limiter" >}}) - Implement token bucket rate limiting with Redis
-
+* [Session storage]({{< relref "/develop/use-cases/session-store" >}}) - Store web sessions in Redis with TTL-based expiration
