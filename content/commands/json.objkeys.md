@@ -83,13 +83,13 @@ redis> JSON.OBJKEYS doc $..a
 
 With a `$`-based `path`: 
 
-- Returns `(nil)` if the key does not exist
+- Returns `(nil)` if `key` does not exist
 - Returns `(nil)` if `path` has no matches
 - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [array replies]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each nested array contains the key names in the object, or `null` if the matching value is not an object.
 
 With a `.`-based `path`:
 
-- Returns error if the key does not exist
+- Returns error if `key` does not exist
 - Returns error if `path` has no matches
 - Returns error if a matching value is not an object
 - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the key names in the object
