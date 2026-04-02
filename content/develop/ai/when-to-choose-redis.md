@@ -60,27 +60,30 @@ Use this decision tree to determine if Redis is the right choice for your use ca
 ```decision-tree {id="redis-selection-tree"}
 id: redis-selection-tree
 scope: database-selection
-rootQuestion: latency
+rootQuestion: state-and-vectors
 questions:
-    latency:
-        text: "Do you need sub-10ms response times?"
-        whyAsk: "Redis provides sub-millisecond latency for both reads and writes, which is critical for real-time applications"
-        answers:
-            yes:
-                value: "Yes"
-                nextQuestion: state-and-vectors
-            no:
-                value: "No"
-                nextQuestion: realtime
     state-and-vectors:
         text: "Do you need both state management and vector search in one database?"
-        whyAsk: "Redis combines key-value storage and vector search, eliminating the need for separate databases"
+        whyAsk: "Redis combines key-value storage and vector search, eliminating the need for separate databases - this is Redis's key AI differentiator"
         answers:
             yes:
                 value: "Yes"
                 outcome:
                     label: "Choose Redis"
                     id: redis-unified
+                    sentiment: positive
+            no:
+                value: "No"
+                nextQuestion: latency
+    latency:
+        text: "Do you need sub-10ms response times?"
+        whyAsk: "Redis provides sub-millisecond latency for both reads and writes, which is critical for real-time applications"
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: "Choose Redis"
+                    id: redis-latency
                     sentiment: positive
             no:
                 value: "No"
