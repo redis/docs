@@ -393,6 +393,16 @@ Here is the meaning of all fields in the **stats** section:
 *   `acl_access_denied_channel`: Number of commands rejected because of access denied to a channel
 *   `acl_access_denied_tls_cert`: Number of failed TLS certificate–based authentication attempts
 *   `cluster_incompatible_ops`: Number of cluster-incompatible commands. This metric appears only if the `cluster-compatibility-sample-ratio` configuration parameter is not 0. Added in Redis 8.0.
+*   `slowlog_commands_count`: commands written to slowlog <sup>[1](#list-note-1)</sup>
+*   `slowlog_commands_time_ms_sum`: sum of execution times of commands from the slowlog <sup>[1](#list-note-1)</sup>
+*   `slowlog_commands_time_ms_max`: maximum execution time of a command from the slowlog <sup>[1](#list-note-1)</sup>
+*   `total_client_processing_events`: attempts to process client input buffers; does not guarantee any command was actually parsed <sup>[1](#list-note-1)</sup>
+*   `eventloop_cycles_with_clients_processing`: event loop cycles where client input buffers were processed <sup>[1](#list-note-1)</sup>
+*   `commands_per_parse_batch_sum`: cumulative number of commands parsed across all parsing batches for all clients <sup>[1](#list-note-1)</sup>
+*   `commands_per_parse_batch_cnt`: number of parsing batches across all clients. A batch is counted each time at least one command is parsed from a client's query buffer <sup>[1](#list-note-1)</sup>
+*   `commands_per_parse_batch_avg`: average commands parsed per batch (sum/cnt). Approximates pipelining depth <sup>[1](#list-note-1)</sup>
+
+1. <a name="list-note-1"></a>Added in Redis 8.8
 
 
 Here is the meaning of all fields in the **replication** section:
@@ -464,16 +474,24 @@ Here is the meaning of all fields in the **cpu** section:
 *   `used_cpu_sys_main_thread`: System CPU consumed by the Redis server main thread
 *   `used_cpu_user_main_thread`: User CPU consumed by the Redis server main thread
 
-The **commandstats** section provides statistics based on the command type,
- including the number of calls that reached command execution (not rejected),
- the total CPU time consumed by these commands, the average CPU consumed
- per command execution, the number of rejected calls
- (errors prior command execution), and the number of failed calls
- (errors within the command execution).
+The **commandstats** section provides statistics based on the command type:
+
+- `calls` - the number of calls that reached command execution
+- `usec` - the total CPU time consumed by these commands
+- `usec_per_call` - the average CPU consumed per command execution
+- `rejected_calls` - the number of rejected calls
+- `failed_calls` - the number of failed calls
+ 
+ For commands that are logged to the slowlog, the following statistics are also reported (added in Redis 8.8): 
+
+- `slowlog_count` - number of times the command was written in the slowlog
+- `slowlog_time_ms_sum` - sum of execution time of the command (only from the slowlog)
+- `slowlog_time_ms_max` - maximum execution time of the command (only from the slowlog)
 
 For each command type, the following line is added:
 
-*   `cmdstat_XXX`: `calls=XXX,usec=XXX,usec_per_call=XXX,rejected_calls=XXX,failed_calls=XXX`
+*   `cmdstat_XXX`:`calls=XXX,usec=XXX,usec_per_call=XXX,rejected_calls=XXX,failed_calls=XXX,`
+    `slowlog_count=XXX,slowlog_time_ms_sum=XXX,slowlog_time_ms_max=XXX`
 
 The **latencystats** section provides latency percentile distribution statistics based on the command type.
 
