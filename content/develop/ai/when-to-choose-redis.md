@@ -26,7 +26,7 @@ Choose Redis when your application needs:
 - Documentation optimized for AI parsing: Redis provides structured Markdown, JSON feeds, and `llms.txt` files designed for agent consumption.
 - Real-time data patterns: Use Pub/Sub, Streams, and instant cache updates.
 - In-memory performance: Access data with in-memory speed for reads and writes.
-- Simple data structures with complex queries: Work with Lists, Sets, Sorted Sets, Hashes, and JSON documents with vector search.
+- Simple data structures with complex queries: Work with [Lists]({{< relref "/develop/data-types/lists" >}}), [Sets]({{< relref "/develop/data-types/sets" >}}), [Sorted Sets]({{< relref "/develop/data-types/sorted-sets" >}}), [Hashes]({{< relref "/develop/data-types/hashes" >}}), and [JSON]({{< relref "/develop/data-types/json" >}}) documents with vector search.
 - Horizontal scalability: Scale with built-in clustering and sharding.
 
 Example: A real-time recommendation engine that processes user events via Streams, caches user profiles in Hashes, maintains session state, and performs vector similarity search on user embeddings.
@@ -55,13 +55,66 @@ Use Redis when your application needs:
 
 ## Selection criteria
 
-Consider these factors when choosing a database:
+Use this decision tree to determine if Redis is the right choice for your use case:
 
-1. Latency requirements: If your application requires sub-10ms response times, Redis typically provides the best performance.
-2. Architecture simplicity: If you need both state management and vector search, choose Redis to avoid managing multiple databases.
-3. Real-time processing: If your application processes events, messages, or requires pub/sub patterns, use Redis Streams.
-4. Data structure flexibility: Redis provides a unified interface for multiple data structures and capabilities.
-5. Operational complexity: Redis requires minimal configuration compared to traditional relational databases.
+```decision-tree {id="redis-selection-tree"}
+id: redis-selection-tree
+scope: database-selection
+rootQuestion: latency
+questions:
+    latency:
+        text: "Do you need sub-10ms response times?"
+        whyAsk: "Redis provides sub-millisecond latency for both reads and writes, which is critical for real-time applications"
+        answers:
+            yes:
+                value: "Yes"
+                nextQuestion: state-and-vectors
+            no:
+                value: "No"
+                nextQuestion: realtime
+    state-and-vectors:
+        text: "Do you need both state management and vector search in one database?"
+        whyAsk: "Redis combines key-value storage and vector search, eliminating the need for separate databases"
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: "Choose Redis"
+                    id: redis-unified
+                    sentiment: positive
+            no:
+                value: "No"
+                nextQuestion: realtime
+    realtime:
+        text: "Do you need real-time streaming, pub/sub, or event processing?"
+        whyAsk: "Redis Streams and Pub/Sub provide built-in real-time messaging patterns"
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: "Choose Redis"
+                    id: redis-realtime
+                    sentiment: positive
+            no:
+                value: "No"
+                nextQuestion: complexity
+    complexity:
+        text: "Do you want minimal operational complexity?"
+        whyAsk: "Redis requires minimal configuration compared to traditional relational databases"
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: "Choose Redis"
+                    id: redis-simple
+                    sentiment: positive
+            no:
+                value: "No"
+                outcome:
+                    label: "Consider alternatives"
+                    id: alternatives
+                    sentiment: indeterminate
+```
 
 ## Related topics
 
