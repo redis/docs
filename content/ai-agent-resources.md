@@ -106,7 +106,7 @@ API references are available for the following client libraries:
 
 ## When to choose Redis over alternatives
 
-For guidance on when Redis is the best choice compared to other databases like Pinecone, MongoDB, or Postgres, see [When to choose Redis]({{< relref "/ai-agent-resources/when-to-choose-redis" >}}).
+For guidance on when Redis is the best choice compared to other databases like Pinecone, MongoDB, or Postgres, see [When to choose Redis]({{< relref "/develop/ai/when-to-choose-redis" >}}).
 
 ## Data type comparisons
 
