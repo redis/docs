@@ -132,7 +132,7 @@ scrape_configs:
 ```
     {{< /multitabs >}}
 
-1. Set up your Prometheus and Grafana servers.
+1. Set up your Prometheus and Grafana servers. See the official [Prometheus installation](https://prometheus.io/docs/prometheus/latest/installation/) and [Grafana installation](https://grafana.com/docs/grafana/latest/setup-grafana/installation/) documentation for help.
 
     {{< note >}}
 
@@ -140,7 +140,8 @@ We recommend running Prometheus in Docker only for development and testing.
 
     {{< /note >}}
 
-    To set up Prometheus and Grafana on Docker:
+    To set up Prometheus and Grafana on Docker, follow these steps. For additional help, see the official [Prometheus](https://prometheus.io/docs/prometheus/latest/installation/#using-docker) and [Grafana](https://grafana.com/docs/grafana/latest/setup-grafana/installation/docker/) Docker image documentation.
+
     1. Create a _docker-compose.yml_ file:
 
         ```yml
@@ -227,7 +228,29 @@ We recommend running Prometheus in Docker only for development and testing.
     To add preconfigured dashboards:
     1. In the Grafana dashboards menu, select **Manage**.
     1. Click **Import**.
-    1. Upload one or more [Grafana dashboards](#grafana-dashboards-for-redis-enterprise).
+    1. Upload one or more [Grafana dashboards](#grafana-dashboards-for-redis-software).
+
+1. To set up alerts in Prometheus or Grafana, see the following resources:
+
+    - [Official Prometheus alerting documentation](https://prometheus.io/docs/alerting/latest/overview/)
+
+    - For v1 metrics alerts:
+
+        - [Configuring Prometheus
+ for v1 metrics alerts](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/prometheus#readme)
+    
+        - [Example Prometheus alert rules for v1 metrics](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/prometheus/rules/alerts.yml)
+
+    - For v2 metrics alerts:
+
+        - [Configuring Prometheus
+ for v2 metrics alerts](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/prometheus_v2#readme)
+    
+        - [Example Prometheus alert rules for v2 metrics](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/prometheus_v2/rules/alerts.yml)
+
+        - [Tutorial on how to set up alerting for Redis](https://redis.io/tutorials/operate/observability/redis-software-prometheus-and-grafana/#how-do-you-set-up-alerting-for-redis)
+
+    - [Official Grafana Alerting documentation](https://grafana.com/docs/grafana/latest/alerting/)
 
 ## Grafana dashboards for Redis Software
 
