@@ -488,6 +488,16 @@ class SessionDemoHandler(BaseHTTPRequestHandler):
       `;
     }}
 
+    function escapeHtml(value) {{
+      return String(value).replace(/[&<>"']/g, (char) => ({{
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      }})[char]);
+    }}
+
     function renderSession(data) {{
       if (!data || !data.authenticated) {{
         renderLoggedOut();
@@ -495,19 +505,26 @@ class SessionDemoHandler(BaseHTTPRequestHandler):
       }}
 
       const session = data.session;
+      const sessionId = escapeHtml(data.session_id ?? "");
+      const username = escapeHtml(session.username ?? "");
+      const pageViews = escapeHtml(session.page_views ?? "0");
+      const configuredTtl = escapeHtml(data.configured_ttl ?? session.session_ttl ?? "");
+      const createdAt = escapeHtml(session.created_at ?? "");
+      const lastAccessed = escapeHtml(session.last_accessed_at ?? "");
+      const ttl = escapeHtml(data.ttl ?? session.ttl ?? "");
       sessionView.innerHTML = `
         <dl>
-          <dt>Session ID</dt><dd>${{data.session_id}}</dd>
-          <dt>Username</dt><dd>${{session.username}}</dd>
-          <dt>Page views</dt><dd>${{session.page_views}}</dd>
-          <dt>Configured TTL</dt><dd>${{data.configured_ttl ?? session.session_ttl}} seconds</dd>
-          <dt>Created</dt><dd>${{session.created_at}}</dd>
-          <dt>Last accessed</dt><dd>${{session.last_accessed_at}}</dd>
-          <dt>TTL</dt><dd>${{data.ttl ?? session.ttl}} seconds</dd>
+          <dt>Session ID</dt><dd>${{sessionId}}</dd>
+          <dt>Username</dt><dd>${{username}}</dd>
+          <dt>Page views</dt><dd>${{pageViews}}</dd>
+          <dt>Configured TTL</dt><dd>${{configuredTtl}} seconds</dd>
+          <dt>Created</dt><dd>${{createdAt}}</dd>
+          <dt>Last accessed</dt><dd>${{lastAccessed}}</dd>
+          <dt>TTL</dt><dd>${{ttl}} seconds</dd>
         </dl>
         <form id="ttl-form">
           <label for="active-ttl">Update session TTL (seconds)</label>
-          <input id="active-ttl" name="ttl" type="number" value="${{data.configured_ttl ?? session.session_ttl}}" min="1" step="1">
+          <input id="active-ttl" name="ttl" type="number" value="${{configuredTtl}}" min="1" step="1">
           <button type="submit">Apply TTL</button>
         </form>
         <button id="increment-button">Increment page views</button>

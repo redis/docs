@@ -87,6 +87,8 @@ The implementation uses:
 * [`EXPIRE`]({{< relref "/commands/expire" >}}) to implement sliding expiration
 * [`DEL`]({{< relref "/commands/del" >}}) to remove a session on logout
 
+The store treats `created_at`, `last_accessed_at`, and `session_ttl` as reserved internal fields, so caller-provided session data cannot overwrite them.
+
 ## Session store implementation
 
 The `create_session()` method generates a random session ID, writes the initial hash fields, and sets the TTL:
@@ -102,13 +104,22 @@ def create_session(
     now = self._timestamp()
     session_ttl = self._normalize_ttl(ttl)
 
-    payload = {
-        "created_at": now,
-        "last_accessed_at": now,
-        "session_ttl": str(session_ttl),
-    }
+    payload = {}
     if data:
-        payload.update({field: str(value) for field, value in data.items()})
+        payload.update(
+            {
+                field: str(value)
+                for field, value in data.items()
+                if field not in RESERVED_SESSION_FIELDS
+            }
+        )
+    payload.update(
+        {
+            "created_at": now,
+            "last_accessed_at": now,
+            "session_ttl": str(session_ttl),
+        }
+    )
 
     pipeline = self.redis.pipeline()
     pipeline.hset(key, mapping=payload)

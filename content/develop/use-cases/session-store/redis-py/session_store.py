@@ -14,6 +14,9 @@ from typing import Optional
 import redis
 
 
+RESERVED_SESSION_FIELDS = {"created_at", "last_accessed_at", "session_ttl"}
+
+
 class RedisSessionStore:
     """Store session data in Redis using hash keys and TTL-based expiration."""
 
@@ -55,13 +58,22 @@ class RedisSessionStore:
         now = self._timestamp()
         session_ttl = self._normalize_ttl(ttl)
 
-        payload = {
-            "created_at": now,
-            "last_accessed_at": now,
-            "session_ttl": str(session_ttl),
-        }
+        payload: dict[str, str] = {}
         if data:
-            payload.update({field: str(value) for field, value in data.items()})
+            payload.update(
+                {
+                    field: str(value)
+                    for field, value in data.items()
+                    if field not in RESERVED_SESSION_FIELDS
+                }
+            )
+        payload.update(
+            {
+                "created_at": now,
+                "last_accessed_at": now,
+                "session_ttl": str(session_ttl),
+            }
+        )
 
         pipeline = self.redis.pipeline()
         pipeline.hset(key, mapping=payload)
