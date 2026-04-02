@@ -30,11 +30,15 @@ module: JSON
 railroad_diagram: /images/railroad/json.objkeys.svg
 since: 1.0.0
 stack_path: docs/data-types/json
-summary: Returns the JSON keys of the object at path
+summary: Return the keys of all objects that match a given path.
 syntax_fmt: JSON.OBJKEYS key [path]
 title: JSON.OBJKEYS
 ---
-Return the keys in the object that's referenced by `path`
+Return the keys of all objects that match `path`.
+
+{{< note >}}
+A JSON object is a set of key-value pairs. Do not confuse Redis keys with JSON object keys.
+{{< /note >}}
 
 [Examples](#examples)
 
@@ -42,7 +46,7 @@ Return the keys in the object that's referenced by `path`
 
 <details open><summary><code>key</code></summary> 
 
-is the name of the key that holds the JSON document.
+is the name of a key that holds a JSON document.
 
 </details>
 
@@ -50,7 +54,7 @@ is the name of the key that holds the JSON document.
 
 <details open><summary><code>path</code></summary> 
 
-A JSONPath expression that resolves to zero or more locations within the JSON document. Default is `.`.
+is a JSONPath expression that resolves to zero or more locations (matches) within the JSON document. Default is `.`.
 
 </details>
 
