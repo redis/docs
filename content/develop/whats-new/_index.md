@@ -106,10 +106,9 @@ weight: 10
 - Fixed fuzzy search documentation with specific attribute examples
 - Updated client library description differences across all major clients
 - Added observability overview with OpenTelemetry metrics
-- Added client-specific observability pages for Python and Go
-
 - Added Smart client handoffs overview
 - Docs for n8n Redis vector store integration
+- Added railroad diagrams and API methods to all command pages
 
 ---
 
