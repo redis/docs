@@ -396,9 +396,11 @@ Here is the meaning of all fields in the **stats** section:
 *   `slowlog_commands_count`: commands written to slowlog <sup>[1](#list-note-1)</sup>
 *   `slowlog_commands_time_ms_sum`: sum of execution times of commands from the slowlog <sup>[1](#list-note-1)</sup>
 *   `slowlog_commands_time_ms_max`: maximum execution time of a command from the slowlog <sup>[1](#list-note-1)</sup>
-*   `total_client_processing_events`: total `processInputBuffer()` calls <sup>[1](#list-note-1)</sup>
+*   `total_client_processing_events`: attempts to process client input buffers; does not guarantee any command was actually parsed <sup>[1](#list-note-1)</sup>
 *   `eventloop_cycles_with_clients_processing`: event loop cycles where client input buffers were processed <sup>[1](#list-note-1)</sup>
-*   `avg_pipeline_length_sum`, `avg_pipeline_length_cnt`, `avg_pipeline_length`: global pipeline depth aggregates <sup>[1](#list-note-1)</sup>
+*   `commands_per_parse_batch_sum`: cumulative number of commands parsed across all parsing batches for all clients <sup>[1](#list-note-1)</sup>
+*   `commands_per_parse_batch_cnt`: number of parsing batches across all clients. A batch is counted each time at least one command is parsed from a client's query buffer <sup>[1](#list-note-1)</sup>
+*   `commands_per_parse_batch_avg`: average commands parsed per batch (sum/cnt). Approximates pipelining depth <sup>[1](#list-note-1)</sup>
 
 1. <a name="list-note-1"></a>Added in Redis 8.8
 

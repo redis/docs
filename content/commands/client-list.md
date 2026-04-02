@@ -128,10 +128,9 @@ Here is the meaning of the fields:
 * `tot-net-in`: total network input bytes read from this client.
 * `tot-net-out`: total network output bytes sent to this client.
 * `tot-cmds`: total count of commands this client executed.
-* `read-events`: number of `readQueryFromClient()` calls for this client. Added in Redis 8.8
-* `avg-pipeline-len-sum`: cumulative sum of commands parsed per batch. Added in Redis 8.8
-* `avg-pipeline-len-cnt`: number of parse batches. Added in Redis 8.8
-
+* `read-events`: number of read events for this client. Added in Redis 8.8
+* `parse-batch-cmd-sum`: cumulative number of commands parsed across all parsing batches for this client. Added in Redis 8.8
+* `parse-batch-cnt`: total number of parsing batches for this client. Divide `parse-batch-cmd-sum` by this value to get the client’s average commands per batch. Added in Redis 8.8
 
 The client flags can be a combination of:
 
