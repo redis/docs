@@ -90,7 +90,7 @@ class RedisSessionStore:
 
         stored_ttl = self.redis.hget(key, "session_ttl")
         if stored_ttl is None:
-            return self.ttl
+            return None
 
         return self._normalize_ttl(int(stored_ttl))
 
