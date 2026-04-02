@@ -152,6 +152,14 @@ class SessionDemoHandler(BaseHTTPRequestHandler):
             return
 
         session = self.session_store.get_session(session_id)
+        if session is None:
+            self._send_json(
+                {"error": "Session expired"},
+                401,
+                clear_session_cookie=True,
+            )
+            return
+
         self._send_json(
             {
                 "authenticated": True,
@@ -185,6 +193,14 @@ class SessionDemoHandler(BaseHTTPRequestHandler):
             return
 
         session = self.session_store.get_session(session_id)
+        if session is None:
+            self._send_json(
+                {"error": "Session expired"},
+                401,
+                clear_session_cookie=True,
+            )
+            return
+
         self._send_json(
             {
                 "authenticated": True,
