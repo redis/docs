@@ -56,7 +56,7 @@ is the name of a Redis key that holds the JSON document to query.
 
 is either 
 
-- A JSONPath expression (`$`, starts with `$.`, or starts with `$[`).
+- A JSONPath expression ("`$`", starts with "`$.`", or starts with "`$[`").
 - A legacy path expression (any string that is not a JSONPath expression).
 
 A JSONPath expression resolves to all matching locations within the JSON document.
