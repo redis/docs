@@ -96,6 +96,8 @@ With a `.`-based `path`:
 
 -tab-sep-
 
+With a `$`-based `path`: 
+
 - error if `key` does not exist
 - an empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches
 - an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element is `null` if a match is not an object, or an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})) containing the key names if the match is an object
