@@ -22,7 +22,7 @@ categories:
 complexity: O(N) when path is evaluated to a single value, where N is the number of
   keys in the object, O(N) when path is evaluated to multiple values, where N is the
   size of the key
-description: Returns the keys of JSON objects located at the paths that match a given JSONPath
+description: Returns the key names of JSON objects located at the paths that match a given JSONPath
 group: json
 hidden: false
 linkTitle: JSON.OBJKEYS
@@ -30,11 +30,11 @@ module: JSON
 railroad_diagram: /images/railroad/json.objkeys.svg
 since: 1.0.0
 stack_path: docs/data-types/json
-summary: Returns the keys of JSON objects located at the paths that match a given JSONPath
+summary: Returns the key names of JSON objects located at the paths that match a given JSONPath expression
 syntax_fmt: JSON.OBJKEYS key [path]
 title: JSON.OBJKEYS
 ---
-Returns the keys of JSON objects located at the paths that match a given JSONPath.
+Returns the key names of JSON objects located at the paths that match a given JSONPath expression.
 
 {{< note >}}
 A JSON object is a set of key-value pairs. Do not confuse Redis keys with JSON object keys.
