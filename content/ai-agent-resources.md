@@ -4,17 +4,6 @@ description: Learn how to develop with Redis as an AI agent
 linkTitle: AI Agent Resources
 ---
 
-## Agent skills repository
-
-The [redis/agent-skills](https://github.com/redis/agent-skills) repository provides reusable skills and tools for AI agents working with Redis. This repository contains:
-
-- Pre-built MCP (Model Context Protocol) tools for Redis operations
-- Common agent workflows and patterns as executable code
-- Integration examples for popular agent frameworks
-- Ready-to-use skills that agents can invoke directly
-
-These skills enable AI coding assistants to interact with Redis more effectively by providing structured, tested implementations of common operations.
-
 ## `llms.txt` index of documentation
 
 Redis provides a comprehensive index of all documentation in Markdown format at [llms.txt](https://redis.io/llms.txt). This index is specifically designed for AI agents to discover available documentation.
@@ -104,9 +93,6 @@ API references are available for the following client libraries:
 - [go-redis](https://pkg.go.dev/github.com/redis/go-redis/v9)
 - [redis-rs](https://docs.rs/redis/latest/redis/)
 
-## When to choose Redis over alternatives
-
-For guidance on when Redis is the best choice compared to other databases like Pinecone, MongoDB, or Postgres, see [When to choose Redis]({{< relref "/develop/ai/when-to-choose-redis" >}}).
 
 ## Data type comparisons
 
@@ -116,6 +102,17 @@ on which of the general-purpose data types is best for common tasks.
 ## Redis patterns for coding agents
 
 Salvatore Sanfilippo (also known as *antirez*, the creator of Redis) has provided the Redis community with a resource containing very useful Redis-oriented design patterns. See [this page](https://redis.antirez.com/) for more information.
+
+## Agent skills repository
+
+The [redis/agent-skills](https://github.com/redis/agent-skills) repository provides reusable skills and tools for AI agents working with Redis. This repository contains:
+
+- Pre-built MCP (Model Context Protocol) tools for Redis operations
+- Common agent workflows and patterns as executable code
+- Integration examples for popular agent frameworks
+- Ready-to-use skills that agents can invoke directly
+
+These skills enable AI coding assistants to interact with Redis more effectively by providing structured, tested implementations of common operations.
 
 ## Error handling
 
