@@ -54,7 +54,7 @@ is the name of a Redis key that holds a JSON document.
 
 <details open><summary><code>path</code></summary> 
 
-is a JSONPath expression that resolves to zero or more locations (matches) within the JSON document. Default is `.`.
+is a JSONPath expression that resolves to zero or more locations (matches) within the JSON document. Default is "`.`".
 
 </details>
 
