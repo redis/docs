@@ -22,7 +22,7 @@ categories:
 complexity: O(N) when path is evaluated to a single value, where N is the number of
   keys in the object, O(N) when path is evaluated to multiple values, where N is the
   size of the key
-description: Returns the key names of JSON objects located at the paths that match a given JSONPath expression
+description: Returns the key names of JSON objects located at the paths that match a given path expression
 group: json
 hidden: false
 linkTitle: JSON.OBJKEYS
@@ -30,11 +30,11 @@ module: JSON
 railroad_diagram: /images/railroad/json.objkeys.svg
 since: 1.0.0
 stack_path: docs/data-types/json
-summary: Returns the key names of JSON objects located at the paths that match a given JSONPath expression
+summary: Returns the key names of JSON objects located at the paths that match a given path expression
 syntax_fmt: JSON.OBJKEYS key [path]
 title: JSON.OBJKEYS
 ---
-Returns the key names of JSON objects located at the paths that match a given JSONPath expression.
+Returns the key names of JSON objects located at the paths that match a given path expression.
 
 {{< note >}}
 A JSON object is an unordered set of key-value (also called name-value) pairs. Do not confuse "Redis keys" with "Object keys".
@@ -54,7 +54,16 @@ is the name of a Redis key that holds the JSON document to query.
 
 <details open><summary><code>path</code></summary> 
 
-is a JSONPath expression that resolves to zero or more locations (matches) within the JSON document. Default is "`.`".
+is either 
+
+- A JSONPath expression (`$`, starts with `$.`, or starts with `$[`).
+- A legacy path expression (any string that is not a JSONPath expression).
+
+A JSONPath expression resolves to all matching locations within the JSON document.
+
+A legacy path expression resolves to the first matching location within the JSON document.
+
+Default is "`.`".
 
 </details>
 
@@ -81,7 +90,7 @@ redis> JSON.OBJKEYS doc $..a
     tab1="RESP2"
     tab2="RESP3" >}}
 
-With a `$`-based `path`: 
+If `path` is a JSONpath expression:
 
 - a [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist
 - an empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches
@@ -89,7 +98,7 @@ With a `$`-based `path`:
   - `null` if the match is not an object
   - an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})) containing the object's key names if the match is an object
 
-With a `.`-based `path`:
+If `path` is a legacy path expression:
 
 - `null` if `key` does not exist
 - `null` if `path` has no matches
@@ -98,7 +107,7 @@ With a `.`-based `path`:
 
 -tab-sep-
 
-With a `$`-based `path`: 
+If `path` is a JSONpath expression:
 
 - a [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist
 - an empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches
@@ -106,7 +115,7 @@ With a `$`-based `path`:
   - `null` if the match is not an object
   - an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})) containing the object's key names if the match is an object
 
-With a `.`-based `path`:
+If `path` is a legacy path expression:
 
 - `null` if `key` does not exist
 - `null` if `path` has no matches
