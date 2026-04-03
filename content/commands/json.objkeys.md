@@ -37,7 +37,7 @@ title: JSON.OBJKEYS
 Returns the key names of JSON objects located at the paths that match a given JSONPath expression.
 
 {{< note >}}
-A JSON object is a set of key-value pairs. Do not confuse Redis keys with JSON object keys.
+A JSON object is a set of key-value (or name-value) pairs. Do not confuse "Redis keys" with "Object keys".
 {{< /note >}}
 
 [Examples](#examples)
