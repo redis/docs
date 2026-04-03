@@ -1875,6 +1875,50 @@
         "x-stability-level": "stable"
       }
     },
+    "/v1/cluster/certificates/{certificate_name}": {
+      "delete": {
+        "description": "Delete a cluster certificate by logical name.",
+        "operationId": "cluster_delete_cluster_certificate",
+        "parameters": [
+          {
+            "description": "The cluster certificate logical name.",
+            "in": "path",
+            "name": "certificate_name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cluster certificate deleted successfully."
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "update_cluster"
+            ]
+          }
+        ],
+        "summary": "Delete a cluster certificate.",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
     "/v1/cluster/change_password_hashing_algorithm": {
       "patch": {
         "description": "Change the password hashing algorithm used for all users in the cluster.\nThis will re-hash all existing user passwords with the new algorithm.\n",
