@@ -85,7 +85,7 @@ With a `$`-based `path`:
 
 - error if `key` does not exist
 - an empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [array replies]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each array element is `null` if the match is not an object or a nested array containing the key names in the object.
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [array replies]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each array element is `null` if the match is not an object, or a nested array containing the key names of the JSON object.
 
 With a `.`-based `path`:
 
@@ -100,7 +100,7 @@ With a `$`-based `path`:
 
 - error if `key` does not exist
 - an empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [array replies]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each array element is `null` if the match is not an object or a nested array containing the key names in the object.
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [array replies]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each array element is `null` if the match is not an object, or a nested array containing the key names of the JSON object.
 
 With a `.`-based `path`:
 
