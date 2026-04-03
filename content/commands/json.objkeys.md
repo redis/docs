@@ -22,7 +22,7 @@ categories:
 complexity: O(N) when path is evaluated to a single value, where N is the number of
   keys in the object, O(N) when path is evaluated to multiple values, where N is the
   size of the key
-description: Returns the key names of JSON objects located at the paths that match a given JSONPath
+description: Returns the key names of JSON objects located at the paths that match a given JSONPath expression
 group: json
 hidden: false
 linkTitle: JSON.OBJKEYS
@@ -37,7 +37,7 @@ title: JSON.OBJKEYS
 Returns the key names of JSON objects located at the paths that match a given JSONPath expression.
 
 {{< note >}}
-A JSON object is an unordered set of key/value (or name/value) pairs. Do not confuse "Redis keys" with "Object keys".
+A JSON object is an unordered set of key-value (also called name-value) pairs. Do not confuse "Redis keys" with "Object keys".
 {{< /note >}}
 
 [Examples](#examples)
@@ -46,7 +46,7 @@ A JSON object is an unordered set of key/value (or name/value) pairs. Do not con
 
 <details open><summary><code>key</code></summary> 
 
-is the name of a Redis key that holds a JSON document.
+is the name of a Redis key that holds the JSON document to query.
 
 </details>
 
@@ -100,7 +100,7 @@ With a `.`-based `path`:
 
 With a `$`-based `path`: 
 
-- a [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}})
+- a [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist
 - an empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches
 - an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element is:
   - `null` if a match is not an object
@@ -121,5 +121,6 @@ With a `.`-based `path`:
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [The JSON data type]({{< relref "/develop/data-types/json/" >}})
+* [JSONPath]({{< relref "/develop/data-types/json/path" >}})
 * [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
