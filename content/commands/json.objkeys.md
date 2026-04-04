@@ -61,7 +61,7 @@ is either
   - Resolves to all matching locations in `key`.
 - A legacy path expression 
   - Any string that does not match the JSONPath syntax above.
-  - Allow the leading "`.`" to be omitted (e.g., `name` and `.name` are equivalent).
+  - Allow the leading "`.`" to be omitted (e.g., "`name`" and "`.name`" are equivalent).
   - Resolves to only the first matching location in `key`.
 
 Default: "`.`" (legacy path pointing to the root of the document).
