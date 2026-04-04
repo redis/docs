@@ -56,14 +56,15 @@ is a Redis key storing a value of type JSON.
 
 is either 
 
-- A JSONPath expression ("`$`" or a string that starts with "`$.`" or "`$[`").
-- A legacy path expression (any string that is not a JSONPath expression).
+- A JSONPath expression
+  - The root "`$`", or any string that starts with "`$.`" or "`$[`".
+  - Resolves to all matching locations in `key`.
+- A legacy path expression 
+  - Any string that does not match the JSONPath syntax above.
+  - Allow the leading "`.`" to be omitted (e.g., `name` and `.name` are equivalent).
+  - Resolves to only the first matching location in `key`.
 
-A JSONPath expression resolves to all the matching locations in `key`.
-
-A legacy path expression resolves to the first matching location in `key`.
-
-Default is "`.`".
+Default: "`.`" (legacy path pointing to the root of the document).
 
 </details>
 
