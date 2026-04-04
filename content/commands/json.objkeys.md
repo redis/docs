@@ -46,7 +46,7 @@ A JSON object is an unordered set of key-value (also called name-value) pairs. D
 
 <details open><summary><code>key</code></summary> 
 
-is the name of a Redis key that holds the JSON document to query.
+is a key name that holds a JSON document.
 
 </details>
 
@@ -56,7 +56,7 @@ is the name of a Redis key that holds the JSON document to query.
 
 is either 
 
-- A JSONPath expression ("`$`", starts with "`$.`", or starts with "`$[`").
+- A JSONPath expression ("`$`" or a string that starts with "`$.`" or "`$[`").
 - A legacy path expression (any string that is not a JSONPath expression).
 
 A JSONPath expression resolves to all matching locations within the JSON document.
