@@ -37,7 +37,7 @@ title: JSON.OBJKEYS
 Returns the key names of JSON objects located at the paths that match a given path expression.
 
 {{< note >}}
-A JSON object is an unordered set of key-value (also called name-value) pairs. Do not confuse "Redis keys" with "Object keys".
+A JSON object is a structure within a JSON document that contains an unordered set of key-value pairs (also called name-value pairs). Do not confuse Redis keys with JSON object keys.
 {{< /note >}}
 
 [Examples](#examples)
@@ -46,7 +46,7 @@ A JSON object is an unordered set of key-value (also called name-value) pairs. D
 
 <details open><summary><code>key</code></summary> 
 
-is a key name that holds a JSON document.
+is a Redis key storing a value of type JSON.
 
 </details>
 
