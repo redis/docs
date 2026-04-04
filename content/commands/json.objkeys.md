@@ -59,9 +59,9 @@ is either
 - A JSONPath expression ("`$`" or a string that starts with "`$.`" or "`$[`").
 - A legacy path expression (any string that is not a JSONPath expression).
 
-A JSONPath expression resolves to all matching locations within the JSON document.
+A JSONPath expression resolves to all the matching locations in `key`.
 
-A legacy path expression resolves to the first matching location within the JSON document.
+A legacy path expression resolves to the first matching location in `key`.
 
 Default is "`.`".
 
