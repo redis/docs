@@ -127,7 +127,7 @@ If `path` is a legacy path expression:
 
 ## See also
 
-[`JSON.ARRINDEX`]({{< relref "commands/json.arrindex/" >}}) | [`JSON.ARRINSERT`]({{< relref "commands/json.arrinsert/" >}}) 
+[`JSON.OBJLEN`]({{< relref "commands/json.objlen/" >}})
 
 ## Related topics
 
