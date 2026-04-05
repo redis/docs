@@ -91,7 +91,7 @@ redis> JSON.OBJKEYS doc $..a
     tab1="RESP2"
     tab2="RESP3" >}}
 
-If `path` is a JSONpath expression:
+If `path` is a JSONPath expression:
 
 - a [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist
 - an empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches
