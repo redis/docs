@@ -61,7 +61,7 @@ is either
   - Resolves to all matching locations in `key`.
 - A legacy path expression 
   - Any string that does not match the JSONPath syntax above.
-  - Allow the leading "`.`" to be omitted (e.g., "`name`" and "`.name`" are equivalent).
+  - Allow the leading "`.`" to be omitted (for example, "`name`" and "`.name`" are equivalent).
   - Resolves to only the first matching location in `key`.
 
 Default: "`.`" (legacy path pointing to the root of the document).
@@ -93,35 +93,35 @@ redis> JSON.OBJKEYS doc $..a
 
 If `path` is a JSONPath expression:
 
-- a [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist
-- an empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches
-- an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
-  - `null` if the match is not an object
-  - an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})) containing the object's key names if the match is an object
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
+- An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
+- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
+  - [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if the match is not an object.
+  - An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the object's key names if the match is an object.
 
 If `path` is a legacy path expression:
 
-- `null` if `key` does not exist
-- `null` if `path` has no matches
-- a [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not an object
-- an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})) containing the object's key names of the first match
+- [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if `key` does not exist.
+- [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if `path` has no matches.
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not an object.
+- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the object's key names of the first match.
 
 -tab-sep-
 
 If `path` is a JSONpath expression:
 
-- a [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist
-- an empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches
-- an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
-  - `null` if the match is not an object
-  - an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})) containing the object's key names if the match is an object
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
+- An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
+- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
+  - [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the match is not an object.
+  - An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the object's key names if the match is an object.
 
 If `path` is a legacy path expression:
 
-- `null` if `key` does not exist
-- `null` if `path` has no matches
-- a [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not an object
-- an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})) containing the object's key names of the first match
+- [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if `key` does not exist.
+- [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if `path` has no matches.
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not an object.
+- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the object's key names of the first match.
 
 {{< /multitabs >}}
 
