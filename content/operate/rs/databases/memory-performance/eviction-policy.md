@@ -14,9 +14,9 @@ weight: 10
 
 The eviction policy determines what happens when a database reaches its memory limit.  
 
-To make room for new data, older data is _evicted_ (removed) according to the selected policy.
+To make room for new data, older data is _evicted_ (removed) according to the selected policy. To prevent this from happening, make sure your database is large enough to hold all keys.
 
-To prevent this from happening, make sure your database is large enough to hold all desired keys.  
+In clustered databases, each shard tracks its own memory usage and triggers eviction when it reaches its memory limit. If data is distributed unevenly across shards, some shards can fill up and start evicting keys while the overall database memory utilization is still below the configured limit.
 
 | **Eviction&nbsp;Policy** | **Description** |
 |------------|-----------------|
@@ -37,15 +37,20 @@ The default policy for [Active-Active databases]({{< relref "/operate/rs/databas
 
 ## Active-Active database eviction
 
-The eviction policy mechanism for Active-Active databases kicks in earlier than for standalone databases because it requires propagation to all participating clusters. 
-The eviction policy starts to evict keys when one of the Active-Active instances reaches 80% of its memory limit. If memory usage continues to rise while the keys are being evicted, the rate of eviction will increase to prevent reaching the Out-of-Memory state.
-As with standalone Redis Software databases, Active-Active eviction is calculated per shard.
-To prevent over eviction, internal heuristics might prevent keys from being evicted when the shard reaches the 80% memory limit.  In such cases, keys will get evicted only when shard memory reaches 100%.
+The eviction policy mechanism for Active-Active databases starts earlier than for standalone databases because it requires propagation to all participating clusters. The eviction policy starts to evict keys when a shard in one of the Active-Active instances reaches 80% of its memory limit.
 
-In case of network issues between Active-Active instances, memory can be freed only when all instances are in sync. If there is no communication between participating clusters, it can result in eviction of all keys and the instance reaching an Out-of-Memory state.
+- The 80% threshold applies to each shard's memory limit, not to the overall database limit.
+
+- If memory continues to rise while keys are being evicted, the eviction rate increases to avoid out-of-memory errors.
+
+- To avoid over eviction, internal heuristics might prevent keys from being evicted when the shard reaches the 80% memory limit. In such cases, keys will be evicted only when shard memory reaches 100%.
+
+- Redis Software sometimes allocates a higher `maxmemory` value to individual shards to accommodate uneven key distribution and avoid out-of-memory errors.
+
+In case of network issues between Active-Active instances, memory can be freed only when all instances are in sync. If there is no communication between participating clusters, it can result in eviction of all keys and the instance reaching an out-of-memory state.
 
 {{< note >}}
-Data eviction policies are not supported for Active-Active databases with Auto Tiering .
+Data eviction policies are not supported for Active-Active databases with Auto Tiering.
 {{< /note >}}
 
 ## Avoid data eviction
