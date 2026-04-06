@@ -124,6 +124,7 @@ The following table summarizes the RESP data types that Redis supports:
 | [Simple Errors](#simple-errors) | RESP2 | Simple | `-` |
 | [Integers](#integers) | RESP2 | Simple | `:` |
 | [Bulk strings](#bulk-strings) | RESP2 | Aggregate | `$` |
+| [Null bulk strings](#null-bulk-strings) | RESP2 | Aggregate | `$-1\r\n` |
 | [Arrays](#arrays) | RESP2 | Aggregate | `*` |
 | [Nulls](#nulls) | RESP3 | Simple | `_` |
 | [Booleans](#booleans) | RESP3 | Simple | `#` |
@@ -235,7 +236,7 @@ The empty string's encoding is:
 
 <a name="nil-reply"></a>
 
-#### Null bulk strings
+### Null bulk strings
 Whereas RESP3 has a dedicated data type for [null values](#nulls), RESP2 has no such type.
 Instead, due to historical reasons, the representation of null values in RESP2 is via predetermined forms of the [bulk strings](#bulk-strings) and [arrays](#arrays) types.
 
