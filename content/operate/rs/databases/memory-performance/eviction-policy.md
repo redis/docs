@@ -41,7 +41,7 @@ The eviction policy mechanism for Active-Active databases starts earlier than fo
 
 - The 80% threshold applies to each shard's memory limit, not to the overall database limit.
 
-- If memory continues to rise while keys are being evicted, the eviction rate increases to avoid out-of-memory errors.
+- If memory usage continues to rise while keys are being evicted, the eviction rate increases to avoid out-of-memory errors.
 
 - To avoid over eviction, internal heuristics might prevent keys from being evicted when the shard reaches the 80% memory limit. In such cases, keys will be evicted only when shard memory reaches 100%.
 
