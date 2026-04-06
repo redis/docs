@@ -131,12 +131,12 @@ redis> CF.INSERTNX cf_new CAPACITY 1000 NOCREATE ITEMS item1 item2
 
 One of the following:
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) of `0` means that the item's fingerprint already exists in the filter, `1` for successfully adding an item, or `-1` when the item cannot be added because the filter is full.
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `0` means that the item's fingerprint already exists in the filter, `1` for successfully adding an item, or `-1` when the item cannot be added because the filter is full.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) when the number of arguments or key type is incorrect, and also when `NOCREATE` is specified and `key` does not exist.
 
 -tab-sep-
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is a [boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}) of `1` for successfully adding an item, or `-1` when the item cannot be added because the filter is full.
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `0` means that the item's fingerprint already exists in the filter, `1` for successfully adding an item, or `-1` when the item cannot be added because the filter is full.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) when the number of arguments or key type is incorrect, and also when `NOCREATE` is specified and `key` does not exist.
 
 {{< /multitabs >}}
