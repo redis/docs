@@ -13,7 +13,7 @@ tocEmbedHeaders: true
 
 Flex allows your dataset to span both high-performance RAM and cost-efficient dedicated Flash memory. Flex automatically manages data placement between the two tiers, keeping frequently accessed (“hot”) data in RAM for sub-millisecond latency, while moving less active (“warm”) data to Flash to optimize capacity and cost. This dual memory architecture delivers predictable performance at scale, enabling larger datasets without compromising speed or operational simplicity.
 
-Flex databases are compatible with most existing Redis applications, except for applications that use Search and Query and Time Series.
+Flex databases are currently compatible with most existing Redis applications, except for applications that use Search and Query and Time Series.
 
 Flex is available on both Redis Cloud Essentials and Redis Cloud Pro.
 
@@ -26,7 +26,7 @@ Consider Flex when you need to:
 - Run Redis at terabyte scale while maintaining high throughput and sub-10 ms latency.
 - Power real-time feature stores for machine learning applications such as fraud detection, recommendation systems, and personalization engines.
 - Operate large distributed caches that require elastic scaling and consistent performance under heavy load.
-- Optimize infrastructure cost by combining high-speed RAM with cost-efficient Flash storage through Auto-Tiering.
+- Optimize infrastructure cost by combining high-speed RAM with cost-efficient Flash storage through Flex's automatic data tiering.
 
 Flex is **not** a durable data store. It is designed for performance, elasticity, and scalability, not for long-term data persistence. While Flex can temporarily retain data in memory or Flash, it should not be used as a primary system of record or persistent storage layer.
 
@@ -103,7 +103,7 @@ In the **Advanced options** of the **Setup** tab, select **Redis Flex**.
 
 {{<image filename="images/rc/pro-flex-on.png" width="75%" alt="The Flex setting selected." >}}
 
-During the **Sizing** step, when you are provisioning your databases, you can select the RAM percentage for your database. The default is 20%, but you can select a percentage between 10% and 50%.
+During the **Sizing** step, when you are provisioning your databases, you can select the RAM percentage for your database. The default is 20%, but you can select a percentage between 10% and 50%. Lower RAM percentages reduce cost but may increase latency, while higher RAM percentages improve throughput and latency at higher cost.
 
 {{<image filename="images/rc/pro-flex-ram-percentage.png" width="75%" alt="The RAM percentage setting." >}}
 

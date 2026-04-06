@@ -32,7 +32,9 @@ This guide shows how to create a paid Essentials database.
 
     {{<image filename="images/rc/create-database-essentials-cloud-vendor.png" alt="The database name, cloud vendor, version, region, type, and durability settings.">}}
 
-1. Select **RAM** or **Flex** to choose between a database that uses only RAM or one that uses both RAM and Flash memory. To learn more about Flex, see [Create a Flex database]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}).
+1. Select **RAM** or **Flex** to choose between a database that uses only RAM or one that uses both RAM and Flash memory. 
+
+    Choose Flex for larger datasets and cost-efficient scale when you can tolerate single-digit millisecond latency for warm data. Choose RAM when you need the absolute lowest latency for all data. To learn more about Flex, see [Create a Flex database]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}).
 
 1. Redis will generate a database name for you. If you want to change it, you can do so in the **Name** field.  
 
