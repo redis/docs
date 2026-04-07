@@ -165,7 +165,7 @@ is detailed information for each message in the pending entries list. For
 each message four attributes are returned:
 
 1. The ID of the message.
-2. The name of the consumer that fetched the message and has still to acknowledge it. We call it the current *owner* of the message.
+2. The name of the consumer that fetched the message and has still to acknowledge it. We call it the current *owner* of the message. For messages that have been released back to the group using [`XNACK`]({{< relref "/commands/xnack" >}}), this field will be empty.
 3. The number of milliseconds that elapsed since the last time this message was delivered to this consumer.
 4. The number of times this message was delivered.
 

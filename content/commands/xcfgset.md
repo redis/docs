@@ -1,6 +1,6 @@
 ---
 acl_categories:
-- STREAM
+- '@stream'
 arguments:
 - key_spec_index: 0
   name: key

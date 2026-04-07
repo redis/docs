@@ -187,7 +187,8 @@ When not blocked, across streams, entries are reported in the order the streams 
 When using `CLAIM`, the following ordering guarantees apply per stream:
 
 - Idle pending entries are reported first, then incoming entries
-- Idle pending entries are ordered by idle time (longer first)
+- Among pending entries, messages released via [`XNACK`]({{< relref "/commands/xnack" >}}) are prioritized and reported first
+- Other idle pending entries are ordered by idle time (longer first)
 - Incoming entries are reported in the order they were added by `XADD` (older first)
 
 For example, if there are 20 idle pending entries and 200 incoming entries (in all the specified streams together):
