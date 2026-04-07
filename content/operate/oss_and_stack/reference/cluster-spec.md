@@ -10,7 +10,8 @@ description: 'Detailed specification for Redis cluster
 linkTitle: Cluster spec
 title: Redis cluster specification
 aliases:
-- /develop/reference/cluster/cluster-spec/
+- /develop/reference/cluster-spec/
+- /reference/cluster-spec/
 weight: 9
 ---
 
