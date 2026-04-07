@@ -13,6 +13,8 @@ description: Redis serialization protocol (RESP) is the wire protocol that clien
   implement
 linkTitle: Protocol spec
 title: Redis serialization protocol specification
+aliases:
+- /reference/protocol-spec/
 weight: 4
 ---
 

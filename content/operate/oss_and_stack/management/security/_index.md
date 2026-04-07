@@ -7,6 +7,8 @@ categories:
 description: Security model and features in Redis
 linkTitle: Security
 title: Redis security
+aliases:
+- /management/security/
 weight: 1
 ---
 

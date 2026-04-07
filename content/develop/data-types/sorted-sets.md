@@ -14,6 +14,8 @@ description: 'Introduction to Redis sorted sets
   '
 linkTitle: Sorted sets
 title: Redis sorted sets
+aliases:
+- /data-types/sorted-sets/
 weight: 50
 ---
 

@@ -2,6 +2,7 @@
 aliases:
 - /interact/search-and-query/search/aggregations/
 - /develop/interact/search-and-query/advanced-concepts/aggregations
+- /interact/search-and-query/advanced-concepts/aggregations/
 categories:
 - docs
 - develop

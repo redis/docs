@@ -1,6 +1,7 @@
 ---
 aliases:
 - /develop/interact/search-and-query/advanced-concepts/query_syntax
+- /interact/search-and-query/advanced-concepts/query_syntax/
 categories:
 - docs
 - develop

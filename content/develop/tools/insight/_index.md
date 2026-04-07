@@ -2,6 +2,7 @@
 aliases:
 - /develop/connect/insight
 - /ui/insight/
+- /connect/insight/
 categories:
 - docs
 - develop

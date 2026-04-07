@@ -1,6 +1,7 @@
 ---
 aliases:
 - /develop/interact/search-and-query/advanced-concepts/chinese
+- /interact/search-and-query/advanced-concepts/chinese/
 categories:
 - docs
 - develop
