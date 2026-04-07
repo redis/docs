@@ -1,5 +1,7 @@
 ---
-aliases: /develop/connect/cli
+aliases:
+- /develop/connect/cli
+- /connect/cli/
 categories:
 - docs
 - develop

@@ -3,6 +3,7 @@ aliases:
 - /develop/connect/clients
 - /develop/connect/
 - /develop/connect
+- /connect/clients/
 categories:
 - docs
 - develop
