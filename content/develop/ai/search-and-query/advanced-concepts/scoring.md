@@ -80,6 +80,11 @@ FT.SEARCH myIndex "foo" SCORER TFIDF.DOCNORM
 
 ## BM25STD (default)
 
+{{< warning >}}
+Replacing an indexed document with the same key can temporarily affect document scores, even when the new content is identical to the old content. This can also occur when a document is effectively replaced by deleting it and then setting it again. Scores return to normal after the Redis Search garbage collector runs.
+{{< /warning >}}
+
+
 A variation on the basic `TFIDF` scorer, see [this Wikipedia article for more info](https://en.wikipedia.org/wiki/Okapi_BM25).
 
 The relevance score for each document is multiplied by the presumptive document score and a penalty is applied based on slop as in `TFIDF`.
