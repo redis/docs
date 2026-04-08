@@ -106,7 +106,7 @@ Controls the delivery counter adjustment. Must be one of:
 
 <details open><summary><code>ids</code></summary>
 
-Block specifying the message IDs to release, where `numids` is the number of message IDs that follow, and `id [id ...]` represents the stream entry IDs to be released back to the group.
+Block of arguments that specifies the message IDs to release, where `numids` is the number of message IDs that follow, and `id [id ...]` represents the stream entry IDs to be released back to the group.
 
 </details>
 
@@ -120,7 +120,7 @@ Directly sets the delivery counter to the specified value, overriding the mode-b
 
 <details open><summary><code>FORCE</code></summary>
 
-Creates new unowned PEL entries for IDs that are not already in the group PEL. The entry must exist in the stream. When `FORCE` creates an entry, the delivery counter is set to `0` (or to `RETRYCOUNT` if specified, or to `LLONG_MAX` if mode is `FATAL`). This option is primarily used internally for AOF rewrite and replication.
+Creates new unowned PEL entries for IDs that are not already in the group PEL. Each entry must exist in the stream. When `FORCE` creates an entry, the delivery counter is set to `0` (or to `RETRYCOUNT` if specified, or to `LLONG_MAX` if mode is `FATAL`). This option is primarily used internally for AOF rewrite and replication.
 
 </details>
 
