@@ -67,6 +67,10 @@ Under normal usage, `max-burst`, `tokens-per-period`, and `period` should not ch
 
 In a typical deployment, the application server calls `GCRA` on each end user's request. Based on the response, the application server either fulfills the end user's request or rejects it.
 
+{{< note >}}
+`GCRA` sets an expiration time for its key when it's executed. This expiration time is based on the generic cell rate algorithm's [theoretical arrival time (TAT)](https://en.wikipedia.org/wiki/Generic_cell_rate_algorithm#Virtual_scheduling_description).
+{{< /note >}}
+
 See the [rate limiting docs]({{< relref "/develop/using-commands/rate-limiting" >}}) for more information.
 
 ## Required arguments
