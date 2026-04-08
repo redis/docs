@@ -8,7 +8,7 @@ mod session_store;
 use axum::{
     extract::State,
     http::{
-        header::{self, CONTENT_TYPE, SET_COOKIE},
+        header::{self, SET_COOKIE},
         HeaderMap, HeaderValue, StatusCode,
     },
     response::{Html, IntoResponse, Response},

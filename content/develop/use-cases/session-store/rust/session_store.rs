@@ -35,6 +35,7 @@ impl RedisSessionStore {
     }
 
     /// Create a new session and return its opaque session ID.
+    #[allow(dead_code)]
     pub fn create_session(
         &self,
         con: &mut impl redis::ConnectionLike,
@@ -80,6 +81,7 @@ impl RedisSessionStore {
     }
 
     /// Return the configured TTL for a session.
+    #[allow(dead_code)]
     pub fn get_configured_ttl(
         &self,
         con: &mut impl redis::ConnectionLike,
@@ -109,6 +111,7 @@ impl RedisSessionStore {
     }
 
     /// Return session data for a session ID, or None if it does not exist.
+    #[allow(dead_code)]
     pub fn get_session(
         &self,
         con: &mut impl redis::ConnectionLike,
@@ -166,6 +169,7 @@ impl RedisSessionStore {
     }
 
     /// Update session fields and refresh the TTL.
+    #[allow(dead_code)]
     pub fn update_session(
         &self,
         con: &mut impl redis::ConnectionLike,
@@ -198,6 +202,7 @@ impl RedisSessionStore {
     }
 
     /// Update session fields asynchronously and refresh the TTL.
+    #[allow(dead_code)]
     pub async fn update_session_async<C>(
         &self,
         con: &mut C,
@@ -233,6 +238,7 @@ impl RedisSessionStore {
     }
 
     /// Increment a numeric session field and refresh the TTL.
+    #[allow(dead_code)]
     pub fn increment_field(
         &self,
         con: &mut impl redis::ConnectionLike,
@@ -280,6 +286,7 @@ impl RedisSessionStore {
     }
 
     /// Update the configured TTL for a session and apply it immediately.
+    #[allow(dead_code)]
     pub fn set_session_ttl(
         &self,
         con: &mut impl redis::ConnectionLike,
@@ -331,6 +338,7 @@ impl RedisSessionStore {
     }
 
     /// Delete a session from Redis.
+    #[allow(dead_code)]
     pub fn delete_session(
         &self,
         con: &mut impl redis::ConnectionLike,
@@ -354,6 +362,7 @@ impl RedisSessionStore {
     }
 
     /// Return the remaining TTL for a session in seconds.
+    #[allow(dead_code)]
     pub fn get_ttl(
         &self,
         con: &mut impl redis::ConnectionLike,
