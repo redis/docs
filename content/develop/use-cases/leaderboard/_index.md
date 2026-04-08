@@ -31,3 +31,4 @@ This pattern works well when you need to:
 * [redis-py]({{< relref "/develop/use-cases/leaderboard/redis-py" >}}) - Build a Python leaderboard with sorted sets, user metadata hashes, and a local interactive demo
 * [node-redis]({{< relref "/develop/use-cases/leaderboard/nodejs" >}}) - Build a JavaScript leaderboard with sorted sets, user metadata hashes, and a local interactive demo
 * [go-redis]({{< relref "/develop/use-cases/leaderboard/go" >}}) - Build a Go leaderboard with sorted sets, user metadata hashes, and a local interactive demo
+* [Jedis]({{< relref "/develop/use-cases/leaderboard/java-jedis" >}}) - Build a Java leaderboard with sorted sets, user metadata hashes, and a local interactive demo
