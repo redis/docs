@@ -14,7 +14,7 @@ weight: 25
 
 The following table lists time series commands. See the command links for more information about each command's syntax, arguments, and examples.
 
-| Command | Redis<br />Enterprise | Redis<br />Cloud | Description |
+| Command | Redis<br />Software | Redis<br />Cloud | Description |
 |:--------|:----------------------|:-----------------|:------|
 | [TS.ADD]({{< relref "commands/ts.add" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> | Appends a sample to a time series. |
 | [TS.ALTER]({{< relref "commands/ts.alter" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> | Updates the retention, chunk size, duplicate policy, or labels for an existing time series. |

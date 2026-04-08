@@ -1,0 +1,984 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "xreadgroup(, groupname: str,, consumername: str,, streams: Dict[KeyT, StreamIdT],, count: Optional[int] = None,, block: Optional[int] = None,, noack: bool = False,, claim_min_idle_time: Optional[int] = None,)",
+        "params": [
+          {
+            "name": "groupname",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "consumername",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "streams",
+            "type": "Dict[KeyT, StreamIdT]",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "block",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "noack",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "claim_min_idle_time",
+            "type": "Optional[int] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Object> xreadGroup(byte[] groupName, byte[] consumer XReadGroupParams xReadGroupParams, Entry<byte[], byte[]>... streams)",
+        "params": [
+          {
+            "name": "groupName",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "xReadGroupParams",
+            "type": "byte[] consumer XReadGroupParams",
+            "description": ""
+          },
+          {
+            "name": "streams",
+            "type": "Entry<byte[], byte[]>...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Object>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Map.Entry<byte[], List<StreamEntryBinary>>> xreadGroupBinary(byte[] groupName, byte[] consumer XReadGroupParams xReadGroupParams, Map<byte[], StreamEntryID> streams)",
+        "params": [
+          {
+            "name": "groupName",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "xReadGroupParams",
+            "type": "byte[] consumer XReadGroupParams",
+            "description": ""
+          },
+          {
+            "name": "streams",
+            "type": "Map<byte[], StreamEntryID>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Map.Entry<byte[], List<StreamEntryBinary>>>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Map<byte[], List<StreamEntryBinary>> xreadGroupBinaryAsMap(byte[] groupName, byte[] consumer XReadGroupParams xReadGroupParams, Map<byte[], StreamEntryID> streams)",
+        "params": [
+          {
+            "name": "groupName",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "xReadGroupParams",
+            "type": "byte[] consumer XReadGroupParams",
+            "description": ""
+          },
+          {
+            "name": "streams",
+            "type": "Map<byte[], StreamEntryID>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Map<byte[], List<StreamEntryBinary>>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Map.Entry<String, List<StreamEntry>>> xreadGroup(final String groupName, final String consumer final XReadGroupParams xReadGroupParams, final Map<String, StreamEntryID> streams)",
+        "params": [
+          {
+            "name": "groupName",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "xReadGroupParams",
+            "type": "String consumer final XReadGroupParams",
+            "description": ""
+          },
+          {
+            "name": "streams",
+            "type": "Map<String, StreamEntryID>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Map.Entry<String, List<StreamEntry>>>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Map<String, List<StreamEntry>> xreadGroupAsMap(final String groupName, final String consumer final XReadGroupParams xReadGroupParams, final Map<String, StreamEntryID> streams)",
+        "params": [
+          {
+            "name": "groupName",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "xReadGroupParams",
+            "type": "String consumer final XReadGroupParams",
+            "description": ""
+          },
+          {
+            "name": "streams",
+            "type": "Map<String, StreamEntryID>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Map<String, List<StreamEntry>>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<StreamMessage<K, V>> xreadgroup(Consumer<K> consumer, StreamOffset<K>... streams)",
+        "params": [
+          {
+            "name": "consumer",
+            "type": "Consumer<K>",
+            "description": "consumer/group."
+          },
+          {
+            "name": "streams",
+            "type": "StreamOffset<K>...",
+            "description": "the streams to read from."
+          }
+        ],
+        "returns": {
+          "type": "List<StreamMessage<K, V>>",
+          "description": "List&lt;StreamMessage&gt; array-reply list with members of the resulting stream."
+        }
+      },
+      {
+        "signature": "List<StreamMessage<K, V>> xreadgroup(Consumer<K> consumer, XReadArgs args, StreamOffset<K>... streams)",
+        "params": [
+          {
+            "name": "consumer",
+            "type": "Consumer<K>",
+            "description": "consumer/group."
+          },
+          {
+            "name": "args",
+            "type": "XReadArgs",
+            "description": "read arguments."
+          },
+          {
+            "name": "streams",
+            "type": "StreamOffset<K>...",
+            "description": "the streams to read from."
+          }
+        ],
+        "returns": {
+          "type": "List<StreamMessage<K, V>>",
+          "description": "List&lt;StreamMessage&gt; array-reply list with members of the resulting stream."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<StreamMessage<K, V>>> xreadgroup(Consumer<K> consumer, StreamOffset<K>... streams)",
+        "params": [
+          {
+            "name": "consumer",
+            "type": "Consumer<K>",
+            "description": "consumer/group."
+          },
+          {
+            "name": "streams",
+            "type": "StreamOffset<K>...",
+            "description": "the streams to read from."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<StreamMessage<K, V>>>",
+          "description": "List&lt;StreamMessage&gt; array-reply list with members of the resulting stream."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<StreamMessage<K, V>>> xreadgroup(Consumer<K> consumer, XReadArgs args, StreamOffset<K>... streams)",
+        "params": [
+          {
+            "name": "consumer",
+            "type": "Consumer<K>",
+            "description": "consumer/group."
+          },
+          {
+            "name": "args",
+            "type": "XReadArgs",
+            "description": "read arguments."
+          },
+          {
+            "name": "streams",
+            "type": "StreamOffset<K>...",
+            "description": "the streams to read from."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<StreamMessage<K, V>>>",
+          "description": "List&lt;StreamMessage&gt; array-reply list with members of the resulting stream."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<StreamMessage<K, V>> xreadgroup(Consumer<K> consumer, StreamOffset<K>... streams)",
+        "params": [
+          {
+            "name": "consumer",
+            "type": "Consumer<K>",
+            "description": "consumer/group."
+          },
+          {
+            "name": "streams",
+            "type": "StreamOffset<K>...",
+            "description": "the streams to read from."
+          }
+        ],
+        "returns": {
+          "type": "Flux<StreamMessage<K, V>>",
+          "description": "StreamMessage array-reply list with members of the resulting stream."
+        }
+      },
+      {
+        "signature": "Flux<StreamMessage<K, V>> xreadgroup(Consumer<K> consumer, XReadArgs args, StreamOffset<K>... streams)",
+        "params": [
+          {
+            "name": "consumer",
+            "type": "Consumer<K>",
+            "description": "consumer/group."
+          },
+          {
+            "name": "args",
+            "type": "XReadArgs",
+            "description": "read arguments."
+          },
+          {
+            "name": "streams",
+            "type": "StreamOffset<K>...",
+            "description": "the streams to read from."
+          }
+        ],
+        "returns": {
+          "type": "Flux<StreamMessage<K, V>>",
+          "description": "StreamMessage array-reply list with members of the resulting stream."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "XReadGroup(ctx context.Context, a *XReadGroupArgs)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "a",
+            "type": "*XReadGroupArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*XStreamSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "XREADGROUP(group: RedisArgument, consumer: RedisArgument, streams: XReadStreams, options?: XReadGroupOptions)",
+        "params": [
+          {
+            "name": "group",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "streams",
+            "type": "XReadStreams",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "XReadGroupOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "xreadgroup(...args: [, groupConsumerToken: \"GROUP\", group: string | Buffer, consumer: string | Buffer, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<unknown[]>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, groupConsumerToken",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xreadgroup(...args: [, groupConsumerToken: \"GROUP\", group: string | Buffer, consumer: string | Buffer, streamsToken: \"STREAMS\", ...args: RedisValue[], ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, groupConsumerToken",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xreadgroup(...args: [, groupConsumerToken: \"GROUP\", group: string | Buffer, consumer: string | Buffer, noack: \"NOACK\", streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<unknown[]>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, groupConsumerToken",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xreadgroup(...args: [, groupConsumerToken: \"GROUP\", group: string | Buffer, consumer: string | Buffer, noack: \"NOACK\", streamsToken: \"STREAMS\", ...args: RedisValue[], ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, groupConsumerToken",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xreadgroup(...args: [, groupConsumerToken: \"GROUP\", group: string | Buffer, consumer: string | Buffer, millisecondsToken: \"BLOCK\", milliseconds: number | string, streamsToken: \"STREAMS\", ...args: RedisValue[], callback: Callback<unknown[]>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, groupConsumerToken",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "xread_options(keys: &'a [K], ids: &'a [ID], options: &'a streams::StreamReadOptions)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "&'a [K]",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "&'a [ID]",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "&'a streams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<streams::StreamReadReply>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "xread_options(keys: &'a [K], ids: &'a [ID], options: &'a streams::StreamReadOptions)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "&'a [K]",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "&'a [ID]",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "&'a streams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<streams::StreamReadReply>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StreamReadGroup(RedisKey key, RedisValue groupName, RedisValue consumerName, RedisValue? position, int? count, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "consumerName",
+            "type": "RedisValue",
+            "description": "The name of the consumer."
+          },
+          {
+            "name": "position",
+            "type": "RedisValue?",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamEntry[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      },
+      {
+        "signature": "StreamReadGroup(RedisKey key, RedisValue groupName, RedisValue consumerName, RedisValue? position, int? count, bool noAck, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "consumerName",
+            "type": "RedisValue",
+            "description": "The name of the consumer."
+          },
+          {
+            "name": "position",
+            "type": "RedisValue?",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": ""
+          },
+          {
+            "name": "noAck",
+            "type": "bool",
+            "description": "When true, the message will not be added to the pending message list."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamEntry[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      },
+      {
+        "signature": "StreamReadGroup(RedisKey key, RedisValue groupName, RedisValue consumerName, RedisValue? position = null, int? count = null, bool noAck = false, TimeSpan? claimMinIdleTime = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "consumerName",
+            "type": "RedisValue",
+            "description": "The name of the consumer."
+          },
+          {
+            "name": "position",
+            "type": "RedisValue?",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": ""
+          },
+          {
+            "name": "noAck",
+            "type": "bool",
+            "description": "When true, the message will not be added to the pending message list."
+          },
+          {
+            "name": "claimMinIdleTime",
+            "type": "TimeSpan?",
+            "description": "Auto-claim messages that have been idle for at least this long."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamEntry[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      },
+      {
+        "signature": "StreamReadGroup(StreamPosition[] streamPositions, RedisValue groupName, RedisValue consumerName, int? countPerStream, CommandFlags flags)",
+        "params": [
+          {
+            "name": "streamPositions",
+            "type": "StreamPosition[]",
+            "description": "Array of streams and the positions from which to begin reading for each stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "consumerName",
+            "type": "RedisValue",
+            "description": "The name of the consumer."
+          },
+          {
+            "name": "countPerStream",
+            "type": "int?",
+            "description": "The maximum number of messages to return from each stream."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisStream[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      },
+      {
+        "signature": "StreamReadGroup(StreamPosition[] streamPositions, RedisValue groupName, RedisValue consumerName, int? countPerStream, bool noAck, CommandFlags flags)",
+        "params": [
+          {
+            "name": "streamPositions",
+            "type": "StreamPosition[]",
+            "description": "Array of streams and the positions from which to begin reading for each stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "consumerName",
+            "type": "RedisValue",
+            "description": "The name of the consumer."
+          },
+          {
+            "name": "countPerStream",
+            "type": "int?",
+            "description": "The maximum number of messages to return from each stream."
+          },
+          {
+            "name": "noAck",
+            "type": "bool",
+            "description": "When true, the message will not be added to the pending message list."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisStream[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StreamReadGroup(RedisKey key, RedisValue groupName, RedisValue consumerName, RedisValue? position, int? count, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "consumerName",
+            "type": "RedisValue",
+            "description": "The name of the consumer."
+          },
+          {
+            "name": "position",
+            "type": "RedisValue?",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamEntry[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      },
+      {
+        "signature": "StreamReadGroup(RedisKey key, RedisValue groupName, RedisValue consumerName, RedisValue? position, int? count, bool noAck, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "consumerName",
+            "type": "RedisValue",
+            "description": "The name of the consumer."
+          },
+          {
+            "name": "position",
+            "type": "RedisValue?",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": ""
+          },
+          {
+            "name": "noAck",
+            "type": "bool",
+            "description": "When true, the message will not be added to the pending message list."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamEntry[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      },
+      {
+        "signature": "StreamReadGroup(RedisKey key, RedisValue groupName, RedisValue consumerName, RedisValue? position = null, int? count = null, bool noAck = false, TimeSpan? claimMinIdleTime = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "consumerName",
+            "type": "RedisValue",
+            "description": "The name of the consumer."
+          },
+          {
+            "name": "position",
+            "type": "RedisValue?",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": ""
+          },
+          {
+            "name": "noAck",
+            "type": "bool",
+            "description": "When true, the message will not be added to the pending message list."
+          },
+          {
+            "name": "claimMinIdleTime",
+            "type": "TimeSpan?",
+            "description": "Auto-claim messages that have been idle for at least this long."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamEntry[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      },
+      {
+        "signature": "StreamReadGroup(StreamPosition[] streamPositions, RedisValue groupName, RedisValue consumerName, int? countPerStream, CommandFlags flags)",
+        "params": [
+          {
+            "name": "streamPositions",
+            "type": "StreamPosition[]",
+            "description": "Array of streams and the positions from which to begin reading for each stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "consumerName",
+            "type": "RedisValue",
+            "description": "The name of the consumer."
+          },
+          {
+            "name": "countPerStream",
+            "type": "int?",
+            "description": "The maximum number of messages to return from each stream."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisStream[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      },
+      {
+        "signature": "StreamReadGroup(StreamPosition[] streamPositions, RedisValue groupName, RedisValue consumerName, int? countPerStream, bool noAck, CommandFlags flags)",
+        "params": [
+          {
+            "name": "streamPositions",
+            "type": "StreamPosition[]",
+            "description": "Array of streams and the positions from which to begin reading for each stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "consumerName",
+            "type": "RedisValue",
+            "description": "The name of the consumer."
+          },
+          {
+            "name": "countPerStream",
+            "type": "int?",
+            "description": "The maximum number of messages to return from each stream."
+          },
+          {
+            "name": "noAck",
+            "type": "bool",
+            "description": "When true, the message will not be added to the pending message list."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisStream[]",
+          "description": "A value of RedisStream for each stream."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "xreadgroup(string $group, string $consumer, ?int $count = null, ?int $blockMs = null, bool $noAck = false, string ...$keyOrId)",
+        "params": [
+          {
+            "name": "$group",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$consumer",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "?int $count = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "?int $blockMs = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "bool $noAck = false",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$keyOrId",
+            "type": "string ...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xreadgroup(group, consumer, keys, ids, count: nil, block: nil, noack: nil)",
+        "params": [
+          {
+            "name": "group",
+            "type": "String",
+            "description": "the consumer group name"
+          },
+          {
+            "name": "consumer",
+            "type": "String",
+            "description": "the consumer name"
+          },
+          {
+            "name": "keys",
+            "type": "Array<String>",
+            "description": "one or multiple stream keys"
+          },
+          {
+            "name": "ids",
+            "type": "Array<String>",
+            "description": "one or multiple entry ids"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "the number of entries as limit"
+          },
+          {
+            "name": "block",
+            "type": "Integer",
+            "description": "the number of milliseconds as blocking timeout"
+          },
+          {
+            "name": "noack",
+            "type": "Boolean",
+            "description": "whether message loss is acceptable or not"
+          }
+        ],
+        "returns": {
+          "type": "Hash",
+          "description": "the entries"
+        }
+      }
+    ]
+  }
+}

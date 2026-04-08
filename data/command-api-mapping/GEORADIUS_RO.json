@@ -1,0 +1,50 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "GEORADIUS_RO(...args: Parameters<typeof parseGeoRadiusArguments>)",
+        "params": [
+          {
+            "name": "...args",
+            "type": "Parameters<typeof parseGeoRadiusArguments>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "georadius_ro(...args: [, key: RedisKey, longitude: number | string, latitude: number | string, radius: number | string, ...args: RedisValue[], callback: Callback<unknown>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "georadius_ro(...args: [, key: RedisKey, longitude: number | string, latitude: number | string, radius: number | string, ...args: RedisValue[], ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

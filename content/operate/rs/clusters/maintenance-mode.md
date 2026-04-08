@@ -10,11 +10,11 @@ linkTitle: Maintenance mode
 weight: 60
 ---
 
-Use maintenance mode to prevent data loss during hardware patching or operating system maintenance on Redis Enterprise servers. When maintenance mode is on, all shards move off of the node under maintenance and migrate to another available node.
+Use maintenance mode to prevent data loss during hardware patching or operating system maintenance on Redis Software servers. When maintenance mode is on, all shards move off of the node under maintenance and migrate to another available node.
 
 ## Activate maintenance mode
 
-When you activate maintenance mode, Redis Enterprise does the following:
+When you activate maintenance mode, Redis Software does the following:
 
 1. Checks whether the cluster has enough active nodes to maintain quorum if one goes down. If taking a node offline would cause quorum loss, maintenance mode will not activate.
 
@@ -22,7 +22,7 @@ When you activate maintenance mode, Redis Enterprise does the following:
 This check does not consider if other nodes are already in maintenance mode. Do not put the majority of nodes into maintenance mode and restart them simultaneously, as this can cause the cluster to lose quorum and lead to data loss.
     {{</warning>}}
 
-1. If no maintenance mode snapshots already exist or if you use `overwrite_snapshot` when you activate maintenance mode, Redis Enterprise creates a new node snapshot that records the node's shard and endpoint configuration.
+1. If no maintenance mode snapshots already exist or if you use `overwrite_snapshot` when you activate maintenance mode, Redis Software creates a new node snapshot that records the node's shard and endpoint configuration.
 
 1. Marks the node as a quorum node to prevent shards and endpoints from migrating to it.
 
@@ -84,7 +84,7 @@ Avoid activating maintenance mode when it is already active.  Maintenance mode a
 
 ## Deactivate maintenance mode
 
-When you deactivate maintenance mode, Redis Enterprise:
+When you deactivate maintenance mode, Redis Software:
 
 1. Loads a [specified node snapshot](#specify-a-snapshot) or defaults to the latest maintenance mode snapshot.
 
@@ -104,7 +104,7 @@ By default, a snapshot is required to deactivate maintenance mode.  If the snaps
 
 ### Specify a snapshot
 
-When you turn off maintenance mode, you can restore the node configuration from a maintenance mode snapshot or any snapshots previously created by [`rladmin node <node_id> snapshot create`]({{< relref "/operate/rs/references/cli-utilities/rladmin/node/snapshot#node-snapshot-create" >}}). If you do not specify a snapshot, Redis Enterprise uses the latest maintenance mode snapshot by default.
+When you turn off maintenance mode, you can restore the node configuration from a maintenance mode snapshot or any snapshots previously created by [`rladmin node <node_id> snapshot create`]({{< relref "/operate/rs/references/cli-utilities/rladmin/node/snapshot#node-snapshot-create" >}}). If you do not specify a snapshot, Redis Software uses the latest maintenance mode snapshot by default.
 
 To get a list of available snapshots, run:
 
@@ -177,7 +177,7 @@ node:2    slave    172.17.0.4                         rp3_node1   0/0
 node:3    slave    172.17.0.3                         rp2_node1   2/100
 ```
 
-After turning on maintenance mode for node 2, Redis Enterprise saves a snapshot of its configuration and then moves its shards and endpoints to node 3.
+After turning on maintenance mode for node 2, Redis Software saves a snapshot of its configuration and then moves its shards and endpoints to node 3.
 
 Now node 2 has `0/0` shards because shards cannot migrate to it while it is in maintenance mode.
 

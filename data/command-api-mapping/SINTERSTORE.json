@@ -1,0 +1,578 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "sinterstore(dest: KeyT, keys: List, *args: List)",
+        "params": [
+          {
+            "name": "dest",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "List",
+            "description": ""
+          },
+          {
+            "name": "*args",
+            "type": "List",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[int], int]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long sinterstore(final byte[] dstkey, final byte[]... keys)",
+        "params": [
+          {
+            "name": "dstkey",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting set"
+        }
+      },
+      {
+        "signature": "long sinterstore(final String dstkey, final String... keys)",
+        "params": [
+          {
+            "name": "dstkey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting set"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long sinterstore(K destination, K... keys)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of elements in the resulting set."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> sinterstore(K destination, K... keys)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of elements in the resulting set."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> sinterstore(K destination, K... keys)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of elements in the resulting set."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SInterStore(ctx context.Context, destination string, keys ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SINTERSTORE(destination: RedisArgument, keys: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "sinterstore(...args: [, destination: RedisKey, ...keys: RedisKey[], callback: Callback<number>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, destination",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sinterstore(...args: [, destination: RedisKey, keys: RedisKey[], callback: Callback<number>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, destination",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sinterstore(...args: [destination: RedisKey, ...keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[destination",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sinterstore(...args: [destination: RedisKey, keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[destination",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "sinterstore(dstkey: D, keys: K)",
+        "params": [
+          {
+            "name": "dstkey",
+            "type": "D",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "sinterstore(dstkey: D, keys: K)",
+        "params": [
+          {
+            "name": "dstkey",
+            "type": "D",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the destination set."
+          },
+          {
+            "name": "first",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "second",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting set."
+        }
+      },
+      {
+        "signature": "SetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the destination set."
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sets to operate on."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting set."
+        }
+      },
+      {
+        "signature": "SetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the destination set."
+          },
+          {
+            "name": "first",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "second",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting set."
+        }
+      },
+      {
+        "signature": "SetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the destination set."
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sets to operate on."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting set."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the destination set."
+          },
+          {
+            "name": "first",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "second",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting set."
+        }
+      },
+      {
+        "signature": "SetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the destination set."
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sets to operate on."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting set."
+        }
+      },
+      {
+        "signature": "SetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the destination set."
+          },
+          {
+            "name": "first",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "second",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting set."
+        }
+      },
+      {
+        "signature": "SetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the destination set."
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sets to operate on."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the resulting set."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "sinterstore(string $destination, array|string $keys)",
+        "params": [
+          {
+            "name": "$destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$keys",
+            "type": "array|string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "sinterstore(destination, *keys)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "String",
+            "description": "destination key"
+          },
+          {
+            "name": "*keys",
+            "type": "String, Array<String>",
+            "description": "keys pointing to sets to intersect"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "number of elements in the resulting set"
+        }
+      }
+    ]
+  }
+}

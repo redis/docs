@@ -87,7 +87,7 @@ The following tables include the v1 metrics available to Prometheus.
 | node_bigstore_iops | Rate of i/o operations against back-end flash for all shards which are part of a flash-based database (BigRedis) in the cluster (ops/sec); returned only when BigRedis is enabled |
 | node_bigstore_kv_ops | Rate of value read/write operations against back-end flash for all shards which are part of a flash-based database (BigRedis) in the cluster (ops/sec); returned only when BigRedis is enabled |
 | node_bigstore_throughput | Throughput i/o operations against back-end flash for all shards which are part of a flash-based database (BigRedis) in the cluster (bytes/sec); returned only when BigRedis is enabled |
-| node_cert_expiration_seconds | Certificate expiration (in seconds) per given node; read more about [certificates in Redis Enterprise]({{< relref "/operate/rs/security/certificates" >}}) and [monitoring certificates]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) |
+| node_cert_expiration_seconds | Certificate expiration (in seconds) per given node; read more about [certificates in Redis Software]({{< relref "/operate/rs/security/certificates" >}}) and [monitoring certificates]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) |
 | node_conns | Number of clients connected to endpoints on node |
 | node_cpu_idle | CPU idle time portion (0-1, multiply by 100 to get percent) |
 | node_cpu_idle_max | Highest value of CPU idle time portion (0-1, multiply by 100 to get percent) |

@@ -9,25 +9,25 @@ description: null
 linkTitle: Benchmark Auto Tiering
 weight: $weight
 ---
-Auto Tiering on Redis Enterprise Software lets you use cost-effective Flash memory as a RAM extension for your database.
+Auto Tiering on Redis Software lets you use cost-effective Flash memory as a RAM extension for your database.
 
 But what does the performance look like as compared to a memory-only database, one stored solely in RAM?
 
-These scenarios use the `memtier_benchmark` utility to evaluate the performance of a Redis Enterprise Software deployment, including the trial version.  
+These scenarios use the `memtier_benchmark` utility to evaluate the performance of a Redis Software deployment, including the trial version.  
 
-The `memtier_benchmark` utility is located in `/opt/redislabs/bin/` of Redis Enterprise Software deployments.  To test performance for cloud provider deployments, see the [memtier-benchmark GitHub project](https://github.com/RedisLabs/memtier_benchmark).
+The `memtier_benchmark` utility is located in `/opt/redislabs/bin/` of Redis Software deployments.  To test performance for cloud provider deployments, see the [memtier-benchmark GitHub project](https://github.com/RedisLabs/memtier_benchmark).
 
 For additional, such as assistance with larger clusters, [contact support](https://redislabs.com/company/support/).
 
 
 ## Benchmark and performance test considerations
 
-These tests assume you're using a trial version of Redis Enterprise Software and want to test the performance of a Auto Tiering enabled database in the following scenarios:
+These tests assume you're using a trial version of Redis Software and want to test the performance of a Auto Tiering enabled database in the following scenarios:
 
 - Without replication: Four (4) master shards
 - With replication: Two (2) primary and two replica shards
 
-With the trial version of Redis Enterprise Software you can create a cluster of up to four shards using a combination of database configurations, including:
+With the trial version of Redis Software you can create a cluster of up to four shards using a combination of database configurations, including:
 
 - Four databases, each with a single master shard
 - Two highly available databases with replication enabled (each database has one master shard and one replica shard)
@@ -54,9 +54,9 @@ You can run all of these tests on Amazon AWS with these hosts:
 
 - 1 x m4.large, which acts as a quorum node
 
-To learn how to install Redis Enterprise Software and set up a cluster, see:
+To learn how to install Redis Software and set up a cluster, see:
 
-- [Redis Enterprise Software quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}) for a test installation
+- [Redis Software quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}) for a test installation
 - [Install and upgrade]({{< relref "/operate/rs/installing-upgrading" >}}) for a production installation
 
 These tests use a quorum node to reduce AWS EC2 instance use while maintaining the three nodes required to support a quorum node in case of node failure.  Quorum nodes can be on less powerful instances because they do not have shards or support traffic.
@@ -83,7 +83,7 @@ For these tests, the load generation host uses a c4.8xlarge instance type.
 
 ### Create a Auto Tiering test database
 
-You can use the Redis Enterprise Cluster Manager UI to create a test database.
+You can use the Redis Software Cluster Manager UI to create a test database.
 We recommend that you use a separate database for each test case with these requirements:
 
 |  **Parameter** | **With replication** | **Without replication** | **Description** |

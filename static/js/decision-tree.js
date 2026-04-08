@@ -215,6 +215,12 @@
           rect.setAttribute('stroke', '#d9534f');
           rect.setAttribute('stroke-width', '1');
           rect.setAttribute('stroke-dasharray', '3,3');
+        } else if (item.sentiment === 'indeterminate') {
+          // Yellow/amber for indeterminate outcomes (requires further analysis)
+          rect.setAttribute('fill', '#fff8e6');
+          rect.setAttribute('stroke', '#f0ad4e');
+          rect.setAttribute('stroke-width', '1');
+          rect.setAttribute('stroke-dasharray', '3,3');
         } else {
           // Default red for outcomes without explicit sentiment
           rect.setAttribute('fill', '#ffe6e6');
@@ -261,7 +267,7 @@
     const parentX = x - indentWidth;
     const connectorX = parentX + 10; // Left edge of parent box (vertical line position)
 
-    // Find parent item and its Y position, and determine the answer (Yes/No)
+    // Find parent item and its Y position, and determine the answer label
     let parentY = null;
     let parentBoxHeight = 0;
     let parentCurrentY = null;
@@ -316,11 +322,14 @@
       const labelX = connectorX + (indentWidth * 0.3) + 5;  // Position at 30% of the way across, plus 5px offset
       const labelY = y + 16;  // Increased offset to avoid box overlap
 
+      // Calculate label width based on text length for better background sizing
+      const labelWidth = Math.max(answerLabel.length * 7 + 4, 24);
+
       // Add white background rectangle behind label for visibility
       const labelBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-      labelBg.setAttribute('x', labelX - 12);
+      labelBg.setAttribute('x', labelX - labelWidth / 2);
       labelBg.setAttribute('y', labelY - 9);
-      labelBg.setAttribute('width', '24');
+      labelBg.setAttribute('width', labelWidth);
       labelBg.setAttribute('height', '12');
       labelBg.setAttribute('fill', 'white');
       labelBg.setAttribute('stroke', 'none');

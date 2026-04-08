@@ -11,7 +11,7 @@ linkTitle: Database operations
 weight: $weight
 ---
 
-The following metrics are available in the Redis Enterprise Cluster Manager UI.
+The following metrics are available in the Redis Software Cluster Manager UI.
 
 {{<image filename="images/rs/screenshots/metrics/db-metrics.png" alt="The database metrics page.">}}
 

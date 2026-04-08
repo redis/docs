@@ -10,6 +10,18 @@ title: Run Redis Open Source on Docker
 weight: 1
 ---
 
+## Install Docker
+
+Follow the Docker installation instructions for your operating system:
+
+- [Linux](https://docs.docker.com/desktop/setup/install/linux/)
+- [macOS](https://docs.docker.com/docker-for-mac/install/)
+- [Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows)
+
+{{< note >}}
+On Windows, make sure Docker is configured to run Linux-based containers.
+{{< /note >}}
+
 ## Run Redis Open Source on Docker
 
 To start the Redis Open Source server using the `redis:<version>` image, run the following command in your terminal:
@@ -54,3 +66,13 @@ $ docker run -v /myredis/conf:/usr/local/etc/redis --name myredis redis redis-se
 where `/myredis/conf/` is a local directory containing your `redis.conf` file. Using this method means that there is no need for you to have a Dockerfile for your redis container.
 
 The mapped directory should be writable, as depending on the configuration and mode of operation, Redis may need to create additional configuration files or rewrite existing ones.
+
+## Use local storage for data persistence
+
+To mount directories or files to your Docker container, specify -v to configure a local volume. This command stores all data in the local directory local-data:
+
+{{< highlight bash >}}
+$ docker run -v /local-data/:/data --name redis -p 6379:6379 redis:<version>
+{{< / highlight >}}
+
+See the [official Redis page on Docker Hub](https://hub.docker.com/_/redis) for more options.

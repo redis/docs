@@ -25,8 +25,8 @@ Runs the following checks on a cluster node:
 | Check name | Description |
 |-----------|-------------|
 | bootstrap_status | Verifies the local node's bootstrap process completed without errors. |
-| services | Verifies all Redis Enterprise Software services are running. |
-| port_range | Verifies the [`ip_local_port_range`](https://www.kernel.org/doc/html/latest/networking/ip-sysctl.html) doesn't conflict with the ports Redis Enterprise might assign to shards. |
+| services | Verifies all Redis Software services are running. |
+| port_range | Verifies the [`ip_local_port_range`](https://www.kernel.org/doc/html/latest/networking/ip-sysctl.html) doesn't conflict with the ports Redis Software might assign to shards. |
 | pidfiles | Verifies all active local shards have PID files. |
 | capabilities | Verifies all binaries have the proper capability bits. |
 | existing_sockets | Verifies sockets exist for all processes that require them. |

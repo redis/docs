@@ -204,8 +204,9 @@ RedisURI redisURI = RedisURI.builder()
         .withSsl(true)
         .build();
 
-// Create the RedisClient and set the re-authentication options.
-RedisClient redisClient = RedisClient.create(redisURI);
+// Create the RedisClusterClient and set the re-authentication options.
+// Note: AMR databases have clustering enabled by default.
+RedisClusterClient redisClient = RedisClusterClient.create(redisURI);
 redisClient.setOptions(clientOptions);
 
 // Connect with the credentials provider.

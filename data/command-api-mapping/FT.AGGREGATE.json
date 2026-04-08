@@ -1,0 +1,202 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "aggregate(query: Union[str, Query], query_params: Optional[Dict[str, Union[str, int, float]]] = None)",
+        "params": [
+          {
+            "name": "query",
+            "type": "Union[str, Query]",
+            "description": "The aggregation query"
+          },
+          {
+            "name": "query_params",
+            "type": "Optional[Dict[str, Union[str, int, float]]]",
+            "description": "Optional query parameters"
+          }
+        ],
+        "returns": {
+          "type": "AggregateResult",
+          "description": "The aggregation results"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "AggregationResult ftAggregate(String indexName, AggregationBuilder aggr)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          },
+          {
+            "name": "aggr",
+            "type": "AggregationBuilder",
+            "description": "The aggregation builder"
+          }
+        ],
+        "returns": {
+          "type": "AggregationResult",
+          "description": "The aggregation results"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTAggregate(ctx context.Context, index string, query string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The aggregation query"
+          }
+        ],
+        "returns": {
+          "type": "*MapStringInterfaceCmd",
+          "description": "The aggregation results"
+        }
+      },
+      {
+        "signature": "FTAggregateWithArgs(ctx context.Context, index string, query string, options *FTAggregateOptions)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The aggregation query"
+          },
+          {
+            "name": "options",
+            "type": "*FTAggregateOptions",
+            "description": "Aggregation options"
+          }
+        ],
+        "returns": {
+          "type": "*AggregateCmd",
+          "description": "The aggregation results"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "AGGREGATE(index: RedisArgument, query: RedisArgument, options?: FTAggregateOptions)",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisArgument",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "RedisArgument",
+            "description": "The aggregation query"
+          },
+          {
+            "name": "options",
+            "type": "FTAggregateOptions",
+            "description": "Optional aggregation options"
+          }
+        ],
+        "returns": {
+          "type": "Promise<AggregateResult>",
+          "description": "The aggregation results"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "AggregationResult Aggregate(string index, AggregationRequest query)",
+        "params": [
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "AggregationRequest",
+            "description": "The aggregation query"
+          }
+        ],
+        "returns": {
+          "type": "AggregationResult",
+          "description": "The aggregation results"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<AggregationResult> AggregateAsync(string index, AggregationRequest query)",
+        "params": [
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "AggregationRequest",
+            "description": "The aggregation query"
+          }
+        ],
+        "returns": {
+          "type": "Task<AggregationResult>",
+          "description": "The aggregation results"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftaggregate(string $index, string $query, ?AggregateArguments $arguments = null)",
+        "params": [
+          {
+            "name": "$index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "$query",
+            "type": "string",
+            "description": "The aggregation query"
+          },
+          {
+            "name": "$arguments",
+            "type": "?AggregateArguments",
+            "description": "Optional aggregation arguments"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "The aggregation results"
+        }
+      }
+    ]
+  }
+}
+

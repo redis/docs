@@ -4,12 +4,12 @@ categories:
 - docs
 - operate
 - rs
-description: Explains terms used in Redis Enterprise Software and its docs.
+description: Explains terms used in Redis Software and its docs.
 linkTitle: Terminology
-title: Terminology in Redis Enterprise Software
+title: Terminology in Redis Software
 weight: $weight
 ---
-Here are explanations of some of the terms used in Redis Enterprise Software.
+Here are explanations of some of the terms used in Redis Software.
 
 ## Node
 
@@ -34,7 +34,7 @@ together with the other cluster nodes. You can [add nodes]({{< relref "/operate/
 As indicated above, each node serves as a container for hosting multiple
 database instances, referred to as "shards".
 
-Redis Enterprise Software supports various database configurations:
+Redis Software supports various database configurations:
 
 - **Standard Redis database** - A single Redis shard with no
     replication or clustering.
@@ -123,5 +123,5 @@ Some of the primary functionalities of the cluster manager include:
 - Gathering [operational statistics]({{< relref "/operate/rs/monitoring" >}})
 - Enforcing [license and subscription limitations]({{< relref "/operate/rs/clusters/configure/license-keys" >}})
 
-You can manage your Redis Enterprise Software clusters using the [Cluster Manager UI]({{< relref "/operate/rs/clusters/configure" >}}), [command-line tools]({{< relref "/operate/rs/references/cli-utilities" >}}), or the [REST API]({{< relref "/operate/rs/references/rest-api" >}}).
+You can manage your Redis Software clusters using the [Cluster Manager UI]({{< relref "/operate/rs/clusters/configure" >}}), [command-line tools]({{< relref "/operate/rs/references/cli-utilities" >}}), or the [REST API]({{< relref "/operate/rs/references/rest-api" >}}).
 

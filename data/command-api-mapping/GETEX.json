@@ -1,0 +1,618 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "getex(, name: KeyT,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, persist: bool = False,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "ex",
+            "type": "Optional[ExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "px",
+            "type": "Optional[ExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "exat",
+            "type": "Optional[AbsExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "pxat",
+            "type": "Optional[AbsExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "persist",
+            "type": "bool = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String getEx(String key, GetExParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "GetExParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "The value of key"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "V getex(K key, GetExArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "args",
+            "type": "GetExArgs",
+            "description": "the arguments for GETEX."
+          }
+        ],
+        "returns": {
+          "type": "V",
+          "description": "V bulk-string-reply the value of key, or null when key does not exist. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<V> getex(K key, GetExArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "args",
+            "type": "GetExArgs",
+            "description": "the arguments for GETEX."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<V>",
+          "description": "V bulk-string-reply the value of key, or null when key does not exist. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<V> getex(K key, GetExArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "args",
+            "type": "GetExArgs",
+            "description": "the arguments for GETEX."
+          }
+        ],
+        "returns": {
+          "type": "Mono<V>",
+          "description": "V bulk-string-reply the value of key, or null when key does not exist. @since 6.1"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "GetEx(ctx context.Context, key string, expiration time.Duration)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "expiration",
+            "type": "time.Duration",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "GETEX(key: RedisArgument, options: GetExOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "GetExOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "getex(key: RedisKey, callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "getex(key: RedisKey, secondsToken: \"EX\", seconds: number | string, callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "secondsToken",
+            "type": "\"EX\"",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "getex(key: RedisKey, millisecondsToken: \"PX\", milliseconds: number | string, callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "millisecondsToken",
+            "type": "\"PX\"",
+            "description": ""
+          },
+          {
+            "name": "milliseconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "getex(key: RedisKey, unixTimeSecondsToken: \"EXAT\", unixTimeSeconds: number | string, callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "unixTimeSecondsToken",
+            "type": "\"EXAT\"",
+            "description": ""
+          },
+          {
+            "name": "unixTimeSeconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "getex(key: RedisKey, unixTimeMillisecondsToken: \"PXAT\", unixTimeMilliseconds: number | string, callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "unixTimeMillisecondsToken",
+            "type": "\"PXAT\"",
+            "description": ""
+          },
+          {
+            "name": "unixTimeMilliseconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "get_ex(key: K, expire_at: Expiry)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "expire_at",
+            "type": "Expiry",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "get_ex(key: K, expire_at: Expiry)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "expire_at",
+            "type": "Expiry",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StringGetSetExpiry(RedisKey key, TimeSpan? expiry, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The exact date and time to expire at. MaxValue will remove expiry."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The value of key, or Null when key does not exist."
+        }
+      },
+      {
+        "signature": "StringGetSetExpiry(RedisKey key, DateTime expiry, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "expiry",
+            "type": "DateTime",
+            "description": "The exact date and time to expire at. MaxValue will remove expiry."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The value of key, or Null when key does not exist."
+        }
+      },
+      {
+        "signature": "StringGetSetExpiry(RedisKey key, TimeSpan? expiry, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The exact date and time to expire at. MaxValue will remove expiry."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The value of key, or Null when key does not exist."
+        }
+      },
+      {
+        "signature": "StringGetSetExpiry(RedisKey key, DateTime expiry, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "expiry",
+            "type": "DateTime",
+            "description": "The exact date and time to expire at. MaxValue will remove expiry."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The value of key, or Null when key does not exist."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StringGetSetExpiry(RedisKey key, TimeSpan? expiry, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The exact date and time to expire at. MaxValue will remove expiry."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The value of key, or Null when key does not exist."
+        }
+      },
+      {
+        "signature": "StringGetSetExpiry(RedisKey key, DateTime expiry, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "expiry",
+            "type": "DateTime",
+            "description": "The exact date and time to expire at. MaxValue will remove expiry."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The value of key, or Null when key does not exist."
+        }
+      },
+      {
+        "signature": "StringGetSetExpiry(RedisKey key, TimeSpan? expiry, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The exact date and time to expire at. MaxValue will remove expiry."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The value of key, or Null when key does not exist."
+        }
+      },
+      {
+        "signature": "StringGetSetExpiry(RedisKey key, DateTime expiry, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "expiry",
+            "type": "DateTime",
+            "description": "The exact date and time to expire at. MaxValue will remove expiry."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The value of key, or Null when key does not exist."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "getex(string $key, $modifier = '', $value = false)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$modifier = ''",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$value = false",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int|null",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "getex(key, ex: nil, px: nil, exat: nil, pxat: nil, persist: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ex",
+            "type": "Integer",
+            "description": "Set the specified expire time, in seconds."
+          },
+          {
+            "name": "px",
+            "type": "Integer",
+            "description": "Set the specified expire time, in milliseconds."
+          },
+          {
+            "name": "exat",
+            "type": "Integer",
+            "description": "Set the specified Unix time at which the key will expire, in seconds."
+          },
+          {
+            "name": "pxat",
+            "type": "Integer",
+            "description": "Set the specified Unix time at which the key will expire, in milliseconds."
+          },
+          {
+            "name": "persist",
+            "type": "Boolean",
+            "description": "Remove the time to live associated with the key."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "The value of key, or nil when key does not exist."
+        }
+      }
+    ]
+  }
+}

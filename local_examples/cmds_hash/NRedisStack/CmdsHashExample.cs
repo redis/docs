@@ -1,19 +1,42 @@
 // EXAMPLE: cmds_hash
-using StackExchange.Redis;
-using Xunit;
-using System.Linq;
+// HIDE_START
 
+using StackExchange.Redis;
+using NRedisStack.Tests;
+
+// HIDE_END
+
+// REMOVE_START
 namespace Doc;
 
+[Collection("DocsTests")]
+// REMOVE_END
+
+// HIDE_START
 public class CmdsHashExample
+// REMOVE_START
+: AbstractNRedisStackTest, IDisposable
+// REMOVE_END
 {
+    // REMOVE_START
+    public CmdsHashExample(EndpointsFixture fixture) : base(fixture) { }
+
     [Fact]
+    // REMOVE_END
     public void Run()
     {
+        //REMOVE_START
+        // This is needed because we're constructing ConfigurationOptions in the test before calling GetConnection
+        SkipIfTargetConnectionDoesNotExist(EndpointsFixture.Env.Standalone);
+        var _ = GetCleanDatabase(EndpointsFixture.Env.Standalone);
+        //REMOVE_END
         var muxer = ConnectionMultiplexer.Connect("localhost:6379");
         var db = muxer.GetDatabase();
+        // REMOVE_START
         // Clear any keys here before using them in tests.
         db.KeyDelete("myhash");
+        // REMOVE_END
+        // HIDE_END
 
         // STEP_START hdel
         bool hdelRes1 = db.HashSet("myhash", "field1", "foo");
@@ -46,6 +69,27 @@ public class CmdsHashExample
         Assert.True(hgetRes1);
         Assert.Equal("foo", hgetRes2);
         Assert.Equal(RedisValue.Null, hgetRes3);
+        db.KeyDelete("myhash");
+        // REMOVE_END
+
+        // STEP_START hmget
+        db.HashSet("myhash",
+            [
+                new("field1", "Hello"),
+                new("field2", "World")
+            ]
+        );
+
+        RedisValue[] hmgetResult = db.HashGet("myhash", new RedisValue[] { "field1", "field2", "nofield" });
+        Console.WriteLine(string.Join(", ", hmgetResult.Select(v => v.IsNull ? "null" : v.ToString())));
+        // >>> Hello, World, null
+        // STEP_END
+
+        // REMOVE_START
+        Assert.Equal(3, hmgetResult.Length);
+        Assert.Equal("Hello", hmgetResult[0]);
+        Assert.Equal("World", hmgetResult[1]);
+        Assert.True(hmgetResult[2].IsNull);
         db.KeyDelete("myhash");
         // REMOVE_END
 

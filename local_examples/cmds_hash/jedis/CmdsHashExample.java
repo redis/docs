@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.Arrays;
 
 // HIDE_START
-import redis.clients.jedis.UnifiedJedis;
+import redis.clients.jedis.RedisClient;
 // HIDE_END
 
 import static java.util.stream.Collectors.toList;
@@ -25,7 +25,7 @@ public class CmdsHashExample {
 
     @Test
     public void run() {
-        UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
+        RedisClient jedis = RedisClient.create("redis://localhost:6379");
 
         //REMOVE_START
         // Clear any keys here before using them in tests.
@@ -72,6 +72,25 @@ public class CmdsHashExample {
         assertEquals(1, hGetResult1);
         assertEquals("foo", hGetResult2);
         assertNull(hGetResult3);
+        jedis.del("myhash");
+        // REMOVE_END
+
+        // STEP_START hmget
+        Map<String, String> hmgetExampleParams = new HashMap<>();
+        hmgetExampleParams.put("field1", "Hello");
+        hmgetExampleParams.put("field2", "World");
+
+        jedis.hset("myhash", hmgetExampleParams);
+
+        List<String> hmgetResult = jedis.hmget("myhash", "field1", "field2", "nofield");
+        System.out.println(hmgetResult);    // >>> [Hello, World, null]
+        // STEP_END
+        // REMOVE_START
+        // Tests for 'hmget' step.
+        assertEquals(3, hmgetResult.size());
+        assertEquals("Hello", hmgetResult.get(0));
+        assertEquals("World", hmgetResult.get(1));
+        assertNull(hmgetResult.get(2));
         jedis.del("myhash");
         // REMOVE_END
 

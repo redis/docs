@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Learn how to use the Redis query engine with JSON and hash documents.
+description: Learn how to use Redis Search with JSON and hash documents.
 linkTitle: Index and query documents
 title: Index and query documents
 scope: example
@@ -17,7 +17,7 @@ relatedPages:
 - /develop/clients/go/vecsearch
 - /develop/ai/search-and-query
 topics:
-- Redis Query Engine
+- Redis Search
 - JSON
 - hash
 weight: 20
@@ -32,7 +32,7 @@ documents.
 
 {{< note >}}From [v9.8.0](https://github.com/redis/go-redis/releases/tag/v9.8.0) onwards,
 `go-redis` uses query dialect 2 by default.
-Redis query engine methods such as [`FTSearch()`]({{< relref "/commands/ft.search" >}})
+Redis Search methods such as [`FTSearch()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See
 [Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
@@ -48,7 +48,7 @@ haven't already done so.
 
 Add the following dependencies:
 
-{{< clients-example set="go_home_json" step="import" description="Foundational: Import go-redis package, which includes support for Redis query engine operations" difficulty="beginner" >}}
+{{< clients-example set="go_home_json" step="import" description="Foundational: Import go-redis package, which includes support for Redis Search operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create data
@@ -66,12 +66,12 @@ basic connection but see
 [Connect to the server]({{< relref "/develop/clients/go/connect" >}})
 to learn more about the available connection options.
 
-{{< clients-example set="go_home_json" step="connect" description="Foundational: Establish a connection to Redis with RESP2 protocol for query engine operations" difficulty="beginner" >}}
+{{< clients-example set="go_home_json" step="connect" description="Foundational: Establish a connection to Redis with RESP2 protocol for Redis Search operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 {{< note >}}The connection options in the example specify
 [RESP2]({{< relref "/develop/reference/protocol-spec" >}}) in the `Protocol`
-field. We recommend that you use RESP2 for Redis query engine operations in `go-redis`
+field. We recommend that you use RESP2 for Redis Search operations in `go-redis`
 because some of the response structures for the default RESP3 are currently
 incomplete and so you must handle the "raw" responses in your own code.
 
@@ -186,5 +186,5 @@ in a string under the key "$"):
 
 ## More information
 
-See the [Redis query engine]({{< relref "/develop/ai/search-and-query" >}}) docs
+See the [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) docs
 for a full description of all query features with examples.

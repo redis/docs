@@ -1,0 +1,1169 @@
+{
+  "$schema": "https://redis.io/schemas/client-observability-metrics-v0.2.json",
+  "spec_version": "0.2",
+  "namespace_default": "redis.client",
+  "metric_groups": [
+    {
+      "id": "resiliency",
+      "title": "Resiliency & cluster specific metrics",
+      "metrics": [
+        {
+          "name": "redis.client.errors",
+          "type": "Counter",
+          "unit": {
+            "symbol": "{error}",
+            "semantic": "errors"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "server.address",
+              "cardinality": "recommended"
+            },
+            {
+              "ref": "server.port",
+              "cardinality": "recommended"
+            },
+            {
+              "ref": "network.peer.address",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "network.peer.port",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "error.type",
+              "cardinality": "required"
+            },
+            {
+              "ref": "redis.client.errors.category",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.response.status_code",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "redis.client.errors.internal",
+              "cardinality": "required"
+            },
+            {
+              "ref": "redis.client.operation.retry_attempts",
+              "cardinality": "required"
+            }
+          ],
+          "description": "A counter of all errors (both returned to the user and handled internally in the client library)",
+          "otel": {
+            "instrument_kind": "counter",
+            "monotonic": true,
+            "async": false
+          }
+        },
+        {
+          "name": "redis.client.maintenance.notifications",
+          "type": "Counter",
+          "unit": {
+            "symbol": "{notification}",
+            "semantic": "notifications"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "server.address",
+              "cardinality": "recommended"
+            },
+            {
+              "ref": "server.port",
+              "cardinality": "recommended"
+            },
+            {
+              "ref": "network.peer.address",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "network.peer.port",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "redis.client.connection.notification",
+              "cardinality": "optional"
+            }
+          ],
+          "description": "Tracks server-side maintenance notifications",
+          "otel": {
+            "instrument_kind": "counter",
+            "monotonic": true,
+            "async": false
+          }
+        },
+        {
+          "name": "redis.client.geofailover.failovers",
+          "type": "Counter",
+          "unit": {
+            "symbol": "{failover}",
+            "semantic": "failovers"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.client.geofailover.reason",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.client.geofailover.fail_from",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.client.geofailover.fail_to",
+              "cardinality": "required"
+            }
+          ],
+          "description": "Tracks client-side geographic failovers",
+          "otel": {
+            "instrument_kind": "counter",
+            "monotonic": true,
+            "async": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "command",
+      "title": "Command metrics",
+      "metrics": [
+        {
+          "name": "db.client.operation.duration",
+          "type": "Histogram",
+          "unit": {
+            "symbol": "s",
+            "semantic": "seconds"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.namespace",
+              "cardinality": "recommended"
+            },
+            {
+              "ref": "db.operation.name",
+              "cardinality": "recommended"
+            },
+            {
+              "ref": "db.response.status_code",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "error.type",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "redis.client.errors.category",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "server.address",
+              "cardinality": "recommended"
+            },
+            {
+              "ref": "server.port",
+              "cardinality": "recommended"
+            },
+            {
+              "ref": "network.peer.address",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "network.peer.port",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "redis.client.operation.retry_attempts",
+              "cardinality": "required"
+            }
+          ],
+          "description": "Command duration from the application's point of view (includes retries)",
+          "otel": {
+            "instrument_kind": "histogram",
+            "monotonic": false,
+            "async": false,
+            "aggregation": "explicit_bucket"
+          }
+        }
+      ]
+    },
+    {
+      "id": "connection-basic",
+      "title": "Connection metrics (basic)",
+      "metrics": [
+        {
+          "name": "db.client.connection.count",
+          "type": "UpDownCounter",
+          "observable": false,
+          "unit": {
+            "symbol": "{connection}",
+            "semantic": "connections"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.client.connection.pool.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.client.connection.state",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "redis.client.connection.pubsub",
+              "cardinality": "optional"
+            }
+          ],
+          "description": "Current connections by state (idle/used). Sum by state for “live connections”.",
+          "otel": {
+            "instrument_kind": "updowncounter",
+            "monotonic": false,
+            "async": false
+          }
+        },
+        {
+          "name": "db.client.connection.create_time",
+          "type": "Histogram",
+          "unit": {
+            "symbol": "s",
+            "semantic": "seconds"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.client.connection.pool.name",
+              "cardinality": "required"
+            }
+          ],
+          "description": "The time it took to create a new connection, including handshake",
+          "otel": {
+            "instrument_kind": "histogram",
+            "monotonic": false,
+            "async": false,
+            "aggregation": "explicit_bucket"
+          }
+        },
+        {
+          "name": "redis.client.connection.relaxed_timeout",
+          "type": "UpDownCounter",
+          "unit": {
+            "symbol": "{relaxation}",
+            "semantic": "relaxations"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.client.connection.pool.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "redis.client.connection.notification",
+              "cardinality": "optional"
+            }
+          ],
+          "description": "How many times the connection timeout has been increased/decreased (after a server maintenance notification). Counts up for relaxed timeout, counts down for unrelaxed timeout",
+          "otel": {
+            "instrument_kind": "updowncounter",
+            "monotonic": false,
+            "async": false
+          }
+        },
+        {
+          "name": "redis.client.connection.handoff",
+          "type": "Counter",
+          "unit": {
+            "symbol": "1",
+            "semantic": "handoffs"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.client.connection.pool.name",
+              "cardinality": "required"
+            }
+          ],
+          "description": "Connections that have been handed off to another node (e.g after a MOVING notification)",
+          "otel": {
+            "instrument_kind": "counter",
+            "monotonic": true,
+            "async": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "connection-advanced",
+      "title": "Connection metrics (advanced)",
+      "metrics": [
+        {
+          "name": "db.client.connection.pending_requests",
+          "type": "UpDownCounter",
+          "observable": false,
+          "unit": {
+            "symbol": "{request}",
+            "semantic": "requests"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.client.connection.pool.name",
+              "cardinality": "required"
+            }
+          ],
+          "description": "The number of current pending requests for an open connection.",
+          "otel": {
+            "instrument_kind": "updowncounter",
+            "monotonic": false,
+            "async": false
+          }
+        },
+        {
+          "name": "db.client.connection.wait_time",
+          "type": "Histogram",
+          "unit": {
+            "symbol": "s",
+            "semantic": "seconds"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.client.connection.pool.name",
+              "cardinality": "required"
+            }
+          ],
+          "description": "The time it took to obtain an open connection from the pool. Only reported for clients that wait until a new connection becomes available.",
+          "otel": {
+            "instrument_kind": "histogram",
+            "monotonic": false,
+            "async": false,
+            "aggregation": "explicit_bucket"
+          }
+        },
+        {
+          "name": "redis.client.connection.closed",
+          "type": "Counter",
+          "unit": {
+            "symbol": "{connection}",
+            "semantic": "connections"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.client.connection.pool.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "redis.client.connection.close.reason",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "error.type",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "redis.client.errors.category",
+              "cardinality": "optional"
+            }
+          ],
+          "description": "Total number of closed connections (tcp sockets)",
+          "otel": {
+            "instrument_kind": "counter",
+            "monotonic": true,
+            "async": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "client-side-caching",
+      "title": "Client-Side caching metrics",
+      "metrics": [
+        {
+          "name": "redis.client.csc.requests",
+          "type": "Counter",
+          "unit": {
+            "symbol": "{request}",
+            "semantic": "requests"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.namespace",
+              "cardinality": "recommended"
+            },
+            {
+              "ref": "redis.client.csc.result",
+              "cardinality": "optional"
+            }
+          ],
+          "description": "The total number of requests to the cache. Used to calculate the hit ratio (hits / total).",
+          "otel": {
+            "instrument_kind": "counter",
+            "monotonic": true,
+            "async": false
+          }
+        },
+        {
+          "name": "redis.client.csc.items",
+          "type": "Gauge",
+          "observable": true,
+          "unit": {
+            "symbol": "{item}",
+            "semantic": "items"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.client.connection.pool.name",
+              "cardinality": "required"
+            }
+          ],
+          "description": "The total number of cached responses currently stored. This is an async (observable) metric.",
+          "otel": {
+            "instrument_kind": "observable_gauge",
+            "monotonic": false,
+            "async": true
+          }
+        },
+        {
+          "name": "redis.client.csc.evictions",
+          "type": "Counter",
+          "unit": {
+            "symbol": "{eviction}",
+            "semantic": "evictions"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "redis.client.csc.reason",
+              "cardinality": "optional"
+            }
+          ],
+          "description": "The total number of items evicted from the cache due to size limits or server invalidation signals.",
+          "otel": {
+            "instrument_kind": "counter",
+            "monotonic": true,
+            "async": false
+          }
+        },
+        {
+          "name": "redis.client.csc.network_saved",
+          "type": "Counter",
+          "unit": {
+            "symbol": "By",
+            "semantic": "bytes"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            }
+          ],
+          "description": "The total number of bytes saved by serving responses from the cache instead of the network.",
+          "otel": {
+            "instrument_kind": "counter",
+            "monotonic": true,
+            "async": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "pubsub",
+      "title": "PubSub metrics",
+      "metrics": [
+        {
+          "name": "redis.client.pubsub.messages",
+          "type": "Counter",
+          "unit": {
+            "symbol": "{message}",
+            "semantic": "messages"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "redis.client.pubsub.message.direction",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "redis.client.pubsub.channel",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "redis.client.pubsub.sharded",
+              "cardinality": "optional"
+            }
+          ],
+          "description": "Tracks published and received messages.",
+          "otel": {
+            "instrument_kind": "counter",
+            "monotonic": true,
+            "async": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "streaming",
+      "title": "Stream metrics",
+      "metrics": [
+        {
+          "name": "redis.client.stream.lag",
+          "type": "Histogram",
+          "unit": {
+            "symbol": "s",
+            "semantic": "seconds"
+          },
+          "attributes": [
+            {
+              "ref": "redis.client.library",
+              "cardinality": "required"
+            },
+            {
+              "ref": "db.system.name",
+              "cardinality": "required"
+            },
+            {
+              "ref": "redis.client.stream.name",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "redis.client.stream.consumer_group",
+              "cardinality": "optional"
+            },
+            {
+              "ref": "redis.client.consumer_name",
+              "cardinality": "optional"
+            }
+          ],
+          "description": "End-to-end lag per message, showing how stale messages are when the application starts processing them. Can be computed from stream message_id timestamp vs current time.",
+          "otel": {
+            "instrument_kind": "histogram",
+            "monotonic": false,
+            "async": false,
+            "aggregation": "explicit_bucket"
+          }
+        }
+      ]
+    }
+  ],
+  "attributes_definitions": {
+    "tables": [
+      {
+        "id": "semconv_defined_attributes",
+        "title": "SemConv defined attributes",
+        "attributes": [
+          {
+            "attribute": "db.system.name",
+            "type": "string",
+            "description": "Always set to `redis`",
+            "examples": "redis",
+            "requirement_level": "required"
+          },
+          {
+            "attribute": "db.operation.name",
+            "type": "string",
+            "description": "The name of the operation being executed.",
+            "examples": "GET; SET; HGETALL",
+            "requirement_level": "required"
+          },
+          {
+            "attribute": "db.namespace",
+            "type": "string",
+            "description": "The name of the database namespace. For Redis, this is the database number.",
+            "examples": "0; 1; 2",
+            "requirement_level": "recommended"
+          },
+          {
+            "attribute": "db.response.status_code",
+            "type": "string",
+            "description": "The Redis error prefix.",
+            "examples": "OK; WRONGTYPE",
+            "requirement_level": "conditionally_required",
+            "requirement_condition": "if the operation has failed and the status code is available"
+          },
+          {
+            "attribute": "error.type",
+            "type": "string",
+            "description": "Class of error the operation ended with",
+            "examples": "java.net.UnknownHostException, server_certificate_invalid, ClusterCrossSlotError",
+            "requirement_level": "conditionally_required",
+            "requirement_condition": "if and only if the operation has failed"
+          },
+          {
+            "attribute": "db.operation.batch.size",
+            "type": "int",
+            "description": "The number of queries included in a batch operation.",
+            "examples": "2; 3; 4",
+            "requirement_level": "conditionally_required",
+            "requirement_condition": "the operation is a pipeline or a transaction"
+          },
+          {
+            "attribute": "db.stored_procedure.name",
+            "type": "string",
+            "description": "The name or sha1 digest of a Lua script in the database.",
+            "examples": "GetCustomer",
+            "requirement_level": "recommended",
+            "requirement_condition": "if operation applies to a specific Lua script"
+          },
+          {
+            "attribute": "network.peer.address",
+            "type": "string",
+            "description": "Peer address of the database node where the operation was performed.",
+            "examples": "10.1.2.80; /tmp/my.sock",
+            "requirement_level": "recommended"
+          },
+          {
+            "attribute": "network.peer.port",
+            "type": "int",
+            "description": "Peer port number of the network connection.",
+            "examples": "65123",
+            "requirement_level": "recommended",
+            "requirement_condition": "if and only if network.peer.address is set"
+          },
+          {
+            "attribute": "server.address",
+            "type": "string",
+            "description": "Name of the database host.",
+            "examples": "example.com; 10.1.2.80; /tmp/my.sock; redis-13206.aws-cluster-71165.cto.redislabs.com",
+            "requirement_level": "recommended"
+          },
+          {
+            "attribute": "server.port",
+            "type": "int",
+            "description": "Server port number.",
+            "examples": "80; 8080; 443",
+            "requirement_level": "conditionally_required",
+            "requirement_condition": "using a port other than the default port for this DBMS and if server.address is set"
+          },
+          {
+            "attribute": "db.client.connection.pool.name",
+            "type": "string",
+            "description": "The name of the connection pool.",
+            "examples": "10.1.2.8/0; mypool",
+            "requirement_level": "required"
+          },
+          {
+            "attribute": "db.client.connection.state",
+            "type": "string",
+            "description": "The state of a connection in the pool. Possible values: idle or used",
+            "examples": "idle; used",
+            "requirement_level": "required"
+          },
+          {
+            "attribute": "db.client.geofailover.fail_from",
+            "type": "string",
+            "description": "FQDN of database from which failover happened.",
+            "examples": "{ip}:{port}/{weight}",
+            "requirement_level": "required"
+          },
+          {
+            "attribute": "db.client.geofailover.fail_to",
+            "type": "string",
+            "description": "FQDN of database to which failover happened.",
+            "examples": "{ip}:{port}/{weight}",
+            "requirement_level": "required"
+          },
+          {
+            "attribute": "db.client.geofailover.reason",
+            "type": "string",
+            "description": "Reason for failover to happen.",
+            "examples": "automatic; manual",
+            "requirement_level": "required",
+            "requirement_condition": "for transactions and pipelined calls"
+          }
+        ]
+      },
+      {
+        "id": "redis_defined_attributes",
+        "title": "Redis defined attributes",
+        "attributes": [
+          {
+            "attribute": "redis.client.library",
+            "type": "string",
+            "description": "The redis client library reporting the metrics in format: <library_name>:<version>",
+            "examples": "redis-py:v8.0.0b1; go-redis:v9.0.0",
+            "requirement_level": "required"
+          },
+          {
+            "attribute": "redis.client.operation.retry_attempts",
+            "type": "int",
+            "description": "Shows how many times the command has been retried.",
+            "examples": "0; 1; 2",
+            "requirement_level": "required"
+          },
+          {
+            "attribute": "redis.client.errors.internal",
+            "type": "bool",
+            "description": "Specifies whether the error has been handled internally or surfaced to the user.",
+            "examples": "true; false",
+            "requirement_level": "required",
+            "requirement_condition": "for errors"
+          },
+          {
+            "attribute": "redis.client.errors.category",
+            "type": "string",
+            "description": "Error category, to facilitate grouping and filtering of errors.",
+            "examples": "network (transport/DNS/socket issues); tls (security/TLS errors); auth (authentication/authorization); server (Redis server errors including cluster errors); other (uncategorized errors)",
+            "requirement_level": "required",
+            "requirement_condition": "for errors"
+          },
+          {
+            "attribute": "redis.client.connection.close.reason",
+            "type": "string",
+            "description": "Reason why the connection was closed. Must be one of: application_close (app/client explicitly closed); pool_eviction_idle (idle timeout / min-idle policy); server_close (server initiated FIN/RST/hangup); error (the error itself is shown in error.type); healthcheck_failed (failed ping/heartbeat)",
+            "examples": "application_close; pool_eviction_idle; server_close; error; healthcheck_failed",
+            "requirement_level": "required"
+          },
+          {
+            "attribute": "redis.client.connection.notification",
+            "type": "string",
+            "description": "Server-side maintenance notifications containing the message type.",
+            "examples": "MOVING; MIGRATING",
+            "requirement_level": "required"
+          },
+          {
+            "attribute": "redis.client.connection.pubsub",
+            "type": "bool",
+            "description": "Specifies if the connection is dedicated to a pubsub subscription. Default is False",
+            "examples": "true; false",
+            "requirement_level": "required"
+          },
+          {
+            "attribute": "redis.client.consumer_name",
+            "type": "string",
+            "description": "Name of the stream consumer",
+            "examples": "consumer1",
+            "requirement_level": "optional"
+          },
+          {
+            "attribute": "redis.client.csc.reason",
+            "type": "string",
+            "description": "The reason why an item was evicted from the client-side cache. Must be one of: full (cache size limit reached); invalidation (received server invalidation message); ttl (local expiration)",
+            "examples": "full; invalidation",
+            "requirement_level": "required"
+          },
+          {
+            "attribute": "redis.client.csc.result",
+            "type": "string",
+            "description": "Result of client-side cache lookup. Must be one of: hit (served from local cache); miss (fetched from server)",
+            "examples": "hit; miss",
+            "requirement_level": "required"
+          },
+          {
+            "attribute": "redis.client.pubsub.channel",
+            "type": "string",
+            "description": "Name of the pub/sub channel",
+            "examples": "channel1",
+            "requirement_level": "conditionally_required",
+            "requirement_condition": "if the hide_pubsub_channel_names SDK config is disabled"
+          },
+          {
+            "attribute": "redis.client.pubsub.message.direction",
+            "type": "string",
+            "description": "Determines whether a processed message is sent or received. Must be one of: out (published messages);in(received messages)",
+            "examples": "out; in",
+            "requirement_level": "required"
+          },
+          {
+            "attribute": "redis.client.pubsub.sharded",
+            "type": "bool",
+            "description": "Specifies it the message was sent/received on a sharded pubsub connection",
+            "examples": "true; false",
+            "requirement_level": "optional"
+          },
+          {
+            "attribute": "redis.client.stream.consumer_group",
+            "type": "string",
+            "description": "Name of the stream consumer group",
+            "examples": "consumer_group1",
+            "requirement_level": "optional"
+          },
+          {
+            "attribute": "redis.client.stream.name",
+            "type": "string",
+            "description": "Name of the Redis stream",
+            "examples": "stream1",
+            "requirement_level": "conditionally_required",
+            "requirement_condition": "if the hide_stream_names SDK config is disabled"
+          }
+        ]
+      }
+    ],
+    "attribute_index": {
+      "db.operation.batch.size": {
+        "attribute": "db.operation.batch.size",
+        "type": "int",
+        "description": "The number of queries included in a batch operation.",
+        "examples": "2; 3; 4",
+        "requirement_level": "conditionally_required",
+        "requirement_condition": "the operation is a pipeline or a transaction",
+        "definition_source_table": "semconv_defined_attributes"
+      },
+      "db.stored_procedure.name": {
+        "attribute": "db.stored_procedure.name",
+        "type": "string",
+        "description": "The name or sha1 digest of a Lua script in the database.",
+        "examples": "GetCustomer",
+        "requirement_level": "recommended",
+        "requirement_condition": "if operation applies to a specific Lua script",
+        "definition_source_table": "semconv_defined_attributes"
+      },
+      "network.peer.address": {
+        "attribute": "network.peer.address",
+        "type": "string",
+        "description": "Peer address of the database node where the operation was performed.",
+        "examples": "10.1.2.80; /tmp/my.sock",
+        "requirement_level": "recommended",
+        "definition_source_table": "semconv_defined_attributes"
+      },
+      "network.peer.port": {
+        "attribute": "network.peer.port",
+        "type": "int",
+        "description": "Peer port number of the network connection.",
+        "examples": "65123",
+        "requirement_level": "recommended",
+        "requirement_condition": "if and only if network.peer.address is set",
+        "definition_source_table": "semconv_defined_attributes"
+      },
+      "server.address": {
+        "attribute": "server.address",
+        "type": "string",
+        "description": "Name of the database host.",
+        "examples": "example.com; 10.1.2.80; /tmp/my.sock; redis-13206.aws-cluster-71165.cto.redislabs.com",
+        "requirement_level": "recommended",
+        "definition_source_table": "semconv_defined_attributes"
+      },
+      "server.port": {
+        "attribute": "server.port",
+        "type": "int",
+        "description": "Server port number.",
+        "examples": "80; 8080; 443",
+        "requirement_level": "conditionally_required",
+        "requirement_condition": "using a port other than the default port for this DBMS and if server.address is set",
+        "definition_source_table": "semconv_defined_attributes"
+      },
+      "db.client.connection.pool.name": {
+        "attribute": "db.client.connection.pool.name",
+        "type": "string",
+        "description": "The name of the connection pool.",
+        "examples": "10.1.2.8/0; mypool",
+        "requirement_level": "required",
+        "definition_source_table": "semconv_defined_attributes"
+      },
+      "db.client.connection.state": {
+        "attribute": "db.client.connection.state",
+        "type": "string",
+        "description": "The state of a connection in the pool. Possible values: idle or used",
+        "examples": "idle; used",
+        "requirement_level": "required",
+        "definition_source_table": "semconv_defined_attributes"
+      },
+      "db.client.geofailover.fail_from": {
+        "attribute": "db.client.geofailover.fail_from",
+        "type": "string",
+        "description": "FQDN of database from which failover happened.",
+        "examples": "{ip}:{port}/{weight}",
+        "requirement_level": "required",
+        "definition_source_table": "semconv_defined_attributes"
+      },
+      "db.client.geofailover.fail_to": {
+        "attribute": "db.client.geofailover.fail_to",
+        "type": "string",
+        "description": "FQDN of database to which failover happened.",
+        "examples": "{ip}:{port}/{weight}",
+        "requirement_level": "required",
+        "definition_source_table": "semconv_defined_attributes"
+      },
+      "db.client.geofailover.reason": {
+        "attribute": "db.client.geofailover.reason",
+        "type": "string",
+        "description": "Reason for failover to happen",
+        "examples": "automatic; manual",
+        "requirement_level": "required",
+        "requirement_condition": "for transactions and pipelined calls",
+        "definition_source_table": "semconv_defined_attributes"
+      },
+      "redis.client.library": {
+        "attribute": "redis.client.library",
+        "type": "string",
+        "description": "The redis client library reporting the metrics in format: <library_name>:<version>",
+        "examples": "redis-py:v8.0.0b1; go-redis:v9.0.0",
+        "requirement_level": "required",
+        "definition_source_table": "redis_defined_attributes"
+      },
+      "redis.client.operation.retry_attempts": {
+        "attribute": "redis.client.operation.retry_attempts",
+        "type": "int",
+        "description": "Shows how many times the command has been retried.",
+        "examples": "0; 1; 2",
+        "requirement_level": "required",
+        "definition_source_table": "redis_defined_attributes"
+      },
+      "redis.client.errors.internal": {
+        "attribute": "redis.client.errors.internal",
+        "type": "bool",
+        "description": "Specifies whether the error has been handled internally or surfaced to the user.",
+        "examples": "true; false",
+        "requirement_level": "required",
+        "requirement_condition": "for errors",
+        "definition_source_table": "redis_defined_attributes"
+      },
+      "redis.client.errors.category": {
+        "attribute": "redis.client.errors.category",
+        "type": "string",
+        "description": "Error category, to facilitate grouping and filtering of errors.",
+        "examples": "network (transport/DNS/socket issues); tls (security/TLS errors); auth (authentication/authorization); server (Redis server errors including cluster errors); other (uncategorized errors)",
+        "requirement_level": "required",
+        "requirement_condition": "for errors",
+        "definition_source_table": "redis_defined_attributes"
+      },
+      "db.system.name": {
+        "attribute": "db.system.name",
+        "type": "string",
+        "description": "Always set to `redis`",
+        "examples": "redis",
+        "requirement_level": "required",
+        "definition_source_table": "semconv_defined_attributes"
+      },
+      "db.operation.name": {
+        "attribute": "db.operation.name",
+        "type": "string",
+        "description": "The name of the operation being executed.",
+        "examples": "GET; SET; HGETALL",
+        "requirement_level": "required",
+        "definition_source_table": "semconv_defined_attributes"
+      },
+      "db.namespace": {
+        "attribute": "db.namespace",
+        "type": "string",
+        "description": "The name of the database namespace. For Redis, this is the database number.",
+        "examples": "0; 1; 2",
+        "requirement_level": "recommended",
+        "definition_source_table": "semconv_defined_attributes"
+      },
+      "db.response.status_code": {
+        "attribute": "db.response.status_code",
+        "type": "string",
+        "description": "The Redis error prefix.",
+        "examples": "OK; WRONGTYPE",
+        "requirement_level": "conditionally_required",
+        "requirement_condition": "if the operation has failed and the status code is available",
+        "definition_source_table": "semconv_defined_attributes"
+      },
+      "error.type": {
+        "attribute": "error.type",
+        "type": "string",
+        "description": "Class of error the operation ended with",
+        "examples": "java.net.UnknownHostException, server_certificate_invalid, ClusterCrossSlotError",
+        "requirement_level": "conditionally_required",
+        "requirement_condition": "if and only if the operation has failed",
+        "definition_source_table": "semconv_defined_attributes"
+      },
+      "redis.client.connection.close.reason": {
+        "attribute": "redis.client.connection.close.reason",
+        "type": "string",
+        "description": "Reason why the connection was closed. Must be one of: application_close (app/client explicitly closed); pool_eviction_idle (idle timeout / min-idle policy); server_close (server initiated FIN/RST/hangup); error (the error itself is shown in error.type); healthcheck_failed (failed ping/heartbeat)",
+        "examples": "application_close; pool_eviction_idle; server_close; error; healthcheck_failed",
+        "requirement_level": "required",
+        "definition_source_table": "redis_defined_attributes"
+      },
+      "redis.client.connection.notification": {
+        "attribute": "redis.client.connection.notification",
+        "type": "string",
+        "description": "Server-side maintenance notifications containing the message type.",
+        "examples": "MOVING; MIGRATING",
+        "requirement_level": "required",
+        "definition_source_table": "redis_defined_attributes"
+      },
+      "redis.client.connection.pubsub": {
+        "attribute": "redis.client.connection.pubsub",
+        "type": "bool",
+        "description": "Specifies if the connection is dedicated to a pubsub subscription. Default is False",
+        "examples": "true; false",
+        "requirement_level": "required",
+        "definition_source_table": "redis_defined_attributes"
+      },
+      "redis.client.consumer_name": {
+        "attribute": "redis.client.consumer_name",
+        "type": "string",
+        "description": "Name of the stream consumer",
+        "examples": "consumer1",
+        "requirement_level": "optional",
+        "definition_source_table": "redis_defined_attributes"
+      },
+      "redis.client.csc.reason": {
+        "attribute": "redis.client.csc.reason",
+        "type": "string",
+        "description": "The reason why an item was evicted from the client-side cache. Must be one of: full (cache size limit reached); invalidation (received server invalidation message); ttl (local expiration)",
+        "examples": "full; invalidation",
+        "requirement_level": "required",
+        "definition_source_table": "redis_defined_attributes"
+      },
+      "redis.client.csc.result": {
+        "attribute": "redis.client.csc.result",
+        "type": "string",
+        "description": "Result of client-side cache lookup. Must be one of: hit (served from local cache); miss (fetched from server)",
+        "examples": "hit; miss",
+        "requirement_level": "required",
+        "definition_source_table": "redis_defined_attributes"
+      },
+      "redis.client.pubsub.channel": {
+        "attribute": "redis.client.pubsub.channel",
+        "type": "string",
+        "description": "Name of the pub/sub channel",
+        "examples": "channel1",
+        "requirement_level": "conditionally_required",
+        "requirement_condition": "if the hide_pubsub_channel_names SDK config is disabled",
+        "definition_source_table": "redis_defined_attributes"
+      },
+      "redis.client.pubsub.message.direction": {
+        "attribute": "redis.client.pubsub.message.direction",
+        "type": "string",
+        "description": "Determines whether a processed message is sent or received. Must be one of: out (published messages);in(received messages)",
+        "examples": "out; in",
+        "requirement_level": "required",
+        "definition_source_table": "redis_defined_attributes"
+      },
+      "redis.client.pubsub.sharded": {
+        "attribute": "redis.client.pubsub.sharded",
+        "type": "bool",
+        "description": "Specifies it the message was sent/received on a sharded pubsub connection",
+        "examples": "true; false",
+        "requirement_level": "optional",
+        "definition_source_table": "redis_defined_attributes"
+      },
+      "redis.client.stream.consumer_group": {
+        "attribute": "redis.client.stream.consumer_group",
+        "type": "string",
+        "description": "Name of the stream consumer group",
+        "examples": "consumer_group1",
+        "requirement_level": "optional",
+        "definition_source_table": "redis_defined_attributes"
+      },
+      "redis.client.stream.name": {
+        "attribute": "redis.client.stream.name",
+        "type": "string",
+        "description": "Name of the Redis stream",
+        "examples": "stream1",
+        "requirement_level": "conditionally_required",
+        "requirement_condition": "if the hide_stream_names SDK config is disabled",
+        "definition_source_table": "redis_defined_attributes"
+      }
+    }
+  }
+}

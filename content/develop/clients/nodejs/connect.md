@@ -332,7 +332,7 @@ createClient({
 ## Connect using Smart client handoffs (SCH)
 
 *Smart client handoffs (SCH)* is a feature of Redis Cloud and
-Redis Enterprise servers that lets them actively notify clients
+Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
 See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
@@ -369,10 +369,19 @@ The available options are:
     -   `'external-fqdn'`: use the external FQDN of the server
     -   `'internal-fqdn'`: use the internal FQDN of the server
     -   `'auto'`: auto-detect based on connection. This is the default.
+    -   `'none'`: attempt a graceful reconnect to the current endpoint after a delay.
 -   `maintRelaxedCommandTimeout`: (`number`) The command timeout to use while the server is 
     performing maintenance. The default is 10000 (10 seconds). If a timeout happens during the maintenance period, the client receives a `CommandTimeoutDuringMaintenance` error.
 -   `maintRelaxedSocketTimeout`: (`number`) The socket timeout to use while the server is 
     performing maintenance. The default is 10000 (10 seconds). If a timeout happens during the maintenance period, the client receives a `SocketTimeoutDuringMaintenance` error.
+
+{{< note >}} Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
+either [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) or
+[Google Cloud Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}})
+(see [Smart client handoffs]({{< relref "/develop/clients/sch#redis-cloud" >}}) for more information).
+To use relaxed timeouts with these services, you should set `maintEndpointType: 'none'`
+when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.
+{{< /note >}}
 
 ## Connection events
 

@@ -13,6 +13,8 @@ description: Redis serialization protocol (RESP) is the wire protocol that clien
   implement
 linkTitle: Protocol spec
 title: Redis serialization protocol specification
+aliases:
+- /reference/protocol-spec/
 weight: 4
 ---
 
@@ -46,7 +48,7 @@ Using RESP with Redis 1.2 was optional and had mainly served the purpose of work
 
 In Redis 2.0, the protocol's next version, a.k.a RESP2, became the standard communication method for clients with the Redis server.
 
-[RESP3](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md) is a superset of RESP2 that mainly aims to make a client author's life a little bit easier.
+[RESP3](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md) is mostly a superset of RESP2 that mainly aims to make a client author's life a little bit easier.
 Redis 6.0 introduced experimental opt-in support of RESP3's features (excluding streaming strings and streaming aggregates).
 In addition, the introduction of the [`HELLO`]({{< relref "/commands/hello" >}}) command allows clients to handshake and upgrade the connection's protocol version (see [Client handshake](#client-handshake)).
 
@@ -124,6 +126,7 @@ The following table summarizes the RESP data types that Redis supports:
 | [Simple Errors](#simple-errors) | RESP2 | Simple | `-` |
 | [Integers](#integers) | RESP2 | Simple | `:` |
 | [Bulk strings](#bulk-strings) | RESP2 | Aggregate | `$` |
+| [Null bulk strings](#null-bulk-strings) | RESP2 | Aggregate | `$-1\r\n` |
 | [Arrays](#arrays) | RESP2 | Aggregate | `*` |
 | [Nulls](#nulls) | RESP3 | Simple | `_` |
 | [Booleans](#booleans) | RESP3 | Simple | `#` |
@@ -235,7 +238,7 @@ The empty string's encoding is:
 
 <a name="nil-reply"></a>
 
-#### Null bulk strings
+### Null bulk strings
 Whereas RESP3 has a dedicated data type for [null values](#nulls), RESP2 has no such type.
 Instead, due to historical reasons, the representation of null values in RESP2 is via predetermined forms of the [bulk strings](#bulk-strings) and [arrays](#arrays) types.
 

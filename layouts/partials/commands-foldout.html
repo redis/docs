@@ -1,0 +1,167 @@
+{{/*
+  Commands foldout partial - displays commands with summaries, links, and API method signatures
+
+  Parameters:
+  - commands: List of command names
+  - id: Unique ID for the codetabs instance
+  - tabTitle: The tab title (e.g., "Python", "Node.js") used to look up mappingClientId
+*/}}
+
+{{ $commands := .commands }}
+{{ $id := .id }}
+{{ $tabTitle := .tabTitle }}
+
+{{/* Get the mappingClientId from clientsConfig based on tabTitle */}}
+{{ $clientConfig := index site.Params.clientsConfig $tabTitle }}
+{{ $mappingClientId := "" }}
+{{ if $clientConfig }}
+    {{ $mappingClientId = index $clientConfig "mappingClientId" }}
+{{ end }}
+
+{{/* Access the command-api-mapping data (using index with hyphenated key) */}}
+{{ $apiMapping := index site.Data "command-api-mapping" }}
+{{/* Access overrides (manual corrections that take precedence over generated data) */}}
+{{ $apiOverrides := index site.Data "command-api-mapping-overrides" }}
+
+{{ if $commands }}
+<div class="commands-foldout border-b border-slate-700 py-2">
+    <button class="commands-toggle w-full flex items-center justify-between text-left text-xs text-slate-300 hover:text-white hover:bg-slate-800 px-2 py-1 rounded transition-colors"
+            aria-expanded="false"
+            data-codetabs-id="{{ $id }}"
+            onclick="toggleCommandsFoldout(this)">
+        <span class="flex items-center gap-2 flex-1">
+            <span class="toggle-icon inline-block transition-transform duration-200">▼</span>
+            <span class="commands-label font-semibold">Commands:</span>
+            <span class="commands-list text-slate-400">{{ delimit $commands ", " }}</span>
+        </span>
+    </button>
+    <div class="commands-details hidden px-2 py-2">
+        <ul class="commands-list-detailed space-y-2">
+            {{ range $commands }}
+                {{ $cmdName := . }}
+                {{/* Try to find command in multiple data files */}}
+                {{ $cmdData := (index site.Data.commands_core $cmdName) | default (index site.Data.commands_redisearch $cmdName) | default (index site.Data.commands_redisjson $cmdName) | default (index site.Data.commands_redistimeseries $cmdName) | default (index site.Data.commands_redisbloom $cmdName) }}
+
+                {{/* Look up API method signatures for this command and client */}}
+                {{/* Check overrides first, then fall back to generated data */}}
+                {{ $apiSignatures := slice }}
+                {{ if $mappingClientId }}
+                    {{/* Try overrides first */}}
+                    {{ $overrideFound := false }}
+                    {{ if $apiOverrides }}
+                        {{ $overrideCmd := index $apiOverrides $cmdName }}
+                        {{ if $overrideCmd }}
+                            {{ $overrideApiCalls := index $overrideCmd "api_calls" }}
+                            {{ if $overrideApiCalls }}
+                                {{ $overrideClientSigs := index $overrideApiCalls $mappingClientId }}
+                                {{ if $overrideClientSigs }}
+                                    {{ $apiSignatures = $overrideClientSigs }}
+                                    {{ $overrideFound = true }}
+                                {{ end }}
+                            {{ end }}
+                        {{ end }}
+                    {{ end }}
+                    {{/* Fall back to generated data if no override found */}}
+                    {{ if and (not $overrideFound) $apiMapping }}
+                        {{ $cmdMapping := index $apiMapping $cmdName }}
+                        {{ if $cmdMapping }}
+                            {{ $apiCalls := index $cmdMapping "api_calls" }}
+                            {{ if $apiCalls }}
+                                {{ $clientSigs := index $apiCalls $mappingClientId }}
+                                {{ if $clientSigs }}
+                                    {{ $apiSignatures = $clientSigs }}
+                                {{ end }}
+                            {{ end }}
+                        {{ end }}
+                    {{ end }}
+                {{ end }}
+
+                <li class="text-xs text-slate-300 border-l border-slate-600 pl-2"
+                    {{ if $cmdData }}{{ if $cmdData.acl_categories }}data-acl-categories="{{ delimit $cmdData.acl_categories "," }}"{{ end }}{{ end }}>
+                    {{ if $cmdData }}
+                        <div class="flex flex-col gap-1">
+                            <div class="flex items-center gap-1">
+                                <a href="{{ absURL (printf "commands/%s/" (lower (replace $cmdName " " "-"))) }}"
+                                   class="font-mono text-slate-200 hover:text-white hover:underline"
+                                   style="font-family: 'Space Mono', monospace;">
+                                    {{ $cmdName }}
+                                </a>
+                                {{ if $cmdData.acl_categories }}
+                                <span class="text-slate-500">
+                                    (
+                                    {{ range $idx, $category := $cmdData.acl_categories }}
+                                        {{ if gt $idx 0 }}<span class="text-slate-500">, </span>{{ end }}
+                                        {{ $categoryId := lower (replace $category "@" "") }}
+                                        <a href="{{ absURL (printf "operate/oss_and_stack/management/security/acl/#%s" $categoryId) }}"
+                                           class="text-slate-400 hover:text-slate-300 hover:underline"
+                                           title="{{ $category }}">
+                                            {{ $category }}
+                                        </a>
+                                    {{ end }}
+                                    )
+                                </span>
+                                {{ end }}
+                            </div>
+                            {{ if $cmdData.summary }}
+                            <span class="text-slate-400">{{ $cmdData.summary }}</span>
+                            {{ end }}
+
+                            {{/* Display API method signatures if available - as mini foldout */}}
+                            {{ if gt (len $apiSignatures) 0 }}
+                            <div class="api-signatures-foldout mt-1">
+                                <button class="api-sig-toggle flex items-center gap-1 text-slate-500 hover:text-slate-300 transition-colors"
+                                        aria-expanded="false"
+                                        onclick="toggleApiSignatures(this)">
+                                    <span class="api-sig-icon text-[10px] transition-transform duration-200">▶</span>
+                                    <span class="text-[10px] uppercase tracking-wide">Method{{ if gt (len $apiSignatures) 1 }}s{{ end }}</span>
+                                </button>
+                                <div class="api-signatures-details hidden pl-2 mt-1 border-l border-slate-700">
+                                    <ul class="list-none space-y-2">
+                                        {{ range $apiSignatures }}
+                                        {{ $params := .params }}
+                                        {{ $returns := .returns }}
+                                        {{/* Extract method name - handle Java-style "ReturnType methodName(" by taking last word */}}
+                                        {{ $beforeParen := index (split .signature "(") 0 }}
+                                        {{ $parts := split $beforeParen " " }}
+                                        {{ $methodName := index $parts (sub (len $parts) 1) }}
+                                        <li class="font-mono text-[11px]" style="font-family: 'Space Mono', monospace;">
+                                            {{/* Method name */}}
+                                            <span class="text-emerald-400">{{ $methodName }}</span><span class="text-slate-400">(</span>
+                                            {{/* Parameters - one per line if we have structured params */}}
+                                            {{ if and $params (gt (len $params) 0) }}
+                                            <ul class="list-none pl-4 mt-0.5 space-y-0">
+                                                {{ range $idx, $param := $params }}
+                                                <li class="text-[11px] leading-tight">
+                                                    <span class="text-emerald-400">{{ $param.name }}</span>{{ if $param.type }}<span class="text-slate-400">: </span><span class="text-yellow-400">{{ $param.type }}</span>{{ end }}{{ if lt $idx (sub (len $params) 1) }}<span class="text-slate-400">,</span>{{ end }}{{ if and $param.description (ne $param.description "") }}<span class="text-slate-500 italic"> // {{ $param.description }}</span>{{ end }}
+                                                </li>
+                                                {{ end }}
+                                            </ul>
+                                            {{ end }}
+                                            {{/* Return type - handle both string and object formats */}}
+                                            {{ if $returns }}
+                                            <span class="text-slate-400">)</span><span class="text-slate-500"> → </span>
+                                            {{ if reflect.IsMap $returns }}
+                                                <span class="text-emerald-400">{{ index $returns "type" }}</span>{{ if and (index $returns "description") (ne (index $returns "description") "") }}<span class="text-slate-500 italic"> // {{ index $returns "description" }}</span>{{ end }}
+                                            {{ else }}
+                                                <span class="text-emerald-400">{{ $returns }}</span>
+                                            {{ end }}
+                                            {{ else }}
+                                            <span class="text-slate-400">)</span>
+                                            {{ end }}
+                                        </li>
+                                        {{ end }}
+                                    </ul>
+                                </div>
+                            </div>
+                            {{ end }}
+                        </div>
+                    {{ else }}
+                        <span class="font-semibold text-slate-200">{{ $cmdName }}</span>
+                    {{ end }}
+                </li>
+            {{ end }}
+        </ul>
+    </div>
+</div>
+{{ end }}
+

@@ -22,6 +22,7 @@ The [`CASE`](https://www.w3schools.com/sql/sql_case.asp) statement allows you to
 The example below demonstrates how to use the `CASE` statement to create a new field called `Market` based on the value of the `BillingCountry` field in the `Invoice` table. The new field categorizes countries into regions such as "North America" and "Europe".
 
 ```yaml
+name: Add market field using SQL CASE
 source:
   table: Invoice
 
@@ -47,6 +48,7 @@ You can also use the `CASE` statement to filter data based on specific condition
 Because the `Total` field is a Decimal in the source table, it is represented as a string in Debezium and so you must cast it to `REAL` to compare it numerically in the `CASE` statement. Without this cast, it will be compared as a string value, which will give the wrong result.
 
 ```yaml
+name: Filter invoices by country and total
 source:
   table: Invoice
 

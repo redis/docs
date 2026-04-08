@@ -81,8 +81,8 @@
             },
             "sentiment": {
               "type": "string",
-              "enum": ["positive", "negative"],
-              "description": "Sentiment of the outcome for visual styling (positive=green, negative=red)"
+              "enum": ["positive", "negative", "indeterminate"],
+              "description": "Sentiment of the outcome for visual styling (positive=green, negative=red, indeterminate=yellow/amber)"
             }
           }
         },

@@ -108,7 +108,7 @@ section.prose {
 .prose h4[id],
 .prose h5[id],
 .prose h6[id] {
-  @apply mt-16 scroll-mt-6;
+	  @apply mt-16 scroll-mt-24;
 }
 
 /* Reduce top margin when headers immediately follow other headers */
@@ -442,6 +442,10 @@ select {
   min-height: 32px;
 }
 
+.cli-footer.commands-foldout-open {
+  @apply opacity-100 visible;
+}
+
 .cli-footer a.rounded {
   @apply bg-red-900/80 hover:bg-red-700/80 text-white;
 }
@@ -507,6 +511,28 @@ select {
 .codetabs > .panel:where([aria-expanded]) #visibility-off,
 .codetabs > .panel:not([aria-expanded]) #visibility-on {
   @apply block;
+}
+
+/* Jupyter example toggle visibility - same pattern as codetabs */
+/* When aria-expanded is not set (initial state), show all lines at full opacity */
+/* This is the default state showing only the step code */
+
+/* When aria-expanded="true", show full file with context lines dimmed */
+.thebe-container > .panel[aria-expanded="true"] .full-file-view .highlight .chroma > code > .line:not(.hl),
+.thebe-container > .panel[aria-expanded="true"] .full-file-view .highlight .chroma > .lntable .lntd code > .lnt,
+.thebe-container > .panel[aria-expanded="true"] .full-file-view .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
+  @apply opacity-60;
+}
+
+/* Ensure highlighted lines (current step) have full opacity when expanded */
+.thebe-container > .panel[aria-expanded="true"] .full-file-view .highlight .chroma > code > .hl,
+.thebe-container > .panel[aria-expanded="true"] .full-file-view .highlight .chroma > .lntable .lntd code > .hl {
+  opacity: 1 !important;
+}
+
+.thebe-container > .panel .highlight .chroma > code > .hl,
+.thebe-container > .panel .highlight .chroma > .lntable .lntd code > .hl {
+  @apply bg-inherit;
 }
 
 .download-cards {

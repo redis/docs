@@ -10,7 +10,7 @@ hideListLinks: true
 weight: 60
 ---
 
-Redis Enterprise Software provides various features to secure your Redis Enterprise Software deployment:
+Redis Software provides various features to secure your deployment:
 
 | Login and passwords | Users and roles | Encryption and TLS | Certificates and audit |
 |---------------------|-----------------|--------------------|-----------------------|
@@ -23,7 +23,7 @@ Redis Enterprise Software provides various features to secure your Redis Enterpr
 
 ## Recommended security practices
 
-See [Recommended security practices]({{<relref "/operate/rs/security/recommended-security-practices">}}) to learn how to protect Redis Enterprise Software.
+See [Recommended security practices]({{<relref "/operate/rs/security/recommended-security-practices">}}) to learn how to protect Redis Software.
 
 ## Redis Trust Center
 

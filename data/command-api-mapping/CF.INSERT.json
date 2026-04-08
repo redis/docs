@@ -1,0 +1,230 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "insert(key, items, capacity=None, nocreate=None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "items",
+            "type": "list",
+            "description": "Items to add"
+          },
+          {
+            "name": "capacity",
+            "type": "int",
+            "description": "Optional capacity for filter creation"
+          },
+          {
+            "name": "nocreate",
+            "type": "bool",
+            "description": "If True, don't create filter"
+          }
+        ],
+        "returns": {
+          "type": "list",
+          "description": "List of booleans for each item"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Boolean> cfInsert(String key, String... items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "items",
+            "type": "String...",
+            "description": "Items to add"
+          }
+        ],
+        "returns": {
+          "type": "List<Boolean>",
+          "description": "List of booleans for each item"
+        }
+      },
+      {
+        "signature": "List<Boolean> cfInsert(String key, CFInsertParams insertParams, String... items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "insertParams",
+            "type": "CFInsertParams",
+            "description": "Insert parameters (capacity, nocreate)"
+          },
+          {
+            "name": "items",
+            "type": "String...",
+            "description": "Items to add"
+          }
+        ],
+        "returns": {
+          "type": "List<Boolean>",
+          "description": "List of booleans for each item"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "CFInsert(ctx context.Context, key string, options *CFInsertOptions, elements ...interface{}) *BoolSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "options",
+            "type": "*CFInsertOptions",
+            "description": "Insert options (Capacity, NoCreate)"
+          },
+          {
+            "name": "elements",
+            "type": "...interface{}",
+            "description": "Items to add"
+          }
+        ],
+        "returns": {
+          "type": "*BoolSliceCmd",
+          "description": "Boolean slice command result"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "CF.INSERT(key: RedisArgument, items: RedisVariadicArgument, options?: CfInsertOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "items",
+            "type": "RedisVariadicArgument",
+            "description": "Items to add"
+          },
+          {
+            "name": "options",
+            "type": "CfInsertOptions",
+            "description": "Optional: CAPACITY, NOCREATE"
+          }
+        ],
+        "returns": {
+          "type": "boolean[]",
+          "description": "Array of booleans for each item"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "bool[] Insert(RedisKey key, RedisValue[] items, int? capacity = null, bool nocreate = false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "items",
+            "type": "RedisValue[]",
+            "description": "Items to add"
+          },
+          {
+            "name": "capacity",
+            "type": "int?",
+            "description": "Optional capacity for filter creation"
+          },
+          {
+            "name": "nocreate",
+            "type": "bool",
+            "description": "If true, don't create filter"
+          }
+        ],
+        "returns": {
+          "type": "bool[]",
+          "description": "Array of booleans for each item"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "async Task<bool[]> InsertAsync(RedisKey key, RedisValue[] items, int? capacity = null, bool nocreate = false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "items",
+            "type": "RedisValue[]",
+            "description": "Items to add"
+          },
+          {
+            "name": "capacity",
+            "type": "int?",
+            "description": "Optional capacity for filter creation"
+          },
+          {
+            "name": "nocreate",
+            "type": "bool",
+            "description": "If true, don't create filter"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool[]>",
+          "description": "Array of booleans for each item"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "cfinsert(string $key, int $capacity = -1, bool $noCreate = false, string ...$item)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "$capacity",
+            "type": "int",
+            "description": "Optional capacity (-1 for default)"
+          },
+          {
+            "name": "$noCreate",
+            "type": "bool",
+            "description": "If true, don't create filter"
+          },
+          {
+            "name": "$item",
+            "type": "string...",
+            "description": "Items to add"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Array of booleans for each item"
+        }
+      }
+    ]
+  }
+}

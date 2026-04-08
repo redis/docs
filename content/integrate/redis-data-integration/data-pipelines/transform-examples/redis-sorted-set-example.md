@@ -22,6 +22,7 @@ you specify the `data_type` parameter for the job, it overrides the system-wide 
 When writing to sorted sets, you must provide two additional arguments, `member` and `score`. These specify the field names that will be used as a member and a score to add an element to a sorted set. In this case, the result will be a Redis sorted set named `invoices:sorted` based on the key expression and with an expiration of 100 seconds for each set member. If you don't supply an `expire` parameter, the keys will never expire.
 
 ```yaml
+name: Write invoices to sorted set by total
 source:
   schema: public
   table: invoice
@@ -35,8 +36,8 @@ output:
         language: jmespath
       args:
         score: Total
-        member: InvoiceId 
-      expire: 100      
+        member: InvoiceId
+      expire: 100
 ```
 
 Since sorted sets in Redis are inherently sorted, you can easily get the top N invoices by total invoice amount using the command below (the range 0..9 gets the top 10 invoices):

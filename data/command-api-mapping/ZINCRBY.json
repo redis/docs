@@ -1,0 +1,576 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "zincrby(name: KeyT, amount: float, value: EncodableT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "amount",
+            "type": "float",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "EncodableT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "double zincrby(final byte[] key, final double increment, final byte[] member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The new score"
+        }
+      },
+      {
+        "signature": "Double zincrby(final byte[] key, final double increment, final byte[] member final ZIncrByParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "byte[] member final ZIncrByParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Double",
+          "description": "The new score"
+        }
+      },
+      {
+        "signature": "double zincrby(final String key, final double increment, final String member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The new score"
+        }
+      },
+      {
+        "signature": "Double zincrby(final String key, final double increment, final String member final ZIncrByParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "String member final ZIncrByParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Double",
+          "description": "The new score"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Double zincrby(K key, double amount, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "amount",
+            "type": "double",
+            "description": "the increment type: long."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member type: value."
+          }
+        ],
+        "returns": {
+          "type": "Double",
+          "description": "Double bulk-string-reply the new score of member (a double precision floating point number), represented as string."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Double> zincrby(K key, double amount, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "amount",
+            "type": "double",
+            "description": "the increment type: long."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member type: value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Double>",
+          "description": "Double bulk-string-reply the new score of member (a double precision floating point number), represented as string."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Double> zincrby(K key, double amount, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "amount",
+            "type": "double",
+            "description": "the increment type: long."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "the member type: value."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Double>",
+          "description": "Double bulk-string-reply the new score of member (a double precision floating point number), represented as string."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ZIncrBy(ctx context.Context, key string, increment float64, member string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "float64",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*FloatCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ZINCRBY(key: RedisArgument, increment: number, member: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "zincrby(key: RedisKey, increment: number | string, member: string | Buffer | number, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "zincr(key: K, member: M, delta: D)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "M",
+            "description": ""
+          },
+          {
+            "name": "delta",
+            "type": "D",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(f64)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "zincr(key: K, member: M, delta: D)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "M",
+            "description": ""
+          },
+          {
+            "name": "delta",
+            "type": "D",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(f64)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SortedSetIncrement(RedisKey key, RedisValue member, double value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": "The member to increment."
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": "The amount to increment by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The new score of member."
+        }
+      },
+      {
+        "signature": "SortedSetIncrement(key, member, -value, flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "member",
+            "type": "Any",
+            "description": "The member to increment."
+          },
+          {
+            "name": "-value",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "Any",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": "The new score of member."
+        }
+      },
+      {
+        "signature": "SortedSetIncrement(RedisKey key, RedisValue member, double value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": "The member to increment."
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": "The amount to increment by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The new score of member."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SortedSetIncrement(RedisKey key, RedisValue member, double value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": "The member to increment."
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": "The amount to increment by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The new score of member."
+        }
+      },
+      {
+        "signature": "SortedSetIncrement(key, member, -value, flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "member",
+            "type": "Any",
+            "description": "The member to increment."
+          },
+          {
+            "name": "-value",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "Any",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": "The new score of member."
+        }
+      },
+      {
+        "signature": "SortedSetIncrement(RedisKey key, RedisValue member, double value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": "The member to increment."
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": "The amount to increment by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The new score of member."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "zincrby(string $key, int $increment, string $member)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$increment",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$member",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zincrby(key, increment, member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "Float",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Float",
+          "description": "score of the member after incrementing it"
+        }
+      }
+    ]
+  }
+}

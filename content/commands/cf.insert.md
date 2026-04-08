@@ -107,9 +107,9 @@ redis> CF.INSERT cf2 ITEMS 1 1 1 1
 4) (integer) -1
 {{< / highlight >}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
@@ -121,12 +121,12 @@ redis> CF.INSERT cf2 ITEMS 1 1 1 1
 
 One of the following:
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) of `1` for successfully adding an item, or `-1` when the item cannot be added because the filter is full.
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `1` when the item is added successfully, or `-1` when the item cannot be added because the filter is full.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) when the number of arguments or key type is incorrect, and also when `NOCREATE` is specified and `key` does not exist.
 
 -tab-sep-
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is a [boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}) of `1` for successfully adding an item, or `-1` when the item cannot be added because the filter is full.
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is either a [boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}) of `true` for successfully adding an item, or an [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) of `-1` when the item cannot be added because the filter is full.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) when the number of arguments or key type is incorrect, and also when `NOCREATE` is specified and `key` does not exist.
 
 {{< /multitabs >}}

@@ -1,0 +1,197 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "alter_schema_add(field: Field)",
+        "params": [
+          {
+            "name": "field",
+            "type": "Field",
+            "description": "The field to add to the index"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String ftAlter(String indexName, Schema schema)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          },
+          {
+            "name": "schema",
+            "type": "Schema",
+            "description": "The schema to add"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      },
+      {
+        "signature": "String ftAlter(String indexName, Iterable<SchemaField> schemaFields)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          },
+          {
+            "name": "schemaFields",
+            "type": "Iterable<SchemaField>",
+            "description": "The schema fields to add"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTAlter(ctx context.Context, index string, skipInitialScan bool, definition []interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "skipInitialScan",
+            "type": "bool",
+            "description": "Whether to skip initial scan"
+          },
+          {
+            "name": "definition",
+            "type": "[]interface{}",
+            "description": "The field definition"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ALTER(index: RedisArgument, field: SchemaField)",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisArgument",
+            "description": "The index name"
+          },
+          {
+            "name": "field",
+            "type": "SchemaField",
+            "description": "The field to add"
+          }
+        ],
+        "returns": {
+          "type": "Promise<string>",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "bool Alter(string index, Schema schema, bool skipInitialScan = false)",
+        "params": [
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "schema",
+            "type": "Schema",
+            "description": "The schema to add to the index"
+          },
+          {
+            "name": "skipInitialScan",
+            "type": "bool",
+            "description": "Whether to skip the initial scan"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the index was altered"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<bool> AlterAsync(string index, Schema schema, bool skipInitialScan = false)",
+        "params": [
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "schema",
+            "type": "Schema",
+            "description": "The schema to add to the index"
+          },
+          {
+            "name": "skipInitialScan",
+            "type": "bool",
+            "description": "Whether to skip the initial scan"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if the index was altered"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftalter(string $index, FieldInterface[] $schema, ?AlterArguments $arguments = null)",
+        "params": [
+          {
+            "name": "$index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "$schema",
+            "type": "FieldInterface[]",
+            "description": "The schema fields to add"
+          },
+          {
+            "name": "$arguments",
+            "type": "?AlterArguments",
+            "description": "Optional alter arguments"
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": "OK on success"
+        }
+      }
+    ]
+  }
+}
+

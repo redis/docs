@@ -8,7 +8,6 @@ categories:
 description: null
 linkTitle: AWS PrivateLink
 weight: 80
-bannerText: AWS PrivateLink is currently in preview. Features and behavior are subject to change. Redis does not recommend using AWS PrivateLink in production environments.
 ---
 
 [Amazon Web Services (AWS) PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-access-resources.html) allows service providers to securely expose specific services without exposing the entire service provider and consumer VPCs to each other. With AWS PrivateLink, Redis Cloud exposes a VPC endpoint service that you connect to as a consumer from your own VPC. Traffic stays within the AWS network and is isolated from external networks. 
@@ -24,6 +23,10 @@ AWS PrivateLink provides the following benefits:
 - **Improved Security**: PrivateLink exposes the Redis cluster and database(s) as a unidirectional endpoint inside your consumer VPC, thereby avoiding exposing entire VPC subnets to each other and eliminating some possible attack vectors.
 - **Network Flexibility**: PrivateLink enables cross-account and cross-VPC connectivity and can be configured even when the Redis Cloud VPC and your consumer VPC have overlapping CIDR/IP ranges.
 - **Simplified architecture and low latency**: PrivateLink does not require NAT, internet gateways, or VPNs. It provides simplified network routing, without the need for a network load balancer between the application and the Redis database.
+
+{{< video-link >}}
+See [Connect to Redis Cloud with AWS PrivateLink](https://www.youtube.com/watch?v=i3aTmcyFihY) for a short video tutorial on how to connect to Redis Cloud with AWS PrivateLink.
+{{< /video-link >}}
 
 ## Limitations
 
@@ -45,12 +48,13 @@ Be aware of the following limitations when using PrivateLink with Redis Cloud:
 
     We recommend avoiding these availability zones when creating your Redis Cloud database if you plan to use AWS PrivateLink.
 - Redis Cloud [Bring your Own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) subscriptions are not supported with PrivateLink.
+- The pre-handoff feature of [Smart client handoffs]({{< relref "/develop/clients/sch#redis-cloud" >}}) is not currently supported with AWS PrivateLink, but relaxed timeouts are available and enabled by default.
 
 ## Prerequisites
 
 Before you can connect to Redis Cloud with an AWS PrivateLink VPC resource endpoint, you must have:
 
-- A [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
+- A [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) and the **Owner** or **Manager** role for your Redis Cloud account.
 - An [AWS VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html) with the following:
     - A [security group](https://docs.aws.amazon.com/vpc/latest/userguide/creating-security-groups.html) that allows ingress traffic to the following ports: 
         - The database port range (port 10000-19999)
@@ -58,6 +62,7 @@ Before you can connect to Redis Cloud with an AWS PrivateLink VPC resource endpo
     - Subnets in the same region as your Redis Cloud database.
     - Settings to allow **DNS resolution** and **DNS hostnames**. See [View and update DNS attributes for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns-updating.html) for more information.
 - Permission to create and manage VPC endpoints or Service networks in AWS.
+- AWS CLI version 2.32 or greater if using the AWS CLI.
 
 ## Set up PrivateLink connection
 

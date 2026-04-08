@@ -18,7 +18,7 @@ For this quick start tutorial, you need:
 
     - A [Redis Cloud]({{< relref "/operate/oss_and_stack/stack-with-enterprise/stack-quickstart" >}}) database
 
-    - A [Redis Enterprise Software]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database" >}}) database
+    - A [Redis Software]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database" >}}) database
 
 - [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) command-line tool
 

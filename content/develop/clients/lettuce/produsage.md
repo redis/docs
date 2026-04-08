@@ -214,7 +214,7 @@ Learn more about topology refresh configuration settings in [the reference guide
 
 ## DNS cache and Redis
 
-When you connect to a Redis server with multiple endpoints, such as [Redis Enterprise Active-Active](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/), you *must*
+When you connect to a Redis server with multiple endpoints, such as [Redis Software Active-Active](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/), you *must*
 disable the JVM's DNS cache. If a server node or proxy fails, the IP address for any database
 affected by the failure will change. When this happens, your app will keep
 trying to use the stale IP address if DNS caching is enabled.
@@ -288,7 +288,7 @@ in the Lettuce reference guide for more information.
 ## Smart client handoffs
 
 *Smart client handoffs (SCH)* is a feature of Redis Cloud and
-Redis Enterprise servers that lets them actively notify clients
+Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
 

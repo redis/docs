@@ -21,6 +21,8 @@ This specification is for developers who need to:
 - Fix a build issue → [Troubleshooting](#troubleshooting)
 - Understand the build → [Build Process](#build-process)
 - Find configuration → [Configuration](#configuration)
+- Write tests for a feature → [Testing](#testing)
+- Verify my changes work → [Testing](#testing)
 
 ## Table of Contents
 
@@ -30,10 +32,14 @@ This specification is for developers who need to:
 4. [File Structure and Conventions](#file-structure-and-conventions)
 5. [Configuration](#configuration)
 6. [Working with Examples](#working-with-examples)
-7. [Extension Points](#extension-points)
-8. [Build Process](#build-process)
-9. [Troubleshooting](#troubleshooting)
-10. [Appendix](#appendix)
+7. [CLI Command Extraction](#cli-command-extraction)
+8. [Commands Display UI](#commands-display-ui)
+9. [Metadata-Driven UI Enhancements](#metadata-driven-ui-enhancements-patterns-and-best-practices)
+10. [Extension Points](#extension-points)
+11. [Testing](#testing)
+12. [Build Process](#build-process)
+13. [Troubleshooting](#troubleshooting)
+14. [Appendix](#appendix)
 
 ---
 
@@ -1587,6 +1593,848 @@ python3 build/local_examples.py  # Rebuild to remove from metadata
 
 ---
 
+## CLI Command Extraction
+
+### Purpose and Motivation
+
+The CLI Command Extraction feature automatically extracts Redis CLI commands from code examples and enriches them with metadata from `data/commands_core.json`. This metadata is exposed to AI agents and documentation systems to better understand what each code example demonstrates.
+
+**Why this matters**:
+- **AI Understanding**: AI agents can understand the semantic intent of code examples by knowing which Redis commands are being used
+- **Cross-language Comprehension**: The same CLI command appears in multiple language examples (Python, Node.js, Java, etc.). Knowing the CLI command helps understand language-specific implementations
+- **Documentation Enrichment**: Metadata can be used to generate command reference links, summaries, and complexity information alongside examples
+- **Semantic Search**: Future search systems can find examples by the commands they use, not just by text matching
+
+### Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    CLI Command Extraction                        │
+│                                                                   │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 1. Parse CLI Content from {{< clients-example >}} blocks │   │
+│  │    - Extract lines starting with ">"                     │   │
+│  │    - Identify command names (first token after ">")      │   │
+│  │    - Handle multi-word commands (e.g., "ACL CAT")        │   │
+│  │    - Handle dot notation (e.g., "JSON.SET")              │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                           ▼                                       │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 2. Normalize Command Names                               │   │
+│  │    - Convert to uppercase                                │   │
+│  │    - Handle aliases and variations                       │   │
+│  │    - Deduplicate within same snippet                     │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                           ▼                                       │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 3. Enrich with Command Metadata                          │   │
+│  │    - Look up in data/commands_core.json                  │   │
+│  │    - Extract: summary, group, complexity, since          │   │
+│  │    - Generate command reference link                     │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                           ▼                                       │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 4. Store in Example Metadata                             │   │
+│  │    - Add "cli_commands" field to examples.json           │   │
+│  │    - Structure: array of command objects                 │   │
+│  │    - Include in both remote and local examples           │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                           ▼                                       │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 5. Expose to Templates and AI Systems                    │   │
+│  │    - Available in Hugo templates via examples.json       │   │
+│  │    - Available to AI agents via metadata                 │   │
+│  │    - Can be rendered in UI or used for search            │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                   │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Implementation Strategy
+
+#### Phase 1: CLI Content Parsing
+
+**Location**: New module `build/components/cli_parser.py`
+
+**Responsibilities**:
+- Parse CLI content from `{{< clients-example >}}` shortcode blocks
+- Extract command names from lines starting with `>` or `redis>`
+- Handle multi-word commands (e.g., `ACL CAT`, `SCRIPT LOAD`)
+- Handle dot notation (e.g., `JSON.SET`, `GRAPH.QUERY`)
+- Return list of unique command names found in snippet
+
+**Algorithm**:
+```
+For each line in CLI content:
+  1. Check if line starts with ">" or "redis>" (redis-cli prompt)
+  2. Extract text after the prompt
+  3. Split on whitespace to get tokens
+  4. First token is the command name
+  5. Check if second token is also part of command (for multi-word commands)
+  6. Normalize to uppercase
+  7. Add to set (for deduplication)
+Return sorted list of unique commands
+```
+
+**Supported Prompt Formats**:
+- `> COMMAND` - Standard redis-cli prompt
+- `redis> COMMAND` - Alternative redis-cli prompt format (commonly used in documentation)
+
+**Edge Cases to Handle**:
+- Comments in CLI output (lines starting with `#`)
+- Output lines (not commands) - identified by lack of `>` prefix
+- Empty lines
+- Commands with arguments (extract only command name)
+- Subcommands (e.g., `ACL CAT` vs `ACL DELUSER`)
+- Dot notation commands (e.g., `JSON.SET`)
+- Case variations (normalize to uppercase)
+
+#### Phase 2: Command Metadata Enrichment
+
+**Location**: New module `build/components/command_enricher.py`
+
+**Responsibilities**:
+- Load `data/commands_core.json`
+- For each extracted command name, look up metadata
+- Handle command aliases and variations
+- Generate command reference link
+- Return enriched command objects
+
+**Metadata Schema** (per command):
+```json
+{
+  "name": "HSET",
+  "summary": "Creates or modifies the value of a field in a hash.",
+  "group": "hash",
+  "complexity": "O(1) for each field/value pair added, so O(N) to add N field/value pairs when the command is called with multiple field/value pairs.",
+  "since": "2.0.0",
+  "link": "/commands/hset"
+}
+```
+
+**Link Generation**:
+- Format: `/commands/{command_name_lowercase}`
+- Example: `HSET` → `/commands/hset`
+- Multi-word commands: `ACL CAT` → `/commands/acl-cat`
+- Dot notation: `JSON.SET` → `/commands/json.set`
+
+#### Phase 3: Integration with Example Processing
+
+**Location**: Modifications to `build/local_examples.py` and `build/components/component.py`
+
+**Integration Points**:
+
+1. **In `local_examples.py`** (around line 180-200):
+```python
+# After creating example_metadata dict
+example_metadata = {
+    'source': source_file,
+    'language': language,
+    'target': target_file,
+    'highlight': example.highlight,
+    'hidden': example.hidden,
+    'named_steps': example.named_steps,
+    'sourceUrl': None
+}
+
+# NEW: Extract and enrich CLI commands if this is a CLI example
+if language == 'cli':  # or check if content contains CLI commands
+    cli_commands = extract_cli_commands(example.content)
+    enriched_commands = enrich_commands(cli_commands)
+    example_metadata['cli_commands'] = enriched_commands
+
+examples_data[example_id][client_name] = example_metadata
+```
+
+2. **In `component.py`** (around line 270-290):
+```python
+# After setting other metadata fields
+example_metadata['highlight'] = e.highlight
+example_metadata['hidden'] = e.hidden
+example_metadata['named_steps'] = e.named_steps
+
+# NEW: Extract and enrich CLI commands
+cli_commands = extract_cli_commands(e.content)
+enriched_commands = enrich_commands(cli_commands)
+if enriched_commands:
+    example_metadata['cli_commands'] = enriched_commands
+
+examples_data[example_id][client_name] = example_metadata
+```
+
+#### Phase 4: Metadata Storage
+
+**Location**: `data/examples.json`
+
+**Updated Structure**:
+```json
+{
+  "hash_tutorial": {
+    "Python": {
+      "source": "...",
+      "language": "python",
+      "target": "...",
+      "highlight": ["1-10"],
+      "hidden": [],
+      "named_steps": {"connect": "1-5"},
+      "sourceUrl": "...",
+      "cli_commands": [
+        {
+          "name": "HSET",
+          "summary": "Creates or modifies the value of a field in a hash.",
+          "group": "hash",
+          "complexity": "O(1) for each field/value pair added...",
+          "since": "2.0.0",
+          "link": "/commands/hset"
+        },
+        {
+          "name": "HGET",
+          "summary": "Returns the value of a field in a hash.",
+          "group": "hash",
+          "complexity": "O(1)",
+          "since": "2.0.0",
+          "link": "/commands/hget"
+        }
+      ]
+    }
+  }
+}
+```
+
+**Key Design Decisions**:
+- `cli_commands` is an optional field (only present if commands found)
+- Commands are deduplicated (each command appears once per example)
+- Commands are ordered by first appearance in snippet
+- Metadata is stored at the language level (different languages may have different CLI examples)
+
+#### Phase 5: Exposure to Templates and AI Systems
+
+**For Hugo Templates**:
+```go-html-template
+{{ $example := index $clientExamples $client }}
+{{ if isset $example "cli_commands" }}
+  {{ range $example.cli_commands }}
+    <div class="command-badge">
+      <a href="{{ .link }}">{{ .name }}</a>
+      <span class="summary">{{ .summary }}</span>
+    </div>
+  {{ end }}
+{{ end }}
+```
+
+**For AI Systems**:
+- Metadata is available in `data/examples.json`
+- Can be loaded and parsed by AI agents
+- Provides semantic understanding of example intent
+- Enables cross-language pattern matching
+
+### Command Name Parsing Rules
+
+#### Single-Word Commands
+```
+> SET key value
+  ↓
+  Command: SET
+```
+
+#### Multi-Word Commands (Subcommands)
+```
+> ACL CAT
+  ↓
+  Command: ACL CAT
+
+> SCRIPT LOAD "return 1"
+  ↓
+  Command: SCRIPT LOAD
+```
+
+**Multi-word command detection**:
+- Check if first two tokens together form a known command in `commands_core.json`
+- If yes, use both tokens
+- If no, use only first token
+- Examples: `ACL CAT`, `SCRIPT LOAD`, `CLIENT LIST`, `CONFIG GET`
+
+#### Dot Notation Commands
+```
+> JSON.SET doc $ '{"a":1}'
+  ↓
+  Command: JSON.SET
+
+> GRAPH.QUERY mygraph "MATCH (n) RETURN n"
+  ↓
+  Command: GRAPH.QUERY
+```
+
+**Dot notation detection**:
+- Check if first token contains a dot (`.`)
+- If yes, use entire first token as command name
+- Examples: `JSON.SET`, `JSON.GET`, `GRAPH.QUERY`, `GRAPH.DELETE`
+
+#### Commands with Arguments
+```
+> HSET bike:1 model Deimos brand Ergonom
+  ↓
+  Command: HSET (arguments ignored)
+
+> HINCRBY bike:1 price 100
+  ↓
+  Command: HINCRBY (arguments ignored)
+```
+
+**Argument handling**:
+- Extract only the command name (first token, or first two tokens for subcommands)
+- Ignore all arguments and values
+- This is correct because we're documenting what command is used, not how it's called
+
+### Handling Command Variations and Aliases
+
+**Deprecated Commands**:
+- Some commands are deprecated (e.g., `HMSET` is deprecated in favor of `HSET`)
+- If a deprecated command is found, include it but note the deprecation
+- Include the `replaced_by` field from `commands_core.json` if available
+
+**Command Aliases**:
+- Some commands have aliases (e.g., `SUBSTR` is an alias for `GETRANGE`)
+- Normalize aliases to their canonical form
+- Store the canonical name in metadata
+
+**Handling Missing Commands**:
+- If a command is not found in `commands_core.json`, still include it
+- Use a minimal metadata object with just the name
+- Log a warning for documentation purposes
+- Example: Custom commands or module commands not in core
+
+### Data Flow Example
+
+**Input**: Markdown file with CLI example
+```markdown
+{{< clients-example set="hash_tutorial" step="set_get_all" >}}
+> HSET bike:1 model Deimos brand Ergonom type 'Enduro bikes' price 4972
+(integer) 4
+> HGET bike:1 model
+"Deimos"
+> HGETALL bike:1
+1) "model"
+2) "Deimos"
+...
+{{< /clients-example >}}
+```
+
+**Step 1: Parse CLI Content**
+```
+Input lines:
+  "> HSET bike:1 model Deimos brand Ergonom type 'Enduro bikes' price 4972"
+  "(integer) 4"
+  "> HGET bike:1 model"
+  '"Deimos"'
+  "> HGETALL bike:1"
+  "1) "model""
+  ...
+
+Extracted commands:
+  ["HSET", "HGET", "HGETALL"]
+```
+
+**Step 2: Enrich with Metadata**
+```
+Lookup in commands_core.json:
+  HSET → {summary: "Creates or modifies...", group: "hash", ...}
+  HGET → {summary: "Returns the value...", group: "hash", ...}
+  HGETALL → {summary: "Returns all fields...", group: "hash", ...}
+```
+
+**Step 3: Store in Metadata**
+```json
+{
+  "hash_tutorial": {
+    "Python": {
+      "cli_commands": [
+        {"name": "HSET", "summary": "...", "link": "/commands/hset"},
+        {"name": "HGET", "summary": "...", "link": "/commands/hget"},
+        {"name": "HGETALL", "summary": "...", "link": "/commands/hgetall"}
+      ]
+    }
+  }
+}
+```
+
+**Step 4: Use in Templates or AI Systems**
+- Hugo templates can render command badges with links
+- AI agents can understand that this example demonstrates hash operations
+- Search systems can find examples by command name
+
+### Implementation Checklist
+
+**Phase 1: CLI Parser**
+- [ ] Create `build/components/cli_parser.py`
+- [ ] Implement `extract_cli_commands(content)` function
+- [ ] Handle single-word commands
+- [ ] Handle multi-word commands (subcommands)
+- [ ] Handle dot notation commands
+- [ ] Handle edge cases (comments, output lines, empty lines)
+- [ ] Write unit tests for parser
+
+**Phase 2: Command Enricher**
+- [ ] Create `build/components/command_enricher.py`
+- [ ] Implement `load_commands_metadata()` function
+- [ ] Implement `enrich_commands(command_names)` function
+- [ ] Handle missing commands gracefully
+- [ ] Generate correct command reference links
+- [ ] Write unit tests for enricher
+
+**Phase 3: Integration**
+- [ ] Modify `build/local_examples.py` to call extraction
+- [ ] Modify `build/components/component.py` to call extraction
+- [ ] Ensure `cli_commands` field is optional
+- [ ] Test with existing examples
+
+**Phase 4: Validation**
+- [ ] Verify `data/examples.json` contains `cli_commands` field
+- [ ] Verify command names are correct
+- [ ] Verify metadata is accurate
+- [ ] Verify links are correct
+- [ ] Test with multiple examples
+
+**Phase 5: Documentation**
+- [ ] Update this specification with implementation details
+- [ ] Document the metadata schema
+- [ ] Provide examples of usage in templates
+- [ ] Document how AI agents should use this metadata
+
+---
+
+## Commands Display UI
+
+### Purpose and Design
+
+The Commands Display UI shows the Redis commands used in each code example in an interactive, non-intrusive way. This feature helps users quickly understand what commands an example demonstrates without reading through the code.
+
+**Design Goals**:
+- **Non-intrusive**: Doesn't interfere with code reading when closed
+- **Persistent**: Stays open for repeated reference once opened
+- **Stable layout**: Opening/closing doesn't shift the example box or code
+- **Accessible**: Works on all screen sizes and devices
+- **Responsive**: Updates when user switches between language tabs
+
+### UI Implementation
+
+#### Location and Placement
+
+**Container**: Footer bar of the code example box (`layouts/partials/tabs/wrapper.html`)
+
+**Position**: Foldout section placed above the existing quickstart link
+- Provides visual separation from code content
+- Keeps supplementary information grouped together
+- Maintains consistent footer layout across all examples
+
+**Visual Hierarchy**:
+```
+┌─────────────────────────────────────────────────────┐
+│ Code Example Box                                    │
+│                                                     │
+│ [Language Selector] [Run in Browser] [Copy] [...]  │
+│ ┌─────────────────────────────────────────────────┐│
+│ │ Syntax-highlighted code                         ││
+│ │                                                 ││
+│ └─────────────────────────────────────────────────┘│
+│ ┌─────────────────────────────────────────────────┐│
+│ │ ▼ Commands: HSET, HGET, HGETALL                 │ ← Foldout (closed)
+│ │ 📚 Quick-Start: redis-py                        │
+│ └─────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────┘
+```
+
+When expanded:
+```
+┌─────────────────────────────────────────────────────┐
+│ ▼ Commands: HSET, HGET, HGETALL                     │ ← Foldout (open)
+│   • HSET - Creates or modifies hash fields          │
+│   • HGET - Returns a hash field value               │
+│   • HGETALL - Returns all hash fields and values    │
+│ 📚 Quick-Start: redis-py                            │
+└─────────────────────────────────────────────────────┘
+```
+
+#### HTML Structure
+
+**Foldout Container** (in footer):
+```html
+<div class="commands-foldout">
+  <button class="commands-toggle" aria-expanded="false">
+    <span class="toggle-icon">▼</span>
+    <span class="commands-label">Commands:</span>
+    <span class="commands-list">HSET, HGET, HGETALL</span>
+  </button>
+  <div class="commands-details" hidden>
+    <ul class="commands-list-detailed">
+      <li><strong>HSET</strong> - Creates or modifies hash fields</li>
+      <li><strong>HGET</strong> - Returns a hash field value</li>
+      <li><strong>HGETALL</strong> - Returns all hash fields and values</li>
+    </ul>
+  </div>
+</div>
+```
+
+**CSS Classes** (Tailwind):
+- `commands-foldout`: Container for entire foldout section
+- `commands-toggle`: Button that opens/closes the foldout
+- `toggle-icon`: Chevron/arrow icon that rotates on toggle
+- `commands-label`: "Commands:" text label
+- `commands-list`: Comma-separated command names (shown when closed)
+- `commands-details`: Container for expanded details (hidden by default)
+- `commands-list-detailed`: Unordered list of commands with descriptions
+
+#### Styling Considerations
+
+**Responsive Design**:
+- **Desktop (≥768px)**: Full command names and descriptions visible
+- **Tablet (480px-768px)**: Abbreviated descriptions or icon-only mode
+- **Mobile (<480px)**: Consider showing only command count or icon indicator
+
+**Visual Feedback**:
+- **Hover state**: Button background changes, cursor becomes pointer
+- **Active state**: Button appears pressed/highlighted
+- **Toggle animation**: Chevron rotates smoothly (0° → 180°)
+- **Expanded state**: Details slide down smoothly
+
+**Color Scheme**:
+- **Text**: Match existing footer text color (slate-300)
+- **Hover**: Slightly lighter (slate-200)
+- **Background**: Subtle highlight on hover (slate-700/10)
+- **Icons**: Match text color, rotate on toggle
+
+#### Data Source
+
+**Metadata Field**: `commands` array in page metadata
+- **Location**: `codeExamples[].commands` in page metadata JSON
+- **Format**: Array of command name strings (e.g., `["HSET", "HGET", "HGETALL"]`)
+- **Populated by**: `code-examples-json.html` partial (extracts from `examples.json`)
+- **Availability**: Only present if example has associated commands
+
+**Extraction Logic** (in `layouts/partials/code-examples-json.html`):
+1. Parse anchor ID to extract example set and step name
+2. Look up `steps_commands` in `data/examples.json`
+3. Extract command array for the specific step
+4. Add `commands` field to example object in metadata
+
+#### JavaScript Behavior
+
+**Toggle Functionality**:
+```javascript
+// Pseudo-code for toggle behavior
+document.querySelectorAll('.commands-toggle').forEach(button => {
+  button.addEventListener('click', () => {
+    const details = button.nextElementSibling;
+    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+    // Toggle visibility
+    details.hidden = isExpanded;
+    button.setAttribute('aria-expanded', !isExpanded);
+
+    // Rotate icon
+    const icon = button.querySelector('.toggle-icon');
+    icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+
+    // Persist state (optional)
+    localStorage.setItem(`commands-expanded-${exampleId}`, !isExpanded);
+  });
+});
+```
+
+**State Persistence** (Optional Enhancement):
+- Store expanded/collapsed state in localStorage
+- Key format: `commands-expanded-{exampleId}`
+- Restore state on page load
+- Allows users to keep their preferred view across page visits
+
+**Language Tab Synchronization**:
+- When user switches language tabs, update commands display
+- Extract commands from new language's metadata
+- Animate transition if commands change
+- Maintain expanded/collapsed state across language switches
+
+#### Accessibility Requirements
+
+**ARIA Attributes**:
+- `aria-expanded`: Indicates if foldout is open or closed
+- `aria-label`: Descriptive label for screen readers
+- `role="button"`: Semantic role for toggle element
+
+**Keyboard Navigation**:
+- Toggle button must be focusable (tab key)
+- Enter/Space key should toggle open/closed
+- Focus visible indicator (outline or highlight)
+
+**Screen Reader Support**:
+- Announce "Commands, button, collapsed" or "expanded"
+- Announce command list when expanded
+- Describe command names and summaries clearly
+
+#### Mobile Considerations
+
+**Touch Targets**:
+- Minimum 44x44px touch target for toggle button
+- Adequate spacing between interactive elements
+- No hover-only interactions (use active/focus states)
+
+**Screen Space**:
+- On very small screens (<480px), consider:
+  - Showing only command count: "Commands (3)"
+  - Icon-only toggle with tooltip
+  - Abbreviated command names
+  - Single-column command list
+
+**Orientation Changes**:
+- Foldout state should persist across orientation changes
+- Layout should adapt smoothly to landscape/portrait
+
+#### Performance Considerations
+
+**Rendering**:
+- Commands list is static (no dynamic updates needed)
+- Foldout toggle is lightweight (no API calls)
+- No impact on page load time
+
+**Memory**:
+- Minimal additional DOM elements
+- Small localStorage footprint (one boolean per example)
+- No event listeners on scroll or resize
+
+#### Future Enhancements
+
+**Phase 2 (Post-MVP)**:
+- Add command complexity indicators (O(1), O(N), etc.)
+- Add command group badges (hash, string, set, etc.)
+- Add links to command documentation ✅ (Implemented with ACL categories)
+- Add ACL category information with links to category definitions ✅ (Implemented)
+- Add command search/filter within foldout
+- Add "copy all commands" button
+- Add command usage statistics
+
+**Phase 3 (Advanced)**:
+- Show related commands (commands often used together)
+- Highlight commands in code when hovering over command list
+- Add command execution simulator
+- Add command performance comparison
+- Add links to other command metadata fields (complexity, group, etc.)
+
+### Implementation Checklist
+
+**Phase 1: Metadata Extraction** ✅ (Already Complete)
+- [x] Extract commands from `examples.json` in `code-examples-json.html`
+- [x] Add `commands` field to example metadata
+- [x] Verify commands appear in page metadata JSON
+
+**Phase 2: HTML and Styling**
+- [ ] Add foldout HTML structure to `layouts/partials/tabs/wrapper.html`
+- [ ] Add Tailwind CSS classes for styling
+- [ ] Implement responsive design for mobile/tablet
+- [ ] Add toggle icon (chevron/arrow SVG)
+- [ ] Test layout on different screen sizes
+
+**Phase 3: JavaScript Interactivity**
+- [ ] Implement toggle click handler
+- [ ] Implement keyboard navigation (Enter/Space)
+- [ ] Implement icon rotation animation
+- [ ] Implement state persistence (localStorage)
+- [ ] Implement language tab synchronization
+
+**Phase 4: Accessibility**
+- [ ] Add ARIA attributes (aria-expanded, aria-label)
+- [ ] Test with screen readers
+- [ ] Verify keyboard navigation works
+- [ ] Verify focus indicators are visible
+- [ ] Test with accessibility tools
+
+**Phase 5: Testing and Refinement**
+- [ ] Test on multiple browsers (Chrome, Firefox, Safari, Edge)
+- [ ] Test on mobile devices (iOS, Android)
+- [ ] Test with multiple examples on same page
+- [ ] Test with examples that have no commands
+- [ ] Test with examples that have many commands
+- [ ] Gather user feedback on UX
+
+---
+
+## Metadata-Driven UI Enhancements: Patterns and Best Practices
+
+### Overview
+
+This section documents patterns and best practices for enhancing the UI with metadata that's already available in the command data files (e.g., `data/commands_core.json`). This approach allows for rich, contextual UI features without requiring changes to the build pipeline.
+
+**Real-world example**: Adding ACL category information to the commands display with individual links to category definitions.
+
+### Pattern: Metadata-Driven Links
+
+When you want to display metadata from command data files and make it linkable, follow this pattern:
+
+#### 1. Identify the Metadata
+
+First, understand what metadata is available in your data files:
+
+```json
+// data/commands_core.json
+{
+  "HSET": {
+    "name": "HSET",
+    "summary": "Creates or modifies the value of a field in a hash.",
+    "group": "hash",
+    "complexity": "O(1) for each field/value pair...",
+    "since": "2.0.0",
+    "acl_categories": ["@keyspace", "@write", "@fast"],
+    "link": "/commands/hset"
+  }
+}
+```
+
+**Key insight**: The command data already contains rich metadata. Check what's available before adding new data sources.
+
+#### 2. Make the Metadata Accessible in Templates
+
+The command data is already loaded in Hugo as `site.Data.commands_core`, `site.Data.commands_redisearch`, etc. You can access it directly in templates:
+
+```hugo
+{{ $cmdData := (index site.Data.commands_core $cmdName) }}
+{{ if $cmdData.acl_categories }}
+  {{ range $cmdData.acl_categories }}
+    {{ . }}  <!-- e.g., "@keyspace", "@write", "@fast" -->
+  {{ end }}
+{{ end }}
+```
+
+#### 3. Create Anchor Points in Documentation
+
+For metadata that should be linkable, add anchor elements (`<a id="..."></a>`) in the relevant documentation page:
+
+```markdown
+* <a id="keyspace"></a>**keyspace** - Writing or reading from keys...
+* <a id="write"></a>**write** - Writing to keys...
+* <a id="fast"></a>**fast** - Fast O(1) commands...
+```
+
+**Important**: Place anchors *before* the content you want to link to, not around it. This preserves the visual styling of the content while making it linkable.
+
+#### 4. Generate Links in Templates
+
+In your template, loop through the metadata and generate individual links:
+
+```hugo
+{{ if $cmdData.acl_categories }}
+  <span class="text-slate-500">
+    (
+    {{ range $idx, $category := $cmdData.acl_categories }}
+      {{ if gt $idx 0 }}<span class="text-slate-500">, </span>{{ end }}
+      {{ $categoryId := lower (replace $category "@" "") }}
+      <a href="{{ absURL (printf "path/to/page/#%s" $categoryId) }}"
+         class="text-slate-400 hover:text-slate-300 hover:underline"
+         title="{{ $category }}">
+        {{ $category }}
+      </a>
+    {{ end }}
+    )
+  </span>
+{{ end }}
+```
+
+**Key techniques**:
+- Use `range` with index to handle separators (commas) between items
+- Use `lower` and `replace` to normalize IDs (remove "@" prefix, convert to lowercase)
+- Use `absURL` to generate correct URLs regardless of site configuration
+- Use `printf` to construct URLs dynamically
+- Add `title` attributes for accessibility
+
+#### 5. Handle Data Normalization
+
+When converting metadata to anchor IDs, normalize consistently:
+
+```hugo
+{{ $categoryId := lower (replace $category "@" "") }}
+<!-- "@keyspace" becomes "keyspace" -->
+<!-- "@write" becomes "write" -->
+```
+
+**Why this matters**:
+- Metadata often uses prefixes (e.g., "@" for ACL categories) that shouldn't appear in URLs
+- Anchor IDs should be lowercase for consistency
+- Always normalize the same way in both the documentation and the template
+
+### Pattern: Conditional Metadata Display
+
+When metadata may not be available for all items, use conditional rendering:
+
+```hugo
+{{ if $cmdData }}
+  {{ if $cmdData.acl_categories }}
+    <!-- Display ACL categories -->
+  {{ end }}
+{{ else }}
+  <!-- Fallback for commands without metadata -->
+  <span class="font-semibold text-slate-200">{{ $cmdName }}</span>
+{{ end }}
+```
+
+**Benefits**:
+- Graceful degradation when metadata is missing
+- No broken links or empty elements
+- Clear fallback behavior
+
+### Pattern: Styling Metadata Display
+
+When displaying metadata alongside primary content, use visual hierarchy:
+
+```hugo
+<div class="flex items-center gap-1">
+  <a href="..." class="font-mono text-slate-200 hover:text-white">
+    {{ $cmdName }}
+  </a>
+  {{ if $cmdData.acl_categories }}
+  <span class="text-slate-500">
+    (
+    <!-- Links with slightly less prominent color -->
+    <a href="..." class="text-slate-400 hover:text-slate-300">
+      {{ $category }}
+    </a>
+    )
+  </span>
+  {{ end }}
+</div>
+```
+
+**Design principles**:
+- Primary content (command name) uses prominent color
+- Metadata (categories) uses less prominent color
+- Parentheses use the same color as metadata
+- Hover states are consistent across all links
+- Spacing is minimal but clear
+
+### Checklist for Adding Metadata-Driven Features
+
+When implementing a new metadata-driven UI feature:
+
+- [ ] **Identify metadata**: What data is available in the command files?
+- [ ] **Check accessibility**: Is the metadata available in templates via `site.Data`?
+- [ ] **Plan anchors**: Where should anchor points be placed in documentation?
+- [ ] **Normalize IDs**: How will you convert metadata to valid anchor IDs?
+- [ ] **Handle missing data**: What happens if metadata is unavailable?
+- [ ] **Test edge cases**: Multiple items, special characters, long text
+- [ ] **Verify links**: Do all generated links work correctly?
+- [ ] **Check styling**: Is the visual hierarchy clear?
+- [ ] **Test responsiveness**: Does it work on mobile/tablet?
+- [ ] **Document the feature**: Update this section with your pattern
+
+### Common Pitfalls and Solutions
+
+| Problem | Solution |
+|---------|----------|
+| Hugo template function not found (e.g., `trimPrefix`) | Use built-in functions only: `lower`, `replace`, `printf`, `range`, etc. Check Hugo docs for available functions. |
+| Anchor IDs don't match generated links | Normalize consistently in both places. Use the same `lower` and `replace` operations. |
+| Links appear but don't navigate | Verify anchor elements are placed correctly in the documentation (before content, not around it). |
+| Metadata missing for some commands | Use `if` conditions to check for metadata before displaying. Provide fallback content. |
+| Special characters in metadata break URLs | Normalize metadata before using in URLs. Remove prefixes, convert to lowercase, escape special characters. |
+| Styling looks wrong on mobile | Use responsive Tailwind classes. Test on actual mobile devices, not just browser dev tools. |
+
+---
+
 ## Extension Points
 
 ### Adding a New Programming Language
@@ -1618,6 +2466,169 @@ See [Appendix: Adding a Language](#adding-a-language) for complete step-by-step 
 - Customize quickstart link format
 - Modify GitHub source link appearance
 - Add custom footer content or branding
+
+---
+
+## Testing
+
+### Overview
+
+The code example system includes automated tests for critical components. Tests are located in the `build/` directory and can be run independently of the full build process.
+
+**Why testing matters**:
+- Catches regressions when modifying parsers or extractors
+- Validates edge cases (multi-word commands, dot notation, different prompt formats)
+- Ensures new features work correctly before integration
+- Provides documentation of expected behavior
+
+### Test Files
+
+| Test File | Purpose | Coverage |
+|-----------|---------|----------|
+| `build/test_cli_parser.py` | CLI command extraction | Both `>` and `redis>` prompts, mixed formats |
+| `build/test_command_lists.py` | Command list feature | CLI parser, markdown parser, enricher, integration |
+| `build/jupyterize/test_jupyterize.py` | Jupyter notebook conversion | Language-specific boilerplate, code unwrapping |
+| `build/test_railroad.py` | Railroad diagram generation | Command syntax visualization |
+
+### Running Tests
+
+```bash
+# Run CLI parser tests
+python3 build/test_cli_parser.py
+
+# Run command list feature tests
+python3 build/test_command_lists.py
+
+# Run Jupyter notebook tests
+python3 build/jupyterize/test_jupyterize.py
+
+# Run railroad diagram tests
+python3 build/test_railroad.py
+
+# Run all tests
+python3 build/test_cli_parser.py && python3 build/test_command_lists.py
+```
+
+### Test Structure
+
+Each test file follows this pattern:
+
+```python
+#!/usr/bin/env python3
+"""Test description."""
+
+import sys
+import os
+
+# Add build directory to path
+sys.path.insert(0, os.path.dirname(__file__))
+
+from components.module_name import function_name
+
+def test_feature_name():
+    """Test description."""
+    # Arrange: Set up test data
+    input_data = "..."
+
+    # Act: Call the function
+    result = function_name(input_data)
+
+    # Assert: Verify the result
+    assert result == expected_value, f"Expected {expected_value}, got {result}"
+    print("✓ Test passed")
+
+def main():
+    """Run all tests."""
+    try:
+        test_feature_name()
+        print("✅ All tests passed!")
+        return 0
+    except AssertionError as e:
+        print(f"❌ Test failed: {e}")
+        return 1
+
+if __name__ == '__main__':
+    sys.exit(main())
+```
+
+### Testing the CLI Command Extraction Feature
+
+When adding or modifying CLI command extraction, test these scenarios:
+
+**1. Prompt Format Support**:
+```python
+# Test both prompt formats
+content_with_gt = "> SET key value"
+content_with_redis = "redis> SET key value"
+# Both should extract 'SET'
+```
+
+**2. Command Types**:
+```python
+# Single-word commands
+"> SET key value"  # Should extract: SET
+
+# Multi-word commands
+"> ACL CAT"  # Should extract: ACL CAT
+
+# Dot notation
+"> JSON.SET doc $ '{}'"  # Should extract: JSON.SET
+```
+
+**3. Output Filtering**:
+```python
+# Output lines should be ignored
+"> SET key value
+(integer) 1
+> GET key
+\"value\""
+# Should extract: SET, GET (not the output lines)
+```
+
+**4. Deduplication**:
+```python
+# Duplicate commands should be deduplicated
+"> SET key1 value1
+> SET key2 value2
+> GET key1"
+# Should extract: SET, GET (SET appears only once)
+```
+
+**5. Edge Cases**:
+```python
+# Empty lines and comments should be ignored
+"> SET key value
+# This is a comment
+> GET key"
+# Should extract: SET, GET
+
+# Mixed prompt formats in same content
+"> SET key value
+redis> GET key"
+# Should extract: SET, GET
+```
+
+### Adding Tests for New Features
+
+When implementing a new feature (e.g., new command enrichment, new parser):
+
+1. **Create a test file**: `build/test_feature_name.py`
+2. **Write unit tests**: Test individual functions in isolation
+3. **Write integration tests**: Test how components work together
+4. **Test edge cases**: Empty input, missing data, special characters
+5. **Test error handling**: Invalid input, missing files, malformed data
+6. **Run tests**: Verify all tests pass before committing
+7. **Document tests**: Add comments explaining what each test validates
+
+### Checklist for Feature Implementation
+
+- [ ] **Unit tests written**: Each function has at least one test
+- [ ] **Integration tests written**: Components work together correctly
+- [ ] **Edge cases tested**: Empty input, special characters, boundary conditions
+- [ ] **Error handling tested**: Invalid input, missing files, malformed data
+- [ ] **All tests pass**: Run test file and verify output
+- [ ] **Tests documented**: Comments explain what each test validates
+- [ ] **Tests added to CI/CD**: If applicable, add to GitHub Actions workflow
 
 ---
 

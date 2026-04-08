@@ -21,8 +21,30 @@ function copyCodeToClipboardForCodetabs(button) {
   const visiblePanel = codetabsContainer.querySelector('.panel:not(.panel-hidden)');
   if (!visiblePanel) return;
 
-  // Get the code from the visible panel
-  const code = [...visiblePanel.querySelectorAll('code')].pop().textContent;
+  let code;
+
+  // Check if visibility toggle is enabled (aria-expanded means all lines are visible)
+  const isFullyExpanded = visiblePanel.hasAttribute('aria-expanded');
+
+  if (isFullyExpanded) {
+    // Copy all code when fully expanded
+    code = [...visiblePanel.querySelectorAll('code')].pop().textContent;
+  } else {
+    // Copy only visible (highlighted) lines when not expanded
+    const codeElement = [...visiblePanel.querySelectorAll('code')].pop();
+    const highlightedLines = codeElement.querySelectorAll('.line.hl');
+
+    if (highlightedLines.length > 0) {
+      // Extract text from highlighted lines only, trimming trailing newlines to avoid double line breaks
+      code = Array.from(highlightedLines)
+        .map(line => line.textContent.replace(/\n$/, ''))
+        .join('\n');
+    } else {
+      // Fallback to all code if no highlighted lines found
+      code = codeElement.textContent;
+    }
+  }
+
   navigator.clipboard.writeText(code);
 
   // Toggle tooltip
@@ -153,6 +175,39 @@ function switchCodeTab(selectedDropdown, tabLang) {
   // Persist tab selection
   if (window.localStorage) {
     window.localStorage.setItem('selectedCodeTab', tabLang);
+  }
+
+  // Sync with API methods tab if present (on command pages)
+  syncApiMethodsTab(tabLang);
+}
+
+function syncApiMethodsTab(tabLang) {
+  const apiSelect = document.getElementById('api-client-select');
+  if (!apiSelect) return;
+
+  // The API methods tab generates a tabNameToClientId mapping in its script
+  // We need to find the client ID that matches this tab language
+  const options = apiSelect.querySelectorAll('option');
+
+  // Use the mapping exposed by the API methods tab script
+  if (window.apiMethodsTabNameToClientId) {
+    const clientId = window.apiMethodsTabNameToClientId[tabLang];
+    if (clientId) {
+      const matchingOption = Array.from(options).find(opt => opt.value === clientId);
+      if (matchingOption) {
+        apiSelect.value = clientId;
+
+        // Update visibility without triggering the full switchApiClient (to avoid loops)
+        document.querySelectorAll('.api-client-signatures').forEach(div => {
+          div.classList.add('hidden');
+        });
+
+        const selectedDiv = document.querySelector('.api-client-signatures[data-client-id="' + clientId + '"]');
+        if (selectedDiv) {
+          selectedDiv.classList.remove('hidden');
+        }
+      }
+    }
   }
 }
 

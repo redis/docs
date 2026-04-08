@@ -6,14 +6,14 @@ categories:
 - operate
 - rs
 - kubernetes
-description: The new metrics engine for monitoring Redis Enterprise Software.
+description: The new metrics engine for monitoring Redis Software.
 hideListLinks: true
 linkTitle: Monitoring v2
 weight: 60
 tocEmbedHeaders: true
 ---
 
-The new metrics stream engine is generally available as of [Redis Enterprise Software version 8.0]({{<relref "/operate/rs/release-notes/rs-8-0-releases">}}).
+The new metrics stream engine is generally available as of [Redis Software version 8.0]({{<relref "/operate/rs/release-notes/rs-8-0-releases">}}).
 
 The new metrics stream engine:
 
@@ -25,7 +25,7 @@ The new metrics stream engine:
 
 ## Integrate with external monitoring tools
 
-To integrate Redis Enterprise metrics into your monitoring environment, see the following integration guides:
+To integrate Redis Software metrics into your monitoring environment, see the following integration guides:
 
 - [Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise">}})
 
@@ -55,7 +55,7 @@ If you are already using the existing scraping endpoint for integration, do the 
 
     ```yaml
     scrape_configs:
-      # Scrape Redis Enterprise
+      # Scrape Redis Software
       - job_name: redis-enterprise
         scrape_interval: 30s
         scrape_timeout: 30s

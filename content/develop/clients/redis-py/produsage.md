@@ -31,6 +31,7 @@ progress in implementing the recommendations.
 - [ ] [Exception handling](#exception-handling)
 - [ ] [Timeouts](#timeouts)
 - [ ] [Smart client handoffs](#smart-client-handoffs)
+- [ ] [Monitor performance and errors](#monitor-performance-and-errors)
 ```
 
 ## Recommendations
@@ -202,7 +203,7 @@ response that will never arrive.
 ### Smart client handoffs
 
 *Smart client handoffs (SCH)* is a feature of Redis Cloud and
-Redis Enterprise servers that lets them actively notify clients
+Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
 
@@ -210,3 +211,11 @@ See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
 for more information about SCH and
 [Connect using Smart client handoffs]({{< relref "/develop/clients/redis-py/connect#connect-using-smart-client-handoffs-sch" >}})
 for example code.
+
+### Monitor performance and errors
+
+`redis-py` supports [OpenTelemetry](https://opentelemetry.io/). This lets
+you trace command execution and monitor your server's performance.
+You can use this information to detect problems before they are reported
+by users. See [Observability]({{< relref "/develop/clients/redis-py/observability" >}})
+for more information.

@@ -1,7 +1,7 @@
 ---
 aliases:
 - /develop/interact/search-and-query/best-practices/dev-to-prod-best-practices
-Title: Move from Development to Production with Redis Query Engine
+Title: Move from Development to Production with Redis Search
 alwaysopen: false
 categories:
 - docs
@@ -10,15 +10,15 @@ categories:
 - oss
 - kubernetes
 - clients
-linkTitle: RQE DEV to PROD
+linkTitle: Redis Search DEV to PROD
 weight: 2
 ---
 
-Transitioning a Redis Open Source with Redis Query Engine (RQE) environment from development to production requires thoughtful consideration of configuration, performance tuning, and resource allocation. This guide outlines key practices to ensure your Redis deployment operates optimally under production workloads.
+Transitioning a Redis Open Source with Redis Search environment from development to production requires thoughtful consideration of configuration, performance tuning, and resource allocation. This guide outlines key practices to ensure your Redis deployment operates optimally under production workloads.
 
 ## Configuration parameter considerations
 
-RQE offers several configurable parameters that influence query results and performance. While a full list of these parameters and their functions can be found [here]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}}), this section highlights the most commonly adjusted parameters for production environments.
+Redis Search offers several configurable parameters that influence query results and performance. While a full list of these parameters and their functions can be found [here]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}}), this section highlights the most commonly adjusted parameters for production environments.
 
 ### 1. `TIMEOUT`
 
@@ -91,7 +91,7 @@ Redis Search has resource requirements distinct from general caching use cases. 
    - High throughput and low latency are essential, particularly for applications with demanding query patterns.
 
 ### Tools:
-- Use the [Redis Search Sizing Calculator](https://redis.io/redisearch-sizing-calculator/) to estimate resource requirements based on your dataset and workload.
+- Use [Redis Search Sizing Calculator](https://redis.io/redisearch-sizing-calculator/) to estimate resource requirements based on your dataset and workload.
 
 ## Demand spikes
 
@@ -104,4 +104,4 @@ Production environments must be sized for peak load scenarios to ensure performa
 2. Autoscaling:
    - Consider using autoscaling strategies in cloud environments to dynamically adjust resources based on load.
 
-By following these best practices, you can ensure a smooth and efficient transition from development to production with Redis Open Source and RQE. Proper configuration, rigorous testing, and careful resource planning are critical to delivering a reliable and high-performance Redis deployment.
+By following these best practices, you can ensure a smooth and efficient transition from development to production with Redis Open Source and Redis Search. Proper configuration, rigorous testing, and careful resource planning are critical to delivering a reliable and high-performance Redis deployment.

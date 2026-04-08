@@ -14,7 +14,7 @@ weight: 70
 
 To upgrade an [Active-Active (CRDB) database]({{< relref "/operate/rs/databases/active-active" >}}):
 
-1. [Upgrade Redis Enterprise Software]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster" >}}) on each node in the clusters where the Active-Active instances are located.
+1. [Upgrade Redis Software]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster" >}}) on each node in the clusters where the Active-Active instances are located.
 
 1. [Check the status](#check-database-status) of all Active-Active database instances.
 
@@ -40,9 +40,9 @@ To check the status of an Active-Active database instance, run [`rladmin status`
 
 The statuses of the Active-Active instances on the node can indicate:
 
-- `OLD REDIS VERSION`: The database instance is running a Redis version that is outdated or not fully compatible with the current Redis Enterprise Software cluster version. You should [upgrade the database](#upgrade-database-instances) to a later version of Redis bundled with the cluster's current Redis Enterprise Software version.
+- `OLD REDIS VERSION`: The database instance is running a Redis version that is outdated or not fully compatible with the current Redis Software cluster version. You should [upgrade the database](#upgrade-database-instances) to a later version of Redis bundled with the cluster's current Redis Software version.
 
-- `OLD CRDB PROTOCOL VERSION`: This instance uses an older CRDB protocol. Redis Enterprise Software versions 5.4.2 and later use CRDB protocol version 1. You can upgrade the CRDB protocol version when you [upgrade the Active-Active database instances](#upgrade-database-instances). See [CRDB protocol version guidelines](#crdb-protocol-version-guidelines) for more information.
+- `OLD CRDB PROTOCOL VERSION`: This instance uses an older CRDB protocol. Redis Software versions 5.4.2 and later use CRDB protocol version 1. You can upgrade the CRDB protocol version when you [upgrade the Active-Active database instances](#upgrade-database-instances). See [CRDB protocol version guidelines](#crdb-protocol-version-guidelines) for more information.
 
 - `OLD CRDB FEATURESET VERSION`: The database feature set version is outdated. After all [Active-Active database instances are upgraded](#upgrade-database-instances), [upgrade the feature set version](#upgrade-featureset-version). See [Feature version guidelines](#feature-version-guidelines) for more information.
 
@@ -70,9 +70,9 @@ If you use `keep_crdt_protocol_version`, make sure that you upgrade the CRDB pro
 
 ### CRDB protocol version guidelines
 
-Redis Enterprise Software versions 5.4.2 and later use CRDB protocol version 1 to help support Active-Active features.
+Redis Software versions 5.4.2 and later use CRDB protocol version 1 to help support Active-Active features.
 
-CRDB protocol version 1 is backward compatible, which means Redis Enterprise v5.4.2 CRDB instances can understand write operations from instances using the earlier CRDB protocol version 0.
+CRDB protocol version 1 is backward compatible, which means Redis Software v5.4.2 CRDB instances can understand write operations from instances using the earlier CRDB protocol version 0.
 
 After you upgrade one instance's CRDB protocol to version 1:
 
@@ -90,7 +90,7 @@ Follow these upgrade guidelines:
 
 - As of v6.0.20, protocol version 0 is deprecated and support will be removed in a future version.
 
-- To avoid upgrade failures, update all Active-Active databases to protocol version 1 _before_ upgrading Redis Enterprise Software to v6.0.20 or later.
+- To avoid upgrade failures, update all Active-Active databases to protocol version 1 _before_ upgrading Redis Software to v6.0.20 or later.
 
 ## Upgrade featureset version
 
@@ -130,7 +130,7 @@ Follow these upgrade guidelines:
 
 - As of v6.0.20, feature version 0 is deprecated and support will be removed in a future version.
 
-- To avoid upgrade failures, make sure all your Active-Active databases are configured with the latest feature set version before upgrading to Redis Enterprise Software 6.0.20 or later.
+- To avoid upgrade failures, make sure all your Active-Active databases are configured with the latest feature set version before upgrading to Redis Software 6.0.20 or later.
 
 ## Update module information
 

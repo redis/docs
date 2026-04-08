@@ -1,5 +1,8 @@
 ---
-aliases: /develop/connect/insight
+aliases:
+- /develop/connect/insight
+- /ui/insight/
+- /connect/insight/
 categories:
 - docs
 - develop
@@ -36,7 +39,7 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis, m
 ### Connection management
 
 * Automatically discover and add your local Redis databases (that use standalone connection type and do not require authentication).
-* Discover your databases in Redis Enterprise Cluster and databases with Flexible plans in Redis Cloud.
+* Discover your databases in Redis Software Cluster and databases with Flexible plans in Redis Cloud.
 * Use a form to enter your connection details and add any Redis database running anywhere (including Redis Open Source cluster or sentinel).
 * Connect to a Redis Data Integration (RDI) management plane, create, test, and deploy RDI pipelines, and view RDI statistics.
 
@@ -45,6 +48,19 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis, m
 {{< note >}}
 When you add a Redis database for a particular user using the `username` and `password` fields, that user must be able to run the `INFO` command. See the [access control list (ACL) documentation]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) for more information.
 {{< /note >}}
+
+### Connect to Azure Managed Redis with ease
+
+Automatically discover databases across subscriptions and connect using Microsoft Entra ID (OAuth) with passwordless authentication and background token refresh. Redis Insight supports both Azure Managed Redis and Azure Cache for Redis tiers, with:
+
+- Auto-discovery of subscriptions and databases
+- One-click import and connection
+- Multi-account support for switching between Azure accounts
+- Improved, user-friendly error handling
+
+{{< note >}}
+This feature requires Azure-side configuration. Please coordinate with your Azure administrator and follow [the setup guide](https://github.com/redis/RedisInsight/blob/main/docs/azure-setup.md) to configure the necessary permissions.
+{{< /note>}}
 
 ### Redis Copilot
 
@@ -106,7 +122,7 @@ Workbench is an advanced command line interface with intelligent command auto-co
 
 * Built-in guides: you can conveniently discover Redis and Redis Open Source features using the built-in guides.
 * Command auto-complete support for all features in Redis and Redis Open Source.
-* Advanced, schema-aware auto-complete for Redis Query Engine, which provides for faster query building with context-sensitive suggestions that recognize indexes, schemas, and fields based on your current query. Start typing any Redis Query Engine command in to try this feature. See below for an example of an in-progress `FT.SEARCH` command.
+* Advanced, schema-aware auto-complete for Redis Search, which provides for faster query building with context-sensitive suggestions that recognize indexes, schemas, and fields based on your current query. Start typing any Redis Search command in to try this feature. See below for an example of an in-progress `FT.SEARCH` command.
 
 {{< image filename="images/ri/ri-workbench.png" alt="An example of an in-progress FT.SEARCH command" >}}
 

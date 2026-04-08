@@ -203,6 +203,10 @@ Named parameters:
 - step: Example step name (required)
 - description: Human-readable description of what the example demonstrates (optional)
 - difficulty: Difficulty level of the example (optional, default: "beginner", values: "beginner", "intermediate", "advanced")
+- buildsUpon: Comma-separated list of example step IDs that this example builds upon (optional)
+  - Used to indicate learning progression and dependencies between examples
+  - Example: `buildsUpon="set_get"` means this example requires understanding the "set_get" example first
+  - Multiple dependencies: `buildsUpon="lpush_rpush, lpop_rpop"` indicates this example builds on both
 - lang_filter: Language filter (optional, default: "")
 - max_lines: Maximum number of lines shown by default (optional, default: 100)
 - dft_tab_name: Custom first tab name (optional, default: ">_ Redis CLI")
@@ -272,6 +276,48 @@ The `difficulty` parameter helps readers find examples appropriate to their skil
 - **Misuse risk**: Commands with subtle gotchas (e.g., SDIFF where argument order matters) should be intermediate or higher
 - **Performance implications**: Commands with significant performance differences (e.g., SISMEMBER O(1) vs. list iteration) should highlight this
 - **Conceptual prerequisites**: Set operations (SINTER, SUNION, SDIFF) are intermediate even if syntax is simple, because they require understanding set algebra concepts
+
+### Indicating learning progression with `buildsUpon`
+
+The `buildsUpon` parameter helps readers understand the learning progression and dependencies between examples. Use it to indicate when an example requires understanding a previous example first.
+
+**When to use `buildsUpon`**:
+- The example demonstrates a variation or extension of a foundational concept
+- The example requires understanding a previous example to make sense
+- The example builds on commands or patterns introduced in another example
+- You want to help readers understand the logical progression of concepts
+
+**When NOT to use `buildsUpon`**:
+- The example is self-contained and doesn't require prior knowledge
+- The example introduces a completely new concept unrelated to others
+- The example is a foundational example that introduces a concept for the first time
+
+**Common patterns**:
+
+1. **Linear progression**: Each example builds on the previous one
+   ```markdown
+   {{< clients-example set="set_tutorial" step="set_get" ... >}}
+   {{< clients-example set="set_tutorial" step="setnx_xx" buildsUpon="set_get" ... >}}
+   {{< clients-example set="set_tutorial" step="mset" buildsUpon="set_get" ... >}}
+   ```
+
+2. **Branching**: Multiple examples build on a single foundational example
+   ```markdown
+   {{< clients-example set="list_tutorial" step="lpush_rpush" ... >}}
+   {{< clients-example set="list_tutorial" step="lpop_rpop" buildsUpon="lpush_rpush" ... >}}
+   {{< clients-example set="list_tutorial" step="lrange" buildsUpon="lpush_rpush" ... >}}
+   ```
+
+3. **Multi-step chains**: An example builds on multiple prerequisites
+   ```markdown
+   {{< clients-example set="list_tutorial" step="advanced_pattern" buildsUpon="lpush_rpush, lpop_rpop" ... >}}
+   ```
+
+**Best practices**:
+- Reference only examples on the same page
+- Use the exact step ID (case-sensitive)
+- Separate multiple dependencies with commas and spaces: `"step1, step2"`
+- Place foundational examples before dependent examples in the page
 
 ### Emphasizing decision context in descriptions
 

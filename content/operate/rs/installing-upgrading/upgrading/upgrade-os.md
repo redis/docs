@@ -5,22 +5,22 @@ categories:
 - docs
 - operate
 - rs
-description: Upgrade a Redis Enterprise Software cluster's operating system to a later
+description: Upgrade a Redis Software cluster's operating system to a later
   major version.
 linkTitle: Upgrade operating system
 toc: 'true'
 weight: 70
 ---
 
-To upgrade the operating system (OS) on a Redis Enterprise Software cluster to a later major version, perform a rolling upgrade. Because you upgrade one node at a time, you can upgrade your cluster's OS without downtime.
+To upgrade the operating system (OS) on a Redis Software cluster to a later major version, perform a rolling upgrade. Because you upgrade one node at a time, you can upgrade your cluster's OS without downtime.
 
 ## Prerequisites
 
 Before you upgrade a cluster's operating system:
 
-1. [Upgrade all nodes in the cluster]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster" >}}) to a Redis Enterprise Software version that supports the OS's current version and upgrade version.
+1. [Upgrade all nodes in the cluster]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster" >}}) to a Redis Software version that supports the OS's current version and upgrade version.
 
-    To learn which versions of Redis Enterprise Software support specific OS versions, see [Supported platforms]({{< relref "/operate/rs/references/supported-platforms#supported-platforms" >}}).
+    To learn which versions of Redis Software support specific OS versions, see [Supported platforms]({{< relref "/operate/rs/references/supported-platforms#supported-platforms" >}}).
 
 
 1. If the cluster uses custom directories, make sure the OS upgrade version also supports custom directories, and specify the same custom directories during installation for all nodes. See [Customize installation directories]({{< relref "/operate/rs/installing-upgrading/install/customize-install-directories" >}}) for details.
@@ -39,7 +39,7 @@ To upgrade the cluster's operating system, use one of the following rolling upgr
 
 1. Create a node with the OS upgrade version.
 
-1. [Install the cluster's current Redis Enterprise Software version]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on the new node using the installation package for the OS upgrade version.
+1. [Install the cluster's current Redis Software version]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on the new node using the installation package for the OS upgrade version.
 
 1. [Add the new node]({{< relref "/operate/rs/clusters/add-node" >}})  to the cluster.
 
@@ -55,7 +55,7 @@ To upgrade the cluster's operating system, use one of the following rolling upgr
 
 1. [Remove a node]({{< relref "/operate/rs/clusters/remove-node#remove-a-node" >}}) with the earlier OS version from the cluster.
 
-1. Uninstall Redis Enterprise Software from the removed node:
+1. Uninstall Redis Software from the removed node:
 
     ```sh
     sudo ./rl_uninstall.sh
@@ -63,7 +63,7 @@ To upgrade the cluster's operating system, use one of the following rolling upgr
 
 1. Either upgrade the existing node to the OS upgrade version, or create a new node with the OS upgrade version.
 
-1. [Install the cluster's current Redis Enterprise Software version]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on the upgraded node using the installation package for the OS upgrade version.
+1. [Install the cluster's current Redis Software version]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on the upgraded node using the installation package for the OS upgrade version.
 
 1. [Add the new node]({{< relref "/operate/rs/clusters/add-node" >}}) to the cluster.
 

@@ -11,17 +11,17 @@ linkTitle: Replica Of
 weight: $weight
 aliases: /operate/rs/administering/active-passive/
 ---
-In Redis Enterprise, the Replica Of feature provides active-passive geo-distribution to applications  for read-only access
+In Redis Software, the Replica Of feature provides active-passive geo-distribution to applications  for read-only access
 to replicas of the dataset from different geographical locations.
-The Redis Enterprise implementation of active-passive replication is called Replica Of.
+The Redis Software implementation of active-passive replication is called Replica Of.
 
 In Replica Of, an administrator designates a database as a replica (destination) of one or more databases (sources).
 After the initial data load from source to destination is completed,
 all write commands are synchronized from the sources to the destination.
 Replica Of lets you distribute the read load of your application across multiple databases or
-synchronize the database, either within Redis Enterprise or external to Redis Enterprise, to another database.
+synchronize the database, either within Redis Software or external to Redis Software, to another database.
 
-You can [create Active-Passive]({{< relref "/operate/rs/databases/import-export/replica-of/create.md" >}}) databases on Redis Enterprise Software or Redis Cloud.
+You can [create Active-Passive]({{< relref "/operate/rs/databases/import-export/replica-of/create.md" >}}) databases on Redis Software or Redis Cloud.
 
 [Active-Active Geo-Distribution (CRDB)]({{< relref "/operate/rs/databases/active-active" >}})
 provides these benefits and also provides write access to all of the database replicas.
@@ -142,7 +142,7 @@ based encryption.
 
 ## Data compression for Replica Of
 
-When the Replica Of is defined across different Redis Enterprise
+When the Replica Of is defined across different Redis Software
 Software clusters, it may be beneficial to compress the data that flows
 through the network (depending on where the clusters physically reside
 and the available network).
@@ -169,8 +169,8 @@ always be turned on by default. For example:
 It is advised that you test compression out in a lower environment
 before enabling it in production.
 
-In the Redis Enterprise Software management UI, when designating a
-Replica Of source from a different Redis Enterprise Software cluster,
+In the Redis Software Cluster Manager UI, when designating a
+Replica Of source from a different Redis Software cluster,
 there is also an option to enable compression. When enabled, gzip
 compression with level -6 is utilized.
 

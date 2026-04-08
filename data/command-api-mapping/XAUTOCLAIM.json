@@ -1,0 +1,908 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "xautoclaim(, name: KeyT,, groupname: GroupT,, consumername: ConsumerT,, min_idle_time: int,, start_id: StreamIdT = \"0-0\",, count: Optional[int] = None,, justid: bool = False,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "GroupT",
+            "description": ""
+          },
+          {
+            "name": "consumername",
+            "type": "ConsumerT",
+            "description": ""
+          },
+          {
+            "name": "min_idle_time",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "start_id",
+            "type": "StreamIdT = \"0-0\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "justid",
+            "type": "bool = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Object> xautoclaim(byte[] key, byte[] groupName, byte[] consumerName long minIdleTime, byte[] start, XAutoClaimParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "byte[] consumerName long",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "XAutoClaimParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Object>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Object> xautoclaimJustId(byte[] key, byte[] groupName, byte[] consumerName long minIdleTime, byte[] start, XAutoClaimParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "byte[] consumerName long",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "XAutoClaimParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Object>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Map.Entry<StreamEntryID, List<StreamEntry>> xautoclaim(String key, String group, String consumerName long minIdleTime, StreamEntryID start, XAutoClaimParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "String consumerName long",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "StreamEntryID",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "XAutoClaimParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Map.Entry<StreamEntryID, List<StreamEntry>>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Map.Entry<StreamEntryID, List<StreamEntryID>> xautoclaimJustId(String key, String group, String consumerName long minIdleTime, StreamEntryID start, XAutoClaimParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "String consumerName long",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "StreamEntryID",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "XAutoClaimParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Map.Entry<StreamEntryID, List<StreamEntryID>>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Map.Entry<StreamEntryID, List<StreamEntry>> xautoclaim(String key, String group, String consumerName long minIdleTime, StreamEntryID start, XAutoClaimParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "String consumerName long",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "StreamEntryID",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "XAutoClaimParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Map.Entry<StreamEntryID, List<StreamEntry>>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "ClaimedMessages<K, V> xautoclaim(K key, XAutoClaimArgs<K> args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XAutoClaimArgs<K>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ClaimedMessages<K, V>",
+          "description": "simple-reply the claimed stream messages. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<ClaimedMessages<K, V>> xautoclaim(K key, XAutoClaimArgs<K> args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XAutoClaimArgs<K>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<ClaimedMessages<K, V>>",
+          "description": "simple-reply the claimed stream messages. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<ClaimedMessages<K, V>> xautoclaim(K key, XAutoClaimArgs<K> args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XAutoClaimArgs<K>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<ClaimedMessages<K, V>>",
+          "description": "simple-reply the claimed stream messages. @since 6.1"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "XAutoClaim(ctx context.Context, a *XAutoClaimArgs)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "a",
+            "type": "*XAutoClaimArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*XAutoClaimCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "XAutoClaimJustID(ctx context.Context, a *XAutoClaimArgs)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "a",
+            "type": "*XAutoClaimArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*XAutoClaimJustIDCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "XAUTOCLAIM(key: RedisArgument, group: RedisArgument, consumer: RedisArgument, minIdleTime: number, start: RedisArgument, options?: XAutoClaimOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "XAutoClaimOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "xautoclaim(key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, start: string | Buffer | number, callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xautoclaim(key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, start: string | Buffer | number, justid: \"JUSTID\", callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "justid",
+            "type": "\"JUSTID\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xautoclaim(key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, start: string | Buffer | number, countToken: \"COUNT\", count: number | string, callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "countToken",
+            "type": "\"COUNT\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xautoclaim(key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, start: string | Buffer | number, countToken: \"COUNT\", count: number | string, justid: \"JUSTID\", callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "countToken",
+            "type": "\"COUNT\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "justid",
+            "type": "\"JUSTID\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "xautoclaim_options(key: K, group: G, consumer: C, min_idle_time: MIT, start: S, options: streams::StreamAutoClaimOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "C",
+            "description": ""
+          },
+          {
+            "name": "min_idle_time",
+            "type": "MIT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "streams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamAutoClaimReply)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "xautoclaim_options(key: K, group: G, consumer: C, min_idle_time: MIT, start: S, options: streams::StreamAutoClaimOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "C",
+            "description": ""
+          },
+          {
+            "name": "min_idle_time",
+            "type": "MIT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "streams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamAutoClaimReply)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StreamAutoClaim(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue startAtId, int? count = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "consumerGroup",
+            "type": "RedisValue",
+            "description": "The consumer group."
+          },
+          {
+            "name": "claimingConsumer",
+            "type": "RedisValue",
+            "description": "The consumer claiming the messages(s)."
+          },
+          {
+            "name": "minIdleTimeInMs",
+            "type": "long",
+            "description": "The minimum idle time threshold for pending messages to be claimed."
+          },
+          {
+            "name": "startAtId",
+            "type": "RedisValue",
+            "description": "The starting ID to scan for pending messages that have an idle time greater than minIdleTimeInMs."
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": "The upper limit of the number of entries that the command attempts to claim. If null, Redis will default the value to 100."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamAutoClaimResult",
+          "description": "An instance of StreamAutoClaimResult."
+        }
+      },
+      {
+        "signature": "StreamAutoClaim(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue startAtId, int? count = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "consumerGroup",
+            "type": "RedisValue",
+            "description": "The consumer group."
+          },
+          {
+            "name": "claimingConsumer",
+            "type": "RedisValue",
+            "description": "The consumer claiming the messages(s)."
+          },
+          {
+            "name": "minIdleTimeInMs",
+            "type": "long",
+            "description": "The minimum idle time threshold for pending messages to be claimed."
+          },
+          {
+            "name": "startAtId",
+            "type": "RedisValue",
+            "description": "The starting ID to scan for pending messages that have an idle time greater than minIdleTimeInMs."
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": "The upper limit of the number of entries that the command attempts to claim. If null, Redis will default the value to 100."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamAutoClaimResult",
+          "description": "An instance of StreamAutoClaimResult."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StreamAutoClaim(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue startAtId, int? count = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "consumerGroup",
+            "type": "RedisValue",
+            "description": "The consumer group."
+          },
+          {
+            "name": "claimingConsumer",
+            "type": "RedisValue",
+            "description": "The consumer claiming the messages(s)."
+          },
+          {
+            "name": "minIdleTimeInMs",
+            "type": "long",
+            "description": "The minimum idle time threshold for pending messages to be claimed."
+          },
+          {
+            "name": "startAtId",
+            "type": "RedisValue",
+            "description": "The starting ID to scan for pending messages that have an idle time greater than minIdleTimeInMs."
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": "The upper limit of the number of entries that the command attempts to claim. If null, Redis will default the value to 100."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamAutoClaimResult",
+          "description": "An instance of StreamAutoClaimResult."
+        }
+      },
+      {
+        "signature": "StreamAutoClaim(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue startAtId, int? count = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "consumerGroup",
+            "type": "RedisValue",
+            "description": "The consumer group."
+          },
+          {
+            "name": "claimingConsumer",
+            "type": "RedisValue",
+            "description": "The consumer claiming the messages(s)."
+          },
+          {
+            "name": "minIdleTimeInMs",
+            "type": "long",
+            "description": "The minimum idle time threshold for pending messages to be claimed."
+          },
+          {
+            "name": "startAtId",
+            "type": "RedisValue",
+            "description": "The starting ID to scan for pending messages that have an idle time greater than minIdleTimeInMs."
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": "The upper limit of the number of entries that the command attempts to claim. If null, Redis will default the value to 100."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamAutoClaimResult",
+          "description": "An instance of StreamAutoClaimResult."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "xautoclaim(string $key, string $group, string $consumer, int $minIdleTime, string $start, ?int $count = null, bool $justId = false)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$group",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$consumer",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$minIdleTime",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$start",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "?int $count = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "bool $justId = false",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xautoclaim(key, group, consumer, min_idle_time, start, count: nil, justid: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": "the consumer group name"
+          },
+          {
+            "name": "consumer",
+            "type": "String",
+            "description": "the consumer name"
+          },
+          {
+            "name": "min_idle_time",
+            "type": "Integer",
+            "description": "the number of milliseconds"
+          },
+          {
+            "name": "start",
+            "type": "String",
+            "description": "entry id to start scanning from or 0-0 for everything"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "number of messages to claim"
+          },
+          {
+            "name": "justid",
+            "type": "Boolean",
+            "description": "whether to fetch just an array of entry ids"
+          }
+        ],
+        "returns": {
+          "type": "Hash, Array<String>",
+          "description": "the entries successfully claimed"
+        }
+      }
+    ]
+  }
+}

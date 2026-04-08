@@ -32,6 +32,7 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 | Region ID      | Location                 | Redis Cloud Pro | Redis Cloud Essentials |
 |:---------------|:-------------------------|:----------------|:-----------------------|
 | `ca-central-1` | Montreal, Canada         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| `ca-west-1`    | Calgary, Canada          | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `mx-central-1` | Central Mexico | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `sa-east-1`    | Sao Paulo, Brazil        | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `us-east-1`    | Northern Virginia, USA   | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
@@ -57,6 +58,7 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 | Region ID        | Location             | Redis Cloud Pro | Redis Cloud Essentials |
 |:-----------------|:---------------------|:----------------|:-----------------------|
 | `ap-east-1`      | Hong Kong, China     | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| `ap-east-2`      | Taipei, Taiwan       | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `ap-northeast-1` | Tokyo, Japan         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `ap-northeast-2` | Seoul, South Korea   | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `ap-northeast-3` | Osaka, Japan         | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
@@ -67,6 +69,7 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 | `ap-southeast-3` | Jakarta, Indonesia   | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `ap-southeast-4` | Melbourne, Australia | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `ap-southeast-5` | Malaysia | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `ap-southeast-6` | New Zealand          | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `ap-southeast-7` | Thailand | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 
 -tab-sep-
@@ -96,6 +99,7 @@ Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/ope
 |:--------------------------|:--------------------|:----------------|:-----------------------|
 | `northamerica-northeast1` | Montreal, Canada    | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `northamerica-northeast2` | Toronto, Canada     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `northamerica-south1`     | Mexico              | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `southamerica-east1`      | Sao Paulo, Brazil   | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `southamerica-west1`      | Santiago, Chile     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `us-central1`             | Iowa, USA           | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
@@ -114,6 +118,7 @@ Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/ope
 |:--------------------|:--------------------|:----------------|:-----------------------|
 | `europe-central2`   | Warsaw, Poland      | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `europe-north1`     | Finland             | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `europe-north2`     | Stockholm, Sweden   | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `europe-southwest1` | Madrid, Spain       | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `europe-west1`      | Belgium             | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `europe-west2`      | London, UK          | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |

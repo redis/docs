@@ -11,7 +11,7 @@ linktitle: Planning considerations
 weight: 22
 ---
 
-In Redis Enterprise, Active-Active geo-distribution is based on [conflict-free replicated data type (CRDT) technology](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type). Compared to databases without geo-distribution, Active-Active databases have more complex replication and networking, as well as a different data type.
+In Redis Software, Active-Active geo-distribution is based on [conflict-free replicated data type (CRDT) technology](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type). Compared to databases without geo-distribution, Active-Active databases have more complex replication and networking, as well as a different data type.
 
 Because of the complexities of Active-Active databases, there are special considerations to keep in mind while planning your Active-Active database.
 
@@ -88,3 +88,4 @@ Active-Active databases have the following limitations:
 - The hashing policy can't be changed after database creation.
 - Active-Active databases cannot be configured as Redis Flex deployments.
 - Active-Active databases handle replication internally and do not support the `redis.set_repl()` function in Lua scripts.
+- If you enabled the default database password during the creation of an Active-Active database, you should not turn off the default database password because it could prevent the removal of participating database instances.

@@ -6,22 +6,22 @@ categories:
 - operate
 - rs
 description: Information and requirements for using multiple IP addresses or IPv6
-  addresses with Redis Enterprise Software.
+  addresses with Redis Software.
 linkTitle: Manage IP addresses
 weight: $weight
 ---
-Redis Enterprise Software supports servers, instances, and VMs with
+Redis Software supports servers, instances, and VMs with
 multiple IPv4 or IPv6 addresses.
 
 ## Traffic overview
 
-Redis Enterprise Software traffic is divided into internal traffic and external traffic:
+Redis Software traffic is divided into internal traffic and external traffic:
 
 - "Internal traffic" refers to internal cluster communications, such as communications between the nodes for cluster management.
 
 - "External traffic" refers to communications between clients and databases and connections to the Cluster Manager UI.
 
-When only one IP address exists on a machine that serves as a Redis Enterprise node, it is used for both internal and external traffic.
+When only one IP address exists on a machine that serves as a Redis Software node, it is used for both internal and external traffic.
 
 ## Multiple IP addresses
 
@@ -33,7 +33,7 @@ To update IP address configuration after cluster setup, see [Change internal IP 
 
 ## Enable IPv6 for internal traffic
 
-IPv6 for internal communication is supported only for new clusters with Redis Enterprise Software version 7.4.2 or later.
+IPv6 for internal communication is supported only for new clusters with Redis Software version 7.4.2 or later.
 
 If the server has only IPv6 interfaces, IPv6 is automatically used for internal and external traffic. Otherwise, internal traffic uses IPv4 by default. 
 
@@ -165,10 +165,10 @@ if you use the node's IP, provide the node's internal IP address.
 
 ## Known limitations
 
-- Using IPv6 for internal traffic is supported only for new clusters running Redis Enterprise Software version 7.4.2 or later.
+- Using IPv6 for internal traffic is supported only for new clusters running Redis Software version 7.4.2 or later.
 
 - Changing an existing cluster's internal traffic from IPv4 to IPv6 is not supported.
 
 - All nodes must use the same protocol for internal traffic.
 
-- If a Redis Enterprise node's host machine has both IPv4 and IPv6 addresses, internal communication within the node initially uses IPv4 until the bootstrap process finishes.
+- If a Redis Software node's host machine has both IPv4 and IPv6 addresses, internal communication within the node initially uses IPv4 until the bootstrap process finishes.

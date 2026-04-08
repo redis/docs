@@ -6,14 +6,14 @@ categories:
 - operate
 - rs
 - rc
-description: Redis Open Source commands compatible with Redis Enterprise.
+description: Redis Open Source commands compatible with Redis Software.
 hideListLinks: true
 linkTitle: Commands
 weight: 30
 ---
 
-Learn which Redis Open Source commands are compatible with Redis Enterprise Software and [Redis Cloud]({{< relref "/operate/rc" >}}).
+Learn which Redis Open Source commands are compatible with Redis Software and [Redis Cloud]({{< relref "/operate/rc" >}}).
 
-Select a command group for more details about compatibility with standard and Active-Active Redis Enterprise.
+Select a command group for more details about compatibility with standard and Active-Active Redis Software.
 
 {{<table-children columnNames="Command group,Description" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}

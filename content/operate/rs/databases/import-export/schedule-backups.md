@@ -10,7 +10,7 @@ linktitle: Schedule backups
 weight: 40
 ---
 
-Periodic backups provide a way to restore data with minimal data loss.  With Redis Enterprise Software, you can schedule periodic backups to occur once a day (every 24 hours), twice a day (every twelve hours), every four hours, or every hour.
+Periodic backups provide a way to restore data with minimal data loss.  With Redis Software, you can schedule periodic backups to occur once a day (every 24 hours), twice a day (every twelve hours), every four hours, or every hour.
 
 As of v6.2.8, you can specify the start time in UTC for 24-hour or 12-hour backups.
 
@@ -28,7 +28,7 @@ You can schedule backups to a variety of locations, including:
 The backup process creates compressed (.gz) RDB files that you can [import into a database]({{< relref "/operate/rs/databases/import-export/import-data.md" >}}). If the database name is longer than 30 characters, only the first 30 are used in backup file names.
 
 When you back up a database configured for database clustering,
-Redis Enterprise Software creates a backup file for each shard in the configuration.  All backup files are copied to the storage location.
+Redis Software creates a backup file for each shard in the configuration.  All backup files are copied to the storage location.
 
 {{< note >}}
 
@@ -41,17 +41,17 @@ Redis Enterprise Software creates a backup file for each shard in the configurat
 
 ## Schedule periodic backups
 
-Before scheduling periodic backups, verify that your storage location exists and is available to the user running Redis Enterprise Software (`redislabs` by default).  You should verify that:
+Before scheduling periodic backups, verify that your storage location exists and is available to the user running Redis Software (`redislabs` by default).  You should verify that:
 
 - Permissions are set correctly.
-- The user running Redis Enterprise Software is authorized to access the storage location.
+- The user running Redis Software is authorized to access the storage location.
 - The authorization credentials work.
 
 Storage location access is verified before periodic backups are scheduled.
 
 To schedule periodic backups for a database:
 
-1. Sign in to the Redis Enterprise Software Cluster Manager UI using admin credentials.
+1. Sign in to the Redis Software Cluster Manager UI using admin credentials.
 
 1. From the **Databases** list, select the database, then select **Configuration**.
 
@@ -70,7 +70,7 @@ To schedule periodic backups for a database:
     | Setting | Description |
     |--------------|-------------|
     | **Interval** | Specifies the frequency of the backup; that is, the time between each backup snapshot.<br/><br/>Supported values include _Every 24 hours_, _Every 12 hours_, _Every 4 hours_, and _Every hour_. |
-    | **Starting time** | _v6.2.8 or later:&nbsp;_ Specifies the start time in UTC for the backup; available when **Interval** is set to _Every 24 hours_ or _Every 12 hours_.<br/><br/>If not specified, defaults to a time selected by Redis Enterprise Software. |
+    | **Starting time** | _v6.2.8 or later:&nbsp;_ Specifies the start time in UTC for the backup; available when **Interval** is set to _Every 24 hours_ or _Every 12 hours_.<br/><br/>If not specified, defaults to a time selected by Redis Software. |
 
 7. Select **Save**.
 
@@ -78,7 +78,7 @@ Access to the storage location is verified when you apply your updates.  This me
 
 ## Default backup start time
 
-If you do _not_ specify a start time for twenty-four or twelve hour backups, Redis Enterprise Software chooses a random starting time in UTC for you.
+If you do _not_ specify a start time for twenty-four or twelve hour backups, Redis Software chooses a random starting time in UTC for you.
 
 This choice assumes that your database is deployed to a multi-tenant cluster containing multiple databases.  This means that default start times are staggered (offset) to ensure availability.  This is done by calculating a random offset which specifies a number of seconds added to the start time.  
 
@@ -103,9 +103,9 @@ For help with specific backup issues, [contact support](https://redis.com/compan
 
 Database backups can be saved to a local mount point, transferred to [a URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) using FTP/SFTP, or stored on cloud provider storage.
 
-When saved to a local mount point or a cloud provider, backup locations need to be available to [the group and user]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group.md" >}}) running Redis Enterprise Software, `redislabs:redislabs` by default.  
+When saved to a local mount point or a cloud provider, backup locations need to be available to [the group and user]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group.md" >}}) running Redis Software, `redislabs:redislabs` by default.  
 
-Redis Enterprise Software needs the ability to view permissions and update objects in the storage location. Implementation details vary according to the provider and your configuration. To learn more, consult the provider's documentation.
+Redis Software needs the ability to view permissions and update objects in the storage location. Implementation details vary according to the provider and your configuration. To learn more, consult the provider's documentation.
 
 The following sections provide general guidelines.  Because provider features change frequently, use your provider's documentation for the latest info.
 
@@ -113,7 +113,7 @@ The following sections provide general guidelines.  Because provider features ch
 
 Before enabling backups to an FTP server, verify that:
 
-- Your Redis Enterprise cluster can connect and authenticate to the FTP server.
+- Your Redis Software cluster can connect and authenticate to the FTP server.
 - The user specified in the FTP server location has read and write privileges.
 
 To store your backups on an FTP server, set its **Backup Path** using the following syntax:
@@ -137,7 +137,7 @@ The user account needs permission to write files to the server.
 
 Before enabling backups to an SFTP server, make sure that:
 
-- Your Redis Enterprise cluster can connect and authenticate to the SFTP server.
+- Your Redis Software cluster can connect and authenticate to the SFTP server.
 - The user specified in the SFTP server location has read and write privileges.
 - The SSH private keys are specified correctly.  You can use the key generated by the cluster or specify a custom key.
 
@@ -172,7 +172,7 @@ are saved with filenames that include the timestamp, which means that earlier ba
 To back up to a local mount point:
 
 1. On each node in the cluster, create the mount point:
-    1. Connect to a shell running on Redis Enterprise Software server hosting the node.
+    1. Connect to a shell running on Redis Software server hosting the node.
     1. Mount the remote storage to a local mount point.
 
         For example:
@@ -185,7 +185,7 @@ To back up to a local mount point:
 
     For example: `/mnt/Public`
 
-1. Verify that the user running Redis Enterprise Software has permissions to access and update files in the mount location.
+1. Verify that the user running Redis Software has permissions to access and update files in the mount location.
 
 ### AWS Simple Storage Service
 
@@ -199,7 +199,7 @@ To store backups in an Amazon Web Services (AWS) Simple Storage Service (S3) [bu
 
 1. [Create an access key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey) for that user if you do not already have one.
 
-1. In the Redis Enterprise Software Cluster Manager UI, when you enter the backup location details:
+1. In the Redis Software Cluster Manager UI, when you enter the backup location details:
 
     - Select the **AWS S3** tab on the **Path configuration** dialog.
 
@@ -245,7 +245,7 @@ For [Google Cloud](https://developers.google.com/console/) subscriptions, store 
 
     - Select "Storage Legacy Bucket Writer" from the **Role** list.
 
-1. In the Redis Enterprise Software Cluster Manager UI, when you enter the backup location details:
+1. In the Redis Software Cluster Manager UI, when you enter the backup location details:
 
     - Select the **Google Cloud Storage** tab on the **Path configuration** dialog.
 
@@ -272,7 +272,7 @@ To export to Microsoft Azure Blob Storage, sign in to the Azure portal and then:
 
 1. [Manage storage account access keys](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage) to find the storage account name and account keys.
 
-1. In the Redis Enterprise Software Cluster Manager UI, when you enter the backup location details:
+1. In the Redis Software Cluster Manager UI, when you enter the backup location details:
 
     - Select the **Azure Blob Storage** tab on the **Path configuration** dialog.
 

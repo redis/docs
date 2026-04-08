@@ -76,7 +76,7 @@ remote_write:
 
 ## View metrics
 
-The Redis Cloud Integration for New Relic contains pre-defined dashboards to aid in monitoring your Redis Enterprise deployment.
+The Redis Cloud Integration for New Relic contains pre-defined dashboards to aid in monitoring your Redis Software deployment.
 
 The following dashboards are currently available:
 

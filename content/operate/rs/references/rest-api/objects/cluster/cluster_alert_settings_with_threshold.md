@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 description: Documents the cluster_alert_settings_with_threshold object used with
-  Redis Enterprise Software REST API calls.
+  Redis Software REST API calls.
 linkTitle: cluster_alert_settings_with_threshold
 weight: $weight
 ---

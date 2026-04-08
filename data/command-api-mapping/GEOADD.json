@@ -1,0 +1,1035 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "geoadd(, name: KeyT,, values: Sequence[EncodableT],, nx: bool = False,, xx: bool = False,, ch: bool = False,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "Sequence[EncodableT]",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "ch",
+            "type": "bool = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long geoadd(final byte[] key, final double longitude, final double latitude final byte[] member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "double latitude final byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements added"
+        }
+      },
+      {
+        "signature": "long geoadd(final byte[] key, final Map<byte[], GeoCoordinate> memberCoordinateMap)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "memberCoordinateMap",
+            "type": "Map<byte[], GeoCoordinate>",
+            "description": "Members names with their geo coordinates"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements added"
+        }
+      },
+      {
+        "signature": "long geoadd(final byte[] key, final GeoAddParams params, final Map<byte[], GeoCoordinate> memberCoordinateMap)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "GeoAddParams",
+            "description": "Additional options"
+          },
+          {
+            "name": "memberCoordinateMap",
+            "type": "Map<byte[], GeoCoordinate>",
+            "description": "Members names with their geo coordinates"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements added"
+        }
+      },
+      {
+        "signature": "long geoadd(final String key, final double longitude, final double latitude final String member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "double latitude final String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements added"
+        }
+      },
+      {
+        "signature": "long geoadd(final String key, final Map<String, GeoCoordinate> memberCoordinateMap)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "memberCoordinateMap",
+            "type": "Map<String, GeoCoordinate>",
+            "description": "Members names with their geo coordinates"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements added"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long geoadd(K key, double longitude, double latitude, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of elements that were added to the set. @since 6.1"
+        }
+      },
+      {
+        "signature": "Long geoadd(K key, double longitude, double latitude, V member, GeoAddArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": ""
+          },
+          {
+            "name": "args",
+            "type": "GeoAddArgs",
+            "description": "additional arguments."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of elements that were added to the set. @since 6.1"
+        }
+      },
+      {
+        "signature": "Long geoadd(K key, Object... lngLatMember)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "lngLatMember",
+            "type": "Object...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of elements that were added to the set. @since 6.1"
+        }
+      },
+      {
+        "signature": "Long geoadd(K key, GeoValue<V>... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "values",
+            "type": "GeoValue<V>...",
+            "description": "io.lettuce.core.GeoValue values to add."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of elements that were added to the set. @since 6.1"
+        }
+      },
+      {
+        "signature": "Long geoadd(K key, GeoAddArgs args, Object... lngLatMember)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "args",
+            "type": "GeoAddArgs",
+            "description": "additional arguments."
+          },
+          {
+            "name": "lngLatMember",
+            "type": "Object...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of elements that were added to the set. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> geoadd(K key, double longitude, double latitude, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of elements that were added to the set. @since 6.1"
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> geoadd(K key, double longitude, double latitude, V member, GeoAddArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": ""
+          },
+          {
+            "name": "args",
+            "type": "GeoAddArgs",
+            "description": "additional arguments."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of elements that were added to the set. @since 6.1"
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> geoadd(K key, Object... lngLatMember)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "lngLatMember",
+            "type": "Object...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of elements that were added to the set. @since 6.1"
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> geoadd(K key, GeoValue<V>... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "values",
+            "type": "GeoValue<V>...",
+            "description": "io.lettuce.core.GeoValue values to add."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of elements that were added to the set. @since 6.1"
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> geoadd(K key, GeoAddArgs args, Object... lngLatMember)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "args",
+            "type": "GeoAddArgs",
+            "description": "additional arguments."
+          },
+          {
+            "name": "lngLatMember",
+            "type": "Object...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of elements that were added to the set. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> geoadd(K key, double longitude, double latitude, V member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of elements that were added to the set. @since 6.1"
+        }
+      },
+      {
+        "signature": "Mono<Long> geoadd(K key, double longitude, double latitude, V member, GeoAddArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": ""
+          },
+          {
+            "name": "args",
+            "type": "GeoAddArgs",
+            "description": "additional arguments."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of elements that were added to the set. @since 6.1"
+        }
+      },
+      {
+        "signature": "Mono<Long> geoadd(K key, Object... lngLatMember)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "lngLatMember",
+            "type": "Object...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of elements that were added to the set. @since 6.1"
+        }
+      },
+      {
+        "signature": "Mono<Long> geoadd(K key, GeoValue<V>... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "values",
+            "type": "GeoValue<V>...",
+            "description": "io.lettuce.core.GeoValue values to add."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of elements that were added to the set. @since 6.1"
+        }
+      },
+      {
+        "signature": "Mono<Long> geoadd(K key, GeoAddArgs args, Object... lngLatMember)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "args",
+            "type": "GeoAddArgs",
+            "description": "additional arguments."
+          },
+          {
+            "name": "lngLatMember",
+            "type": "Object...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of elements that were added to the set. @since 6.1"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "GeoAdd(ctx context.Context, key string, geoLocation ...*GeoLocation)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "geoLocation",
+            "type": "...*GeoLocation",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "GEOADD(key: RedisArgument, toAdd: GeoMember | Array<GeoMember>, options?: GeoAddOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "toAdd",
+            "type": "GeoMember | Array<GeoMember>",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "GeoAddOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "geoadd(...args: [, key: RedisKey, ...longitudeLatitudeMembers: (string | Buffer | number)[], callback: Callback<number>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "geoadd(...args: [, key: RedisKey, ...longitudeLatitudeMembers: (string | Buffer | number)[], ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "geoadd(...args: [, key: RedisKey, ch: \"CH\", ...longitudeLatitudeMembers: (string | Buffer | number)[], callback: Callback<number>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "geoadd(...args: [, key: RedisKey, ch: \"CH\", ...longitudeLatitudeMembers: (string | Buffer | number)[], ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "geoadd(...args: [, key: RedisKey, nx: \"NX\", ...longitudeLatitudeMembers: (string | Buffer | number)[], callback: Callback<number>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "geo_add(key: K, members: M)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "geo_add(key: K, members: M)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "GeoAdd(RedisKey key, double longitude, double latitude, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of elements that were added to the set, not including all the elements already present into the set."
+        }
+      },
+      {
+        "signature": "GeoAdd(RedisKey key, GeoEntry value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "value",
+            "type": "GeoEntry",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of elements that were added to the set, not including all the elements already present into the set."
+        }
+      },
+      {
+        "signature": "GeoAdd(RedisKey key, GeoEntry[] values, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "values",
+            "type": "GeoEntry[]",
+            "description": "The geo values add to the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements that were added to the set, not including all the elements already present into the set."
+        }
+      },
+      {
+        "signature": "GeoAdd(RedisKey key, double longitude, double latitude, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of elements that were added to the set, not including all the elements already present into the set."
+        }
+      },
+      {
+        "signature": "GeoAdd(RedisKey key, GeoEntry value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "value",
+            "type": "GeoEntry",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of elements that were added to the set, not including all the elements already present into the set."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "GeoAdd(RedisKey key, double longitude, double latitude, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of elements that were added to the set, not including all the elements already present into the set."
+        }
+      },
+      {
+        "signature": "GeoAdd(RedisKey key, GeoEntry value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "value",
+            "type": "GeoEntry",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of elements that were added to the set, not including all the elements already present into the set."
+        }
+      },
+      {
+        "signature": "GeoAdd(RedisKey key, GeoEntry[] values, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "values",
+            "type": "GeoEntry[]",
+            "description": "The geo values add to the set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements that were added to the set, not including all the elements already present into the set."
+        }
+      },
+      {
+        "signature": "GeoAdd(RedisKey key, double longitude, double latitude, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "longitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "latitude",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of elements that were added to the set, not including all the elements already present into the set."
+        }
+      },
+      {
+        "signature": "GeoAdd(RedisKey key, GeoEntry value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "value",
+            "type": "GeoEntry",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of elements that were added to the set, not including all the elements already present into the set."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "geoadd(string $key, $longitude, $latitude, $member)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$longitude",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$latitude",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$member",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "geoadd(key, *member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*member",
+            "type": "Array",
+            "description": "longitude, latitude, name"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "number of elements added to the sorted set"
+        }
+      }
+    ]
+  }
+}

@@ -7,6 +7,8 @@ categories:
 description: Redis TLS support
 linkTitle: TLS
 title: TLS
+aliases:
+- /management/security/encryption/
 weight: 1
 ---
 

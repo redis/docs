@@ -18,14 +18,14 @@ relatedPages:
 - /develop/clients/go/vecsets
 - /develop/ai/search-and-query
 topics:
-- Redis Query Engine
+- Redis Search
 - JSON
 - hash
 - vectors
 weight: 30
 ---
 
-[Redis Query Engine]({{< relref "/develop/ai/search-and-query" >}})
+[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
 lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
 or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
 [Vectors]({{< relref "/develop/ai/search-and-query/vectors" >}}) 
@@ -41,13 +41,13 @@ of their meaning.
 In the example below, we use the
 [`Hugot`](https://pkg.go.dev/github.com/knights-analytics/hugot)
 library to generate vector embeddings to store and index with
-Redis Query Engine.  The code is first demonstrated for hash documents with a
+Redis Search.  The code is first demonstrated for hash documents with a
 separate section to explain the
 [differences with JSON documents](#differences-with-json-documents).
 
 {{< note >}}From [v9.8.0](https://github.com/redis/go-redis/releases/tag/v9.8.0) onwards,
 `go-redis` uses query dialect 2 by default.
-Redis query engine methods such as [`FTSearch()`]({{< relref "/commands/ft.search" >}})
+Redis Search methods such as [`FTSearch()`]({{< relref "/commands/ft.search" >}})
 will explicitly request this dialect, overriding the default set for the server.
 See
 [Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})

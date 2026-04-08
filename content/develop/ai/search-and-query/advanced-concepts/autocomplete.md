@@ -1,6 +1,7 @@
 ---
 aliases:
 - /develop/interact/search-and-query/advanced-concepts/autocomplete
+- /interact/search-and-query/advanced-concepts/autocomplete/
 categories:
 - docs
 - develop
@@ -19,7 +20,7 @@ weight: 7
 
 ## Overview
 
-Redis Query Engine provides an autocomplete feature using suggestions that are stored in a [trie-based](https://en.wikipedia.org/wiki/Trie) data structure.
+Redis Search provides an autocomplete feature using suggestions that are stored in a [trie-based](https://en.wikipedia.org/wiki/Trie) data structure.
 This feature allows you to store and retrieve ranked suggestions based on user input prefixes, making it useful for applications like search boxes, command completion, and chatbot responses.
 
 This guide covers how to use the [`FT.SUGADD`]({{< relref "/commands/ft.sugadd" >}}), [`FT.SUGGET`]({{< relref "/commands/ft.sugget" >}}), [`FT.SUGDEL`]({{< relref "/commands/ft.sugdel" >}}), and [`FT.SUGLEN`]({{< relref "/commands/ft.suglen" >}}) commands to implement autocomplete, and some examples of how you can use these commands with [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}).
@@ -153,7 +154,7 @@ Example workflow
 
 ## Autocomplete use cases
 
-The autocomplete feature in Redis Query Engine is useful for:
+The autocomplete feature in Redis Search is useful for:
 
 - **Search box suggestions**: providing live suggestions as users type.
 - **Command completion**: offering autocompletion for CLI tools.

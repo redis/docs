@@ -5,8 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the bdb dataset_import_sources object used with Redis Enterprise
-  Software REST API calls.
+description: Documents the bdb dataset_import_sources object used with Redis Software REST API calls.
 linkTitle: dataset_import_sources
 weight: $weight
 ---

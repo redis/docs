@@ -17,7 +17,6 @@ Usage: redis-di [OPTIONS] COMMAND [ARGS]...
 ## Options
 
 - `version`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--version`
@@ -25,7 +24,6 @@ Usage: redis-di [OPTIONS] COMMAND [ARGS]...
   Show the version and exit.
 
 - `help`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--help`
@@ -55,6 +53,7 @@ Commands:
   install               Installs RDI
   list-contexts         Lists all saved contexts
   list-jobs             Lists transformation engine's jobs
+  monitor               Monitors RDI by collecting metrics and exporting...
   reset                 Resets the pipeline into initial full sync mode
   scaffold              Generates configuration files for RDI
   set-context           Sets a context to be the active one

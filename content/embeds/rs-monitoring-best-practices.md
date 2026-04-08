@@ -1,6 +1,6 @@
 ## Best practices for monitoring
 
-Follow these best practices when monitoring your Redis Enterprise Software cluster using the metrics stream engine.
+Follow these best practices when monitoring your Redis Software cluster using the metrics stream engine.
 
 ### Monitor host-level metrics
 

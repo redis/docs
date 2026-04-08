@@ -7,6 +7,8 @@ categories:
 description: How Redis writes data to disk
 linkTitle: Persistence
 title: Redis persistence
+aliases:
+- /management/persistence/
 weight: 7
 ---
 
@@ -17,7 +19,7 @@ Persistence refers to the writing of data to durable storage, such as a solid-st
 * **No persistence**: You can disable persistence completely. This is sometimes used when caching.
 * **RDB + AOF**: You can also combine both AOF and RDB in the same instance.
 
-If you'd rather not think about the tradeoffs between these different persistence strategies, you may want to consider [Redis Enterprise's persistence options]({{< relref "/operate/rs/databases/configure/database-persistence" >}}), which can be pre-configured using a UI.
+If you'd rather not think about the tradeoffs between these different persistence strategies, you may want to consider [Redis Software's persistence options]({{< relref "/operate/rs/databases/configure/database-persistence" >}}), which can be pre-configured using a UI.
 
 To learn more about how to evaluate your Redis persistence strategy, read on.
 

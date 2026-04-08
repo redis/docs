@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 - kubernetes
-description: Monitor Redis Enterprise Software clusters and databases using internal monitoring systems and external monitoring tools.
+description: Monitor Redis Software clusters and databases using internal monitoring systems and external monitoring tools.
 hideListLinks: true
 linkTitle: Monitoring v1 (deprecated)
 weight: 50
@@ -14,7 +14,7 @@ weight: 50
 
 ## Current monitoring system (deprecated)
 
-The current monitoring system, which is deprecated as of Redis Enterprise Software version 7.22, consists of the following components:
+The current monitoring system, which is deprecated as of Redis Software version 7.22, consists of the following components:
 
 - Internal metrics storage:
 
@@ -36,7 +36,7 @@ The current monitoring system, which is deprecated as of Redis Enterprise Softwa
       
 - v1 Prometheus scraping endpoint:
 
-    - Redis Enterprise Software exposes a legacy `/prometheus_metrics` endpoint to integrate with external observability platforms like [Prometheus and Grafana]({{<relref "/operate/rs/monitoring/get-started">}}).
+    - Redis Software exposes a legacy `/prometheus_metrics` endpoint to integrate with external observability platforms like [Prometheus and Grafana]({{<relref "/operate/rs/monitoring/get-started">}}).
 
     - This endpoint fetches data from the internal storage, providing basic monitoring integration.
 
@@ -56,7 +56,7 @@ The internal monitoring system, while functional, has several limitations that a
 
 ### Transition to the metrics stream engine
 
-To improve monitoring and address current limitations, Redis Enterprise Software is transitioning to a new observability foundation: the [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}).
+To improve monitoring and address current limitations, Redis Software is transitioning to a new observability foundation: the [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}).
 
 This modern monitoring stack introduces:
 
@@ -72,7 +72,7 @@ If you are already using the existing scraping endpoint for integration, follow 
 
 ### Transition cluster manager alerts
 
-As part of Redis Enterprise Software's transition to the [new metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}), some internal cluster manager alerts were deprecated in favor of external monitoring solutions. See the [alerts transition plan]({{<relref "/operate/rs/monitoring/metrics_stream_engine/alerts-v1-to-v2">}}) for guidance.
+As part of Redis Software's transition to the [new metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}), some internal cluster manager alerts were deprecated in favor of external monitoring solutions. See the [alerts transition plan]({{<relref "/operate/rs/monitoring/metrics_stream_engine/alerts-v1-to-v2">}}) for guidance.
 
 ## Cluster manager metrics
 

@@ -180,11 +180,15 @@ When `CLAIM min-idle-time` is used, additional information is provided for each 
 
 ### Ordering guarantees
 
-When using `CLAIM`, the following ordering guarantees apply:
+Within each stream, entries are reported in the same order they were added by `XADD` (older first).
+
+When not blocked, across streams, entries are reported in the order the streams were specified.
+
+When using `CLAIM`, the following ordering guarantees apply per stream:
 
 - Idle pending entries are reported first, then incoming entries
 - Idle pending entries are ordered by idle time (longer first)
-- Incoming entries are ordered by the order they were appended to the stream (older first)
+- Incoming entries are reported in the order they were added by `XADD` (older first)
 
 For example, if there are 20 idle pending entries and 200 incoming entries (in all the specified streams together):
 - When calling `XREADGROUP ... CLAIM ...`, you would retrieve 220 entries in the reply
@@ -269,9 +273,9 @@ Reading the [Redis Streams introduction]({{< relref "/develop/data-types/streams
 suggested in order to understand more about the streams overall behavior
 and semantics.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

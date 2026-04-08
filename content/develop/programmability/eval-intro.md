@@ -9,7 +9,9 @@ categories:
 - oss
 - kubernetes
 - clients
-aliases: /develop/interact/programmability/eval-intro
+aliases:
+- /develop/interact/programmability/eval-intro
+- /interact/programmability/eval-intro/
 description: 'Executing Lua in Redis
 
   '

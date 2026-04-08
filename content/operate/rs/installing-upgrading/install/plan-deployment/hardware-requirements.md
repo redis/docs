@@ -6,10 +6,11 @@ categories:
 - operate
 - rs
 - kubernetes
-description: Redis Enterprise Software hardware requirements for development and production
+description: Redis Software hardware requirements for development and production
   environments.
 linkTitle: Hardware requirements
 weight: 20
+tocEmbedHeaders: true
 ---
 {{< embed-md "hardware-requirements-embed.md" >}}
 

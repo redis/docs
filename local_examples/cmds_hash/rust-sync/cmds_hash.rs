@@ -40,14 +40,14 @@ mod cmds_hash_tests {
             }
         }
 
-        match r.hget("myhash", "field1") {
+        match r.hdel("myhash", "field1") {
             Ok(hdel2) => {
-                let hdel2: Option<String> = hdel2;
+                let hdel2: Option<i32> = hdel2;
                 match hdel2 {
                     Some(value) => {
-                        println!("{value}");    // >>> foo
+                        println!("{value}");    // >>> 1
                         // REMOVE_START
-                        assert_eq!(value, "foo");
+                        assert_eq!(value, 1);
                         // REMOVE_END
                     },
                     None => {
@@ -64,20 +64,20 @@ mod cmds_hash_tests {
             }
         }
 
-        match r.hget("myhash", "field2") {
+        match r.hdel("myhash", "field2") {
             Ok(hdel3) => {
-                let hdel3: Option<String> = hdel3;
+                let hdel3: Option<i32> = hdel3;
                 match hdel3 {
-                    Some(_) => {
-                        println!("Some value");
+                    Some(value) => {
+                        println!("{value}");    // >>> 0
                         // REMOVE_START
-                        panic!("Expected None but got Some");
+                        assert_eq!(value, 0);
                         // REMOVE_END
                     },
                     None => {
-                        println!("None");    // >>> None
+                        println!("None");
                         // REMOVE_START
-                        assert!(hdel3.is_none());
+                        panic!("Expected value but got None");
                         // REMOVE_END
                     }
                 }
@@ -276,6 +276,37 @@ mod cmds_hash_tests {
             },
             Err(e) => {
                 println!("Error getting hash field: {e}");
+                return;
+            }
+        }
+
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("myhash");
+        // REMOVE_END
+        // STEP_END
+
+        // STEP_START hmget
+        let hash_fields = [
+            ("field1", "Hello"),
+            ("field2", "World"),
+        ];
+
+        if let Ok(_) = r.hset_multiple::<&str, &str, &str, String>("myhash", &hash_fields) {
+            // Fields set successfully
+        }
+
+        match r.hmget::<&str, &[&str], Vec<Option<String>>>("myhash", &["field1", "field2", "nofield"]) {
+            Ok(hmget_result) => {
+                println!("{:?}", hmget_result);    // >>> [Some("Hello"), Some("World"), None]
+                // REMOVE_START
+                assert_eq!(hmget_result.len(), 3);
+                assert_eq!(hmget_result[0], Some("Hello".to_string()));
+                assert_eq!(hmget_result[1], Some("World".to_string()));
+                assert_eq!(hmget_result[2], None);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting hash fields: {e}");
                 return;
             }
         }

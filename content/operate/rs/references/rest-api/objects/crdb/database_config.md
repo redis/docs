@@ -10,22 +10,29 @@ linkTitle: database_config
 weight: $weight
 ---
 
-An object that represents the database configuration.
+An object that represents the database configuration. This configuration object is used in two contexts within CRDB objects:
+
+- As `default_db_config` in the main [CRDB object]({{< relref "/operate/rs/references/rest-api/objects/crdb" >}}) for settings that apply to all instances. In most cases, instances should use the same configuration.
+
+- As `db_config` in individual [instance objects]({{< relref "/operate/rs/references/rest-api/objects/crdb/instance_info" >}}) to override `default_db_config` or add configuration values for specific instances. Use `db_config` only when an instance needs different settings than the default configuration.
 
 | Name | Type/Value | Description |
 |------|------------|-------------|
 | aof_policy | **'appendfsync-every-sec'** <br />'appendfsync-always' | Policy for Append-Only File data persistence |
 | <span class="break-all">authentication_admin_pass</span> | string | Administrative databases access token |
-| <span class="break-all">authentication_redis_pass</span> | string | Redis AUTH password (deprecated as of Redis Enterprise v7.2, replaced with multiple passwords feature in version 6.0.X) |
+| <span class="break-all">authentication_redis_pass</span> | string | Redis AUTH password (deprecated as of Redis Software v7.2, replaced with multiple passwords feature in version 6.0.X) |
 | bigstore | boolean (default: false) | Database driver is Auto Tiering |
 | bigstore_ram_size | integer (default: 0) | Memory size of RAM size |
 | cert | string | Optional PEM-encoded server certificate for the underlying database instance |
 | data_persistence | 'disabled'<br />'snapshot'<br />**'aof'** | Database on-disk persistence policy. For snapshot persistence, a [snapshot_policy]({{< relref "/operate/rs/references/rest-api/objects/bdb/snapshot_policy" >}}) must be provided |
 | <span class="break-all">enforce_client_authentication</span> | **'enabled'** <br />'disabled' | Require authentication of client certificates for SSL connections to the database. If enabled, a certificate should be provided in either <span class="break-all">`authentication_ssl_client_certs`</span> or <span class="break-all">`authentication_ssl_crdt_certs`</span> |
+| <span class="break-all">authentication_ssl_client_certs</span> | array | List of authorized client certificates. For Active-Active databases, it is strongly advised to configure the client certificates individually for each instance instead of using the default database configuration, even if the same certificate is used across all instances.<br />{{<code>}}[{<br />  "client_cert": string<br />}, ...]{{</code>}}<br />**client_cert**: X.509 PEM (Base64) encoded certificate |
+| <span class="break-all">mtls_allow_outdated_certs</span> | boolean (default: false) | An optional mTLS relaxation flag for certs verification |
+| <span class="break-all">mtls_allow_weak_hashing</span> | boolean (default: false) | An optional mTLS relaxation flag for certs verification |
 | max_aof_file_size | integer | Maximum AOF file size in bytes |
 | max_aof_load_time | integer (default: 3600) | Maximum AOF reload time in seconds |
 | memory_size | integer (default: 0) | Database memory size limit in bytes. 0 is unlimited. |
-| module_list | array of module objects | List of modules to be loaded to all participating clusters of the Active-Active database<br />{{<code>}}[{<br />  "module_id": string,<br />  "module_args": string,<br />  "module_name": string,<br />  "semantic_version": string,<br />}, ...]{{</code>}}<br />**module_id**: Module UID (deprecated; use `module_name` instead)<br />**module_args**: Module command-line arguments (pattern does not allow special characters &,\<,>,")<br />**module_name**: Module's name<br />**semantic_version**: Module's semantic version (deprecated; use `module_args` instead)<br /><br />**module_id** and **semantic_version** are optional as of Redis Enterprise Software v7.4.2 and deprecated as of v7.8.2. |
+| module_list | array of module objects | List of modules to be loaded to all participating clusters of the Active-Active database<br />{{<code>}}[{<br />  "module_id": string,<br />  "module_args": string,<br />  "module_name": string,<br />  "semantic_version": string,<br />}, ...]{{</code>}}<br />**module_id**: Module UID (deprecated; use `module_name` instead)<br />**module_args**: Module command-line arguments (pattern does not allow special characters &,\<,>,")<br />**module_name**: Module's name<br />**semantic_version**: Module's semantic version (deprecated; use `module_args` instead)<br /><br />**module_id** and **semantic_version** are optional as of Redis Software v7.4.2 and deprecated as of v7.8.2. |
 | oss_cluster | boolean (default: false) | Enables OSS Cluster mode |
 | <span class="break-all">oss_cluster_api_preferred_ip_type</span> | 'internal'<br />'external' | Indicates preferred IP type in OSS cluster API |
 | oss_sharding | boolean (default: false) | An alternative to `shard_key_regex` for using the common case of the OSS shard hashing policy |

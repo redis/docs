@@ -1,0 +1,137 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "mset(triplets: List[Tuple[str, str, JsonType]])",
+        "params": [
+          {
+            "name": "triplets",
+            "type": "List[Tuple[str, str, JsonType]]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Optional[str]",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String jsonMSet(List<JsonMsetArgs<K, V>> arguments)",
+        "params": [
+          {
+            "name": "arguments",
+            "type": "List<JsonMsetArgs<K, V>>",
+            "description": "the JsonMsetArgs specifying the values to change."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\" if the operation was successful, error otherwise @since 6.5"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> jsonMSet(List<JsonMsetArgs<K, V>> arguments)",
+        "params": [
+          {
+            "name": "arguments",
+            "type": "List<JsonMsetArgs<K, V>>",
+            "description": "the JsonMsetArgs specifying the values to change."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "\"OK\" if the operation was successful, error otherwise @since 6.5"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> jsonMSet(List<JsonMsetArgs<K, V>> arguments)",
+        "params": [
+          {
+            "name": "arguments",
+            "type": "List<JsonMsetArgs<K, V>>",
+            "description": "the JsonMsetArgs specifying the values to change."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "\"OK\" if the operation was successful, error otherwise @since 6.5"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "JSONMSet(ctx context.Context, params ...interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "...interface{}",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "MSET(items: Array<JsonMSetItem>)",
+        "params": [
+          {
+            "name": "items",
+            "type": "Array<JsonMSetItem>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "MSet(KeyPathValue[] KeyPathValueList)",
+        "params": [
+          {
+            "name": "KeyPathValueList",
+            "type": "KeyPathValue[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "jsonmset(string ...$keyPathValue)",
+        "params": [
+          {
+            "name": "$keyPathValue",
+            "type": "string ...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

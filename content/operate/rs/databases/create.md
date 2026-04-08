@@ -5,13 +5,13 @@ categories:
 - operate
 - rs
 db_type: database
-description: Create a database with Redis Enterprise Software.
+description: Create a database with Redis Software.
 linkTitle: Create a database
-title: Create a Redis Enterprise Software database
+title: Create a Redis Software database
 toc: 'true'
 weight: 10
 ---
-Redis Enterprise Software lets you create databases and distribute them across a cluster of nodes using the [Cluster Manager UI](#cluster-manager-ui-method) or the [REST API](#rest-api-method).
+Redis Software lets you create databases and distribute them across a cluster of nodes using the [Cluster Manager UI](#cluster-manager-ui-method) or the [REST API](#rest-api-method).
 
 ## Cluster Manager UI method
 
@@ -55,7 +55,7 @@ To quickly create a database and skip additional configuration options during in
 
     - Capabilities (previously modules) to enable
 
-        Databases created with Redis version 8 or later automatically enable the capabilities (modules) bundled with Redis Enterprise Software as follows:
+        Databases created with Redis version 8 or later automatically enable the capabilities (modules) bundled with Redis Software as follows:
 
         {{<embed-md "rs-8-enabled-modules.md">}}
 
@@ -81,7 +81,7 @@ To create a new database and configure additional settings:
 
     - **Single Region**
 
-    - **Active-Active database** - Multiple participating Redis Enterprise clusters can host instances of the same [Active-Active database]({{< relref "/operate/rs/databases/active-active" >}}) in different geographic locations. Every instance can receive write operations, which are synchronized across all instances without conflict.
+    - **Active-Active database** - Multiple participating Redis Software clusters can host instances of the same [Active-Active database]({{< relref "/operate/rs/databases/active-active" >}}) in different geographic locations. Every instance can receive write operations, which are synchronized across all instances without conflict.
 
     {{<note>}}
 For Active-Active databases, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/databases/active-active/create" >}}).

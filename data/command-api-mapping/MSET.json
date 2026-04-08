@@ -1,0 +1,258 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "mset(mapping: Mapping[AnyKeyT, EncodableT])",
+        "params": [
+          {
+            "name": "mapping",
+            "type": "Mapping[AnyKeyT, EncodableT]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String mset(final byte[]... keysvalues)",
+        "params": [
+          {
+            "name": "keysvalues",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "String mset(final String... keysvalues)",
+        "params": [
+          {
+            "name": "keysvalues",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String mset(Map<K, V> map)",
+        "params": [
+          {
+            "name": "map",
+            "type": "Map<K, V>",
+            "description": "the map."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply always OK since MSET can't fail."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> mset(Map<K, V> map)",
+        "params": [
+          {
+            "name": "map",
+            "type": "Map<K, V>",
+            "description": "the map."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply always OK since MSET can't fail."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> mset(Map<K, V> map)",
+        "params": [
+          {
+            "name": "map",
+            "type": "Map<K, V>",
+            "description": "the map."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply always OK since MSET can't fail."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "MSet(ctx context.Context, values ...interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "...interface{}",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "MSET(toSet: MSetArguments)",
+        "params": [
+          {
+            "name": "toSet",
+            "type": "MSetArguments",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "mset(object: object, callback?: Callback<\"OK\">): Result<\"OK\", Context>;, mset(, map: Map<string | Buffer | number, string | Buffer | number>, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "object",
+            "type": "object",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">)",
+            "description": ""
+          },
+          {
+            "name": "map",
+            "type": "Map<string | Buffer | number, string | Buffer | number>",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "mset(...args: [, ...keyValues: (RedisKey | string | Buffer | number)[], callback: Callback<\"OK\">, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, ...keyValues",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "mset(...args: [...keyValues: (RedisKey | string | Buffer | number)[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[...keyValues",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "mset(items: &'a [(K, V)])",
+        "params": [
+          {
+            "name": "items",
+            "type": "&'a [(K, V)]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(())",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "mset(items: &'a [(K, V)])",
+        "params": [
+          {
+            "name": "items",
+            "type": "&'a [(K, V)]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(())",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "mset(array $dictionary)",
+        "params": [
+          {
+            "name": "$dictionary",
+            "type": "array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "mset(*args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array<String>",
+            "description": "array of keys and values"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\""
+        }
+      }
+    ]
+  }
+}

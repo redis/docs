@@ -10,7 +10,7 @@ linkTitle: Upgrade modules
 weight: 50
 ---
 
-Upgrade a module in Redis Enterprise to get the latest features and fixes.
+Upgrade a module in Redis Software to get the latest features and fixes.
 
 {{<note>}}
 - If you upgrade a single-node cluster, it does not load the new modules that are bundled with the new cluster version.
@@ -55,7 +55,7 @@ To upgrade a module enabled for a database:
 
 1. To upgrade a database to the latest version of Redis and its modules to the latest version without changing the module arguments:
 
-    - For clusters with Redis Enterprise Software versions 7.8.2 or later, run:
+    - For clusters with Redis Software versions 7.8.2 or later, run:
 
         ```sh
         rladmin upgrade db < database-name | database-ID >
@@ -73,7 +73,7 @@ The upgrade process does not validate the module upgrade arguments, and incorrec
 
     - Use `keep_redis_version` to upgrade the modules without upgrading the database to the latest Redis version.
     
-        `keep_redis_version` is deprecated as of Redis Enterprise Software version 7.8.2. To upgrade modules without upgrading the Redis database version, set `redis_version` to the current Redis database version instead.
+        `keep_redis_version` is deprecated as of Redis Software version 7.8.2. To upgrade modules without upgrading the Redis database version, set `redis_version` to the current Redis database version instead.
 
     - To specify the modules to upgrade, add the following for each module:
 
@@ -91,7 +91,7 @@ The upgrade process does not validate the module upgrade arguments, and incorrec
 
 ## Examples for Redis Software v7.8.2 and later
 
-The following module upgrade examples are supported for Redis Enterprise Software versions 7.8.2 and later:
+The following module upgrade examples are supported for Redis Software versions 7.8.2 and later:
 
 - Keep the current Redis database version, which is 7.2 in this example, and upgrade to the latest version of the enabled modules:
 
@@ -107,7 +107,7 @@ The following module upgrade examples are supported for Redis Enterprise Softwar
 
 ## Deprecated examples
 
-As of Redis Enterprise Software version 7.8.2, the following module upgrade examples are deprecated but still supported.
+As of Redis Software version 7.8.2, the following module upgrade examples are deprecated but still supported.
 
 - Keep the current version of Redis and upgrade to the latest version of the enabled modules:
 

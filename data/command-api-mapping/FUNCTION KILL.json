@@ -1,0 +1,88 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "function_kill()",
+        "params": [],
+        "returns": {
+          "type": "Union[Awaitable[str], str]",
+          "description": "Status response"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String functionKill()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "Status response"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "FunctionKill(ctx context.Context)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context for the operation"
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": "Status response"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "functionKill()",
+        "params": [],
+        "returns": {
+          "type": "Promise<SimpleStringReply>",
+          "description": "Status response"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String functionKill()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "Status response"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> functionKill()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "Status response"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> functionKill()",
+        "params": [],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "Status response"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": []
+  }
+}
+

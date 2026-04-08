@@ -18,12 +18,12 @@ is configured to a relatively small value, which causes the connection drop.
 
 **Resolution**: Reconfigure the buffer on the source database to a bigger value:
 
-- If the source is a Redis database on a Redis Enterprise Software cluster,
+- If the source is a Redis database on a Redis Software cluster,
     increase the replica buffer size of the **source database** with:
 
     `rladmin tune db < db:id | name > slave_buffer < value >`
 
-- If the source is a Redis database not on a Redis Enterprise Software cluster,
+- If the source is a Redis database not on a Redis Software cluster,
     use the [config set](http://redis.io/commands/config-set) command through
     `redis-cli` to increase the client output buffer size of the **source database** with:
 

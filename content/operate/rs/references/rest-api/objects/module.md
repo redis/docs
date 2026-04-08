@@ -28,7 +28,7 @@ Represents a [Redis module]({{< relref "/operate/oss_and_stack/stack-with-enterp
 | display_name | string | Name of module for display purposes |
 | email | string | Author's email address |
 | homepage | string | Module's homepage |
-| is_bundled | boolean | Whether module came bundled with a version of Redis Enterprise |
+| is_bundled | boolean | Whether module came bundled with a version of Redis Software |
 | license | string | Module is distributed under this license |
 | min_redis_version | string | Minimum Redis database version required by this module. Only relevant for Redis databases earlier than v7.4. |
 | module_file | string | Module filename |

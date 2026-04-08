@@ -2,8 +2,8 @@
 
 ```json metadata
 {
-  "title": "{{ .Title }}",
-  "description": "{{ .Description }}",
+  "title": {{ .Title | jsonify }},
+  "description": {{ (.Params.description | default .Description) | plainify | replaceRE "\\s+" " " | strings.TrimSpace | jsonify }},
   "categories": {{ .Params.categories | jsonify }}{{ if .Params.arguments }},
   "arguments": {{ .Params.arguments | jsonify }}{{ end }}{{ if .Params.syntax_fmt }},
   "syntax_fmt": {{ .Params.syntax_fmt | jsonify }}{{ end }}{{ if .Params.complexity }},
@@ -17,21 +17,12 @@
   "topics": {{ .Params.topics | jsonify }}{{ end }}{{ if .Params.relatedPages }},
   "relatedPages": {{ .Params.relatedPages | jsonify }}{{ end }}{{ if .Params.scope }},
   "scope": {{ .Params.scope | jsonify }}{{ end }},
-  "tableOfContents": {{ partial "toc-json-regex.html" . }},
+  "tableOfContents": {{ partial "toc-from-markdown.html" . }},
   "codeExamples": {{ partial "code-examples-json.html" . }}
 }
 ```
 
-{{ $content := .RawContent }}
-
-{{/* Fix relrefs */}}
-{{ $content := $content | replaceRE "\\{\\{< ?relref \"([^\"]+)\" ?>\\}\\}" "https://redis.io/docs/latest$1" }}
-
-{{/* Fix images */}}
-{{ $content := $content | replaceRE "\\{\\{< ?image filename=\"([^\"]+)\" ?>\\}\\}" "![$1](https://redis.io/docs/latest$1)" }}
-
-{{/* Remove all shortcodes */}}
-{{ $content := $content | replaceRE "\\{\\{% ?/?.*%\\}\\}" "" }}
-{{ $content := $content | replaceRE "\\{\\{< ?/?.*>\\}\\}" "" }}
+{{- /* Process content with shared partial (shortcode expansion, HTML unescaping, etc.) */ -}}
+{{- $content := partial "process-markdown-content.html" (dict "RawContent" .RawContent "Site" .Site) -}}
 
 {{ $content }}

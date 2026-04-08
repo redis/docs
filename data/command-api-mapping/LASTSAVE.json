@@ -1,0 +1,100 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "lastsave(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long lastsave()",
+        "params": [],
+        "returns": {
+          "type": "long",
+          "description": "An UNIX time stamp"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "LastSave(ctx context.Context) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "LASTSAVE()",
+        "params": [],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Date lastsave()",
+        "params": [],
+        "returns": {
+          "type": "Date",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Date> lastsave()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<Date>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Date> lastsave()",
+        "params": [],
+        "returns": {
+          "type": "Mono<Date>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "lastsave()",
+        "params": [],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

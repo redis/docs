@@ -161,6 +161,7 @@ outcome:
 - Apply conditional styling in SVG rendering:
   - `sentiment: "positive"` → Green background (`#0fa869`) and border
   - `sentiment: "negative"` → Red background (`#d9534f`) and border
+  - `sentiment: "indeterminate"` → Yellow/amber background (`#f0ad4e`) and border
   - No sentiment → Red (default, maintains backward compatibility)
 
 **Key Insight**: Explicit metadata is better than heuristics. Don't try to infer sentiment from emoji (✅/❌) or label text. Use explicit fields for reliability and AI agent compatibility.

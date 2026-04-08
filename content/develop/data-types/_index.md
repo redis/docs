@@ -13,6 +13,8 @@ description: Overview of data types supported by Redis
 linkTitle: Data types
 title: Redis data types
 hideListLinks: true
+aliases:
+- /data-types/
 weight: 35
 ---
 
@@ -214,7 +216,7 @@ structures let you store and query timestamped data points.
 For more information, see:
 
 - [Redis time series overview]({{< relref "/develop/data-types/timeseries" >}})
-- [Count-min sketch command reference]({{< relref "/commands" >}}?group=timeseries)
+- [Time series command reference]({{< relref "/commands" >}}?group=timeseries)
 
 ## Adding extensions
 

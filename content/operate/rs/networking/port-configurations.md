@@ -10,15 +10,15 @@ linkTitle: Network ports
 weight: $weight
 ---
 
-All Redis Enterprise Software deployments span multiple physical/virtual nodes. You'll need to keep several ports open between these nodes. This document describes the various port ranges and their uses.
+All Redis Software deployments span multiple physical/virtual nodes. You'll need to keep several ports open between these nodes. This document describes the various port ranges and their uses.
 
 {{< note >}}
 Whenever you create a new database, you must verify that the ports assigned to the new database's endpoints are open. The cluster will not perform this verification for you.
 {{< /note >}}
 
-## Ports and port ranges used by Redis Enterprise Software
+## Ports and port ranges used by Redis Software
 
-Redis Enterprise Software's port usage falls into three general categories:
+Redis Software's port usage falls into three general categories:
 
 - Internal: For traffic between or within cluster nodes
 - External: For traffic from client applications or external monitoring resources
@@ -26,7 +26,7 @@ Redis Enterprise Software's port usage falls into three general categories:
 
 | Protocol | Port | Configurable | Connection source | Description |
 |----------|------|--------------|-------------------|-------------|
-| TCP | 8001 | <span title="Not configurable">&#x274c; No</span> | Internal, External | Traffic from application to Redis Enterprise Software [Discovery Service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}) |
+| TCP | 8001 | <span title="Not configurable">&#x274c; No</span> | Internal, External | Traffic from application to Redis Software [Discovery Service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}) |
 | TCP | 8070 | <span title="Not configurable">&#x274c; No</span> | External | Metrics exported and managed by the web proxy |
 | TCP | 3347-3349, 8000, 8071, 9091, 9125 | <span title="Not configurable">&#x274c; No</span> | Internal | Internal metrics ports |
 | TCP | 8443 | <span title="Configurable">&#x2705; Yes</span> | Internal, External | Secure (HTTPS) access to the management web UI |
@@ -47,7 +47,7 @@ Redis Enterprise Software's port usage falls into three general categories:
 
 ### Reserve ports
 
-Redis Enterprise Software reserves some ports by default (`system_reserved_ports`). To reserve other ports or port ranges and prevent the cluster from assigning them to database endpoints, configure `reserved_ports` using one of the following methods:
+Redis Software reserves some ports by default (`system_reserved_ports`). To reserve other ports or port ranges and prevent the cluster from assigning them to database endpoints, configure `reserved_ports` using one of the following methods:
 
 - [rladmin cluster config]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}})
 
@@ -77,7 +77,7 @@ Redis Enterprise Software reserves some ports by default (`system_reserved_ports
 
 ### Change the Cluster Manager UI port
 
-The Redis Enterprise Software Cluster Manager UI uses port 8443, by default. You can change this to a custom port as long as the new port is not in use by another process.
+The Redis Software Cluster Manager UI uses port 8443, by default. You can change this to a custom port as long as the new port is not in use by another process.
 
 To change this port, run:
 
@@ -122,7 +122,7 @@ Cluster configured successfully
 
 ### Change the REST API port
 
-For the REST API, Redis Enterprise Software uses port 9443 (secure) and port 8080 (not secure), by default. You can change this to a custom port as long as the new port is not in use by another process.
+For the REST API, Redis Software uses port 9443 (secure) and port 8080 (not secure), by default. You can change this to a custom port as long as the new port is not in use by another process.
 
 To change these ports, run:
 
@@ -148,7 +148,7 @@ rladmin cluster config cnm_https_port <new-port>
 
 ### Require HTTPS for API endpoints
 
-By default, the Redis Enterprise Software API supports communication over HTTP and HTTPS. However, you can turn off HTTP support to ensure that API requests are encrypted.
+By default, the Redis Software API supports communication over HTTP and HTTPS. However, you can turn off HTTP support to ensure that API requests are encrypted.
 
 Before you turn off HTTP support, make sure you migrate any scripts or proxy configurations that use HTTP to the encrypted API endpoint to prevent broken connections.
 

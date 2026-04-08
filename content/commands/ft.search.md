@@ -510,7 +510,7 @@ FT.SEARCH returns an array reply, where the first element is an integer reply of
 {{% alert title="Notes" color="warning" %}}
  
 - If `NOCONTENT` is given, an array is returned where the first element is the total number of results, and the rest of the members are document ids.
-- If a relevant key expires while a query is running, an attempt to load the updated key's value will return a null array. However, the key is still counted in the total number of results.
+- If a relevant key expires or is updated while a query is running, an attempt to load the updated key's value will return a null array. However, the key is still counted in the total number of results.
 
 {{% /alert %}}
 
@@ -843,9 +843,9 @@ Query with `CONTAINS` operator:
 
 </details>
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 

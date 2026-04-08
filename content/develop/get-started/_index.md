@@ -15,6 +15,8 @@ description: 'Redis quick start guides
 hideListLinks: true
 linkTitle: Quick starts
 title: Quick starts
+aliases:
+- /getting-started/
 weight: 20
 ---
 

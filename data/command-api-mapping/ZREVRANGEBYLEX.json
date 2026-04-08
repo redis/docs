@@ -1,0 +1,634 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "zrevrangebylex(, name: KeyT,, max: EncodableT,, min: EncodableT,, start: Optional[int] = None,, num: Optional[int] = None,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "EncodableT",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "EncodableT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "num",
+            "type": "Optional[int] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<byte[]> zrevrangeByLex(final byte[] key, final byte[] max, final byte[] min final int offset, final int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "byte[] min final int",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<byte[]>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<String> zrevrangeByLex(final String key, final String max, final String min)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<String> zrevrangeByLex(final String key, final String max, final String min final int offset, final int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "String min final int",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<V> zrevrangebylex(K key, Range<? extends V> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends V>",
+            "description": "the range."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "List&lt;V&gt; array-reply list of elements in the specified score range. @since 4.3"
+        }
+      },
+      {
+        "signature": "List<V> zrevrangebylex(K key, Range<? extends V> range, Limit limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends V>",
+            "description": "the range."
+          },
+          {
+            "name": "limit",
+            "type": "Limit",
+            "description": "the limit."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "List&lt;V&gt; array-reply list of elements in the specified score range. @since 4.3"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<V>> zrevrangebylex(K key, Range<? extends V> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends V>",
+            "description": "the range."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "List&lt;V&gt; array-reply list of elements in the specified score range. @since 4.3"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<V>> zrevrangebylex(K key, Range<? extends V> range, Limit limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends V>",
+            "description": "the range."
+          },
+          {
+            "name": "limit",
+            "type": "Limit",
+            "description": "the limit."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "List&lt;V&gt; array-reply list of elements in the specified score range. @since 4.3"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<V> zrevrangebylex(K key, Range<? extends V> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends V>",
+            "description": "the range."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "V array-reply list of elements in the specified score range. @since 4.3"
+        }
+      },
+      {
+        "signature": "Flux<V> zrevrangebylex(K key, Range<? extends V> range, Limit limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends V>",
+            "description": "the range."
+          },
+          {
+            "name": "limit",
+            "type": "Limit",
+            "description": "the limit."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "V array-reply list of elements in the specified score range. @since 4.3"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ZRevRangeByLex(ctx context.Context, key string, opt *ZRangeBy)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "opt",
+            "type": "*ZRangeBy",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "zrevrangebylex(key: RedisKey, max: string | Buffer | number, min: string | Buffer | number, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrevrangebylex(key: RedisKey, max: string | Buffer | number, min: string | Buffer | number, offsetCountToken: \"LIMIT\", offset: number | string, count: number | string, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "offsetCountToken",
+            "type": "\"LIMIT\"",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "zrevrangebylex(key: K, max: MM, min: M)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "MM",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrevrangebylex_limit(key: K, max: MM, min: M, offset: isize, count: isize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "MM",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "M",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "isize",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "zrevrangebylex(key: K, max: MM, min: M)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "MM",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrevrangebylex_limit(key: K, max: MM, min: M, offset: isize, count: isize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "MM",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "M",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "isize",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SortedSetRangeByValue(RedisKey key, RedisValue min, RedisValue max, Exclude exclude, long skip, long take, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "min",
+            "type": "RedisValue",
+            "description": "The min value to filter by."
+          },
+          {
+            "name": "max",
+            "type": "RedisValue",
+            "description": "The max value to filter by."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Which of min and max to exclude (defaults to both inclusive)."
+          },
+          {
+            "name": "skip",
+            "type": "long",
+            "description": "How many items to skip."
+          },
+          {
+            "name": "take",
+            "type": "long",
+            "description": "How many items to take."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of elements in the specified score range."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SortedSetRangeByValue(RedisKey key, RedisValue min, RedisValue max, Exclude exclude, long skip, long take, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "min",
+            "type": "RedisValue",
+            "description": "The min value to filter by."
+          },
+          {
+            "name": "max",
+            "type": "RedisValue",
+            "description": "The max value to filter by."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Which of min and max to exclude (defaults to both inclusive)."
+          },
+          {
+            "name": "skip",
+            "type": "long",
+            "description": "How many items to skip."
+          },
+          {
+            "name": "take",
+            "type": "long",
+            "description": "How many items to take."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of elements in the specified score range."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "zrevrangebylex(string $key, string $start, string $stop, ?array $options = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$start",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$stop",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "?array $options = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zrevrangebylex(key, max, min, limit: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "Array",
+            "description": "[offset, count]"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "add(key, item)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "item",
+            "type": "str",
+            "description": "The item to add to the filter"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "1 if the item was newly added, 0 if it may have existed previously"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "boolean bfAdd(String key, String item)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "item",
+            "type": "String",
+            "description": "The item to add"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "true if newly added, false if may have existed"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BFAdd(ctx context.Context, key string, element interface{}) *BoolCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "element",
+            "type": "interface{}",
+            "description": "The item to add"
+          }
+        ],
+        "returns": {
+          "type": "*BoolCmd",
+          "description": "Boolean command result"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "BF.ADD(key: RedisArgument, item: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "item",
+            "type": "RedisArgument",
+            "description": "The item to add"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "true if newly added"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "bool Add(RedisKey key, RedisValue item)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "item",
+            "type": "RedisValue",
+            "description": "The item to add"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if newly added"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "async Task<bool> AddAsync(RedisKey key, RedisValue item)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "item",
+            "type": "RedisValue",
+            "description": "The item to add"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if newly added"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "bfadd(string $key, $item)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "$item",
+            "type": "mixed",
+            "description": "The item to add"
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": "1 if newly added, 0 otherwise"
+        }
+      }
+    ]
+  }
+}

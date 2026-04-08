@@ -1,0 +1,980 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "set(, name: KeyT,, value: EncodableT,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, nx: bool = False,, xx: bool = False,, keepttl: bool = False,, get: bool = False,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, ifeq: Optional[Union[bytes, str]] = None,, ifne: Optional[Union[bytes, str]] = None,, ifdeq: Optional[str] = None,, ifdne: Optional[str] = None,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "EncodableT",
+            "description": ""
+          },
+          {
+            "name": "ex",
+            "type": "Optional[ExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "px",
+            "type": "Optional[ExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "keepttl",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "get",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "exat",
+            "type": "Optional[AbsExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "pxat",
+            "type": "Optional[AbsExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "ifeq",
+            "type": "Optional[Union[bytes, str]] = None",
+            "description": ""
+          },
+          {
+            "name": "ifne",
+            "type": "Optional[Union[bytes, str]] = None",
+            "description": ""
+          },
+          {
+            "name": "ifdeq",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "ifdne",
+            "type": "Optional[str] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String set(final byte[] key, final byte[] value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "simple-string-reply OK if SET was executed correctly, or null if the SET operation was not performed because the user specified the NX or XX option but the condition was not met."
+        }
+      },
+      {
+        "signature": "String set(final byte[] key, final byte[] value, final SetParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "SetParams",
+            "description": "key if it already exists. EX|PX, expire time units: EX = seconds; PX = milliseconds"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "simple-string-reply OK if SET was executed correctly, or null if the SET operation was not performed because the user specified the NX or XX option but the condition was not met."
+        }
+      },
+      {
+        "signature": "String set(final String key, final String value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "simple-string-reply OK if SET was executed correctly, or null if the SET operation was not performed because the user specified the NX or XX option but the condition was not met."
+        }
+      },
+      {
+        "signature": "String set(final String key, final String value, final SetParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "SetParams",
+            "description": "key if it already exists. EX|PX, expire time units: EX = seconds; PX = milliseconds"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "simple-string-reply OK if SET was executed correctly, or null if the SET operation was not performed because the user specified the NX or XX option but the condition was not met."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String set(K key, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply OK if SET was executed correctly."
+        }
+      },
+      {
+        "signature": "String set(K key, V value, SetArgs setArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          },
+          {
+            "name": "setArgs",
+            "type": "SetArgs",
+            "description": "the setArgs."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply OK if SET was executed correctly."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> set(K key, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply OK if SET was executed correctly."
+        }
+      },
+      {
+        "signature": "RedisFuture<String> set(K key, V value, SetArgs setArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          },
+          {
+            "name": "setArgs",
+            "type": "SetArgs",
+            "description": "the setArgs."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply OK if SET was executed correctly."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> set(K key, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply OK if SET was executed correctly."
+        }
+      },
+      {
+        "signature": "Mono<String> set(K key, V value, SetArgs setArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          },
+          {
+            "name": "setArgs",
+            "type": "SetArgs",
+            "description": "the setArgs."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply OK if SET was executed correctly."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Set(ctx context.Context, key string, value interface{}, expiration time.Duration)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "interface{}",
+            "description": ""
+          },
+          {
+            "name": "expiration",
+            "type": "time.Duration",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SET(key: RedisArgument, value: RedisArgument | number, options?: SetOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisArgument | number",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "SetOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "set(key: RedisKey, value: string | Buffer | number, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "set(key: RedisKey, value: string | Buffer | number, get: \"GET\", callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "get",
+            "type": "\"GET\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "set(key: RedisKey, value: string | Buffer | number, nx: \"NX\", callback?: Callback<\"OK\" | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "\"NX\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\" | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "set(key: RedisKey, value: string | Buffer | number, nx: \"NX\", get: \"GET\", callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "\"NX\"",
+            "description": ""
+          },
+          {
+            "name": "get",
+            "type": "\"GET\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "set(key: RedisKey, value: string | Buffer | number, xx: \"XX\", callback?: Callback<\"OK\" | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "xx",
+            "type": "\"XX\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\" | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "set(key: K, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(())",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "set(key: K, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(())",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, When when)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The expiry to set."
+          },
+          {
+            "name": "when",
+            "type": "When",
+            "description": "Which condition to set the value under (defaults to always)."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the keys were set, false otherwise."
+        }
+      },
+      {
+        "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, When when, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The expiry to set."
+          },
+          {
+            "name": "when",
+            "type": "When",
+            "description": "Which condition to set the value under (defaults to always)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the keys were set, false otherwise."
+        }
+      },
+      {
+        "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, bool keepTtl, When when = When.Always, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The expiry to set."
+          },
+          {
+            "name": "keepTtl",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "when",
+            "type": "When",
+            "description": "Which condition to set the value under (defaults to always)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the keys were set, false otherwise."
+        }
+      },
+      {
+        "signature": "StringSet(RedisKey key, RedisValue value, Expiration expiry = default, ValueCondition when = default, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "expiry",
+            "type": "Expiration",
+            "description": "The expiry to set."
+          },
+          {
+            "name": "when",
+            "type": "ValueCondition",
+            "description": "Which condition to set the value under (defaults to always)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the keys were set, false otherwise."
+        }
+      },
+      {
+        "signature": "StringSet(KeyValuePair<RedisKey, RedisValue>[] values, When when, CommandFlags flags)",
+        "params": [
+          {
+            "name": "values",
+            "type": "KeyValuePair<RedisKey, RedisValue>[]",
+            "description": "The keys and values to set."
+          },
+          {
+            "name": "when",
+            "type": "When",
+            "description": "Which condition to set the value under (defaults to always)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the keys were set, false otherwise."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, When when)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The expiry to set."
+          },
+          {
+            "name": "when",
+            "type": "When",
+            "description": "Which condition to set the value under (defaults to always)."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the keys were set, false otherwise."
+        }
+      },
+      {
+        "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, When when, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The expiry to set."
+          },
+          {
+            "name": "when",
+            "type": "When",
+            "description": "Which condition to set the value under (defaults to always)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the keys were set, false otherwise."
+        }
+      },
+      {
+        "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, bool keepTtl, When when = When.Always, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The expiry to set."
+          },
+          {
+            "name": "keepTtl",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "when",
+            "type": "When",
+            "description": "Which condition to set the value under (defaults to always)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the keys were set, false otherwise."
+        }
+      },
+      {
+        "signature": "StringSet(RedisKey key, RedisValue value, Expiration expiry = default, ValueCondition when = default, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "expiry",
+            "type": "Expiration",
+            "description": "The expiry to set."
+          },
+          {
+            "name": "when",
+            "type": "ValueCondition",
+            "description": "Which condition to set the value under (defaults to always)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the keys were set, false otherwise."
+        }
+      },
+      {
+        "signature": "StringSet(KeyValuePair<RedisKey, RedisValue>[] values, When when, CommandFlags flags)",
+        "params": [
+          {
+            "name": "values",
+            "type": "KeyValuePair<RedisKey, RedisValue>[]",
+            "description": "The keys and values to set."
+          },
+          {
+            "name": "when",
+            "type": "When",
+            "description": "Which condition to set the value under (defaults to always)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the keys were set, false otherwise."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "set(string $key, $value, $expireResolution = null, $expireTTL = null, $flag = null, $flagValue = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$expireResolution = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$expireTTL = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$flag = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$flagValue = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status|null",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "set(key, value, ex: nil, px: nil, exat: nil, pxat: nil, nx: nil, xx: nil, keepttl: nil, get: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ex",
+            "type": "Integer",
+            "description": "Set the specified expire time, in seconds."
+          },
+          {
+            "name": "px",
+            "type": "Integer",
+            "description": "Set the specified expire time, in milliseconds."
+          },
+          {
+            "name": "exat",
+            "type": "Integer",
+            "description": "Set the specified Unix time at which the key will expire, in seconds."
+          },
+          {
+            "name": "pxat",
+            "type": "Integer",
+            "description": "Set the specified Unix time at which the key will expire, in milliseconds."
+          },
+          {
+            "name": "nx",
+            "type": "Boolean",
+            "description": "Only set the key if it does not already exist."
+          },
+          {
+            "name": "xx",
+            "type": "Boolean",
+            "description": "Only set the key if it already exists."
+          },
+          {
+            "name": "keepttl",
+            "type": "Boolean",
+            "description": "Retain the time to live associated with the key."
+          },
+          {
+            "name": "get",
+            "type": "Boolean",
+            "description": "Return the old string stored at key, or nil if key did not exist."
+          }
+        ],
+        "returns": {
+          "type": "String, Boolean",
+          "description": "\"OK\" or true, false if :nx => true or :xx => true"
+        }
+      }
+    ]
+  }
+}

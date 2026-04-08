@@ -9,13 +9,13 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Combine Redis JSON and the Redis Query Engine to index and search JSON documents
+description: Combine Redis JSON and Redis Search to index and search JSON documents
 linkTitle: Index/Search
 title: Index/Search JSON documents
 weight: 2
 ---
 
-In addition to storing JSON documents, you can also index them using the [Redis Query Engine]({{< relref "/develop/ai/search-and-query/" >}}) feature. This enables full-text search capabilities and document retrieval based on their content.
+In addition to storing JSON documents, you can also index them using the [Redis Search]({{< relref "/develop/ai/search-and-query/" >}}) feature. This enables full-text search capabilities and document retrieval based on their content.
 
 To use these features, install [Redis Open Source]({{< relref "/operate/oss_and_stack/" >}}).
 

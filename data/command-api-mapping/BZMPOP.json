@@ -1,0 +1,809 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "bzmpop(, timeout: float,, numkeys: int,, keys: List[str],, min: Optional[bool] = False,, max: Optional[bool] = False,, count: Optional[int] = 1,)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "float",
+            "description": ""
+          },
+          {
+            "name": "numkeys",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "List[str]",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "Optional[bool] = False",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "Optional[bool] = False",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = 1",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Optional[list]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "KeyValue<String, List<Tuple>> bzmpop(double timeout, SortedSetOption option, String... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "option",
+            "type": "SortedSetOption",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<String, List<Tuple>>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "KeyValue<String, List<Tuple>> bzmpop(double timeout, SortedSetOption option, int count, String... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "option",
+            "type": "SortedSetOption",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<String, List<Tuple>>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "KeyValue<K, ScoredValue<V>> bzmpop(long timeout, ZPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "args",
+            "type": "ZPopArgs",
+            "description": "the command args."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<K, ScoredValue<V>>",
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3"
+        }
+      },
+      {
+        "signature": "KeyValue<K, List<ScoredValue<V>>> bzmpop(long timeout, long count, ZPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "number of elements to pop."
+          },
+          {
+            "name": "args",
+            "type": "ZPopArgs",
+            "description": "the command args."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<K, List<ScoredValue<V>>>",
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3"
+        }
+      },
+      {
+        "signature": "KeyValue<K, ScoredValue<V>> bzmpop(double timeout, ZPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "args",
+            "type": "ZPopArgs",
+            "description": "the command args."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<K, ScoredValue<V>>",
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3"
+        }
+      },
+      {
+        "signature": "KeyValue<K, List<ScoredValue<V>>> bzmpop(double timeout, int count, ZPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "number of elements to pop."
+          },
+          {
+            "name": "args",
+            "type": "ZPopArgs",
+            "description": "the command args."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "KeyValue<K, List<ScoredValue<V>>>",
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<KeyValue<K, ScoredValue<V>>> bzmpop(long timeout, ZPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "args",
+            "type": "ZPopArgs",
+            "description": "the command args."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyValue<K, ScoredValue<V>>>",
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3"
+        }
+      },
+      {
+        "signature": "RedisFuture<KeyValue<K, List<ScoredValue<V>>>> bzmpop(long timeout, long count, ZPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "number of elements to pop."
+          },
+          {
+            "name": "args",
+            "type": "ZPopArgs",
+            "description": "the command args."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyValue<K, List<ScoredValue<V>>>>",
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3"
+        }
+      },
+      {
+        "signature": "RedisFuture<KeyValue<K, ScoredValue<V>>> bzmpop(double timeout, ZPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "args",
+            "type": "ZPopArgs",
+            "description": "the command args."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyValue<K, ScoredValue<V>>>",
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3"
+        }
+      },
+      {
+        "signature": "RedisFuture<KeyValue<K, List<ScoredValue<V>>>> bzmpop(double timeout, int count, ZPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "number of elements to pop."
+          },
+          {
+            "name": "args",
+            "type": "ZPopArgs",
+            "description": "the command args."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyValue<K, List<ScoredValue<V>>>>",
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<KeyValue<K, ScoredValue<V>>> bzmpop(long timeout, ZPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "args",
+            "type": "ZPopArgs",
+            "description": "the command args."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyValue<K, ScoredValue<V>>>",
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3"
+        }
+      },
+      {
+        "signature": "Mono<KeyValue<K, List<ScoredValue<V>>>> bzmpop(long timeout, long count, ZPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "number of elements to pop."
+          },
+          {
+            "name": "args",
+            "type": "ZPopArgs",
+            "description": "the command args."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyValue<K, List<ScoredValue<V>>>>",
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3"
+        }
+      },
+      {
+        "signature": "Mono<KeyValue<K, ScoredValue<V>>> bzmpop(double timeout, ZPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "args",
+            "type": "ZPopArgs",
+            "description": "the command args."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyValue<K, ScoredValue<V>>>",
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3"
+        }
+      },
+      {
+        "signature": "Mono<KeyValue<K, List<ScoredValue<V>>>> bzmpop(double timeout, int count, ZPopArgs args, K... keys)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "number of elements to pop."
+          },
+          {
+            "name": "args",
+            "type": "ZPopArgs",
+            "description": "the command args."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyValue<K, List<ScoredValue<V>>>>",
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BZMPop(ctx context.Context, timeout time.Duration, order string, count int64, keys ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "time.Duration",
+            "description": ""
+          },
+          {
+            "name": "order",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int64",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ZSliceWithKeyCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "BZMPOP(timeout: number, ...args: ZMPopArguments)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "ZMPopArguments",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "bzmpop(...args: [, timeout: number | string, numkeys: number | string, ...keys: RedisKey[], min: \"MIN\", callback: Callback<unknown>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, timeout",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bzmpop(...args: [, timeout: number | string, numkeys: number | string, keys: RedisKey[], min: \"MIN\", callback: Callback<unknown>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, timeout",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bzmpop(...args: [, timeout: number | string, numkeys: number | string, ...keys: RedisKey[], min: \"MIN\", ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, timeout",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bzmpop(...args: [, timeout: number | string, numkeys: number | string, keys: RedisKey[], min: \"MIN\", ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, timeout",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bzmpop(...args: [, timeout: number | string, numkeys: number | string, ...keys: RedisKey[], min: \"MIN\", countToken: \"COUNT\", count: number | string, callback: Callback<unknown>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, timeout",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "bzmpop_max(timeout: f64, keys: K, count: isize)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "f64",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<(String, Vec<(String, f64)>)>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bzmpop_min(timeout: f64, keys: K, count: isize)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "f64",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<(String, Vec<(String, f64)>)>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "bzmpop_max(timeout: f64, keys: K, count: isize)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "f64",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<(String, Vec<(String, f64)>)>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "bzmpop_min(timeout: f64, keys: K, count: isize)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "f64",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<(String, Vec<(String, f64)>)>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "BZMPop(double timeout, RedisKey[] keys, MinMaxModifier minMaxModifier, long? count = null)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": ""
+          },
+          {
+            "name": "minMaxModifier",
+            "type": "MinMaxModifier",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Tuple<RedisKey, List<RedisValueWithScore>>?",
+          "description": ""
+        }
+      },
+      {
+        "signature": "BZMPop(double timeout, RedisKey key, MinMaxModifier minMaxModifier, long? count = null)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "minMaxModifier",
+            "type": "MinMaxModifier",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Tuple<RedisKey, List<RedisValueWithScore>>?",
+          "description": ""
+        }
+      },
+      {
+        "signature": "BZMPop(db, timeout, [key], minMaxModifier, count)",
+        "params": [
+          {
+            "name": "db",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "[key]",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "minMaxModifier",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "bzmpop(int $timeout, array $keys, string $modifier = 'min', int $count = 1)",
+        "params": [
+          {
+            "name": "$timeout",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$keys",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "string $modifier = 'min'",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "int $count = 1",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bzmpop(timeout, *keys, modifier: \"MIN\", count: nil)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "Float",
+            "description": "maximum number of seconds to block"
+          },
+          {
+            "name": "*keys",
+            "type": "String, Array<String>",
+            "description": "one or more keys with sorted sets"
+          },
+          {
+            "name": "modifier",
+            "type": "String",
+            "description": "MIN or MAX"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "a number of members to pop"
+          }
+        ],
+        "returns": {
+          "type": "Array<String, Array<String, Float>>",
+          "description": "list of popped elements and scores"
+        }
+      }
+    ]
+  }
+}

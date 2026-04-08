@@ -230,7 +230,7 @@ Currently supported actions are:
 
 - `maintenance_on`: Creates a snapshot of the node, migrates shards to other nodes, and prepares the node for maintenance. See [maintenance mode]({{< relref "/operate/rs/clusters/maintenance-mode" >}}) for more information.
 
-    - As of Redis Enterprise Software version 7.4.2, a new node snapshot is created only if no maintenance mode snapshots already exist or if you set `"overwrite_snapshot": true` in the request body.
+    - As of Redis Software version 7.4.2, a new node snapshot is created only if no maintenance mode snapshots already exist or if you set `"overwrite_snapshot": true` in the request body.
 
         ```sh
         POST /v1/nodes/1/actions/maintenance_on
@@ -239,7 +239,7 @@ Currently supported actions are:
         }
         ```
 
-    - If there aren't enough resources to migrate shards out of the maintained node, set `"evict_ha_replica": false` and `"evict_active_active_replica": false` in the request body to keep the replica shards in place but demote any master shards. Use these two parameters instead of `keep_slave_shards`, which is deprecated as of Redis Enterprise Software version 7.4.2.
+    - If there aren't enough resources to migrate shards out of the maintained node, set `"evict_ha_replica": false` and `"evict_active_active_replica": false` in the request body to keep the replica shards in place but demote any master shards. Use these two parameters instead of `keep_slave_shards`, which is deprecated as of Redis Software version 7.4.2.
 
         ```sh
         POST /v1/nodes/1/actions/maintenance_on

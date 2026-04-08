@@ -172,6 +172,18 @@ The `MultiDbConfig.RetryConfig` builder has the following options to configure r
 | `includedExceptionList()` | See description | `List` of `Throwable` classes that should be considered as failures to be retried. By default, it includes just `JedisConnectionException`. |
 | `ignoreExceptionList()` | `null` | `List` of `Throwable` classes that should be ignored for retry. |
 
+### General failover configuration
+
+The `MultiDbConfig` builder also has the following options to configure general failover behavior:
+
+| Builder method | Default value | Description|
+| --- | --- | --- |
+| `maxNumFailoverAttempts()` | `10` | Number of attempts to fail over to a new endpoint before giving up. |
+| `delayInBetweenFailoverAttempts()` | `12000` | Time interval in milliseconds between successive failover attempts. |
+| `gracePeriod()` | `60000` | Time interval in milliseconds to keep the unhealthy endpoint disabled even if it recovers (this prevents rapid oscillation between endpoints when intermittent faults occur). |
+| `fastFailover()` | `false` | If true, existing connections to an unhealthy endpoint are forced to close immediately when a failover occurs, otherwise the connections are closed gracefully. Forcefully closing connections can make failover faster, but it might also cause in-flight operations to fail. |
+| `retryOnFailover()` | `false` | If true, commands that fail during a failover are automatically retried on the replacement endpoint. |
+
 ### Failover callbacks
 
 You may want to take some custom action when a failover occurs.
@@ -219,6 +231,15 @@ MultiDbClient client = MultiDbClient.builder()
         )
         .build();
 ```
+
+## Failback configuration
+
+The `MultiDbConfig` builder lets you configure the failback behavior using the following options:
+
+| Builder method | Default value | Description|
+| --- | --- | --- |
+| `failbackSupported()` | `true` | Enable/disable failback (it is enabled by default). |
+| `failbackCheckInterval()` | `120000` | Interval in milliseconds to check if the unhealthy database has recovered. |
 
 ## Health check configuration
 
@@ -272,8 +293,8 @@ MultiDbConfig.DatabaseConfig dbConfig =
 ### `LagAwareStrategy` (preview)
 
 `LagAwareStrategy` (currently in preview) is designed specifically for
-Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active" >}})
-deployments. It uses the Redis Enterprise REST API to check database availability
+Redis Software [Active-Active]({{< relref "/operate/rs/databases/active-active" >}})
+deployments. It uses the Redis Software REST API to check database availability
 and can also optionally check replication lag.
 
 `LagAwareStrategy` determines the health of the server using the
@@ -384,6 +405,24 @@ If you decide to implement manual failback, you will need a way for external
 systems to trigger this method in your application. For example, if your application
 exposes a REST API, you might consider creating a REST endpoint to call
 `setActiveDatabase()`.
+
+## Behavior when all endpoints are unhealthy
+
+In the extreme case where no endpoint is healthy, a command will throw a
+`JedisTemporarilyNotAvailableException`. This indicates that the client is periodically
+checking to see if any endpoint becomes healthy again. The number of
+times it will keep checking is configured by the `maxNumFailoverAttempts()` option in
+the `MultiDbConfig` builder and
+the delay between attempts is configured by the `delayInBetweenFailoverAttempts()` option (see [General failover configuration](#general-failover-configuration)). With the default settings,
+`maxNumFailoverAttempts` * `delayInBetweenFailoverAttempts`  gives a period of 120 seconds to find
+a healthy endpoint.
+
+You can still keep retrying commands after a `JedisTemporarilyNotAvailableException` is thrown (for example,
+you could add this exception to the `includedExceptionList`, as described
+in the [Retry configuration]({{< relref "#retry-configuration" >}}) section). However, if the number of
+failover attempts exceeds the value set by `maxNumFailoverAttempts()`, commands will throw a `JedisPermanentlyNotAvailableException`. Note that this is intended to notify your app
+that the problem is likely to be persistent, but it *doesn't* mean that Jedis will stop trying
+to connect to a healthy endpoint if one becomes available.
 
 ## Troubleshooting
 

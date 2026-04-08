@@ -28,6 +28,7 @@ When Vault integration is enabled, all secrets referenced in Redis Enterprise cu
 |  | [Proxy certificate]({{< relref "/operate/kubernetes/security/manage-rec-certificates" >}}) | [`proxyCertificateSecretName`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#redisenterprisespec" >}}) | TLS certificate for proxy |
 |  | [Syncer certificate]({{< relref "/operate/kubernetes/active-active" >}}) | [`syncerCertificateSecretName`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#redisenterprisespec" >}}) | TLS certificate for Active-Active syncer |
 |  | [LDAP client certificate]({{< relref "/operate/kubernetes/security/ldap" >}}) | [`ldapClientCertificateSecretName`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#redisenterprisespec" >}}) | TLS certificate for LDAP client authentication |
+|  | [User-defined module credentials]({{< relref "/operate/kubernetes/re-databases/modules" >}}) | [`credentialsSecret`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#specuserdefinedmodulessourcehttps" >}}) | Credentials for downloading user-defined modules from authenticated repositories |
 | **Database secrets** |  |  |  |
 |  | [Database passwords]({{< relref "/operate/kubernetes/networking/database-connectivity/#credentials-and-secrets-management" >}}) | Various | Passwords for Redis databases |
 |  | [Replica source client TLS key]({{< relref "/operate/kubernetes/re-databases/replica-redb" >}}) | [`clientKeySecret`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api#redisenterprisedbspec" >}}) | Client TLS key for cross-cluster replication |
@@ -324,14 +325,12 @@ Multi-cluster considerations: When deploying across multiple Kubernetes clusters
    {{<table-scrollable>}}
    | Field | Description | Example |
    |-------|-------------|---------|
-   | `clusterCredentialSecretName` | Name of the secret in Vault containing cluster credentials | `rec` |
+   | `clusterCredentialSecretName` | Path of the secret in Vault containing cluster credentials. Can be customized during cluster creation but cannot be changed afterward. The secret must be pre-created in Vault. | `rec` |
    | `clusterCredentialSecretType` | Must be set to `vault` | `vault` |
    | `clusterCredentialSecretRole` | Vault role for cluster authentication | `redis-enterprise-rec-<K8S_NAMESPACE>` |
    | `vaultCASecret` | Kubernetes secret containing Vault's CA certificate | `vault-ca-cert` |
    | `podAnnotations` | Vault agent annotations for pod-level configuration | See example above |
    {{</table-scrollable>}}
-
-
 
 ## Create Redis Enterprise databases
 
@@ -441,6 +440,19 @@ vault kv put -namespace=<VAULT_NAMESPACE> \
   tls.crt=<certificate_content> \
   tls.key=<private_key_content>
 ```
+
+### User-defined module credentials
+
+Store credentials for downloading user-defined modules from authenticated repositories:
+
+```bash
+vault kv put -namespace=<VAULT_NAMESPACE> \
+  <VAULT_SECRET_ROOT>/redisenterprise-<K8S_NAMESPACE>/<MODULE_CREDENTIALS_SECRET_NAME> \
+  username=<repository_username> \
+  password=<repository_password>
+```
+
+Reference this secret in your REC specification's `userDefinedModules` section. See [Configure modules]({{< relref "/operate/kubernetes/re-databases/modules" >}}) for details.
 
 ## Troubleshooting
 

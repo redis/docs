@@ -39,6 +39,7 @@ Cluster resources management policy
 | <span class="break-all">evict_node_use_free_memory</span> | boolean | When evicting a node, use the free memory instead of the provisional memory to check if the shards from the old node fit on the new one |
 | <span class="break-all">expose_hostnames_for_all_suffixes</span> | boolean (default: false) | If true, enables exposing hostnames for non-default DNS suffixes |
 | <span class="break-all">failure_detection_sensitivity</span> | `high`<br />`low` | Predefined thresholds and timeouts for failure detection (previously known as <span class="break-all">`watchdog_profile`</span>)<br />• `high` (previously `local-network`) – high failure detection sensitivity, lower thresholds, faster failure detection and failover<br />• `low` (previously `cloud`) – low failure detection sensitivity, higher tolerance for latency variance (also called network jitter) |
+| <span class="break-all">filter_node_wd_health_metrics</span> | boolean (default: true) | When enabled, `node_wd` health metrics (<span class="break-all">`shard_ping_failures`</span>, <span class="break-all">`endpoint_ping_failures`</span>, <span class="break-all">`dmc_ping_failures`</span> and their duration counterparts) are not emitted to `statsd` |
 | hide_user_data_from_log | boolean (default: false) | Set to `true` to enable the <span class="break-all">`hide-user-data-from-log`</span> Redis configuration setting, which avoids logging user data |
 | <span class="break-all">login_lockout_counter_reset_after</span> | integer | Number of seconds that must elapse between failed sign in attempts before the lockout counter is reset to 0. |
 | login_lockout_duration | integer | Duration (in secs) of account lockout. If set to 0, the account lockout will persist until released by an admin. |
@@ -60,16 +61,16 @@ Cluster resources management policy
 | <span class="break-all">redis_migrate_node_threshold_p</span> | integer | Minimum free memory (excluding reserved memory) allowed on a node before automatic migration of shards from it to free more memory |
 | <span class="break-all">redis_provision_node_threshold</span> | integer | Minimum free memory (excluding reserved memory) allowed on a node before new shards can no longer be added to it |
 | <span class="break-all">redis_provision_node_threshold_p</span> | integer | Minimum free memory (excluding reserved memory) allowed on a node before new shards can no longer be added to it |
-| redis_upgrade_policy | **`major`** <br />`latest` | Create/upgrade Redis Enterprise software on databases in the cluster by compatibility with major versions or latest versions of Redis Open Source |
+| redis_upgrade_policy | **`major`** <br />`latest` | Create/upgrade Redis Software on databases in the cluster by compatibility with major versions or latest versions of Redis Open Source |
 | repl_diskless | boolean (default: true) | If true, enables the default Redis diskless replication mechanism |
 | resp3_default | boolean (default: true) | Determines the default value of the `resp3` option upon upgrading a database to version 7.2 |
 | shards_overbooking | boolean | If true, all databases' memory_size is ignored during shards placement |
 | show_internals | boolean | Show internal databases (and their shards and endpoints) REST APIs |
 | <span class="break-all">show_metrics_during_state_machine</span> | boolean | Show metrics during state machine operations |
-| slave_ha | boolean | Enable the replica high-availability mechanism. Deprecated as of Redis Enterprise Software v7.2.4. |
+| slave_ha | boolean | Enable the replica high-availability mechanism. Deprecated as of Redis Software v7.2.4. |
 | <span class="break-all">slave_ha_bdb_cooldown_period</span> | integer | Time in seconds between runs of the replica high-availability mechanism on different nodes on the same database |
 | <span class="break-all">slave_ha_cooldown_period</span> | integer | Time in seconds between runs of the replica high-availability mechanism on different nodes on the same database |
 | slave_ha_grace_period | integer | Time in seconds between a node failure and when the replica high-availability mechanism starts relocating shards |
 | slow_log_max_len | integer (default: 1024) | Set max slow log entries in debug info |
 | use_librdb | boolean | If true, new databases use the new RDB parser instead of the old one |
-| <span class="break-all">witness_disk_update_frequency_divisor</span> | integer (default: 3) | Redis Enterprise Software updates the witness disk every <span class="break-all">`node_max_update_time / witness_disk_update_frequency_divisor`</span> seconds |
+| <span class="break-all">witness_disk_update_frequency_divisor</span> | integer (default: 3) | Redis Software updates the witness disk every <span class="break-all">`node_max_update_time / witness_disk_update_frequency_divisor`</span> seconds |

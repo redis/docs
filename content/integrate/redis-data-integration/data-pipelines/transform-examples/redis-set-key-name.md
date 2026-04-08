@@ -46,6 +46,7 @@ To customize key names, use the `key` section within the `redis.write` output co
 
 
 ```yaml
+name: Custom key name for customers
 source:
   db: inventory
   table: customers
@@ -62,6 +63,7 @@ output:
 When working with the full row format, you need to handle key generation differently to ensure proper behavior across all operation types (create, update, and delete). You must reference attributes correctly to ensure consistent key generation, especially for delete operations where the "after" state is empty. The example below demonstrates how to handle this:
 
 ```yaml
+name: Custom key with full row format
 source:
   db: inventory
   table: customers
