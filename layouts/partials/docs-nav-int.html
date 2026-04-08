@@ -7,7 +7,7 @@
   {{ $active := eq $s $p -}}
   {{ $activePath := $p.IsDescendant $s -}}
   {{ $show := cond (or (lt $ulNr $ulShow) $activePath (eq $s.Parent $p.Parent) (eq $s.Parent $p) ($p.IsDescendant $s.Parent)) true false -}}
-  {{ $pages := (union $s.Pages $s.Sections).ByWeight -}}
+  {{ $pages := sort (union $s.Pages $s.Sections) "Weight" -}}
   {{ $withChild := gt (len $pages) 0 -}}
   {{ $rootDir := lt $ulNr 1 -}}
 
