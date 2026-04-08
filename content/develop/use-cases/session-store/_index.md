@@ -34,3 +34,11 @@ The typical pattern is:
 ## Available implementations
 
 * [redis-py]({{< relref "/develop/use-cases/session-store/redis-py" >}}) - Build a Python session store and a local demo server using the standard library HTTP server
+* [Node.js]({{< relref "/develop/use-cases/session-store/nodejs" >}}) - Build a Redis-backed session store with `node-redis` and a local Node.js demo server
+* [Go]({{< relref "/develop/use-cases/session-store/go" >}}) - Build a Redis-backed session store with `go-redis` and a local Go demo server
+* [Java]({{< relref "/develop/use-cases/session-store/java-jedis" >}}) - Build a Redis-backed session store with Jedis and a local Java demo server
+* [Java (Lettuce)]({{< relref "/develop/use-cases/session-store/java-lettuce" >}}) - Build a Redis-backed session store with Lettuce using async and reactive APIs
+* [.NET]({{< relref "/develop/use-cases/session-store/dotnet" >}}) - Build a Redis-backed session store with `StackExchange.Redis` and a local ASP.NET Core demo server
+* [PHP]({{< relref "/develop/use-cases/session-store/php" >}}) - Build a Redis-backed session store with Predis and a local PHP demo server
+* [Ruby]({{< relref "/develop/use-cases/session-store/ruby" >}}) - Build a Redis-backed session store with `redis-rb` and a local Ruby demo server
+* [Rust]({{< relref "/develop/use-cases/session-store/rust" >}}) - Build a Redis-backed session store with `redis-rs`, including both sync and async APIs
