@@ -118,12 +118,21 @@
 {{ $inCurrentStep := false }}
 {{ $inAnyStep := false }}
 {{ $inHideBlock := false }}
+{{ $inRemoveBlock := false }}
 
 {{ range $lines }}
   {{ $trimmed := trim . " \t" }}
 
+  {{/* Handle REMOVE blocks - exclude content entirely */}}
+  {{ if hasPrefix $trimmed (printf "%s REMOVE_START" $commentPrefix) }}
+    {{ $inRemoveBlock = true }}
+  {{ else if hasPrefix $trimmed (printf "%s REMOVE_END" $commentPrefix) }}
+    {{ $inRemoveBlock = false }}
+  {{ else if $inRemoveBlock }}
+    {{/* Skip lines inside REMOVE blocks */}}
+
   {{/* Handle HIDE blocks */}}
-  {{ if hasPrefix $trimmed (printf "%s HIDE_START" $commentPrefix) }}
+  {{ else if hasPrefix $trimmed (printf "%s HIDE_START" $commentPrefix) }}
     {{ $inHideBlock = true }}
   {{ else if hasPrefix $trimmed (printf "%s HIDE_END" $commentPrefix) }}
     {{ $inHideBlock = false }}
