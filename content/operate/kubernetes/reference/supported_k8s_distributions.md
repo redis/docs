@@ -10,13 +10,57 @@ linkTitle: Supported distributions
 weight: 10
 ---
 
-We thoroughly test each release of Redis Enterprise for Kubernetes against a set of Kubernetes distributions. The table below lists Redis Enterprise for Kubernetes versions and the Kubernetes distributions they support.
+## Kubernetes version support
 
-<span title="Check mark icon">&#x2705;</span> Supported – This distribution is supported for this version of Redis Enterprise Software for Kubernetes.
+Redis Enterprise for Kubernetes is compatible with [CNCF-conformant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes platforms. The operator follows standard Kubernetes APIs and practices and is designed to run consistently across certified Kubernetes environments.
 
-<span title="Deprecation warning" class="font-serif">:warning:</span> Deprecated – This distribution is still supported for this version of Redis Enterprise Software for Kubernetes, but support will be removed in a future release.
+The below table outlines the Kubernetes versions supported by each version of Redis for Kubernetes.
 
-<span title="X icon">&#x274c;</span> End of life – Support for this distribution ended.
+<span title="Check mark icon">&#x2705;</span> Supported – This distribution is supported and tested for this version of Redis Enterprise Software for Kubernetes.
+
+<span title="Deprecation warning" class="font-serif">:warning:</span> Deprecated – This distribution is still supported, support for this distribution will be removed in a future release.
+
+<span title="X icon">&#x274c;</span> End of life – No longer supported.
+
+Any distribution not listed below is not supported for production workloads. For details on community Kubernetes versions, see the Kubernetes [documentation](https://kubernetes.io/docs/home/supported-doc-versions/).
+
+{{<table-scrollable>}}
+| Redis operator | **<nobr>8.0.18-tbd</nobr>** | **<nobr>8.0.10-15</nobr>** | **<nobr>8.0.6-6</nobr>** | **<nobr>8.0.2-2</nobr>** | **<nobr>7.22.2-21</nobr>** | **<nobr>7.22.0-15</nobr>** | **<nobr>7.22.0-7</nobr>** | **<nobr>7.8.6-1</nobr>** | **<nobr>7.8.4-9</nobr>** | **<nobr>7.8.4-8</nobr>** | **<nobr>7.8.2-6</nobr>** | **<nobr>7.4.6-2</nobr>** | **<nobr>7.4.2-12</nobr>** | **<nobr>7.4.2-2</nobr>** | **<nobr>7.2.4-12</nobr>** | **<nobr>7.2.4-7</nobr>** | **<nobr>7.2.4-2</nobr>** | **<nobr>6.4.2-8</nobr>** | **<nobr>6.4.2-6</nobr>** | **<nobr>6.4.2-5</nobr>** | **<nobr>6.4.2-4</nobr>** | **<nobr>6.2.18-41</nobr>** | **<nobr>6.2.18-3</nobr>** | **<nobr>6.2.12-1</nobr>** | **<nobr>**<nobr>6.2.10-4</nobr>**5</nobr>** | **<nobr>6.2.10-34</nobr>** | **<nobr>6.2.10-4</nobr>** | **<nobr>6.2.8-15</nobr>** | **<nobr>6.2.8-11</nobr>** | **<nobr>6.2.8-2</nobr>** | **<nobr>6.2.4-1</nobr>** |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|  | March 2026 | Jan 2026 | Dec 2025 | Oct 2025 | Oct 2025 | July 2025 | April 2025 | March 2025 | March 2025 | Feb 2025 | Nov 2024 | July 2024 | May 2024 | March 2024 | Dec 2023 | Oct 2023 | Aug 2023 | July 2023 | June 2023 | April 2023 | March 2023 | Jan 2023 | Nov 2022 | Sept 2022 | July 2022 | May 2022 | March 2022 | Jan 2022 | Jan 2022 | Nov 2021 | Sept 2021 |
+| Kubernetes |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 1.35 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 1.34 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 1.33 | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 1.32 | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 1.31 |  |  | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 1.30 |  |  |  | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 1.29 |  |  |  |  |  |  | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 1.28 |  |  |  |  |  |  | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 1.27 |  |  |  |  |  |  |  |  | <span title="X icon">&#x274c;</span> | <span title="X icon">&#x274c;</span> | <span title="X icon">&#x274c;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |  |  |  |  |  |  |  |  |  |
+| 1.26 |  |  |  |  |  |  |  |  |  |  |  | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |  |  |  |  |  |  |  |
+| 1.25 |  |  |  |  |  |  |  |  |  |  |  |  |  | <span title="X icon">&#x274c;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |  |  |  |  |  |
+| 1.24 |  |  |  |  |  |  |  |  |  |  |  |  |  | <span title="X icon">&#x274c;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |  |  |  |
+| 1.23 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |  |  |
+| 1.22 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |
+| 1.21 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| 1.20 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| 1.19 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| 1.18 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| 1.17 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> |
+| 1.16 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> |
+
+{{</table-scrollable>}}
+
+## Tested distributions
+
+We thoroughly test each release of Redis for Kubernetes against a set of Kubernetes distributions. The table below lists Redis for Kubernetes versions and the Kubernetes distributions they support.
+
+<span title="Check mark icon">&#x2705;</span> Supported – This distribution is supported and tested for this version of Redis Enterprise Software for Kubernetes.
+
+<span title="Deprecation warning" class="font-serif">:warning:</span> Deprecated – This distribution is still supported, but testing will be removed in a future release.
+
+<span title="X icon">&#x274c;</span> End of life – No longer tested.
 
 Any distribution not listed below is not supported for production workloads.
 
@@ -24,7 +68,7 @@ Any distribution not listed below is not supported for production workloads.
 
 ## Community Kubernetes
 
-For details on this platform, see the Kubernetes [documentation](https://kubernetes.io/docs/home/supported-doc-versions/).
+
 
 {{<table-scrollable>}}
 | Redis operator | **<nobr>8.0.10-21</nobr>** | **<nobr>8.0.6-6</nobr>** | **<nobr>8.0.2-2</nobr>** | **<nobr>7.22.2-21</nobr>** | **<nobr>7.22.0-15</nobr>** | **<nobr>7.22.0-7</nobr>** | **<nobr>7.8.6-1</nobr>** | **<nobr>7.8.4-9</nobr>** | **<nobr>7.8.4-8</nobr>** | **<nobr>7.8.2-6</nobr>** | **<nobr>7.4.6-2</nobr>** | **<nobr>7.4.2-12</nobr>** | **<nobr>7.4.2-2</nobr>** | **<nobr>7.2.4-12</nobr>** | **<nobr>7.2.4-7</nobr>** | **<nobr>7.2.4-2</nobr>** | **<nobr>6.4.2-8</nobr>** | **<nobr>6.4.2-6</nobr>** | **<nobr>6.4.2-5</nobr>** | **<nobr>6.4.2-4</nobr>** | **<nobr>6.2.18-41</nobr>** | **<nobr>6.2.18-3</nobr>** | **<nobr>6.2.12-1</nobr>** | **<nobr>**<nobr>6.2.10-4</nobr>**5</nobr>** | **<nobr>6.2.10-34</nobr>** | **<nobr>6.2.10-4</nobr>** | **<nobr>6.2.8-15</nobr>** | **<nobr>6.2.8-11</nobr>** | **<nobr>6.2.8-2</nobr>** | **<nobr>6.2.4-1</nobr>** |
