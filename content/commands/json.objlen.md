@@ -21,7 +21,7 @@ categories:
 - clients
 complexity: O(1) when path is evaluated to a single value, O(N) when path is evaluated
   to multiple values, where N is the size of the key
-description: Returns the number of keys of the object at path
+description: Returns the number of keys of JSON objects located at the paths that match a given path expression
 group: json
 hidden: false
 linkTitle: JSON.OBJLEN
@@ -29,11 +29,15 @@ module: JSON
 railroad_diagram: /images/railroad/json.objlen.svg
 since: 1.0.0
 stack_path: docs/data-types/json
-summary: Returns the number of keys of the object at path
+summary: Returns the number of keys of JSON objects located at the paths that match a given path expression
 syntax_fmt: JSON.OBJLEN key [path]
 title: JSON.OBJLEN
 ---
-Report the number of keys in the JSON object at `path` in `key`
+Returns the number of keys of JSON objects located at the paths that match a given path expression.
+
+{{< note >}}
+A JSON object is a structure within a JSON document that contains an unordered set of key-value pairs (also called name-value pairs). Do not confuse Redis keys with JSON object keys.
+{{< /note >}}
 
 [Examples](#examples)
 
@@ -41,14 +45,25 @@ Report the number of keys in the JSON object at `path` in `key`
 
 <details open><summary><code>key</code></summary> 
 
-is key to parse. Returns `null` for nonexistent keys.
+is a Redis key storing a value of type JSON.
+
 </details>
 
 ## Optional arguments
 
 <details open><summary><code>path</code></summary> 
 
-is JSONPath to specify. Default is root `$`. Returns `null` for nonexistant path.
+is either 
+
+- A JSONPath expression
+  - The root "`$`", or any string that starts with "`$.`" or "`$[`".
+  - Resolves to all matching locations in `key`.
+- A legacy path expression 
+  - Any string that does not match the JSONPath syntax above.
+  - Allow the leading "`.`" to be omitted (for example, "`name`" and "`.name`" are equivalent).
+  - Resolves to only the first matching location in `key`.
+
+Default: "`.`" (legacy path pointing to the root of the document).
 
 </details>
 
@@ -74,23 +89,46 @@ redis> JSON.OBJLEN doc $..a
     tab1="RESP2"
     tab2="RESP3" >}}
 
-With `$`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the number of keys in the object, or `null` if the matching value is not an object.
+If `path` is a JSONPath expression:
 
-With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the number of keys in the object, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an object.
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
+- An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
+- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
+  - [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if the match is not an object.
+  - An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of keys in the object - if the match is an object.
+
+If `path` is a legacy path expression:
+
+- [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if `key` does not exist.
+- [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if `path` has no matches.
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not an object.
+- An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of keys in the first match - if the first match is an object.
 
 -tab-sep-
 
-With `$`-based path argument (default): [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the number of keys in the object, or `null` if the matching value is not an object.
+If `path` is a JSONpath expression:
 
-With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the number of keys in the object, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an object.
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
+- An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
+- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
+  - [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the match is not an object.
+  - An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of keys in the object - if the match is an object.
+
+If `path` is a legacy path expression:
+
+- [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if `key` does not exist.
+- [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if `path` has no matches.
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not an object.
+- An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of keys in the first match - if the first match is an object.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.ARRINDEX`]({{< relref "commands/json.arrindex/" >}}) | [`JSON.ARRINSERT`]({{< relref "commands/json.arrinsert/" >}}) 
+[`JSON.OBJKEYS`]({{< relref "commands/json.objkeys/" >}})
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [The JSON data type]({{< relref "/develop/data-types/json/" >}})
+* [JSONPath]({{< relref "/develop/data-types/json/path" >}})
 * [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
