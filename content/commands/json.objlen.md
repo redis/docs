@@ -106,7 +106,7 @@ If `path` is a legacy path expression:
 
 -tab-sep-
 
-If `path` is a JSONpath expression:
+If `path` is a JSONPath expression:
 
 - A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
 - An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
