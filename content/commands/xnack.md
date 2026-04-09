@@ -218,6 +218,11 @@ NACKed messages are prioritized over other pending messages in the group's PEL, 
 - Released messages have their delivery time set to 0, making them immediately claimable regardless of the `min-idle-time` parameter in claiming commands.
 - Unlike [`XACK`]({{< relref "/commands/xack" >}}), this command does not remove messages from the PEL but instead makes them available for other consumers.
 
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 
