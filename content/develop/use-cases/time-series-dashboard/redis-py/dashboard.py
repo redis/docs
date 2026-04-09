@@ -204,30 +204,17 @@ class DashboardHandler(BaseHTTPRequestHandler):
     }}
     svg {{
       width: 100%;
-      height: 128px;
+      height: 184px;
       display: block;
       background: linear-gradient(180deg, #fffdf8 0%, #faf4e8 100%);
       border: 1px solid var(--line);
-    }}
-    .plot-chart {{
-      border-radius: 10px 10px 0 0;
-      border-bottom-width: 0;
+      border-radius: 10px;
     }}
     .plot-shell {{
       position: relative;
     }}
     .bucket-row {{
-      display: block;
       margin-top: 0;
-    }}
-    .bucket-strip {{
-      width: 100%;
-      height: 72px;
-      display: block;
-      border-radius: 0 0 10px 10px;
-      background: linear-gradient(180deg, #faf4e8 0%, #fffdf8 100%);
-      border: 1px solid var(--line);
-      border-top-width: 0;
     }}
     .empty {{
       color: var(--muted);
@@ -297,13 +284,16 @@ class DashboardHandler(BaseHTTPRequestHandler):
       }});
     }}
 
-    function svgForSensor(sensor, now, windowMs) {{
+    function combinedSvgForSensor(sensor, now, windowMs) {{
       const width = GRAPH_WIDTH;
-      const height = GRAPH_HEIGHT;
+      const chartHeight = GRAPH_HEIGHT;
+      const bucketHeight = 56;
+      const height = chartHeight + bucketHeight;
       const padX = GRAPH_PAD_X;
       const padY = GRAPH_PAD_Y;
       const plotWidth = width - padX * 2;
-      const plotHeight = height - padY * 2;
+      const plotHeight = chartHeight - padY * 2;
+      const bucketTop = chartHeight;
       const values = sensor.raw_points.map((point) => point.value);
       const minValue = Math.min(...values, 300);
       const maxValue = Math.max(...values, 900);
@@ -312,14 +302,19 @@ class DashboardHandler(BaseHTTPRequestHandler):
       const xFor = (timestamp) => padX + ((timestamp - (now - windowMs)) / windowMs) * plotWidth;
       const yFor = (value) => padY + (1 - ((value - minValue) / valueSpan)) * plotHeight;
 
-      const gridLines = [];
-      for (let i = 0; i <= 4; i += 1) {{
-        const x = padX + (plotWidth / 4) * i;
-        gridLines.push(`<line x1="${{x}}" y1="${{padY}}" x2="${{x}}" y2="${{height - padY}}" stroke="var(--grid)" stroke-width="1" />`);
-      }}
+      const boundaryTimestamps = sensor.buckets.length
+        ? [...sensor.buckets.map((bucket) => bucket.start), sensor.buckets[sensor.buckets.length - 1].end]
+        : [now - windowMs, now];
+
+      const verticalLines = boundaryTimestamps.map((timestamp) => {{
+        const x = xFor(timestamp);
+        return `<line x1="${{x.toFixed(2)}}" y1="${{padY}}" x2="${{x.toFixed(2)}}" y2="${{chartHeight - padY}}" stroke="var(--grid)" stroke-width="1" />`;
+      }}).join("");
+
+      const horizontalLines = [];
       for (let i = 0; i <= 3; i += 1) {{
         const y = padY + (plotHeight / 3) * i;
-        gridLines.push(`<line x1="${{padX}}" y1="${{y}}" x2="${{width - padX}}" y2="${{y}}" stroke="var(--grid)" stroke-width="1" />`);
+        horizontalLines.push(`<line x1="${{padX}}" y1="${{y}}" x2="${{width - padX}}" y2="${{y}}" stroke="var(--grid)" stroke-width="1" />`);
       }}
 
       const bucketBands = sensor.buckets.map((bucket, index) => {{
@@ -332,8 +327,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
       const bucketDividers = sensor.buckets.map((bucket) => {{
         const x = xFor(bucket.start);
-        return `<line x1="${{x.toFixed(2)}}" y1="${{padY}}" x2="${{x.toFixed(2)}}" y2="${{height - padY}}" stroke="rgba(18, 99, 83, 0.28)" stroke-width="1.2" />`;
-      }}).join("") + `<line x1="${{(width - padX).toFixed(2)}}" y1="${{padY}}" x2="${{(width - padX).toFixed(2)}}" y2="${{height - padY}}" stroke="rgba(18, 99, 83, 0.28)" stroke-width="1.2" />`;
+        return `<line x1="${{x.toFixed(2)}}" y1="${{padY}}" x2="${{x.toFixed(2)}}" y2="${{chartHeight - padY}}" stroke="rgba(18, 99, 83, 0.28)" stroke-width="1.2" />`;
+      }}).join("") + `<line x1="${{(width - padX).toFixed(2)}}" y1="${{padY}}" x2="${{(width - padX).toFixed(2)}}" y2="${{chartHeight - padY}}" stroke="rgba(18, 99, 83, 0.28)" stroke-width="1.2" />`;
 
       const polyline = sensor.raw_points.length > 0
         ? sensor.raw_points.map((point) => `${{xFor(point.timestamp).toFixed(2)}},${{yFor(point.value).toFixed(2)}}`).join(" ")
@@ -341,35 +336,10 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
       const dots = sensor.raw_points.map((point) => `<circle cx="${{xFor(point.timestamp).toFixed(2)}}" cy="${{yFor(point.value).toFixed(2)}}" r="2.7" fill="var(--signal)" />`).join("");
 
-      const labels = [0, 0.25, 0.5, 0.75, 1].map((ratio) => {{
-        const x = padX + ratio * plotWidth;
-        const timestamp = (now - windowMs) + ratio * windowMs;
-        return `<text x="${{x}}" y="${{height - 4}}" text-anchor="middle" font-size="11" fill="var(--muted)">${{timeLabel(timestamp)}}</text>`;
+      const labels = boundaryTimestamps.map((timestamp) => {{
+        const x = xFor(timestamp);
+        return `<text x="${{x.toFixed(2)}}" y="${{chartHeight - 4}}" text-anchor="middle" font-size="11" fill="var(--muted)">${{timeLabel(timestamp)}}</text>`;
       }}).join("");
-
-      return `
-        <svg class="plot-chart" viewBox="0 0 ${{width}} ${{height}}" role="img" aria-label="Rolling graph for ${{sensor.sensor_id}}">
-          ${{bucketBands}}
-          ${{gridLines.join("")}}
-          ${{bucketDividers}}
-          <polyline fill="none" stroke="var(--signal)" stroke-width="2.5" points="${{polyline}}" />
-          ${{dots}}
-          ${{labels}}
-        </svg>
-      `;
-    }}
-
-    function bucketStripSvg(sensor, now, windowMs) {{
-      if (!sensor.buckets.length) {{
-        return '<div class="empty">Waiting for enough samples to build bucket summaries.</div>';
-      }}
-
-      const width = GRAPH_WIDTH;
-      const height = 56;
-      const padX = GRAPH_PAD_X;
-      const plotWidth = width - padX * 2;
-      const boxTop = 0;
-      const boxHeight = 56;
 
       const bucketRects = sensor.buckets.map((bucket, index) => {{
         const relativeStart = (bucket.start - (now - windowMs)) / windowMs;
@@ -380,34 +350,41 @@ class DashboardHandler(BaseHTTPRequestHandler):
         const fill = index % 2 === 0 ? "#fffdf8" : "#fcf7ee";
         const stroke = "#d9ccb7";
         const textX = x + rectWidth / 2;
-        const line1Y = 18;
-        const line2Y = 32;
-        const line3Y = 46;
+        const line1Y = bucketTop + 18;
+        const line2Y = bucketTop + 32;
+        const line3Y = bucketTop + 46;
 
         return `
-          <rect x="${{x.toFixed(2)}}" y="${{boxTop}}" width="${{rectWidth.toFixed(2)}}" height="${{boxHeight}}" fill="${{fill}}" stroke="${{stroke}}" />
+          <rect x="${{x.toFixed(2)}}" y="${{bucketTop}}" width="${{rectWidth.toFixed(2)}}" height="${{bucketHeight}}" fill="${{fill}}" stroke="${{stroke}}" />
           <text x="${{textX.toFixed(2)}}" y="${{line1Y}}" text-anchor="middle" font-size="11" fill="#1f2a2e">Min: ${{fmt(bucket.min)}}</text>
           <text x="${{textX.toFixed(2)}}" y="${{line2Y}}" text-anchor="middle" font-size="11" fill="#1f2a2e">Max: ${{fmt(bucket.max)}}</text>
           <text x="${{textX.toFixed(2)}}" y="${{line3Y}}" text-anchor="middle" font-size="11" fill="#1f2a2e">Avg: ${{fmt(bucket.avg)}}</text>
         `;
       }}).join("");
 
-      const boundaryLines = sensor.buckets.map((bucket) => {{
-        const relativeStart = (bucket.start - (now - windowMs)) / windowMs;
-        const x = padX + relativeStart * plotWidth;
-        return `<line x1="${{x.toFixed(2)}}" y1="0" x2="${{x.toFixed(2)}}" y2="${{height}}" stroke="rgba(18, 99, 83, 0.22)" stroke-width="1" />`;
-      }}).join("") + `<line x1="${{(width - padX).toFixed(2)}}" y1="0" x2="${{(width - padX).toFixed(2)}}" y2="${{height}}" stroke="rgba(18, 99, 83, 0.22)" stroke-width="1" />`;
+      const bucketBoundaryLines = boundaryTimestamps.map((timestamp) => {{
+        const x = xFor(timestamp);
+        return `<line x1="${{x.toFixed(2)}}" y1="${{bucketTop}}" x2="${{x.toFixed(2)}}" y2="${{height}}" stroke="rgba(18, 99, 83, 0.22)" stroke-width="1" />`;
+      }}).join("");
 
       return `
-        <svg class="bucket-strip" viewBox="0 0 ${{width}} ${{height}}" role="img" aria-label="Bucket summaries for ${{sensor.sensor_id}}">
+        <svg viewBox="0 0 ${{width}} ${{height}}" role="img" aria-label="Rolling graph and bucket summaries for ${{sensor.sensor_id}}">
           ${{bucketRects}}
-          ${{boundaryLines}}
+          <line x1="0" y1="${{bucketTop}}" x2="${{width}}" y2="${{bucketTop}}" stroke="var(--line)" stroke-width="1" />
+          ${{bucketBands}}
+          ${{verticalLines}}
+          ${{horizontalLines.join("")}}
+          ${{bucketDividers}}
+          <polyline fill="none" stroke="var(--signal)" stroke-width="2.5" points="${{polyline}}" />
+          ${{dots}}
+          ${{labels}}
+          ${{bucketBoundaryLines}}
         </svg>
       `;
     }}
 
     function bucketCards(sensor, now) {{
-      return bucketStripSvg(sensor, now, {WINDOW_MS});
+      return combinedSvgForSensor(sensor, now, {WINDOW_MS});
     }}
 
     function render(snapshot) {{
@@ -421,10 +398,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
             <div class="latest">Latest: <strong>${{fmt(sensor.latest?.value)}}</strong> ${{sensor.unit}}</div>
           </div>
           <div class="plot-shell">
-            ${{svgForSensor(sensor, snapshot.now, snapshot.window_ms)}}
-            <div class="bucket-row">
-              ${{bucketCards(sensor, snapshot.now)}}
-            </div>
+            <div class="bucket-row">${{bucketCards(sensor, snapshot.now)}}</div>
           </div>
         </section>
       `).join("");
