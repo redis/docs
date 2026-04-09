@@ -35,3 +35,4 @@ This pattern works well when you need to:
 * [Lettuce]({{< relref "/develop/use-cases/leaderboard/java-lettuce" >}}) - Build async and reactive Java leaderboards with sorted sets, user metadata hashes, and a local interactive demo
 * [.NET]({{< relref "/develop/use-cases/leaderboard/dotnet" >}}) - Build a C# leaderboard with sorted sets, user metadata hashes, and a local interactive demo
 * [Rust]({{< relref "/develop/use-cases/leaderboard/rust" >}}) - Build sync and async Rust leaderboards with sorted sets, user metadata hashes, and a local interactive demo
+* [PHP]({{< relref "/develop/use-cases/leaderboard/php" >}}) - Build a PHP leaderboard with sorted sets, user metadata hashes, and a local interactive demo
