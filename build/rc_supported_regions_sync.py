@@ -40,9 +40,10 @@ def fetch_regions():
     # Build intermediate dict for easier manipulation
     regions_by_provider = {}
     for region in pro_data.get("regions", []):
-        provider = region.get("provider").lower()
+        provider_raw = region.get("provider")
         name = region.get("name")
-        if provider and name:
+        if provider_raw and name:
+            provider = provider_raw.lower()
             if provider not in regions_by_provider:
                 regions_by_provider[provider] = {}
             regions_by_provider[provider][name] = {
@@ -53,9 +54,10 @@ def fetch_regions():
             }
 
     for plan in essentials_data.get("plans", []):
-        provider = plan.get("provider").lower()
+        provider_raw = plan.get("provider")
         name = plan.get("region")
-        if provider and name:
+        if provider_raw and name:
+            provider = provider_raw.lower()
             if provider not in regions_by_provider:
                 regions_by_provider[provider] = {}
             if name not in regions_by_provider[provider]:
@@ -83,12 +85,19 @@ def fetch_regions():
     return result
 
 
-def get_provider_regions(data, provider):
-    """Helper to get regions dict for a provider from the list format."""
+def get_or_create_provider_regions(data, provider):
+    """
+    Helper to get regions dict for a provider from the list format.
+    If the provider doesn't exist, creates a new entry and returns its regions dict.
+    """
     for item in data:
         if item.get("provider") == provider:
             return item.get("regions", {})
-    return {}
+
+    # Provider not found - create new entry and append to data
+    new_provider_obj = {"provider": provider, "regions": {}}
+    data.append(new_provider_obj)
+    return new_provider_obj["regions"]
 
 def load_existing_regions():
     """Load the current rc_supported_regions.json file"""
@@ -113,7 +122,7 @@ def main():
     for new_provider_obj in new_data:
         provider = new_provider_obj["provider"]
         new_regions = new_provider_obj["regions"]
-        existing_regions = get_provider_regions(existing_data, provider)
+        existing_regions = get_or_create_provider_regions(existing_data, provider)
 
         for region_id, region_info in new_regions.items():
             if region_id not in existing_regions:
