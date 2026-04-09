@@ -251,11 +251,15 @@ For details on this platform, see the [TKGI documentation](https://docs.vmware.c
 For details on this platform, see the [VKS documentation](https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vsphere-supervisor-services-and-standalone-components/latest/release-notes/vmware-tanzu-kubernetes-grid-service-release-notes.html).
 
 
-| Redis operator | **<nobr>8.0.10-21</nobr>** | **<nobr>8.0.6-6</nobr>** | **<nobr>8.0.2-2</nobr>** |
-|---|---|---|---|
-|  | Jan 2026 | December 2025 | October 2025 |
-| **VMware VKS** |  |  |  |
-| 1.32 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| Redis operator | **<nobr>8.0.18-tbd</nobr>** | **<nobr>8.0.10-15</nobr>** | **<nobr>8.0.6-6</nobr>** | **<nobr>8.0.2-2</nobr>** |
+|---|---|---|---|---|
+|  | March 2026 | Jan 2026 | Dec 2025 | Oct 2025 |
+| **VMware VKS** |  |  |  |  |
+| 1.35 | <span title="Supported">&#x2705;</span> |  |  |  |
+| 1.34 | <span title="Supported">&#x2705;</span> |  |  |  |
+| 1.33 | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> |  |  |
+| 1.32 | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+
 
 
 
