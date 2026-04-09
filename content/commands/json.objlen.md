@@ -95,14 +95,14 @@ If `path` is a JSONPath expression:
 - An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
 - An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
   - [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if the match is not an object.
-  - An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of keys in the object - if the match is an object.
+  - An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of keys in the object.
 
 If `path` is a legacy path expression:
 
 - [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if `key` does not exist.
 - [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if `path` has no matches.
 - A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not an object.
-- An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of keys in the first match - if the first match is an object.
+- An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of keys in the first match.
 
 -tab-sep-
 
@@ -112,14 +112,14 @@ If `path` is a JSONpath expression:
 - An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
 - An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
   - [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the match is not an object.
-  - An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of keys in the object - if the match is an object.
+  - An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of keys in the object.
 
 If `path` is a legacy path expression:
 
 - [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if `key` does not exist.
 - [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if `path` has no matches.
 - A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not an object.
-- An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of keys in the first match - if the first match is an object.
+- An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of keys in the first match.
 
 {{< /multitabs >}}
 
