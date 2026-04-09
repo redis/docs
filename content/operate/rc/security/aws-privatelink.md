@@ -31,7 +31,7 @@ See [Connect to Redis Cloud with AWS PrivateLink](https://www.youtube.com/watch?
 ## Limitations
 
 Be aware of the following limitations when using PrivateLink with Redis Cloud:
-- You cannot use the [OSS Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) with PrivateLink yet. Support for OSS clustering API will be supported in the near future.
+- You cannot use the [OSS Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) with PrivateLink yet. Support for the OSS Cluster API will be supported in the near future.
 - If you use Layer 3 connectivity options like VPC peering or Transit Gateway together with PrivateLink in the same consumer VPC, the database endpoints exposed through PrivateLink's private DNS will resolve to the VPC endpoint and not to the IPs associated with the Layer 3 connectivity options.
 - Your subnets must have at least 16 available IP addresses for the resource endpoint.
 - Some AWS regions do not support PrivateLink Resource Endpoints. See [AWS VPC Lattice Pricing](https://aws.amazon.com/vpc/lattice/pricing/) for a list of regions that support AWS PrivateLink Resource Endpoints.
