@@ -2,94 +2,484 @@
   {
     "provider": "aws",
     "regions": {
-      "ca-central-1": { "location": "Montreal, Canada", "area": "americas", "pro": true, "essentials": true },
-      "ca-west-1": { "location": "Calgary, Canada", "area": "americas", "pro": true, "essentials": false },
-      "mx-central-1": { "location": "Central Mexico", "area": "americas", "pro": true, "essentials": false },
-      "sa-east-1": { "location": "Sao Paulo, Brazil", "area": "americas", "pro": true, "essentials": true },
-      "us-east-1": { "location": "Northern Virginia, USA", "area": "americas", "pro": true, "essentials": true },
-      "us-east-2": { "location": "Ohio, USA", "area": "americas", "pro": true, "essentials": true },
-      "us-west-1": { "location": "Northern California, USA", "area": "americas", "pro": true, "essentials": true },
-      "us-west-2": { "location": "Oregon, USA", "area": "americas", "pro": true, "essentials": true },
-      "eu-central-1": { "location": "Frankfurt, Germany", "area": "europe", "pro": true, "essentials": true },
-      "eu-central-2": { "location": "Zurich, Switzerland", "area": "europe", "pro": true, "essentials": false },
-      "eu-north-1": { "location": "Stockholm, Sweden", "area": "europe", "pro": true, "essentials": true },
-      "eu-south-1": { "location": "Milan, Italy", "area": "europe", "pro": true, "essentials": false },
-      "eu-south-2": { "location": "Spain", "area": "europe", "pro": true, "essentials": false },
-      "eu-west-1": { "location": "Ireland", "area": "europe", "pro": true, "essentials": true },
-      "eu-west-2": { "location": "London, UK", "area": "europe", "pro": true, "essentials": true },
-      "eu-west-3": { "location": "Paris, France", "area": "europe", "pro": true, "essentials": true },
-      "ap-east-1": { "location": "Hong Kong, China", "area": "asia_pacific", "pro": true, "essentials": true },
-      "ap-east-2": { "location": "Taipei, Taiwan", "area": "asia_pacific", "pro": true, "essentials": false },
-      "ap-northeast-1": { "location": "Tokyo, Japan", "area": "asia_pacific", "pro": true, "essentials": true },
-      "ap-northeast-2": { "location": "Seoul, South Korea", "area": "asia_pacific", "pro": true, "essentials": true },
-      "ap-northeast-3": { "location": "Osaka, Japan", "area": "asia_pacific", "pro": true, "essentials": false },
-      "ap-south-1": { "location": "Mumbai, India", "area": "asia_pacific", "pro": true, "essentials": true },
-      "ap-south-2": { "location": "Hyderabad, India", "area": "asia_pacific", "pro": true, "essentials": false },
-      "ap-southeast-1": { "location": "Singapore", "area": "asia_pacific", "pro": true, "essentials": true },
-      "ap-southeast-2": { "location": "Sydney, Australia", "area": "asia_pacific", "pro": true, "essentials": true },
-      "ap-southeast-3": { "location": "Jakarta, Indonesia", "area": "asia_pacific", "pro": true, "essentials": false },
-      "ap-southeast-4": { "location": "Melbourne, Australia", "area": "asia_pacific", "pro": true, "essentials": false },
-      "ap-southeast-5": { "location": "Malaysia", "area": "asia_pacific", "pro": true, "essentials": false },
-      "ap-southeast-6": { "location": "New Zealand", "area": "asia_pacific", "pro": true, "essentials": false },
-      "ap-southeast-7": { "location": "Thailand", "area": "asia_pacific", "pro": true, "essentials": false },
-      "af-south-1": { "location": "Cape Town, South Africa", "area": "middle_east_africa", "pro": true, "essentials": true },
-      "il-central-1": { "location": "Tel Aviv, Israel", "area": "middle_east_africa", "pro": true, "essentials": false },
-      "me-central-1": { "location": "UAE", "area": "middle_east_africa", "pro": true, "essentials": true },
-      "me-south-1": { "location": "Bahrain", "area": "middle_east_africa", "pro": true, "essentials": true }
+      "ca-central-1": {
+        "location": "Montreal, Canada",
+        "area": "americas",
+        "pro": true,
+        "essentials": true
+      },
+      "ca-west-1": {
+        "location": "Calgary, Canada",
+        "area": "americas",
+        "pro": true,
+        "essentials": false
+      },
+      "mx-central-1": {
+        "location": "Central Mexico",
+        "area": "americas",
+        "pro": true,
+        "essentials": false
+      },
+      "sa-east-1": {
+        "location": "Sao Paulo, Brazil",
+        "area": "americas",
+        "pro": true,
+        "essentials": true
+      },
+      "us-east-1": {
+        "location": "Northern Virginia, USA",
+        "area": "americas",
+        "pro": true,
+        "essentials": true
+      },
+      "us-east-2": {
+        "location": "Ohio, USA",
+        "area": "americas",
+        "pro": true,
+        "essentials": true
+      },
+      "us-west-1": {
+        "location": "Northern California, USA",
+        "area": "americas",
+        "pro": true,
+        "essentials": true
+      },
+      "us-west-2": {
+        "location": "Oregon, USA",
+        "area": "americas",
+        "pro": true,
+        "essentials": true
+      },
+      "eu-central-1": {
+        "location": "Frankfurt, Germany",
+        "area": "europe",
+        "pro": true,
+        "essentials": true
+      },
+      "eu-central-2": {
+        "location": "Zurich, Switzerland",
+        "area": "europe",
+        "pro": true,
+        "essentials": false
+      },
+      "eu-north-1": {
+        "location": "Stockholm, Sweden",
+        "area": "europe",
+        "pro": true,
+        "essentials": true
+      },
+      "eu-south-1": {
+        "location": "Milan, Italy",
+        "area": "europe",
+        "pro": true,
+        "essentials": false
+      },
+      "eu-south-2": {
+        "location": "Spain",
+        "area": "europe",
+        "pro": true,
+        "essentials": false
+      },
+      "eu-west-1": {
+        "location": "Ireland",
+        "area": "europe",
+        "pro": true,
+        "essentials": true
+      },
+      "eu-west-2": {
+        "location": "London, UK",
+        "area": "europe",
+        "pro": true,
+        "essentials": true
+      },
+      "eu-west-3": {
+        "location": "Paris, France",
+        "area": "europe",
+        "pro": true,
+        "essentials": true
+      },
+      "ap-east-1": {
+        "location": "Hong Kong, China",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": true
+      },
+      "ap-east-2": {
+        "location": "Taipei, Taiwan",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": false
+      },
+      "ap-northeast-1": {
+        "location": "Tokyo, Japan",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": true
+      },
+      "ap-northeast-2": {
+        "location": "Seoul, South Korea",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": true
+      },
+      "ap-northeast-3": {
+        "location": "Osaka, Japan",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": false
+      },
+      "ap-south-1": {
+        "location": "Mumbai, India",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": true
+      },
+      "ap-south-2": {
+        "location": "Hyderabad, India",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": false
+      },
+      "ap-southeast-1": {
+        "location": "Singapore",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": true
+      },
+      "ap-southeast-2": {
+        "location": "Sydney, Australia",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": true
+      },
+      "ap-southeast-3": {
+        "location": "Jakarta, Indonesia",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": false
+      },
+      "ap-southeast-4": {
+        "location": "Melbourne, Australia",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": false
+      },
+      "ap-southeast-5": {
+        "location": "Malaysia",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": false
+      },
+      "ap-southeast-6": {
+        "location": "New Zealand",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": false
+      },
+      "ap-southeast-7": {
+        "location": "Thailand",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": false
+      },
+      "af-south-1": {
+        "location": "Cape Town, South Africa",
+        "area": "middle_east_africa",
+        "pro": true,
+        "essentials": true
+      },
+      "il-central-1": {
+        "location": "Tel Aviv, Israel",
+        "area": "middle_east_africa",
+        "pro": true,
+        "essentials": false
+      },
+      "me-central-1": {
+        "location": "UAE",
+        "area": "middle_east_africa",
+        "pro": true,
+        "essentials": true
+      },
+      "me-south-1": {
+        "location": "Bahrain",
+        "area": "middle_east_africa",
+        "pro": true,
+        "essentials": true
+      }
     }
   },
   {
     "provider": "gcp",
     "regions": {
-      "northamerica-northeast1": { "location": "Montreal, Canada", "area": "americas", "pro": true, "essentials": false },
-      "northamerica-northeast2": { "location": "Toronto, Canada", "area": "americas", "pro": true, "essentials": false },
-      "northamerica-south1": { "location": "Mexico", "area": "americas", "pro": true, "essentials": false },
-      "southamerica-east1": { "location": "Sao Paulo, Brazil", "area": "americas", "pro": true, "essentials": true },
-      "southamerica-west1": { "location": "Santiago, Chile", "area": "americas", "pro": true, "essentials": false },
-      "us-central1": { "location": "Iowa, USA", "area": "americas", "pro": true, "essentials": true },
-      "us-east1": { "location": "South Carolina, USA", "area": "americas", "pro": true, "essentials": true },
-      "us-east4": { "location": "Virginia, USA", "area": "americas", "pro": true, "essentials": true },
-      "us-east5": { "location": "Columbus, USA", "area": "americas", "pro": true, "essentials": false },
-      "us-south1": { "location": "Dallas, USA", "area": "americas", "pro": true, "essentials": false },
-      "us-west1": { "location": "Oregon, USA", "area": "americas", "pro": true, "essentials": true },
-      "us-west2": { "location": "Los Angeles, USA", "area": "americas", "pro": true, "essentials": false },
-      "us-west3": { "location": "Salt Lake City, USA", "area": "americas", "pro": true, "essentials": false },
-      "us-west4": { "location": "Las Vegas, USA", "area": "americas", "pro": true, "essentials": false },
-      "europe-central2": { "location": "Warsaw, Poland", "area": "europe", "pro": true, "essentials": false },
-      "europe-north1": { "location": "Finland", "area": "europe", "pro": true, "essentials": false },
-      "europe-north2": { "location": "Stockholm, Sweden", "area": "europe", "pro": true, "essentials": false },
-      "europe-southwest1": { "location": "Madrid, Spain", "area": "europe", "pro": true, "essentials": false },
-      "europe-west1": { "location": "Belgium", "area": "europe", "pro": true, "essentials": true },
-      "europe-west2": { "location": "London, UK", "area": "europe", "pro": true, "essentials": true },
-      "europe-west3": { "location": "Frankfurt, Germany", "area": "europe", "pro": true, "essentials": true },
-      "europe-west4": { "location": "Netherlands", "area": "europe", "pro": true, "essentials": false },
-      "europe-west6": { "location": "Zurich, Switzerland", "area": "europe", "pro": true, "essentials": false },
-      "europe-west8": { "location": "Milan, Italy", "area": "europe", "pro": true, "essentials": false },
-      "europe-west9": { "location": "Paris, France", "area": "europe", "pro": true, "essentials": false },
-      "europe-west10": { "location": "Berlin, Germany", "area": "europe", "pro": true, "essentials": false },
-      "europe-west12": { "location": "Turin, Italy", "area": "europe", "pro": true, "essentials": false },
-      "asia-east1": { "location": "Taiwan", "area": "asia_pacific", "pro": true, "essentials": false },
-      "asia-east2": { "location": "Hong Kong, China", "area": "asia_pacific", "pro": true, "essentials": false },
-      "asia-northeast1": { "location": "Tokyo, Japan", "area": "asia_pacific", "pro": true, "essentials": true },
-      "asia-northeast2": { "location": "Osaka, Japan", "area": "asia_pacific", "pro": true, "essentials": false },
-      "asia-northeast3": { "location": "Seoul, South Korea", "area": "asia_pacific", "pro": true, "essentials": false },
-      "asia-south1": { "location": "Mumbai, India", "area": "asia_pacific", "pro": true, "essentials": true },
-      "asia-south2": { "location": "Delhi, India", "area": "asia_pacific", "pro": true, "essentials": false },
-      "asia-southeast1": { "location": "Singapore", "area": "asia_pacific", "pro": true, "essentials": false },
-      "asia-southeast2": { "location": "Jakarta, Indonesia", "area": "asia_pacific", "pro": true, "essentials": true },
-      "australia-southeast1": { "location": "Sydney, Australia", "area": "asia_pacific", "pro": true, "essentials": true },
-      "australia-southeast2": { "location": "Melbourne, Australia", "area": "asia_pacific", "pro": true, "essentials": false },
-      "africa-south1": { "location": "Johannesburg, South Africa", "area": "middle_east_africa", "pro": true, "essentials": false },
-      "me-central1": { "location": "Doha, Qatar", "area": "middle_east_africa", "pro": true, "essentials": false },
-      "me-central2": { "location": "Dammam, Saudi Arabia", "area": "middle_east_africa", "pro": true, "essentials": false },
-      "me-west1": { "location": "Tel Aviv, Israel", "area": "middle_east_africa", "pro": true, "essentials": false }
+      "northamerica-northeast1": {
+        "location": "Montreal, Canada",
+        "area": "americas",
+        "pro": true,
+        "essentials": false
+      },
+      "northamerica-northeast2": {
+        "location": "Toronto, Canada",
+        "area": "americas",
+        "pro": true,
+        "essentials": false
+      },
+      "northamerica-south1": {
+        "location": "Mexico",
+        "area": "americas",
+        "pro": true,
+        "essentials": false
+      },
+      "southamerica-east1": {
+        "location": "Sao Paulo, Brazil",
+        "area": "americas",
+        "pro": true,
+        "essentials": true
+      },
+      "southamerica-west1": {
+        "location": "Santiago, Chile",
+        "area": "americas",
+        "pro": true,
+        "essentials": false
+      },
+      "us-central1": {
+        "location": "Iowa, USA",
+        "area": "americas",
+        "pro": true,
+        "essentials": true
+      },
+      "us-east1": {
+        "location": "South Carolina, USA",
+        "area": "americas",
+        "pro": true,
+        "essentials": true
+      },
+      "us-east4": {
+        "location": "Virginia, USA",
+        "area": "americas",
+        "pro": true,
+        "essentials": true
+      },
+      "us-east5": {
+        "location": "Columbus, USA",
+        "area": "americas",
+        "pro": true,
+        "essentials": false
+      },
+      "us-south1": {
+        "location": "Dallas, USA",
+        "area": "americas",
+        "pro": true,
+        "essentials": false
+      },
+      "us-west1": {
+        "location": "Oregon, USA",
+        "area": "americas",
+        "pro": true,
+        "essentials": true
+      },
+      "us-west2": {
+        "location": "Los Angeles, USA",
+        "area": "americas",
+        "pro": true,
+        "essentials": false
+      },
+      "us-west3": {
+        "location": "Salt Lake City, USA",
+        "area": "americas",
+        "pro": true,
+        "essentials": false
+      },
+      "us-west4": {
+        "location": "Las Vegas, USA",
+        "area": "americas",
+        "pro": true,
+        "essentials": false
+      },
+      "europe-central2": {
+        "location": "Warsaw, Poland",
+        "area": "europe",
+        "pro": true,
+        "essentials": false
+      },
+      "europe-north1": {
+        "location": "Finland",
+        "area": "europe",
+        "pro": true,
+        "essentials": false
+      },
+      "europe-north2": {
+        "location": "Stockholm, Sweden",
+        "area": "europe",
+        "pro": true,
+        "essentials": false
+      },
+      "europe-southwest1": {
+        "location": "Madrid, Spain",
+        "area": "europe",
+        "pro": true,
+        "essentials": false
+      },
+      "europe-west1": {
+        "location": "Belgium",
+        "area": "europe",
+        "pro": true,
+        "essentials": true
+      },
+      "europe-west2": {
+        "location": "London, UK",
+        "area": "europe",
+        "pro": true,
+        "essentials": true
+      },
+      "europe-west3": {
+        "location": "Frankfurt, Germany",
+        "area": "europe",
+        "pro": true,
+        "essentials": true
+      },
+      "europe-west4": {
+        "location": "Netherlands",
+        "area": "europe",
+        "pro": true,
+        "essentials": false
+      },
+      "europe-west6": {
+        "location": "Zurich, Switzerland",
+        "area": "europe",
+        "pro": true,
+        "essentials": false
+      },
+      "europe-west8": {
+        "location": "Milan, Italy",
+        "area": "europe",
+        "pro": true,
+        "essentials": false
+      },
+      "europe-west9": {
+        "location": "Paris, France",
+        "area": "europe",
+        "pro": true,
+        "essentials": false
+      },
+      "europe-west10": {
+        "location": "Berlin, Germany",
+        "area": "europe",
+        "pro": true,
+        "essentials": false
+      },
+      "europe-west12": {
+        "location": "Turin, Italy",
+        "area": "europe",
+        "pro": true,
+        "essentials": false
+      },
+      "asia-east1": {
+        "location": "Taiwan",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": false
+      },
+      "asia-east2": {
+        "location": "Hong Kong, China",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": false
+      },
+      "asia-northeast1": {
+        "location": "Tokyo, Japan",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": true
+      },
+      "asia-northeast2": {
+        "location": "Osaka, Japan",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": false
+      },
+      "asia-northeast3": {
+        "location": "Seoul, South Korea",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": false
+      },
+      "asia-south1": {
+        "location": "Mumbai, India",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": true
+      },
+      "asia-south2": {
+        "location": "Delhi, India",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": false
+      },
+      "asia-southeast1": {
+        "location": "Singapore",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": false
+      },
+      "asia-southeast2": {
+        "location": "Jakarta, Indonesia",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": true
+      },
+      "australia-southeast1": {
+        "location": "Sydney, Australia",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": true
+      },
+      "australia-southeast2": {
+        "location": "Melbourne, Australia",
+        "area": "asia_pacific",
+        "pro": true,
+        "essentials": false
+      },
+      "africa-south1": {
+        "location": "Johannesburg, South Africa",
+        "area": "middle_east_africa",
+        "pro": true,
+        "essentials": false
+      },
+      "me-central1": {
+        "location": "Doha, Qatar",
+        "area": "middle_east_africa",
+        "pro": true,
+        "essentials": false
+      },
+      "me-central2": {
+        "location": "Dammam, Saudi Arabia",
+        "area": "middle_east_africa",
+        "pro": true,
+        "essentials": false
+      },
+      "me-west1": {
+        "location": "Tel Aviv, Israel",
+        "area": "middle_east_africa",
+        "pro": true,
+        "essentials": false
+      }
     }
   },
   {
     "provider": "azure",
     "regions": {
-      "east-us": { "location": "Virginia, USA", "area": "americas", "pro": false, "essentials": true },
-      "west-us": { "location": "California, USA", "area": "americas", "pro": false, "essentials": true }
+      "east-us": {
+        "location": "Virginia, USA",
+        "area": "americas",
+        "pro": false,
+        "essentials": true
+      },
+      "west-us": {
+        "location": "California, USA",
+        "area": "americas",
+        "pro": false,
+        "essentials": true
+      }
     }
   }
 ]
