@@ -294,6 +294,9 @@ class DashboardHandler(BaseHTTPRequestHandler):
       const plotWidth = width - padX * 2;
       const plotHeight = chartHeight - padY * 2;
       const bucketTop = chartHeight;
+      const clipIdBase = sensor.sensor_id.replace(/[^a-zA-Z0-9_-]/g, "-");
+      const chartClipId = `chart-clip-${{clipIdBase}}`;
+      const bucketClipId = `bucket-clip-${{clipIdBase}}`;
       const values = sensor.raw_points.map((point) => point.value);
       const minValue = Math.min(...values, 300);
       const maxValue = Math.max(...values, 900);
@@ -318,10 +321,11 @@ class DashboardHandler(BaseHTTPRequestHandler):
       }}
 
       const bucketBands = sensor.buckets.map((bucket, index) => {{
-        const x = xFor(bucket.start);
-        const nextX = index === sensor.buckets.length - 1 ? width - padX : xFor(bucket.end);
-        const bandWidth = Math.max(nextX - x, 0);
-        const fill = index % 2 === 0 ? "rgba(18, 99, 83, 0.04)" : "rgba(193, 83, 47, 0.035)";
+        const rawStartX = xFor(bucket.start);
+        const rawEndX = xFor(bucket.end);
+        const x = rawStartX;
+        const bandWidth = Math.max(rawEndX - rawStartX, 0);
+        const fill = "rgba(18, 99, 83, 0.04)";
         return `<rect x="${{x.toFixed(2)}}" y="${{padY}}" width="${{bandWidth.toFixed(2)}}" height="${{plotHeight.toFixed(2)}}" fill="${{fill}}" />`;
       }}).join("");
 
@@ -344,21 +348,38 @@ class DashboardHandler(BaseHTTPRequestHandler):
       const bucketRects = sensor.buckets.map((bucket, index) => {{
         const relativeStart = (bucket.start - (now - windowMs)) / windowMs;
         const relativeWidth = (bucket.end - bucket.start) / windowMs;
-        const x = padX + relativeStart * plotWidth;
-        const nextX = index === sensor.buckets.length - 1 ? width - padX : x + relativeWidth * plotWidth;
-        const rectWidth = Math.max(nextX - x, 0);
-        const fill = index % 2 === 0 ? "#fffdf8" : "#fcf7ee";
+        const rawStartX = padX + relativeStart * plotWidth;
+        const rawEndX = rawStartX + relativeWidth * plotWidth;
+        const x = rawStartX;
+        const rectWidth = Math.max(rawEndX - rawStartX, 0);
+        const visibleStartX = Math.max(rawStartX, padX);
+        const visibleEndX = Math.min(rawEndX, width - padX);
+        const visibleWidth = Math.max(visibleEndX - visibleStartX, 0);
+        const fill = "#fffdf8";
         const stroke = "#d9ccb7";
-        const textX = x + rectWidth / 2;
+        const textX = rawStartX + rectWidth / 2;
         const line1Y = bucketTop + 18;
         const line2Y = bucketTop + 32;
         const line3Y = bucketTop + 46;
+        let textBlock = "";
+        const textOpacity = Math.max(0, Math.min(1, (visibleWidth - 58) / 38)).toFixed(2);
+
+        if (visibleWidth >= 112) {{
+          textBlock = `
+          <text x="${{textX.toFixed(2)}}" y="${{line1Y}}" text-anchor="middle" font-size="11" fill="#1f2a2e" opacity="${{textOpacity}}">Min: ${{fmt(bucket.min)}}</text>
+          <text x="${{textX.toFixed(2)}}" y="${{line2Y}}" text-anchor="middle" font-size="11" fill="#1f2a2e" opacity="${{textOpacity}}">Max: ${{fmt(bucket.max)}}</text>
+          <text x="${{textX.toFixed(2)}}" y="${{line3Y}}" text-anchor="middle" font-size="11" fill="#1f2a2e" opacity="${{textOpacity}}">Avg: ${{fmt(bucket.avg)}}</text>
+          `;
+        }} else if (visibleWidth >= 86) {{
+          textBlock = `
+          <text x="${{textX.toFixed(2)}}" y="${{bucketTop + 26}}" text-anchor="middle" font-size="11" fill="#1f2a2e" opacity="${{textOpacity}}">Avg: ${{fmt(bucket.avg)}}</text>
+          <text x="${{textX.toFixed(2)}}" y="${{bucketTop + 42}}" text-anchor="middle" font-size="10" fill="#5b666a" opacity="${{textOpacity}}">Min ${{fmt(bucket.min)}} | Max ${{fmt(bucket.max)}}</text>
+          `;
+        }}
 
         return `
           <rect x="${{x.toFixed(2)}}" y="${{bucketTop}}" width="${{rectWidth.toFixed(2)}}" height="${{bucketHeight}}" fill="${{fill}}" stroke="${{stroke}}" />
-          <text x="${{textX.toFixed(2)}}" y="${{line1Y}}" text-anchor="middle" font-size="11" fill="#1f2a2e">Min: ${{fmt(bucket.min)}}</text>
-          <text x="${{textX.toFixed(2)}}" y="${{line2Y}}" text-anchor="middle" font-size="11" fill="#1f2a2e">Max: ${{fmt(bucket.max)}}</text>
-          <text x="${{textX.toFixed(2)}}" y="${{line3Y}}" text-anchor="middle" font-size="11" fill="#1f2a2e">Avg: ${{fmt(bucket.avg)}}</text>
+          ${{textBlock}}
         `;
       }}).join("");
 
@@ -369,16 +390,30 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
       return `
         <svg viewBox="0 0 ${{width}} ${{height}}" role="img" aria-label="Rolling graph and bucket summaries for ${{sensor.sensor_id}}">
-          ${{bucketRects}}
+          <defs>
+            <clipPath id="${{chartClipId}}">
+              <rect x="${{padX}}" y="${{padY}}" width="${{plotWidth}}" height="${{plotHeight}}" />
+            </clipPath>
+            <clipPath id="${{bucketClipId}}">
+              <rect x="${{padX}}" y="${{bucketTop}}" width="${{plotWidth}}" height="${{bucketHeight}}" />
+            </clipPath>
+          </defs>
+          <g clip-path="url(#${{bucketClipId}})">
+            ${{bucketRects}}
+          </g>
           <line x1="0" y1="${{bucketTop}}" x2="${{width}}" y2="${{bucketTop}}" stroke="var(--line)" stroke-width="1" />
-          ${{bucketBands}}
-          ${{verticalLines}}
-          ${{horizontalLines.join("")}}
-          ${{bucketDividers}}
-          <polyline fill="none" stroke="var(--signal)" stroke-width="2.5" points="${{polyline}}" />
-          ${{dots}}
+          <g clip-path="url(#${{chartClipId}})">
+            ${{bucketBands}}
+            ${{verticalLines}}
+            ${{horizontalLines.join("")}}
+            ${{bucketDividers}}
+            <polyline fill="none" stroke="var(--signal)" stroke-width="2.5" points="${{polyline}}" />
+            ${{dots}}
+          </g>
           ${{labels}}
-          ${{bucketBoundaryLines}}
+          <g clip-path="url(#${{bucketClipId}})">
+            ${{bucketBoundaryLines}}
+          </g>
         </svg>
       `;
     }}

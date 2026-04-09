@@ -78,6 +78,8 @@ class RedisTimeSeriesStore:
             sensor.key,
             start_ms,
             end_ms,
+            "ALIGN",
+            0,
             "AGGREGATION",
             aggregation,
             BUCKET_MS,
@@ -105,24 +107,35 @@ class RedisTimeSeriesStore:
 
         for sensor in self.sensors:
             raw_points = self._range(sensor, start_ms, now_ms)
-            min_points = self._aggregate(sensor, start_ms, now_ms, "min")
-            max_points = self._aggregate(sensor, start_ms, now_ms, "max")
-            avg_points = self._aggregate(sensor, start_ms, now_ms, "avg")
+            aggregate_start_ms = start_ms - BUCKET_MS
+            min_points = self._aggregate(sensor, aggregate_start_ms, now_ms, "min")
+            max_points = self._aggregate(sensor, aggregate_start_ms, now_ms, "max")
+            avg_points = self._aggregate(sensor, aggregate_start_ms, now_ms, "avg")
             latest = self._latest(sensor)
 
+            min_by_bucket = {point["timestamp"]: point["value"] for point in min_points}
+            max_by_bucket = {point["timestamp"]: point["value"] for point in max_points}
+            avg_by_bucket = {point["timestamp"]: point["value"] for point in avg_points}
+
+            first_bucket_start = (start_ms // BUCKET_MS) * BUCKET_MS
+            if first_bucket_start > start_ms:
+                first_bucket_start -= BUCKET_MS
+            last_bucket_start = (now_ms // BUCKET_MS) * BUCKET_MS
+
             buckets: list[dict[str, Any]] = []
-            for index, avg_point in enumerate(avg_points):
-                bucket_start = avg_point["timestamp"]
-                bucket_end = min(bucket_start + BUCKET_MS, now_ms)
+            bucket_start = first_bucket_start
+            while bucket_start <= last_bucket_start:
+                bucket_end = bucket_start + BUCKET_MS
                 buckets.append(
                     {
                         "start": bucket_start,
                         "end": bucket_end,
-                        "avg": avg_point["value"],
-                        "min": min_points[index]["value"] if index < len(min_points) else None,
-                        "max": max_points[index]["value"] if index < len(max_points) else None,
+                        "avg": avg_by_bucket.get(bucket_start),
+                        "min": min_by_bucket.get(bucket_start),
+                        "max": max_by_bucket.get(bucket_start),
                     }
                 )
+                bucket_start += BUCKET_MS
 
             sensors_payload.append(
                 {
