@@ -23,7 +23,7 @@ weight: 30
 
 Use the Redis client libraries to connect to Redis servers from
 your own code. We document the following client libraries
-for eight main languages:
+for nine main languages:
 
 | Language | Client name | Docs | Supported |
 | :-- | :-- | :-- | :-- |
@@ -55,8 +55,8 @@ libraries for [Python]({{< relref "/integrate/redisom-for-python" >}}),
 
 ## Community-supported clients
 
-The table below shows the recommended third-party client libraries for languages that
-Redis does not document directly:
+The table below shows some popular third-party client libraries. Note that Redis does not
+develop or contribute to these libraries directly.
 
 | Language | Client name | Github | Docs |
 | :-- | :-- | :-- | :-- |
@@ -64,8 +64,6 @@ Redis does not document directly:
 | [Dart](https://dart.dev/) | redis_dart_link | https://github.com/toolsetlink/redis_dart_link | https://github.com/toolsetlink/redis_dart_link |
 | [PHP](https://www.php.net/) | PhpRedis extension | https://github.com/phpredis/phpredis | https://github.com/phpredis/phpredis/blob/develop/README.md |
 | [Python](https://www.python.org/) | coredis | https://github.com/alisaifee/coredis | https://coredis.readthedocs.io |
-| [Ruby](https://www.ruby-lang.org/en/) | redis-rb | https://github.com/redis/redis-rb | https://rubydoc.info/gems/redis |
-
 
 ## Requirements
 
