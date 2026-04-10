@@ -6,18 +6,18 @@ categories:
 - oss
 - rs
 - rc
-description: Store web sessions in Redis with cookie-based session IDs and TTL expiration.
+description: Store web sessions in Redis.
 hideListLinks: true
 linkTitle: Session store
 title: Redis session store
 weight: 1
 ---
 
-## When to use
+## When to use a session store
 
-Use this pattern when you need to share per-user session state (login context, shopping carts, preferences) across stateless application servers without sticky sessions or database round-trips.
+Use a Redis session store when you need to share per-user session state (login context, shopping carts, preferences) across stateless application servers without sticky sessions or database round-trips.
 
-## Why it's hard
+## Why the problem is hard
 
 HTTP is stateless, so you must rely on external state to recognize a returning user between requests.
 Some of the obvious approaches have significant drawbacks:
@@ -26,7 +26,7 @@ Some of the obvious approaches have significant drawbacks:
     [sticky routing](https://en.wikipedia.org/wiki/Load_balancing_(computing)#Persistence), which creates
     hot spots and precludes [failover](https://en.wikipedia.org/wiki/Failover).
 -   **Moving session reads to a relational database**: this adds 5–20 ms per request. If you have
-    thousands of concurrent users then session reads dominate connection pools, turning every page load 
+    thousands of concurrent users then session reads dominate connection pools. This turns every page load
     into a contention point that degrades the primary database for all other workloads.
 
 Sessions need automatic cleanup without external sweep jobs. You will incur
@@ -36,7 +36,20 @@ you lose sessions, so durability matters more than it does with pure caching.
 At operational scale, you also need to run queries against multiple sessions (for example, find all
 carts containing a recalled product, count sessions per tenant), which is more complicated than just reading individual sessions.
 
-## What Redis gives you
+## What you can expect from a Redis solution
+
+You can:
+
+-   Eliminate sticky sessions so any instance can serve any user behind a load balancer.
+-   Expire inactive sessions automatically without cleanup jobs or database sweeps.
+-   Update individual session fields without re-serializing the full session.
+-   Track sessions across multiple devices per user, including logout-all.
+-   Query across active sessions for operational and security tasks without key scanning.
+-   Retain session data across deployments and node restarts with configurable durability.
+
+## How Redis supports the solution
+
+Redis provides the following features that make it a good fit for session storage:
 
 -   [Hashes]({{< relref "/develop/data-types/hashes" >}}) for field-level session access without 
     deserializing an entire session blob.
@@ -48,23 +61,15 @@ carts containing a recalled product, count sessions per tenant), which is more c
     handle explicit logout or logout-all).
 -   AOF and RDB [persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}) to let 
     sessions survive process and node restarts within their expiration window. 
--   Secondary indexing via [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) to support     
+-   Secondary indexing via [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) to support
     cross-session queries at runtime (finding affected carts, counting sessions by tenant)
     without key scanning.
--   Sub-millisecond latency on the request path, on the same Redis instance already in most stacks.
-
-## Practical benefits
-
-In practice you can
-
--   Eliminate server affinity so any instance can serve any user behind a load balancer.
--   Expire inactive sessions automatically without cleanup jobs or database sweeps.
--   Update individual session fields without re-serializing the full session.
--   Track sessions across multiple devices per user, including logout-all.
--   Query across active sessions for operational and security tasks without key scanning.
--   Retain session data across deployments and node restarts with configurable durability.
+-   Sub-millisecond latency on the request path, which is already on the same Redis instance
+    in most stacks.
 
 ## Ecosystem
+
+The following libraries and frameworks provide Redis session store integrations:
 
 -   **Java**:
     [Spring Session Data Redis](https://docs.spring.io/spring-session/reference/configuration/redis.html)
@@ -76,14 +81,14 @@ In practice you can
     [Envoy](https://www.envoyproxy.io/docs/envoy/latest/start/quick-start/configuration-dynamic-control-plane)
     (Redis-backed session and token storage)
 
-## Example implementations
+## Code examples to build your own Redis session store
 
-The following guides show how to build a Redis-backed session store.
+The following guides show how to build a simple Redis-backed session store.
 Each guide includes a runnable example to illustrate using the session store with a basic local
 web server for each of the following client libraries:
 
 * [redis-py (Python)]({{< relref "/develop/use-cases/session-store/redis-py" >}})
-* [Node.js (Node.js)]({{< relref "/develop/use-cases/session-store/nodejs" >}})
+* [node-redis (Node.js)]({{< relref "/develop/use-cases/session-store/nodejs" >}})
 * [go-redis (Go)]({{< relref "/develop/use-cases/session-store/go" >}})
 * [Jedis (Java)]({{< relref "/develop/use-cases/session-store/java-jedis" >}})
 * [Lettuce (Java)]({{< relref "/develop/use-cases/session-store/java-lettuce" >}})

@@ -18,5 +18,5 @@ This section provides practical examples and reference implementations for commo
 ## Available use cases
 
 * [Rate limiting]({{< relref "/develop/use-cases/rate-limiter" >}})
-* [Session storage]({{< relref "/develop/use-cases/session-store" >}})
+* [Session store]({{< relref "/develop/use-cases/session-store" >}})
 * [Leaderboards]({{< relref "/develop/use-cases/leaderboard" >}})
