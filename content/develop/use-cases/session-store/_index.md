@@ -49,6 +49,8 @@ You can:
 
 ## How Redis supports the solution
 
+In practice, each session is stored as a Redis hash — one hash per session ID — and the key is set to expire automatically so inactive sessions are cleaned up without any external job.
+
 Redis provides the following features that make it a good fit for session storage:
 
 -   [Hashes]({{< relref "/develop/data-types/hashes" >}}) for field-level session access without 
@@ -61,7 +63,8 @@ Redis provides the following features that make it a good fit for session storag
     handle explicit logout or logout-all).
 -   AOF and RDB [persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}) to let 
     sessions survive process and node restarts within their expiration window. 
--   Secondary indexing via [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) to support
+-   Secondary indexing (querying by field values rather than by key) via
+    [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) to support
     cross-session queries at runtime (finding affected carts, counting sessions by tenant)
     without key scanning.
 -   Sub-millisecond latency on the request path, which is already on the same Redis instance
