@@ -162,7 +162,13 @@ class RedisLeaderboard:
     def get_top(self, count: int) -> list[dict[str, object]]:
         """Return the top-scoring leaderboard entries."""
         normalized_count = self._normalize_positive_int(count, "count")
-        entries = self.redis.zrevrange(self.key, 0, normalized_count - 1, withscores=True)
+        entries = self.redis.zrange(
+            self.key,
+            0,
+            normalized_count - 1,
+            desc=True,
+            withscores=True,
+        )
         return self._hydrate_entries(entries, start_rank=1)
 
     def get_around_rank(self, rank: int, count: int) -> list[dict[str, object]]:
@@ -174,14 +180,26 @@ class RedisLeaderboard:
             return []
 
         if total_entries <= normalized_count:
-            entries = self.redis.zrevrange(self.key, 0, -1, withscores=True)
+            entries = self.redis.zrange(
+                self.key,
+                0,
+                -1,
+                desc=True,
+                withscores=True,
+            )
             return self._hydrate_entries(entries, start_rank=1)
 
         half_window = normalized_count // 2
         start = max(0, normalized_rank - 1 - half_window)
         start = min(start, total_entries - normalized_count)
         end = start + normalized_count - 1
-        entries = self.redis.zrevrange(self.key, start, end, withscores=True)
+        entries = self.redis.zrange(
+            self.key,
+            start,
+            end,
+            desc=True,
+            withscores=True,
+        )
         return self._hydrate_entries(entries, start_rank=start + 1)
 
     def get_rank(self, user_id: str) -> Optional[int]:
@@ -215,7 +233,7 @@ class RedisLeaderboard:
 
     def list_all(self) -> list[dict[str, object]]:
         """Return the full leaderboard from highest to lowest score."""
-        entries = self.redis.zrevrange(self.key, 0, -1, withscores=True)
+        entries = self.redis.zrange(self.key, 0, -1, desc=True, withscores=True)
         return self._hydrate_entries(entries, start_rank=1)
 
     def get_size(self) -> int:

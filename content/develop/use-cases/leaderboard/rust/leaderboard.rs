@@ -130,7 +130,7 @@ impl RedisLeaderboard {
         count: usize,
     ) -> RedisResult<Vec<LeaderboardEntry>> {
         let count = normalize_positive_int(count, "count");
-        let entries = zrevrange_with_scores(con, &self.key, 0, (count - 1) as isize)?;
+        let entries = zrange_with_scores_rev(con, &self.key, 0, (count - 1) as isize)?;
         self.hydrate_entries(con, entries, 1)
     }
 
@@ -158,7 +158,7 @@ impl RedisLeaderboard {
         }
         let end = start + count - 1;
 
-        let entries = zrevrange_with_scores(con, &self.key, start, end as isize)?;
+        let entries = zrange_with_scores_rev(con, &self.key, start, end as isize)?;
         self.hydrate_entries(con, entries, start + 1)
     }
 
@@ -201,7 +201,7 @@ impl RedisLeaderboard {
     }
 
     pub fn list_all(&self, con: &mut dyn redis::ConnectionLike) -> RedisResult<Vec<LeaderboardEntry>> {
-        let entries = zrevrange_with_scores(con, &self.key, 0, -1)?;
+        let entries = zrange_with_scores_rev(con, &self.key, 0, -1)?;
         self.hydrate_entries(con, entries, 1)
     }
 
@@ -372,7 +372,7 @@ impl AsyncRedisLeaderboard {
         count: usize,
     ) -> RedisResult<Vec<LeaderboardEntry>> {
         let count = normalize_positive_int(count, "count");
-        let entries = zrevrange_with_scores_async(con, &self.key, 0, count as isize - 1).await?;
+        let entries = zrange_with_scores_rev_async(con, &self.key, 0, count as isize - 1).await?;
         self.hydrate_entries(con, entries, 1).await
     }
 
@@ -400,7 +400,7 @@ impl AsyncRedisLeaderboard {
         }
         let end = start + count - 1;
 
-        let entries = zrevrange_with_scores_async(con, &self.key, start as isize, end as isize).await?;
+        let entries = zrange_with_scores_rev_async(con, &self.key, start as isize, end as isize).await?;
         self.hydrate_entries(con, entries, start + 1).await
     }
 
@@ -447,7 +447,7 @@ impl AsyncRedisLeaderboard {
         &self,
         con: &mut redis::aio::MultiplexedConnection,
     ) -> RedisResult<Vec<LeaderboardEntry>> {
-        let entries = zrevrange_with_scores_async(con, &self.key, 0, -1).await?;
+        let entries = zrange_with_scores_rev_async(con, &self.key, 0, -1).await?;
         self.hydrate_entries(con, entries, 1).await
     }
 
@@ -559,30 +559,32 @@ fn parse_score_value(value: Option<&redis::Value>) -> Option<f64> {
     }
 }
 
-fn zrevrange_with_scores(
+fn zrange_with_scores_rev(
     con: &mut dyn redis::ConnectionLike,
     key: &str,
     start: usize,
     end: isize,
 ) -> RedisResult<Vec<(String, f64)>> {
-    redis::cmd("ZREVRANGE")
+    redis::cmd("ZRANGE")
         .arg(key)
         .arg(start)
         .arg(end)
+        .arg("REV")
         .arg("WITHSCORES")
         .query(con)
 }
 
-async fn zrevrange_with_scores_async(
+async fn zrange_with_scores_rev_async(
     con: &mut redis::aio::MultiplexedConnection,
     key: &str,
     start: isize,
     end: isize,
 ) -> RedisResult<Vec<(String, f64)>> {
-    redis::cmd("ZREVRANGE")
+    redis::cmd("ZRANGE")
         .arg(key)
         .arg(start)
         .arg(end)
+        .arg("REV")
         .arg("WITHSCORES")
         .query_async(con)
         .await

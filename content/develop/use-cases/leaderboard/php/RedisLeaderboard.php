@@ -100,7 +100,7 @@ class RedisLeaderboard
     public function getTop(int $count): array
     {
         $normalizedCount = $this->normalizePositiveInt($count, 'count');
-        $entries = $this->redis->zrevrange($this->key, 0, $normalizedCount - 1, 'WITHSCORES');
+        $entries = $this->zrangeWithScoresRev(0, $normalizedCount - 1);
         return $this->hydrateEntries($entries, 1);
     }
 
@@ -126,7 +126,7 @@ class RedisLeaderboard
         }
         $end = $start + $normalizedCount - 1;
 
-        $entries = $this->redis->zrevrange($this->key, $start, $end, 'WITHSCORES');
+        $entries = $this->zrangeWithScoresRev($start, $end);
         return $this->hydrateEntries($entries, $start + 1);
     }
 
@@ -167,7 +167,7 @@ class RedisLeaderboard
 
     public function listAll(): array
     {
-        $entries = $this->redis->zrevrange($this->key, 0, -1, 'WITHSCORES');
+        $entries = $this->zrangeWithScoresRev(0, -1);
         return $this->hydrateEntries($entries, 1);
     }
 
@@ -207,6 +207,25 @@ class RedisLeaderboard
             $payload[(string) $field] = (string) $value;
         }
         return $payload;
+    }
+
+    private function zrangeWithScoresRev(int $start, int $stop): array
+    {
+        $response = $this->redis->executeRaw([
+            'ZRANGE',
+            $this->key,
+            (string) $start,
+            (string) $stop,
+            'REV',
+            'WITHSCORES',
+        ]);
+
+        $entries = [];
+        for ($index = 0; $index < count($response); $index += 2) {
+            $entries[(string) $response[$index]] = (float) $response[$index + 1];
+        }
+
+        return $entries;
     }
 
     private function trimToMaxEntries(): array

@@ -50,12 +50,13 @@ class RedisLeaderboard {
     await this.redis.sendCommand(["DEL", ...keys]);
   }
 
-  async _zRevRangeWithScores(start, end) {
+  async _zRangeWithScoresRev(start, end) {
     const response = await this.redis.sendCommand([
-      "ZREVRANGE",
+      "ZRANGE",
       this.key,
       String(start),
       String(end),
+      "REV",
       "WITHSCORES",
     ]);
 
@@ -187,7 +188,7 @@ class RedisLeaderboard {
 
   async getTop(count) {
     const normalizedCount = this._normalizePositiveInt(count, "count");
-    const entries = await this._zRevRangeWithScores(0, normalizedCount - 1);
+    const entries = await this._zRangeWithScoresRev(0, normalizedCount - 1);
     return this._hydrateEntries(entries, 1);
   }
 
@@ -209,7 +210,7 @@ class RedisLeaderboard {
     start = Math.min(start, totalEntries - normalizedCount);
     const end = start + normalizedCount - 1;
 
-    const entries = await this._zRevRangeWithScores(start, end);
+    const entries = await this._zRangeWithScoresRev(start, end);
     return this._hydrateEntries(entries, start + 1);
   }
 
@@ -245,7 +246,7 @@ class RedisLeaderboard {
   }
 
   async listAll() {
-    const entries = await this._zRevRangeWithScores(0, -1);
+    const entries = await this._zRangeWithScoresRev(0, -1);
     return this._hydrateEntries(entries, 1);
   }
 

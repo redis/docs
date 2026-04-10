@@ -7,6 +7,11 @@ import java.util.concurrent.CompletableFuture;
 
 import io.lettuce.core.ScoredValue;
 import io.lettuce.core.api.async.RedisAsyncCommands;
+import io.lettuce.core.codec.StringCodec;
+import io.lettuce.core.output.ScoredValueListOutput;
+import io.lettuce.core.protocol.CommandArgs;
+import io.lettuce.core.protocol.CommandKeyword;
+import io.lettuce.core.protocol.CommandType;
 
 /**
  * Async Redis leaderboard implementation using Lettuce asynchronous commands.
@@ -94,7 +99,7 @@ public class AsyncRedisLeaderboard {
 
     public CompletableFuture<List<LeaderboardEntry>> getTop(int count) {
         int normalizedCount = normalizePositiveInt(count, "count");
-        return commands.zrevrangeWithScores(key, 0, normalizedCount - 1)
+        return zrangeWithScoresRev(0, normalizedCount - 1)
                 .toCompletableFuture()
                 .thenCompose(entries -> hydrateEntries(entries, 1));
     }
@@ -113,15 +118,16 @@ public class AsyncRedisLeaderboard {
 
             int halfWindow = normalizedCount / 2;
             int start = Math.max(0, normalizedRank - 1 - halfWindow);
-            int maxStart = (int) totalEntries - normalizedCount;
+            int maxStart = totalEntries.intValue() - normalizedCount;
             if (start > maxStart) {
                 start = maxStart;
             }
             int end = start + normalizedCount - 1;
+            int startRank = start + 1;
 
-            return commands.zrevrangeWithScores(key, start, end)
+            return zrangeWithScoresRev(start, end)
                     .toCompletableFuture()
-                    .thenCompose(entries -> hydrateEntries(entries, start + 1));
+                    .thenCompose(entries -> hydrateEntries(entries, startRank));
         });
     }
 
@@ -160,7 +166,7 @@ public class AsyncRedisLeaderboard {
     }
 
     public CompletableFuture<List<LeaderboardEntry>> listAll() {
-        return commands.zrevrangeWithScores(key, 0, -1)
+        return zrangeWithScoresRev(0, -1)
                 .toCompletableFuture()
                 .thenCompose(entries -> hydrateEntries(entries, 1));
     }
@@ -200,6 +206,19 @@ public class AsyncRedisLeaderboard {
             return new LinkedHashMap<>();
         }
         return new LinkedHashMap<>(metadata);
+    }
+
+    private io.lettuce.core.RedisFuture<List<ScoredValue<String>>> zrangeWithScoresRev(long start, long end) {
+        return commands.dispatch(
+                CommandType.ZRANGE,
+                new ScoredValueListOutput<>(StringCodec.UTF8),
+                new CommandArgs<>(StringCodec.UTF8)
+                        .addKey(key)
+                        .add(start)
+                        .add(end)
+                        .add(CommandKeyword.REV)
+                        .add(CommandKeyword.WITHSCORES)
+        );
     }
 
     private CompletableFuture<List<String>> trimToMaxEntries() {

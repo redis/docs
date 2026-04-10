@@ -21,7 +21,7 @@ Leaderboards are a classic Redis pattern. A sorted set stores each member togeth
 That gives you:
 
 * Fast score updates for existing users
-* Simple top-`n` leaderboard queries
+* Simple top `n` leaderboard queries
 * Efficient queries for entries around a specific rank position
 * Straightforward trimming to a fixed leaderboard size
 * A clean separation between rank data and richer user metadata
@@ -96,7 +96,7 @@ The score data lives in the sorted set, while the user details live in hashes ke
 The implementation uses:
 
 * [`ZADD`]({{< relref "/commands/zadd" >}}) to add or update leaderboard scores
-* [`ZREVRANGE`]({{< relref "/commands/zrevrange" >}}) to fetch the highest-ranked members
+* [`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `REV` option to fetch the highest-ranked members
 * [`ZREVRANK`]({{< relref "/commands/zrevrank" >}}) to find a user's rank from the top
 * [`ZREMRANGEBYRANK`]({{< relref "/commands/zremrangebyrank" >}}) to trim the lowest-ranked overflow entries
 * [`HSET`]({{< relref "/commands/hset" >}}) and [`HGETALL`]({{< relref "/commands/hgetall" >}}) to store and load user metadata
@@ -143,7 +143,7 @@ async getAroundRank(rank, count) {
   start = Math.min(start, totalEntries - normalizedCount);
   const end = start + normalizedCount - 1;
 
-  const entries = await this._zRevRangeWithScores(start, end);
+  const entries = await this._zRangeWithScoresRev(start, end);
   return this._hydrateEntries(entries, start + 1);
 }
 ```

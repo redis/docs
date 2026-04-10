@@ -6,6 +6,11 @@ import java.util.Objects;
 
 import io.lettuce.core.ScoredValue;
 import io.lettuce.core.api.reactive.RedisReactiveCommands;
+import io.lettuce.core.codec.StringCodec;
+import io.lettuce.core.output.ScoredValueListOutput;
+import io.lettuce.core.protocol.CommandArgs;
+import io.lettuce.core.protocol.CommandKeyword;
+import io.lettuce.core.protocol.CommandType;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -77,8 +82,7 @@ public class ReactiveRedisLeaderboard {
 
     public Mono<List<LeaderboardEntry>> getTop(int count) {
         int normalizedCount = normalizePositiveInt(count, "count");
-        return commands.zrevrangeWithScores(key, 0, normalizedCount - 1)
-                .collectList()
+        return zrangeWithScoresRev(0, normalizedCount - 1)
                 .flatMap(entries -> hydrateEntries(entries, 1));
     }
 
@@ -96,15 +100,15 @@ public class ReactiveRedisLeaderboard {
 
             int halfWindow = normalizedCount / 2;
             int start = Math.max(0, normalizedRank - 1 - halfWindow);
-            int maxStart = (int) totalEntries - normalizedCount;
+            int maxStart = totalEntries.intValue() - normalizedCount;
             if (start > maxStart) {
                 start = maxStart;
             }
             int end = start + normalizedCount - 1;
+            int startRank = start + 1;
 
-            return commands.zrevrangeWithScores(key, start, end)
-                    .collectList()
-                    .flatMap(entries -> hydrateEntries(entries, start + 1));
+            return zrangeWithScoresRev(start, end)
+                    .flatMap(entries -> hydrateEntries(entries, startRank));
         });
     }
 
@@ -115,7 +119,7 @@ public class ReactiveRedisLeaderboard {
 
     public Mono<Map<String, String>> getUserMetadata(String userId) {
         return commands.hgetall(metadataKey(userId))
-                .collectMap(Map.Entry::getKey, Map.Entry::getValue)
+                .collectMap(io.lettuce.core.KeyValue::getKey, io.lettuce.core.KeyValue::getValue)
                 .map(map -> (Map<String, String>) map);
     }
 
@@ -134,8 +138,7 @@ public class ReactiveRedisLeaderboard {
     }
 
     public Mono<List<LeaderboardEntry>> listAll() {
-        return commands.zrevrangeWithScores(key, 0, -1)
-                .collectList()
+        return zrangeWithScoresRev(0, -1)
                 .flatMap(entries -> hydrateEntries(entries, 1));
     }
 
@@ -172,6 +175,20 @@ public class ReactiveRedisLeaderboard {
             return new LinkedHashMap<>();
         }
         return new LinkedHashMap<>(metadata);
+    }
+
+    private Mono<List<ScoredValue<String>>> zrangeWithScoresRev(long start, long end) {
+        return commands.<List<ScoredValue<String>>>dispatch(
+                        CommandType.ZRANGE,
+                        new ScoredValueListOutput<>(StringCodec.UTF8),
+                        new CommandArgs<>(StringCodec.UTF8)
+                                .addKey(key)
+                                .add(start)
+                                .add(end)
+                                .add(CommandKeyword.REV)
+                                .add(CommandKeyword.WITHSCORES)
+                )
+                .single();
     }
 
     private Mono<List<String>> trimToMaxEntries() {

@@ -10,7 +10,8 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.Response;
 import redis.clients.jedis.Transaction;
-import redis.clients.jedis.Tuple;
+import redis.clients.jedis.params.ZRangeParams;
+import redis.clients.jedis.resps.Tuple;
 
 /**
  * Redis-backed leaderboard implementation using a sorted set and user metadata hashes.
@@ -104,7 +105,10 @@ public class RedisLeaderboard {
     public List<LeaderboardEntry> getTop(int count) {
         int normalizedCount = normalizePositiveInt(count, "count");
         try (Jedis jedis = jedisPool.getResource()) {
-            Set<Tuple> entries = jedis.zrevrangeWithScores(key, 0, normalizedCount - 1);
+            List<Tuple> entries = jedis.zrangeWithScores(
+                    key,
+                    ZRangeParams.zrangeParams(0, normalizedCount - 1).rev()
+            );
             return hydrateEntries(entries, 1);
         }
     }
@@ -130,7 +134,10 @@ public class RedisLeaderboard {
         int end = start + normalizedCount - 1;
 
         try (Jedis jedis = jedisPool.getResource()) {
-            Set<Tuple> entries = jedis.zrevrangeWithScores(key, start, end);
+            List<Tuple> entries = jedis.zrangeWithScores(
+                    key,
+                    ZRangeParams.zrangeParams(start, end).rev()
+            );
             return hydrateEntries(entries, start + 1);
         }
     }
@@ -177,7 +184,10 @@ public class RedisLeaderboard {
 
     public List<LeaderboardEntry> listAll() {
         try (Jedis jedis = jedisPool.getResource()) {
-            Set<Tuple> entries = jedis.zrevrangeWithScores(key, 0, -1);
+            List<Tuple> entries = jedis.zrangeWithScores(
+                    key,
+                    ZRangeParams.zrangeParams(0, -1).rev()
+            );
             return hydrateEntries(entries, 1);
         }
     }
@@ -252,24 +262,23 @@ public class RedisLeaderboard {
         }
     }
 
-    private List<LeaderboardEntry> hydrateEntries(Set<Tuple> entries, int startRank) {
+    private List<LeaderboardEntry> hydrateEntries(List<Tuple> entries, int startRank) {
         if (entries.isEmpty()) {
             return List.of();
         }
 
-        List<Tuple> orderedEntries = new ArrayList<>(entries);
         List<LeaderboardEntry> hydratedEntries = new ArrayList<>();
 
         try (Jedis jedis = jedisPool.getResource()) {
             Pipeline pipeline = jedis.pipelined();
             List<Response<Map<String, String>>> metadataResponses = new ArrayList<>();
-            for (Tuple entry : orderedEntries) {
+            for (Tuple entry : entries) {
                 metadataResponses.add(pipeline.hgetAll(metadataKey(entry.getElement())));
             }
             pipeline.sync();
 
-            for (int index = 0; index < orderedEntries.size(); index++) {
-                Tuple entry = orderedEntries.get(index);
+            for (int index = 0; index < entries.size(); index++) {
+                Tuple entry = entries.get(index);
                 hydratedEntries.add(new LeaderboardEntry(
                         startRank + index,
                         entry.getElement(),

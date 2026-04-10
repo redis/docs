@@ -56,13 +56,6 @@ func normalizePositiveInt(value int, fieldName string) (int, error) {
 	return value, nil
 }
 
-func max(a int, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func (lb *RedisLeaderboard) metadataKey(userID string) string {
 	return fmt.Sprintf("%s:user:%s", lb.key, userID)
 }
@@ -85,6 +78,19 @@ func (lb *RedisLeaderboard) metadataPayload(metadata map[string]string) map[stri
 		payload[field] = value
 	}
 	return payload
+}
+
+func (lb *RedisLeaderboard) zrangeWithScoresRev(
+	ctx context.Context,
+	start int,
+	stop int,
+) ([]redis.Z, error) {
+	return lb.client.ZRangeArgsWithScores(ctx, redis.ZRangeArgs{
+		Key:   lb.key,
+		Start: start,
+		Stop:  stop,
+		Rev:   true,
+	}).Result()
 }
 
 func (lb *RedisLeaderboard) deleteMetadataForUsers(ctx context.Context, userIDs []string) error {
@@ -275,7 +281,7 @@ func (lb *RedisLeaderboard) GetTop(ctx context.Context, count int) ([]Entry, err
 		return nil, err
 	}
 
-	entries, err := lb.client.ZRevRangeWithScores(ctx, lb.key, 0, int64(normalized-1)).Result()
+	entries, err := lb.zrangeWithScoresRev(ctx, 0, normalized-1)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch top leaderboard entries: %w", err)
 	}
@@ -313,7 +319,7 @@ func (lb *RedisLeaderboard) GetAroundRank(ctx context.Context, rank int, count i
 	}
 	end := start + normalizedCount - 1
 
-	entries, err := lb.client.ZRevRangeWithScores(ctx, lb.key, int64(start), int64(end)).Result()
+	entries, err := lb.zrangeWithScoresRev(ctx, start, end)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch leaderboard window: %w", err)
 	}
@@ -385,7 +391,7 @@ func (lb *RedisLeaderboard) GetUserEntry(ctx context.Context, userID string) (*E
 
 // ListAll returns the full leaderboard from highest to lowest score.
 func (lb *RedisLeaderboard) ListAll(ctx context.Context) ([]Entry, error) {
-	entries, err := lb.client.ZRevRangeWithScores(ctx, lb.key, 0, -1).Result()
+	entries, err := lb.zrangeWithScoresRev(ctx, 0, -1)
 	if err != nil {
 		return nil, fmt.Errorf("failed to list leaderboard: %w", err)
 	}

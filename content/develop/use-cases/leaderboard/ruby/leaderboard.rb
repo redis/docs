@@ -66,7 +66,7 @@ class RedisLeaderboard
 
   def get_top(count)
     normalized_count = normalize_positive_int(count, "count")
-    entries = @redis.zrevrange(@key, 0, normalized_count - 1, with_scores: true)
+    entries = zrange_with_scores_rev(0, normalized_count - 1)
     hydrate_entries(entries, 1)
   end
 
@@ -83,7 +83,7 @@ class RedisLeaderboard
     start = max_start if start > max_start
     ending = start + normalized_count - 1
 
-    entries = @redis.zrevrange(@key, start, ending, with_scores: true)
+    entries = zrange_with_scores_rev(start, ending)
     hydrate_entries(entries, start + 1)
   end
 
@@ -116,7 +116,7 @@ class RedisLeaderboard
   end
 
   def list_all
-    entries = @redis.zrevrange(@key, 0, -1, with_scores: true)
+    entries = zrange_with_scores_rev(0, -1)
     hydrate_entries(entries, 1)
   end
 
@@ -146,6 +146,11 @@ class RedisLeaderboard
 
   def coerce_metadata(metadata)
     metadata.to_h.transform_keys(&:to_s).transform_values(&:to_s)
+  end
+
+  def zrange_with_scores_rev(start, ending)
+    response = @redis.call("ZRANGE", @key, start, ending, "REV", "WITHSCORES")
+    response.each_slice(2).map { |user_id, score| [user_id, score.to_f] }
   end
 
   def trim_to_max_entries
