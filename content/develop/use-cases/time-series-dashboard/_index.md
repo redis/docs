@@ -35,3 +35,4 @@ This makes it a good fit for demonstrating how Redis time series support:
 * [redis-py]({{< relref "/develop/use-cases/time-series-dashboard/redis-py" >}}) - Build a local Python demo with three rolling sensor graphs, aligned bucket summaries, and visible sample expiration
 * [Node.js]({{< relref "/develop/use-cases/time-series-dashboard/nodejs" >}}) - Build the same rolling sensor graph demo with `node-redis` and a local Node.js server
 * [Java]({{< relref "/develop/use-cases/time-series-dashboard/java-jedis" >}}) - Build the same rolling sensor graph demo with Jedis and a local Java server
+* [Go]({{< relref "/develop/use-cases/time-series-dashboard/go" >}}) - Build the same rolling sensor graph demo with `go-redis` and a local Go server
