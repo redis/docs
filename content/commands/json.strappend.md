@@ -121,7 +121,7 @@ If `path` is a JSONPath expression:
 - A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
 - An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
 - An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
-  - A [Null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the match is not a string.
+  - [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the match is not a string.
   - An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the new length of the string.
 
 If `path` is a legacy path expression:
