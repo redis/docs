@@ -9,17 +9,17 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Monitor changes to individual hash fields in real time
-linkTitle: Sub-keyspace notifications
-title: Redis sub-keyspace notifications
+description: Monitor changes to individual subkeys in real time
+linkTitle: Subkey notifications
+title: Redis subkey notifications
 weight: 5
 ---
 
-Sub-keyspace notifications, added in Redis 8.8, extend Redis's existing [keyspace notification]({{< relref "/develop/pubsub/keyspace-notifications" >}}) system to include **field-level** (subkey) details for hash operations.
+Subkey notifications, added in Redis 8.8, extend Redis's existing [keyspace notification]({{< relref "/develop/pubsub/keyspace-notifications" >}}) system to include the key, the subkey (for example, the field for hashes, the path for JSON documents, and the element for arrays), and the event type.
 
-With standard keyspace notifications, when a hash field is modified via [`HSET`]({{< relref "/commands/hset" >}}), [`HDEL`]({{< relref "/commands/hdel" >}}), or [`HEXPIRE`]({{< relref "/commands/hexpire" >}}), the subscriber receives the key name and the event type but not which specific fields were affected. Sub-keyspace notifications solve this by carrying the affected field names in the message payload.
+With standard keyspace notifications, when a hash field is modified via [`HSET`]({{< relref "/commands/hset" >}}), [`HDEL`]({{< relref "/commands/hdel" >}}), or [`HEXPIRE`]({{< relref "/commands/hexpire" >}}), the subscriber receives the key name and the event type but not which specific fields were affected. Subkey notifications solve this by carrying the affected field names in the message payload.
 
-Sub-keyspace notifications are delivered through Pub/Sub channels and are independent of the standard keyspace/keyevent notification channels. Enabling sub-keyspace notifications does **not** implicitly enable standard keyspace notifications, and vice versa.
+Subkey notifications are delivered through Pub/Sub channels and are independent of the standard keyspace/keyevent notification channels. Enabling subkey notifications does **not** implicitly enable standard keyspace notifications, and vice versa.
 
 Note: Redis Pub/Sub is *fire and forget*. If your Pub/Sub client disconnects and reconnects later, all events delivered during the disconnection period are lost.
 
@@ -36,22 +36,22 @@ Four new channel types are available, each suited to a different subscription pa
 
 **Design rationale:**
 
-- **Subkeyspace** (`__subkeyspace@<db>__:<key>`): Subscribe to a specific key and receive all field changes in a single message. Efficient for key-centric consumers.
-- **Subkeyevent** (`__subkeyevent@<db>__:<event>`): Subscribe to a specific event type and receive the key and affected fields. Efficient for event-centric consumers.
-- **Subkeyspaceitem** (`__subkeyspaceitem@<db>__:<key>\n<subkey>`): Subscribe to a specific key+field combination. The most selective option — one message per field, no payload parsing required.
-- **Subkeyspaceevent** (`__subkeyspaceevent@<db>__:<event>|<key>`): Subscribe to an event+key combination and receive only the affected fields. Provides server-side filtering on both dimensions.
+- **Subkeyspace** (`__subkeyspace@<db>__:<key>`): Subscribe to a specific key; each message contains an event type and subkey names.
+- **Subkeyevent** (`__subkeyevent@<db>__:<event>`): Subscribe to a specific event type; each message contains a key name and subkey names.
+- **Subkeyspaceitem** (`__subkeyspaceitem@<db>__:<key>\n<subkey>`): Subscribe to a specific key and subkey name combination; each message contains an event type.
+- **Subkeyspaceevent** (`__subkeyspaceevent@<db>__:<event>|<key>`): Subscribe to a specific event and key combination; each message contains subkey names.
 
-Subkeys in the payload are encoded in a length-prefixed format (`<len>:<subkey>`) to support binary-safe field names that may contain delimiter characters.
+Subkeys in the payload are encoded in a length-prefixed format (`<len>:<subkey>`) to support binary-safe subkey names that may contain delimiter characters.
 
-**Safety guards:**
+**Safeguards:**
 
 - Events whose name contains `|` are skipped for the `__subkeyspace` and `__subkeyspaceevent` channels to avoid parsing ambiguity.
 - Keys containing `\n` are skipped for the `__subkeyspaceitem` channel because newline is the key/subkey separator.
-- Sub-keyspace events are only published when at least one subkey (field) is present.
+- Subkey events are only published when at least one subkey is present.
 
 ### Configuration
 
-Sub-keyspace notifications are controlled via the existing `notify-keyspace-events` configuration string. Four new flag characters are added:
+Subkey notifications are controlled by the existing `notify-keyspace-events` configuration string. Four new flag characters are added:
 
     S     Subkeyspace events, published with __subkeyspace@<db>__ prefix.
     T     Subkeyevent events, published with __subkeyevent@<db>__ prefix.
@@ -62,40 +62,38 @@ These flags are **independent** from the existing key-level flags (`K`, `E`, and
 
     $ redis-cli config set notify-keyspace-events ST
 
-To enable all four sub-keyspace channel types:
+To enable all four subkey channel types:
 
     $ redis-cli config set notify-keyspace-events STIV
 
-### Events generated by hash commands
+### Supported commands
 
-The following hash operations emit sub-keyspace notifications that include the names of the affected fields:
+The following commands emit subkey notifications. Currently, only hash commands are supported; support for additional data types is planned for future releases.
 
-| Command | Event | Subkeys (fields) included |
+| Command | Event | Subkeys included |
 |---|---|---|
-| [`HSET`]({{< relref "/commands/hset" >}}) / [`HMSET`]({{< relref "/commands/hmset" >}}) | `hset` | All fields being set |
-| [`HSETNX`]({{< relref "/commands/hsetnx" >}}) | `hset` | The field (only if it was set) |
-| [`HDEL`]({{< relref "/commands/hdel" >}}) | `hdel` | All fields deleted |
-| [`HGETDEL`]({{< relref "/commands/hgetdel" >}}) | `hdel` / `hexpired` | Deleted or lazily expired fields |
-| [`HGETEX`]({{< relref "/commands/hgetex" >}}) | `hexpire` / `hpersist` / `hdel` / `hexpired` | Affected fields per event type |
-| [`HINCRBY`]({{< relref "/commands/hincrby" >}}) | `hincrby` | The field |
-| [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}) | `hincrbyfloat` | The field |
-| [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) / [`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}) / [`HEXPIREAT`]({{< relref "/commands/hexpireat" >}}) / [`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}) | `hexpire` | Fields whose TTL was updated |
-| [`HPERSIST`]({{< relref "/commands/hpersist" >}}) | `hpersist` | Fields that were persisted |
-| [`HSETEX`]({{< relref "/commands/hsetex" >}}) | `hset` / `hdel` / `hexpire` / `hexpired` | Affected fields per event type |
-| Field expiration (active or lazy) | `hexpired` | All expired fields, batched into a single notification |
-
-For field expiration, expired fields are collected and sent as a single batched notification after the expiration cycle completes, rather than one notification per field.
+| [`HSET`]({{< relref "/commands/hset" >}}) / [`HMSET`]({{< relref "/commands/hmset" >}}) | `hset` | All subkeys being set |
+| [`HSETNX`]({{< relref "/commands/hsetnx" >}}) | `hset` | The subkey (only if it was set) |
+| [`HDEL`]({{< relref "/commands/hdel" >}}) | `hdel` | All subkeys deleted |
+| [`HGETDEL`]({{< relref "/commands/hgetdel" >}}) | `hdel` / `hexpired` | Deleted or lazily expired subkeys |
+| [`HGETEX`]({{< relref "/commands/hgetex" >}}) | `hexpire` / `hpersist` / `hdel` / `hexpired` | Affected subkeys per event type |
+| [`HINCRBY`]({{< relref "/commands/hincrby" >}}) | `hincrby` | The subkey |
+| [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}) | `hincrbyfloat` | The subkey |
+| [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) / [`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}) / [`HEXPIREAT`]({{< relref "/commands/hexpireat" >}}) / [`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}) | `hexpire` | Subkeys whose TTLs were updated |
+| [`HPERSIST`]({{< relref "/commands/hpersist" >}}) | `hpersist` | Subkeys that were persisted |
+| [`HSETEX`]({{< relref "/commands/hsetex" >}}) | `hset` / `hdel` / `hexpire` / `hexpired` | Affected subkeys per event type |
+| Subkey expiration (active or lazy) | `hexpired` | All expired subkeys, batched into a single notification |
 
 ### Watching events in real time
 
-To observe sub-keyspace notifications, enable the desired channel types and use `redis-cli` to subscribe with a glob pattern:
+To observe subkey notifications, enable the desired channel types and use `redis-cli` to subscribe with a glob pattern:
 
     $ redis-cli config set notify-keyspace-events ST
     $ redis-cli --csv psubscribe '__subkey*'
     Reading messages... (press Ctrl-C to quit)
     "psubscribe","__subkey*",1
 
-Then, in another terminal, run a hash command:
+Then, in another terminal, run a command:
 
     $ redis-cli hset myhash field1 val1 field2 val2
 
