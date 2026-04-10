@@ -31,14 +31,19 @@ The demo is designed to make a few ideas easy to see:
 The example has three main parts:
 
 1. A `SensorSimulator` generates realistic-looking power readings with drift and occasional spikes
+<<<<<<< HEAD
 2. A `RedisTimeSeriesStore` creates the time series keys and issues Redis TimeSeries queries
 3. A small local HTTP server renders three stacked combined graph-and-bucket views and polls a JSON snapshot endpoint
+=======
+2. A `RedisTimeSeriesStore` creates the time series keys and issues Redis time series queries
+3. A small local HTTP server renders three stacked graphs and polls a JSON snapshot endpoint
+>>>>>>> eb9ab9c049be896ff47efd2192dcc0ad43b3e15e
 
 Each sensor is stored in its own time series with labels such as `sensor_type`, `sensor_id`, `zone`, and `unit`. The dashboard then uses [`TS.MADD`]({{< relref "/commands/ts.madd" >}}) to ingest new readings and [`TS.RANGE`]({{< relref "/commands/ts.range" >}}) to query both raw samples and aggregated bucket summaries. The aggregate queries use aligned buckets so the bucket boundaries stay stable as the visible window moves.
 
 ## Data model
 
-Series keys use this pattern:
+Time series keys use this pattern:
 
 ```text
 ts:sensor:power_consumption:{sensor_id}
