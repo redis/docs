@@ -223,7 +223,7 @@ public class ReactiveRedisLeaderboard {
         }
 
         return Flux.range(0, entries.size())
-                .flatMap(index -> getUserMetadata(entries.get(index).getValue())
+                .flatMapSequential(index -> getUserMetadata(entries.get(index).getValue())
                         .map(metadata -> new LeaderboardEntry(
                                 startRank + index,
                                 entries.get(index).getValue(),
