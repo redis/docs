@@ -7,7 +7,7 @@ categories:
 - rs
 - rc
 description: Implement a Redis-backed session store in Python with redis-py
-linkTitle: redis-py session store
+linkTitle: redis-py example (Python)
 title: Redis session store with redis-py
 weight: 1
 ---

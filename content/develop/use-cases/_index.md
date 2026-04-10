@@ -7,16 +7,16 @@ categories:
 - rs
 - rc
 description: Learn how to implement common use cases with Redis
+hideListLinks: true
 linkTitle: Use cases
 title: Redis use cases
 weight: 50
-draft: true
 ---
 
 This section provides practical examples and reference implementations for common Redis use cases.
 
 ## Available use cases
 
-* [Rate limiting]({{< relref "/develop/use-cases/rate-limiter" >}}) - Implement token bucket rate limiting with Redis
-* [Session storage]({{< relref "/develop/use-cases/session-store" >}}) - Store web sessions in Redis with TTL-based expiration
-* [Leaderboards]({{< relref "/develop/use-cases/leaderboard" >}}) - Build a ranked leaderboard with sorted sets and user metadata
+* [Rate limiting]({{< relref "/develop/use-cases/rate-limiter" >}})
+* [Session storage]({{< relref "/develop/use-cases/session-store" >}})
+* [Leaderboards]({{< relref "/develop/use-cases/leaderboard" >}})

@@ -7,7 +7,7 @@ categories:
 - rs
 - rc
 description: Implement a Redis-backed session store in Rust with redis-rs
-linkTitle: Rust session store
+linkTitle: redis-rs example (Rust)
 title: Redis session store with Rust
 weight: 8
 ---
