@@ -10,7 +10,7 @@ description: Store web sessions in Redis.
 hideListLinks: true
 linkTitle: Session store
 title: Redis session store
-weight: 1
+weight: 2
 ---
 
 ## When to use a session store
