@@ -16,12 +16,11 @@ weight: 20
 ---
 
 This guide describes the steps required to prepare a Snowflake database as a source for Redis Data Integration (RDI) pipelines.
-
-RDI uses the [RIOTX](https://redis.github.io/riotx/) collector to stream data from Snowflake to Redis. 
+ 
 During the [snapshot]({{< relref "/integrate/redis-data-integration/data-pipelines#pipeline-lifecycle" >}}) phase, RDI reads the current state of the database using the JDBC driver. In the 
 [Change data capture (CDC)]({{< relref "/integrate/redis-data-integration/data-pipelines#pipeline-lifecycle" >}})
 phase, RDI uses [Snowflake Streams](https://docs.snowflake.com/en/user-guide/streams) to 
-capture changes related to the monitored tables. Note that RIOTX will automatically create and manage 
+capture changes related to the monitored tables. Note that RDI will automatically create and manage
 the required streams.
 
 ## Setup
@@ -47,7 +46,7 @@ Snowflake is only supported with RDI deployed on Kubernetes/Helm. RDI VM mode do
 The RDI user requires the following permissions to connect and capture data from Snowflake:
 
 - `SELECT` on source tables
-- `CREATE STREAM` permission (RIOTX automatically creates and manages Snowflake Streams for CDC)
+- `CREATE STREAM` permission (RDI automatically creates and manages Snowflake Streams for CDC)
 - `USAGE` permission on the warehouse for query execution
 
 Grant the required permissions to your RDI user:
@@ -195,7 +194,7 @@ The Snowflake connector supports connecting to exactly one database and schema. 
 
 * Either `password` or private key authentication is required. See [Configure authentication](#2-configure-authentication) for details.
 
-### Advanced RIOTX options
+### Advanced configuration options
 
 Configure under `sources.<name>.advanced.riotx`:
 
@@ -242,7 +241,7 @@ Configure under `sources.<name>.advanced.riotx`:
 
 1. Check the polling interval configuration
 1. Verify Redis connection is working
-1. Check RIOTX collector logs:
+1. Check the collector logs:
 
     ```bash
     kubectl logs -n rdi -l app=riotx-collector-source
