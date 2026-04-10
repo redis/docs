@@ -10,7 +10,7 @@ linkTitle: cert-manager
 weight: 89
 ---
 
-[cert-manager](https://cert-manager.io/) is a Kubernetes add-on that automates the management and issuance of TLS certificates. The Redis Enterprise operator integrates with cert-manager, so you can use automatically managed certificates for:
+[cert-manager](https://cert-manager.io/) is a Kubernetes add-on that automates the management and issuance of TLS certificates. The Redis operator integrates with cert-manager, so you can use automatically managed certificates for:
 
 - Redis Enterprise cluster (REC) components (API, CM, proxy, syncer, and others)
 - Database replication with TLS
@@ -29,7 +29,7 @@ Benefits of using cert-manager include:
 ## Prerequisites
 
 - Kubernetes cluster with Redis Enterprise operator installed
-- cert-manager v1.0 or later installed
+- cert-manager v1.19.0 or later installed
 
 If cert-manager is not already installed, see the [cert-manager installation documentation](https://cert-manager.io/docs/installation/).
 
@@ -39,9 +39,11 @@ cert-manager creates standard Kubernetes TLS secrets with the following fields:
 
 - `tls.crt`: The certificate in PEM format
 - `tls.key`: The private key in PEM format
-- `ca.crt`: (Optional) The root CA certificate
+- `ca.crt`: The root CA certificate
 
 The Redis Enterprise operator automatically recognizes these secrets and can use them interchangeably with manually created secrets.
+
+{{<note>}}If you currently use opaque secrets for your certificates, you can switch to cert-manager's TLS secrets without any additional configuration changes to your Redis resources.{{</note>}}
 
 ### Supported secret formats
 
@@ -51,28 +53,17 @@ The operator supports multiple field names for backward compatibility:
 |---------|---------------------|
 | Certificate | `tls.crt`, `cert`, `certificate` |
 | Private key | `tls.key`, `key` |
-| CA certificate | `ca.crt` (optional) |
+| CA certificate | `ca.crt` |
 
 {{<note>}}The `ca.crt` field is automatically appended to the certificate chain when present. cert-manager typically populates this field when it has access to the root certificate.{{</note>}}
 
 ## Quick start
 
-### Step 1: Create a certificate issuer
+After you install cert-manager and configure an [`Issuer` or `ClusterIssuer`](https://cert-manager.io/docs/concepts/issuer/), create a `Certificate` resource to generate TLS secrets, then reference the secret name in your Redis custom resources.
 
-Create a `ClusterIssuer` or `Issuer`. This example uses a self-signed issuer for testing:
+### Create a certificate and configure your REC
 
-```yaml
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: selfsigned-issuer
-spec:
-  selfSigned: {}
-```
-
-### Step 2: Request a certificate
-
-Create a `Certificate` resource for the Redis Enterprise API:
+The following example creates a certificate and references the generated secret in a `RedisEnterpriseCluster` resource:
 
 ```yaml
 apiVersion: cert-manager.io/v1
@@ -84,23 +75,10 @@ spec:
   secretName: redis-api-tls
   duration: 2160h # 90 days
   renewBefore: 360h # 15 days before expiration
-  subject:
-    organizations:
-      - redis-enterprise
-  commonName: redis-api.example.com
-  dnsNames:
-    - redis-api.example.com
-    - rec.redis-namespace.svc.cluster.local
   issuerRef:
-    name: selfsigned-issuer
+    name: my-issuer
     kind: ClusterIssuer
-```
-
-### Step 3: Configure Redis Enterprise cluster
-
-Reference the cert-manager secret in your REC:
-
-```yaml
+---
 apiVersion: app.redislabs.com/v1
 kind: RedisEnterpriseCluster
 metadata:
@@ -112,7 +90,7 @@ spec:
     apiCertificateSecretName: redis-api-tls
 ```
 
-The operator automatically reads the certificate from the `redis-api-tls` secret created by cert-manager.
+The operator automatically reads the certificate from the `redis-api-tls` secret created by cert-manager. No additional configuration is needed, even if you are migrating from manually created opaque secrets.
 
 ## Secure all cluster components
 
