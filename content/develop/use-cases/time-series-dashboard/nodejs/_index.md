@@ -6,13 +6,13 @@ categories:
 - oss
 - rs
 - rc
-description: Build a Redis-backed rolling sensor graph demo in Python with redis-py
-linkTitle: redis-py dashboard
-title: Rolling sensor graph demo with Redis and redis-py
-weight: 1
+description: Build a Redis-backed rolling sensor graph demo in Node.js with node-redis
+linkTitle: Node.js dashboard
+title: Rolling sensor graph demo with Redis and Node.js
+weight: 2
 ---
 
-This guide shows you how to build a compact rolling sensor graph demo in Python with [`redis-py`]({{< relref "/develop/clients/redis-py" >}}) and Redis time series support. The example simulates three power sensors, ingests readings into Redis, and serves a local browser dashboard that updates in real time.
+This guide shows you how to build a compact rolling sensor graph demo in Node.js with [`node-redis`]({{< relref "/develop/clients/nodejs" >}}) and Redis time series support. The example simulates three power sensors, ingests readings into Redis, and serves a local browser dashboard that updates in real time.
 
 ## Overview
 
@@ -32,9 +32,43 @@ The example has three main parts:
 
 1. A `SensorSimulator` generates realistic-looking power readings with drift and occasional spikes
 2. A `RedisTimeSeriesStore` creates the time series keys and issues Redis TimeSeries queries
-3. A small local HTTP server renders three stacked combined graph-and-bucket views and polls a JSON snapshot endpoint
+3. A small local HTTP server built with Node's `http` module renders three stacked combined graph-and-bucket views and polls a JSON snapshot endpoint
 
 Each sensor is stored in its own time series with labels such as `sensor_type`, `sensor_id`, `zone`, and `unit`. The dashboard then uses [`TS.MADD`]({{< relref "/commands/ts.madd" >}}) to ingest new readings and [`TS.RANGE`]({{< relref "/commands/ts.range" >}}) to query both raw samples and aggregated bucket summaries. The aggregate queries use aligned buckets so the bucket boundaries stay stable as the visible window moves.
+
+## The Node.js modules
+
+The implementation is split across three small files:
+
+* [`sensorSimulator.js`](sensorSimulator.js) - Sensor definitions and sample generation
+* [`timeseriesStore.js`](timeseriesStore.js) - Redis TimeSeries command helpers
+* [`dashboard.js`](dashboard.js) - Local HTTP server and inline dashboard UI
+
+The `RedisTimeSeriesStore` class wraps the Redis operations directly through `node-redis`'s generic `sendCommand()` interface:
+
+```javascript
+const { createClient } = require("redis");
+const { SENSORS } = require("./sensorSimulator");
+const { RedisTimeSeriesStore } = require("./timeseriesStore");
+
+async function main() {
+  const client = createClient({ url: "redis://localhost:6379" });
+  await client.connect();
+
+  const store = new RedisTimeSeriesStore({
+    redisClient: client,
+    sensors: SENSORS,
+  });
+
+  await store.ensureSchema();
+  const snapshot = await store.dashboardSnapshot();
+  console.log(snapshot.sensors[0].raw_points.length);
+
+  await client.disconnect();
+}
+
+main().catch(console.error);
+```
 
 ## Data model
 
@@ -66,7 +100,7 @@ The demo uses a 12-second retention period so the graphs visibly slide forward a
 
 ## Redis commands used
 
-The implementation uses these time series commands directly through `redis-py`'s generic command interface:
+The implementation uses these time series commands directly through `node-redis`:
 
 * [`TS.CREATE`]({{< relref "/commands/ts.create" >}}) - Create one time series per sensor with retention and labels
 * [`TS.MADD`]({{< relref "/commands/ts.madd" >}}) - Batch-ingest readings from all three sensors every 500ms
@@ -80,10 +114,10 @@ Before running the demo, make sure that:
 
 * Redis is running and accessible. By default, the demo connects to `localhost:6379`.
 * Your Redis deployment includes time series support.
-* The `redis` Python package is installed:
+* The `redis` package is installed:
 
 ```bash
-pip install redis
+npm install redis
 ```
 
 ## Running the demo
@@ -91,13 +125,13 @@ pip install redis
 Start the dashboard server:
 
 ```bash
-python dashboard.py
+node dashboard.js
 ```
 
 The server accepts optional flags if your Redis instance is not on the default host and port:
 
 ```bash
-python dashboard.py --redis-host 127.0.0.1 --redis-port 6379 --port 8080
+node dashboard.js --redis-host 127.0.0.1 --redis-port 6379 --port 8080
 ```
 
 After starting the server, visit `http://localhost:8080`.
@@ -138,14 +172,14 @@ For a first time series example, this is often easier to understand than a large
 This example intentionally keeps the server and UI small so the Redis behavior is easy to follow. In production, you would usually want to add:
 
 * Authentication and authorization
-* Persistent frontend assets instead of inline HTML
+* Separate static assets instead of inline HTML
 * Better error reporting and health checks
 * Deployment-specific retention, window sizes, and aggregation intervals
 * Stronger key namespacing if multiple applications share the same Redis deployment
 
 ## Learn more
 
-* [redis-py guide]({{< relref "/develop/clients/redis-py" >}}) - Install and use the Python client
+* [node-redis guide]({{< relref "/develop/clients/nodejs" >}}) - Install and use the Node.js client
 * [Time series overview]({{< relref "/develop/data-types/timeseries" >}}) - Time series concepts and commands
 * [TS.RANGE command]({{< relref "/commands/ts.range" >}}) - Query raw and aggregated ranges from a time series
 * [TS.MADD command]({{< relref "/commands/ts.madd" >}}) - Add multiple samples in one call
