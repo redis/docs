@@ -47,6 +47,17 @@ is a Redis key storing a value of type JSON.
 
 </details>
 
+<details open><summary><code>value</code></summary> 
+
+is a string to append to the JSON strings at the paths matching `path`.
+
+{{% alert title="About using strings with JSON commands" color="warning" %}}
+To specify a string as an array value to append, wrap the quoted string with an additional set of single quotes. Example: `'"silver"'`. For more detailed use, see [Examples](#examples).
+{{% /alert %}}
+</details>
+
+## Optional arguments
+
 <details open><summary><code>path</code></summary> 
 
 is either 
@@ -58,16 +69,9 @@ is either
   - Any string that does not match the JSONPath syntax above.
   - Allow the leading "`.`" to be omitted (for example, "`name`" and "`.name`" are equivalent).
   - Resolves to only the first matching location in `key`.
+ 
+Default: "`.`" (legacy path pointing to the root of the document).
 
-</details>
-
-<details open><summary><code>value</code></summary> 
-
-is a string to append to the JSON strings at the paths matching `path`.
-
-{{% alert title="About using strings with JSON commands" color="warning" %}}
-To specify a string as an array value to append, wrap the quoted string with an additional set of single quotes. Example: `'"silver"'`. For more detailed use, see [Examples](#examples).
-{{% /alert %}}
 </details>
 
 ## Examples
