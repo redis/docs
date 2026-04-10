@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"html"
 	"log"
 	"net/http"
 	"strings"
@@ -430,10 +429,4 @@ func htmlPage() string {
 	template = strings.ReplaceAll(template, "__GRAPH_PAD_Y__", fmt.Sprint(graphPadY))
 
 	return template
-}
-
-func escapedNotFound(path string) map[string]string {
-	return map[string]string{
-		"error": "Not found: " + html.EscapeString(path),
-	}
 }
