@@ -6,13 +6,13 @@ categories:
 - oss
 - rs
 - rc
-description: Build a Redis-backed rolling sensor graph demo in Python with redis-py
-linkTitle: redis-py dashboard
-title: Rolling sensor graph demo with Redis and redis-py
-weight: 1
+description: Build a Redis-backed rolling sensor graph demo in Java with Jedis
+linkTitle: Java dashboard
+title: Rolling sensor graph demo with Java and Jedis
+weight: 3
 ---
 
-This guide shows you how to build a compact rolling sensor graph demo in Python with [`redis-py`]({{< relref "/develop/clients/redis-py" >}}) and Redis time series support. The example simulates three power sensors, ingests readings into Redis, and serves a local browser dashboard that updates in real time.
+This guide shows you how to build a compact rolling sensor graph demo in Java with [`Jedis`]({{< relref "/develop/clients/jedis" >}}) and Redis time series support. The example simulates three power sensors, ingests readings into Redis, and serves a local browser dashboard that updates in real time.
 
 ## Overview
 
@@ -31,14 +31,24 @@ The demo is designed to make a few ideas easy to see:
 The example has three main parts:
 
 1. A `SensorSimulator` generates realistic-looking power readings with drift and occasional spikes
-2. A `RedisTimeSeriesStore` creates the time series keys and issues Redis time series queries
-3. A small local HTTP server renders three stacked graphs and polls a JSON snapshot endpoint
+2. A `RedisTimeSeriesStore` creates the time series keys and issues Redis TimeSeries queries
+3. A small local HTTP server built with Java's built-in `HttpServer` renders three stacked combined graph-and-bucket views and polls a JSON snapshot endpoint
 
 Each sensor is stored in its own time series with labels such as `sensor_type`, `sensor_id`, `zone`, and `unit`. The dashboard then uses [`TS.MADD`]({{< relref "/commands/ts.madd" >}}) to ingest new readings and [`TS.RANGE`]({{< relref "/commands/ts.range" >}}) to query both raw samples and aggregated bucket summaries. The aggregate queries use aligned buckets so the bucket boundaries stay stable as the visible window moves.
 
+## The Java classes
+
+The implementation is split across three small files:
+
+* [`SensorSimulator.java`](SensorSimulator.java) - Sensor definitions and sample generation
+* [`RedisTimeSeriesStore.java`](RedisTimeSeriesStore.java) - Redis TimeSeries command helpers
+* [`DemoServer.java`](DemoServer.java) - Local HTTP server and inline dashboard UI
+
+The Redis helper uses Jedis' low-level command path with a small custom `ProtocolCommand` enum so the example can issue `TS.CREATE`, `TS.MADD`, `TS.GET`, and `TS.RANGE` directly.
+
 ## Data model
 
-Time series keys use this pattern:
+Series keys use this pattern:
 
 ```text
 ts:sensor:power_consumption:{sensor_id}
@@ -66,7 +76,7 @@ The demo uses a 12-second retention period so the graphs visibly slide forward a
 
 ## Redis commands used
 
-The implementation uses these time series commands directly through `redis-py`'s generic command interface:
+The implementation uses these time series commands directly through Jedis:
 
 * [`TS.CREATE`]({{< relref "/commands/ts.create" >}}) - Create one time series per sensor with retention and labels
 * [`TS.MADD`]({{< relref "/commands/ts.madd" >}}) - Batch-ingest readings from all three sensors every 500ms
@@ -80,24 +90,31 @@ Before running the demo, make sure that:
 
 * Redis is running and accessible. By default, the demo connects to `localhost:6379`.
 * Your Redis deployment includes time series support.
-* The `redis` Python package is installed:
+* Jedis is available in your project.
 
-```bash
-pip install redis
+If you use Maven:
+
+```xml
+<dependency>
+    <groupId>redis.clients</groupId>
+    <artifactId>jedis</artifactId>
+    <version>5.0.1</version>
+</dependency>
 ```
 
 ## Running the demo
 
-Start the dashboard server:
+Compile and run the demo:
 
 ```bash
-python dashboard.py
+javac -cp jedis-5.0.1.jar:commons-pool2-2.12.1.jar SensorSimulator.java RedisTimeSeriesStore.java DemoServer.java
+java -cp .:jedis-5.0.1.jar:commons-pool2-2.12.1.jar DemoServer
 ```
 
 The server accepts optional flags if your Redis instance is not on the default host and port:
 
 ```bash
-python dashboard.py --redis-host 127.0.0.1 --redis-port 6379 --port 8080
+java -cp .:jedis-5.0.1.jar:commons-pool2-2.12.1.jar DemoServer --redis-host 127.0.0.1 --redis-port 6379 --port 8080
 ```
 
 After starting the server, visit `http://localhost:8080`.
@@ -138,14 +155,14 @@ For a first time series example, this is often easier to understand than a large
 This example intentionally keeps the server and UI small so the Redis behavior is easy to follow. In production, you would usually want to add:
 
 * Authentication and authorization
-* Persistent frontend assets instead of inline HTML
+* Separate static assets instead of inline HTML
 * Better error reporting and health checks
 * Deployment-specific retention, window sizes, and aggregation intervals
 * Stronger key namespacing if multiple applications share the same Redis deployment
 
 ## Learn more
 
-* [redis-py guide]({{< relref "/develop/clients/redis-py" >}}) - Install and use the Python client
+* [Jedis guide]({{< relref "/develop/clients/jedis" >}}) - Install and use the Java client
 * [Time series overview]({{< relref "/develop/data-types/timeseries" >}}) - Time series concepts and commands
 * [TS.RANGE command]({{< relref "/commands/ts.range" >}}) - Query raw and aggregated ranges from a time series
 * [TS.MADD command]({{< relref "/commands/ts.madd" >}}) - Add multiple samples in one call
