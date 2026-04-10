@@ -19,3 +19,4 @@ This section provides practical examples and reference implementations for commo
 
 * [Rate limiting]({{< relref "/develop/use-cases/rate-limiter" >}}) - Implement token bucket rate limiting with Redis
 * [Session storage]({{< relref "/develop/use-cases/session-store" >}}) - Store web sessions in Redis with TTL-based expiration
+* [Leaderboards]({{< relref "/develop/use-cases/leaderboard" >}}) - Build a ranked leaderboard with sorted sets and user metadata
