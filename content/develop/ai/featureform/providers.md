@@ -1,33 +1,33 @@
 ---
-title: Connect providers in Featureform
-description: Register offline providers and Redis online stores for Featureform workflows.
+title: Connect providers in Redis Feature Form
+description: Register offline providers and Redis online stores for Feature Form workflows.
 linkTitle: Providers
 weight: 30
 ---
 
-Use providers to connect Featureform to the systems where your data already lives.
+Use providers to connect Feature Form to the systems where your data already lives.
 
 In most deployments, you'll register:
 
 - offline providers store or compute source data and transformed data
 - online providers serve low-latency feature values to applications
 
-Redis is the online provider in the Featureform workflow.
+Redis is the online provider in the Feature Form workflow.
 
 ## Before you begin
 
 Before you register providers, make sure you have:
 
-- network access from Featureform to the systems you want to register
+- network access from Feature Form to the systems you want to register
 - credentials for each provider
 - a clear decision about which system is authoritative for offline feature computation
 - a Redis deployment for online serving
 
-Featureform's current provider APIs rely heavily on catalog configuration. For Snowflake and Databricks, make sure you choose the catalog model before you register providers or datasets.
+Feature Form's current provider APIs rely heavily on catalog configuration. For Snowflake and Databricks, make sure you choose the catalog model before you register providers or datasets.
 
 ## Offline providers
 
-Featureform supports several offline systems, including:
+Feature Form supports several offline systems, including:
 
 - Snowflake
 - BigQuery
@@ -48,7 +48,7 @@ redis = client.register_redis(
 )
 ```
 
-If your deployment requires TLS or ACL configuration, use the connection options supported by your current Featureform release and align them with your Redis security standards.
+If your deployment requires TLS or ACL configuration, use the connection options supported by your current Feature Form release and align them with your Redis security standards.
 
 For secured Redis deployments, you can also configure ACL usernames and TLS settings explicitly:
 
@@ -196,7 +196,7 @@ Use either `cluster_id` or `cluster_config`, not both.
 
 ## Catalog options
 
-Featureform supports several catalog models for offline data:
+Feature Form supports several catalog models for offline data:
 
 ```python
 from featureform import UnityCatalog, GlueCatalog, SnowflakeCatalog, TableFormat

@@ -25,7 +25,7 @@ weight: 10
 
 ### Redis AI & Vectors
 
-- Added [Featureform documentation]({{< relref "/develop/ai/featureform" >}}) for feature engineering workflows
+- Added [Redis Feature Form documentation]({{< relref "/develop/ai/featureform" >}}) for feature engineering workflows
   - [Overview]({{< relref "/develop/ai/featureform/overview" >}})
   - [Quickstart guide]({{< relref "/develop/ai/featureform/quickstart" >}})
   - [Provider connections]({{< relref "/develop/ai/featureform/providers" >}})

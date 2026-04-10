@@ -1,11 +1,11 @@
 ---
-title: Streaming features in Featureform
+title: Streaming features in Redis Feature Form
 description: Build stream-backed features with Kafka, streaming transformations, and Redis serving.
 linkTitle: Streaming
 weight: 70
 ---
 
-Featureform supports stream-backed feature workflows for use cases that need continuously updated online values while preserving historical correctness for training.
+Redis Feature Form supports stream-backed feature workflows for use cases that need continuously updated online values while preserving historical correctness for training.
 
 This page focuses on the documented SDK surface: register Kafka, define a streaming transformation, define features with `from_stream(...)`, optionally backfill from a batch source, materialize a feature view, and serve it from Redis.
 
@@ -13,7 +13,7 @@ This page focuses on the documented SDK surface: register Kafka, define a stream
 
 Before you build streaming features, you need:
 
-- a running Featureform deployment
+- a running Feature Form deployment
 - a registered Redis online store
 - a stream-capable compute provider such as Spark or Databricks
 - a Kafka topic that contains the events you want to transform into features

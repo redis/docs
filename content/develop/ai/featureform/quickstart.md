@@ -1,15 +1,15 @@
 ---
-title: Featureform quickstart
+title: Redis Feature Form quickstart
 description: Register providers, define a feature, materialize it to Redis, and serve it.
 linkTitle: Quickstart
 weight: 20
 ---
 
-This quickstart helps you register a simple Featureform workflow and serve feature values from Redis.
+This quickstart helps you register a simple Redis Feature Form workflow and serve feature values from Redis.
 
 You'll do the following:
 
-1. Connect to Featureform.
+1. Connect to Feature Form.
 2. Register an offline provider and a Redis online store.
 3. Register a dataset and define a transformation.
 4. Define an entity and features.
@@ -17,18 +17,18 @@ You'll do the following:
 6. Materialize a feature view to Redis.
 7. Serve feature values.
 
-At the end, you'll have a Featureform feature view backed by Redis and a working `serve_feature_view(...)` call.
+At the end, you'll have a Feature Form feature view backed by Redis and a working `serve_feature_view(...)` call.
 
 ## Before you begin
 
 Before you start, make sure you have:
 
-- a running Featureform deployment
+- a running Feature Form deployment
 - access to an offline system, such as Databricks or Spark
 - access to a Redis deployment for online serving
 - credentials for the systems you register in this guide
 
-## Connect to Featureform
+## Connect to Feature Form
 
 ```python
 import featureform as ff

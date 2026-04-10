@@ -1,18 +1,18 @@
 ---
-title: Datasets and transformations in Featureform
-description: Register datasets and define SQL or DataFrame transformations for Featureform features.
+title: Datasets and transformations in Redis Feature Form
+description: Register datasets and define SQL or DataFrame transformations for Feature Form features.
 linkTitle: Datasets and transformations
 weight: 40
 ---
 
 Datasets and transformations are the bridge between your raw source data and your feature definitions.
 
-- datasets point Featureform at existing tables or files
+- datasets point Feature Form at existing tables or files
 - transformations create reusable feature engineering logic on top of those datasets
 
 ## Register datasets
 
-Register the source objects that Featureform should treat as named inputs.
+Register the source objects that Feature Form should treat as named inputs.
 
 ### Warehouse tables
 
@@ -24,7 +24,7 @@ transactions = snowflake.register_table(
 )
 ```
 
-For Snowflake providers, the provider-level `database`, `schema`, and `catalog` configuration determines where Featureform resolves the table unless you override those values during registration.
+For Snowflake providers, the provider-level `database`, `schema`, and `catalog` configuration determines where Feature Form resolves the table unless you override those values during registration.
 
 ### Delta tables
 
@@ -159,7 +159,7 @@ def high_value_users(features_df):
 
 ## Accessing transformation data
 
-For development and validation, Featureform can retrieve the output of registered datasets or transformations as data frames:
+For development and validation, Feature Form can retrieve the output of registered datasets or transformations as data frames:
 
 ```python
 df = client.dataframe(user_transaction_features)
@@ -169,7 +169,7 @@ Use this sparingly in production workflows. Its main value is validation and ite
 
 ## Apply registrations
 
-Once datasets and transformations are defined, register them with Featureform:
+Once datasets and transformations are defined, register them with Feature Form:
 
 ```python
 client.apply()

@@ -1,21 +1,21 @@
 ---
-Title: Featureform
+Title: Redis Feature Form
 alwaysopen: false
 categories:
 - docs
 - develop
 - ai
-description: Build feature engineering workflows with Featureform and Redis.
-linkTitle: Featureform
+description: Build feature engineering workflows with Redis Feature Form.
+linkTitle: Redis Feature Form
 hideListLinks: true
 weight: 60
-bannerText: Featureform is currently in preview and subject to change. To request access to the Featureform Docker image, contact your Redis account team.
+bannerText: Redis Feature Form is currently in preview and subject to change. To request access to the Feature Form Docker image, contact your Redis account team.
 bannerChildren: true
 ---
 
-Featureform helps data teams define, materialize, and serve machine learning features by using a declarative Python SDK on top of existing data systems.
+Redis Feature Form helps data teams define, materialize, and serve machine learning features by using a declarative Python SDK on top of existing data systems.
 
-Featureform works with offline systems such as Snowflake, BigQuery, and Databricks or Spark, then uses Redis as the low-latency online store for feature serving.
+Feature Form works with offline systems such as Snowflake, BigQuery, and Databricks or Spark, then uses Redis as the low-latency online store for feature serving.
 
 ## Get started
 
@@ -25,6 +25,18 @@ Featureform works with offline systems such as Snowflake, BigQuery, and Databric
 - [Define datasets and transformations]({{< relref "/develop/ai/featureform/datasets-and-transformations" >}})
 - [Define features and labels]({{< relref "/develop/ai/featureform/features-and-labels" >}})
 - [Work with training sets and feature views]({{< relref "/develop/ai/featureform/training-sets-and-feature-views" >}})
+
+## Latest updates
+
+The latest release adds enterprise-oriented capabilities:
+
+- **Unified batch and streaming pipelines**: Support for tiling, backfills, and incremental updates reduces custom pipeline work.
+- **Workspaces for multi-tenancy**: Isolate providers, data, authentication, and observability at the workspace level.
+- **Fine-grained job control**: Planning, impact analysis, split materializations, and queue-based job management provide visibility into changes before they affect production systems.
+- **Atomic DAG updates**: Manage graph-level changes atomically instead of versioning individual resources, which simplifies rollback and change history.
+- **Enhanced RBAC and security**: Workspace-scoped access controls, API key pairs, a granular role model, audit logs, secret-provider improvements, mTLS, and encrypted internal transport.
+- **Two-service deployment model**: A simplified deployment architecture that reduces operational complexity.
+- **Redesigned dashboard**: Configure workspaces and providers directly from the UI.
 
 ## Next steps
 

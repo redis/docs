@@ -1,11 +1,11 @@
 ---
-title: Training sets and feature views in Featureform
-description: Build training sets and materialize feature views to Redis with Featureform.
+title: Training sets and feature views in Redis Feature Form
+description: Build training sets and materialize feature views to Redis with Feature Form.
 linkTitle: Training sets and feature views
 weight: 60
 ---
 
-Training sets and feature views are where Featureform turns definitions into outputs that model builders and applications can use.
+Training sets and feature views are where Feature Form turns definitions into outputs that model builders and applications can use.
 
 - training sets support model development
 - feature views support online inference

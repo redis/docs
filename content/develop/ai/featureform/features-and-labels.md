@@ -1,11 +1,11 @@
 ---
-title: Features and labels in Featureform
-description: Define entities, features, labels, and aggregate windows in Featureform.
+title: Features and labels in Redis Feature Form
+description: Define entities, features, labels, and aggregate windows in Feature Form.
 linkTitle: Features and labels
 weight: 50
 ---
 
-Features and labels are the core semantic objects in Featureform. They describe what you want to predict, how feature values are keyed, and how those values should be computed over time.
+Features and labels are the core semantic objects in Feature Form. They describe what you want to predict, how feature values are keyed, and how those values should be computed over time.
 
 ## Entities
 
@@ -17,7 +17,7 @@ class User:
     pass
 ```
 
-Attach features and labels to the entity class so Featureform can reason about keys and lineage.
+Attach features and labels to the entity class so Feature Form can reason about keys and lineage.
 
 ## Define features
 
@@ -86,7 +86,7 @@ class User:
 
 ## Point-in-time correctness
 
-Timestamps are central to correct ML training and serving workflows. When you include the relevant event timestamp in your feature and label definitions, Featureform can align historical examples correctly instead of leaking future information into the training data.
+Timestamps are central to correct ML training and serving workflows. When you include the relevant event timestamp in your feature and label definitions, Feature Form can align historical examples correctly instead of leaking future information into the training data.
 
 Use timestamps consistently when:
 
