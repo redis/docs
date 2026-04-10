@@ -204,7 +204,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
     }}
     svg {{
       width: 100%;
-      height: 184px;
+      height: 164px;
       display: block;
       background: linear-gradient(180deg, #fffdf8 0%, #faf4e8 100%);
       border: 1px solid var(--line);
@@ -287,7 +287,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
     function combinedSvgForSensor(sensor, now, windowMs) {{
       const width = GRAPH_WIDTH;
       const chartHeight = GRAPH_HEIGHT;
-      const bucketHeight = 56;
+      const bucketHeight = 36;
       const height = chartHeight + bucketHeight;
       const padX = GRAPH_PAD_X;
       const padY = GRAPH_PAD_Y;
@@ -358,22 +358,16 @@ class DashboardHandler(BaseHTTPRequestHandler):
         const fill = "#fffdf8";
         const stroke = "#d9ccb7";
         const textX = rawStartX + rectWidth / 2;
-        const line1Y = bucketTop + 18;
-        const line2Y = bucketTop + 32;
-        const line3Y = bucketTop + 46;
         let textBlock = "";
         const textOpacity = Math.max(0, Math.min(1, (visibleWidth - 58) / 38)).toFixed(2);
 
         if (visibleWidth >= 112) {{
           textBlock = `
-          <text x="${{textX.toFixed(2)}}" y="${{line1Y}}" text-anchor="middle" font-size="11" fill="#1f2a2e" opacity="${{textOpacity}}">Min: ${{fmt(bucket.min)}}</text>
-          <text x="${{textX.toFixed(2)}}" y="${{line2Y}}" text-anchor="middle" font-size="11" fill="#1f2a2e" opacity="${{textOpacity}}">Max: ${{fmt(bucket.max)}}</text>
-          <text x="${{textX.toFixed(2)}}" y="${{line3Y}}" text-anchor="middle" font-size="11" fill="#1f2a2e" opacity="${{textOpacity}}">Avg: ${{fmt(bucket.avg)}}</text>
+          <text x="${{textX.toFixed(2)}}" y="${{bucketTop + 23}}" text-anchor="middle" font-size="11" fill="#1f2a2e" opacity="${{textOpacity}}">Min ${{fmt(bucket.min)}}, Max ${{fmt(bucket.max)}}, Avg ${{fmt(bucket.avg)}}</text>
           `;
         }} else if (visibleWidth >= 86) {{
           textBlock = `
-          <text x="${{textX.toFixed(2)}}" y="${{bucketTop + 26}}" text-anchor="middle" font-size="11" fill="#1f2a2e" opacity="${{textOpacity}}">Avg: ${{fmt(bucket.avg)}}</text>
-          <text x="${{textX.toFixed(2)}}" y="${{bucketTop + 42}}" text-anchor="middle" font-size="10" fill="#5b666a" opacity="${{textOpacity}}">Min ${{fmt(bucket.min)}} | Max ${{fmt(bucket.max)}}</text>
+          <text x="${{textX.toFixed(2)}}" y="${{bucketTop + 23}}" text-anchor="middle" font-size="10" fill="#1f2a2e" opacity="${{textOpacity}}">Avg ${{fmt(bucket.avg)}}, Min ${{fmt(bucket.min)}}, Max ${{fmt(bucket.max)}}</text>
           `;
         }}
 
