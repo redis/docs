@@ -81,7 +81,8 @@ FT.SEARCH myIndex "foo" SCORER TFIDF.DOCNORM
 ## BM25STD (default)
 
 {{< warning >}}
-Replacing an indexed document with the same key can temporarily affect document scores, even when the new content is identical to the old content. This can also occur when a document is effectively replaced by deleting it and then setting it again. Scores return to normal after the Redis Search garbage collector runs.
+Deleting or replacing an indexed document can temporarily affect the scores of other documents that contain any of the same terms.
+As a result, `FT.SEARCH` score values may be inaccurate until the Redis Search garbage collector runs and removes the stale term data.
 {{< /warning >}}
 
 
