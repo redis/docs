@@ -167,6 +167,11 @@ public final class RedisTimeSeriesStore {
             latest.put("timestamp", asLong(values.get(0)));
             latest.put("value", asDouble(values.get(1)));
             return latest;
+        } catch (JedisDataException exception) {
+            if (exception.getMessage().toLowerCase().contains("tsdb: the key does not exist")) {
+                return null;
+            }
+            throw exception;
         }
     }
 

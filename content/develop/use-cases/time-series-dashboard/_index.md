@@ -40,3 +40,4 @@ This makes it a good fit for demonstrating how Redis time series support:
 * [Rust]({{< relref "/develop/use-cases/time-series-dashboard/rust" >}}) - Build the same rolling sensor graph demo with `redis-rs` and a local Axum server
 * [.NET]({{< relref "/develop/use-cases/time-series-dashboard/dotnet" >}}) - Build the same rolling sensor graph demo with StackExchange.Redis and a local ASP.NET Core server
 * [PHP]({{< relref "/develop/use-cases/time-series-dashboard/php" >}}) - Build the same rolling sensor graph demo with Predis and PHP's built-in development server
+* [Ruby]({{< relref "/develop/use-cases/time-series-dashboard/ruby" >}}) - Build the same rolling sensor graph demo with `redis-rb` and a local WEBrick server

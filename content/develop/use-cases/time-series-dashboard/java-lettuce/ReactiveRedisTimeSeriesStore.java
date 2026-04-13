@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Redis TimeSeries helpers for the rolling three-sensor dashboard demo using
@@ -98,7 +99,7 @@ public final class ReactiveRedisTimeSeriesStore {
         Mono<List<Map<String, Object>>> minMono = aggregate(sensor, aggregateStartMs, nowMs, "min");
         Mono<List<Map<String, Object>>> maxMono = aggregate(sensor, aggregateStartMs, nowMs, "max");
         Mono<List<Map<String, Object>>> avgMono = aggregate(sensor, aggregateStartMs, nowMs, "avg");
-        Mono<Map<String, Object>> latestMono = latest(sensor);
+        Mono<Optional<Map<String, Object>>> latestMono = latest(sensor);
 
         return Mono.zip(rawMono, minMono, maxMono, avgMono, latestMono)
                 .map(tuple -> {
@@ -127,7 +128,7 @@ public final class ReactiveRedisTimeSeriesStore {
                     payload.put("sensor_id", sensor.sensorId());
                     payload.put("zone", sensor.zone());
                     payload.put("unit", sensor.unit());
-                    payload.put("latest", tuple.getT5());
+                    payload.put("latest", tuple.getT5().orElse(null));
                     payload.put("raw_points", tuple.getT1());
                     payload.put("buckets", buckets);
                     return payload;
@@ -168,22 +169,24 @@ public final class ReactiveRedisTimeSeriesStore {
                 .map(this::parsePoints);
     }
 
-    private Mono<Map<String, Object>> latest(SensorSimulator.SensorDefinition sensor) {
+    private Mono<Optional<Map<String, Object>>> latest(SensorSimulator.SensorDefinition sensor) {
         CommandArgs<String, String> args = new CommandArgs<>(CODEC).add(sensor.key());
 
         return commands.dispatch(TimeSeriesCommand.TS_GET, new ArrayOutput<>(CODEC), args)
                 .collectList()
                 .map(values -> {
                     if (values.size() < 2) {
-                        return null;
+                        return Optional.<Map<String, Object>>empty();
                     }
 
                     Map<String, Object> latest = new LinkedHashMap<>();
                     latest.put("timestamp", asLong(values.get(0)));
                     latest.put("value", asDouble(values.get(1)));
-                    return latest;
+                    return Optional.of(latest);
                 })
-                .defaultIfEmpty(null);
+                .onErrorResume(throwable -> isMissingSeriesError(throwable)
+                        ? Mono.just(Optional.empty())
+                        : Mono.error(throwable));
     }
 
     private Map<Long, Double> indexByTimestamp(List<Map<String, Object>> points) {
@@ -212,6 +215,11 @@ public final class ReactiveRedisTimeSeriesStore {
     private static boolean isAlreadyExists(Throwable throwable) {
         String message = throwable.getMessage();
         return message != null && message.toLowerCase().contains("key already exists");
+    }
+
+    private static boolean isMissingSeriesError(Throwable throwable) {
+        String message = throwable.getMessage();
+        return message != null && message.toLowerCase().contains("tsdb: the key does not exist");
     }
 
     private static long asLong(Object value) {

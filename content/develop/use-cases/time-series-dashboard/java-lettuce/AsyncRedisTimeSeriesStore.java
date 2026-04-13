@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
@@ -121,7 +122,7 @@ public final class AsyncRedisTimeSeriesStore {
         CompletableFuture<List<Map<String, Object>>> minFuture = aggregate(sensor, aggregateStartMs, nowMs, "min");
         CompletableFuture<List<Map<String, Object>>> maxFuture = aggregate(sensor, aggregateStartMs, nowMs, "max");
         CompletableFuture<List<Map<String, Object>>> avgFuture = aggregate(sensor, aggregateStartMs, nowMs, "avg");
-        CompletableFuture<Map<String, Object>> latestFuture = latest(sensor);
+        CompletableFuture<Optional<Map<String, Object>>> latestFuture = latest(sensor);
 
         return CompletableFuture.allOf(rawFuture, minFuture, maxFuture, avgFuture, latestFuture)
                 .thenApply(ignore -> {
@@ -150,7 +151,7 @@ public final class AsyncRedisTimeSeriesStore {
                     payload.put("sensor_id", sensor.sensorId());
                     payload.put("zone", sensor.zone());
                     payload.put("unit", sensor.unit());
-                    payload.put("latest", latestFuture.join());
+                    payload.put("latest", latestFuture.join().orElse(null));
                     payload.put("raw_points", rawFuture.join());
                     payload.put("buckets", buckets);
                     return payload;
@@ -191,19 +192,27 @@ public final class AsyncRedisTimeSeriesStore {
                 .thenApply(this::parsePoints);
     }
 
-    private CompletableFuture<Map<String, Object>> latest(SensorSimulator.SensorDefinition sensor) {
+    private CompletableFuture<Optional<Map<String, Object>>> latest(SensorSimulator.SensorDefinition sensor) {
         CommandArgs<String, String> args = new CommandArgs<>(CODEC).add(sensor.key());
         return commands.dispatch(TimeSeriesCommand.TS_GET, new ArrayOutput<>(CODEC), args)
                 .toCompletableFuture()
-                .thenApply(response -> {
+                .handle((response, throwable) -> {
+                    Throwable cause = unwrap(throwable);
+                    if (cause != null) {
+                        if (isMissingSeriesError(cause)) {
+                            return Optional.empty();
+                        }
+                        throw new CompletionException(cause);
+                    }
+
                     if (!(response instanceof List<?> values) || values.size() < 2) {
-                        return null;
+                        return Optional.empty();
                     }
 
                     Map<String, Object> latest = new LinkedHashMap<>();
                     latest.put("timestamp", asLong(values.get(0)));
                     latest.put("value", asDouble(values.get(1)));
-                    return latest;
+                    return Optional.of(latest);
                 });
     }
 
@@ -238,6 +247,11 @@ public final class AsyncRedisTimeSeriesStore {
     private static boolean isAlreadyExists(Throwable throwable) {
         String message = throwable.getMessage();
         return message != null && message.toLowerCase().contains("key already exists");
+    }
+
+    private static boolean isMissingSeriesError(Throwable throwable) {
+        String message = throwable.getMessage();
+        return message != null && message.toLowerCase().contains("tsdb: the key does not exist");
     }
 
     private static Throwable unwrap(Throwable throwable) {
