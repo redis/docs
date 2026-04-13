@@ -7,6 +7,8 @@ categories:
 description: Redis Access Control List
 linkTitle: ACL
 title: ACL
+aliases:
+- /manual/security/acl/
 weight: 1
 ---
 

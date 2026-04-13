@@ -1,5 +1,8 @@
 ---
-aliases: /develop/connect/clients/java/jedis
+aliases:
+- /develop/connect/clients/java/jedis
+- /connect/clients/java/
+- /clients/jedis/
 categories:
 - docs
 - develop

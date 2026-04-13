@@ -264,7 +264,8 @@ lets a client take action to avoid disruptions in service.
 See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
 for more information about SCH.
 
-SCH is enabled on the client by default. However, you can configure it
+By default, `Lettuce` always attempts to connect via SCH but falls back to
+a non-SCH connection if the server doesn't support it. However, you can configure SCH
 explicitly by creating a `MaintNotificationsConfig` object and/or a `TimeoutOptions`
 object and passing them to the `ClientOptions` builder as shown in the example below.
 Note that SCH also requires the

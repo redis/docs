@@ -77,46 +77,82 @@ Before upgrading a database:
 
 To upgrade a database:
 
+{{< multitabs id="upgrade-db"
+    tab1="Cluster Manager UI"
+    tab2="rladmin" >}}
+
 1. Complete all [prerequisites](#upgrade-prerequisites) before starting the upgrade.
 
-1.  _(Optional)_  Back up the database to minimize the risk of data loss.
+1. Optionally, back up the database to minimize the risk of data loss.
 
-1.  Use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/upgrade" >}}) to upgrade the database. During the upgrade process, the database will restart without losing any data. Use the `preserve_roles` option to keep the database's current state, including primary shard placement, and prevent the cluster from becoming unbalanced.
+1. Upgrade the database and its modules from the **Databases** screen or an individual database's **Configuration** screen in the Cluster Manager UI. During the upgrade process, the database will restart without losing any data.
 
-    - To upgrade a database and its modules:
+    To upgrade a database from the **Databases** screen:
 
-        ``` shell
-        rladmin upgrade db <database name | database ID> preserve_roles
-        ```
+    1. Expand the database in the **Databases** list to show details.
 
-        Example of a successful upgrade:
+        <img src="../../../../../images/rs/screenshots/databases/expand-db-details.png" alt="The database details are expanded, including an upgrade option.">
 
-        ``` shell
-        rladmin> upgrade db demo
-        Monitoring d194c4a3-631c-4726-b799-331b399fc85c
-        active - SMUpgradeBDB init
-        active - SMUpgradeBDB wait_for_version
-        active - SMUpgradeBDB configure_shards
-        completed - SMUpgradeBDB
-        Done
-        ```
+    1. Click **Upgrade**.
 
-    - To upgrade the database to a version other than the default version, use the `redis_version` parameter:
+    1. For **Select version**, choose the Redis version for the database upgrade from the list.
 
-        ```sh
-        rladmin upgrade db <database name | database ID> redis_version <version> preserve_roles
-        ```
+    1. Click **Upgrade**.
 
-1. Check the Redis database compatibility version for the database to confirm the upgrade.  
+    1. After the upgrade process finishes, check the expanded database details to verify that the Redis version is set to the expected value.
 
-    To do so:
+    To upgrade a database from its **Configuration** screen:
 
-    - Use the Cluster Manager UI to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" class="inline" >}} **About**.
+    1. Select the database from the **Databases** list and go to its **Configuration** screen.
 
-    - Use [`rladmin status databases extra all`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-databases" >}}) to display a list of the databases in your cluster and their current Redis database compatibility version:
+    1. Click the **More actions** button (**&vellip;**).
 
-        ```sh
-        rladmin status databases extra all
-        ```
+    1. Select **Upgrade version** from the list.
 
-    Verify that the Redis version is set to the expected value.
+        <img src="../../../../../images/rs/screenshots/databases/db-more-actions-upgrade-version.png" alt="The upgrade version option is selected in the more actions list.">
+
+    1. For **Select version**, choose the Redis version for the database upgrade from the list.
+
+    1. Click **Upgrade**.
+
+    1. After the upgrade process finishes, click the **About** button (&#9432;) and verify that the Redis version is set to the expected value.
+
+-tab-sep-
+
+1. Complete all [prerequisites](#upgrade-prerequisites) before starting the upgrade.
+
+1. Optionally, back up the database to minimize the risk of data loss.
+
+1. Upgrade the database using [`rladmin upgrade db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/upgrade" >}}). During the upgrade process, the database will restart without losing any data. Use the `preserve_roles` option to keep the database's current state, including primary shard placement, and prevent the cluster from becoming unbalanced.
+
+    To upgrade a database and its modules:
+
+    ```sh
+    rladmin upgrade db <database name | database ID> preserve_roles
+    ```
+
+    Example of a successful upgrade:
+
+    ```sh
+    rladmin> upgrade db demo
+    Monitoring d194c4a3-631c-4726-b799-331b399fc85c
+    active - SMUpgradeBDB init
+    active - SMUpgradeBDB wait_for_version
+    active - SMUpgradeBDB configure_shards
+    completed - SMUpgradeBDB
+    Done
+    ```
+
+    To upgrade the database to a version other than the default version, use the `redis_version` parameter:
+
+    ```sh
+    rladmin upgrade db <database name | database ID> redis_version <version> preserve_roles
+    ```
+
+1. Use [`rladmin status databases extra all`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-databases" >}}) to display a list of the databases in your cluster and their current Redis database compatibility version. Verify that the Redis version is set to the expected value.
+
+    ```sh
+    rladmin status databases extra all
+    ```
+
+{{< /multitabs >}}

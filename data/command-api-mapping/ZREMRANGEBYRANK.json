@@ -439,6 +439,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zremrangebyrank(key, start, stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Integer",
+            "description": "start index"
+          },
+          {
+            "name": "stop",
+            "type": "Integer",
+            "description": "stop index"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "number of members that were removed"
+        }
+      }
     ]
   }
 }

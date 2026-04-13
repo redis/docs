@@ -359,6 +359,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "append(key, value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": "value to append"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "length of the string after appending"
+        }
+      }
     ]
   }
 }

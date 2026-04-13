@@ -603,6 +603,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zdiffstore(destination, keys)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "String",
+            "description": "destination key"
+          },
+          {
+            "name": "keys",
+            "type": "Array<String>",
+            "description": "source keys"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "number of elements in the resulting sorted set"
+        }
+      }
     ]
   }
 }

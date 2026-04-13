@@ -312,6 +312,22 @@
           "description": "The approximated number of unique elements"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "pfcount(*keys)",
+        "params": [
+          {
+            "name": "*keys",
+            "type": "String, Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": ""
+        }
+      }
     ]
   }
 }

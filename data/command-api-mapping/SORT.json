@@ -693,7 +693,47 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "sort(key, by: nil, limit: nil, get: nil, order: nil, store: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "by",
+            "type": "String",
+            "description": "use external key to sort elements by"
+          },
+          {
+            "name": "limit",
+            "type": "Array",
+            "description": "[offset, count] skip offset elements, return max count elements"
+          },
+          {
+            "name": "get",
+            "type": "String, Array<String>",
+            "description": "keys to retrieve per element"
+          },
+          {
+            "name": "order",
+            "type": "String",
+            "description": "combination of ASC, DESC and optionally ALPHA"
+          },
+          {
+            "name": "store",
+            "type": "String",
+            "description": "key to store the result at"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>, Integer",
+          "description": "array of elements or count when store is specified"
+        }
+      }
     ]
   }
 }
-

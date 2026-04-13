@@ -13,6 +13,8 @@ description: Overview of data types supported by Redis
 linkTitle: Data types
 title: Redis data types
 hideListLinks: true
+aliases:
+- /data-types/
 weight: 35
 ---
 

@@ -17,11 +17,14 @@ aliases:
 - /develop/data-types/timeseries/clients/
 - /develop/data-types/timeseries/development
 - /develop/data-types/timeseries/development/
+- /data-types/timeseries/
 linkTitle: Time series
 stack: true
 title: Time series
 weight: 150
 ---
+
+{{< command-group group="timeseries" title="Time series command summary" show_link=true >}}
 
 [![Discord](https://img.shields.io/discord/697882427875393627?style=flat-square)](https://discord.gg/KExRgMb)
 [![Github](https://img.shields.io/static/v1?label=&message=repository&color=5961FF&logo=github)](https://github.com/RedisTimeSeries/RedisTimeSeries/)

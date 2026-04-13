@@ -17,6 +17,8 @@ title: Top-K
 weight: 50
 ---
 
+{{< command-group group="topk" title="Top-K command summary" show_link=true >}}
+
 Top K is a probabilistic data structure in Redis Open Source used to estimate the `K` highest-rank elements from a stream.
 
 "Highest-rank" in this case means "elements with a highest number or score attached to them", where the score can be a count of how many times the element has appeared in the stream - thus making the data structure perfect for finding the elements with the highest frequency in a stream.

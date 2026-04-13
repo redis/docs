@@ -536,6 +536,37 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "lmove(source, destination, where_source, where_destination)",
+        "params": [
+          {
+            "name": "source",
+            "type": "String",
+            "description": "source key"
+          },
+          {
+            "name": "destination",
+            "type": "String",
+            "description": "destination key"
+          },
+          {
+            "name": "where_source",
+            "type": "String, Symbol",
+            "description": "LEFT or RIGHT"
+          },
+          {
+            "name": "where_destination",
+            "type": "String, Symbol",
+            "description": "LEFT or RIGHT"
+          }
+        ],
+        "returns": {
+          "type": "nil, String",
+          "description": "the element, or nil when the source key does not exist"
+        }
+      }
     ]
   }
 }

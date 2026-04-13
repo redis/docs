@@ -7,6 +7,9 @@ categories:
 description: How to run Redis Open Source on Windows
 linkTitle: Windows
 title: Run Redis Open Source on Windows using Docker
+aliases:
+- /getting-started/installation/install-redis-on-windows/
+- /install/install-stack/windows/
 weight: 7
 ---
 

@@ -308,6 +308,22 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xlen(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of entries"
+        }
+      }
     ]
   }
 }

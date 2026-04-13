@@ -23,6 +23,8 @@ Use the copy button to copy the password to the clipboard:
 
 You'll need to use this password whenever you connect to your database using a Redis client. See [Connect to a database]({{< relref "/operate/rc/databases/connect" >}}) for more info.
 
+If you have [blocked the public endpoint]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}) for your Redis Cloud Pro subscription, you can also turn on passwordless authentication for the default user. See [Block public endpoints]({{< relref "/operate/rc/security/database-security/block-public-endpoints#turn-on-passwordless-authentication-for-the-default-user" >}}) for more info.
+
 See your [Redis client's documentation]({{< relref "/develop/clients" >}}) to learn how to provide your password when connecting.
 
 ## Change password

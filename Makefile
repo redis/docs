@@ -2,7 +2,8 @@ HUGO_CONTENT=./content
 HUGO_DEBUG=--logLevel debug
 HUGO_BUILD=--gc
 
-all: clean deps components hugo
+# ndjson implicitly depends on json_transform -> hugo
+all: clean deps components ndjson
 serve: clean deps components serve_hugo
 localserve: clean deps components_local serve_hugo
 
@@ -19,6 +20,18 @@ components_local:
 
 hugo:
 	@hugo $(HUGO_DEBUG) $(HUGO_BUILD)
+
+# json_transform requires hugo to have populated public/ with index.json files
+json_transform: hugo
+	@echo "Transforming JSON files for RAG..."
+	@npx tsx build/transform_json_sections.ts
+
+# ndjson requires json_transform to have processed the JSON files
+ndjson: json_transform
+	@echo "Generating NDJSON feed..."
+	@python3 build/generate_ndjson.py
+	@echo "Compressing NDJSON feed..."
+	@gzip -kf public/docs.ndjson
 
 serve_hugo:
 	@hugo serve

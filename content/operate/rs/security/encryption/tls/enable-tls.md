@@ -53,7 +53,7 @@ Optionally, you can enable mutual TLS for client connections:
         | Validation option | Description |
         |-------------------|-------------|
         | _No validation_ | Authenticates clients with valid certificates. No additional validations are enforced. |
-        | _By Subject Alternative Name_ | A client certificate is valid only if its Common Name (CN) matches an entry in the list of valid subjects. Ignores other [`Subject`](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.6) attributes. |
+        | _By Subject Alternative Name_ | A client certificate is valid only if its Subject Alternative Name (SAN) DNS entries or Common Name (CN) match an entry in the list of valid subjects. Ignores other [`Subject`](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.6) attributes. |
         | _By full Subject Name_ | A client certificate is valid only if its [`Subject`](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.6) attributes match an entry in the list of valid subjects. |
 
     1. If you selected **No validation**, you can skip this step. Otherwise, select **+ Add validation** to create a new entry and then enter valid [`Subject`](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.6) attributes for your client certificates. All `Subject` attributes are case-sensitive.

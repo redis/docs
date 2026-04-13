@@ -618,7 +618,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "migrate(key, options)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String, Array<String>",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "Hash",
+            "description": "host, port, db, timeout, copy, replace"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\""
+        }
+      }
     ]
   }
 }
-

@@ -463,6 +463,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "getrange(key, start, stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Integer",
+            "description": "zero-based start offset"
+          },
+          {
+            "name": "stop",
+            "type": "Integer",
+            "description": "zero-based end offset"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
     ]
   }
 }

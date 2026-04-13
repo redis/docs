@@ -1009,6 +1009,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "geoadd(key, *member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*member",
+            "type": "Array",
+            "description": "longitude, latitude, name"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "number of elements added to the sorted set"
+        }
+      }
     ]
   }
 }

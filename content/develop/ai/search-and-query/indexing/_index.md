@@ -2,6 +2,7 @@
 aliases:
 - /develop/interact/search-and-query/indexing
 - /develop/interact/search-and-query/indexing/
+- /interact/search-and-query/indexing/
 categories:
 - docs
 - develop

@@ -56,7 +56,7 @@ rdi_redis_gears_version = "1.2.6"
 rdi_debezium_server_version = "2.3.0.Final"
 rdi_db_types = "cassandra|mysql|oracle|postgresql|sqlserver"
 rdi_cli_latest = "latest"
-rdi_current_version = "1.16.1"
+rdi_current_version = "1.16.2"
 
 
 [params.clientsConfig]
@@ -112,7 +112,14 @@ rdi_current_version = "1.16.1"
     mediaType = "text/markdown"
     isPlainText = true
 
+  # Add JSON output for AI/LLM consumption (per-page JSON files)
+  [outputFormats.json]
+    name = "json"
+    baseName = "index"
+    mediaType = "application/json"
+    isPlainText = true
+
 # Comment out if you don't want the "print entire section" link enabled.
 [outputs]
-section = ["HTML", "RSS", "Markdown"] # print
-page = ["HTML", "Markdown"]
+section = ["HTML", "RSS", "Markdown", "JSON"]
+page = ["HTML", "Markdown", "JSON"]

@@ -112,6 +112,9 @@ mod cmds_generic_tests {
             }
         }
         // STEP_END
+        // REMOVE_START
+        let _: Result<i32, _> = r.del(&["key1", "key2"]);
+        // REMOVE_END
 
         // STEP_START expire
         if let Ok(res) = r.set("mykey", "Hello") {
@@ -274,6 +277,66 @@ mod cmds_generic_tests {
         }
         // STEP_END
 
+        // STEP_START keys
+        match r.mset(&[("firstname", "Jack"), ("lastname", "Stuntman"), ("age", "35")]) {
+            Ok(res) => {
+                let res: String = res;
+                println!("{res}");    // >>> OK
+                // REMOVE_START
+                assert_eq!(res, "OK");
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting keys: {e}");
+                return;
+            }
+        }
+
+        match r.keys::<&str, Vec<String>>("*name*") {
+            Ok(res) => {
+                let mut sorted_res = res.clone();
+                sorted_res.sort();
+                println!("{sorted_res:?}");    // >>> ["firstname", "lastname"]
+                // REMOVE_START
+                assert_eq!(sorted_res, vec!["firstname", "lastname"]);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting keys: {e}");
+                return;
+            }
+        }
+
+        match r.keys::<&str, Vec<String>>("a??") {
+            Ok(res) => {
+                println!("{res:?}");    // >>> ["age"]
+                // REMOVE_START
+                assert_eq!(res, vec!["age"]);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting keys: {e}");
+                return;
+            }
+        }
+
+        match r.keys::<&str, Vec<String>>("*") {
+            Ok(res) => {
+                let mut sorted_res = res.clone();
+                sorted_res.sort();
+                println!("{sorted_res:?}");    // >>> ["age", "firstname", "lastname"]
+                // REMOVE_START
+                assert_eq!(sorted_res, vec!["age", "firstname", "lastname"]);
+                let _: Result<i32, _> = r.del(&["firstname", "lastname", "age"]);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting keys: {e}");
+                return;
+            }
+        }
+        // STEP_END
+
         // STEP_START scan1
         match r.sadd("myset", &["1", "2", "3", "foo", "foobar", "feelsgood"]) {
             Ok(res) => {
@@ -291,7 +354,7 @@ mod cmds_generic_tests {
 
         match r.sscan_match("myset", "f*") {
             Ok(iter) => {
-                let res: Vec<String> = iter.collect();
+                let res: Vec<String> = iter.filter_map(|r| r.ok()).collect();
                 println!("{res:?}");    // >>> ["foo", "foobar", "feelsgood"]
                 // REMOVE_START
                 let mut sorted_res = res.clone();
@@ -321,14 +384,14 @@ mod cmds_generic_tests {
         // This simulates the Python cursor-based output but uses the available API
         match r.scan_match("*11*") {
             Ok(iter) => {
-                let keys: Vec<String> = iter.collect();
+                let keys: Vec<String> = iter.filter_map(|r| r.ok()).collect();
                 // REMOVE_START
                 assert_eq!(keys.len(), 19); // key:11, key:110-119, key:211, key:311, etc.
 
                 // Clean up all keys
                 match r.scan_match("key:*") {
                     Ok(iter) => {
-                        let all_keys: Vec<String> = iter.collect();
+                        let all_keys: Vec<String> = iter.filter_map(|r| r.ok()).collect();
                         if !all_keys.is_empty() {
                             let key_refs: Vec<&str> = all_keys.iter().map(|s| s.as_str()).collect();
                             let _: Result<i32, _> = r.del(&key_refs);
@@ -455,7 +518,7 @@ mod cmds_generic_tests {
 
         match r.hscan("myhash") {
             Ok(iter) => {
-                let fields: std::collections::HashMap<String, String> = iter.collect();
+                let fields: std::collections::HashMap<String, String> = iter.filter_map(|r| r.ok()).collect();
                 println!("{fields:?}");    // >>> {"a": "1", "b": "2"}
                 // REMOVE_START
                 assert_eq!(fields.get("a"), Some(&"1".to_string()));

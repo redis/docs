@@ -7,7 +7,7 @@ categories:
 - rc
 description: New features, enhancements, and other changes added to Redis Cloud during
   March 2026.
-highlights: Dynamic endpoints & endpoint redirection, Redis 8.4 on Redis Cloud Pro
+highlights: Passwordless authentication for Redis Cloud Pro, Redis 8.4 on Redis Cloud Pro, Automatic database upgrades
 linktitle: March 2026
 weight: 53
 tags:
@@ -16,16 +16,9 @@ tags:
 
 ## New features
 
-### Dynamic endpoints
+### Passwordless authentication for Redis Cloud Pro
 
-As of March 22, 2026, Redis Cloud now generates dynamic endpoints for all databases. Databases created before March 22, 2026 can still view both legacy static endpoints and dynamic endpoints. Static endpoints will still work at this time, but they may be deprecated in the future.
-
-We recommend slowly migrating connections to the dynamic endpoints. Moving connections from the static endpoints to the dynamic endpoints does not cause any downtime. See [Applications that use legacy static endpoints]({{< relref "/operate/rc/databases/redirect-endpoints#applications-that-use-legacy-static-endpoints" >}}) for more information.
-
-### Redirect dynamic endpoints
-
-You can redirect your dynamic endpoints to any Redis Cloud Pro database in the same account. Redirecting your dynamic endpoints lets you switch connections to your new database seamlessly through Redis Cloud without any code changes. See [Redirect database endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) for more information.
-
+Passwordless authentication is now available for Redis Cloud Pro databases on subscriptions that have [blocked the public endpoint]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}). For more information, see [Turn on passwordless authentication for the default user]({{< relref "/operate/rc/security/database-security/block-public-endpoints#turn-on-passwordless-authentication-for-the-default-user" >}}).
 ### Redis 8.4 on Redis Cloud Pro
 
 Redis 8.4 is now available for [Redis Cloud Pro databases]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}}) in select regions.

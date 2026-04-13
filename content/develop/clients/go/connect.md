@@ -136,8 +136,10 @@ lets a client take action to avoid disruptions in service.
 See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
 for more information about SCH.
 
-To enable SCH on the client, add the `MaintNotificationsConfig` option during the
-connection, as shown in the following example:
+By default, `go-redis` always attempts to connect via SCH but falls back to
+a non-SCH connection if the server doesn't support it. However, you can configure SCH
+explicitly by passing a `MaintNotificationsConfig` object during the connection,
+as shown in the following example:
 
 ```go
 rdb := redis.NewClient(&redis.Options{

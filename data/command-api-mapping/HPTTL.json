@@ -333,6 +333,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "hpttl(key, *fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*fields",
+            "type": "Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>",
+          "description": "Feedback on the TTL of the fields"
+        }
+      }
     ]
   }
 }

@@ -23,7 +23,7 @@ categories:
 - clients
 complexity: O(1) when path is evaluated to a single value, O(N) when path is evaluated
   to multiple values, where N is the size of the key
-description: Appends a string to a JSON string value at path
+description: Appends a string to JSON strings at the paths matching a given path expression
 group: json
 hidden: false
 linkTitle: JSON.STRAPPEND
@@ -31,11 +31,11 @@ module: JSON
 railroad_diagram: /images/railroad/json.strappend.svg
 since: 1.0.0
 stack_path: docs/data-types/json
-summary: Appends a string to a JSON string value at path
+summary: Appends a string to JSON strings at the paths matching a given path expression
 syntax_fmt: JSON.STRAPPEND key [path] value
 title: JSON.STRAPPEND
 ---
-Append the `json-string` values to the string at `path`
+Appends a string to JSON strings at the paths matching a given path expression.
 
 [Examples](#examples)
 
@@ -43,12 +43,13 @@ Append the `json-string` values to the string at `path`
 
 <details open><summary><code>key</code></summary> 
 
-is key to modify.
+is a Redis key storing a value of type JSON.
+
 </details>
 
 <details open><summary><code>value</code></summary> 
 
-is value to append to one or more strings. 
+is a string to append to the JSON strings at the paths matching `path`.
 
 {{% alert title="About using strings with JSON commands" color="warning" %}}
 To specify a string as an array value to append, wrap the quoted string with an additional set of single quotes. Example: `'"silver"'`. For more detailed use, see [Examples](#examples).
@@ -59,7 +60,18 @@ To specify a string as an array value to append, wrap the quoted string with an 
 
 <details open><summary><code>path</code></summary> 
 
-is JSONPath to specify. Default is root `$`.
+is either 
+
+- A JSONPath expression
+  - The root "`$`", or any string that starts with "`$.`" or "`$[`".
+  - Resolves to all matching locations in `key`.
+- A legacy path expression 
+  - Any string that does not match the JSONPath syntax above.
+  - Allow the leading "`.`" to be omitted (for example, "`name`" and "`.name`" are equivalent).
+  - Resolves to only the first matching location in `key`.
+ 
+Default: "`.`" (legacy path pointing to the root of the document).
+
 </details>
 
 ## Examples
@@ -87,24 +99,46 @@ redis> JSON.GET doc $
     tab1="RESP2"
     tab2="RESP3" >}}
 
-With `$`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the string's new length, or `null` if the matching value is not a string.
+If `path` is a JSONPath expression:
 
-With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the string's new length, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not a string.
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
+- An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
+- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
+  - [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if the match is not a string.
+  - An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the new length of the string.
+
+If `path` is a legacy path expression:
+
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `path` has no matches.
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not a string.
+- An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the new length of the string at the first match.
 
 -tab-sep-
 
-With `$`-based path argument (default): [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the string's new length, or `null` if the matching value is not a string.
+If `path` is a JSONPath expression:
 
-With `.`-based path argument: [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the string's new length, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not a string.
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
+- An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
+- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
+  - [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the match is not a string.
+  - An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the new length of the string.
+
+If `path` is a legacy path expression:
+
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `path` has no matches.
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not a string.
+- An [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the new length of the string at the first match.
 
 {{< /multitabs >}}
 
 ## See also
 
-`JSON.ARRAPEND` | [`JSON.ARRINSERT`]({{< relref "commands/json.arrinsert/" >}}) 
+[`JSON.STRLEN`]({{< relref "commands/json.strlen/" >}}) | [`JSON.ARRAPPEND`]({{< relref "commands/json.arrappend/" >}})
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [The JSON data type]({{< relref "/develop/data-types/json/" >}})
+* [JSONPath]({{< relref "/develop/data-types/json/path" >}})
 * [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
-

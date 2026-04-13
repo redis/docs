@@ -389,6 +389,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zrank(key, member, with_score: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "with_score",
+            "type": "Boolean",
+            "description": "include score in output"
+          }
+        ],
+        "returns": {
+          "type": "Integer, [Integer, Float]",
+          "description": ""
+        }
+      }
     ]
   }
 }

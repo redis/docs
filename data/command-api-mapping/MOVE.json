@@ -243,7 +243,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "move(key, db)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "db",
+            "type": "Integer",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "whether the key was moved or not"
+        }
+      }
     ]
   }
 }
-
