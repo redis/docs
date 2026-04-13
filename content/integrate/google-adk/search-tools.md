@@ -130,4 +130,4 @@ The `name` and `description` on each tool matter: the LLM reads them to decide w
 ## More info
 
 - [redis_search_tools example](https://github.com/redis-developer/adk-redis/tree/main/examples/redis_search_tools): All four search tools with a product catalog
-- [RedisVL documentation](https://docs.redisvl.com)
+- [RedisVL documentation]({{< relref "/develop/ai/redisvl" >}})
