@@ -26,7 +26,7 @@ weight: 30
 adk-redis connects three backend systems to the ADK framework:
 
 - **[Redis Agent Memory Server](https://github.com/redis/agent-memory-server)** handles working memory (sessions), long-term memory (extracted facts), auto-summarization, and memory search.
-- **[RedisVL](https://docs.redisvl.com)** (Redis Vector Library) powers the search tools and local semantic cache provider.
+- **[RedisVL]({{< relref "/develop/ai/redisvl" >}})** (Redis Vector Library) powers the search tools and local semantic cache provider.
 - **[LangCache](https://redis.io/langcache/)** provides managed semantic caching with server-side embeddings.
 
 ## Prerequisites
