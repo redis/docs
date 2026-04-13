@@ -257,6 +257,16 @@ func htmlPage() string {
       return Number(value).toFixed(1);
     }
 
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (character) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[character]);
+    }
+
     function timeLabel(timestamp) {
       const date = new Date(timestamp);
       return date.toLocaleTimeString([], { minute: "2-digit", second: "2-digit" });
@@ -349,7 +359,7 @@ func htmlPage() string {
       }).join("");
 
       return __BT__
-        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Rolling graph and bucket summaries for ${sensor.sensor_id}">
+        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Rolling graph and bucket summaries for ${escapeHtml(sensor.sensor_id)}">
           <defs>
             <clipPath id="${chartClipId}">
               <rect x="${padX}" y="${padY}" width="${plotWidth}" height="${plotHeight}" />
@@ -383,10 +393,10 @@ func htmlPage() string {
         <section class="sensor-panel">
           <div class="sensor-header">
             <div class="sensor-title-row">
-              <h2>${sensor.sensor_id}</h2>
-              <div class="sensor-meta">Power consumption sensor in the ${sensor.zone} zone</div>
+              <h2>${escapeHtml(sensor.sensor_id)}</h2>
+              <div class="sensor-meta">Power consumption sensor in the ${escapeHtml(sensor.zone)} zone</div>
             </div>
-            <div class="latest">Latest: <strong>${fmt(sensor.latest?.value)}</strong> ${sensor.unit}</div>
+            <div class="latest">Latest: <strong>${escapeHtml(fmt(sensor.latest?.value))}</strong> ${escapeHtml(sensor.unit)}</div>
           </div>
           <div class="plot-shell">
             <div class="bucket-row">${combinedSvgForSensor(sensor, snapshot.now, snapshot.window_ms)}</div>
@@ -407,7 +417,7 @@ func htmlPage() string {
     }
 
     refresh().catch((error) => {
-      document.getElementById("sensors").innerHTML = __BT__<pre>${error.message}</pre>__BT__;
+      document.getElementById("sensors").innerHTML = __BT__<pre>${escapeHtml(error.message)}</pre>__BT__;
     });
 
     setInterval(() => {
