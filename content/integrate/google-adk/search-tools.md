@@ -17,7 +17,7 @@ type: integration
 weight: 3
 ---
 
-adk-redis provides four search tools that wrap [RedisVL](https://docs.redisvl.com) query types into ADK-compatible tools. The LLM sees each tool as a callable function with a `query` parameter and gets back structured results.
+adk-redis provides four search tools that wrap [RedisVL]({{< relref "/develop/ai/redisvl" >}}) query types into ADK-compatible tools. The LLM sees each tool as a callable function with a `query` parameter and gets back structured results.
 
 ## Overview
 
