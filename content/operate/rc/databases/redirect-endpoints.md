@@ -26,9 +26,9 @@ Use endpoint redirection to seamlessly migrate your application traffic to a dif
 
 ## Applications that use legacy static endpoints
 
-Databases created before March 22, 2026 have both legacy static endpoints and dynamic endpoints. You can only migrate the dynamic endpoints to point to a new database. If your application uses the static endpoints, it will connect to the source database instead of the target database after redirection. You can find both the static and dynamic endpoints for these databases on the database's **Configuration** page.
+Databases created before April 21, 2026 have both legacy static endpoints and dynamic endpoints. You can only migrate the dynamic endpoints to point to a new database. If your application uses the static endpoints, it will connect to the source database instead of the target database after redirection. You can find both the static and dynamic endpoints for these databases on the database's **Configuration** page.
 
-{{<image filename="images/rc/databases-configuration-general-endpoints-legacy.png" alt="The General section of the Configuration tab of the database details page for a database created before March 22, 2026. The dynamic endpoints are listed under the **Dynamic endpoints** section." >}}
+{{<image filename="images/rc/databases-configuration-general-endpoints-legacy.png" alt="The General section of the Configuration tab of the database details page for a database created before April 21, 2026. The dynamic endpoints are listed under the **Dynamic endpoints** section." >}}
 
 Transitioning from the static to the dynamic endpoint does not cause downtime and allows you to gradually manage client disconnections. To migrate to the dynamic endpoint safely:
 - Move clients one-by-one (or service-by-service) from legacy static endpoints to dynamic endpoints. Note that during the transition period, both static and Dynamic endpoints can be used concurrently.
@@ -44,12 +44,12 @@ Read the following sections to prepare for endpoint redirection.
 
 This process redirects a source database's dynamic endpoints to a selected target database, including both public and private (if available) endpoints. **Redirecting endpoints does not migrate the data in your database.** You can choose to redirect the endpoints without migrating your data. If you need your data to be available in the target database, you must [migrate your data]({{< relref "/operate/rc/databases/migrate-databases" >}}) to the target database **before** you redirect your endpoints.
 
-To ensure all connections are redirected to the target database, Redis Cloud will stop all traffic to the source database for 5 minutes after the redirection. During this time:
+To ensure all connections are redirected to the target database, Redis Cloud will block all traffic to the source database until you [unblock it](#unblock-traffic-to-the-source-database). During this time:
 - All existing connections to the source database will be terminated and new connections will be refused.
 - Clients will automatically reconnect with refreshed DNS.
 - New connections are established to the target database.
 
-If you choose to revert the redirection, traffic to the source will resume, even if the 5-minute window has not passed.
+If you choose to revert the redirection, traffic to the source will resume, even if you do not unblock the source database's traffic first.
 
 Plan for the following impacts when redirecting your endpoints:
 - Short-lived connection disruptions may occur as clients reconnect to the database, depending on client reconnection behavior.
@@ -74,6 +74,7 @@ Make sure you have met the following prerequisites:
 - Your application is using the dynamic endpoint. Endpoint redirection does not redirect [static endpoints](#applications-that-use-legacy-static-endpoints).
 - You have [created a target Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) in the same account that [is compatible with the source database](#redirection-compatibility).
 - If you monitor the source database with Prometheus, add the target database to Prometheus before your redirect the endpoint so that you can monitor the target database after the redirection. See [Connect to Prometheus]({{< relref "operate/rc/databases/monitor-performance#connect-to-prometheus" >}}) for more information.
+- Make sure that your client connections are configured with socket and connection timeouts. If you do not have timeouts configured, your client may hang indefinitely and the connection will not refresh. Refer to the [Client documentation]({{< relref "/develop/clients" >}}) for your client for more information.
 
 #### Redirection compatibility
 
@@ -121,7 +122,7 @@ To redirect your database endpoints:
 
     {{<image filename="images/rc/migrate-data-redirect-acknowledge.png" alt="The **Redirect endpoints** button redirects the source database endpoints to the target database." >}}
 
-After you redirect your database endpoints, you can go to the **Configuration** tab of the target database to verify that the endpoints now point to the target database. To ensure all connections are redirected to the target database, Redis Cloud will stop all traffic to the source database for 5 minutes after the redirection.
+After you redirect your database endpoints, you can go to the **Configuration** tab of the target database to verify that the endpoints now point to the target database. To ensure all connections are redirected to the target database, Redis Cloud will block all traffic to the source database until you [unblock it](#unblock-traffic-to-the-source-database).
 
 ## Revert endpoint redirection
 
@@ -130,6 +131,10 @@ You can revert endpoint redirection within 24 hours to restore the original endp
 {{<image filename="images/rc/migrate-data-redirect-revert.png" alt="The **Revert** button reverts endpoint migration." >}}
 
 After the 24-hour window, you can no longer revert to the original endpoints. You can redirect them back to the source database if the source database is a Redis Cloud Pro database. However, doing this will create new endpoints for the target database.
+
+## Unblock traffic to the source database
+
+TODO - need a setup to work first
 
 
 
