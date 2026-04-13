@@ -36,3 +36,4 @@ This makes it a good fit for demonstrating how Redis time series support:
 * [Node.js]({{< relref "/develop/use-cases/time-series-dashboard/nodejs" >}}) - Build the same rolling sensor graph demo with `node-redis` and a local Node.js server
 * [Java]({{< relref "/develop/use-cases/time-series-dashboard/java-jedis" >}}) - Build the same rolling sensor graph demo with Jedis and a local Java server
 * [Go]({{< relref "/develop/use-cases/time-series-dashboard/go" >}}) - Build the same rolling sensor graph demo with `go-redis` and a local Go server
+* [.NET]({{< relref "/develop/use-cases/time-series-dashboard/dotnet" >}}) - Build the same rolling sensor graph demo with StackExchange.Redis and a local ASP.NET Core server
