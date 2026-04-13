@@ -424,10 +424,6 @@ class DashboardHandler(BaseHTTPRequestHandler):
       `;
     }}
 
-    function bucketCards(sensor, now) {{
-      return combinedSvgForSensor(sensor, now, {WINDOW_MS});
-    }}
-
     function render(snapshot) {{
       const html = snapshot.sensors.map((sensor) => `
         <section class="sensor-panel">
@@ -439,7 +435,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
             <div class="latest">Latest: <strong>${{escapeHtml(fmt(sensor.latest?.value))}}</strong> ${{escapeHtml(sensor.unit)}}</div>
           </div>
           <div class="plot-shell">
-            <div class="bucket-row">${{bucketCards(sensor, snapshot.now)}}</div>
+            <div class="bucket-row">${{combinedSvgForSensor(sensor, snapshot.now, snapshot.window_ms)}}</div>
           </div>
         </section>
       `).join("");

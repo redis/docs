@@ -159,7 +159,7 @@ public final class RedisTimeSeriesStore {
     private Map<String, Object> latest(SensorSimulator.SensorDefinition sensor) {
         try (Jedis jedis = jedisPool.getResource()) {
             Object response = executeCommand(jedis.getConnection(), TimeSeriesCommand.TS_GET, sensor.key());
-            if (!(response instanceof List<?> values) || values.isEmpty()) {
+            if (!(response instanceof List<?> values) || values.size() < 2) {
                 return null;
             }
 
