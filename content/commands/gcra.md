@@ -1,6 +1,6 @@
 ---
 acl_categories:
-- '@string'
+- '@rate_limit'
 - '@write'
 arguments:
 - key_spec_index: 0
@@ -33,7 +33,7 @@ command_flags:
 - fast
 complexity: O(1)
 description: Rate limit via GCRA (Generic Cell Rate Algorithm).
-group: string
+group: rate_limit
 hidden: false
 key_specs:
 - begin_search:
