@@ -57,6 +57,7 @@ Subkey notifications are controlled by the existing `notify-keyspace-events` con
     T     Subkeyevent events, published with __subkeyevent@<db>__ prefix.
     I     Subkeyspaceitem events, published with __subkeyspaceitem@<db>__ prefix.
     V     Subkeyspaceevent events, published with __subkeyspaceevent@<db>__ prefix.
+    n     All subkeyspaceevents for hash commands.
 
 These flags are **independent** from the existing key-level flags (`K`, `E`, and so on). You may enable any combination. For example, to enable only the subkeyspace and subkeyevent channels:
 
@@ -66,23 +67,23 @@ To enable all four subkey channel types:
 
     $ redis-cli config set notify-keyspace-events STIV
 
-### Supported commands
+### Commands emitting subkey notifications
 
 The following commands emit subkey notifications. Currently, only hash commands are supported; support for additional data types is planned for future releases.
 
 | Command | Event | Subkeys included |
 |---|---|---|
-| [`HSET`]({{< relref "/commands/hset" >}}) / [`HMSET`]({{< relref "/commands/hmset" >}}) | `hset` | All subkeys being set |
-| [`HSETNX`]({{< relref "/commands/hsetnx" >}}) | `hset` | The subkey (only if it was set) |
-| [`HDEL`]({{< relref "/commands/hdel" >}}) | `hdel` | All subkeys deleted |
-| [`HGETDEL`]({{< relref "/commands/hgetdel" >}}) | `hdel` / `hexpired` | Deleted or lazily expired subkeys |
-| [`HGETEX`]({{< relref "/commands/hgetex" >}}) | `hexpire` / `hpersist` / `hdel` / `hexpired` | Affected subkeys per event type |
-| [`HINCRBY`]({{< relref "/commands/hincrby" >}}) | `hincrby` | The subkey |
-| [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}) | `hincrbyfloat` | The subkey |
-| [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) / [`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}) / [`HEXPIREAT`]({{< relref "/commands/hexpireat" >}}) / [`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}) | `hexpire` | Subkeys whose TTLs were updated |
-| [`HPERSIST`]({{< relref "/commands/hpersist" >}}) | `hpersist` | Subkeys that were persisted |
-| [`HSETEX`]({{< relref "/commands/hsetex" >}}) | `hset` / `hdel` / `hexpire` / `hexpired` | Affected subkeys per event type |
-| Subkey expiration (active or lazy) | `hexpired` | All expired subkeys, batched into a single notification |
+| [`HSET`]({{< relref "/commands/hset" >}}) / [`HMSET`]({{< relref "/commands/hmset" >}}) | `hset` | All fields being set |
+| [`HSETNX`]({{< relref "/commands/hsetnx" >}}) | `hset` | The field (only if it was set) |
+| [`HDEL`]({{< relref "/commands/hdel" >}}) | `hdel` | All fields deleted |
+| [`HGETDEL`]({{< relref "/commands/hgetdel" >}}) | `hdel` / `hexpired` | Deleted or lazily expired fields |
+| [`HGETEX`]({{< relref "/commands/hgetex" >}}) | `hexpire` / `hpersist` / `hdel` / `hexpired` | Affected fields per event type |
+| [`HINCRBY`]({{< relref "/commands/hincrby" >}}) | `hincrby` | The field |
+| [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}) | `hincrbyfloat` | The field |
+| [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) / [`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}) / [`HEXPIREAT`]({{< relref "/commands/hexpireat" >}}) / [`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}) | `hexpire` | Fields whose TTLs were updated |
+| [`HPERSIST`]({{< relref "/commands/hpersist" >}}) | `hpersist` | Fields that were persisted |
+| [`HSETEX`]({{< relref "/commands/hsetex" >}}) | `hset` / `hdel` / `hexpire` / `hexpired` | Affected fields per event type |
+| Subkey expiration (active or lazy) | `hexpired` | All expired fields, batched into a single notification |
 
 ### Watching events in real time
 
