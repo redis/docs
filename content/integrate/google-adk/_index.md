@@ -128,5 +128,5 @@ runner = Runner(
 - [adk-redis on PyPI](https://pypi.org/project/adk-redis/)
 - [Car dealership tutorial](https://redis.io/tutorials/build-a-car-dealership-agent-with-google-adk-and-redis-agent-memory/)
 - [Redis Agent Memory Server](https://github.com/redis/agent-memory-server)
-- [RedisVL documentation](https://docs.redisvl.com)
+- [RedisVL documentation]({{< relref "/develop/ai/redisvl" >}})
 - [Google ADK documentation](https://google.github.io/adk-docs/)
