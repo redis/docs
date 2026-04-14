@@ -186,7 +186,7 @@ docs for more information and code examples. See the
 about text embeddings and other AI techniques you can use with Redis.
 
 You may also be interested in
-[vector search]({{< relref "/develop/clients/dotnet/vecsearch" >}}).
+[vector search]({{< relref "/develop/clients/dotnet/nredisstack/vecsearch" >}}).
 This is a feature of 
 [Redis Search]({{< relref "/develop/ai/search-and-query" >}})
 that lets you retrieve

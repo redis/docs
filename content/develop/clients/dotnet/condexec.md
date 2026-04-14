@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Understand how `NRedisStack` uses conditional execution
+description: Understand how `StackExchange.Redis` uses conditional execution.
 linkTitle: Conditional execution
 title: Conditional execution
 weight: 60
@@ -18,12 +18,12 @@ weight: 60
 Most Redis client libraries use transactions with the
 [`WATCH`]({{< relref "/commands/watch" >}}) command as the main way to prevent
 two clients writing to the same key at once (see [Transactions]({{< relref "develop/using-commands/transactions" >}}) for more information). Unfortunately, this approach is
-difficult to use explicitly in `NRedisStack`. Its
+difficult to use explicitly in `StackExchange.Redis`. Its
 [multiplexing]({{< relref "/develop/clients/pools-and-muxing" >}}) system
 is highly efficient and convenient but can also cause bad interactions
 when different connections use watched transactions at the same time.
 
-Instead, `NRedisStack` relies more heavily on conditional execution. This comes
+Instead, `StackExchange.Redis` relies more heavily on conditional execution. This comes
 in two basic forms, `When` conditions and transaction conditions, both of which
 are explained in the sections below.
 
@@ -35,7 +35,7 @@ example, the [`SET`]({{< relref "/commands/set" >}}) command has the
 variants [`SETEX`]({{< relref "/commands/setex" >}}) (set when the key exists),
 and [`SETNX`]({{< relref "/commands/setnx" >}}) (set when the key doesn't exist).
 
-Instead of providing the different variants of these commands, `NRedisStack`
+Instead of providing the different variants of these commands, `StackExchange.Redis`
 lets you add a `When` condition to the basic command to access its variants.
 The following example demonstrates this for the
 [`HashSet()`]({{< relref "/commands/hset" >}}) command.
@@ -61,7 +61,7 @@ The available conditions are `When.Exists`, `When.NotExists`, and the default
 
 ## Transaction conditions
 
-`NRedisStack` also supports a more extensive set of conditions that you
+`StackExchange.Redis` also supports a more extensive set of conditions that you
 can add to transactions. They are implemented internally using
 [`WATCH`]({{< relref "/commands/watch" >}}) commands in a way that is
 guaranteed to be safe, without interactions between different clients.

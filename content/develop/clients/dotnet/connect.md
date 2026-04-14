@@ -24,8 +24,6 @@ form "hostname:port" to the `Connect()` method (for example,
 username, password, and many other options:
 
 ```csharp
-using NRedisStack;
-using NRedisStack.RedisStackCommands;
 using StackExchange.Redis;
 
 ConfigurationOptions conf = new ConfigurationOptions {
