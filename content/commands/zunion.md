@@ -67,8 +67,10 @@ key_specs:
     keynum:
       firstkey: 1
       keynumidx: 0
-      keystep: 1
-    type: keynum
+      step: 1
+  flags:
+  - RO
+  - ACCESS
 linkTitle: ZUNION
 railroad_diagram: /images/railroad/zunion.svg
 since: 6.2.0
