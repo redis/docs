@@ -51,7 +51,7 @@ public class PipeTransExample
         Console.WriteLine(resp2); // >>> #3
 
         var resp3 = db.StringGet("seat:4");
-        Console.WriteLine(resp2); // >>> #4
+        Console.WriteLine(resp3); // >>> #4
         // STEP_END
         // REMOVE_START
         Assert.Equal("#0", resp1);
