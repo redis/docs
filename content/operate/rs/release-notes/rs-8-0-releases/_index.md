@@ -115,6 +115,12 @@ The following changes affect behavior and validation in Redis Search:
 
 Make sure the following ports are open before upgrading Redis Software.
 
+Ports reserved as of Redis Software version 8.0.18:
+
+| Port | Process name | Usage | 
+|------|--------------|-------|
+| 3357 | reconciliation_tree_grpc | Internal communication |
+
 Ports reserved as of Redis Software version 7.22.0:
 
 | Port | Process name | Usage | 

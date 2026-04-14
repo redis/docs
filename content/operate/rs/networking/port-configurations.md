@@ -39,6 +39,7 @@ Redis Software's port usage falls into three general categories:
 | TCP | 1968 | <span title="Not configurable">&#x274c; No</span> | Internal | Proxy traffic |
 | TCP | 3333-3345, 3350-3354, 36379 | <span title="Not configurable">&#x274c; No</span> | Internal | Internode communication |
 | TCP | 3355 | <span title="Configurable">&#x2705; Yes</span> | Internal | Authentication service internal port |
+| TCP | 3357 | <span title="Not configurable">&#x274c; No</span> | Internal | Internal communication |
 | TCP | 20000-29999 | <span title="Not configurable">&#x274c; No</span> | Internal | Database shard traffic |
 | TCP | 8002, 8004, 8006 | <span title="Configurable">&#x2705; Yes</span> | Internal | Default system health monitoring (envoy admin, envoy management server, gossip envoy admin)|
 | TCP | 8444, 9080 | <span title="Not configurable">&#x274c; No</span> | Internal | Traffic between web proxy and cnm_http/cm |
