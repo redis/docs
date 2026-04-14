@@ -57,7 +57,7 @@ Subkey notifications are controlled by the existing `notify-keyspace-events` con
     T     Subkeyevent events, published with __subkeyevent@<db>__ prefix.
     I     Subkeyspaceitem events, published with __subkeyspaceitem@<db>__ prefix.
     V     Subkeyspaceevent events, published with __subkeyspaceevent@<db>__ prefix.
-    n     All subkeyspaceevents for hash commands.
+    h     Hash commands.
 
 These flags are **independent** from the existing key-level flags (`K`, `E`, and so on). You may enable any combination. For example, to enable only the subkeyspace and subkeyevent channels:
 
