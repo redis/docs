@@ -53,6 +53,8 @@ For more detailed release notes, select a build version from the following table
 
 - Node status now returns the actual provisional RAM and flash values even when the maximum number of shards on the node (`max_redis_servers`) is reached. Previously, the API returned 0 for `provisional_ram_of_node` and `provisional_flash_of_node` when a node reached its shard limit. This change affects REST API node status requests and the `rladmin status nodes` command's output.
 
+- `crdb_controller` is enabled by default as of Redis Software version 8.0.18.
+
 ### Breaking changes
 
 - Upgrading to Redis Software version 8.0.10 through 8.0.16-29 can cause LDAP authentication to fail with "certificate signed by unknown authority" errors if your cluster currently uses LDAP authentication. This issue was fixed in [Redis Software version 8.0.16-33]({{<relref "/operate/rs/release-notes/rs-8-0-releases/rs-8-0-16-33">}}).
