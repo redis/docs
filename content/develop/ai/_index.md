@@ -44,7 +44,7 @@ This page is organized into a few sections depending on what you're trying to do
 
 #### Learn how to index and query vector embeddings
 * [redis-py (Python)]({{< relref "/develop/clients/redis-py/vecsearch" >}})
-* [StackExchange.Redis (C#/.NET)]({{< relref "/develop/clients/dotnet/vecsearch" >}})
+* [NRedisStack (C#/.NET)]({{< relref "/develop/clients/dotnet/nredisstack/vecsearch" >}})
 * [node-redis (JavaScript)]({{< relref "/develop/clients/nodejs/vecsearch" >}})
 * [Jedis (Java)]({{< relref "/develop/clients/jedis/vecsearch" >}})
 * [go-redis (Go)]({{< relref "/develop/clients/go/vecsearch" >}})

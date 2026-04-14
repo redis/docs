@@ -22,7 +22,7 @@ A separate library,
 [NRedisStack](https://github.com/redis/NRedisStack), builds upon `StackExchange.Redis` with
 support for an extended set of data types and features, such as [JSON]({{< relref "/develop/data-types/json" >}}),
 [Redis search]({{< relref "/develop/ai/search-and-query" >}}), and
-[Time series]({{< relref "/develop/data-types/time-series" >}}).
+[Time series]({{< relref "/develop/data-types/timeseries" >}}).
 
 The sections below explain how to install `StackExchange.Redis` and connect your application
 to a Redis database. See the [NRedisStack guide]({{< relref "/develop/clients/dotnet/nredisstack" >}}) for information about installing and using `NRedisStack` to access the extended feature set.

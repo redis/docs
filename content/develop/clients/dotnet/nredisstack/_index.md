@@ -16,7 +16,7 @@ title: NRedisStack extensions guide
 weight: 30
 ---
 
-[NRedisStack](https://github.com/redis/NRedisStack) is a library that builds upon [StackExchange.Redis](https://github.com/StackExchange/StackExchange.Redis) and provides an API for the extended set of Redis data types and features, such as [JSON]({{< relref "/develop/data-types/json" >}}), [Redis search]({{< relref "/develop/ai/search-and-query" >}}), and [Time series]({{< relref "/develop/data-types/time-series" >}}).
+[NRedisStack](https://github.com/redis/NRedisStack) is a library that builds upon [StackExchange.Redis](https://github.com/StackExchange/StackExchange.Redis) and provides an API for the extended set of Redis data types and features, such as [JSON]({{< relref "/develop/data-types/json" >}}), [Redis search]({{< relref "/develop/ai/search-and-query" >}}), and [Time series]({{< relref "/develop/data-types/timeseries" >}}).
 The sections below explain how to install `NRedisStack`. Note that this also installs
 `StackExchange.Redis` as a dependency, so you don't need to install it as a separate step.
 
