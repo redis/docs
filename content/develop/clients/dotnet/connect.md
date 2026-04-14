@@ -137,9 +137,9 @@ to manage open connections carefully to avoid this.
 
 Several other
 Redis client libraries use *connection pools* to reuse a set of open
-connections efficiently. NRedisStack uses a different approach called
+connections efficiently. StackExchange.Redis uses a different approach called
 *multiplexing*, which sends all client commands and responses over a
-single connection. NRedisStack manages multiplexing for you automatically.
+single connection. StackExchange.Redis manages multiplexing for you automatically.
 This gives high performance without requiring any extra coding.
 See
 [Connection pools and multiplexing]({{< relref "/develop/clients/pools-and-muxing" >}})
