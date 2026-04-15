@@ -51,16 +51,14 @@ except for the `Path` class, which is specific to JSON (see
 [Path]({{< relref "/develop/data-types/json/path" >}}) for a description of the
 JSON path syntax).
 
-{{< clients-example set="py_home_json" step="import" description="Foundational: Import required libraries for Redis Search, JSON operations, and search functionality" difficulty="beginner" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="py_home_json" lang_filter="Python" step="import" description="Foundational: Import required libraries for Redis Search, JSON operations, and search functionality" difficulty="beginner" />}}
 
 ## Create data
 
 Create some test data to add to your database. The example data shown
 below is compatible with both JSON and hash objects.
 
-{{< clients-example set="py_home_json" step="create_data" description="Foundational: Define sample user data structures for indexing and querying" difficulty="beginner" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="py_home_json" lang_filter="Python" step="create_data" depends="import" description="Foundational: Define sample user data structures for indexing and querying" difficulty="beginner" />}}
 
 ## Add the index
 
@@ -69,23 +67,20 @@ basic connection but see
 [Connect to the server]({{< relref "/develop/clients/redis-py/connect" >}})
 to learn more about the available connection options.
 
-{{< clients-example set="py_home_json" step="connect" description="Foundational: Establish a connection to a Redis server for query operations" difficulty="beginner" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="py_home_json" lang_filter="Python" step="connect" depends="import" description="Foundational: Establish a connection to a Redis server for query operations" difficulty="beginner" />}}
 
 The example uses an index called `idx:users` for JSON documents and adds
 some JSON documents with the `user:` key prefix. To avoid errors, first
 delete any existing index or documents whose names that might
 conflict with the example:
 
-{{< clients-example set="py_home_json" step="cleanup_json" description="Foundational: Clean up existing indexes and documents to prepare for fresh example data" difficulty="beginner" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="py_home_json" lang_filter="Python" step="cleanup_json" depends="import" description="Foundational: Clean up existing indexes and documents to prepare for fresh example data" difficulty="beginner" />}}
 
 Create an index for the JSON data. The code below specifies that only JSON documents with
 the key prefix `user:` are indexed. For more information, see
 [Query syntax]({{< relref "/develop/ai/search-and-query/query/" >}}).
 
-{{< clients-example set="py_home_json" step="make_index" description="Foundational: Create a search index for JSON documents with field definitions and key prefix filtering" difficulty="intermediate" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="py_home_json" lang_filter="Python" step="make_index" depends="import" description="Foundational: Create a search index for JSON documents with field definitions and key prefix filtering" difficulty="intermediate" />}}
 
 ## Add the data
 
@@ -94,8 +89,7 @@ Add the three sets of user data to the database as
 If you use keys with the `user:` prefix then Redis will index the
 objects automatically as you add them:
 
-{{< clients-example set="py_home_json" step="add_data" description="Foundational: Store JSON documents in Redis with automatic indexing based on key prefix" difficulty="beginner" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="py_home_json" lang_filter="Python" step="add_data" depends="import" description="Foundational: Store JSON documents in Redis with automatic indexing based on key prefix" difficulty="beginner" />}}
 
 ## Query the data
 
@@ -104,20 +98,19 @@ You can now use the index to search the JSON objects. The
 below searches for objects that have the text "Paul" in any field
 and have an `age` value in the range 30 to 40:
 
-{{< clients-example set="py_home_json" step="query1" description="Query with filters: Search JSON documents using text matching and numeric range filters to find specific records" difficulty="intermediate" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="py_home_json" lang_filter="Python" step="query1" depends="import" description="Query with filters: Search JSON documents using text matching and numeric range filters to find specific records" difficulty="intermediate" />}}
+
 
 Specify query options to return only the `city` field:
 
-{{< clients-example set="py_home_json" step="query2" description="Query with field projection: Retrieve only specific fields from search results to reduce data transfer" difficulty="intermediate" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="py_home_json" lang_filter="Python" step="query2" depends="import" description="Query with field projection: Retrieve only specific fields from search results to reduce data transfer" difficulty="intermediate" />}}
+
 
 Use an
 [aggregation query]({{< relref "/develop/ai/search-and-query/query/aggregation" >}})
 to count all users in each city.
 
-{{< clients-example set="py_home_json" step="query3" description="Aggregation queries: Use GROUP BY and COUNT operations to summarize and analyze indexed data" difficulty="advanced" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="py_home_json" lang_filter="Python" step="query3" depends="import" description="Aggregation queries: Use GROUP BY and COUNT operations to summarize and analyze indexed data" difficulty="advanced" />}}
 
 ## Differences with hash documents
 
@@ -132,30 +125,28 @@ when you create the index.
 First delete any existing index or documents
 whose names might conflict with the hash example:
 
-{{< clients-example set="py_home_json" step="cleanup_hash" description="Foundational: Clean up existing hash indexes and documents to prepare for fresh example data" difficulty="beginner" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="py_home_json" lang_filter="Python" step="cleanup_hash" depends="import" description="Foundational: Clean up existing hash indexes and documents to prepare for fresh example data" difficulty="beginner" />}}
+
 
 Create a new index called `hash-idx:users`, which is otherwise the same as
 the `idx:users` index used for JSON documents in the previous examples:
 
-{{< clients-example set="py_home_json" step="make_hash_index" description="Foundational: Create a search index for hash documents with HASH index type and field definitions" difficulty="intermediate" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="py_home_json" lang_filter="Python" step="make_hash_index" depends="import" description="Foundational: Create a search index for hash documents with HASH index type and field definitions" difficulty="intermediate" />}}
+
 
 You use [`hset()`]({{< relref "/commands/hset" >}}) to add the hash
 documents instead of [`json().set()`]({{< relref "/commands/json.set" >}}),
 but the same flat `userX` dictionaries work equally well with either
 hash or JSON:
 
-{{< clients-example set="py_home_json" step="add_hash_data" description="Foundational: Store hash documents in Redis with automatic indexing based on key prefix" difficulty="beginner" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="py_home_json" lang_filter="Python" step="add_hash_data" depends="import" description="Foundational: Store hash documents in Redis with automatic indexing based on key prefix" difficulty="beginner" />}}
 
 The query commands work the same here for hash as they do for JSON (but
 the name of the hash index is different). The format of the result is
 almost the same except that the fields are returned directly in the
 result `Document` object instead of in an enclosing `json` dictionary:
 
-{{< clients-example set="py_home_json" step="query1_hash" description="Query with filters: Search hash documents using text matching and numeric range filters (same as JSON queries)" difficulty="intermediate" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="py_home_json" lang_filter="Python" step="query1_hash" depends="import" description="Query with filters: Search hash documents using text matching and numeric range filters (same as JSON queries)" difficulty="intermediate" />}}
 
 ## More information
 

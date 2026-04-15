@@ -215,6 +215,25 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 ## Known issues
 
+- RS193156: Active Directory LDAP authentication can fail in the Cluster Manager UI after upgrading to Redis Software version 8.0.16-33 due to an issue with LDAP TLS client certificate handling. Users previously authenticated through Active Directory can no longer sign in to the Cluster Manager UI after the upgrade.
+
+    As a workaround, configure an LDAP client certificate using an [update cluster certificates]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates">}}) REST API request:
+
+    ```sh
+    PUT https://<host>:<port>/v1/cluster/certificates
+    {
+      "certificates": [
+        {
+          "name": "ldap_client",
+          "certificate": "<cert>",
+          "key": "<key>"
+        }
+      ]
+    }
+    ```
+    
+    See [Create certificates]({{<relref "/operate/rs/security/certificates/create-certificates">}}) and [Update certificates]({{<relref "/operate/rs/security/certificates/updating-certificates">}}) for more detailed instructions.
+
 - RS180550: You cannot set up SSO when the Cluster Manager UI is exposed through an IPv6-based load balancer or gateway.
 
     As a workaround, use an IPv4-based address for the SSO service base address, or register a DNS name that resolves to the IPv6 address.

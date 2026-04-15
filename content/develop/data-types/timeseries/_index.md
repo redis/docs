@@ -1,4 +1,13 @@
 ---
+aliases:
+- /develop/data-types/timeseries/quickstart
+- /develop/data-types/timeseries/quickstart/
+- /develop/data-types/timeseries/clients
+- /develop/data-types/timeseries/clients/
+- /develop/data-types/timeseries/development
+- /develop/data-types/timeseries/development/
+- /data-types/timeseries/
+- /manual/data-types/timeseries/
 categories:
 - docs
 - develop
@@ -10,14 +19,6 @@ categories:
 - kubernetes
 - clients
 description: Ingest and query time series data with Redis
-aliases:
-- /develop/data-types/timeseries/quickstart
-- /develop/data-types/timeseries/quickstart/
-- /develop/data-types/timeseries/clients
-- /develop/data-types/timeseries/clients/
-- /develop/data-types/timeseries/development
-- /develop/data-types/timeseries/development/
-- /data-types/timeseries/
 linkTitle: Time series
 stack: true
 title: Time series

@@ -558,6 +558,127 @@
         ],
         "type": "object"
       },
+      "Ldap": {
+        "additionalProperties": false,
+        "description": "An API object that represents the cluster's LDAP configuration.",
+        "properties": {
+          "bind_dn": {
+            "description": "A DN to use when binding with the LDAP server to run queries",
+            "type": "string"
+          },
+          "bind_pass": {
+            "description": "A password to use when binding with the LDAP server to run queries. Returned as a masked value on GET.",
+            "type": "string"
+          },
+          "ca_cert": {
+            "description": "A PEM-encoded CA certificate(s) to use for validating TLS connections to the LDAP server",
+            "type": "string"
+          },
+          "cache_ttl": {
+            "default": 300,
+            "description": "Maximum TTL of cached entries, in seconds",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "cba": {
+            "default": false,
+            "description": "Whether to allow LDAP as an identity source for certificate-based authentication",
+            "type": "boolean"
+          },
+          "cba_identity_oid": {
+            "description": "The certificate subject OID to use when cba_identity_source is set to subject_oid",
+            "type": "string"
+          },
+          "cba_identity_source": {
+            "description": "The certificate subject identity source to use for LDAP lookup",
+            "enum": [
+              "subject_cn",
+              "subject_oid"
+            ],
+            "type": "string"
+          },
+          "control_plane": {
+            "default": false,
+            "description": "Whether to use LDAP for user authentication/authorization in the control-plane",
+            "type": "boolean"
+          },
+          "data_plane": {
+            "default": false,
+            "description": "Whether to use LDAP for user authentication/authorization in the data-plane",
+            "type": "boolean"
+          },
+          "directory_timeout_s": {
+            "default": 5,
+            "description": "The connection timeout to the LDAP server when authenticating a user, in seconds",
+            "maximum": 60,
+            "minimum": 5,
+            "type": "integer"
+          },
+          "dn_group_attr": {
+            "description": "The name of an attribute of the LDAP user entity that contains a list of the groups that user belongs to. (Mutually exclusive with \"dn_group_query\")",
+            "type": "string"
+          },
+          "dn_group_query": {
+            "$ref": "#/components/schemas/LdapQuery"
+          },
+          "starttls": {
+            "default": false,
+            "description": "Whether to use StartTLS negotiation for the LDAP connection",
+            "type": "boolean"
+          },
+          "uris": {
+            "description": "URIs of LDAP servers containing only the schema, the host, and the port",
+            "items": {
+              "pattern": "^(ldap|ldaps)://([a-zA-Z0-9.\\-%]+|\\[[a-fA-F0-9:%]+\\]):[0-9]{1,5}$",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "user_dn_query": {
+            "$ref": "#/components/schemas/LdapQuery"
+          },
+          "user_dn_template": {
+            "description": "A string template that maps between the username provided to the cluster for authentication, and the LDAP DN. The special substring \"%u\" shall be replaced with the username. (Mutually exclusive with \"user_dn_query\")",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "LdapQuery": {
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "maxProperties": 0
+          },
+          {
+            "required": [
+              "base",
+              "scope",
+              "filter"
+            ]
+          }
+        ],
+        "properties": {
+          "base": {
+            "description": "The DN of the entry at which to start the search",
+            "type": "string"
+          },
+          "filter": {
+            "description": "An RFC-4515 string representation of the filter to apply in the search",
+            "type": "string"
+          },
+          "scope": {
+            "description": "One of \"base\" (to search the base object itself), \"one\" (to search the base object's immediate children), or \"subtree\" (to search the base object and all its descendants)",
+            "enum": [
+              "base",
+              "one",
+              "subtree"
+            ],
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "LicenseHealthReport": {
         "description": "License health report.",
         "properties": {
@@ -1961,6 +2082,40 @@
         "summary": "Change the cluster password hashing algorithm",
         "tags": [
           "Users"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/cluster/ldap": {
+      "get": {
+        "description": "Get the LDAP configuration for the cluster",
+        "operationId": "cluster_get_ldap_config",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ldap"
+                }
+              }
+            },
+            "description": "LDAP configuration"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_ldap_config"
+            ]
+          }
+        ],
+        "summary": "Get LDAP configuration",
+        "tags": [
+          "Cluster"
         ],
         "x-publish-docs": true,
         "x-stability-level": "stable"

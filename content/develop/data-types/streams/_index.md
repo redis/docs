@@ -1,4 +1,9 @@
 ---
+aliases:
+- /manual/data-types/streams/
+- /data-types/streams/
+- /develop/data-types/streams-tutorial/
+- /io/data-structures/streams/
 categories:
 - docs
 - develop
@@ -12,11 +17,6 @@ categories:
 description: Introduction to Redis streams
 linkTitle: Streams
 title: Redis Streams
-aliases:
-- /manual/data-types/streams/
-- /data-types/streams/
-- /develop/data-types/streams-tutorial/
-- /io/data-structures/streams/
 weight: 60
 ---
 

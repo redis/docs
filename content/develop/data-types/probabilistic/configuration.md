@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/probabilistic/configuration/
+- /manual/data-types/probabilistic/configuration/
 categories:
 - docs
 - develop

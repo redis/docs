@@ -1,0 +1,43 @@
+---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+description: Build a rolling sensor graph demo with Redis time series data
+linkTitle: Time series dashboard
+title: Rolling sensor graph demo with Redis
+weight: 3
+---
+
+This guide family shows how to build a compact rolling sensor graph demo backed by Redis time series.
+
+## Overview
+
+This use case simulates three sensors that continuously send readings to Redis. A small web dashboard then queries Redis to show:
+
+* A rolling graph of raw readings for each sensor
+* Bucket summaries drawn directly under the same time axis
+* Bucketed minimum, maximum, and average values
+* A short retention window where old samples visibly expire
+
+This makes it a good fit for demonstrating how Redis time series support:
+
+* High-ingest telemetry workloads
+* Time-window queries
+* Aggregation over fixed buckets
+* Short retention periods that bound data size
+
+## Available implementations
+
+* [redis-py]({{< relref "/develop/use-cases/time-series-dashboard/redis-py" >}}) - Build a local Python demo with three rolling sensor graphs, aligned bucket summaries, and visible sample expiration
+* [Node.js]({{< relref "/develop/use-cases/time-series-dashboard/nodejs" >}}) - Build the same rolling sensor graph demo with `node-redis` and a local Node.js server
+* [Java]({{< relref "/develop/use-cases/time-series-dashboard/java-jedis" >}}) - Build the same rolling sensor graph demo with Jedis and a local Java server
+* [Java (Lettuce)]({{< relref "/develop/use-cases/time-series-dashboard/java-lettuce" >}}) - Build the same rolling sensor graph demo with async and reactive Lettuce APIs
+* [Go]({{< relref "/develop/use-cases/time-series-dashboard/go" >}}) - Build the same rolling sensor graph demo with `go-redis` and a local Go server
+* [Rust]({{< relref "/develop/use-cases/time-series-dashboard/rust" >}}) - Build the same rolling sensor graph demo with `redis-rs` and a local Axum server
+* [.NET]({{< relref "/develop/use-cases/time-series-dashboard/dotnet" >}}) - Build the same rolling sensor graph demo with StackExchange.Redis and a local ASP.NET Core server
+* [PHP]({{< relref "/develop/use-cases/time-series-dashboard/php" >}}) - Build the same rolling sensor graph demo with Predis and PHP's built-in development server
+* [Ruby]({{< relref "/develop/use-cases/time-series-dashboard/ruby" >}}) - Build the same rolling sensor graph demo with `redis-rb` and a local WEBrick server
