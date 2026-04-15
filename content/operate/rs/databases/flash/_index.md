@@ -29,7 +29,7 @@ Flex is based on a high-performance storage engine (Speedb) that manages the com
 
 Just like all-RAM databases, Flex databases are compatible with existing Redis applications.
 
-Flex is also supported on [Redis Cloud]({{< relref "/operate/rc/" >}}) and [Redis Enterprise Software for Kubernetes]({{< relref "/operate/rs/" >}}).
+Flex is also supported on [Redis Cloud]({{< relref "/operate/rc/" >}}) and [Redis Enterprise Software for Kubernetes]({{< relref "/operate/kubernetes/flex" >}}).
 
 ## Flex versus Auto Tiering
 

@@ -41,13 +41,13 @@ This design delivers predictable latency and throughput as datasets grow beyond 
 
 ## Compatibility
 
-Flex is compatible with the Redis API and supports all Redis data types, including JSON and probabilistic data structures (Bloom filters, Count-Min Sketch, Top-K).
+Flex is compatible with the Redis API and supports all [Redis data types]({{<relref "/develop/data-types">}}), including JSON and probabilistic data structures (Bloom filters, Count-Min Sketch, Top-K).
 
 The following features are not yet supported with Flex:
 
-- Redis Search
-- Time series
-- Active-Active
+- [Redis Search]({{<relref "/develop/ai/search-and-query">}})
+- [Time series]({{<relref "/develop/data-types/timeseries">}})
+- [Active-Active]({{<relref "/operate/rs/databases/active-active">}})
 
 ## When to use Flex
 
