@@ -34,6 +34,8 @@ quickly. Currently, the following clients support OTel:
 
 - [redis-py]({{< relref "/develop/clients/redis-py/observability" >}})
 - [go-redis]({{< relref "/develop/clients/go/observability" >}})
+- [node-redis]({{< relref "/develop/clients/nodejs/observability" >}})
+
 
 <!--
 ## Tracing overview
