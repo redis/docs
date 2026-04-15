@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/strings/
+- /manual/data-types/strings/
 categories:
 - docs
 - develop
