@@ -190,8 +190,11 @@ Expired (`expired`) events are generated when the Redis server deletes the key a
 
 Every node of a Redis cluster generates events about its own subset of the keyspace as described above. However, unlike regular Pub/Sub communication in a cluster, events' notifications **are not** broadcasted to all nodes. Put differently, keyspace events are node-specific. This means that to receive all keyspace events of a cluster, clients need to subscribe to each of the nodes.
 
+## See also
+
+See the [subkey notifications]({{< relref "/develop/pubsub/subkeyspace-notifications" >}}) page for information about subkey notifications (for example, individual fields of a hash key).
+
 @history
 
 *   `>= 6.0`: Key miss events were added.
 *   `>= 7.0`: Event type `new` added
-
