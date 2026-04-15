@@ -1,4 +1,7 @@
 ---
+aliases:
+- /connect/clients/ruby/
+- /clients/ruby/
 categories:
 - docs
 - develop

@@ -1,4 +1,7 @@
 ---
+aliases:
+- /connect/clients/hiredis/
+- /clients/hiredis/
 categories:
 - docs
 - develop

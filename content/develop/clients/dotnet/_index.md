@@ -1,5 +1,8 @@
 ---
-aliases: /develop/connect/clients/dotnet
+aliases:
+- /develop/connect/clients/dotnet
+- /connect/clients/dotnet/
+- /clients/dotnet/
 categories:
 - docs
 - develop
