@@ -108,12 +108,12 @@ The following information is provided for each of the groups:
 * **pel-count**: the length of the group's pending entries list (PEL), which are messages that were delivered but are yet to be acknowledged
 * **pending**: an array with pending entries information (see below)
 * **consumers**: an array with consumers information (see below)
-* **nacked-count**: the number of entries currently in the nacked zone. See the [`XNACK` command page]({{< relref "/commands/xnack" >}}) for more details. Added in Redis 8.8.
+* **nacked-count**: the number of entries currently in the NACKed portion of the PEL. See the [`XNACK` command page]({{< relref "/commands/xnack" >}}) for more details. Added in Redis 8.8.
 
 The following information is provided for each pending entry:
 
 1. The ID of the message.
-2. The name of the consumer that fetched the message and has still to acknowledge it. We call it the current *owner* of the message. For messages that have been released back to the group using [`XNACK`]({{< relref "/commands/xnack" >}}), this field will be empty.
+2. The name of the consumer that fetched the message and has yet to acknowledge it. We call it the current *owner* of the message. For messages that have been released back to the group using [`XNACK`]({{< relref "/commands/xnack" >}}), this field will be an empty string.
 3. The UNIX timestamp of when the message was delivered to this consumer.
 4. The number of times this message was delivered.
 

@@ -78,7 +78,7 @@ title: XNACK
 
 In the context of a stream consumer group, this command allows a consumer to explicitly release pending messages back to the group's Pending Entries List (PEL) without acknowledging them. Released messages become immediately available for re-delivery to other consumers in the group, eliminating the idle-timeout delay normally required for message recovery.
 
-This is particularly useful in scenarios such as graceful consumer shutdown, transient failures, resource constraints, or poison message detection. The command provides three different modes that control how the delivery counter is adjusted, giving consumers fine-grained control over retry semantics.
+This is particularly useful in scenarios such as graceful consumer shutdown, consumer-side failures, resource constraints, or poison message detection. The command provides three different modes that control how the delivery counter is adjusted, giving consumers fine-grained control over retry semantics.
 
 ## Required arguments
 
@@ -98,8 +98,8 @@ Name of the consumer group.
 
 Controls the delivery counter adjustment. Must be one of:
 
-- **SILENT**: Decrements the delivery counter by 1, essentially "undoing" the delivery increment. Use this for transient internal failures or graceful shutdown where the delivery "didn't count".
-- **FAIL**: Keeps the current delivery counter value unchanged. Use this when the message is too complex for the current consumer but may work for others.
+- **SILENT**: Decrements the delivery counter by 1, essentially "undoing" the delivery increment. Use this for an internal failure on the consumer side while processing the message or graceful shutdown where the delivery "didn't count".
+- **FAIL**: Keeps the current delivery counter value unchanged. Use this when the current consumer failed to process this message (for example, due to memory constraints). The root cause may be the message or the consumer (it is unclear), so the best strategy would be to let another consumer try to process the message.
 - **FATAL**: Sets the delivery counter to the maximum value (LLONG_MAX or ~9.22 X 10<sup>18</sup>), marking the message as permanently failed. Use this for invalid or suspected malicious messages.
 
 </details>
@@ -114,13 +114,13 @@ Block of arguments that specifies the message IDs to release, where `numids` is 
 
 <details open><summary><code>RETRYCOUNT</code></summary>
 
-Directly sets the delivery counter to the specified value, overriding the mode-based adjustment. This gives explicit control over the retry counter regardless of the mode selected.
+Directly sets the delivery counter to the specified value, overriding the mode-based adjustment. This gives explicit control over the retry counter regardless of the mode selected. Note: this is an internal argument that should usually not be used by consumers.
 
 </details>
 
 <details open><summary><code>FORCE</code></summary>
 
-Creates new unowned PEL entries for IDs that are not already in the group PEL. Each entry must exist in the stream. When `FORCE` creates an entry, the delivery counter is set to `0` (or to `RETRYCOUNT` if specified, or to `LLONG_MAX` if mode is `FATAL`). This option is primarily used internally for AOF rewrite and replication.
+Creates new unowned PEL entries for IDs that are not already in the group PEL. Each entry must exist in the stream. When `FORCE` creates an entry, the delivery counter is set to `0` (or to `RETRYCOUNT` if specified, or to `LLONG_MAX` if mode is `FATAL`). Note: this is an internal argument that should usually not be used by consumers.
 
 </details>
 
@@ -202,19 +202,21 @@ Explicitly sets the delivery counter to 5, regardless of the mode.
 
 ## Behavior
 
-When `XNACK` executes successfully, it:
+When `XNACK` executes successfully, the entry:
 
-1. **Disassociates** the entry from its owning consumer (sets `consumer = NULL`)
-2. **Repositions** the entry to the head of the PEL time-ordered list (sets `delivery_time = 0`), making it immediately claimable with any `min-idle-time` threshold
-3. **Adjusts the delivery counter** according to the specified mode and options
-4. **Makes the entry available** for immediate re-delivery via [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) CLAIM, [`XCLAIM`]({{< relref "/commands/xclaim" >}}), or [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}})
+* is marked as unowned (its last consumer is set to an empty string).
+* is assigned a last delivery time of `0`.
+* is placed at the end of the NACKed portion of the PEL.
+* is available for immediate re-delivery via [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) CLAIM, [`XCLAIM`]({{< relref "/commands/xclaim" >}}), or [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}).
+
+The head of the PEL is reserved for all NACKed messages, ordered as a FIFO list, followed by pending messages that were neither ACKed nor NACKed in their existing order.
 
 NACKed messages are prioritized over other pending messages in the group's PEL, ensuring they are delivered before idle messages during claim operations.
 
 ## Notes
 
 - `XNACK` will only process message IDs that exist in the consumer group's PEL. Messages that are not pending will be ignored and not counted in the return value.
-- The command creates a "NACK zone" at the head of the PEL where released messages are placed, ensuring they are prioritized for re-delivery.
+- Released messages occupy a dedicated zone at the head of the PEL (called the *XNACKed portion of the PEL*), ensuring they are prioritized for re-delivery over other pending entries.
 - Released messages have their delivery time set to 0, making them immediately claimable regardless of the `min-idle-time` parameter in claiming commands.
 - Unlike [`XACK`]({{< relref "/commands/xack" >}}), this command does not remove messages from the PEL but instead makes them available for other consumers.
 
@@ -234,7 +236,7 @@ NACKed messages are prioritized over other pending messages in the group's PEL, 
 
 -tab-sep-
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): The number of messages successfully released back to the group PEL. Messages that are not in the consumer group PEL will not be counted.
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): The number of messages successfully released back to the consumer group PEL. Messages that are not in the consumer group PEL will not be counted.
 
 {{< /multitabs >}}
 
