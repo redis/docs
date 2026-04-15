@@ -380,6 +380,22 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "strlen(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the length of the value stored in the key, or 0 if the key does not exist"
+        }
+      }
     ]
   }
 }

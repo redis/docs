@@ -1006,6 +1006,52 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "hpexpire(key, ttl, *fields, nx: nil, xx: nil, gt: nil, lt: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "*fields",
+            "type": "Array<String>",
+            "description": ""
+          },
+          {
+            "name": "nx",
+            "type": "Boolean",
+            "description": "Set expiry only when the key has no expiry."
+          },
+          {
+            "name": "xx",
+            "type": "Boolean",
+            "description": "Set expiry only when the key has an existing expiry."
+          },
+          {
+            "name": "gt",
+            "type": "Boolean",
+            "description": "Set expiry only when the new expiry is greater than current one."
+          },
+          {
+            "name": "lt",
+            "type": "Boolean",
+            "description": "Set expiry only when the new expiry is less than current one."
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>",
+          "description": "Feedback on if the fields have been updated"
+        }
+      }
     ]
   }
 }

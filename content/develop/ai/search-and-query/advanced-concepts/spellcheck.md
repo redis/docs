@@ -1,6 +1,7 @@
 ---
 aliases:
 - /develop/interact/search-and-query/advanced-concepts/spellcheck
+- /interact/search-and-query/advanced-concepts/spellcheck/
 categories:
 - docs
 - develop

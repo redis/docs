@@ -11,6 +11,7 @@ categories:
 - clients
 aliases: 
 - /develop/interact/programmability/functions-intro
+- /interact/programmability/functions-intro/
 description: 'Scripting with Redis 7 and beyond
 
   '

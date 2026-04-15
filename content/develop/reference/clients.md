@@ -14,6 +14,8 @@ description: 'How the Redis server manages client connections
   '
 linkTitle: Client handling
 title: Redis client handling
+aliases:
+- /reference/clients/
 weight: 5
 ---
 

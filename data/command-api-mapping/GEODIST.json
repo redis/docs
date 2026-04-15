@@ -848,6 +848,37 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "geodist(key, member1, member2, unit = 'm')",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "member1",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "member2",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "unit",
+            "type": "String",
+            "description": "m, km, mi, ft"
+          }
+        ],
+        "returns": {
+          "type": "String, nil",
+          "description": "distance in specified unit if both members present, nil otherwise"
+        }
+      }
     ]
   }
 }

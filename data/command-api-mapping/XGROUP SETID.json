@@ -634,6 +634,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xgroup(:setid, key, group, id_or_consumer)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": "the consumer group name"
+          },
+          {
+            "name": "id_or_consumer",
+            "type": "String",
+            "description": "the entry id or $"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
     ]
   }
 }

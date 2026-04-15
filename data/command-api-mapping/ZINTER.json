@@ -436,6 +436,37 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zinter(*keys, weights: nil, aggregate: nil, with_scores: false)",
+        "params": [
+          {
+            "name": "*keys",
+            "type": "String, Array<String>",
+            "description": "one or more keys to intersect"
+          },
+          {
+            "name": "weights",
+            "type": "Array<Float>",
+            "description": "weights to associate with source sorted sets"
+          },
+          {
+            "name": "aggregate",
+            "type": "String",
+            "description": "aggregate function to use (sum, min, max)"
+          },
+          {
+            "name": "with_scores",
+            "type": "Boolean",
+            "description": "include scores in output"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>, Array<[String, Float]>",
+          "description": ""
+        }
+      }
     ]
   }
 }

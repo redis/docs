@@ -60,6 +60,15 @@ Use the [REST API]({{< relref "/operate/rc/api" >}}) to manage Redis Cloud datab
 - [Get started with the REST API]({{< relref "/operate/rc/api/get-started" >}})
 - REST API [reference]({{< relref "/operate/rc/api/api-reference" >}}) & [examples]({{< relref "/operate/rc/api/examples" >}})
 
+## Migrate to Redis Cloud
+Follow the step-by-step guide for your source environment:
+- [ElastiCache to Redis Cloud](https://redis.io/tutorials/migration/elasticache-to-redis-cloud/) — offline and live migration from AWS ElastiCache
+- [Memorystore to Redis Cloud](https://redis.io/tutorials/migration/memorystore-to-redis-cloud/) — offline and live migration from Google Cloud Memorystore
+- [Open source Redis to Redis Cloud](https://redis.io/tutorials/migration/redis-open-source-to-redis-cloud/) — migrate from a self-hosted Redis instance
+
+## Migrate to Azure Managed Redis
+- [ElastiCache to Azure Managed Redis (AMR)](https://redis.io/tutorials/learn/migration/elasti-cache-to-azure-managed-redis/) — move your workload from AWS to Azure
+- [Memorystore to Azure Managed Redis (AMR)](https://redis.io/tutorials/learn/migration/memorystore-to-azure-managed-redis/) — move your workload from Google Cloud to Azure
 
 ## Related info
 - [Redis Software]({{< relref "/operate/rs" >}})

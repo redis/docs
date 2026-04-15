@@ -1,5 +1,8 @@
 ---
-aliases: /develop/connect/om-clients
+aliases:
+- /develop/connect/om-clients
+- /connect/clients/om-clients/
+- /clients/om-clients/
 categories:
 - docs
 - develop

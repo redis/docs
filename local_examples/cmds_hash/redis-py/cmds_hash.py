@@ -83,6 +83,18 @@ r.delete("myhash")
 # REMOVE_END
 # STEP_END
 
+# STEP_START hmget
+r.hset("myhash", mapping={"field1": "Hello", "field2": "World"})
+
+hmget_result = r.hmget("myhash", ["field1", "field2", "nofield"])
+print(hmget_result)  # >>> ['Hello', 'World', None]
+
+# REMOVE_START
+assert hmget_result == ["Hello", "World", None]
+r.delete("myhash")
+# REMOVE_END
+# STEP_END
+
 # STEP_START hgetall
 res10 = r.hset("myhash", mapping={"field1": "Hello", "field2": "World"})
 

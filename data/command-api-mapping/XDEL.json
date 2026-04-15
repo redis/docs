@@ -498,6 +498,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xdel(key, *ids)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          },
+          {
+            "name": "*ids",
+            "type": "Array<String>",
+            "description": "one or multiple entry ids"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of entries actually deleted"
+        }
+      }
     ]
   }
 }

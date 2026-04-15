@@ -566,6 +566,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "lpush(key, value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "String, Array<String>",
+            "description": "string value, or array of string values to push"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the length of the list after the push operation"
+        }
+      }
     ]
   }
 }

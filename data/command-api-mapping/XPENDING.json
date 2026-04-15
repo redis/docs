@@ -1009,6 +1009,52 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xpending(key, group, *args, idle: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": "the consumer group name"
+          },
+          {
+            "name": "start",
+            "type": "String",
+            "description": "start first entry id of range"
+          },
+          {
+            "name": "end",
+            "type": "String",
+            "description": "end last entry id of range"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "the number of entries as limit"
+          },
+          {
+            "name": "consumer",
+            "type": "String",
+            "description": "the consumer name"
+          },
+          {
+            "name": "idle",
+            "type": "Integer",
+            "description": "pending message minimum idle time in milliseconds"
+          }
+        ],
+        "returns": {
+          "type": "Hash, Array<Hash>",
+          "description": "the summary of pending entries or pending entries details"
+        }
+      }
     ]
   }
 }

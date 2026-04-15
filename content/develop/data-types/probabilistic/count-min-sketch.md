@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/probabilistic/count-min-sketch/
+- /manual/data-types/probabilistic/count-min-sketch/
 categories:
 - docs
 - develop

@@ -152,6 +152,39 @@ func ExampleClient_hget() {
 	// redis: nil
 }
 
+func ExampleClient_hmget() {
+	ctx := context.Background()
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password
+		DB:       0,  // use default DB
+	})
+
+	// REMOVE_START
+	rdb.Del(ctx, "myhash")
+	// REMOVE_END
+
+	// STEP_START hmget
+	rdb.HSet(ctx, "myhash", "field1", "Hello", "field2", "World")
+
+	hmgetResult, err := rdb.HMGet(ctx, "myhash", "field1", "field2", "nofield").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(hmgetResult) // >>> [Hello World <nil>]
+	// STEP_END
+
+	// REMOVE_START
+	rdb.Del(ctx, "myhash")
+	// REMOVE_END
+
+	// Output:
+	// [Hello World <nil>]
+}
+
 func ExampleClient_hgetall() {
 	ctx := context.Background()
 

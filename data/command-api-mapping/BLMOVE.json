@@ -761,6 +761,42 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "blmove(source, destination, where_source, where_destination, timeout: 0)",
+        "params": [
+          {
+            "name": "source",
+            "type": "String",
+            "description": "source key"
+          },
+          {
+            "name": "destination",
+            "type": "String",
+            "description": "destination key"
+          },
+          {
+            "name": "where_source",
+            "type": "String, Symbol",
+            "description": "LEFT or RIGHT"
+          },
+          {
+            "name": "where_destination",
+            "type": "String, Symbol",
+            "description": "LEFT or RIGHT"
+          },
+          {
+            "name": "timeout",
+            "type": "Float, Integer",
+            "description": "timeout in seconds"
+          }
+        ],
+        "returns": {
+          "type": "nil, String",
+          "description": "the element, or nil when the source key does not exist or the timeout expired"
+        }
+      }
     ]
   }
 }

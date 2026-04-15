@@ -7,6 +7,8 @@ categories:
 description: Horizontal scaling with Redis Cluster
 linkTitle: Scale with Redis Cluster
 title: Scale with Redis Cluster
+aliases:
+- /management/scaling/
 weight: 6
 ---
 

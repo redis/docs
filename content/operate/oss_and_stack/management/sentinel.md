@@ -7,6 +7,8 @@ categories:
 description: High availability for non-clustered Redis
 linkTitle: High availability with Sentinel
 title: High availability with Redis Sentinel
+aliases:
+- /management/sentinel/
 weight: 4
 ---
 

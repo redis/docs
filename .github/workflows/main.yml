@@ -170,6 +170,9 @@ jobs:
     - name: Install dependencies
       run: make deps
 
+    - name: Generate components
+      run: make components
+
     - name: Build Kubernetes ${{ matrix.version }}
       run: |
         set -x
@@ -244,6 +247,9 @@ jobs:
 
     - name: Install dependencies
       run: make deps
+
+    - name: Generate components
+      run: make components
 
     - name: Build RS ${{ matrix.version }}
       run: |
@@ -320,6 +326,9 @@ jobs:
     - name: Install dependencies
       run: make deps
 
+    - name: Generate components
+      run: make components
+
     - name: Build RDI ${{ matrix.version }}
       run: |
         set -x
@@ -394,6 +403,9 @@ jobs:
 
     - name: Install dependencies
       run: make deps
+
+    - name: Generate components
+      run: make components
 
     - name: Build RedisVL ${{ matrix.version }}
       run: |
@@ -704,22 +716,14 @@ jobs:
       PROD_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.PROD_WORKLOAD_IDENTITY_PROVIDER }}
 
     steps:
-    - name: Check the branch out
-      uses: actions/checkout@v4
+    - name: Download latest artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: build-latest
+        path: public/
 
-    - name: Install Hugo
+    - name: Prepare 404 page
       run: |
-        wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-        && sudo dpkg -i ${{ runner.temp }}/hugo.deb
-
-    - name: Install dependencies
-      run: make deps
-
-    - name: Build 404 page
-      run: |
-        hugo_root_path="docs/latest"
-        sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/${hugo_root_path}\"#g" config.toml
-        make hugo
         sed -i "s#/docs/latest/scss/#https://storage.googleapis.com/$BUCKET/docs/latest/scss/#g" public/404.html
         sed -i "s#/docs/latest/css/#https://storage.googleapis.com/$BUCKET/docs/latest/css/#g" public/404.html
 

@@ -617,6 +617,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zpopmax(key, count = nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "a number of members"
+          }
+        ],
+        "returns": {
+          "type": "Array<String, Float>, Array<Array<String, Float>>",
+          "description": "element and score pair"
+        }
+      }
     ]
   }
 }

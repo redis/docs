@@ -226,8 +226,8 @@
       "metrics": [
         {
           "name": "db.client.connection.count",
-          "type": "Gauge",
-          "observable": true,
+          "type": "UpDownCounter",
+          "observable": false,
           "unit": {
             "symbol": "{connection}",
             "semantic": "connections"
@@ -254,11 +254,11 @@
               "cardinality": "optional"
             }
           ],
-          "description": "Current connections by state (idle/used). Sum by state for “live connections”. This is an async(observable) metric.",
+          "description": "Current connections by state (idle/used). Sum by state for “live connections”.",
           "otel": {
-            "instrument_kind": "observable_gauge",
+            "instrument_kind": "updowncounter",
             "monotonic": false,
-            "async": true
+            "async": false
           }
         },
         {
@@ -358,8 +358,8 @@
       "metrics": [
         {
           "name": "db.client.connection.pending_requests",
-          "type": "Gauge",
-          "observable": true,
+          "type": "UpDownCounter",
+          "observable": false,
           "unit": {
             "symbol": "{request}",
             "semantic": "requests"
@@ -378,11 +378,11 @@
               "cardinality": "required"
             }
           ],
-          "description": "The number of current pending requests for an open connection. This is an async (observable) metric.",
+          "description": "The number of current pending requests for an open connection.",
           "otel": {
-            "instrument_kind": "observable_gauge",
+            "instrument_kind": "updowncounter",
             "monotonic": false,
-            "async": true
+            "async": false
           }
         },
         {

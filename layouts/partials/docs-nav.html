@@ -33,20 +33,23 @@
 
           {{- range $lines }}
           {{- $v := strings.TrimSpace . -}}
-          {{- if and (ne $v "") (findRE `^\d+\.\d+\.\d+$` $v) -}}
+          {{- if and (ne $v "") (findRE `^\d+\.\d+(\.\d+)?$` $v) -}}
             {{- $p := split $v "." -}}
-            {{- $key := printf "%03d.%03d.%03d" (int (index $p 0)) (int (index $p 1)) (int (index $p 2)) -}}
+            {{- $pat := 0 -}}
+            {{- if ge (len $p) 3 -}}{{- $pat = int (index $p 2) -}}{{- end -}}
+            {{- $key := printf "%03d.%03d.%03d" (int (index $p 0)) (int (index $p 1)) $pat -}}
             {{- $vers = $vers | append (dict "v" $v "key" $key) -}}
           {{- end -}}
         {{- end -}}
         {{ else }}
           {{- $entries := readDir "content/operate/kubernetes" -}}
           {{- range $e := $entries -}}
-            {{- if and $e.IsDir (findRE `^\d+\.\d+\.\d+$` $e.Name) -}}
+            {{- if and $e.IsDir (findRE `^\d+\.\d+(\.\d+)?$` $e.Name) -}}
               {{- $p := split $e.Name "." -}}
               {{- $maj := int (index $p 0) -}}
               {{- $min := int (index $p 1) -}}
-              {{- $pat := int (index $p 2) -}}
+              {{- $pat := 0 -}}
+              {{- if ge (len $p) 3 -}}{{- $pat = int (index $p 2) -}}{{- end -}}
               {{- $key := printf "%03d.%03d.%03d" $maj $min $pat -}} {{/* for sorting */}}
               {{- $vers = $vers | append (dict "v" $e.Name "key" $key) -}}
             {{- end -}}
