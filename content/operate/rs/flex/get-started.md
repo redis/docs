@@ -39,7 +39,7 @@ To create Flex databases, you need:
 
 ### Bare metal, VM, Cloud instance
 
-To install on bare metal, a virtual machine, or an instance:
+To install on bare metal, a virtual machine, or a Cloud instance:
 
 1. Download the Redis Software binaries from the [download center](https://redis.io/downloads/#Redis_Software).
 
