@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/probabilistic/t-digest/
+- /manual/data-types/probabilistic/t-digest/
 categories:
 - docs
 - develop

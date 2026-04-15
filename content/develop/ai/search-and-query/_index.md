@@ -3,6 +3,7 @@ aliases:
 - /develop/interact/search-and-query
 - /develop/interact/search-and-query/
 - /interact/search-and-query/
+- /search/
 categories:
 - docs
 - develop
