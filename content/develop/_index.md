@@ -20,9 +20,14 @@ or analyze and manage your database with our
 | [Python]({{< relref "/develop/clients/redis-py" >}}) | [See Python examples]({{< relref "/develop/clients/redis-py/connect" >}}) | [See Python examples]({{< relref "/develop/clients/redis-py/queryjson" >}}) | [See Python examples]({{< relref "/develop/clients/redis-py/vecsearch" >}}) |
 | [C#/.NET]({{< relref "/develop/clients/dotnet" >}}) | [See C# examples]({{< relref "/develop/clients/dotnet/connect" >}}) | [See C# examples]({{< relref "/develop/clients/dotnet/nredisstack/queryjson" >}}) | [See C# examples]({{< relref "/develop/clients/dotnet/nredisstack/vecsearch" >}}) |
 | [Node.js]({{< relref "/develop/clients/nodejs" >}}) | [See JS examples]({{< relref "/develop/clients/nodejs/connect" >}}) | [See JS examples]({{< relref "/develop/clients/nodejs/queryjson" >}}) | [See JS examples]({{< relref "/develop/clients/nodejs/vecsearch" >}}) |
-| [Java]({{< relref "/develop/clients/jedis" >}}) | [See Java examples]({{< relref "/develop/clients/jedis/connect" >}}) | [See Java examples]({{< relref "/develop/clients/jedis/queryjson" >}}) | [See Java examples]({{< relref "/develop/clients/jedis/vecsearch" >}}) |
+| [Java (Jedis)]({{< relref "/develop/clients/jedis" >}}) | [See Java examples]({{< relref "/develop/clients/jedis/connect" >}}) | [See Java examples]({{< relref "/develop/clients/jedis/queryjson" >}}) | [See Java examples]({{< relref "/develop/clients/jedis/vecsearch" >}}) |
+| [Java (Lettuce)]({{< relref "/develop/clients/lettuce" >}}) | [See Java examples]({{< relref "/develop/clients/lettuce/connect" >}}) | [See Java examples]({{< relref "/develop/clients/lettuce/queryjson" >}}) | [See Java examples]({{< relref "/develop/clients/lettuce/vecsearch" >}}) |
 | [Go]({{< relref "/develop/clients/go" >}}) | [See Go examples]({{< relref "/develop/clients/go/connect" >}}) | [See Go examples]({{< relref "/develop/clients/go/queryjson" >}}) | [See Go examples]({{< relref "/develop/clients/go/vecsearch" >}}) |
 | [PHP]({{< relref "/develop/clients/php" >}}) | [See PHP examples]({{< relref "/develop/clients/php/connect" >}}) | [See PHP examples]({{< relref "/develop/clients/php/queryjson" >}}) | [See PHP examples]({{< relref "/develop/clients/php/vecsearch" >}}) |
+| [JavaScript (ioredis)]({{< relref "/develop/clients/ioredis" >}}) | [See JS examples]({{< relref "/develop/clients/ioredis/connect" >}}) | - | - |
+| [Rust]({{< relref "/develop/clients/rust" >}}) | - | - | - |
+| [C]({{< relref "/develop/clients/hiredis" >}}) | - | - | - |
+| [Ruby]({{< relref "/develop/clients/ruby" >}}) | - | - | - |
 
 | | |
 | - | - |
