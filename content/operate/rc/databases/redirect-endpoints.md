@@ -74,7 +74,7 @@ Make sure you have met the following prerequisites:
 - Your application is using the dynamic endpoint. Endpoint redirection does not redirect [static endpoints](#applications-that-use-legacy-static-endpoints).
 - You have [created a target Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) in the same account that [is compatible with the source database](#redirection-compatibility).
 - If you monitor the source database with Prometheus, add the target database to Prometheus before your redirect the endpoint so that you can monitor the target database after the redirection. See [Connect to Prometheus]({{< relref "operate/rc/databases/monitor-performance#connect-to-prometheus" >}}) for more information.
-- Make sure that your client connections are configured with socket and connection timeouts. If you do not have timeouts configured, your client may hang indefinitely and the connection will not refresh. Refer to the [Client documentation]({{< relref "/develop/clients" >}}) for your client for more information.
+- Make sure that your client connections are configured with socket timeouts. If you do not have socket timeouts configured, your client may hang indefinitely and the connection will not refresh. Refer to the [Client documentation]({{< relref "/develop/clients" >}}) for your client for more information.
 
 #### Redirection compatibility
 
@@ -122,7 +122,7 @@ To redirect your database endpoints:
 
     {{<image filename="images/rc/migrate-data-redirect-acknowledge.png" alt="The **Redirect endpoints** button redirects the source database endpoints to the target database." >}}
 
-After you redirect your database endpoints, you can go to the **Configuration** tab of the target database to verify that the endpoints now point to the target database. To ensure all connections are redirected to the target database, Redis Cloud will block all traffic to the source database until you [unblock it](#unblock-traffic-to-the-source-database).
+After you redirect your database endpoints, you can go to the **Configuration** tab of the target database to verify that the endpoints now point to the target database. To ensure all connections are redirected to the target database, Redis Cloud will block all traffic to the source database for five minutes to ensure all clients have reconnected to the target database. After five minutes, you can  [unblock traffic to the source database](#unblock-database-traffic). You can also [revert the redirection](#revert-endpoint-redirection) within 24 hours to restore the original endpoints.
 
 ## Revert endpoint redirection
 
@@ -132,11 +132,17 @@ You can revert endpoint redirection within 24 hours to restore the original endp
 
 After the 24-hour window, you can no longer revert to the original endpoints. You can redirect them back to the source database if the source database is a Redis Cloud Pro database. However, doing this will create new endpoints for the target database.
 
-## Unblock traffic to the source database
+After you revert endpoint redirection, Redis Cloud will unblock traffic to the source database and block traffic to the target database for five minutes to ensure all clients have reconnected to the source database. After five minutes, you can [unblock traffic to the target database](#unblock-database-traffic).
 
-TODO - need a setup to work first
+## Unblock database traffic
 
+After you redirect your database endpoints, Redis Cloud will block all traffic to the source database for at least five minutes to ensure all clients have reconnected to the target database. If you revert endpoint redirection, Redis Cloud will unblock traffic to the source database and block traffic to the target database for at least five minutes to ensure all clients have reconnected to the source database. If Redis Cloud has blocked traffic to a database, the database will display a **Traffic blocked** badge in the Redis Cloud console.
 
+{{<image filename="images/rc/migrate-data-traffic-blocked.png" alt="The **Traffic blocked** badge indicates that Redis Cloud has blocked traffic to the database." >}}
 
+You will not be able to unblock traffic to a database until five minutes after you redirect your database endpoints or revert endpoint redirection. Before you unblock traffic to a database, make sure that all clients have reconnected to the correct database.
 
+To unblock traffic to a database, from the database's **Configuration** tab, select **Unblock traffic**.
+
+{{<image filename="images/rc/migrate-data-redirect-unblock.png" alt="The **Unblock traffic** button unblocks traffic to the source database." >}}
 
