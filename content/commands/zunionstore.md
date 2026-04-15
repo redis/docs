@@ -103,10 +103,9 @@ the input keys and the other (optional) arguments.
 By default, the resulting score of an element is the sum of its scores in the
 sorted sets where it exists.
 
-Using the `WEIGHTS` option, it is possible to specify a multiplication factor
-for each input sorted set.
-This means that the score of every element in every input sorted set is
-multiplied by this factor before being passed to the aggregation function.
+Using the `WEIGHTS` option, it is possible to specify a multiplication factor for
+each input sorted set. Each element's score is multiplied by its corresponding
+weight before aggregation.
 When `WEIGHTS` is not given, the multiplication factors default to `1`.
 
 With the `AGGREGATE` option, it is possible to specify how the results of the
@@ -115,10 +114,20 @@ This option defaults to `SUM`, where the score of an element is summed across
 the inputs where it exists.
 When this option is set to either `MIN` or `MAX`, the resulting set will contain
 the minimum or maximum score of an element across the inputs where it exists.
+For `SUM`, `MIN`, and `MAX`, each element's score is multiplied by its
+corresponding weight before aggregation.
 
-When `AGGREGATE COUNT` is specified, the resulting score for each element reflects how many input sets contain it (optionally scaled by
-`WEIGHTS`), rather than combining the actual scores of the elements.
-This enables a common use case: counting set membership frequency directly at the command level, without application-side workarounds.
+When `AGGREGATE COUNT` is specified, the original element scores are ignored
+entirely. The resulting score for each element is determined by which input sets
+contain it, optionally scaled by `WEIGHTS`:
+
+- Without `WEIGHTS`, each input set containing the element contributes `1` to
+  its score — effectively counting set membership.
+- With `WEIGHTS`, each input set containing the element contributes its
+  corresponding weight, so the score becomes the sum of those weights.
+
+This enables a common use case: counting set membership frequency directly at
+the command level, without application-side workarounds.
 
 If `destination` already exists, it is overwritten.
 
