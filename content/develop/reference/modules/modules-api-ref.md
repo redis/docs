@@ -2607,9 +2607,10 @@ The parameters are the following:
 
 Note: the metadata class name "AAAAAAAAA" is reserved and produces an error.
 
-If [`RedisModule_CreateKeyMetaClass()`](#RedisModule_CreateKeyMetaClass) is called outside of `RedisModule_OnLoad()` function,
-there is already a metadata class registered with the same name,
-or if the metadata class name or metaver is invalid, a negative value is returned.
+If [`RedisModule_CreateKeyMetaClass()`](#RedisModule_CreateKeyMetaClass) is called outside of `RedisModule_OnLoad()` function
+and outside of server startup, there is already a metadata class registered
+with the same name, or if the metadata class name or metaver is invalid,
+a negative value is returned.
 Otherwise the new metadata class is registered into Redis, and a reference of
 type `RedisModuleKeyMetaClassId` is returned: the caller of the function should store
 this reference into a global variable to make future use of it in the
@@ -3940,6 +3941,18 @@ integer. Otherwise (wrong reply type) return NULL.
 
 Modifies the user that [`RedisModule_Call`](#RedisModule_Call) will use (e.g. for ACL checks)
 
+<span id="RedisModule_GetContextUser"></span>
+
+### `RedisModule_GetContextUser`
+
+    const RedisModuleUser *RedisModule_GetContextUser(RedisModuleCtx *ctx);
+
+**Available since:** unreleased
+
+Returns the user associated with the context via [`RedisModule_SetContextUser`](#RedisModule_SetContextUser).
+Returns NULL if no user was set on the context.
+The returned pointer is borrowed from the context — do NOT free it.
+
 <span id="RedisModule_Call"></span>
 
 ### `RedisModule_Call`
@@ -4954,9 +4967,9 @@ the command, so the private data is often not needed.
 Note: Under normal circumstances [`RedisModule_UnblockClient`](#RedisModule_UnblockClient) should not be
       called for clients that are blocked on keys (Either the key will
       become ready or a timeout will occur). If for some reason you do want
-      to call RedisModule_UnblockClient it is possible: Client will be
-      handled as if it were timed-out (You must implement the timeout
-      callback in that case).
+      to call RedisModule_UnblockClient it is possible, but it must NOT be
+      called from module threads and the client will be handled as if it
+      timed out (You must implement the timeout callback in that case).
 
 <span id="RedisModule_BlockClientOnKeysWithFlags"></span>
 
@@ -5007,7 +5020,8 @@ A common usage for 'privdata' is a thread that computes something that
 needs to be passed to the client, included but not limited some slow
 to compute reply or some reply obtained via networking.
 
-Note 1: this function can be called from threads spawned by the module.
+Note 1: this function can be called from threads spawned by the module when
+the client was blocked using [`RedisModule_BlockClient()`](#RedisModule_BlockClient).
 
 Note 2: when we unblock a client that is blocked for keys using the API
 [`RedisModule_BlockClientOnKeys()`](#RedisModule_BlockClientOnKeys), the privdata argument here is not used.
@@ -5987,6 +6001,7 @@ On success a `REDISMODULE_OK` is returned, otherwise
 `REDISMODULE_ERR` is returned and errno is set to the following values:
 
 * ENOENT: Specified command does not exist.
+* EINVAL: Invalid number of arguments for the specified command.
 * EACCES: Command cannot be executed, according to ACL rules
 
 <span id="RedisModule_ACLCheckKeyPermissions"></span>
@@ -8854,6 +8869,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_GetCommandKeysWithFlags`](#RedisModule_GetCommandKeysWithFlags)
 * [`RedisModule_GetContextFlags`](#RedisModule_GetContextFlags)
 * [`RedisModule_GetContextFlagsAll`](#RedisModule_GetContextFlagsAll)
+* [`RedisModule_GetContextUser`](#RedisModule_GetContextUser)
 * [`RedisModule_GetCurrentCommandName`](#RedisModule_GetCurrentCommandName)
 * [`RedisModule_GetCurrentUserName`](#RedisModule_GetCurrentUserName)
 * [`RedisModule_GetDbIdFromDefragCtx`](#RedisModule_GetDbIdFromDefragCtx)
@@ -9089,4 +9105,3 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_ZsetRem`](#RedisModule_ZsetRem)
 * [`RedisModule_ZsetScore`](#RedisModule_ZsetScore)
 * [`RedisModule__Assert`](#RedisModule__Assert)
-
