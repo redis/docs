@@ -74,10 +74,10 @@ The available options for `OTelConfig` are described in the table below:
 | `exclude_commands` | `List[str]` | List of Redis commands to exclude from tracking. If set, all commands except these will be tracked. Note that you should use the Redis command name rather than the Python method name where the two differ. |
 | `hide_pubsub_channel_names` | `bool` | If true, channel names in pub/sub metrics will be hidden. |
 | `hide_stream_names` | `bool` | If true, stream names in streaming metrics will be hidden. |
-| `buckets_operation_duration` | `List[float]` | List of bucket boundaries for the [`operation.duration`]({{< relref "/develop/clients/observability/#metric-redis.client.db.client.operation.duration" >}}) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
-| `buckets_stream_processing_duration` | `List[float]` | List of bucket boundaries for the [`stream.processing.duration`]({{< relref "/develop/clients/observability/#metric-redis.client.db.client.stream.processing.duration" >}}) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
-| `buckets_connection_create_time` | `List[float]` | List of bucket boundaries for the [`connection.create.time`]({{< relref "/develop/clients/observability/#metric-redis.client.db.client.connection.create.time" >}}) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
-| `buckets_connection_wait_time` | `List[float]` | List of bucket boundaries for the [`connection.wait.time`]({{< relref "/develop/clients/observability/#metric-redis.client.db.client.connection.wait.time" >}}) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
+| `buckets_operation_duration` | `List[float]` | List of bucket boundaries for the [`operation.duration`]({{< relref "/develop/clients/observability/#metric-db.client.operation.duration" >}}) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
+| `buckets_stream_processing_duration` | `List[float]` | List of bucket boundaries for the [`stream.lag`]({{< relref "/develop/clients/observability/#metric-redis.client.stream.lag" >}}) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
+| `buckets_connection_create_time` | `List[float]` | List of bucket boundaries for the [`connection.create.time`]({{< relref "/develop/clients/observability/#metric-db.client.connection.create_time" >}}) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
+| `buckets_connection_wait_time` | `List[float]` | List of bucket boundaries for the [`connection.wait.time`]({{< relref "/develop/clients/observability/#metric-db.client.connection.wait_time" >}}) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
 
 ### Custom histogram buckets
 
