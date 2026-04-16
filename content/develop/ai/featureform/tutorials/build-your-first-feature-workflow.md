@@ -23,7 +23,7 @@ Use the provider setup guides for:
 
 ## 3. Review the definitions file
 
-The quickstart definitions entrypoint is [resources.py](/Users/erik.eppel/workspace/docs/examples/featureform/docs/resources.py).
+Review the published [quickstart definitions file]({{< relref "/develop/ai/featureform/tutorials/work-with-a-python-definitions-file" >}}).
 
 ## 4. Apply the resources
 

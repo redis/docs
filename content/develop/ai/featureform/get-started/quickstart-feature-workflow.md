@@ -40,7 +40,7 @@ Register the offline and online providers before applying resources:
 
 ## 4. Review the quickstart definitions file
 
-The published example definitions entrypoint is [resources.py](/Users/erik.eppel/workspace/docs/examples/featureform/docs/resources.py).
+Review the published [quickstart definitions file]({{< relref "/develop/ai/featureform/tutorials/work-with-a-python-definitions-file" >}}).
 
 That file defines:
 
