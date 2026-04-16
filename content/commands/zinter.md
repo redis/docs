@@ -26,7 +26,6 @@ arguments:
     token: MAX
     type: pure-token
   - name: count
-    since: 8.8.0
     token: COUNT
     type: pure-token
   name: aggregate
