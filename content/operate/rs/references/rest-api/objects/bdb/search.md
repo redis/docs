@@ -62,3 +62,4 @@ Configuration fields for search and query.
 | search-default-scorer | "TFIDF"<br />"BM25"<br />"TFIDF.DOCNORM"<br />"BM25STD"<br />"BM25STD.TANH"<br />"BM25STD.NORM"<br />"DISMAX"<br />"DOCSCORE"<br />"HAMMING"<br />(default: "BM25STD") | Default scorer to use when no scorer is specified in queries. |
 | search-_bg-index-mem-pct-thr | integer (range: 0-100) (default: 100) | Set the percentage of memory usage threshold out of maxmemory at which background indexing will stop. |
 | search-_bg-index-oom-pause-time | integer (range: 0-4294967295) (default: 5) | Set the time in seconds given to the background indexing thread to sleep when it reaches the memory limit. |
+| search-bg-index-sleep-duration-us | integer (range: 0-999999) (default: 1) | Sleep duration in microseconds (µs) during background indexing. |
