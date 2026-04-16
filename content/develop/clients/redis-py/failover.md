@@ -211,6 +211,7 @@ a database that is already unhealthy.
 | `health_check_interval` | Time interval between successive health checks (each of which may consist of multiple probes). Default is `5` seconds. |
 | `health_check_probes` | Number of separate probes performed during each health check. Default is `3`. |
 | `health_check_probes_delay` | Delay between probes during a health check. Default is `0.5` seconds. |
+| `health_check_timeout` | Timeout for the full health check operation (including all probes). |
 | `health_check_policy` | `HealthCheckPolicies` enum value to specify the policy for determining database health from the separate probes of a health check. The options are `HealthCheckPolicies.HEALTHY_ALL` (all probes must succeed), `HealthCheckPolicies.HEALTHY_ANY` (at least one probe must succeed), and `HealthCheckPolicies.HEALTHY_MAJORITY` (more than half the probes must succeed). The default policy is `HealthCheckPolicies.HEALTHY_MAJORITY`. |
 | `health_check` | Custom list of `HealthCheck` objects to specify how to perform each probe during a health check. This defaults to just the simple [`PingHealthCheck`](#pinghealthcheck-default). |
 | `initial_health_check_policy` | `InitialHealthCheck` enum value to specify the policy to use during the initial health check. The options are `InitialHealthCheck.ALL_AVAILABLE` (all probes must succeed), `InitialHealthCheck.ANY_AVAILABLE` (at least one probe must succeed), and `InitialHealthCheck.MAJORITY_AVAILABLE` (more than half the probes must succeed). The default policy is `InitialHealthCheck.ALL_AVAILABLE`. |
@@ -300,28 +301,25 @@ For example, you might use this to integrate with external monitoring tools or
 to implement checks that are specific to your application. Add an
 instance of your custom class to the `health_check` list in
 the `MultiDbConfig` constructor, as with [`LagAwareHealthCheck`](#lag-aware-health-check).
+Note that health checks are executed in an asyncio event loop, so you 
+must implement the `check_health()` method as an async method.
 
 The example below
 shows a simple custom strategy that sends a Redis [`ECHO`]({{< relref "/commands/echo" >}})
 command and checks for the expected response.
 
 ```py
-from redis.multidb.healthcheck import AbstractHealthCheck
-from redis.retry import Retry
-from redis.utils import dummy_fail
+    from redis.asyncio.multidb.healthcheck import AbstractHealthCheck, AsyncRedisClientT
 
-class EchoHealthCheck(AbstractHealthCheck):
-    def __init__(self, retry: Retry):
-        super().__init__(retry=retry)
-    def check_health(self, database) -> bool:
-        return self._retry.call_with_retry(
-            lambda: self._returns_echo(database),
-            lambda _: dummy_fail()
-        )
-    def _returns_echo(self, database) -> bool:
-        expected_message = ["Yodel-Ay-Ee-Oooo!", b"Yodel-Ay-Ee-Oooo!"]
-        actual_message = database.client.execute_command("ECHO", "Yodel-Ay-Ee-Oooo!")
-        return actual_message in expected_message
+    class EchoHealthCheck(AbstractHealthCheck):
+        """
+        Health check based on ECHO command.
+        """
+
+        async def check_health(self, database, hc_client: AsyncRedisClientT) -> bool:
+            await connection.send_command("ECHO", "healthcheck")
+            response = await connection.read_response()
+            return response in (b"healthcheck", "healthcheck")
 
 cfg = MultiDbConfig(
     ...

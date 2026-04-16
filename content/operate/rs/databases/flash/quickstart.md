@@ -1,27 +1,32 @@
 ---
-Title: Redis Flex and Auto Tiering quick start
+Title: Flex and Auto Tiering quick start
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Get started with Redis Flex and Auto Tiering quickly, creating a cluster and database
+description: Get started with Flex and Auto Tiering quickly, creating a cluster and database
   using flash storage.
 linkTitle: Quick start
 weight: 80
 aliases: /operate/rs/databases/auto-tiering/quickstart/
 ---
-This page guides you through a quick setup of [Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash" >}}) with a single node for testing and demo purposes.
+
+{{<banner-article>}}
+This article includes a quick start for Flex and its predecessor Auto Tiering. For more detailed information about Flex, see the dedicated [Flex databases]({{<relref "/operate/rs/flex">}}) section instead.
+{{</banner-article>}}
+
+This page guides you through a quick setup of [Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash" >}}) with a single node for testing and demo purposes.
 
 For production environments, you can find more detailed installation instructions in the [install and setup]({{< relref "/operate/rs/installing-upgrading" >}}) section.
 
-The steps to set up a Redis Software cluster using Redis Flex
+The steps to set up a Redis Software cluster using Flex
 with a single node are:
 
 1. Install Redis Software or run it in a Docker
     container.
-1. Set up a Redis Software cluster with Redis Flex.
-1. Create a new database with Redis Flex enabled.
+1. Set up a Redis Software cluster with Flex.
+1. Create a new database with Flex enabled.
 1. Connect to your new database.
 
 ## Install Redis Software
@@ -71,7 +76,7 @@ To verify the disk configuration, run:
 sudo lsblk
 ```
 
-## Set up a cluster and enable Redis Flex
+## Set up a cluster and enable Flex
 
 1. Direct your browser to `https://localhost:8443` on the host machine to
 see the Redis Software Cluster Manager UI.
@@ -112,7 +117,7 @@ On the **Databases** screen:
 
 1. Select **Create**.
 
-You now have a database with Redis Flex enabled!
+You now have a database with Flex enabled!
 
 ## Connect to your database
 
@@ -120,4 +125,4 @@ After you create the database, you can connect to it and store data. See [Test c
 
 ## Next steps
 
-To see the true performance and scale of Redis Flex, you must tune your I/O path and set the flash path to the mounted path of SSD or NVMe flash memory as that is what it is designed to run on. For more information, see [Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}).
+To see the true performance and scale of Flex, you must tune your I/O path and set the flash path to the mounted path of SSD or NVMe flash memory as that is what it is designed to run on. For more information, see [Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}).

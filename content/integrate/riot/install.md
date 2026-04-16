@@ -1,40 +1,34 @@
 ---
-description: Install RIOT on macOS, Linux, Windows, and Docker
+description: Install RIOT-X on macOS, Linux, Windows, and Docker
 linkTitle: Install
 title: Install
 type: integration
 weight: 2
 ---
 
-RIOT can be installed in different ways depending on your environment and preference.
+RIOT-X can be installed in different ways depending on your environment and preference.
 
-## macOS via Homebrew
+## macOS and Linux via Homebrew
 
 ```
-brew install redis/tap/riot
+brew install redis/tap/riotx
 ```
 
 ## Windows via Scoop
 
 ```
 scoop bucket add redis https://github.com/redis/scoop.git
-scoop install riot
-```
-
-## Linux via Homebrew
-
-```
-brew install redis/tap/riot
+scoop install riotx
 ```
 
 ## Docker
 
 ```
-docker run riotx/riot [OPTIONS] [COMMAND]
+docker run riotx/riotx [OPTIONS] [COMMAND]
 ```
 
-## Manual installation
+## Manual installation on all supported platforms
 
-Download the pre-compiled binary from the [releases page](https://github.com/redis/riot/releases), uncompress, and copy to the desired location.
+Download the pre-compiled binary from [RIOT-X Releases](https://github.com/redis/riotx-dist/releases), uncompress, and copy to the desired location.
 
-Full documentation is available at [redis.github.io/riot](https://redis.github.io/riot/).
+Full installation documentation is available [here](https://redis.github.io/riotx/quick-start/install.html).

@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/json/
+- /manual/data-types/json/
 categories:
 - docs
 - develop

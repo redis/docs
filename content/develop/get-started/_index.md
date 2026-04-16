@@ -1,4 +1,6 @@
 ---
+aliases:
+- /getting-started/
 categories:
 - docs
 - develop

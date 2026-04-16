@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/sorted-sets/
+- /manual/data-types/sorted-sets/
 categories:
 - docs
 - develop

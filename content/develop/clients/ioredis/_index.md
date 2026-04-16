@@ -1,4 +1,7 @@
 ---
+aliases:
+- /connect/clients/ioredis/
+- /clients/ioredis/
 categories:
 - docs
 - develop

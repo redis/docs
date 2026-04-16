@@ -13285,7 +13285,7 @@
           },
           "deletionGracePeriod": {
             "type": "string",
-            "description": "Optional. The grace period for deleting the subscription. If not set, will default to immediate deletion grace period.",
+            "description": "Optional. The grace period for deleting the subscription if Redis cannot access the provided key. Required when applying customer managed keys for a new subscription.",
             "example": "alerts-only",
             "enum": [
               "alerts-only",
@@ -16551,6 +16551,7 @@
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_NOT_ALLOWED_WITH_CLOUD_PROVIDER_MANAGED_KEY",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_NOT_ALLOWED_WITH_INTERNAL_CLOUD_ACCOUNT",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_REQUIRED_FOR_EXTERNAL_CLOUD_ACCOUNT",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_DELETION_GRACE_PERIOD_REQUIRED",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_INVALID_NUMBER_OF_KEYS",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_REGION_NOT_REQUIRED",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_REGION_REQUIRED",
@@ -16592,11 +16593,8 @@
               "DATABASE_QUERY_PERFORMANCE_FACTOR_IS_NOT_SUPPORTED_ON_ACTIVE_ACTIVE",
               "REDISEARCH_SUPPORTS_ONLY_OPERATIONS_PER_SECOND_AS_THROUGHPUT_MEASUREMENT",
               "REDIS_GRAPH_SUPPORTS_ONLY_OPS_PER_SECOND_AS_THROUGHPUT_MEASUREMENT",
-              "DATABASE_MULTI_MODULES_IS_DISABLED",
               "DATABASE_RESP_VERSION_IS_NOT_SUPPORTED",
               "DATABASE_RESP_VERSION_IS_NOT_SUPPORTED_ON_CREATE_SUBSCRIPTION",
-              "CLUSTER_MULTI_MODULES_IS_NOT_SUPPORTED",
-              "DATABASE_INVALID_MULTI_MODULES_COMBINATION",
               "DATABASE_ROF_NOT_SUPPORTED",
               "DATABASE_REDISGRAPH_OVERSIZED",
               "DATABASE_BACKUP_NOT_SUPPORTED",
@@ -16685,6 +16683,7 @@
               "DATABASE_INVALID_REGEX_RULES",
               "DATABASE_INVALID_QUANTITY",
               "DATABASE_REPLICA_OF_VERSION_NOT_COMPATIBLE",
+              "DATABASE_REPLICA_OF_SOURCE_INCOMPATIBLE",
               "DATABASE_IMPORT_FAILED",
               "DATABASE_IMPORT_FROM_NON_OSS",
               "DATABASE_IMPORT_SOURCE_NOT_FOUND",
@@ -18282,7 +18281,7 @@
           },
           "deletionGracePeriod": {
             "type": "string",
-            "description": "Optional. The grace period for deleting the subscription. If not set, will default to immediate deletion grace period.",
+            "description": "Optional. The grace period for deleting the subscription if Redis cannot access the provided key. Required when applying customer managed keys for a new subscription.",
             "example": "alerts-only",
             "enum": [
               "alerts-only",

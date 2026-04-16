@@ -1,30 +1,39 @@
 ---
-description: RIOT quick start guide
-linkTitle: Quick Start
-title: Quick Start
+description: RIOT-X getting started guide
+linkTitle: Getting started
+title: Getting started
 type: integration
 weight: 3
 ---
 
-You can launch RIOT with the following command:
+You can launch RIOT-X with the following command:
 
 ```
-riot
+riotx
 ```
 
 This will show usage help, which you can also get by running:
 
 ```
-riot --help
+riotx --help
+```
+
+Usage help is available on any command and subcommand:
+
+```
+riotx COMMAND --help
+```
+
+Redis Command Help
+
+```
+riotx file-import file.json json.set --help
 ```
 
 {{< tip >}}
-You can use `--help` on any command and sub-command:
+Run the following command to give riotx TAB completion in the current shell:
+
+`source <(riotx generate-completion)`
 {{< /tip >}}
 
-```
-riot command --help
-riot command sub-command --help
-```
-
-Full documentation is available at [redis.github.io/riot](https://redis.github.io/riot/).
+Full documentation is available at [redis.github.io/riotx](https://redis.github.io/riotx/).

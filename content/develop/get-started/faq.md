@@ -14,6 +14,8 @@ description: 'Commonly asked questions when getting started with Redis
   '
 linkTitle: FAQ
 title: Redis FAQ
+aliases:
+- /get-started/faq/
 weight: 100
 ---
 ## How is Redis different from other key-value stores?

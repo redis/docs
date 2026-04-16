@@ -55,6 +55,8 @@ For more detailed release notes, select a build version from the following table
 
 ### Breaking changes
 
+- Upgrading to Redis Software version 8.0.10 through 8.0.16-29 can cause LDAP authentication to fail with "certificate signed by unknown authority" errors if your cluster currently uses LDAP authentication. This issue was fixed in [Redis Software version 8.0.16-33]({{<relref "/operate/rs/release-notes/rs-8-0-releases/rs-8-0-16-33">}}).
+
 - For Redis Software versions 8.0.2 through 8.0.10, LDAP filters for `user_dn_query` and `dn_group_query` strictly require parentheses to function correctly. Filters that previously worked without parentheses will no longer work after upgrading to these versions. For example, you must include the parentheses in `(sAMAccountName=%u)`. As of version 8.0.16, this breaking change no longer applies, and both `(sAMAccountName=%u)` and `sAMAccountName=%u` are valid filters.
 
 - Redis Software installation script changes:
@@ -204,6 +206,25 @@ The following table provides a snapshot of supported platforms as of this Redis 
 5. <a name="table-note-5"></a>Supported only if [FIPS was enabled during RHEL installation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/security_hardening/switching-rhel-to-fips-mode_security-hardening#proc_installing-the-system-with-fips-mode-enabled_switching-rhel-to-fips-mode) to ensure FIPS compliance.
 
 ## Known issues
+
+- RS193156: Active Directory LDAP authentication can fail in the Cluster Manager UI after upgrading to Redis Software version 8.0.16-33 due to an issue with LDAP TLS client certificate handling. Users previously authenticated through Active Directory can no longer sign in to the Cluster Manager UI after the upgrade.
+
+    As a workaround, configure an LDAP client certificate using an [update cluster certificates]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates">}}) REST API request:
+
+    ```sh
+    PUT https://<host>:<port>/v1/cluster/certificates
+    {
+      "certificates": [
+        {
+          "name": "ldap_client",
+          "certificate": "<cert>",
+          "key": "<key>"
+        }
+      ]
+    }
+    ```
+    
+    See [Create certificates]({{<relref "/operate/rs/security/certificates/create-certificates">}}) and [Update certificates]({{<relref "/operate/rs/security/certificates/updating-certificates">}}) for more detailed instructions.
 
 - RS180550: You cannot set up SSO when the Cluster Manager UI is exposed through an IPv6-based load balancer or gateway.
 

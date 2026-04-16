@@ -99,6 +99,7 @@ Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/ope
 |:--------------------------|:--------------------|:----------------|:-----------------------|
 | `northamerica-northeast1` | Montreal, Canada    | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `northamerica-northeast2` | Toronto, Canada     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `northamerica-south1`     | Mexico              | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `southamerica-east1`      | Sao Paulo, Brazil   | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `southamerica-west1`      | Santiago, Chile     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `us-central1`             | Iowa, USA           | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
@@ -117,6 +118,7 @@ Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/ope
 |:--------------------|:--------------------|:----------------|:-----------------------|
 | `europe-central2`   | Warsaw, Poland      | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `europe-north1`     | Finland             | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `europe-north2`     | Stockholm, Sweden   | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `europe-southwest1` | Madrid, Spain       | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `europe-west1`      | Belgium             | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `europe-west2`      | London, UK          | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
