@@ -169,6 +169,8 @@ If there are no such messages, Redis will continue as normal (consume incoming m
 
 `CLAIM min-idle-time` is ignored if the specified id is not `>`.
 
+Messages that have been released back to the group using [`XNACK`]({{< relref "/commands/xnack" >}}), added in Redis 8.8, are immediately claimable since their delivery time is set to 0, satisfying any minimum idle time requirement.
+
 ### Reply extension for claimed entries
 
 When `CLAIM min-idle-time` is used, additional information is provided for each pending entry retrieved (similar to the reply of [`XPENDING`]({{< relref "/commands/xpending" >}})). For each claimed pending entry, the reply includes:

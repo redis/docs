@@ -683,7 +683,7 @@ This capability addresses several common scenarios:
 
 1. **Graceful shutdown**: When a consumer is shutting down, it can release all its pending messages so other consumers can pick them up immediately without waiting for idle timeouts.
 
-2. **Transient failures**: When a consumer encounters temporary issues (like network connectivity problems or resource constraints), it can release messages it cannot process rather than letting them sit idle.
+2. **Consumer-side failures**: When a consumer encounters consumer-side issues (like network connectivity problems or resource constraints), it can release messages it cannot process rather than letting them sit idle.
 
 3. **Resource management**: A consumer under resource pressure can release complex or large messages that it cannot handle, allowing other consumers with more resources to process them.
 

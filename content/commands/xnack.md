@@ -188,18 +188,6 @@ This marks the message as permanently failed by setting the delivery counter to 
 
 </details>
 
-<details open>
-<summary><strong>Using RETRYCOUNT option</strong></summary>
-
-```
-> XNACK mystream mygroup FAIL IDS 1 1526569498055-0 RETRYCOUNT 5
-(integer) 1
-```
-
-Explicitly sets the delivery counter to 5, regardless of the mode.
-
-</details>
-
 ## Behavior
 
 When `XNACK` executes successfully, the entry:
