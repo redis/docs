@@ -21,7 +21,7 @@ Redis stores and indexes vector embeddings that semantically represent unstructu
 
 ## Featureform
 
-Use [Featureform]({{< relref "/develop/ai/featureform/" >}}) to define, manage, and serve machine learning features on top of your existing data systems. The Featureform docs cover the Python SDK workflow from provider registration through feature serving.
+Use [Featureform]({{< relref "/develop/ai/featureform/" >}}) to define, manage, and serve machine learning features on top of your existing data systems. The Featureform docs cover the full workflow, including deployment and access setup, provider and secret registration, definitions files, apply, operations, and reference material.
 
 #### Overview
 
