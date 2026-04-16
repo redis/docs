@@ -107,7 +107,6 @@
 
     {{- if gt (len $sortedCommands) 0 -}}
       {{- $totalCommands := len $sortedCommands -}}
-      {{- $totalChunks := div (add $totalCommands (sub $chunkSize 1)) $chunkSize -}}
 
       {{- /* First chunk gets the main heading and metadata */ -}}
       {{- $replacement = printf "### %s\n\n" $title -}}
