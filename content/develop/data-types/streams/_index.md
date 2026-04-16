@@ -385,6 +385,7 @@ Now it's time to zoom in to see the fundamental consumer group commands. They ar
 * [`XGROUP`]({{< relref "/commands/xgroup" >}}) is used in order to create, destroy and manage consumer groups.
 * [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) is used to read from a stream via a consumer group.
 * [`XACK`]({{< relref "/commands/xack" >}}) is the command that allows a consumer to mark a pending message as correctly processed.
+* [`XNACK`]({{< relref "/commands/xnack" >}}) is the command that allows a consumer to release pending messages back to the group without acknowledging them, making them immediately available for re-delivery to other consumers.
 * [`XACKDEL`]({{< relref "/commands/xackdel" >}}) combines acknowledgment and deletion in a single atomic operation with enhanced control over consumer group references.
 
 ## Creating a consumer group
@@ -673,6 +674,35 @@ That doesn't mean that there are no new idle pending messages, so the process co
 The counter that you observe in the [`XPENDING`]({{< relref "/commands/xpending" >}}) output is the number of deliveries of each message. The counter is incremented in two ways: when a message is successfully claimed via [`XCLAIM`]({{< relref "/commands/xclaim" >}}) or when an [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) call is used in order to access the history of pending messages.
 
 When there are failures, it is normal that messages will be delivered multiple times, but eventually they usually get processed and acknowledged. However there might be a problem processing some specific message, because it is corrupted or crafted in a way that triggers a bug in the processing code. In such a case what happens is that consumers will continuously fail to process this particular message. Because we have the counter of the delivery attempts, we can use that counter to detect messages that for some reason are not processable. So once the deliveries counter reaches a given large number that you chose, it is probably wiser to put such messages in another stream and send a notification to the system administrator. This is basically the way that Redis Streams implements the *dead letter* concept.
+
+## Releasing messages back to the group: XNACK
+
+Starting with Redis 8.8, the [`XNACK`]({{< relref "/commands/xnack" >}}) command provides a way for consumers to explicitly release pending messages back to the group without acknowledging them. This is the opposite of claiming - instead of taking ownership of messages from other consumers, a consumer can release its own messages back to the group for immediate re-delivery.
+
+This capability addresses several common scenarios:
+
+1. **Graceful shutdown**: When a consumer is shutting down, it can release all its pending messages so other consumers can pick them up immediately without waiting for idle timeouts.
+
+2. **Consumer-side failures**: When a consumer encounters consumer-side issues (like network connectivity problems or resource constraints), it can release messages it cannot process rather than letting them sit idle.
+
+3. **Resource management**: A consumer under resource pressure can release complex or large messages that it cannot handle, allowing other consumers with more resources to process them.
+
+4. **Poison message handling**: A consumer can mark messages as permanently failed when it detects invalid or malicious content.
+
+The command provides three modes that control how the delivery counter is adjusted:
+
+- **SILENT**: Decrements the delivery counter, essentially "undoing" the delivery. Use this for graceful shutdowns or when the failure is unrelated to the message content.
+- **FAIL**: Keeps the delivery counter unchanged. Use this when the current consumer cannot handle the message but others might be able to.
+- **FATAL**: Sets the delivery counter to maximum value, marking the message as permanently failed for dead letter processing.
+
+Released messages are placed in a special "NACK zone" at the head of the consumer group's PEL, ensuring they are prioritized for re-delivery over other idle pending messages. This makes recovery much faster than traditional claiming mechanisms that rely on idle timeouts.
+
+```
+> XNACK mystream mygroup FAIL IDS 1 1526569498055-0
+(integer) 1
+```
+
+After NACKing, the message appears with an empty consumer in [`XPENDING`]({{< relref "/commands/xpending" >}}) output and becomes immediately available for claiming or consumption via [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) with the CLAIM option.
 
 ## Working with multiple consumer groups
 
