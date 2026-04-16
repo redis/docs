@@ -25,7 +25,7 @@ To upgrade your Essentials database to Redis Cloud Pro:
 
 1. [Create a new database in Redis Cloud Pro](#create-rcp) with the right specifications to be able to migrate your database.
 
-1. [Migrate the data in your Essentials database](#migrate-data) to your new Redis Cloud Pro database.
+1. [Migrate the data in your Essentials database](#migrate-data) to your new Redis Cloud Pro database, if needed.
 
 1. [Redirect the endpoints](#redirect-database-endpoints) to your new Redis Cloud Pro database.
 
@@ -86,7 +86,7 @@ Before you follow this guide, be aware of the following limitations:
 
     {{<image filename="images/rc/migrate-data-status-synced.png" alt="When the data is migrated, the target database status displays `Synced`." width=100px >}}
 
-    Active-Passive sync lets you migrate data while apps and other connections are using the source database. Once the data is migrated, you should migrate active connections to the target database before you move on if you choose not to redirect your endpoints.
+    Active-Passive sync lets you migrate data while apps and other connections are using the source database. Once the data is migrated, you should migrate active connections to the target database and turn off Active-Passive before you move on. 
 
 ### Redirect database endpoints
 
@@ -106,9 +106,14 @@ To redirect your database endpoints:
 
 1. Select the target Redis Cloud Pro database from the **Target database** list. You can type in the database's name to find it.
 
-    You can choose whether to map the original endpoint to the **Public** or the **Private** endpoint.
+    You can choose whether to map the original endpoint to the **Public** or the **Private** endpoint. 
 
     {{<image filename="images/rc/migrate-data-redirect-essentials-endpoints.png" alt="Choose whether to map the original endpoint to the Public or Private endpoint." >}}
+
+    You must have a private connectivity method set up to be able to select the **Private** endpoint, such as:
+    - [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}})
+    - [Google Cloud Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}) _(Google Cloud only)_
+    - [AWS Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) or [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) _(AWS only)_
 
 1. If you want to assign the same [Role-based Access Control (RBAC) roles]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to the target database that are assigned to the source database, select **Assign the same ACLs to the target database**.
 
@@ -128,4 +133,4 @@ After the 24-hour window, you can no longer revert to the endpoint to the origin
 
 ### Delete Essentials database
 
-After you migrate your data and redirect your endpoints, turn off **Active-Passive Redis** from the target database, and then [delete the source database]({{< relref "/operate/rc/databases/delete-database" >}}).
+After you migrate your data and redirect your endpoints, [delete the source database]({{< relref "/operate/rc/databases/delete-database" >}}).

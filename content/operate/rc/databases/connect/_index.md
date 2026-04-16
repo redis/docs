@@ -32,11 +32,9 @@ Redis Cloud Pro and Redis Cloud Essentials databases have a public endpoint, whi
 
 Redis Cloud Pro users can block the public endpoint for their databases. For more information, see [Block public endpoints]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}).
 
-For databases created after April 21, 2026, you can [redirect these endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) to a different database. 
+#### Static and dynamic endpoints
 
-Databases created before April 21, 2026 have both legacy static endpoints and dynamic endpoints. You can see the Dynamic endpoints by expanding the **Dynamic endpoints** section in the **General** section of the **Configuration** tab. 
-
-{{<image filename="images/rc/databases-configuration-general-endpoints-legacy.png" alt="The General section of the Configuration tab of the database details page for a database created before April 21, 2026." >}}
+{{< embed-md "rc-endpoint-description.md" >}}
 
 You can redirect the dynamic endpoints to a different database at any time, but you cannot redirect the static endpoints. We recommend using the dynamic endpoints for your application so that you can migrate your database endpoints to a different database in the future without any code changes. See [Redirect dynamic endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) for more information.
 
@@ -130,9 +128,7 @@ If the username and password are not already filled in, replace `<username>` and
 See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients.
 
 {{< note >}}
-Databases created before April 21, 2026 have a set of default static endpoints and dynamic endpoints that can be redirected to a Redis Cloud Pro database. We recommend using the dynamic endpoints for your application so that you can migrate your database endpoints to a different database in the future without any code changes. See [Redirect dynamic endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) for more information.
-
-Databases created after April 21, 2026 only have dynamic endpoints. You can redirect those endpoints at any time.
+We recommend using the [dynamic endpoints](#static-and-dynamic-endpoints) for your application so that you can migrate your database endpoints to a different database in the future without any code changes.  See [Redirect dynamic endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) for more information.
 {{< /note >}}
 
 #### redis-cli {#using-rediscli}

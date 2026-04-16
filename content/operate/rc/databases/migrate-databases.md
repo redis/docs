@@ -135,7 +135,7 @@ Follow these detailed steps to migrate data using Active-Passive syncing:
 
     {{<image filename="images/rc/migrate-data-status-synced.png" alt="When the data is migrated, the target database status displays `Synced`." width=100px >}}
 
-Active-Passive sync lets you migrate data while apps and other connections are using the source database.  Once the data is migrated, you should migrate active connections to the target database.
+Active-Passive sync lets you migrate data while apps and other connections are using the source database.  Once the data is migrated, you should migrate active connections to the target database. You can turn off Active-Passive after you migrate active connections to the target database.
 
 {{< warning >}}
 Do not write to the target database until turning off Active-Passive. Writing to the target database of an Active-Passive setup can cause data consistency issues and replication failures. See [Active-Passive replication considerations]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md#active-passive-replication-considerations" >}}) for more information.
@@ -156,7 +156,6 @@ Before you redirect your endpoints, make sure:
 - Basic metrics for both the source and target databases are reporting normally.
 - The application authentication and authorization are set up correctly for the target database.
 - You have tested connection to the target database to confirm connectivity and credentials.
+- If using Active-Passive, turn off Active-Passive for the target database.
 
-Different applications have different availability and consistency requirements. Pausing writes during endpoint redirection is a standard best practice to help ensure data consistency. Still, you can choose the timing and behavior that fits your system (for example, whether to allow reads, how long to pause traffic, and what validation to run).
-
-Once the databases are synced and the endpoints are redirected, you can turn off Active-Passive for the target database.  Before doing so, however, verify that apps and other connections have switched to the target database; otherwise, you may lose data.
+Different applications have different availability and consistency requirements. Pausing writes before endpoint redirection is a standard best practice to help ensure data consistency. Still, you can choose the timing and behavior that fits your system (for example, whether to allow reads, how long to pause traffic, and what validation to run).
