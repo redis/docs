@@ -23,6 +23,6 @@
 ```
 
 {{- /* Process content with shared partial (shortcode expansion, HTML unescaping, etc.) */ -}}
-{{- $content := partial "process-markdown-content.html" (dict "RawContent" .RawContent "Site" .Site) -}}
+{{- $content := partial "process-markdown-content.html" (dict "RawContent" .RawContent "Site" .Site "Page" .) -}}
 
 {{ $content }}

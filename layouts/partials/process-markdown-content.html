@@ -7,11 +7,17 @@
   Input: dict with:
     - "RawContent": The raw Markdown content to process
     - "Site": The Hugo site object (for partial access)
+    - "Page": The current Hugo page (for shortcode/page resolution)
+    - "Visited": Optional slice of already-expanded pages to prevent embed loops
   
   Output: Processed Markdown content string
 */ -}}
 
 {{- $content := .RawContent -}}
+{{- $visited := .Visited | default (slice) -}}
+
+{{- /* Expand embed-md shortcodes before other transforms so embedded content can be processed too. */ -}}
+{{- $content = partial "markdown-embed-md.html" (dict "RawContent" $content "Page" .Page "Visited" $visited) -}}
 
 {{- /* Add legend for code examples at the beginning if content contains clients-example shortcodes */ -}}
 {{- if findRE "clients-example" $content -}}
@@ -66,4 +72,3 @@
 {{- $content = $content | replaceRE `\{\{%\s*/?[^%]*%\}\}` "" -}}
 
 {{- return $content -}}
-
