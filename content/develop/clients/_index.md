@@ -30,6 +30,7 @@ for nine main languages:
 | [Python](https://www.python.org/) | [`redis-py`](https://github.com/redis/redis-py) |[`redis-py` guide]({{< relref "/develop/clients/redis-py" >}}) | Yes |
 | [Python](https://www.python.org/) | [`RedisVL`](https://github.com/redis/redis-vl-python) |[RedisVL guide]({{< relref "/develop/ai/redisvl" >}}) | Yes 
 | [C#/.NET](https://learn.microsoft.com/en-us/dotnet/csharp/) | [`StackExchange.Redis`](https://github.com/StackExchange/StackExchange.Redis) |[`StackExchange.Redis` guide]({{< relref "/develop/clients/dotnet" >}}) | Yes |
+| [C#/.NET](https://learn.microsoft.com/en-us/dotnet/csharp/) | [`NRedisStack`](https://github.com/redis/NRedisStack) |[`NRedisStack` guide]({{< relref "/develop/clients/dotnet/nredisstack" >}}) | Yes |
 | [JavaScript](https://nodejs.org/en) | [`node-redis`](https://github.com/redis/node-redis) | [`node-redis` guide]({{< relref "/develop/clients/nodejs" >}}) | Yes |
 | [JavaScript](https://nodejs.org/en) | [`ioredis`](https://github.com/redis/ioredis) | [`ioredis` guide]({{< relref "/develop/clients/ioredis" >}}) | Yes |
 | [Java](https://www.java.com/en/) | [`Jedis`](https://github.com/redis/jedis) | [`Jedis` guide]({{< relref "/develop/clients/jedis" >}}) |  Yes |
@@ -113,8 +114,14 @@ between the options for each language.
 
 ### C#
 
--   [`StackExchange.Redis`](https://github.com/StackExchange/StackExchange.Redis) is the recommended C# client
-    library for most use cases.
+-   [`StackExchange.Redis`](https://github.com/StackExchange/StackExchange.Redis) is the 
+    recommended C# client library for using the core Redis data types and commands.
+-   [`NRedisStack`](https://github.com/redis/NRedisStack) builds upon
+    `StackExchange.Redis` with
+    support for an extended set of data types and features, such as
+    [JSON]({{< relref "/develop/data-types/json" >}}),
+    [Redis search]({{< relref "/develop/ai/search-and-query" >}}), and
+    [Time series]({{< relref "/develop/data-types/timeseries" >}}).
 -   [RedisOM for .NET](https://github.com/redis/redis-om-dotnet) is an object mapping library that
     provides a high-level API for working with Redis data structures.
 
@@ -199,6 +206,23 @@ questions:
                 nextQuestion: phpLowLevelQuestion
             dotnet:
                 value: "C#"
+                nextQuestion: dotnetLowLevelQuestion
+
+    dotnetLowLevelQuestion:
+        text: |
+            Do you need Redis Stack features such as JSON,
+            Search, vector search, or Time series?
+        whyAsk: |
+            StackExchange.Redis is the recommended client for core Redis commands,
+            while NRedisStack extends it with support for Redis Stack data types and features
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: Use NRedisStack
+                    id: nRedisStackOutcome
+            no:
+                value: "No"
                 outcome:
                     label: Use StackExchange.Redis
                     id: stackExchangeRedisOutcome
