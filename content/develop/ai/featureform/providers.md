@@ -1,242 +1,202 @@
 ---
-title: Connect providers in Redis Feature Form
+title: How-to guides
 description: Register offline providers and Redis online stores for Feature Form workflows.
-linkTitle: Providers
-weight: 30
+linkTitle: How-to guides
+weight: 40
 ---
 
-Use providers to connect Feature Form to the systems where your data already lives.
+Perform common Feature Form tasks for secrets, providers, apply, catalog inspection, and serving.
 
-In most deployments, you'll register:
+## Apply a definitions file
 
-- offline providers store or compute source data and transformed data
-- online providers serve low-latency feature values to applications
+`ff apply` executes one Python entrypoint, collects the resources it defines, and submits that set as desired state for a single workspace.
 
-Redis is the online provider in the Feature Form workflow.
+### What `--file` can point to
 
-## Before you begin
+- a Python file
+- a package `__init__.py`
+- a package directory that contains `__init__.py`
 
-Before you register providers, make sure you have:
-
-- network access from Feature Form to the systems you want to register
-- credentials for each provider
-- a clear decision about which system is authoritative for offline feature computation
-- a Redis deployment for online serving
-
-Feature Form's current provider APIs rely heavily on catalog configuration. For Snowflake and Databricks, make sure you choose the catalog model before you register providers or datasets.
-
-## Offline providers
-
-Feature Form supports several offline systems, including:
-
-- Snowflake
-- BigQuery
-- Databricks or Spark
-
-Register the offline provider that matches your existing analytics or feature engineering environment.
-
-## Online provider
-
-Register Redis as the inference store for low-latency serving:
-
-```python
-redis = client.register_redis(
-    name="redis-prod",
-    host="redis.example.com",
-    port=6379,
-    password="redis_password",
-)
+```bash
+ff apply --workspace <workspace-id> --file examples/featureform/docs/resources.py --plan
 ```
 
-If your deployment requires TLS or ACL configuration, use the connection options supported by your current Feature Form release and align them with your Redis security standards.
+### Loading order
 
-For secured Redis deployments, you can also configure ACL usernames and TLS settings explicitly:
+`ff apply` loads resources in this order:
 
-```python
-import featureform as ff
+1. `resources = [...]` from the entry module, if present
+2. the resource registry, if no explicit list exists
 
-redis = client.register_redis(
-    name="redis-cloud",
-    host="redis.example.com",
-    port=6379,
-    username="default",
-    password="super-secret",
-    ssl_mode=True,
-    tls=ff.RedisTLSConfig(
-        ca_cert=redis_ca_pem,
-        server_name="redis.example.com",
-    ),
-)
+### Preview with `--plan`
+
+```bash
+ff apply \
+  --workspace <workspace-id> \
+  --file examples/featureform/docs/resources.py \
+  --plan
 ```
 
-## Snowflake
+Use this before large changes or whenever the file might be incomplete relative to the workspace's full desired state.
 
-Configure the catalog first, then register Snowflake with key-pair authentication. Key-pair authentication is the recommended method, and password authentication is being deprecated.
+### Standard apply
 
-```python
-import featureform as ff
-from featureform import SnowflakeCatalog, SnowflakeDynamicTableConfig, RefreshMode, Initialize
-
-catalog = SnowflakeCatalog(
-    external_volume="my_external_volume",
-    base_location="s3://my-bucket/iceberg/",
-    catalog_table_config=SnowflakeDynamicTableConfig(
-        refresh_mode=RefreshMode.FULL,
-        initialize=Initialize.ON_CREATE,
-        target_lag="1 hour",
-    ),
-)
-
-snowflake = client.register_snowflake(
-    name="snowflake-prod",
-    account="your_account",
-    organization="your_org",
-    username="featureform_user",
-    key_pair=ff.SnowflakeKeyPairConfig(
-        private_key_path="/secrets/snowflake/private_key.pem",
-    ),
-    database="FEATURE_DB",
-    schema="PUBLIC",
-    warehouse="COMPUTE_WH",
-    catalog=catalog,
-)
+```bash
+ff apply \
+  --workspace <workspace-id> \
+  --file examples/featureform/docs/resources.py \
+  --wait \
+  --wait-for finished
 ```
 
-Use Snowflake when your feature engineering workflow already centers on warehouse-native tables, Iceberg-backed tables, or dynamic table pipelines.
+### Apply modes
 
-If you are migrating from password authentication, update your provider configuration to use `SnowflakeKeyPairConfig(...)`.
+- default apply: replacement-oriented desired state
+- `--merge`: safer for intentionally partial definition sets
+- `--update`: exposed in the CLI, but treat as provisional
+- `--full-rematerialize`: also exposed, but treat as provisional
 
-## BigQuery
+Only one of `--merge`, `--update`, or `--full-rematerialize` can be used at a time.
 
-```python
-bigquery = client.register_bigquery(
-    name="bigquery-prod",
-    project_id="your-gcp-project",
-    dataset_id="feature_dataset",
-    credentials_path="/path/to/service-account.json",
-)
+If neither an explicit `resources` list nor any auto-registered resources are present after the entrypoint executes, `ff apply` fails.
+
+## Update resources and rematerialize
+
+After the first successful apply, most Feature Form work is an iteration loop: edit the definitions file, preview the delta, apply the change, and inspect the resulting graph or catalog state.
+
+### Typical cycle
+
+1. Change a resource definition.
+2. Run a plan.
+3. Apply the change.
+4. Verify the resulting graph or catalog state.
+
+```bash
+ff apply \
+  --workspace <workspace-id> \
+  --file examples/featureform/docs/resources.py \
+  --plan
 ```
 
-Use BigQuery when your source data and transformations already run in Google Cloud.
+### When to use `--merge`
 
-## Databricks or Spark
+Use `--merge` when the file you are applying is intentionally partial and omitted resources should not be treated as deletions.
 
-Use Databricks or Spark when you need DataFrame transformations, Delta tables, or lakehouse-oriented pipelines.
+### Caution with `--update` and `--full-rematerialize`
 
-Register a catalog first, then register a filestore and Spark provider. For Databricks with Unity Catalog:
+The CLI exposes both flags, but the current user-facing workflow is not as mature or as well documented as normal apply and merge. Use them only when your deployment has already validated that behavior.
 
-```python
-import featureform as ff
-from featureform import UnityCatalog, TableFormat
+### Verify the outcome
 
-unity = UnityCatalog(
-    catalog="my_catalog",
-    schema="my_schema",
-    table_format=TableFormat.DELTA,
-)
-
-aws_creds = ff.AWSStaticCredentials(
-    access_key="your_aws_access_key",
-    secret_key="your_aws_secret_key",
-)
-
-s3 = client.register_s3(
-    name="s3-store",
-    credentials=aws_creds,
-    bucket_name="my-featureform-bucket",
-    bucket_region="us-east-1",
-)
-
-databricks = ff.DatabricksCredentials(
-    host="https://your-workspace.cloud.databricks.com",
-    token="your_databricks_token",
-    cluster_id="your_cluster_id",
-)
-
-spark = client.register_spark(
-    name="databricks-prod",
-    executor=databricks,
-    filestore=s3,
-    catalog=unity,
-)
+```bash
+ff graph workspace overview --workspace <workspace-id>
+ff catalog list --workspace <workspace-id>
 ```
 
-The Databricks credentials surface also supports OAuth machine-to-machine authentication:
+## Inspect materialized locations
+
+The Feature Form catalog records where resources managed by Feature Form physically landed after apply and materialization. It is distinct from systems such as Unity Catalog, Glue, or an Iceberg catalog.
+
+### List catalog entries
+
+```bash
+ff catalog list --workspace <workspace-id>
+```
+
+### Inspect one resource
+
+```bash
+ff catalog get demo_transactions --workspace <workspace-id>
+```
+
+### The catalog shows
+
+- logical resource name
+- owning provider
+- status
+- physical table, path, or namespace
+- update timestamps
+
+Use the catalog together with graph views: graph explains why a resource exists; catalog shows where it landed.
+
+## Query datasets and training sets
+
+Use this command when the target dataset, training set, or feature view already exists and you want to inspect rows directly.
+
+### Query a dataset
+
+```bash
+ff dataframe query demo_transactions \
+  --workspace demo-workspace \
+  --server localhost:9090 \
+  --kind dataset \
+  --limit 10 \
+  --insecure
+```
+
+### Supported kinds
+
+- `dataset`
+- `training_set`
+- `feature_view`
+
+### Useful flags
+
+- `--columns`
+- `--filter`
+- `--limit`
+- `--output table|json|csv`
+
+The dataframe command talks to the Flight endpoint on the gRPC side, so transport and endpoint mismatches are common troubleshooting points.
+
+## Serve feature view
+
+Use this page after a feature view already exists and the online store is ready. In the quickstart flow, that means `demo_customer_feature_view` has already been applied successfully.
+
+### Verify the feature view exists
+
+```bash
+ff graph feature-view get demo_customer_feature_view --workspace demo-workspace
+```
+
+### Minimal Python workflow
 
 ```python
 import featureform as ff
 
-databricks = ff.DatabricksCredentials(
-    host="https://your-workspace.cloud.databricks.com",
-    client_id="my-service-principal-client-id",
-    client_secret="my-service-principal-secret",
-    cluster_id="1234-567890-abcd123",
-)
+client = ff.Client(host="127.0.0.1:9090", insecure=True, workspace="demo-workspace")
+features = client.serve("demo_customer_feature_view", entity="C1001")
+print(features)
 ```
 
-If you want ephemeral Databricks job clusters instead of an always-on cluster, use `cluster_config` instead of `cluster_id`:
+### Operational checks
 
-```python
-import featureform as ff
+- if the feature view is not ready, serving fails
+- if the online provider is unavailable or unsupported, serving fails
+- serving-metadata permissions and serving-read permissions are separate RBAC checks
 
-cluster_config = ff.DatabricksClusterConfig(
-    spark_version="14.3.x-scala2.12",
-    node_type_id="i3.xlarge",
-    num_workers=4,
-)
 
-databricks = ff.DatabricksCredentials(
-    host="https://your-workspace.cloud.databricks.com",
-    token="your_databricks_token",
-    cluster_config=cluster_config,
-)
+## Operate a workspace 
+Use this how-to for routine operational checks after a workspace is already created and in use.
+
+### Day-2 checklist
+
+- verify connectivity with `ff ping`
+- inspect workspace metadata and `last_applied_version`
+- inspect providers and secret providers
+- inspect graph overview and stats
+- inspect catalog locations
+- confirm serving and dataframe clients point at the expected transport and state backend
+
+### Useful commands
+
+```bash
+ff ping
+ff workspace get <workspace-id>
+ff provider list --workspace <workspace-id>
+ff secret-provider list --workspace <workspace-id>
+ff graph workspace stats --workspace <workspace-id>
+ff catalog list --workspace <workspace-id>
 ```
 
-Use either `cluster_id` or `cluster_config`, not both.
-
-## Catalog options
-
-Feature Form supports several catalog models for offline data:
-
-```python
-from featureform import UnityCatalog, GlueCatalog, SnowflakeCatalog, TableFormat
-
-unity = UnityCatalog(
-    catalog="my_catalog",
-    schema="my_schema",
-    table_format=TableFormat.DELTA,
-)
-
-glue = GlueCatalog(
-    region="us-east-1",
-    database="my_database",
-    warehouse="s3://my-bucket/warehouse/",
-    assume_role_arn="arn:aws:iam::123456789:role/GlueRole",
-    table_format=TableFormat.ICEBERG,
-)
-```
-
-Choose the catalog that matches the table format and governance model in your environment.
-
-## Retrieve previously registered providers
-
-Once providers are registered, you can retrieve them by name:
-
-```python
-snowflake = client.get_snowflake("snowflake-prod")
-spark = client.get_spark("databricks-prod")
-redis = client.get_redis("redis-prod")
-```
-
-## Choose providers
-
-- Choose the offline provider that is already authoritative for your feature data.
-- Configure the catalog model before you register Snowflake or Databricks providers.
-- Choose Redis when you need low-latency online serving.
-- Keep credentials and network access aligned with your platform security standards.
-- Minimize the number of providers in early projects so registration and troubleshooting stay simple.
-
-## What to read next
-
-- [Define datasets and transformations]({{< relref "/develop/ai/featureform/datasets-and-transformations" >}})
-- [Define features and labels]({{< relref "/develop/ai/featureform/features-and-labels" >}})
+With memory-backed state, check transport mismatches first when users report missing workspaces, providers, or applied resources.
