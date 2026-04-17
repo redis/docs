@@ -1,0 +1,138 @@
+{{- /*
+  Convert standard CLI usage text into AI- and human-friendly Markdown.
+
+  Expected format:
+  - first line starts with "Usage:"
+  - option rows are indented and begin with "-"
+  - continuation rows are further-indented
+  - optional trailing sections like "Examples:" or "Cluster Manager Commands:"
+
+  Falls back to the raw content if the shape does not match.
+*/ -}}
+
+{{- $raw := strings.Trim (.RawContent | default "") "\n" -}}
+{{- $lines := split $raw "\n" -}}
+{{- if ge (len $lines) 2 -}}
+  {{- $firstLine := strings.TrimSpace (index $lines 0) -}}
+  {{- $lastLine := strings.TrimSpace (index $lines (sub (len $lines) 1)) -}}
+  {{- if and (hasPrefix $firstLine "```") (eq $firstLine $lastLine) -}}
+    {{- $raw = strings.TrimSpace (delimit (first (sub (len $lines) 2) (after 1 $lines)) "\n") -}}
+    {{- $lines = split $raw "\n" -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if or (eq (len $lines) 0) (not (hasPrefix (strings.TrimSpace (index $lines 0)) "Usage:")) -}}
+  {{- $raw -}}
+{{- else -}}
+  {{- $s := newScratch -}}
+  {{- $s.Set "markdown" (printf "```text\n%s\n```\n\nOptions:\n\n" (strings.TrimSpace (index $lines 0))) -}}
+  {{- $s.Set "option" "" -}}
+  {{- $s.Set "desc" "" -}}
+  {{- $s.Set "sectionTitle" "" -}}
+  {{- $s.Set "sectionLines" (slice) -}}
+  {{- $s.Set "exampleParagraph" (slice) -}}
+
+  {{- range $line := after 1 $lines -}}
+    {{- $trimmed := strings.TrimSpace $line -}}
+    {{- $isHeading := and (eq $line $trimmed) (hasSuffix $trimmed ":") -}}
+    {{- $optionMatch := findRESubmatch `^(\s{2,8})((?:--?[0-9A-Za-z][0-9A-Za-z-]*)(?:\s+(?:<[^>]+>|\[[^\]]+\]))*)(?:\s+(.*))?$` $line -}}
+    {{- $isOption := gt (len $optionMatch) 0 -}}
+    {{- $hasOption := ne ($s.Get "option") "" -}}
+    {{- $sectionTitle := $s.Get "sectionTitle" -}}
+
+    {{- if $isHeading -}}
+      {{- if $hasOption -}}
+        {{- $entry := printf "- `%s`" ($s.Get "option") -}}
+        {{- if ne ($s.Get "desc") "" -}}
+          {{- $entry = printf "%s: %s" $entry ($s.Get "desc") -}}
+        {{- end -}}
+        {{- $s.Set "markdown" (printf "%s%s\n" ($s.Get "markdown") $entry) -}}
+        {{- $s.Set "option" "" -}}
+        {{- $s.Set "desc" "" -}}
+      {{- end -}}
+
+      {{- if ne $sectionTitle "" -}}
+        {{- $s.Set "markdown" (printf "%s\n#### %s\n\n" ($s.Get "markdown") $sectionTitle) -}}
+        {{- range $entry := ($s.Get "sectionLines") -}}
+          {{- $s.Set "markdown" (printf "%s%s\n" ($s.Get "markdown") $entry) -}}
+        {{- end -}}
+        {{- if gt (len ($s.Get "exampleParagraph")) 0 -}}
+          {{- $paragraph := delimit ($s.Get "exampleParagraph") " " -}}
+          {{- $s.Set "markdown" (printf "%s\n%s\n" ($s.Get "markdown") $paragraph) -}}
+          {{- $s.Set "exampleParagraph" (slice) -}}
+        {{- end -}}
+        {{- $s.Set "markdown" (printf "%s\n" ($s.Get "markdown")) -}}
+        {{- $s.Set "sectionLines" (slice) -}}
+      {{- end -}}
+
+      {{- $s.Set "sectionTitle" (strings.TrimSuffix ":" $trimmed) -}}
+    {{- else if $isOption -}}
+      {{- if $hasOption -}}
+        {{- $entry := printf "- `%s`" ($s.Get "option") -}}
+        {{- if ne ($s.Get "desc") "" -}}
+          {{- $entry = printf "%s: %s" $entry ($s.Get "desc") -}}
+        {{- end -}}
+        {{- $s.Set "markdown" (printf "%s%s\n" ($s.Get "markdown") $entry) -}}
+      {{- end -}}
+
+      {{- $groups := index $optionMatch 0 -}}
+      {{- $s.Set "option" (index $groups 2) -}}
+      {{- $s.Set "desc" (strings.TrimSpace (index $groups 3)) -}}
+
+      {{- if ne $sectionTitle "" -}}
+        {{- $s.Set "sectionTitle" "" -}}
+        {{- $s.Set "sectionLines" (slice) -}}
+        {{- $s.Set "exampleParagraph" (slice) -}}
+      {{- end -}}
+    {{- else if and $hasOption (ne $trimmed "") -}}
+      {{- $joined := strings.TrimSpace (printf "%s %s" ($s.Get "desc") $trimmed) -}}
+      {{- $s.Set "desc" $joined -}}
+    {{- else if and (ne $sectionTitle "Examples") (ne $sectionTitle "") (ne $trimmed "") -}}
+      {{- $s.Set "sectionLines" (($s.Get "sectionLines") | append $trimmed) -}}
+    {{- else if eq $sectionTitle "Examples" -}}
+      {{- if hasPrefix $line "  " -}}
+        {{- if gt (len ($s.Get "exampleParagraph")) 0 -}}
+          {{- $paragraph := delimit ($s.Get "exampleParagraph") " " -}}
+          {{- $s.Set "sectionLines" (($s.Get "sectionLines") | append $paragraph) -}}
+          {{- $s.Set "exampleParagraph" (slice) -}}
+        {{- end -}}
+        {{- if ne $trimmed "" -}}
+          {{- if hasPrefix $trimmed "(" -}}
+            {{- $s.Set "sectionLines" (($s.Get "sectionLines") | append $trimmed | append "") -}}
+          {{- else -}}
+            {{- $s.Set "sectionLines" (($s.Get "sectionLines") | append (printf "- `%s`" $trimmed)) -}}
+          {{- end -}}
+        {{- end -}}
+      {{- else if ne $trimmed "" -}}
+        {{- $s.Set "exampleParagraph" (($s.Get "exampleParagraph") | append $trimmed) -}}
+      {{- else if gt (len ($s.Get "exampleParagraph")) 0 -}}
+        {{- $paragraph := delimit ($s.Get "exampleParagraph") " " -}}
+        {{- $s.Set "sectionLines" (($s.Get "sectionLines") | append $paragraph | append "") -}}
+        {{- $s.Set "exampleParagraph" (slice) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- if ne ($s.Get "option") "" -}}
+    {{- $entry := printf "- `%s`" ($s.Get "option") -}}
+    {{- if ne ($s.Get "desc") "" -}}
+      {{- $entry = printf "%s: %s" $entry ($s.Get "desc") -}}
+    {{- end -}}
+    {{- $s.Set "markdown" (printf "%s%s\n" ($s.Get "markdown") $entry) -}}
+  {{- end -}}
+
+  {{- if ne ($s.Get "sectionTitle") "" -}}
+    {{- $sectionTitle := $s.Get "sectionTitle" -}}
+    {{- $s.Set "markdown" (printf "%s\n#### %s\n\n" ($s.Get "markdown") $sectionTitle) -}}
+    {{- if gt (len ($s.Get "exampleParagraph")) 0 -}}
+      {{- $paragraph := delimit ($s.Get "exampleParagraph") " " -}}
+      {{- $s.Set "sectionLines" (($s.Get "sectionLines") | append $paragraph) -}}
+    {{- end -}}
+    {{- range $entry := ($s.Get "sectionLines") -}}
+      {{- $s.Set "markdown" (printf "%s%s\n" ($s.Get "markdown") $entry) -}}
+    {{- end -}}
+    {{- $s.Set "markdown" (printf "%s\n" ($s.Get "markdown")) -}}
+  {{- end -}}
+
+  {{- htmlUnescape (strings.TrimSpace ($s.Get "markdown")) -}}
+{{- end -}}

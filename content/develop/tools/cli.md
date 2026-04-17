@@ -977,6 +977,7 @@ With 500MB there is sufficient space for the key quantity (10 million) and distr
 
 ## Usage
 
+{{< usage >}}
 ```
 Usage: redis-cli [OPTIONS] [cmd [arg [arg ...]]]
   -h <hostname>      Server hostname (default: 127.0.0.1).
@@ -1099,3 +1100,4 @@ When no command is given, redis-cli starts in interactive mode.
 Type "help" in interactive mode for information on available commands
 and settings.
 ```
+{{< /usage >}}

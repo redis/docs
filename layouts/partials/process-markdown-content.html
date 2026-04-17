@@ -22,6 +22,8 @@
 {{- $content = partial "markdown-scrollable-tables.html" (dict "RawContent" $content) -}}
 {{- /* Trim opt-in long blocks for AI-facing Markdown output only. */ -}}
 {{- $content = partial "markdown-trimmable.html" (dict "RawContent" $content) -}}
+{{- /* Reformat usage shortcodes for AI-facing Markdown output only. */ -}}
+{{- $content = partial "markdown-usage.html" (dict "RawContent" $content) -}}
 
 {{- /* Add legend for code examples at the beginning if content contains clients-example shortcodes */ -}}
 {{- if findRE "clients-example" $content -}}
