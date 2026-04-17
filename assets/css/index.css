@@ -1019,18 +1019,6 @@ input[type="radio"] {
   margin-bottom: 0;
 }
 
-.trimmable-input:not(:checked) ~ .trimmable-content::after {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
-  bottom: 0;
-  content: "";
-  display: block;
-  height: 3rem;
-  left: 0;
-  pointer-events: none;
-  position: absolute;
-  right: 0;
-}
-
 .trimmable-input:not(:checked) ~ .trimmable-content {
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
