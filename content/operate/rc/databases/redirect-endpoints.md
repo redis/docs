@@ -8,6 +8,7 @@ categories:
 description: Shows how to redirect dynamic endpoints to a different database.
 linkTitle: Redirect endpoints
 weight: 31
+bannerText: Dynamic endpoint redirection is currently in public preview. Features and behavior are subject to change.
 ---
 
 Dynamic endpoints allow you to redirect application traffic from one database to another in the same Redis Cloud account without updating the endpoints in your application. Redis manages endpoint redirection for you.

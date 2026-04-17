@@ -12,4 +12,4 @@ horse-battery-staple-12345.db.redis.io
 
 You can see the Dynamic endpoints for databases with both static and dynamic endpoints by expanding the **Dynamic endpoints** section in the **General** section of the **Configuration** tab. 
 
-{{<image filename="images/rc/databases-configuration-general-endpoints-legacy.png" alt="The General section of the Configuration tab of the database details page for a database created before April 21, 2026." >}}
+{{<image filename="images/rc/databases-configuration-general-endpoints-legacy.png" alt="The Static and dynamic endpoints for a database with both kinds of endpoints." >}}
