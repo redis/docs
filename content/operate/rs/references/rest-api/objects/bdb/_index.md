@@ -148,6 +148,7 @@ An API object that represents a managed database in the cluster.
 | roles_permissions | {{<code>}}[{<br />  "role_uid": integer,<br />  "redis_acl_uid": integer<br />}, ...]{{</code>}} |
 | sched_policy | Controls how server-side connections are used when forwarding traffic to shards.<br />Values:<br />**cmp**: Closest to max_pipelined policy. Pick the connection with the most pipelined commands that has not reached the max_pipelined limit.<br />**mru**: Try to use most recently used connections.<br />**spread**: Try to use all connections.<br />**mnp**: Minimal pipeline policy. Pick the connection with the least pipelined commands. |
 | search | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/search" >}}); Configuration fields for search and query. |
+| search_on_bigstore | boolean (default: false); Include search module in Redis on flash v2 (Flex databases) |
 | shard_block_crossslot_keys | boolean (default:&nbsp;false); In Lua scripts, prevent use of keys from different hash slots within the range owned by the current shard |
 | shard_block_foreign_keys | boolean (default:&nbsp;true); In Lua scripts, `foreign_keys` prevent use of keys which could reside in a different shard (foreign keys) |
 | shard_key_regex | Custom keyname-based sharding rules.<br />`[{"regex": string}, ...]`<br />To use the default rules you should set the value to: <br />`[{"regex": ".*\\{(?<tag>.*)\\}.*"}, {"regex": "(?<tag>.*)"}]` |
