@@ -32,10 +32,7 @@ If your Postgres provider uses `env:PG_PASSWORD`, make sure that variable exists
 
 ## 3. Register the demo providers
 
-Register the offline and online providers before applying resources:
-
-- [Postgres setup]()
-- [Redis setup]()
+See the Providers and workpsaces page for steps to register the offline and online providers before applying resources.
 
 ## 4. Review the quickstart definitions file
 
