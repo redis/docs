@@ -2119,6 +2119,51 @@
         ],
         "x-publish-docs": true,
         "x-stability-level": "stable"
+      },
+      "put": {
+        "description": "Set or partially update the LDAP configuration for the cluster",
+        "operationId": "cluster_update_ldap_config",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ldap"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ldap"
+                }
+              }
+            },
+            "description": "LDAP configuration"
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "config_ldap"
+            ]
+          }
+        ],
+        "summary": "Update LDAP configuration",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
       }
     },
     "/v1/ocsp": {
