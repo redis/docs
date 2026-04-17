@@ -14,6 +14,6 @@ bannerChildren: true
 
 Redis Feature Form helps teams define, manage, materialize, and serve machine learning features while keeping existing data systems in place. In the documented workflow, Redis acts as the low-latency online store for feature serving.
 
-This documentation describes platform setup, workspace access, provider and secret registration, definitions-file authoring, apply, and serving.
+This documentation describes platform setup, workspace access, provider and secret registration, definitions-file authoring, apply, and serving. Refer to [Deploy]({{< relref "/operate/featureform" >}}) for installation and authentication instructions.
 
 
