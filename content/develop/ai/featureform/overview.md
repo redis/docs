@@ -5,36 +5,30 @@ linkTitle: Overview
 weight: 10
 ---
 
-Redis Feature Form is a feature engineering and feature serving workflow built for teams that want to define machine learning features in code while keeping their existing data platforms. It gives application teams a declarative Python SDK for working with providers, datasets, transformations, entities, features, labels, training sets, and online feature serving.
+This page describes the standard Feature Form onboarding path: workspace creation, access handoff, secrets, providers, definitions, apply, and serving. Use it as the high-level sequence before you dive into task-specific guides.
 
-In a typical deployment, Feature Form reads or computes feature data in an offline system such as Snowflake, BigQuery, or Databricks and materializes selected features to Redis for low-latency inference.
+## Audience
 
-## Core workflow
+- Global admins creating and handing off workspaces
+- Workspace admins wiring secrets and providers
+- Feature engineers authoring definitions files
+- Application or model teams serving ready feature views
 
-The Feature Form workflow follows a consistent progression:
+## Recommended path
 
-1. Register providers for your offline systems and your Redis online store.
-2. Register datasets that represent raw inputs or curated tables.
-3. Define SQL or DataFrame transformations for feature engineering logic.
-4. Define entities, features, and labels in the Python SDK.
-5. Register metadata with `client.apply()`.
-6. Materialize feature views to Redis for serving.
-7. Retrieve online values at inference time or create training sets for model development.
+1. Create the workspace and grant initial access.
+2. Confirm the intended principal can see the workspace.
+3. Reuse the built-in `env` secret provider or register another backend.
+4. Register the providers the workspace will reference.
+5. Author a definitions file and run `ff apply`.
+6. Inspect the graph and catalog, then serve from a feature view.
 
-## Where Redis fits
+## What to verify before the first apply
 
-Redis is the online inference store in the Feature Form workflow. After you materialize a feature view, applications can retrieve feature values with low latency for prediction requests, personalization, fraud detection, recommendation systems, and similar ML use cases.
-
-## Main interfaces
-
-The main user-facing interface is the Python SDK:
-
-- `ff.Client(...)` to connect to Feature Form
-- provider registration methods such as `register_snowflake`, `register_spark`, and `register_redis`
-- decorators and builder APIs for transformations, features, and labels
-- materialization and serving methods such as `materialize_feature_view(...)` and `serve_feature_view(...)`
-
-Feature Form also includes a dashboard for viewing registered resources and tasks, but the Python SDK is the primary authoring interface.
+- The workspace exists and the right principal can access it.
+- Secret references such as `env:PG_PASSWORD` resolve from the runtime environment.
+- Providers are already registered by the names the definitions file expects.
+- The team understands whether the definitions file represents complete desired state or a partial subset.
 
 ## Latest updates
 
