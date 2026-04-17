@@ -9,12 +9,12 @@
 {{ .Page.Scratch.Set "trimmable_counter" $counter }}
 {{ $toggleId := printf "trimmable-%s-%d" .Page.File.UniqueID $counter }}
 
-<div class="trimmable-block my-4">
+<div class="my-4">
   <input class="trimmable-input sr-only" id="{{ $toggleId }}" type="checkbox">
-  <div class="trimmable-content">
+  <div class="trimmable-content relative overflow-hidden">
     {{ $inner }}
   </div>
-  <label class="trimmable-toggle" for="{{ $toggleId }}">
+  <label class="trimmable-toggle mt-2.5 inline-flex cursor-pointer items-center gap-2 font-semibold text-redis-red-500 no-underline" for="{{ $toggleId }}">
     <span class="trimmable-label-more">Show full output</span>
     <span class="trimmable-label-less">Hide full output</span>
   </label>

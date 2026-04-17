@@ -975,21 +975,6 @@ input[type="radio"] {
   @apply h-full overflow-y-auto font-monogeist;
 }
 
-.trimmable-block {
-  margin-block: 1rem;
-}
-
-.trimmable-toggle {
-  align-items: center;
-  color: #d52d1f;
-  cursor: pointer;
-  display: inline-flex;
-  gap: 0.5rem;
-  font-weight: 600;
-  margin-top: 0.6rem;
-  text-decoration: none;
-}
-
 .trimmable-label-less {
   display: none;
 }
@@ -1019,8 +1004,6 @@ input[type="radio"] {
 
 .trimmable-content {
   max-height: 10lh;
-  overflow: hidden;
-  position: relative;
 }
 
 .trimmable-content pre {
