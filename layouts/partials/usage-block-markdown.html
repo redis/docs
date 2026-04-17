@@ -10,6 +10,8 @@
   Falls back to the raw content if the shape does not match.
 */ -}}
 
+{{- $formatPlaceholders := `(<[^>\n]+>)` -}}
+
 {{- $raw := strings.Trim (.RawContent | default "") "\n" -}}
 {{- $lines := split $raw "\n" -}}
 {{- if ge (len $lines) 2 -}}
@@ -44,7 +46,7 @@
       {{- if $hasOption -}}
         {{- $entry := printf "- `%s`" ($s.Get "option") -}}
         {{- if ne ($s.Get "desc") "" -}}
-          {{- $entry = printf "%s: %s" $entry ($s.Get "desc") -}}
+          {{- $entry = printf "%s: %s" $entry (replaceRE $formatPlaceholders "`$1`" ($s.Get "desc")) -}}
         {{- end -}}
         {{- $s.Set "markdown" (printf "%s%s\n" ($s.Get "markdown") $entry) -}}
         {{- $s.Set "option" "" -}}
@@ -70,7 +72,7 @@
       {{- if $hasOption -}}
         {{- $entry := printf "- `%s`" ($s.Get "option") -}}
         {{- if ne ($s.Get "desc") "" -}}
-          {{- $entry = printf "%s: %s" $entry ($s.Get "desc") -}}
+          {{- $entry = printf "%s: %s" $entry (replaceRE $formatPlaceholders "`$1`" ($s.Get "desc")) -}}
         {{- end -}}
         {{- $s.Set "markdown" (printf "%s%s\n" ($s.Get "markdown") $entry) -}}
       {{- end -}}
@@ -116,7 +118,7 @@
   {{- if ne ($s.Get "option") "" -}}
     {{- $entry := printf "- `%s`" ($s.Get "option") -}}
     {{- if ne ($s.Get "desc") "" -}}
-      {{- $entry = printf "%s: %s" $entry ($s.Get "desc") -}}
+      {{- $entry = printf "%s: %s" $entry (replaceRE $formatPlaceholders "`$1`" ($s.Get "desc")) -}}
     {{- end -}}
     {{- $s.Set "markdown" (printf "%s%s\n" ($s.Get "markdown") $entry) -}}
   {{- end -}}
