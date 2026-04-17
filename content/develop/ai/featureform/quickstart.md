@@ -4,168 +4,92 @@ description: Register providers, define a feature, materialize it to Redis, and 
 linkTitle: Quickstart
 weight: 20
 ---
-
-This quickstart helps you register a simple Redis Feature Form workflow and serve feature values from Redis.
-
-You'll do the following:
-
-1. Connect to Feature Form.
-2. Register an offline provider and a Redis online store.
-3. Register a dataset and define a transformation.
-4. Define an entity and features.
-5. Register metadata.
-6. Materialize a feature view to Redis.
-7. Serve feature values.
-
-At the end, you'll have a Feature Form feature view backed by Redis and a working `serve_feature_view(...)` call.
+Use this quickstart when you want one end-to-end proof that the main Feature Form path works in your environment. It assumes the workspace already exists and that sample data matching the quickstart definitions file is already loaded.
 
 ## Before you begin
 
-Before you start, make sure you have:
+- A running Feature Form deployment with durable state
+- An existing workspace
+- A working auth path for `ff`
+- Reachable Postgres and Redis endpoints for `demo_postgres` and `demo_redis`
 
-- a running Feature Form deployment
-- access to an offline system, such as Databricks or Spark
-- access to a Redis deployment for online serving
-- credentials for the systems you register in this guide
+## 1. Confirm identity and workspace access
 
-## Connect to Feature Form
+```bash
+ff rbac whoami
+ff workspace get --name <workspace-name>
+```
+
+Use the returned workspace ID in later commands.
+
+## 2. Confirm the built-in `env` secret provider
+
+```bash
+ff secret-provider list --workspace <workspace-id>
+```
+
+If your Postgres provider uses `env:PG_PASSWORD`, make sure that variable exists in the runtime environment that resolves secrets.
+
+## 3. Register the demo providers
+
+Register the offline and online providers before applying resources:
+
+- [Postgres setup]()
+- [Redis setup]()
+
+## 4. Review the quickstart definitions file
+
+The published example definitions entrypoint is the resource definitions file.
+
+That file defines:
+
+- one entity
+- one primary dataset
+- two SQL transformations
+- three features
+- one label
+- one training set
+- one feature view
+
+## 5. Apply the file
+
+```bash
+ff apply \
+  --workspace <workspace-id> \
+  --file examples/featureform/docs/resources.py \
+  --wait \
+  --wait-for finished
+```
+
+For a dry run first:
+
+```bash
+ff apply \
+  --workspace <workspace-id> \
+  --file examples/featureform/docs/resources.py \
+  --plan
+```
+
+## 6. Inspect the results
+
+```bash
+ff graph workspace stats --workspace <workspace-id>
+ff graph feature list --workspace <workspace-id>
+ff catalog list --workspace <workspace-id>
+```
+
+You should see the expected graph entries plus the catalog locations created by the applied resources.
+
+## 7. Serve from the feature view
 
 ```python
 import featureform as ff
 
-client = ff.Client(host="your-featureform-host:443")
+client = ff.Client(host="127.0.0.1:9090", insecure=True, workspace="<workspace>")
+features = client.serve("demo_customer_feature_view", entity="C1001")
+print(features)
 ```
 
-For local development, you might use an insecure endpoint:
-
-```python
-client = ff.Client(host="localhost:7878", insecure=True)
-```
-
-## Register providers
-
-This example uses Databricks as the offline provider and Redis as the online store.
-
-```python
-import featureform as ff
-
-aws_creds = ff.AWSStaticCredentials(
-    access_key="your_aws_access_key",
-    secret_key="your_aws_secret_key",
-)
-
-s3 = client.register_s3(
-    name="s3-store",
-    credentials=aws_creds,
-    bucket_name="my-featureform-bucket",
-    bucket_region="us-east-1",
-)
-
-databricks = ff.DatabricksCredentials(
-    host="https://your-workspace.cloud.databricks.com",
-    token="your_databricks_token",
-    cluster_id="your_cluster_id",
-)
-
-spark = client.register_spark(
-    name="databricks-prod",
-    executor=databricks,
-    filestore=s3,
-)
-
-redis = client.register_redis(
-    name="redis-prod",
-    host="redis.example.com",
-    port=6379,
-    password="redis_password",
-)
-```
-
-## Register a dataset and transformation
-
-Next, register a dataset from the offline system and define a transformation that computes feature values.
-
-```python
-transactions = spark.register_delta_table(
-    name="transactions",
-    database="my_catalog.my_schema",
-    table="transactions",
-    description="Raw transaction data",
-)
-
-@spark.df_transformation(inputs=[transactions])
-def user_transaction_features(transactions_df):
-    from pyspark.sql import functions as F
-
-    return transactions_df.groupBy("user_id").agg(
-        F.avg("amount").alias("avg_transaction_amount"),
-        F.count("*").alias("transaction_count"),
-        F.max("timestamp").alias("latest_transaction"),
-    )
-```
-
-## Define an entity and features
-
-Define an entity class, then attach features to it.
-
-```python
-from datetime import timedelta
-
-@ff.entity
-class User:
-    avg_transaction_amount = (
-        ff.Feature()
-        .from_dataset(
-            user_transaction_features,
-            entity="user_id",
-            values="avg_transaction_amount",
-            timestamp="latest_transaction",
-        )
-    )
-
-    transaction_count = (
-        ff.Feature()
-        .from_dataset(
-            transactions,
-            entity="user_id",
-            values="amount",
-            timestamp="timestamp",
-        )
-        .aggregate(
-            function=ff.AggregateFunction.COUNT,
-            windows=[timedelta(days=7), timedelta(days=30)],
-        )
-    )
-```
-
-## Register metadata, then materialize
-
-`client.apply()` registers providers, datasets, transformations, and feature definitions. In the current workflow, it does not create the online serving surface by itself.
-
-```python
-client.apply()
-
-client.materialize_feature_view(
-    view_name="user_features_view",
-    inference_store=redis,
-    features=[
-        User.avg_transaction_amount,
-        User.transaction_count[timedelta(days=7)],
-        User.transaction_count[timedelta(days=30)],
-    ],
-)
-```
-
-## Serve features
-
-After the feature view is materialized, retrieve feature values by entity ID:
-
-```python
-features = client.serve_feature_view(
-    view="user_features_view",
-    entity_ids=["user_123", "user_456"],
-)
-```
 
 ## What to read next
 
