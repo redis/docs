@@ -1021,7 +1021,6 @@ input[type="radio"] {
   max-height: 10lh;
   overflow: hidden;
   position: relative;
-  transition: max-height 0.2s ease;
 }
 
 .trimmable-content pre {
