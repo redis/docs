@@ -1,6 +1,6 @@
 // EXAMPLE: landing
 // BINDER_ID nodejs-landing
-// KERNEL_NAME javascript
+// KERNEL_NAME jslab
 // STEP_START connect
 import { createClient } from 'redis';
 
