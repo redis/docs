@@ -88,8 +88,4 @@ print(features)
 ```
 
 
-## What to read next
 
-- [Connect providers]({{< relref "/develop/ai/featureform/providers" >}})
-- [Define datasets and transformations]({{< relref "/develop/ai/featureform/datasets-and-transformations" >}})
-- [Define features and labels]({{< relref "/develop/ai/featureform/features-and-labels" >}})
