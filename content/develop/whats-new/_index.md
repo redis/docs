@@ -25,14 +25,6 @@ weight: 10
 
 ### Redis AI & Vectors
 
-- Added [Featureform documentation]({{< relref "/develop/ai/featureform" >}}) for feature engineering workflows
-  - [Overview]({{< relref "/develop/ai/featureform/overview" >}})
-  - [Quickstart guide]({{< relref "/develop/ai/featureform/quickstart" >}})
-  - [Provider connections]({{< relref "/develop/ai/featureform/providers" >}})
-  - [Datasets and transformations]({{< relref "/develop/ai/featureform/datasets-and-transformations" >}})
-  - [Features and labels]({{< relref "/develop/ai/featureform/features-and-labels" >}})
-  - [Training sets and feature views]({{< relref "/develop/ai/featureform/training-sets-and-feature-views" >}})
-  - [Streaming features]({{< relref "/develop/ai/featureform/streaming" >}})
 - Added [n8n vector store integration]({{< relref "/integrate/n8n-vector-store" >}})
 - Updated [RedisVL 0.7.0 documentation]({{< relref "/develop/ai/redisvl/0.7.0" >}})
 - Updated [RedisVL 0.9.1 documentation]({{< relref "/develop/ai/redisvl/0.9.1" >}})
