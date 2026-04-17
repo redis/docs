@@ -20,6 +20,8 @@
 {{- $content = partial "markdown-embed-md.html" (dict "RawContent" $content "Page" .Page "Visited" $visited) -}}
 {{- /* Split wide table-scrollable blocks for AI-facing Markdown output only. */ -}}
 {{- $content = partial "markdown-scrollable-tables.html" (dict "RawContent" $content) -}}
+{{- /* Trim opt-in long blocks for AI-facing Markdown output only. */ -}}
+{{- $content = partial "markdown-trimmable.html" (dict "RawContent" $content) -}}
 
 {{- /* Add legend for code examples at the beginning if content contains clients-example shortcodes */ -}}
 {{- if findRE "clients-example" $content -}}
