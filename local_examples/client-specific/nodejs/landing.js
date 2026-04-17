@@ -1,5 +1,6 @@
 // EXAMPLE: landing
 // BINDER_ID nodejs-landing
+// KERNEL_NAME javascript
 // STEP_START connect
 import { createClient } from 'redis';
 
@@ -26,14 +27,6 @@ await client.hSet('user-session:123', {
 
 let userSession = await client.hGetAll('user-session:123');
 console.log(JSON.stringify(userSession, null, 2));
-/* >>>
-{
-  "surname": "Smith",
-  "name": "John",
-  "company": "Redis",
-  "age": "29"
-}
- */
 // STEP_END
 
 // STEP_START close
