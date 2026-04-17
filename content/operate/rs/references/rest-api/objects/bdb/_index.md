@@ -143,6 +143,7 @@ An API object that represents a managed database in the cluster.
 | <span class="break-all">replica_sync_connection_alarm_timeout_seconds</span> | integer (default: 0); If the syncer takes longer than the specified number of seconds to connect to a replica, raise a connection alarm |
 | replica_sync_dist | boolean; Enable/disable distributed syncer in replica-of |
 | replication | boolean (default:&nbsp;false); In-memory database replication mode |
+| replication_oom_threshold_percent | integer, (range: 0-20) (default: 5); Reserved memory buffer percentage below `maxmemory` that blocks client writes while allowing Active-Active replication. CRDT only, requires Redis 8.4+. |
 | resp3 | boolean (default:&nbsp;true); Enables or deactivates RESP3 support |
 | roles_permissions | {{<code>}}[{<br />  "role_uid": integer,<br />  "redis_acl_uid": integer<br />}, ...]{{</code>}} |
 | sched_policy | Controls how server-side connections are used when forwarding traffic to shards.<br />Values:<br />**cmp**: Closest to max_pipelined policy. Pick the connection with the most pipelined commands that has not reached the max_pipelined limit.<br />**mru**: Try to use most recently used connections.<br />**spread**: Try to use all connections.<br />**mnp**: Minimal pipeline policy. Pick the connection with the least pipelined commands. |
