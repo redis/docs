@@ -1,1 +1,21 @@
-{{ .Inner | markdownify }}
+{{ $trimmedInner := trim .Inner " \t\n\r" }}
+{{ if and (gt (len $trimmedInner) 0) (eq (slicestr $trimmedInner 0 1) "<") }}
+  {{ .Scratch.Set "content" .Inner }}
+{{ else }}
+  {{ .Scratch.Set "content" (.Inner | markdownify) }}
+{{ end }}
+{{ $inner := .Scratch.Get "content" }}
+{{ $counter := add (.Page.Scratch.Get "trimmable_counter" | default 0) 1 }}
+{{ .Page.Scratch.Set "trimmable_counter" $counter }}
+{{ $toggleId := printf "trimmable-%s-%d" .Page.File.UniqueID $counter }}
+
+<div class="trimmable-block my-4">
+  <input class="trimmable-input sr-only" id="{{ $toggleId }}" type="checkbox">
+  <div class="trimmable-content">
+    {{ $inner }}
+  </div>
+  <label class="trimmable-toggle" for="{{ $toggleId }}">
+    <span class="trimmable-label-more">Show full output</span>
+    <span class="trimmable-label-less">Hide full output</span>
+  </label>
+</div>
