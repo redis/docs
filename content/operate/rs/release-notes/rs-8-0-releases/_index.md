@@ -234,6 +234,8 @@ The following table provides a snapshot of supported platforms as of this Redis 
     
     See [Create certificates]({{<relref "/operate/rs/security/certificates/create-certificates">}}) and [Update certificates]({{<relref "/operate/rs/security/certificates/updating-certificates">}}) for more detailed instructions.
 
+    This issue was fixed in Redis Software version 8.0.18.
+
 - RS180550: You cannot set up SSO when the Cluster Manager UI is exposed through an IPv6-based load balancer or gateway.
 
     As a workaround, use an IPv4-based address for the SSO service base address, or register a DNS name that resolves to the IPv6 address.
