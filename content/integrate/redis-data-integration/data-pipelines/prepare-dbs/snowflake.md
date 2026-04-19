@@ -16,12 +16,12 @@ weight: 20
 ---
 
 This guide describes the steps required to prepare a Snowflake database as a source for Redis Data Integration (RDI) pipelines.
- 
-During the [snapshot]({{< relref "/integrate/redis-data-integration/data-pipelines#pipeline-lifecycle" >}}) phase, RDI reads the current state of the database using the JDBC driver. In the 
+
+During both the [snapshot]({{< relref "/integrate/redis-data-integration/data-pipelines#pipeline-lifecycle" >}}) and
 [Change data capture (CDC)]({{< relref "/integrate/redis-data-integration/data-pipelines#pipeline-lifecycle" >}})
-phase, RDI uses [Snowflake Streams](https://docs.snowflake.com/en/user-guide/streams) to 
-capture changes related to the monitored tables. Note that RDI will automatically create and manage
-the required streams.
+phases, RDI uses [Snowflake Streams](https://docs.snowflake.com/en/user-guide/streams) to read data from the monitored
+tables. For the initial snapshot, RDI creates the stream with `SHOW_INITIAL_ROWS = TRUE` so it can read the current
+table contents before continuing with ongoing CDC. RDI automatically creates and manages the required streams.
 
 ## Setup
 
@@ -43,19 +43,25 @@ Snowflake is only supported with RDI deployed on Kubernetes/Helm. RDI VM mode do
 
 ## 1. Set up Snowflake permissions
 
-The RDI user requires the following permissions to connect and capture data from Snowflake:
+The RDI user requires permissions to read the source tables and to create the Snowflake objects RDI uses for CDC:
 
-- `SELECT` on source tables
-- `CREATE STREAM` permission (RDI automatically creates and manages Snowflake Streams for CDC)
-- `USAGE` permission on the warehouse for query execution
+- `USAGE`, `OPERATE` on the warehouse used for RDI reads
+- `USAGE` on the source database and source schema
+- `SELECT` on the source tables
+- `USAGE` on the CDC schema used by RDI
+- `CREATE STREAM`, `CREATE TABLE` on the CDC schema used by RDI
+
+If you configure `cdcDatabase` and `cdcSchema`, grant the CDC permissions there. Otherwise, grant them in the source
+schema. If your Snowflake setup requires it, also grant any additional cross-database privileges needed for the CDC
+schema to reference the source tables.
 
 Grant the required permissions to your RDI user:
 
 ```sql
 -- Grant usage on the warehouse
-GRANT USAGE ON WAREHOUSE COMPUTE_WH TO ROLE rdi_role;
+GRANT USAGE, OPERATE ON WAREHOUSE COMPUTE_WH TO ROLE rdi_role;
 
--- Grant usage on the database and schema
+-- Grant usage on the source database and schema
 GRANT USAGE ON DATABASE MYDB TO ROLE rdi_role;
 GRANT USAGE ON SCHEMA MYDB.PUBLIC TO ROLE rdi_role;
 
@@ -63,8 +69,9 @@ GRANT USAGE ON SCHEMA MYDB.PUBLIC TO ROLE rdi_role;
 GRANT SELECT ON TABLE MYDB.PUBLIC.customers TO ROLE rdi_role;
 GRANT SELECT ON TABLE MYDB.PUBLIC.orders TO ROLE rdi_role;
 
--- Grant CREATE STREAM permission for CDC
-GRANT CREATE STREAM ON SCHEMA MYDB.PUBLIC TO ROLE rdi_role;
+-- Grant permissions on the schema RDI uses for CDC objects
+GRANT USAGE ON SCHEMA MYDB.RDI_CDC TO ROLE rdi_role;
+GRANT CREATE STREAM, CREATE TABLE ON SCHEMA MYDB.RDI_CDC TO ROLE rdi_role;
 
 -- Assign the role to your RDI user
 GRANT ROLE rdi_role TO USER rdi_user;
@@ -77,6 +84,13 @@ RDI supports two authentication methods for Snowflake. You must configure one of
 ### Password authentication
 
 Use standard username and password credentials. Store these securely using Kubernetes secrets (see step 3).
+
+{{< note >}}
+Many Snowflake accounts require MFA for password-based sign-ins. If you want to use password authentication for RDI,
+configure the Snowflake user as a service user that is allowed to authenticate non-interactively. Otherwise, use
+private key authentication instead. For more information, see the Snowflake
+[MFA rollout documentation](https://docs.snowflake.com/en/user-guide/security-mfa-rollout).
+{{< /note >}}
 
 ### Private key authentication
 
@@ -142,22 +156,26 @@ sources:
     connection:
       type: snowflake
       url: "jdbc:snowflake://myaccount.snowflakecomputing.com/"
-      username: "${SOURCE_DB_USERNAME}"
+      user: "${SOURCE_DB_USERNAME}"
       password: "${SOURCE_DB_PASSWORD}"  # Omit for key-pair auth
       database: "MYDB"
-      schema: "PUBLIC"
       warehouse: "COMPUTE_WH"
       # role: "RDI_ROLE"                 # Optional: Snowflake role
       # cdcDatabase: "CDC_DB"            # Optional: Separate database for CDC streams
       # cdcSchema: "CDC_SCHEMA"          # Optional: Separate schema for CDC streams
+    schemas:
+      - PUBLIC
     tables:
-      customers: {}
-      orders: {}
+      PUBLIC.customers: {}
+      PUBLIC.orders: {}
     advanced:
       riotx:
         poll: "30s"
         snapshot: "INITIAL"              # Or "NEVER" to skip initial snapshot
+        # streamPrefix: "data:"          # Optional: Redis stream prefix
         # streamLimit: 100000            # Optional: Max stream length
+        # keyColumns:                    # Recommended: stable key columns
+        #   - "id"
         # clearOffset: false             # Optional: Clear offset on start
 
 targets:
@@ -174,7 +192,9 @@ processors:
 ```
 
 {{< note >}}
-The Snowflake connector supports connecting to exactly one database and schema. All table names in the `tables` section are assumed to be in the configured database and schema.
+Snowflake uses one configured `database` and one or more source-level `schemas`. In the `tables` section, specify each
+table as `SCHEMA.table`. Even when you configure only one schema, explicit `SCHEMA.table` names are recommended for
+clarity.
 {{< /note >}}
 
 ### Snowflake connection properties
@@ -183,10 +203,9 @@ The Snowflake connector supports connecting to exactly one database and schema. 
 |---------------|--------|----------|----------------------------------------------------------------|
 | `type`        | string | Yes      | Must be `"snowflake"`                                          |
 | `url`         | string | Yes      | JDBC URL: `jdbc:snowflake://<account>.snowflakecomputing.com/` |
-| `username`    | string | Yes      | Snowflake username                                             |
+| `user`        | string | Yes      | Snowflake user                                                 |
 | `password`    | string | No*      | Snowflake password                                             |
 | `database`    | string | Yes      | Snowflake database name                                        |
-| `schema`      | string | Yes      | Snowflake schema name                                          |
 | `warehouse`   | string | Yes      | Snowflake warehouse name                                       |
 | `role`        | string | No       | Snowflake role name                                            |
 | `cdcDatabase` | string | No       | Database for CDC streams (if different from source)            |
@@ -194,18 +213,28 @@ The Snowflake connector supports connecting to exactly one database and schema. 
 
 * Either `password` or private key authentication is required. See [Configure authentication](#2-configure-authentication) for details.
 
+### Snowflake source properties
+
+| Property   | Type   | Required | Description                                                      |
+|------------|--------|----------|------------------------------------------------------------------|
+| `schemas`  | array  | Yes      | Schema names to capture from                                     |
+| `tables`   | object | Yes      | Tables to capture, keyed as `SCHEMA.table`                       |
+
 ### Advanced configuration options
 
 Configure under `sources.<name>.advanced.riotx`:
 
-| Property      | Type    | Default     | Description                            |
-|---------------|---------|-------------|----------------------------------------|
-| `poll`        | string  | `"30s"`     | Polling interval for stream changes    |
-| `snapshot`    | string  | `"INITIAL"` | Snapshot mode: `INITIAL` or `NEVER`    |
-| `streamLimit` | integer | -           | Maximum stream length (XTRIM MAXLEN)   |
-| `keyColumns`  | array   | -           | Columns to use as message keys         |
-| `clearOffset` | boolean | `false`     | Clear existing offset on start         |
-| `count`       | integer | `0`         | Limit records per poll (0 = unlimited) |
+| Property       | Type    | Default     | Description                                  |
+|----------------|---------|-------------|----------------------------------------------|
+| `poll`         | string  | `"30s"`     | Polling interval for stream changes          |
+| `snapshot`     | string  | `"INITIAL"` | Snapshot mode: `INITIAL` or `NEVER`          |
+| `streamPrefix` | string  | `"data:"`   | Prefix for the Redis stream written by RDI   |
+| `streamLimit`  | integer | -           | Maximum stream length (XTRIM MAXLEN)         |
+| `keyColumns`   | array   | -           | Stable source columns to use as message keys |
+| `clearOffset`  | boolean | `false`     | Clear existing offset on start               |
+| `count`        | integer | `0`         | Limit records per poll (0 = unlimited)       |
+
+For reliable update and delete handling, define `keyColumns` with a stable business key or surrogate key when possible.
 
 ## Troubleshooting
 
@@ -233,10 +262,10 @@ Configure under `sources.<name>.advanced.riotx`:
 
 **No data appearing in Redis**
 
-1. Verify Snowflake Streams exist for target tables:
+1. Verify Snowflake Streams exist in the CDC schema:
 
     ```sql
-    SHOW STREAMS IN SCHEMA my_database.my_schema;
+    SHOW STREAMS IN SCHEMA my_cdc_database.my_cdc_schema;
     ```
 
 1. Check the polling interval configuration
@@ -244,21 +273,24 @@ Configure under `sources.<name>.advanced.riotx`:
 1. Check the collector logs:
 
     ```bash
-    kubectl logs -n rdi -l app=riotx-collector-source
+    kubectl get deployments -n rdi | grep riotx-collector
+    kubectl logs -n rdi deployment/<riotx-collector-deployment>
     ```
 
 **Stale or missing changes**
 
-- Snowflake Streams have a retention period (default 14 days)
-- If the collector was offline longer than retention, changes may be lost
+- Snowflake Streams depend on Snowflake change tracking and retention settings
+- If the collector was offline longer than the available retention window, changes may be lost
 - Consider using `clearOffset: true` to restart from current state
 
 ### Performance tuning
 
-**High Snowflake API usage**
+**High Snowflake warehouse usage**
 
 - Increase `poll` interval (e.g., `"60s"` or `"120s"`)
 - Use a dedicated warehouse for CDC operations
+- Each poll first calls Snowflake's `SYSTEM$STREAM_HAS_DATA` function to check whether the stream has new data. This
+  check does not start the warehouse; warehouse compute starts only when RDI reads rows from the stream.
 
 **Redis memory concerns**
 
@@ -286,7 +318,8 @@ sources:
 View collector logs:
 
 ```bash
-kubectl logs -n rdi -l app=riotx-collector-source -f
+kubectl get deployments -n rdi | grep riotx-collector
+kubectl logs -n rdi deployment/<riotx-collector-deployment> -f
 ```
 
 ## 5. Configuration is complete
@@ -297,5 +330,5 @@ Once you have followed the steps above, your Snowflake database is ready for RDI
 
 - [Snowflake Streams Documentation](https://docs.snowflake.com/en/user-guide/streams)
 - [Snowflake Key Pair Authentication](https://docs.snowflake.com/en/user-guide/key-pair-auth)
+- [Snowflake MFA rollout documentation](https://docs.snowflake.com/en/user-guide/security-mfa-rollout)
 - [RDI Deployment Guide]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
-
