@@ -43,7 +43,8 @@ Snowflake is only supported with RDI deployed on Kubernetes/Helm. RDI VM mode do
 
 ## 1. Set up Snowflake permissions
 
-The RDI user requires permissions to read the source tables and to create the Snowflake objects RDI uses for CDC:
+The following are the minimum runtime permissions for the RDI role to read the source tables and create the Snowflake
+objects RDI uses for CDC:
 
 - `USAGE`, `OPERATE` on the warehouse used for RDI reads
 - `USAGE` on the source database and source schema
@@ -54,6 +55,17 @@ The RDI user requires permissions to read the source tables and to create the Sn
 If you configure `cdcDatabase` and `cdcSchema`, grant the CDC permissions there. Otherwise, grant them in the source
 schema. If your Snowflake setup requires it, also grant any additional cross-database privileges needed for the CDC
 schema to reference the source tables.
+
+{{< note >}}
+Before RDI can create the initial stream for a source table, Snowflake change tracking must already be enabled on that
+table, or the role creating the initial stream must own the table. If the source tables are not owned by the RDI role,
+ask a Snowflake administrator or table owner to enable change tracking first:
+
+```sql
+ALTER TABLE MYDB.PUBLIC.customers SET CHANGE_TRACKING = TRUE;
+ALTER TABLE MYDB.PUBLIC.orders SET CHANGE_TRACKING = TRUE;
+```
+{{< /note >}}
 
 Grant the required permissions to your RDI user:
 
@@ -75,6 +87,15 @@ GRANT CREATE STREAM, CREATE TABLE ON SCHEMA MYDB.RDI_CDC TO ROLE rdi_role;
 
 -- Assign the role to your RDI user
 GRANT ROLE rdi_role TO USER rdi_user;
+```
+
+If you use centralized grant management, you can also add future grants in the CDC schema so newly created tables and
+streams automatically receive the desired privileges. These grants are optional and are not part of the minimum runtime
+permissions:
+
+```sql
+GRANT SELECT ON FUTURE TABLES IN SCHEMA MYDB.RDI_CDC TO ROLE rdi_role;
+GRANT SELECT ON FUTURE STREAMS IN SCHEMA MYDB.RDI_CDC TO ROLE rdi_role;
 ```
 
 ## 2. Configure authentication
