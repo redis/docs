@@ -57,9 +57,13 @@ schema. If your Snowflake setup requires it, also grant any additional cross-dat
 schema to reference the source tables.
 
 {{< note >}}
-Before RDI can create the initial stream for a source table, Snowflake change tracking must already be enabled on that
-table, or the role creating the initial stream must own the table. If the source tables are not owned by the RDI role,
-ask a Snowflake administrator or table owner to enable change tracking first:
+RDI manages the Snowflake streams it uses for snapshot and CDC. The collector creates the stream in the configured CDC
+schema and later issues `CREATE OR REPLACE STREAM` statements to keep the stream aligned with the expected offset, so
+the RDI role must be able to create and own those stream objects in the CDC schema.
+
+There is one stricter bootstrap requirement for the first stream created on a source table: if Snowflake change
+tracking is not already enabled on that table, only the table owner can create that initial stream. If the source
+tables are not owned by the RDI role, ask a Snowflake administrator or table owner to enable change tracking first:
 
 ```sql
 ALTER TABLE MYDB.PUBLIC.customers SET CHANGE_TRACKING = TRUE;
