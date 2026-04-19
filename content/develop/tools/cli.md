@@ -964,7 +964,7 @@ The program shows stats every second. In the first seconds the cache starts to b
     127000 Gets/sec | Hits: 50870 (40.06%) | Misses: 76130 (59.94%)
     124250 Gets/sec | Hits: 50147 (40.36%) | Misses: 74103 (59.64%)
 
-A miss rate of 59% may not be acceptable for certain use cases therefor
+A miss rate of 59% may not be acceptable for certain use cases; therefore,
 100MB of memory is not enough. Observe an example using a half gigabyte of memory. After several
 minutes the output stabilizes to the following figures:
 
