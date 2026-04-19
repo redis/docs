@@ -11,6 +11,7 @@ group: di
 linkTitle: Prepare Snowflake
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
+bannerText: Snowflake source support for Redis Data Integration is currently in private preview. Features and behavior are subject to change. General private preview terms apply.
 type: integration
 weight: 20
 ---
