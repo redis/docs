@@ -135,7 +135,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td>clusterCredentialSecretName</td>
         <td>string</td>
         <td>
-          Name or path of the secret containing cluster credentials. Defaults to the cluster name if left blank. This field can only be set upon cluster creation and cannot be changed afterward. For For Kubernetes secrets (default): Can be customized to any valid secret name, or left blank to use the cluster name. The secret can be pre-created with 'username' and 'password' fields, or otherwise it will be automatically created with a default username and auto-generated password. For Vault secrets:  Can be customized with the path of the secret within Vault. The secret must be pre-created in Vault before REC creation.<br/>
+          Name or path of the secret containing cluster credentials. Defaults to the cluster name if left blank. For Kubernetes secrets (default): Can be customized to any valid secret name, or left blank to use the cluster name. The secret can be pre-created with 'username' and 'password' fields, or otherwise it will be automatically created with a default username and auto-generated password. On running clusters, this field can be changed to point to a different existing secret. The new secret must exist, contain valid 'username' and 'password' fields, and the credentials must work with the RS cluster. For Vault secrets: Can be customized with the path of the secret within Vault. The secret must be pre-created in Vault.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -249,7 +249,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td>nodeSelector</td>
         <td>map[string]string</td>
         <td>
-          Selector for nodes that could fit Redis Enterprise pod<br/>
+          Node selector for scheduling pods on specific nodes. This applies to all pods managed by the operator: Redis Enterprise nodes, Services Rigger, and Call Home Client.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -335,7 +335,11 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td><a href="#specredisenterpriseadditionalpodspecattributes">redisEnterpriseAdditionalPodSpecAttributes</a></td>
         <td>object</td>
         <td>
-          ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required for the statefulset - Redis Enterprise pods. Pod attributes managed by the operator might override these settings. Also make sure the attributes are supported by the K8s version running on the cluster - the operator does not validate that.<br/>
+          ADVANCED USAGE USE AT YOUR OWN RISK -
+specify pod attributes that are required for the statefulset - Redis Enterprise pods.
+Pod attributes managed by the operator might override these settings.
+Also make sure the attributes are supported by the K8s version running on the cluster -
+the operator does not validate that.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -859,70 +863,70 @@ RS Cluster Certificates. Used to modify the certificates used by the cluster. Se
         <td>apiCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's API certificate. The secret must contain the following structure - A key 'name' with the value 'api'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used.<br/>
+          Secret name to use for cluster's API certificate. The secret must have the following keys - A key named 'certificate'/'cert'/'tls.crt' with the value of the certificate in PEM format. A key named 'key'/'tls.key' with the value of the private key. Optionally, a key named 'ca.crt', containing the public certificate of the root CA. If present, the root CA certificate is appended to the certificate provided in the 'tls.crt' (or equivalent) key, to form a full certificate chain. Otherwise, the certificate in 'tls.crt' must include a full certificate chain inline. This key is typically populated by the cert-manager when it has access to the root certificate. Otherwise, it could be added manually. If left blank, a cluster-provided certificate will be used.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>cmCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's CM (Cluster Manager) certificate. The secret must contain the following structure - A key 'name' with the value 'cm'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used.<br/>
+          Secret name to use for cluster's CM (Cluster Manager) certificate. The secret must have the following keys - A key named 'certificate'/'cert'/'tls.crt' with the value of the certificate in PEM format. A key named 'key'/'tls.key' with the value of the private key. Optionally, a key named 'ca.crt', containing the public certificate of the root CA. If present, the root CA certificate is appended to the certificate provided in the 'tls.crt' (or equivalent) key, to form a full certificate chain. Otherwise, the certificate in 'tls.crt' must include a full certificate chain inline. This key is typically populated by the cert-manager when it has access to the root certificate. Otherwise, it could be added manually. If left blank, a cluster-provided certificate will be used.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>cpInternodeEncryptionCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's Control Plane Internode Encryption (CPINE) certificate. The secret must contain the following structure - A key 'name' with the value 'ccs_internode_encryption'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used.<br/>
+          Secret name to use for cluster's Control Plane Internode Encryption (CPINE) certificate. The secret must have the following keys - A key named 'certificate'/'cert'/'tls.crt' with the value of the certificate in PEM format. A key named 'key'/'tls.key' with the value of the private key. Optionally, a key named 'ca.crt', containing the public certificate of the root CA. If present, the root CA certificate is appended to the certificate provided in the 'tls.crt' (or equivalent) key, to form a full certificate chain. Otherwise, the certificate in 'tls.crt' must include a full certificate chain inline. This key is typically populated by the cert-manager when it has access to the root certificate. Otherwise, it could be added manually. If left blank, a cluster-provided certificate will be used.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>dpInternodeEncryptionCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's Data Plane Internode Encryption (DPINE) certificate. The secret must contain the following structure - A key 'name' with the value 'data_internode_encryption'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used.<br/>
+          Secret name to use for cluster's Data Plane Internode Encryption (DPINE) certificate. The secret must have the following keys - A key named 'certificate'/'cert'/'tls.crt' with the value of the certificate in PEM format. A key named 'key'/'tls.key' with the value of the private key. Optionally, a key named 'ca.crt', containing the public certificate of the root CA. If present, the root CA certificate is appended to the certificate provided in the 'tls.crt' (or equivalent) key, to form a full certificate chain. Otherwise, the certificate in 'tls.crt' must include a full certificate chain inline. This key is typically populated by the cert-manager when it has access to the root certificate. Otherwise, it could be added manually. If left blank, a cluster-provided certificate will be used.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>ldapClientCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's LDAP client certificate. The secret must contain the following structure - A key 'name' with the value 'ldap_client'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, LDAP client certificate authentication will be disabled.<br/>
+          Secret name to use for cluster's LDAP client certificate. The secret must have the following keys - A key named 'certificate'/'cert'/'tls.crt' with the value of the certificate in PEM format. A key named 'key'/'tls.key' with the value of the private key. Optionally, a key named 'ca.crt', containing the public certificate of the root CA. If present, the root CA certificate is appended to the certificate provided in the 'tls.crt' (or equivalent) key, to form a full certificate chain. Otherwise, the certificate in 'tls.crt' must include a full certificate chain inline. This key is typically populated by the cert-manager when it has access to the root certificate. Otherwise, it could be added manually. If left blank, LDAP client certificate authentication will be disabled.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>metricsExporterCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's Metrics Exporter certificate. The secret must contain the following structure - A key 'name' with the value 'metrics_exporter'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used.<br/>
+          Secret name to use for cluster's Metrics Exporter certificate. The secret must have the following keys - A key named 'certificate'/'cert'/'tls.crt' with the value of the certificate in PEM format. A key named 'key'/'tls.key' with the value of the private key. Optionally, a key named 'ca.crt', containing the public certificate of the root CA. If present, the root CA certificate is appended to the certificate provided in the 'tls.crt' (or equivalent) key, to form a full certificate chain. Otherwise, the certificate in 'tls.crt' must include a full certificate chain inline. This key is typically populated by the cert-manager when it has access to the root certificate. Otherwise, it could be added manually. If left blank, a cluster-provided certificate will be used.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>proxyCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's Proxy certificate. The secret must contain the following structure - A key 'name' with the value 'proxy'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used. Note: For Active-Active databases (REAADB), certificate updates are automatically reconciled. When you update this secret, the operator detects the change and automatically executes a CRDB force update (equivalent to 'crdb-cli crdb update --force'), which synchronizes the certificate changes to all participating clusters, eliminating the need for manual intervention.<br/>
+          Secret name to use for cluster's Proxy certificate. The secret must have the following keys - A key named 'certificate'/'cert'/'tls.crt' with the value of the certificate in PEM format. A key named 'key'/'tls.key' with the value of the private key. Optionally, a key named 'ca.crt', containing the public certificate of the root CA. If present, the root CA certificate is appended to the certificate provided in the 'tls.crt' (or equivalent) key, to form a full certificate chain. Otherwise, the certificate in 'tls.crt' must include a full certificate chain inline. This key is typically populated by the cert-manager when it has access to the root certificate. Otherwise, it could be added manually. If left blank, a cluster-provided certificate will be used. Note - For Active-Active databases (REAADB), certificate updates are automatically reconciled. When you update this secret, the operator detects the change and automatically executes a CRDB force update (equivalent to 'crdb-cli crdb update --force'), which synchronizes the certificate changes to all participating clusters, eliminating the need for manual intervention.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>ssoIssuerCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for the SSO Identity Provider (IdP) certificate. This is the public certificate from your SAML Identity Provider used to verify SAML assertions. The secret must contain 'name' and 'certificate' fields (no 'key' field needed for IdP cert). This is optional - if using IdP metadata XML, the IdP certificate is included in the metadata.<br/>
+          Secret name to use for the SSO Identity Provider (IdP) certificate. This is the public certificate from your SAML Identity Provider used to verify SAML assertions. The secret must contain a single field named 'certificate'/'cert'/'tls.crt' (no 'key' field needed for IdP cert). This certificate must be configured as part of the SSO setup, before SSO can be enabled for the cluster. Note - While IdP metadata XML may contain the certificate, Redis Enterprise Server does not use it from there, so the certificate must be provided separately via this secret.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>ssoServiceCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's SSO service certificate. Used for SAML-based SSO authentication to the Cluster Manager. The secret must contain 'name', 'certificate', and 'key' fields (same format as other cluster certificates). If left blank, SSO will not be configured.<br/>
+          Secret name to use for the SSO Service Provider (SP) certificate. This certificate is used by the cluster to sign SAML requests and encrypt SAML responses, and it must be configured as part of the SSO setup, before SSO can be enabled for the cluster. The secret must have the following keys - A key named 'certificate'/'cert'/'tls.crt' with the value of the certificate in PEM format. A key named 'key'/'tls.key' with the value of the private key. Optionally, a key named 'ca.crt', containing the public certificate of the root CA. If present, the root CA certificate is appended to the certificate provided in the 'tls.crt' (or equivalent) key, to form a full certificate chain. Otherwise, the certificate in 'tls.crt' must include a full certificate chain inline. This key is typically populated by the cert-manager when it has access to the root certificate. Otherwise, it could be added manually. If left blank, SSO will not be configured.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>syncerCertificateSecretName</td>
         <td>string</td>
         <td>
-          Secret name to use for cluster's Syncer certificate. The secret must contain the following structure - A key 'name' with the value 'syncer'. - A key 'certificate' with the value of the certificate in PEM format. - A key 'key' with the value of the private key. If left blank, a cluster-provided certificate will be used. Note: For Active-Active databases (REAADB), certificate updates are automatically reconciled. When you update this secret, the operator detects the change and automatically executes a CRDB force update (equivalent to 'crdb-cli crdb update --force'), which synchronizes the certificate changes to all participating clusters, eliminating the need for manual intervention.<br/>
+          Secret name to use for cluster's Syncer certificate. The secret must have the following keys - A key named 'certificate'/'cert'/'tls.crt' with the value of the certificate in PEM format. A key named 'key'/'tls.key' with the value of the private key. Optionally, a key named 'ca.crt', containing the public certificate of the root CA. If present, the root CA certificate is appended to the certificate provided in the 'tls.crt' (or equivalent) key, to form a full certificate chain. Otherwise, the certificate in 'tls.crt' must include a full certificate chain inline. This key is typically populated by the cert-manager when it has access to the root certificate. Otherwise, it could be added manually. If left blank, a cluster-provided certificate will be used. Note - For Active-Active databases (REAADB), certificate updates are automatically reconciled. When you update this secret, the operator detects the change and automatically executes a CRDB force update (equivalent to 'crdb-cli crdb update --force'), which synchronizes the certificate changes to all participating clusters, eliminating the need for manual intervention.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -1143,6 +1147,29 @@ Cluster-level LDAP configuration, such as server addresses, protocol, authentica
         <td>integer</td>
         <td>
           The maximum TTL of cached entries.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>cba</td>
+        <td>boolean</td>
+        <td>
+          Whether to allow LDAP as an identity source for certificate-based authentication. Disabled by default.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>cbaIdentityOid</td>
+        <td>string</td>
+        <td>
+          The certificate subject OID to use when CBA identity source is set to SubjectOID.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>cbaIdentitySource</td>
+        <td>enum</td>
+        <td>
+          The certificate subject identity source to use for LDAP lookup. Applicable only when CBA is enabled. One of SubjectCN, SubjectOID.<br/>
+          <br/>
+            <i>Enum</i>: SubjectCN, SubjectOID<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -1673,7 +1700,11 @@ Mitigation setting for STS pods stuck in "ContainerCreating"
 ### spec.redisEnterpriseAdditionalPodSpecAttributes
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
-ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required for the statefulset - Redis Enterprise pods. Pod attributes managed by the operator might override these settings. Also make sure the attributes are supported by the K8s version running on the cluster - the operator does not validate that.
+ADVANCED USAGE USE AT YOUR OWN RISK -
+specify pod attributes that are required for the statefulset - Redis Enterprise pods.
+Pod attributes managed by the operator might override these settings.
+Also make sure the attributes are supported by the K8s version running on the cluster -
+the operator does not validate that.
 
 <table>
     <thead>
@@ -1778,6 +1809,13 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
+        <td>hostnameOverride</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td><a href="#specredisenterpriseadditionalpodspecattributesimagepullsecrets">imagePullSecrets</a></td>
         <td>[]object</td>
         <td>
@@ -1852,6 +1890,13 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
       </tr><tr>
         <td><a href="#specredisenterpriseadditionalpodspecattributesresourceclaims">resourceClaims</a></td>
         <td>[]object</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesresources">resources</a></td>
+        <td>object</td>
         <td>
           <br/>
         </td>
@@ -1952,6 +1997,13 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
       </tr><tr>
         <td><a href="#specredisenterpriseadditionalpodspecattributesvolumes">volumes</a></td>
         <td>[]object</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesworkloadref">workloadRef</a></td>
+        <td>object</td>
         <td>
           <br/>
         </td>
@@ -2726,7 +2778,12 @@ Specification for service rigger
         <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributes">servicesRiggerAdditionalPodSpecAttributes</a></td>
         <td>object</td>
         <td>
-          ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required for the rigger deployment pod. Pod attributes managed by the operator might override these settings (Containers, serviceAccountName, podTolerations, ImagePullSecrets, nodeSelector, PriorityClassName, PodSecurityContext). Also make sure the attributes are supported by the K8s version running on the cluster - the operator does not validate that.<br/>
+          ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required for the rigger deployment pod.
+Pod attributes managed by the operator might override these settings (Containers, serviceAccountName,
+ImagePullSecrets, nodeSelector, PriorityClassName, PodSecurityContext).
+podTolerations are merged with tolerations defined here.
+Also make sure the attributes are supported by the K8s version running on the cluster -
+the operator does not validate that.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -2970,7 +3027,12 @@ Selects a key of a secret in the pod's namespace
 ### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes
 <sup><sup>[↩ Parent](#specservicesriggerspec)</sup></sup>
 
-ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required for the rigger deployment pod. Pod attributes managed by the operator might override these settings (Containers, serviceAccountName, podTolerations, ImagePullSecrets, nodeSelector, PriorityClassName, PodSecurityContext). Also make sure the attributes are supported by the K8s version running on the cluster - the operator does not validate that.
+ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required for the rigger deployment pod.
+Pod attributes managed by the operator might override these settings (Containers, serviceAccountName,
+ImagePullSecrets, nodeSelector, PriorityClassName, PodSecurityContext).
+podTolerations are merged with tolerations defined here.
+Also make sure the attributes are supported by the K8s version running on the cluster -
+the operator does not validate that.
 
 <table>
     <thead>
@@ -3075,6 +3137,13 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
+        <td>hostnameOverride</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesimagepullsecrets">imagePullSecrets</a></td>
         <td>[]object</td>
         <td>
@@ -3149,6 +3218,13 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
       </tr><tr>
         <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesresourceclaims">resourceClaims</a></td>
         <td>[]object</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesresources">resources</a></td>
+        <td>object</td>
         <td>
           <br/>
         </td>
@@ -3249,6 +3325,13 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
       </tr><tr>
         <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes">volumes</a></td>
         <td>[]object</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesworkloadref">workloadRef</a></td>
+        <td>object</td>
         <td>
           <br/>
         </td>
@@ -3670,6 +3753,13 @@ The configuration of the usage meter.
         </tr>
     </thead>
     <tbody><tr>
+        <td>cronExpression</td>
+        <td>string</td>
+        <td>
+          Cron expression for scheduling the call home CronJob (e.g., "0 */6 * * *"). If not specified, the CALL_HOME_CLIENT_CRON_SCHEDULE environment variable is used, or the default value of "0 23 * * *" (23:00 UTC daily). Changing defaults is not recommended.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>disabled</td>
         <td>boolean</td>
         <td>
@@ -3684,6 +3774,13 @@ The configuration of the usage meter.
         </td>
         <td>false</td>
       </tr><tr>
+        <td>interval</td>
+        <td>string</td>
+        <td>
+          Interval between call home reports (e.g., "1h", "30m"). Passed as --interval flag to the call home client binary. If not specified, the CALL_HOME_CLIENT_INTERVAL environment variable is used, or the default value of 24h. Changing defaults is not recommended.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>proxySecretName</td>
         <td>string</td>
         <td>
@@ -3695,6 +3792,13 @@ The configuration of the usage meter.
         <td>object</td>
         <td>
           Compute resource requirements for Call Home Client pod<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specusagemetercallhomeclients3target">s3Target</a></td>
+        <td>object</td>
+        <td>
+          S3-compatible storage target for call home data upload. When enabled, call home data will be uploaded to this S3 target only. Before using this feature, please coordinate with Redis.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -3809,6 +3913,73 @@ ResourceClaim references one entry in PodSpec.ResourceClaims.
           Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.<br/>
         </td>
         <td>true</td>
+      </tr></tbody>
+</table>
+
+
+### spec.usageMeter.callHomeClient.s3Target
+<sup><sup>[↩ Parent](#specusagemetercallhomeclient)</sup></sup>
+
+S3-compatible storage target for call home data upload. When enabled, call home data will be uploaded to this S3 target only. Before using this feature, please coordinate with Redis.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>bucket</td>
+        <td>string</td>
+        <td>
+          S3 bucket name. Required when S3Target is enabled.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>credentialsSecretName</td>
+        <td>string</td>
+        <td>
+          Name of the Kubernetes secret containing S3 credentials. The secret must contain keys "access-key" and "secret-key". Optional keys - "session-token" (for AWS STS), "ca-cert" (for custom CA). The credentials must have s3:PutObject permission on the target bucket.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Whether S3 upload is enabled. When true, call home data will be uploaded to the specified S3 target only.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>endpoint</td>
+        <td>string</td>
+        <td>
+          S3-compatible endpoint URL.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>prefix</td>
+        <td>string</td>
+        <td>
+          S3 object key prefix/subfolder for uploaded files (e.g., "reports/2025"). If specified, files will be uploaded to s3://bucket/prefix/filename.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>region</td>
+        <td>string</td>
+        <td>
+          AWS region for the S3 bucket (e.g., "us-east-1").<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>url</td>
+        <td>string</td>
+        <td>
+          Full S3 URL including bucket (e.g., "https://bucket.s3.region.amazonaws.com" or "s3://bucket/prefix").<br/>
+        </td>
+        <td>false</td>
       </tr></tbody>
 </table>
 
@@ -4194,7 +4365,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         <td>clusterCredentialSecretName</td>
         <td>string</td>
         <td>
-          The name of the secret containing cluster credentials that was set upon cluster creation. This field is used to prevent changes to ClusterCredentialSecretName after cluster creation.<br/>
+          The name of the secret containing cluster credentials currently in use by the cluster. This field tracks the current credential secret name and is updated when the secret name changes.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -4293,12 +4464,51 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>true</td>
       </tr><tr>
+        <td><a href="#statusbundleddatabaseversionsfeaturesupport">featureSupport</a></td>
+        <td>object</td>
+        <td>
+          Feature support flags for this database version<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>major</td>
         <td>boolean</td>
         <td>
           <br/>
         </td>
         <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### status.bundledDatabaseVersions[].featureSupport
+<sup><sup>[↩ Parent](#statusbundleddatabaseversions)</sup></sup>
+
+Feature support flags for this database version
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>activeActive</td>
+        <td>boolean</td>
+        <td>
+          Indicates whether this version supports Active-Active (CRDB) databases<br/>
+        </td>
+        <td>true</td>
+      </tr><tr>
+        <td>flex</td>
+        <td>boolean</td>
+        <td>
+          Indicates whether this version supports Redis on Flash (Flex)<br/>
+        </td>
+        <td>true</td>
       </tr></tbody>
 </table>
 
