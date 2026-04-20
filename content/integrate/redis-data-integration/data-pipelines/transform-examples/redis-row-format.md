@@ -151,3 +151,5 @@ output:
           expression: concat([after.CITY, ', ', after.STATE])
           language: jmespath
     ```
+
+- When using the `full` row format, all data fields in transformation and key calculations should be prepended with `before` or `after.` depending on whether you want to access the previous or current value of the row. Exception from this case is the `mapping` section where only the `after` values are available. And you should use directly the column/value name without the `after.` prefix.
