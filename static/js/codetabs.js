@@ -151,6 +151,10 @@ function toggleVisibleLinesForCodetabs(button) {
   const visiblePanel = codetabsContainer.querySelector('.panel:not(.panel-hidden)');
   if (!visiblePanel) return;
 
+  if (visiblePanel.getAttribute('data-lang') === 'redis-cli') {
+    return;
+  }
+
   // Toggle aria-expanded attribute
   visiblePanel.toggleAttribute('aria-expanded');
 

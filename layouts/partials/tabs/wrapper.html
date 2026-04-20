@@ -365,14 +365,22 @@ window.updateAllCliOutputToggles = window.updateAllCliOutputToggles || function(
         const visiblePanel = codetabsContainer.querySelector('.panel:not(.panel-hidden)');
         const visibilityButton = codetabsContainer.querySelector('.visibility-button');
 
-        if (!visiblePanel || visiblePanel.getAttribute('data-cli-trimmable') !== 'true') {
+        const isRedisCliPanel = visiblePanel && visiblePanel.getAttribute('data-lang') === 'redis-cli';
+        const isCliTrimmable = visiblePanel && visiblePanel.getAttribute('data-cli-trimmable') === 'true';
+
+        if (!visiblePanel || !isCliTrimmable) {
             container.classList.add('hidden');
             container.classList.remove('flex');
             button.classList.add('hidden');
             button.classList.remove('inline-flex');
             if (visibilityButton) {
-                visibilityButton.classList.remove('hidden');
-                visibilityButton.classList.add('inline-flex');
+                if (isRedisCliPanel) {
+                    visibilityButton.classList.add('hidden');
+                    visibilityButton.classList.remove('inline-flex');
+                } else {
+                    visibilityButton.classList.remove('hidden');
+                    visibilityButton.classList.add('inline-flex');
+                }
             }
             return;
         }

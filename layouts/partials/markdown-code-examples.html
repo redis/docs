@@ -93,6 +93,7 @@
   {{- if and $cliContent (gt $maxLines 0) -}}
     {{- $cliLines := split $cliContent "\n" -}}
     {{- $tailLines := $maxLines -}}
+    {{- $charTrimWidth := mul $maxLines 120 -}}
     {{- if gt $tailLines 8 -}}
       {{- $tailLines = 8 -}}
     {{- end -}}
@@ -106,6 +107,12 @@
         {{- $trimmedLines = $trimmedLines | append $line -}}
       {{- end -}}
       {{- $cliContent = delimit $trimmedLines "\n" -}}
+    {{- else if and (eq (len $cliLines) 1) (gt (len $cliContent) (mul $charTrimWidth 2)) -}}
+      {{- $headChars := $charTrimWidth -}}
+      {{- $tailChars := $charTrimWidth -}}
+      {{- $head := substr $cliContent 0 $headChars -}}
+      {{- $tail := substr $cliContent (sub (len $cliContent) $tailChars) $tailChars -}}
+      {{- $cliContent = printf "%s\n... output truncated for AI-facing Markdown ...\n%s" $head $tail -}}
     {{- end -}}
   {{- end -}}
 

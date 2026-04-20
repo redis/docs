@@ -46,15 +46,28 @@
     {{ $trimmedRedisCommands := trim $redisCommands "\n" }}
     {{ $redisCommandLines := split $trimmedRedisCommands "\n" }}
     {{ $redisCommandLineCount := len $redisCommandLines }}
+    {{ $estimatedVisualLineCount := $redisCommandLineCount }}
+    {{ $wrapCharsPerLine := 120 }}
     {{ $hasCliTrim := false }}
     {{ if $redisCommandsLineLimit }}
         {{ $redisCommandsLineLimitInt = int $redisCommandsLineLimit }}
     {{ end }}
-    {{ if and (gt $redisCommandsLineLimitInt 0) (gt $redisCommandLineCount $redisCommandsLineLimitInt) }}
+    {{ if gt $redisCommandsLineLimitInt 0 }}
+        {{ $estimatedVisualLineCount = 0 }}
+        {{ range $line := $redisCommandLines }}
+            {{ $lineLength := len $line }}
+            {{ $wrappedLines := 1 }}
+            {{ if gt $lineLength $wrapCharsPerLine }}
+                {{ $wrappedLines = int (math.Ceil (div (float $lineLength) (float $wrapCharsPerLine))) }}
+            {{ end }}
+            {{ $estimatedVisualLineCount = add $estimatedVisualLineCount $wrappedLines }}
+        {{ end }}
+    {{ end }}
+    {{ if and (gt $redisCommandsLineLimitInt 0) (gt $estimatedVisualLineCount $redisCommandsLineLimitInt) }}
         {{ $hasCliTrim = true }}
     {{ end }}
     {{ $redisCliContent := highlight $trimmedRedisCommands "plaintext" "linenos=false" }}
-    {{ $cliTab := dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "limit" $redisCommandsLineLimit "limitInt" $redisCommandsLineLimitInt "lineCount" $redisCommandLineCount "hasCliTrim" $hasCliTrim "customFooterLinkText" $cliFooterLinkText "customFooterLinkUrl" $cliFooterLinkUrl }}
+    {{ $cliTab := dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "limit" $redisCommandsLineLimit "limitInt" $redisCommandsLineLimitInt "lineCount" $redisCommandLineCount "visualLineCount" $estimatedVisualLineCount "hasCliTrim" $hasCliTrim "customFooterLinkText" $cliFooterLinkText "customFooterLinkUrl" $cliFooterLinkUrl }}
     {{ if gt (len $commands) 0 }}
         {{ $cliTab = merge $cliTab (dict "commands" $commands) }}
     {{ end }}

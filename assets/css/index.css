@@ -486,31 +486,31 @@ select {
   @apply rounded-none p-0;
 }
 
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > code > .line:not(.hl),
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .lntable .lntd code > .lnt,
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > code > .line:not(.hl),
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .lntable .lntd code > .lnt,
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
   @apply hidden;
 }
 
-.codetabs > .panel:where([aria-expanded]) .highlight .chroma > code > .line:not(.hl),
-.codetabs > .panel:where([aria-expanded]) .highlight .chroma > .lntable .lntd code > .lnt,
-.codetabs > .panel:where([aria-expanded]) .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
+.codetabs > .panel:where([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > code > .line:not(.hl),
+.codetabs > .panel:where([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .lntable .lntd code > .lnt,
+.codetabs > .panel:where([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
   @apply opacity-60;
 }
 
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .language-Go > .hl {
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .language-Go > .hl {
   tab-size: 3ch;
   left: -3ch;
   position: relative;
 }
 
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .language-C\# > .hl
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .language-C\# > .hl
 {
   left: -8ch;
   position: relative;
 }
 
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .language-Java > .hl
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .language-Java > .hl
 {
   left: -4ch;
   position: relative;
