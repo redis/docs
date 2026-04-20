@@ -64,6 +64,7 @@ The following JSONPath syntax table was adapted from Goessner's [path syntax com
 
 The following JSONPath examples use this JSON document, which stores details about items in a store's inventory:
 
+{{< trimmable head="12" tail="8" >}}
 ```json
 {
     "inventory": {
@@ -112,6 +113,7 @@ The following JSONPath examples use this JSON document, which stores details abo
     }
 }
 ```
+{{< /trimmable >}}
 
 First, create the JSON document in your database:
 
