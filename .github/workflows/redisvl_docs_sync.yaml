@@ -59,6 +59,12 @@ jobs:
           pip3 install -e .
           popd
 
+          # Strip empty markdown cells (e.g. bare "##") that crash sphinx_markdown_builder
+          find redis-vl-python/docs -name '*.ipynb' | while read -r nb; do
+            tmp=$(mktemp)
+            jq '.cells |= map(select(.cell_type != "markdown" or ((.source | if type == "array" then join("") else . end) | test("^\\s*#+\\s*$") | not)))' "$nb" > "$tmp" && mv "$tmp" "$nb"
+          done
+
           if [ ${isLatest} = true ]; then
             sphinx-build -M markdown ./redis-vl-python/docs ./build-latest
           else
