@@ -45,6 +45,7 @@ Redis Open Source supports the following Redis Search features. This article pro
 * Geo-filtering using Redis [geo commands]({{< relref "/commands/" >}}?group=geo)
 * [Vector search]({{< relref "/develop/ai/search-and-query/vectors" >}})
 * [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}})
+* [Search commands in MULTI/EXEC transactions and Lua scripts]({{< relref "/develop/ai/search-and-query/advanced-concepts/transactions" >}})
 
 
 ## Full-text search features
