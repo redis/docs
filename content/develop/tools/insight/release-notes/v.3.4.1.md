@@ -39,11 +39,14 @@ This is the General Availability (GA) release of Redis Insight 3.4.1, which incl
 
 **SHA-512 Checksums**
 
-| Package             | SHA-512                                                                                  |
-| ------------------- | ---------------------------------------------------------------------------------------- |
-| Windows             |                                                                                          |
-| Linux AppImage      |                                                                                          |
-| Linux Debian        |                                                                                          |
-| Linux RPM           |                                                                                          |
-| MacOS Intel         |                                                                                          |
-| MacOS Apple silicon |                                                                                          |
+| Package                | SHA-512                                                                                  |
+| ---------------------- | ---------------------------------------------------------------------------------------- |
+| Windows                | WxS/WgDKWjVg44o6DOVhn5AORBGeuHJEM291vOomJGdA/dzUDumGrRUkUVTVHmJkbRIAMYu6bSJhSQxS8kRZTQ== |
+| Linux AppImage (x64)   | T/FzvvjMjC8zypDZ9xZ/g1wyuVv4G4WKaZVdqhe9P4qa5jaSeBlGS4ZSwCBRQKOS5QtFJrJ+GoKLOKCNIlZqwg== |
+| Linux AppImage (arm64) | ttYKN20quNVhbzoPNpd50UUnCfiJuz6K/dfQIhqI+nNU1w8sOKA+XbL+YGG7jf0VpHZg5ew0zPaDgk86M6vSRw== |
+| Linux Debian (x64)     | hv0ztyHWkk27zum8fp/oIz32Nz/K1Y5V+H5GDiYqrPM7itQDvhezNOaLPWIG3T7+GbmtShK6C+INMbmUY0A8JQ== |
+| Linux Debian (arm64)   | aosn4p641n/31g9ZDy2eaCt+2X7grA9V15D5oKESIFSEljZTsJmaBdJUCR2FDecRnhDrv17N7gsyLrMPsv821Q== |
+| Linux RPM (x64)        | o+YlHT/QzkoIpMaF7gRMNr7JSPqGq2qGMN/MSd6Yz7fbneqTudrsaKIw5Hxa7+kYsJorrGd6CNb3+wLAQKz5aQ== |
+| Linux RPM (arm64)      | Oz7pFhiLEvWkwUwJx0UeOnD4u/BXzIGzsdcdjYcy3K4mx4or+xQ2rvTGWiR9FBrknsOMBFsuwA3VNsPQXoRCdg== |
+| MacOS Intel            | /IrFmPoRLBm2nXLcuyM8JA7shxguEuaAddxc8doPBPGT3ZFGrZxfome8hgegDG23cEifRjF9CYdkes6VCGuzgA== |
+| MacOS Apple silicon    | ReqnQrNTSEVcJnMXc+P849ki5jDvxTvxa1Rm1BIOviig9gEcJBN3WEs9YF8SAQQbbAZ7pdYR+UeMk96gQvkcDQ== |
