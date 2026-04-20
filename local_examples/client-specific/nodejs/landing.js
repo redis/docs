@@ -14,7 +14,7 @@ await client.connect();
 // STEP_START set_get_string
 await client.set('key', 'value');
 const value = await client.get('key');
-console.log(value); // >>> value
+console.log(value);
 // STEP_END
 
 // STEP_START set_get_hash
