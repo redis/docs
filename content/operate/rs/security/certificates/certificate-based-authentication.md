@@ -200,7 +200,7 @@ To set up certificate-based authentication for databases:
 
 ### Authenticate database connections
 
-To connect to a database with certificate-based authentication, you must provide a client certificate you added to the database to [enable mutual TLS]({{<relref "/operate/rs/security/encryption/tls/enable-tls#enable-mutual-tls">}}) (`authentication_ssl_client_certs` in the REST API), and a private key.
+To connect to a database with certificate-based authentication, you must provide a client certificate you previously added to the database to [enable mutual TLS]({{<relref "/operate/rs/security/encryption/tls/enable-tls#enable-mutual-tls">}}) (`authentication_ssl_client_certs` in the REST API), and a private key.
 
 The following example shows how to connect to a Redis database with [`redis-cli`]({{<relref "/operate/rs/references/cli-utilities/redis-cli">}}):
 
