@@ -52,6 +52,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           version="${{ matrix.version }}"
+          version="${version#v}"
           isLatest="${{ matrix.isLatest }}"
 
           pushd redis-vl-python
@@ -74,6 +75,7 @@ jobs:
       - name: 'Format markdown files for hugo compatibility'
         run: |
           version="${{ matrix.version }}"
+          version="${version#v}"
           isLatest="${{ matrix.isLatest }}"
 
           #!/bin/bash
@@ -323,6 +325,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           release="${{ matrix.version }}"
+          release="${release#v}"
           branch="redisvl_docs_sync_${release}"
           redisvl_change=false
 
