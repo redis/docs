@@ -74,6 +74,14 @@ Clears the message history.
 * **Return type:**
   None
 
+#### `count(session_tag=None)`
+
+Count the number of messages in the conversation history.
+
+* **Parameters:**
+  **session_tag** (*Optional* *[* *str* *]*) – The session tag to filter messages by.
+  If None, counts all messages in the history.
+
 #### `delete()`
 
 Clear all message keys and remove the search index.
@@ -227,6 +235,14 @@ Clears the conversation message history.
 
 * **Return type:**
   None
+
+#### `count(session_tag=None)`
+
+Count the number of messages in the conversation history.
+
+* **Parameters:**
+  **session_tag** (*Optional* *[* *str* *]*) – The session tag to filter messages by.
+  If None, counts all messages in the history.
 
 #### `delete()`
 

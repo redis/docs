@@ -1,18 +1,29 @@
 ---
-linkTitle: SVS-VAMANA vector search
-title: SVS-VAMANA Vector Search
+linkTitle: Optimize indexes with svs-vamana
+title: Optimize Indexes with SVS-VAMANA
 aliases:
 - /integrate/redisvl/user_guide/09_svs_vamana
 weight: 09
 ---
 
 
-In this notebook, we will explore SVS-VAMANA (Scalable Vector Search with VAMANA graph algorithm), a graph-based vector search algorithm that is optimized to work with compression methods to reduce memory usage. It combines the Vamana graph algorithm with advanced compression techniques (LVQ and LeanVec) and is optimized for Intel hardware.
+This guide covers SVS-VAMANA (Scalable Vector Search with VAMANA graph algorithm), a graph-based vector search algorithm optimized for compression methods to reduce memory usage. It combines the Vamana graph algorithm with advanced compression techniques (LVQ and LeanVec) and is optimized for Intel hardware.
 
-**How it works**
+## Prerequisites
 
-Vamana builds a single-layer proximity graph and prunes edges during construction based on tunable parameters, similar to HNSW but with a simpler structure. The compression methods apply per-vector normalization and scalar quantization, learning parameters directly from the data to enable fast, on-the-fly distance computations with SIMD-optimized layout Vector quantization and compression.
+Before you begin, ensure you have:
+- Installed RedisVL: `pip install redisvl`
+- A running Redis instance with Redis >= 8.2.0 and Redis Search >= 2.8.10 ([Redis 8+](https://redis.io/downloads/) or [Redis Cloud](https://redis.io/cloud))
 
+**Note:** SVS-VAMANA only supports FLOAT16 and FLOAT32 datatypes.
+
+## What You'll Learn
+
+By the end of this guide, you will be able to:
+- Understand when to use SVS-VAMANA for vector search
+- Configure compression settings for memory optimization
+- Use the CompressionAdvisor for automatic optimization
+- Trade off between memory usage, speed, and search quality
 
 **SVS-VAMANA offers:**
 - **Fast approximate nearest neighbor search** using graph-based algorithms
@@ -25,40 +36,6 @@ Vamana builds a single-layer proximity graph and prunes edges during constructio
 - Cloud deployments with memory-based pricing
 - When 90-95% recall is acceptable
 - High-dimensional vectors (>1024 dims) with LeanVec compression
-
-
-
-**Table of Contents**
-
-1. [Prerequisites](#Prerequisites)
-2. [Quick Start with CompressionAdvisor](#Quick-Start-with-CompressionAdvisor)
-3. [Creating an SVS-VAMANA Index](#Creating-an-SVS-VAMANA-Index)
-4. [Loading Sample Data](#Loading-Sample-Data)
-5. [Performing Vector Searches](#Performing-Vector-Searches)
-6. [Understanding Compression Types](#Understanding-Compression-Types)
-7. [Hybrid Queries with SVS-VAMANA](#Hybrid-Queries-with-SVS-VAMANA)
-8. [Performance Monitoring](#Performance-Monitoring)
-9. [Manual Configuration (Advanced)](#Manual-Configuration-(Advanced))
-10. [Best Practices and Tips](#Best-Practices-and-Tips)
-11. [Cleanup](#Cleanup)
-
----
-
-## Prerequisites
-
-Before running this notebook, ensure you have:
-1. Installed `redisvl` and have that environment active for this notebook
-2. A running Redis Stack instance with:
-   - Redis >= 8.2.0
-   - RediSearch >= 2.8.10
-
-For example, you can run Redis Stack locally with Docker:
-
-```bash
-docker run -d -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
-```
-
-**Note:** SVS-VAMANA only supports FLOAT16 and FLOAT32 datatypes.
 
 
 ```python
@@ -94,14 +71,14 @@ config = CompressionAdvisor.recommend(
 )
 
 print("Recommended Configuration:")
-for key, value in config.items():
+for key, value in config.model_dump().items():
     print(f"  {key}: {value}")
 
 # Estimate memory savings
 savings = CompressionAdvisor.estimate_memory_savings(
-    config["compression"],
+    config.compression,
     dims,
-    config.get("reduce")
+    config.reduce
 )
 print(f"\nEstimated Memory Savings: {savings}%")
 ```
@@ -109,10 +86,10 @@ print(f"\nEstimated Memory Savings: {savings}%")
     Recommended Configuration:
       algorithm: svs-vamana
       datatype: float16
-      graph_max_degree: 64
-      construction_window_size: 300
       compression: LeanVec4x8
       reduce: 512
+      graph_max_degree: 64
+      construction_window_size: 300
       search_window_size: 30
     
     Estimated Memory Savings: 81.2%
@@ -125,6 +102,7 @@ Let's create an index using the recommended configuration. We'll use a simple sc
 
 ```python
 # Create index schema with recommended SVS-VAMANA configuration
+config_dict = config.model_dump(exclude_none=True)
 schema = {
     "index": {
         "name": "svs_demo",
@@ -138,7 +116,7 @@ schema = {
             "type": "vector",
             "attrs": {
                 "dims": dims,
-                **config,  # Use the recommended configuration
+                **config_dict,  # Use the recommended configuration
                 "distance_metric": "cosine"
             }
         }
@@ -150,11 +128,11 @@ index = SearchIndex.from_dict(schema, redis_url=REDIS_URL)
 index.create(overwrite=True)
 
 print(f"✅ Created SVS-VAMANA index: {index.name}")
-print(f"   Algorithm: {config['algorithm']}")
-print(f"   Compression: {config['compression']}")
+print(f"   Algorithm: {config.algorithm}")
+print(f"   Compression: {config.compression}")
 print(f"   Dimensions: {dims}")
-if 'reduce' in config:
-    print(f"   Reduced to: {config['reduce']} dimensions")
+if config.reduce is not None:
+    print(f"   Reduced to: {config.reduce} dimensions")
 ```
 
     ✅ Created SVS-VAMANA index: svs_demo
@@ -189,7 +167,7 @@ sample_documents = [
 data_to_load = []
 
 # Use reduced dimensions if LeanVec compression is applied
-vector_dims = config.get("reduce", dims)
+vector_dims = config.reduce if config.reduce is not None else dims
 print(f"Creating vectors with {vector_dims} dimensions (reduced from {dims} if applicable)")
 
 for i, doc in enumerate(sample_documents):
@@ -201,13 +179,13 @@ for i, doc in enumerate(sample_documents):
     base_vector[0] += category_offset
     
     # Convert to the datatype specified in config
-    if config["datatype"] == "float16":
+    if config.datatype == "float16":
         base_vector = base_vector.astype(np.float16)
     
     data_to_load.append({
         "content": doc["content"],
         "category": doc["category"],
-        "embedding": array_to_buffer(base_vector, dtype=config["datatype"])
+        "embedding": array_to_buffer(base_vector, dtype=config.datatype)
     })
 
 # Load data into the index
@@ -236,8 +214,8 @@ Now let's perform some vector similarity searches using our SVS-VAMANA index.
 ```python
 # Create a query vector (in practice, this would be an embedding of your query text)
 # Important: Query vector must match the index datatype and dimensions
-vector_dims = config.get("reduce", dims)
-if config["datatype"] == "float16":
+vector_dims = config.reduce if config.reduce is not None else dims
+if config.datatype == "float16":
     query_vector = np.random.random(vector_dims).astype(np.float16)
 else:
     query_vector = np.random.random(vector_dims).astype(np.float32)
@@ -309,23 +287,32 @@ print(f"Found {len(results)} results")
 print("\nNote: Higher search_window_size improves recall but may increase latency")
 ```
 
-### Runtime Parameters with Range Queries
+    🔍 Basic Query (default parameters):
+    Found 0 results
+    
+    🎯 Tuned Query (higher recall parameters):
+    Found 0 results
+    
+    Note: Higher search_window_size improves recall but may increase latency
 
-Runtime parameters are also useful for range queries, where you want to find all vectors within a certain distance threshold:
+
+### Range Queries with SVS-VAMANA
+
+Range queries find all vectors within a certain distance threshold. For range queries, you can use the `epsilon` parameter to control the approximation factor:
 
 
 ```python
 from redisvl.query import VectorRangeQuery
 
-# Range query with runtime parameters
+# Range query with epsilon parameter for approximation control
+# Note: search_window_size and use_search_history are only supported for KNN queries (VectorQuery),
+# not for range queries (VectorRangeQuery). Use epsilon to control the approximation factor.
 range_query = VectorRangeQuery(
     vector=query_vector.tolist(),
     vector_field_name="embedding",
     return_fields=["content", "category"],
     distance_threshold=0.3,
-    epsilon=0.05,               # Approximation factor
-    search_window_size=30,      # Search window size
-    use_search_history='AUTO'   # Automatic history management
+    epsilon=0.05,               # Approximation factor for range queries
 )
 
 results = index.query(range_query)
@@ -334,6 +321,9 @@ for i, result in enumerate(results[:3], 1):
     distance = result.get('vector_distance', 'N/A')
     print(f"{i}. {result['content'][:50]}... (distance: {distance})")
 ```
+
+    🎯 Range Query Results: Found 0 vectors within distance threshold 0.3
+
 
 ## Understanding Compression Types
 
@@ -349,17 +339,17 @@ priorities = ["memory", "speed", "balanced"]
 for priority in priorities:
     config = CompressionAdvisor.recommend(dims=dims, priority=priority)
     savings = CompressionAdvisor.estimate_memory_savings(
-        config["compression"],
+        config.compression,
         dims,
-        config.get("reduce")
+        config.reduce
     )
     
     print(f"\n{priority.upper()} Priority:")
-    print(f"  Compression: {config['compression']}")
-    print(f"  Datatype: {config['datatype']}")
-    if "reduce" in config:
-        print(f"  Dimensionality reduction: {dims} → {config['reduce']}")
-    print(f"  Search window size: {config['search_window_size']}")
+    print(f"  Compression: {config.compression}")
+    print(f"  Datatype: {config.datatype}")
+    if config.reduce is not None:
+        print(f"  Dimensionality reduction: {dims} → {config.reduce}")
+    print(f"  Search window size: {config.search_window_size}")
     print(f"  Memory savings: {savings}%")
 ```
 
@@ -417,13 +407,13 @@ print("-" * 50)
 for dims in test_dimensions:
     config = CompressionAdvisor.recommend(dims=dims, priority="balanced")
     savings = CompressionAdvisor.estimate_memory_savings(
-        config["compression"],
+        config.compression,
         dims,
-        config.get("reduce")
+        config.reduce
     )
     
     strategy = "LeanVec" if dims >= 1024 else "LVQ"
-    print(f"{dims:<6} {config['compression']:<12} {savings:>6.1f}% {strategy}")
+    print(f"{dims:<6} {config.compression:<12} {savings:>6.1f}% {strategy}")
 ```
 
     Memory Savings by Vector Dimension:
@@ -517,11 +507,11 @@ else:
     ==============================
     Documents: 0
     Vector index size: 0.00 MB
-    Total indexing time: 1.58 seconds
+    Total indexing time: 0.27 seconds
     Memory efficiency calculation requires documents and vector index size > 0
 
 
-## Manual Configuration (Advanced)
+## Advanced Manual Configuration
 
 For advanced users who want full control over SVS-VAMANA parameters, you can manually configure the algorithm instead of using CompressionAdvisor.
 
@@ -615,6 +605,14 @@ print(f"\nEstimated memory savings: {manual_savings}%")
 - **Memory usage** decreases with more aggressive compression
 - **Recall quality** may decrease with more aggressive compression or lower search_window_size
 
+## Next Steps
+
+Now that you understand SVS-VAMANA optimization, explore these related guides:
+
+- [Getting Started](01_getting_started.ipynb) - Learn the basics of RedisVL indexes
+- [Choose a Storage Type](05_hash_vs_json.ipynb) - Understand Hash vs JSON storage
+- [Query and Filter Data](02_complex_filtering.ipynb) - Apply filters to narrow down search results
+
 ## Cleanup
 
 Clean up the indices created in this demo.
@@ -628,6 +626,3 @@ try:
 except:
     print("- svs_demo index was already deleted or doesn't exist")
 ```
-
-    Cleaned up svs_demo index
-

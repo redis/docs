@@ -1,28 +1,39 @@
 ---
-linkTitle: Getting started with RedisVL
-title: Getting Started with RedisVL
+linkTitle: Getting started
+title: Getting Started
 aliases:
 - /integrate/redisvl/user_guide/01_getting_started
 weight: 01
 ---
 
-`redisvl` is a versatile Python library with an integrated CLI, designed to enhance AI applications using Redis. This guide will walk you through the following steps:
+
+RedisVL is a Python library with an integrated CLI for building AI applications with Redis. This guide covers the core workflow:
 
 1. Defining an `IndexSchema`
 2. Preparing a sample dataset
-3. Creating a `SearchIndex` object
-4. Testing `rvl` CLI functionality
-5. Loading the sample data
-6. Building `VectorQuery` objects and executing searches
-7. Updating a `SearchIndex` object
+3. Creating a `SearchIndex`
+4. Using the `rvl` CLI
+5. Loading data into Redis
+6. Fetching and managing records
+7. Executing vector searches
+8. Updating an index
 
-...and more!
+## Prerequisites
 
-Prerequisites:
-- Ensure `redisvl` is installed in your Python environment.
-- Have a running instance of [Redis Stack](https://redis.io/docs/install/install-stack/) or [Redis Cloud](https://redis.io/cloud).
+Before you begin, ensure you have:
+- Installed RedisVL: `pip install redisvl`
+- A running Redis instance ([Redis 8+](https://redis.io/downloads/) or [Redis Cloud](https://redis.io/cloud))
 
-_____
+## What You'll Learn
+
+By the end of this guide, you will be able to:
+- Create index schemas using Python dictionaries or YAML files
+- Build and manage `SearchIndex` objects
+- Use the `rvl` CLI for index management
+- Load data and execute vector similarity searches
+- Fetch individual records and list all keys in an index
+- Delete specific records by key or document ID
+- Update index schemas as your application evolves
 
 ## Define an `IndexSchema`
 
@@ -132,7 +143,7 @@ data = [
 ]
 ```
 
-As seen above, the sample `user_embedding` vectors are converted into bytes. Using the `NumPy`, this is fairly trivial.
+The `user_embedding` vectors are converted to bytes using NumPy's `.tobytes()` method.
 
 ## Create a `SearchIndex`
 
@@ -172,22 +183,10 @@ Now that we are connected to Redis, we need to run the create command.
 index.create(overwrite=True)
 ```
 
-    13:00:22 redisvl.index.index INFO   Index already exists, overwriting.
-
-
 Note that at this point, the index has no entries. Data loading follows.
 
 ## Inspect with the `rvl` CLI
 Use the `rvl` CLI to inspect the created index and its fields:
-
-
-```python
-!rvl index listall
-```
-
-    13:00:24 [RedisVL] INFO   Indices:
-    13:00:24 [RedisVL] INFO   1. user_simple
-
 
 
 ```python
@@ -228,7 +227,7 @@ keys = index.load(data)
 print(keys)
 ```
 
-    ['user_simple_docs:01JY4J4Y08GFY10VMB9D4YDMZQ', 'user_simple_docs:01JY4J4Y0AY2MKJ24QXQS2Q2YS', 'user_simple_docs:01JY4J4Y0A9GFF2XG1R81EFD4Z']
+    ['user_simple_docs:01KHKHQYX95EDQN18FG8FRMRQ5', 'user_simple_docs:01KHKHQYXC97WY4ACG1V01GEPC', 'user_simple_docs:01KHKHQYXC97WY4ACG1V01GEPD']
 
 
 By default, `load` will create a unique Redis key as a combination of the index key `prefix` and a random ULID. You can also customize the key by providing direct keys or pointing to a specified `id_field` on load.
@@ -246,7 +245,6 @@ except Exception as e:
     print(str(e))
 ```
 
-    13:00:27 redisvl.index.index ERROR   Data validation failed during load operation
     Schema validation failed for object at index 0. Field 'user_embedding' expects bytes (vector data), but got boolean value 'True'. If this should be a vector field, provide a list of numbers or bytes. If this should be a different field type, check your schema definition.
     Object data: {
       "user_embedding": true
@@ -272,8 +270,88 @@ keys = index.load(new_data)
 print(keys)
 ```
 
-    ['user_simple_docs:01JY4J4Y0N4CNR9Y6R67MMVG7Q']
+    ['user_simple_docs:01KHKHR37CD6143DNQ41G3ADNA']
 
+
+## Fetch and Manage Records
+
+RedisVL provides several methods to retrieve and manage individual records in your index.
+
+### Fetch a record by ID
+
+Use `fetch()` to retrieve a single record when you know its ID. The ID is the unique identifier you provided during load (via `id_field`) or the auto-generated ULID.
+
+
+```python
+# Fetch a record by its ID (e.g., the user field value if used as id_field)
+# First, let's reload data with a specific id_field
+index.load(data, id_field="user")
+
+# Now fetch by the user ID
+record = index.fetch("john")
+print(record)
+```
+
+You can also construct the full Redis key from an ID using the `key()` method:
+
+
+```python
+# Get the full Redis key for a given ID
+full_key = index.key("john")
+print(f"Full Redis key: {full_key}")
+```
+
+
+<table><tr><th>vector_distance</th><th>user</th><th>age</th><th>job</th><th>credit_score</th></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr><tr><td>0</td><td>mary</td><td>2</td><td>doctor</td><td>low</td></tr><tr><td>0.0566298961639</td><td>tyler</td><td>9</td><td>engineer</td><td>high</td></tr></table>
+
+
+### List all keys in the index
+
+To enumerate all keys in your index, use `paginate()` with a `FilterQuery`. This is useful for batch processing or auditing your data.
+
+
+```python
+from redisvl.query import FilterQuery
+from redisvl.query.filter import FilterExpression
+
+# Create a query that matches all documents
+query = FilterQuery(
+    filter_expression=FilterExpression("*"),
+    return_fields=["user", "age", "job"]
+)
+
+# Paginate through all results
+for batch in index.paginate(query, page_size=10):
+    for doc in batch:
+        print(f"Key: {doc['id']}, User: {doc['user']}")
+```
+
+### Delete specific records
+
+Use `drop_keys()` to remove specific records by their full Redis key, or `drop_documents()` to remove by document ID.
+
+
+```python
+# Delete by full Redis key
+full_key = index.key("john")
+deleted_count = index.drop_keys(full_key)
+print(f"Deleted {deleted_count} record(s) by key")
+
+# Delete multiple keys at once
+# index.drop_keys(["key1", "key2", "key3"])
+```
+
+
+```python
+# Delete by document ID (without the prefix)
+deleted_count = index.drop_documents("mary")
+print(f"Deleted {deleted_count} record(s) by document ID")
+
+# Delete multiple documents at once
+# index.drop_documents(["id1", "id2", "id3"])
+```
+
+**Note:** `drop_keys()` expects the full Redis key (including prefix), while `drop_documents()` expects just the document ID.
 
 ## Creating `VectorQuery` Objects
 
@@ -291,6 +369,10 @@ query = VectorQuery(
     num_results=3
 )
 ```
+
+
+<table><tr><th>vector_distance</th><th>user</th><th>age</th><th>job</th><th>credit_score</th></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr><tr><td>0</td><td>mary</td><td>2</td><td>doctor</td><td>low</td></tr><tr><td>0.0566298961639</td><td>tyler</td><td>9</td><td>engineer</td><td>high</td></tr></table>
+
 
 **Note:** For HNSW and SVS-VAMANA indexes, you can tune search performance using runtime parameters:
 
@@ -316,36 +398,10 @@ results = index.query(query)
 result_print(results)
 ```
 
-
-<table><tr><th>vector_distance</th><th>user</th><th>age</th><th>job</th><th>credit_score</th></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr><tr><td>0</td><td>mary</td><td>2</td><td>doctor</td><td>low</td></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr></table>
-
-
 ## Using an Asynchronous Redis Client
 
 The `AsyncSearchIndex` class along with an async Redis python client allows for queries, index creation, and data loading to be done asynchronously. This is the
 recommended route for working with `redisvl` in production-like settings.
-
-
-```python
-schema
-```
-
-
-
-
-    {'index': {'name': 'user_simple', 'prefix': 'user_simple_docs'},
-     'fields': [{'name': 'user', 'type': 'tag'},
-      {'name': 'credit_score', 'type': 'tag'},
-      {'name': 'job', 'type': 'text'},
-      {'name': 'age', 'type': 'numeric'},
-      {'name': 'user_embedding',
-       'type': 'vector',
-       'attrs': {'dims': 3,
-        'distance_metric': 'cosine',
-        'algorithm': 'flat',
-        'datatype': 'float32'}}]}
-
-
 
 
 ```python
@@ -357,6 +413,13 @@ index = AsyncSearchIndex.from_dict(schema, redis_client=client)
 ```
 
 
+
+
+    4
+
+
+
+
 ```python
 # execute the vector query async
 results = await index.query(query)
@@ -364,7 +427,10 @@ result_print(results)
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>age</th><th>job</th><th>credit_score</th></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr><tr><td>0</td><td>mary</td><td>2</td><td>doctor</td><td>low</td></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr></table>
+
+
+    True
+
 
 
 ## Updating a schema
@@ -377,7 +443,6 @@ So for our scenario, let's imagine we want to reindex this data in 2 ways:
 
 ```python
 # Modify this schema to have what we want
-
 index.schema.remove_field("job")
 index.schema.remove_field("user_embedding")
 index.schema.add_fields([
@@ -401,19 +466,12 @@ index.schema.add_fields([
 await index.create(overwrite=True, drop=False)
 ```
 
-    13:00:27 redisvl.index.index INFO   Index already exists, overwriting.
-
-
 
 ```python
 # Execute the vector query async
 results = await index.query(query)
 result_print(results)
 ```
-
-
-<table><tr><th>vector_distance</th><th>user</th><th>age</th><th>job</th><th>credit_score</th></tr><tr><td>0</td><td>mary</td><td>2</td><td>doctor</td><td>low</td></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr></table>
-
 
 ## Check Index Stats
 Use the `rvl` CLI to check the stats for the index:
@@ -423,40 +481,19 @@ Use the `rvl` CLI to check the stats for the index:
 !rvl stats -i user_simple
 ```
 
-    
-    Statistics:
-    ╭─────────────────────────────┬────────────╮
-    │ Stat Key                    │ Value      │
-    ├─────────────────────────────┼────────────┤
-    │ num_docs                    │ 10         │
-    │ num_terms                   │ 0          │
-    │ max_doc_id                  │ 10         │
-    │ num_records                 │ 50         │
-    │ percent_indexed             │ 1          │
-    │ hash_indexing_failures      │ 0          │
-    │ number_of_uses              │ 2          │
-    │ bytes_per_record_avg        │ 19.5200004 │
-    │ doc_table_size_mb           │ 0.00105857 │
-    │ inverted_sz_mb              │ 9.30786132 │
-    │ key_table_size_mb           │ 4.70161437 │
-    │ offset_bits_per_record_avg  │ nan        │
-    │ offset_vectors_sz_mb        │ 0          │
-    │ offsets_per_term_avg        │ 0          │
-    │ records_per_doc_avg         │ 5          │
-    │ sortable_values_size_mb     │ 0          │
-    │ total_indexing_time         │ 0.16899999 │
-    │ total_inverted_index_blocks │ 11         │
-    │ vector_index_sz_mb          │ 0.23619842 │
-    ╰─────────────────────────────┴────────────╯
+## Next Steps
 
+Now that you understand the basics of RedisVL, explore these related guides:
+
+- [Query and Filter Data](02_complex_filtering.ipynb) - Learn advanced filtering with tag, numeric, text, and geo filters
+- [Create Embeddings with Vectorizers](04_vectorizers.ipynb) - Generate embeddings using OpenAI, HuggingFace, Cohere, and more
+- [Choose a Storage Type](05_hash_vs_json.ipynb) - Understand when to use Hash vs JSON storage
 
 ## Cleanup
 
-Below we will clean up after our work. First, you can flush all data from Redis associated with the index by
-using the `.clear()` method. This will leave the secondary index in place for future insertions or updates.
+Use `.clear()` to flush all data from Redis associated with the index while leaving the index in place for future insertions.
 
-But if you want to clean up everything, including the index, just use `.delete()`
-which will by default remove the index AND the underlying data.
+Use `.delete()` to remove both the index and the underlying data.
 
 
 ```python
@@ -465,24 +502,10 @@ await index.clear()
 ```
 
 
-
-
-    10
-
-
-
-
 ```python
-# Butm the index is still in place
+# But the index is still in place
 await index.exists()
 ```
-
-
-
-
-    True
-
-
 
 
 ```python
