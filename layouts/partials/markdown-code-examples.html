@@ -123,7 +123,7 @@
       {{- $trimmedLines = $trimmedLines | append "... output truncated for AI-facing Markdown ..." -}}
       {{- $tailSlice := slice -}}
       {{- $tailVisualLines := 0 -}}
-      {{- range $line := last (len $cliLines) $cliLines -}}
+      {{- range $line := collections.Reverse $cliLines -}}
         {{- $wrappedLines := 1 -}}
         {{- if gt (len $line) $wrapCharsPerLine -}}
           {{- $wrappedLines = int (math.Ceil (div (float (len $line)) (float $wrapCharsPerLine))) -}}
@@ -133,7 +133,7 @@
           {{- $tailVisualLines = add $tailVisualLines $wrappedLines -}}
         {{- end -}}
       {{- end -}}
-      {{- range $line := last (len $tailSlice) (collections.Reverse $tailSlice) -}}
+      {{- range $line := collections.Reverse $tailSlice -}}
         {{- $trimmedLines = $trimmedLines | append $line -}}
       {{- end -}}
       {{- $cliContent = delimit $trimmedLines "\n" -}}
