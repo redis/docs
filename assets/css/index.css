@@ -456,6 +456,24 @@ select {
     padding-bottom: 0;
 }
 
+.codetabs .cli-output-shell-trimmable .highlight > .chroma {
+  max-height: calc((var(--cli-preview-lines, 10) * 1.25rem) + 1.5rem);
+  overflow-y: hidden;
+  position: relative;
+}
+
+.codetabs .panel[data-cli-trimmable="true"]:not([data-cli-expanded]) .cli-output-shell-trimmable .highlight > .chroma {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+}
+
+.codetabs .panel[data-cli-trimmable="true"][data-cli-expanded] .cli-output-shell-trimmable .highlight > .chroma {
+  max-height: none;
+  overflow-y: auto;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
 .codetabs .chroma .language-plaintext .cl {
     white-space: break-spaces;
 }

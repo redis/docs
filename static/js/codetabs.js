@@ -22,14 +22,23 @@ function copyCodeToClipboardForCodetabs(button) {
   if (!visiblePanel) return;
 
   let code;
+  const isCliTrimmed = visiblePanel.getAttribute('data-cli-trimmable') === 'true';
+  const cliPreviewLines = parseInt(visiblePanel.getAttribute('data-cli-preview-lines') || '0', 10);
+
+  if (isCliTrimmed && cliPreviewLines > 0 && !visiblePanel.hasAttribute('data-cli-expanded')) {
+    const codeElement = [...visiblePanel.querySelectorAll('code')].pop();
+    if (codeElement) {
+      code = codeElement.textContent.split('\n').slice(0, cliPreviewLines).join('\n');
+    }
+  }
 
   // Check if visibility toggle is enabled (aria-expanded means all lines are visible)
   const isFullyExpanded = visiblePanel.hasAttribute('aria-expanded');
 
-  if (isFullyExpanded) {
+  if (!code && isFullyExpanded) {
     // Copy all code when fully expanded
     code = [...visiblePanel.querySelectorAll('code')].pop().textContent;
-  } else {
+  } else if (!code) {
     // Copy only visible (highlighted) lines when not expanded
     const codeElement = [...visiblePanel.querySelectorAll('code')].pop();
     const highlightedLines = codeElement.querySelectorAll('.line.hl');
@@ -231,6 +240,14 @@ function updatePanelVisibility(dropdown) {
 
   if (selectedPanel) {
     selectedPanel.classList.remove('panel-hidden');
+  }
+
+  if (window.updateAllCliOutputToggles) {
+    window.updateAllCliOutputToggles();
+  }
+
+  if (window.updateAllBinderLinks) {
+    window.updateAllBinderLinks();
   }
 }
 

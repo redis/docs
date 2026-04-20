@@ -52,24 +52,62 @@
 
 {{- /* Process each clients-example shortcode */ -}}
 {{- /* Pattern for paired shortcodes: {{< clients-example ... >}} content {{< /clients-example >}} */ -}}
-{{- $pattern := `\{\{<\s*clients-example\s+(?:set|id)="([^"]+)"(?:\s+step="([^"]*)")?(?:\s+description="([^"]*)")?(?:\s+difficulty="([^"]*)")?(?:\s+buildsUpon="([^"]*)")?[^>]*>\s*([\s\S]*?)\s*\{\{<\s*/clients-example\s*>\}\}` -}}
+{{- $pattern := `\{\{<\s*clients-example\s+([^>]*)>\s*([\s\S]*?)\s*\{\{<\s*/clients-example\s*>\}\}` -}}
 
 {{- /* Pattern for self-closing shortcodes: {{< clients-example ... />}} */ -}}
-{{- $selfClosingPattern := `\{\{<\s*clients-example\s+(?:set|id)="([^"]+)"(?:\s+step="([^"]*)")?(?:\s+description="([^"]*)")?(?:\s+difficulty="([^"]*)")?(?:\s+buildsUpon="([^"]*)")?[^/]*/>\}\}` -}}
+{{- $selfClosingPattern := `\{\{<\s*clients-example\s+([^>]*)/>\}\}` -}}
 
 {{- $processed := $content -}}
 {{- $matches := findRE $pattern $content -}}
 {{- $selfClosingMatches := findRE $selfClosingPattern $content -}}
 
 {{- range $match := $matches -}}
-  {{- $exampleId := replaceRE $pattern `$1` $match -}}
-  {{- $stepName := replaceRE $pattern `$2` $match -}}
-  {{- $description := replaceRE $pattern `$3` $match -}}
-  {{- $difficulty := replaceRE $pattern `$4` $match -}}
-  {{- $buildsUponStr := replaceRE $pattern `$5` $match -}}
-  {{- $cliContent := replaceRE $pattern `$6` $match -}}
+  {{- $attrs := replaceRE $pattern `$1` $match -}}
+  {{- $exampleId := "" -}}
+  {{- with findRESubmatch `(?:^|\s)(?:set|id)="([^"]+)"` $attrs -}}
+    {{- $exampleId = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $stepName := "" -}}
+  {{- with findRESubmatch `(?:^|\s)step="([^"]*)"` $attrs -}}
+    {{- $stepName = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $description := "" -}}
+  {{- with findRESubmatch `(?:^|\s)description="([^"]*)"` $attrs -}}
+    {{- $description = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $difficulty := "" -}}
+  {{- with findRESubmatch `(?:^|\s)difficulty="([^"]*)"` $attrs -}}
+    {{- $difficulty = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $buildsUponStr := "" -}}
+  {{- with findRESubmatch `(?:^|\s)buildsUpon="([^"]*)"` $attrs -}}
+    {{- $buildsUponStr = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $maxLines := 0 -}}
+  {{- with findRESubmatch `(?:^|\s)max_lines="([0-9]+)"` $attrs -}}
+    {{- $maxLines = int (index (index . 0) 1) -}}
+  {{- end -}}
+  {{- $cliContent := replaceRE $pattern `$2` $match -}}
   {{- $cliContent = replaceRE "^\\s*\\}\\}\\s*" "" $cliContent -}}
   {{- $cliContent = strings.TrimSpace $cliContent -}}
+  {{- if and $cliContent (gt $maxLines 0) -}}
+    {{- $cliLines := split $cliContent "\n" -}}
+    {{- $tailLines := $maxLines -}}
+    {{- if gt $tailLines 8 -}}
+      {{- $tailLines = 8 -}}
+    {{- end -}}
+    {{- if gt (len $cliLines) (add $maxLines $tailLines 1) -}}
+      {{- $trimmedLines := slice -}}
+      {{- range $line := first $maxLines $cliLines -}}
+        {{- $trimmedLines = $trimmedLines | append $line -}}
+      {{- end -}}
+      {{- $trimmedLines = $trimmedLines | append "... output truncated for AI-facing Markdown ..." -}}
+      {{- range $line := first $tailLines (after (sub (len $cliLines) $tailLines) $cliLines) -}}
+        {{- $trimmedLines = $trimmedLines | append $line -}}
+      {{- end -}}
+      {{- $cliContent = delimit $trimmedLines "\n" -}}
+    {{- end -}}
+  {{- end -}}
 
   {{- /* Unescape HTML entities in description */ -}}
   {{- if $description -}}
@@ -327,11 +365,27 @@
 
 {{- /* Process self-closing clients-example shortcodes (no CLI content between tags) */ -}}
 {{- range $match := $selfClosingMatches -}}
-  {{- $exampleId := replaceRE $selfClosingPattern `$1` $match -}}
-  {{- $stepName := replaceRE $selfClosingPattern `$2` $match -}}
-  {{- $description := replaceRE $selfClosingPattern `$3` $match -}}
-  {{- $difficulty := replaceRE $selfClosingPattern `$4` $match -}}
-  {{- $buildsUponStr := replaceRE $selfClosingPattern `$5` $match -}}
+  {{- $attrs := replaceRE $selfClosingPattern `$1` $match -}}
+  {{- $exampleId := "" -}}
+  {{- with findRESubmatch `(?:^|\s)(?:set|id)="([^"]+)"` $attrs -}}
+    {{- $exampleId = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $stepName := "" -}}
+  {{- with findRESubmatch `(?:^|\s)step="([^"]*)"` $attrs -}}
+    {{- $stepName = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $description := "" -}}
+  {{- with findRESubmatch `(?:^|\s)description="([^"]*)"` $attrs -}}
+    {{- $description = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $difficulty := "" -}}
+  {{- with findRESubmatch `(?:^|\s)difficulty="([^"]*)"` $attrs -}}
+    {{- $difficulty = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $buildsUponStr := "" -}}
+  {{- with findRESubmatch `(?:^|\s)buildsUpon="([^"]*)"` $attrs -}}
+    {{- $buildsUponStr = index (index . 0) 1 -}}
+  {{- end -}}
 
   {{- /* Unescape HTML entities in description */ -}}
   {{- if $description -}}

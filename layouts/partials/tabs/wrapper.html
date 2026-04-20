@@ -105,6 +105,18 @@
             <div id="binder-link-container-{{ $id }}" class="flex items-center">
                 {{/* Link will be shown/hidden by JavaScript based on selected tab */}}
             </div>
+            <div id="cli-output-toggle-container-{{ $id }}" class="hidden items-center">
+                <button tabindex="1"
+                        type="button"
+                        class="cli-output-toggle hidden items-center gap-1 text-neutral-300 hover:text-slate-100 bg-slate-600 h-7 px-2 rounded rounded-mx text-xs"
+                        data-codetabs-id="{{ $id }}"
+                        onclick="toggleCliOutputForCodetabs(this)">
+                    <svg class="cli-output-toggle-icon h-3 w-3 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                        <path d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"/>
+                    </svg>
+                    <span class="cli-output-toggle-label">Show full output</span>
+                </button>
+            </div>
             <button tabindex="1" class="copy-link-button text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx relative"
                     title="Copy link to code block" data-codetabs-id="{{ $id }}" onclick="copyCodeBlockLinkToClipboard(this)">
                 <svg class="inline-block w-4 h-4 align-baseline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -147,16 +159,25 @@
         {{ $binderId := index $tab "binderId" }}
         {{ $commands := index $tab "commands" }}
 
+        {{ $hasCliTrim := and (eq (index $tab "title") "redis-cli") (index $tab "hasCliTrim") }}
+        {{ $cliLimitInt := index $tab "limitInt" }}
         <div class="panel {{ if ne $i 0 }}panel-hidden{{ end }} w-full mt-0 {{ if not $showFooter}}pb-8{{end}}"
              id="{{ $pid }}"
              data-lang="{{ $dataLang }}"
+             {{ if $hasCliTrim }}data-cli-trimmable="true" data-cli-preview-lines="{{ $cliLimitInt }}" style="--cli-preview-lines: {{ $cliLimitInt }};"{{ end }}
              {{ if $binderId }}data-binder-id="{{ $binderId }}"{{ end }}
              {{ if $commands }}data-required-commands="{{ delimit $commands "," }}"{{ end }}
              data-codetabs-id="{{ $id }}"
              role="tabpanel"
              tabindex="0"
              aria-labelledby="lang-select-{{ $id }}">
+            {{ if $hasCliTrim }}
+            <div class="cli-output-shell cli-output-shell-trimmable">
+                {{ index $tab "content" }}
+            </div>
+            {{ else }}
             {{ index $tab "content" }}
+            {{ end }}
 
             {{ if $showFooter }}
             <div class="cli-footer flex flex-col rounded-b-md bg-slate-900 mt-0 px-4 pt-0 mb-0">
@@ -331,6 +352,68 @@ window.updateAllBinderLinks = window.updateAllBinderLinks || function() {
     });
 };
 
+window.updateAllCliOutputToggles = window.updateAllCliOutputToggles || function() {
+    const containers = document.querySelectorAll('[id^="cli-output-toggle-container-"]');
+
+    containers.forEach((container) => {
+        const codetabsId = container.id.replace('cli-output-toggle-container-', '');
+        const codetabsContainer = document.getElementById(codetabsId);
+        const button = container.querySelector('.cli-output-toggle');
+
+        if (!codetabsContainer || !button) return;
+
+        const visiblePanel = codetabsContainer.querySelector('.panel:not(.panel-hidden)');
+        const visibilityButton = codetabsContainer.querySelector('.visibility-button');
+
+        if (!visiblePanel || visiblePanel.getAttribute('data-cli-trimmable') !== 'true') {
+            container.classList.add('hidden');
+            container.classList.remove('flex');
+            button.classList.add('hidden');
+            button.classList.remove('inline-flex');
+            if (visibilityButton) {
+                visibilityButton.classList.remove('hidden');
+                visibilityButton.classList.add('inline-flex');
+            }
+            return;
+        }
+
+        const isExpanded = visiblePanel.hasAttribute('data-cli-expanded');
+        const label = button.querySelector('.cli-output-toggle-label');
+        const icon = button.querySelector('.cli-output-toggle-icon');
+
+        container.classList.remove('hidden');
+        container.classList.add('flex');
+        button.classList.remove('hidden');
+        button.classList.add('inline-flex');
+
+        if (visibilityButton) {
+            visibilityButton.classList.add('hidden');
+            visibilityButton.classList.remove('inline-flex');
+        }
+
+        if (label) {
+            label.textContent = isExpanded ? 'Hide full output' : 'Show full output';
+        }
+
+        if (icon) {
+            icon.style.transform = isExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+    });
+};
+
+window.toggleCliOutputForCodetabs = window.toggleCliOutputForCodetabs || function(button) {
+    const codetabsId = button.getAttribute('data-codetabs-id');
+    const codetabsContainer = document.getElementById(codetabsId);
+
+    if (!codetabsContainer) return;
+
+    const visiblePanel = codetabsContainer.querySelector('.panel:not(.panel-hidden)');
+    if (!visiblePanel || visiblePanel.getAttribute('data-cli-trimmable') !== 'true') return;
+
+    visiblePanel.toggleAttribute('data-cli-expanded');
+    window.updateAllCliOutputToggles();
+};
+
 (function() {
     // Initialize BinderHub link for this codetabs instance
     const codetabsId = '{{ $id }}';
@@ -340,13 +423,17 @@ window.updateAllBinderLinks = window.updateAllBinderLinks || function() {
     // codetabs.js is deferred, so it runs after DOM is ready, but we need to wait for it to complete
     setTimeout(() => {
         window.updateAllBinderLinks();
+        window.updateAllCliOutputToggles();
     }, 100);
 
     // Update all binder links when language changes
     // We need to use a small delay to allow codetabs.js to synchronize all dropdowns first
     if (langSelect) {
         langSelect.addEventListener('change', () => {
-            setTimeout(window.updateAllBinderLinks, 10);
+            setTimeout(() => {
+                window.updateAllBinderLinks();
+                window.updateAllCliOutputToggles();
+            }, 10);
         });
     }
 })();

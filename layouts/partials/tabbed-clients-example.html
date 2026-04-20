@@ -42,16 +42,19 @@
 {{ $tabs := slice }}
 {{/* Render redis-cli example from inner content if any */}}
 {{ if (ne (trim $redisCommands "\n") "") }}
-    {{ $highlightOptions := "linenos=false" }}
     {{ $redisCommandsLineLimitInt := 0 }}
+    {{ $trimmedRedisCommands := trim $redisCommands "\n" }}
+    {{ $redisCommandLines := split $trimmedRedisCommands "\n" }}
+    {{ $redisCommandLineCount := len $redisCommandLines }}
+    {{ $hasCliTrim := false }}
     {{ if $redisCommandsLineLimit }}
         {{ $redisCommandsLineLimitInt = int $redisCommandsLineLimit }}
     {{ end }}
-    {{ if gt $redisCommandsLineLimitInt 0 }}
-        {{ $highlightOptions = printf "linenos=false,hl_lines=1-%d" $redisCommandsLineLimitInt }}
+    {{ if and (gt $redisCommandsLineLimitInt 0) (gt $redisCommandLineCount $redisCommandsLineLimitInt) }}
+        {{ $hasCliTrim = true }}
     {{ end }}
-    {{ $redisCliContent := highlight (trim $redisCommands "\n") "plaintext" $highlightOptions }}
-    {{ $cliTab := dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "limit" $redisCommandsLineLimit "customFooterLinkText" $cliFooterLinkText "customFooterLinkUrl" $cliFooterLinkUrl }}
+    {{ $redisCliContent := highlight $trimmedRedisCommands "plaintext" "linenos=false" }}
+    {{ $cliTab := dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "limit" $redisCommandsLineLimit "limitInt" $redisCommandsLineLimitInt "lineCount" $redisCommandLineCount "hasCliTrim" $hasCliTrim "customFooterLinkText" $cliFooterLinkText "customFooterLinkUrl" $cliFooterLinkUrl }}
     {{ if gt (len $commands) 0 }}
         {{ $cliTab = merge $cliTab (dict "commands" $commands) }}
     {{ end }}
