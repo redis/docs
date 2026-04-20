@@ -1,19 +1,27 @@
 ---
-linkTitle: Caching embeddings
-title: Caching Embeddings
+linkTitle: Cache embeddings
+title: Cache Embeddings
 aliases:
 - /integrate/redisvl/user_guide/10_embeddings_cache
 weight: 10
 ---
 
 
-RedisVL provides an `EmbeddingsCache` that makes it easy to store and retrieve embedding vectors with their associated text and metadata. This cache is particularly useful for applications that frequently compute the same embeddings, enabling you to:
+RedisVL provides an `EmbeddingsCache` that stores and retrieves embedding vectors with their associated text and metadata. This cache is useful for applications that frequently compute the same embeddings.
 
-- Reduce computational costs by reusing previously computed embeddings
-- Decrease latency in applications that rely on embeddings
-- Store additional metadata alongside embeddings for richer applications
+## Prerequisites
 
-This notebook will show you how to use the `EmbeddingsCache` effectively in your applications.
+Before you begin, ensure you have:
+- Installed RedisVL: `pip install redisvl`
+- A running Redis instance ([Redis 8+](https://redis.io/downloads/) or [Redis Cloud](https://redis.io/cloud))
+
+## What You'll Learn
+
+By the end of this guide, you will be able to:
+- Store and retrieve embedding vectors with the `EmbeddingsCache`
+- Use batch operations for efficient processing
+- Configure time-to-live (TTL) for cache entries
+- Integrate the cache with vectorizers for automatic caching
 
 ## Setup
 
@@ -43,21 +51,6 @@ vectorizer = HFTextVectorizer(
     cache_folder=os.getenv("SENTENCE_TRANSFORMERS_HOME")
 )
 ```
-
-    /Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/.venv/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
-      from .autonotebook import tqdm as notebook_tqdm
-
-
-    13:06:09 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
-    13:06:09 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: redis/langcache-embed-v1
-    13:06:09 sentence_transformers.SentenceTransformer WARNING   You try to use a model that was created with version 4.1.0, however, your version is 3.4.1. This might cause unexpected behavior or errors. In that case, try to update to the latest version.
-    
-    
-    
-
-
-    Batches: 100%|██████████| 1/1 [00:00<00:00,  4.09it/s]
-
 
 ## Initializing the EmbeddingsCache
 
@@ -98,7 +91,7 @@ metadata = {"category": "ai", "source": "user_query"}
 
 # Store in cache
 key = cache.set(
-    text=text,
+    content=text,
     model_name=model_name,
     embedding=embedding,
     metadata=metadata
@@ -107,12 +100,7 @@ key = cache.set(
 print(f"Stored with key: {key[:15]}...")
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00,  3.18it/s]
-
     Stored with key: embedcache:909f...
-
-
-    
 
 
 ### Retrieving Embeddings
@@ -123,8 +111,8 @@ To retrieve an embedding from the cache, use the `get` method with the original 
 ```python
 # Retrieve from cache
 
-if result := cache.get(text=text, model_name=model_name):
-    print(f"Found in cache: {result['text']}")
+if result := cache.get(content=text, model_name=model_name):
+    print(f"Found in cache: {result['content']}")
     print(f"Model: {result['model_name']}")
     print(f"Metadata: {result['metadata']}")
     print(f"Embedding shape: {np.array(result['embedding']).shape}")
@@ -145,12 +133,12 @@ You can check if an embedding exists in the cache without retrieving it using th
 
 ```python
 # Check if existing text is in cache
-exists = cache.exists(text=text, model_name=model_name)
+exists = cache.exists(content=text, model_name=model_name)
 print(f"First query exists in cache: {exists}")
 
 # Check if a new text is in cache
 new_text = "What is deep learning?"
-exists = cache.exists(text=new_text, model_name=model_name)
+exists = cache.exists(content=new_text, model_name=model_name)
 print(f"New query exists in cache: {exists}")
 ```
 
@@ -165,10 +153,10 @@ To remove an entry from the cache, use the `drop` method:
 
 ```python
 # Remove from cache
-cache.drop(text=text, model_name=model_name)
+cache.drop(content=text, model_name=model_name)
 
 # Verify it's gone
-exists = cache.exists(text=text, model_name=model_name)
+exists = cache.exists(content=text, model_name=model_name)
 print(f"After dropping: {exists}")
 ```
 
@@ -185,7 +173,7 @@ The `EmbeddingsCache` also provides methods that work directly with Redis keys, 
 ```python
 # Store an entry again
 key = cache.set(
-    text=text,
+    content=text,
     model_name=model_name,
     embedding=embedding,
     metadata=metadata
@@ -198,7 +186,7 @@ print(f"Exists by key: {exists_by_key}")
 
 # Retrieve by key
 result_by_key = cache.get_by_key(key)
-print(f"Retrieved by key: {result_by_key['text']}")
+print(f"Retrieved by key: {result_by_key['content']}")
 
 # Drop by key
 cache.drop_by_key(key)
@@ -226,19 +214,19 @@ embeddings = [vectorizer.embed(t) for t in texts]
 # Prepare batch items as dictionaries
 batch_items = [
     {
-        "text": texts[0],
+        "content": texts[0],
         "model_name": model_name,
         "embedding": embeddings[0],
         "metadata": {"category": "ai", "type": "question"}
     },
     {
-        "text": texts[1],
+        "content": texts[1],
         "model_name": model_name,
         "embedding": embeddings[1],
         "metadata": {"category": "ai", "type": "question"}
     },
     {
-        "text": texts[2],
+        "content": texts[2],
         "model_name": model_name,
         "embedding": embeddings[2],
         "metadata": {"category": "ai", "type": "question"}
@@ -266,16 +254,9 @@ cache.mdrop(texts, model_name)
 # cache.mdrop_by_keys(keys)    # Delete by keys
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.37it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00,  9.04it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 20.84it/s]
-
     Stored 3 embeddings with batch operation
     All embeddings exist: True
     Retrieved 3 embeddings in one operation
-
-
-    
 
 
 Batch operations are particularly beneficial when working with large numbers of embeddings. They provide the same functionality as individual operations but with better performance by reducing network roundtrips.
@@ -297,7 +278,7 @@ ttl_cache = EmbeddingsCache(
 
 # Store an entry
 key = ttl_cache.set(
-    text=text,
+    content=text,
     model_name=model_name,
     embedding=embedding
 )
@@ -324,7 +305,7 @@ You can also override the default TTL for individual entries:
 ```python
 # Store an entry with a custom 1-second TTL
 key1 = ttl_cache.set(
-    text="Short-lived entry",
+    content="Short-lived entry",
     model_name=model_name,
     embedding=embedding,
     ttl=1  # Override with 1 second TTL
@@ -332,7 +313,7 @@ key1 = ttl_cache.set(
 
 # Store another entry with the default TTL (5 seconds)
 key2 = ttl_cache.set(
-    text="Default TTL entry",
+    content="Default TTL entry",
     model_name=model_name,
     embedding=embedding
     # No TTL specified = uses the default 5 seconds
@@ -365,21 +346,21 @@ The `EmbeddingsCache` provides async versions of all methods for use in async ap
 async def async_cache_demo():
     # Store an entry asynchronously
     key = await cache.aset(
-        text="Async embedding",
+        content="Async embedding",
         model_name=model_name,
         embedding=embedding,
         metadata={"async": True}
     )
-    
+
     # Check if it exists
     exists = await cache.aexists_by_key(key)
     print(f"Async set successful? {exists}")
-    
+
     # Retrieve it
     result = await cache.aget_by_key(key)
-    success = result is not None and result["text"] == "Async embedding"
+    success = result is not None and result["content"] == "Async embedding"
     print(f"Async get successful? {success}")
-    
+
     # Remove it
     await cache.adrop_by_key(key)
 
@@ -425,12 +406,12 @@ cache_hits = 0
 
 for query in queries:
     total_queries += 1
-    
+
     # Check cache before computing
-    before = example_cache.exists(text=query, model_name=model_name)
+    before = example_cache.exists(content=query, model_name=model_name)
     if before:
         cache_hits += 1
-    
+
     # Get embedding (will compute or use cache)
     embedding = vectorizer.embed(query)
 
@@ -446,21 +427,14 @@ print(f"Cache hit rate: {hit_rate:.1f}%")
 
 # Cleanup
 for query in set(queries):  # Use set to get unique queries
-    example_cache.drop(text=query, model_name=model_name)
+    example_cache.drop(content=query, model_name=model_name)
 ```
 
-    13:06:20 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
-    13:06:20 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: redis/langcache-embed-v1
-    13:06:20 sentence_transformers.SentenceTransformer WARNING   You try to use a model that was created with version 4.1.0, however, your version is 3.4.1. This might cause unexpected behavior or errors. In that case, try to update to the latest version.
+    You try to use a model that was created with version 4.1.0, however, your version is 3.4.1. This might cause unexpected behavior or errors. In that case, try to update to the latest version.
     
     
     
 
-
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.84it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 22.04it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 22.62it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 22.71it/s]
 
     
     Statistics:
@@ -468,9 +442,6 @@ for query in set(queries):  # Use set to get unique queries
     Cache hits: 2
     Cache misses: 3
     Cache hit rate: 40.0%
-
-
-    
 
 
 ## Performance Benchmark
@@ -521,36 +492,17 @@ print(f"Latency reduction: {latency_reduction:.4f} seconds per query")
 ```
 
     Benchmarking without caching:
-
-
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 21.51it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 23.21it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 23.96it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 23.28it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 22.69it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 22.98it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 23.17it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 24.12it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 23.37it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 23.24it/s]
-
-
-    Time taken without caching: 0.4549 seconds
-    Average time per embedding: 0.0455 seconds
+    Time taken without caching: 0.4564 seconds
+    Average time per embedding: 0.0456 seconds
     
     Benchmarking with caching:
-
-
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 23.69it/s]
-
-
-    Time taken with caching: 0.0664 seconds
-    Average time per embedding: 0.0066 seconds
+    Time taken with caching: 0.0619 seconds
+    Average time per embedding: 0.0062 seconds
     
     Performance comparison:
-    Speedup with caching: 6.86x faster
-    Time saved: 0.3885 seconds (85.4%)
-    Latency reduction: 0.0389 seconds per query
+    Speedup with caching: 7.37x faster
+    Time saved: 0.3945 seconds (86.4%)
+    Latency reduction: 0.0395 seconds per query
 
 
 ## Common Use Cases for Embedding Caching
@@ -576,6 +528,14 @@ ttl_cache.clear()
 example_cache.clear()
 benchmark_cache.clear()
 ```
+
+## Next Steps
+
+Now that you understand embeddings caching, explore these related guides:
+
+- [Cache LLM Responses](03_llmcache.ipynb) - Cache full LLM responses based on semantic similarity
+- [Create Embeddings with Vectorizers](04_vectorizers.ipynb) - Learn about different embedding providers
+- [Manage LLM Message History](07_message_history.ipynb) - Store and retrieve conversation history
 
 ## Summary
 

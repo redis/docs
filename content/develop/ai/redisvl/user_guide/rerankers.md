@@ -1,31 +1,27 @@
 ---
-linkTitle: Rerankers
-title: Rerankers
+linkTitle: Rerank search results
+title: Rerank Search Results
 aliases:
 - /integrate/redisvl/user_guide/06_rerankers
 weight: 06
 ---
 
 
-In this notebook, we will show how to use RedisVL to rerank search results
-(documents or chunks or records) based on the input query. Today RedisVL
-supports reranking through: 
+This guide demonstrates how to use RedisVL to rerank search results (documents, chunks, or records) based on query relevance. RedisVL supports reranking through Cross-Encoders from [Hugging Face](https://huggingface.co/cross-encoder), [Cohere Rerank API](https://docs.cohere.com/docs/rerank-2), and [VoyageAI Rerank API](https://docs.voyageai.com/docs/reranker).
 
-- A re-ranker that uses pre-trained [Cross-Encoders](https://sbert.net/examples/applications/cross-encoder/README.html) which can use models from [Hugging Face cross encoder models](https://huggingface.co/cross-encoder) or Hugging Face models that implement a cross encoder function ([example: BAAI/bge-reranker-base](https://huggingface.co/BAAI/bge-reranker-base)).
-- The [Cohere /rerank API](https://docs.cohere.com/docs/rerank-2).
-- The [VoyageAI /rerank API](https://docs.voyageai.com/docs/reranker).
+## Prerequisites
 
-Before running this notebook, be sure to:
-1. Have installed ``redisvl`` and have that environment active for this notebook.
-2. Have a running Redis Stack instance with RediSearch > 2.4 active.
+Before you begin, ensure you have:
+- Installed RedisVL: `pip install redisvl`
+- A running Redis instance ([Redis 8+](https://redis.io/downloads/) or [Redis Cloud](https://redis.io/cloud))
 
-For example, you can run Redis Stack locally with Docker:
+## What You'll Learn
 
-```bash
-docker run -d -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
-```
-
-This will run Redis on port 6379 and RedisInsight at http://localhost:8001.
+By the end of this guide, you will be able to:
+- Rerank search results using HuggingFace Cross-Encoders
+- Use the Cohere Rerank API with search results
+- Use the VoyageAI Rerank API for result reranking
+- Control the number of returned results after reranking
 
 
 ```python
@@ -83,9 +79,9 @@ for result, score in zip(results, scores):
     print(score, " -- ", result)
 ```
 
-    0.07461125403642654  --  {'content': 'Washington, D.C. (also known as simply Washington or D.C., and officially as the District of Columbia) is the capital of the United States. It is a federal district. The President of the USA and many major national government offices are in the territory. This makes it the political center of the United States of America.'}
-    0.05220315232872963  --  {'content': 'Charlotte Amalie is the capital and largest city of the United States Virgin Islands. It has about 20,000 people. The city is on the island of Saint Thomas.'}
-    0.3802368640899658  --  {'content': 'Carson City is the capital city of the American state of Nevada. At the 2010 United States Census, Carson City had a population of 55,274.'}
+    0.07461103051900864  --  {'content': 'Washington, D.C. (also known as simply Washington or D.C., and officially as the District of Columbia) is the capital of the United States. It is a federal district. The President of the USA and many major national government offices are in the territory. This makes it the political center of the United States of America.'}
+    0.052202966064214706  --  {'content': 'Charlotte Amalie is the capital and largest city of the United States Virgin Islands. It has about 20,000 people. The city is on the island of Saint Thomas.'}
+    0.3802356719970703  --  {'content': 'Carson City is the capital city of the American state of Nevada. At the 2010 United States Census, Carson City had a population of 55,274.'}
 
 
 ### Using the Cohere Reranker
@@ -114,8 +110,8 @@ cohere_reranker = CohereReranker(limit=3, api_config={"api_key": api_key})
 
 ### Rerank documents with CohereReranker
 
-Below we will use the `CohereReranker` to rerank and truncate the list of
-documents above based on relevance to the initial query.
+The following example uses `CohereReranker` to rerank and truncate the list of
+documents based on relevance to the initial query.
 
 
 ```python
@@ -200,13 +196,14 @@ api_key = os.environ.get("VOYAGE_API_KEY") or getpass.getpass("Enter your Voyage
 ```python
 from redisvl.utils.rerank import VoyageAIReranker
 
-reranker = VoyageAIReranker(model="rerank-lite-1", limit=3, api_config={"api_key": api_key})# Please check the available models at https://docs.voyageai.com/docs/reranker
+reranker = VoyageAIReranker(model="rerank-lite-1", limit=3, api_config={"api_key": api_key})
+# Please check the available models at https://docs.voyageai.com/docs/reranker
 ```
 
 ### Rerank documents with VoyageAIReranker
 
-Below we will use the `VoyageAIReranker` to rerank and also truncate the list of
-documents above based on relevance to the initial query.
+The following example uses `VoyageAIReranker` to rerank and truncate the list of
+documents based on relevance to the initial query.
 
 
 ```python
@@ -223,3 +220,15 @@ for result, score in zip(results, scores):
     0.578125  --  Charlotte Amalie is the capital and largest city of the United States Virgin Islands. It has about 20,000 people. The city is on the island of Saint Thomas.
     0.5625  --  Carson City is the capital city of the American state of Nevada. At the 2010 United States Census, Carson City had a population of 55,274.
 
+
+## Next Steps
+
+Now that you understand reranking, explore these related guides:
+
+- [Create Embeddings with Vectorizers](04_vectorizers.ipynb) - Generate embeddings using various providers
+- [Query and Filter Data](02_complex_filtering.ipynb) - Build complex filter expressions for search
+- [Use Advanced Query Types](11_advanced_queries.ipynb) - Learn about HybridQuery and other query types
+
+## Cleanup
+
+This guide does not create a persistent index, so no cleanup is required.
