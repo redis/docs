@@ -299,7 +299,9 @@ jobs:
           for user_guide in "${user_guides[@]}"; do
               if [[ ! "$user_guide" =~ _index.md$ ]]; then
                   renamed_user_guide=$(sed 's|[0-9]\+_||' <<<${user_guide})
-                  mv ${user_guide} ${renamed_user_guide}
+                  if [ "${user_guide}" != "${renamed_user_guide}" ]; then
+                      mv ${user_guide} ${renamed_user_guide}
+                  fi
               fi
           done
 
