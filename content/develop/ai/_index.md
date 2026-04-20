@@ -19,9 +19,9 @@ Redis stores and indexes vector embeddings that semantically represent unstructu
   {{< image-card image="images/ai-brain.svg" alt="AI Redis icon" title="Use LangCache to store LLM responses" url="/develop/ai/langcache/" >}}
 </div>
 
-## Featureform
+## Redis Feature Form
 
-Use [Featureform]({{< relref "/develop/ai/featureform/" >}}) to define, manage, and serve machine learning features on top of your existing data systems. The Featureform docs cover the Python SDK workflow from provider registration through feature serving.
+Use [Redis Feature Form]({{< relref "/develop/ai/featureform/" >}}) to define, manage, and serve machine learning features on top of your existing data systems. The Feature Form docs cover the Python SDK workflow from provider registration through feature serving.
 
 #### Overview
 

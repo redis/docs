@@ -1,7 +1,7 @@
 ---
-_build:
+build:
   render: never
 cascade:
-  _build:
+  build:
     render: never
 ---

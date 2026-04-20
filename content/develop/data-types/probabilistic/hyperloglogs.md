@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/probabilistic/hyperloglogs/
+- /manual/data-types/probabilistic/hyperloglogs/
 categories:
 - docs
 - develop

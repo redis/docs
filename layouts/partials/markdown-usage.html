@@ -1,0 +1,14 @@
+{{- /* Expand usage shortcodes into Markdown-friendly lists for AI output. */ -}}
+
+{{- $content := .RawContent -}}
+{{- $pattern := `(?s)\{\{<\s*usage\s*>\}\}(.*?)\{\{<\s*/usage\s*>\}\}` -}}
+{{- $matches := findRESubmatch $pattern $content -}}
+
+{{- range $match := $matches -}}
+  {{- $fullMatch := index $match 0 -}}
+  {{- $inner := index $match 1 -}}
+  {{- $replacement := partial "usage-block-markdown.html" (dict "RawContent" $inner) | htmlUnescape -}}
+  {{- $content = replace $content $fullMatch $replacement -}}
+{{- end -}}
+
+{{- return $content -}}

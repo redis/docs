@@ -151,7 +151,7 @@ Get references for an existing route route.
 
 #### `model_post_init(context, /)`
 
-This function is meant to behave like a BaseModel method to initialise private attributes.
+This function is meant to behave like a BaseModel method to initialize private attributes.
 
 It takes context as an argument since that’s what pydantic-core passes when calling it.
 

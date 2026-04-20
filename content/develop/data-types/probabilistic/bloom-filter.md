@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/probabilistic/bloom-filter/
+- /manual/data-types/probabilistic/bloom-filter/
 categories:
 - docs
 - develop

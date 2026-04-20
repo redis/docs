@@ -456,6 +456,24 @@ select {
     padding-bottom: 0;
 }
 
+.codetabs .cli-output-shell-trimmable .highlight > .chroma {
+  max-height: calc((var(--cli-preview-lines, 10) * 1.25rem) + 1.5rem);
+  overflow-y: hidden;
+  position: relative;
+}
+
+.codetabs .panel[data-cli-trimmable="true"]:not([data-cli-expanded]) .cli-output-shell-trimmable .highlight > .chroma {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+}
+
+.codetabs .panel[data-cli-trimmable="true"][data-cli-expanded] .cli-output-shell-trimmable .highlight > .chroma {
+  max-height: none;
+  overflow-y: auto;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
 .codetabs .chroma .language-plaintext .cl {
     white-space: break-spaces;
 }
@@ -468,31 +486,31 @@ select {
   @apply rounded-none p-0;
 }
 
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > code > .line:not(.hl),
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .lntable .lntd code > .lnt,
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > code > .line:not(.hl),
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .lntable .lntd code > .lnt,
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
   @apply hidden;
 }
 
-.codetabs > .panel:where([aria-expanded]) .highlight .chroma > code > .line:not(.hl),
-.codetabs > .panel:where([aria-expanded]) .highlight .chroma > .lntable .lntd code > .lnt,
-.codetabs > .panel:where([aria-expanded]) .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
+.codetabs > .panel:where([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > code > .line:not(.hl),
+.codetabs > .panel:where([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .lntable .lntd code > .lnt,
+.codetabs > .panel:where([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
   @apply opacity-60;
 }
 
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .language-Go > .hl {
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .language-Go > .hl {
   tab-size: 3ch;
   left: -3ch;
   position: relative;
 }
 
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .language-C\# > .hl
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .language-C\# > .hl
 {
   left: -8ch;
   position: relative;
 }
 
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .language-Java > .hl
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .language-Java > .hl
 {
   left: -4ch;
   position: relative;
@@ -973,6 +991,61 @@ input[type="radio"] {
 
 .expand-content > div > pre > code {
   @apply h-full overflow-y-auto font-monogeist;
+}
+
+.trimmable-label-less {
+  display: none;
+}
+
+.trimmable-toggle::before {
+  border-bottom: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  content: "";
+  display: inline-block;
+  height: 0.5rem;
+  transform: translateY(-0.1rem) rotate(45deg);
+  transition: transform 0.2s ease;
+  width: 0.5rem;
+}
+
+.trimmable-input:checked ~ .trimmable-toggle::before {
+  transform: translateY(0.1rem) rotate(-135deg);
+}
+
+.trimmable-input:checked ~ .trimmable-toggle .trimmable-label-more {
+  display: none;
+}
+
+.trimmable-input:checked ~ .trimmable-toggle .trimmable-label-less {
+  display: inline;
+}
+
+.trimmable-content {
+  max-height: 10lh;
+}
+
+.trimmable-content pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.trimmable-content > *:first-child {
+  margin-top: 0;
+}
+
+.trimmable-content > *:last-child {
+  margin-bottom: 0;
+}
+
+.trimmable-input:not(:checked) ~ .trimmable-content {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
+}
+
+.trimmable-input:checked ~ .trimmable-content {
+  max-height: none;
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 
 code {

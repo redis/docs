@@ -1462,6 +1462,91 @@
           });
         }
 
+        // Thebe 0.9.0-rc.12's bundled CodeMirror 5 only registers the "python" mode,
+        // so JavaScript (Node.js) cells lose syntax highlighting after activation.
+        // Lazily fetch CM5's javascript mode and register it on Thebe's internal CM class,
+        // then re-apply the mode on any JS cells to force re-tokenization.
+        const CM_JS_MODE_URL = 'https://unpkg.com/codemirror@5.65.16/mode/javascript/javascript.js';
+
+        function loadCodeMirrorJsMode(CM) {
+          if (!CM || typeof CM.defineMode !== 'function') return Promise.resolve(false);
+          if (CM.modes && CM.modes.javascript) return Promise.resolve(true);
+          if (window.__cmJsModePromise) return window.__cmJsModePromise;
+
+          window.__cmJsModePromise = new Promise(function(resolve) {
+            const hadPrev = Object.prototype.hasOwnProperty.call(window, 'CodeMirror');
+            const prev = window.CodeMirror;
+            window.CodeMirror = CM;
+            const script = document.createElement('script');
+            script.src = CM_JS_MODE_URL;
+            const restore = function() {
+              if (hadPrev) { window.CodeMirror = prev; } else { try { delete window.CodeMirror; } catch (e) { window.CodeMirror = undefined; } }
+            };
+            script.onload = function() {
+              restore();
+              resolve(!!(CM.modes && CM.modes.javascript));
+            };
+            script.onerror = function() {
+              restore();
+              console.warn('[Thebe] Failed to load CodeMirror JavaScript mode from', CM_JS_MODE_URL);
+              window.__cmJsModePromise = null;
+              resolve(false);
+            };
+            document.head.appendChild(script);
+          });
+          return window.__cmJsModePromise;
+        }
+
+        // Thebe strips data-language after activation, so we identify JS cells by the
+        // CodeMirror instance's configured mode option.
+        function findJsCmInstances() {
+          const out = [];
+          document.querySelectorAll('.thebe-cell .CodeMirror').forEach(function(cmEl) {
+            const cm = cmEl.CodeMirror;
+            if (!cm) return;
+            const mode = cm.getOption('mode');
+            const modeName = (typeof mode === 'string') ? mode : (mode && mode.name);
+            if (modeName === 'javascript') out.push(cm);
+          });
+          return out;
+        }
+
+        function applyJsModeToCells() {
+          findJsCmInstances().forEach(function(cm) {
+            cm.setOption('mode', null);
+            cm.setOption('mode', 'javascript');
+          });
+        }
+
+        // Triggering paths diverge: a fresh "Run here" click follows "attached" with cells
+        // already CodeMirror-ified, while an auto-restored session may fire "attached"
+        // before Thebe has installed the editors. To cover both, watch the DOM with a
+        // MutationObserver and also run once synchronously.
+        let __jsHighlightDone = false;
+        let __jsHighlightObserver = null;
+        function __tryRegisterJsMode() {
+          if (__jsHighlightDone) return;
+          const jsCms = findJsCmInstances();
+          if (jsCms.length === 0) return;
+          __jsHighlightDone = true;
+          if (__jsHighlightObserver) { __jsHighlightObserver.disconnect(); __jsHighlightObserver = null; }
+          const CM = jsCms[0].constructor;
+          loadCodeMirrorJsMode(CM).then(function(ok) {
+            if (ok) applyJsModeToCells();
+          });
+        }
+        function ensureJsHighlightingForActivatedCells() {
+          __tryRegisterJsMode();
+          if (__jsHighlightDone || __jsHighlightObserver) return;
+          if (typeof MutationObserver !== 'function') return;
+          __jsHighlightObserver = new MutationObserver(function() { __tryRegisterJsMode(); });
+          __jsHighlightObserver.observe(document.body, { childList: true, subtree: true });
+          // Safety net: stop observing after 2 minutes even if no JS cells ever appear.
+          setTimeout(function() {
+            if (__jsHighlightObserver) { __jsHighlightObserver.disconnect(); __jsHighlightObserver = null; }
+          }, 120000);
+        }
+
         // Function to handle kernel expiration/disconnection
         function handleKernelExpired() {
           // Clear localStorage session so fresh start on reload
@@ -1506,6 +1591,10 @@
 
           // Preserve the original Hugo-rendered cell HTML before Thebe mutates it.
           storeOriginalCellHTML();
+
+          // Start watching for JS cells so we can install CM's javascript mode as soon
+          // as Thebe creates the editors (covers both fresh click and auto-reconnect).
+          ensureJsHighlightingForActivatedCells();
 
           // NOTE: Loading state is now managed by individual click handlers (lines 1189-1190)
           // This prevents all blocks from showing "Starting kernel..." when only one is clicked
@@ -1568,6 +1657,9 @@
                   enableAllButtons();
                   // Configure CodeMirror keyboard shortcuts (Cmd+Enter / Ctrl+Enter)
                   configureCodeMirrorShortcuts();
+                  // Thebe's bundled CodeMirror lacks the JavaScript mode; lazy-load it
+                  // so Node.js cells keep syntax highlighting after activation.
+                  ensureJsHighlightingForActivatedCells();
                   // Note: Removed focus() call that was causing scroll jump on page refresh
                   // Users can click into any editor to focus when they want to edit
                 }
