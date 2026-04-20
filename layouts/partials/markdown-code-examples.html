@@ -93,17 +93,47 @@
   {{- if and $cliContent (gt $maxLines 0) -}}
     {{- $cliLines := split $cliContent "\n" -}}
     {{- $tailLines := $maxLines -}}
-    {{- $charTrimWidth := mul $maxLines 120 -}}
+    {{- $wrapCharsPerLine := 120 -}}
+    {{- $charTrimWidth := mul $maxLines $wrapCharsPerLine -}}
+    {{- $estimatedVisualLineCount := 0 -}}
     {{- if gt $tailLines 8 -}}
       {{- $tailLines = 8 -}}
     {{- end -}}
-    {{- if gt (len $cliLines) (add $maxLines $tailLines 1) -}}
+    {{- range $line := $cliLines -}}
+      {{- $lineLength := len $line -}}
+      {{- $wrappedLines := 1 -}}
+      {{- if gt $lineLength $wrapCharsPerLine -}}
+        {{- $wrappedLines = int (math.Ceil (div (float $lineLength) (float $wrapCharsPerLine))) -}}
+      {{- end -}}
+      {{- $estimatedVisualLineCount = add $estimatedVisualLineCount $wrappedLines -}}
+    {{- end -}}
+    {{- if gt $estimatedVisualLineCount (add $maxLines $tailLines 1) -}}
       {{- $trimmedLines := slice -}}
-      {{- range $line := first $maxLines $cliLines -}}
-        {{- $trimmedLines = $trimmedLines | append $line -}}
+      {{- $headVisualLines := 0 -}}
+      {{- range $line := $cliLines -}}
+        {{- if lt $headVisualLines $maxLines -}}
+          {{- $trimmedLines = $trimmedLines | append $line -}}
+          {{- $wrappedLines := 1 -}}
+          {{- if gt (len $line) $wrapCharsPerLine -}}
+            {{- $wrappedLines = int (math.Ceil (div (float (len $line)) (float $wrapCharsPerLine))) -}}
+          {{- end -}}
+          {{- $headVisualLines = add $headVisualLines $wrappedLines -}}
+        {{- end -}}
       {{- end -}}
       {{- $trimmedLines = $trimmedLines | append "... output truncated for AI-facing Markdown ..." -}}
-      {{- range $line := first $tailLines (after (sub (len $cliLines) $tailLines) $cliLines) -}}
+      {{- $tailSlice := slice -}}
+      {{- $tailVisualLines := 0 -}}
+      {{- range $line := last (len $cliLines) $cliLines -}}
+        {{- $wrappedLines := 1 -}}
+        {{- if gt (len $line) $wrapCharsPerLine -}}
+          {{- $wrappedLines = int (math.Ceil (div (float (len $line)) (float $wrapCharsPerLine))) -}}
+        {{- end -}}
+        {{- if lt $tailVisualLines $tailLines -}}
+          {{- $tailSlice = $tailSlice | append $line -}}
+          {{- $tailVisualLines = add $tailVisualLines $wrappedLines -}}
+        {{- end -}}
+      {{- end -}}
+      {{- range $line := last (len $tailSlice) (collections.Reverse $tailSlice) -}}
         {{- $trimmedLines = $trimmedLines | append $line -}}
       {{- end -}}
       {{- $cliContent = delimit $trimmedLines "\n" -}}
