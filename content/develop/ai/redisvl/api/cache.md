@@ -21,8 +21,9 @@ Semantic Cache for Large Language Models.
 * **Parameters:**
   * **name** (*str* *,* *optional*) – The name of the semantic cache search index.
     Defaults to "llmcache".
-  * **distance_threshold** (*float* *,* *optional*) – Semantic threshold for the
-    cache. Defaults to 0.1.
+  * **distance_threshold** (*float* *,* *optional*) – Semantic distance threshold for the
+    cache in Redis COSINE units [0-2], where lower values indicate stricter
+    matching. Defaults to 0.1.
   * **ttl** (*Optional* *[* *int* *]* *,* *optional*) – The time-to-live for records cached
     in Redis. Defaults to None.
   * **vectorizer** (*Optional* *[* *BaseVectorizer* *]* *,* *optional*) – The vectorizer for the cache.
@@ -39,7 +40,7 @@ Semantic Cache for Large Language Models.
 * **Raises:**
   * **TypeError** – If an invalid vectorizer is provided.
   * **TypeError** – If the TTL value is not an int.
-  * **ValueError** – If the threshold is not between 0 and 1.
+  * **ValueError** – If the threshold is not between 0 and 2 (Redis COSINE distance).
   * **ValueError** – If existing schema does not match new schema and overwrite is False.
 
 #### `async acheck(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None)`
@@ -304,7 +305,7 @@ Sets the semantic distance threshold for the cache.
   **distance_threshold** (*float*) – The semantic distance threshold for
   the cache.
 * **Raises:**
-  **ValueError** – If the threshold is not between 0 and 1.
+  **ValueError** – If the threshold is not between 0 and 2 (Redis COSINE distance).
 * **Return type:**
   None
 
@@ -402,6 +403,142 @@ The underlying SearchIndex for the cache.
 
 The default TTL, in seconds, for entries in the cache.
 
+## Cache Schema Classes
+
+### `CacheEntry`
+
+<a id="cache-entry-api"></a>
+
+### `class CacheEntry(*, entry_id=None, prompt, response, prompt_vector, inserted_at=<factory>, updated_at=<factory>, metadata=None, filters=None)`
+
+Bases: `BaseModel`
+
+A single cache entry in Redis
+
+Create a new model by parsing and validating input data from keyword arguments.
+
+Raises [ValidationError][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.
+
+self is explicitly positional-only to allow self as a field name.
+
+* **Parameters:**
+  * **entry_id** (*str* *|* *None*)
+  * **prompt** (*str*)
+  * **response** (*str*)
+  * **prompt_vector** (*List* *[* *float* *]*)
+  * **inserted_at** (*float*)
+  * **updated_at** (*float*)
+  * **metadata** (*Dict* *[* *str* *,* *Any* *]*  *|* *None*)
+  * **filters** (*Dict* *[* *str* *,* *Any* *]*  *|* *None*)
+
+#### `entry_id: str | None`
+
+Cache entry identifier
+
+#### `filters: Dict[str, Any] | None`
+
+Optional filter data stored on the cache entry for customizing retrieval
+
+#### `inserted_at: float`
+
+Timestamp of when the entry was added to the cache
+
+#### `metadata: Dict[str, Any] | None`
+
+Optional metadata stored on the cache entry
+
+#### `model_config: ClassVar[ConfigDict] = {}`
+
+Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
+
+#### `prompt: str`
+
+Input prompt or question cached in Redis
+
+#### `prompt_vector: List[float]`
+
+Text embedding representation of the prompt
+
+#### `response: str`
+
+Response or answer to the question, cached in Redis
+
+#### `updated_at: float`
+
+Timestamp of when the entry was updated in the cache
+
+### `CacheHit`
+
+<a id="cache-hit-api"></a>
+
+### `class CacheHit(*, entry_id, prompt, response, vector_distance, inserted_at, updated_at, metadata=None, filters=None, **extra_data)`
+
+Bases: `BaseModel`
+
+A cache hit based on some input query
+
+Create a new model by parsing and validating input data from keyword arguments.
+
+Raises [ValidationError][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.
+
+self is explicitly positional-only to allow self as a field name.
+
+* **Parameters:**
+  * **entry_id** (*str*)
+  * **prompt** (*str*)
+  * **response** (*str*)
+  * **vector_distance** (*float*)
+  * **inserted_at** (*float*)
+  * **updated_at** (*float*)
+  * **metadata** (*Dict* *[* *str* *,* *Any* *]*  *|* *None*)
+  * **filters** (*Dict* *[* *str* *,* *Any* *]*  *|* *None*)
+  * **extra_data** (*Any*)
+
+#### `to_dict()`
+
+Convert this model to a dictionary, merging filters into the result.
+
+* **Return type:**
+  *Dict*[str, *Any*]
+
+#### `entry_id: str`
+
+Cache entry identifier
+
+#### `filters: Dict[str, Any] | None`
+
+Optional filter data stored on the cache entry for customizing retrieval
+
+#### `inserted_at: float`
+
+Timestamp of when the entry was added to the cache
+
+#### `metadata: Dict[str, Any] | None`
+
+Optional metadata stored on the cache entry
+
+#### `model_config: ClassVar[ConfigDict] = {'extra': 'allow'}`
+
+Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
+
+#### `prompt: str`
+
+Input prompt or question cached in Redis
+
+#### `response: str`
+
+Response or answer to the question, cached in Redis
+
+#### `updated_at: float`
+
+Timestamp of when the entry was updated in the cache
+
+#### `vector_distance: float`
+
+The semantic distance between the query vector and the stored prompt vector
+
 # Embeddings Cache
 
 ## EmbeddingsCache
@@ -448,21 +585,21 @@ Async disconnect from Redis.
 * **Return type:**
   None
 
-#### `async adrop(text, model_name)`
+#### `async adrop(content, model_name)`
 
 Async remove an embedding from the cache.
 
 Asynchronously removes an embedding from the cache.
 
 * **Parameters:**
-  * **text** (*str*) – The text input that was embedded.
+  * **content** (*bytes* *|* *str*) – The content that was embedded.
   * **model_name** (*str*) – The name of the embedding model.
 * **Return type:**
   None
 
 ```python
 await cache.adrop(
-    text="What is machine learning?",
+    content="What is machine learning?",
     model_name="text-embedding-ada-002"
 )
 ```
@@ -482,14 +619,14 @@ Asynchronously removes an embedding from the cache by its Redis key.
 await cache.adrop_by_key("embedcache:1234567890abcdef")
 ```
 
-#### `async aexists(text, model_name)`
+#### `async aexists(content, model_name)`
 
 Async check if an embedding exists.
 
-Asynchronously checks if an embedding exists for the given text and model.
+Asynchronously checks if an embedding exists for the given content and model.
 
 * **Parameters:**
-  * **text** (*str*) – The text input that was embedded.
+  * **content** (*bytes* *|* *str*) – The content that was embedded.
   * **model_name** (*str*) – The name of the embedding model.
 * **Returns:**
   True if the embedding exists in the cache, False otherwise.
@@ -535,15 +672,15 @@ Asynchronously set or refresh the expiration time for a key in the cache.
 If neither the provided TTL nor the default TTL is set (both are None),
 this method will have no effect.
 
-#### `async aget(text, model_name)`
+#### `async aget(content, model_name)`
 
-Async get embedding by text and model name.
+Async get embedding by content and model name.
 
-Asynchronously retrieves a cached embedding for the given text and model name.
+Asynchronously retrieves a cached embedding for the given content and model name.
 If found, refreshes the TTL of the entry.
 
 * **Parameters:**
-  * **text** (*str*) – The text input that was embedded.
+  * **content** (*bytes* *|* *str*) – The content that was embedded.
   * **model_name** (*str*) – The name of the embedding model.
 * **Returns:**
   Embedding cache entry or None if not found.
@@ -552,7 +689,7 @@ If found, refreshes the TTL of the entry.
 
 ```python
 embedding_data = await cache.aget(
-    text="What is machine learning?",
+    content="What is machine learning?",
     model_name="text-embedding-ada-002"
 )
 ```
@@ -575,14 +712,14 @@ If found, refreshes the TTL of the entry.
 embedding_data = await cache.aget_by_key("embedcache:1234567890abcdef")
 ```
 
-#### `async amdrop(texts, model_name)`
+#### `async amdrop(contents, model_name)`
 
-Async remove multiple embeddings from the cache by their texts and model name.
+Async remove multiple embeddings from the cache by their contents and model name.
 
 Asynchronously removes multiple embeddings in a single operation.
 
 * **Parameters:**
-  * **texts** (*List* *[* *str* *]*) – List of text inputs that were embedded.
+  * **contents** (*Iterable* *[* *bytes* *|* *str* *]*) – Iterable of content that was embedded.
   * **model_name** (*str*) – The name of the embedding model.
 * **Return type:**
   None
@@ -590,7 +727,7 @@ Asynchronously removes multiple embeddings in a single operation.
 ```python
 # Remove multiple embeddings asynchronously
 await cache.amdrop(
-    texts=["What is machine learning?", "What is deep learning?"],
+    contents=["What is machine learning?", "What is deep learning?"],
     model_name="text-embedding-ada-002"
 )
 ```
@@ -611,14 +748,14 @@ Asynchronously removes multiple embeddings in a single operation.
 await cache.amdrop_by_keys(["embedcache:key1", "embedcache:key2"])
 ```
 
-#### `async amexists(texts, model_name)`
+#### `async amexists(contents, model_name)`
 
-Async check if multiple embeddings exist by their texts and model name.
+Async check if multiple embeddings exist by their contents and model name.
 
 Asynchronously checks existence of multiple embeddings in a single operation.
 
 * **Parameters:**
-  * **texts** (*List* *[* *str* *]*) – List of text inputs that were embedded.
+  * **contents** (*Iterable* *[* *bytes* *|* *str* *]*) – Iterable of content that was embedded.
   * **model_name** (*str*) – The name of the embedding model.
 * **Returns:**
   List of boolean values indicating whether each embedding exists.
@@ -628,7 +765,7 @@ Asynchronously checks existence of multiple embeddings in a single operation.
 ```python
 # Check if multiple embeddings exist asynchronously
 exists_results = await cache.amexists(
-    texts=["What is machine learning?", "What is deep learning?"],
+    contents=["What is machine learning?", "What is deep learning?"],
     model_name="text-embedding-ada-002"
 )
 ```
@@ -652,25 +789,25 @@ Asynchronously checks existence of multiple keys in a single operation.
 exists_results = await cache.amexists_by_keys(["embedcache:key1", "embedcache:key2"])
 ```
 
-#### `async amget(texts, model_name)`
+#### `async amget(contents, model_name)`
 
-Async get multiple embeddings by their texts and model name.
+Async get multiple embeddings by their contents and model name.
 
 Asynchronously retrieves multiple cached embeddings in a single operation.
 If found, refreshes the TTL of each entry.
 
 * **Parameters:**
-  * **texts** (*List* *[* *str* *]*) – List of text inputs that were embedded.
+  * **contents** (*Iterable* *[* *bytes* *|* *str* *]*) – Iterable of content that was embedded.
   * **model_name** (*str*) – The name of the embedding model.
 * **Returns:**
-  List of embedding cache entries or None for texts not found.
+  List of embedding cache entries or None for contents not found.
 * **Return type:**
   List[Optional[Dict[str, Any]]]
 
 ```python
 # Get multiple embeddings asynchronously
 embedding_data = await cache.amget(
-    texts=["What is machine learning?", "What is deep learning?"],
+    contents=["What is machine learning?", "What is deep learning?"],
     model_name="text-embedding-ada-002"
 )
 ```
@@ -703,13 +840,13 @@ embedding_data = await cache.amget_by_keys([
 Async store multiple embeddings in a batch operation.
 
 Each item in the input list should be a dictionary with the following fields:
-- ‘text’: The text input that was embedded
+- ‘content’: The content that was embedded
 - ‘model_name’: The name of the embedding model
 - ‘embedding’: The embedding vector
 - ‘metadata’: Optional metadata to store with the embedding
 
 * **Parameters:**
-  * **items** (*List* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – List of dictionaries, each containing text, model_name, embedding, and optional metadata.
+  * **items** (*List* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – List of dictionaries, each containing content, model_name, embedding, and optional metadata.
   * **ttl** (*int* *|* *None*) – Optional TTL override for these entries.
 * **Returns:**
   List of Redis keys where the embeddings were stored.
@@ -720,13 +857,13 @@ Each item in the input list should be a dictionary with the following fields:
 # Store multiple embeddings asynchronously
 keys = await cache.amset([
     {
-        "text": "What is ML?",
+        "content": "What is ML?",
         "model_name": "text-embedding-ada-002",
         "embedding": [0.1, 0.2, 0.3],
         "metadata": {"source": "user"}
     },
     {
-        "text": "What is AI?",
+        "content": "What is AI?",
         "model_name": "text-embedding-ada-002",
         "embedding": [0.4, 0.5, 0.6],
         "metadata": {"source": "docs"}
@@ -734,14 +871,14 @@ keys = await cache.amset([
 ])
 ```
 
-#### `async aset(text, model_name, embedding, metadata=None, ttl=None)`
+#### `async aset(content, model_name, embedding, metadata=None, ttl=None)`
 
-Async store an embedding with its text and model name.
+Async store an embedding with its content and model name.
 
-Asynchronously stores an embedding with its text and model name.
+Asynchronously stores an embedding with its content and model name.
 
 * **Parameters:**
-  * **text** (*str*) – The text input that was embedded.
+  * **content** (*bytes* *|* *str*) – The content that was embedded.
   * **model_name** (*str*) – The name of the embedding model.
   * **embedding** (*List* *[* *float* *]*) – The embedding vector to store.
   * **metadata** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – Optional metadata to store with the embedding.
@@ -753,7 +890,7 @@ Asynchronously stores an embedding with its text and model name.
 
 ```python
 key = await cache.aset(
-    text="What is machine learning?",
+    content="What is machine learning?",
     model_name="text-embedding-ada-002",
     embedding=[0.1, 0.2, 0.3, ...],
     metadata={"source": "user_query"}
@@ -774,19 +911,19 @@ Disconnect from Redis.
 * **Return type:**
   None
 
-#### `drop(text, model_name)`
+#### `drop(content, model_name)`
 
 Remove an embedding from the cache.
 
 * **Parameters:**
-  * **text** (*str*) – The text input that was embedded.
+  * **content** (*bytes* *|* *str*) – The content that was embedded.
   * **model_name** (*str*) – The name of the embedding model.
 * **Return type:**
   None
 
 ```python
 cache.drop(
-    text="What is machine learning?",
+    content="What is machine learning?",
     model_name="text-embedding-ada-002"
 )
 ```
@@ -804,12 +941,12 @@ Remove an embedding from the cache by its Redis key.
 cache.drop_by_key("embedcache:1234567890abcdef")
 ```
 
-#### `exists(text, model_name)`
+#### `exists(content, model_name)`
 
-Check if an embedding exists for the given text and model.
+Check if an embedding exists for the given content and model.
 
 * **Parameters:**
-  * **text** (*str*) – The text input that was embedded.
+  * **content** (*bytes* *|* *str*) – The content that was embedded.
   * **model_name** (*str*) – The name of the embedding model.
 * **Returns:**
   True if the embedding exists in the cache, False otherwise.
@@ -853,15 +990,15 @@ Set or refresh the expiration time for a key in the cache.
 If neither the provided TTL nor the default TTL is set (both are None),
 this method will have no effect.
 
-#### `get(text, model_name)`
+#### `get(content, model_name)`
 
-Get embedding by text and model name.
+Get embedding by content and model name.
 
-Retrieves a cached embedding for the given text and model name.
+Retrieves a cached embedding for the given content and model name.
 If found, refreshes the TTL of the entry.
 
 * **Parameters:**
-  * **text** (*str*) – The text input that was embedded.
+  * **content** (*bytes* *|* *str*) – The content that was embedded.
   * **model_name** (*str*) – The name of the embedding model.
 * **Returns:**
   Embedding cache entry or None if not found.
@@ -870,7 +1007,7 @@ If found, refreshes the TTL of the entry.
 
 ```python
 embedding_data = cache.get(
-    text="What is machine learning?",
+    content="What is machine learning?",
     model_name="text-embedding-ada-002"
 )
 ```
@@ -893,14 +1030,14 @@ If found, refreshes the TTL of the entry.
 embedding_data = cache.get_by_key("embedcache:1234567890abcdef")
 ```
 
-#### `mdrop(texts, model_name)`
+#### `mdrop(contents, model_name)`
 
-Remove multiple embeddings from the cache by their texts and model name.
+Remove multiple embeddings from the cache by their contents and model name.
 
 Efficiently removes multiple embeddings in a single operation.
 
 * **Parameters:**
-  * **texts** (*List* *[* *str* *]*) – List of text inputs that were embedded.
+  * **contents** (*Iterable* *[* *bytes* *|* *str* *]*) – Iterable of content that was embedded.
   * **model_name** (*str*) – The name of the embedding model.
 * **Return type:**
   None
@@ -908,7 +1045,7 @@ Efficiently removes multiple embeddings in a single operation.
 ```python
 # Remove multiple embeddings
 cache.mdrop(
-    texts=["What is machine learning?", "What is deep learning?"],
+    contents=["What is machine learning?", "What is deep learning?"],
     model_name="text-embedding-ada-002"
 )
 ```
@@ -929,14 +1066,14 @@ Efficiently removes multiple embeddings in a single operation.
 cache.mdrop_by_keys(["embedcache:key1", "embedcache:key2"])
 ```
 
-#### `mexists(texts, model_name)`
+#### `mexists(contents, model_name)`
 
-Check if multiple embeddings exist by their texts and model name.
+Check if multiple embeddings exist by their contents and model name.
 
 Efficiently checks existence of multiple embeddings in a single operation.
 
 * **Parameters:**
-  * **texts** (*List* *[* *str* *]*) – List of text inputs that were embedded.
+  * **contents** (*Iterable* *[* *bytes* *|* *str* *]*) – Iterable of content that was embedded.
   * **model_name** (*str*) – The name of the embedding model.
 * **Returns:**
   List of boolean values indicating whether each embedding exists.
@@ -946,7 +1083,7 @@ Efficiently checks existence of multiple embeddings in a single operation.
 ```python
 # Check if multiple embeddings exist
 exists_results = cache.mexists(
-    texts=["What is machine learning?", "What is deep learning?"],
+    contents=["What is machine learning?", "What is deep learning?"],
     model_name="text-embedding-ada-002"
 )
 ```
@@ -970,25 +1107,25 @@ Efficiently checks existence of multiple keys in a single operation.
 exists_results = cache.mexists_by_keys(["embedcache:key1", "embedcache:key2"])
 ```
 
-#### `mget(texts, model_name)`
+#### `mget(contents, model_name)`
 
-Get multiple embeddings by their texts and model name.
+Get multiple embeddings by their content and model name.
 
 Efficiently retrieves multiple cached embeddings in a single operation.
 If found, refreshes the TTL of each entry.
 
 * **Parameters:**
-  * **texts** (*List* *[* *str* *]*) – List of text inputs that were embedded.
+  * **contents** (*Iterable* *[* *bytes* *|* *str* *]*) – Iterable of content that was embedded.
   * **model_name** (*str*) – The name of the embedding model.
 * **Returns:**
-  List of embedding cache entries or None for texts not found.
+  List of embedding cache entries or None for contents not found.
 * **Return type:**
   List[Optional[Dict[str, Any]]]
 
 ```python
 # Get multiple embeddings
 embedding_data = cache.mget(
-    texts=["What is machine learning?", "What is deep learning?"],
+    contents=["What is machine learning?", "What is deep learning?"],
     model_name="text-embedding-ada-002"
 )
 ```
@@ -1021,13 +1158,13 @@ embedding_data = cache.mget_by_keys([
 Store multiple embeddings in a batch operation.
 
 Each item in the input list should be a dictionary with the following fields:
-- ‘text’: The text input that was embedded
+- ‘content’: The input that was embedded
 - ‘model_name’: The name of the embedding model
 - ‘embedding’: The embedding vector
 - ‘metadata’: Optional metadata to store with the embedding
 
 * **Parameters:**
-  * **items** (*List* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – List of dictionaries, each containing text, model_name, embedding, and optional metadata.
+  * **items** (*List* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – List of dictionaries, each containing content, model_name, embedding, and optional metadata.
   * **ttl** (*int* *|* *None*) – Optional TTL override for these entries.
 * **Returns:**
   List of Redis keys where the embeddings were stored.
@@ -1038,13 +1175,13 @@ Each item in the input list should be a dictionary with the following fields:
 # Store multiple embeddings
 keys = cache.mset([
     {
-        "text": "What is ML?",
+        "content": "What is ML?",
         "model_name": "text-embedding-ada-002",
         "embedding": [0.1, 0.2, 0.3],
         "metadata": {"source": "user"}
     },
     {
-        "text": "What is AI?",
+        "content": "What is AI?",
         "model_name": "text-embedding-ada-002",
         "embedding": [0.4, 0.5, 0.6],
         "metadata": {"source": "docs"}
@@ -1052,12 +1189,12 @@ keys = cache.mset([
 ])
 ```
 
-#### `set(text, model_name, embedding, metadata=None, ttl=None)`
+#### `set(content, model_name, embedding, metadata=None, ttl=None)`
 
-Store an embedding with its text and model name.
+Store an embedding with its content and model name.
 
 * **Parameters:**
-  * **text** (*str*) – The text input that was embedded.
+  * **content** (*Union* *[* *bytes* *,* *str* *]*) – The content to be embedded.
   * **model_name** (*str*) – The name of the embedding model.
   * **embedding** (*List* *[* *float* *]*) – The embedding vector to store.
   * **metadata** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – Optional metadata to store with the embedding.
@@ -1069,7 +1206,7 @@ Store an embedding with its text and model name.
 
 ```python
 key = cache.set(
-    text="What is machine learning?",
+    content="What is machine learning?",
     model_name="text-embedding-ada-002",
     embedding=[0.1, 0.2, 0.3, ...],
     metadata={"source": "user_query"}

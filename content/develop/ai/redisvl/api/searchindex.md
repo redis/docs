@@ -306,6 +306,13 @@ Get information about the index.
 * **Return type:**
   dict
 
+#### `invalidate_sql_schema_cache()`
+
+Clear cached sql-redis executors and schema state for this index.
+
+* **Return type:**
+  None
+
 #### `key(id)`
 
 Construct a redis key as a combination of an index key prefix (optional)
@@ -396,15 +403,18 @@ The page_size parameter controls the number of items each result
 batch contains. Adjust this value based on performance
 considerations and the expected volume of search results.
 
+#### `NOTE`
+For stable pagination, the query must have a sort_by clause.
+
 #### `query(query)`
 
 Execute a query on the index.
 
-This method takes a BaseQuery or AggregationQuery object directly, and
+This method takes a BaseQuery, AggregationQuery, or HybridQuery object directly, and
 handles post-processing of the search.
 
 * **Parameters:**
-  **query** (*Union* *[* *BaseQuery* *,* *AggregateQuery* *]*) – The query to run.
+  **query** (*Union* *[* *BaseQuery* *,* *AggregationQuery* *,* [*HybridQuery*]({{< relref "query/#hybridquery" >}}) *]*) – The query to run.
 * **Returns:**
   A list of search results.
 * **Return type:**
@@ -464,9 +474,13 @@ The name of the Redis search index.
 
 #### `property prefix: str`
 
-The optional key prefix that comes before a unique key value in
-forming a Redis key. If multiple prefixes are configured, returns the
-first one.
+The key prefix used in forming Redis keys.
+
+For multi-prefix indexes, returns the first prefix.
+
+#### `property prefixes: List[str]`
+
+All key prefixes configured for this index.
 
 #### `property storage_type: StorageType`
 
@@ -761,6 +775,13 @@ Get information about the index.
 * **Return type:**
   dict
 
+#### `invalidate_sql_schema_cache()`
+
+Clear cached sql-redis executors and schema state for this index.
+
+* **Return type:**
+  None
+
 #### `key(id)`
 
 Construct a redis key as a combination of an index key prefix (optional)
@@ -871,15 +892,18 @@ The page_size parameter controls the number of items each result
 batch contains. Adjust this value based on performance
 considerations and the expected volume of search results.
 
+#### `NOTE`
+For stable pagination, the query must have a sort_by clause.
+
 #### `async query(query)`
 
 Asynchronously execute a query on the index.
 
-This method takes a BaseQuery or AggregationQuery object directly, runs
-the search, and handles post-processing of the search.
+This method takes a BaseQuery, AggregationQuery, HybridQuery, or SQLQuery object
+directly, runs the search, and handles post-processing of the search.
 
 * **Parameters:**
-  **query** (*Union* *[* *BaseQuery* *,* *AggregateQuery* *]*) – The query to run.
+  **query** (*Union* *[* *BaseQuery* *,* *AggregationQuery* *,* [*HybridQuery*]({{< relref "query/#hybridquery" >}}) *,* [*SQLQuery*]({{< relref "query/#sqlquery" >}}) *]*) – The query to run.
 * **Returns:**
   A list of search results.
 * **Return type:**
@@ -933,9 +957,13 @@ The name of the Redis search index.
 
 #### `property prefix: str`
 
-The optional key prefix that comes before a unique key value in
-forming a Redis key. If multiple prefixes are configured, returns the
-first one.
+The key prefix used in forming Redis keys.
+
+For multi-prefix indexes, returns the first prefix.
+
+#### `property prefixes: List[str]`
+
+All key prefixes configured for this index.
 
 #### `property storage_type: StorageType`
 

@@ -1,16 +1,30 @@
 ---
-linkTitle: Semantic routing
-title: Semantic Routing
+linkTitle: Route queries with semanticrouter
+title: Route Queries with SemanticRouter
 aliases:
 - /integrate/redisvl/user_guide/08_semantic_router
 weight: 08
 ---
 
 
-RedisVL provides a `SemanticRouter` interface to utilize Redis' built-in search & aggregation in order to perform
-KNN-style classification over a set of `Route` references to determine the best match.
+RedisVL provides a `SemanticRouter` interface that uses Redis' built-in search and aggregation to perform KNN-style classification over a set of `Route` references to determine the best match.
 
-This notebook will go over how to use Redis as a Semantic Router for your applications
+This guide covers how to use Redis as a Semantic Router for your applications.
+
+## Prerequisites
+
+Before you begin, ensure you have:
+- Installed RedisVL: `pip install redisvl`
+- A running Redis instance ([Redis 8+](https://redis.io/downloads/) or [Redis Cloud](https://redis.io/cloud))
+
+## What You'll Learn
+
+By the end of this guide, you will be able to:
+- Define routes with references and distance thresholds
+- Initialize and configure a `SemanticRouter`
+- Route queries to single or multiple matching routes
+- Serialize and restore router configurations
+- Manage route references dynamically
 
 ## Define the Routes
 
@@ -23,7 +37,7 @@ Each route has a set of references that cover the "semantic surface area" of the
 route. The incoming query from a user needs to be semantically similar to one or
 more of the references in order to "match" on the route.
 
-Additionally, each route has a `distance_threshold` which determines the maximum distance between the query and the reference for the query to be routed to the route. This value is unique to each route.
+Additionally, each route has a `distance_threshold` which determines the maximum distance between the query and the reference for the query to be routed to the route. This value is unique to each route and uses Redis COSINE distance units (0-2], where lower values require stricter matching.
 
 
 ```python
@@ -90,20 +104,6 @@ router = SemanticRouter(
 )
 ```
 
-    /Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/.venv/lib/python3.13/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
-      from .autonotebook import tqdm as notebook_tqdm
-
-
-    13:03:49 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
-    13:03:49 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
-
-
-    Batches: 100%|██████████| 1/1 [00:00<00:00,  6.31it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00,  7.02it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00,  8.21it/s]
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 54.33it/s]
-
-
 
 ```python
 # look at the index specification created for the semantic router
@@ -150,13 +150,10 @@ route_match = router("Can you tell me about the latest in artificial intelligenc
 route_match
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00,  8.63it/s]
 
 
 
-
-
-    RouteMatch(name='technology', distance=0.419145941734)
+    RouteMatch(name='technology', distance=0.419146001339)
 
 
 
@@ -166,9 +163,6 @@ route_match
 route_match = router("are aliens real?")
 route_match
 ```
-
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 11.71it/s]
-
 
 
 
@@ -186,14 +180,11 @@ route_matches = router.route_many("How is AI used in basketball?", max_k=3)
 route_matches
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 12.12it/s]
 
 
 
-
-
-    [RouteMatch(name='technology', distance=0.556493639946),
-     RouteMatch(name='sports', distance=0.671060085297)]
+    [RouteMatch(name='technology', distance=0.556494116783),
+     RouteMatch(name='sports', distance=0.671060025692)]
 
 
 
@@ -206,14 +197,11 @@ route_matches = router.route_many("How is AI used in basketball?", aggregation_m
 route_matches
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 56.69it/s]
 
 
 
-
-
-    [RouteMatch(name='technology', distance=0.556493639946),
-     RouteMatch(name='sports', distance=0.629264354706)]
+    [RouteMatch(name='technology', distance=0.556494116783),
+     RouteMatch(name='sports', distance=0.629264295101)]
 
 
 
@@ -236,13 +224,10 @@ route_matches = router.route_many("Lebron James")
 route_matches
 ```
 
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 13.20it/s]
 
 
 
-
-
-    [RouteMatch(name='sports', distance=0.663253903389)]
+    [RouteMatch(name='sports', distance=0.663253962994)]
 
 
 
@@ -290,18 +275,6 @@ router2 = SemanticRouter.from_dict(router.to_dict(), redis_url="redis://localhos
 assert router2.to_dict() == router.to_dict()
 ```
 
-    13:03:54 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
-    13:03:54 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
-
-
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 53.91it/s]
-
-    13:03:54 redisvl.index.index INFO   Index already exists, not overwriting.
-
-
-    
-
-
 
 ```python
 router.to_yaml("router.yaml", overwrite=True)
@@ -314,27 +287,12 @@ router3 = SemanticRouter.from_yaml("router.yaml", redis_url="redis://localhost:6
 assert router3.to_dict() == router2.to_dict() == router.to_dict()
 ```
 
-    13:03:54 sentence_transformers.SentenceTransformer INFO   Use pytorch device_name: mps
-    13:03:54 sentence_transformers.SentenceTransformer INFO   Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
-
-
-    Batches: 100%|██████████| 1/1 [00:00<00:00, 51.94it/s]
-
-    13:03:55 redisvl.index.index INFO   Index already exists, not overwriting.
-
-
-    
-
-
 ## Add route references
 
 
 ```python
 router.add_route_references(route_name="technology", references=["latest AI trends", "new tech gadgets"])
 ```
-
-    Batches: 100%|██████████| 1/1 [00:00<00:00,  8.12it/s]
-
 
 
 
@@ -356,18 +314,14 @@ refs
 
 
 
-    [{'id': 'topic-router:technology:85cc73a1437df27caa2f075a29c497e5a2e532023fbb75378aedbae80779ab37',
-      'reference_id': '85cc73a1437df27caa2f075a29c497e5a2e532023fbb75378aedbae80779ab37',
+    [{'id': 'topic-router:technology:f243fb2d073774e81c7815247cb3013794e6225df3cbe3769cee8c6cefaca777',
+      'reference_id': 'f243fb2d073774e81c7815247cb3013794e6225df3cbe3769cee8c6cefaca777',
       'route_name': 'technology',
-      'reference': 'tell me about the newest gadgets'},
+      'reference': 'latest AI trends'},
      {'id': 'topic-router:technology:851f51cce5a9ccfbbcb66993908be6b7871479af3e3a4b139ad292a1bf7e0676',
       'reference_id': '851f51cce5a9ccfbbcb66993908be6b7871479af3e3a4b139ad292a1bf7e0676',
       'route_name': 'technology',
       'reference': 'what are the latest advancements in AI?'},
-     {'id': 'topic-router:technology:f243fb2d073774e81c7815247cb3013794e6225df3cbe3769cee8c6cefaca777',
-      'reference_id': 'f243fb2d073774e81c7815247cb3013794e6225df3cbe3769cee8c6cefaca777',
-      'route_name': 'technology',
-      'reference': 'latest AI trends'},
      {'id': 'topic-router:technology:7e4bca5853c1c3298b4d001de13c3c7a79a6e0f134f81acc2e7cddbd6845961f',
       'reference_id': '7e4bca5853c1c3298b4d001de13c3c7a79a6e0f134f81acc2e7cddbd6845961f',
       'route_name': 'technology',
@@ -375,7 +329,11 @@ refs
      {'id': 'topic-router:technology:149a9c9919c58534aa0f369e85ad95ba7f00aa0513e0f81e2aff2ea4a717b0e0',
       'reference_id': '149a9c9919c58534aa0f369e85ad95ba7f00aa0513e0f81e2aff2ea4a717b0e0',
       'route_name': 'technology',
-      'reference': "what's trending in tech?"}]
+      'reference': "what's trending in tech?"},
+     {'id': 'topic-router:technology:85cc73a1437df27caa2f075a29c497e5a2e532023fbb75378aedbae80779ab37',
+      'reference_id': '85cc73a1437df27caa2f075a29c497e5a2e532023fbb75378aedbae80779ab37',
+      'route_name': 'technology',
+      'reference': 'tell me about the newest gadgets'}]
 
 
 
@@ -389,10 +347,10 @@ refs
 
 
 
-    [{'id': 'topic-router:technology:85cc73a1437df27caa2f075a29c497e5a2e532023fbb75378aedbae80779ab37',
-      'reference_id': '85cc73a1437df27caa2f075a29c497e5a2e532023fbb75378aedbae80779ab37',
+    [{'id': 'topic-router:technology:f243fb2d073774e81c7815247cb3013794e6225df3cbe3769cee8c6cefaca777',
+      'reference_id': 'f243fb2d073774e81c7815247cb3013794e6225df3cbe3769cee8c6cefaca777',
       'route_name': 'technology',
-      'reference': 'tell me about the newest gadgets'}]
+      'reference': 'latest AI trends'}]
 
 
 
@@ -439,3 +397,11 @@ router.clear()
 # Use delete to clear the index and remove it completely
 router.delete()
 ```
+
+## Next Steps
+
+Now that you understand semantic routing, explore these related guides:
+
+- [Manage LLM Message History](07_message_history.ipynb) - Store and retrieve conversation history
+- [Cache LLM Responses](03_llmcache.ipynb) - Reduce API costs with semantic caching
+- [Query and Filter Data](02_complex_filtering.ipynb) - Learn more about filter expressions

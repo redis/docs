@@ -1,0 +1,104 @@
+{{- /*
+  Rewrite wide table-scrollable shortcode blocks into smaller Markdown tables
+  for AI-facing output only. This preserves the human HTML rendering while
+  giving the Markdown chunker safer boundaries.
+
+  Input: dict with:
+    - "RawContent": Markdown content string
+
+  Output: Markdown content with wide table-scrollable blocks replaced by
+  repeated narrower tables.
+*/ -}}
+
+{{- $content := .RawContent -}}
+{{- $pattern := `(?s)\{\{<\s*table-scrollable\s*>\}\}\s*(.*?)\s*\{\{<\s*/table-scrollable\s*>\}\}` -}}
+{{- $matches := findRESubmatch $pattern $content -}}
+
+{{- $maxColumns := 8 -}}
+{{- $columnsPerPart := 6 -}}
+{{- $rowsPerPart := 10 -}}
+
+{{- range $match := $matches -}}
+  {{- $fullBlock := index $match 0 -}}
+  {{- $inner := strings.TrimSpace (index $match 1) -}}
+  {{- $lines := split $inner "\n" -}}
+
+  {{- if ge (len $lines) 3 -}}
+    {{- $headerLine := strings.TrimSpace (index $lines 0) -}}
+    {{- $separatorLine := strings.TrimSpace (index $lines 1) -}}
+
+    {{- if and (hasPrefix $headerLine "|") (hasPrefix $separatorLine "|") -}}
+      {{- $headerParts := split $headerLine "|" -}}
+      {{- $separatorParts := split $separatorLine "|" -}}
+      {{- $headerCells := first (sub (len $headerParts) 2) (after 1 $headerParts) -}}
+      {{- $separatorCells := first (sub (len $separatorParts) 2) (after 1 $separatorParts) -}}
+      {{- $columnCount := len $headerCells -}}
+
+      {{- if gt $columnCount $maxColumns -}}
+        {{- $dataRows := after 2 $lines -}}
+        {{- $rowCount := len $dataRows -}}
+        {{- $remainingColumns := sub $columnCount 1 -}}
+        {{- $partCount := div (add $remainingColumns (sub $columnsPerPart 1)) $columnsPerPart -}}
+        {{- $replacement := "" -}}
+
+        {{- range $partIndex := seq 1 $partCount -}}
+          {{- $startOffset := add 1 (mul (sub $partIndex 1) $columnsPerPart) -}}
+          {{- $headerTail := first $columnsPerPart (after $startOffset $headerCells) -}}
+          {{- $separatorTail := first $columnsPerPart (after $startOffset $separatorCells) -}}
+
+          {{- $chunkHeader := slice (strings.TrimSpace (index $headerCells 0)) -}}
+          {{- range $cell := $headerTail -}}
+            {{- $chunkHeader = $chunkHeader | append (strings.TrimSpace $cell) -}}
+          {{- end -}}
+
+          {{- $chunkSeparator := slice (strings.TrimSpace (index $separatorCells 0)) -}}
+          {{- range $cell := $separatorTail -}}
+            {{- $chunkSeparator = $chunkSeparator | append (strings.TrimSpace $cell) -}}
+          {{- end -}}
+
+          {{- $rowPartCount := div (add $rowCount (sub $rowsPerPart 1)) $rowsPerPart -}}
+
+          {{- range $rowPartIndex := seq 1 $rowPartCount -}}
+            {{- $rowStartOffset := mul (sub $rowPartIndex 1) $rowsPerPart -}}
+            {{- $rowChunk := first $rowsPerPart (after $rowStartOffset $dataRows) -}}
+            {{- $rowStart := add $rowStartOffset 1 -}}
+            {{- $rowEnd := add $rowStartOffset (len $rowChunk) -}}
+
+            {{- $replacement = printf "%s#### Table part %d of %d, rows %d-%d\n\n" $replacement $partIndex $partCount $rowStart $rowEnd -}}
+            {{- $replacement = printf "%s| %s |\n" $replacement (delimit $chunkHeader " | ") -}}
+            {{- $replacement = printf "%s| %s |\n" $replacement (delimit $chunkSeparator " | ") -}}
+
+            {{- range $row := $rowChunk -}}
+              {{- $trimmedRow := strings.TrimSpace $row -}}
+              {{- if hasPrefix $trimmedRow "|" -}}
+                {{- $rowParts := split $trimmedRow "|" -}}
+                {{- $rowCells := first (sub (len $rowParts) 2) (after 1 $rowParts) -}}
+
+                {{- if ge (len $rowCells) $columnCount -}}
+                  {{- $rowTail := first $columnsPerPart (after $startOffset $rowCells) -}}
+                  {{- $chunkRow := slice (strings.TrimSpace (index $rowCells 0)) -}}
+                  {{- range $cell := $rowTail -}}
+                    {{- $chunkRow = $chunkRow | append (strings.TrimSpace $cell) -}}
+                  {{- end -}}
+                  {{- $replacement = printf "%s| %s |\n" $replacement (delimit $chunkRow " | ") -}}
+                {{- end -}}
+              {{- end -}}
+            {{- end -}}
+
+            {{- $replacement = printf "%s\n" $replacement -}}
+          {{- end -}}
+        {{- end -}}
+
+        {{- $content = replace $content $fullBlock $replacement -}}
+      {{- else -}}
+        {{- $content = replace $content $fullBlock $inner -}}
+      {{- end -}}
+    {{- else -}}
+      {{- $content = replace $content $fullBlock $inner -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $content = replace $content $fullBlock $inner -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $content -}}

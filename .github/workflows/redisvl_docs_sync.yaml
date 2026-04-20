@@ -52,12 +52,19 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           version="${{ matrix.version }}"
+          version="${version#v}"
           isLatest="${{ matrix.isLatest }}"
 
           pushd redis-vl-python
           git checkout "tags/${version}" || git checkout "tags/v${version}"
           pip3 install -e .
           popd
+
+          # Strip empty markdown cells (e.g. bare "##") that crash sphinx_markdown_builder
+          find redis-vl-python/docs -name '*.ipynb' | while read -r nb; do
+            tmp=$(mktemp)
+            jq '.cells |= map(select(.cell_type != "markdown" or ((.source | if type == "array" then join("") else . end) | test("^\\s*#+\\s*$") | not)))' "$nb" > "$tmp" && mv "$tmp" "$nb"
+          done
 
           if [ ${isLatest} = true ]; then
             sphinx-build -M markdown ./redis-vl-python/docs ./build-latest
@@ -68,12 +75,18 @@ jobs:
       - name: 'Format markdown files for hugo compatibility'
         run: |
           version="${{ matrix.version }}"
+          version="${version#v}"
           isLatest="${{ matrix.isLatest }}"
 
           #!/bin/bash
           mkdir -p redis_vl_hugo/user_guide/
-          mkdir redis_vl_hugo/overview/
           mkdir redis_vl_hugo/api/
+          if [ -d "./redis-vl-python/docs/overview" ]; then
+              mkdir redis_vl_hugo/overview/
+          fi
+          if [ -d "./redis-vl-python/docs/concepts" ]; then
+              mkdir redis_vl_hugo/concepts/
+          fi
 
           function format() {
               src=$1
@@ -112,6 +125,8 @@ jobs:
               case "${title}" in
                   "Overview")
                       echo "weight: 3" >> _tmp ;;
+                  "Concepts")
+                      echo "weight: 3" >> _tmp ;;
                   "User Guides")
                       echo "weight: 4" >> _tmp ;;
                   "RedisVL API")
@@ -147,11 +162,21 @@ jobs:
           # Convert jupyter notebooks to markdown
           build_folder=$(echo build-*)
           jupyter nbconvert --to markdown ${build_folder}/jupyter_execute/user_guide/*.ipynb --output-dir redis_vl_hugo/user_guide/ 2>/dev/null
-          jupyter nbconvert --to markdown ${build_folder}/jupyter_execute/overview/cli.ipynb --output-dir redis_vl_hugo/overview/ 2>/dev/null
+          if [ -f "${build_folder}/jupyter_execute/overview/cli.ipynb" ]; then
+              jupyter nbconvert --to markdown ${build_folder}/jupyter_execute/overview/cli.ipynb --output-dir redis_vl_hugo/overview/ 2>/dev/null
+          fi
 
           # Prepare markdown files
           rsync -a ./${build_folder}/markdown/api/ ./redis_vl_hugo/api/ --exclude=index.md
-          cp ./${build_folder}/markdown/overview/installation.md ./redis_vl_hugo/overview/installation.md
+          if [ -f "./${build_folder}/markdown/overview/installation.md" ]; then
+              cp ./${build_folder}/markdown/overview/installation.md ./redis_vl_hugo/overview/installation.md
+          fi
+          if [ -f "./${build_folder}/markdown/user_guide/installation.md" ]; then
+              cp ./${build_folder}/markdown/user_guide/installation.md ./redis_vl_hugo/user_guide/installation.md
+          fi
+          if [ -d "./${build_folder}/markdown/concepts" ]; then
+              rsync -a ./${build_folder}/markdown/concepts/ ./redis_vl_hugo/concepts/ --exclude=index.md
+          fi
 
           # Format markdown files
           shopt -s globstar
@@ -249,13 +274,20 @@ jobs:
           # Format _index.md pages
           cp ./${build_folder}/markdown/api/index.md ./redis_vl_hugo/api/_index.md
           cp ./${build_folder}/markdown/user_guide/index.md ./redis_vl_hugo/user_guide/_index.md
-          cp ./${build_folder}/markdown/overview/index.md ./redis_vl_hugo/overview/_index.md
 
           index_markdown_pages=(
               ./redis_vl_hugo/api/_index.md
               ./redis_vl_hugo/user_guide/_index.md
-              ./redis_vl_hugo/overview/_index.md
           )
+
+          if [ -f "./${build_folder}/markdown/overview/index.md" ]; then
+              cp ./${build_folder}/markdown/overview/index.md ./redis_vl_hugo/overview/_index.md
+              index_markdown_pages+=(./redis_vl_hugo/overview/_index.md)
+          fi
+          if [ -f "./${build_folder}/markdown/concepts/index.md" ]; then
+              cp ./${build_folder}/markdown/concepts/index.md ./redis_vl_hugo/concepts/_index.md
+              index_markdown_pages+=(./redis_vl_hugo/concepts/_index.md)
+          fi
 
           for index_markdown_page in "${index_markdown_pages[@]}"; do
               format "${index_markdown_page}"
@@ -269,7 +301,9 @@ jobs:
           for user_guide in "${user_guides[@]}"; do
               if [[ ! "$user_guide" =~ _index.md$ ]]; then
                   renamed_user_guide=$(sed 's|[0-9]\+_||' <<<${user_guide})
-                  mv ${user_guide} ${renamed_user_guide}
+                  if [ "${user_guide}" != "${renamed_user_guide}" ]; then
+                      mv ${user_guide} ${renamed_user_guide}
+                  fi
               fi
           done
 
@@ -291,6 +325,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           release="${{ matrix.version }}"
+          release="${release#v}"
           branch="redisvl_docs_sync_${release}"
           redisvl_change=false
 

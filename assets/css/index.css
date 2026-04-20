@@ -975,6 +975,61 @@ input[type="radio"] {
   @apply h-full overflow-y-auto font-monogeist;
 }
 
+.trimmable-label-less {
+  display: none;
+}
+
+.trimmable-toggle::before {
+  border-bottom: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  content: "";
+  display: inline-block;
+  height: 0.5rem;
+  transform: translateY(-0.1rem) rotate(45deg);
+  transition: transform 0.2s ease;
+  width: 0.5rem;
+}
+
+.trimmable-input:checked ~ .trimmable-toggle::before {
+  transform: translateY(0.1rem) rotate(-135deg);
+}
+
+.trimmable-input:checked ~ .trimmable-toggle .trimmable-label-more {
+  display: none;
+}
+
+.trimmable-input:checked ~ .trimmable-toggle .trimmable-label-less {
+  display: inline;
+}
+
+.trimmable-content {
+  max-height: 10lh;
+}
+
+.trimmable-content pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.trimmable-content > *:first-child {
+  margin-top: 0;
+}
+
+.trimmable-content > *:last-child {
+  margin-bottom: 0;
+}
+
+.trimmable-input:not(:checked) ~ .trimmable-content {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
+}
+
+.trimmable-input:checked ~ .trimmable-content {
+  max-height: none;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
 code {
   @apply font-monogeist;
 }
