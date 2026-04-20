@@ -12,6 +12,11 @@ OUTPUT_FILE = "data/rc_supported_regions.json"
 RC_API_KEY = os.getenv("RC_API_KEY")
 RC_API_SECRET_KEY = os.getenv("RC_API_SECRET_KEY")
 
+if not RC_API_KEY:
+    raise ValueError("RC_API_KEY environment variable is not set")
+if not RC_API_SECRET_KEY:
+    raise ValueError("RC_API_SECRET_KEY environment variable is not set")
+
 
 def fetch_regions():
     """
