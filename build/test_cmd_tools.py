@@ -349,7 +349,7 @@ class TestGenerateReturnSection(unittest.TestCase):
         self.assertNotIn("[Bulk string reply]", parts[1])
 
     def test_nested_oneof_within_oneof(self):
-        """Test that nested oneOf within a multi-option oneOf is handled recursively."""
+        """Test that nested oneOf within a multi-option oneOf is indented correctly."""
         command_data = {
             "reply_schema": {
                 "oneOf": [
@@ -364,10 +364,20 @@ class TestGenerateReturnSection(unittest.TestCase):
             }
         }
         result = generate_return_section(command_data)
-        # The nested oneOf should recurse, not fall through to a TODO placeholder
+        resp2 = result.split("-tab-sep-")[0]
+
+        # No TODO placeholders — all types were recognised
         self.assertNotIn("TODO:", result)
-        # Outer oneOf bullet should expand inner oneOf inline
-        self.assertIn("[Nil reply]", result.split("-tab-sep-")[0])
+
+        # Outer bullet introduces the nested group
+        self.assertIn("* One of the following:", resp2)
+
+        # Inner bullets are indented with two spaces so they are visually subordinate
+        self.assertIn("  * [Bulk string reply]", resp2)
+        self.assertIn("  * [Bulk string reply]", resp2)  # number → bulk string in RESP2
+
+        # The null alternative is a flat outer bullet (not indented)
+        self.assertIn("* [Nil reply]", resp2)
 
     def test_return_section_structure(self):
         """Test that return section always has multitabs shortcode structure."""

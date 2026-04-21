@@ -226,7 +226,10 @@ def _build_return_text(schema: dict, resp_version: int) -> str:
             return _build_return_text(options[0], resp_version)
         lines = ["One of the following:"]
         for option in options:
-            lines.append(f"* {_build_return_text(option, resp_version)}")
+            text = _build_return_text(option, resp_version)
+            # Indent continuation lines so nested structure remains visually subordinate
+            indented = text.replace('\n', '\n  ')
+            lines.append(f"* {indented}")
         return "\n".join(lines)
 
     return formatter(schema)
