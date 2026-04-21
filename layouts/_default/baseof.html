@@ -1900,12 +1900,21 @@
         }
 
         // Set up MutationObserver to move output to dedicated container
+        // and to clear the "Running..." overlay only when real output appears.
         function setupOutputObserver(container) {
           const cell = container.querySelector('.thebe-cell');
           const outputContainer = container.querySelector('.thebe-output-container');
 
           if (container._outputObserver) {
             container._outputObserver.disconnect();
+          }
+          if (container._contentObserver) {
+            container._contentObserver.disconnect();
+            container._contentObserver = null;
+          }
+          if (container._loadingSafetyTimeout) {
+            clearTimeout(container._loadingSafetyTimeout);
+            container._loadingSafetyTimeout = null;
           }
 
           if (!cell) {
@@ -1915,24 +1924,65 @@
             return;
           }
 
-          // Observer to watch for output being added to the cell
+          let loadingCleared = false;
+          const clearLoading = function() {
+            if (loadingCleared) return;
+            loadingCleared = true;
+            container.classList.remove('loading');
+            if (container._runBtn) {
+              container._runBtn.classList.remove('loading');
+            }
+            if (container._loadingSafetyTimeout) {
+              clearTimeout(container._loadingSafetyTimeout);
+              container._loadingSafetyTimeout = null;
+            }
+            if (container._contentObserver) {
+              container._contentObserver.disconnect();
+              container._contentObserver = null;
+            }
+          };
+          container._clearLoading = clearLoading;
+
+          // Snapshot any pre-existing output text so we only clear "Running..." when
+          // the output actually changes (Thebe typically clears old output then repopulates).
+          const initialOutputText = (outputContainer.textContent || '').trim();
+          let sawEmpty = initialOutputText.length === 0;
+
+          // Move any pre-existing .thebe-output from the cell into the dedicated
+          // container; this handles cells that were already populated before the
+          // observer was attached.
+          cell.querySelectorAll('.thebe-output').forEach(function(node) {
+            outputContainer.appendChild(node);
+          });
+
+          // Observer to relocate any future .thebe-output nodes Thebe appends to the cell.
           const observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
               mutation.addedNodes.forEach(function(node) {
-                // Check if the added node is the thebe-output element
                 if (node.nodeType === 1 && node.classList && node.classList.contains('thebe-output')) {
-                  // Move the output to the dedicated container
                   outputContainer.appendChild(node);
                 }
               });
             });
           });
-
-          // Start observing the cell for child additions
           observer.observe(cell, { childList: true, subtree: true });
-
-          // Store observer reference for cleanup if needed
           container._outputObserver = observer;
+
+          // Watch the output container itself for real content appearing. This covers
+          // both the case where Thebe renders into a pre-existing .thebe-output and
+          // the case where a fresh node is added.
+          const contentObs = new MutationObserver(function() {
+            const cur = (outputContainer.textContent || '').trim();
+            if (cur.length === 0) {
+              sawEmpty = true;
+              return;
+            }
+            if (sawEmpty || cur !== initialOutputText) {
+              clearLoading();
+            }
+          });
+          contentObs.observe(outputContainer, { childList: true, subtree: true, characterData: true });
+          container._contentObserver = contentObs;
         }
 
         // Use event delegation to catch clicks on run buttons
@@ -2067,6 +2117,18 @@
             container.classList.add('kernel-ready');
           }
 
+          // Remember the run button so the output observer can clear its loading state
+          // when real output appears, and start a safety timeout in case no output ever renders.
+          container._runBtn = btn;
+          if (container._loadingSafetyTimeout) {
+            clearTimeout(container._loadingSafetyTimeout);
+          }
+          container._loadingSafetyTimeout = setTimeout(function() {
+            if (container._clearLoading) {
+              container._clearLoading();
+            }
+          }, 30000);
+
           // In expanded view, execute only the editable step code.
           // The surrounding full-file context is for visual reference only.
           const isExpandedForExec = panel && panel.getAttribute('aria-expanded') === 'true';
@@ -2174,10 +2236,9 @@
               delete container._wasHidden;
             }
 
-            // Remove loading state AFTER output is displayed
-            // This ensures "Running..." disappears when output appears, not before
-            btn.classList.remove('loading');
-            container.classList.remove('loading');
+            // Note: the "Running..." overlay is cleared by the output observer
+            // when real output actually renders (see setupOutputObserver), with a
+            // safety timeout as fallback — not from this timer.
 
             // Refocus CodeMirror after execution completes
             // This ensures arrow keys move the cursor instead of scrolling the page
