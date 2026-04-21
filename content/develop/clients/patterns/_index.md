@@ -3,6 +3,7 @@ aliases:
 - /develop/use/patterns
 - /connect/clients/patterns/
 - /clients/patterns/
+- /manual/patterns/
 categories:
 - docs
 - develop
