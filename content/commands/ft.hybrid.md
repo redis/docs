@@ -823,3 +823,4 @@ One of the following:
 
 - [Vector search concepts]({{< relref "/develop/ai/search-and-query/vectors" >}})
 - [Combined search]({{< relref "/develop/ai/search-and-query/query/combined/" >}})
+- [Search commands in MULTI/EXEC transactions and Lua scripts]({{< relref "/develop/ai/search-and-query/advanced-concepts/transactions" >}})

@@ -883,3 +883,4 @@ One of the following:
 - [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}})
 - [Query syntax]({{< relref "/develop/ai/search-and-query/query/" >}})
 - [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+- [Search commands in MULTI/EXEC transactions and Lua scripts]({{< relref "/develop/ai/search-and-query/advanced-concepts/transactions" >}})
