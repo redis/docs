@@ -1,4 +1,7 @@
 ---
+aliases:
+- /manual/optimization/memory-optimization/
+- /management/optimization/memory-optimization/
 categories:
 - docs
 - operate

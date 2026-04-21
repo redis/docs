@@ -2,6 +2,7 @@
 aliases:
 - /develop/connect/cli
 - /connect/cli/
+- /manual/cli/
 categories:
 - docs
 - develop
