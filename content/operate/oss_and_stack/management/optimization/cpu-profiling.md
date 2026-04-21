@@ -1,4 +1,7 @@
 ---
+aliases:
+- /manual/optimization/cpu-profiling/
+- /management/optimization/cpu-profiling/
 categories:
 - docs
 - operate

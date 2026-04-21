@@ -1,4 +1,6 @@
 ---
+aliases:
+- /stack/search/
 Title: Search and query
 alwaysopen: false
 categories:
