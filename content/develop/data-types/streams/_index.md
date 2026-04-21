@@ -17,7 +17,7 @@ categories:
 description: Introduction to Redis streams
 linkTitle: Streams
 title: Redis Streams
-weight: 60
+weight: 110
 ---
 
 {{< command-group group="stream" title="Stream command summary" show_link=true >}}

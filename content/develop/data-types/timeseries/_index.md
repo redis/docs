@@ -22,7 +22,7 @@ description: Ingest and query time series data with Redis
 linkTitle: Time series
 stack: true
 title: Time series
-weight: 150
+weight: 120
 ---
 
 {{< command-group group="timeseries" title="Time series command summary" show_link=true >}}

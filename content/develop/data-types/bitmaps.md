@@ -15,7 +15,7 @@ categories:
 description: Introduction to Redis bitmaps
 linkTitle: Bitmaps
 title: Redis bitmaps
-weight: 120
+weight: 30
 ---
 
 {{< command-group group="bitmap" title="Bitmap/bitfield command summary" show_link=true >}}

@@ -17,7 +17,7 @@ description: Cuckoo filters are a probabilistic data structure that checks for p
 linkTitle: Cuckoo filter
 stack: true
 title: Cuckoo filter
-weight: 20
+weight: 30
 ---
 
 {{< command-group group="cf" title="Cuckoo filter command summary" show_link=true >}}

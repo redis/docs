@@ -15,7 +15,7 @@ categories:
 description: Probabilistic data structures in Redis
 linkTitle: Probabilistic
 title: Probabilistic
-weight: 140
+weight: 80
 ---
 
 *Probabilistic data structures* give approximations of statistics such as

@@ -16,7 +16,7 @@ description: JSON support for Redis
 linkTitle: JSON
 stack: true
 title: JSON
-weight: 11
+weight: 60
 ---
 
 {{< command-group group="json" title="JSON command summary" show_link=true >}}
