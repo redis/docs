@@ -226,6 +226,25 @@
         ],
         "type": "object"
       },
+      "ClusterCertificateUpdate": {
+        "additionalProperties": false,
+        "description": "Cluster certificate payload used for updates.",
+        "properties": {
+          "certificate": {
+            "description": "PEM-encoded certificate chain.",
+            "type": "string"
+          },
+          "key": {
+            "description": "PEM-encoded private key.",
+            "type": "string"
+          },
+          "name": {
+            "description": "Certificate type name.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "ClusterCertificatesResponse": {
         "description": "Cluster certificates response",
         "properties": {
@@ -328,6 +347,20 @@
             "description": "PEM-encoded private key for the syncer certificate",
             "type": "string",
             "x-omitempty": true
+          }
+        },
+        "type": "object"
+      },
+      "ClusterCertificatesUpdateRequest": {
+        "additionalProperties": false,
+        "description": "Request body for updating one or more cluster certificates.",
+        "properties": {
+          "certificates": {
+            "description": "Certificates to update.",
+            "items": {
+              "$ref": "#/components/schemas/ClusterCertificateUpdate"
+            },
+            "type": "array"
           }
         },
         "type": "object"
@@ -1994,6 +2027,53 @@
         ],
         "x-publish-docs": true,
         "x-stability-level": "stable"
+      },
+      "put": {
+        "description": "Replace one or more cluster certificates and apply them across the cluster.",
+        "operationId": "cluster_update_cluster_certificates",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClusterCertificatesUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Cluster certificates updated successfully."
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "406": {
+            "$ref": "#/components/responses/NotAcceptable"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "update_cluster"
+            ]
+          }
+        ],
+        "summary": "Update cluster certificates.",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
       }
     },
     "/v1/cluster/certificates/{certificate_name}": {
@@ -2114,6 +2194,101 @@
           }
         ],
         "summary": "Get LDAP configuration",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "put": {
+        "description": "Set or partially update the LDAP configuration for the cluster",
+        "operationId": "cluster_update_ldap_config",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ldap"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ldap"
+                }
+              }
+            },
+            "description": "LDAP configuration"
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "config_ldap"
+            ]
+          }
+        ],
+        "summary": "Update LDAP configuration",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/cluster/update_cert": {
+      "put": {
+        "deprecated": true,
+        "description": "Replace a single cluster certificate and apply it across the cluster. Deprecated, use PUT /v1/cluster/certificates.",
+        "operationId": "cluster_update_cluster_cert",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClusterCertificateUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Cluster certificate updated successfully."
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "406": {
+            "$ref": "#/components/responses/NotAcceptable"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "update_cluster"
+            ]
+          }
+        ],
+        "summary": "Update a single cluster certificate.",
         "tags": [
           "Cluster"
         ],

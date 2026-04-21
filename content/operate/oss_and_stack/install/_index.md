@@ -1,4 +1,6 @@
 ---
+aliases:
+- /install/
 categories:
 - docs
 - operate

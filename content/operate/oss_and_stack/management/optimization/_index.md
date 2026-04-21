@@ -1,4 +1,7 @@
 ---
+aliases:
+- /manual/optimization/
+- /management/optimization/
 categories:
 - docs
 - operate
