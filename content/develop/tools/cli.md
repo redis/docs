@@ -511,6 +511,7 @@ dataset for big keys, but also provides information about the data types
 that the data set consists of. This mode is enabled with the `--bigkeys` option,
 and produces verbose output:
 
+{{< trimmable head="12" tail="8" >}}
 ```
 $ redis-cli --bigkeys
 
@@ -544,6 +545,7 @@ Biggest   zset found "racer_scores" has 8 members
 2 zsets with 11 members (03.64% of keys, avg size 5.50)
 25 ReJSON-RLs with 0 ? (45.45% of keys, avg size 0.00)
 ```
+{{< /trimmable >}}
 
 In the first part of the output, each new key larger than the previous larger
 key (of the same type) encountered is reported. The summary section
@@ -568,6 +570,7 @@ The `--bigkeys` option now works on cluster replicas.
 Similar to the `--bigkeys` option, `--memkeys` allows you to scan the entire keyspace to find biggest keys as well as
 the average sizes per key type.
 
+{{< trimmable head="12" tail="8" >}}
 ```
 $ redis-cli --memkeys
 
@@ -606,6 +609,7 @@ Biggest ReJSON-RL found "bikes:inventory" has 4865 bytes
 2 zsets with 304 bytes (03.64% of keys, avg size 152.00)
 25 ReJSON-RLs with 15748 bytes (45.45% of keys, avg size 629.92)
 ```
+{{< /trimmable >}}
 
 The `--memkeys` option now works on cluster replicas.
 
@@ -613,6 +617,7 @@ The `--memkeys` option now works on cluster replicas.
 
 You can use the `--keystats` and `--keystats-samples` options to combine `--memkeys` and `--bigkeys` with additional distribution data.
 
+{{< trimmable head="14" tail="12" >}}
 ```
 $ redis-cli --keystats
 
@@ -689,6 +694,7 @@ CMSk-TYPE            1   1.82%  140.68K  140.68K                 -           -
 zset                 2   3.64%     304B     152B         11 members        5.50
 ReJSON-RL           25  45.45%   15.38K     629B                 -           - 
 ```
+{{< /trimmable >}}
 
 ## Get a list of keys
 
@@ -974,6 +980,7 @@ With 500MB there is sufficient space for the key quantity (10 million) and distr
 
 ## Usage
 
+{{< usage >}}
 ```
 Usage: redis-cli [OPTIONS] [cmd [arg [arg ...]]]
   -h <hostname>      Server hostname (default: 127.0.0.1).
@@ -1096,3 +1103,4 @@ When no command is given, redis-cli starts in interactive mode.
 Type "help" in interactive mode for information on available commands
 and settings.
 ```
+{{< /usage >}}

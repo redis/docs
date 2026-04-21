@@ -1,33 +1,29 @@
 ---
-linkTitle: Vectorizers
-title: Vectorizers
+linkTitle: Create embeddings with vectorizers
+title: Create Embeddings with Vectorizers
 aliases:
 - /integrate/redisvl/user_guide/04_vectorizers
 weight: 04
 ---
 
 
-In this notebook, we will show how to use RedisVL to create embeddings using the built-in text embedding vectorizers. Today RedisVL supports:
-1. OpenAI
-2. HuggingFace
-3. Vertex AI
-4. Cohere
-5. Mistral AI
-6. Amazon Bedrock
-7. Bringing your own vectorizer
-8. VoyageAI
+This guide demonstrates how to create embeddings using RedisVL's built-in text vectorizers. RedisVL supports multiple embedding providers: OpenAI, HuggingFace, Vertex AI, Cohere, Mistral AI, Amazon Bedrock, VoyageAI, and custom vectorizers.
 
-Before running this notebook, be sure to
-1. Have installed ``redisvl`` and have that environment active for this notebook.
-2. Have a running Redis Stack instance with RediSearch > 2.4 active.
+## Prerequisites
 
-For example, you can run Redis Stack locally with Docker:
+Before you begin, ensure you have:
+- Installed RedisVL: `pip install redisvl`
+- A running Redis instance ([Redis 8+](https://redis.io/downloads/) or [Redis Cloud](https://redis.io/cloud))
+- API keys for the embedding providers you plan to use
 
-```bash
-docker run -d -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
-```
+## What You'll Learn
 
-This will run Redis on port 6379 and RedisInsight at http://localhost:8001.
+By the end of this guide, you will be able to:
+- Create embeddings using multiple providers (OpenAI, HuggingFace, Cohere, etc.)
+- Use synchronous and asynchronous embedding methods
+- Batch embed multiple texts efficiently
+- Build custom vectorizers for your own embedding functions
+- Integrate vectorizers with RedisVL indexes for semantic search
 
 
 ```python
@@ -170,11 +166,8 @@ print("Vector dimensions: ", len(test))
 test[:10]
 ```
 
-
     ---------------------------------------------------------------------------
-
     ValueError                                Traceback (most recent call last)
-
     Cell In[7], line 4
           1 from redisvl.utils.vectorize import AzureOpenAITextVectorizer
           3 # create a vectorizer
@@ -188,8 +181,6 @@ test[:10]
          11 )
          13 test = az_oai.embed("This is a test sentence.")
          14 print("Vector dimensions: ", len(test))
-
-
     File ~/src/redis-vl-python/redisvl/utils/vectorize/text/azureopenai.py:78, in AzureOpenAITextVectorizer.__init__(self, model, api_config, dtype)
          54 def __init__(
          55     self,
@@ -205,8 +196,6 @@ test[:10]
          77     """
     ---> 78     self._initialize_clients(api_config)
          79     super().__init__(model=model, dims=self._set_model_dims(model), dtype=dtype)
-
-
     File ~/src/redis-vl-python/redisvl/utils/vectorize/text/azureopenai.py:106, in AzureOpenAITextVectorizer._initialize_clients(self, api_config)
          99 azure_endpoint = (
         100     api_config.pop("azure_endpoint")
@@ -225,10 +214,7 @@ test[:10]
         115     else os.getenv("OPENAI_API_VERSION")
         116 )
         118 if not api_version:
-
-
     ValueError: AzureOpenAI API endpoint is required. Provide it in api_config or set the AZURE_OPENAI_ENDPOINT                    environment variable.
-
 
 
 ```python
@@ -295,11 +281,11 @@ GCP_LOCATION=<your gcp geo region for vertex ai>
 
 
 ```python
-from redisvl.utils.vectorize import VertexAITextVectorizer
+from redisvl.utils.vectorize import VertexAIVectorizer
 
 
 # create a vectorizer
-vtx = VertexAITextVectorizer(api_config={
+vtx = VertexAIVectorizer(api_config={
     "project_id": os.environ.get("GCP_PROJECT_ID") or getpass.getpass("Enter your GCP Project ID: "),
     "location": os.environ.get("GCP_LOCATION") or getpass.getpass("Enter your GCP Location: "),
     "google_application_credentials": os.environ.get("GOOGLE_APPLICATION_CREDENTIALS") or getpass.getpass("Enter your Google App Credentials path: ")
@@ -355,7 +341,7 @@ Learn more about using RedisVL and Cohere together through [this dedicated user 
 
 ### VoyageAI
 
-[VoyageAI](https://dash.voyageai.com/) allows you to implement language AI into your product. The `VoyageAITextVectorizer` makes it simple to use RedisVL with the embeddings models at VoyageAI. For this you will need to install `voyageai`.
+[VoyageAI](https://dash.voyageai.com/) allows you to implement language AI into your product. The `VoyageAIVectorizer` makes it simple to use RedisVL with the embeddings models at VoyageAI. For this you will need to install `voyageai`.
 
 ```bash
 pip install voyageai
@@ -375,10 +361,10 @@ more information [here](https://docs.voyageai.com/docs/embeddings)
 
 
 ```python
-from redisvl.utils.vectorize import VoyageAITextVectorizer
+from redisvl.utils.vectorize import VoyageAIVectorizer
 
 # create a vectorizer
-vo = VoyageAITextVectorizer(
+vo = VoyageAIVectorizer(
     model="voyage-law-2",  # Please check the available models at https://docs.voyageai.com/docs/embeddings
     api_config={"api_key": api_key},
 )
@@ -442,9 +428,9 @@ os.environ["AWS_REGION"] = "us-east-1"  # Change as needed
 
 
 ```python
-from redisvl.utils.vectorize import BedrockTextVectorizer
+from redisvl.utils.vectorize import BedrockVectorizer
 
-bedrock = BedrockTextVectorizer(
+bedrock = BedrockVectorizer(
     model="amazon.titan-embed-text-v2:0"
 )
 
@@ -468,12 +454,12 @@ RedisVL supports the use of other vectorizers and provides a class to enable com
 
 
 ```python
-from redisvl.utils.vectorize import CustomTextVectorizer
+from redisvl.utils.vectorize import CustomVectorizer
 
 def generate_embeddings(text_input, **kwargs):
     return [0.101] * 768
 
-custom_vectorizer = CustomTextVectorizer(generate_embeddings)
+custom_vectorizer = CustomVectorizer(generate_embeddings)
 
 custom_vectorizer.embed("This is a test sentence.")[:10]
 ```
@@ -586,8 +572,17 @@ float64_bytes = vectorizer_64.embed('test sentence', as_buffer=True)
 float16_bytes != float64_bytes
 ```
 
+## Next Steps
+
+Now that you understand how to create embeddings, explore these related guides:
+
+- [Getting Started](01_getting_started.ipynb) - Learn the basics of indexes and queries
+- [Rerank Results](06_rerankers.ipynb) - Improve search quality with reranking models
+- [Cache Embeddings](10_embeddings_cache.ipynb) - Cache embedding vectors for faster repeated computations
+
+## Cleanup
+
 
 ```python
-# cleanup
 index.delete()
 ```

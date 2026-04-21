@@ -10,9 +10,16 @@ The Vector class in RedisVL is a container that encapsulates a numerical vector,
 
 ## Vector
 
-### `class Vector(*, vector, field_name, dtype='float32', weight=1.0)`
+### `class Vector(*, vector, field_name, dtype='float32', weight=1.0, max_distance=2.0)`
 
 Simple object containing the necessary arguments to perform a multi vector query.
+
+Args:
+vector: The vector values as a list of floats or bytes
+field_name: The name of the vector field to search
+dtype: The data type of the vector (default: "float32")
+weight: The weight for this vector in the combined score (default: 1.0)
+max_distance: The maximum distance for vector range search (default: 2.0, range: [0.0, 2.0])
 
 Create a new model by parsing and validating input data from keyword arguments.
 
@@ -26,6 +33,7 @@ self is explicitly positional-only to allow self as a field name.
   * **field_name** (*str*)
   * **dtype** (*str*)
   * **weight** (*float*)
+  * **max_distance** (*float*)
 
 #### `validate_vector()`
 

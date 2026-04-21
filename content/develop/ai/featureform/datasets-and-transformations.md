@@ -1,190 +1,234 @@
 ---
-title: Datasets and transformations in Featureform
-description: Register datasets and define SQL or DataFrame transformations for Featureform features.
-linkTitle: Datasets and transformations
-weight: 40
+title: Reference
+description: Reference documentation for Featureform APIs, CLI commands, Python surfaces, and RBAC.
+linkTitle: Reference
+weight: 90
 ---
 
-Datasets and transformations are the bridge between your raw source data and your feature definitions.
+Use these pages when you need current interfaces rather than a guided workflow.
 
-- datasets point Featureform at existing tables or files
-- transformations create reusable feature engineering logic on top of those datasets
+## Featureform gRPC services
 
-## Register datasets
+```json metadata
+{
+  "title": "Featureform gRPC services",
+  "description": "Review the current public Featureform gRPC service surface, resource APIs, and major message types.",
+  "categories": null,
+  "tableOfContents": {"sections":[{"id":"service-index","title":"Service index"},{"id":"notable-service-areas","title":"Notable service areas"},{"id":"important-apply-fields","title":"Important apply fields"},{"id":"common-provider-related-models","title":"Common provider-related models"}]}
 
-Register the source objects that Featureform should treat as named inputs.
+,
+  "codeExamples": []
+}
+```
+This section indexes the public gRPC API surface exposed by Feature Form.
 
-### Warehouse tables
+### Service index
+
+| Service | Purpose |
+| --- | --- |
+| `WorkspaceService` | Workspace CRUD and lookup |
+| `ProviderService` | Workspace-scoped provider CRUD |
+| `SecretProviderService` | Workspace-scoped secret-provider CRUD |
+| `ApplyService` | Declarative graph apply and dry-run planning |
+| `ResourceService` | Graph browsing, lineage, search, versions, and workspace stats |
+| `CatalogService` | Physical catalog inspection |
+| `ServingService` | Online serving and serving metadata |
+| `DataframeService` | Dataframe plan resolution |
+| `RbacService` | Roles, permissions, access, and bindings |
+| `MachineCredentialService` | Machine credential lifecycle |
+| `AuditService` | Audit log listing |
+| `VersionService` | Version compatibility and auth discovery metadata |
+
+### Notable service areas
+
+- `WorkspaceService`: create, get, list, update, delete
+- `ProviderService`: register, get, list, update, delete
+- `SecretProviderService`: register, get, list, update, delete
+- `ApplyService`: apply and plan
+- `ResourceService`: per-resource get and list plus lineage, impact, versions, and workspace stats
+
+### Important apply fields
+
+- `workspace_id`
+- `resources`
+- `dry_run`
+- `apply_strategy`
+- `execution_mode`
+
+### Common provider-related models
+
+- `PostgresConfig`
+- `SnowflakeConfig`
+- `S3Config`
+- `SparkProviderConfig`
+- `ProviderHealth`
+- `SecretRef`
+
+## Feature Form CLI
+
+This section documents the current public `ff` CLI surface.
+
+### Global flags
+
+Connection and transport:
+
+- `--server`, `-s`
+- `--grpc-server`
+- `--transport rest|grpc`
+- `--timeout`, `-t`
+- `--no-tls`
+
+Authentication:
+
+- `--token`
+- `--client-id`
+- `--client-secret`
+- `--issuer-url`
+
+CLI behavior:
+
+- `--output`, `-o`
+- `--config`
+- `--no-color`
+- `--verbose`, `-v`
+- `--skip-version-check`
+
+### Top-level commands
+
+- `ff version`
+- `ff ping`
+- `ff workspace`
+- `ff provider`
+- `ff secret-provider`
+- `ff apply`
+- `ff auth`
+- `ff rbac`
+- `ff machine-credential`
+- `ff audit`
+- `ff catalog`
+- `ff graph`
+- `ff scheduler`
+- `ff dataframe`
+- `ff config`
+
+### Transport note
+
+The CLI defaults to REST in code, but many operational examples use explicit gRPC. In memory-backed deployments, REST and gRPC do not share one durable state backend.
+
+## Python client and DSL reference
+
+```json metadata
+{
+  "title": "Python client and DSL reference",
+  "description": "Review the main Featureform Python client APIs, resource types, helpers, and common authoring patterns.",
+  "categories": null,
+  "tableOfContents": {"sections":[{"id":"client-apis","title":"Client APIs"},{"id":"common-error-types","title":"Common error types"},{"id":"secret-provider-and-provider-helpers","title":"Secret-provider and provider helpers"},{"id":"core-resource-types","title":"Core resource types"},{"id":"common-pattern","title":"Common pattern"}]}
+
+,
+  "codeExamples": []
+}
+```
+This section indexes the main public Python surface exported from `featureform`.
+
+### Client APIs
+
+- `ff.Client`
+- `ff.WorkspaceClient`
+- `ff.ProviderClient`
+- `ff.SecretProviderClient`
+- `ff.ApplyResult`
+- `ff.ApplyWaitResult`
+
+### Common error types
+
+- `ff.FeatureformError`
+- `ff.ConnectionError`
+- `ff.InvalidArgumentError`
+- `ff.NotFoundError`
+- `ff.TimeoutError`
+- `ff.ValidationError`
+
+### Secret-provider and provider helpers
+
+- `ff.EnvSecretProvider`
+- `ff.VaultSecretProvider`
+- `ff.K8sSecretProvider`
+- `ff.PostgresProvider`
+- `ff.RedisProvider`
+- `ff.S3Provider`
+- `ff.SparkProvider`
+- `ff.get_postgres(name)`
+- `ff.get_provider(name)`
+
+### Core resource types
+
+- `ff.Entity`
+- `ff.Dataset`
+- `ff.Feature`
+- `ff.Label`
+- `ff.TrainingSet`
+- `ff.FeatureView`
+
+### Common pattern
 
 ```python
-transactions = snowflake.register_table(
-    name="transactions",
-    table="TRANSACTIONS",
-    description="Raw transaction table",
-)
+postgres = ff.get_postgres("demo_postgres")
+transactions = postgres.dataset(name="transactions")
 ```
 
-For Snowflake providers, the provider-level `database`, `schema`, and `catalog` configuration determines where Featureform resolves the table unless you override those values during registration.
+The onboarding quickstart in this repo uses an explicit `resources = [...]` list because it is easier to reason about during apply.
 
-### Delta tables
+## RBAC roles and persmissions
 
-```python
-transactions = spark.register_delta_table(
-    name="transactions",
-    database="my_catalog.my_schema",
-    table="transactions",
-)
+# Roles and permissions
+
+```json metadata
+{
+  "title": "Roles and permissions",
+  "description": "Review the built-in Featureform RBAC roles, permission areas, and useful inspection commands.",
+  "categories": null,
+  "tableOfContents": {"sections":[{"id":"roles","title":"Roles"},{"id":"permission-areas","title":"Permission areas"},{"id":"useful-inspection-commands","title":"Useful inspection commands"}]}
+
+,
+  "codeExamples": []
+}
+```
+This section summarizes the built-in RBAC catalog exposed by the current authorization service.
+
+### Roles
+
+- `viewer` for read-only workspace visibility
+- `operator` for resource and scheduler operations
+- `workspace_admin` for full workspace administration
+- `global_admin` for deployment-wide administration
+- `model` for constrained serving and training-set access
+
+### Permission areas
+
+- workspace
+- graph
+- catalog
+- provider
+- secret provider
+- apply
+- serving
+- dataframe
+- training set
+- scheduler
+- audit
+- machine credential
+
+`model` is not a reduced workspace-admin role. It depends on explicit resource bindings for the feature views or training sets it can read.
+
+### Useful inspection commands
+
+```bash
+ff --transport grpc --grpc-server localhost:9090 --no-tls rbac roles
+ff --transport grpc --grpc-server localhost:9090 --no-tls rbac permissions
 ```
 
-Use `catalog.schema` in the `database` parameter when you are working with Unity Catalog.
 
-### Apache Iceberg tables
 
-If your provider is configured with an Iceberg-compatible catalog, register the table against that provider and then use it like any other dataset:
 
-```python
-orders = snowflake.register_table(
-    name="orders_iceberg",
-    table="ORDERS_ICEBERG",
-    description="Apache Iceberg table registered through the configured catalog",
-)
-```
 
-You can then reference the Iceberg-backed dataset in transformations:
 
-```python
-@snowflake.sql_transformation(inputs=[orders])
-def recent_orders(orders):
-    return """
-    SELECT
-        order_id,
-        customer_id,
-        order_total,
-        order_timestamp
-    FROM {{ orders }}
-    WHERE order_timestamp >= DATEADD(day, -30, CURRENT_TIMESTAMP())
-    """
-```
-
-### File-based datasets
-
-```python
-events = spark.register_file(
-    name="events",
-    file_path="s3://my-bucket/events/transactions.parquet",
-    description="Event data stored in parquet",
-)
-```
-
-Spark providers also support JSON-backed primary sources:
-
-```python
-events = spark.register_json(
-    name="raw_events",
-    file_path="s3://my-bucket/events.jsonl",
-)
-```
-
-Flatten JSON-backed sources in a transformation before you use them for features or labels.
-
-Choose dataset types that match your source-of-truth platform. The goal is to create stable named inputs that other definitions can depend on.
-
-## SQL transformations
-
-Use SQL transformations when your provider is SQL-native and the logic is easiest to express in SQL:
-
-```python
-@snowflake.sql_transformation(inputs=[transactions])
-def user_spend(transactions):
-    return """
-        SELECT
-            user_id,
-            AVG(amount) AS avg_transaction_amount,
-            MAX(timestamp) AS latest_transaction
-        FROM {{ transactions }}
-        GROUP BY user_id
-    """
-```
-
-For Snowflake providers configured with an Iceberg catalog, you can also create dynamic-table-backed transformations:
-
-```python
-from featureform import SnowflakeDynamicTableConfig, RefreshMode, Initialize
-
-@snowflake.sql_transformation(
-    inputs=[transactions],
-    resource_snowflake_config=SnowflakeDynamicTableConfig(
-        refresh_mode=RefreshMode.INCREMENTAL,
-        initialize=Initialize.ON_CREATE,
-        target_lag="30 minutes",
-    )
-)
-def incremental_user_features(transactions):
-    return """
-    SELECT
-        user_id,
-        AVG(amount) AS avg_amount,
-        COUNT(*) AS tx_count,
-        MAX(timestamp) AS last_tx
-    FROM {{ transactions }}
-    GROUP BY user_id
-    """
-```
-
-## DataFrame transformations
-
-Use DataFrame transformations when you need programmatic control or Spark-native operations:
-
-```python
-@spark.df_transformation(inputs=[transactions])
-def user_transaction_features(transactions_df):
-    from pyspark.sql import functions as F
-
-    return transactions_df.groupBy("user_id").agg(
-        F.avg("amount").alias("avg_transaction_amount"),
-        F.count("*").alias("transaction_count"),
-        F.max("timestamp").alias("latest_transaction"),
-    )
-```
-
-## Chaining transformations
-
-You can build transformations on top of other transformations. This keeps feature engineering logic modular and easier to review:
-
-```python
-@spark.df_transformation(inputs=[user_transaction_features])
-def high_value_users(features_df):
-    return features_df.filter("avg_transaction_amount > 100")
-```
-
-## Accessing transformation data
-
-For development and validation, Featureform can retrieve the output of registered datasets or transformations as data frames:
-
-```python
-df = client.dataframe(user_transaction_features)
-```
-
-Use this sparingly in production workflows. Its main value is validation and iteration.
-
-## Apply registrations
-
-Once datasets and transformations are defined, register them with Featureform:
-
-```python
-client.apply()
-```
-
-This step records the metadata and dependency graph so later resources, such as features and training sets, can reference them.
-
-## Best practices
-
-- Register stable business-level datasets, not every transient table.
-- Keep transformation names descriptive and reusable.
-- Push provider-specific parsing, casting, and joins into transformations before defining features.
-- Include timestamps where temporal correctness matters later in training or serving.
-
-## What to read next
-
-- [Define features and labels]({{< relref "/develop/ai/featureform/features-and-labels" >}})
-- [Work with training sets and feature views]({{< relref "/develop/ai/featureform/training-sets-and-feature-views" >}})

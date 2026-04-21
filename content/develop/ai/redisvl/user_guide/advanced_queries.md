@@ -1,24 +1,34 @@
 ---
-linkTitle: Advanced query types
-title: Advanced Query Types
+linkTitle: Use advanced query types
+title: Use Advanced Query Types
 aliases:
 - /integrate/redisvl/user_guide/11_advanced_queries
 weight: 11
 ---
 
 
-In this notebook, we will explore advanced query types available in RedisVL:
+This guide covers advanced query types available in RedisVL:
 
 1. **`TextQuery`**: Full text search with advanced scoring
-2. **`AggregateHybridQuery`**: Combines text and vector search for hybrid retrieval
+2. **`AggregateHybridQuery` and `HybridQuery`**: Combines text and vector search for hybrid retrieval
 3. **`MultiVectorQuery`**: Search over multiple vector fields simultaneously
 
-These query types are powerful tools for building sophisticated search applications that go beyond simple vector similarity search.
+These query types enable sophisticated search applications that go beyond simple vector similarity search.
 
-Prerequisites:
-- Ensure `redisvl` is installed in your Python environment.
-- Have a running instance of [Redis Stack](https://redis.io/docs/install/install-stack/) or [Redis Cloud](https://redis.io/cloud).
+## Prerequisites
 
+Before you begin, ensure you have:
+- Installed RedisVL: `pip install redisvl`
+- A running Redis instance ([Redis 8+](https://redis.io/downloads/) or [Redis Cloud](https://redis.io/cloud))
+- For `HybridQuery`: Redis >= 8.4.0 and redis-py >= 7.1.0
+
+## What You'll Learn
+
+By the end of this guide, you will be able to:
+- Perform full-text search with `TextQuery` and advanced scoring options
+- Combine text and vector search using `HybridQuery` and `AggregateHybridQuery`
+- Search across multiple vector fields with `MultiVectorQuery`
+- Configure custom stopwords for text search
 
 ## Setup and Data Preparation
 
@@ -157,7 +167,6 @@ keys = index.load(data)
 print(f"Loaded {len(keys)} products into the index")
 ```
 
-    16:27:50 redisvl.index.index INFO   Index already exists, overwriting.
     Loaded 6 products into the index
 
 
@@ -186,7 +195,7 @@ result_print(results)
 ```
 
 
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th><th>category</th><th>price</th></tr><tr><td>4.080705480646511</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>89.99</td></tr><tr><td>1.4504838715161907</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>footwear</td><td>139.99</td></tr><tr><td>1.431980178975859</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>outerwear</td><td>129.99</td></tr></table>
+<table><tr><th>score</th><th>product_id</th><th>brief_description</th><th>category</th><th>price</th></tr><tr><td>5.953989333038773</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>89.99</td></tr><tr><td>2.085315593627535</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>footwear</td><td>139.99</td></tr><tr><td>2.0410082774474088</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>outerwear</td><td>129.99</td></tr></table>
 
 
 ### Text Search with Different Scoring Algorithms
@@ -213,7 +222,7 @@ result_print(results)
 
 
 
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th><th>price</th></tr><tr><td>4.165936382048982</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>89.99</td></tr><tr><td>1.769051138581863</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>39.99</td></tr><tr><td>1.2306902673750557</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>139.99</td></tr></table>
+<table><tr><th>score</th><th>product_id</th><th>brief_description</th><th>price</th></tr><tr><td>6.031534703977659</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>89.99</td></tr><tr><td>2.085315593627535</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>139.99</td></tr><tr><td>1.5268074873573214</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>39.99</td></tr></table>
 
 
 
@@ -236,7 +245,7 @@ result_print(results)
 
 
 
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th><th>price</th></tr><tr><td>1.3333333333333333</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>89.99</td></tr><tr><td>1.3333333333333333</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>89.99</td></tr><tr><td>1.0</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>139.99</td></tr></table>
+<table><tr><th>score</th><th>product_id</th><th>brief_description</th><th>price</th></tr><tr><td>2.3333333333333335</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>89.99</td></tr><tr><td>2.0</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>139.99</td></tr><tr><td>1.0</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>39.99</td></tr></table>
 
 
 ### Text Search with Filters
@@ -261,7 +270,7 @@ result_print(results)
 ```
 
 
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th><th>category</th><th>price</th></tr><tr><td>2.385806908729779</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>89.99</td></tr><tr><td>2.385806908729779</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>89.99</td></tr><tr><td>1.9340948871093797</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>footwear</td><td>139.99</td></tr></table>
+<table><tr><th>score</th><th>product_id</th><th>brief_description</th><th>category</th><th>price</th></tr><tr><td>3.9314935770863046</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>89.99</td></tr><tr><td>3.1279733904413027</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>footwear</td><td>139.99</td></tr></table>
 
 
 
@@ -280,7 +289,7 @@ result_print(results)
 ```
 
 
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th><th>price</th></tr><tr><td>2.2775029612659465</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>89.99</td></tr><tr><td>1.1387514806329733</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>89.99</td></tr><tr><td>1.1190633543347508</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>39.99</td></tr><tr><td>1.1190633543347508</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>39.99</td></tr></table>
+<table><tr><th>score</th><th>product_id</th><th>brief_description</th><th>price</th></tr><tr><td>3.1541404034996914</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>89.99</td></tr><tr><td>1.5268074873573214</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>39.99</td></tr></table>
 
 
 ### Text Search with Multiple Fields and Weights
@@ -302,7 +311,7 @@ result_print(results)
 ```
 
 
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th></tr><tr><td>3.040323653363804</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>3.040323653363804</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>1.289396591406253</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td></tr></table>
+<table><tr><th>score</th><th>product_id</th><th>brief_description</th></tr><tr><td>5.035440025836444</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>2.085315593627535</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td></tr></table>
 
 
 ### Text Search with Custom Stopwords
@@ -325,7 +334,7 @@ result_print(results)
 ```
 
 
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th></tr><tr><td>4.1444591833267275</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>4.1444591833267275</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>1.4875097606385526</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td></tr></table>
+<table><tr><th>score</th><th>product_id</th><th>brief_description</th></tr><tr><td>5.953989333038773</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>2.085315593627535</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td></tr><tr><td>2.0410082774474088</td><td>prod_2</td><td>lightweight running jacket with water resistance</td></tr></table>
 
 
 
@@ -344,7 +353,7 @@ result_print(results)
 ```
 
 
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th></tr><tr><td>2.5107799078325</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>2.5107799078325</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>2.482820220115406</td><td>prod_3</td><td>professional tennis racket for competitive players</td></tr></table>
+<table><tr><th>score</th><th>product_id</th><th>brief_description</th></tr><tr><td>3.1541404034996914</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>3.0864038416103</td><td>prod_3</td><td>professional tennis racket for competitive players</td></tr></table>
 
 
 
@@ -363,22 +372,32 @@ result_print(results)
 ```
 
 
-<table><tr><th>score</th><th>product_id</th><th>brief_description</th></tr><tr><td>3.69730364515632</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>3.69730364515632</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>1.5329921800414583</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td></tr></table>
+<table><tr><th>score</th><th>product_id</th><th>brief_description</th></tr><tr><td>5.953989333038773</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>2.085315593627535</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td></tr><tr><td>2.0410082774474088</td><td>prod_2</td><td>lightweight running jacket with water resistance</td></tr></table>
 
 
-## 2. AggregateHybridQuery: Combining Text and Vector Search
+## 2. Hybrid Queries: Combining Text and Vector Search
 
-The `AggregateHybridQuery` combines text search and vector similarity to provide the best of both worlds:
+Hybrid queries combine text search and vector similarity to provide the best of both worlds:
 - **Text search**: Finds exact keyword matches
 - **Vector search**: Captures semantic similarity
 
-Results are scored using a weighted combination:
+As of Redis 8.4.0, Redis natively supports a [`FT.HYBRID`](https://redis.io/docs/latest/commands/ft.hybrid) search command. RedisVL provides a `HybridQuery` class that makes it easy to construct and execute hybrid queries. For earlier versions of Redis, RedisVL provides an `AggregateHybridQuery` class that uses Redis aggregation to achieve similar results.
 
-```
-hybrid_score = (alpha) * vector_score + (1 - alpha) * text_score
+
+```python
+from packaging.version import Version
+
+from redis import __version__ as _redis_py_version
+
+redis_py_version = Version(_redis_py_version)
+redis_version = Version(index.client.info()["redis_version"])
+
+HYBRID_SEARCH_AVAILABLE = redis_version >= Version("8.4.0") and redis_py_version >= Version("7.1.0")
+print(HYBRID_SEARCH_AVAILABLE)
 ```
 
-Where `alpha` controls the balance between vector and text search (default: 0.7).
+    True
+
 
 ### Index-Level Stopwords Configuration
 
@@ -424,7 +443,7 @@ company_index.create(overwrite=True, drop=True)
 print(f"Index created with STOPWORDS 0: {company_index}")
 ```
 
-    Index created with STOPWORDS 0: <redisvl.index.index.SearchIndex object at 0x109ce3c50>
+    Index created with STOPWORDS 0: <redisvl.index.index.SearchIndex object at 0x130e98410>
 
 
 
@@ -541,16 +560,59 @@ print("✓ Cleaned up company_index")
     ✓ Cleaned up company_index
 
 
-### Basic Aggregate Hybrid Query
+### Basic Hybrid Query
 
-Let's search for "running" with both text and semantic search:
+NOTE: `HybridQuery` requires Redis >= 8.4.0 and redis-py >= 7.1.0.
+
+Let's search for "running" with both text and semantic search, combining the results' scores using a linear combination:
+
+
+```python
+if HYBRID_SEARCH_AVAILABLE:
+    from redisvl.query import HybridQuery
+
+    # Create a hybrid query
+    hybrid_query = HybridQuery(
+        text="running shoes",
+        text_field_name="brief_description",
+        vector=[0.1, 0.2, 0.1],  # Query vector
+        vector_field_name="text_embedding",
+        return_fields=["product_id", "brief_description", "category", "price"],
+        num_results=5,
+        yield_text_score_as="text_score",
+        yield_vsim_score_as="vector_similarity",
+        combination_method="LINEAR",
+        yield_combined_score_as="hybrid_score",
+    )
+
+    results = index.query(hybrid_query)
+    result_print(results)
+
+else:
+    print("Hybrid search is not available in this version of Redis/redis-py.")
+```
+
+    /Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/query/hybrid.py:136: UserWarning: HybridPostProcessingConfig is an experimental and may change or be removed in future versions.
+      self.postprocessing_config = HybridPostProcessingConfig()
+    /Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/query/hybrid.py:247: UserWarning: HybridSearchQuery is an experimental and may change or be removed in future versions.
+      search_query = HybridSearchQuery(
+    /Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/query/hybrid.py:288: UserWarning: HybridVsimQuery is an experimental and may change or be removed in future versions.
+      vsim_query = HybridVsimQuery(
+    /Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/query/hybrid.py:363: UserWarning: CombineResultsMethod is an experimental and may change or be removed in future versions.
+      return CombineResultsMethod(
+
+
+
+<table><tr><th>text_score</th><th>product_id</th><th>brief_description</th><th>category</th><th>price</th><th>vector_similarity</th><th>hybrid_score</th></tr><tr><td>5.95398933304</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>89.99</td><td>0.999999970198</td><td>2.48619677905</td></tr><tr><td>2.08531559363</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>footwear</td><td>139.99</td><td>0.995073735714</td><td>1.32214629309</td></tr><tr><td>2.04100827745</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>outerwear</td><td>129.99</td><td>0.995073735714</td><td>1.30885409823</td></tr><tr><td>0</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>accessories</td><td>39.99</td><td>0.998058259487</td><td>0.698640781641</td></tr><tr><td>0</td><td>prod_6</td><td>swimming goggles with anti-fog coating</td><td>accessories</td><td>24.99</td><td>0.881881296635</td><td>0.617316907644</td></tr></table>
+
+
+For earlier versions of Redis, you can use `AggregateHybridQuery` instead:
 
 
 ```python
 from redisvl.query import AggregateHybridQuery
 
-# Create a hybrid query
-hybrid_query = AggregateHybridQuery(
+agg_hybrid_query = AggregateHybridQuery(
     text="running shoes",
     text_field_name="brief_description",
     vector=[0.1, 0.2, 0.1],  # Query vector
@@ -559,20 +621,60 @@ hybrid_query = AggregateHybridQuery(
     num_results=5
 )
 
-results = index.query(hybrid_query)
+results = index.query(agg_hybrid_query)
 result_print(results)
 ```
 
 
-<table><tr><th>vector_distance</th><th>product_id</th><th>brief_description</th><th>category</th><th>price</th><th>vector_similarity</th><th>text_score</th><th>hybrid_score</th></tr><tr><td>5.96046447754e-08</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>89.99</td><td>0.999999970198</td><td>4.82977442609</td><td>2.14893230697</td></tr><tr><td>5.96046447754e-08</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>89.99</td><td>0.999999970198</td><td>4.82977442609</td><td>2.14893230697</td></tr><tr><td>5.96046447754e-08</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>89.99</td><td>0.999999970198</td><td>4.82977442609</td><td>2.14893230697</td></tr><tr><td>0.0038834810257</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>accessories</td><td>39.99</td><td>0.998058259487</td><td>0</td><td>0.698640781641</td></tr><tr><td>0.0038834810257</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>accessories</td><td>39.99</td><td>0.998058259487</td><td>0</td><td>0.698640781641</td></tr></table>
+<table><tr><th>vector_distance</th><th>product_id</th><th>brief_description</th><th>category</th><th>price</th><th>vector_similarity</th><th>text_score</th><th>hybrid_score</th></tr><tr><td>5.96046447754e-08</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>89.99</td><td>0.999999970198</td><td>5.95398933304</td><td>2.48619677905</td></tr><tr><td>0.00985252857208</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>footwear</td><td>139.99</td><td>0.995073735714</td><td>2.08531559363</td><td>1.32214629309</td></tr><tr><td>0.00985252857208</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>outerwear</td><td>129.99</td><td>0.995073735714</td><td>2.04100827745</td><td>1.30885409823</td></tr><tr><td>0.0038834810257</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>accessories</td><td>39.99</td><td>0.998058259487</td><td>0</td><td>0.698640781641</td></tr><tr><td>0.236237406731</td><td>prod_6</td><td>swimming goggles with anti-fog coating</td><td>accessories</td><td>24.99</td><td>0.881881296635</td><td>0</td><td>0.617316907644</td></tr></table>
 
 
 ### Adjusting the Alpha Parameter
 
-The `alpha` parameter controls the weight between vector and text search:
-- `alpha=1.0`: Pure vector search
-- `alpha=0.0`: Pure text search
-- `alpha=0.7` (default): 70% vector, 30% text
+Results are scored using a weighted combination:
+
+```
+hybrid_score = (alpha) * text_score + (1 - alpha) * vector_score
+```
+
+Where `alpha` controls the balance between text and vector search (default: 0.3 for `HybridQuery` and 0.7 for `AggregateHybridQuery`). Note that `AggregateHybridQuery` reverses the definition of `alpha` to be the weight of the vector score.
+
+The `alpha` parameter controls the weight between text and vector search:
+- `alpha=1.0`: Pure text search (or pure vector search for `AggregateHybridQuery`)
+- `alpha=0.0`: Pure vector search (or pure text search for `AggregateHybridQuery`)
+- `alpha=0.3` (default - `HybridQuery`): 30% text, 70% vector
+
+
+```python
+if HYBRID_SEARCH_AVAILABLE:
+    vector_heavy_query = HybridQuery(
+        text="comfortable",
+        text_field_name="brief_description",
+        vector=[0.15, 0.25, 0.15],
+        vector_field_name="text_embedding",
+        combination_method="LINEAR",
+		linear_alpha=0.1,  # 10% text, 90% vector
+        return_fields=["product_id", "brief_description"],
+        num_results=3,
+        yield_text_score_as="text_score",
+        yield_vsim_score_as="vector_similarity",
+        yield_combined_score_as="hybrid_score",
+    )
+
+    print("Results with alpha=0.1 (vector-heavy):")
+    results = index.query(vector_heavy_query)
+    result_print(results)
+
+else:
+    print("Hybrid search is not available in this version of Redis/redis-py.")
+```
+
+    Results with alpha=0.1 (vector-heavy):
+
+
+
+<table><tr><th>text_score</th><th>product_id</th><th>brief_description</th><th>vector_similarity</th><th>hybrid_score</th></tr><tr><td>3.1541404035</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>0.998058259487</td><td>1.21366647389</td></tr><tr><td>1.52680748736</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>1.0000000596</td><td>1.05268080238</td></tr><tr><td>0</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>0.999315559864</td><td>0.899384003878</td></tr></table>
+
 
 
 ```python
@@ -596,12 +698,78 @@ result_print(results)
 
 
 
-<table><tr><th>vector_distance</th><th>product_id</th><th>brief_description</th><th>vector_similarity</th><th>text_score</th><th>hybrid_score</th></tr><tr><td>-1.19209289551e-07</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>1.0000000596</td><td>1.53838070541</td><td>1.05383812419</td></tr><tr><td>-1.19209289551e-07</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>1.0000000596</td><td>1.53838070541</td><td>1.05383812419</td></tr><tr><td>-1.19209289551e-07</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>1.0000000596</td><td>1.53838070541</td><td>1.05383812419</td></tr></table>
+<table><tr><th>vector_distance</th><th>product_id</th><th>brief_description</th><th>vector_similarity</th><th>text_score</th><th>hybrid_score</th></tr><tr><td>-1.19209289551e-07</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>1.0000000596</td><td>1.52680748736</td><td>1.05268080238</td></tr><tr><td>0.00136888027191</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>0.999315559864</td><td>0</td><td>0.899384003878</td></tr><tr><td>0.00136888027191</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>0.999315559864</td><td>0</td><td>0.899384003878</td></tr></table>
 
 
-### Aggregate Hybrid Query with Filters
+### Reciprocal Rank Fusion (RRF)
+
+In addition to combining scores using a linear combination, `HybridQuery` also supports reciprocal rank fusion (RRF) for combining scores. This method is useful when you want to combine scores giving more weight to the top results from each query.
+
+`HybridQuery` allows for the following parameters to be specified for RRF:
+- `rrf_window`: The window size to use for the RRF combination method. Limits the fusion scope.
+- `rrf_constant`: The constant to use for the RRF combination method. Controls the decay of rank influence.
+
+`AggregateHybridQuery` does not support RRF, and only supports a linear combination of scores.
+
+
+```python
+if HYBRID_SEARCH_AVAILABLE:
+    rrf_query = HybridQuery(
+        text="comfortable",
+        text_field_name="brief_description",
+        vector=[0.15, 0.25, 0.15],
+        vector_field_name="text_embedding",
+        combination_method="RRF",
+        return_fields=["product_id", "brief_description"],
+        num_results=3,
+        yield_text_score_as="text_score",
+        yield_vsim_score_as="vector_similarity",
+        yield_combined_score_as="hybrid_score",
+    )
+
+    results = index.query(rrf_query)
+    result_print(results)
+
+else:
+    print("Hybrid search is not available in this version of Redis/redis-py.")
+```
+
+
+<table><tr><th>text_score</th><th>product_id</th><th>brief_description</th><th>vector_similarity</th><th>hybrid_score</th></tr><tr><td>1.52680748736</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>1.0000000596</td><td>0.032522474881</td></tr><tr><td>3.1541404035</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>0.998058259487</td><td>0.032018442623</td></tr><tr><td>0</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>0.999315559864</td><td>0.0320020481311</td></tr></table>
+
+
+### Hybrid Query with Filters
 
 You can also combine hybrid search with filters:
+
+
+```python
+if HYBRID_SEARCH_AVAILABLE:
+    # Hybrid search with a price filter
+    filtered_hybrid_query = HybridQuery(
+        text="professional equipment",
+        text_field_name="brief_description",
+        vector=[0.9, 0.1, 0.05],
+        vector_field_name="text_embedding",
+        filter_expression=Num("price") > 100,
+        return_fields=["product_id", "brief_description", "category", "price"],
+        num_results=5,
+        combination_method="LINEAR",
+        yield_text_score_as="text_score",
+        yield_vsim_score_as="vector_similarity",
+        yield_combined_score_as="hybrid_score",
+    )
+
+    results = index.query(filtered_hybrid_query)
+    result_print(results)
+
+else:
+    print("Hybrid search is not available in this version of Redis/redis-py.")
+```
+
+
+<table><tr><th>text_score</th><th>product_id</th><th>brief_description</th><th>category</th><th>price</th><th>vector_similarity</th><th>hybrid_score</th></tr><tr><td>3.08640384161</td><td>prod_3</td><td>professional tennis racket for competitive players</td><td>equipment</td><td>199.99</td><td>1.0000000596</td><td>1.62592119421</td></tr><tr><td>0</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>outerwear</td><td>129.99</td><td>0.794171273708</td><td>0.555919891596</td></tr><tr><td>0</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>footwear</td><td>139.99</td><td>0.794171273708</td><td>0.555919891596</td></tr></table>
+
 
 
 ```python
@@ -621,12 +789,41 @@ result_print(results)
 ```
 
 
-<table><tr><th>vector_distance</th><th>product_id</th><th>brief_description</th><th>category</th><th>price</th><th>vector_similarity</th><th>text_score</th><th>hybrid_score</th></tr><tr><td>-1.19209289551e-07</td><td>prod_3</td><td>professional tennis racket for competitive players</td><td>equipment</td><td>199.99</td><td>1.0000000596</td><td>1.54723705506</td><td>1.16417115824</td></tr><tr><td>-1.19209289551e-07</td><td>prod_3</td><td>professional tennis racket for competitive players</td><td>equipment</td><td>199.99</td><td>1.0000000596</td><td>1.54723705506</td><td>1.16417115824</td></tr><tr><td>-1.19209289551e-07</td><td>prod_3</td><td>professional tennis racket for competitive players</td><td>equipment</td><td>199.99</td><td>1.0000000596</td><td>1.54723705506</td><td>1.16417115824</td></tr><tr><td>0.411657452583</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>outerwear</td><td>129.99</td><td>0.794171273708</td><td>0</td><td>0.555919891596</td></tr><tr><td>0.411657452583</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>outerwear</td><td>129.99</td><td>0.794171273708</td><td>0</td><td>0.555919891596</td></tr></table>
+<table><tr><th>vector_distance</th><th>product_id</th><th>brief_description</th><th>category</th><th>price</th><th>vector_similarity</th><th>text_score</th><th>hybrid_score</th></tr><tr><td>-1.19209289551e-07</td><td>prod_3</td><td>professional tennis racket for competitive players</td><td>equipment</td><td>199.99</td><td>1.0000000596</td><td>3.08640384161</td><td>1.62592119421</td></tr><tr><td>0.411657452583</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>footwear</td><td>139.99</td><td>0.794171273708</td><td>0</td><td>0.555919891596</td></tr><tr><td>0.411657452583</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>outerwear</td><td>129.99</td><td>0.794171273708</td><td>0</td><td>0.555919891596</td></tr></table>
 
 
 ### Using Different Text Scorers
 
-AggregateHybridQuery supports the same text scoring algorithms as TextQuery:
+Hybrid queries support the same text scoring algorithms as TextQuery:
+
+
+```python
+if HYBRID_SEARCH_AVAILABLE:
+    # Aggregate Hybrid query with TFIDF scorer
+    hybrid_tfidf = HybridQuery(
+        text="shoes support",
+        text_field_name="brief_description",
+        vector=[0.12, 0.18, 0.12],
+        vector_field_name="text_embedding",
+        text_scorer="TFIDF",
+        return_fields=["product_id", "brief_description"],
+        num_results=3,
+        combination_method="LINEAR",
+        yield_text_score_as="text_score",
+        yield_vsim_score_as="vector_similarity",
+        yield_combined_score_as="hybrid_score",
+    )
+
+    results = index.query(hybrid_tfidf)
+    result_print(results)
+
+else:
+    print("Hybrid search is not available in this version of Redis/redis-py.")
+```
+
+
+<table><tr><th>text_score</th><th>product_id</th><th>brief_description</th><th>vector_similarity</th><th>hybrid_score</th></tr><tr><td>2.66666666667</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>0.995073735714</td><td>1.496551615</td></tr><tr><td>1.66666666667</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>1</td><td>1.2</td></tr><tr><td>0</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>1</td><td>0.7</td></tr></table>
+
 
 
 ```python
@@ -646,17 +843,18 @@ result_print(results)
 ```
 
 
-<table><tr><th>vector_distance</th><th>product_id</th><th>brief_description</th><th>vector_similarity</th><th>text_score</th><th>hybrid_score</th></tr><tr><td>0</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>1</td><td>3</td><td>1.6</td></tr><tr><td>0</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>1</td><td>0</td><td>0.7</td></tr><tr><td>0</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>1</td><td>0</td><td>0.7</td></tr></table>
+<table><tr><th>vector_distance</th><th>product_id</th><th>brief_description</th><th>vector_similarity</th><th>text_score</th><th>hybrid_score</th></tr><tr><td>0</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>1</td><td>5</td><td>2.2</td></tr><tr><td>0</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>1</td><td>0</td><td>0.7</td></tr><tr><td>0.00136888027191</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>0.999315559864</td><td>0</td><td>0.699520891905</td></tr></table>
 
 
 ### Runtime Parameters for Vector Search Tuning
 
 **Important:** `AggregateHybridQuery` uses FT.AGGREGATE commands which do NOT support runtime parameters.
 
-Runtime parameters (such as `ef_runtime` for HNSW indexes or `search_window_size` for SVS-VAMANA indexes) are only supported with FT.SEARCH commands.
+Runtime parameters (such as `ef_runtime` for HNSW indexes or `search_window_size` for SVS-VAMANA indexes) are only supported with FT.SEARCH (and partially FT.HYBRID) commands.
 
-**For runtime parameter support, use `VectorQuery` or `VectorRangeQuery` instead:**
+**For runtime parameter support, use `HybridQuery`, `VectorQuery`, or `VectorRangeQuery` instead:**
 
+- `HybridQuery`: Supports `ef_runtime` for HNSW indexes
 - `VectorQuery`: Supports all runtime parameters (HNSW and SVS-VAMANA)
 - `VectorRangeQuery`: Supports all runtime parameters (HNSW and SVS-VAMANA)
 - `AggregateHybridQuery`: Does NOT support runtime parameters (uses FT.AGGREGATE)
@@ -707,6 +905,10 @@ results = index.query(multi_vector_query)
 result_print(results)
 ```
 
+
+<table><tr><th>distance_0</th><th>distance_1</th><th>product_id</th><th>brief_description</th><th>category</th><th>score_0</th><th>score_1</th><th>combined_score</th></tr><tr><td>5.96046447754e-08</td><td>5.96046447754e-08</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>0.999999970198</td><td>0.999999970198</td><td>0.999999970198</td></tr><tr><td>0.00985252857208</td><td>0.00266629457474</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>footwear</td><td>0.995073735714</td><td>0.998666852713</td><td>0.996151670814</td></tr><tr><td>0.00985252857208</td><td>0.0118260979652</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>outerwear</td><td>0.995073735714</td><td>0.994086951017</td><td>0.994777700305</td></tr><tr><td>0.0038834810257</td><td>0.210647821426</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>accessories</td><td>0.998058259487</td><td>0.894676089287</td><td>0.967043608427</td></tr><tr><td>0.236237406731</td><td>0.639005899429</td><td>prod_6</td><td>swimming goggles with anti-fog coating</td><td>accessories</td><td>0.881881296635</td><td>0.680497050285</td><td>0.82146602273</td></tr></table>
+
+
 ### Adjusting Vector Weights
 
 You can adjust the weights to prioritize different vector fields:
@@ -738,6 +940,13 @@ print("Results with emphasis on image similarity:")
 results = index.query(image_heavy_query)
 result_print(results)
 ```
+
+    Results with emphasis on image similarity:
+
+
+
+<table><tr><th>distance_0</th><th>distance_1</th><th>product_id</th><th>brief_description</th><th>category</th><th>score_0</th><th>score_1</th><th>combined_score</th></tr><tr><td>-1.19209289551e-07</td><td>0</td><td>prod_3</td><td>professional tennis racket for competitive players</td><td>equipment</td><td>1.0000000596</td><td>1</td><td>1.00000001192</td></tr><tr><td>0.14539372921</td><td>0.00900757312775</td><td>prod_6</td><td>swimming goggles with anti-fog coating</td><td>accessories</td><td>0.927303135395</td><td>0.995496213436</td><td>0.981857597828</td></tr><tr><td>0.436696171761</td><td>0.219131231308</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>accessories</td><td>0.78165191412</td><td>0.890434384346</td><td>0.868677890301</td></tr></table>
+
 
 ### Multi-Vector Query with Filters
 
@@ -771,6 +980,10 @@ results = index.query(filtered_multi_query)
 result_print(results)
 ```
 
+
+<table><tr><th>distance_0</th><th>distance_1</th><th>product_id</th><th>brief_description</th><th>category</th><th>price</th><th>score_0</th><th>score_1</th><th>combined_score</th></tr><tr><td>5.96046447754e-08</td><td>5.96046447754e-08</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>89.99</td><td>0.999999970198</td><td>0.999999970198</td><td>0.999999970198</td></tr><tr><td>0.00985252857208</td><td>0.00266629457474</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>footwear</td><td>139.99</td><td>0.995073735714</td><td>0.998666852713</td><td>0.996510982513</td></tr></table>
+
+
 ## Comparing Query Types
 
 Let's compare the three query types side by side:
@@ -790,22 +1003,62 @@ result_print(index.query(text_q))
 print()
 ```
 
+    TextQuery Results (keyword-based):
+
+
+
+<table><tr><th>score</th><th>product_id</th><th>brief_description</th></tr><tr><td>2.8773943004779676</td><td>prod_1</td><td>comfortable running shoes for athletes</td></tr><tr><td>2.085315593627535</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td></tr></table>
+
+
+    
+
+
 
 ```python
-# AggregateHybridQuery - combines text and vector search
-hybrid_q = AggregateHybridQuery(
-    text="shoes",
-    text_field_name="brief_description",
-    vector=[0.1, 0.2, 0.1],
-    vector_field_name="text_embedding",
-    return_fields=["product_id", "brief_description"],
-    num_results=3
-)
+if HYBRID_SEARCH_AVAILABLE:
+    # HybridQuery - combines text and vector search
+    hybrid_q = HybridQuery(
+        text="shoes",
+        text_field_name="brief_description",
+        vector=[0.1, 0.2, 0.1],
+        vector_field_name="text_embedding",
+        return_fields=["product_id", "brief_description"],
+        num_results=3,
+        combination_method="LINEAR",
+        yield_text_score_as="text_score",
+        yield_vsim_score_as="vector_similarity",
+        yield_combined_score_as="hybrid_score",
+    )
 
-print("AggregateHybridQuery Results (text + vector):")
-result_print(index.query(hybrid_q))
+    results = index.query(hybrid_q)
+
+else:
+    hybrid_q = AggregateHybridQuery(
+        text="shoes",
+        text_field_name="brief_description",
+        vector=[0.1, 0.2, 0.1],
+        vector_field_name="text_embedding",
+        return_fields=["product_id", "brief_description"],
+        num_results=3,
+    )
+
+    results = index.query(hybrid_q)
+
+
+print(f"{hybrid_q.__class__.__name__} Results (text + vector):")
+result_print(results)
 print()
 ```
+
+    HybridQuery Results (text + vector):
+
+
+
+<table><tr><th>text_score</th><th>product_id</th><th>brief_description</th><th>vector_similarity</th><th>hybrid_score</th></tr><tr><td>2.87739430048</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>0.999999970198</td><td>1.56321826928</td></tr><tr><td>2.08531559363</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>0.995073735714</td><td>1.32214629309</td></tr><tr><td>0</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>0.998058259487</td><td>0.698640781641</td></tr></table>
+
+
+    
+
 
 
 ```python
@@ -834,6 +1087,13 @@ print("MultiVectorQuery Results (multiple vectors):")
 result_print(index.query(multi_q))
 ```
 
+    MultiVectorQuery Results (multiple vectors):
+
+
+
+<table><tr><th>distance_0</th><th>distance_1</th><th>product_id</th><th>brief_description</th><th>score_0</th><th>score_1</th><th>combined_score</th></tr><tr><td>5.96046447754e-08</td><td>5.96046447754e-08</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>0.999999970198</td><td>0.999999970198</td><td>0.999999970198</td></tr><tr><td>0.00985252857208</td><td>0.00266629457474</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>0.995073735714</td><td>0.998666852713</td><td>0.996870294213</td></tr><tr><td>0.00985252857208</td><td>0.0118260979652</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>0.995073735714</td><td>0.994086951017</td><td>0.994580343366</td></tr></table>
+
+
 ## Best Practices
 
 ### When to Use Each Query Type:
@@ -844,7 +1104,7 @@ result_print(index.query(multi_q))
    - When text relevance scoring is important
    - Example: Product search, document retrieval
 
-2. **`AggregateHybridQuery`**:
+2. **`HybridQuery`**:
    - When you want to combine keyword and semantic search
    - For improved search quality over pure text or vector search
    - When you have both text and vector representations of your data
@@ -855,6 +1115,16 @@ result_print(index.query(multi_q))
    - For multi-modal search applications
    - When you want to balance multiple semantic signals
    - Example: Image-text search, cross-modal retrieval
+
+## Next Steps
+
+Now that you understand advanced query types, explore these related guides:
+
+- [Query and Filter Data](02_complex_filtering.ipynb) - Apply filters to narrow down search results
+- [Write SQL Queries for Redis](12_sql_to_redis_queries.ipynb) - Use SQL-like syntax for Redis queries
+- [Improve Search Quality with Rerankers](06_rerankers.ipynb) - Rerank results for better relevance
+
+## Cleanup
 
 
 ```python

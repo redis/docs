@@ -48,6 +48,7 @@ Be aware of the following limitations when using PrivateLink with Redis Cloud:
     We recommend avoiding these availability zones when creating your Redis Cloud database if you plan to use AWS PrivateLink.
 - Redis Cloud [Bring your Own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) subscriptions are not supported with PrivateLink.
 - The pre-handoff feature of [Smart client handoffs]({{< relref "/develop/clients/sch#redis-cloud" >}}) is not currently supported with AWS PrivateLink, but relaxed timeouts are available and enabled by default.
+- The only supported principal type is an AWS account.
 
 ## Prerequisites
 
@@ -67,12 +68,12 @@ Before you can connect to Redis Cloud with an AWS PrivateLink VPC resource endpo
 
 To set up a connection to Redis Cloud with an AWS PrivateLink VPC resource endpoint, you need to:
 
-1. [Associate the Redis Cloud Resource share with one or more AWS principals](#associate-resource-share).
+1. [Associate the Redis Cloud Resource share with one or more AWS accounts](#associate-resource-share).
 1. [Add a connection](#add-connection) from your consumer account using a VPC resource endpoint or a VPC Lattice service network.
 
-### Associate Redis Cloud resource share with a principal {#associate-resource-share}
+### Associate Redis Cloud resource share with an AWS account {#associate-resource-share}
 
-In this step, you will associate the Redis Cloud resource share with an AWS principal, such as an AWS Account.
+In this step, you will associate the Redis Cloud resource share with an AWS Account.
 
 1. From the [Redis Cloud console](https://cloud.redis.io/), select the **Subscriptions** menu and then select your subscription from the list.
 
@@ -88,16 +89,7 @@ In this step, you will associate the Redis Cloud resource share with an AWS prin
 
     {{<image filename="images/rc/icon-add.png" width="30px" alt="The Add button adds principals to the resource share." >}}
 
-1. Select the type of principal you want to add from the **Principal type** list. You can choose from the following principal types:
-
-    - AWS account
-    - [Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html)
-    - [Organizational unit (OU)](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html)
-    - [Identity and Access Management (IAM) role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
-    - [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html)
-    - Service principal
-
-1. Enter the principal's ID in the **Principal ID** field. You can also add an optional alias in the **AWS principal alias** field.
+1. Enter the account's ID in the **Principal ID** field. You can also add an optional alias in the **AWS principal alias** field.
 
     {{<image filename="images/rc/privatelink-aws-consumer-principals.png" width="80%" alt="The AWS consumer principals section with an AWS account added as a principal." >}}
 
