@@ -1100,10 +1100,14 @@
         let existingSession = null;
         let sessionStorageKey_actual = null;
 
-        // Search for any thebe-binder- key in localStorage
+        // Search for a thebe-binder- key that belongs to THIS page's binder ref.
+        // Keys end with /{ref}; matching the ref prevents a session saved on a
+        // different client page (e.g. nodejs) from being mistaken for an active
+        // kernel on a page that uses a different ref (e.g. redis-py).
+        const binderRefSuffix = '/' + binderRef;
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
-          if (key && key.startsWith('thebe-binder-')) {
+          if (key && key.includes('thebe-binder-') && key.endsWith(binderRefSuffix)) {
             try {
               const data = localStorage.getItem(key);
               const sessionData = JSON.parse(data);
