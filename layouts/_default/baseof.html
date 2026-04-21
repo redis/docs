@@ -1668,6 +1668,18 @@
                 if (data.status === "server-ready" || data.status === "ready") {
                   // Don't set kernelReady here - wait for "attached" event
                 }
+
+                // Authoritative "execution complete" signal: Thebe fires
+                // {subject: "cell", status: "idle"} from Cell.setAsIdle() after
+                // the kernel finishes executing a cell (output flushed, errors
+                // included). Cells run sequentially, so clearing all containers
+                // still in .loading state is safe; the loadingCleared guard makes
+                // this a no-op for cells whose MutationObserver already cleared.
+                if (data.status === "idle" && data.subject === "cell") {
+                  document.querySelectorAll('.thebe-container.loading').forEach(function(c) {
+                    if (c._clearLoading) c._clearLoading();
+                  });
+                }
               });
               thebelab.on("error", function (evt, data) {
                 if (isRateLimitError(data) || lastBinderRateLimitError) {
@@ -1920,10 +1932,10 @@
           if (!cell) {
             return;
           }
-          if (!outputContainer) {
-            return;
-          }
 
+          // Define clearLoading up front so it is available even for cells that
+          // omit .thebe-output-container (no_output="true"). It only manipulates
+          // classes/timers and has no dependency on the output container.
           let loadingCleared = false;
           const clearLoading = function() {
             if (loadingCleared) return;
@@ -1942,6 +1954,10 @@
             }
           };
           container._clearLoading = clearLoading;
+
+          if (!outputContainer) {
+            return;
+          }
 
           // Snapshot any pre-existing output text so we only clear "Running..." when
           // the output actually changes (Thebe typically clears old output then repopulates).
@@ -2236,9 +2252,10 @@
               delete container._wasHidden;
             }
 
-            // Note: the "Running..." overlay is cleared by the output observer
-            // when real output actually renders (see setupOutputObserver), with a
-            // safety timeout as fallback — not from this timer.
+            // Note: overlay clearing is driven by the output MutationObserver
+            // (for cells with output) and by Thebe's {subject:"cell", status:"idle"}
+            // event (for zero-output cells and as a fallback). See thebelab.on("status")
+            // handler. A 30 s safety timeout remains as a last-resort fallback.
 
             // Refocus CodeMirror after execution completes
             // This ensures arrow keys move the cursor instead of scrolling the page
