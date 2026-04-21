@@ -322,6 +322,53 @@ class TestGenerateReturnSection(unittest.TestCase):
         self.assertIn("[Array reply]", parts[0])
         self.assertIn("[Map reply]", parts[1])
 
+    def test_number_schema_resp2_bulk_string(self):
+        """Test that a number reply_schema maps to Bulk string reply in RESP2."""
+        command_data = {
+            "reply_schema": {
+                "type": "number",
+                "description": "The score as a double."
+            }
+        }
+        result = generate_return_section(command_data)
+        parts = result.split("-tab-sep-")
+        self.assertIn("[Bulk string reply]", parts[0])
+        self.assertNotIn("[Double reply]", parts[0])
+
+    def test_number_schema_resp3_double(self):
+        """Test that a number reply_schema maps to Double reply in RESP3."""
+        command_data = {
+            "reply_schema": {
+                "type": "number",
+                "description": "The score as a double."
+            }
+        }
+        result = generate_return_section(command_data)
+        parts = result.split("-tab-sep-")
+        self.assertIn("[Double reply]", parts[1])
+        self.assertNotIn("[Bulk string reply]", parts[1])
+
+    def test_nested_oneof_within_oneof(self):
+        """Test that nested oneOf within a multi-option oneOf is handled recursively."""
+        command_data = {
+            "reply_schema": {
+                "oneOf": [
+                    {
+                        "oneOf": [
+                            {"type": "string", "description": "The element."},
+                            {"type": "number", "description": "Numeric element."}
+                        ]
+                    },
+                    {"type": "null", "description": "Key does not exist."}
+                ]
+            }
+        }
+        result = generate_return_section(command_data)
+        # The nested oneOf should recurse, not fall through to a TODO placeholder
+        self.assertNotIn("TODO:", result)
+        # Outer oneOf bullet should expand inner oneOf inline
+        self.assertIn("[Nil reply]", result.split("-tab-sep-")[0])
+
     def test_return_section_structure(self):
         """Test that return section always has multitabs shortcode structure."""
         result = generate_return_section({"reply_schema": {"type": "integer", "description": "Count."}})

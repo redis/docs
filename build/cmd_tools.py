@@ -202,8 +202,10 @@ def _format_schema_type_resp3(schema: dict) -> str:
     base = '../../develop/reference/protocol-spec'
     if t == 'integer':
         return f"[Integer reply]({base}#integers){sep}{desc}"
-    elif t in ('string', 'number'):
+    elif t == 'string':
         return f"[Bulk string reply]({base}#bulk-strings){sep}{desc}"
+    elif t == 'number':
+        return f"[Double reply]({base}#doubles){sep}{desc}"
     elif t == 'null':
         return f"[Null reply]({base}#nulls){sep}{desc}" if desc else f"[Null reply]({base}#nulls)"
     elif t == 'array':
@@ -224,7 +226,7 @@ def _build_return_text(schema: dict, resp_version: int) -> str:
             return _build_return_text(options[0], resp_version)
         lines = ["One of the following:"]
         for option in options:
-            lines.append(f"* {formatter(option)}")
+            lines.append(f"* {_build_return_text(option, resp_version)}")
         return "\n".join(lines)
 
     return formatter(schema)
