@@ -26,7 +26,8 @@ but the behavior differs depending on your deployment topology.
 
 ## Standalone and single-shard deployments
 
-Redis Search commands inside a `MULTI`/`EXEC` block or a Lua script execute synchronously
+Query commands inside a `MULTI`/`EXEC` block or Lua script (including when issued
+through a client pipeline that wraps commands in a transaction) execute synchronously
 on the main Redis thread, regardless of the
 [`search-workers`]({{< relref "/develop/ai/search-and-query/administration/configuration#search-workers" >}})
 setting.
