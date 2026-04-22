@@ -2168,6 +2168,34 @@
       }
     },
     "/v1/cluster/ldap": {
+      "delete": {
+        "description": "Clear the LDAP configuration for the cluster",
+        "operationId": "cluster_delete_ldap_config",
+        "responses": {
+          "200": {
+            "description": "LDAP configuration deleted successfully."
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "config_ldap"
+            ]
+          }
+        ],
+        "summary": "Delete LDAP configuration",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
       "get": {
         "description": "Get the LDAP configuration for the cluster",
         "operationId": "cluster_get_ldap_config",
