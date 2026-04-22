@@ -1,4 +1,7 @@
 ---
+aliases:
+- /manual/optimization/latency/
+- /management/optimization/latency/
 categories:
 - docs
 - operate

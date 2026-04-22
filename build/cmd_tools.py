@@ -174,21 +174,91 @@ def generate_argument_sections(command_data: dict) -> str:
     return content
 
 
-def generate_return_section() -> str:
-    """Generate placeholder Return information section."""
-    return '''## Return information
+def _format_schema_type_resp2(schema: dict) -> str:
+    """Format a single schema entry as a RESP2 reply string."""
+    t = schema.get('type', '')
+    desc = schema.get('description', '')
+    sep = ': ' if desc else ''
+    base = '../../develop/reference/protocol-spec'
+    if t == 'integer':
+        return f"[Integer reply]({base}#integers){sep}{desc}"
+    elif t in ('string', 'number'):
+        return f"[Bulk string reply]({base}#bulk-strings){sep}{desc}"
+    elif t == 'null':
+        return f"[Nil reply]({base}#bulk-strings){sep}{desc}" if desc else f"[Nil reply]({base}#bulk-strings)"
+    elif t == 'array':
+        return f"[Array reply]({base}#arrays){sep}{desc}"
+    elif t == 'object':
+        return f"[Array reply]({base}#arrays){sep}{desc}"
+    else:
+        return f"TODO: Add RESP2 return information"
 
-{{< multitabs id="return-info"
+
+def _format_schema_type_resp3(schema: dict) -> str:
+    """Format a single schema entry as a RESP3 reply string."""
+    t = schema.get('type', '')
+    desc = schema.get('description', '')
+    sep = ': ' if desc else ''
+    base = '../../develop/reference/protocol-spec'
+    if t == 'integer':
+        return f"[Integer reply]({base}#integers){sep}{desc}"
+    elif t == 'string':
+        return f"[Bulk string reply]({base}#bulk-strings){sep}{desc}"
+    elif t == 'number':
+        return f"[Double reply]({base}#doubles){sep}{desc}"
+    elif t == 'null':
+        return f"[Null reply]({base}#nulls){sep}{desc}" if desc else f"[Null reply]({base}#nulls)"
+    elif t == 'array':
+        return f"[Array reply]({base}#arrays){sep}{desc}"
+    elif t == 'object':
+        return f"[Map reply]({base}#maps){sep}{desc}"
+    else:
+        return f"TODO: Add RESP3 return information"
+
+
+def _build_return_text(schema: dict, resp_version: int) -> str:
+    """Recursively build return text from a reply_schema for the given RESP version (2 or 3)."""
+    formatter = _format_schema_type_resp2 if resp_version == 2 else _format_schema_type_resp3
+
+    if 'oneOf' in schema:
+        options = schema['oneOf']
+        if len(options) == 1:
+            return _build_return_text(options[0], resp_version)
+        lines = ["One of the following:"]
+        for option in options:
+            text = _build_return_text(option, resp_version)
+            # Indent continuation lines so nested structure remains visually subordinate
+            indented = text.replace('\n', '\n  ')
+            lines.append(f"* {indented}")
+        return "\n".join(lines)
+
+    return formatter(schema)
+
+
+def generate_return_section(command_data: dict = None) -> str:
+    """Generate the Return information section, using reply_schema if available."""
+    reply_schema = command_data.get('reply_schema') if command_data else None
+
+    if reply_schema:
+        resp2_text = _build_return_text(reply_schema, resp_version=2)
+        resp3_text = _build_return_text(reply_schema, resp_version=3)
+    else:
+        resp2_text = "TODO: Add RESP2 return information"
+        resp3_text = "TODO: Add RESP3 return information"
+
+    return f'''## Return information
+
+{{{{< multitabs id="return-info"
     tab1="RESP2"
-    tab2="RESP3" >}}
+    tab2="RESP3" >}}}}
 
-TODO: Add RESP2 return information
+{resp2_text}
 
 -tab-sep-
 
-TODO: Add RESP3 return information
+{resp3_text}
 
-{{< /multitabs >}}
+{{{{< /multitabs >}}}}
 
 '''
 
@@ -199,7 +269,7 @@ def generate_complete_markdown_content(command_name: str, command_data: dict) ->
     summary = command_data.get('summary', f'TODO: Add summary for {command_name}')
     content += f"{summary}\n\n"
     content += generate_argument_sections(command_data)
-    content += generate_return_section()
+    content += generate_return_section(command_data)
     return content
 
 

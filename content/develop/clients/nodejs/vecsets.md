@@ -13,14 +13,12 @@ description: Index and query embeddings with Redis vector sets
 linkTitle: Vector set embeddings
 title: Vector set embeddings
 weight: 4
-bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 scope: example
 relatedPages:
 - /develop/clients/nodejs/vecsearch
 topics:
 - vector sets
 - vectors
-bannerChildren: true
 ---
 
 A Redis [vector set]({{< relref "/develop/data-types/vector-sets" >}}) lets

@@ -1100,10 +1100,14 @@
         let existingSession = null;
         let sessionStorageKey_actual = null;
 
-        // Search for any thebe-binder- key in localStorage
+        // Search for a thebe-binder- key that belongs to THIS page's binder ref.
+        // Keys end with /{ref}; matching the ref prevents a session saved on a
+        // different client page (e.g. nodejs) from being mistaken for an active
+        // kernel on a page that uses a different ref (e.g. redis-py).
+        const binderRefSuffix = '/' + binderRef;
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
-          if (key && key.startsWith('thebe-binder-')) {
+          if (key && key.includes('thebe-binder-') && key.endsWith(binderRefSuffix)) {
             try {
               const data = localStorage.getItem(key);
               const sessionData = JSON.parse(data);
@@ -1668,6 +1672,18 @@
                 if (data.status === "server-ready" || data.status === "ready") {
                   // Don't set kernelReady here - wait for "attached" event
                 }
+
+                // Authoritative "execution complete" signal: Thebe fires
+                // {subject: "cell", status: "idle"} from Cell.setAsIdle() after
+                // the kernel finishes executing a cell (output flushed, errors
+                // included). Cells run sequentially, so clearing all containers
+                // still in .loading state is safe; the loadingCleared guard makes
+                // this a no-op for cells whose MutationObserver already cleared.
+                if (data.status === "idle" && data.subject === "cell") {
+                  document.querySelectorAll('.thebe-container.loading').forEach(function(c) {
+                    if (c._clearLoading) c._clearLoading();
+                  });
+                }
               });
               thebelab.on("error", function (evt, data) {
                 if (isRateLimitError(data) || lastBinderRateLimitError) {
@@ -1900,6 +1916,7 @@
         }
 
         // Set up MutationObserver to move output to dedicated container
+        // and to clear the "Running..." overlay only when real output appears.
         function setupOutputObserver(container) {
           const cell = container.querySelector('.thebe-cell');
           const outputContainer = container.querySelector('.thebe-output-container');
@@ -1907,32 +1924,85 @@
           if (container._outputObserver) {
             container._outputObserver.disconnect();
           }
+          if (container._contentObserver) {
+            container._contentObserver.disconnect();
+            container._contentObserver = null;
+          }
+          if (container._loadingSafetyTimeout) {
+            clearTimeout(container._loadingSafetyTimeout);
+            container._loadingSafetyTimeout = null;
+          }
 
           if (!cell) {
             return;
           }
+
+          // Define clearLoading up front so it is available even for cells that
+          // omit .thebe-output-container (no_output="true"). It only manipulates
+          // classes/timers and has no dependency on the output container.
+          let loadingCleared = false;
+          const clearLoading = function() {
+            if (loadingCleared) return;
+            loadingCleared = true;
+            container.classList.remove('loading');
+            if (container._runBtn) {
+              container._runBtn.classList.remove('loading');
+            }
+            if (container._loadingSafetyTimeout) {
+              clearTimeout(container._loadingSafetyTimeout);
+              container._loadingSafetyTimeout = null;
+            }
+            if (container._contentObserver) {
+              container._contentObserver.disconnect();
+              container._contentObserver = null;
+            }
+          };
+          container._clearLoading = clearLoading;
+
           if (!outputContainer) {
             return;
           }
 
-          // Observer to watch for output being added to the cell
+          // Snapshot any pre-existing output text so we only clear "Running..." when
+          // the output actually changes (Thebe typically clears old output then repopulates).
+          const initialOutputText = (outputContainer.textContent || '').trim();
+          let sawEmpty = initialOutputText.length === 0;
+
+          // Move any pre-existing .thebe-output from the cell into the dedicated
+          // container; this handles cells that were already populated before the
+          // observer was attached.
+          cell.querySelectorAll('.thebe-output').forEach(function(node) {
+            outputContainer.appendChild(node);
+          });
+
+          // Observer to relocate any future .thebe-output nodes Thebe appends to the cell.
           const observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
               mutation.addedNodes.forEach(function(node) {
-                // Check if the added node is the thebe-output element
                 if (node.nodeType === 1 && node.classList && node.classList.contains('thebe-output')) {
-                  // Move the output to the dedicated container
                   outputContainer.appendChild(node);
                 }
               });
             });
           });
-
-          // Start observing the cell for child additions
           observer.observe(cell, { childList: true, subtree: true });
-
-          // Store observer reference for cleanup if needed
           container._outputObserver = observer;
+
+          // Watch the output container itself for real content appearing. This covers
+          // both the case where Thebe renders into a pre-existing .thebe-output and
+          // the case where a fresh node is added.
+          const contentObs = new MutationObserver(function() {
+            const cur = (outputContainer.textContent || '').trim();
+            if (cur.length === 0) {
+              sawEmpty = true;
+              return;
+            }
+            if (sawEmpty || cur !== initialOutputText) {
+              clearLoading();
+            }
+          });
+          contentObs.observe(outputContainer, { childList: true, subtree: true, characterData: true });
+          container._contentObserver = contentObs;
         }
 
         // Use event delegation to catch clicks on run buttons
@@ -2067,6 +2137,18 @@
             container.classList.add('kernel-ready');
           }
 
+          // Remember the run button so the output observer can clear its loading state
+          // when real output appears, and start a safety timeout in case no output ever renders.
+          container._runBtn = btn;
+          if (container._loadingSafetyTimeout) {
+            clearTimeout(container._loadingSafetyTimeout);
+          }
+          container._loadingSafetyTimeout = setTimeout(function() {
+            if (container._clearLoading) {
+              container._clearLoading();
+            }
+          }, 30000);
+
           // In expanded view, execute only the editable step code.
           // The surrounding full-file context is for visual reference only.
           const isExpandedForExec = panel && panel.getAttribute('aria-expanded') === 'true';
@@ -2174,10 +2256,10 @@
               delete container._wasHidden;
             }
 
-            // Remove loading state AFTER output is displayed
-            // This ensures "Running..." disappears when output appears, not before
-            btn.classList.remove('loading');
-            container.classList.remove('loading');
+            // Note: overlay clearing is driven by the output MutationObserver
+            // (for cells with output) and by Thebe's {subject:"cell", status:"idle"}
+            // event (for zero-output cells and as a fallback). See thebelab.on("status")
+            // handler. A 30 s safety timeout remains as a last-resort fallback.
 
             // Refocus CodeMirror after execution completes
             // This ensures arrow keys move the cursor instead of scrolling the page

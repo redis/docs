@@ -1,4 +1,6 @@
 ---
+aliases:
+- /install/install-redis/install-redis-on-mac-os/
 categories:
 - docs
 - operate

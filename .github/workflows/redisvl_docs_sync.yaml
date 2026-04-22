@@ -308,6 +308,12 @@ jobs:
           done
 
           if [ ${isLatest} = true ]; then
+            # Remove old files before copying to avoid stale content
+            rm -rf content/develop/ai/redisvl/api/*
+            rm -rf content/develop/ai/redisvl/user_guide/*
+            rm -rf content/develop/ai/redisvl/overview/*
+            rm -rf content/develop/ai/redisvl/concepts/*
+
             cp -r redis_vl_hugo/* content/develop/ai/redisvl/
           else
             mkdir -p content/develop/ai/redisvl/${version}/

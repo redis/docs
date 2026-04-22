@@ -344,7 +344,7 @@ To add a module to the cluster using the REST API:
 
 {{< /multitabs >}}
 
-For RedisGears, follow these [installation instructions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/installing-redisgears" >}}) instead.
+For RedisGears, follow these [installation instructions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/installing-redisgears" >}}) instead.
 
 {{<warning>}}
 We recommend consulting [Redis support](https://redis.io/support/) before you upgrade a module on the cluster, especially if the cluster is used in production.
