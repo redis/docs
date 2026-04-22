@@ -388,5 +388,8 @@ For detailed information about exceptions in your client library, see:
 - [redis-py error handling]({{< relref "/develop/clients/redis-py/error-handling" >}})
 - [Node.js error handling]({{< relref "/develop/clients/nodejs/error-handling" >}})
 - [Java (Jedis) error handling]({{< relref "/develop/clients/jedis/error-handling" >}})
+- [Java (Lettuce) error handling]({{< relref "/develop/clients/lettuce/error-handling" >}})
 - [Go (go-redis) error handling]({{< relref "/develop/clients/go/error-handling" >}})
 - [.NET (NRedisStack) error handling]({{< relref "/develop/clients/dotnet/error-handling" >}})
+- [PHP (Predis) error handling]({{< relref "/develop/clients/php/error-handling" >}})
+- [Ruby (redis-rb) error handling]({{< relref "/develop/clients/ruby/error-handling" >}})
