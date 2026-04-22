@@ -58,6 +58,7 @@ Reference documentation for the RedisVL API.
   * [VoyageAIReranker](reranker/#voyageaireranker)
 * [LLM Cache](cache/)
   * [SemanticCache](cache/#semanticcache)
+  * [LangCacheSemanticCache](cache/#langcachesemanticcache)
   * [Cache Schema Classes](cache/#cache-schema-classes)
 * [Embeddings Cache](cache/#embeddings-cache)
   * [EmbeddingsCache](cache/#embeddingscache)

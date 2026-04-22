@@ -10,7 +10,7 @@ There are a few ways to install RedisVL. The easiest way is to use pip.
 
 ## Install RedisVL with Pip
 
-Install `redisvl` into your Python (>=3.9) environment using `pip`:
+Install `redisvl` into your Python (>=3.10) environment using `pip`:
 
 ```bash
 $ pip install -U redisvl
@@ -52,9 +52,6 @@ To install **all** optional dependencies at once:
 ```bash
 $ pip install redisvl[all]
 ```
-
-#### NOTE
-The core RedisVL package supports Python 3.9+, but the `redisvl[mcp]` extra requires Python 3.10 or newer because the MCP server depends on `fastmcp`.
 
 ## Install RedisVL from Source
 
