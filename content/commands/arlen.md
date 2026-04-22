@@ -51,9 +51,18 @@ Returns the length of an array (max index + 1).
 
 <details open><summary><code>key</code></summary>
 
-TODO: Add description for key (key)
+The name of the key that holds the array.
 
 </details>
+
+## Examples
+
+{{% redis-cli %}}
+ARSET myarray 0 "a"
+ARSET myarray 5 "b"
+ARLEN myarray
+ARCOUNT myarray
+{{% /redis-cli %}}
 
 ## Return information
 
@@ -68,4 +77,3 @@ TODO: Add description for key (key)
 [Integer reply](../../develop/reference/protocol-spec#integers): The length of the array (max index + 1), or 0 if key does not exist.
 
 {{< /multitabs >}}
-

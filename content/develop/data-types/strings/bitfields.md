@@ -2,6 +2,7 @@
 aliases:
 - /data-types/bitfields/
 - /manual/data-types/bitfields/
+- /develop/data-types/bitfields/
 categories:
 - docs
 - develop
@@ -12,12 +13,10 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Introduction to Redis bitfields
-
-  '
+description: Introduction to Redis bitfields
 linkTitle: Bitfields
 title: Redis bitfields
-weight: 20
+weight: 10
 ---
 
 {{< command-group group="bitmap" title="Bitmap/bitfield command summary" show_link=true >}}

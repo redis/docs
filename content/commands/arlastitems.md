@@ -59,13 +59,13 @@ Returns the most recently inserted elements.
 
 <details open><summary><code>key</code></summary>
 
-TODO: Add description for key (key)
+The name of the key that holds the array.
 
 </details>
 
 <details open><summary><code>count</code></summary>
 
-TODO: Add description for count (integer)
+The maximum number of most recently inserted elements to return. If the array contains fewer elements than `count`, all elements are returned.
 
 </details>
 
@@ -73,9 +73,19 @@ TODO: Add description for count (integer)
 
 <details open><summary><code>REV</code></summary>
 
-TODO: Add description for rev (pure-token)
+When present, returns elements in reverse chronological order (most recent first) instead of the default oldest-first order.
 
 </details>
+
+## Examples
+
+{{% redis-cli %}}
+ARINSERT log "first"
+ARINSERT log "second"
+ARINSERT log "third"
+ARLASTITEMS log 2
+ARLASTITEMS log 2 REV
+{{% /redis-cli %}}
 
 ## Return information
 
@@ -90,4 +100,3 @@ TODO: Add description for rev (pure-token)
 [Array reply](../../develop/reference/protocol-spec#arrays)
 
 {{< /multitabs >}}
-

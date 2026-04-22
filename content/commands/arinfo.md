@@ -91,7 +91,7 @@ Returns metadata about an array.
 
 <details open><summary><code>key</code></summary>
 
-TODO: Add description for key (key)
+The name of the key that holds the array.
 
 </details>
 
@@ -99,9 +99,17 @@ TODO: Add description for key (key)
 
 <details open><summary><code>FULL</code></summary>
 
-TODO: Add description for full (pure-token)
+When present, includes per-slice statistics in the reply: the number of dense and sparse slices and their average sizes and fill rates. Raises the complexity from O(1) to O(N) where N is the number of slices.
 
 </details>
+
+## Examples
+
+{{% redis-cli %}}
+ARMSET myarray 0 "a" 1 "b" 100 "c"
+ARINSERT myarray "d"
+ARINFO myarray
+{{% /redis-cli %}}
 
 ## Return information
 
@@ -116,4 +124,3 @@ TODO: Add description for full (pure-token)
 [Map reply](../../develop/reference/protocol-spec#maps)
 
 {{< /multitabs >}}
-

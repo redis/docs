@@ -66,19 +66,19 @@ Iterates existing elements in a range, returning index-value pairs.
 
 <details open><summary><code>key</code></summary>
 
-TODO: Add description for key (key)
+The name of the key that holds the array.
 
 </details>
 
 <details open><summary><code>start</code></summary>
 
-TODO: Add description for start (integer)
+The zero-based integer index at which to begin scanning. If `start` is greater than `end`, elements are returned in reverse index order.
 
 </details>
 
 <details open><summary><code>end</code></summary>
 
-TODO: Add description for end (integer)
+The zero-based integer index at which to stop scanning (inclusive).
 
 </details>
 
@@ -86,9 +86,19 @@ TODO: Add description for end (integer)
 
 <details open><summary><code>LIMIT</code></summary>
 
-TODO: Add description for limit (integer)
+The maximum number of index-value pairs to return. When omitted, all elements in the range are returned. Unlike `ARGETRANGE`, empty slots are not included in the output, so `LIMIT` caps the number of existing elements returned.
 
 </details>
+
+## Examples
+
+{{% redis-cli %}}
+ARSET myarray 0 "a"
+ARSET myarray 5 "b"
+ARSET myarray 9 "c"
+ARSCAN myarray 0 10
+ARSCAN myarray 0 10 LIMIT 2
+{{% /redis-cli %}}
 
 ## Return information
 
@@ -103,4 +113,3 @@ TODO: Add description for limit (integer)
 [Array reply](../../develop/reference/protocol-spec#arrays): Flat array of index-value pairs: [idx1, val1, idx2, val2, ...]
 
 {{< /multitabs >}}
-

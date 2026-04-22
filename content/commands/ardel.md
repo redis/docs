@@ -54,15 +54,27 @@ Deletes elements at the specified indices in an array.
 
 <details open><summary><code>key</code></summary>
 
-TODO: Add description for key (key)
+The name of the key that holds the array.
 
 </details>
 
 <details open><summary><code>index</code></summary>
 
-TODO: Add description for index (integer)
+One or more zero-based integer indices of the elements to delete. Deleting an index that does not exist counts as zero elements deleted and does not modify the array.
 
 </details>
+
+## Examples
+
+{{% redis-cli %}}
+ARSET myarray 0 "a"
+ARSET myarray 1 "b"
+ARSET myarray 2 "c"
+ARDEL myarray 1
+ARGET myarray 1
+ARDEL myarray 0 2
+ARCOUNT myarray
+{{% /redis-cli %}}
 
 ## Return information
 
@@ -77,4 +89,3 @@ TODO: Add description for index (integer)
 [Integer reply](../../develop/reference/protocol-spec#integers): Number of elements deleted.
 
 {{< /multitabs >}}
-

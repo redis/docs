@@ -57,21 +57,29 @@ Gets values in a range of indices.
 
 <details open><summary><code>key</code></summary>
 
-TODO: Add description for key (key)
+The name of the key that holds the array.
 
 </details>
 
 <details open><summary><code>start</code></summary>
 
-TODO: Add description for start (integer)
+The zero-based integer index of the first element to return. If `start` is greater than `end`, elements are returned in reverse index order.
 
 </details>
 
 <details open><summary><code>end</code></summary>
 
-TODO: Add description for end (integer)
+The zero-based integer index of the last element to return (inclusive). If `end` is less than `start`, elements are returned in reverse index order.
 
 </details>
+
+## Examples
+
+{{% redis-cli %}}
+ARMSET myarray 0 "a" 1 "b" 3 "d"
+ARGETRANGE myarray 0 3
+ARGETRANGE myarray 3 0
+{{% /redis-cli %}}
 
 ## Return information
 
@@ -86,4 +94,3 @@ TODO: Add description for end (integer)
 [Array reply](../../develop/reference/protocol-spec#arrays)
 
 {{< /multitabs >}}
-

@@ -57,15 +57,22 @@ Gets values at multiple indices in an array.
 
 <details open><summary><code>key</code></summary>
 
-TODO: Add description for key (key)
+The name of the key that holds the array.
 
 </details>
 
 <details open><summary><code>index</code></summary>
 
-TODO: Add description for index (integer)
+One or more zero-based integer indices of the elements to retrieve. The reply preserves the order of the requested indices and returns nil for any index that is not set.
 
 </details>
+
+## Examples
+
+{{% redis-cli %}}
+ARMSET myarray 0 "a" 1 "b" 5 "c"
+ARMGET myarray 0 1 5 3
+{{% /redis-cli %}}
 
 ## Return information
 
@@ -80,4 +87,3 @@ TODO: Add description for index (integer)
 [Array reply](../../develop/reference/protocol-spec#arrays)
 
 {{< /multitabs >}}
-

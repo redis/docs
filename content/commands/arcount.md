@@ -45,9 +45,17 @@ Returns the number of non-empty elements in an array.
 
 <details open><summary><code>key</code></summary>
 
-TODO: Add description for key (key)
+The name of the key that holds the array.
 
 </details>
+
+## Examples
+
+{{% redis-cli %}}
+ARSET myarray 0 "a"
+ARSET myarray 5 "b"
+ARCOUNT myarray
+{{% /redis-cli %}}
 
 ## Return information
 
@@ -62,4 +70,3 @@ TODO: Add description for key (key)
 [Integer reply](../../develop/reference/protocol-spec#integers): The number of non-empty elements, or 0 if key does not exist.
 
 {{< /multitabs >}}
-

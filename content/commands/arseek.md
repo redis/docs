@@ -53,15 +53,26 @@ Sets the ARINSERT cursor to a specific index.
 
 <details open><summary><code>key</code></summary>
 
-TODO: Add description for key (key)
+The name of the key that holds the array.
 
 </details>
 
 <details open><summary><code>index</code></summary>
 
-TODO: Add description for index (integer)
+The zero-based integer index to set as the new insert cursor position for subsequent [`ARINSERT`]({{< relref "/commands/arinsert" >}}) calls.
 
 </details>
+
+## Examples
+
+{{% redis-cli %}}
+ARINSERT myarray "a"
+ARINSERT myarray "b"
+ARNEXT myarray
+ARSEEK myarray 10
+ARINSERT myarray "c"
+ARNEXT myarray
+{{% /redis-cli %}}
 
 ## Return information
 
@@ -76,4 +87,3 @@ TODO: Add description for index (integer)
 [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the cursor was set, 0 if the key does not exist.
 
 {{< /multitabs >}}
-

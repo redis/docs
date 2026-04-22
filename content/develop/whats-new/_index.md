@@ -40,7 +40,7 @@ weight: 10
   - [Lists]({{< relref "/develop/data-types/lists" >}})
   - [Sets]({{< relref "/develop/data-types/sets" >}})
   - [Sorted sets]({{< relref "/develop/data-types/sorted-sets" >}})
-  - [Bitmaps]({{< relref "/develop/data-types/bitmaps" >}})
+  - [Bitmaps]({{< relref "/develop/data-types/strings/bitmaps" >}})
   - [Geospatial]({{< relref "/develop/data-types/geospatial" >}})
   - [JSON]({{< relref "/develop/data-types/json" >}})
   - [Time series]({{< relref "/develop/data-types/timeseries" >}})
@@ -174,7 +174,7 @@ weight: 10
 
 ### Data Types
 
-- [Bitmaps]({{< relref "/develop/data-types/bitmaps" >}}):
+- [Bitmaps]({{< relref "/develop/data-types/strings/bitmaps" >}}):
   - Added BITOP documentation with Python testable code examples
   - Added bit operation diagrams
 

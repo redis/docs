@@ -60,15 +60,24 @@ Sets multiple index-value pairs in an array.
 
 <details open><summary><code>key</code></summary>
 
-TODO: Add description for key (key)
+The name of the key that holds the array.
 
 </details>
 
 <details open><summary><code>data</code></summary>
 
-TODO: Add description for data (block)
+One or more `index value` pairs. Each `index` is a zero-based integer specifying where to write, and each `value` is the string to store at that position. Pairs may be non-contiguous and in any order.
 
 </details>
+
+## Examples
+
+{{% redis-cli %}}
+ARMSET myarray 0 "alpha" 5 "beta" 100 "gamma"
+ARGET myarray 0
+ARGET myarray 5
+ARGET myarray 100
+{{% /redis-cli %}}
 
 ## Return information
 
@@ -83,4 +92,3 @@ TODO: Add description for data (block)
 [Integer reply](../../develop/reference/protocol-spec#integers): Number of new slots that were set (previously empty).
 
 {{< /multitabs >}}
-

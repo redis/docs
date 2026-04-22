@@ -94,27 +94,52 @@ Performs aggregate operations on array elements in a range.
 
 <details open><summary><code>key</code></summary>
 
-TODO: Add description for key (key)
+The name of the key that holds the array.
 
 </details>
 
 <details open><summary><code>start</code></summary>
 
-TODO: Add description for start (integer)
+The zero-based integer index of the first element in the range to aggregate.
 
 </details>
 
 <details open><summary><code>end</code></summary>
 
-TODO: Add description for end (integer)
+The zero-based integer index of the last element in the range to aggregate (inclusive). The command always scans from the lower to the higher index regardless of argument order.
 
 </details>
 
 <details open><summary><code>operation</code></summary>
 
-TODO: Add description for operation (oneof)
+The aggregate function to apply to all non-empty elements in `[start, end]`. One of:
+
+- **`SUM`** — Returns the sum of all numeric values as a bulk string.
+- **`MIN`** — Returns the minimum numeric value as a bulk string.
+- **`MAX`** — Returns the maximum numeric value as a bulk string.
+- **`AND`** — Returns the bitwise AND of all values, treating each as an integer (floats are truncated toward zero).
+- **`OR`** — Returns the bitwise OR of all values, treating each as an integer (floats are truncated toward zero).
+- **`XOR`** — Returns the bitwise XOR of all values, treating each as an integer (floats are truncated toward zero).
+- **`MATCH value`** — Returns the count of elements whose value equals `value` as an integer reply.
+- **`USED`** — Returns the count of non-empty elements in the range as an integer reply.
+
+`SUM`, `MIN`, and `MAX` return nil when no numeric elements are present in the range. `AND`, `OR`, and `XOR` return nil when the range is empty.
 
 </details>
+
+## Examples
+
+{{% redis-cli %}}
+ARMSET myarray 0 "10" 1 "20" 2 "30"
+AROP myarray 0 2 SUM
+AROP myarray 0 2 MIN
+AROP myarray 0 2 MAX
+AROP myarray 0 2 MATCH "10"
+AROP myarray 0 2 USED
+ARMSET flags 0 "255" 1 "15" 2 "240"
+AROP flags 0 2 AND
+AROP flags 0 2 OR
+{{% /redis-cli %}}
 
 ## Return information
 
@@ -125,7 +150,7 @@ TODO: Add description for operation (oneof)
 One of the following:
 * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): Result of the operation.
 * [Integer reply](../../develop/reference/protocol-spec#integers): Integer result for MATCH, USED, AND, OR, XOR.
-* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): Null if no elements match the operation.
+* [Nil reply](../../develop/reference/protocol-spec#null-bulk-strings): Null if no elements match the operation.
 
 -tab-sep-
 
@@ -135,4 +160,3 @@ One of the following:
 * [Null reply](../../develop/reference/protocol-spec#nulls): Null if no elements match the operation.
 
 {{< /multitabs >}}
-

@@ -59,15 +59,25 @@ Deletes elements in one or more ranges.
 
 <details open><summary><code>key</code></summary>
 
-TODO: Add description for key (key)
+The name of the key that holds the array.
 
 </details>
 
 <details open><summary><code>range</code></summary>
 
-TODO: Add description for range (block)
+One or more `start end` pairs, each defining an inclusive range of indices to delete. If `start` is greater than `end` for a given pair, the range is processed in ascending order regardless. Multiple pairs may overlap; each element is counted at most once.
 
 </details>
+
+## Examples
+
+{{% redis-cli %}}
+ARMSET myarray 0 "a" 1 "b" 2 "c" 3 "d" 4 "e"
+ARDELRANGE myarray 1 3
+ARCOUNT myarray
+ARGET myarray 0
+ARGET myarray 4
+{{% /redis-cli %}}
 
 ## Return information
 
@@ -82,4 +92,3 @@ TODO: Add description for range (block)
 [Integer reply](../../develop/reference/protocol-spec#integers): Number of elements deleted.
 
 {{< /multitabs >}}
-

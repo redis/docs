@@ -55,9 +55,17 @@ Returns the next index ARINSERT would use.
 
 <details open><summary><code>key</code></summary>
 
-TODO: Add description for key (key)
+The name of the key that holds the array.
 
 </details>
+
+## Examples
+
+{{% redis-cli %}}
+ARINSERT myarray "a"
+ARINSERT myarray "b"
+ARNEXT myarray
+{{% /redis-cli %}}
 
 ## Return information
 
@@ -67,7 +75,7 @@ TODO: Add description for key (key)
 
 One of the following:
 * [Integer reply](../../develop/reference/protocol-spec#integers): The next index ARINSERT would use. Returns 0 for missing keys or when no insert happened yet.
-* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): Null when the insertion cursor is exhausted (next insert would overflow).
+* [Nil reply](../../develop/reference/protocol-spec#null-bulk-strings): Null when the insertion cursor is exhausted (next insert would overflow).
 
 -tab-sep-
 
@@ -76,4 +84,3 @@ One of the following:
 * [Null reply](../../develop/reference/protocol-spec#nulls): Null when the insertion cursor is exhausted (next insert would overflow).
 
 {{< /multitabs >}}
-

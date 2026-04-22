@@ -56,15 +56,23 @@ Gets the value at an index in an array.
 
 <details open><summary><code>key</code></summary>
 
-TODO: Add description for key (key)
+The name of the key that holds the array.
 
 </details>
 
 <details open><summary><code>index</code></summary>
 
-TODO: Add description for index (integer)
+The zero-based integer index of the element to retrieve.
 
 </details>
+
+## Examples
+
+{{% redis-cli %}}
+ARSET myarray 0 "hello"
+ARGET myarray 0
+ARGET myarray 1
+{{% /redis-cli %}}
 
 ## Return information
 
@@ -74,7 +82,7 @@ TODO: Add description for index (integer)
 
 One of the following:
 * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The value at the given index.
-* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): Null reply if key or index does not exist.
+* [Nil reply](../../develop/reference/protocol-spec#null-bulk-strings): Null reply if key or index does not exist.
 
 -tab-sep-
 
@@ -83,4 +91,3 @@ One of the following:
 * [Null reply](../../develop/reference/protocol-spec#nulls): Null reply if key or index does not exist.
 
 {{< /multitabs >}}
-

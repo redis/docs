@@ -55,15 +55,25 @@ Inserts one or more values at consecutive indices.
 
 <details open><summary><code>key</code></summary>
 
-TODO: Add description for key (key)
+The name of the key that holds the array.
 
 </details>
 
 <details open><summary><code>value</code></summary>
 
-TODO: Add description for value (string)
+One or more string values to insert at consecutive indices, beginning at the current insert cursor position. The cursor advances by one for each value inserted. Use [`ARNEXT`]({{< relref "/commands/arnext" >}}) to inspect the current cursor position and [`ARSEEK`]({{< relref "/commands/arseek" >}}) to reposition it.
 
 </details>
+
+## Examples
+
+{{% redis-cli %}}
+ARINSERT myarray "alpha"
+ARINSERT myarray "beta"
+ARINSERT myarray "gamma"
+ARGET myarray 1
+ARNEXT myarray
+{{% /redis-cli %}}
 
 ## Return information
 
@@ -78,4 +88,3 @@ TODO: Add description for value (string)
 [Integer reply](../../develop/reference/protocol-spec#integers): The last index where a value was inserted.
 
 {{< /multitabs >}}
-
