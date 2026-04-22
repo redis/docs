@@ -29,7 +29,7 @@ validated to form a valid model.
 self is explicitly positional-only to allow self as a field name.
 
 * **Parameters:**
-  * **vector** (*List* *[* *float* *]*  *|* *bytes*)
+  * **vector** (*list* *[* *float* *]*  *|* *bytes*)
   * **field_name** (*str*)
   * **dtype** (*str*)
   * **weight** (*float*)

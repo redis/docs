@@ -216,6 +216,8 @@ You can similarly specify the username and password to construct the full Redis 
 
 
 ```python
+# NBVAL_SKIP
+# Not run in CI. This cell would block until the nbval cell timeout
 # connect to rediss://jane_doe:password123@localhost:6379
 !rvl index listall --user jane_doe -a password123 --ssl
 ```
