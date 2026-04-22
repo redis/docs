@@ -148,7 +148,7 @@ Initialize the HFCrossEncoderReranker with a specified model and ranking criteri
     Defaults to ‘cross-encoder/ms-marco-MiniLM-L-6-v2’.
   * **limit** (*int*) – The maximum number of results to return after reranking. Must be a positive integer.
   * **return_score** (*bool*) – Whether to return scores alongside the reranked results.
-  * **rank_by** (*List* *[* *str* *]*  *|* *None*)
+  * **rank_by** (*list* *[* *str* *]*  *|* *None*)
 
 #### `async arank(query, docs, **kwargs)`
 

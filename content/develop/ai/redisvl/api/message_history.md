@@ -172,7 +172,7 @@ in sequential ordering after retrieval.
 * **Return type:**
   None
 
-#### `property messages: List[str] | List[Dict[str, str]]`
+#### `property messages: list[str] | list[dict[str, str]]`
 
 Returns the full message history.
 
@@ -299,6 +299,6 @@ in sequential ordering after retrieval.
 * **Return type:**
   None
 
-#### `property messages: List[str] | List[Dict[str, str]]`
+#### `property messages: list[str] | list[dict[str, str]]`
 
 Returns the full message history.
