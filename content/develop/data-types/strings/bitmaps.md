@@ -2,6 +2,7 @@
 aliases:
 - /data-types/bitmaps/
 - /manual/data-types/bitmaps/
+- /develop/data-types/bitmaps/
 categories:
 - docs
 - develop
@@ -15,7 +16,7 @@ categories:
 description: Introduction to Redis bitmaps
 linkTitle: Bitmaps
 title: Redis bitmaps
-weight: 120
+weight: 20
 ---
 
 {{< command-group group="bitmap" title="Bitmap/bitfield command summary" show_link=true >}}

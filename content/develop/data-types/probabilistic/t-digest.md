@@ -17,7 +17,7 @@ description: t-digest is a probabilistic data structure that allows you to estim
 linkTitle: t-digest
 stack: true
 title: t-digest
-weight: 40
+weight: 50
 ---
 
 {{< command-group group="tdigest" title="t-digest command summary" show_link=true >}}

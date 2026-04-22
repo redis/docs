@@ -20,18 +20,20 @@ The following are highly specialized for precise purposes:
 
 -   [Geospatial]({{< relref "/develop/data-types/geospatial" >}}):
     store strings with associated coordinates for geospatial queries.
--   [Vector sets]({{< relref "/develop/data-types/vector-sets" >}}):
-    store strings with associated vector data (and optional metadata)
-    for vector similarity queries.
 -   [Probabilistic data types]({{< relref "/develop/data-types/probabilistic" >}}):
     keep approximate counts and other statistics for large datasets.
 -   [Time series]({{< relref "/develop/data-types/timeseries" >}}):
     store real-valued data points along with the time they were collected.
+-   [Vector sets]({{< relref "/develop/data-types/vector-sets" >}}):
+    store strings with associated vector data (and optional metadata)
+    for vector similarity queries.
 
 The remaining data types are more general-purpose:
 
 -   [Strings]({{< relref "/develop/data-types/strings" >}}):
     store text or binary data.
+-   [Arrays]({{< relref "/develop/data-types/arrays" >}}): 
+    store text or binary data in a list.
 -   [Hashes]({{< relref "/develop/data-types/hashes" >}}):
     store key-value pairs within a single key.
 -   [JSON]({{< relref "/develop/data-types/json" >}}):
@@ -68,6 +70,15 @@ whose internal structure will be managed by your own application.
 However, they also support operations to access ranges of bits
 in the string to use as bit sets, integers, or floating-point numbers.
 
+### Arrays
+
+-   **Structure**: sparse, index-addressable sequence of strings.
+-   **Operations**: get, set, delete, range read, range scan, sequential insert, aggregate.
+-   **Suitable for**: Event logs, ring buffers, sensor readings, and other append-heavy or sparse sequences.
+
+Arrays store values addressed by integer index, making random access O(1) regardless of the array's logical size. Because arrays are sparse, setting an element at index 1,000,000 does not allocate memory for the million empty slots in between, so large index gaps are inexpensive. Arrays distinguish between *logical length* (the highest set index plus one, returned by [`ARLEN`]({{< relref "/commands/arlen" >}})) and *element count* (the number of non-empty slots, returned by [`ARCOUNT`]({{< relref "/commands/arcount" >}})).
+
+In addition to direct index access, arrays support sequential insertion via [`ARINSERT`]({{< relref "/commands/arinsert" >}}), which advances an internal cursor automatically. The cursor can be repositioned with [`ARSEEK`]({{< relref "/commands/arseek" >}}), enabling flexible append patterns. [`ARRING`]({{< relref "/commands/arring" >}}) makes the ring buffer pattern explicit: it inserts values modulo a fixed size, wrapping around and overwriting the oldest entries when the buffer is full. [`AROP`]({{< relref "/commands/arop" >}}) performs single-pass aggregations (sum, min, max, bitwise operations, value matching) over a range without fetching each element individually.
 
 ### Hashes
 
