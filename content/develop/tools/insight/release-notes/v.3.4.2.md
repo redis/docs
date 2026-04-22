@@ -8,7 +8,7 @@ weight: 1
 
 ## 3.4.2 (April 2026)
 
-This is a maintenance release of Redis Insight 3.4.2.
+This is a maintenance release of Redis Insight.
 
 ### Bug fixes
 
