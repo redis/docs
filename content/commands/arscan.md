@@ -14,6 +14,7 @@ arguments:
   token: LIMIT
   type: integer
 arity: -4
+bannerText: Array is a new data type that is currently in preview and may be subject to change.
 categories:
 - docs
 - develop
