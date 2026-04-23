@@ -190,6 +190,12 @@ jobs:
 
               # Replace https://docs.redisvl.com links
               sed -E -i 's#https://docs.redisvl.com/en/latest/.+/([^_]+).+\.html(\#[^)]+)#{{< relref "\1\2" >}}#g; s#https://docs.redisvl.com/en/latest/(.+)\.html#https://redis.io/docs/latest/develop/ai/redisvl/\1#g' "${markdown_page}"
+
+              # Replace .md links with relrefs, stripping numeric prefixes like 01_, 02_, etc.
+              sed -E -i 's#\]\(([^)]*/)([0-9]+_)?([^/)]+)\.md\)#]({{< relref "\1\3" >}})#g' "${markdown_page}"
+
+              # Replace .md links without paths (same directory)
+              sed -E -i 's#\]\(([0-9]+_)?([^/)]+)\.md\)#]({{< relref "\2" >}})#g' "${markdown_page}"
           done
 
           # Fix links in api pages
