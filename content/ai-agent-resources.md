@@ -105,14 +105,7 @@ Salvatore Sanfilippo (also known as *antirez*, the creator of Redis) has provide
 
 ## Agent skills repository
 
-The [redis/agent-skills](https://github.com/redis/agent-skills) repository provides reusable skills and tools for AI agents working with Redis. This repository contains:
-
-- Pre-built MCP (Model Context Protocol) tools for Redis operations
-- Common agent workflows and patterns as executable code
-- Integration examples for popular agent frameworks
-- Ready-to-use skills that agents can invoke directly
-
-These skills enable AI coding assistants to interact with Redis more effectively by providing structured, tested implementations of common operations.
+The [redis/agent-skills](https://github.com/redis/agent-skills) repository provides reusable skills and tools for AI agents working with Redis. 
 
 ## Error handling
 
