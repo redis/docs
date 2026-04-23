@@ -196,6 +196,9 @@ jobs:
 
               # Replace .md links without paths (same directory)
               sed -E -i 's#\]\(([0-9]+_)?([^/)]+)\.md\)#]({{< relref "\2" >}})#g' "${markdown_page}"
+
+              # Fix image paths from _static/ to proper Hugo path
+              sed -E -i 's#!\[([^]]*)\]\(_static/([^)]+)\)#{{< image filename="/images/redisvl/\2" alt="\1" >}}#g' "${markdown_page}"
           done
 
           # Fix links in api pages
@@ -321,6 +324,12 @@ jobs:
             rm -rf content/develop/ai/redisvl/concepts/*
 
             cp -r redis_vl_hugo/* content/develop/ai/redisvl/
+
+            # Copy images referenced by the markdown from _static/ to static/images/redisvl/
+            mkdir -p static/images/redisvl/
+            if [ -d "./redis-vl-python/docs/_static" ]; then
+                rsync -a ./redis-vl-python/docs/_static/ ./static/images/redisvl/ --exclude='*.yaml' --exclude='css'
+            fi
           else
             mkdir -p content/develop/ai/redisvl/${version}/
             cp -r redis_vl_hugo/* content/develop/ai/redisvl/${version}/
@@ -358,13 +367,14 @@ jobs:
           fi
 
           set +e
-          latest_redisvl_release_is_different=$(git diff content/develop/ai/redisvl/)
-          new_release=$(git ls-files --others --directory | grep content/develop/ai/redisvl/${release})
+          latest_redisvl_release_is_different=$(git diff content/develop/ai/redisvl/ static/images/redisvl/)
+          new_release=$(git ls-files --others --directory | grep -E 'content/develop/ai/redisvl/'${release}'|static/images/redisvl/')
 
           if [[ -n "$latest_redisvl_release_is_different" || -n "$new_release" ]]; then
             redisvl_change=true
 
             git add "content/develop/ai/redisvl/"
+            git add "static/images/redisvl/"
             git config user.email "177626021+redisdocsapp[bot]@users.noreply.github.com"
             git config user.name "redisdocsapp[bot]"
             git commit -m "Update for redisvl ${release}"
