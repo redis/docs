@@ -325,10 +325,10 @@ jobs:
 
             cp -r redis_vl_hugo/* content/develop/ai/redisvl/
 
-            # Copy images referenced by the markdown from _static/ to static/images/redisvl/
-            mkdir -p static/images/redisvl/
-            if [ -d "./redis-vl-python/docs/_static" ]; then
-                rsync -a ./redis-vl-python/docs/_static/ ./static/images/redisvl/ --exclude='*.yaml' --exclude='css'
+            # Copy the architecture diagram referenced by the markdown to static/images/redisvl/
+            if [ -f "./redis-vl-python/docs/_static/redisvl-architecture.svg" ]; then
+                mkdir -p static/images/redisvl/
+                cp ./redis-vl-python/docs/_static/redisvl-architecture.svg ./static/images/redisvl/redisvl-architecture.svg
             fi
           else
             mkdir -p content/develop/ai/redisvl/${version}/
