@@ -105,11 +105,9 @@ package org.example;
 
 import redis.clients.jedis.*;
 
-import javax.net.ssl.*;
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.security.KeyStore;
 
 public class Main {
 
