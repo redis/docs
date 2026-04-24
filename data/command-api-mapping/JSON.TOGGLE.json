@@ -212,6 +212,48 @@
           "description": ""
         }
       }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "json_toggle(key: K, path: P)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path to the boolean value to toggle."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The toggled boolean value."
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "json_toggle(key: K, path: P)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path to the boolean value to toggle."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The toggled boolean value."
+        }
+      }
     ]
   }
 }
