@@ -21,7 +21,12 @@ weight: 30
 The sections below explain how to install `NRedisStack`. Note that this also installs
 `StackExchange.Redis` as a dependency, so you don't need to install it as a separate step.
 
-`NRedisStack` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
+`NRedisStack` requires a running Redis server. For production apps, provision
+a hosted Redis resource such as [Redis Cloud]({{< relref "/operate/rc" >}}) or
+[Azure Managed Redis](https://learn.microsoft.com/en-us/azure/redis/overview). For
+local development and testing, you can also run Redis Open Source locally. See
+[Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/" >}})
+for installation instructions.
 
 {{< note >}}
 You can also access Redis with an object-mapping client interface. See

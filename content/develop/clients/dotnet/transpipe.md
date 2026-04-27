@@ -30,24 +30,25 @@ There are two types of batch that you can use:
 
 ## Execute a pipeline
 
-To execute commands in a pipeline, you first create a pipeline object
-and then add commands to it using methods that resemble the *asynchronous*
-versions of the standard command methods
-(for example, `StringSetAsync()` and `StringGetAsync()`). The commands are
-buffered in the pipeline and only execute when you call the `Execute()`
-method on the pipeline object.
+`StackExchange.Redis` pipelines commands by using its asynchronous command
+methods. Start the operations without waiting for each one immediately, then
+wait for their tasks after you have queued the commands. The multiplexer sends
+the requests as soon as possible and processes the responses when they arrive.
+See the StackExchange.Redis
+[Pipelines and Multiplexers](https://stackexchange.github.io/StackExchange.Redis/PipelinesMultiplexers.html)
+page for more information.
 
-{{< clients-example set="pipe_trans_tutorial" step="basic_pipe" lang_filter="C#-Sync (SE.Redis)" description="Foundational: Use pipelines to batch multiple commands together and reduce network round trips" difficulty="beginner" >}}
+{{< clients-example set="pipe_trans_tutorial" step="basic_pipe" lang_filter="C#-Async (SE.Redis)" description="Foundational: Use pipelines to batch multiple commands together and reduce network round trips" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Execute a transaction
 
-A transaction works in a similar way to a pipeline. Create an
-instance of the `Transaction` class, call async command methods
-on that object, and then call the transaction object's
-`Execute()` method to execute it.
+A transaction queues commands on an `ITransaction` object that you create with
+`CreateTransaction()`. Call async command methods on that object, then call
+`Execute()` or `ExecuteAsync()` to attempt the transaction. The queued command
+tasks complete after the transaction executes.
 
-{{< clients-example set="pipe_trans_tutorial" step="basic_trans" lang_filter="C#-Sync (SE.Redis)" description="Foundational: Use transactions to execute multiple commands atomically without interruption from other clients" difficulty="beginner" >}}
+{{< clients-example set="pipe_trans_tutorial" step="basic_trans" lang_filter="C#-Async (SE.Redis)" description="Foundational: Use transactions to execute multiple commands atomically without interruption from other clients" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Watch keys for changes
@@ -77,7 +78,7 @@ For example, the `KeyNotExists` condition aborts the transaction
 if a specified key exists or is added by another client while the
 transaction executes:
 
-{{< clients-example set="pipe_trans_tutorial" step="trans_watch" lang_filter="C#-Sync (SE.Redis)" description="Optimistic locking: Use conditions to monitor keys for changes and abort transactions when conflicts occur" difficulty="intermediate" >}}
+{{< clients-example set="pipe_trans_tutorial" step="trans_watch" lang_filter="C#-Async (SE.Redis)" description="Optimistic locking: Use conditions to monitor keys for changes and abort transactions when conflicts occur" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 You can also use a `When` condition on certain individual commands to

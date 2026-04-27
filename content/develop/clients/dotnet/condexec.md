@@ -79,11 +79,11 @@ for more information about transactions.
 < /clients-example >}} -->
 
 ```csharp
-var watchedTrans = new Transaction(db);
+var watchedTrans = db.CreateTransaction();
 
 watchedTrans.AddCondition(Condition.KeyNotExists("customer:39182"));
 
-watchedTrans.Db.HashSetAsync(
+var updateTask = watchedTrans.HashSetAsync(
     "customer:39182",
     new HashEntry[]{
         new HashEntry("name", "David"),
@@ -91,7 +91,8 @@ watchedTrans.Db.HashSetAsync(
     }
 );
 
-bool succeeded = watchedTrans.Execute();
+bool succeeded = db.Wait(watchedTrans.ExecuteAsync());
+db.Wait(updateTask);
 Console.WriteLine(succeeded); // >>> true
 ```
 

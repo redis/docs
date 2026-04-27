@@ -28,7 +28,12 @@ support for an extended set of data types and features, such as [JSON]({{< relre
 The sections below explain how to install `StackExchange.Redis` and connect your application
 to a Redis database. See the [NRedisStack guide]({{< relref "/develop/clients/dotnet/nredisstack" >}}) for information about installing and using `NRedisStack` to access the extended feature set.
 
-`StackExchange.Redis` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
+`StackExchange.Redis` requires a running Redis server. For production apps,
+provision a hosted Redis resource such as [Redis Cloud]({{< relref "/operate/rc" >}})
+or [Azure Managed Redis](https://learn.microsoft.com/en-us/azure/redis/overview).
+For local development and testing, you can also run Redis Open Source locally.
+See [Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/" >}})
+for installation instructions.
 
 {{< note >}}
 You can also access Redis with an object-mapping client interface. See
