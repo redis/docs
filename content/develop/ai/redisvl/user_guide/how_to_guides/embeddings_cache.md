@@ -2,7 +2,7 @@
 linkTitle: Cache embeddings
 title: Cache Embeddings
 aliases:
-- /integrate/redisvl/user_guide/10_embeddings_cache
+- /integrate/redisvl/user_guide/how_to_guides/10_embeddings_cache
 weight: 10
 ---
 

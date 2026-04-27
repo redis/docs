@@ -34,7 +34,7 @@ Vectorizers handle batching internally, breaking large batches into provider-app
 
 ### Supported Providers
 
-RedisVL includes vectorizers for OpenAI, Azure OpenAI, Cohere, HuggingFace (local), Mistral, Google Vertex AI, AWS Bedrock, VoyageAI, and others. See the [Vectorizers](../api/vectorizer.md) for the complete list. You can also create custom vectorizers that wrap any embedding function.
+RedisVL includes vectorizers for OpenAI, Azure OpenAI, Cohere, HuggingFace (local), Mistral, Google Vertex AI, AWS Bedrock, VoyageAI, and others. See the [Vectorizers]({{< relref "../api/vectorizer" >}}) for the complete list. You can also create custom vectorizers that wrap any embedding function.
 
 ## Rerankers
 
@@ -68,6 +68,6 @@ This pattern separates recall (finding everything potentially relevant) from pre
 
 ---
 
-**Related concepts:** [Query Types](queries.md) explains how to use embeddings in vector search queries. [Search & Indexing](search-and-indexing.md) covers schema configuration for vector fields.
+**Related concepts:** [Query Types]({{< relref "queries" >}}) explains how to use embeddings in vector search queries. [Search & Indexing]({{< relref "search-and-indexing" >}}) covers schema configuration for vector fields.
 
-**Learn more:** [Create Embeddings with Vectorizers](../user_guide/04_vectorizers.md) covers embedding providers. [Rerank Search Results](../user_guide/06_rerankers.md) explains reranking in practice.
+**Learn more:** [Create Embeddings with Vectorizers]({{< relref "../user_guide/vectorizers" >}}) covers embedding providers. [Rerank Search Results]({{< relref "../user_guide/rerankers" >}}) explains reranking in practice.

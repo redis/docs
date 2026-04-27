@@ -3,6 +3,7 @@ linkTitle: The RedisVL CLI
 title: The RedisVL CLI
 aliases:
 - /integrate/redisvl/user_guide/cli
+weight: 4
 ---
 
 

@@ -2,7 +2,7 @@
 linkTitle: Rerank search results
 title: Rerank Search Results
 aliases:
-- /integrate/redisvl/user_guide/06_rerankers
+- /integrate/redisvl/user_guide/how_to_guides/06_rerankers
 weight: 06
 ---
 

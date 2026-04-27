@@ -2,14 +2,14 @@
 linkTitle: Use langcache as the llm cache backend
 title: Use LangCache as the LLM Cache Backend
 aliases:
-- /integrate/redisvl/user_guide/13_langcache_semantic_cache
+- /integrate/redisvl/user_guide/how_to_guides/13_langcache_semantic_cache
 weight: 13
 ---
 
 
 This guide shows how to use RedisVL's `LangCacheSemanticCache`, a thin wrapper around the [LangCache](https://redis.io/langcache/) managed semantic cache service. You get the same high-level `check` / `store` workflow as `SemanticCache`, backed by LangCache's HTTP API instead of a Redis index you manage yourself.
 
-For more on semantic caching, see [Extensions](../concepts/extensions.md), and to use RedisVL's semantic caching class see our [llm cache notebook](03_llmcache.ipynb). API entries for both classes live in the [LLM cache API](../api/cache.rst).
+For more on semantic caching, see [Extensions]({{< relref "../concepts/extensions" >}}), and to use RedisVL's semantic caching class see our [llm cache notebook](03_llmcache.ipynb). API entries for both classes live in the [LLM cache API](../api/cache.rst).
 
 ## Prerequisites
 

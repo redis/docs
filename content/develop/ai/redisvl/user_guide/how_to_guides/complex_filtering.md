@@ -2,7 +2,7 @@
 linkTitle: Query and filter data
 title: Query and Filter Data
 aliases:
-- /integrate/redisvl/user_guide/02_complex_filtering
+- /integrate/redisvl/user_guide/how_to_guides/02_complex_filtering
 weight: 02
 ---
 
