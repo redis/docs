@@ -262,6 +262,58 @@
           "description": ""
         }
       }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "json_num_incr_by(key: K, path: P, value: i64)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path to the numeric value to increment."
+          },
+          {
+            "name": "value",
+            "type": "i64",
+            "description": "The amount to add to the numeric value."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The updated numeric value."
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "json_num_incr_by(key: K, path: P, value: i64)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path to the numeric value to increment."
+          },
+          {
+            "name": "value",
+            "type": "i64",
+            "description": "The amount to add to the numeric value."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The updated numeric value."
+        }
+      }
     ]
   }
 }
