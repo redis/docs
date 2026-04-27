@@ -26,13 +26,17 @@ def convert_link(link, context):
     link = re.sub(r"/index$", "", link)
     parts = ["" if p == "" else re.sub(r"^[0-9]+_", "", p) for p in link.split("/")]
     link = "/".join(parts)
+    # Files that remain at the user_guide/ level (parent of how_to_guides and
+    # use_cases). Links to these targets must keep the ../ prefix; everything
+    # else under ../ is a former NN_ guide that has been moved into how_to_guides/.
+    user_guide_top_level = ("getting_started", "installation", "cli")
     if context == "how_to_guides" and link.startswith("../"):
         rest = link[3:]
-        if rest and not rest.startswith("cli"):
+        if rest and rest not in user_guide_top_level:
             link = rest
     elif context == "use_cases" and link.startswith("../"):
         rest = link[3:]
-        if rest and rest not in ("getting_started", "installation", "cli"):
+        if rest and rest not in user_guide_top_level:
             link = "../how_to_guides/" + rest
     if link and not link.endswith("/"):
         link = link + "/"
