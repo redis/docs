@@ -1,8 +1,7 @@
 ---
 linkTitle: Getting started
 title: Getting Started
-weight: 01
-url: '/develop/ai/redisvl/0.16.0/user_guide/getting_started/'
+weight: 2
 ---
 
 

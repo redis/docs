@@ -1,7 +1,7 @@
 ---
 linkTitle: The RedisVL CLI
 title: The RedisVL CLI
-url: '/develop/ai/redisvl/0.16.0/user_guide/cli/'
+weight: 4
 ---
 
 
