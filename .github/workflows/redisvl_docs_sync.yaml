@@ -121,22 +121,26 @@ jobs:
               fi
 
 
-              # Inject weight property for index pages to preserve order
-              case "${title}" in
-                  "Overview")
-                      echo "weight: 3" >> _tmp ;;
-                  "Concepts")
-                      echo "weight: 3" >> _tmp ;;
-                  "User Guides")
-                      echo "weight: 4" >> _tmp ;;
-                  "RedisVL API")
-                      echo "weight: 5" >> _tmp ;;
-              esac
-
-              # For user guides, strip the leading numbers from filename and use them for weight
+              # Compute weight: filename-based prefix first, then override via title for top-level pages
+              weight=""
               f=$(basename "${src}")
               if [[ "$f" =~ ^([0-9][0-9])_(.+) ]]; then
-                  echo "weight: ${BASH_REMATCH[1]}" >> _tmp
+                  weight="${BASH_REMATCH[1]}"
+              fi
+              case "${title}" in
+                  "Overview") weight=3 ;;
+                  "Concepts") weight=3 ;;
+                  "User Guides") weight=4 ;;
+                  "Guides") weight=4 ;;
+                  "RedisVL API") weight=5 ;;
+                  "Installation") weight=1 ;;
+                  "Getting Started") weight=2 ;;
+                  "How-To Guides") weight=3 ;;
+                  "The RedisVL CLI") weight=4 ;;
+                  "Use Cases") weight=5 ;;
+              esac
+              if [ -n "${weight}" ]; then
+                  echo "weight: ${weight}" >> _tmp
               fi
 
               # For _index.md files, add hideListLinks property
@@ -177,6 +181,28 @@ jobs:
           if [ -d "./${build_folder}/markdown/concepts" ]; then
               rsync -a ./${build_folder}/markdown/concepts/ ./redis_vl_hugo/concepts/ --exclude=index.md
           fi
+
+          # Copy how_to_guides markdown files if they exist
+          if [ -d "./${build_folder}/markdown/user_guide/how_to_guides" ]; then
+              mkdir -p redis_vl_hugo/user_guide/how_to_guides/
+              rsync -a ./${build_folder}/markdown/user_guide/how_to_guides/ ./redis_vl_hugo/user_guide/how_to_guides/ --exclude=index.md
+          fi
+
+          # Copy use_cases markdown files if they exist
+          if [ -d "./${build_folder}/markdown/user_guide/use_cases" ]; then
+              mkdir -p redis_vl_hugo/user_guide/use_cases/
+              rsync -a ./${build_folder}/markdown/user_guide/use_cases/ ./redis_vl_hugo/user_guide/use_cases/ --exclude=index.md
+          fi
+
+          # Move numbered user-guide pages (except 01_getting_started) into how_to_guides/
+          mkdir -p redis_vl_hugo/user_guide/how_to_guides/
+          for f in ./redis_vl_hugo/user_guide/[0-9][0-9]_*.md; do
+              [ -e "$f" ] || continue
+              base=$(basename "$f")
+              if [[ "$base" != 01_getting_started.md ]]; then
+                  mv "$f" "./redis_vl_hugo/user_guide/how_to_guides/${base}"
+              fi
+          done
 
           # Format markdown files
           shopt -s globstar
@@ -282,34 +308,84 @@ jobs:
 
           # Format _index.md pages
           cp ./${build_folder}/markdown/api/index.md ./redis_vl_hugo/api/_index.md
-          cp ./${build_folder}/markdown/user_guide/index.md ./redis_vl_hugo/user_guide/_index.md
 
           index_markdown_pages=(
               ./redis_vl_hugo/api/_index.md
-              ./redis_vl_hugo/user_guide/_index.md
           )
+
+          # Fetch an upstream MyST landing page (local clone preferred, GitHub fallback) and
+          # convert its grid-card directives into Hugo HTML cards via build/redisvl_grid_to_cards.py.
+          # Falls back to copying the post-Sphinx markdown if the upstream source can't be obtained.
+          fetch_landing_source() {
+              local rel_path="$1"
+              local out_path="$2"
+              if [ -f "./redis-vl-python/docs/${rel_path}" ]; then
+                  cp "./redis-vl-python/docs/${rel_path}" "${out_path}"
+                  return 0
+              fi
+              for ref in "v${version}" "${version}" "main"; do
+                  if curl -fsSL "https://raw.githubusercontent.com/redis/redis-vl-python/${ref}/docs/${rel_path}" -o "${out_path}"; then
+                      return 0
+                  fi
+              done
+              return 1
+          }
+
+          transform_landing() {
+              local rel_path="$1"
+              local hugo_dest="$2"
+              local context="$3"
+              local fallback="$4"
+              local tmp_src
+              tmp_src=$(mktemp)
+              if fetch_landing_source "${rel_path}" "${tmp_src}"; then
+                  python3 build/redisvl_grid_to_cards.py "${tmp_src}" "${hugo_dest}" --context "${context}"
+                  rm -f "${tmp_src}"
+                  return 0
+              fi
+              rm -f "${tmp_src}"
+              if [ -n "${fallback}" ] && [ -f "${fallback}" ]; then
+                  cp "${fallback}" "${hugo_dest}"
+                  return 0
+              fi
+              return 1
+          }
+
+          if transform_landing "user_guide/index.md" "./redis_vl_hugo/user_guide/_index.md" "user_guide" "./${build_folder}/markdown/user_guide/index.md"; then
+              index_markdown_pages+=(./redis_vl_hugo/user_guide/_index.md)
+          fi
 
           if [ -f "./${build_folder}/markdown/overview/index.md" ]; then
               cp ./${build_folder}/markdown/overview/index.md ./redis_vl_hugo/overview/_index.md
               index_markdown_pages+=(./redis_vl_hugo/overview/_index.md)
           fi
-          if [ -f "./${build_folder}/markdown/concepts/index.md" ]; then
-              cp ./${build_folder}/markdown/concepts/index.md ./redis_vl_hugo/concepts/_index.md
-              index_markdown_pages+=(./redis_vl_hugo/concepts/_index.md)
+
+          if [ -d "./redis_vl_hugo/concepts" ]; then
+              if transform_landing "concepts/index.md" "./redis_vl_hugo/concepts/_index.md" "concepts" "./${build_folder}/markdown/concepts/index.md"; then
+                  index_markdown_pages+=(./redis_vl_hugo/concepts/_index.md)
+              fi
+          fi
+
+          if transform_landing "user_guide/how_to_guides/index.md" "./redis_vl_hugo/user_guide/how_to_guides/_index.md" "how_to_guides" "./${build_folder}/markdown/user_guide/how_to_guides/index.md"; then
+              index_markdown_pages+=(./redis_vl_hugo/user_guide/how_to_guides/_index.md)
+          fi
+
+          if transform_landing "user_guide/use_cases/index.md" "./redis_vl_hugo/user_guide/use_cases/_index.md" "use_cases" "./${build_folder}/markdown/user_guide/use_cases/index.md"; then
+              index_markdown_pages+=(./redis_vl_hugo/user_guide/use_cases/_index.md)
           fi
 
           for index_markdown_page in "${index_markdown_pages[@]}"; do
               format "${index_markdown_page}"
 
-              # Fix relrefs by removing .md extension and references to numbered pages
-              sed -E -i 's/\.md/\//g; s/\([0-9]{2}_/\(/g; s/\/index\//\//g' "${index_markdown_page}"
+              # Fix relrefs by removing .md extension and references to numbered pages (with or without a path prefix)
+              sed -E -i 's/\.md/\//g; s/\(([^)]*\/)?([0-9]{2}_)/(\1/g; s/\/index\//\//g' "${index_markdown_page}"
           done
 
-          # Rename user guides to strip leading numbers from filename
-          user_guides=(./redis_vl_hugo/user_guide/*.md)
+          # Rename user guides to strip leading numbers from filename (top level and how_to_guides)
+          user_guides=(./redis_vl_hugo/user_guide/**/*.md)
           for user_guide in "${user_guides[@]}"; do
               if [[ ! "$user_guide" =~ _index.md$ ]]; then
-                  renamed_user_guide=$(sed 's|[0-9]\+_||' <<<${user_guide})
+                  renamed_user_guide=$(sed 's|/[0-9]\+_|/|' <<<${user_guide})
                   if [ "${user_guide}" != "${renamed_user_guide}" ]; then
                       mv ${user_guide} ${renamed_user_guide}
                   fi
