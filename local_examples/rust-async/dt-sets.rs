@@ -91,7 +91,7 @@ mod tests {
         // STEP_END
 
         // STEP_START sinter
-        if let Ok(res) = r.sinter(["bikes:racing:france", "bikes:racing:usa"]).await {
+        if let Ok(res) = r.sinter(&["bikes:racing:france", "bikes:racing:usa"]).await {
             let res: HashSet<String> = res;
             let res = sorted_set(res);
             println!("{res:?}"); // >>> ["bike:1"]
@@ -166,7 +166,7 @@ mod tests {
             .await
             .unwrap_or(0);
 
-        if let Ok(res) = r.sdiff(["bikes:racing:france", "bikes:racing:usa"]).await {
+        if let Ok(res) = r.sdiff(&["bikes:racing:france", "bikes:racing:usa"]).await {
             let res: HashSet<String> = res;
             let res = sorted_set(res);
             println!("{res:?}"); // >>> ["bike:2", "bike:3"]
@@ -195,7 +195,7 @@ mod tests {
             .unwrap_or(0);
 
         if let Ok(res) = r
-            .sinter(["bikes:racing:france", "bikes:racing:usa", "bikes:racing:italy"])
+            .sinter(&["bikes:racing:france", "bikes:racing:usa", "bikes:racing:italy"])
             .await
         {
             let res: HashSet<String> = res;
@@ -207,7 +207,7 @@ mod tests {
         }
 
         if let Ok(res) = r
-            .sunion(["bikes:racing:france", "bikes:racing:usa", "bikes:racing:italy"])
+            .sunion(&["bikes:racing:france", "bikes:racing:usa", "bikes:racing:italy"])
             .await
         {
             let res: HashSet<String> = res;
@@ -219,7 +219,7 @@ mod tests {
         }
 
         if let Ok(res) = r
-            .sdiff(["bikes:racing:france", "bikes:racing:usa", "bikes:racing:italy"])
+            .sdiff(&["bikes:racing:france", "bikes:racing:usa", "bikes:racing:italy"])
             .await
         {
             let res: HashSet<String> = res;
@@ -230,7 +230,7 @@ mod tests {
             // REMOVE_END
         }
 
-        if let Ok(res) = r.sdiff(["bikes:racing:france", "bikes:racing:usa"]).await {
+        if let Ok(res) = r.sdiff(&["bikes:racing:france", "bikes:racing:usa"]).await {
             let res: HashSet<String> = res;
             let res = sorted_set(res);
             println!("{res:?}"); // >>> ["bike:2", "bike:3"]
@@ -239,7 +239,7 @@ mod tests {
             // REMOVE_END
         }
 
-        if let Ok(res) = r.sdiff(["bikes:racing:usa", "bikes:racing:france"]).await {
+        if let Ok(res) = r.sdiff(&["bikes:racing:usa", "bikes:racing:france"]).await {
             let res: HashSet<String> = res;
             let res = sorted_set(res);
             println!("{res:?}"); // >>> ["bike:4"]
