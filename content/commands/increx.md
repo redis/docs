@@ -92,9 +92,9 @@ reply_schema:
 since: 8.8.0
 summary: Increments the numeric value of a key by a number and sets its expiration
   time. Uses 0 as initial value if the key doesn't exist.
-syntax_fmt: "INCREX key [BYFLOAT\_float | BYINT\_integer] [LBOUND\_lowerbound]\n \
-  \ [UBOUND\_upperbound] [EX\_seconds | PX\_milliseconds |\n  EXAT\_unix-time-seconds\
-  \ | PXAT\_unix-time-milliseconds | PERSIST]\n  [ENX]"
+syntax_fmt: "INCREX key [BYFLOAT\_float | BYINT\_integer] [LBOUND\_lowerbound] [UBOUND\_upperbound]\n \
+  \ [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds | PXAT\_unix-time-milliseconds | PERSIST]\n \
+  \ [ENX]"
 title: INCREX
 ---
 Increments the numeric value stored at `key` by the specified amount, with optional bounds clamping and expiration control, in a single atomic operation.
@@ -117,8 +117,8 @@ The name of the key to increment.
 
 Specifies the increment amount and type:
 
-* `BYFLOAT float` -- Increment the value by the given floating-point number. The key's value must be parseable as a double-precision floating-point number. Results that would produce NaN or Infinity are rejected.
-* `BYINT integer` -- Increment the value by the given integer. The integer may be negative to decrement the value. Integer overflow is clamped to the 64-bit signed integer minimum or maximum rather than producing an error.
+* `BYFLOAT float`: increment the value by the given floating-point number. The key's value must be parseable as a double-precision floating-point number. Results that would produce NaN or Infinity are rejected.
+* `BYINT integer`: increment the value by the given integer. The integer may be negative to decrement the value. Integer overflow is clamped to the 64-bit signed integer minimum or maximum rather than producing an error.
 
 If neither `BYFLOAT` nor `BYINT` is specified, the key is incremented by `1` in integer mode. `BYFLOAT` and `BYINT` are mutually exclusive.
 
@@ -140,11 +140,11 @@ Sets an upper bound for the resulting value. If the computed result exceeds `upp
 
 The `INCREX` command supports a set of options that modify its expiration behavior:
 
-* `EX seconds` -- Set the specified expiration time in seconds (a positive integer).
-* `PX milliseconds` -- Set the specified expiration time in milliseconds (a positive integer).
-* `EXAT unix-time-seconds` -- Set the specified Unix time in seconds (a positive integer) at which the key will expire.
-* `PXAT unix-time-milliseconds` -- Set the specified Unix time in milliseconds (a positive integer) at which the key will expire.
-* `PERSIST` -- Remove the expiration associated with the key.
+* `EX seconds`: set the specified expiration time in seconds (a positive integer).
+* `PX milliseconds`: set the specified expiration time in milliseconds (a positive integer).
+* `EXAT unix-time-seconds`: set the specified Unix time in seconds (a positive integer) at which the key will expire.
+* `PXAT unix-time-milliseconds`: set the specified Unix time in milliseconds (a positive integer) at which the key will expire.
+* `PERSIST`: remove the expiration associated with the key.
 
 When no expiration option is given, the key's existing TTL (if any) is preserved.
 
@@ -272,4 +272,3 @@ Tokens cannot exceed 100, and the key expires after one hour of inactivity. `ENX
 [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a two-element array where the first element is the new value of the key after the increment and the second element is the actual increment applied. Both elements are [Integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) in `BYINT` or default mode, or [Double replies]({{< relref "/develop/reference/protocol-spec#doubles" >}}) in `BYFLOAT` mode.
 
 {{< /multitabs >}}
-
