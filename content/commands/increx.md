@@ -80,6 +80,7 @@ key_specs:
   - access
   - update
 linkTitle: INCREX
+railroad_diagram: /images/railroad/increx.svg
 reply_schema:
   items:
   - description: the value of the key after the increment
