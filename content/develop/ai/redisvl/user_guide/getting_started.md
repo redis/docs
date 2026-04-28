@@ -3,7 +3,7 @@ linkTitle: Getting started
 title: Getting Started
 aliases:
 - /integrate/redisvl/user_guide/01_getting_started
-weight: 01
+weight: 2
 ---
 
 
@@ -387,7 +387,7 @@ query = VectorQuery(
 )
 ```
 
-See the [SVS-VAMANA guide](09_svs_vamana.ipynb) and [Advanced Queries guide](11_advanced_queries.ipynb) for more details on runtime parameters.
+See the [SVS-VAMANA guide]({{< relref "svs_vamana" >}}) and [Advanced Queries guide]({{< relref "advanced_queries" >}}) for more details on runtime parameters.
 
 ### Executing queries
 With our `VectorQuery` object defined above, we can execute the query over the `SearchIndex` using the `query` method.
@@ -485,9 +485,9 @@ Use the `rvl` CLI to check the stats for the index:
 
 Now that you understand the basics of RedisVL, explore these related guides:
 
-- [Query and Filter Data](02_complex_filtering.ipynb) - Learn advanced filtering with tag, numeric, text, and geo filters
-- [Create Embeddings with Vectorizers](04_vectorizers.ipynb) - Generate embeddings using OpenAI, HuggingFace, Cohere, and more
-- [Choose a Storage Type](05_hash_vs_json.ipynb) - Understand when to use Hash vs JSON storage
+- [Query and Filter Data]({{< relref "complex_filtering" >}}) - Learn advanced filtering with tag, numeric, text, and geo filters
+- [Create Embeddings with Vectorizers]({{< relref "vectorizers" >}}) - Generate embeddings using OpenAI, HuggingFace, Cohere, and more
+- [Choose a Storage Type]({{< relref "hash_vs_json" >}}) - Understand when to use Hash vs JSON storage
 
 ## Cleanup
 

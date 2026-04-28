@@ -3,6 +3,7 @@ linkTitle: The RedisVL CLI
 title: The RedisVL CLI
 aliases:
 - /integrate/redisvl/user_guide/cli
+weight: 4
 ---
 
 
@@ -14,7 +15,7 @@ Before running this notebook, be sure to
 1. Have installed ``redisvl`` and have that environment active for this notebook.
 2. Have a running Redis instance with Redis Search enabled
 
-For complete command syntax and options, see the [CLI Reference](../api/cli.rst).
+For complete command syntax and options, see the [CLI Reference]({{< relref "../api/cli" >}}).
 
 
 ```python

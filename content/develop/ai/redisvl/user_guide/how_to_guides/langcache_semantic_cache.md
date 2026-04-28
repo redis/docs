@@ -2,14 +2,14 @@
 linkTitle: Use langcache as the llm cache backend
 title: Use LangCache as the LLM Cache Backend
 aliases:
-- /integrate/redisvl/user_guide/13_langcache_semantic_cache
+- /integrate/redisvl/user_guide/how_to_guides/13_langcache_semantic_cache
 weight: 13
 ---
 
 
 This guide shows how to use RedisVL's `LangCacheSemanticCache`, a thin wrapper around the [LangCache](https://redis.io/langcache/) managed semantic cache service. You get the same high-level `check` / `store` workflow as `SemanticCache`, backed by LangCache's HTTP API instead of a Redis index you manage yourself.
 
-For more on semantic caching, see [Extensions](../concepts/extensions.md), and to use RedisVL's semantic caching class see our [llm cache notebook](03_llmcache.ipynb). API entries for both classes live in the [LLM cache API](../api/cache.rst).
+For more on semantic caching, see [Extensions]({{< relref "../../concepts/extensions" >}}), and to use RedisVL's semantic caching class see our [llm cache notebook]({{< relref "llmcache" >}}). API entries for both classes live in the [LLM cache API]({{< relref "../../api/cache" >}}).
 
 ## Prerequisites
 
@@ -40,7 +40,7 @@ By the end of this guide, you will be able to:
 | **Filter expressions** | `FilterExpression` on `check` | **Not supported** — use LangCache **attributes** (pre-configured on the cache) |
 | **Partial entry updates** | Supported where the backend allows | **`update` / `aupdate` raise** — delete and re-store instead |
 
-**Note:** `SemanticCache` is covered in depth in the [llmcache notebook](03_llmcache.ipynb) guide.
+**Note:** `SemanticCache` is covered in depth in the [llmcache notebook]({{< relref "llmcache" >}}) guide.
 
 
 ### Install the LangCache extra
@@ -199,5 +199,5 @@ The wrapper follows the LangCache API. The following RedisVL features either do 
 - **No `update()` / `aupdate()`** — The LangCache API does not update individual entries; these methods raise `NotImplementedError`. Delete the entry (or store a new pair) instead.
 - **`filters` on `store`** — Not supported by LangCache; a warning is logged if provided.
 
-**Tip:** See the **LangCacheSemanticCache** section in the [LLM cache API](../api/cache.rst) for parameter and method listings.
+**Tip:** See the **LangCacheSemanticCache** section in the [LLM cache API]({{< relref "../../api/cache" >}}) for parameter and method listings.
 

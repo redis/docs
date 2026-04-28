@@ -2,7 +2,7 @@
 linkTitle: Choose a storage type
 title: Choose a Storage Type
 aliases:
-- /integrate/redisvl/user_guide/05_hash_vs_json
+- /integrate/redisvl/user_guide/how_to_guides/05_hash_vs_json
 weight: 05
 ---
 
@@ -472,9 +472,9 @@ results
 
 Now that you understand Hash vs JSON storage, explore these related guides:
 
-- [Getting Started](01_getting_started.ipynb) - Learn the basics of RedisVL indexes and queries
-- [Query and Filter Data](02_complex_filtering.ipynb) - Apply filters to narrow down search results
-- [Use Advanced Query Types](11_advanced_queries.ipynb) - Explore TextQuery, HybridQuery, and more
+- [Getting Started]({{< relref "getting_started" >}}) - Learn the basics of RedisVL indexes and queries
+- [Query and Filter Data]({{< relref "complex_filtering" >}}) - Apply filters to narrow down search results
+- [Use Advanced Query Types]({{< relref "advanced_queries" >}}) - Explore TextQuery, HybridQuery, and more
 
 
 ```python

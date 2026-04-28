@@ -2,7 +2,7 @@
 linkTitle: Optimize indexes with svs-vamana
 title: Optimize Indexes with SVS-VAMANA
 aliases:
-- /integrate/redisvl/user_guide/09_svs_vamana
+- /integrate/redisvl/user_guide/how_to_guides/09_svs_vamana
 weight: 09
 ---
 
@@ -609,9 +609,9 @@ print(f"\nEstimated memory savings: {manual_savings}%")
 
 Now that you understand SVS-VAMANA optimization, explore these related guides:
 
-- [Getting Started](01_getting_started.ipynb) - Learn the basics of RedisVL indexes
-- [Choose a Storage Type](05_hash_vs_json.ipynb) - Understand Hash vs JSON storage
-- [Query and Filter Data](02_complex_filtering.ipynb) - Apply filters to narrow down search results
+- [Getting Started]({{< relref "getting_started" >}}) - Learn the basics of RedisVL indexes
+- [Choose a Storage Type]({{< relref "hash_vs_json" >}}) - Understand Hash vs JSON storage
+- [Query and Filter Data]({{< relref "complex_filtering" >}}) - Apply filters to narrow down search results
 
 ## Cleanup
 
