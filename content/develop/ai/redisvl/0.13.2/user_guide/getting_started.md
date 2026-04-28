@@ -2,7 +2,6 @@
 linkTitle: Getting started with RedisVL
 title: Getting Started with RedisVL
 weight: 01
-url: '/develop/ai/redisvl/0.13.2/user_guide/getting_started/'
 ---
 
 `redisvl` is a versatile Python library with an integrated CLI, designed to enhance AI applications using Redis. This guide will walk you through the following steps:
@@ -304,7 +303,7 @@ query = VectorQuery(
 )
 ```
 
-See the [SVS-VAMANA guide](09_svs_vamana.ipynb) and [Advanced Queries guide](11_advanced_queries.ipynb) for more details on runtime parameters.
+See the [SVS-VAMANA guide]({{< relref "svs_vamana" >}}) and [Advanced Queries guide]({{< relref "advanced_queries" >}}) for more details on runtime parameters.
 
 ### Executing queries
 With our `VectorQuery` object defined above, we can execute the query over the `SearchIndex` using the `query` method.
