@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-compatibleOSSVersion: Redis 8.4, 8.2, 8.0, 7.4, 7.2, 6.2
+compatibleOSSVersion: Redis 8.6, 8.4, 8.2, 8.0, 7.4, 7.2, 6.2
 description: Redis Software 8! The most performant, most secure, and richest version so far. Built for performance, scale, and reliability to power modern ML and AI applications.
 hideListLinks: true
 linkTitle: 8.0.x releases
@@ -19,7 +19,7 @@ weight: 67
 
 This version offers:
 
-- Redis 8.0, 8.2, and 8.4 feature set versions
+- Redis 8.0, 8.2, 8.4, and 8.6 feature set versions
 
 - Performance improvements and memory reduction
 
@@ -52,6 +52,8 @@ For more detailed release notes, select a build version from the following table
 - [`POST /v1/cluster/actions/change_master`]({{<relref "/operate/rs/references/rest-api/requests/cluster/actions#post-cluster-action">}}) REST API requests will no longer allow a node that exists but is not finished bootstrapping to become the primary node. Such requests will now return the status code `406 Not Acceptable`.
 
 - Node status now returns the actual provisional RAM and flash values even when the maximum number of shards on the node (`max_redis_servers`) is reached. Previously, the API returned 0 for `provisional_ram_of_node` and `provisional_flash_of_node` when a node reached its shard limit. This change affects REST API node status requests and the `rladmin status nodes` command's output.
+
+- `crdb_controller` is enabled by default as of Redis Software version 8.0.18.
 
 ### Breaking changes
 
@@ -114,6 +116,12 @@ The following changes affect behavior and validation in Redis Search:
 ### Reserved ports
 
 Make sure the following ports are open before upgrading Redis Software.
+
+Ports reserved as of Redis Software version 8.0.18:
+
+| Port | Process name | Usage | 
+|------|--------------|-------|
+| 3357 | reconciliation_tree_grpc | Internal communication |
 
 Ports reserved as of Redis Software version 7.22.0:
 
@@ -225,6 +233,8 @@ The following table provides a snapshot of supported platforms as of this Redis 
     ```
     
     See [Create certificates]({{<relref "/operate/rs/security/certificates/create-certificates">}}) and [Update certificates]({{<relref "/operate/rs/security/certificates/updating-certificates">}}) for more detailed instructions.
+
+    This issue was fixed in Redis Software version 8.0.18.
 
 - RS180550: You cannot set up SSO when the Cluster Manager UI is exposed through an IPv6-based load balancer or gateway.
 
