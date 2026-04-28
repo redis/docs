@@ -1,7 +1,6 @@
 ---
 linkTitle: Install RedisVL
 title: Install RedisVL
-url: '/develop/ai/redisvl/0.17.0/user_guide/installation/'
 ---
 
 
