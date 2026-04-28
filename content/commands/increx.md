@@ -100,11 +100,11 @@ syntax_fmt: "INCREX key [BYFLOAT\_float | BYINT\_integer] [LBOUND\_lowerbound] [
   \ [ENX]"
 title: INCREX
 ---
-Increments the numeric value stored at `key` by the specified amount, with optional bounds clamping and expiration control, in a single atomic operation.
+Increments or decrements the numeric value stored at `key` by the specified amount, with optional upper/lower bounds and expiration control, in a single atomic operation.
 If the key does not exist, it is set to `0` before performing the operation.
 An error is returned if the key contains a value of the wrong type or a string that cannot be interpreted as a number.
 
-Unlike [`INCR`]({{< relref "/commands/incr" >}}) and [`INCRBY`]({{< relref "/commands/incrby" >}}), `INCREX` always returns an array of two elements: the new value of the key after the increment, and the actual increment applied. When bounds clamping is in effect, the actual increment may be less than the requested increment.
+Unlike [`INCR`]({{< relref "/commands/incr" >}}) and [`INCRBY`]({{< relref "/commands/incrby" >}}), `INCREX` always returns an array of two elements: the new value of the key after the increment, and the increment applied. When bounds are in effect, if the increment cannot be fully applied, that is, extending beyond the specified bounds, the operation is rejected.
 
 ## Required arguments
 
@@ -121,7 +121,7 @@ The name of the key to increment.
 Specifies the increment amount and type:
 
 * `BYFLOAT float`: increment the value by the given floating-point number. The key's value must be parseable as a double-precision floating-point number. Results that would produce NaN or Infinity are rejected.
-* `BYINT integer`: increment the value by the given integer. The integer may be negative to decrement the value. Integer overflow is clamped to the 64-bit signed integer minimum or maximum rather than producing an error.
+* `BYINT integer`: increment the value by the given integer. The integer may be negative to decrement the value. Operations that would overflow a 64-bit signed integer, either positive or negative, will be rejected.
 
 If neither `BYFLOAT` nor `BYINT` is specified, the key is incremented by `1` in integer mode. `BYFLOAT` and `BYINT` are mutually exclusive.
 
@@ -129,13 +129,13 @@ If neither `BYFLOAT` nor `BYINT` is specified, the key is incremented by `1` in 
 
 <details open><summary><code>LBOUND lowerbound</code></summary>
 
-Sets a lower bound for the resulting value. If the computed result falls below `lowerbound`, the stored value is clamped to `lowerbound` and the actual increment in the reply reflects only the change that was applied. `LBOUND` must be less than or equal to `UBOUND` when both are specified.
+Sets a lower bound for the resulting value. If the computed result would fall below `lowerbound`, the operation is rejected. `LBOUND` must be less than or equal to `UBOUND` when both are specified.
 
 </details>
 
 <details open><summary><code>UBOUND upperbound</code></summary>
 
-Sets an upper bound for the resulting value. If the computed result exceeds `upperbound`, the stored value is clamped to `upperbound` and the actual increment in the reply reflects only the change that was applied. `UBOUND` must be greater than or equal to `LBOUND` when both are specified.
+Sets an upper bound for the resulting value. If the computed result would exceed `upperbound`, the operation is rejected. `UBOUND` must be greater than or equal to `LBOUND` when both are specified.
 
 </details>
 
@@ -184,15 +184,6 @@ SET mykey 1.5
 INCREX mykey BYFLOAT 0.25
 {{% /redis-cli %}}
 
-Clamp the result within bounds using `UBOUND` and `LBOUND`. The second array element reflects the actual increment applied after clamping:
-
-{{% redis-cli %}}
-SET mykey 50
-INCREX mykey BYINT 100 UBOUND 80
-SET mykey 10
-INCREX mykey BYINT -100 LBOUND 0
-{{% /redis-cli %}}
-
 Set an expiration on every increment with `EX`:
 
 {{% redis-cli %}}
@@ -221,22 +212,11 @@ INCREX mykey BYINT 1 PERSIST
 TTL mykey
 {{% /redis-cli %}}
 
-## Pattern: Rate limiter
+## Pattern: window counter rate limiter
 
-A common rate-limiting pattern requires atomically incrementing a counter and setting its expiration. With plain [`INCR`]({{< relref "/commands/incr" >}}) and [`EXPIRE`]({{< relref "/commands/expire" >}}), this typically requires a Lua script to be atomic:
+A common rate-limiting pattern requires atomically incrementing a counter and setting its expiration. With plain [`INCR`]({{< relref "/commands/incr" >}}) and [`EXPIRE`]({{< relref "/commands/expire" >}}), this typically requires a Lua script to be atomic.
 
-```lua
-local current = redis.call('INCR', KEYS[1])
-if current > tonumber(ARGV[1]) then
-    return 0  -- rejected
-end
-if current == 1 then
-    redis.call('EXPIRE', KEYS[1], ARGV[2])
-end
-return 1  -- allowed
-```
-
-`INCREX` collapses this into a single native command. `UBOUND` enforces the rate cap, and `ENX` sets the TTL only when the counter first starts — matching the `if current == 1 then EXPIRE` logic. When the counter has already reached the cap, `actual_increment` is `0`, giving the caller immediate feedback without extra reads:
+`INCREX` requires a single native command. `UBOUND` enforces the rate cap and `ENX` ensures that a new window with the correct duration is created if the previous one has expired; if a window already exists, it won't be extended. When the counter has already reached the cap, `actual_increment` is `0`, giving the caller immediate feedback without extra reads:
 
 ```python
 new_val, actual_incr = redis.execute_command(
@@ -245,16 +225,6 @@ new_val, actual_incr = redis.execute_command(
 if actual_incr == 0:
     reject_request()  # rate limit exceeded
 ```
-
-## Pattern: Token bucket
-
-Refill a token bucket up to a capacity ceiling and auto-expire inactive keys in a single command:
-
-{{% redis-cli %}}
-INCREX tokens:user123 BYINT 10 UBOUND 100 EX 3600 ENX
-{{% /redis-cli %}}
-
-Tokens cannot exceed 100, and the key expires after one hour of inactivity. `ENX` ensures the expiration window is only started fresh when the key has no existing TTL — subsequent refills within the same window leave the expiration unchanged.
 
 ## Redis Software and Redis Cloud compatibility
 
