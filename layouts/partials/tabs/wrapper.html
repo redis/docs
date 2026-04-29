@@ -39,12 +39,12 @@
       {{- $tabMeta = merge $tabMeta (dict "mode" $mode) -}}
     {{- end -}}
 
-    {{- /* Add mode if it's a C# variant */ -}}
-    {{- if or (eq $tabTitle "C#-Sync") (eq $tabTitle "C#-Async") -}}
+    {{- /* Add mode if it's a C# variant (any client) */ -}}
+    {{- if or (strings.Contains $tabTitle "C#-Sync") (strings.Contains $tabTitle "C#-Async") -}}
       {{- $mode := "" -}}
-      {{- if eq $tabTitle "C#-Sync" -}}
+      {{- if strings.Contains $tabTitle "C#-Sync" -}}
         {{- $mode = "sync" -}}
-      {{- else if eq $tabTitle "C#-Async" -}}
+      {{- else if strings.Contains $tabTitle "C#-Async" -}}
         {{- $mode = "async" -}}
       {{- end -}}
       {{- $tabMeta = merge $tabMeta (dict "mode" $mode) -}}

@@ -79,7 +79,7 @@ For production-ready configurations and best practices, see the production usage
 - [Jedis]({{< relref "/develop/clients/jedis/produsage" >}})
 - [Lettuce]({{< relref "/develop/clients/lettuce/produsage" >}})
 - [go-redis]({{< relref "/develop/clients/go/produsage" >}})
-- [NRedisStack]({{< relref "/develop/clients/dotnet/produsage" >}})
+- [StackExchange.Redis]({{< relref "/develop/clients/dotnet/produsage" >}})
 
 ### Re-attempt connections
 

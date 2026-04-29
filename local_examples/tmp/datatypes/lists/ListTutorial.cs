@@ -4,7 +4,6 @@
 // REMOVE_START
 using NRedisStack.Tests;
 // REMOVE_END
-using NRedisStack;
 using StackExchange.Redis;
 
 // REMOVE_START

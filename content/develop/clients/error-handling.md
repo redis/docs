@@ -389,4 +389,4 @@ For detailed information about exceptions in your client library, see:
 - [Node.js error handling]({{< relref "/develop/clients/nodejs/error-handling" >}})
 - [Java (Jedis) error handling]({{< relref "/develop/clients/jedis/error-handling" >}})
 - [Go (go-redis) error handling]({{< relref "/develop/clients/go/error-handling" >}})
-- [.NET (NRedisStack) error handling]({{< relref "/develop/clients/dotnet/error-handling" >}})
+- [.NET (StackExchange.Redis) error handling]({{< relref "/develop/clients/dotnet/error-handling" >}})
