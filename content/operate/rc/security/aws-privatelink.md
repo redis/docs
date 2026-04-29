@@ -40,7 +40,6 @@ Be aware of the following limitations when using PrivateLink with Redis Cloud:
     - `usw1-az2`
     - `apne1-az3`
     - `apne2-az2`
-    - `euc1-az2`
     - `euw1-az4`
     - `cac1-az3`
     - `ilc1-az2`
