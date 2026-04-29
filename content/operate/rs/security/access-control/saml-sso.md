@@ -216,7 +216,7 @@ Redis Software only supports SP-initiated logout, where the user logs out from t
     |-------------------------------------------|-------------|
     | firstName | User's first name |
     | lastName | User's last name |
-    | email | User's email address (used as the username in the Redis Software Cluster Manager UI) |
+    | email | User's email address (used as the username in the Redis Software Cluster Manager UI and must contain ASCII characters only.) |
     | redisRoleMapping | String array that includes the role UID for role-based access control in Redis Software. Only used for just-in-time (JIT) user provisioning. If a user already exists in Redis Software, this attribute is ignored and their existing roles are preserved. |
 
     {{<note>}}
@@ -338,7 +338,7 @@ PUT https://<host>:<port>/v1/cluster/sso
 
 After single sign-on is activated for Redis Software, you can create new Redis Software users on the identity provider side using just-in-time (JIT) provisioning.
 
-1. In the identity provider's admin console, create a new user profile with a valid email address. See your identity provider's documentation for detailed instructions.
+1. In the identity provider's admin console, create a new user profile with a valid email address that contains ASCII characters only. See your identity provider's documentation for detailed instructions.
 
 1. Configure the `redisRoleMapping` and assign a Redis Software role UID to the user.
 
