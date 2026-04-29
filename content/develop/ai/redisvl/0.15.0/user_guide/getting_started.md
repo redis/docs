@@ -1,7 +1,7 @@
 ---
 linkTitle: Getting started
 title: Getting Started
-weight: 01
+weight: 2
 url: '/develop/ai/redisvl/0.15.0/user_guide/getting_started/'
 ---
 
@@ -271,7 +271,7 @@ print(keys)
 
 ## Creating `VectorQuery` Objects
 
-Next we will create a vector query object for our newly populated index. This example will use a simple vector to demonstrate how vector similarity works. Vectors in production will likely be much larger than 3 floats and often require Machine Learning models (i.e. Huggingface sentence transformers) or an embeddings API (Cohere, OpenAI). `redisvl` provides a set of [Vectorizers]({{< relref "vectorizers#openai" >}}) to assist in vector creation.
+Next we will create a vector query object for our newly populated index. This example will use a simple vector to demonstrate how vector similarity works. Vectors in production will likely be much larger than 3 floats and often require Machine Learning models (i.e. Huggingface sentence transformers) or an embeddings API (Cohere, OpenAI). `redisvl` provides a set of [Vectorizers]({{< relref "how_to_guides/vectorizers#openai" >}}) to assist in vector creation.
 
 
 ```python
@@ -299,7 +299,7 @@ query = VectorQuery(
 )
 ```
 
-See the [SVS-VAMANA guide](09_svs_vamana.ipynb) and [Advanced Queries guide](11_advanced_queries.ipynb) for more details on runtime parameters.
+See the [SVS-VAMANA guide]({{< relref "how_to_guides/svs_vamana" >}}) and [Advanced Queries guide]({{< relref "how_to_guides/advanced_queries" >}}) for more details on runtime parameters.
 
 ### Executing queries
 With our `VectorQuery` object defined above, we can execute the query over the `SearchIndex` using the `query` method.
@@ -422,9 +422,9 @@ Use the `rvl` CLI to check the stats for the index:
 
 Now that you understand the basics of RedisVL, explore these related guides:
 
-- [Query and Filter Data](02_complex_filtering.ipynb) - Learn advanced filtering with tag, numeric, text, and geo filters
-- [Create Embeddings with Vectorizers](04_vectorizers.ipynb) - Generate embeddings using OpenAI, HuggingFace, Cohere, and more
-- [Choose a Storage Type](05_hash_vs_json.ipynb) - Understand when to use Hash vs JSON storage
+- [Query and Filter Data]({{< relref "how_to_guides/complex_filtering" >}}) - Learn advanced filtering with tag, numeric, text, and geo filters
+- [Create Embeddings with Vectorizers]({{< relref "how_to_guides/vectorizers" >}}) - Generate embeddings using OpenAI, HuggingFace, Cohere, and more
+- [Choose a Storage Type]({{< relref "how_to_guides/hash_vs_json" >}}) - Understand when to use Hash vs JSON storage
 
 ## Cleanup
 

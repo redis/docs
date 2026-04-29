@@ -97,7 +97,7 @@ Add a dialect field to the query.
 
 #### `expander(expander)`
 
-Add a expander field to the query.
+Add an expander field to the query.
 
 - **expander** - the name of the expander
 
@@ -110,7 +110,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query "hello world", we do not match "world hello"
+i.e., for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -128,12 +128,12 @@ Analyze the query as being in the specified language.
 
 Limit the search to specific TEXT fields only.
 
-- **fields**: A list of strings, case sensitive field names
+- **fields**: Each element should be a string, case sensitive field name
 
 from the defined schema.
 
 * **Parameters:**
-  **fields** (*List* *[* *str* *]*)
+  **fields** (*str*)
 * **Return type:**
   *Query*
 
@@ -187,7 +187,7 @@ Set the fields to return with search results.
 
 * **Parameters:**
   * **\*fields** – Variable number of field names to return.
-  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+  * **skip_decode** (*List* *[* *str* *]*  *|* *str* *|* *None*) – Optional field name or list of field names that should not be
     decoded. Useful for binary data like embeddings.
 * **Returns:**
   Returns the query object for method chaining.
@@ -299,7 +299,7 @@ Set the USE_SEARCH_HISTORY parameter for the query.
 
 #### `slop(slop)`
 
-Allow a maximum of N intervening non matched terms between
+Allow a maximum of N intervening non-matched terms between
 phrase terms (0 means exact phrase).
 
 * **Parameters:**
@@ -355,7 +355,7 @@ overrides the timeout parameter of the module
 
 #### `verbatim()`
 
-Set the query to be verbatim, i.e. use no query expansion
+Set the query to be verbatim, i.e., use no query expansion
 or stemming.
 
 * **Return type:**
@@ -585,7 +585,7 @@ Add a dialect field to the query.
 
 #### `expander(expander)`
 
-Add a expander field to the query.
+Add an expander field to the query.
 
 - **expander** - the name of the expander
 
@@ -598,7 +598,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query "hello world", we do not match "world hello"
+i.e., for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -616,12 +616,12 @@ Analyze the query as being in the specified language.
 
 Limit the search to specific TEXT fields only.
 
-- **fields**: A list of strings, case sensitive field names
+- **fields**: Each element should be a string, case sensitive field name
 
 from the defined schema.
 
 * **Parameters:**
-  **fields** (*List* *[* *str* *]*)
+  **fields** (*str*)
 * **Return type:**
   *Query*
 
@@ -675,7 +675,7 @@ Set the fields to return with search results.
 
 * **Parameters:**
   * **\*fields** – Variable number of field names to return.
-  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+  * **skip_decode** (*List* *[* *str* *]*  *|* *str* *|* *None*) – Optional field name or list of field names that should not be
     decoded. Useful for binary data like embeddings.
 * **Returns:**
   Returns the query object for method chaining.
@@ -782,7 +782,7 @@ Set the USE_SEARCH_HISTORY parameter for the range query.
 
 #### `slop(slop)`
 
-Allow a maximum of N intervening non matched terms between
+Allow a maximum of N intervening non-matched terms between
 phrase terms (0 means exact phrase).
 
 * **Parameters:**
@@ -838,7 +838,7 @@ overrides the timeout parameter of the module
 
 #### `verbatim()`
 
-Set the query to be verbatim, i.e. use no query expansion
+Set the query to be verbatim, i.e., use no query expansion
 or stemming.
 
 * **Return type:**
@@ -1118,8 +1118,8 @@ Specify by which fields to group the aggregation.
   : aggregation module.
 
 * **Parameters:**
-  * **fields** (*List* *[* *str* *]*)
-  * **reducers** (*Reducer* *|* *List* *[* *Reducer* *]*)
+  * **fields** (*str* *|* *List* *[* *str* *]*)
+  * **reducers** (*Reducer*)
 * **Return type:**
   *AggregateRequest*
 
@@ -1484,7 +1484,7 @@ Add a dialect field to the query.
 
 #### `expander(expander)`
 
-Add a expander field to the query.
+Add an expander field to the query.
 
 - **expander** - the name of the expander
 
@@ -1497,7 +1497,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query "hello world", we do not match "world hello"
+i.e., for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -1515,12 +1515,12 @@ Analyze the query as being in the specified language.
 
 Limit the search to specific TEXT fields only.
 
-- **fields**: A list of strings, case sensitive field names
+- **fields**: Each element should be a string, case sensitive field name
 
 from the defined schema.
 
 * **Parameters:**
-  **fields** (*List* *[* *str* *]*)
+  **fields** (*str*)
 * **Return type:**
   *Query*
 
@@ -1574,7 +1574,7 @@ Set the fields to return with search results.
 
 * **Parameters:**
   * **\*fields** – Variable number of field names to return.
-  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+  * **skip_decode** (*List* *[* *str* *]*  *|* *str* *|* *None*) – Optional field name or list of field names that should not be
     decoded. Useful for binary data like embeddings.
 * **Returns:**
   Returns the query object for method chaining.
@@ -1623,7 +1623,7 @@ Set or update the text weights for the query.
 
 #### `slop(slop)`
 
-Allow a maximum of N intervening non matched terms between
+Allow a maximum of N intervening non-matched terms between
 phrase terms (0 means exact phrase).
 
 * **Parameters:**
@@ -1679,7 +1679,7 @@ overrides the timeout parameter of the module
 
 #### `verbatim()`
 
-Set the query to be verbatim, i.e. use no query expansion
+Set the query to be verbatim, i.e., use no query expansion
 or stemming.
 
 * **Return type:**
@@ -1779,7 +1779,7 @@ Add a dialect field to the query.
 
 #### `expander(expander)`
 
-Add a expander field to the query.
+Add an expander field to the query.
 
 - **expander** - the name of the expander
 
@@ -1792,7 +1792,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query "hello world", we do not match "world hello"
+i.e., for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -1810,12 +1810,12 @@ Analyze the query as being in the specified language.
 
 Limit the search to specific TEXT fields only.
 
-- **fields**: A list of strings, case sensitive field names
+- **fields**: Each element should be a string, case sensitive field name
 
 from the defined schema.
 
 * **Parameters:**
-  **fields** (*List* *[* *str* *]*)
+  **fields** (*str*)
 * **Return type:**
   *Query*
 
@@ -1869,7 +1869,7 @@ Set the fields to return with search results.
 
 * **Parameters:**
   * **\*fields** – Variable number of field names to return.
-  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+  * **skip_decode** (*List* *[* *str* *]*  *|* *str* *|* *None*) – Optional field name or list of field names that should not be
     decoded. Useful for binary data like embeddings.
 * **Returns:**
   Returns the query object for method chaining.
@@ -1903,7 +1903,7 @@ Set the filter expression for the query.
 
 #### `slop(slop)`
 
-Allow a maximum of N intervening non matched terms between
+Allow a maximum of N intervening non-matched terms between
 phrase terms (0 means exact phrase).
 
 * **Parameters:**
@@ -1959,7 +1959,7 @@ overrides the timeout parameter of the module
 
 #### `verbatim()`
 
-Set the query to be verbatim, i.e. use no query expansion
+Set the query to be verbatim, i.e., use no query expansion
 or stemming.
 
 * **Return type:**
@@ -2030,7 +2030,7 @@ Add a dialect field to the query.
 
 #### `expander(expander)`
 
-Add a expander field to the query.
+Add an expander field to the query.
 
 - **expander** - the name of the expander
 
@@ -2043,7 +2043,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query "hello world", we do not match "world hello"
+i.e., for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -2061,12 +2061,12 @@ Analyze the query as being in the specified language.
 
 Limit the search to specific TEXT fields only.
 
-- **fields**: A list of strings, case sensitive field names
+- **fields**: Each element should be a string, case sensitive field name
 
 from the defined schema.
 
 * **Parameters:**
-  **fields** (*List* *[* *str* *]*)
+  **fields** (*str*)
 * **Return type:**
   *Query*
 
@@ -2120,7 +2120,7 @@ Set the fields to return with search results.
 
 * **Parameters:**
   * **\*fields** – Variable number of field names to return.
-  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+  * **skip_decode** (*List* *[* *str* *]*  *|* *str* *|* *None*) – Optional field name or list of field names that should not be
     decoded. Useful for binary data like embeddings.
 * **Returns:**
   Returns the query object for method chaining.
@@ -2154,7 +2154,7 @@ Set the filter expression for the query.
 
 #### `slop(slop)`
 
-Allow a maximum of N intervening non matched terms between
+Allow a maximum of N intervening non-matched terms between
 phrase terms (0 means exact phrase).
 
 * **Parameters:**
@@ -2210,7 +2210,7 @@ overrides the timeout parameter of the module
 
 #### `verbatim()`
 
-Set the query to be verbatim, i.e. use no query expansion
+Set the query to be verbatim, i.e., use no query expansion
 or stemming.
 
 * **Return type:**
@@ -2361,8 +2361,8 @@ Specify by which fields to group the aggregation.
   : aggregation module.
 
 * **Parameters:**
-  * **fields** (*List* *[* *str* *]*)
-  * **reducers** (*Reducer* *|* *List* *[* *Reducer* *]*)
+  * **fields** (*str* *|* *List* *[* *str* *]*)
+  * **reducers** (*Reducer*)
 * **Return type:**
   *AggregateRequest*
 

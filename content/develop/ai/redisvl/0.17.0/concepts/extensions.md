@@ -29,7 +29,7 @@ Too strict, and you miss valid cache hits. Too loose, and you return wrong answe
 
 In applications serving multiple users or contexts, you often want separate cache spaces. Filters let you scope cache lookups—for example, caching per-user or per-conversation so one user’s cached answers don’t leak to another.
 
-**Learn more:** [Cache LLM Responses](../user_guide/03_llmcache.md) covers semantic caching in detail.
+**Learn more:** [Cache LLM Responses]({{< relref "../user_guide/how_to_guides/llmcache" >}}) covers semantic caching in detail.
 
 ## Embeddings Cache
 
@@ -43,7 +43,7 @@ This is useful when the same content is embedded multiple times—common in appl
 
 ### Wrapping Vectorizers
 
-The embeddings cache can wrap any [vectorizer](utilities.md), adding transparent caching. Calling the wrapped vectorizer checks the cache first. This requires no changes to your embedding code—just wrap the vectorizer and caching happens automatically.
+The embeddings cache can wrap any [vectorizer]({{< relref "utilities" >}}), adding transparent caching. Calling the wrapped vectorizer checks the cache first. This requires no changes to your embedding code—just wrap the vectorizer and caching happens automatically.
 
 ## Message History
 
@@ -66,7 +66,7 @@ Semantic message history adds vector search. Messages are embedded, and you can 
 
 Session tags are critical for multi-user applications. Each user’s conversation should be isolated, so retrieving context for User A doesn’t include messages from User B. The session tag provides this isolation, and you can structure sessions however makes sense—per-user, per-thread, per-agent, or any other grouping.
 
-**Learn more:** [Manage LLM Message History](../user_guide/07_message_history.md) explains conversation management in detail.
+**Learn more:** [Manage LLM Message History]({{< relref "../user_guide/how_to_guides/message_history" >}}) explains conversation management in detail.
 
 ## Semantic Router
 
@@ -88,8 +88,8 @@ If no route matches (all distances exceed their thresholds), the router returns 
 
 Semantic routing is useful for intent classification (determining what a user wants), topic detection (categorizing content), guardrails (detecting and blocking certain query types), and agent dispatch (sending queries to specialized sub-agents).
 
-**Learn more:** [Route Queries with SemanticRouter](../user_guide/08_semantic_router.md) walks through routing setup in detail.
+**Learn more:** [Route Queries with SemanticRouter]({{< relref "../user_guide/how_to_guides/semantic_router" >}}) walks through routing setup in detail.
 
 ---
 
-**Related concepts:** [Query Types](queries.md) explains the query types used internally by extensions. [Utilities](utilities.md) covers vectorizers used for embedding.
+**Related concepts:** [Query Types]({{< relref "queries" >}}) explains the query types used internally by extensions. [Utilities]({{< relref "utilities" >}}) covers vectorizers used for embedding.

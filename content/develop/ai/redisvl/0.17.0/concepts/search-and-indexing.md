@@ -106,6 +106,6 @@ Planning your schema carefully upfront reduces the need for migrations, but the 
 
 ---
 
-**Related concepts:** [Field Attributes](field-attributes.md) explains how to configure field options like `sortable` and `index_missing`. [Query Types](queries.md) covers the different query types available.
+**Related concepts:** [Field Attributes]({{< relref "field-attributes" >}}) explains how to configure field options like `sortable` and `index_missing`. [Query Types]({{< relref "queries" >}}) covers the different query types available.
 
-**Learn more:** [Getting Started](../user_guide/01_getting_started.md) walks through building your first index. [Choose a Storage Type](../user_guide/05_hash_vs_json.md) compares storage options in depth. [Query and Filter Data](../user_guide/02_complex_filtering.md) covers query composition.
+**Learn more:** [Getting Started]({{< relref "../user_guide/getting_started" >}}) walks through building your first index. [Choose a Storage Type]({{< relref "../user_guide/how_to_guides/hash_vs_json" >}}) compares storage options in depth. [Query and Filter Data]({{< relref "../user_guide/how_to_guides/complex_filtering" >}}) covers query composition.
