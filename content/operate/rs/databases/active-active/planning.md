@@ -86,6 +86,7 @@ Active-Active databases have the following limitations:
 - The `UNLINK` command is a blocking command for all types of keys.
 - Cross slot multi commands (such as `MSET`) are not supported with Active-Active databases.
 - The hashing policy can't be changed after database creation.
+- Database clustering cannot be enabled or turned off after database creation.
 - Active-Active databases cannot be configured as Redis Flex deployments.
 - Active-Active databases handle replication internally and do not support the `redis.set_repl()` function in Lua scripts.
 - If you enabled the default database password during the creation of an Active-Active database, you should not turn off the default database password because it could prevent the removal of participating database instances.
