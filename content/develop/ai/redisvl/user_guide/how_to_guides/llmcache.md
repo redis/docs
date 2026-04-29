@@ -2,7 +2,7 @@
 linkTitle: Cache llm responses
 title: Cache LLM Responses
 aliases:
-- /integrate/redisvl/user_guide/03_llmcache
+- /integrate/redisvl/user_guide/how_to_guides/03_llmcache
 weight: 03
 ---
 
@@ -645,9 +645,9 @@ print(response[0]["response"])
 
 Now that you understand semantic caching, explore these related guides:
 
-- [Cache Embeddings](10_embeddings_cache.ipynb) - Cache embedding vectors for faster repeated computations
-- [Manage LLM Message History](07_message_history.ipynb) - Store and retrieve conversation history
-- [Query and Filter Data](02_complex_filtering.ipynb) - Learn more about filter expressions for cache access control
+- [Cache Embeddings]({{< relref "embeddings_cache" >}}) - Cache embedding vectors for faster repeated computations
+- [Manage LLM Message History]({{< relref "message_history" >}}) - Store and retrieve conversation history
+- [Query and Filter Data]({{< relref "complex_filtering" >}}) - Learn more about filter expressions for cache access control
 
 ## Cleanup
 

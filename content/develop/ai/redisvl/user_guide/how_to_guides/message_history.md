@@ -2,7 +2,7 @@
 linkTitle: Manage llm message history
 title: Manage LLM Message History
 aliases:
-- /integrate/redisvl/user_guide/07_message_history
+- /integrate/redisvl/user_guide/how_to_guides/07_message_history
 weight: 07
 ---
 
@@ -218,9 +218,9 @@ print(f"Total messages in the session: {chat_history.count()}")
 
 Now that you understand message history management, explore these related guides:
 
-- [Cache LLM Responses](03_llmcache.ipynb) - Reduce API costs with semantic caching
-- [Route Queries with SemanticRouter](08_semantic_router.ipynb) - Classify user queries to routes
-- [Create Embeddings with Vectorizers](04_vectorizers.ipynb) - Use different embedding providers
+- [Cache LLM Responses]({{< relref "llmcache" >}}) - Reduce API costs with semantic caching
+- [Route Queries with SemanticRouter]({{< relref "semantic_router" >}}) - Classify user queries to routes
+- [Create Embeddings with Vectorizers]({{< relref "vectorizers" >}}) - Use different embedding providers
 
 ## Cleanup
 
