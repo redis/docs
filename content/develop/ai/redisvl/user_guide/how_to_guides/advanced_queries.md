@@ -385,6 +385,11 @@ As of Redis 8.4.0, Redis natively supports a [`FT.HYBRID`](https://redis.io/docs
 
 
 ```python
+import warnings
+
+# redis-py's hybrid query helpers warn that APIs are experimental; keep notebook output readable
+warnings.filterwarnings("ignore", message=r".*is an experimental.*", category=UserWarning)
+
 from packaging.version import Version
 
 from redis import __version__ as _redis_py_version
@@ -394,6 +399,7 @@ redis_version = Version(index.client.info()["redis_version"])
 
 HYBRID_SEARCH_AVAILABLE = redis_version >= Version("8.4.0") and redis_py_version >= Version("7.1.0")
 print(HYBRID_SEARCH_AVAILABLE)
+
 ```
 
     True
@@ -591,16 +597,6 @@ if HYBRID_SEARCH_AVAILABLE:
 else:
     print("Hybrid search is not available in this version of Redis/redis-py.")
 ```
-
-    /Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/query/hybrid.py:136: UserWarning: HybridPostProcessingConfig is an experimental and may change or be removed in future versions.
-      self.postprocessing_config = HybridPostProcessingConfig()
-    /Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/query/hybrid.py:247: UserWarning: HybridSearchQuery is an experimental and may change or be removed in future versions.
-      search_query = HybridSearchQuery(
-    /Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/query/hybrid.py:288: UserWarning: HybridVsimQuery is an experimental and may change or be removed in future versions.
-      vsim_query = HybridVsimQuery(
-    /Users/tyler.hutcherson/Documents/AppliedAI/redis-vl-python/redisvl/query/hybrid.py:363: UserWarning: CombineResultsMethod is an experimental and may change or be removed in future versions.
-      return CombineResultsMethod(
-
 
 
 <table><tr><th>text_score</th><th>product_id</th><th>brief_description</th><th>category</th><th>price</th><th>vector_similarity</th><th>hybrid_score</th></tr><tr><td>5.95398933304</td><td>prod_1</td><td>comfortable running shoes for athletes</td><td>footwear</td><td>89.99</td><td>0.999999970198</td><td>2.48619677905</td></tr><tr><td>2.08531559363</td><td>prod_5</td><td>basketball shoes with excellent ankle support</td><td>footwear</td><td>139.99</td><td>0.995073735714</td><td>1.32214629309</td></tr><tr><td>2.04100827745</td><td>prod_2</td><td>lightweight running jacket with water resistance</td><td>outerwear</td><td>129.99</td><td>0.995073735714</td><td>1.30885409823</td></tr><tr><td>0</td><td>prod_4</td><td>yoga mat with extra cushioning for comfort</td><td>accessories</td><td>39.99</td><td>0.998058259487</td><td>0.698640781641</td></tr><tr><td>0</td><td>prod_6</td><td>swimming goggles with anti-fog coating</td><td>accessories</td><td>24.99</td><td>0.881881296635</td><td>0.617316907644</td></tr></table>
