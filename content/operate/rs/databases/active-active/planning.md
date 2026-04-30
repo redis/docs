@@ -25,7 +25,7 @@ You need at least [two participating clusters]({{< relref "/operate/rs/clusters/
 If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/databases/flash">}}), you cannot add participating clusters that run on RAM only.
 {{</note>}}
 
-Changes made from the Cluster Manager UI to an Active-Active database configuration only apply to the cluster you are editing. For global configuration changes across all clusters, use the `crdb-cli` command-line utility.
+For Redis Software versions earlier than 8.0.16, changes made from the Cluster Manager UI to an Active-Active database configuration only apply to the cluster you are editing. For global configuration changes across all clusters, use the `crdb-cli` command-line utility. As of Redis Software version 8.0.16, the Cluster Manager UI supports both global and local configuration changes for Active-Active databases.
 
 ## Memory limits
 
