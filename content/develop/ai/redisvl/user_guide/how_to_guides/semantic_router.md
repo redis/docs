@@ -2,7 +2,7 @@
 linkTitle: Route queries with semanticrouter
 title: Route Queries with SemanticRouter
 aliases:
-- /integrate/redisvl/user_guide/08_semantic_router
+- /integrate/redisvl/user_guide/how_to_guides/08_semantic_router
 weight: 08
 ---
 
@@ -402,6 +402,6 @@ router.delete()
 
 Now that you understand semantic routing, explore these related guides:
 
-- [Manage LLM Message History](07_message_history.ipynb) - Store and retrieve conversation history
-- [Cache LLM Responses](03_llmcache.ipynb) - Reduce API costs with semantic caching
-- [Query and Filter Data](02_complex_filtering.ipynb) - Learn more about filter expressions
+- [Manage LLM Message History]({{< relref "message_history" >}}) - Store and retrieve conversation history
+- [Cache LLM Responses]({{< relref "llmcache" >}}) - Reduce API costs with semantic caching
+- [Query and Filter Data]({{< relref "complex_filtering" >}}) - Learn more about filter expressions

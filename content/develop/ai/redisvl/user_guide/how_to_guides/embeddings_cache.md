@@ -2,7 +2,7 @@
 linkTitle: Cache embeddings
 title: Cache Embeddings
 aliases:
-- /integrate/redisvl/user_guide/10_embeddings_cache
+- /integrate/redisvl/user_guide/how_to_guides/10_embeddings_cache
 weight: 10
 ---
 
@@ -533,9 +533,9 @@ benchmark_cache.clear()
 
 Now that you understand embeddings caching, explore these related guides:
 
-- [Cache LLM Responses](03_llmcache.ipynb) - Cache full LLM responses based on semantic similarity
-- [Create Embeddings with Vectorizers](04_vectorizers.ipynb) - Learn about different embedding providers
-- [Manage LLM Message History](07_message_history.ipynb) - Store and retrieve conversation history
+- [Cache LLM Responses]({{< relref "llmcache" >}}) - Cache full LLM responses based on semantic similarity
+- [Create Embeddings with Vectorizers]({{< relref "vectorizers" >}}) - Learn about different embedding providers
+- [Manage LLM Message History]({{< relref "message_history" >}}) - Store and retrieve conversation history
 
 ## Summary
 

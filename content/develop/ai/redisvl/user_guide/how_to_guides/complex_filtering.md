@@ -2,7 +2,7 @@
 linkTitle: Query and filter data
 title: Query and Filter Data
 aliases:
-- /integrate/redisvl/user_guide/02_complex_filtering
+- /integrate/redisvl/user_guide/how_to_guides/02_complex_filtering
 weight: 02
 ---
 
@@ -174,7 +174,7 @@ v = VectorQuery(
 )
 ```
 
-These parameters can be adjusted at query time without rebuilding the index. See the [Advanced Queries guide](11_advanced_queries.ipynb) for more details.
+These parameters can be adjusted at query time without rebuilding the index. See the [Advanced Queries guide]({{< relref "advanced_queries" >}}) for more details.
 
 
 ```python
@@ -851,9 +851,9 @@ for r in results.docs:
 
 Now that you understand filtering in RedisVL, explore these related guides:
 
-- [Use Advanced Query Types](11_advanced_queries.ipynb) - Learn about TextQuery, HybridQuery, and MultiVectorQuery
-- [Cache LLM Responses](03_llmcache.ipynb) - Use filters with semantic caching for multi-user scenarios
-- [Write SQL Queries for Redis](12_sql_to_redis_queries.ipynb) - Use SQL-like syntax for Redis queries
+- [Use Advanced Query Types]({{< relref "advanced_queries" >}}) - Learn about TextQuery, HybridQuery, and MultiVectorQuery
+- [Cache LLM Responses]({{< relref "llmcache" >}}) - Use filters with semantic caching for multi-user scenarios
+- [Write SQL Queries for Redis]({{< relref "sql_to_redis_queries" >}}) - Use SQL-like syntax for Redis queries
 
 ## Cleanup
 

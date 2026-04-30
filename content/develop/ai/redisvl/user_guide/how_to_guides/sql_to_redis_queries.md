@@ -2,7 +2,7 @@
 linkTitle: Write sql queries for redis
 title: Write SQL Queries for Redis
 aliases:
-- /integrate/redisvl/user_guide/12_sql_to_redis_queries
+- /integrate/redisvl/user_guide/how_to_guides/12_sql_to_redis_queries
 weight: 12
 ---
 
@@ -1300,9 +1300,9 @@ for r in results:
 
 Now that you understand SQL queries for Redis, explore these related guides:
 
-- [Use Advanced Query Types](11_advanced_queries.ipynb) - Learn about TextQuery, HybridQuery, and MultiVectorQuery
-- [Query and Filter Data](02_complex_filtering.ipynb) - Apply filters using native RedisVL query syntax
-- [Getting Started](01_getting_started.ipynb) - Review the basics of RedisVL indexes
+- [Use Advanced Query Types]({{< relref "advanced_queries" >}}) - Learn about TextQuery, HybridQuery, and MultiVectorQuery
+- [Query and Filter Data]({{< relref "complex_filtering" >}}) - Apply filters using native RedisVL query syntax
+- [Getting Started]({{< relref "../getting_started" >}}) - Review the basics of RedisVL indexes
 
 ## Cleanup
 

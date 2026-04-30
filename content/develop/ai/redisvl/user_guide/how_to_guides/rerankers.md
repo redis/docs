@@ -2,7 +2,7 @@
 linkTitle: Rerank search results
 title: Rerank Search Results
 aliases:
-- /integrate/redisvl/user_guide/06_rerankers
+- /integrate/redisvl/user_guide/how_to_guides/06_rerankers
 weight: 06
 ---
 
@@ -225,9 +225,9 @@ for result, score in zip(results, scores):
 
 Now that you understand reranking, explore these related guides:
 
-- [Create Embeddings with Vectorizers](04_vectorizers.ipynb) - Generate embeddings using various providers
-- [Query and Filter Data](02_complex_filtering.ipynb) - Build complex filter expressions for search
-- [Use Advanced Query Types](11_advanced_queries.ipynb) - Learn about HybridQuery and other query types
+- [Create Embeddings with Vectorizers]({{< relref "vectorizers" >}}) - Generate embeddings using various providers
+- [Query and Filter Data]({{< relref "complex_filtering" >}}) - Build complex filter expressions for search
+- [Use Advanced Query Types]({{< relref "advanced_queries" >}}) - Learn about HybridQuery and other query types
 
 ## Cleanup
 

@@ -2,7 +2,7 @@
 linkTitle: Create embeddings with vectorizers
 title: Create Embeddings with Vectorizers
 aliases:
-- /integrate/redisvl/user_guide/04_vectorizers
+- /integrate/redisvl/user_guide/how_to_guides/04_vectorizers
 weight: 04
 ---
 
@@ -576,9 +576,9 @@ float16_bytes != float64_bytes
 
 Now that you understand how to create embeddings, explore these related guides:
 
-- [Getting Started](01_getting_started.ipynb) - Learn the basics of indexes and queries
-- [Rerank Results](06_rerankers.ipynb) - Improve search quality with reranking models
-- [Cache Embeddings](10_embeddings_cache.ipynb) - Cache embedding vectors for faster repeated computations
+- [Getting Started]({{< relref "../getting_started" >}}) - Learn the basics of indexes and queries
+- [Rerank Results]({{< relref "rerankers" >}}) - Improve search quality with reranking models
+- [Cache Embeddings]({{< relref "embeddings_cache" >}}) - Cache embedding vectors for faster repeated computations
 
 ## Cleanup
 

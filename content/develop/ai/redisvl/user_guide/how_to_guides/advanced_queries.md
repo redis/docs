@@ -2,7 +2,7 @@
 linkTitle: Use advanced query types
 title: Use Advanced Query Types
 aliases:
-- /integrate/redisvl/user_guide/11_advanced_queries
+- /integrate/redisvl/user_guide/how_to_guides/11_advanced_queries
 weight: 11
 ---
 
@@ -1120,9 +1120,9 @@ result_print(index.query(multi_q))
 
 Now that you understand advanced query types, explore these related guides:
 
-- [Query and Filter Data](02_complex_filtering.ipynb) - Apply filters to narrow down search results
-- [Write SQL Queries for Redis](12_sql_to_redis_queries.ipynb) - Use SQL-like syntax for Redis queries
-- [Improve Search Quality with Rerankers](06_rerankers.ipynb) - Rerank results for better relevance
+- [Query and Filter Data]({{< relref "complex_filtering" >}}) - Apply filters to narrow down search results
+- [Write SQL Queries for Redis]({{< relref "sql_to_redis_queries" >}}) - Use SQL-like syntax for Redis queries
+- [Improve Search Quality with Rerankers]({{< relref "rerankers" >}}) - Rerank results for better relevance
 
 ## Cleanup
 
