@@ -9,7 +9,7 @@ title: Build and run Redis Open Source on macOS 13 (Ventura) and macOS 14 (Sonom
 weight: 50
 ---
 
-Follow the steps below to build and run Redis Open Source from its source code on a system running macOS 13 (Ventura) and macOS 14 (Sonoma).
+Follow the steps below to build and run Redis Open Source with all data structuresfrom its source code on a system running macOS 13 (Ventura) and macOS 14 (Sonoma).
 
 ## 1. Install homebrew
 
@@ -17,7 +17,7 @@ If Homebrew isn't already installed, follow the installation instructions on the
 
 ## 2. Install required packages
 
-```
+```bash
 export HOMEBREW_NO_AUTO_UPDATE=1
 brew update
 brew install coreutils
@@ -35,7 +35,7 @@ brew install wget
 
 Rust is required to build the JSON package.
 
-```
+```bash
 RUST_INSTALLER=rust-1.80.1-$(if [ "$(uname -m)" = "arm64" ]; then echo "aarch64"; else echo "x86_64"; fi)-apple-darwin
 wget --quiet -O ${RUST_INSTALLER}.tar.xz https://static.rust-lang.org/dist/${RUST_INSTALLER}.tar.xz
 tar -xf ${RUST_INSTALLER}.tar.xz
@@ -48,7 +48,7 @@ The Redis source code is available from [the Redis GitHub site](https://github.c
 
 Create a directory for the src, for example `~/src`.
 
-```
+```bash
 mkdir ~/src
 ```
 
@@ -56,7 +56,7 @@ Copy the tar(1) file to `~/src`.
 
 Alternatively, you can download the file directly using the `wget` command, as shown below.
 
-```
+```bash
 cd ~/src
 wget -O redis-<version>.tar.gz https://github.com/redis/redis/archive/refs/tags/<version>.tar.gz
 ```
@@ -66,13 +66,14 @@ Replace `<version>` with the three-digit Redis release number, for example `8.0.
 Extract the source:
 
 ```bash
+cd ~/src
 tar xvf redis-<version>.tar.gz
 rm redis-<version>.tar.gz
 ```
 
 ## 5. Build Redis
 
-```
+```bash
 cd ~/src/redis-<version>
 export HOMEBREW_PREFIX="$(brew --prefix)"
 export BUILD_WITH_MODULES=yes
@@ -81,7 +82,6 @@ export DISABLE_WERRORS=yes
 PATH="$HOMEBREW_PREFIX/opt/libtool/libexec/gnubin:$HOMEBREW_PREFIX/opt/llvm@18/bin:$HOMEBREW_PREFIX/opt/make/libexec/gnubin:$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin:$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
 export LDFLAGS="-L$HOMEBREW_PREFIX/opt/llvm@18/lib"
 export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/llvm@18/include"
-          
 mkdir -p build_dir/etc
 make -C redis-8.0 -j "$(nproc)" all OS=macos
 make -C redis-8.0 install PREFIX=$(pwd)/build_dir OS=macos
@@ -92,6 +92,7 @@ make -C redis-8.0 install PREFIX=$(pwd)/build_dir OS=macos
 Check the installed Redis server and CLI versions:
 
 ```bash
+cd ~/src/redis-<version>
 build_dir/bin/redis-server --version
 build_dir/bin/redis-cli --version
 ```
@@ -101,6 +102,7 @@ build_dir/bin/redis-cli --version
 To start Redis, use the following command:
 
 ```bash
+cd ~/src/redis-<version>
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 build_dir/bin/redis-server redis-full.conf
@@ -108,7 +110,7 @@ build_dir/bin/redis-server redis-full.conf
 
 To validate that the available modules have been installed, run the [`INFO`]{{< relref "/commands/info" >}} command and look for lines similar to the following:
 
-```
+```bash
 build_dir/bin/redis-cli INFO
 ...
 # Modules
