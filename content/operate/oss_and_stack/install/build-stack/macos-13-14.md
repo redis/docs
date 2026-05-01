@@ -9,7 +9,7 @@ title: Build and run Redis Open Source on macOS 13 (Ventura) and macOS 14 (Sonom
 weight: 50
 ---
 
-Follow the steps below to build and run Redis Open Source with all data structuresfrom its source code on a system running macOS 13 (Ventura) and macOS 14 (Sonoma).
+Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running macOS 13 (Ventura) and macOS 14 (Sonoma).
 
 ## 1. Install homebrew
 
