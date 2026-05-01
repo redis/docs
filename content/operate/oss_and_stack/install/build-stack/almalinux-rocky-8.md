@@ -9,7 +9,7 @@ title: Build and run Redis Open Source on AlmaLinux/Rocky Linux 8.10
 weight: 5
 ---
 
-Follow the steps below to build and run Redis Open Source from its source code on a system running AlmaLinux and Rocky Linux 8.10.
+Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running AlmaLinux 8.10 or Rocky Linux 8.10.
 
 {{< note >}}
 Docker images used to produce these build notes:
@@ -41,8 +41,6 @@ Clean the package metadata, enable required repositories, and install developmen
 
 ```bash
 sudo dnf clean all
-
-# Add GoReleaser repo
 sudo tee /etc/yum.repos.d/goreleaser.repo > /dev/null <<EOF
 [goreleaser]
 name=GoReleaser
@@ -50,16 +48,15 @@ baseurl=https://repo.goreleaser.com/yum/
 enabled=1
 gpgcheck=0
 EOF
-
 sudo dnf update -y
 sudo dnf groupinstall "Development Tools" -y
 sudo dnf config-manager --set-enabled powertools
 sudo dnf install -y epel-release
 ```
 
-## 2. Install required packages
+## 2. Install required dependencies
 
-Install the build dependencies, Python 3.11, and supporting tools:
+Update your package lists and install the necessary development tools and libraries:
 
 ```bash
 sudo dnf install -y --nobest --skip-broken \
@@ -105,18 +102,15 @@ Install CMake 3.25.1 manually:
 ```bash
 CMAKE_VERSION=3.25.1
 ARCH=$(uname -m)
-
 if [ "$ARCH" = "x86_64" ]; then
   CMAKE_FILE=cmake-${CMAKE_VERSION}-linux-x86_64.sh
 else
   CMAKE_FILE=cmake-${CMAKE_VERSION}-linux-aarch64.sh
 fi
-
 wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/${CMAKE_FILE}
 chmod +x ${CMAKE_FILE}
 ./${CMAKE_FILE} --skip-license --prefix=/usr/local --exclude-subdir
 rm ${CMAKE_FILE}
-
 cmake --version
 ```
 
@@ -128,7 +122,7 @@ Copy the tar(1) file to `/usr/src`.
 
 Alternatively, you can download the file directly using the `wget` command, as shown below.
 
-```
+```bash
 cd /usr/src
 wget -O redis-<version>.tar.gz https://github.com/redis/redis/archive/refs/tags/<version>.tar.gz
 ```
@@ -145,25 +139,24 @@ rm redis-<version>.tar.gz
 
 ## 5. Build Redis
 
-Enable the GCC toolset and build Redis with support for TLS and modules:
+Enable the GCC toolset, set the necessary environment variables, and build Redis with TLS and module support:
 
 ```bash
 source /etc/profile.d/gcc-toolset-13.sh
 cd /usr/src/redis-<version>
-
 export BUILD_TLS=yes
 export BUILD_WITH_MODULES=yes
 export INSTALL_RUST_TOOLCHAIN=yes
 export DISABLE_WERRORS=yes
-
 make -j "$(nproc)" all
 ```
 
-## 6. (Optional) Verify the installation
+## 6. (Optional) Verify the build
 
-Check the installed Redis server and CLI versions:
+Check the built Redis server and CLI versions:
 
 ```bash
+cd /usr/src/redis-<version>
 ./src/redis-server --version
 ./src/redis-cli --version
 ```
@@ -173,12 +166,14 @@ Check the installed Redis server and CLI versions:
 To start Redis, use the following command:
 
 ```bash
+cd /usr/src/redis-<version>
 ./src/redis-server redis-full.conf
 ```
 
-To validate that the available modules have been installed, run the [`INFO`]{{< relref "/commands/info" >}} command and look for lines similar to the following:
+To validate that the available modules have been installed, run the [`INFO`]({{< relref "/commands/info" >}}) command and look for lines similar to the following:
 
-```
+```bash
+cd /usr/src/redis-<version>
 ./src/redis-cli INFO
 ...
 # Modules
@@ -193,7 +188,7 @@ module:name=vectorset,ver=1,api=1,filters=0,usedby=[],using=[],options=[]
 
 ## 8. (Optional) Install Redis to its default location
 
-```
+```bash
 cd /usr/src/redis-<version>
 sudo make install
 ```
