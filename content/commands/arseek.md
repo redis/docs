@@ -23,7 +23,7 @@ command_flags:
 - WRITE
 - FAST
 complexity: O(1)
-description: Sets the ARINSERT cursor to a specific index.
+description: Sets the ARINSERT / ARRING cursor to a specific index.
 function: arseekCommand
 group: array
 hidden: false
@@ -44,11 +44,11 @@ reply_schema:
   description: 1 if the cursor was set, 0 if the key does not exist.
   type: integer
 since: 8.8.0
-summary: Sets the ARINSERT cursor to a specific index.
+summary: Sets the ARINSERT / ARRING cursor to a specific index.
 syntax_fmt: ARSEEK key index
 title: ARSEEK
 ---
-Sets the ARINSERT cursor to a specific index.
+Sets the ARINSERT / ARRING cursor to a specific index.
 
 ## Required arguments
 

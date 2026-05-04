@@ -189,9 +189,18 @@ Deleting the last remaining element removes the key entirely.
 ...
 ```
 
+## Configuration
+
+The following configuration parameters affect array behavior:
+- `array-slice-size`
+- `array-sparse-kmax`
+- `array-sparse-kmin`
+
+See the [Redis configuration page]({{< relref "/operate/oss_and_stack/oss/config" >}}) for details.
+
 ## Performance
 
-Most array commands are O(1), including [`ARSET`]({{< relref "/commands/arset" >}}), [`ARGET`]({{< relref "/commands/arget" >}}), [`ARDEL`]({{< relref "/commands/ardel" >}}), [`ARINSERT`]({{< relref "/commands/arinsert" >}}), [`ARNEXT`]({{< relref "/commands/arnext" >}}), [`ARSEEK`]({{< relref "/commands/arseek" >}}), [`ARCOUNT`]({{< relref "/commands/arcount" >}}), and [`ARLEN`]({{< relref "/commands/arlen" >}}). Operations that touch N elements—such as [`ARGETRANGE`]({{< relref "/commands/argetrange" >}}), [`ARSCAN`]({{< relref "/commands/arscan" >}}), [`ARDELRANGE`]({{< relref "/commands/ardelrange" >}}), [`AROP`]({{< relref "/commands/arop" >}}), and [`ARLASTITEMS`]({{< relref "/commands/arlastitems" >}})—are O(N). The underlying sliced-array encoding handles both dense and sparse access patterns efficiently, so large index gaps consume very little memory.
+Most array commands are O(1), including [`ARSET`]({{< relref "/commands/arset" >}}), [`ARGET`]({{< relref "/commands/arget" >}}), [`ARDEL`]({{< relref "/commands/ardel" >}}), [`ARINSERT`]({{< relref "/commands/arinsert" >}}), [`ARNEXT`]({{< relref "/commands/arnext" >}}), [`ARSEEK`]({{< relref "/commands/arseek" >}}), [`ARCOUNT`]({{< relref "/commands/arcount" >}}), and [`ARLEN`]({{< relref "/commands/arlen" >}}). Operations that touch N elements—such as [`ARGETRANGE`]({{< relref "/commands/argetrange" >}}), [`ARSCAN`]({{< relref "/commands/arscan" >}}), [`ARDELRANGE`]({{< relref "/commands/ardelrange" >}}), [`AROP`]({{< relref "/commands/arop" >}}), and [`ARLASTITEMS`]({{< relref "/commands/arlastitems" >}})—are O(N). The underlying sliced-array encoding handles both dense and sparse access patterns efficiently, so large index gaps consume very little memory. The [`ARGREP`]({{< relref "/commands/argrep" >}}) command has the following complexity: O(P * C) where P is the number of visited positions in touched slices and C is the cost of evaluating the predicates on one existing element
 
 ## Limits
 

@@ -83,6 +83,7 @@ following table:
     h     Hash commands
     z     Sorted set commands
     t     Stream commands
+    a     Array commands
     d     Module key type events
     x     Expired events (events generated every time a key expires)
     e     Evicted events (events generated when a key is evicted for maxmemory)
@@ -90,7 +91,7 @@ following table:
     n     New key events generated whenever a new key is created (Note: not included in the 'A' class)
     o     Overwritten events generated every time a key is overwritten (Note: not included in the 'A' class)
     c     Type-changed events generated every time a key's type changes (Note: not included in the 'A' class)
-    A     Alias for "g$lshztdxe", so that the "AKE" string means all the events except "m", "n", "o" and "c".
+    A     Alias for "g$lshztdxea", so that the "AKE" string means all the events except "m", "n", "o" and "c".
 
 At least `K` or `E` should be present in the string, otherwise no event
 will be delivered regardless of the rest of the string.
