@@ -1,4 +1,9 @@
 ---
+aliases:
+- /install/install-stack/
+- /install/install-stack/binaries/
+- /operate/oss_and_stack/install/install-stack/linux/
+- /install/install-redis/install-redis-on-linux/
 categories:
 - docs
 - operate

@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-compatibleOSSVersion: Redis 8.4, 8.2, 8.0, 7.4, 7.2, 6.2
+compatibleOSSVersion: Redis 8.6, 8.4, 8.2, 8.0, 7.4, 7.2, 6.2
 description: Redis Software 8! The most performant, most secure, and richest version so far. Built for performance, scale, and reliability to power modern ML and AI applications.
 hideListLinks: true
 linkTitle: 8.0.x releases
@@ -19,7 +19,7 @@ weight: 67
 
 This version offers:
 
-- Redis 8.0, 8.2, and 8.4 feature set versions
+- Redis 8.0, 8.2, 8.4, and 8.6 feature set versions
 
 - Performance improvements and memory reduction
 
@@ -53,7 +53,13 @@ For more detailed release notes, select a build version from the following table
 
 - Node status now returns the actual provisional RAM and flash values even when the maximum number of shards on the node (`max_redis_servers`) is reached. Previously, the API returned 0 for `provisional_ram_of_node` and `provisional_flash_of_node` when a node reached its shard limit. This change affects REST API node status requests and the `rladmin status nodes` command's output.
 
+- `crdb_controller` is enabled by default as of Redis Software version 8.0.18.
+
 ### Breaking changes
+
+- Upgrading to Redis Software version 8.0.10 through 8.0.16-29 can cause LDAP authentication to fail with "certificate signed by unknown authority" errors if your cluster currently uses LDAP authentication. This issue was fixed in [Redis Software version 8.0.16-33]({{<relref "/operate/rs/release-notes/rs-8-0-releases/rs-8-0-16-33">}}).
+
+- For Redis Software versions 8.0.2 through 8.0.10, LDAP filters for `user_dn_query` and `dn_group_query` strictly require parentheses to function correctly. Filters that previously worked without parentheses will no longer work after upgrading to these versions. For example, you must include the parentheses in `(sAMAccountName=%u)`. As of version 8.0.16, this breaking change no longer applies, and both `(sAMAccountName=%u)` and `sAMAccountName=%u` are valid filters.
 
 - Redis Software installation script changes:
 
@@ -111,6 +117,12 @@ The following changes affect behavior and validation in Redis Search:
 
 Make sure the following ports are open before upgrading Redis Software.
 
+Ports reserved as of Redis Software version 8.0.18:
+
+| Port | Process name | Usage | 
+|------|--------------|-------|
+| 3357 | reconciliation_tree_grpc | Internal communication |
+
 Ports reserved as of Redis Software version 7.22.0:
 
 | Port | Process name | Usage | 
@@ -142,6 +154,8 @@ See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networ
 - Deprecated the `policy` field for [bootstrap]({{<relref "/operate/rs/references/rest-api/requests/bootstrap">}}) REST API requests. Use [`PUT /v1/cluster/policy`]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) to change cluster policies after cluster creation instead.
 
 - Deprecated the `module_args` field for [database]({{<relref "/operate/rs/references/rest-api/requests/bdbs">}}) REST API requests. Use the new module configuration objects `search`, `timeseries`, and `probabilistic` instead.
+
+- Deprecated `event_archive_cleanup_task_settings` for `job_scheduler` REST API requests.
 
 #### Redis Search deprecations
 
@@ -200,6 +214,27 @@ The following table provides a snapshot of supported platforms as of this Redis 
 5. <a name="table-note-5"></a>Supported only if [FIPS was enabled during RHEL installation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/security_hardening/switching-rhel-to-fips-mode_security-hardening#proc_installing-the-system-with-fips-mode-enabled_switching-rhel-to-fips-mode) to ensure FIPS compliance.
 
 ## Known issues
+
+- RS193156: Active Directory LDAP authentication can fail in the Cluster Manager UI after upgrading to Redis Software version 8.0.16-33 due to an issue with LDAP TLS client certificate handling. Users previously authenticated through Active Directory can no longer sign in to the Cluster Manager UI after the upgrade.
+
+    As a workaround, configure an LDAP client certificate using an [update cluster certificates]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates">}}) REST API request:
+
+    ```sh
+    PUT https://<host>:<port>/v1/cluster/certificates
+    {
+      "certificates": [
+        {
+          "name": "ldap_client",
+          "certificate": "<cert>",
+          "key": "<key>"
+        }
+      ]
+    }
+    ```
+    
+    See [Create certificates]({{<relref "/operate/rs/security/certificates/create-certificates">}}) and [Update certificates]({{<relref "/operate/rs/security/certificates/updating-certificates">}}) for more detailed instructions.
+
+    This issue was fixed in Redis Software version 8.0.18.
 
 - RS180550: You cannot set up SSO when the Cluster Manager UI is exposed through an IPv6-based load balancer or gateway.
 

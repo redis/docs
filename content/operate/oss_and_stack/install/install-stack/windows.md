@@ -1,4 +1,8 @@
 ---
+aliases:
+- /getting-started/installation/install-redis-on-windows/
+- /install/install-stack/windows/
+- /install/install-redis/install-redis-on-windows/
 categories:
 - docs
 - operate

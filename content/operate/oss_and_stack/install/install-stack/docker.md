@@ -10,6 +10,18 @@ title: Run Redis Open Source on Docker
 weight: 1
 ---
 
+## Install Docker
+
+Follow the Docker installation instructions for your operating system:
+
+- [Linux](https://docs.docker.com/desktop/setup/install/linux/)
+- [macOS](https://docs.docker.com/docker-for-mac/install/)
+- [Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows)
+
+{{< note >}}
+On Windows, make sure Docker is configured to run Linux-based containers.
+{{< /note >}}
+
 ## Run Redis Open Source on Docker
 
 To start the Redis Open Source server using the `redis:<version>` image, run the following command in your terminal:

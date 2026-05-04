@@ -1,0 +1,410 @@
+{{/* Thebe Interactive Code Cell from Example File */}}
+{{/* Usage: {{< jupyter-example set="landing" step="connect" lang_filter="Python" description="Connect to a Redis server..." >}}{{< /jupyter-example >}} */}}
+{{/* Extracts code between # STEP_START {step} and # STEP_END markers */}}
+{{/* Auto-derives source/binder/kernel from data/examples.json and quick-start metadata from site config */}}
+{{/* Optional overrides: source, binder, quickstart_url, quickstart_title */}}
+
+{{ .Page.Store.Set "hasThebe" true }}
+
+{{ $source := .Get "source" }}
+{{ $binder := .Get "binder" | default "" }}
+{{ $step := .Get "step" }}
+{{ $description := .Get "description" | default "" }}
+{{ $id := .Get "id" | default $step }}
+{{ $depends := .Get "depends" | default "" }}
+{{ $noOutput := .Get "no_output" | default "false" }}
+{{ $quickstartUrl := .Get "quickstart_url" | default "" }}
+{{ $quickstartTitle := .Get "quickstart_title" | default "" }}
+{{/* Reference .Inner so paired shortcode syntax remains valid without keeping an unused local */}}
+{{ with .Inner }}{{ end }}
+{{ $set := .Get "set" }}
+{{ $langFilter := .Get "lang_filter" | default "" }}
+{{ $language := .Get "language" | default "" }}
+{{ $kernelName := "" }}
+
+{{ if not $description }}
+  {{ $description = .Get "title" | default "" }}
+{{ end }}
+
+{{ if not $langFilter }}
+  {{ $langFilter = .Get "lang" | default "" }}
+{{ end }}
+
+{{/* set/lang_filter lookup from data/examples.json */}}
+{{ if and $set $langFilter }}
+  {{/* Look up from data/examples.json */}}
+  {{ with index $.Site.Data.examples $set }}
+    {{ with index . $langFilter }}
+      {{ if not $source }}
+        {{ $source = index . "source" }}
+      {{ end }}
+      {{ with index . "language" }}
+        {{ $language = . }}
+      {{ end }}
+      {{ if not $binder }}
+        {{ $binder = index . "binderId" }}
+      {{ end }}
+      {{ $kernelName = index . "kernelName" }}
+    {{ else }}
+      {{ errorf "jupyter-example: Example '%s' not found for language '%s' in examples.json. Run 'python3 build/local_examples.py' to generate data." $set $langFilter }}
+    {{ end }}
+  {{ else }}
+    {{ errorf "jupyter-example: Example '%s' not found for language '%s' in examples.json. Run 'python3 build/local_examples.py' to generate data." $set $langFilter }}
+  {{ end }}
+{{ end }}
+
+{{/* Validate source file is specified */}}
+{{ if not $source }}
+  {{ errorf "jupyter-example: No source file specified. Either provide source= parameter or use set=/lang_filter= to look up from examples.json" }}
+{{ end }}
+
+{{ if not $language }}
+  {{ if $langFilter }}
+    {{ $language = lower $langFilter }}
+  {{ else }}
+    {{ errorf "jupyter-example: No language specified. Provide lang_filter=, lang=, or language= parameter." }}
+  {{ end }}
+{{ end }}
+
+{{/* Look up quick-start info from site config when not explicitly provided */}}
+{{ $langKey := $langFilter }}
+{{ if $langKey }}
+  {{ with index $.Site.Params.clientsConfig $langKey }}
+    {{ $slug := index . "quickstartSlug" }}
+    {{ if and (not $quickstartUrl) $slug }}
+      {{ $quickstartUrl = printf "develop/clients/%s/" $slug | relURL }}
+    {{ end }}
+    {{ if not $quickstartTitle }}
+      {{ $quickstartTitle = printf "%s Quick-Start" $langKey }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{/* Read the source file */}}
+{{ $content := readFile $source }}
+
+{{/* Detect comment style */}}
+{{ $commentPrefix := "#" }}
+{{ if findRE `// STEP_START` $content 1 }}
+  {{ $commentPrefix = "//" }}
+{{ end }}
+
+{{/* Extract BINDER_ID from source file unless already provided */}}
+{{ if not $binder }}
+  {{ $binderPattern := printf `%s BINDER_ID ([a-zA-Z0-9_-]+)` $commentPrefix }}
+  {{ $binderMatches := findRE $binderPattern $content 1 }}
+  {{ if gt (len $binderMatches) 0 }}
+    {{/* Extract just the ID portion after "BINDER_ID " */}}
+    {{ $binderLine := index $binderMatches 0 }}
+    {{ $binder = replaceRE (printf `^%s BINDER_ID ` $commentPrefix) "" $binderLine }}
+  {{ end }}
+{{ end }}
+{{/* Extract KERNEL_NAME from source file - NO DEFAULTS unless set/lang_filter lookup derived it */}}
+{{ if not $kernelName }}
+  {{ $kernelPattern := printf `%s KERNEL_NAME ([a-zA-Z0-9_-]+)` $commentPrefix }}
+  {{ $kernelMatches := findRE $kernelPattern $content 1 }}
+  {{ if gt (len $kernelMatches) 0 }}
+    {{/* Extract kernel name from KERNEL_NAME marker */}}
+    {{ $kernelLine := index $kernelMatches 0 }}
+    {{ $kernelName = replaceRE (printf `^%s KERNEL_NAME ` $commentPrefix) "" $kernelLine }}
+  {{ end }}
+{{ end }}
+{{/* Parse file line by line to extract full file and track current step lines */}}
+{{ $lines := split $content "\n" }}
+{{ $fullFileSections := slice }}  {{/* Track sections for spacing */}}
+{{ $currentSection := slice }}
+{{ $currentSectionType := "context" }}  {{/* context, step, or current-step */}}
+{{ $currentStepLines := slice }}
+{{ $inCurrentStep := false }}
+{{ $inAnyStep := false }}
+{{ $inHideBlock := false }}
+{{ $inRemoveBlock := false }}
+
+{{ range $lines }}
+  {{ $trimmed := trim . " \t" }}
+
+  {{/* Handle REMOVE blocks - exclude content entirely */}}
+  {{ if hasPrefix $trimmed (printf "%s REMOVE_START" $commentPrefix) }}
+    {{ $inRemoveBlock = true }}
+  {{ else if hasPrefix $trimmed (printf "%s REMOVE_END" $commentPrefix) }}
+    {{ $inRemoveBlock = false }}
+  {{ else if $inRemoveBlock }}
+    {{/* Skip lines inside REMOVE blocks */}}
+
+  {{/* Handle HIDE blocks */}}
+  {{ else if hasPrefix $trimmed (printf "%s HIDE_START" $commentPrefix) }}
+    {{ $inHideBlock = true }}
+  {{ else if hasPrefix $trimmed (printf "%s HIDE_END" $commentPrefix) }}
+    {{ $inHideBlock = false }}
+  {{ else if not $inHideBlock }}
+    {{/* Skip marker comments */}}
+    {{ if eq $trimmed (printf "%s STEP_START %s" $commentPrefix $step) }}
+      {{/* Save previous section if it has non-empty content */}}
+      {{ if gt (len $currentSection) 0 }}
+        {{/* Check if section has any non-empty lines */}}
+        {{ $hasContent := false }}
+        {{ range $currentSection }}
+          {{ if ne (trim . " \t") "" }}
+            {{ $hasContent = true }}
+          {{ end }}
+        {{ end }}
+        {{ if $hasContent }}
+          {{ $fullFileSections = $fullFileSections | append (dict "type" $currentSectionType "lines" $currentSection) }}
+        {{ end }}
+        {{ $currentSection = slice }}
+      {{ end }}
+      {{/* Found the current step */}}
+      {{ $inCurrentStep = true }}
+      {{ $inAnyStep = true }}
+      {{ $currentSectionType = "current-step" }}
+    {{ else if hasPrefix $trimmed (printf "%s STEP_START" $commentPrefix) }}
+      {{/* Save previous section if it has non-empty content */}}
+      {{ if gt (len $currentSection) 0 }}
+        {{/* Check if section has any non-empty lines */}}
+        {{ $hasContent := false }}
+        {{ range $currentSection }}
+          {{ if ne (trim . " \t") "" }}
+            {{ $hasContent = true }}
+          {{ end }}
+        {{ end }}
+        {{ if $hasContent }}
+          {{ $fullFileSections = $fullFileSections | append (dict "type" $currentSectionType "lines" $currentSection) }}
+        {{ end }}
+        {{ $currentSection = slice }}
+      {{ end }}
+      {{/* Found a different step */}}
+      {{ $inCurrentStep = false }}
+      {{ $inAnyStep = true }}
+      {{ $currentSectionType = "step" }}
+    {{ else if hasPrefix $trimmed (printf "%s STEP_END" $commentPrefix) }}
+      {{/* Save current section if it has non-empty content */}}
+      {{ if gt (len $currentSection) 0 }}
+        {{/* Check if section has any non-empty lines */}}
+        {{ $hasContent := false }}
+        {{ range $currentSection }}
+          {{ if ne (trim . " \t") "" }}
+            {{ $hasContent = true }}
+          {{ end }}
+        {{ end }}
+        {{ if $hasContent }}
+          {{ $fullFileSections = $fullFileSections | append (dict "type" $currentSectionType "lines" $currentSection) }}
+        {{ end }}
+        {{ $currentSection = slice }}
+      {{ end }}
+      {{/* End of a step */}}
+      {{ if $inCurrentStep }}
+        {{ $inCurrentStep = false }}
+      {{ end }}
+      {{ $inAnyStep = false }}
+      {{ $currentSectionType = "context" }}
+    {{ else if and (ne $trimmed "") (hasPrefix $trimmed (printf "%s EXAMPLE" $commentPrefix)) }}
+      {{/* Skip EXAMPLE marker */}}
+    {{ else if and (ne $trimmed "") (hasPrefix $trimmed (printf "%s BINDER_ID" $commentPrefix)) }}
+      {{/* Skip BINDER_ID marker */}}
+    {{ else if and (ne $trimmed "") (hasPrefix $trimmed (printf "%s KERNEL_NAME" $commentPrefix)) }}
+      {{/* Skip KERNEL_NAME marker */}}
+    {{ else }}
+      {{/* Regular line - add to full file */}}
+      {{ if $inAnyStep }}
+        {{/* Skip comment-only lines in steps */}}
+        {{ if or (eq $trimmed "") (not (hasPrefix $trimmed $commentPrefix)) }}
+          {{ $currentSection = $currentSection | append . }}
+          {{ if $inCurrentStep }}
+            {{ $currentStepLines = $currentStepLines | append . }}
+          {{ end }}
+        {{ end }}
+      {{ else }}
+        {{/* Context lines (outside any step) - include empty lines for consistent spacing */}}
+        {{ $currentSection = $currentSection | append . }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{/* Save final section if it has non-empty content */}}
+{{ if gt (len $currentSection) 0 }}
+  {{/* Check if section has any non-empty lines */}}
+  {{ $hasContent := false }}
+  {{ range $currentSection }}
+    {{ if ne (trim . " \t") "" }}
+      {{ $hasContent = true }}
+    {{ end }}
+  {{ end }}
+  {{ if $hasContent }}
+    {{ $fullFileSections = $fullFileSections | append (dict "type" $currentSectionType "lines" $currentSection) }}
+  {{ end }}
+{{ end }}
+
+{{/* Build the code sections */}}
+{{/* Build fullFileCode from sections with exactly one empty line between them */}}
+{{ $fullFileCode := "" }}
+{{ range $idx, $section := $fullFileSections }}
+  {{ if gt $idx 0 }}
+    {{ $fullFileCode = printf "%s\n\n%s" $fullFileCode (delimit $section.lines "\n") }}
+  {{ else }}
+    {{ $fullFileCode = delimit $section.lines "\n" }}
+  {{ end }}
+{{ end }}
+{{ $stepCode := delimit $currentStepLines "\n" }}
+
+<div class="cli group box-border rounded-lg mt-0 mb-4 mx-auto bg-slate-900 thebe-container" id="{{ $id }}" {{ if $depends }}data-depends="{{ $depends }}"{{ end }}{{ if $binder }} data-binder-ref="{{ $binder }}"{{ end }}>
+    <!-- Header matching standard code blocks -->
+    <div class="codetabs-header flex flex-col px-4 py-2 bg-slate-900 rounded-t-lg">
+        <div class="flex items-start justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-xs text-slate-400 mr-3 whitespace-nowrap">Language:</span>
+                <span class="max-w-xs px-3 py-1 text-sm bg-slate-700 text-white border border-slate-600 rounded-md">{{ $langFilter | default (title $language) }}</span>
+            </div>
+            <div class="flex items-center gap-2">
+                {{/* Run here link - styled like "Run in browser" link */}}
+                {{/* All cells start disabled until kernel is ready */}}
+                {{/* Cells with depends attribute remain disabled until first cell runs */}}
+                {{/* Uses text-slate-500 class for disabled state - JS uses this to identify disabled buttons */}}
+                <button class="thebe-run-btn thebe-btn-blocked thebe-btn-kernel-unavailable text-xs underline whitespace-nowrap flex items-center gap-1 text-slate-500 cursor-not-allowed"
+                        data-original-depends="{{ if $depends }}true{{ else }}false{{ end }}"
+                        title="Kernel server not available">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"></path>
+                    </svg>
+                    <span>Run here</span>
+                </button>
+                {{/* Run in browser link (opens BinderHub notebook) */}}
+                {{ if $binder }}
+                <a href="https://redis.io/binder/v2/gh/redis/binder-launchers/{{ $binder }}?urlpath=%2Fdoc%2Ftree%2Fdemo.ipynb"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="text-xs text-slate-300 hover:text-white underline whitespace-nowrap flex items-center gap-1 mr-2"
+                   title="Run this example in an interactive Jupyter notebook">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"></path>
+                    </svg>
+                    <span>Run in browser</span>
+                </a>
+                {{ end }}
+                {{/* Copy link button - matching standard code blocks */}}
+                <button tabindex="1" class="copy-link-button text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx relative"
+                        title="Copy link to code block" data-codetabs-id="{{ $id }}" onclick="copyJupyterLinkToClipboard(this)">
+                    <svg class="inline-block w-4 h-4 align-baseline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                    </svg>
+                    <span class="tooltiptext absolute bottom-full right-0 mb-2 bg-slate-200 rounded text-slate-800 text-center text-xs px-2 py-1 whitespace-nowrap pointer-events-none opacity-0 transition-opacity duration-200">Copied!</span>
+                </button>
+                {{/* Visibility button - matching standard code blocks */}}
+                <button tabindex="1" class="visibility-button text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx"
+                        title="Toggle visibility" data-codetabs-id="{{ $id }}" onclick="toggleJupyterVisibility(this)">
+                    <svg class="visibility-icon-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
+                        <path d="M24 31.5q3.55 0 6.025-2.475Q32.5 26.55 32.5 23q0-3.55-2.475-6.025Q27.55 14.5 24 14.5q-3.55 0-6.025 2.475Q15.5 19.45 15.5 23q0 3.55 2.475 6.025Q20.45 31.5 24 31.5Zm0-2.9q-2.35 0-3.975-1.625T18.4 23q0-2.35 1.625-3.975T24 17.4q2.35 0 3.975 1.625T29.6 23q0 2.35-1.625 3.975T24 28.6Zm0 9.4q-7.3 0-13.2-4.15Q4.9 29.7 2 23q2.9-6.7 8.8-10.85Q16.7 8 24 8q7.3 0 13.2 4.15Q43.1 16.3 46 23q-2.9 6.7-8.8 10.85Q31.3 38 24 38Zm0-15Zm0 12q6.05 0 11.125-3.275T42.85 23q-2.65-5.45-7.725-8.725Q30.05 11 24 11t-11.125 3.275Q7.8 17.55 5.1 23q2.7 5.45 7.775 8.725Q17.95 35 24 35Z"/>
+                    </svg>
+                    <svg class="visibility-icon-off hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
+                        <path d="m31.45 27.05-2.2-2.2q1.3-3.55-1.35-5.9-2.65-2.35-5.75-1.2l-2.2-2.2q.85-.55 1.9-.8 1.05-.25 2.15-.25 3.55 0 6.025 2.475Q32.5 19.45 32.5 23q0 1.1-.275 2.175-.275 1.075-.775 1.875Zm6.45 6.45-2-2q2.45-1.8 4.275-4.025Q42 25.25 42.85 23q-2.5-5.55-7.5-8.775Q30.35 11 24.5 11q-2.1 0-4.3.4-2.2.4-3.45.95L14.45 10q1.75-.8 4.475-1.4Q21.65 8 24.25 8q7.15 0 13.075 4.075Q43.25 16.15 46 23q-1.3 3.2-3.35 5.85-2.05 2.65-4.75 4.65Zm2.9 11.3-8.4-8.25q-1.75.7-3.95 1.075T24 38q-7.3 0-13.25-4.075T2 23q1-2.6 2.775-5.075T9.1 13.2L2.8 6.9l2.1-2.15L42.75 42.6ZM11.15 15.3q-1.85 1.35-3.575 3.55Q5.85 21.05 5.1 23q2.55 5.55 7.675 8.775Q17.9 35 24.4 35q1.65 0 3.25-.2t2.4-.6l-3.2-3.2q-.55.25-1.35.375T24 31.5q-3.5 0-6-2.45T15.5 23q0-.75.125-1.5T16 20.15Zm15.25 7.1Zm-5.8 2.9Z"/>
+                    </svg>
+                </button>
+                {{/* Copy to clipboard button - matching standard code blocks */}}
+                <button tabindex="1" class="clipboard-button text-neutral-400 hover:text-slate-100 bg-slate-600 h-7 w-7 p-1 rounded rounded-mx"
+                        title="Copy to clipboard" data-codetabs-id="{{ $id }}" onclick="copyJupyterCodeToClipboard(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
+                        <path d="M9 43.95q-1.2 0-2.1-.9-.9-.9-.9-2.1V10.8h3v30.15h23.7v3Zm6-6q-1.2 0-2.1-.9-.9-.9-.9-2.1v-28q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1v28q0 1.2-.9 2.1-.9.9-2.1.9Zm0-3h22v-28H15v28Zm0 0v-28 28Z"/>
+                    </svg>
+                    <div class="tooltip relative inline-block">
+                        <span class="tooltiptext hidden bg-slate-200 rounded rounded-mx text-slate-800 text-center text-xs p-1 absolute right-6 bottom-4">Copied!</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+        {{ if $description }}<div class="text-xs text-slate-400 mt-2 w-full">{{ $description }}</div>{{ end }}
+    </div>
+
+    {{/* Panel starts with no aria-expanded attribute - this means step code is shown at full opacity */}}
+    {{/* aria-expanded is only set when user clicks toggle to show full file */}}
+    <div class="panel" role="tabpanel">
+        {{/* Hint positioned outside step-code-view so it stays visible when toggling views */}}
+        <span class="run-hint">Ctrl+Enter to run</span>
+        {{/* Step code view - shown by default and when CodeMirror is active */}}
+        {{/* Map internal language identifier to a CodeMirror mode name for data-language */}}
+        {{ $cmLanguage := $language }}
+        {{ if eq $language "node.js" }}{{ $cmLanguage = "javascript" }}{{ end }}
+        <div class="step-code-view">
+            <div data-executable="true" data-language="{{ $cmLanguage }}" class="thebe-cell">
+                {{- highlight $stepCode $language "" -}}
+            </div>
+        </div>
+
+        {{/* Full file view - shown only when toggled and NOT activated */}}
+        {{- if gt (len $fullFileSections) 0 }}
+        <div class="full-file-view" style="display:none;">
+            {{- range $idx, $section := $fullFileSections }}
+                {{- /* Do NOT trim blank lines - preserve spacing to match fullFileCode */ -}}
+                {{- $sectionCode := delimit $section.lines "\n" -}}
+                {{- $sectionClass := "code-section" -}}
+                {{- $highlightOptions := "" -}}
+                {{- if eq $section.type "current-step" -}}
+                    {{- $sectionClass = "code-section code-section-current" -}}
+                    {{- /* Highlight all lines in the current step section */ -}}
+                    {{- $numLines := len $section.lines -}}
+                    {{- if gt $numLines 0 -}}
+                        {{- $highlightOptions = printf "linenos=false,hl_lines=1-%d" $numLines -}}
+                    {{- end -}}
+                {{- else if eq $section.type "step" -}}
+                    {{- $sectionClass = "code-section code-section-other" -}}
+                {{- else -}}
+                    {{- $sectionClass = "code-section code-section-context" -}}
+                {{- end -}}
+                <div class="{{ $sectionClass }}">
+                    {{- highlight $sectionCode $language $highlightOptions -}}
+                </div>
+            {{- end }}
+        </div>
+        {{- end }}
+
+        {{/* Output container - conditionally visible based on no_output parameter */}}
+        {{ if ne $noOutput "true" }}
+        <div class="thebe-output-container"></div>
+        {{ end }}
+    </div>
+
+    {{/* Footer with Quick-Start link - only shown if available explicitly or via config */}}
+    {{ if $quickstartUrl }}
+    <div class="cli-footer flex flex-col rounded-b-md bg-slate-900 mt-0 px-4 py-2 mb-0">
+        <div class="flex items-center justify-between">
+            <a href="{{ $quickstartUrl }}" tabindex="1" class="rounded rounded-mx px-3 py-1 text-white text-xs
+                hover:text-white hover:bg-slate-600 hover:border-transparent focus:outline-none
+                focus:ring-2 focus:white focus:border-slate-500" title="{{ $quickstartTitle }}">
+                {{ $quickstartTitle }}
+            </a>
+            <div class="flex-1"></div>
+        </div>
+    </div>
+    {{ end }}
+
+    <script type="text-x-clean-source" style="display:none">{{ $stepCode | jsonify }}</script>
+    <script type="text-x-full-file-source" style="display:none">{{ $fullFileCode | jsonify }}</script>
+    {{/* Store line range information for read-only marking */}}
+    <script type="text-x-line-ranges" style="display:none">
+    {{- $lineRanges := slice -}}
+    {{- $currentLine := 0 -}}
+    {{- range $idx, $section := $fullFileSections -}}
+        {{- /* Account for the empty line separator between sections */ -}}
+        {{- if gt $idx 0 -}}
+            {{- $currentLine = add $currentLine 1 -}}
+        {{- end -}}
+        {{- $numLines := len $section.lines -}}
+        {{- if gt $numLines 0 -}}
+            {{- $rangeStart := $currentLine -}}
+            {{- $rangeEnd := add $currentLine (sub $numLines 1) -}}
+            {{- $lineRanges = $lineRanges | append (dict "start" $rangeStart "end" $rangeEnd "type" $section.type) -}}
+            {{- $currentLine = add $currentLine $numLines -}}
+        {{- end -}}
+    {{- end -}}
+    {{- jsonify $lineRanges -}}
+    </script>
+</div>
+
+{{- if not (.Page.Store.Get "thebeGlobalsEmitted") -}}
+<script>
+  window.thebeBinderRef = "{{ $binder }}";
+  window.thebeKernelName = "{{ $kernelName }}";
+</script>
+{{- .Page.Store.Set "thebeGlobalsEmitted" true -}}
+{{- end -}}
+

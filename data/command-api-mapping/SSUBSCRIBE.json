@@ -28,7 +28,22 @@
           "description": "Subscription confirmation messages"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ssubscribe(*channels, &block)",
+        "params": [
+          {
+            "name": "*channels",
+            "type": "Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "nil",
+          "description": ""
+        }
+      }
     ]
   }
 }
-

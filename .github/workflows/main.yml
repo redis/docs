@@ -170,6 +170,9 @@ jobs:
     - name: Install dependencies
       run: make deps
 
+    - name: Generate components
+      run: make components
+
     - name: Build Kubernetes ${{ matrix.version }}
       run: |
         set -x
@@ -244,6 +247,9 @@ jobs:
 
     - name: Install dependencies
       run: make deps
+
+    - name: Generate components
+      run: make components
 
     - name: Build RS ${{ matrix.version }}
       run: |
@@ -320,6 +326,9 @@ jobs:
     - name: Install dependencies
       run: make deps
 
+    - name: Generate components
+      run: make components
+
     - name: Build RDI ${{ matrix.version }}
       run: |
         set -x
@@ -394,6 +403,9 @@ jobs:
 
     - name: Install dependencies
       run: make deps
+
+    - name: Generate components
+      run: make components
 
     - name: Build RedisVL ${{ matrix.version }}
       run: |
@@ -522,12 +534,28 @@ jobs:
         version="${{ matrix.version }}"
         bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
 
+        # Matrix Hugo builds can produce different CSS hashes than deploy_latest,
+        # so versioned pages 404 on /css/index.min.{hash}.css. Additively rsync
+        # this build's css/scss (no -d) so each hash coexists alongside the
+        # canonical hash uploaded by deploy_latest. Applied on both latest and
+        # staging.
+        upload_assets() {
+          local dest="$1"
+          for d in css scss; do
+            if [ -d "output/$d" ]; then
+              gsutil -m rsync -r -c -j css "output/$d" "${dest}/$d"
+            fi
+          done
+        }
+
         if [[ "${{ github.ref_name }}" == "latest" ]]; then
           gsutil -m rsync -r -c -j html -d output/operate/kubernetes "gs://${BUCKET}/kubernetes-${version}/operate/kubernetes"
           gsutil -m rsync -r -c -j html -d "output/operate/kubernetes/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/kubernetes/${version}"
+          upload_assets "gs://${BUCKET}/docs/${bucket_path}"
         elif [[ "$bucket_path" == staging/* ]]; then
           gsutil -m rsync -r -c -j html -d output/operate/kubernetes "gs://${BUCKET}/${bucket_path}/kubernetes-${version}/operate/kubernetes"
           gsutil -m rsync -r -c -j html -d "output/operate/kubernetes/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/kubernetes/${version}"
+          upload_assets "gs://${BUCKET}/docs/${bucket_path}"
         fi
 
   # Deploy RS versions to GCS
@@ -575,12 +603,23 @@ jobs:
         version="${{ matrix.version }}"
         bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
 
+        upload_assets() {
+          local dest="$1"
+          for d in css scss; do
+            if [ -d "output/$d" ]; then
+              gsutil -m rsync -r -c -j css "output/$d" "${dest}/$d"
+            fi
+          done
+        }
+
         if [[ "${{ github.ref_name }}" == "latest" ]]; then
           gsutil -m rsync -r -c -j html -d output/operate/rs "gs://${BUCKET}/rs-${version}/operate/rs"
           gsutil -m rsync -r -c -j html -d "output/operate/rs/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/rs/${version}"
+          upload_assets "gs://${BUCKET}/docs/${bucket_path}"
         elif [[ "$bucket_path" == staging/* ]]; then
           gsutil -m rsync -r -c -j html -d output/operate/rs "gs://${BUCKET}/${bucket_path}/rs-${version}/operate/rs"
           gsutil -m rsync -r -c -j html -d "output/operate/rs/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/rs/${version}"
+          upload_assets "gs://${BUCKET}/docs/${bucket_path}"
         fi
 
   # Deploy RDI versions to GCS
@@ -628,12 +667,23 @@ jobs:
         version="${{ matrix.version }}"
         bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
 
+        upload_assets() {
+          local dest="$1"
+          for d in css scss; do
+            if [ -d "output/$d" ]; then
+              gsutil -m rsync -r -c -j css "output/$d" "${dest}/$d"
+            fi
+          done
+        }
+
         if [[ "${{ github.ref_name }}" == "latest" ]]; then
           gsutil -m rsync -r -c -j html -d output/integrate/redis-data-integration "gs://${BUCKET}/redis-data-integration-${version}/integrate/redis-data-integration"
           gsutil -m rsync -r -c -j html -d "output/integrate/redis-data-integration/${version}" "gs://${BUCKET}/docs/${bucket_path}/integrate/redis-data-integration/${version}"
+          upload_assets "gs://${BUCKET}/docs/${bucket_path}"
         elif [[ "$bucket_path" == staging/* ]]; then
           gsutil -m rsync -r -c -j html -d output/integrate/redis-data-integration "gs://${BUCKET}/${bucket_path}/redis-data-integration-${version}/integrate/redis-data-integration"
           gsutil -m rsync -r -c -j html -d "output/integrate/redis-data-integration/${version}" "gs://${BUCKET}/docs/${bucket_path}/integrate/redis-data-integration/${version}"
+          upload_assets "gs://${BUCKET}/docs/${bucket_path}"
         fi
 
   # Deploy RedisVL versions to GCS
@@ -681,12 +731,23 @@ jobs:
         version="${{ matrix.version }}"
         bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
 
+        upload_assets() {
+          local dest="$1"
+          for d in css scss; do
+            if [ -d "output/$d" ]; then
+              gsutil -m rsync -r -c -j css "output/$d" "${dest}/$d"
+            fi
+          done
+        }
+
         if [[ "${{ github.ref_name }}" == "latest" ]]; then
           gsutil -m rsync -r -c -j html -d output/develop/ai/redisvl "gs://${BUCKET}/redisvl-${version}/develop/ai/redisvl"
           gsutil -m rsync -r -c -j html -d "output/develop/ai/redisvl/${version}" "gs://${BUCKET}/docs/${bucket_path}/develop/ai/redisvl/${version}"
+          upload_assets "gs://${BUCKET}/docs/${bucket_path}"
         elif [[ "$bucket_path" == staging/* ]]; then
           gsutil -m rsync -r -c -j html -d output/develop/ai/redisvl "gs://${BUCKET}/${bucket_path}/redisvl-${version}/develop/ai/redisvl"
           gsutil -m rsync -r -c -j html -d "output/develop/ai/redisvl/${version}" "gs://${BUCKET}/docs/${bucket_path}/develop/ai/redisvl/${version}"
+          upload_assets "gs://${BUCKET}/docs/${bucket_path}"
         fi
 
   # Deploy custom 404 page (only on latest branch)
@@ -704,22 +765,14 @@ jobs:
       PROD_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.PROD_WORKLOAD_IDENTITY_PROVIDER }}
 
     steps:
-    - name: Check the branch out
-      uses: actions/checkout@v4
+    - name: Download latest artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: build-latest
+        path: public/
 
-    - name: Install Hugo
+    - name: Prepare 404 page
       run: |
-        wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-        && sudo dpkg -i ${{ runner.temp }}/hugo.deb
-
-    - name: Install dependencies
-      run: make deps
-
-    - name: Build 404 page
-      run: |
-        hugo_root_path="docs/latest"
-        sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/${hugo_root_path}\"#g" config.toml
-        make hugo
         sed -i "s#/docs/latest/scss/#https://storage.googleapis.com/$BUCKET/docs/latest/scss/#g" public/404.html
         sed -i "s#/docs/latest/css/#https://storage.googleapis.com/$BUCKET/docs/latest/css/#g" public/404.html
 

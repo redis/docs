@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/probabilistic/cuckoo-filter/
+- /manual/data-types/probabilistic/cuckoo-filter/
 categories:
 - docs
 - develop
@@ -16,6 +19,8 @@ stack: true
 title: Cuckoo filter
 weight: 20
 ---
+
+{{< command-group group="cf" title="Cuckoo filter command summary" show_link=true >}}
 
 A Cuckoo filter, just like a Bloom filter, is a probabilistic data structure in Redis Open Source that enables you to check if an element is present in a set in a very fast and space efficient way, while also allowing for deletions and showing better performance than Bloom in some scenarios.
 

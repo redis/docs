@@ -535,6 +535,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zrem(key, member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String, Array<String>",
+            "description": "a single member or an array of members"
+          }
+        ],
+        "returns": {
+          "type": "Boolean, Integer",
+          "description": ""
+        }
+      }
     ]
   }
 }

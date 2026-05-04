@@ -1,4 +1,7 @@
 ---
+aliases:
+- /manual/security/acl/
+- /management/security/acl/
 categories:
 - docs
 - operate

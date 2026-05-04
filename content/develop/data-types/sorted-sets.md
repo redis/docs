@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/sorted-sets/
+- /manual/data-types/sorted-sets/
 categories:
 - docs
 - develop
@@ -16,6 +19,8 @@ linkTitle: Sorted sets
 title: Redis sorted sets
 weight: 50
 ---
+
+{{< command-group group="sorted-set" title="Sorted set command summary" show_link=true >}}
 
 A Redis sorted set is a collection of unique strings (members) ordered by an associated score.
 When more than one string has the same score, the strings are ordered lexicographically.
@@ -226,15 +231,6 @@ the #4932 best score here").
 {{< /clients-example >}}
 
 You'll see that [`ZADD`]({{< relref "/commands/zadd" >}}) returns 0 when the member already exists (the score is updated), while [`ZINCRBY`]({{< relref "/commands/zincrby" >}}) returns the new score. The score for racer Henshaw went from 100, was changed to 150 with no regard for what score was there before, and then was incremented by 50 to 200.
-
-## Basic commands
-
-* [`ZADD`]({{< relref "/commands/zadd" >}}) adds a new member and associated score to a sorted set. If the member already exists, the score is updated.
-* [`ZRANGE`]({{< relref "/commands/zrange" >}}) returns members of a sorted set, sorted within a given range.
-* [`ZRANK`]({{< relref "/commands/zrank" >}}) returns the rank of the provided member, assuming the sorted set is in ascending order.
-* [`ZREVRANK`]({{< relref "/commands/zrevrank" >}}) returns the rank of the provided member, assuming the sorted set is in descending order.
- 
-See the [complete list of sorted set commands]({{< relref "/commands/" >}}?group=sorted-set).
 
 ## Performance
 

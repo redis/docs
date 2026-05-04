@@ -7,7 +7,7 @@ categories:
 - rc
 description: New features, enhancements, and other changes added to Redis Cloud during
   March 2026.
-highlights: Metrics resolution updates, Redis 8.4 on Redis Cloud Pro, Automatic database upgrades
+highlights: Passwordless authentication for Redis Cloud Pro, Redis 8.4 on Redis Cloud Pro, Automatic database upgrades
 linktitle: March 2026
 weight: 53
 tags:
@@ -16,6 +16,9 @@ tags:
 
 ## New features
 
+### Passwordless authentication for Redis Cloud Pro
+
+Passwordless authentication is now available for Redis Cloud Pro databases on subscriptions that have [blocked the public endpoint]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}). For more information, see [Turn on passwordless authentication for the default user]({{< relref "/operate/rc/security/database-security/block-public-endpoints#turn-on-passwordless-authentication-for-the-default-user" >}}).
 ### Redis 8.4 on Redis Cloud Pro
 
 Redis 8.4 is now available for [Redis Cloud Pro databases]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}}) in select regions.

@@ -13,7 +13,22 @@
     "redisvl": [],
     "nredisstack_sync": [],
     "nredisstack_async": [],
-    "php": []
+    "php": [],
+    "redis_rb": [
+      {
+        "signature": "punsubscribe(*channels)",
+        "params": [
+          {
+            "name": "*channels",
+            "type": "Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "nil",
+          "description": ""
+        }
+      }
+    ]
   }
 }
-

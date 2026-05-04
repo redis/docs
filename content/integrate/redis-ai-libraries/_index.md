@@ -61,7 +61,7 @@ All major Redis client libraries support vector search operations:
 - **redis-py (Python)**: [Vector search guide]({{< relref "/develop/clients/redis-py/vecsearch" >}})
 - **node-redis (JavaScript)**: [Vector search guide]({{< relref "/develop/clients/nodejs/vecsearch" >}})
 - **Jedis (Java)**: [Vector search guide]({{< relref "/develop/clients/jedis/vecsearch" >}})
-- **NRedisStack (C#/.NET)**: [Vector search guide]({{< relref "/develop/clients/dotnet/vecsearch" >}})
+- **NRedisStack (C#/.NET)**: [Vector search guide]({{< relref "/develop/clients/dotnet/nredisstack/vecsearch" >}})
 - **go-redis (Go)**: [Vector search guide]({{< relref "/develop/clients/go/vecsearch" >}})
 
 ## Getting Started

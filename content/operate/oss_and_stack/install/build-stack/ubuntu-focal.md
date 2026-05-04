@@ -9,7 +9,7 @@ title: Build and run Redis Open Source on Ubuntu 20.04 (Focal)
 weight: 25
 ---
 
-Follow the steps below to build and run Redis Open Source from its source code on a system running Ubuntu 20.04 (Focal).
+Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running Ubuntu 20.04 (Focal).
 
 {{< note >}}
 Docker images used to produce these build notes:
@@ -77,7 +77,7 @@ Copy the tar(1) file to `/usr/src`.
 
 Alternatively, you can download the file directly using the `wget` command, as shown below.
 
-```
+```bash
 cd /usr/src
 wget -O redis-<version>.tar.gz https://github.com/redis/redis/archive/refs/tags/<version>.tar.gz
 ```
@@ -94,7 +94,7 @@ rm redis-<version>.tar.gz
 
 ## 5. Build Redis
 
-Set the necessary environment variables and compile Redis:
+Set the necessary environment variables, and build Redis with TLS and module support:
 
 ```bash
 cd /usr/src/redis-<version>
@@ -102,15 +102,15 @@ export BUILD_TLS=yes
 export BUILD_WITH_MODULES=yes
 export INSTALL_RUST_TOOLCHAIN=yes
 export DISABLE_WERRORS=yes
-
 make -j "$(nproc)" all
 ```
 
 ## 6. (Optional) Verify the installation
 
-Confirm the Redis installation:
+Check the built Redis server and CLI versions:
 
 ```bash
+cd /usr/src/redis-<version>
 ./src/redis-server --version
 ./src/redis-cli --version
 ```
@@ -120,12 +120,14 @@ Confirm the Redis installation:
 To start Redis, use the following command:
 
 ```bash
+cd /usr/src/redis-<version>
 ./src/redis-server redis-full.conf
 ```
 
 To validate that the available modules have been installed, run the [`INFO`]{{< relref "/commands/info" >}} command and look for lines similar to the following:
 
 ```
+cd /usr/src/redis-<version>
 ./src/redis-cli INFO
 ...
 # Modules

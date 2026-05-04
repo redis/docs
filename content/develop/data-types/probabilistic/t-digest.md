@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/probabilistic/t-digest/
+- /manual/data-types/probabilistic/t-digest/
 categories:
 - docs
 - develop
@@ -16,6 +19,8 @@ stack: true
 title: t-digest
 weight: 40
 ---
+
+{{< command-group group="tdigest" title="t-digest command summary" show_link=true >}}
 
 The t-digest is a sketch data structure in Redis Open Source for estimating percentiles from a data stream or a large dataset using a compact sketch.
 

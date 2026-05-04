@@ -439,6 +439,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "smove(source, destination, member)",
+        "params": [
+          {
+            "name": "source",
+            "type": "String",
+            "description": "source key"
+          },
+          {
+            "name": "destination",
+            "type": "String",
+            "description": "destination key"
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": "member to move from source to destination"
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": ""
+        }
+      }
     ]
   }
 }

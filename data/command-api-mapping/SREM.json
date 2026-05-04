@@ -487,6 +487,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "srem(key, *members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*members",
+            "type": "String, Array<String>",
+            "description": "one member, or array of members"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "The number of members that were successfully removed"
+        }
+      }
     ]
   }
 }

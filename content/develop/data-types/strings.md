@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/strings/
+- /manual/data-types/strings/
 categories:
 - docs
 - develop
@@ -15,6 +18,8 @@ linkTitle: Strings
 title: Redis Strings
 weight: 10
 ---
+
+{{< command-group group="string" title="String command summary" show_link=true >}}
 
 Redis strings store sequences of bytes, including text, serialized objects, and binary arrays.
 As such, strings are the simplest type of value you can associate with a Redis key.
@@ -106,26 +111,9 @@ clients are not executing a command at the same time.
 
 By default, a single Redis string can be a maximum of 512 MB.
 
-## Basic commands
+## Bitwise and bitfield operations
 
-### Getting and setting Strings
-
-* [`SET`]({{< relref "/commands/set" >}}) stores a string value.
-* [`SETNX`]({{< relref "/commands/setnx" >}}) stores a string value only if the key doesn't already exist. Useful for implementing locks.
-* [`GET`]({{< relref "/commands/get" >}}) retrieves a string value.
-* [`MGET`]({{< relref "/commands/mget" >}}) retrieves multiple string values in a single operation.
-
-### Managing counters
-
-* [`INCR`]({{< relref "/commands/incr" >}}) atomically increments counters stored at a given key by 1.
-* [`INCRBY`]({{< relref "/commands/incrby" >}}) atomically increments (and decrements when passing a negative number) counters stored at a given key.
-* Another command exists for floating point counters: [`INCRBYFLOAT`]({{< relref "/commands/incrbyfloat" >}}).
-
-### Bitwise operations
-
-To perform bitwise operations on a string, see the [bitmaps data type]({{< relref "/develop/data-types/bitmaps" >}}) docs.
-
-See the [complete list of string commands]({{< relref "/commands/" >}}?group=string).
+To perform bitwise operations on a string, see the [bitmaps data type]({{< relref "/develop/data-types/bitmaps" >}}) docs. To store and manipulate integer values within a string, see the [bitfields data type]({{< relref "/develop/data-types/bitfields" >}}) docs.
 
 ## Performance
 

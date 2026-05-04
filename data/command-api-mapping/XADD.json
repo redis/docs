@@ -1307,6 +1307,52 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xadd(key, entry, approximate: nil, maxlen: nil, minid: nil, nomkstream: nil, id: '*')",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          },
+          {
+            "name": "entry",
+            "type": "Hash",
+            "description": "one or multiple field-value pairs"
+          },
+          {
+            "name": "approximate",
+            "type": "Boolean",
+            "description": "whether to add ~ modifier of maxlen/minid or not"
+          },
+          {
+            "name": "maxlen",
+            "type": "Integer",
+            "description": "max length of entries to keep"
+          },
+          {
+            "name": "minid",
+            "type": "Integer",
+            "description": "min id of entries to keep"
+          },
+          {
+            "name": "nomkstream",
+            "type": "Boolean",
+            "description": "whether to add NOMKSTREAM"
+          },
+          {
+            "name": "id",
+            "type": "String",
+            "description": "the entry id, default value is *"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "the entry id"
+        }
+      }
     ]
   }
 }

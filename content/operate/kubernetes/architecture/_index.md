@@ -16,7 +16,7 @@ Redis Enterprise for Kubernetes gives you the speed and durability of [Redis Ent
 
 ## Lifecycle
 
-Kubernetes is a rapidly evolving platform with a short release cycle (around 4 months). This frequent influx of new features, enhancements and bug fixes means Kubernetes distributions move in and out of support quickly. Redis Enterprise is also a fast-moving product, and is compatible and tested only on distributions listed as [supported distributions.]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions">}})
+Redis Enterprise for Kubernetes is compatible with [CNCF-conformant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes platforms. The operator follows standard Kubernetes APIs and practices and is designed to run consistently across certified Kubernetes environments.
 
 Each version of Redis Enterprise for Kubernetes is tested to ensure the version of Redis Enterprise works with the [supported Kubernetes distributions]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions">}}) at the time. Both the Kubernetes version and the Redis Enterprise version must be supported for the operator to function correctly. We encourage you to upgrade Redis Enterprise for Kubernetes frequently, not only to get the benefit of enhancements and bug fixes, but to keep your software supported.
 
@@ -114,7 +114,7 @@ PVCs are created with a specific size and [can be expanded](https://kubernetes.i
 
 ### Redis Flex
 
-Redis Enterprise Software for Kubernetes supports [Redis Flex]({{<relref "/operate/kubernetes/re-clusters/redis-flex">}}) (previously known as Redis on Flash), which extends your node memory to use both RAM and flash storage. SSDs (solid state drives) can store infrequently used (warm) keys and values while frequently used (hot) keys and values are stored in RAM. This improves performance and lowers costs for large datasets.
+Redis Enterprise Software for Kubernetes supports [Redis Flex]({{<relref "/operate/kubernetes/flex">}}) (previously known as Redis on Flash), which extends your node memory to use both RAM and flash storage. SSDs (solid state drives) can store infrequently used (warm) keys and values while frequently used (hot) keys and values are stored in RAM. This improves performance and lowers costs for large datasets.
 
 NVMe (non-volatile memory express) SSDs are strongly recommended to achieve the best performance.
 

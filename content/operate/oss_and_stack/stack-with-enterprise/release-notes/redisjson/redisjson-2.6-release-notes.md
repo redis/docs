@@ -14,10 +14,23 @@ weight: 96
 ---
 ## Requirements
 
-RedisJSON v2.6.22 requires:
+RedisJSON v2.6.24 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.6.24 (April 2026):
+
+This is a maintenance release for RedisJSON 2.6.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+- Bug fixes:
+  - [#1554](https://github.com/redisjson/redisjson/pull/1554) Trailing chars are ignored (MOD-7266); Fixes [#976](https://github.com/redisjson/redisjson/pull/976).
+  - [#1543](https://github.com/redisjson/redisjson/pull/1543) Wrong mutation ordering for array commands with recursive paths (MOD-6722).
+  - [#1542](https://github.com/redisjson/redisjson/pull/1542) JSONPath evaluation issues (MOD-14664); Fixes [#968](https://github.com/redisjson/redisjson/pull/968) (MOD-7264), [#962](https://github.com/redisjson/redisjson/pull/962) (MOD-7272), [#963](https://github.com/redisjson/redisjson/pull/963) (MOD-7270), [#1089](https://github.com/redisjson/redisjson/pull/1089) (MOD-7268).
 
 ## v2.6.22 (October 2025)
 
@@ -27,9 +40,8 @@ Update urgency: `LOW`: No need to upgrade unless there are new features you want
 
 Details:
 
-Improvements:
-
-- Added support for Rocky Linux 9 and RHEL9 ARM.
+- Improvements:
+  - Added support for Rocky Linux 9 and RHEL9 ARM.
 
 ## v2.6.21 (September 2025)
 
@@ -39,8 +51,8 @@ Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgen
 
 Details:
 
-Bug fixes
-- [#1374](https://github.com/redisjson/redisjson/pull/1374) - `JSON.DEL` doesn’t delete all matching object members / array elements (MOD-11032, MOD-11067).
+- Bug fixes
+  - [#1374](https://github.com/redisjson/redisjson/pull/1374) - `JSON.DEL` doesn’t delete all matching object members / array elements (MOD-11032, MOD-11067).
 
 ## v2.6.15 (April 2025)
 
@@ -50,11 +62,11 @@ Update urgency: `LOW`: No need to upgrade unless there are new features you want
 
 Details:
 
-Bug fixes
-- [#1329](https://github.com/redisjson/redisjson/pull/1329) Memory usage calculation: some allocations are counted twice (MOD-9169) 
+- Bug fixes:
+  - [#1329](https://github.com/redisjson/redisjson/pull/1329) Memory usage calculation: some allocations are counted twice (MOD-9169) 
 
-Improvements:
-- [#1335](https://github.com/redisjson/redisjson/pull/1335) Added support for Azure Linux 3 (MOD-9172)
+- Improvements:
+  - [#1335](https://github.com/redisjson/redisjson/pull/1335) Added support for Azure Linux 3 (MOD-9172)
 
 ## v2.6.14 (January 2025)
 

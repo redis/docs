@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/
+- /manual/data-types/
 categories:
 - docs
 - develop

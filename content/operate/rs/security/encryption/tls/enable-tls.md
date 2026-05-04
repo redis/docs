@@ -22,7 +22,11 @@ When you enable or turn off TLS, the change applies to new connections but does 
 
 ## Enable TLS for client connections {#client}
 
-To enable TLS for client connections:
+{{< multitabs id="enable-tls-for-client-connections"
+tab1="Cluster Manager UI"
+tab2="REST API" >}}
+
+To enable TLS for client connections using the Cluster Manager UI:
 
 1. From your database's **Security** tab, select **Edit**.
 
@@ -32,13 +36,46 @@ To enable TLS for client connections:
 
 1. Select **Save**.
 
+-tab-sep-
+
+You can also enable TLS for client connections using the REST API.
+
+To enable TLS for client connections during database creation, include `"tls_mode": "enabled"` when you [create a database]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}):
+
+```sh
+POST https://<host>:<port>/v1/bdbs
+{
+  "tls_mode": "enabled",
+  // Additional fields
+}
+```
+
+For additional database configuration fields, see the [BDB object]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}) reference.
+
+To enable TLS for client connections after database creation, you can use an [update database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
+
+```sh
+PUT https://<host>:<port>/v1/bdbs/<database_id>
+{
+  "tls_mode": "enabled"
+}
+```
+
+{{< /multitabs >}}
+
 ### Enable mutual TLS
 
-Optionally, you can enable mutual TLS for client connections:
+Optionally, you can enable mutual TLS for client connections.
+
+{{< multitabs id="enable-mtls"
+tab1="Cluster Manager UI"
+tab2="REST API" >}}
+
+To enable mutual TLS using the Cluster Manager UI:
 
 1. Select **Mutual TLS (Client authentication)**.
 
-    {{<image filename="images/rs/screenshots/databases/security-mtls-clients-7-8-2.png"  alt="Mutual TLS authentication configuration.">}}
+    <img src="../../../../../../images/rs/screenshots/databases/security-mtls-clients-7-8-2.png" alt="Mutual TLS authentication configuration.">
 
 1. For each client certificate, select **+ Add certificate**, paste or upload the client certificate, then select **Done**.
 
@@ -53,7 +90,7 @@ Optionally, you can enable mutual TLS for client connections:
         | Validation option | Description |
         |-------------------|-------------|
         | _No validation_ | Authenticates clients with valid certificates. No additional validations are enforced. |
-        | _By Subject Alternative Name_ | A client certificate is valid only if its Common Name (CN) matches an entry in the list of valid subjects. Ignores other [`Subject`](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.6) attributes. |
+        | _By Subject Alternative Name_ | A client certificate is valid only if its Subject Alternative Name (SAN) DNS entries or Common Name (CN) match an entry in the list of valid subjects. Ignores other [`Subject`](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.6) attributes. |
         | _By full Subject Name_ | A client certificate is valid only if its [`Subject`](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.6) attributes match an entry in the list of valid subjects. |
 
     1. If you selected **No validation**, you can skip this step. Otherwise, select **+ Add validation** to create a new entry and then enter valid [`Subject`](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.6) attributes for your client certificates. All `Subject` attributes are case-sensitive.
@@ -69,11 +106,64 @@ Optionally, you can enable mutual TLS for client connections:
 
         You can only enter a single value for each field, except for the _Organizational Unit (OU)_ field. If your client certificate has a `Subject` with multiple  _Organizational Unit (OU)_ values, press the `Enter` or `Return` key after entering each value to add multiple Organizational Units.
 
-        {{<image filename="images/rs/screenshots/databases/security-mtls-add-cert-validation-multi-ou.png" width="350px" alt="An example that shows adding a certificate validation with multiple organizational units.">}}
+        <img src="../../../../../../images/rs/screenshots/databases/security-mtls-add-cert-validation-multi-ou.png" width="350px" alt="An example that shows adding a certificate validation with multiple organizational units.">
 
         **Breaking change:** If you use the [REST API]({{< relref "/operate/rs/references/rest-api" >}}) instead of the Cluster Manager UI to configure additional certificate validations, note that `authorized_names` is deprecated as of Redis Software v6.4.2. Use `authorized_subjects` instead. See the [BDB object reference]({{< relref "/operate/rs/references/rest-api/objects/bdb" >}}) for more details.
 
 1. Select **Save**.
+
+-tab-sep-
+
+You can also enable mutual TLS using the REST API.
+
+To enable mutual TLS during database creation, include the following fields when you [create a database]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}):
+
+```sh
+POST https://<host>:<port>/v1/bdbs
+{
+  "authorized_subjects": [{
+    "CN": <string>,
+    "O": <string>,
+    "OU": [<array of strings>],
+    "L": <string>,
+    "ST": <string>,
+    "C": <string>
+  }],
+  "authentication_ssl_client_certs": [{
+    "client_cert": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----\n"
+  }],
+  "client_cert_subject_validation_type": <"disabled" | "san_cn" | "full_subject">,
+  "enforce_client_authentication": "enabled",
+  "tls_mode": "enabled",
+  // Additional fields
+}
+```
+
+For additional database configuration fields, see the [BDB object]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}) reference.
+
+To enable mutual TLS after database creation, you can use an [update database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
+
+```sh
+PUT https://<host>:<port>/v1/bdbs/<database_id>
+{
+  "authorized_subjects": [{
+    "CN": <string>,
+    "O": <string>,
+    "OU": [<array of strings>],
+    "L": <string>,
+    "ST": <string>,
+    "C": <string>
+  }],
+  "authentication_ssl_client_certs": [{
+    "client_cert": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----\n"
+  }],
+  "client_cert_subject_validation_type": <"disabled" | "san_cn" | "full_subject">,
+  "enforce_client_authentication": "enabled",
+  "tls_mode": "enabled"
+}
+```
+
+{{< /multitabs >}}
 
 ### Validate client certificate expiration
 

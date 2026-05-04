@@ -391,6 +391,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "brpoplpush(source, destination, timeout: 0)",
+        "params": [
+          {
+            "name": "source",
+            "type": "String",
+            "description": "source key"
+          },
+          {
+            "name": "destination",
+            "type": "String",
+            "description": "destination key"
+          },
+          {
+            "name": "timeout",
+            "type": "Float, Integer",
+            "description": "timeout in seconds"
+          }
+        ],
+        "returns": {
+          "type": "nil, String",
+          "description": "the element was popped and pushed"
+        }
+      }
     ]
   }
 }

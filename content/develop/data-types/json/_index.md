@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/json/
+- /manual/data-types/json/
 categories:
 - docs
 - develop
@@ -15,6 +18,8 @@ stack: true
 title: JSON
 weight: 11
 ---
+
+{{< command-group group="json" title="JSON command summary" show_link=true >}}
 
 [![Discord](https://img.shields.io/discord/697882427875393627?style=flat-square)](https://discord.gg/QUkjSsk)
 [![Github](https://img.shields.io/static/v1?label=&message=repository&color=5961FF&logo=github)](https://github.com/RedisJSON/RedisJSON/)

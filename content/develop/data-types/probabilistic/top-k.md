@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/probabilistic/top-k/
+- /manual/data-types/probabilistic/top-k/
 categories:
 - docs
 - develop
@@ -16,6 +19,8 @@ stack: true
 title: Top-K
 weight: 50
 ---
+
+{{< command-group group="topk" title="Top-K command summary" show_link=true >}}
 
 Top K is a probabilistic data structure in Redis Open Source used to estimate the `K` highest-rank elements from a stream.
 

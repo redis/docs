@@ -3,7 +3,7 @@
   "info": {
     "title": "Redis Data Integration API",
     "description": "API for Redis Data Integration services",
-    "version": "1.16.0"
+    "version": "1.18.0"
   },
   "paths": {
     "/": {
@@ -2978,6 +2978,283 @@
         "security": [{ "JWTBearer": [] }]
       }
     },
+    "/api/v2/pipelines/{name}/dlqs": {
+      "get": {
+        "tags": ["v2", "dlq"],
+        "summary": "Get all DLQ streams with counts",
+        "description": "Returns all tables that have DLQ records with their total counts. Table names are returned in the format: source_name.schema_name.table_name (for PostgreSQL, Oracle, SQL Server, Spanner) or source_name.database_name.table_name (for MySQL, MariaDB, MongoDB).",
+        "operationId": "get_all_dlqs_api_v2_pipelines__name__dlqs_get",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Pipeline name",
+              "title": "Name"
+            },
+            "description": "Pipeline name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DlqListResponse" }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/v2/pipelines/{name}/dlqs/{full_table_name}/records": {
+      "get": {
+        "tags": ["v2", "dlq"],
+        "summary": "Get DLQ records for a specific stream",
+        "description": "Returns the DLQ records for a specific table with pagination. The stream name must be in the format: source_name.schema_name.table_name (e.g., 'postgres.public.users') or source_name.database_name.table_name (e.g., 'mysql.mydb.users').",
+        "operationId": "get_dlq_records_api_v2_pipelines__name__dlqs__full_table_name__records_get",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Pipeline name",
+              "title": "Name"
+            },
+            "description": "Pipeline name"
+          },
+          {
+            "name": "full_table_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Full stream name in format: source_name.schema_name.table_name (e.g., 'postgres.public.users') or source_name.database_name.table_name (e.g., 'mysql.mydb.users')",
+              "title": "Full Table Name"
+            },
+            "description": "Full stream name in format: source_name.schema_name.table_name (e.g., 'postgres.public.users') or source_name.database_name.table_name (e.g., 'mysql.mydb.users')"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "description": "Number of records to return",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of records to return"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Starting position for pagination",
+              "default": 0,
+              "title": "Offset"
+            },
+            "description": "Starting position for pagination"
+          },
+          {
+            "name": "sort_order",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/SortOrder",
+              "description": "Sort order: 'asc' (oldest first) or 'desc' (newest first)",
+              "default": "desc"
+            },
+            "description": "Sort order: 'asc' (oldest first) or 'desc' (newest first)"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "description": "Comma-separated list of fields to include in projection",
+              "title": "Fields"
+            },
+            "description": "Comma-separated list of fields to include in projection"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DlqRecordsResponse" }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/v2/pipelines/{name}/dlqs/{full_table_name}": {
+      "get": {
+        "tags": ["v2", "dlq"],
+        "summary": "Get DLQ info for a specific stream",
+        "description": "Returns the DLQ count for a specific stream. The stream name must be in the format: source_name.schema_name.table_name (e.g., 'postgres.public.users') or source_name.database_name.table_name (e.g., 'mysql.mydb.users').",
+        "operationId": "get_dlq_by_table_name_api_v2_pipelines__name__dlqs__full_table_name__get",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Pipeline name",
+              "title": "Name"
+            },
+            "description": "Pipeline name"
+          },
+          {
+            "name": "full_table_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Full stream name in format: source_name.schema_name.table_name (e.g., 'postgres.public.users') or source_name.database_name.table_name (e.g., 'mysql.mydb.users')",
+              "title": "Full Table Name"
+            },
+            "description": "Full stream name in format: source_name.schema_name.table_name (e.g., 'postgres.public.users') or source_name.database_name.table_name (e.g., 'mysql.mydb.users')"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DlqTableResponse" }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/v2/pipelines": {
       "get": {
         "tags": ["v2", "pipelines"],
@@ -3038,6 +3315,18 @@
               "title": "Dry Run"
             },
             "description": "Only validate the provided configuration without making changes"
+          },
+          {
+            "name": "validate_cdc",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Perform CDC validation checks",
+              "default": false,
+              "title": "Validate Cdc"
+            },
+            "description": "Perform CDC validation checks"
           }
         ],
         "requestBody": {
@@ -3193,6 +3482,18 @@
               "title": "Dry Run"
             },
             "description": "Only validate the provided configuration without making changes"
+          },
+          {
+            "name": "validate_cdc",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Perform CDC validation checks",
+              "default": false,
+              "title": "Validate Cdc"
+            },
+            "description": "Perform CDC validation checks"
           }
         ],
         "requestBody": {
@@ -3276,6 +3577,18 @@
               "title": "Dry Run"
             },
             "description": "Only validate the provided configuration without making changes"
+          },
+          {
+            "name": "validate_cdc",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Perform CDC validation checks",
+              "default": false,
+              "title": "Validate Cdc"
+            },
+            "description": "Perform CDC validation checks"
           }
         ],
         "requestBody": {
@@ -3787,6 +4100,611 @@
         }
       }
     },
+    "/api/v2/pipelines/{name}/secrets": {
+      "get": {
+        "tags": ["v2", "pipelines", "secrets"],
+        "summary": "Get Pipeline Secrets",
+        "description": "Lists all pipeline secrets.",
+        "operationId": "get_pipeline_secrets_api_v2_pipelines__name__secrets_get",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Pipeline name",
+              "title": "Name"
+            },
+            "description": "Pipeline name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PipelineSecretResponse"
+                  },
+                  "title": "Response Get Pipeline Secrets Api V2 Pipelines  Name  Secrets Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["v2", "pipelines", "secrets"],
+        "summary": "Create Secret",
+        "description": "Creates a new pipeline secret.",
+        "operationId": "create_secret_api_v2_pipelines__name__secrets_post",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Pipeline name",
+              "title": "Name"
+            },
+            "description": "Pipeline name"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PipelineSecretCreateRequest",
+                "description": "Pipeline secret details"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PipelineSecretResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/v2/pipelines/{name}/secrets/{key}": {
+      "get": {
+        "tags": ["v2", "pipelines", "secrets"],
+        "summary": "Get Secret",
+        "description": "Gets a pipeline secret by key.",
+        "operationId": "get_secret_api_v2_pipelines__name__secrets__key__get",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Pipeline name",
+              "title": "Name"
+            },
+            "description": "Pipeline name"
+          },
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Pipeline secret key",
+              "title": "Key"
+            },
+            "description": "Pipeline secret key"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PipelineSecretResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["v2", "pipelines", "secrets"],
+        "summary": "Update Secret",
+        "description": "Updates a pipeline secret, or creates it if it does not exist.",
+        "operationId": "update_secret_api_v2_pipelines__name__secrets__key__put",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Pipeline name",
+              "title": "Name"
+            },
+            "description": "Pipeline name"
+          },
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Pipeline secret key",
+              "title": "Key"
+            },
+            "description": "Pipeline secret key"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PipelineSecretUpdateRequest",
+                "description": "Pipeline secret details"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PipelineSecretResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["v2", "pipelines", "secrets"],
+        "summary": "Delete Secret",
+        "description": "Deletes a pipeline secret by key.",
+        "operationId": "delete_secret_api_v2_pipelines__name__secrets__key__delete",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Pipeline name",
+              "title": "Name"
+            },
+            "description": "Pipeline name"
+          },
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Pipeline secret key",
+              "title": "Key"
+            },
+            "description": "Pipeline secret key"
+          }
+        ],
+        "responses": {
+          "204": { "description": "Successful Response" },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v2/pipelines/{name}/source-schemas/{source_name}": {
+      "get": {
+        "tags": ["v2", "pipelines"],
+        "summary": "Get Pipeline Source Schemas",
+        "description": "Lists source schemas/databases, tables, and columns for a pipeline source.",
+        "operationId": "get_pipeline_source_schemas_api_v2_pipelines__name__source_schemas__source_name__get",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Pipeline name",
+              "title": "Name"
+            },
+            "description": "Pipeline name"
+          },
+          {
+            "name": "source_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Pipeline source name",
+              "title": "Source Name"
+            },
+            "description": "Pipeline source name"
+          },
+          {
+            "name": "schemas",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "description": "Comma-separated list of schema/database names to filter on",
+              "title": "Schemas"
+            },
+            "description": "Comma-separated list of schema/database names to filter on"
+          },
+          {
+            "name": "tables",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "description": "Comma-separated list of table names to filter on",
+              "title": "Tables"
+            },
+            "description": "Comma-separated list of table names to filter on"
+          },
+          {
+            "name": "details",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/SourceSchemaDetails",
+              "description": "The level of detail to return: schemas, tables, or columns",
+              "default": "schemas"
+            },
+            "description": "The level of detail to return: schemas, tables, or columns"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PipelineSourceSchemaResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/api/v2/pipelines/{name}/flush-target/{target_name}": {
+      "post": {
+        "tags": ["v2", "pipelines", "targets"],
+        "summary": "Flush Target",
+        "description": "Flushes the target Redis database.\n\nSends a FLUSHALL command to the target Redis database through the collector API.",
+        "operationId": "flush_target_api_v2_pipelines__name__flush_target__target_name__post",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Pipeline name",
+              "title": "Name"
+            },
+            "description": "Pipeline name"
+          },
+          {
+            "name": "target_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Target name",
+              "title": "Target Name"
+            },
+            "description": "Target name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "FLUSHALL completed successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/FlushResponse" }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
     "/api/v2/info": {
       "get": {
         "tags": ["v2", "info"],
@@ -3803,7 +4721,7 @@
             }
           }
         },
-        "security": [{ "HTTPBearer": [] }]
+        "security": []
       }
     }
   },
@@ -3895,6 +4813,10 @@
           "debezium-collector",
           "collector-api",
           "stream-processor",
+          "metrics-exporter",
+          "flink-processor-jobmanager",
+          "flink-processor-taskmanager",
+          "riotx-collector",
           "unknown"
         ],
         "title": "ComponentType",
@@ -4171,12 +5093,55 @@
           "mysql",
           "oracle",
           "postgresql",
+          "snowflake",
           "sqlserver",
           "spanner",
           "redis"
         ],
         "title": "DbType",
         "description": "Defines supported databases."
+      },
+      "DlqListResponse": {
+        "additionalProperties": { "$ref": "#/components/schemas/DlqTableInfo" },
+        "type": "object",
+        "title": "DlqListResponse",
+        "description": "Response model for listing all DLQ tables with their counts.\n\nReturns a dictionary mapping table names to their DLQ info.\nExample: {\"source.schema.table1\": {\"total_count\": 100}, ...}"
+      },
+      "DlqRecordsResponse": {
+        "properties": {
+          "records": {
+            "items": { "additionalProperties": true, "type": "object" },
+            "type": "array",
+            "title": "Records",
+            "description": "List of DLQ records"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "DlqRecordsResponse",
+        "description": "Response model for DLQ records."
+      },
+      "DlqTableInfo": {
+        "properties": {
+          "total_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total Count",
+            "description": "Total number of records in the DLQ stream",
+            "examples": [1500]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["total_count"],
+        "title": "DlqTableInfo",
+        "description": "Model representing DLQ info for a single table."
+      },
+      "DlqTableResponse": {
+        "additionalProperties": { "$ref": "#/components/schemas/DlqTableInfo" },
+        "type": "object",
+        "title": "DlqTableResponse",
+        "description": "Response model for a single DLQ table info.\n\nReturns a dictionary with single table name mapped to its DLQ info.\nExample: {\"source.schema.table\": {\"total_count\": 100}}"
       },
       "Entity": {
         "properties": {
@@ -4210,6 +5175,7 @@
           "validation_error",
           "job_validation_error",
           "request_validation_error",
+          "cdc_validation_error",
           "pipeline_error",
           "pipeline_pending",
           "pipeline_component_error",
@@ -4242,6 +5208,24 @@
         "required": ["detail"],
         "title": "ExtendedErrorResponse",
         "description": "Model representing an API error response with an additional list of errors."
+      },
+      "FlushResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Whether the flush operation was successful"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Human-readable result message"
+          }
+        },
+        "type": "object",
+        "required": ["success", "message"],
+        "title": "FlushResponse",
+        "description": "Response model for the target flush operation."
       },
       "HTTPValidationError": {
         "properties": {
@@ -4564,6 +5548,88 @@
         "title": "PipelineResponse",
         "description": "Response model containing the details of a pipeline."
       },
+      "PipelineSecretCreateRequest": {
+        "properties": {
+          "key": { "type": "string", "title": "Key" },
+          "value": { "type": "string", "title": "Value" },
+          "type": {
+            "type": "string",
+            "enum": ["simple", "file"],
+            "title": "Type",
+            "default": "simple"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["key", "value"],
+        "title": "PipelineSecretCreateRequest",
+        "description": "Request model for creating a new pipeline secret."
+      },
+      "PipelineSecretResponse": {
+        "properties": {
+          "key": { "type": "string", "title": "Key" },
+          "type": {
+            "type": "string",
+            "enum": ["simple", "file"],
+            "title": "Type"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["key", "type"],
+        "title": "PipelineSecretResponse",
+        "description": "Response model for a pipeline secret."
+      },
+      "PipelineSecretUpdateRequest": {
+        "properties": {
+          "value": { "type": "string", "title": "Value" },
+          "type": {
+            "type": "string",
+            "enum": ["simple", "file"],
+            "title": "Type",
+            "default": "simple"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["value"],
+        "title": "PipelineSecretUpdateRequest",
+        "description": "Request model for updating an existing pipeline secret."
+      },
+      "PipelineSourceSchemaResponse": {
+        "properties": {
+          "schemas": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/SourceSchemaResponse"
+            },
+            "type": "object",
+            "title": "Schemas",
+            "examples": [
+              {
+                "inventory": {
+                  "tables": {
+                    "addresses": {
+                      "cdc_ready": true,
+                      "columns": {
+                        "zip": {
+                          "primary_key": false,
+                          "size": 255,
+                          "type": "varchar",
+                          "unique_constraint": false
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "PipelineSourceSchemaResponse",
+        "description": "Nested source metadata response for a pipeline source."
+      },
       "PipelineStatusResponse": {
         "properties": {
           "status": {
@@ -4829,6 +5895,12 @@
         "enum": ["running", "failed", "paused", "completed", "N/A"],
         "title": "SnapshotStatus"
       },
+      "SortOrder": {
+        "type": "string",
+        "enum": ["asc", "desc"],
+        "title": "SortOrder",
+        "description": "Sort order for DLQ records."
+      },
       "Source": {
         "properties": {
           "schema": {
@@ -4853,6 +5925,113 @@
         "additionalProperties": true,
         "type": "object",
         "title": "Source"
+      },
+      "SourceColumnResponse": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Type",
+            "examples": ["varchar"]
+          },
+          "size": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Size",
+            "examples": [255]
+          },
+          "primary_key": {
+            "type": "boolean",
+            "title": "Primary Key",
+            "default": false,
+            "examples": [false]
+          },
+          "unique_constraint": {
+            "type": "boolean",
+            "title": "Unique Constraint",
+            "default": false,
+            "examples": [false]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["type"],
+        "title": "SourceColumnResponse",
+        "description": "Metadata for a single source column."
+      },
+      "SourceSchemaDetails": {
+        "type": "string",
+        "enum": ["schemas", "tables", "columns"],
+        "title": "SourceSchemaDetails",
+        "description": "Detail level for source metadata responses."
+      },
+      "SourceSchemaResponse": {
+        "properties": {
+          "tables": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/SourceTableResponse"
+                },
+                "type": "object"
+              },
+              { "type": "null" }
+            ],
+            "title": "Tables",
+            "examples": [
+              {
+                "users": {
+                  "cdc_ready": true,
+                  "columns": {
+                    "id": {
+                      "primary_key": true,
+                      "size": 32,
+                      "type": "int4",
+                      "unique_constraint": true
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "SourceSchemaResponse",
+        "description": "Metadata for a single source schema or database."
+      },
+      "SourceTableResponse": {
+        "properties": {
+          "cdc_ready": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Cdc Ready",
+            "examples": [true]
+          },
+          "columns": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/SourceColumnResponse"
+                },
+                "type": "object"
+              },
+              { "type": "null" }
+            ],
+            "title": "Columns",
+            "examples": [
+              {
+                "id": {
+                  "primary_key": true,
+                  "size": 32,
+                  "type": "int4",
+                  "unique_constraint": true
+                }
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "SourceTableResponse",
+        "description": "Metadata for a single source table."
       },
       "SourcesOutput": {
         "properties": {
@@ -5254,6 +6433,10 @@
         "properties": {
           "code": { "$ref": "#/components/schemas/ErrorCode" },
           "message": { "type": "string", "title": "Message" },
+          "remediation": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Remediation"
+          },
           "details": {
             "additionalProperties": true,
             "type": "object",

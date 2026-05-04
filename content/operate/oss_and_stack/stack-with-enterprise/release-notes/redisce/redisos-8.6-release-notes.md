@@ -12,6 +12,39 @@ min-version-rs: blah
 weight: 20
 ---
 
+## Redis Open Source 8.6.2 (March 2026)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- [#14824](https://github.com/redis/redis/pull/14824) Potential UAF: don't use reply copy avoidance for module strings.
+
+### Bug fixes
+
+- [#14848](https://github.com/redis/redis/pull/14848) Crash during command processing on replicas performing full synchronization.
+- [#14794](https://github.com/redis/redis/pull/14794) New `XIDMPRECORD` internal command and AOFRW emission to restore stream IDMP state.
+- [#14816](https://github.com/redis/redis/pull/14816) `setModuleEnumConfig()` passing prefixed name to module callbacks.
+- [#14858](https://github.com/redis/redis/pull/14858) Streams: Ensures `XADD` with `IDMP`/`IDMPAUTO` that hits an existing IID records the metadata change.
+- [#14855](https://github.com/redis/redis/pull/14855), [#14831](https://github.com/redis/redis/pull/14831), [#14817](https://github.com/redis/redis/pull/14817) Potential Memory leaks.
+- [#14869](https://github.com/redis/redis/pull/14869) Streams: IDMP cron expiration not working after RDB load.
+- [#14847](https://github.com/redis/redis/pull/14847) Potential crash during ACL checks on wrong-arity commands.
+- [#14883](https://github.com/redis/redis/pull/14883) `HSETEX` and `HGETEX` do not validate that `FIELDS` is specified only once.
+- [#14897](https://github.com/redis/redis/pull/14897) Streams: IDMP-related bugs.
+
+## Redis Open Source 8.6.1 (February 2026)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- A user can manipulate data read by a connection by injecting `\r\n` sequences into a Redis error reply.
+
+### Bug fixes
+
+- [#14785](https://github.com/redis/redis/pull/14785) `HOTKEYS`: The `INFO` command may display module information, and the missing `HOTKEYS HELP` subcommand has been added.
+- [#14789](https://github.com/redis/redis/pull/14789) Bug in RDB loading prevented hash table expansion, increasing load time.
+
 ## Redis Open Source 8.6.0 (February 2026)
 
 This is the General Availability release of Redis 8.6 in Redis Open Source.

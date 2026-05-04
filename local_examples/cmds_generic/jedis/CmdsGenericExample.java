@@ -9,6 +9,10 @@ import org.junit.jupiter.api.Test;
 import redis.clients.jedis.RedisClient;
 import redis.clients.jedis.args.ExpiryOption;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 // HIDE_END
 
@@ -67,6 +71,7 @@ public class CmdsGenericExample {
         assertEquals(false, existsResult3);
         assertEquals("OK", existsResult4);
         assertEquals(2, existsResult5);
+        jedis.del("key1", "key2");
         // REMOVE_END
 
 
@@ -131,6 +136,34 @@ public class CmdsGenericExample {
         assertEquals(1, ttlResult2);
         assertEquals(10, ttlResult3);
         jedis.del("mykey");
+        // REMOVE_END
+
+
+        // STEP_START keys
+        String keysResult1 = jedis.mset("firstname", "Jack", "lastname", "Stuntman", "age", "35");
+        System.out.println(keysResult1); // >>> OK
+
+        Set<String> keysResult2 = jedis.keys("*name*");
+        ArrayList<String> keysResult2List = new ArrayList<>(keysResult2);
+        Collections.sort(keysResult2List);
+        System.out.println(keysResult2List); // >>> [firstname, lastname]
+
+        Set<String> keysResult3 = jedis.keys("a??");
+        System.out.println(keysResult3); // >>> [age]
+
+        Set<String> keysResult4 = jedis.keys("*");
+        ArrayList<String> keysResult4List = new ArrayList<>(keysResult4);
+        Collections.sort(keysResult4List);
+        System.out.println(keysResult4List); // >>> [age, firstname, lastname]
+        // STEP_END
+
+        // Tests for 'keys' step.
+        // REMOVE_START
+        assertEquals("OK", keysResult1);
+        assertEquals(2, keysResult2.size());
+        assertEquals(1, keysResult3.size());
+        assertEquals(3, keysResult4.size());
+        jedis.del("firstname", "lastname", "age");
         // REMOVE_END
 
 // HIDE_START

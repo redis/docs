@@ -1,4 +1,9 @@
 ---
+aliases:
+- /manual/data-types/streams/
+- /data-types/streams/
+- /develop/data-types/streams-tutorial/
+- /io/data-structures/streams/
 categories:
 - docs
 - develop
@@ -15,12 +20,14 @@ title: Redis Streams
 weight: 60
 ---
 
+{{< command-group group="stream" title="Stream command summary" show_link=true >}}
+
 A Redis stream is a data structure that acts like an append-only log but also implements several operations to overcome some of the limits of a typical append-only log. These include random access in O(1) time and complex consumption strategies, such as consumer groups.
 You can use streams to record and simultaneously syndicate events in real time.
 Examples of Redis stream use cases include:
 
 * Event sourcing (e.g., tracking user actions, clicks, etc.)
-* Sensor monitoring (e.g., readings from devices in the field) 
+* Sensor monitoring (e.g., readings from devices in the field)
 * Notifications (e.g., storing a record of each user's notifications in a separate stream)
 
 Redis generates a unique ID for each stream entry.
@@ -29,17 +36,6 @@ You can use these IDs to retrieve their associated entries later or to read and 
 Redis streams support several trimming strategies (to prevent streams from growing unbounded) and more than one consumption strategy (see [`XREAD`]({{< relref "/commands/xread" >}}), [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), and [`XRANGE`]({{< relref "/commands/xrange" >}})). Starting with Redis 8.2, the `XACKDEL`, `XDELEX`, `XADD`, and `XTRIM` commands provide fine-grained control over how stream operations interact with multiple consumer groups, simplifying the coordination of message processing across different applications.
 
 Beginning with Redis 8.6, Redis streams support idempotent message processing (at-most-once production) to prevent duplicate entries when using at-least-once delivery patterns. This feature enables reliable message submission with automatic deduplication. See [Idempotent Message Processing]({{< relref "/develop/data-types/streams/idempotency" >}}) for more information.
-
-## Basic commands
-
-* [`XADD`]({{< relref "/commands/xadd" >}}) adds a new entry to a stream.
-* [`XREAD`]({{< relref "/commands/xread" >}}) reads one or more entries, starting at a given position and moving forward in time.
-* [`XRANGE`]({{< relref "/commands/xrange" >}}) returns a range of entries between two supplied entry IDs.
-* [`XLEN`]({{< relref "/commands/xlen" >}}) returns the length of a stream.
-* [`XDEL`]({{< relref "/commands/xdel" >}}) removes entries from a stream.
-* [`XTRIM`]({{< relref "/commands/xtrim" >}}) trims a stream by removing older entries.
-
-See the [complete list of stream commands]({{< relref "/commands/" >}}?group=stream).
 
 ## Examples
 
@@ -54,7 +50,7 @@ See the [complete list of stream commands]({{< relref "/commands/" >}}?group=str
 {{< /clients-example >}}
 
 * Read two stream entries starting at ID `1692632086370-0`:
-{{< clients-example set="stream_tutorial" step="xrange" description="Foundational: Retrieve stream entries within a range of IDs using XRANGE when you need to access historical data" >}}
+{{< clients-example set="stream_tutorial" step="xrange" description="Foundational: Retrieve stream entries within a range of IDs using XRANGE when you need to access historical data" max_lines="10" >}}
 > XRANGE race:france 1692632086370-0 + COUNT 2
 1) 1) "1692632086370-0"
    2) 1) "rider"
@@ -161,7 +157,7 @@ Redis Streams support all three of the query modes described above via different
 
 To query the stream by range we are only required to specify two IDs, *start* and *end*. The range returned will include the elements having start or end as ID, so the range is inclusive. The two special IDs `-` and `+` respectively mean the smallest and the greatest ID possible.
 
-{{< clients-example set="stream_tutorial" step="xrange_all" description="Foundational: Retrieve all entries in a stream using XRANGE with - and + special IDs" >}}
+{{< clients-example set="stream_tutorial" step="xrange_all" description="Foundational: Retrieve all entries in a stream using XRANGE with - and + special IDs" max_lines="10" >}}
 > XRANGE race:france - +
 1) 1) "1692632086370-0"
    2) 1) "rider"
@@ -218,7 +214,7 @@ Each entry returned is an array of two items: the ID and the list of field-value
 
 I have only a single entry in this range. However in real data sets, I could query for ranges of hours, or there could be many items in just two milliseconds, and the result returned could be huge. For this reason, [`XRANGE`]({{< relref "/commands/xrange" >}}) supports an optional **COUNT** option at the end. By specifying a count, I can just get the first *N* items. If I want more, I can get the last ID returned, increment the sequence part by one, and query again. Let's see this in the following example. Let's assume that the stream `race:france` was populated with 4 items. To start my iteration, getting 2 items per command, I start with the full range, but with a count of 2.
 
-{{< clients-example set="stream_tutorial" step="xrange_step_1" description="Practical pattern: Paginate stream entries using XRANGE with COUNT to retrieve results in batches" difficulty="intermediate" >}}
+{{< clients-example set="stream_tutorial" step="xrange_step_1" description="Practical pattern: Paginate stream entries using XRANGE with COUNT to retrieve results in batches" difficulty="intermediate" max_lines="10" >}}
 > XRANGE race:france - + COUNT 2
 1) 1) "1692632086370-0"
    2) 1) "rider"
@@ -242,7 +238,7 @@ I have only a single entry in this range. However in real data sets, I could que
 
 To continue the iteration with the next two items, I have to pick the last ID returned, that is `1692632094485-0`, and add the prefix `(` to it. The resulting exclusive range interval, that is `(1692632094485-0` in this case, can now be used as the new *start* argument for the next [`XRANGE`]({{< relref "/commands/xrange" >}}) call:
 
-{{< clients-example set="stream_tutorial" step="xrange_step_2" description="Practical pattern: Continue pagination using exclusive range syntax with ( prefix to skip the last retrieved entry" difficulty="intermediate" >}}
+{{< clients-example set="stream_tutorial" step="xrange_step_2" description="Practical pattern: Continue pagination using exclusive range syntax with ( prefix to skip the last retrieved entry" difficulty="intermediate" max_lines="10" >}}
 > XRANGE race:france (1692632094485-0 + COUNT 2
 1) 1) "1692632102976-0"
    2) 1) "rider"
@@ -300,7 +296,7 @@ When we do not want to access items by a range in a stream, usually what we want
 
 The command that provides the ability to listen for new messages arriving into a stream is called [`XREAD`]({{< relref "/commands/xread" >}}). It's a bit more complex than [`XRANGE`]({{< relref "/commands/xrange" >}}), so we'll start showing simple forms, and later the whole command layout will be provided.
 
-{{< clients-example set="stream_tutorial" step="xread" description="Foundational: Read entries from a stream starting from a specific ID using XREAD (non-blocking form)" >}}
+{{< clients-example set="stream_tutorial" step="xread" description="Foundational: Read entries from a stream starting from a specific ID using XREAD (non-blocking form)" max_lines="10" >}}
 > XREAD COUNT 2 STREAMS race:france 0
 1) 1) "race:france"
    2) 1) 1) "1692632086370-0"
@@ -714,7 +710,7 @@ However we may want to do more than that, and the [`XINFO`]({{< relref "/command
 
 This command uses subcommands in order to show different information about the status of the stream and its consumer groups. For instance **XINFO STREAM <key>** reports information about the stream itself.
 
-{{< clients-example set="stream_tutorial" step="xinfo" description="Get detailed stream information including length, encoding, and consumer groups using XINFO STREAM" difficulty="intermediate" >}}
+{{< clients-example set="stream_tutorial" step="xinfo" description="Get detailed stream information including length, encoding, and consumer groups using XINFO STREAM" difficulty="intermediate" max_lines="10" >}}
 > XINFO STREAM race:italy
  1) "length"
  2) (integer) 5
@@ -754,7 +750,7 @@ As you can see in this and in the previous output, the [`XINFO`]({{< relref "/co
 
 The output of the example above, where the **GROUPS** subcommand is used, should be clear observing the field names. We can check in more detail the state of a specific consumer group by checking the consumers that are registered in the group.
 
-{{< clients-example set="stream_tutorial" step="xinfo_consumers" description="Get detailed consumer information for a group using XINFO CONSUMERS to monitor individual consumer status" difficulty="advanced" >}}
+{{< clients-example set="stream_tutorial" step="xinfo_consumers" description="Get detailed consumer information for a group using XINFO CONSUMERS to monitor individual consumer status" difficulty="advanced" max_lines="10" >}}
 > XINFO CONSUMERS race:italy italy_riders
 1) 1) "name"
    2) "Alice"

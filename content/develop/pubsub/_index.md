@@ -15,6 +15,8 @@ title: Redis Pub/sub
 aliases:
 - /develop/interact/pubsub
 - /develop/interact/pubsub/
+- /interact/pubsub/
+- /manual/pubsub/
 hideListLinks: true
 weight: 60
 ---

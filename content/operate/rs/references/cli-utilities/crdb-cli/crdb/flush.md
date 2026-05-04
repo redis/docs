@@ -19,6 +19,8 @@ crdb-cli crdb flush --crdb-guid <guid>
 
 This command is irreversible. If the data in your database is important, back it up before you flush the database.
 
+Run flush from only one participating cluster. The flush operation propagates to all other clusters automatically.
+
 ### Parameters
 
 | Parameter           | Value  | Description                         |

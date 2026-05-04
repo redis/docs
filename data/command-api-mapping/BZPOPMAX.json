@@ -393,6 +393,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "bzpopmax(*args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Array<String>",
+            "description": "one or multiple keys of the sorted sets"
+          },
+          {
+            "name": "timeout",
+            "type": "Integer",
+            "description": "the maximum number of seconds to block"
+          }
+        ],
+        "returns": {
+          "type": "Array<String, String, Float>",
+          "description": "a tuple of key, member and score"
+        }
+      }
     ]
   }
 }

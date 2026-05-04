@@ -582,6 +582,22 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "decr(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "value after decrementing it"
+        }
+      }
     ]
   }
 }

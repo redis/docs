@@ -439,6 +439,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "setrange(key, offset, value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "Integer",
+            "description": "byte offset"
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "length of the string after it was modified"
+        }
+      }
     ]
   }
 }

@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/bitmaps/
+- /manual/data-types/bitmaps/
 categories:
 - docs
 - develop
@@ -15,6 +18,8 @@ title: Redis bitmaps
 weight: 120
 ---
 
+{{< command-group group="bitmap" title="Bitmap/bitfield command summary" show_link=true >}}
+
 Bitmaps are not an actual data type, but a set of bit-oriented operations
 defined on the String type which is treated like a bit vector.
 Since strings are binary safe blobs and their maximum length is 512 MB,
@@ -25,14 +30,6 @@ Some examples of bitmap use cases include:
 
 * Efficient set representations for cases where the members of a set correspond to the integers 0-N.
 * Object permissions, where each bit represents a particular permission, similar to the way that file systems store permissions.
-
-## Basic commands
-
-* [`SETBIT`]({{< relref "/commands/setbit" >}}) sets a bit at the provided offset to 0 or 1.
-* [`GETBIT`]({{< relref "/commands/getbit" >}}) returns the value of a bit at a given offset.
-
-See the [complete list of bitmap commands]({{< relref "/commands/" >}}?group=bitmap).
-
 
 ## Example
 

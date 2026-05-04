@@ -249,7 +249,45 @@ class Client(Component):
 
             logging.info(f'Copying {self._id} examples to {dst}')
 
+            content_filter = ex.get('content_filter')
+
             for f in glob.glob(os.path.join(src, ex.get('pattern')), recursive=True):
+                # Apply content filter if specified
+                if content_filter:
+                    with open(f, 'r', encoding='utf-8', errors='ignore') as cf:
+                        file_lines = cf.readlines()
+                    contains = content_filter.get('contains')
+                    not_contains = content_filter.get('not_contains')
+                    exclude_line = content_filter.get('exclude_line_contains')
+
+                    if contains:
+                        # At least one line must contain `contains`, ignoring
+                        # any lines that also contain `exclude_line` (if set).
+                        matched = any(
+                            contains in line and
+                            (exclude_line is None or exclude_line not in line)
+                            for line in file_lines
+                        )
+                        if not matched:
+                            logging.debug(
+                                f'Skipping {f}: no qualifying line contains "{contains}"'
+                            )
+                            continue
+
+                    if not_contains:
+                        # No line may contain `not_contains`, ignoring any
+                        # lines that also contain `exclude_line` (if set).
+                        has_disqualifying = any(
+                            not_contains in line and
+                            (exclude_line is None or exclude_line not in line)
+                            for line in file_lines
+                        )
+                        if has_disqualifying:
+                            logging.debug(
+                                f'Skipping {f}: found disqualifying line with "{not_contains}"'
+                            )
+                            continue
+
                 example_id = self._get_example_id_from_file(f)
 
                 if not example_id:
@@ -279,6 +317,9 @@ class Client(Component):
                 # Add binderId only if it exists
                 if e.binder_id:
                     example_metadata['binderId'] = e.binder_id
+
+                if e.kernel_name:
+                    example_metadata['kernelName'] = e.kernel_name
 
                 # Extract and enrich CLI commands if present
                 cli_commands = extract_cli_commands(e.content)

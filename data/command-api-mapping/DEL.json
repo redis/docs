@@ -259,7 +259,22 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "del(*keys)",
+        "params": [
+          {
+            "name": "*keys",
+            "type": "String, Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "number of keys that were deleted"
+        }
+      }
     ]
   }
 }
-

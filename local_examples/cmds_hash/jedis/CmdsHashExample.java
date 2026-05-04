@@ -75,6 +75,25 @@ public class CmdsHashExample {
         jedis.del("myhash");
         // REMOVE_END
 
+        // STEP_START hmget
+        Map<String, String> hmgetExampleParams = new HashMap<>();
+        hmgetExampleParams.put("field1", "Hello");
+        hmgetExampleParams.put("field2", "World");
+
+        jedis.hset("myhash", hmgetExampleParams);
+
+        List<String> hmgetResult = jedis.hmget("myhash", "field1", "field2", "nofield");
+        System.out.println(hmgetResult);    // >>> [Hello, World, null]
+        // STEP_END
+        // REMOVE_START
+        // Tests for 'hmget' step.
+        assertEquals(3, hmgetResult.size());
+        assertEquals("Hello", hmgetResult.get(0));
+        assertEquals("World", hmgetResult.get(1));
+        assertNull(hmgetResult.get(2));
+        jedis.del("myhash");
+        // REMOVE_END
+
         // STEP_START hgetall
         Map<String, String> hGetAllExampleParams = new HashMap<>();
         hGetAllExampleParams.put("field1", "Hello");

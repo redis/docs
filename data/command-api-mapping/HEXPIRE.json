@@ -1025,6 +1025,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "hexpire(key, ttl, *fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "*fields",
+            "type": "Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>",
+          "description": "Feedback on if the fields have been updated"
+        }
+      }
     ]
   }
 }

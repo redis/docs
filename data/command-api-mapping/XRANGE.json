@@ -777,6 +777,37 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xrange(key, start = '-', range_end = '+', count: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          },
+          {
+            "name": "start",
+            "type": "String",
+            "description": "first entry id of range, default is -"
+          },
+          {
+            "name": "range_end",
+            "type": "String",
+            "description": "last entry id of range, default is +"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "the number of entries as limit"
+          }
+        ],
+        "returns": {
+          "type": "Array<Array<String, Hash>>",
+          "description": "the ids and entries pairs"
+        }
+      }
     ]
   }
 }

@@ -8,7 +8,6 @@ categories:
 description: null
 linkTitle: AWS PrivateLink
 weight: 80
-bannerText: AWS PrivateLink is currently in preview. Features and behavior are subject to change. Redis does not recommend using AWS PrivateLink in production environments.
 ---
 
 [Amazon Web Services (AWS) PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-access-resources.html) allows service providers to securely expose specific services without exposing the entire service provider and consumer VPCs to each other. With AWS PrivateLink, Redis Cloud exposes a VPC endpoint service that you connect to as a consumer from your own VPC. Traffic stays within the AWS network and is isolated from external networks. 
@@ -25,14 +24,15 @@ AWS PrivateLink provides the following benefits:
 - **Network Flexibility**: PrivateLink enables cross-account and cross-VPC connectivity and can be configured even when the Redis Cloud VPC and your consumer VPC have overlapping CIDR/IP ranges.
 - **Simplified architecture and low latency**: PrivateLink does not require NAT, internet gateways, or VPNs. It provides simplified network routing, without the need for a network load balancer between the application and the Redis database.
 
+{{< video-link >}}
 See [Connect to Redis Cloud with AWS PrivateLink](https://www.youtube.com/watch?v=i3aTmcyFihY) for a short video tutorial on how to connect to Redis Cloud with AWS PrivateLink.
+{{< /video-link >}}
 
 ## Limitations
 
 Be aware of the following limitations when using PrivateLink with Redis Cloud:
-- You cannot use the [OSS Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) with PrivateLink during preview.
-- You cannot use Layer 3 connectivity options like VPC peering or Transit Gateway with PrivateLink during private preview. 
-- Redis Cloud subscriptions with AWS PrivateLink are limited to a maximum of 55 databases. [Contact support](https://redis.com/company/support/) if you need more than 55 databases in one subscription with AWS PrivateLink.
+- You cannot use the [OSS Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) with PrivateLink yet. Support for the OSS Cluster API will be supported in the near future.
+- If you use Layer 3 connectivity options like VPC peering or Transit Gateway together with PrivateLink in the same consumer VPC, the database endpoints exposed through PrivateLink's private DNS will resolve to the VPC endpoint and not to the IPs associated with the Layer 3 connectivity options.
 - Your subnets must have at least 16 available IP addresses for the resource endpoint.
 - Some AWS regions do not support PrivateLink Resource Endpoints. See [AWS VPC Lattice Pricing](https://aws.amazon.com/vpc/lattice/pricing/) for a list of regions that support AWS PrivateLink Resource Endpoints.
 - Redis Cloud's PrivateLink implementation uses PrivateLink Resource Endpoints, which is based on Amazon VPC Lattice, so the [VPC Lattice quotas](https://docs.aws.amazon.com/vpc-lattice/latest/ug/quotas.html) apply. Currently, the following availability zones are not supported with Amazon VPC Lattice: 
@@ -40,7 +40,6 @@ Be aware of the following limitations when using PrivateLink with Redis Cloud:
     - `usw1-az2`
     - `apne1-az3`
     - `apne2-az2`
-    - `euc1-az2`
     - `euw1-az4`
     - `cac1-az3`
     - `ilc1-az2`
@@ -48,6 +47,7 @@ Be aware of the following limitations when using PrivateLink with Redis Cloud:
     We recommend avoiding these availability zones when creating your Redis Cloud database if you plan to use AWS PrivateLink.
 - Redis Cloud [Bring your Own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) subscriptions are not supported with PrivateLink.
 - The pre-handoff feature of [Smart client handoffs]({{< relref "/develop/clients/sch#redis-cloud" >}}) is not currently supported with AWS PrivateLink, but relaxed timeouts are available and enabled by default.
+- The only supported principal type is an AWS account.
 
 ## Prerequisites
 
@@ -67,12 +67,12 @@ Before you can connect to Redis Cloud with an AWS PrivateLink VPC resource endpo
 
 To set up a connection to Redis Cloud with an AWS PrivateLink VPC resource endpoint, you need to:
 
-1. [Associate the Redis Cloud Resource share with one or more AWS principals](#associate-resource-share).
+1. [Associate the Redis Cloud Resource share with one or more AWS accounts](#associate-resource-share).
 1. [Add a connection](#add-connection) from your consumer account using a VPC resource endpoint or a VPC Lattice service network.
 
-### Associate Redis Cloud resource share with a principal {#associate-resource-share}
+### Associate Redis Cloud resource share with an AWS account {#associate-resource-share}
 
-In this step, you will associate the Redis Cloud resource share with an AWS principal, such as an AWS Account.
+In this step, you will associate the Redis Cloud resource share with an AWS Account.
 
 1. From the [Redis Cloud console](https://cloud.redis.io/), select the **Subscriptions** menu and then select your subscription from the list.
 
@@ -88,16 +88,7 @@ In this step, you will associate the Redis Cloud resource share with an AWS prin
 
     {{<image filename="images/rc/icon-add.png" width="30px" alt="The Add button adds principals to the resource share." >}}
 
-1. Select the type of principal you want to add from the **Principal type** list. You can choose from the following principal types:
-
-    - AWS account
-    - [Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html)
-    - [Organizational unit (OU)](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html)
-    - [Identity and Access Management (IAM) role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
-    - [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html)
-    - Service principal
-
-1. Enter the principal's ID in the **Principal ID** field. You can also add an optional alias in the **AWS principal alias** field.
+1. Enter the account's ID in the **Principal ID** field. You can also add an optional alias in the **AWS principal alias** field.
 
     {{<image filename="images/rc/privatelink-aws-consumer-principals.png" width="80%" alt="The AWS consumer principals section with an AWS account added as a principal." >}}
 

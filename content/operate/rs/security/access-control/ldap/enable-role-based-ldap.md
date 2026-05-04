@@ -64,7 +64,7 @@ These settings define the authentication query:
 | **Search user by** | Either _Template_ or _Query_ |
 | **Template** | _(template search)_ Example: `cn=%u,ou=dev,dc=example,dc=com` |
 | **Base** | _(query search)_ Example: `ou=dev,dc=example,dc=com` |
-| **Filter** | _(query search)_ Example: `(cn=%u)` |
+| **Filter** | _(query search)_ Must be enclosed in parentheses. Example: `(cn=%u)` |
 | **Scope**  | _(query search)_ Must be _baseObject_, _singleLevel_, or _wholeSubtree_ |
 
 In this example, `%u` is replaced by the username attempting to access the Redis Software resource.
@@ -78,7 +78,7 @@ These settings define the group authorization query:
 | **Search groups by** | Either _Attribute_ or _Query_ |
 | **Attribute** | _(attribute search)_ Example: `memberOf` (case-sensitive) |
 | **Base** | _(query search)_ Example: `ou=groups,dc=example,dc=com` |
-| **Filter** | _(query search)_ Example: `(members=%D)` |
+| **Filter** | _(query search)_ Must be enclosed in parentheses. Example: `(members=%D)` |
 | **Scope**  | _(query search)_ Must be _baseObject_, _singleLevel_, or _wholeSubtree_ |
 
 In this example, `%D` is replaced by the Distinguished Name of the user attempting to access the Redis Software resource.

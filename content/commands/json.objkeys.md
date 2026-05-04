@@ -22,7 +22,7 @@ categories:
 complexity: O(N) when path is evaluated to a single value, where N is the number of
   keys in the object, O(N) when path is evaluated to multiple values, where N is the
   size of the key
-description: Returns the JSON keys of the object at path
+description: Returns the key names of JSON objects at the paths matching a given path expression
 group: json
 hidden: false
 linkTitle: JSON.OBJKEYS
@@ -30,11 +30,15 @@ module: JSON
 railroad_diagram: /images/railroad/json.objkeys.svg
 since: 1.0.0
 stack_path: docs/data-types/json
-summary: Returns the JSON keys of the object at path
+summary: Returns the key names of JSON objects at the paths matching a given path expression
 syntax_fmt: JSON.OBJKEYS key [path]
 title: JSON.OBJKEYS
 ---
-Return the keys in the object that's referenced by `path`
+Returns the key names of JSON objects at the paths matching a given path expression.
+
+{{< note >}}
+A JSON object is a structure within a JSON document that contains an unordered set of key-value pairs (also called name-value pairs). Do not confuse Redis keys with JSON object keys.
+{{< /note >}}
 
 [Examples](#examples)
 
@@ -42,14 +46,25 @@ Return the keys in the object that's referenced by `path`
 
 <details open><summary><code>key</code></summary> 
 
-is key to parse. Returns `null` for nonexistent keys.
+is a Redis key storing a value of type JSON.
+
 </details>
 
 ## Optional arguments
 
 <details open><summary><code>path</code></summary> 
 
-is JSONPath to specify. Default is root `$`. Returns `null` for nonexistant path.
+is either 
+
+- A JSONPath expression
+  - The root "`$`", or any string that starts with "`$.`" or "`$[`".
+  - Resolves to all matching locations in `key`.
+- A legacy path expression 
+  - Any string that does not match the JSONPath syntax above.
+  - Allow the leading "`.`" to be omitted (for example, "`name`" and "`.name`" are equivalent).
+  - Resolves to only the first matching location in `key`.
+
+Default: "`.`" (legacy path pointing to the root of the document).
 
 </details>
 
@@ -76,23 +91,46 @@ redis> JSON.OBJKEYS doc $..a
     tab1="RESP2"
     tab2="RESP3" >}}
 
-With `$`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [array replies]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each nested array contains the key names in the object, or `null` if the matching value is not an object.
+If `path` is a JSONPath expression:
 
-With `.`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the key names in the object, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an object.
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
+- An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
+- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
+  - [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if the match is not an object.
+  - An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the object's key names if the match is an object.
+
+If `path` is a legacy path expression:
+
+- [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if `key` does not exist.
+- [`nil`]({{< relref "/develop/reference/protocol-spec#null-bulk-strings" >}}) if `path` has no matches.
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not an object.
+- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the object's key names of the first match.
 
 -tab-sep-
 
-With `$`-based path argument (default): [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [array replies]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), where each nested array contains the key names in the object, or `null` if the matching value is not an object.
+If `path` is a JSONPath expression:
 
-With `.`-based path argument: [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the key names in the object, or [null reply]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the matching value is not an object.
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if `key` does not exist.
+- An empty [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) if `path` has no matches.
+- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each array element corresponds to one match:
+  - [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if the match is not an object.
+  - An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the object's key names if the match is an object.
+
+If `path` is a legacy path expression:
+
+- [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if `key` does not exist.
+- [`nil`]({{< relref "/develop/reference/protocol-spec#nulls" >}}) if `path` has no matches.
+- A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the first match is not an object.
+- An [array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the object's key names of the first match.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.ARRINDEX`]({{< relref "commands/json.arrindex/" >}}) | [`JSON.ARRINSERT`]({{< relref "commands/json.arrinsert/" >}}) 
+[`JSON.OBJLEN`]({{< relref "commands/json.objlen/" >}})
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [The JSON data type]({{< relref "/develop/data-types/json/" >}})
+* [JSONPath]({{< relref "/develop/data-types/json/path" >}})
 * [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})

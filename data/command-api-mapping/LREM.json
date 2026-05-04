@@ -437,6 +437,32 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "lrem(key, count, value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "number of elements to remove"
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of removed elements"
+        }
+      }
     ]
   }
 }

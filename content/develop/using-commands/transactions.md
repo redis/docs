@@ -1,4 +1,8 @@
 ---
+aliases: 
+- /develop/interact/transactions
+- /manual/transactions/
+- /interact/transactions/
 categories:
 - docs
 - develop
@@ -9,8 +13,6 @@ categories:
 - oss
 - kubernetes
 - clients
-aliases: 
-- /develop/interact/transactions
 description: How transactions work in Redis
 linkTitle: Transactions
 title: Transactions
@@ -217,6 +219,11 @@ We just have to repeat the operation hoping this time we'll not get a
 new race. This form of locking is called _optimistic locking_.
 In many use cases, multiple clients will be accessing different keys,
 so collisions are unlikely – usually there's no need to repeat the operation.
+
+Starting with version 8.4, Redis offers new atomic compare-and-set and compare-and-delete commands for string keys.
+A client can use a single ([`SET`]({{< relref "/commands/set" >}}) command with the `IFEQ`/`IFNE`/`IFDEQ`/`IFDNE` options to atomically update a string key only if its value has not changed since it was fetched.
+This is much simpler and faster.
+Similarly, a client can use a single [`DELEX`]({{< relref "/commands/delex" >}}) command for compare-and-delete: atomically deleting a string key if its value hasn't changed since it was fetched.
 
 ## WATCH explained
 

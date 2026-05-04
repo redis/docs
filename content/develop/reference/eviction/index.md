@@ -12,6 +12,9 @@ categories:
 description: Overview of Redis key eviction policies (LRU, LFU, etc.)
 linkTitle: Eviction
 title: Key eviction
+aliases:
+- /manual/eviction/
+- /reference/eviction/
 weight: 6
 ---
 

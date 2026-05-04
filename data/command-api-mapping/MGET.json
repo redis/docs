@@ -299,6 +299,22 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "mget(*keys)",
+        "params": [
+          {
+            "name": "*keys",
+            "type": "Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": "an array of values for the specified keys"
+        }
+      }
     ]
   }
 }

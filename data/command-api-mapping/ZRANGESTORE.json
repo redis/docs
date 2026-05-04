@@ -518,6 +518,57 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zrangestore(dest_key, src_key, start, stop, by_score: false, by_lex: false, rev: false, limit: nil)",
+        "params": [
+          {
+            "name": "dest_key",
+            "type": "String",
+            "description": "destination key"
+          },
+          {
+            "name": "src_key",
+            "type": "String",
+            "description": "source key"
+          },
+          {
+            "name": "start",
+            "type": "Integer",
+            "description": "start index"
+          },
+          {
+            "name": "stop",
+            "type": "Integer",
+            "description": "stop index"
+          },
+          {
+            "name": "by_score",
+            "type": "Boolean",
+            "description": "return members by score"
+          },
+          {
+            "name": "by_lex",
+            "type": "Boolean",
+            "description": "return members by lexicographical ordering"
+          },
+          {
+            "name": "rev",
+            "type": "Boolean",
+            "description": "reverse the ordering"
+          },
+          {
+            "name": "limit",
+            "type": "Array",
+            "description": "[offset, count]"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of elements in the resulting sorted set"
+        }
+      }
     ]
   }
 }

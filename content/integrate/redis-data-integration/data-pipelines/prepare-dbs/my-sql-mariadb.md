@@ -99,6 +99,20 @@ binlog_row_image            = FULL
 binlog_expire_logs_seconds  = 864000
 ```
 
+For MariaDB, also add the following server configuration settings:
+
+```
+log_bin_compress            = 0
+
+# Required for MariaDB 11.4 and later.
+binlog_legacy_event_pos     = 1
+```
+
+RDI doesn't support binary log compression, so you must set
+`log_bin_compress` to `0`. For MariaDB 11.4 and later, you must also set
+`binlog_legacy_event_pos` to `1` to prevent RDI collector crash loops after
+the MariaDB server restarts.
+
 You can run the query above again to check that `log-bin` is now `ON`.
 
 {{< note >}}If you are using [Amazon RDS for MySQL](https://aws.amazon.com/rds/mysql/) then

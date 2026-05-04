@@ -1,0 +1,52 @@
+{{- /*
+  Expand embed-md shortcodes for Markdown/JSON output.
+
+  Input: dict with:
+    - "RawContent": The raw Markdown content to process
+    - "Page": The current Hugo page
+    - "Visited": Optional slice of visited page identifiers to prevent recursion loops
+
+  Output: Markdown content with embed-md shortcodes expanded
+*/ -}}
+
+{{- $content := .RawContent -}}
+{{- $visited := .Visited | default (slice) -}}
+
+{{- $currentID := .Page.RelPermalink -}}
+{{- with .Page.File -}}
+  {{- $currentID = .Path -}}
+{{- end -}}
+{{- if not (in $visited $currentID) -}}
+  {{- $visited = $visited | append $currentID -}}
+{{- end -}}
+
+{{- $patterns := slice
+  `\{\{<\s*embed-md\s+"([^"]+)"\s*/?>\}\}`
+  `\{\{&lt;\s*embed-md\s+&#34;([^&]+)&#34;\s*/?&gt;\}\}`
+-}}
+
+{{- range $pattern := $patterns -}}
+  {{- $matches := findRESubmatch $pattern $content -}}
+  {{- range $match := $matches -}}
+    {{- $shortcode := index $match 0 -}}
+    {{- $target := index $match 1 -}}
+    {{- $replacement := "" -}}
+    {{- with $.Page.Site.GetPage $target -}}
+      {{- $targetID := .RelPermalink -}}
+      {{- with .File -}}
+        {{- $targetID = .Path -}}
+      {{- end -}}
+      {{- if not (in $visited $targetID) -}}
+        {{- $replacement = partial "process-markdown-content.html" (dict
+          "RawContent" .RawContent
+          "Site" .Site
+          "Page" .
+          "Visited" ($visited | append $targetID)
+        ) -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $content = replace $content $shortcode $replacement -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $content -}}

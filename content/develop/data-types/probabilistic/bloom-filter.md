@@ -1,4 +1,11 @@
 ---
+aliases:
+- /data-types/probabilistic/bloom-filter/
+- /data-types/bloom-filter/
+- /data-types/bloom-filters/
+- /manual/data-types/probabilistic/bloom-filter/
+- /manual/bloom-filter/
+- /manual/bloom-filters/
 categories:
 - docs
 - develop
@@ -16,6 +23,8 @@ stack: true
 title: Bloom filter
 weight: 10
 ---
+
+{{< command-group group="bf" title="Bloom filter command summary" show_link=true >}}
 
 A Bloom filter is a probabilistic data structure in Redis Open Source that enables you to check if an element is present in a set using a very small memory space of a fixed size.
 

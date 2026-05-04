@@ -857,6 +857,52 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xautoclaim(key, group, consumer, min_idle_time, start, count: nil, justid: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": "the consumer group name"
+          },
+          {
+            "name": "consumer",
+            "type": "String",
+            "description": "the consumer name"
+          },
+          {
+            "name": "min_idle_time",
+            "type": "Integer",
+            "description": "the number of milliseconds"
+          },
+          {
+            "name": "start",
+            "type": "String",
+            "description": "entry id to start scanning from or 0-0 for everything"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "number of messages to claim"
+          },
+          {
+            "name": "justid",
+            "type": "Boolean",
+            "description": "whether to fetch just an array of entry ids"
+          }
+        ],
+        "returns": {
+          "type": "Hash, Array<String>",
+          "description": "the entries successfully claimed"
+        }
+      }
     ]
   }
 }
