@@ -38,6 +38,10 @@ An API object that represents the cluster.
 | <span class="break-all">default_non_sharded_proxy_policy</span> | string (default: single) | Default proxy_policy for newly created non-sharded databases' endpoints (read-only) |
 | <span class="break-all">default_sharded_proxy_policy</span> | string (default: all-master-shards) | Default proxy_policy for newly created sharded databases' endpoints (read-only) |
 | <span class="break-all">disconnect_clients_on_password_removal</span> | "enabled"<br />"disabled"<br />**"auto"** | This flag controls whether client connections using removed, revoked, or rotated passwords are actively disconnected |
+| <span class="break-all">dmc_external_authentication</span> | boolean (default: false) | Enable dmc to call the authentication_service for basic authentication |
+| <span class="break-all">dmc_external_cba_authentication</span> | boolean (default: false) | Enable dmc to call the authentication_service for certificate-based authentication |
+| <span class="break-all">dmc_external_entraid_authentication</span> | boolean (default: false) | Enable dmc to call the authentication_service for entraid authentication |
+| <span class="break-all">dmc_external_ldap_authentication</span> | boolean (default: false) | Enable dmc to call the authentication_service for LDAP-based authentication |
 | email_alerts | boolean (default: false) | Send node/cluster email alerts (requires valid SMTP and email_from settings) |
 | email_from | string | Sender email for automated emails |
 | encrypt_pkeys | boolean (default: false) | Enable or turn off encryption of private keys |
