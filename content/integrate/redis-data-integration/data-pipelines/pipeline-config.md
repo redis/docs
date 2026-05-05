@@ -141,41 +141,48 @@ targets:
       # cert: ${TARGET_DB_CERT}
       # cacert: ${TARGET_DB_CACERT}
 processors:
-  # Interval (in seconds) on which to perform retry on failure.
-  # on_failed_retry_interval: 5
-  # The batch size for reading data from the source database.
+  # # Processor type: classic or flink (default: classic)
+  # type: classic
+  # # The batch size for reading data from source database
   # read_batch_size: 2000
-  # Time (in ms) after which data will be read from stream even if
-  # read_batch_size was not reached.
-  # duration: 100
-  # The batch size for writing data to the target Redis database. Should be
-  # less than or equal to the read_batch_size.
+  # # Time (in ms) after which data will be read from stream even if read_batch_size was not reached
+  # read_batch_timeout_ms: 100
+  # # The batch size for writing data to target Redis database. Should be less or equal to the read_batch_size
   # write_batch_size: 200
-  # Enable deduplication mechanism (default: false).
+  # # Enable async processing to improve throughput and reduce latency (default: true)
+  # enable_async_processing: true
+  # # Maximum number of batches to queue for processing (default: 3)
+  # batch_queue_size: 3
+  # # Maximum number of batches to queue for asynchronous acknowledgement (default: 10)
+  # ack_queue_size: 10
+  # # Enable deduplication mechanism (default: false)
   # dedup: <DEDUP_ENABLED>
-  # Max size of the deduplication set (default: 1024).
+  # # Max size of the deduplication set (default: 1024)
   # dedup_max_size: <DEDUP_MAX_SIZE>
-  # Error handling strategy: ignore - skip, dlq - store rejected messages
-  # in a dead letter queue.
+  # # Error handling strategy: ignore - skip, dlq - store rejected messages in a dead letter queue
   # error_handling: dlq
-  # Dead letter queue max messages per stream.
+  # # Dead letter queue max messages per stream
   # dlq_max_messages: 1000
-  # Data type to use in Redis target database: `hash` for Redis Hash,
-  # `json` for JSON (which requires the RedisJSON module).
+  # # Target data type: hash/json - RedisJSON module must be in use in the target DB
   # target_data_type: hash
-  # Number of processes to use when syncing initial data.
-  # initial_sync_processes: 4
-  # Checks if the batch has been written to the replica shard.
-  # wait_enabled: false
-  # Timeout in milliseconds when checking write to the replica shard.
-  # wait_timeout: 1000
-  # Ensures that a batch has been written to the replica shard and keeps
-  # retrying if not.
-  # retry_on_replica_failure: true
-  # Enable merge as the default strategy to writing JSON documents.
+  # # Enable merge as the default strategy to writing JSON documents
   # json_update_strategy: merge
-  # Use native JSON merge if the target RedisJSON module supports it.
+  # # Use native JSON merge if the target RedisJSON module supports it
   # use_native_json_merge: true
+  # # Number of processes to use when syncing initial data
+  # initial_sync_processes: 4
+  # # Time in milliseconds to sleep between processing batches when idle (default: 200)
+  # idle_sleep_time_ms: 200
+  # # Time in milliseconds between checking for new streams when processor is idle (default: 1000)
+  # idle_streams_check_interval_ms: 1000
+  # # Time in milliseconds between checking for new streams when processor is busy (default: 5000)
+  # busy_streams_check_interval_ms: 5000
+  # # Checks if the batch has been written to the replica shard
+  # wait_enabled: false
+  # # Timeout in milliseconds when checking write to the replica shard
+  # wait_timeout: 1000
+  # # Ensures that a batch has been written to the replica shard and keeps retrying if not
+  # retry_on_replica_failure: true
 ```
 
 ## Sections
@@ -266,29 +273,46 @@ sudo service k3s restart
 The `processors` section configures the behavior of the pipeline. The [example](#example)
 configuration above contains the following properties:
 
-- `on_failed_retry_interval`: Number of seconds to wait before retrying a failed operation.
-  The default is 5 seconds.
+- `type`: Stream processor implementation to run for this pipeline.
+  The options are `classic` (the default) for the Python-based classic processor
+  and `flink` for the
+  [Apache Flink](https://flink.apache.org/)-based processor.
+  The Flink processor runs on Kubernetes only and supports the `hash` and `json`
+  target data types. See
+  [Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
+  for an overview, and
+  [Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}})
+  for guidance on migrating an existing pipeline to the Flink processor.
 - `read_batch_size`: Maximum number of records to read from the source database. RDI will
-  wait for the batch to fill up to `read_batch_size` or for `duration` to elapse,
+  wait for the batch to fill up to `read_batch_size` or for `read_batch_timeout_ms` to elapse,
   whichever happens first. The default is 2000.
+- `read_batch_timeout_ms`: Time (in ms) after which data will be read from the stream even if
+  `read_batch_size` was not reached. The default is 100 ms.
+- `write_batch_size`: The batch size for writing data to the target Redis database. This should be
+  less than or equal to the `read_batch_size`. The default is 200.
 - `target_data_type`: Data type to use in the target Redis database. The options are `hash`
   for Redis Hash (the default), or `json` for RedisJSON, which is available only if you have added the
   RedisJSON module to the target database. Note that this setting is mainly useful when you
   don't provide any custom jobs. When you do provide jobs, you can specify the
   target data type in each job individually and choose from a wider range of data types.
   See [Job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}})
-  (which requires the RedisJSON module) for more information. 
-- `duration`: Time (in ms) after which data will be read from the stream even if
-  `read_batch_size` was not reached. The default is 100 ms.
-- `write_batch_size`: The batch size for writing data to the target Redis database. This should be
-  less than or equal to the `read_batch_size`. The default is 200.
+  (which requires the RedisJSON module) for more information.
 - `dedup`: Boolean value to enable the deduplication mechanism. The default is `false`.
+  **Classic processor only.**
 - `dedup_max_size`: Maximum size of the deduplication set. The default is 1024.
+  **Classic processor only.**
 - `error_handling`: The strategy to use when an invalid record is encountered. The available
-  strategies are `ignore` and  `dlq` (store rejected messages in a dead letter queue). 
+  strategies are `ignore` and  `dlq` (store rejected messages in a dead letter queue).
   The default is `dlq`. See
   [What does RDI do if the data is corrupted or invalid?]({{< relref "/integrate/redis-data-integration/faq#what-does-rdi-do-if-the-data-is-corrupted-or-invalid" >}})
   for more information about the dead letter queue.
+
+{{< note >}}When `type` is set to `flink`, fine-tuning of the processor and the
+underlying Flink runtime is configured through the `processors.advanced`
+section. The classic processor silently ignores `processors.advanced`.
+See the
+[RDI configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})
+for the full set of available properties.{{< /note >}}
 
 See also the
 [RDI configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})
