@@ -14,10 +14,29 @@ weight: 94
 ---
 ## Requirements
 
-RedisTimeSeries v1.12.9 requires:
+RedisTimeSeries v1.12.14 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.8
+
+## v1.12.14 (May 2026)
+
+{{< note >}}
+Starting with Redis 8, the time series data structure is integral to Redis. You don't need to install this module separately.
+This is not the latest release.
+We no longer release new standalone versions of RedisTimeSeries; we only patch old versions.
+See https://github.com/redis/redis
+{{< /note >}}
+
+This is a maintenance release for RedisTimeSeries 1.12.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+Details:
+
+- **Security:**
+
+  - (CVE-2026-25588) Invalid memory access in `RESTORE` may lead to Remote Code Execution.
 
 ## v1.12.9 (October 2025)
 
