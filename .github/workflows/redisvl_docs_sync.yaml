@@ -38,6 +38,11 @@ jobs:
       - name: 'Checkout'
         uses: 'actions/checkout@v3'
 
+      - name: 'Setup Python'
+        uses: 'actions/setup-python@v5'
+        with:
+          python-version: '3.12'
+
       - name: 'Install deps'
         run: |
           pip3 install sphinx sphinx_design sphinx_copybutton nbsphinx==0.9.7 sphinx_favicon myst_nb sphinx_markdown_builder==0.6.8 jupyter
