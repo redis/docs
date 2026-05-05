@@ -13,10 +13,40 @@ weight: 90
 ---
 ## Requirements
 
-RediSearch v2.10.25 requires:
+RediSearch v2.10.30 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.8
+
+## v2.10.30 (May 2026)
+
+This is a maintenance release for Redis Search 2.10. 
+
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade
+
+Bug fixes:
+- [#Q8948](https://github.com/redisearch/redisearch/pull/8948) `FT.CURSOR READ` enters an infinite loop when the caller lacks the required ACL permissions. (MOD-14479)
+- [#Q8794](https://github.com/redisearch/redisearch/pull/8794) `FT.EXPLAIN` crashes or produces corrupt output when a concurrent schema change occurs. (MOD-14461)
+- [#Q9176](https://github.com/redisearch/redisearch/pull/9176), [#Q9314](https://github.com/redisearch/redisearch/pull/9314) Coordinator deadlock under mixed `FT.SEARCH` and `FT.AGGREGATE` load. (MOD-14268)
+- [#Q9273](https://github.com/redisearch/redisearch/pull/9273), [#Q9302](https://github.com/redisearch/redisearch/pull/9302) Async shard connect hangs indefinitely when a peer endpoint is unreachable; the connect is now bounded by search-connect-timeout. (MOD-12739)
+- [#Q9167](https://github.com/redisearch/redisearch/pull/9167) Crash on `FT.SEARCH` when topology validation fails (for example, some nodes unreachable). (MOD-14475)
+- [#Q9082](https://github.com/redisearch/redisearch/pull/9082) `FT.SPELLCHECK` ignores $param placeholders even when `PARAMS` is supplied. (MOD-10596)
+- [#Q9050](https://github.com/redisearch/redisearch/pull/9050) `FT.PROFILE` produces malformed output for documents with missing field values. (MOD-10560)
+- [#Q9075](https://github.com/redisearch/redisearch/pull/9075) Invalid schema option combinations are silently accepted at `FT.CREATE` time. (MOD-14655)
+- [#Q9436](https://github.com/redisearch/redisearch/pull/9436) Malformed index definitions in an RDB file crash the shard or load an invalid index. (MOD-13118)
+- [#Q7686](https://github.com/redisearch/redisearch/pull/7686) Cursors are not released on certain error paths, leaking cursor slots over time. (MOD-12807)
+- [#Q8465](https://github.com/redisearch/redisearch/pull/8465) Garbage collector mishandles out-of-memory responses on replicas, leaving the index inconsistent. (MOD-14066)
+- [#Q7771](https://github.com/redisearch/redisearch/pull/7771) String comparisons truncate at embedded `NULL` bytes, returning wrong results for TAG and binary fields. (MOD-13010)
+- [#Q7851](https://github.com/redisearch/redisearch/pull/7851) `FT.SUG*` commands are not registered on Redis Enterprise builds. (MOD-13152)
+- [#Q8154](https://github.com/redisearch/redisearch/pull/8154) Per-shard total time in cluster `FT.PROFILE` output is reported incorrectly. (MOD-13735, MOD-13181)
+- [#Q8084](https://github.com/redisearch/redisearch/pull/8084) `FULLTEXT` field count in `FT.INFO` statistics is inaccurate. (MOD-13432)
+
+Metrics:
+- [#Q7558](https://github.com/redisearch/redisearch/pull/7558), [#Q7688](https://github.com/redisearch/redisearch/pull/7688), [#Q7723](https://github.com/redisearch/redisearch/pull/7723), [#Q7791](https://github.com/redisearch/redisearch/pull/7791), [#Q7749](https://github.com/redisearch/redisearch/pull/7749), [#Q7738](https://github.com/redisearch/redisearch/pull/7738), [#Q7744](https://github.com/redisearch/redisearch/pull/7744) New `FT.INFO` metrics expose live thread-pool utilization and pending-job depth for worker, coordinator, IO, and topology-update pools (`search_active_io_threads`, `search_active_worker_threads`, `search_active_coord_threads`, `search_active_topology_update_threads`, `search_workers_low_priority_pending_jobs`, `search_workers_high_priority_pending_jobs`, `search_workers_admin_priority_pending_jobs`, `search_coord_high_priority_pending_jobs`). (MOD-12069, MOD-12695, MOD-12694, MOD-12790, MOD-12791)
+- [#Q7793](https://github.com/redisearch/redisearch/pull/7793), [#Q7816](https://github.com/redisearch/redisearch/pull/7816) New `FT.INFO` counters track per-shard and coordinator query timeouts and `MAXPREFIXEXPANSIONS` truncations (`search_shard_total_query_errors_timeout`, `search_shard_total_query_warnings_timeout`, `search_shard_total_query_warnings_max_prefix_expansions`, and equivalent `search_coord_total_* counters`). (MOD-12419, MOD-12417)
+- [#Q7766](https://github.com/redisearch/redisearch/pull/7766) New `FT.INFO` per-field-type indexing-operation counters added for `TEXT`, `TAG`, `NUMERIC`, `GEO`, `GEOSHAPE`, and `VECTOR fields`. (MOD-12070)
+- [#Q7746](https://github.com/redisearch/redisearch/pull/7746) New Internal cursor reads counter in cluster `FT.PROFILE` output surfaces internal cursor-hop round-trips per query. (MOD-12414)
+- [#Q7593](https://github.com/redisearch/redisearch/pull/7593) FT.PROFILE now reports GIL time, giving an accurate breakdown of where query time is spent. (MOD-11987, MOD-12816)
 
 ## v2.10.25 (December 2025)
 
