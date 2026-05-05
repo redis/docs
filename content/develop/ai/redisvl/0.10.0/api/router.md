@@ -368,7 +368,7 @@ The matched route name.
 
 ## Distance Aggregation Method
 
-### `class DistanceAggregationMethod(value, names=None, *, module=None, qualname=None, type=None, start=1, boundary=None)`
+### `class DistanceAggregationMethod(value, names=<not given>, *values, module=None, qualname=None, type=None, start=1, boundary=None)`
 
 Enumeration for distance aggregation methods.
 
