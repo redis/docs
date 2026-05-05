@@ -152,7 +152,7 @@ v = VectorQuery(
 )
 ```
 
-These parameters can be adjusted at query time without rebuilding the index. See the [Advanced Queries guide](11_advanced_queries.ipynb) for more details.
+These parameters can be adjusted at query time without rebuilding the index. See the [Advanced Queries guide]({{< relref "advanced_queries" >}}) for more details.
 
 
 ```python
