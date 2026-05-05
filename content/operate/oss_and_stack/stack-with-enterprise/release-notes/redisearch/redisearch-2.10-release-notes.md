@@ -22,7 +22,7 @@ RediSearch v2.10.30 requires:
 
 This is a maintenance release for Redis Search 2.10. 
 
-Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade!
 
 Bug fixes:
 - [#Q8948](https://github.com/redisearch/redisearch/pull/8948) `FT.CURSOR READ` enters an infinite loop when the caller lacks the required ACL permissions. (MOD-14479)
