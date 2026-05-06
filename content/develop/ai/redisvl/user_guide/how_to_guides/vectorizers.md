@@ -145,76 +145,33 @@ api_version = os.environ.get("OPENAI_API_VERSION") or getpass.getpass("Enter you
 azure_endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT") or getpass.getpass("Enter your AzureOpenAI API endpoint: ")
 deployment_name = os.environ.get("AZURE_OPENAI_DEPLOYMENT_NAME", "text-embedding-ada-002")
 
+# Skip Azure examples when required values are missing (e.g. CI or Run All without Azure).
+_azure_configured = bool(azure_endpoint and api_key and api_version)
+
 ```
 
 
 ```python
 from redisvl.utils.vectorize import AzureOpenAITextVectorizer
 
-# create a vectorizer
-az_oai = AzureOpenAITextVectorizer(
-    model=deployment_name, # Must be your CUSTOM deployment name
-    api_config={
-        "api_key": api_key,
-        "api_version": api_version,
-        "azure_endpoint": azure_endpoint
-    },
-)
+if not _azure_configured:
+    print("Skipping Azure OpenAI example: set AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_API_KEY and OPENAI_API_VERSION")
+    az_oai = None
+else:
+    az_oai = AzureOpenAITextVectorizer(
+        model=deployment_name,  # Must be your CUSTOM deployment name
+        api_config={
+            "api_key": api_key,
+            "api_version": api_version,
+            "azure_endpoint": azure_endpoint,
+        },
+    )
 
-test = az_oai.embed("This is a test sentence.")
-print("Vector dimensions: ", len(test))
-test[:10]
+    test = az_oai.embed("This is a test sentence.")
+    print("Vector dimensions: ", len(test))
+    test[:10]
+
 ```
-
-    ---------------------------------------------------------------------------
-    ValueError                                Traceback (most recent call last)
-    Cell In[7], line 4
-          1 from redisvl.utils.vectorize import AzureOpenAITextVectorizer
-          3 # create a vectorizer
-    ----> 4 az_oai = AzureOpenAITextVectorizer(
-          5     model=deployment_name, # Must be your CUSTOM deployment name
-          6     api_config={
-          7         "api_key": api_key,
-          8         "api_version": api_version,
-          9         "azure_endpoint": azure_endpoint
-         10     },
-         11 )
-         13 test = az_oai.embed("This is a test sentence.")
-         14 print("Vector dimensions: ", len(test))
-    File ~/src/redis-vl-python/redisvl/utils/vectorize/text/azureopenai.py:78, in AzureOpenAITextVectorizer.__init__(self, model, api_config, dtype)
-         54 def __init__(
-         55     self,
-         56     model: str = "text-embedding-ada-002",
-         57     api_config: Optional[Dict] = None,
-         58     dtype: str = "float32",
-         59 ):
-         60     """Initialize the AzureOpenAI vectorizer.
-         61 
-         62     Args:
-       (...)
-         76         ValueError: If an invalid dtype is provided.
-         77     """
-    ---> 78     self._initialize_clients(api_config)
-         79     super().__init__(model=model, dims=self._set_model_dims(model), dtype=dtype)
-    File ~/src/redis-vl-python/redisvl/utils/vectorize/text/azureopenai.py:106, in AzureOpenAITextVectorizer._initialize_clients(self, api_config)
-         99 azure_endpoint = (
-        100     api_config.pop("azure_endpoint")
-        101     if api_config
-        102     else os.getenv("AZURE_OPENAI_ENDPOINT")
-        103 )
-        105 if not azure_endpoint:
-    --> 106     raise ValueError(
-        107         "AzureOpenAI API endpoint is required. "
-        108         "Provide it in api_config or set the AZURE_OPENAI_ENDPOINT\
-        109             environment variable."
-        110     )
-        112 api_version = (
-        113     api_config.pop("api_version")
-        114     if api_config
-        115     else os.getenv("OPENAI_API_VERSION")
-        116 )
-        118 if not api_version:
-    ValueError: AzureOpenAI API endpoint is required. Provide it in api_config or set the AZURE_OPENAI_ENDPOINT                    environment variable.
 
 
 ```python
@@ -222,11 +179,15 @@ test[:10]
 sentences = [
     "That is a happy dog",
     "That is a happy person",
-    "Today is a sunny day"
+    "Today is a sunny day",
 ]
 
-embeddings = await az_oai.aembed_many(sentences)
-embeddings[0][:10]
+if _azure_configured and az_oai is not None:
+    embeddings = await az_oai.aembed_many(sentences)
+    embeddings[0][:10]
+else:
+    print("Skipping: run the Azure cells above with valid configuration.")
+
 ```
 
 ### Huggingface

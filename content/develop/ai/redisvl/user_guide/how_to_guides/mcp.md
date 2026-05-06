@@ -75,12 +75,12 @@ uvx --from redisvl[mcp] rvl mcp --config /path/to/mcp.yaml --read-only
 
 You can also control boot settings through environment variables:
 
-| Variable                              | Purpose                                     |
-|---------------------------------------|---------------------------------------------|
-| `REDISVL_MCP_CONFIG`                  | Path to the MCP YAML config                 |
-| `REDISVL_MCP_READ_ONLY`               | Disable `upsert-records` when set to `true` |
-| `REDISVL_MCP_TOOL_SEARCH_DESCRIPTION` | Override the search tool description        |
-| `REDISVL_MCP_TOOL_UPSERT_DESCRIPTION` | Override the upsert tool description        |
+| Variable                              | Purpose                                                                                                                           |
+|---------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| `REDISVL_MCP_CONFIG`                  | Path to the MCP YAML config                                                                                                       |
+| `REDISVL_MCP_READ_ONLY`               | Disable `upsert-records` when set to `true`                                                                                       |
+| `REDISVL_MCP_TOOL_SEARCH_DESCRIPTION` | Set the base search tool description text; RedisVL still appends schema-derived typed filter, `exists`, and `return_fields` hints |
+| `REDISVL_MCP_TOOL_UPSERT_DESCRIPTION` | Override the upsert tool description                                                                                              |
 
 ## Connect a Remote MCP Client
 
@@ -159,11 +159,42 @@ indexes:
 
 - `redis_name` must point to an index that already exists in Redis
 - `search.type` fixes retrieval behavior for every MCP caller
-- `runtime.text_field_name` tells full-text and hybrid search which field to search
-- `runtime.vector_field_name` tells the server which vector field to use
-- `runtime.default_embed_text_field` tells upsert which text field to embed when a record needs embedding
+- `runtime.text_field_name` is required for `fulltext` and `hybrid` search
+- `runtime.vector_field_name` is required for `vector` and `hybrid` search, and optional for plain full-text deployments
+- `runtime.default_embed_text_field` is only required when the server should generate embeddings during upsert
+- `vectorizer` is required for query embedding and server-side embedding, but optional for fulltext-only configs
 - `runtime.max_result_window` caps deep paging by limiting the maximum `offset + limit`
 - `schema_overrides` is only for patching incomplete field attrs discovered from Redis
+
+### Fulltext-Only Config
+
+For a non-vector deployment, omit vector-only settings entirely:
+
+```yaml
+server:
+  redis_url: ${REDIS_URL}
+
+indexes:
+  knowledge:
+    redis_name: knowledge
+
+    search:
+      type: fulltext
+      params:
+        text_scorer: BM25STD
+        stopwords: english
+
+    runtime:
+      text_field_name: content
+      default_limit: 10
+      max_limit: 25
+      max_result_window: 1000
+      max_upsert_records: 64
+      skip_embedding_if_present: true
+      startup_timeout_seconds: 30
+      request_timeout_seconds: 60
+      max_concurrency: 16
+```
 
 ## Tool Contracts
 
@@ -225,6 +256,7 @@ Notes:
 - when `return_fields` is omitted, RedisVL MCP returns all non-vector fields
 - returning the configured vector field is rejected
 - `filter` accepts either a raw string or a JSON DSL object
+- the `search-records` tool description includes schema-derived hints for typed JSON DSL filter fields, object-filter `exists` support, and valid `return_fields`
 - `offset + limit` must stay within `runtime.max_result_window`
 - startup rejects schemas that use MCP-reserved score metadata field names:
   `id`, `__key`, `key`, `score`, `vector_distance`, `__score`, `text_score`, `vector_similarity`, `hybrid_score`
@@ -266,8 +298,9 @@ Example response payload:
 Notes:
 
 - this tool is not registered in read-only mode
-- records that need embedding must contain `runtime.default_embed_text_field`
-- when `skip_embedding_if_present` is `true`, records that already contain the vector field can skip re-embedding
+- when server-side embedding is configured, records that need embedding must contain `runtime.default_embed_text_field`
+- when `skip_embedding_if_present` is `true`, records that already contain the configured vector field can skip re-embedding
+- when a vector field is configured but server-side embedding is disabled, callers must supply vectors explicitly
 
 ## Search Examples
 
@@ -422,6 +455,24 @@ If a record does not include the configured vector field, RedisVL MCP embeds `ru
 
 Set `skip_embedding_if_present` to `false` when you want the server to regenerate embeddings during upsert. In most cases, the caller should omit the vector field and let the server manage embeddings from `runtime.default_embed_text_field`.
 
+### Plain Writes Without Embedding
+
+For fulltext-only indexes, `upsert-records` can write records without any vectorizer or vector field configuration:
+
+```json
+{
+  "records": [
+    {
+      "content": "Updated FAQ entry",
+      "category": "support",
+      "rating": 5
+    }
+  ]
+}
+```
+
+If you configure a vector field but omit server-side embedding support, the caller must send vectors in each record instead of relying on the server to generate them.
+
 ## Troubleshooting
 
 ### Missing MCP Dependencies
@@ -432,7 +483,7 @@ If `rvl mcp` reports missing optional dependencies, install the MCP extra:
 pip install redisvl[mcp]
 ```
 
-If the configured vectorizer needs a provider SDK, install that provider extra too.
+If the configured vectorizer needs a provider SDK, install that provider extra too. Fulltext-only configs can omit the vectorizer entirely.
 
 ### Configured Redis Index Does Not Exist
 

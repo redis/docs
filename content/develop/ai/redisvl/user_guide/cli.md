@@ -6,7 +6,7 @@ aliases:
 ---
 
 
-RedisVL is a Python library with a dedicated CLI to help load and create vector search indices within Redis.
+RedisVL is a Python library with a dedicated CLI to create, inspect, list, and delete Redis search indexes, inspect index statistics, and run the RedisVL MCP server.
 
 This notebook will walk through how to use the Redis Vector Library CLI (``rvl``).
 
@@ -23,22 +23,24 @@ For complete command syntax and options, see the CLI Reference.
 ```
 
 ## Commands
-Here's a table of all the rvl commands and options. We'll go into each one in detail below.
+The table below documents the current CLI tree. Use ``rvl index --help`` and ``rvl stats --help`` for detailed flag help and examples.
 
-| Command       | Options                  | Description |
-|---------------|--------------------------|-------------|
-| `rvl version` |                          | display the redisvl library version|
-| `rvl index`   | `create --schema` or `-s <schema.yaml>`| create a redis index from the specified schema file|
-| `rvl index`   | `listall`                | list all the existing search indices|
-| `rvl index`   | `info --index` or ` -i <index_name>`   | display the index definition in tabular format|
-| `rvl index`   | `delete --index` or `-i <index_name>` | remove the specified index, leaving the data still in Redis|
-| `rvl index`   | `destroy --index` or `-i <index_name>`| remove the specified index, as well as the associated data|
-| `rvl stats`   | `--index` or `-i <index_name>`        | display the index statistics, including number of docs, average bytes per record, indexing time, etc|
-| `rvl stats`   | `--schema` or `-s <schema.yaml>`        | display the index statistics of a schema defined in <schema.yaml>. The index must have already been created within Redis|
+| Command | Purpose |
+|---------|---------|
+| `rvl version` | display the installed RedisVL version |
+| `rvl index create` | create a new Redis search index from a schema YAML file |
+| `rvl index info` | display schema and storage details for an index |
+| `rvl index listall` | list Redis search indexes available on the target Redis deployment |
+| `rvl index delete` | delete an index while leaving indexed data in Redis |
+| `rvl index destroy` | delete an index and drop its indexed data |
+| `rvl stats` | display statistics for an existing Redis search index |
+| `rvl mcp` | run the RedisVL MCP server |
+
+Within data-plane commands, ``-i`` or ``--index`` targets an existing Redis index name and ``-s`` or ``--schema`` points to a schema YAML file. Shared Redis connection options such as ``--url``, ``--host``, and ``--port`` apply to ``rvl index`` and ``rvl stats``.
 
 ## Index
 
-The ``rvl index`` command can be used for a number of tasks related to creating and managing indices. Whether you are working in Python or another language, this cli tool can still be useful for managing and inspecting your indices.
+The ``rvl index`` command groups the index management workflows. Use ``rvl index --help`` to see the documented subcommands: ``create``, ``info``, ``listall``, ``delete``, and ``destroy``. Whether you are working in Python or another language, this CLI can still be useful for managing and inspecting your indexes.
 
 First, we will create an index from a yaml schema that looks like the following:
 
@@ -130,7 +132,7 @@ fields:
 
 ## Stats
 
-The ``rvl stats`` command will return some basic information about the index. This is useful for checking the status of an index, or for getting information about the index to use in other commands.
+The ``rvl stats`` command returns basic information about an index. Use ``-i`` or ``--index`` to target an existing Redis index name, or ``-s`` or ``--schema`` to target a schema-defined index. Shared Redis connection options such as ``--url``, ``--host``, and ``--port`` also apply here.
 
 
 ```python
