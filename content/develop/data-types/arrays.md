@@ -17,7 +17,7 @@ weight: 15
 
 {{< command-group group="array" title="Array command summary" show_link=true >}}
 
-Redis arrays are sparse, index-addressable data structures that map integer indices to string values. Unlike lists, elements are accessed directly by index rather than by position in a sequence, and you can set any index without allocating the gaps between occupied slots. This makes arrays well-suited for timestamped event logs, ring buffers, and other workloads that involve sparse or high-index access patterns.
+Redis arrays are sparse, index-addressable data structures that map integer indexes (in the range 0 to 2⁶⁴−1) to string values. Unlike lists, elements are accessed directly by index rather than by position in a sequence, and you can set any index without allocating the gaps between occupied slots. This makes arrays well-suited for timestamped event logs, ring buffers over streaming measurements, sliding-window analytics, and other workloads that involve sparse or high-index access patterns.
 
 ## Basic usage
 
@@ -32,7 +32,7 @@ Use [`ARSET`]({{< relref "/commands/arset" >}}) to write one or more contiguous 
 (nil)
 ```
 
-To write values at arbitrary, non-contiguous indices, use [`ARMSET`]({{< relref "/commands/armset" >}}). To read several indices in one round trip, use [`ARMGET`]({{< relref "/commands/armget" >}}):
+To write values at arbitrary, non-contiguous indexes, use [`ARMSET`]({{< relref "/commands/armset" >}}). To read several indexes in one round trip, use [`ARMGET`]({{< relref "/commands/armget" >}}):
 
 ```
 > ARMSET metrics 0 "10" 5 "20" 100 "30"
@@ -78,7 +78,7 @@ For a sparse array, these values can differ substantially:
 4) "d"
 ```
 
-To iterate only the elements that exist and retrieve their indices alongside their values, use [`ARSCAN`]({{< relref "/commands/arscan" >}}). It skips empty slots and returns a flat list of alternating index-value pairs, with an optional `LIMIT` to cap the result size:
+To iterate only the elements that exist and retrieve their indexes alongside their values, use [`ARSCAN`]({{< relref "/commands/arscan" >}}). It skips empty slots and returns a flat list of alternating index-value pairs, with an optional `LIMIT` to cap the result size:
 
 ```
 > ARSCAN seq 0 3
@@ -161,6 +161,27 @@ To iterate only the elements that exist and retrieve their indices alongside the
 (integer) 1
 ```
 
+## Searching elements
+
+[`ARGREP`]({{< relref "/commands/argrep" >}}) finds elements in a range whose values match one or more textual predicates and returns their indexes. Empty slots are skipped. Four predicate forms are supported: `EXACT` (full equality), `MATCH` (substring), `GLOB` (the same wildcard syntax as [`SCAN`]({{< relref "/commands/scan" >}}) `MATCH`), and `RE` (regular expression). Multiple predicates are combined with `OR` by default, or with `AND` when the option is given. Pass `NOCASE` for case-insensitive comparisons, `WITHVALUES` to return matching values alongside their indexes, and `LIMIT` to cap the number of matches.
+
+This is particularly useful when an array stores line-indexed text such as a log file, where each element holds one line:
+
+```
+> ARMSET log 0 "boot: ok" 1 "warn: disk" 2 "ERROR: cpu" 3 "info: ready" 4 "error: net"
+(integer) 5
+> ARGREP log - + MATCH "error" NOCASE
+1) (integer) 2
+2) (integer) 4
+> ARGREP log 0 4 GLOB "warn:*" OR GLOB "error:*" WITHVALUES
+1) (integer) 1
+2) "warn: disk"
+3) (integer) 4
+4) "error: net"
+```
+
+The special values `-` and `+` denote the first and last index of the array. Combined with [ring buffer mode](#ring-buffer-mode), this lets a fixed-size array hold the most recent *N* log lines and be searched in place.
+
 ## Deleting elements
 
 [`ARDEL`]({{< relref "/commands/ardel" >}}) deletes one or more elements by index and returns the count of elements actually removed. [`ARDELRANGE`]({{< relref "/commands/ardelrange" >}}) removes all elements within an index range; reversing `start` and `end` is supported:
@@ -196,11 +217,19 @@ The following configuration parameters affect array behavior:
 - `array-sparse-kmax`
 - `array-sparse-kmin`
 
-See the [Redis configuration page]({{< relref "/operate/oss_and_stack/oss/config" >}}) for details.
+See the [Redis configuration page]({{< relref "/operate/oss_and_stack/management/config" >}}) for details.
 
 ## Performance
 
-Most array commands are O(1), including [`ARSET`]({{< relref "/commands/arset" >}}), [`ARGET`]({{< relref "/commands/arget" >}}), [`ARDEL`]({{< relref "/commands/ardel" >}}), [`ARINSERT`]({{< relref "/commands/arinsert" >}}), [`ARNEXT`]({{< relref "/commands/arnext" >}}), [`ARSEEK`]({{< relref "/commands/arseek" >}}), [`ARCOUNT`]({{< relref "/commands/arcount" >}}), and [`ARLEN`]({{< relref "/commands/arlen" >}}). Operations that touch N elements—such as [`ARGETRANGE`]({{< relref "/commands/argetrange" >}}), [`ARSCAN`]({{< relref "/commands/arscan" >}}), [`ARDELRANGE`]({{< relref "/commands/ardelrange" >}}), [`AROP`]({{< relref "/commands/arop" >}}), and [`ARLASTITEMS`]({{< relref "/commands/arlastitems" >}})—are O(N). The underlying sliced-array encoding handles both dense and sparse access patterns efficiently, so large index gaps consume very little memory. The [`ARGREP`]({{< relref "/commands/argrep" >}}) command has the following complexity: O(P * C) where P is the number of visited positions in touched slices and C is the cost of evaluating the predicates on one existing element
+Most array commands are O(1), including [`ARSET`]({{< relref "/commands/arset" >}}), [`ARGET`]({{< relref "/commands/arget" >}}), [`ARDEL`]({{< relref "/commands/ardel" >}}), [`ARINSERT`]({{< relref "/commands/arinsert" >}}), [`ARNEXT`]({{< relref "/commands/arnext" >}}), [`ARSEEK`]({{< relref "/commands/arseek" >}}), [`ARCOUNT`]({{< relref "/commands/arcount" >}}), and [`ARLEN`]({{< relref "/commands/arlen" >}}). Operations that touch N elements—such as [`ARGETRANGE`]({{< relref "/commands/argetrange" >}}), [`ARSCAN`]({{< relref "/commands/arscan" >}}), [`ARDELRANGE`]({{< relref "/commands/ardelrange" >}}), [`AROP`]({{< relref "/commands/arop" >}}), and [`ARLASTITEMS`]({{< relref "/commands/arlastitems" >}})—are O(N). The underlying sliced-array encoding handles both dense and sparse access patterns efficiently, so large index gaps consume very little memory.
+
+## Alternatives
+
+Arrays complement rather than replace the other Redis collection types:
+
+- Use [Redis lists]({{< relref "/develop/data-types/lists" >}}) when you need push/pop operations at either end, or when you need to insert elements between existing ones.
+- Use [Redis hashes]({{< relref "/develop/data-types/hashes" >}}) when values are addressed by field name rather than by numeric index.
+- Use [Redis streams]({{< relref "/develop/data-types/streams" >}}) when you need an append-only event log with consumer groups and acknowledgements.
 
 ## Limits
 
