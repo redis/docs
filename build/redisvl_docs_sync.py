@@ -16,6 +16,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tomllib
 from glob import glob
 from pathlib import Path
 
@@ -92,6 +93,25 @@ def run(cmd, *, cwd=None, check=True, env=None, capture=False):
         stderr=subprocess.PIPE if capture else None,
         text=True,
     )
+
+
+def discover_extras(repo_dir: Path) -> list[str]:
+    """Return every key under [project.optional-dependencies] in the upstream
+    pyproject.toml.
+
+    redisvl eagerly imports every vectorizer (including the bedrock one,
+    which needs botocore) from `redisvl.utils.vectorize.__init__`. Without
+    those optional dependencies present, autodoc fails to import the module
+    and silently drops every class downstream of it. docs.redisvl.com side-
+    steps this by installing all extras (`uv sync --all-extras`); we do the
+    same here so the rendered API matches.
+    """
+    pyproject = repo_dir / "pyproject.toml"
+    if not pyproject.exists():
+        return []
+    data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
+    extras = data.get("project", {}).get("optional-dependencies", {})
+    return sorted(extras.keys())
 
 
 def ensure_repo(repo_dir: Path, version: str) -> None:
@@ -622,7 +642,11 @@ def sync_version(version: str, *, is_latest: bool, repo_dir: Path,
     print(f"\n=== redisvl {version} (latest={is_latest}) ===", flush=True)
     ensure_repo(repo_dir, version)
     if not skip_install:
-        run([sys.executable, "-m", "pip", "install", "--quiet", "-e", str(repo_dir)])
+        extras = discover_extras(repo_dir)
+        target = str(repo_dir)
+        if extras:
+            target = f"{target}[{','.join(extras)}]"
+        run([sys.executable, "-m", "pip", "install", "--quiet", "-e", target])
         # Per-version dependency pins so sphinx-autodoc reproduces the
         # docstrings published on docs.redisvl.com for this release. See
         # REDIS_PY_PINS / PYDANTIC_PINS at the top of this module for the
