@@ -142,6 +142,33 @@ The diagram below shows all RDI components and the interactions between them:
 
 {{< image filename="images/rdi/ingest/ingest-control-plane.webp" >}}
 
+## Stream processor implementations
+
+RDI provides two implementations of the stream processor. You select the
+implementation per pipeline through the
+[`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
+property in `config.yaml`. The default is `classic`, so existing pipelines
+keep their behavior unchanged.
+
+-   The **classic** processor is implemented in Python. It is the original RDI
+    stream processor, supports both VM and Kubernetes deployments, and writes
+    to all Redis target data types (`hash`, `json`, `set`, `sorted_set`,
+    `stream`, `string`).
+
+-   The **Flink** processor is implemented on top of
+    [Apache Flink](https://flink.apache.org/) and currently runs on Kubernetes only.
+    It can achieve much higher throughput during snapshots, scales horizontally
+    by changing the number of TaskManager replicas, uses Flink checkpointing for fault tolerance, 
+    and exposes Prometheus metrics directly from its JobManager and TaskManager pods 
+    (the `rdi-metrics-exporter` is not deployed for Flink-based pipelines). 
+    The Flink processor currently supports only `hash` and `json` target data types.
+
+See
+[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}})
+for guidance on migrating an existing pipeline to the Flink processor.
+
+## VM and Kubernetes deployments
+
 The following sections describe the VM configurations you can use to
 deploy RDI.
 

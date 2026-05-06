@@ -17,7 +17,10 @@ weight: 30
 ---
 
 In the example below, data is captured from the source table named `invoice` and is written to a Redis set. The `connection` is an optional parameter that refers to the corresponding connection name defined in `config.yaml`. When you specify the
-`data_type` parameter for the job, it overrides the system-wide setting `target_data_type` defined in `config.yaml`. 
+`data_type` parameter for the job, it overrides the system-wide setting `target_data_type` defined in `config.yaml`.
+
+{{< note >}}The `set` data type is supported by the classic stream processor only.
+The Flink processor currently supports only `hash` and `json` outputs.{{< /note >}}
 
 When writing to a set, you must supply an extra argument, `member`, which specifies the field that will be written. In this case, the result will be a Redis set with key names based on the key expression (for example, `invoices:Germany`, `invoices:USA`) and with an expiration of 100 seconds. If you don't supply an `expire` parameter, the keys will never expire.    
 

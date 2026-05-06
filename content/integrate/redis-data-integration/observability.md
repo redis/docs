@@ -25,9 +25,11 @@ to query the metrics and plot simple graphs or with
 [Grafana](https://grafana.com/) to produce more complex visualizations and
 dashboards.
 
-RDI exposes three endpoints:
+RDI exposes the following endpoints:
 - **Collector metrics**: CDC collector performance and connectivity
-- **Stream processor metrics**: Data processing performance and throughput  
+- **Stream processor metrics**: Data processing performance and throughput. The exposed metrics depend on the [stream processor implementation]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}}) used by the pipeline:
+  - The classic processor exposes the metrics described in [Stream processor metrics](#stream-processor-metrics) through the `rdi-metrics-exporter` service.
+  - The Flink processor exposes the metrics described in [Flink processor metrics](#flink-processor-metrics) directly from its JobManager and TaskManager pods. The `rdi-metrics-exporter` is not deployed for Flink-based pipelines.
 - **Operator metrics**: Kubernetes operator health and Pipeline resource states
 
 The sections below explain these sets of metrics in more detail.
@@ -97,6 +99,23 @@ For Helm installations, the metrics are available via autodiscovery in the K8s c
             enabled: true
         ```
 
+    - For the Flink processor, enable the JobManager and TaskManager `ServiceMonitor` resources under `operator.dataPlane.flinkProcessor`:
+        ```yaml
+        operator:
+          dataPlane:
+            flinkProcessor:
+              jobManager:
+                serviceMonitor:
+                  enabled: true
+                  labels:
+                    release: prometheus
+              taskManager:
+                serviceMonitor:
+                  enabled: true
+                  labels:
+                    release: prometheus
+        ```
+
 {{< note >}}The Prometheus service discovery loop runs at regular intervals. This means that after deploying or updating RDI with the above configuration, it may take a few minutes for Prometheus to discover the new ServiceMonitors and start scraping metrics from the RDI components.
 {{< /note >}}
 
@@ -153,11 +172,16 @@ Many metrics include context labels that specify the phase (`snapshot` or `strea
 
 ## Stream processor metrics
 
+The metrics in this section are reported by the *classic* stream processor and
+exposed through the `rdi-metrics-exporter` service. For pipelines that use
+the [Flink processor]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}}),
+see [Flink processor metrics](#flink-processor-metrics) instead.
+
 RDI reports metrics during the two main phases of the ingest pipeline, the *snapshot*
 phase and the *change data capture (CDC)* phase. (See the
 [pipeline lifecycle]({{< relref "/integrate/redis-data-integration/data-pipelines" >}})
 docs for more information). The table below shows the full set of metrics that
-RDI reports with their descriptions. 
+RDI reports with their descriptions.
 
 | Metric Name | Metric Type | Metric Description | Alerting Recommendations |
 |-------------|-------------|--------------------|-----------------------|
@@ -203,6 +227,64 @@ RDI reports with their descriptions.
   - **Total metrics**: Accumulate values across all processed batches for historical analysis
   - **Last batch metrics**: Show real-time performance data for the most recently processed batch
 {{< /note >}}
+
+## Flink processor metrics
+
+The Flink processor exposes Prometheus metrics directly from its JobManager
+and TaskManager pods. The `rdi-metrics-exporter` is not deployed for
+Flink-based pipelines, and the metrics described in
+[Stream processor metrics](#stream-processor-metrics) are not available.
+
+The full set of metrics returned by the Flink processor is large and includes
+every metric emitted by the underlying Flink runtime (job, task, operator,
+JVM, network, and connector metrics). See the
+[Flink metrics documentation](https://nightlies.apache.org/flink/flink-docs-release-2.0/docs/ops/metrics/)
+for the full reference of Flink-emitted metrics, and the
+[Flink Prometheus reporter](https://nightlies.apache.org/flink/flink-docs-release-2.0/docs/deployment/metric_reporters/#prometheus)
+docs for the naming scheme.
+
+Configure Prometheus to scrape these metrics by enabling the JobManager and
+TaskManager `ServiceMonitor` resources under `operator.dataPlane.flinkProcessor`,
+as shown in [Helm installation](#helm-installation) above.
+
+### Useful metrics
+
+In addition to the standard Flink metrics, the Flink processor emits a small
+set of RDI-specific metrics that cover record counters, source/target
+connectivity, and stream backlog. These metrics, together with a curated
+subset of native Flink metrics, are surfaced through the
+[RDI API v2 metric collections endpoint]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}})
+and are the recommended starting point for dashboards and alerts.
+
+**RDI-emitted metrics** (per pipeline):
+
+| Metric | Description |
+|---|---|
+| `flink_jobmanager_job_operator_coordinator_stream_type_rdiRecords` | Per-stream record counters. Labels: `stream`, `type` (one of `incoming`, `inserted`, `updated`, `deleted`, `filtered`, `rejected`). |
+| `flink_jobmanager_job_operator_coordinator_enumerator_stream_type_rdiRecords` | Per-stream backlog and freshness. Labels: `stream`, `type` (`pending` for stream length, `lastArrival` for the epoch-millisecond timestamp of the last entry). |
+| `flink_taskmanager_job_task_operator_rdi_connected` | Source or target connection status (`1` = connected, `0` = disconnected). Filter by `operator_name` equal to `Source:_source` for the source and matching the regex `.*:target:_Writer$` for target writers; treat the source or target as connected if any subtask reports `1`. |
+| `flink_taskmanager_job_task_operator_rdi_lastModified` | Epoch-millisecond timestamp of the last successful write to the target Redis database. Filter by `operator_name` matching `.*:target:_Writer$` and take the maximum across subtasks. |
+| `flink_taskmanager_job_task_operator_pendingAck` | Number of records emitted by the source but awaiting checkpoint completion before being acknowledged. Sum across subtasks. |
+
+**Native Flink metrics** used by the API:
+
+| Metric | Description |
+|---|---|
+| `flink_taskmanager_job_task_operator_numRecordsInPerSecond` | Per-operator throughput. For source throughput, filter by `operator_name` equal to `Source:_source` and sum across subtasks. For sink throughput, filter by `operator_name` matching `.*:target:_Writer$` and sum across subtasks and across all target writers. |
+| `flink_taskmanager_job_task_busyTimeMsPerSecond` | Time the task spends actively processing records (ms/s). Average across subtasks of the main chained task; exclude the `dlq:_Writer` task. |
+| `flink_taskmanager_job_task_idleTimeMsPerSecond` | Time the task spends waiting for input (ms/s). Average across subtasks of the main chained task; exclude the `dlq:_Writer` task. |
+| `flink_taskmanager_job_task_backPressuredTimeMsPerSecond` | Time the task spends back-pressured because the downstream cannot keep up (ms/s). Average across subtasks of the main chained task; exclude the `dlq:_Writer` task. |
+| `flink_jobmanager_job_lastCheckpointDuration` | Duration of the most recent checkpoint (ms). |
+| `flink_jobmanager_job_lastCheckpointSize` | Persisted size of the most recent checkpoint (bytes). |
+| `flink_jobmanager_job_numberOfCompletedCheckpoints` | Total number of completed checkpoints. |
+| `flink_jobmanager_job_numberOfFailedCheckpoints` | Total number of failed checkpoints. |
+| `flink_jobmanager_job_<status>Time` | Time spent in each job state (ms), where `<status>` is one of `running`, `restarting`, `failing`, `cancelling`, `initializing`, `created`, or `deploying`. The metric for the current state is non-zero; all others are zero. Use this to derive both the current job status and the time spent in it. |
+| `flink_jobmanager_job_numRestarts` | Total number of job restarts since submission. |
+
+{{< note >}}Flink runtime metric names follow Flink's own naming scheme rather
+than the `rdi_` prefix used by the classic processor. When you build
+dashboards that should work for both processors, query the two metric sets
+separately.{{< /note >}}
 
 ## Operator metrics
 

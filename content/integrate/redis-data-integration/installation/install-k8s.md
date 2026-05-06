@@ -267,6 +267,48 @@ oc get projects <rid-project-name> -o yaml | grep "openshift.io/sa.scc"
 ```
 {{< /warning >}}
 
+### Configure the Flink processor
+
+RDI ships with two stream processor implementations: the default *classic*
+processor and the
+[Apache Flink](https://flink.apache.org/)-based *Flink* processor.
+See
+[Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
+for an overview of the differences.
+
+To configure the Flink processor at the Helm chart level, add the
+`operator.dataPlane.flinkProcessor` block to your `rdi-values.yaml` file. The
+snippet below shows a few of the most commonly adjusted values. See the
+`flinkProcessor` block in the Helm chart's `values.yaml` for the full set of
+supported values.
+
+```yaml
+operator:
+  dataPlane:
+    flinkProcessor:
+      jobManager:
+        # JobManager pod resources.
+        cpu: 0.1
+        memory: 1024
+      taskManager:
+        # TaskManager pod resources.
+        cpu: 1
+        memory: 2048
+        # Number of parallel task slots per TaskManager pod.
+        # Total parallelism is `replicas * numberOfTaskSlots`.
+        numberOfTaskSlots: 1
+```
+
+Configuring the Flink processor at the Helm chart level only sets the values
+that the operator will use when deploying the JobManager and TaskManager workloads.
+To run a specific pipeline on the Flink processor, set
+[`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
+to `flink` in that pipeline's `config.yaml`. Pipelines without this setting
+continue to use the classic processor.
+
+For migrating existing pipelines to the Flink processor, see
+[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}}).
+
 ## Check the installation
 
 To verify the status of the K8s deployment, run the following command:

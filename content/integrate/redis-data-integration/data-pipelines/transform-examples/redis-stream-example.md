@@ -16,8 +16,11 @@ type: integration
 weight: 30
 ---
 
-In the example below, data is captured from the source table named `invoice` and is written to a Redis stream. The `connection` is an optional parameter that refers to the corresponding connection name defined in `config.yaml`. 
-When you specify the `data_type` parameter for the job, it overrides the system-wide setting `target_data_type` defined in `config.yaml`. 
+In the example below, data is captured from the source table named `invoice` and is written to a Redis stream. The `connection` is an optional parameter that refers to the corresponding connection name defined in `config.yaml`.
+When you specify the `data_type` parameter for the job, it overrides the system-wide setting `target_data_type` defined in `config.yaml`.
+
+{{< note >}}The `stream` data type is supported by the classic stream processor only.
+The Flink processor currently supports only `hash` and `json` outputs.{{< /note >}}
 
 When writing to streams, you can use the optional parameter `mapping` to limit the number of fields sent in a message and to provide aliases for them. If you don't use the `mapping` parameter, all fields captured in the source will be passed as the message payload. 
 
