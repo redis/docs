@@ -1,5 +1,5 @@
 ---
-Title: Denormalisation with redis.lookup
+Title: Denormalization with redis.lookup
 alwaysopen: false
 categories:
 - docs
@@ -8,7 +8,7 @@ categories:
 - rdi
 description: null
 group: di
-linkTitle: Denormalisation with redis.lookup
+linkTitle: Denormalization with redis.lookup
 summary: Redis Data Integration keeps Redis in sync with a primary database in near
   real time.
 type: integration
@@ -22,9 +22,10 @@ job. This is useful when you want to denormalize incoming change data by enrichi
 a record with values that RDI has already written to Redis from another table
 (see [Data denormalization]({{< relref "/integrate/redis-data-integration/data-pipelines/data-denormalization" >}}) for more information about this technique).
 
-For example, a pipeline might write customer records to Redis, then use `redis.lookup` in
-an invoice job to add selected customer details
-to each invoice before writing the invoice to the target database. This lets you
+For example, a pipeline for the Chinook database might write `artist` records to
+Redis, then use `redis.lookup` in
+an `album` table job to add selected artist details
+to each album record before writing it to the target database. This lets you
 design the structure of your Redis data to fit the read patterns of your
 application while still keeping the source database normalized.
 
@@ -41,7 +42,8 @@ here is that the `args` elements are all interpreted as [JMESPath](https://jmesp
 expressions, but YAML syntax allows for each element to be a quoted string. This means that
 you must *double quote* any string arguments that you want to be treated as
 literal strings (as with `name` below), otherwise JMESPath will try to interpret
-them as field names, which will generally give the wrong result. 
+them as field names, which will generally give the wrong result. Specifically, use
+a different quote character for the outer quotes and the inner quotes.
 
 ```yaml
 source:
@@ -69,7 +71,7 @@ output:
 Without denormalization, the album hash object contains only the `artistid` field to
 reference the artist:
 
-```
+```bash
 > hgetall album:albumid:1
 1) "albumid"
 2) "1"
@@ -140,7 +142,7 @@ output:
 After running this job, the album JSON object includes the artist object
 in a new `artist` field:
 
-```bash
+```json
 {
   "albumid": 239,
   "title": "War",
