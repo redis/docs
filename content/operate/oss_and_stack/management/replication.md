@@ -1,4 +1,8 @@
 ---
+aliases:
+- /manual/replication/
+- /management/replication/
+- /operate/replication/
 categories:
 - docs
 - operate

@@ -25,14 +25,6 @@ weight: 10
 
 ### Redis AI & Vectors
 
-- Added [Featureform documentation]({{< relref "/develop/ai/featureform" >}}) for feature engineering workflows
-  - [Overview]({{< relref "/develop/ai/featureform/overview" >}})
-  - [Quickstart guide]({{< relref "/develop/ai/featureform/quickstart" >}})
-  - [Provider connections]({{< relref "/develop/ai/featureform/providers" >}})
-  - [Datasets and transformations]({{< relref "/develop/ai/featureform/datasets-and-transformations" >}})
-  - [Features and labels]({{< relref "/develop/ai/featureform/features-and-labels" >}})
-  - [Training sets and feature views]({{< relref "/develop/ai/featureform/training-sets-and-feature-views" >}})
-  - [Streaming features]({{< relref "/develop/ai/featureform/streaming" >}})
 - Added [n8n vector store integration]({{< relref "/integrate/n8n-vector-store" >}})
 - Updated [RedisVL 0.7.0 documentation]({{< relref "/develop/ai/redisvl/0.7.0" >}})
 - Updated [RedisVL 0.9.1 documentation]({{< relref "/develop/ai/redisvl/0.9.1" >}})
@@ -255,7 +247,7 @@ weight: 10
   - [Enhanced time series examples]({{< relref "/develop/data-types/timeseries/_index" >}}) with query and aggregation info
   - Added testable code examples (TCE) support
 - Probabilistic:
-  - Added testable examples for [Python]({{< relref "/develop/clients/redis-py/prob/" >}}), [C#]({{< relref "/develop/clients/dotnet/prob/" >}}), [Java]({{< relref "/develop/clients/jedis/prob/" >}}), and [Go]({{< relref "/develop/clients/go/prob/" >}})
+  - Added testable examples for [Python]({{< relref "/develop/clients/redis-py/prob/" >}}), [C#]({{< relref "/develop/clients/dotnet/nredisstack/prob/" >}}), [Java]({{< relref "/develop/clients/jedis/prob/" >}}), and [Go]({{< relref "/develop/clients/go/prob/" >}})
   - Updated [Cuckoo filter documentation]({{< relref "/develop/data-types/probabilistic/cuckoo-filter" >}})
 
 ---
@@ -277,9 +269,9 @@ weight: 10
 - Added [command reliability information]({{< relref "/develop/clients/nodejs/produsage#command-execution-reliability" >}})
 - Fixed [reconnection details]({{< relref "/develop/clients/nodejs/connect#reconnect-after-disconnection" >}})
 
-#### .NET (NRedisStack)
+#### .NET (StackExchange.Redis/NRedisStack)
 - Added [retries and timeouts]({{< relref "/develop/clients/dotnet/produsage" >}}) to production usage advice
-- Enhanced [dialect 2 notes]({{< relref "/develop/clients/dotnet/queryjson" >}})
+- Enhanced [dialect 2 notes]({{< relref "/develop/clients/dotnet/nredisstack/queryjson" >}})
 
 #### Go (go-redis)
 - Added [retries and timeouts]({{< relref "/develop/clients/go/produsage" >}}) to production usage
@@ -331,7 +323,7 @@ weight: 10
   - [Node.js]({{< relref "/develop/clients/nodejs/vecsearch.md" >}})
   - [Java (Jedis)]({{< relref "/develop/clients/jedis/vecsearch.md" >}})
   - [Go]({{< relref "/develop/clients/go/vecsearch.md" >}})
-  - [.NET]({{< relref "/develop/clients/dotnet/vecsearch.md" >}})
+  - [.NET]({{< relref "/develop/clients/dotnet/nredisstack/vecsearch" >}})
 - Updated AI integrations:
   - [AI overview]({{< relref "/develop/ai/index.md" >}})
   - [RAG intro]({{< relref "/develop/get-started/rag.md" >}})
@@ -388,9 +380,9 @@ weight: 10
 - [JSON queries]({{< relref "/develop/clients/go/queryjson.md" >}})
 
 #### .NET
-- [Vector search]({{< relref "/develop/clients/dotnet/vecsearch.md" >}})
-- [Trans/pipe usage]({{< relref "/develop/clients/dotnet/transpipe.md" >}})
-- [JSON queries]({{< relref "/develop/clients/dotnet/queryjson.md" >}})
+- [Vector search]({{< relref "/develop/clients/dotnet/nredisstack/vecsearch" >}})
+- [Trans/pipe usage]({{< relref "/develop/clients/dotnet/transpipe" >}})
+- [JSON queries]({{< relref "/develop/clients/dotnet/nredisstack/queryjson" >}})
 
 #### Java (Jedis)
 - [Vector search]({{< relref "/develop/clients/jedis/vecsearch.md" >}})

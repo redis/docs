@@ -18,7 +18,7 @@ Enabling external access for OSS Cluster API creates a separate LoadBalancer ser
 
 ## Prerequisites
 
-- RedisEnterpriseCluster (REC) running version 8.0.10-tbd or later.
+- RedisEnterpriseCluster (REC) running version 8.0.10-21 or later.
 - Proxy policy is set to `all-master-shards` or `all-nodes`.
 - Modules used by the database (if any) are bundled modules.
 - The database is not an Active-Active database.

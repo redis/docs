@@ -85,7 +85,7 @@ You can also add configuration to authenticate with a [service principal](#serv-
 or a [managed identity](#mgd-identity) as described in the sections below.
 
 When you have created your `TokenBasedRedisCredentialsProvider` instance, you may want to
-test it by obtaining a token, as shown in the folowing example:
+test it by obtaining a token, as shown in the following example:
 
 ```java
 // Test that the Entra ID credentials provider can resolve credentials.

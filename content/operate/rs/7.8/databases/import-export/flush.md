@@ -47,6 +47,10 @@ Port 9443 is the default [port configuration]({{< relref "/operate/rs/7.8/networ
 
 When you flush an Active-Active database (formerly known as CRDB), all of the replicas flush their data at the same time.
 
+{{< note >}}
+Run flush from only one participating cluster. The flush operation propagates to all other clusters automatically.
+{{< /note >}}
+
 To flush data from an Active-Active database, use one of the following methods:
 
 - Cluster Manager UI

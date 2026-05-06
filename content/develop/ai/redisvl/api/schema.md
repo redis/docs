@@ -103,7 +103,7 @@ self is explicitly positional-only to allow self as a field name.
 
 * **Parameters:**
   * **index** (*IndexInfo*)
-  * **fields** (*Dict* *[* *str* *,* *BaseField* *]*)
+  * **fields** (*dict* *[* *str* *,* *BaseField* *]*)
   * **version** (*Literal* *[* *'0.1.0'* *]*)
 
 #### `add_field(field_inputs)`
@@ -122,7 +122,7 @@ providing flexibility in defining the structure of the index.
 
 ```python
 # Add a tag field
-schema.add_field({"name": "user", "type": "tag})
+schema.add_field({"name": "user", "type": "tag"})
 
 # Add a vector field
 schema.add_field({
@@ -250,7 +250,7 @@ Write the index schema to a YAML file.
 * **Return type:**
   None
 
-#### `property field_names: List[str]`
+#### `property field_names: list[str]`
 
 A list of field names associated with the index schema.
 
@@ -259,7 +259,7 @@ A list of field names associated with the index schema.
 * **Return type:**
   List[str]
 
-#### `fields: Dict[str, BaseField]`
+#### `fields: dict[str, BaseField]`
 
 Fields associated with the search index and their properties.
 
@@ -702,7 +702,7 @@ Dimensionality of the vector embeddings field
 
 The distance metric used to measure query relevance
 
-#### `property field_data: Dict[str, Any]`
+#### `property field_data: dict[str, Any]`
 
 Select attributes required by the Redis API
 
@@ -900,7 +900,7 @@ SVS-VAMANA (Scalable Vector Search with VAMANA graph algorithm) provides fast ap
 ### `When to use SVS-VAMANA & Detailed Guide`
 
 **Requirements:**
-: - Redis >= 8.2.0 with RediSearch >= 2.8.10
+: - Redis >= 8.2.0 with Redis Search >= 2.8.10
   - datatype must be ‘float16’ or ‘float32’ (float64/bfloat16 not supported)
 
 **Use SVS-VAMANA when:**
@@ -1093,7 +1093,7 @@ Dimensionality reduction for LeanVec types (must be < dims)
 
 **Important Notes:**
 
-- **Requirements**: SVS-VAMANA requires Redis >= 8.2 with RediSearch >= 2.8.10.
+- **Requirements**: SVS-VAMANA requires Redis >= 8.2 with Redis Search >= 2.8.10.
 - **Datatype limitations**: SVS-VAMANA only supports float16 and float32 datatypes (not bfloat16 or float64).
 - **Compression compatibility**: The reduce parameter is only valid with LeanVec compression types (LeanVec4x8 or LeanVec8x8).
 - **Platform considerations**: Intel’s proprietary LVQ and LeanVec optimizations are not available in Redis Open Source. On non-Intel platforms and Redis Open Source, SVS-VAMANA with compression falls back to basic 8-bit scalar quantization.
@@ -1462,7 +1462,7 @@ This section provides detailed guidance for choosing between vector search algor
   - Tune `ef_runtime` at query time to balance speed vs accuracy (no index rebuild needed)
 
 **From HNSW to SVS-VAMANA:**
-: - Requires Redis >= 8.2 with RediSearch >= 2.8.10
+: - Requires Redis >= 8.2 with Redis Search >= 2.8.10
   - Change datatype to float16 or float32 if using others
   - Consider compression options for memory savings
 

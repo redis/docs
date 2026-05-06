@@ -11,6 +11,8 @@ linkTitle: Manage REC certificates
 weight: 94
 ---
 
+{{<note>}}To automate certificate management, you can use cert-manager instead of manually created secrets. See [cert-manager integration]({{< relref "/operate/kubernetes/security/cert-manager" >}}) for details.{{</note>}}
+
 By default, Redis Enterprise Software for Kubernetes generates TLS certificates for the cluster during creation. These self-signed certificates are generated on the first node of each Redis Enterprise cluster (REC) and are copied to all other nodes added to the cluster. For the list of of certificates used by Redis Enterprise Software and the traffic they encrypt, see the [certificates table]({{< relref "/operate/rs/security/certificates" >}}).
 
 To install and use your own certificates with Kubernetes on your Redis Enterprise cluster, they need to be stored in [secrets](https://kubernetes.io/docs/concepts/configuration/secret/). The REC custom resource also needs to be configured with those secret names to read and use the certificates.

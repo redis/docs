@@ -146,7 +146,7 @@ A Redis client is a software library or tool that enables applications to intera
 
 The connection wizard provides code snippets to connect to your database with the following programming languages:
 
-- .NET using [NRedisStack]({{< relref "/develop/clients/dotnet" >}})
+- .NET using [StackExchange.Redis/NRedisStack]({{< relref "/develop/clients/dotnet" >}})
 - node.js using [node-redis]({{< relref "/develop/clients/nodejs" >}})
 - Python using [redis-py]({{< relref "/develop/clients/redis-py" >}})
 - Java using [Jedis]({{< relref "/develop/clients/jedis" >}}) and [Lettuce]({{< relref "/develop/clients/lettuce" >}})

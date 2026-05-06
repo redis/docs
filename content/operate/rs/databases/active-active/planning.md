@@ -25,7 +25,7 @@ You need at least [two participating clusters]({{< relref "/operate/rs/clusters/
 If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/databases/flash">}}), you cannot add participating clusters that run on RAM only.
 {{</note>}}
 
-Changes made from the Cluster Manager UI to an Active-Active database configuration only apply to the cluster you are editing. For global configuration changes across all clusters, use the `crdb-cli` command-line utility.
+For Redis Software versions earlier than 8.0.16, changes made from the Cluster Manager UI to an Active-Active database configuration only apply to the cluster you are editing. For global configuration changes across all clusters, use the `crdb-cli` command-line utility. As of Redis Software version 8.0.16, the Cluster Manager UI supports both global and local configuration changes for Active-Active databases.
 
 ## Memory limits
 
@@ -86,6 +86,8 @@ Active-Active databases have the following limitations:
 - The `UNLINK` command is a blocking command for all types of keys.
 - Cross slot multi commands (such as `MSET`) are not supported with Active-Active databases.
 - The hashing policy can't be changed after database creation.
+- Database clustering cannot be enabled or turned off after database creation.
 - Active-Active databases cannot be configured as Redis Flex deployments.
 - Active-Active databases handle replication internally and do not support the `redis.set_repl()` function in Lua scripts.
 - If you enabled the default database password during the creation of an Active-Active database, you should not turn off the default database password because it could prevent the removal of participating database instances.
+- When upgrading an Active-Active database from Redis 7.4 or earlier to version 8.0 or later, you cannot use module commands, such as [Redis Search](https://redis.io/docs/latest/commands/?group=search) and [JSON](https://redis.io/docs/latest/commands/?group=json) commands, until all Active-Active database instances in all participating clusters have been upgraded. These commands are not blocked automatically, and running these commands before finishing the upgrade process can cause syncer crashes.

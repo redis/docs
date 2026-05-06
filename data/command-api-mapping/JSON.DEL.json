@@ -282,6 +282,48 @@
           "description": ""
         }
       }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "json_del(key: K, path: P)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path to the value to delete."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The number of paths deleted."
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "json_del(key: K, path: P)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path to the value to delete."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The number of paths deleted."
+        }
+      }
     ]
   }
 }

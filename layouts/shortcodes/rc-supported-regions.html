@@ -1,0 +1,139 @@
+{{/*
+  Supported Regions shortcode - generates region tables from JSON data
+
+  Usage:
+  {{< rc-supported-regions provider="aws" >}}
+  {{< rc-supported-regions provider="gcp" >}}
+  {{< rc-supported-regions provider="azure" >}}
+
+  Reads data from: data/rc_supported_regions.json
+
+  Expected JSON structure:
+  [
+    {
+      "provider": "aws",
+      "regions": {
+        "us-east-1": {
+          "location": "Northern Virginia, USA",
+          "area": "americas",
+          "pro": true,
+          "essentials": true
+        }
+      }
+    }
+  ]
+*/}}
+
+{{- $jsonPath := "data/rc_supported_regions.json" -}}
+{{- $jsonContent := os.ReadFile $jsonPath -}}
+{{- $data := unmarshal $jsonContent -}}
+
+{{- $provider := .Get "provider" -}}
+{{- $id := printf "regions-%s" $provider -}}
+
+{{/* Find the provider object in the array */}}
+{{- $providerData := dict -}}
+{{- range $data -}}
+  {{- if eq .provider $provider -}}
+    {{- $providerData = . -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Filter regions by area and convert to slice with id included */}}
+{{- define "partials/inline/filter-by-area" -}}
+  {{- $regions := index . "regions" -}}
+  {{- $area := index . "area" -}}
+  {{- $filtered := slice -}}
+  {{- range $id, $region := $regions -}}
+    {{- if eq $region.area $area -}}
+      {{- $filtered = $filtered | append (merge $region (dict "id" $id)) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- return $filtered -}}
+{{- end -}}
+
+{{/* Generate HTML table for regions with Pro/Essentials columns */}}
+{{- define "partials/inline/region-table-full" -}}
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Region ID</th>
+      <th style="text-align:left">Location</th>
+      <th style="text-align:left">Redis Cloud Pro</th>
+      <th style="text-align:left">Redis Cloud Essentials</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{- range . -}}
+    <tr>
+      <td><code>{{ .id }}</code></td>
+      <td>{{ .location }}</td>
+      <td>
+        {{- if .pro -}}
+          <span title="Supported">&#x2705;</span>
+        {{- else -}}
+          <span title="Not supported">&#x274c;</span>
+        {{- end -}}
+      </td>
+      <td>
+        {{- if .essentials -}}
+          <span title="Supported">&#x2705;</span>
+        {{- else -}}
+          <span title="Not supported">&#x274c;</span>
+        {{- end -}}
+      </td>
+    </tr>
+    {{- end -}}
+  </tbody>
+</table>
+{{- end -}}
+
+{{/* Generate HTML table for Azure (simpler, no Pro/Essentials columns) */}}
+{{- define "partials/inline/region-table-simple" -}}
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Region ID</th>
+      <th style="text-align:left">Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{- range . -}}
+    <tr>
+      <td><code>{{ .id }}</code></td>
+      <td>{{ .location }}</td>
+    </tr>
+    {{- end -}}
+  </tbody>
+</table>
+{{- end -}}
+
+{{- if $providerData.regions -}}
+  {{- $regions := $providerData.regions -}}
+
+  {{/* Filter regions by area */}}
+  {{- $americas := partial "partials/inline/filter-by-area" (dict "regions" $regions "area" "americas") -}}
+  {{- $europe := partial "partials/inline/filter-by-area" (dict "regions" $regions "area" "europe") -}}
+  {{- $asia := partial "partials/inline/filter-by-area" (dict "regions" $regions "area" "asia_pacific") -}}
+  {{- $mea := partial "partials/inline/filter-by-area" (dict "regions" $regions "area" "middle_east_africa") -}}
+
+  {{- if eq $provider "azure" -}}
+    {{/* Azure: simple table, no tabs */}}
+    {{- $allRegions := slice -}}
+    {{- range $id, $region := $regions -}}
+      {{- $allRegions = $allRegions | append (merge $region (dict "id" $id)) -}}
+    {{- end -}}
+    {{- partial "partials/inline/region-table-simple" $allRegions -}}
+  {{- else -}}
+    {{/* AWS/GCP: tabbed tables by area */}}
+    {{- $tabs := slice
+      (dict "title" "Americas" "content" (partial "partials/inline/region-table-full" $americas))
+      (dict "title" "Europe" "content" (partial "partials/inline/region-table-full" $europe))
+      (dict "title" "Asia Pacific" "content" (partial "partials/inline/region-table-full" $asia))
+      (dict "title" "Middle East and Africa" "content" (partial "partials/inline/region-table-full" $mea))
+    -}}
+    {{- partial "components/generic-tabs.html" (dict "id" $id "tabs" $tabs) -}}
+  {{- end -}}
+{{- else -}}
+  <p><strong>Error:</strong> Provider "{{ $provider }}" not found in data.</p>
+{{- end -}}

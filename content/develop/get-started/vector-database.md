@@ -31,7 +31,7 @@ vector processing. You may also be interested in the vector query examples
 for our other client libraries:
 
 - [`redis-py` (Python)]({{< relref "/develop/clients/redis-py/vecsearch" >}})
-- [`NRedisStack`(C#/.NET)]({{< relref "/develop/clients/dotnet/vecsearch" >}})
+- [`NRedisStack`(C#/.NET)]({{< relref "/develop/clients/dotnet/nredisstack/vecsearch" >}})
 - [`node-redis` (JavaScript/Node.js)]({{< relref "/develop/clients/nodejs/vecsearch" >}})
 - [`jedis` (Java)]({{< relref "/develop/clients/jedis/vecsearch" >}})
 - [`go-redis` (Go)]({{< relref "/develop/clients/go/vecsearch" >}})

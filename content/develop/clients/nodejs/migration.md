@@ -148,7 +148,7 @@ client.hset('user', 'name', 'Bob', 'age', 20, 'description', 'I am a programmer'
 ```
 
 `node-redis` uses predefined formats for command arguments. These include specific
-classes for commmand options that generally don't correspond to the syntax
+classes for command options that generally don't correspond to the syntax
 of the CLI command. Internally, `node-redis` constructs the correct command using
 the method arguments you pass:
 

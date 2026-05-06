@@ -209,6 +209,17 @@
         ],
         "type": "object"
       },
+      "CertificateRotateRequest": {
+        "description": "Request body for rotating internal certificates.",
+        "properties": {
+          "name": {
+            "description": "Optional internal certificate name to rotate. When omitted, all supported internal certificates are rotated.",
+            "type": "string",
+            "x-omitempty": true
+          }
+        },
+        "type": "object"
+      },
       "ChangePasswordHashingAlgorithmRequest": {
         "description": "Request to change the cluster password hashing algorithm",
         "properties": {
@@ -224,6 +235,25 @@
         "required": [
           "algorithm"
         ],
+        "type": "object"
+      },
+      "ClusterCertificateUpdate": {
+        "additionalProperties": false,
+        "description": "Cluster certificate payload used for updates.",
+        "properties": {
+          "certificate": {
+            "description": "PEM-encoded certificate chain.",
+            "type": "string"
+          },
+          "key": {
+            "description": "PEM-encoded private key.",
+            "type": "string"
+          },
+          "name": {
+            "description": "Certificate type name.",
+            "type": "string"
+          }
+        },
         "type": "object"
       },
       "ClusterCertificatesResponse": {
@@ -328,6 +358,20 @@
             "description": "PEM-encoded private key for the syncer certificate",
             "type": "string",
             "x-omitempty": true
+          }
+        },
+        "type": "object"
+      },
+      "ClusterCertificatesUpdateRequest": {
+        "additionalProperties": false,
+        "description": "Request body for updating one or more cluster certificates.",
+        "properties": {
+          "certificates": {
+            "description": "Certificates to update.",
+            "items": {
+              "$ref": "#/components/schemas/ClusterCertificateUpdate"
+            },
+            "type": "array"
           }
         },
         "type": "object"
@@ -642,6 +686,80 @@
             "type": "string"
           }
         },
+        "type": "object"
+      },
+      "LdapMapping": {
+        "description": "An API object that represents a Redis Software LDAP mapping.",
+        "example": {
+          "dn": "OU=ops.group,DC=redislabs,DC=com",
+          "email": "ops.group@redislabs.com",
+          "email_alerts": true,
+          "name": "Admins",
+          "role_uids": [
+            1
+          ],
+          "uid": 17
+        },
+        "properties": {
+          "account_id": {
+            "description": "SM account ID.",
+            "type": "integer"
+          },
+          "action_uid": {
+            "description": "Action uid. If exists - progress can be tracked by the GET /actions/\u003cuid\u003e API.",
+            "type": "string"
+          },
+          "bdbs_email_alerts": {
+            "description": "UIDs of databases that LDAP mapping users will receive alerts for.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "cluster_email_alerts": {
+            "description": "Activate cluster email alerts for an LDAP mapping.",
+            "type": "boolean"
+          },
+          "dn": {
+            "description": "LDAP group's distinguished name.",
+            "type": "string"
+          },
+          "email": {
+            "description": "LDAP mapping's email.",
+            "type": "string"
+          },
+          "email_alerts": {
+            "default": true,
+            "description": "Activate email alerts for an LDAP mapping.",
+            "type": "boolean"
+          },
+          "name": {
+            "description": "LDAP mapping's name.",
+            "type": "string"
+          },
+          "role_uids": {
+            "description": "List of role uids associated with the LDAP mapping.",
+            "items": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            },
+            "type": "array"
+          },
+          "uid": {
+            "description": "LDAP mapping's unique uid.",
+            "type": "integer",
+            "x-go-type": "json.Number"
+          }
+        },
+        "required": [
+          "uid",
+          "name",
+          "dn",
+          "email",
+          "email_alerts",
+          "role_uids"
+        ],
         "type": "object"
       },
       "LdapQuery": {
@@ -1994,6 +2112,101 @@
         ],
         "x-publish-docs": true,
         "x-stability-level": "stable"
+      },
+      "put": {
+        "description": "Replace one or more cluster certificates and apply them across the cluster.",
+        "operationId": "cluster_update_cluster_certificates",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClusterCertificatesUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Cluster certificates updated successfully."
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "406": {
+            "$ref": "#/components/responses/NotAcceptable"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "update_cluster"
+            ]
+          }
+        ],
+        "summary": "Update cluster certificates.",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/cluster/certificates/rotate": {
+      "post": {
+        "description": "Rotate one or more cluster certificates and apply them across the cluster.",
+        "operationId": "cluster_rotate_cluster_certificates",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CertificateRotateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cluster certificates rotated successfully."
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "406": {
+            "$ref": "#/components/responses/NotAcceptable"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "update_cluster"
+            ]
+          }
+        ],
+        "summary": "Rotate cluster certificates.",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
       }
     },
     "/v1/cluster/certificates/{certificate_name}": {
@@ -2088,6 +2301,34 @@
       }
     },
     "/v1/cluster/ldap": {
+      "delete": {
+        "description": "Clear the LDAP configuration for the cluster",
+        "operationId": "cluster_delete_ldap_config",
+        "responses": {
+          "200": {
+            "description": "LDAP configuration deleted successfully."
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "config_ldap"
+            ]
+          }
+        ],
+        "summary": "Delete LDAP configuration",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
       "get": {
         "description": "Get the LDAP configuration for the cluster",
         "operationId": "cluster_get_ldap_config",
@@ -2116,6 +2357,188 @@
         "summary": "Get LDAP configuration",
         "tags": [
           "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "put": {
+        "description": "Set or partially update the LDAP configuration for the cluster",
+        "operationId": "cluster_update_ldap_config",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ldap"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ldap"
+                }
+              }
+            },
+            "description": "LDAP configuration"
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "config_ldap"
+            ]
+          }
+        ],
+        "summary": "Update LDAP configuration",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/cluster/update_cert": {
+      "put": {
+        "deprecated": true,
+        "description": "Replace a single cluster certificate and apply it across the cluster. Deprecated, use PUT /v1/cluster/certificates.",
+        "operationId": "cluster_update_cluster_cert",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClusterCertificateUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Cluster certificate updated successfully."
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "406": {
+            "$ref": "#/components/responses/NotAcceptable"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/cluster_InternalServerError"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "update_cluster"
+            ]
+          }
+        ],
+        "summary": "Update a single cluster certificate.",
+        "tags": [
+          "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/ldap_mappings": {
+      "get": {
+        "description": "Get all Redis Software LDAP mappings configured in the cluster.",
+        "operationId": "cluster_list_ldap_mappings",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/LdapMapping"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "List of LDAP mappings."
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_all_ldap_mappings_info"
+            ]
+          }
+        ],
+        "summary": "Get all Redis Software LDAP mappings",
+        "tags": [
+          "LDAP Mapping"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/ldap_mappings/{uid}": {
+      "get": {
+        "description": "Get a single LDAP mapping by unique ID.",
+        "operationId": "cluster_get_ldap_mapping",
+        "parameters": [
+          {
+            "description": "The LDAP mapping unique ID.",
+            "example": 17,
+            "in": "path",
+            "name": "uid",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LdapMapping"
+                }
+              }
+            },
+            "description": "LDAP mapping information."
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_ldap_mapping_info"
+            ]
+          }
+        ],
+        "summary": "Get a single Redis Software LDAP mapping",
+        "tags": [
+          "LDAP Mapping"
         ],
         "x-publish-docs": true,
         "x-stability-level": "stable"

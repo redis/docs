@@ -2,7 +2,7 @@
 {{- /* Based on redis_docs_ai_json_guide.md specification */ -}}
 
 {{- /* Process content with shared partial (shortcode expansion, HTML unescaping, etc.) */ -}}
-{{- $content := partial "process-markdown-content.html" (dict "RawContent" .RawContent "Site" .Site) -}}
+{{- $content := partial "process-markdown-content.html" (dict "RawContent" .RawContent "Site" .Site "Page" .) -}}
 
 {{- /* Build the JSON object for the section itself */ -}}
 {{- /* Handle pages where .File may be nil (e.g., taxonomy pages) */ -}}
@@ -52,4 +52,3 @@
   "last_updated": {{ $lastUpdated | jsonify }},
   "children": {{ $children | jsonify }}
 }
-

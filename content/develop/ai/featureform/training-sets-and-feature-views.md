@@ -1,90 +1,116 @@
 ---
-title: Training sets and feature views in Featureform
-description: Build training sets and materialize feature views to Redis with Featureform.
-linkTitle: Training sets and feature views
-weight: 60
+title: Concepts
+description: Learn the core Feature Form concepts behind workspaces, providers, secrets, and serving.
+linkTitle: Concepts
+weight: 30
 ---
 
-Training sets and feature views are where Featureform turns definitions into outputs that model builders and applications can use.
+These pages explain the resource model and the boundaries that matter when you operate Feature Form.
 
-- training sets support model development
-- feature views support online inference
+## Resources and workspace graph
 
-## Register metadata first
+A Feature Form workspace owns one logical resource graph. When you run `ff apply`, Feature Form compares the submitted desired state with the current graph and commits a new version if the change is accepted.
 
-In the current workflow, `client.apply()` registers metadata for providers, datasets, transformations, entities, features, and labels:
+### Resource types in the graph
 
-```python
-client.apply()
+- entities
+- datasets
+- transformations
+- features
+- labels
+- training sets
+- feature views
+
+### Why the graph matters
+
+- it powers lineage and dependency views
+- it tracks `last_applied_version`
+- it feeds serving metadata from committed state
+
+### Useful commands
+
+```bash
+ff graph workspace overview --workspace demo-workspace
+ff graph workspace stats --workspace demo-workspace
+ff graph dataset get demo_transactions --workspace demo-workspace
+ff graph feature-view get demo_customer_feature_view --workspace demo-workspace
 ```
 
-This is a separate step from creating the Redis-backed serving surface.
+## Providers and provider roles
 
-## Training sets
+A provider is a workspace-scoped connection to external infrastructure. Definitions files reference providers by name, but the provider itself must already be registered in the workspace.
 
-Register a training set by combining a label with the features you want to train on:
+### Provider roles
 
-```python
-fraud_training_set = client.register_training_set(
-    name="fraud_training_set",
-    label=User.is_fraud,
-    features=[
-        User.avg_transaction_amount,
-        User.transaction_count[timedelta(days=7)],
-    ],
-)
-```
+- `offline-store` for batch data and materialized datasets
+- `online-store` for low-latency serving
+- `compute` for transformations and materialization work
+- `streaming` for streaming integrations
 
-After registration, iterate over the training set or convert it to a data frame for analysis:
+### Core providers documented here
 
-```python
-training_df = client.dataframe(fraud_training_set)
-```
+- Postgres: `offline-store`, `compute`
+- Redis: `online-store`
+- S3: `offline-store`
+- Spark: `compute`
+- Iceberg catalog: `offline-store`
 
-## Feature views
+### Workflow mapping
 
-Materialize a feature view to Redis when you need online serving:
+- Datasets and training sets need an offline store.
+- Feature views need an online store.
+- SQL and Spark transformations need compute.
+- One provider can fill more than one role.
 
-```python
-client.materialize_feature_view(
-    view_name="user_features_view",
-    inference_store=redis,
-    features=[
-        User.avg_transaction_amount,
-        User.transaction_count[timedelta(days=7)],
-        User.transaction_count[timedelta(days=30)],
-    ],
-)
-```
 
-Use feature views to group the online features that an application or model needs at inference time.
+## Secrets and secret references
 
-## Serve feature values
+Feature Form stores secret references in provider configuration instead of storing plaintext secret values itself. A provider config can contain a reference like `env:PG_PASSWORD`, which Feature Form resolves through a registered secret provider at runtime.
 
-```python
-result = client.serve_feature_view(
-    view="user_features_view",
-    entity_ids=["user_1", "user_2"],
-)
-```
+### Mental model
 
-The result contains the latest materialized values stored in Redis for those entity IDs.
+- A secret provider is a workspace-scoped backend such as `env`, Vault, Kubernetes, or AWS Secrets Manager
+- A secret reference is the value stored in provider config
+- Data providers use secret references but do not own secret storage
 
-## Common point of confusion
+### Default path for a new workspace
 
-Keep these two steps separate in your mental model:
+Every new workspace creates a built-in `env` secret provider. That makes references such as `env:PG_PASSWORD` valid as long as the runtime environment actually exposes `PG_PASSWORD`.
 
-- `client.apply()` registers definitions and lineage
-- `client.materialize_feature_view(...)` creates the serving surface in Redis
+The important detail is runtime scope: in deployed environments, the resolving process is usually the Featureform server, not your local CLI shell.
 
-That distinction matters when you troubleshoot missing online data. A successful metadata registration does not, by itself, mean the feature view is ready for serving.
+### What Featureform stores
 
-## Best practices
+- Secret provider metadata and configuration
+- Secret references embedded in provider configuration
 
-- Use training sets for repeatable model development workflows.
-- Keep online feature views focused on the features needed by one serving surface.
-- Treat Redis as the online system of record for materialized feature views, not the source of offline feature computation.
+### What Featureform does not store
 
-## What to read next
+- Plaintext secret values from external backends
 
-- [Streaming features]({{< relref "/develop/ai/featureform/streaming" >}})
+## Serving and feature views
+
+A feature view is the serving interface for a set of features keyed by an entity. In the documented Redis-backed workflow, the feature view is what applications and model services read from at inference time.
+
+### A feature view includes
+
+- the feature-view name
+- the logical entity and key columns
+- the served feature schema
+- the online provider
+- serving version and key-prefix details
+
+### Serving requires
+
+- a registered online store such as Redis
+- a committed graph version containing the feature view
+- ready serving metadata for that workspace and view
+
+### Main entry points
+
+- gRPC: `ServingService.Serve`, `ServingService.GetServingMetadata`
+- REST: `/api/v1/serve`
+- Python client: `client.serve(...)`
+
+Serving reads and serving-metadata reads are separate RBAC permissions.
+
