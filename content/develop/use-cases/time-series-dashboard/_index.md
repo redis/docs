@@ -89,7 +89,7 @@ window where old samples visibly expire:
 * [go-redis (Go)]({{< relref "/develop/use-cases/time-series-dashboard/go" >}})
 * [Jedis (Java)]({{< relref "/develop/use-cases/time-series-dashboard/java-jedis" >}})
 * [Lettuce (Java)]({{< relref "/develop/use-cases/time-series-dashboard/java-lettuce" >}})
-* [StackExchange.Redis (C#)]({{< relref "/develop/use-cases/time-series-dashboard/dotnet" >}})
+* [NRedisStack (C#)]({{< relref "/develop/use-cases/time-series-dashboard/dotnet" >}})
 * [Predis (PHP)]({{< relref "/develop/use-cases/time-series-dashboard/php" >}})
 * [redis-rb (Ruby)]({{< relref "/develop/use-cases/time-series-dashboard/ruby" >}})
 * [redis-rs (Rust)]({{< relref "/develop/use-cases/time-series-dashboard/rust" >}})

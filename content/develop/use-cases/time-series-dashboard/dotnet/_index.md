@@ -6,13 +6,13 @@ categories:
 - oss
 - rs
 - rc
-description: Build a Redis-backed rolling sensor graph demo in .NET with StackExchange.Redis
+description: Build a Redis-backed rolling sensor graph demo in .NET with NRedisStack
 linkTitle: .NET dashboard
 title: Rolling sensor graph demo with Redis and .NET
 weight: 5
 ---
 
-This guide shows you how to build a compact rolling sensor graph demo in .NET with [`StackExchange.Redis`]({{< relref "/develop/clients/dotnet" >}}) and Redis time series support. The example simulates three power sensors, ingests readings into Redis, and serves a local browser dashboard that updates in real time.
+This guide shows you how to build a compact rolling sensor graph demo in .NET with [`NRedisStack`]({{< relref "/develop/clients/dotnet/nredisstack" >}}), the Redis Stack extension for [`StackExchange.Redis`]({{< relref "/develop/clients/dotnet" >}}). The example simulates three power sensors, ingests readings into Redis, and serves a local browser dashboard that updates in real time.
 
 ## Overview
 
@@ -44,7 +44,7 @@ The implementation is split across three small files:
 * [`RedisTimeSeriesStore.cs`](RedisTimeSeriesStore.cs) - Redis TimeSeries command helpers
 * [`Program.cs`](Program.cs) - Local HTTP server and inline dashboard UI
 
-The Redis helper issues time series commands with `IDatabase.ExecuteAsync(...)`, which keeps the example small while still making the Redis command flow explicit.
+The Redis helper calls `db.TS()` to get an `ITimeSeriesCommandsAsync` from NRedisStack, then issues time series commands as strongly typed methods (`CreateAsync`, `MAddAsync`, `RangeAsync`, `GetAsync`) that return `TimeSeriesTuple` values rather than raw `RedisResult` arrays.
 
 ## Data model
 
@@ -76,12 +76,12 @@ The demo uses a 12-second retention period so the graphs visibly slide forward a
 
 ## Redis commands used
 
-The implementation uses these time series commands directly through StackExchange.Redis:
+The implementation issues these time series commands through NRedisStack's typed `db.TS()` API:
 
-* [`TS.CREATE`]({{< relref "/commands/ts.create" >}}) - Create one time series per sensor with retention and labels
-* [`TS.MADD`]({{< relref "/commands/ts.madd" >}}) - Batch-ingest readings from all three sensors every 500ms
-* [`TS.GET`]({{< relref "/commands/ts.get" >}}) - Fetch the latest reading for a sensor
-* [`TS.RANGE`]({{< relref "/commands/ts.range" >}}) - Read raw recent samples and aggregated 3-second buckets
+* [`TS.CREATE`]({{< relref "/commands/ts.create" >}}) (`CreateAsync`) - Create one time series per sensor with retention and labels
+* [`TS.MADD`]({{< relref "/commands/ts.madd" >}}) (`MAddAsync`) - Batch-ingest readings from all three sensors every 500ms
+* [`TS.GET`]({{< relref "/commands/ts.get" >}}) (`GetAsync`) - Fetch the latest reading for a sensor
+* [`TS.RANGE`]({{< relref "/commands/ts.range" >}}) (`RangeAsync`) - Read raw recent samples and aggregated 3-second buckets
 * `ALIGN 0` with `TS.RANGE ... AGGREGATION` - Keep bucket boundaries stable as the visible window moves
 
 ## Prerequisites
@@ -90,9 +90,10 @@ Before running the demo, make sure that:
 
 * Redis is running and accessible. By default, the demo connects to `localhost:6379`.
 * Your Redis deployment includes time series support.
-* The StackExchange.Redis package is available:
+* The NRedisStack and StackExchange.Redis packages are available:
 
 ```bash
+dotnet add package NRedisStack
 dotnet add package StackExchange.Redis
 ```
 
@@ -155,6 +156,7 @@ This example intentionally keeps the server and UI small so the Redis behavior i
 
 ## Learn more
 
+* [NRedisStack guide]({{< relref "/develop/clients/dotnet/nredisstack" >}}) - Use NRedisStack for Redis Stack data types and commands
 * [.NET client guide]({{< relref "/develop/clients/dotnet" >}}) - Install and use the .NET client
 * [Time series overview]({{< relref "/develop/data-types/timeseries" >}}) - Time series concepts and commands
 * [TS.RANGE command]({{< relref "/commands/ts.range" >}}) - Query raw and aggregated ranges from a time series
