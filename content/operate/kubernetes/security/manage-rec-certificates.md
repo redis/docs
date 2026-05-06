@@ -67,6 +67,12 @@ Check the operator logs and use the API to verify the certificate has been updat
   GET /v1/cluster/certificates
   ```
 
+## Active-Active database certificate updates
+
+The operator automates certificate updates for [Active-Active]({{< relref "/operate/kubernetes/active-active" >}}) databases. When you update the proxy or syncer certificate secret referenced by the REC, the operator detects the change and propagates the new certificate to all participating clusters.
+
+This automation applies whether you manage the secret directly or with [cert-manager]({{< relref "/operate/kubernetes/security/cert-manager#active-active-databases-with-automatic-certificate-sync" >}}).
+
 ## More info
 
 - [Update certificates]({{< relref "/operate/rs/security/certificates/updating-certificates" >}})
