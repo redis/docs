@@ -105,7 +105,7 @@ Initialize the Hugging Face text vectorizer.
 
 #### `model_post_init(context, /)`
 
-This function is meant to behave like a BaseModel method to initialize private attributes.
+This function is meant to behave like a BaseModel method to initialise private attributes.
 
 It takes context as an argument since that’s what pydantic-core passes when calling it.
 
@@ -402,7 +402,7 @@ Embed an image (from its path on disk) using a VertexAI multimodal model.
 * **Parameters:**
   **image_path** (*str*)
 * **Return type:**
-  *List*[float] | bytes
+  list[float] | bytes
 
 #### `embed_video(video_path, **kwargs)`
 
@@ -411,7 +411,7 @@ Embed a video (from its path on disk) using a VertexAI multimodal model.
 * **Parameters:**
   **video_path** (*str*)
 * **Return type:**
-  *List*[float] | bytes
+  list[float] | bytes
 
 #### `property is_multimodal: bool`
 
@@ -619,7 +619,7 @@ Embed an image (from its path on disk) using a Bedrock multimodal model.
 * **Parameters:**
   **image_path** (*str*)
 * **Return type:**
-  *List*[float] | bytes
+  list[float] | bytes
 
 #### `model_config: ClassVar[ConfigDict] = {'arbitrary_types_allowed': True}`
 
@@ -821,7 +821,7 @@ Embed an image (from its path on disk) using VoyageAI’s multimodal API. Requir
 * **Parameters:**
   **image_path** (*str*)
 * **Return type:**
-  *List*[float] | bytes
+  list[float] | bytes
 
 #### `embed_video(video_path, **kwargs)`
 
@@ -832,7 +832,7 @@ Requires voyageai>=0.3.6 to be installed, as well as ffmpeg to be installed on t
 * **Parameters:**
   **video_path** (*str*)
 * **Return type:**
-  *List*[float] | bytes
+  list[float] | bytes
 
 #### `property is_multimodal: bool`
 

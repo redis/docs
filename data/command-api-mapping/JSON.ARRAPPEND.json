@@ -453,6 +453,58 @@
           "description": ""
         }
       }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "json_arr_append(key: K, path: P, value: &V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path to the target array."
+          },
+          {
+            "name": "value",
+            "type": "&V",
+            "description": "The JSON value to append after the last array element."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The array length after the append operation."
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "json_arr_append(key: K, path: P, value: &V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path to the target array."
+          },
+          {
+            "name": "value",
+            "type": "&V",
+            "description": "The JSON value to append after the last array element."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The array length after the append operation."
+        }
+      }
     ]
   }
 }

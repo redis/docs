@@ -1,62 +1,19 @@
 ---
 linkTitle: Guides
 title: Guides
+weight: 4
 hideListLinks: true
 url: '/develop/ai/redisvl/0.17.0/user_guide/'
 ---
 
 
-Welcome to the RedisVL guides! Whether you’re just getting started or building advanced AI applications, these guides will help you make the most of Redis as your vector database.
+Welcome to the RedisVL guides! Whether you're just getting started or building advanced AI applications, these guides will help you make the most of Redis as your vector database.
 
-**Set up RedisVL.** Install the library and configure your Redis instance for vector search.
-
-pip install • Redis Cloud • Docker
-
-**New to RedisVL?** Start here to learn the basics and build your first vector search application in minutes.
-
-Schema → Index → Load → Query
-
-**Solve specific problems.** Task-oriented recipes for LLM extensions, querying, embeddings, optimization, and storage.
-
-LLM Caching • Filtering • MCP • Reranking
-
-**Expose Redis through MCP.** Run the RedisVL MCP server, configure one existing index, and use search or optional upsert tools.
-
-stdio transport • One index • Search and upsert
-
-**Command-line tools.** Manage indices, inspect stats, and work with schemas using the `rvl` CLI.
-
-rvl index • rvl stats • Schema YAML
-
-**Apply RedisVL to real-world problems.** See which guides map to your use case.
-
-Agent Context • Agent Optimization • Search • RecSys
-
-* [Installation](installation/)
-  * [Install RedisVL with Pip](installation/#install-redisvl-with-pip)
-  * [Install RedisVL from Source](installation/#install-redisvl-from-source)
-  * [Development Installation](installation/#development-installation)
-  * [Installing Redis](installation/#installing-redis)
-* [Getting Started](getting_started/)
-  * [Prerequisites](getting_started/#prerequisites)
-  * [What You’ll Learn](getting_started/#what-you-ll-learn)
-  * [Define an `IndexSchema`](getting_started/#define-an-indexschema)
-  * [Sample Dataset Preparation](getting_started/#sample-dataset-preparation)
-  * [Create a `SearchIndex`](getting_started/#create-a-searchindex)
-  * [Inspect with the `rvl` CLI](getting_started/#inspect-with-the-rvl-cli)
-  * [Load Data to `SearchIndex`](getting_started/#load-data-to-searchindex)
-  * [Fetch and Manage Records](getting_started/#fetch-and-manage-records)
-  * [Creating `VectorQuery` Objects](getting_started/#creating-vectorquery-objects)
-  * [Using an Asynchronous Redis Client](getting_started/#using-an-asynchronous-redis-client)
-  * [Updating a schema](getting_started/#updating-a-schema)
-  * [Check Index Stats](getting_started/#check-index-stats)
-  * [Next Steps](getting_started/#next-steps)
-  * [Cleanup](getting_started/#cleanup)
-* [How-To Guides](how_to_guides/)
-  * [Quick Reference](how_to_guides/#quick-reference)
-* [CLI Reference](cli/)
-  * [Commands](cli/#commands)
-  * [Index](cli/#index)
-  * [Stats](cli/#stats)
-  * [Optional arguments](cli/#optional-arguments)
-* [Use Cases](use_cases/)
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+<a href="installation/" class="block p-5 border border-redis-pen-300 rounded-lg hover:border-redis-red-500 hover:shadow-md transition-all duration-200 no-underline hover:no-underline"><h3 class="mt-0 mb-2">📦 Installation</h3><p><strong>Set up RedisVL.</strong> Install the library and configure your Redis instance for vector search.</p><p class="text-sm opacity-75 mt-3">pip install • Redis Cloud • Docker</p></a>
+<a href="getting_started/" class="block p-5 border border-redis-pen-300 rounded-lg hover:border-redis-red-500 hover:shadow-md transition-all duration-200 no-underline hover:no-underline"><h3 class="mt-0 mb-2">🚀 Getting Started</h3><p><strong>New to RedisVL?</strong> Start here to learn the basics and build your first vector search application in minutes.</p><p class="text-sm opacity-75 mt-3">Schema → Index → Load → Query</p></a>
+<a href="how_to_guides/" class="block p-5 border border-redis-pen-300 rounded-lg hover:border-redis-red-500 hover:shadow-md transition-all duration-200 no-underline hover:no-underline"><h3 class="mt-0 mb-2">🛠️ How-To Guides</h3><p><strong>Solve specific problems.</strong> Task-oriented recipes for LLM extensions, querying, embeddings, optimization, and storage.</p><p class="text-sm opacity-75 mt-3">LLM Caching • Filtering • MCP • Reranking</p></a>
+<a href="how_to_guides/mcp/" class="block p-5 border border-redis-pen-300 rounded-lg hover:border-redis-red-500 hover:shadow-md transition-all duration-200 no-underline hover:no-underline"><h3 class="mt-0 mb-2">🧠 MCP Setup</h3><p><strong>Expose Redis through MCP.</strong> Run the RedisVL MCP server, configure one existing index, and use search or optional upsert tools.</p><p class="text-sm opacity-75 mt-3">stdio transport • One index • Search and upsert</p></a>
+<a href="cli/" class="block p-5 border border-redis-pen-300 rounded-lg hover:border-redis-red-500 hover:shadow-md transition-all duration-200 no-underline hover:no-underline"><h3 class="mt-0 mb-2">💻 CLI Reference</h3><p><strong>Command-line tools.</strong> Manage indices, inspect stats, and work with schemas using the <code>rvl</code> CLI.</p><p class="text-sm opacity-75 mt-3">rvl index • rvl stats • Schema YAML</p></a>
+<a href="use_cases/" class="block p-5 border border-redis-pen-300 rounded-lg hover:border-redis-red-500 hover:shadow-md transition-all duration-200 no-underline hover:no-underline"><h3 class="mt-0 mb-2">💡 Use Cases</h3><p><strong>Apply RedisVL to real-world problems.</strong> See which guides map to your use case.</p><p class="text-sm opacity-75 mt-3">Agent Context • Agent Optimization • Search • RecSys</p></a>
+</div>

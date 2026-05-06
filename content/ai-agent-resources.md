@@ -93,14 +93,19 @@ API references are available for the following client libraries:
 - [go-redis](https://pkg.go.dev/github.com/redis/go-redis/v9)
 - [redis-rs](https://docs.rs/redis/latest/redis/)
 
+
 ## Data type comparisons
 
-See [Compare data types]({{< relref "/develop/data-types/compare-data-types" >}}) for advice 
+See [Compare data types]({{< relref "/develop/data-types/compare-data-types" >}}) for advice
 on which of the general-purpose data types is best for common tasks.
 
 ## Redis patterns for coding agents
 
 Salvatore Sanfilippo (also known as *antirez*, the creator of Redis) has provided the Redis community with a resource containing very useful Redis-oriented design patterns. See [this page](https://redis.antirez.com/) for more information.
+
+## Agent skills repository
+
+The [redis/agent-skills](https://github.com/redis/agent-skills) repository provides reusable skills and tools for AI agents working with Redis. 
 
 ## Error handling
 

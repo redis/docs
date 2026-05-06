@@ -54,6 +54,8 @@ is JSONPath to specify. Default is root `$`. Nonexisting paths are ignored.
 {{% alert title="Note" color="warning" %}}
  
 Deleting an object's root is equivalent to deleting the key from Redis.
+If `JSON.DEL` deletes a value and leaves the root object or array empty,
+the key is also deleted from Redis.
 
 {{% /alert %}}
 </details>
@@ -82,6 +84,17 @@ Get the updated document.
 {{< highlight bash >}}
 redis> JSON.GET doc $
 "[{\"nested\":{\"b\":3}}]"
+{{< / highlight >}}
+
+Delete the last value from the root object.
+
+{{< highlight bash >}}
+redis> JSON.SET doc $ '{"a": 1}'
+OK
+redis> JSON.DEL doc $.a
+(integer) 1
+redis> EXISTS doc
+(integer) 0
 {{< / highlight >}}
 </details>
 
@@ -113,4 +126,3 @@ redis> JSON.GET doc $
 
 * [RedisJSON]({{< relref "/develop/data-types/json/" >}})
 * [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
-

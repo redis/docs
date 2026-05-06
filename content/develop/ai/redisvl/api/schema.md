@@ -103,7 +103,7 @@ self is explicitly positional-only to allow self as a field name.
 
 * **Parameters:**
   * **index** (*IndexInfo*)
-  * **fields** (*Dict* *[* *str* *,* *BaseField* *]*)
+  * **fields** (*dict* *[* *str* *,* *BaseField* *]*)
   * **version** (*Literal* *[* *'0.1.0'* *]*)
 
 #### `add_field(field_inputs)`
@@ -250,7 +250,7 @@ Write the index schema to a YAML file.
 * **Return type:**
   None
 
-#### `property field_names: List[str]`
+#### `property field_names: list[str]`
 
 A list of field names associated with the index schema.
 
@@ -259,7 +259,7 @@ A list of field names associated with the index schema.
 * **Return type:**
   List[str]
 
-#### `fields: Dict[str, BaseField]`
+#### `fields: dict[str, BaseField]`
 
 Fields associated with the search index and their properties.
 
@@ -702,7 +702,7 @@ Dimensionality of the vector embeddings field
 
 The distance metric used to measure query relevance
 
-#### `property field_data: Dict[str, Any]`
+#### `property field_data: dict[str, Any]`
 
 Select attributes required by the Redis API
 

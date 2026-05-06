@@ -29,7 +29,7 @@ Note: You cannot use client libraries to configure Redis Software.  Instead, use
 We recommend the following clients when using a [discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}) based on the Redis Sentinel API:
 
 - [redis-py]({{< relref "/develop/clients/redis-py" >}}) (Python client)
-- [NRedisStack]({{< relref "/develop/clients/dotnet" >}}) (.NET client)
+- [StackExchange.Redis]({{< relref "/develop/clients/dotnet" >}}) (.NET client)
 - [Jedis]({{< relref "/develop/clients/jedis" >}}) (synchronous Java client)
 - [Lettuce]({{< relref "/develop/clients/lettuce" >}}) (asynchronous Java client)
 - [go-redis]({{< relref "/develop/clients/go" >}}) (Go client)

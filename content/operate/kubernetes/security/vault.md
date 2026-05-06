@@ -28,6 +28,12 @@ When Vault integration is enabled, all secrets referenced in Redis Enterprise cu
 |  | [Proxy certificate]({{< relref "/operate/kubernetes/security/manage-rec-certificates" >}}) | [`proxyCertificateSecretName`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#redisenterprisespec" >}}) | TLS certificate for proxy |
 |  | [Syncer certificate]({{< relref "/operate/kubernetes/active-active" >}}) | [`syncerCertificateSecretName`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#redisenterprisespec" >}}) | TLS certificate for Active-Active syncer |
 |  | [LDAP client certificate]({{< relref "/operate/kubernetes/security/ldap" >}}) | [`ldapClientCertificateSecretName`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#redisenterprisespec" >}}) | TLS certificate for LDAP client authentication |
+|  | [CPINE certificate]({{< relref "/operate/kubernetes/security/manage-rec-certificates" >}}) | [`cpInternodeEncryptionCertificateSecretName`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#speccertificates" >}}) | TLS certificate for Control Plane Internode Encryption (CPINE) |
+|  | [DPINE certificate]({{< relref "/operate/kubernetes/security/manage-rec-certificates" >}}) | [`dpInternodeEncryptionCertificateSecretName`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#speccertificates" >}}) | TLS certificate for Data Plane Internode Encryption (DPINE) |
+|  | [SSO service certificate]({{< relref "/operate/kubernetes/security/sso" >}}) | [`ssoServiceCertificateSecretName`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#speccertificates" >}}) | Service Provider (SP) certificate for SAML SSO |
+|  | [SSO issuer certificate]({{< relref "/operate/kubernetes/security/sso" >}}) | [`ssoIssuerCertificateSecretName`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#speccertificates" >}}) | Identity Provider (IdP) public certificate for SAML SSO |
+|  | [SSO IdP metadata]({{< relref "/operate/kubernetes/security/sso" >}}) | [`idpMetadataSecretName`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#specssosaml" >}}) | SAML Identity Provider metadata XML |
+|  | [LDAP bind credentials]({{< relref "/operate/kubernetes/security/ldap" >}}) | [`bindCredentialsSecretName`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#specldap" >}}) | Credentials for authenticating to the LDAP server |
 |  | [User-defined module credentials]({{< relref "/operate/kubernetes/re-databases/modules" >}}) | [`credentialsSecret`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#specuserdefinedmodulessourcehttps" >}}) | Credentials for downloading user-defined modules from authenticated repositories |
 | **Database secrets** |  |  |  |
 |  | [Database passwords]({{< relref "/operate/kubernetes/networking/database-connectivity/#credentials-and-secrets-management" >}}) | Various | Passwords for Redis databases |
@@ -44,6 +50,9 @@ When Vault integration is enabled, all secrets referenced in Redis Enterprise cu
 |  | [Active-Active database secrets]({{< relref "/operate/kubernetes/active-active" >}}) | [`globalConfigurations`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api#redisenterpriseactiveactivedatabasespec" >}}) | All secret names specified in REAADB global configurations |
 {{</table-scrollable>}}
 
+{{<note>}}
+The SSO Service Provider (SP) metadata secret (`spMetadataSecretName`) is **not** managed by Vault. This secret is operator-generated and is not written to Vault. To retrieve SP metadata when using Vault, fetch it directly from the Redis Enterprise Server API (`GET /v1/cluster/sso/saml/metadata/sp`).
+{{</note>}}
 
 For complete details on supported secrets, see the [`RedisEnterpriseCluster` API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}}) and [`RedisEnterpriseDatabase` API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}}).
 
@@ -395,6 +404,15 @@ spec:
     proxyCertificateSecretName: <VAULT_SECRET_NAME>
     syncerCertificateSecretName: <VAULT_SECRET_NAME>
     ldapClientCertificateSecretName: <VAULT_SECRET_NAME>
+    cpInternodeEncryptionCertificateSecretName: <VAULT_SECRET_NAME>
+    dpInternodeEncryptionCertificateSecretName: <VAULT_SECRET_NAME>
+    ssoServiceCertificateSecretName: <VAULT_SECRET_NAME>
+    ssoIssuerCertificateSecretName: <VAULT_SECRET_NAME>
+  ldap:
+    bindCredentialsSecretName: <VAULT_SECRET_NAME>
+  sso:
+    saml:
+      idpMetadataSecretName: <VAULT_SECRET_NAME>
   # Vault configuration
   clusterCredentialSecretType: vault
   clusterCredentialSecretRole: redis-enterprise-rec-<K8S_NAMESPACE>

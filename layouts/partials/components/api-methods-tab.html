@@ -17,7 +17,11 @@
 {{ $cmdOverrides := index $apiOverrides $commandName }}
 
 {{/* Define client order explicitly */}}
-{{ $clientOrder := slice "Python" "Node.js" "Java-Sync" "Lettuce-Sync" "Java-Async" "Java-Reactive" "Go" "C#-Sync" "C#-Async" "PHP" "Rust-Sync" "Rust-Async" }}
+{{/* $clientOrder controls the dropdown UI and signature rendering - one entry per mappingClientId */}}
+{{ $clientOrder := slice "Python" "Node.js" "Java-Sync" "Lettuce-Sync" "Java-Async" "Java-Reactive" "Go" "C#-Sync (NRedisStack)" "C#-Async (NRedisStack)" "PHP" "Rust-Sync" "Rust-Async" }}
+{{/* $jsClientOrder also includes SE.Redis variants so the localStorage tab-sync works when a user
+     has a SE.Redis tab selected on a content page and then visits a command reference page */}}
+{{ $jsClientOrder := slice "Python" "Node.js" "Java-Sync" "Lettuce-Sync" "Java-Async" "Java-Reactive" "Go" "C#-Sync (NRedisStack)" "C#-Async (NRedisStack)" "C#-Sync (SE.Redis)" "C#-Async (SE.Redis)" "PHP" "Rust-Sync" "Rust-Async" }}
 
 <div class="api-methods-tab-content">
   {{/* Client selector */}}
@@ -33,7 +37,12 @@
           {{ $mappingId := index $config "mappingClientId" }}
           {{ if and $mappingId (ne $mappingId "") }}
             {{ $clientName := index $config "clientName" }}
-            <option value="{{ $mappingId }}">{{ $tabName }} ({{ $clientName }})</option>
+            {{/* Avoid "C#-Sync (NRedisStack) (NRedisStack)" when tab name already contains the client name */}}
+            {{ if strings.Contains $tabName $clientName }}
+              <option value="{{ $mappingId }}">{{ $tabName }}</option>
+            {{ else }}
+              <option value="{{ $mappingId }}">{{ $tabName }} ({{ $clientName }})</option>
+            {{ end }}
           {{ end }}
         {{ end }}
       {{ end }}
@@ -83,8 +92,10 @@
 <script>
 (function() {
   // Mapping between tab names (localStorage) and client IDs (dropdown values)
+  // Uses $jsClientOrder which includes SE.Redis variants so sync works even when
+  // those tabs are selected on content pages (they share mappingClientId with NRedisStack)
   const tabNameToClientId = {
-    {{ range $tabName := $clientOrder }}
+    {{ range $tabName := $jsClientOrder }}
       {{ $config := index site.Params.clientsConfig $tabName }}
       {{ if $config }}
         {{ $mappingId := index $config "mappingClientId" }}

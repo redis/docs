@@ -1,6 +1,7 @@
 ---
 aliases:
 - /operate/oss_and_stack/management/config-file
+- /management/config/
 categories:
 - docs
 - operate

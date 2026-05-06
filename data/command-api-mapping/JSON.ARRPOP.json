@@ -408,6 +408,58 @@
           "description": ""
         }
       }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "json_arr_pop(key: K, path: P, index: i64)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path to the target array."
+          },
+          {
+            "name": "index",
+            "type": "i64",
+            "description": "The index of the element to remove. Use -1 to pop from the end."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The removed JSON element."
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "json_arr_pop(key: K, path: P, index: i64)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path to the target array."
+          },
+          {
+            "name": "index",
+            "type": "i64",
+            "description": "The index of the element to remove. Use -1 to pop from the end."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The removed JSON element."
+        }
+      }
     ]
   }
 }

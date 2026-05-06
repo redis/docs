@@ -188,7 +188,7 @@ Set the fields to return with search results.
 
 * **Parameters:**
   * **\*fields** – Variable number of field names to return.
-  * **skip_decode** (*List* *[* *str* *]*  *|* *str* *|* *None*) – Optional field name or list of field names that should not be
+  * **skip_decode** (*str* *|* *list* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
     decoded. Useful for binary data like embeddings.
 * **Returns:**
   Returns the query object for method chaining.
@@ -317,7 +317,7 @@ natively supports only a single SORTBY field. When multiple fields are specified
 only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+  * **sort_spec** (*str* *|* *tuple* *[* *str* *,* *str* *]*  *|* *list* *[* *str* *|* *tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
     - str: single field name
     - Tuple[str, str]: (field_name, "ASC"|"DESC")
     - List: list of field names or tuples
@@ -416,7 +416,7 @@ Return the hybrid policy for the query.
 * **Return type:**
   Optional[str]
 
-#### `property params: Dict[str, Any]`
+#### `property params: dict[str, Any]`
 
 Return the parameters for the query.
 
@@ -676,7 +676,7 @@ Set the fields to return with search results.
 
 * **Parameters:**
   * **\*fields** – Variable number of field names to return.
-  * **skip_decode** (*List* *[* *str* *]*  *|* *str* *|* *None*) – Optional field name or list of field names that should not be
+  * **skip_decode** (*str* *|* *list* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
     decoded. Useful for binary data like embeddings.
 * **Returns:**
   Returns the query object for method chaining.
@@ -800,7 +800,7 @@ natively supports only a single SORTBY field. When multiple fields are specified
 only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+  * **sort_spec** (*str* *|* *tuple* *[* *str* *,* *str* *]*  *|* *list* *[* *str* *|* *tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
     - str: single field name
     - Tuple[str, str]: (field_name, "ASC"|"DESC")
     - List: list of field names or tuples
@@ -899,7 +899,7 @@ Return the hybrid policy for the query.
 * **Return type:**
   Optional[str]
 
-#### `property params: Dict[str, Any]`
+#### `property params: dict[str, Any]`
 
 Return the parameters for the query.
 
@@ -1048,17 +1048,17 @@ use VectorQuery or VectorRangeQuery which use FT.SEARCH commands.
 * **Parameters:**
   * **text** (*str*)
   * **text_field_name** (*str*)
-  * **vector** (*bytes* *|* *List* *[* *float* *]*)
+  * **vector** (*bytes* *|* *list* *[* *float* *]*)
   * **vector_field_name** (*str*)
   * **text_scorer** (*str*)
   * **filter_expression** (*str* *|* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *|* *None*)
   * **alpha** (*float*)
   * **dtype** (*str*)
   * **num_results** (*int*)
-  * **return_fields** (*List* *[* *str* *]*  *|* *None*)
-  * **stopwords** (*str* *|* *Set* *[* *str* *]*  *|* *None*)
+  * **return_fields** (*list* *[* *str* *]*  *|* *None*)
+  * **stopwords** (*str* *|* *set* *[* *str* *]*  *|* *None*)
   * **dialect** (*int*)
-  * **text_weights** (*Dict* *[* *str* *,* *float* *]*  *|* *None*)
+  * **text_weights** (*dict* *[* *str* *,* *float* *]*  *|* *None*)
 
 #### `add_scores()`
 
@@ -1197,7 +1197,7 @@ Default is TFIDF.
 Set or update the text weights for the query.
 
 * **Parameters:**
-  **weights** (*Dict* *[* *str* *,* *float* *]*) – Dictionary of word:weight mappings
+  **weights** (*dict* *[* *str* *,* *float* *]*) – Dictionary of word:weight mappings
 
 #### `sort_by(*fields, **kwargs)`
 
@@ -1237,7 +1237,7 @@ entries in the result object.
 * **Return type:**
   *AggregateRequest*
 
-#### `property params: Dict[str, Any]`
+#### `property params: dict[str, Any]`
 
 Return the parameters for the aggregation.
 
@@ -1246,13 +1246,13 @@ Return the parameters for the aggregation.
 * **Return type:**
   Dict[str, Any]
 
-#### `property stopwords: Set[str]`
+#### `property stopwords: set[str]`
 
 Return the stopwords used in the query.
 :returns: The stopwords used in the query.
 :rtype: Set[str]
 
-#### `property text_weights: Dict[str, float]`
+#### `property text_weights: dict[str, float]`
 
 Get the text weights.
 
@@ -1337,7 +1337,7 @@ Instantiates a HybridQuery object.
 * **Parameters:**
   * **text** (*str*) – The text to search for.
   * **text_field_name** (*str*) – The text field name to search in.
-  * **vector** (*bytes* *|* *List* *[* *float* *]*) – The vector to perform vector similarity search.
+  * **vector** (*bytes* *|* *list* *[* *float* *]*) – The vector to perform vector similarity search.
   * **vector_field_name** (*str*) – The vector field name to search in.
   * **vector_param_name** (*str*) – The name of the parameter substitution containing the vector blob.
   * **text_scorer** (*str*) – The text scorer to use. Options are {TFIDF, TFIDF.DOCNORM,
@@ -1364,7 +1364,7 @@ Instantiates a HybridQuery object.
   * **yield_combined_score_as** (*str* *|* *None*) – The name of the field to yield the combined score as.
   * **dtype** (*str*) – The data type of the vector. Defaults to "float32".
   * **num_results** (*int* *|* *None*) – The number of results to return.
-  * **return_fields** (*List* *[* *str* *]*  *|* *None*) – The fields to return. Defaults to None.
+  * **return_fields** (*list* *[* *str* *]*  *|* *None*) – The fields to return. Defaults to None.
   * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]* *]* *,* *optional*) – 
 
     The stopwords to remove from the
@@ -1575,7 +1575,7 @@ Set the fields to return with search results.
 
 * **Parameters:**
   * **\*fields** – Variable number of field names to return.
-  * **skip_decode** (*List* *[* *str* *]*  *|* *str* *|* *None*) – Optional field name or list of field names that should not be
+  * **skip_decode** (*str* *|* *list* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
     decoded. Useful for binary data like embeddings.
 * **Returns:**
   Returns the query object for method chaining.
@@ -1602,7 +1602,7 @@ Since Redis 8.0 default was changed to BM25STD.
 Set or update the field weights for the query.
 
 * **Parameters:**
-  **field_weights** (*str* *|* *Dict* *[* *str* *,* *float* *]*) – Either a single field name or dictionary of field:weight mappings
+  **field_weights** (*str* *|* *dict* *[* *str* *,* *float* *]*) – Either a single field name or dictionary of field:weight mappings
 
 #### `set_filter(filter_expression=None)`
 
@@ -1620,7 +1620,7 @@ Set or update the text weights for the query.
 
 * **Parameters:**
   * **text_weights** – Dictionary of word:weight mappings
-  * **weights** (*Dict* *[* *str* *,* *float* *]*)
+  * **weights** (*dict* *[* *str* *,* *float* *]*)
 
 #### `slop(slop)`
 
@@ -1641,7 +1641,7 @@ natively supports only a single SORTBY field. When multiple fields are specified
 only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+  * **sort_spec** (*str* *|* *tuple* *[* *str* *,* *str* *]*  *|* *list* *[* *str* *|* *tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
     - str: single field name
     - Tuple[str, str]: (field_name, "ASC"|"DESC")
     - List: list of field names or tuples
@@ -1700,7 +1700,7 @@ Ask the engine to return document search scores.
 * **Return type:**
   *Query*
 
-#### `property field_weights: Dict[str, float]`
+#### `property field_weights: dict[str, float]`
 
 Get the field weights for the query.
 
@@ -1711,7 +1711,7 @@ Get the field weights for the query.
 
 The filter expression for the query.
 
-#### `property params: Dict[str, Any]`
+#### `property params: dict[str, Any]`
 
 Return the query parameters.
 
@@ -1719,7 +1719,7 @@ Return the query parameters.
 
 Return self as the query object.
 
-#### `property text_field_name: str | Dict[str, float]`
+#### `property text_field_name: str | dict[str, float]`
 
 Get the text field name(s) - for backward compatibility.
 
@@ -1727,7 +1727,7 @@ Get the text field name(s) - for backward compatibility.
   Either a single field name string (if only one field with weight 1.0)
   or a dictionary of field:weight mappings.
 
-#### `property text_weights: Dict[str, float]`
+#### `property text_weights: dict[str, float]`
 
 Get the text weights.
 
@@ -1870,7 +1870,7 @@ Set the fields to return with search results.
 
 * **Parameters:**
   * **\*fields** – Variable number of field names to return.
-  * **skip_decode** (*List* *[* *str* *]*  *|* *str* *|* *None*) – Optional field name or list of field names that should not be
+  * **skip_decode** (*str* *|* *list* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
     decoded. Useful for binary data like embeddings.
 * **Returns:**
   Returns the query object for method chaining.
@@ -1921,7 +1921,7 @@ natively supports only a single SORTBY field. When multiple fields are specified
 only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+  * **sort_spec** (*str* *|* *tuple* *[* *str* *,* *str* *]*  *|* *list* *[* *str* *|* *tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
     - str: single field name
     - Tuple[str, str]: (field_name, "ASC"|"DESC")
     - List: list of field names or tuples
@@ -1984,7 +1984,7 @@ Ask the engine to return document search scores.
 
 The filter expression for the query.
 
-#### `property params: Dict[str, Any]`
+#### `property params: dict[str, Any]`
 
 Return the query parameters.
 
@@ -2121,7 +2121,7 @@ Set the fields to return with search results.
 
 * **Parameters:**
   * **\*fields** – Variable number of field names to return.
-  * **skip_decode** (*List* *[* *str* *]*  *|* *str* *|* *None*) – Optional field name or list of field names that should not be
+  * **skip_decode** (*str* *|* *list* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
     decoded. Useful for binary data like embeddings.
 * **Returns:**
   Returns the query object for method chaining.
@@ -2172,7 +2172,7 @@ natively supports only a single SORTBY field. When multiple fields are specified
 only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+  * **sort_spec** (*str* *|* *tuple* *[* *str* *,* *str* *]*  *|* *list* *[* *str* *|* *tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
     - str: single field name
     - Tuple[str, str]: (field_name, "ASC"|"DESC")
     - List: list of field names or tuples
@@ -2235,7 +2235,7 @@ Ask the engine to return document search scores.
 
 The filter expression for the query.
 
-#### `property params: Dict[str, Any]`
+#### `property params: dict[str, Any]`
 
 Return the query parameters.
 
@@ -2473,7 +2473,7 @@ entries in the result object.
 * **Return type:**
   *AggregateRequest*
 
-#### `property params: Dict[str, Any]`
+#### `property params: dict[str, Any]`
 
 Return the parameters for the aggregation.
 
@@ -2523,9 +2523,9 @@ Initialize a SQLQuery.
 
 * **Parameters:**
   * **sql** (*str*) – The SQL SELECT statement to execute.
-  * **params** (*Dict* *[* *str* *,* *Any* *]*  *|* *None*) – Optional dictionary of parameters for parameterized queries.
+  * **params** (*dict* *[* *str* *,* *Any* *]*  *|* *None*) – Optional dictionary of parameters for parameterized queries.
     Useful for passing vector data for similarity searches.
-  * **sql_redis_options** (*Dict* *[* *str* *,* *Any* *]*  *|* *None*) – Optional passthrough options forwarded to
+  * **sql_redis_options** (*dict* *[* *str* *,* *Any* *]*  *|* *None*) – Optional passthrough options forwarded to
     `sql-redis` executor creation. Use this to tune how SQL
     query translation loads and caches index schema metadata.
     For example, `{"schema_cache_strategy": "lazy"}` loads

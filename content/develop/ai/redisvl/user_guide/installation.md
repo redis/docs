@@ -10,7 +10,7 @@ There are a few ways to install RedisVL. The easiest way is to use pip.
 
 ## Install RedisVL with Pip
 
-Install `redisvl` into your Python (>=3.9) environment using `pip`:
+Install `redisvl` into your Python (>=3.10) environment using `pip`:
 
 ```bash
 $ pip install -U redisvl
@@ -52,9 +52,6 @@ To install **all** optional dependencies at once:
 ```bash
 $ pip install redisvl[all]
 ```
-
-#### NOTE
-The core RedisVL package supports Python 3.9+, but the `redisvl[mcp]` extra requires Python 3.10 or newer because the MCP server depends on `fastmcp`.
 
 ## Install RedisVL from Source
 
@@ -127,7 +124,7 @@ RedisVL requires Redis with [Redis Search](https://redis.io/docs/latest/develop/
 
 1. [Redis Cloud](https://redis.io/cloud), a fully managed cloud offering with a free tier
 2. [Redis 8+ (Docker)](https://redis.io/downloads/), for local development and testing
-3. [Redis Enterprise](https://redis.com/redis-enterprise/), a commercial self-hosted option
+3. [Redis Software](https://redis.com/redis-enterprise/), a commercial self-hosted option
 
 ### Redis Cloud
 
@@ -144,11 +141,11 @@ docker run -d --name redis -p 6379:6379 redis:8.4
 
 Redis 8 includes Redis Search and built-in vector search capabilities.
 
-### Redis Enterprise (self-hosted)
+### Redis Software (self-hosted)
 
-Redis Enterprise is a commercial offering that can be self-hosted. You can download the latest version [here](https://redis.io/downloads/).
+Redis Software is a commercial offering that can be self-hosted. You can download the latest version [here](https://redis.io/downloads/).
 
-If you are considering a self-hosted Redis Enterprise deployment on Kubernetes, there is the [Redis Enterprise Operator](https://docs.redis.com/latest/kubernetes/) for Kubernetes. This will allow you to easily deploy and manage a Redis Enterprise cluster on Kubernetes.
+If you are considering a self-hosted Redis Software deployment on Kubernetes, there is the [Redis Software Operator](https://docs.redis.com/latest/kubernetes/) for Kubernetes. This will allow you to easily deploy and manage a Redis Software cluster on Kubernetes.
 
 ### Redis Sentinel
 

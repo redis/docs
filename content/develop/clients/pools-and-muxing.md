@@ -31,7 +31,7 @@ The [`redis-py`]({{< relref "/develop/clients/redis-py" >}}),
 [`jedis`]({{< relref "/develop/clients/jedis" >}}), and
 [`go-redis`]({{< relref "/develop/clients/go" >}}) clients support
 connection pooling, while
-[`NRedisStack`]({{< relref "/develop/clients/dotnet" >}})
+[`StackExchange.Redis`]({{< relref "/develop/clients/dotnet" >}})
 supports multiplexing.
 [`Lettuce`]({{< relref "/develop/clients/lettuce" >}})
 supports both approaches.

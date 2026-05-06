@@ -79,7 +79,7 @@ query’s context.
 
 #### `model_post_init(context, /)`
 
-This function is meant to behave like a BaseModel method to initialize private attributes.
+This function is meant to behave like a BaseModel method to initialise private attributes.
 
 It takes context as an argument since that’s what pydantic-core passes when calling it.
 
@@ -148,7 +148,7 @@ Initialize the HFCrossEncoderReranker with a specified model and ranking criteri
     Defaults to ‘cross-encoder/ms-marco-MiniLM-L-6-v2’.
   * **limit** (*int*) – The maximum number of results to return after reranking. Must be a positive integer.
   * **return_score** (*bool*) – Whether to return scores alongside the reranked results.
-  * **rank_by** (*List* *[* *str* *]*  *|* *None*)
+  * **rank_by** (*list* *[* *str* *]*  *|* *None*)
 
 #### `async arank(query, docs, **kwargs)`
 
@@ -168,7 +168,7 @@ in a manner that is potentially more relevant to the query’s context.
 
 #### `model_post_init(context, /)`
 
-This function is meant to behave like a BaseModel method to initialize private attributes.
+This function is meant to behave like a BaseModel method to initialise private attributes.
 
 It takes context as an argument since that’s what pydantic-core passes when calling it.
 
@@ -270,7 +270,7 @@ query’s context.
 
 #### `model_post_init(context, /)`
 
-This function is meant to behave like a BaseModel method to initialize private attributes.
+This function is meant to behave like a BaseModel method to initialise private attributes.
 
 It takes context as an argument since that’s what pydantic-core passes when calling it.
 

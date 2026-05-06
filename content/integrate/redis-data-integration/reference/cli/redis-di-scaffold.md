@@ -23,7 +23,7 @@ Usage: redis-di scaffold [OPTIONS]
 -l`
 
 - `db_type` (REQUIRED):
-  - Type: Choice([<DbType.CASSANDRA: 'cassandra'>, <DbType.MARIADB: 'mariadb'>, <DbType.MONGODB: 'mongodb'>, <DbType.MYSQL: 'mysql'>, <DbType.ORACLE: 'oracle'>, <DbType.POSTGRESQL: 'postgresql'>, <DbType.SQLSERVER: 'sqlserver'>, <DbType.SPANNER: 'spanner'>])
+  - Type: Choice([<DbType.CASSANDRA: 'cassandra'>, <DbType.MARIADB: 'mariadb'>, <DbType.MONGODB: 'mongodb'>, <DbType.MYSQL: 'mysql'>, <DbType.ORACLE: 'oracle'>, <DbType.POSTGRESQL: 'postgresql'>, <DbType.SNOWFLAKE: 'snowflake'>, <DbType.SQLSERVER: 'sqlserver'>, <DbType.SPANNER: 'spanner'>])
   - Default: `none`
   - Usage: `--db-type`
 
@@ -69,7 +69,7 @@ Usage: redis-di scaffold [OPTIONS]
 Options:
   -l, --log-level [TRACE|DEBUG|INFO|WARNING|ERROR|CRITICAL]
                                   [default: INFO]
-  --db-type [cassandra|mariadb|mongodb|mysql|oracle|postgresql|sqlserver|spanner]
+  --db-type [cassandra|mariadb|mongodb|mysql|oracle|postgresql|snowflake|sqlserver|spanner]
                                   DB type  [required]
   --db-flavor [mongodb-atlas|mongodb-replica-set|mongodb-sharded-cluster]
                                   DB flavor

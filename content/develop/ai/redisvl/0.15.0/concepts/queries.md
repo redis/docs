@@ -230,4 +230,4 @@ query = HybridQuery(
 )
 ```
 
-**Learn more:** [Use Advanced Query Types](../user_guide/11_advanced_queries.md) demonstrates these query types in detail.
+**Learn more:** [Use Advanced Query Types]({{< relref "../user_guide/how_to_guides/advanced_queries" >}}) demonstrates these query types in detail.

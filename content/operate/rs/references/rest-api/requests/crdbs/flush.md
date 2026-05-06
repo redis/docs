@@ -23,6 +23,8 @@ PUT /v1/crdbs/{crdb_guid}/flush
 
 Flush an Active-Active database.
 
+Run flush from only one participating cluster. The flush operation propagates to all other clusters automatically.
+
 ### Request {#put-request}
 
 #### Example HTTP request

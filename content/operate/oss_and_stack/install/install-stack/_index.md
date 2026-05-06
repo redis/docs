@@ -1,4 +1,9 @@
 ---
+aliases:
+- /install/install-stack/
+- /install/install-stack/binaries/
+- /operate/oss_and_stack/install/install-stack/linux/
+- /install/install-redis/install-redis-on-linux/
 categories:
 - docs
 - operate
@@ -8,10 +13,6 @@ description: Install Redis Open Source on Docker, Linux, macOS, and Windows (usi
 linkTitle: Install Redis Open Source
 stack: true
 title: Install Redis Open Source
-aliases:
-- /install/install-stack/
-- /install/install-stack/binaries/
-- /operate/oss_and_stack/install/install-stack/linux/
 weight: 2
 ---
 

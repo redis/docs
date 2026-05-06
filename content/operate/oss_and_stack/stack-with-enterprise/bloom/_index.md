@@ -1,4 +1,6 @@
 ---
+aliases:
+- /stack/bloom
 Title: Probabilistic data structures
 alwaysopen: false
 categories:

@@ -122,8 +122,8 @@ At least one of ids or keys must be provided.
 * **Raises:**
   **ValueError** – If neither ids nor keys is provided.
 * **Parameters:**
-  * **ids** (*List* *[* *str* *]*  *|* *None*)
-  * **keys** (*List* *[* *str* *]*  *|* *None*)
+  * **ids** (*list* *[* *str* *]*  *|* *None*)
+  * **keys** (*list* *[* *str* *]*  *|* *None*)
 * **Return type:**
   None
 
@@ -276,8 +276,8 @@ At least one of ids or keys must be provided.
 * **Raises:**
   **ValueError** – If neither ids nor keys is provided.
 * **Parameters:**
-  * **ids** (*List* *[* *str* *]*  *|* *None*)
-  * **keys** (*List* *[* *str* *]*  *|* *None*)
+  * **ids** (*list* *[* *str* *]*  *|* *None*)
+  * **keys** (*list* *[* *str* *]*  *|* *None*)
 * **Return type:**
   None
 
@@ -403,6 +403,315 @@ The underlying SearchIndex for the cache.
 
 The default TTL, in seconds, for entries in the cache.
 
+## LangCacheSemanticCache
+
+<a id="langcache-semantic-cache-api"></a>
+
+### `class LangCacheSemanticCache(name='langcache', server_url='https://aws-us-east-1.langcache.redis.io', cache_id='', api_key='', ttl=None, use_exact_search=True, use_semantic_search=True, distance_scale='normalized', **kwargs)`
+
+Bases: `BaseLLMCache`
+
+LLM Cache implementation using the LangCache managed service.
+
+This cache uses the LangCache API service for semantic caching of LLM
+responses. It requires a LangCache account and API key.
+
+### `Example`
+
+```python
+from redisvl.extensions.cache.llm import LangCacheSemanticCache
+
+cache = LangCacheSemanticCache(
+    name="my_cache",
+    server_url="https://api.langcache.com",
+    cache_id="your-cache-id",
+    api_key="your-api-key",
+    ttl=3600
+)
+
+# Store a response
+cache.store(
+    prompt="What is the capital of France?",
+    response="Paris"
+)
+
+# Check for cached responses
+results = cache.check(prompt="What is the capital of France?")
+```
+
+Initialize a LangCache semantic cache.
+
+* **Parameters:**
+  * **name** (*str*) – The name of the cache. Defaults to "langcache".
+  * **server_url** (*str*) – The LangCache server URL.
+  * **cache_id** (*str*) – The LangCache cache ID.
+  * **api_key** (*str*) – The LangCache API key.
+  * **ttl** (*Optional* *[* *int* *]*) – Time-to-live for cache entries in seconds.
+  * **use_exact_search** (*bool*) – Whether to use exact matching. Defaults to True.
+  * **use_semantic_search** (*bool*) – Whether to use semantic search. Defaults to True.
+  * **distance_scale** (*str*) – Threshold scale for distance_threshold:
+    - "normalized": 0–1 semantic distance (lower is better)
+    - "redis": Redis COSINE distance 0–2 (lower is better)
+* **Raises:**
+  * **ImportError** – If the langcache package is not installed.
+  * **ValueError** – If cache_id or api_key is not provided.
+
+#### `async acheck(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None, attributes=None)`
+
+Async check the cache for semantically similar prompts.
+
+* **Parameters:**
+  * **prompt** (*Optional* *[* *str* *]*) – The text prompt to search for.
+  * **vector** (*Optional* *[* *List* *[* *float* *]* *]*) – Not supported by LangCache API.
+  * **num_results** (*int*) – Number of results to return. Defaults to 1.
+  * **return_fields** (*Optional* *[* *List* *[* *str* *]* *]*) – Not used (for compatibility).
+  * **filter_expression** (*Optional* *[*[*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]*) – Not supported.
+  * **distance_threshold** (*Optional* *[* *float* *]*) – Maximum distance threshold.
+    Converted to similarity_threshold according to distance_scale:
+    If "redis", uses norm_cosine_distance(distance_threshold) ([0,2] -> [0,1]).
+    If "normalized", uses (1.0 - distance_threshold) ([0,1] -> [0,1]).
+  * **attributes** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – LangCache attributes to filter by.
+    Note: Attributes must be pre-configured in your LangCache instance.
+* **Returns:**
+  List of matching cache entries.
+* **Return type:**
+  List[Dict[str, Any]]
+* **Raises:**
+  **ValueError** – If prompt is not provided.
+
+#### `async aclear()`
+
+Async clear the cache of all entries.
+
+This is an alias for adelete() to match the BaseCache interface.
+
+* **Return type:**
+  None
+
+#### `async adelete()`
+
+Async delete the entire cache.
+
+This deletes all entries in the cache by calling the flush API.
+
+* **Return type:**
+  None
+
+#### `async adelete_by_attributes(attributes)`
+
+Async delete cache entries matching the given attributes.
+
+* **Parameters:**
+  **attributes** (*Dict* *[* *str* *,* *Any* *]*) – Attributes to match for deletion.
+  Cannot be empty.
+* **Returns:**
+  Result of the deletion operation.
+* **Return type:**
+  Dict[str, Any]
+* **Raises:**
+  **ValueError** – If attributes is an empty dictionary.
+
+#### `async adelete_by_id(entry_id)`
+
+Async delete a single cache entry by ID.
+
+* **Parameters:**
+  **entry_id** (*str*) – The ID of the entry to delete.
+* **Return type:**
+  None
+
+#### `async adisconnect()`
+
+Async disconnect from Redis.
+
+* **Return type:**
+  None
+
+#### `async aexpire(key, ttl=None)`
+
+Asynchronously set or refresh the expiration time for a key in the cache.
+
+* **Parameters:**
+  * **key** (*str*) – The Redis key to set the expiration on.
+  * **ttl** (*Optional* *[* *int* *]* *,* *optional*) – The time-to-live in seconds. If None,
+    uses the default TTL configured for this cache instance.
+    Defaults to None.
+* **Return type:**
+  None
+
+#### `NOTE`
+If neither the provided TTL nor the default TTL is set (both are None),
+this method will have no effect.
+
+#### `async astore(prompt, response, vector=None, metadata=None, filters=None, ttl=None)`
+
+Async store a prompt-response pair in the cache.
+
+* **Parameters:**
+  * **prompt** (*str*) – The user prompt to cache.
+  * **response** (*str*) – The LLM response to cache.
+  * **vector** (*Optional* *[* *List* *[* *float* *]* *]*) – Not supported by LangCache API.
+  * **metadata** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – Optional metadata (stored as attributes).
+  * **filters** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – Not supported.
+  * **ttl** (*Optional* *[* *int* *]*) – Optional TTL override in seconds.
+* **Returns:**
+  The entry ID for the cached entry.
+* **Return type:**
+  str
+* **Raises:**
+  **ValueError** – If prompt or response is empty.
+
+#### `async aupdate(key, **kwargs)`
+
+Async update specific fields within an existing cache entry.
+
+Note: LangCache API does not support updating individual entries.
+This method will raise NotImplementedError.
+
+* **Parameters:**
+  * **key** (*str*) – The key of the document to update.
+  * **\*\*kwargs** – Field-value pairs to update.
+* **Raises:**
+  **NotImplementedError** – LangCache does not support entry updates.
+* **Return type:**
+  None
+
+#### `check(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None, attributes=None)`
+
+Check the cache for semantically similar prompts.
+
+* **Parameters:**
+  * **prompt** (*Optional* *[* *str* *]*) – The text prompt to search for.
+  * **vector** (*Optional* *[* *List* *[* *float* *]* *]*) – Not supported by LangCache API.
+  * **num_results** (*int*) – Number of results to return. Defaults to 1.
+  * **return_fields** (*Optional* *[* *List* *[* *str* *]* *]*) – Not used (for compatibility).
+  * **filter_expression** (*Optional* *[*[*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]*) – Not supported.
+  * **distance_threshold** (*Optional* *[* *float* *]*) – Maximum distance threshold.
+    Converted to similarity_threshold according to distance_scale:
+    If "redis", uses norm_cosine_distance(distance_threshold) ([0,2] -> [0,1]).
+    If "normalized", uses (1.0 - distance_threshold) ([0,1] -> [0,1]).
+  * **attributes** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – LangCache attributes to filter by.
+    Note: Attributes must be pre-configured in your LangCache instance.
+* **Returns:**
+  List of matching cache entries.
+* **Return type:**
+  List[Dict[str, Any]]
+* **Raises:**
+  **ValueError** – If prompt is not provided.
+
+#### `clear()`
+
+Clear the cache of all entries.
+
+This is an alias for delete() to match the BaseCache interface.
+
+* **Return type:**
+  None
+
+#### `delete()`
+
+Delete the entire cache.
+
+This deletes all entries in the cache by calling the flush API.
+
+* **Return type:**
+  None
+
+#### `delete_by_attributes(attributes)`
+
+Delete cache entries matching the given attributes.
+
+* **Parameters:**
+  **attributes** (*Dict* *[* *str* *,* *Any* *]*) – Attributes to match for deletion.
+  Cannot be empty.
+* **Returns:**
+  Result of the deletion operation.
+* **Return type:**
+  Dict[str, Any]
+* **Raises:**
+  **ValueError** – If attributes is an empty dictionary.
+
+#### `delete_by_id(entry_id)`
+
+Delete a single cache entry by ID.
+
+* **Parameters:**
+  **entry_id** (*str*) – The ID of the entry to delete.
+* **Return type:**
+  None
+
+#### `disconnect()`
+
+Disconnect from Redis.
+
+* **Return type:**
+  None
+
+#### `expire(key, ttl=None)`
+
+Set or refresh the expiration time for a key in the cache.
+
+* **Parameters:**
+  * **key** (*str*) – The Redis key to set the expiration on.
+  * **ttl** (*Optional* *[* *int* *]* *,* *optional*) – The time-to-live in seconds. If None,
+    uses the default TTL configured for this cache instance.
+    Defaults to None.
+* **Return type:**
+  None
+
+#### `NOTE`
+If neither the provided TTL nor the default TTL is set (both are None),
+this method will have no effect.
+
+#### `set_ttl(ttl=None)`
+
+Set the default TTL, in seconds, for entries in the cache.
+
+* **Parameters:**
+  **ttl** (*Optional* *[* *int* *]* *,* *optional*) – The optional time-to-live expiration
+  for the cache, in seconds.
+* **Raises:**
+  **ValueError** – If the time-to-live value is not an integer.
+* **Return type:**
+  None
+
+#### `store(prompt, response, vector=None, metadata=None, filters=None, ttl=None)`
+
+Store a prompt-response pair in the cache.
+
+* **Parameters:**
+  * **prompt** (*str*) – The user prompt to cache.
+  * **response** (*str*) – The LLM response to cache.
+  * **vector** (*Optional* *[* *List* *[* *float* *]* *]*) – Not supported by LangCache API.
+  * **metadata** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – Optional metadata (stored as attributes).
+  * **filters** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – Not supported.
+  * **ttl** (*Optional* *[* *int* *]*) – Optional TTL override in seconds.
+* **Returns:**
+  The entry ID for the cached entry.
+* **Return type:**
+  str
+* **Raises:**
+  **ValueError** – If prompt or response is empty.
+
+#### `update(key, **kwargs)`
+
+Update specific fields within an existing cache entry.
+
+Note: LangCache API does not support updating individual entries.
+This method will raise NotImplementedError.
+
+* **Parameters:**
+  * **key** (*str*) – The key of the document to update.
+  * **\*\*kwargs** – Field-value pairs to update.
+* **Raises:**
+  **NotImplementedError** – LangCache does not support entry updates.
+* **Return type:**
+  None
+
+#### `property ttl: int | None`
+
+The default TTL, in seconds, for entries in the cache.
+
 ## Cache Schema Classes
 
 ### `CacheEntry`
@@ -426,17 +735,17 @@ self is explicitly positional-only to allow self as a field name.
   * **entry_id** (*str* *|* *None*)
   * **prompt** (*str*)
   * **response** (*str*)
-  * **prompt_vector** (*List* *[* *float* *]*)
+  * **prompt_vector** (*list* *[* *float* *]*)
   * **inserted_at** (*float*)
   * **updated_at** (*float*)
-  * **metadata** (*Dict* *[* *str* *,* *Any* *]*  *|* *None*)
-  * **filters** (*Dict* *[* *str* *,* *Any* *]*  *|* *None*)
+  * **metadata** (*dict* *[* *str* *,* *Any* *]*  *|* *None*)
+  * **filters** (*dict* *[* *str* *,* *Any* *]*  *|* *None*)
 
 #### `entry_id: str | None`
 
 Cache entry identifier
 
-#### `filters: Dict[str, Any] | None`
+#### `filters: dict[str, Any] | None`
 
 Optional filter data stored on the cache entry for customizing retrieval
 
@@ -444,7 +753,7 @@ Optional filter data stored on the cache entry for customizing retrieval
 
 Timestamp of when the entry was added to the cache
 
-#### `metadata: Dict[str, Any] | None`
+#### `metadata: dict[str, Any] | None`
 
 Optional metadata stored on the cache entry
 
@@ -456,7 +765,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 Input prompt or question cached in Redis
 
-#### `prompt_vector: List[float]`
+#### `prompt_vector: list[float]`
 
 Text embedding representation of the prompt
 
@@ -492,8 +801,8 @@ self is explicitly positional-only to allow self as a field name.
   * **vector_distance** (*float*)
   * **inserted_at** (*float*)
   * **updated_at** (*float*)
-  * **metadata** (*Dict* *[* *str* *,* *Any* *]*  *|* *None*)
-  * **filters** (*Dict* *[* *str* *,* *Any* *]*  *|* *None*)
+  * **metadata** (*dict* *[* *str* *,* *Any* *]*  *|* *None*)
+  * **filters** (*dict* *[* *str* *,* *Any* *]*  *|* *None*)
   * **extra_data** (*Any*)
 
 #### `to_dict()`
@@ -501,13 +810,13 @@ self is explicitly positional-only to allow self as a field name.
 Convert this model to a dictionary, merging filters into the result.
 
 * **Return type:**
-  *Dict*[str, *Any*]
+  dict[str, *Any*]
 
 #### `entry_id: str`
 
 Cache entry identifier
 
-#### `filters: Dict[str, Any] | None`
+#### `filters: dict[str, Any] | None`
 
 Optional filter data stored on the cache entry for customizing retrieval
 
@@ -515,7 +824,7 @@ Optional filter data stored on the cache entry for customizing retrieval
 
 Timestamp of when the entry was added to the cache
 
-#### `metadata: Dict[str, Any] | None`
+#### `metadata: dict[str, Any] | None`
 
 Optional metadata stored on the cache entry
 
@@ -846,7 +1155,7 @@ Each item in the input list should be a dictionary with the following fields:
 - ‘metadata’: Optional metadata to store with the embedding
 
 * **Parameters:**
-  * **items** (*List* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – List of dictionaries, each containing content, model_name, embedding, and optional metadata.
+  * **items** (*list* *[* *dict* *[* *str* *,* *Any* *]* *]*) – List of dictionaries, each containing content, model_name, embedding, and optional metadata.
   * **ttl** (*int* *|* *None*) – Optional TTL override for these entries.
 * **Returns:**
   List of Redis keys where the embeddings were stored.
@@ -1164,7 +1473,7 @@ Each item in the input list should be a dictionary with the following fields:
 - ‘metadata’: Optional metadata to store with the embedding
 
 * **Parameters:**
-  * **items** (*List* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – List of dictionaries, each containing content, model_name, embedding, and optional metadata.
+  * **items** (*list* *[* *dict* *[* *str* *,* *Any* *]* *]*) – List of dictionaries, each containing content, model_name, embedding, and optional metadata.
   * **ttl** (*int* *|* *None*) – Optional TTL override for these entries.
 * **Returns:**
   List of Redis keys where the embeddings were stored.

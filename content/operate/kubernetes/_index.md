@@ -24,6 +24,8 @@ Redis Enterprise for Kubernetes provides all the enterprise features of Redis So
 
 The Redis Enterprise operator simplifies deployment and management by providing custom resource definitions (CRDs) for Redis Enterprise clusters (REC) and databases (REDB). This approach enables GitOps workflows and Kubernetes-native operations.
 
+Redis Enterprise for Kubernetes is compatible with [CNCF-conformant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes platforms. The operator follows standard Kubernetes APIs and practices and is designed to run consistently across certified Kubernetes environments.
+
 ## Get started
 
 Deploy Redis Enterprise on your Kubernetes cluster and create your first database.

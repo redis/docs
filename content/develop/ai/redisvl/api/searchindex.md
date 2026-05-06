@@ -79,7 +79,7 @@ Execute a batch of queries and process results.
   * **queries** (*Sequence* *[* *BaseQuery* *]*)
   * **batch_size** (*int*)
 * **Return type:**
-  *List*[*List*[*Dict*[str, *Any*]]]
+  list[list[dict[str, *Any*]]]
 
 #### `batch_search(queries, batch_size=10)`
 
@@ -220,7 +220,7 @@ Set the expiration time for a specific entry or entries in Redis.
   * **keys** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The entry ID or IDs to set the expiration for.
   * **ttl** (*int*) – The time-to-live in seconds.
 * **Return type:**
-  int | *List*[int]
+  int | list[int]
 
 #### `fetch(id)`
 
@@ -478,7 +478,7 @@ The key prefix used in forming Redis keys.
 
 For multi-prefix indexes, returns the first prefix.
 
-#### `property prefixes: List[str]`
+#### `property prefixes: list[str]`
 
 All key prefixes configured for this index.
 
@@ -551,10 +551,10 @@ to the redis-py ft().aggregate() method.
 Asynchronously execute a batch of queries and process results.
 
 * **Parameters:**
-  * **queries** (*List* *[* *BaseQuery* *]*)
+  * **queries** (*list* *[* *BaseQuery* *]*)
   * **batch_size** (*int*)
 * **Return type:**
-  *List*[*List*[*Dict*[str, *Any*]]]
+  list[list[dict[str, *Any*]]]
 
 #### `async batch_search(queries, batch_size=10)`
 
@@ -693,7 +693,7 @@ Set the expiration time for a specific entry or entries in Redis.
   * **keys** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The entry ID or IDs to set the expiration for.
   * **ttl** (*int*) – The time-to-live in seconds.
 * **Return type:**
-  int | *List*[int]
+  int | list[int]
 
 #### `async fetch(id)`
 
@@ -961,7 +961,7 @@ The key prefix used in forming Redis keys.
 
 For multi-prefix indexes, returns the first prefix.
 
-#### `property prefixes: List[str]`
+#### `property prefixes: list[str]`
 
 All key prefixes configured for this index.
 

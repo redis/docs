@@ -692,6 +692,58 @@
           "description": ""
         }
       }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "json_set(key: K, path: P, value: &V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path where the JSON value should be stored."
+          },
+          {
+            "name": "value",
+            "type": "&V",
+            "description": "The JSON value to set."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The status reply for the set operation."
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "json_set(key: K, path: P, value: &V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path where the JSON value should be stored."
+          },
+          {
+            "name": "value",
+            "type": "&V",
+            "description": "The JSON value to set."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The status reply for the set operation."
+        }
+      }
     ]
   }
 }
