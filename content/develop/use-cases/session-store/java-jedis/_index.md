@@ -7,7 +7,7 @@ categories:
 - rs
 - rc
 description: Implement a Redis-backed session store in Java with Jedis
-linkTitle: Java session store
+linkTitle: Jedis example (Java)
 title: Redis session store with Java and Jedis
 weight: 4
 ---

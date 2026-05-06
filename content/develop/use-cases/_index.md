@@ -7,10 +7,10 @@ categories:
 - rs
 - rc
 description: Learn how to implement common use cases with Redis
+hideListLinks: true
 linkTitle: Use cases
 title: Redis use cases
 weight: 50
-draft: true
 ---
 
 This section provides practical examples and reference implementations for common Redis use cases.

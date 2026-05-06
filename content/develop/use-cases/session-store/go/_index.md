@@ -7,7 +7,7 @@ categories:
 - rs
 - rc
 description: Implement a Redis-backed session store in Go with go-redis
-linkTitle: Go session store
+linkTitle: go-redis example (Go)
 title: Redis session store with Go
 weight: 3
 ---

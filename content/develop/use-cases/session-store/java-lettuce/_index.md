@@ -7,7 +7,7 @@ categories:
 - rs
 - rc
 description: Implement a Redis-backed session store in Java with Lettuce
-linkTitle: Java session store (Lettuce)
+linkTitle: Lettuce example (Java)
 title: Redis session store with Java (Lettuce)
 weight: 5
 ---
