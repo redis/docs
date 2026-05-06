@@ -276,7 +276,7 @@ Use when your team is more comfortable with SQL syntax, or when integrating with
 #### NOTE
 SQLQuery requires the optional `sql-redis` package. Install with: `pip install redisvl[sql-redis]`
 
-For comprehensive examples including geographic filtering, date functions, and vector search, see the [SQL to Redis Queries guide](../user_guide/12_sql_to_redis_queries.md).
+For comprehensive examples including geographic filtering, date functions, and vector search, see the [SQL to Redis Queries guide]({{< relref "../user_guide/how_to_guides/sql_to_redis_queries" >}}).
 
 ## Choosing the Right Query
 
@@ -326,4 +326,4 @@ query = HybridQuery(
 )
 ```
 
-**Learn more:** [Use Advanced Query Types](../user_guide/11_advanced_queries.md) demonstrates these query types in detail.
+**Learn more:** [Use Advanced Query Types]({{< relref "../user_guide/how_to_guides/advanced_queries" >}}) demonstrates these query types in detail.

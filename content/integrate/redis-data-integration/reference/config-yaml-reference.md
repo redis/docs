@@ -18,6 +18,7 @@ Configuration file for Redis Data Integration (RDI) source collectors and target
 | [**processors**](#processors)<br/>(Data processing configuration) | `object`, `null` | Configuration settings that control how data is processed, including batch sizes, error handling, and performance tuning<br/>                                             |          |
 | [**targets**](#targets)<br/>(Target connections)                  | `object`         | Configuration for target Redis databases where processed data will be written<br/>                                                                                        |          |
 | [**secret\-providers**](#secret-providers)<br/>(Secret providers) | `object`         | Configuration for secret management providers<br/>                                                                                                                        |          |
+| [**metadata**](#metadata)<br/>(Pipeline metadata)                 | `object`         | Pipeline metadata<br/>                                                                                                                                                    |          |
 
 **Additional Properties:** not allowed  
 <a name="sources"></a>
@@ -28,16 +29,17 @@ Defines source collectors and their configurations. Each key represents a unique
 
 **Properties** (key: `.*`)
 
-| Name                                                          | Type       | Description                                                                          | Required |
-| ------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------ | -------- |
-| **connection**                                                |            |                                                                                      | yes      |
-| **type**<br/>(Collector type)                                 | `string`   | Type of the source collector.<br/>Default: `"cdc"`<br/>Enum: `"cdc"`, `"flink"`<br/> | yes      |
-| **active**<br/>(Collector enabled)                            | `boolean`  | Flag to enable or disable the source collector<br/>Default: `true`<br/>              | no       |
-| [**logging**](#sourceslogging)<br/>(Logging configuration)    | `object`   | Logging configuration for the source collector<br/>                                  | no       |
-| [**tables**](#sourcestables)<br/>(Tables to capture)          | `object`   | Defines which tables to capture and how to handle their data<br/>                    | no       |
-| [**schemas**](#sourcesschemas)<br/>(Schema names)             | `string[]` | Schema names to capture from the source database (schema.include.list)<br/>          | no       |
-| [**databases**](#sourcesdatabases)<br/>(Database names)       | `string[]` | Database names to capture from the source database (database.include.list)<br/>      | no       |
-| [**advanced**](#sourcesadvanced)<br/>(Advanced configuration) | `object`   | Advanced configuration options for fine-tuning the collector<br/>                    | no       |
+| Name                                                          | Type       | Description                                                                                     | Required |
+| ------------------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------- | -------- |
+| **connection**                                                |            |                                                                                                 | yes      |
+| **name**<br/>(Source name)                                    | `string`   | User-friendly source name<br/>Maximal Length: `100`<br/>                                        | no       |
+| **type**<br/>(Collector type)                                 | `string`   | Type of the source collector.<br/>Default: `"cdc"`<br/>Enum: `"cdc"`, `"flink"`, `"riotx"`<br/> | yes      |
+| **active**<br/>(Collector enabled)                            | `boolean`  | Flag to enable or disable the source collector<br/>Default: `true`<br/>                         | no       |
+| [**logging**](#sourceslogging)<br/>(Logging configuration)    | `object`   | Logging configuration for the source collector<br/>                                             | no       |
+| [**tables**](#sourcestables)<br/>(Tables to capture)          | `object`   | Defines which tables to capture and how to handle their data<br/>                               | no       |
+| [**schemas**](#sourcesschemas)<br/>(Schema names)             | `string[]` | Schema names to capture from the source database (schema.include.list)<br/>                     | no       |
+| [**databases**](#sourcesdatabases)<br/>(Database names)       | `string[]` | Database names to capture from the source database (database.include.list)<br/>                 | no       |
+| [**advanced**](#sourcesadvanced)<br/>(Advanced configuration) | `object`   | Advanced configuration options for fine-tuning the collector<br/>                               | no       |
 
 <a name="sourceslogging"></a>
 
@@ -123,13 +125,15 @@ Advanced configuration options for fine-tuning the collector
 
 **Properties**
 
-| Name                                                                             | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                | Required |
-| -------------------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| [**sink**](#sourcesadvancedsink)<br/>(RDI Collector stream writer configuration) | `object` | Advanced configuration properties for RDI Collector stream writer connection and behaviour. When using collector type 'cdc', see the full list of properties at - https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream . When using a property from that list, remove the `debezium.sink.` prefix. When using collector type 'flink', see the full list of properties at <br/> |          |
-| [**source**](#sourcesadvancedsource)<br/>(Advanced source settings)              | `object` | Advanced configuration properties for the source database connection and CDC behavior<br/>                                                                                                                                                                                                                                                                                                                                 |          |
-| [**quarkus**](#sourcesadvancedquarkus)<br/>(Quarkus runtime settings)            | `object` | Advanced configuration properties for the Quarkus runtime environment<br/>                                                                                                                                                                                                                                                                                                                                                 |          |
-| [**flink**](#sourcesadvancedflink)<br/>(Advanced Flink settings)                 | `object` | Advanced configuration properties for Flink<br/>                                                                                                                                                                                                                                                                                                                                                                           |          |
-| **java_options**<br/>(Advanced Java options)                                     | `string` | These Java options will be passed to the command line command when launching the source collector<br/>                                                                                                                                                                                                                                                                                                                     |          |
+| Name                                                                             | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Required |
+| -------------------------------------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| [**sink**](#sourcesadvancedsink)<br/>(RDI Collector stream writer configuration) | `object` | Advanced configuration properties for RDI Collector stream writer connection and behaviour. When using collector type 'cdc', see the full list of properties at - https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream . When using a property from that list, remove the `debezium.sink.` prefix. When using collector type 'flink', refer to the Flink connector documentation for the full list of supported properties.<br/> |          |
+| [**source**](#sourcesadvancedsource)<br/>(Advanced source settings)              | `object` | Advanced configuration properties for the source database connection and CDC behavior<br/>                                                                                                                                                                                                                                                                                                                                                                                   |          |
+| [**quarkus**](#sourcesadvancedquarkus)<br/>(Quarkus runtime settings)            | `object` | Advanced configuration properties for the Quarkus runtime environment<br/>                                                                                                                                                                                                                                                                                                                                                                                                   |          |
+| [**flink**](#sourcesadvancedflink)<br/>(Advanced Flink settings)                 | `object` | Advanced configuration properties for Flink<br/>                                                                                                                                                                                                                                                                                                                                                                                                                             |          |
+| [**resources**](#sourcesadvancedresources)<br/>(Collector resource settings)     | `object` | Resource settings for the collector. When provided, the same values are used consistently across the collector runtime configuration<br/>                                                                                                                                                                                                                                                                                                                                    |          |
+| [**riotx**](#sourcesadvancedriotx)<br/>(Advanced RIOTX settings)                 | `object` | Advanced configuration properties for RIOTX Snowflake collector<br/>                                                                                                                                                                                                                                                                                                                                                                                                         |          |
+| **java_options**<br/>(Advanced Java options)                                     | `string` | These Java options will be passed to the command line command when launching the source collector<br/>                                                                                                                                                                                                                                                                                                                                                                       |          |
 
 **Additional Properties:** not allowed  
 **Minimal Properties:** 1  
@@ -140,13 +144,20 @@ sink: {}
 source: {}
 quarkus: {}
 flink: {}
+resources: {}
+riotx:
+  poll: 30s
+  snapshot: INITIAL
+  streamPrefix: "data:"
+  clearOffset: false
+  count: 0
 ```
 
 <a name="sourcesadvancedsink"></a>
 
 #### sources\.advanced\.sink: RDI Collector stream writer configuration
 
-Advanced configuration properties for RDI Collector stream writer connection and behaviour. When using collector type 'cdc', see the full list of properties at - https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream . When using a property from that list, remove the `debezium.sink.` prefix. When using collector type 'flink', see the full list of properties at
+Advanced configuration properties for RDI Collector stream writer connection and behaviour. When using collector type 'cdc', see the full list of properties at - https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream . When using a property from that list, remove the `debezium.sink.` prefix. When using collector type 'flink', refer to the Flink connector documentation for the full list of supported properties.
 
 **Additional Properties**
 
@@ -194,6 +205,57 @@ Advanced configuration properties for Flink
 | **Additional Properties** | `string`, `number`, `boolean` |             |          |
 
 **Minimal Properties:** 1  
+<a name="sourcesadvancedresources"></a>
+
+#### sources\.advanced\.resources: Collector resource settings
+
+Resource settings for the collector. When provided, the same values are used consistently across the collector runtime configuration
+
+**Properties**
+
+| Name                                   | Type     | Description                                                          | Required |
+| -------------------------------------- | -------- | -------------------------------------------------------------------- | -------- |
+| **cpu**<br/>(CPU resource value)       | `string` | CPU value for the collector (for example, '1' or '500m')<br/>        |          |
+| **memory**<br/>(Memory resource value) | `string` | Memory value for the collector (for example, '1024Mi' or '2Gi')<br/> |          |
+
+**Additional Properties:** not allowed  
+**Minimal Properties:** 1  
+<a name="sourcesadvancedriotx"></a>
+
+#### sources\.advanced\.riotx: Advanced RIOTX settings
+
+Advanced configuration properties for RIOTX Snowflake collector
+
+**Properties**
+
+| Name                                                                | Type       | Description                                                                                        | Required |
+| ------------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------- | -------- |
+| **poll**<br/>(Polling interval)                                     | `string`   | Polling interval for stream changes (e.g., '30s', 'PT30S')<br/>Default: `"30s"`<br/>               |          |
+| **snapshot**<br/>(Snapshot mode)                                    | `string`   | Snapshot mode for initial data load<br/>Default: `"INITIAL"`<br/>Enum: `"INITIAL"`, `"NEVER"`<br/> |          |
+| **streamPrefix**<br/>(Redis stream key prefix)                      | `string`   | Prefix for Redis stream keys<br/>Default: `"data:"`<br/>                                           |          |
+| **streamLimit**<br/>(Maximum stream length)                         | `integer`  | Maximum number of entries in the Redis stream<br/>Minimum: `1`<br/>                                |          |
+| [**keyColumns**](#sourcesadvancedriotxkeycolumns)<br/>(Key columns) | `string[]` | List of columns to use as message keys<br/>                                                        |          |
+| **clearOffset**<br/>(Clear existing offset)                         | `boolean`  | Whether to clear existing offset on start<br/>Default: `false`<br/>                                |          |
+| **count**<br/>(Record count limit)                                  | `integer`  | Limit number of records to process (0 = unlimited)<br/>Default: `0`<br/>Minimum: `0`<br/>          |          |
+
+**Additional Properties:** not allowed  
+**Minimal Properties:** 1  
+**Example**
+
+```yaml
+poll: 30s
+snapshot: INITIAL
+streamPrefix: "data:"
+clearOffset: false
+count: 0
+```
+
+<a name="sourcesadvancedriotxkeycolumns"></a>
+
+##### sources\.advanced\.riotx\.keyColumns\[\]: Key columns
+
+List of columns to use as message keys
+
 <a name="processors"></a>
 
 ## processors: Data processing configuration
@@ -262,11 +324,13 @@ Advanced configuration options for fine-tuning the processor
 
 **Properties**
 
-| Name                                                                            | Type     | Description                                              | Required |
-| ------------------------------------------------------------------------------- | -------- | -------------------------------------------------------- | -------- |
-| [**source**](#processorsadvancedsource)<br/>(Advanced source settings)          | `object` | Advanced configuration properties for the source<br/>    |          |
-| [**sink**](#processorsadvancedsink)<br/>(Advanced sink settings)                | `object` | Advanced configuration properties for the sink<br/>      |          |
-| [**processor**](#processorsadvancedprocessor)<br/>(Advanced processor settings) | `object` | Advanced configuration properties for the processor<br/> |          |
+| Name                                                                            | Type     | Description                                                                                             | Required |
+| ------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------- | -------- |
+| [**source**](#processorsadvancedsource)<br/>(Advanced source settings)          | `object` | Advanced configuration properties for the source Redis client, connection pool, and streams reader<br/> |          |
+| [**sink**](#processorsadvancedsink)<br/>(Advanced sink settings)                | `object` | Advanced configuration properties for the sink<br/>                                                     |          |
+| [**target**](#processorsadvancedtarget)<br/>(Advanced target settings)          | `object` | Advanced configuration properties for the target Redis client, connection pool, and sink<br/>           |          |
+| [**dlq**](#processorsadvanceddlq)<br/>(Advanced DLQ settings)                   | `object` | Advanced configuration properties for the DLQ Redis client, connection pool, and sink<br/>              |          |
+| [**processor**](#processorsadvancedprocessor)<br/>(Advanced processor settings) | `object` | Advanced configuration properties for the processor<br/>                                                |          |
 
 **Additional Properties:** not allowed  
 **Minimal Properties:** 1  
@@ -275,6 +339,8 @@ Advanced configuration options for fine-tuning the processor
 ```yaml
 source: {}
 sink: {}
+target: {}
+dlq: {}
 processor: {}
 ```
 
@@ -282,7 +348,7 @@ processor: {}
 
 #### processors\.advanced\.source: Advanced source settings
 
-Advanced configuration properties for the source
+Advanced configuration properties for the source Redis client, connection pool, and streams reader
 
 **Additional Properties**
 
@@ -296,6 +362,32 @@ Advanced configuration properties for the source
 #### processors\.advanced\.sink: Advanced sink settings
 
 Advanced configuration properties for the sink
+
+**Additional Properties**
+
+| Name                      | Type                          | Description | Required |
+| ------------------------- | ----------------------------- | ----------- | -------- |
+| **Additional Properties** | `string`, `number`, `boolean` |             |          |
+
+**Minimal Properties:** 1  
+<a name="processorsadvancedtarget"></a>
+
+#### processors\.advanced\.target: Advanced target settings
+
+Advanced configuration properties for the target Redis client, connection pool, and sink
+
+**Additional Properties**
+
+| Name                      | Type                          | Description | Required |
+| ------------------------- | ----------------------------- | ----------- | -------- |
+| **Additional Properties** | `string`, `number`, `boolean` |             |          |
+
+**Minimal Properties:** 1  
+<a name="processorsadvanceddlq"></a>
+
+#### processors\.advanced\.dlq: Advanced DLQ settings
+
+Advanced configuration properties for the DLQ Redis client, connection pool, and sink
 
 **Additional Properties**
 
@@ -376,3 +468,18 @@ List of secret objects to fetch from the provider
 ```yaml
 - {}
 ```
+
+<a name="metadata"></a>
+
+## metadata: Pipeline metadata
+
+Pipeline metadata
+
+**Properties**
+
+| Name                                       | Type     | Description                                         | Required |
+| ------------------------------------------ | -------- | --------------------------------------------------- | -------- |
+| **name**<br/>(Pipeline name)               | `string` | Pipeline name<br/>Maximal Length: `100`<br/>        |          |
+| **description**<br/>(Pipeline description) | `string` | Pipeline description<br/>Maximal Length: `500`<br/> |          |
+
+**Additional Properties:** not allowed

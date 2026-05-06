@@ -8,7 +8,7 @@ aliases:
 
 RedisVL sits between your application and Redis, providing a structured way to define, populate, and query vector search indexes.
 
-![RedisVL Architecture](_static/redisvl-architecture.svg)
+{{< image filename="/images/redisvl/redisvl-architecture.svg" alt="RedisVL Architecture" >}}
 
 ## The Core Pattern
 
@@ -62,6 +62,6 @@ Each extension manages its own Redis index internally. You interact with a clean
 
 ---
 
-**Related concepts:** [Search & Indexing](search-and-indexing.md) covers schemas and field types in detail. [Query Types](queries.md) explains the different query types available.
+**Related concepts:** [Search & Indexing]({{< relref "search-and-indexing" >}}) covers schemas and field types in detail. [Query Types]({{< relref "queries" >}}) explains the different query types available.
 
-**Learn more:** [Getting Started](../user_guide/01_getting_started.md) covers the core workflow. [Extensions](extensions.md) explains each extension pattern in detail.
+**Learn more:** [Getting Started]({{< relref "../user_guide/getting_started" >}}) covers the core workflow. [Extensions]({{< relref "extensions" >}}) explains each extension pattern in detail.

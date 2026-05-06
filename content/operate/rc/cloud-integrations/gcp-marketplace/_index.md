@@ -13,6 +13,10 @@ weight: 30
 
 You can use Google Cloud marketplace to subscribe to Redis Cloud. This lets you provision according to your needs and pay using your Google Cloud account.
 
+{{< video-link >}}
+See [Connecting Google Cloud Marketplace to Redis Cloud](https://www.youtube.com/watch?v=jo3e5VNye0E) for a short video tutorial.
+{{< /video-link >}}
+
 ## Subscribe to Redis Cloud using Google Cloud marketplace
 
 Here's how to subscribe to Redis Cloud with Google Cloud marketplace:

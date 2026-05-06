@@ -304,7 +304,7 @@ query = VectorQuery(
 )
 ```
 
-See the [SVS-VAMANA guide](09_svs_vamana.ipynb) and [Advanced Queries guide](11_advanced_queries.ipynb) for more details on runtime parameters.
+See the [SVS-VAMANA guide]({{< relref "svs_vamana" >}}) and [Advanced Queries guide]({{< relref "advanced_queries" >}}) for more details on runtime parameters.
 
 ### Executing queries
 With our `VectorQuery` object defined above, we can execute the query over the `SearchIndex` using the `query` method.

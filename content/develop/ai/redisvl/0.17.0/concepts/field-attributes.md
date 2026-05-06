@@ -260,7 +260,7 @@ Geo fields support the common attributes (`sortable`, `no_index`, `index_missing
 
 ## Vector Field Attributes
 
-Vector fields have a different attribute structure. See [Schema](../api/schema.md) for complete vector field documentation.
+Vector fields have a different attribute structure. See [Schema]({{< relref "../api/schema" >}}) for complete vector field documentation.
 
 Key vector attributes:
 
@@ -374,4 +374,4 @@ fields:
     path: $.location
 ```
 
-**Learn more:** [Schema](../api/schema.md) provides the complete API reference for all field types and attributes.
+**Learn more:** [Schema]({{< relref "../api/schema" >}}) provides the complete API reference for all field types and attributes.

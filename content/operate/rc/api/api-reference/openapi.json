@@ -11859,9 +11859,11 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"
@@ -12015,9 +12017,11 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"
@@ -14652,9 +14656,11 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"
@@ -16050,9 +16056,11 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"
@@ -16261,9 +16269,11 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"
@@ -16906,7 +16916,10 @@
               "FIXED_DATABASE_NO_EVICTION_IS_NOT_SUPPORTED_BY_CLUSTER",
               "FIXED_DATABASE_DATA_EVICTION_POLICY_IS_NOT_SUPPORTED_BY_CLUSTER",
               "FIXED_DATABASE_DATA_EVICTION_POLICY_IS_NOT_SUPPORTED_BY_SELECTED_MODULES",
-              "FIXED_DATABASE_EVICTION_POLICY_IS_NOT_SUPPORTED_BY_REDIS_FLEX_PLAN",
+              "FIXED_DATABASE_EVICTION_POLICY_NOT_COMPATIBLE_WITH_REDIS_VERSION",
+              "DATABASE_EVICTION_POLICY_NOT_COMPATIBLE_WITH_REDIS_VERSION",
+              "DATABASE_EVICTION_POLICY_NOT_COMPATIBLE_WITH_REDIS_FLEX",
+              "FIXED_DATABASE_EVICTION_POLICY_NOT_COMPATIBLE_WITH_REDIS_FLEX",
               "FIXED_DATABASE_REPLICA_OF_IS_NOT_SUPPORTED_BY_SELECTED_MODULES",
               "FIXED_DATABASE_DATA_PERSISTENCE_VALUE_NOT_SUPPORTED_FOR_FIXED",
               "FIXED_DATABASE_DATA_EVICTION_POLICY_IS_NOT_SUPPORTED_BY_ALL_MODULES_IN_SELECTED_PLAN_OR_CLUSTER",
@@ -17907,9 +17920,11 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"

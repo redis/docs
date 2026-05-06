@@ -688,6 +688,80 @@
         },
         "type": "object"
       },
+      "LdapMapping": {
+        "description": "An API object that represents a Redis Software LDAP mapping.",
+        "example": {
+          "dn": "OU=ops.group,DC=redislabs,DC=com",
+          "email": "ops.group@redislabs.com",
+          "email_alerts": true,
+          "name": "Admins",
+          "role_uids": [
+            1
+          ],
+          "uid": 17
+        },
+        "properties": {
+          "account_id": {
+            "description": "SM account ID.",
+            "type": "integer"
+          },
+          "action_uid": {
+            "description": "Action uid. If exists - progress can be tracked by the GET /actions/\u003cuid\u003e API.",
+            "type": "string"
+          },
+          "bdbs_email_alerts": {
+            "description": "UIDs of databases that LDAP mapping users will receive alerts for.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "cluster_email_alerts": {
+            "description": "Activate cluster email alerts for an LDAP mapping.",
+            "type": "boolean"
+          },
+          "dn": {
+            "description": "LDAP group's distinguished name.",
+            "type": "string"
+          },
+          "email": {
+            "description": "LDAP mapping's email.",
+            "type": "string"
+          },
+          "email_alerts": {
+            "default": true,
+            "description": "Activate email alerts for an LDAP mapping.",
+            "type": "boolean"
+          },
+          "name": {
+            "description": "LDAP mapping's name.",
+            "type": "string"
+          },
+          "role_uids": {
+            "description": "List of role uids associated with the LDAP mapping.",
+            "items": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            },
+            "type": "array"
+          },
+          "uid": {
+            "description": "LDAP mapping's unique uid.",
+            "type": "integer",
+            "x-go-type": "json.Number"
+          }
+        },
+        "required": [
+          "uid",
+          "name",
+          "dn",
+          "email",
+          "email_alerts",
+          "role_uids"
+        ],
+        "type": "object"
+      },
       "LdapQuery": {
         "additionalProperties": false,
         "oneOf": [
@@ -2378,6 +2452,93 @@
         "summary": "Update a single cluster certificate.",
         "tags": [
           "Cluster"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/ldap_mappings": {
+      "get": {
+        "description": "Get all Redis Software LDAP mappings configured in the cluster.",
+        "operationId": "cluster_list_ldap_mappings",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/LdapMapping"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "List of LDAP mappings."
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_all_ldap_mappings_info"
+            ]
+          }
+        ],
+        "summary": "Get all Redis Software LDAP mappings",
+        "tags": [
+          "LDAP Mapping"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/ldap_mappings/{uid}": {
+      "get": {
+        "description": "Get a single LDAP mapping by unique ID.",
+        "operationId": "cluster_get_ldap_mapping",
+        "parameters": [
+          {
+            "description": "The LDAP mapping unique ID.",
+            "example": 17,
+            "in": "path",
+            "name": "uid",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LdapMapping"
+                }
+              }
+            },
+            "description": "LDAP mapping information."
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_ldap_mapping_info"
+            ]
+          }
+        ],
+        "summary": "Get a single Redis Software LDAP mapping",
+        "tags": [
+          "LDAP Mapping"
         ],
         "x-publish-docs": true,
         "x-stability-level": "stable"
