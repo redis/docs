@@ -49,9 +49,9 @@ replica of an Active-Active replication setup or an Auto tiering database.
 
 ## Can I use Active-Active for the RDI database?
 
-Yes. Starting with RDI 1.16.0, you can use Active-Active for the RDI database. This is useful if you
-want to create DR setup for RDI using  GCS to provide a reliable lease mechanism for leader election).
-The configuration for the GCS is available only for Helm based installations.
+Yes, starting with RDI 1.16.0, you can use Active-Active for the RDI database. This is useful if you
+want to create a disaster recovery setup for RDI using Google Cloud Storage (GCS) to provide a reliable lease mechanism for leader election.
+The configuration for the GCS is available only for [Helm based installations]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}}).
 
 **Important:** You should only use this configuration when both sites use the same source configuration.
 
