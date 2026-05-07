@@ -6,7 +6,7 @@ categories:
 - integrate
 - rs
 - rdi
-description: Learn how to migrate an existing RDI pipeline from the classic stream processor to the Apache Flink-based processor.
+description: Learn how to migrate an existing RDI pipeline from the classic processor to the Apache Flink-based processor.
 group: di
 hideListLinks: false
 linkTitle: Migrate to the Flink processor
@@ -19,8 +19,8 @@ weight: 35
 RDI ships with two stream processor implementations. The default *classic*
 processor is implemented in Python and runs on both VMs and Kubernetes. The
 *Flink* processor is built on top of [Apache Flink](https://flink.apache.org/)
-and currently runs on Kubernetes only. It can achieve much higher throughput 
-during snapshots, scales horizontally by changing the number of TaskManager replicas, 
+and currently runs on Kubernetes only. It can achieve much higher throughput
+during snapshots, scales horizontally by changing the number of TaskManager replicas,
 and uses Flink checkpointing for fault tolerance. See [Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
 for an overview.
 
@@ -73,7 +73,7 @@ processors:
 Then redeploy the pipeline. The operator stops the classic processor pods
 and starts the Flink JobManager and TaskManager workloads for the pipeline.
 
-## Step 3: Adapt deprecated and Classic-only properties
+## Step 3: Adapt deprecated and classic-only properties
 
 Some `processors` properties are no-ops, classic-only, or have moved to
 `processors.advanced` for the Flink processor. The following table lists the
@@ -90,7 +90,7 @@ properties that need attention when migrating.
 | `idle_sleep_time_ms` | Classic-only. Remove. |
 | `use_native_json_merge` | Classic-only. The Flink processor always uses `JSON.MERGE` when the target supports it. |
 
-The classic processor silently ignores `processors.advanced`, 
+The classic processor silently ignores `processors.advanced`,
 and the Flink processor silently ignores classic-only top-level properties, so keeping
 both top-level properties and their `processors.advanced` equivalents lets
 you switch back without further edits.
@@ -118,7 +118,7 @@ processors:
       taskmanager.memory.process.size: 4096m
     resources:
       taskManager:
-        # Number of TaskManager pods
+        # Number of TaskManager pods.
         replicas: 2
 ```
 
@@ -128,7 +128,7 @@ for the full set of available properties.
 
 ## Step 5: Update observability
 
-The Flink processor exposes Prometheus metrics directly 
+The Flink processor exposes Prometheus metrics directly
 from the Flink JobManager and TaskManager pods.
 See
 [Flink processor metrics]({{< relref "/integrate/redis-data-integration/observability#flink-processor-metrics" >}})

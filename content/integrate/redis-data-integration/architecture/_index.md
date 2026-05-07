@@ -143,7 +143,6 @@ The diagram below shows all RDI components and the interactions between them:
 
 {{< image filename="images/rdi/ingest/ingest-control-plane.webp" >}}
 
-
 ## Stream processor implementations
 
 RDI provides two implementations of the stream processor, *classic* and

@@ -153,20 +153,22 @@ you must adapt your `rdi-values.yaml` file to the following changes:
 ### Enabling the Flink processor
 
 The
-[Apache Flink](https://flink.apache.org/)-based stream processor introduced
-alongside the classic processor is opt-in. Upgrading the Helm chart does not
-change the processor used by existing pipelines, which keep running on the
-classic processor until you explicitly switch them by setting
+[Apache Flink](https://flink.apache.org/)-based stream processor is
+available after upgrading to RDI 1.18.0 or later. Once the upgrade
+completes, it is always available — no Helm-level opt-in is required, and
+the chart defaults are sized for typical workloads. Upgrading the Helm
+chart does not change the processor used by existing pipelines, which keep
+running on the classic processor until you explicitly switch them by
+setting
 [`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
 to `flink` in their `config.yaml`.
 
-To enable the Flink processor workloads on your cluster, add the
-`operator.dataPlane.flinkProcessor` block to your `rdi-values.yaml` file
-as described in
-[Configure the Flink processor]({{< relref "/integrate/redis-data-integration/installation/install-k8s#configure-the-flink-processor" >}}),
-and see
-[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}})
-for the per-pipeline migration steps.
+To override the Flink processor defaults, add an
+`operator.dataPlane.flinkProcessor` block to your `rdi-values.yaml` file as
+described in
+[Configure the Flink processor]({{< relref "/integrate/redis-data-integration/installation/install-k8s#configure-the-flink-processor" >}}).
+For the per-pipeline migration steps, see
+[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}}).
 
 ### Verifying the upgrade
 

@@ -8,12 +8,15 @@ categories:
   - rdi
 description: Cache the result of an expression or lookup
 group: di
+hidden: true
 linkTitle: cache
 summary:
   Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
 weight: 10
+_build:
+  list: never
 ---
 
 Cache the result of an expression or lookup. Caching avoids re-evaluating

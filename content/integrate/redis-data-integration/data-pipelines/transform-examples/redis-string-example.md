@@ -19,7 +19,7 @@ weight: 30
 The string data type is useful for capturing a string representation of a single column from
 a source table.
 
-{{< note >}}The `string` data type is supported by the classic stream processor only.
+{{< note >}}The `string` data type is supported by the classic processor only.
 The Flink processor currently supports only `hash` and `json` outputs.{{< /note >}}
 
 In the example job below, the `title` column is captured from the `album` table in the source.
