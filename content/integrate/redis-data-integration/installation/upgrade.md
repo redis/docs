@@ -150,7 +150,7 @@ you must adapt your `rdi-values.yaml` file to the following changes:
     `rdiMetricsExporter.service.port`, `rdiMetricsExporter.serviceMonitor.path`,
     `api.service.name`.
 
-### The Flink processor is opt-in
+### Enabling the Flink processor
 
 The
 [Apache Flink](https://flink.apache.org/)-based stream processor introduced
