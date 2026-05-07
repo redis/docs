@@ -10,6 +10,7 @@ categories:
 description: Discover the main components of RDI
 group: di
 headerRange: '[2]'
+hideListLinks: false
 linkTitle: Architecture
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
@@ -127,43 +128,33 @@ It includes:
     and exports them as [Prometheus](https://prometheus.io/) metrics.
 
 The *data plane* contains the processes that actually move the data.
-It includes the *CDC collector* and the *stream processor* that implement 
+It includes the *CDC collector* and the *stream processor* that implement
 the two phases of the pipeline lifecycle (initial cache loading and change streaming).
 
 The *management plane* provides tools that let you interact
-with the control plane. 
+with the control plane.
 
--   Use the CLI tool to install and administer RDI and to deploy 
-    and manage a pipeline. 
--   Use the pipeline editor included in Redis Insight to design 
+-   Use the CLI tool to install and administer RDI and to deploy
+    and manage a pipeline.
+-   Use the pipeline editor included in Redis Insight to design
     or edit a pipeline.
-    
+
 The diagram below shows all RDI components and the interactions between them:
 
 {{< image filename="images/rdi/ingest/ingest-control-plane.webp" >}}
 
+
 ## Stream processor implementations
 
-RDI provides two implementations of the stream processor. You select the
-implementation per pipeline through the
+RDI provides two implementations of the stream processor, *classic* and
+*Flink*. You select the implementation per pipeline through the
 [`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
 property in `config.yaml`. The default is `classic`, so existing pipelines
 keep their behavior unchanged.
 
--   The **classic** processor is implemented in Python. It is the original RDI
-    stream processor, supports both VM and Kubernetes deployments, and writes
-    to all Redis target data types (`hash`, `json`, `set`, `sorted_set`,
-    `stream`, `string`).
-
--   The **Flink** processor is implemented on top of
-    [Apache Flink](https://flink.apache.org/) and currently runs on Kubernetes only.
-    It can achieve much higher throughput during snapshots, scales horizontally
-    by changing the number of TaskManager replicas, uses Flink checkpointing for fault tolerance, 
-    and exposes Prometheus metrics directly from its JobManager and TaskManager pods 
-    (the `rdi-metrics-exporter` is not deployed for Flink-based pipelines). 
-    The Flink processor currently supports only `hash` and `json` target data types.
-
 See
+[Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
+for a side-by-side comparison and
 [Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}})
 for guidance on migrating an existing pipeline to the Flink processor.
 
@@ -174,9 +165,9 @@ deploy RDI.
 
 ### RDI on your own VMs
 
-For this deployment, you must provide two VMs. The collector and stream processor 
-are active on one VM, while on the other they are in standby to provide high availability. 
-The two operators running on both VMs use a leader election algorithm to decide which 
+For this deployment, you must provide two VMs. The collector and stream processor
+are active on one VM, while on the other they are in standby to provide high availability.
+The two operators running on both VMs use a leader election algorithm to decide which
 VM is the active one (the "leader").
 The diagram below shows this configuration:
 
@@ -193,16 +184,16 @@ on [Kubernetes (K8s)](https://kubernetes.io/), including Red Hat
 
 -   A K8s [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) named `rdi`.
     You can also use a different namespace name if you prefer.
--   [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) and 
-    [services](https://kubernetes.io/docs/concepts/services-networking/service/) for the 
+-   [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) and
+    [services](https://kubernetes.io/docs/concepts/services-networking/service/) for the
     [RDI operator]({{< relref "/integrate/redis-data-integration/architecture#how-rdi-is-deployed" >}}),
     [metrics exporter]({{< relref "/integrate/redis-data-integration/observability" >}}), and API server.
--   A [service account](https://kubernetes.io/docs/concepts/security/service-accounts/) 
+-   A [service account](https://kubernetes.io/docs/concepts/security/service-accounts/)
     and [RBAC resources](https://kubernetes.io/docs/reference/access-authn-authz/rbac) for the RDI operator.
 -   A [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) with RDI database details.
 -   [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)
     with the RDI database credentials and TLS certificates.
--   Other optional K8s resources such as [ingresses](https://kubernetes.io/docs/concepts/services-networking/ingress/) 
+-   Other optional K8s resources such as [ingresses](https://kubernetes.io/docs/concepts/services-networking/ingress/)
     that can be enabled depending on your K8s environment and needs.
 
 See [Install on Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}})
@@ -210,8 +201,8 @@ for more information.
 
 ### Secrets and security considerations
 
-The credentials for the database connections, as well as the certificates 
+The credentials for the database connections, as well as the certificates
 for [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) and
-[mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) are saved in K8s secrets. 
+[mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) are saved in K8s secrets.
 RDI stores all state and configuration data inside the Redis Enterprise cluster
 and does not store any other data on your RDI VMs or anywhere else outside the cluster.
