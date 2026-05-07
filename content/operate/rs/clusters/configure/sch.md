@@ -13,7 +13,7 @@ weight: 90
 Smart client handoffs (SCH) is a feature of Redis Cloud and Redis Software servers that lets them actively notify clients about planned server maintenance shortly before it happens. This lets a client reconnect or otherwise respond gracefully without significant interruptions in service.
 See [Smart client handoffs]({{< relref "/develop/clients/sch" >}}) for more information about SCH.
 
-SCH is supported for Redis Software from v8.0.2 on, and OSS Cloud mode and OSS Cluster API from v8.0.16 on.
+SCH is supported for Redis Software from v8.0.2 on, and OSS Cluster API from v8.0.16 on.
 The degree of support for SCH depends on the specific upgrade method you use, as detailed in the table below.
 
 {{< embed-md "rs-sch-support.md" >}}
