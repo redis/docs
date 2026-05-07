@@ -32,8 +32,6 @@ The following table shows supported Kubernetes versions at the time of this rele
 
 ## Known limitations
 
-- **An expired license causes pod readiness failures, which block recovery and upgrades.** If a pod is stuck during an upgrade, manually update the licenses through the REST API. <!--RED-185977-->
-
 - **SSO configuration does not work with IPv6 or dual-stack (IPv4/IPv6) clusters.** <!--RED-180550-->
 
 - **Upgrades from versions earlier than 7.4.2-2 are not supported.** If you use an earlier version, upgrade to 7.4.2-2 before upgrading to this version.
