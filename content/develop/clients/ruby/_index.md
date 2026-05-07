@@ -36,23 +36,19 @@ gem install redis
 
 Connect to localhost on port 6379:
 
-{{< clients-example set="landing" step="connect" lang_filter="Ruby" description="Foundational: Connect to a Redis server and establish a client connection" difficulty="beginner" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="landing" step="connect" lang_filter="Ruby" description="Foundational: Connect to a Redis server and establish a client connection" difficulty="beginner" />}}
 
 Store and retrieve a simple string.
 
-{{< clients-example set="landing" step="set_get_string" lang_filter="Ruby" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="landing" step="set_get_string" lang_filter="Ruby" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" />}}
 
 Store and retrieve a dict.
 
-{{< clients-example set="landing" step="hash_operations" lang_filter="Ruby" description="Foundational: Store and retrieve hash data structures using HSET and HGETALL" difficulty="beginner" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="landing" step="hash_operations" lang_filter="Ruby" description="Foundational: Store and retrieve hash data structures using HSET and HGETALL" difficulty="beginner" />}}
 
 Close the connection when you're done.
 
-{{< clients-example set="landing" step="close" lang_filter="Ruby" description="Foundational: Properly close a Redis client connection to release resources" difficulty="beginner" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="landing" step="close" lang_filter="Ruby" description="Foundational: Properly close a Redis client connection to release resources" difficulty="beginner" />}}
 
 ## More information
 
