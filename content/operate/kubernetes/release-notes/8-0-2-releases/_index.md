@@ -33,6 +33,8 @@ For detailed steps, see the relevant upgrade page:
 
 ## Known limitations
 
+- **Expired license causes pod readiness failures, blocking recovery and upgrades** <!--RED-185977--> If a pod is stuck during upgrade, manually update the licenses via the REST API.
+
 - **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 8.0.2-2.
 
 - **Custom certificate upload is not supported for internode encryption (RED-173229).** Internode communication between cluster nodes continues to use default self-signed certificates and cannot be configured with customer-provided certificates.
