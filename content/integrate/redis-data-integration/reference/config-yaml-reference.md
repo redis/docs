@@ -573,7 +573,6 @@ Advanced configuration properties for the processor. **Flink processor only.**
 |**default\.data\.type**<br/>(Default target data type)|`string`|Data type to use in Redis when not overridden per job: `hash` for Redis Hash, `json` for RedisJSON. Alias for `processors.target_data_type`; takes priority when both are set.<br/>Default: `"hash"`<br/>Enum: `"hash"`, `"json"`<br/>||
 |**default\.json\.update\.strategy**<br/>(Default JSON update strategy)|`string`|Strategy for updating JSON data in Redis: `replace` to overwrite the entire JSON object, `merge` to merge new data with the existing JSON object. Alias for `processors.json_update_strategy`; takes priority when both are set.<br/>Default: `"replace"`<br/>Enum: `"replace"`, `"merge"`<br/>||
 |**dlq\.enabled**<br/>(Enable DLQ)|`boolean`|When `true`, rejected messages are stored in the dead-letter queue; when `false`, errors are silently skipped. Alias for `processors.error_handling`; takes priority when both are set.<br/>Default: `true`<br/>||
-|**log\.level**<br/>(Processor log level)|`string`|Log level for the processor. Takes priority over `processors.logging.level` when both are set.<br/>Enum: `"trace"`, `"debug"`, `"info"`, `"warn"`, `"error"`<br/>||
 
 **Additional Properties**
 
