@@ -1551,6 +1551,82 @@
           }, 120000);
         }
 
+        // Same workaround as JS above, applied to Ruby cells.
+        const CM_RUBY_MODE_URL = 'https://unpkg.com/codemirror@5.65.16/mode/ruby/ruby.js';
+
+        function loadCodeMirrorRubyMode(CM) {
+          if (!CM || typeof CM.defineMode !== 'function') return Promise.resolve(false);
+          if (CM.modes && CM.modes.ruby) return Promise.resolve(true);
+          if (window.__cmRubyModePromise) return window.__cmRubyModePromise;
+
+          window.__cmRubyModePromise = new Promise(function(resolve) {
+            const hadPrev = Object.prototype.hasOwnProperty.call(window, 'CodeMirror');
+            const prev = window.CodeMirror;
+            window.CodeMirror = CM;
+            const script = document.createElement('script');
+            script.src = CM_RUBY_MODE_URL;
+            const restore = function() {
+              if (hadPrev) { window.CodeMirror = prev; } else { try { delete window.CodeMirror; } catch (e) { window.CodeMirror = undefined; } }
+            };
+            script.onload = function() {
+              restore();
+              resolve(!!(CM.modes && CM.modes.ruby));
+            };
+            script.onerror = function() {
+              restore();
+              console.warn('[Thebe] Failed to load CodeMirror Ruby mode from', CM_RUBY_MODE_URL);
+              window.__cmRubyModePromise = null;
+              resolve(false);
+            };
+            document.head.appendChild(script);
+          });
+          return window.__cmRubyModePromise;
+        }
+
+        function findRubyCmInstances() {
+          const out = [];
+          document.querySelectorAll('.thebe-cell .CodeMirror').forEach(function(cmEl) {
+            const cm = cmEl.CodeMirror;
+            if (!cm) return;
+            const mode = cm.getOption('mode');
+            const modeName = (typeof mode === 'string') ? mode : (mode && mode.name);
+            if (modeName === 'ruby') out.push(cm);
+          });
+          return out;
+        }
+
+        function applyRubyModeToCells() {
+          findRubyCmInstances().forEach(function(cm) {
+            cm.setOption('mode', null);
+            cm.setOption('mode', 'ruby');
+          });
+        }
+
+        let __rubyHighlightDone = false;
+        let __rubyHighlightObserver = null;
+        function __tryRegisterRubyMode() {
+          if (__rubyHighlightDone) return;
+          const rubyCms = findRubyCmInstances();
+          if (rubyCms.length === 0) return;
+          __rubyHighlightDone = true;
+          if (__rubyHighlightObserver) { __rubyHighlightObserver.disconnect(); __rubyHighlightObserver = null; }
+          const CM = rubyCms[0].constructor;
+          loadCodeMirrorRubyMode(CM).then(function(ok) {
+            if (ok) applyRubyModeToCells();
+          });
+        }
+        function ensureRubyHighlightingForActivatedCells() {
+          __tryRegisterRubyMode();
+          if (__rubyHighlightDone || __rubyHighlightObserver) return;
+          if (typeof MutationObserver !== 'function') return;
+          __rubyHighlightObserver = new MutationObserver(function() { __tryRegisterRubyMode(); });
+          __rubyHighlightObserver.observe(document.body, { childList: true, subtree: true });
+          // Safety net: stop observing after 2 minutes even if no Ruby cells ever appear.
+          setTimeout(function() {
+            if (__rubyHighlightObserver) { __rubyHighlightObserver.disconnect(); __rubyHighlightObserver = null; }
+          }, 120000);
+        }
+
         // Function to handle kernel expiration/disconnection
         function handleKernelExpired() {
           // Clear localStorage session so fresh start on reload
@@ -1599,6 +1675,7 @@
           // Start watching for JS cells so we can install CM's javascript mode as soon
           // as Thebe creates the editors (covers both fresh click and auto-reconnect).
           ensureJsHighlightingForActivatedCells();
+          ensureRubyHighlightingForActivatedCells();
 
           // NOTE: Loading state is now managed by individual click handlers (lines 1189-1190)
           // This prevents all blocks from showing "Starting kernel..." when only one is clicked
