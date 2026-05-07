@@ -1,6 +1,6 @@
 # EXAMPLE: landing
-# BINDER_ID: ruby-landing
-# KERNEL_NAME: ruby3
+# BINDER_ID ruby-landing
+# KERNEL_NAME ruby3
 # STEP_START import
 require 'redis'
 # STEP_END
