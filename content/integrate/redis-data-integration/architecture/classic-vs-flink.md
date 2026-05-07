@@ -35,7 +35,7 @@ for a step-by-step migration guide.
 | Scaling | Single replica | Horizontal: TaskManager replicas × task slots per TaskManager |
 | Fault tolerance | Source-stream consumer-group replay | Source-stream consumer-group replay plus Flink checkpointing |
 | Supported `data_type` outputs | `hash`, `json`, `set`, `sorted_set`, `stream`, `string` | `hash`, `json` |
-| Metrics endpoint | `rdi-metrics-exporter` pod | Flink JobManager `/metrics` (no metrics exporter) |
+| Metrics endpoint | `rdi-metrics-exporter` service | Flink JobManager `/metrics` (no metrics exporter) |
 | Metric naming | `rdi_*` (e.g., `rdi_incoming_entries`) | `flink_*` (e.g., `flink_jobmanager_job_operator_coordinator_stream_type_rdiRecords`) |
 | End-to-end latency | Bounded by the per-batch read-process-write cycle | Records flow through pipelined operator chains without a per-batch barrier |
 | Snapshot throughput | Limited by single shared reader and writer | Parallelized across all task slots |
@@ -117,7 +117,7 @@ for the full property list.
 The two processors expose different Prometheus metric sets and use
 different naming schemes, so dashboards and alerts cannot be reused
 as-is between them. The classic processor exposes its metrics through
-the `rdi-metrics-exporter` pod. The Flink processor emits metrics
+the `rdi-metrics-exporter` service. The Flink processor emits metrics
 directly from the JobManager and TaskManager pods through Flink's
 native Prometheus reporter; no metrics exporter is deployed.
 

@@ -90,7 +90,8 @@ properties that need attention when migrating.
 | `idle_sleep_time_ms` | Classic-only. Remove. |
 | `use_native_json_merge` | Classic-only. The Flink processor always uses `JSON.MERGE` when the target supports it. |
 
-The classic processor silently ignores `processors.advanced`, so keeping
+The classic processor silently ignores `processors.advanced`, 
+and the Flink processor silently ignores classic-only top-level properties, so keeping
 both top-level properties and their `processors.advanced` equivalents lets
 you switch back without further edits.
 
@@ -127,8 +128,8 @@ for the full set of available properties.
 
 ## Step 5: Update observability
 
-The Flink processor does not use `rdi-metrics-exporter`. It exposes
-Prometheus metrics directly from the Flink JobManager and TaskManager pods.
+The Flink processor exposes Prometheus metrics directly 
+from the Flink JobManager and TaskManager pods.
 See
 [Flink processor metrics]({{< relref "/integrate/redis-data-integration/observability#flink-processor-metrics" >}})
 for the `ServiceMonitor` configuration and the available metrics.

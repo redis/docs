@@ -29,7 +29,7 @@ RDI exposes the following endpoints:
 - **Collector metrics**: CDC collector performance and connectivity
 - **Stream processor metrics**: Data processing performance and throughput. The exposed metrics depend on the [stream processor implementation]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}}) used by the pipeline:
   - The classic processor exposes the metrics described in [Stream processor metrics](#stream-processor-metrics) through the `rdi-metrics-exporter` service.
-  - The Flink processor exposes the metrics described in [Flink processor metrics](#flink-processor-metrics) directly from its JobManager and TaskManager pods. The `rdi-metrics-exporter` is not deployed for Flink-based pipelines.
+  - The Flink processor exposes the metrics described in [Flink processor metrics](#flink-processor-metrics) directly from its JobManager and TaskManager pods. The `rdi-metrics-exporter` service is not deployed for Flink-based pipelines.
 - **Operator metrics**: Kubernetes operator health and Pipeline resource states
 
 The sections below explain these sets of metrics in more detail.
@@ -231,7 +231,7 @@ RDI reports with their descriptions.
 ## Flink processor metrics
 
 The Flink processor exposes Prometheus metrics directly from its JobManager
-and TaskManager pods. The `rdi-metrics-exporter` is not deployed for
+and TaskManager pods. The `rdi-metrics-exporter` service is not deployed for
 Flink-based pipelines, and the metrics described in
 [Stream processor metrics](#stream-processor-metrics) are not available.
 
