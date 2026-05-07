@@ -48,7 +48,7 @@ Store and retrieve a dict.
 
 Close the connection when you're done.
 
-{{< jupyter-example set="landing" step="close" depends="connect" lang_filter="Ruby" description="Foundational: Properly close a Redis client connection to release resources" difficulty="beginner" />}}
+{{< jupyter-example set="landing" step="close" depends="connect" lang_filter="Ruby" description="Foundational: Properly close a Redis client connection to release resources" difficulty="beginner" no_output="true" />}}
 
 ## More information
 

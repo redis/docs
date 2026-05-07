@@ -1,11 +1,8 @@
 # EXAMPLE: landing
 # BINDER_ID ruby-landing
 # KERNEL_NAME ruby3
-# STEP_START import
-require 'redis'
-# STEP_END
-
 # STEP_START connect
+require 'redis'
 r = Redis.new
 # STEP_END
 
