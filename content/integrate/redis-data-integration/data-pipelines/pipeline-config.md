@@ -165,7 +165,7 @@ processors:
   # dlq_max_messages: 1000
   # # Target data type: hash/json - RedisJSON module must be in use in the target DB
   # target_data_type: hash
-  # # Enable merge as the default strategy to writing JSON documents
+  # # Enable merge as the default strategy for writing JSON documents
   # json_update_strategy: merge
   # # Use native JSON merge if the target RedisJSON module supports it
   # use_native_json_merge: true
