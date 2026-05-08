@@ -12,6 +12,48 @@ min-version-rs: blah
 weight: 60
 ---
 
+## Redis Open Source 8.2.6 (May 2026)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- (CVE-2026-23479) Use-After-Free in unblock client flow may lead to Remote Code Execution.
+- (CVE-2026-25243) Invalid memory access in `RESTORE` may lead to Remote Code Execution.
+- (CVE-2026-23631) Lua Use-After-Free may lead to remote code execution.
+- (CVE-2026-25588) Invalid memory access in `RESTORE` may lead to Remote Code Execution (Time Series).
+- (CVE-2026-25589) Invalid memory access in `RESTORE` may lead to Remote Code Execution (Probabilistic).
+
+### Bug fixes
+
+- `SUBSCRIBE`, `PSUBSCRIBE`, `SSUBSCRIBE`: crash on OOM (RED-167788).
+- `CONFIG SET`: some settings allow invalid characters (RED-167787).
+- `SCRIPT DEBUG`: potential crash on scripts (RED-175507).
+- `VADD`: crash or buffer overflow on large `REDUCE` value (RED-170921).
+- `VSET`: crash on huge allocations (MOD-12678).
+- Potential crash on disconnections and TLS failures (Time Series) (MOD-14850).
+- RediSearch/RediSearch[#8743](https://github.com/redisearch/redisearch/pull/8743) Crash when many keys receive expirations under heavy TTL activity (MOD-14500).
+- RediSearch/RediSearch[#8850](https://github.com/redisearch/redisearch/pull/8850) HNSW vector index memory growth under high-churn workloads until shard restart (MOD-13761).
+- RediSearch/RediSearch[#9178](https://github.com/redisearch/redisearch/pull/9178) Coordinator deadlock under mixed `FT.SEARCH` and `FT.AGGREGATE` load (MOD-14268).
+- RediSearch/RediSearch[#9049](https://github.com/redisearch/redisearch/pull/9049) `FT.PROFILE` output is inconsistent when a profiled value is missing (MOD-10560).
+- RediSearch/RediSearch[#8793](https://github.com/redisearch/redisearch/pull/8793) `FT.EXPLAIN` does not lock, causing a race with concurrent index changes (MOD-14461).
+- RediSearch/RediSearch[#8600](https://github.com/redisearch/redisearch/pull/8600) `FILTER` returns inconsistent results with multiple indexes sharing field aliases (MOD-14063).
+- RediSearch/RediSearch[#8662](https://github.com/redisearch/redisearch/pull/8662) `FILTER` behavior depends on property order in the expression (MOD-14342).
+- RediSearch/RediSearch[#8602](https://github.com/redisearch/redisearch/pull/8602) Filter expressions are evaluated for indexes that do not match the document type (MOD-14064).
+- RediSearch/RediSearch[#8601](https://github.com/redisearch/redisearch/pull/8601) Documents are inconsistently included or excluded depending on the indexing path taken (MOD-13948).
+- RediSearch/RediSearch[#8599](https://github.com/redisearch/redisearch/pull/8599) `RENAME` notification handler loads the wrong key, causing stale index entries after a rename (MOD-14062).
+- RediSearch/RediSearch[#9019](https://github.com/redisearch/redisearch/pull/9019) `PERSIST` and `HPERSIST` notifications are not reflected in index expiration tracking (MOD-14800).
+- RediSearch/RediSearch[#9081](https://github.com/redisearch/redisearch/pull/9081) `FT.SPELLCHECK` treats `PARAMS` placeholders as literal terms instead of resolving them (MOD-10596).
+- RediSearch/RediSearch[#8464](https://github.com/redisearch/redisearch/pull/8464) GC out-of-memory on replica shards leaves the replica in an inconsistent state (MOD-14066).
+- RediSearch/RediSearch[#8888](https://github.com/redisearch/redisearch/pull/8888) `FT.CURSOR` enters an infinite loop when the ACL user lacks specific permissions (MOD-14479).
+- RediSearch/RediSearch[#9166](https://github.com/redisearch/redisearch/pull/9166) Crash on `FT.SEARCH` when topology validation fails (for example, some nodes unreachable) (MOD-14475).
+- RediSearch/RediSearch[#8453](https://github.com/redisearch/redisearch/pull/8453) `FT.INFO`-style output no longer reports zero-index summary data when no indices exist (MOD-14081).
+- RediSearch/RediSearch[#9076](https://github.com/redisearch/redisearch/pull/9076) `FT.CREATE` now rejects schema definitions with invalid option combinations at creation time (MOD-14655).
+
+### Metrics
+
+- RediSearch/RediSearch[#8235](https://github.com/redisearch/redisearch/pull/8235) `FT.PROFILE`: added queue time tracking (MOD-13602).
+
 ## Redis Open Source 8.2.5 (February 2026)
 
 Update urgency: `SECURITY`: There are security fixes in the release.
