@@ -87,19 +87,29 @@ You need the following RDI images with tags matching the RDI version you want to
 -   [redis/rdi-collector-api](https://hub.docker.com/r/redis/rdi-collector-api)
 -   [redis/rdi-collector-initializer](https://hub.docker.com/r/redis/rdi-collector-initializer)
 
-If you plan to use Spanner as a source for your pipeline, you’ll need an additional image.: [redis/rdi-flink-collector](https://hub.docker.com/r/redis/rdi-flink-collector).
+If you plan to use the Flink processor for any of your pipelines, you'll also need:
+
+-   [redis/rdi-flink-processor](https://hub.docker.com/r/redis/rdi-flink-processor)
+-   [redis/rdi-metrics-aggregator](https://hub.docker.com/r/redis/rdi-metrics-aggregator)
+
+If you plan to use the Flink processor exclusively, the `redis/rdi-processor`
+and `redis/rdi-monitor` images are not required.
+
+If you plan to use Spanner as a source for your pipeline, you'll also need
+[redis/rdi-flink-collector](https://hub.docker.com/r/redis/rdi-flink-collector).
+
+If you plan to use Snowflake as a source for any of your pipelines, you'll also need
+[riotx/riotx:v1.8.0](https://hub.docker.com/r/riotx/riotx):
+[RIOT-X](https://redis.github.io/riotx/), a data ingestion and replication tool for Redis.
 
 In addition, the RDI Helm chart uses the following 3rd party images:
 
--   [redislabs/debezium-server:3.0.8.Final-rdi.1](https://hub.docker.com/r/redislabs/debezium-server), 
-    based on `quay.io/debezium/server/3.0.8.Final` with minor modifications: 
+-   [redislabs/debezium-server:3.5.0.Final-rdi.1](https://hub.docker.com/r/redislabs/debezium-server),
+    based on `quay.io/debezium/server/3.5.0.Final` with minor modifications:
     [Debezium](https://debezium.io/), an open source distributed platform for change data capture.
--   [redis/reloader:v1.1.0](https://hub.docker.com/r/redis/reloader), originally `ghcr.io/stakater/reloader:v1.1.0`: 
-    [Reloader](https://github.com/stakater/Reloader), a K8s controller to watch changes to ConfigMaps 
+-   [redis/reloader:v1.4.13](https://hub.docker.com/r/redis/reloader), originally `ghcr.io/stakater/reloader:v1.4.13`:
+    [Reloader](https://github.com/stakater/Reloader), a K8s controller to watch changes to ConfigMaps
     and Secrets and do rolling upgrades.
--   [redis/kube-webhook-certgen:v20221220-controller-v1.5.1-58-g787ea74b6](https://hub.docker.com/r/redis/kube-webhook-certgen), 
-    originally `registry.k8s.io/ingress-nginx/kube-webhook-certgen/v20221220-controller-v1.5.1-58-g787ea74b6`: 
-    [kube-webhook-certgen](https://github.com/jet/kube-webhook-certgen), K8s webhook certificate generator and patcher.
 
 The example below shows how to specify the registry and image pull secret in your
 [`rdi-values.yaml`](#the-valuesyaml-file) file for the Helm chart:

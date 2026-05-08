@@ -7,7 +7,6 @@ alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
-# Redis Data Integration Configuration File
 
 Configuration file for Redis Data Integration (RDI) source collectors and target connections.
 
@@ -35,7 +34,7 @@ Source collectors that capture changes from upstream databases. Each key is a un
 |----|----|-----------|--------|
 |**connection**|||yes|
 |**name**<br/>(Source name)|`string`|Human-readable name for the source collector. Maximum 100 characters.<br/>Maximal Length: `100`<br/>|no|
-|**type**<br/>(Collector type)|`string`|Type of the source collector. Use `cdc` (default) for change data capture using [Debezium](https://debezium.io/). Use `riotx` for Snowflake CDC using [RIOT-X](https://redis.github.io/riotx/).<br/>Default: `"cdc"`<br/>Enum: `"cdc"`, `"riotx"`<br/>|yes|
+|**type**<br/>(Collector type)|`string`|Type of the source collector. Use `cdc` (default) for change data capture using [Debezium](https://debezium.io/). Use `flink` for Spanner change streams using the Apache Flink-based collector. Use `riotx` for Snowflake CDC using [RIOT-X](https://redis.github.io/riotx/).<br/>Default: `"cdc"`<br/>Enum: `"cdc"`, `"flink"`, `"riotx"`<br/>|yes|
 |**active**<br/>(Collector enabled)|`boolean`|When `true`, the collector runs; when `false`, the collector is disabled and produces no events.<br/>Default: `true`<br/>|no|
 |[**logging**](#sourceslogging)<br/>(Logging configuration)|`object`|Logging settings for this source collector.<br/>|no|
 |[**tables**](#sourcestables)<br/>(Tables to capture)|`object`|Tables to capture from the source database, keyed by table name. The value configures column selection and key handling for that table.<br/>|no|
@@ -130,9 +129,10 @@ Advanced configuration that overrides the underlying engine's defaults. Only req
 
 |Name|Type|Description|Required|
 |----|----|-----------|--------|
-|[**sink**](#sourcesadvancedsink)<br/>(RDI Collector stream writer configuration)|`object`|Advanced configuration properties for the RDI Collector stream writer connection and behaviour. **Only applies to the `cdc` collector type.** See the full list of properties at [Debezium Server — Redis Stream sink](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream). When using a property from that page, omit the `debezium.sink.` prefix.<br/>||
-|[**source**](#sourcesadvancedsource)<br/>(Advanced source settings)|`object`|Advanced configuration properties for the source database connection and CDC behavior. **Only applies to the `cdc` collector type.** Available properties depend on the source database type — refer to the relevant Debezium connector documentation: [MySQL](https://debezium.io/documentation/reference/stable/connectors/mysql.html), [MariaDB](https://debezium.io/documentation/reference/stable/connectors/mariadb.html), [PostgreSQL](https://debezium.io/documentation/reference/stable/connectors/postgresql.html), [Oracle](https://debezium.io/documentation/reference/stable/connectors/oracle.html), [SQL Server](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html), [Db2](https://debezium.io/documentation/reference/stable/connectors/db2.html), [MongoDB](https://debezium.io/documentation/reference/stable/connectors/mongodb.html). When using a property from those pages, omit the `debezium.source.` prefix.<br/>||
+|[**sink**](#sourcesadvancedsink)<br/>(RDI Collector stream writer configuration)|`object`|Advanced configuration properties for the RDI Collector stream writer connection and behaviour. **Applies to the `cdc` and `flink` collector types.**<br/>||
+|[**source**](#sourcesadvancedsource)<br/>(Advanced source settings)|`object`|Advanced configuration properties for the source database connection and CDC behavior. **Applies to the `cdc` and `flink` collector types.**<br/>||
 |[**quarkus**](#sourcesadvancedquarkus)<br/>(Quarkus runtime settings)|`object`|Advanced configuration properties for the Quarkus runtime that hosts Debezium Server. **Only applies to the `cdc` collector type.** See the [Debezium Server documentation](https://debezium.io/documentation/reference/stable/operations/debezium-server.html) for runtime configuration options. When using a property from that page, omit the `quarkus.` prefix.<br/>||
+|[**flink**](#sourcesadvancedflink)<br/>(Advanced Flink settings)|`object`|Advanced configuration properties forwarded to the Flink runtime that hosts the collector. Any property listed in the [Flink configuration documentation](https://nightlies.apache.org/flink/flink-docs-release-2.0/docs/deployment/config/) can be set here and will override the RDI default. **Only applies to the `flink` collector type.**<br/>||
 |[**resources**](#sourcesadvancedresources)<br/>(Collector resource settings)|`object`|Compute resources allocated to the collector. **Only applies to the `cdc` collector type.**<br/>||
 |[**riotx**](#sourcesadvancedriotx)<br/>(Advanced RIOT\-X settings)|`object`|Advanced configuration properties for the RIOT-X Snowflake collector. **Only applies to the `riotx` collector type.**<br/>||
 |**java\_options**<br/>(Advanced Java options)|`string`|These Java options will be passed to the command line command when launching the source collector. **Only applies to the `cdc` collector type.**<br/>||
@@ -142,9 +142,31 @@ Advanced configuration that overrides the underlying engine's defaults. Only req
 **Example**
 
 ```yaml
-sink: {}
-source: {}
+sink:
+  redis.batch.size: 1000
+  redis.flush.interval.ms: 100
+  redis.connection.timeout.ms: 2000
+  redis.socket.timeout.ms: 2000
+  redis.retry.max.attempts: 5
+  redis.retry.initial.delay.ms: 100
+  redis.retry.max.delay.ms: 3000
+  redis.retry.backoff.multiplier: 2
+  redis.oom.retry.initial.delay.ms: 1000
+  redis.oom.retry.max.delay.ms: 10000
+  redis.oom.retry.backoff.multiplier: 2
+  redis.wait.enabled: false
+  redis.wait.write.timeout.ms: 1000
+  redis.wait.retry.enabled: false
+  redis.wait.retry.delay.ms: 1000
+source:
+  spanner.version.retention.period.hours: 1
+  spanner.fetch.timeout.ms: 500
+  spanner.fetch.heartbeat.ms: 100
+  spanner.max.rows.per.partition: 10000
+  spanner.dialect: GOOGLESQL
 quarkus: {}
+flink:
+  taskmanager.numberOfTaskSlots: 1
 resources: {}
 riotx:
   poll: 30s
@@ -158,8 +180,28 @@ riotx:
 <a name="sourcesadvancedsink"></a>
 #### sources\.advanced\.sink: RDI Collector stream writer configuration
 
-Advanced configuration properties for the RDI Collector stream writer connection and behaviour. **Only applies to the `cdc` collector type.** See the full list of properties at [Debezium Server — Redis Stream sink](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream). When using a property from that page, omit the `debezium.sink.` prefix.
+Advanced configuration properties for the RDI Collector stream writer connection and behaviour. **Applies to the `cdc` and `flink` collector types.**<br/><br/>For the `cdc` collector type, see the full list of properties at [Debezium Server — Redis Stream sink](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream). When using a property from that page, omit the `debezium.sink.` prefix.<br/><br/>**The properties listed below only apply to the `flink` collector type.**
 
+
+**Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|**redis\.batch\.size**<br/>(Sink batch size)|`integer`|Maximum number of records the collector sink writes to Redis in a single batch.<br/>Default: `1000`<br/>Minimum: `1`<br/>||
+|**redis\.flush\.interval\.ms**<br/>(Sink flush interval)|`integer`|Maximum time in milliseconds the collector sink waits to fill a batch before flushing it to Redis.<br/>Default: `100`<br/>Minimum: `1`<br/>||
+|**redis\.connection\.timeout\.ms**<br/>(Sink connection timeout)|`integer`|Connection timeout in milliseconds for the target Redis client used by the collector sink.<br/>Default: `2000`<br/>Minimum: `1`<br/>||
+|**redis\.socket\.timeout\.ms**<br/>(Sink socket timeout)|`integer`|Socket read/write timeout in milliseconds for the target Redis client used by the collector sink.<br/>Default: `2000`<br/>Minimum: `1`<br/>||
+|**redis\.retry\.max\.attempts**<br/>(Sink retry max attempts)|`integer`|Maximum number of retry attempts for failed Redis operations.<br/>Default: `5`<br/>Minimum: `1`<br/>||
+|**redis\.retry\.initial\.delay\.ms**<br/>(Sink retry initial delay)|`integer`|Initial delay in milliseconds before the first retry of a failed Redis operation.<br/>Default: `100`<br/>Minimum: `1`<br/>||
+|**redis\.retry\.max\.delay\.ms**<br/>(Sink retry max delay)|`integer`|Maximum delay in milliseconds between retry attempts for failed Redis operations.<br/>Default: `3000`<br/>Minimum: `1`<br/>||
+|**redis\.retry\.backoff\.multiplier**<br/>(Sink retry backoff multiplier)|`number`|Exponential backoff multiplier between retry attempts for failed Redis operations.<br/>Default: `2`<br/>Minimum: `1`<br/>||
+|**redis\.oom\.retry\.initial\.delay\.ms**<br/>(Sink OOM retry initial delay)|`integer`|Initial delay in milliseconds before the first retry after a Redis out-of-memory error.<br/>Default: `1000`<br/>Minimum: `1`<br/>||
+|**redis\.oom\.retry\.max\.delay\.ms**<br/>(Sink OOM retry max delay)|`integer`|Maximum delay in milliseconds between retry attempts after a Redis out-of-memory error.<br/>Default: `10000`<br/>Minimum: `1`<br/>||
+|**redis\.oom\.retry\.backoff\.multiplier**<br/>(Sink OOM retry backoff multiplier)|`number`|Exponential backoff multiplier between retry attempts after a Redis out-of-memory error.<br/>Default: `2`<br/>Minimum: `1`<br/>||
+|**redis\.wait\.enabled**<br/>(Sink replica wait enabled)|`boolean`|When `true`, the collector verifies that each write has been replicated to the configured number of Redis replica shards before acknowledging it.<br/>Default: `false`<br/>||
+|**redis\.wait\.write\.timeout\.ms**<br/>(Sink replica wait timeout)|`integer`|Maximum time in milliseconds to wait for replica write acknowledgements.<br/>Default: `1000`<br/>Minimum: `1`<br/>||
+|**redis\.wait\.retry\.enabled**<br/>(Sink replica wait retry enabled)|`boolean`|When `true`, the collector keeps retrying a write until replica acknowledgement succeeds; when `false`, it gives up after the first failure.<br/>Default: `false`<br/>||
+|**redis\.wait\.retry\.delay\.ms**<br/>(Sink replica wait retry delay)|`integer`|Delay in milliseconds between replica wait retry attempts.<br/>Default: `1000`<br/>Minimum: `1`<br/>||
 
 **Additional Properties**
 
@@ -168,11 +210,42 @@ Advanced configuration properties for the RDI Collector stream writer connection
 |**Additional Properties**|`string`, `number`, `boolean`|||
 
 **Minimal Properties:** 1  
+**Example**
+
+```yaml
+redis.batch.size: 1000
+redis.flush.interval.ms: 100
+redis.connection.timeout.ms: 2000
+redis.socket.timeout.ms: 2000
+redis.retry.max.attempts: 5
+redis.retry.initial.delay.ms: 100
+redis.retry.max.delay.ms: 3000
+redis.retry.backoff.multiplier: 2
+redis.oom.retry.initial.delay.ms: 1000
+redis.oom.retry.max.delay.ms: 10000
+redis.oom.retry.backoff.multiplier: 2
+redis.wait.enabled: false
+redis.wait.write.timeout.ms: 1000
+redis.wait.retry.enabled: false
+redis.wait.retry.delay.ms: 1000
+
+```
+
 <a name="sourcesadvancedsource"></a>
 #### sources\.advanced\.source: Advanced source settings
 
-Advanced configuration properties for the source database connection and CDC behavior. **Only applies to the `cdc` collector type.** Available properties depend on the source database type — refer to the relevant Debezium connector documentation: [MySQL](https://debezium.io/documentation/reference/stable/connectors/mysql.html), [MariaDB](https://debezium.io/documentation/reference/stable/connectors/mariadb.html), [PostgreSQL](https://debezium.io/documentation/reference/stable/connectors/postgresql.html), [Oracle](https://debezium.io/documentation/reference/stable/connectors/oracle.html), [SQL Server](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html), [Db2](https://debezium.io/documentation/reference/stable/connectors/db2.html), [MongoDB](https://debezium.io/documentation/reference/stable/connectors/mongodb.html). When using a property from those pages, omit the `debezium.source.` prefix.
+Advanced configuration properties for the source database connection and CDC behavior. **Applies to the `cdc` and `flink` collector types.**<br/><br/>For the `cdc` collector type, available properties depend on the source database — refer to the relevant Debezium connector documentation: [MySQL](https://debezium.io/documentation/reference/stable/connectors/mysql.html), [MariaDB](https://debezium.io/documentation/reference/stable/connectors/mariadb.html), [PostgreSQL](https://debezium.io/documentation/reference/stable/connectors/postgresql.html), [Oracle](https://debezium.io/documentation/reference/stable/connectors/oracle.html), [SQL Server](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html), [Db2](https://debezium.io/documentation/reference/stable/connectors/db2.html), [MongoDB](https://debezium.io/documentation/reference/stable/connectors/mongodb.html). When using a property from those pages, omit the `debezium.source.` prefix.<br/><br/>**The properties listed below only apply to the `flink` collector type (Spanner).**
 
+
+**Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|**spanner\.version\.retention\.period\.hours**<br/>(Spanner version retention period)|`integer`|Retention period in hours for Spanner change stream versions. Determines how far back the collector can resume after an outage.<br/>Default: `1`<br/>Minimum: `1`<br/>||
+|**spanner\.fetch\.timeout\.ms**<br/>(Spanner fetch timeout)|`integer`|Timeout in milliseconds for a single change stream fetch request to Spanner.<br/>Default: `500`<br/>Minimum: `1`<br/>||
+|**spanner\.fetch\.heartbeat\.ms**<br/>(Spanner fetch heartbeat interval)|`integer`|Interval in milliseconds at which Spanner sends heartbeat records when no data changes are available.<br/>Default: `100`<br/>Minimum: `1`<br/>||
+|**spanner\.max\.rows\.per\.partition**<br/>(Spanner max rows per partition)|`integer`|Maximum number of rows the collector reads from a single Spanner change stream partition before yielding.<br/>Default: `10000`<br/>Minimum: `1`<br/>||
+|**spanner\.dialect**<br/>(Spanner SQL dialect)|`string`|SQL dialect of the Spanner database. Use `GOOGLESQL` for Google Standard SQL or `POSTGRESQL` for the PostgreSQL interface.<br/>Default: `"GOOGLESQL"`<br/>Enum: `"GOOGLESQL"`, `"POSTGRESQL"`<br/>||
 
 **Additional Properties**
 
@@ -181,6 +254,17 @@ Advanced configuration properties for the source database connection and CDC beh
 |**Additional Properties**|`string`, `number`, `boolean`|||
 
 **Minimal Properties:** 1  
+**Example**
+
+```yaml
+spanner.version.retention.period.hours: 1
+spanner.fetch.timeout.ms: 500
+spanner.fetch.heartbeat.ms: 100
+spanner.max.rows.per.partition: 10000
+spanner.dialect: GOOGLESQL
+
+```
+
 <a name="sourcesadvancedquarkus"></a>
 #### sources\.advanced\.quarkus: Quarkus runtime settings
 
@@ -194,6 +278,34 @@ Advanced configuration properties for the Quarkus runtime that hosts Debezium Se
 |**Additional Properties**|`string`, `number`, `boolean`|||
 
 **Minimal Properties:** 1  
+<a name="sourcesadvancedflink"></a>
+#### sources\.advanced\.flink: Advanced Flink settings
+
+Advanced configuration properties forwarded to the Flink runtime that hosts the collector. Any property listed in the [Flink configuration documentation](https://nightlies.apache.org/flink/flink-docs-release-2.0/docs/deployment/config/) can be set here and will override the RDI default. **Only applies to the `flink` collector type.**<br/><br/>The properties listed below are the ones most likely to require adjustment. **Changing any other Flink property is not recommended unless instructed by Redis support.**
+
+
+**Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|**parallelism\.default**<br/>(Default parallelism)|`integer`|Default parallelism for Flink jobs and operators. When unset, Flink uses the number of available task slots across all task managers (`taskManager.replicas × taskmanager.numberOfTaskSlots`). See [parallel execution](https://nightlies.apache.org/flink/flink-docs-release-2.0/docs/dev/datastream/execution/parallel/).<br/>Minimum: `1`<br/>||
+|**taskmanager\.numberOfTaskSlots**<br/>(Task slots per task manager)|`integer`|Number of parallel task slots per task manager pod. Each slot can run one parallel pipeline instance, so this caps the parallelism a single task manager can absorb. See [task slots and resources](https://nightlies.apache.org/flink/flink-docs-release-2.0/docs/concepts/flink-architecture/#task-slots-and-resources).<br/>Default: `1`<br/>Minimum: `1`<br/>||
+|**taskmanager\.memory\.process\.size**<br/>(Task manager process memory)|`string`|Total memory budget for each task manager JVM process, expressed with a unit suffix such as `2048m` or `4g`. See [task manager memory configuration](https://nightlies.apache.org/flink/flink-docs-release-2.0/docs/deployment/memory/mem_setup_tm/).<br/>||
+
+**Additional Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|**Additional Properties**|`string`, `number`, `boolean`|||
+
+**Minimal Properties:** 1  
+**Example**
+
+```yaml
+taskmanager.numberOfTaskSlots: 1
+
+```
+
 <a name="sourcesadvancedresources"></a>
 #### sources\.advanced\.resources: Collector resource settings
 
@@ -719,4 +831,3 @@ Optional metadata describing this pipeline, such as a display name and descripti
 |**description**<br/>(Pipeline description)|`string`|Free-form description of what the pipeline does. Maximum 500 characters.<br/>Maximal Length: `500`<br/>||
 
 **Additional Properties:** not allowed  
-

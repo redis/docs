@@ -150,5 +150,5 @@ raises throughput.
 
 The Flink processor has a larger baseline memory footprint (JVM plus
 Flink runtime overhead per TaskManager) but, for most pipelines, the
-performance gains and the additional features (caching, batching,
-horizontal scaling, checkpointing) outweigh that cost.
+performance gains and the additional features (horizontal scaling, caching)
+outweigh that cost.
