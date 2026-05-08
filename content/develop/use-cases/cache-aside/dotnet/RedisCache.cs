@@ -173,8 +173,12 @@ public class RedisCache
         }
 
         Interlocked.Increment(ref _stampedesSuppressed);
-        var deadline = Environment.TickCount + _lockTtlMs;
-        while (Environment.TickCount < deadline)
+        // TickCount64 (long) doesn't wrap on any practical timescale.
+        // Plain TickCount is a 32-bit int that wraps every ~24.9 days,
+        // so adding _lockTtlMs near the wrap boundary would overflow to a
+        // negative deadline and abort polling immediately.
+        var deadline = Environment.TickCount64 + _lockTtlMs;
+        while (Environment.TickCount64 < deadline)
         {
             Thread.Sleep(_waitPollMs);
             var entries = _db.HashGetAll(cacheKey);

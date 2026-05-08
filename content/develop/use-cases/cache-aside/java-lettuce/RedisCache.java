@@ -42,11 +42,13 @@ public class RedisCache {
     private final AtomicLong stampedesSuppressed = new AtomicLong();
 
     /**
-     * Serializes WATCH/MULTI/EXEC blocks because the demo shares a single
+     * Serializes every MULTI/EXEC block because the demo shares a single
      * StatefulRedisConnection across threads — transactions are
-     * connection-scoped, so concurrent transactions on the same connection
-     * would interleave. In production, hand each transaction its own
-     * connection from a pool instead.
+     * connection-scoped, so concurrent MULTI blocks on the same connection
+     * would queue commands into each other. Both the cache-miss repopulate
+     * (in loadWithSingleFlight) and updateField acquire this lock. In
+     * production, hand each transaction its own connection from a pool
+     * instead and drop the lock.
      */
     private final ReentrantLock txLock = new ReentrantLock();
 
@@ -188,11 +190,19 @@ public class RedisCache {
                 if (record == null) {
                     return null;
                 }
-                sync.multi();
-                sync.del(cacheKey);
-                sync.hset(cacheKey, record);
-                sync.expire(cacheKey, ttl);
-                sync.exec();
+                // Serialize MULTI/EXEC on the shared connection. The lock
+                // also covers updateField, so a repopulate cannot interleave
+                // with a field update on the same connection.
+                txLock.lock();
+                try {
+                    sync.multi();
+                    sync.del(cacheKey);
+                    sync.hset(cacheKey, record);
+                    sync.expire(cacheKey, ttl);
+                    sync.exec();
+                } finally {
+                    txLock.unlock();
+                }
                 return record;
             } finally {
                 try {

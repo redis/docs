@@ -164,11 +164,16 @@ private Map<String, String> loadWithSingleFlight(
         try {
             Map<String, String> record = loader.apply(entityId);
             if (record == null) return null;
-            sync.multi();
-            sync.del(cacheKey);
-            sync.hset(cacheKey, record);
-            sync.expire(cacheKey, ttl);
-            sync.exec();
+            txLock.lock();
+            try {
+                sync.multi();
+                sync.del(cacheKey);
+                sync.hset(cacheKey, record);
+                sync.expire(cacheKey, ttl);
+                sync.exec();
+            } finally {
+                txLock.unlock();
+            }
             return record;
         } finally {
             sync.eval(RELEASE_LOCK_SCRIPT, ScriptOutputType.INTEGER,
@@ -230,7 +235,7 @@ public boolean updateField(String entityId, String field, String value) {
 }
 ```
 
-A subtle Lettuce-specific point: a single `StatefulRedisConnection` is thread-safe for individual command calls, but `WATCH`/`MULTI`/`EXEC` is connection-scoped state. Two threads issuing transactions over the same connection at the same time would interleave. The demo shares one connection across HTTP handlers, so `txLock` serializes the transaction block. In production you would hand each transactional caller its own connection from a pool (see [Production usage](#production-usage)) and drop the lock.
+A subtle Lettuce-specific point: a single `StatefulRedisConnection` is thread-safe for individual command calls, but `WATCH`/`MULTI`/`EXEC` is connection-scoped state. Two threads issuing transactions over the same connection at the same time would interleave — commands meant for one transaction would end up queued inside another. The demo shares one connection across HTTP handlers, so `txLock` serializes every transaction block: both the field-level update above *and* the cache-miss repopulate inside `loadWithSingleFlight`. In production you would hand each transactional caller its own connection from a pool (see [Production usage](#production-usage)) and drop the lock entirely.
 
 ## Hit/miss accounting
 
