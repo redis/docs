@@ -21,7 +21,7 @@ Here's how it works:
 
 Before enabling certificate-based authentication for LDAP, you must complete the following prerequisites:
 
-1. [Set up certificate-based authentication for databases]({{<relref "/operate/rs/security/certificates/certificate-based-authentication#certificate-based-authentication-for-databases">}}).
+1. [Enable mutual TLS]({{<relref "/operate/rs/security/encryption/tls/enable-tls">}}) for the relevant databases to set up certificate-based authentication.
 
 1. [Set up LDAP for the cluster]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap#set-up-ldap-connection" >}}).
 
