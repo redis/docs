@@ -32,7 +32,7 @@ Source collectors that capture changes from upstream databases. Each key is a un
 
 |Name|Type|Description|Required|
 |----|----|-----------|--------|
-|**connection**|||yes|
+|[**connection**](#sourcesconnection)<br/>(Source database connection)|`object`|Connection configuration for a non-Redis source database. The exact set of properties depends on the database type.<br/>|yes|
 |**name**<br/>(Source name)|`string`|Human-readable name for the source collector. Maximum 100 characters.<br/>Maximal Length: `100`<br/>|no|
 |**type**<br/>(Collector type)|`string`|Type of the source collector. Use `cdc` (default) for change data capture using [Debezium](https://debezium.io/). Use `flink` for Spanner change streams using the Apache Flink-based collector. Use `riotx` for Snowflake CDC using [RIOT-X](https://redis.github.io/riotx/).<br/>Default: `"cdc"`<br/>Enum: `"cdc"`, `"flink"`, `"riotx"`<br/>|yes|
 |**active**<br/>(Collector enabled)|`boolean`|When `true`, the collector runs; when `false`, the collector is disabled and produces no events.<br/>Default: `true`<br/>|no|
@@ -42,6 +42,221 @@ Source collectors that capture changes from upstream databases. Each key is a un
 |[**databases**](#sourcesdatabases)<br/>(Database names)|`string[]`|Database names to capture from the source database. Maps to the underlying connector's `database.include.list`.<br/>|no|
 |[**advanced**](#sourcesadvanced)<br/>(Advanced configuration)|`object`|Advanced configuration that overrides the underlying engine's defaults. Only required for non-standard tuning.<br/>|no|
 
+
+<a name="sourcesconnection"></a>
+### sources\.connection: Source database connection
+
+Connection configuration for a non-Redis source database. The exact set of properties depends on the database type.
+
+
+**Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|[**SQL database**](#sourcesconnectionsqldatabase)<br/>(SQL database)|`object`|Connection configuration for a supported SQL database.<br/>||
+|[**MongoDB**](#sourcesconnectionmongodb)|`object`|Connection configuration for a MongoDB database.<br/>|yes|
+|[**Spanner**](#sourcesconnectionspanner)|`object`|Connection configuration for a Google Cloud Spanner database.<br/>|yes|
+|[**Snowflake**](#sourcesconnectionsnowflake)|`object`|Connection configuration for a Snowflake database.<br/>|yes|
+
+**Example**
+
+```yaml
+SQL database:
+  hr:
+    type: postgresql
+    host: localhost
+    port: 5432
+    database: postgres
+    user: postgres
+    password: postgres
+MongoDB:
+  mongodb-source:
+    type: mongodb
+    connection_string: mongodb://localhost:27017/?replicaSet=rs0
+    user: debezium
+    password: dbz
+    database: db1,db2
+Spanner:
+  spanner-source:
+    type: spanner
+    project_id: example-12345
+    instance_id: example
+    database_id: example
+    change_streams:
+      change_stream_all:
+        retention_period_hours: 24
+Snowflake:
+  snowflake:
+    type: snowflake
+    url: jdbc:snowflake://myaccount.snowflakecomputing.com/
+    user: myuser
+    password: mypassword
+    database: MYDB
+    warehouse: COMPUTE_WH
+
+```
+
+<a name="sourcesconnectionsqldatabase"></a>
+#### sources\.connection\.SQL database: SQL database
+
+Connection configuration for a supported SQL database.
+
+
+**Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|**type**<br/>(Database type)|`string`|SQL database engine.<br/>Enum: `"mariadb"`, `"mysql"`, `"oracle"`, `"postgresql"`, `"sqlserver"`<br/>||
+|**host**<br/>(Database host)|`string`|Hostname or IP address of the SQL database server.<br/>||
+|**port**<br/>(Database port)|`integer`|Network port on which the SQL database server is listening.<br/>Minimum: `1`<br/>Maximum: `65535`<br/>||
+|**database**<br/>(Database name)|`string`|Name of the database to connect to.<br/>||
+|**user**<br/>(Database user)|`string`|Username for authentication to the SQL database.<br/>||
+|**password**<br/>(Database password)|`string`|Password for authentication to the SQL database.<br/>||
+
+**Additional Properties:** not allowed  
+**Example**
+
+```yaml
+hr:
+  type: postgresql
+  host: localhost
+  port: 5432
+  database: postgres
+  user: postgres
+  password: postgres
+
+```
+
+**Example**
+
+```yaml
+my-oracle:
+  type: oracle
+  host: 172.17.0.4
+  port: 1521
+  user: c##dbzuser
+  password: dbz
+
+```
+
+<a name="sourcesconnectionmongodb"></a>
+#### sources\.connection\.MongoDB: MongoDB
+
+Connection configuration for a MongoDB database.
+
+
+**Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|**type**<br/>(Database type)|`string`|Database type identifier. Always `mongodb` for this connection.<br/>Constant Value: `"mongodb"`<br/>|yes|
+|**connection\_string**|`string`|MongoDB connection URI including host, port, and any connection options.<br/>|yes|
+|**user**<br/>(MongoDB user)|`string`|Username for authentication to MongoDB.<br/>|no|
+|**password**<br/>(MongoDB password)|`string`|Password for authentication to MongoDB.<br/>|no|
+|**database**<br/>(MongoDB databases)|`string`|Comma-separated list of MongoDB databases to monitor.<br/>|no|
+
+**Additional Properties:** not allowed  
+**Example**
+
+```yaml
+mongodb-source:
+  type: mongodb
+  connection_string: mongodb://localhost:27017/?replicaSet=rs0
+  user: debezium
+  password: dbz
+  database: db1,db2
+
+```
+
+<a name="sourcesconnectionspanner"></a>
+#### sources\.connection\.Spanner: Spanner
+
+Connection configuration for a Google Cloud Spanner database.
+
+
+**Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|**type**<br/>(Database type)|`string`|Database type identifier. Always `spanner` for this connection.<br/>Constant Value: `"spanner"`<br/>|yes|
+|**project\_id**<br/>(Spanner project ID)|`string`|Google Cloud project ID that hosts the Spanner instance.<br/>|yes|
+|**instance\_id**<br/>(Spanner instance ID)|`string`|Spanner instance identifier within the project.<br/>|yes|
+|**database\_id**<br/>(Spanner database ID)|`string`|Spanner database identifier within the instance.<br/>|yes|
+|**emulator\_host**<br/>(Spanner emulator host)|`string`|Host and port of the Spanner emulator. Used for local development; leave unset against real Spanner.<br/>|no|
+|**use\_credentials\_file**|`boolean`|When `true`, RDI authenticates using a service account credentials file; when `false`, it uses application default credentials.<br/>Default: `false`<br/>|no|
+|[**change\_streams**](#sourcesconnectionspannerchange_streams)<br/>(Change streams configuration)|`object`|Spanner change streams to capture, keyed by change stream name.<br/>|yes|
+
+**Additional Properties:** not allowed  
+**Example**
+
+```yaml
+spanner-source:
+  type: spanner
+  project_id: example-12345
+  instance_id: example
+  database_id: example
+  change_streams:
+    change_stream_all:
+      retention_period_hours: 24
+
+```
+
+<a name="sourcesconnectionspannerchange_streams"></a>
+##### sources\.connection\.Spanner\.change\_streams: Change streams configuration
+
+Spanner change streams to capture, keyed by change stream name.
+
+
+**Additional Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|[**Additional Properties**](#sourcesconnectionspannerchange_streamsadditionalproperties)|`object`, `null`|||
+
+**Minimal Properties:** 1  
+<a name="sourcesconnectionspannerchange_streamsadditionalproperties"></a>
+###### sources\.connection\.Spanner\.change\_streams\.additionalProperties: object,null
+
+**Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|**retention\_period\_hours**<br/>(Change stream retention period hours)|`integer`, `string`|Retention period for the change stream, in hours.<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>||
+
+**Additional Properties:** not allowed  
+<a name="sourcesconnectionsnowflake"></a>
+#### sources\.connection\.Snowflake: Snowflake
+
+Connection configuration for a Snowflake database.
+
+
+**Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|**type**<br/>(Database type)|`string`|Database type identifier. Always `snowflake` for this connection.<br/>Constant Value: `"snowflake"`<br/>|yes|
+|**url**<br/>(JDBC URL)|`string`|Snowflake JDBC connection URL, for example `jdbc:snowflake://account.snowflakecomputing.com/`.<br/>|yes|
+|**user**<br/>(Snowflake user)|`string`|Username for authentication to Snowflake.<br/>|yes|
+|**password**<br/>(Snowflake password)|`string`|Password for authentication to Snowflake. For key-pair authentication, omit this field and provide the private key via the `source-db-ssl` secret (`client.key` field).<br/>|no|
+|**database**<br/>(Snowflake database)|`string`|Name of the Snowflake database to connect to.<br/>|yes|
+|**warehouse**<br/>(Snowflake warehouse)|`string`|Name of the Snowflake warehouse used for compute.<br/>|yes|
+|**role**<br/>(Snowflake role)|`string`|Snowflake role used for the connection.<br/>|no|
+|**cdcDatabase**<br/>(CDC database)|`string`|Database hosting the CDC streams. Defaults to the main `database` if not set.<br/>|no|
+|**cdcSchema**<br/>(CDC schema)|`string`|Schema hosting the CDC streams. Defaults to the main schema if not set.<br/>|no|
+
+**Additional Properties:** not allowed  
+**Example**
+
+```yaml
+snowflake:
+  type: snowflake
+  url: jdbc:snowflake://myaccount.snowflakecomputing.com/
+  user: myuser
+  password: mypassword
+  database: MYDB
+  warehouse: COMPUTE_WH
+
+```
 
 <a name="sourceslogging"></a>
 ### sources\.logging: Logging configuration
@@ -384,7 +599,7 @@ Connection configuration for a Redis database.
 |----|----|-----------|--------|
 |**type**<br/>(Database type)||Database type identifier. Always `redis` for this connection.<br/>Constant Value: `"redis"`<br/>|yes|
 |**host**<br/>(Database host)|`string`|Hostname or IP address of the Redis server.<br/>|yes|
-|**port**<br/>(Database port)||Network port on which the Redis server is listening.<br/>|yes|
+|**port**<br/>(Database port)|`integer`|Network port on which the Redis server is listening.<br/>Minimum: `1`<br/>Maximum: `65535`<br/>|yes|
 |**user**<br/>(Database user)|`string`|Username for authentication to the Redis database.<br/>|no|
 |**password**<br/>(Database password)|`string`|Password for authentication to the Redis database.<br/>|no|
 |**key**<br/>(Private key file)|`string`|Path to the private key file used for SSL/TLS client authentication.<br/>|no|
