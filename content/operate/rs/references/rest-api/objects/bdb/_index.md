@@ -175,6 +175,7 @@ An API object that represents a managed database in the cluster.
 | timeseries | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/timeseries" >}}); Configuration fields for timeseries. |
 | tls_mode | Require TLS-authenticated and encrypted connections to the database<br />Values:<br />'enabled'<br /> **'disabled'** <br />'replica_ssl' |
 | tracking_table_max_keys | integer; The client-side caching invalidation table size. 0 makes the cache unlimited. |
+| traffic_manually_disabled | boolean; Whether traffic was manually turned off using the stop_traffic API (read-only) |
 | type | Type of database<br />Values:<br />**'redis'** <br />'memcached' |
 | use_nodes | array of strings; Cluster node UIDs to use for database shards and bound endpoints |
 | use_selective_flush | boolean (default: true); If true, enable selective flush of destination shards |
