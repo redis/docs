@@ -33,6 +33,7 @@ An API object that represents the cluster.
 | <span class="break-all">crdt_rest_client_timeout</span> | integer | Timeout for REST client used by the Active-Active management API |
 | <span class="break-all">crdt_supported_featureset_version</span> | integer | CRDB supported featureset version (read-only) |
 | <span class="break-all">crdt_supported_featureset_version_map</span> | object | CRDB supported featureset version mapping by Redis version (read-only) |
+| <span class="break-all">crdt_supported_module_featureset_version_map</span> | object | Mapping of module names to per-module-semantic-version supported CRDB featureset versions (read-only) |
 | <span class="break-all">crdt_supported_protocol_versions</span> | array of strings | CRDB supported protocol versions (read-only) |
 | <span class="break-all">crdt_supported_protocol_versions_map</span> | object | CRDB supported protocol versions mapping by Redis version (read-only) |
 | created_time | string | Cluster creation date (read-only) |
