@@ -31,6 +31,10 @@ An API object that represents the cluster.
 | crdb_coordinator_port | integer, (range: 1024-65535) (default: 9081) | CRDB coordinator port |
 | <span class="break-all">crdt_rest_client_retries</span> | integer | Maximum number of retries for the REST client used by the Active-Active management API |
 | <span class="break-all">crdt_rest_client_timeout</span> | integer | Timeout for REST client used by the Active-Active management API |
+| <span class="break-all">crdt_supported_featureset_version</span> | integer | CRDB supported featureset version (read-only) |
+| <span class="break-all">crdt_supported_featureset_version_map</span> | object | CRDB supported featureset version mapping by Redis version (read-only) |
+| <span class="break-all">crdt_supported_protocol_versions</span> | array of strings | CRDB supported protocol versions (read-only) |
+| <span class="break-all">crdt_supported_protocol_versions_map</span> | object | CRDB supported protocol versions mapping by Redis version (read-only) |
 | created_time | string | Cluster creation date (read-only) |
 | data_cipher_list | string | Specifies the enabled ciphers for the data plane. The ciphers are specified in the format understood by the OpenSSL library. |
 | <span class="break-all">data_cipher_suites_tls_1_3</span> | string | Specifies the enabled TLS 1.3 ciphers for the data plane. |
