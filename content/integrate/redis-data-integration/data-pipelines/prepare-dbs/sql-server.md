@@ -260,7 +260,8 @@ database service tier. Use the checklist below to track the additional steps.
 
 ### Configure network access
 
-The RDI connector must be able to reach the Azure SQL endpoint on TCP port 1433.
+The RDI connector must be able to reach the Azure SQL endpoint on the configured port
+(TCP 1433 by default; set via the `port` field in your RDI source configuration).
 
 - **Public endpoint**: add a server-level or database-level firewall rule that allows
   the public outbound IP address of the host running the RDI connector. See Microsoft's
@@ -467,7 +468,7 @@ Debezium SQL Server connector and JDBC driver. The Azure-specific values are:
 | `database.encrypt` | Enforces TLS on the JDBC connection. | `"true"`. Azure SQL rejects unencrypted connections. |
 | `database.trustServerCertificate` | If `true`, the driver skips certificate validation. | `"false"`. Azure SQL presents a valid certificate; never disable validation in production. |
 | `database.hostNameInCertificate` | Tells the JDBC driver which hostname pattern to expect in the server's TLS certificate. Set explicitly when the certificate's subject does not match the connection hostname directly. | `"*.database.windows.net"` (used in the RDI-validated configuration to match Azure SQL's wildcard certificate). |
-| `database.applicationIntent` | When set to `ReadOnly`, routes the connection to a read-only replica on tiers that support [read scale-out](https://learn.microsoft.com/en-us/azure/azure-sql/database/read-scale-out). | `ReadOnly`. Recommended because RDI only reads. On Business Critical and Hyperscale tiers, the CDC scan is routed to the included read-only replica and kept off the primary. On General Purpose, which has no read scale-out, the connection is routed to the primary; the setting is harmless but has no effect. |
+| `database.applicationIntent` | When set to `ReadOnly`, routes the connection to a read-only replica on tiers that support [read scale-out](https://learn.microsoft.com/en-us/azure/azure-sql/database/read-scale-out). | `ReadOnly`. Recommended because RDI only reads. On tiers where Azure SQL read scale-out is available (Business Critical and Hyperscale), this routes the RDI read connection to a read-only replica. On General Purpose, which has no read scale-out, the setting has no effect. |
 | `snapshot.mode` | The Debezium snapshot strategy. | `initial`. Captures a snapshot of the existing rows, then streams subsequent changes from the CDC tables. |
 
 For SQL authentication, omit the `driver.authentication` line and set
