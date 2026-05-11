@@ -24,7 +24,7 @@ Redis Agent Memory uses a two-tier memory model:
 
 Promotion from short-term to long-term memory happens automatically. When you store a conversation event in session memory, the Agent Memory Server asynchronously extracts important information using the configured extraction strategy (discrete, summary, preferences, or custom) and stores it as long-term memory. The process is non-blocking, so agent interactions remain responsive. Short-term memory that is not promoted expires based on its TTL. You can also create long-term memories directly through the API for bulk creation or to import knowledge from external sources.
 
-For more details, see the [Redis Agent Memory overview]({{< relref "/develop/ai/agent-memory" >}}).
+For more details, see the [Redis Agent Memory overview]({{< relref "/develop/ai/context-engine/agent-memory" >}}).
 
 ## Get started with Agent Memory on Redis Cloud
 

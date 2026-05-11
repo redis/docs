@@ -1,7 +1,7 @@
 openapi: 3.0.2
 info:
   title: Redis LangCache Service
-  description: API for managing a [Redis LangCache](https://redis.io/docs/latest/develop/ai/langcache/) service.
+  description: API for managing a [Redis LangCache](https://redis.io/docs/latest/develop/ai/context-engine/langcache/) service.
   contact:
     name: Redis
     email: support@redis.com

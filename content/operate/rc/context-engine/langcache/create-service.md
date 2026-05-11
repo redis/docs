@@ -9,6 +9,8 @@ hideListLinks: true
 linktitle: Create service
 title: Create a LangCache service
 weight: 5
+aliases:
+- /operate/rc/langcache/create-service
 ---
 
 Redis LangCache provides vector search capabilities and efficient caching for AI-powered applications. This guide walks you through creating and configuring a LangCache service in Redis Cloud.
@@ -49,12 +51,12 @@ From here:
     {{<warning>}}
 This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
 
-If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/rc/langcache/view-edit-cache#replace-service-api-key" >}}) to be able to use the LangCache API.
+If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/rc/context-engine/langcache/view-edit-cache#replace-service-api-key" >}}) to be able to use the LangCache API.
     {{</warning>}}
 
-    After your cache is created, you can [use the LangCache API]({{< relref "/operate/rc/langcache/use-langcache" >}}) from your client app.
+    After your cache is created, you can [use the LangCache API]({{< relref "/operate/rc/context-engine/langcache/use-langcache" >}}) from your client app.
 
-    You can also [view and edit the cache]({{< relref "/operate/rc/langcache/view-edit-cache" >}}) and [monitor the cache's performance]({{< relref "/operate/rc/langcache/monitor-cache" >}}).
+    You can also [view and edit the cache]({{< relref "/operate/rc/context-engine/langcache/view-edit-cache" >}}) and [monitor the cache's performance]({{< relref "/operate/rc/context-engine/langcache/monitor-cache" >}}).
 
 - If you want to customize your LangCache service, select **Create custom service**.
 
@@ -134,7 +136,7 @@ A window containing your LangCache service key will appear. Select **Copy** to c
 {{<warning>}}
 This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
 
-If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/rc/langcache/view-edit-cache#replace-service-api-key" >}}) to be able to use the LangCache API.
+If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/rc/context-engine/langcache/view-edit-cache#replace-service-api-key" >}}) to be able to use the LangCache API.
 {{</warning>}}
 
 You'll be taken to your LangCache service's **Configuration** page. You'll also be able to see your LangCache service in the LangCache service list.
@@ -150,6 +152,6 @@ For help, [contact support](https://redis.io/support/).
 
 ## Next steps
 
-After your cache is created, you can [use the LangCache API]({{< relref "/operate/rc/langcache/use-langcache" >}}) from your client app.
+After your cache is created, you can [use the LangCache API]({{< relref "/operate/rc/context-engine/langcache/use-langcache" >}}) from your client app.
 
-You can also [view and edit the cache]({{< relref "/operate/rc/langcache/view-edit-cache" >}}) and [monitor the cache's performance]({{< relref "/operate/rc/langcache/monitor-cache" >}}).
+You can also [view and edit the cache]({{< relref "/operate/rc/context-engine/langcache/view-edit-cache" >}}) and [monitor the cache's performance]({{< relref "/operate/rc/context-engine/langcache/monitor-cache" >}}).

@@ -9,9 +9,11 @@ hideListLinks: true
 linktitle: View and edit cache
 title: View and edit LangCache service
 weight: 15
+aliases:
+- /operate/rc/langcache/view-edit-cache
 ---
 
-After you have [created your first LangCache service]({{< relref "/operate/rc/langcache/create-service" >}}), selecting **LangCache** from the Redis Cloud Console menu will take you to the **LangCache Services** page. 
+After you have [created your first LangCache service]({{< relref "/operate/rc/context-engine/langcache/create-service" >}}), selecting **LangCache** from the Redis Cloud Console menu will take you to the **LangCache Services** page. 
 
 This page displays a list of all LangCache services associated with your account.
 
@@ -41,7 +43,7 @@ The **Connectivity** section provides the connection details for your LangCache 
 
 Select the **Copy** button next to the Cache ID and API Base URL to copy them to the clipboard. If you lost the API key value or need to rotate the key, you can [generate a new service API key](#replace-service-api-key) at any time.
 
-See [use the LangCache API]({{< relref "/operate/rc/langcache/use-langcache" >}}) for more information on how to use these values. 
+See [use the LangCache API]({{< relref "/operate/rc/context-engine/langcache/use-langcache" >}}) for more information on how to use these values. 
 
 #### Generate a new service API key {#replace-service-api-key}
 
@@ -127,4 +129,4 @@ Deleting the LangCache service is permanent and cannot be undone.
 
 ## Metrics tab
 
-The **Metrics** tab provides a series of graphs showing performance data for your LangCache service. See [Monitor a LangCache service]({{< relref "/operate/rc/langcache/monitor-cache" >}}) for more information.
+The **Metrics** tab provides a series of graphs showing performance data for your LangCache service. See [Monitor a LangCache service]({{< relref "/operate/rc/context-engine/langcache/monitor-cache" >}}) for more information.

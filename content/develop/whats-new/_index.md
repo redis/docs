@@ -128,7 +128,7 @@ weight: 10
   - Vectorizers
 - Added [AI video tutorials]({{< relref "/develop/ai/ai-videos" >}}) with YouTube content
 - Added [AI notebook collection]({{< relref "/develop/ai/notebook-collection" >}}) with notebook links
-- Added [LangCache documentation]({{< relref "/develop/ai/langcache" >}}) with API examples
+- Added [LangCache documentation]({{< relref "/develop/ai/context-engine/langcache" >}}) with API examples
 
 ---
 
@@ -168,7 +168,7 @@ weight: 10
 
 - Updated [vector types documentation]({{< relref "/develop/ai/search-and-query/vectors/_index" >}}) for INT8 and UINT8
 - Added [GEO search precision information]({{< relref "/develop/ai/search-and-query/indexing/geoindex" >}})
-- Enhanced [LangCache SDK]({{< relref "/develop/ai/langcache/_index" >}}) with savings calculator and improved API documentation
+- Enhanced [LangCache SDK]({{< relref "/develop/ai/context-engine/langcache/_index" >}}) with savings calculator and improved API documentation
 
 ---
 
@@ -227,7 +227,7 @@ weight: 10
   - [Lettuce vector queries]({{< relref "/develop/clients/lettuce/vecsearch" >}})
   - [Lettuce vector sets]({{< relref "/develop/clients/lettuce/vecsets" >}})
 - Updated [redisvl documentation]({{< relref "/develop/ai/redisvl/_index" >}}) for versions 0.6.0-0.8.2
-- Added [LangCache SDK]({{< relref "/develop/ai/langcache/_index" >}}) documentation with [API reference]({{< relref "/develop/ai/langcache/api-examples" >}})
+- Added [LangCache SDK]({{< relref "/develop/ai/context-engine/langcache/_index" >}}) documentation with [API reference]({{< relref "/develop/ai/context-engine/langcache/api-examples" >}})
 
 ---
 
