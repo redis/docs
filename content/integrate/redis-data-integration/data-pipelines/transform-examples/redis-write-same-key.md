@@ -84,8 +84,8 @@ transform:
           expression: opcode == 'd' && 'u' || opcode
           language: jmespath
 
-  # If you have overlapping field names e.g. FK and PK have the same name, or both table have
-  # a field called "id" and may want to remove the field from the after object to prevent it
+  # If you have overlapping field names (for example, FK and PK have the same name, or both tables have
+  # a field called "id"), you may want to remove the field from the after object to prevent it
   # from overwriting the PK.
   - uses: remove_field
     with:

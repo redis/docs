@@ -105,7 +105,7 @@ In the example above, the `addresses` job uses the default key pattern to write 
 You can also use custom keys for the parent entity, as long as you use the same key for all jobs that write to the same Redis key.
 
 {{< note >}}
-In the case of using the same key for different jobs, deleting any of the entities will result in the key being remove from the target.
+If you are using the same key for different jobs, deleting any of the entities will result in the key being removed from the target.
 For an example workaround, see [Write to the same key from multiple jobs]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-write-same-key" >}}).
 {{< /note >}}
 
