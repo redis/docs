@@ -15,10 +15,24 @@ weight: 92
 ---
 ## Requirements
 
-RediSearch v2.6.32 requires:
+RediSearch v2.6.36 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.6.36 (May 2026)
+
+This is a maintenance release for Redis Search 2.6.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+
+- [#Q8950](https://github.com/redisearch/redisearch/pull/8950) `FT.CURSOR` enters an infinite loop when the invoking user's ACL restricts access to the cursor's index, causing CPU exhaustion and shard restarts. (MOD-14479)
+- [#Q8468](https://github.com/redisearch/redisearch/pull/8468) Garbage collector mishandles out-of-memory conditions on replicas, causing instability under memory pressure during indexing. (MOD-14066)
+- [#Q6792](https://github.com/redisearch/redisearch/pull/6792) Counter result-processor cleanup uses an incorrect type cast, risking memory corruption when freeing query pipeline resources. (MOD-11216)
+- [#Q6998](https://github.com/redisearch/redisearch/pull/6998) `FT.INFO` is fanned out to replicas in clustered deployments, producing inconsistent responses and unnecessary inter-node traffic.
+- [#Q6871](https://github.com/redisearch/redisearch/pull/6871) Coupled grow/shrink logic in Flat and HNSW vector index containers causes excess memory churn for large or fluctuating vector datasets. (MOD-10559)
 
 ## v2.6.32 (August 2025)
 

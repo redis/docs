@@ -14,7 +14,7 @@ The RedisVL MCP server sits between an MCP client and Redis:
 
 1. It connects to an existing Redis Search index.
 2. It inspects that index at startup and reconstructs its schema.
-3. It instantiates the configured vectorizer for query embedding and optional upsert embedding.
+3. It initializes vector capabilities only when the configured search or upsert behavior needs them.
 4. It exposes stable MCP tools for search, and optionally upsert.
 
 This keeps the Redis index as the source of truth for search behavior while giving MCP clients a predictable interface.
@@ -26,7 +26,7 @@ RedisVL MCP works with a focused model:
 - One server process binds to exactly one existing Redis index.
 - The server supports stdio (default), Streamable HTTP, and SSE transports.
 - Search behavior is owned by configuration, not by MCP callers.
-- The vectorizer is configured explicitly.
+- Vector search and server-side embedding are optional capabilities configured explicitly.
 - Upsert is optional and can be disabled with read-only mode.
 
 ## Config-Owned Search Behavior
@@ -84,12 +84,13 @@ Use read-only mode when Redis is serving approved content to assistants and anot
 RedisVL MCP exposes two tools:
 
 - `search-records` searches the configured index using the server-owned search mode
-- `upsert-records` validates and upserts records, embedding them when needed
+- `upsert-records` validates and upserts records, embedding them only when that capability is configured
 
 These tools follow a stable contract:
 
 - request validation happens before query or write execution
 - filters support either raw strings or a RedisVL-backed JSON DSL
+- `search-records` describes the inspected schema by advertising typed JSON DSL filter fields, object-filter `exists` support, and valid `return_fields`
 - error codes are mapped into a stable set of MCP-facing categories
 
 ## Why Use MCP Instead of Direct RedisVL Calls

@@ -31,10 +31,6 @@ weight: 10
 
 **Additional Properties:** not allowed
 
-## args\[\]: Redis command arguments {#args}
-
-The list of expressions that produce arguments.
-
 **Items**
 
 **Item Type:** `string`
@@ -51,3 +47,33 @@ The list of expressions that produce arguments.
 | **timeout_ms** | `integer` | Maximum time in milliseconds to wait before flushing a non-full batch. Must be positive.             | no       | `100`   |
 
 **Additional Properties:** not allowed
+**Example**
+
+Denormalize a hash:
+
+```yaml
+source:
+  table: album
+transform:
+  - uses: redis.lookup
+    with:
+      connection: target
+      cmd: HGET
+      args:
+        - concat(['artist:artistid:', artistid])
+        - '`name`'
+      language: jmespath
+      field: artist
+output:
+  - uses: redis.write
+    with:
+      connection: target
+      data_type: hash
+      key:
+        expression: concat(['album:albumid:', albumid])
+        language: jmespath
+```
+
+## args\[\]: Redis command arguments {#args}
+
+The list of expressions that produce arguments.

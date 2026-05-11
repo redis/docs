@@ -47,6 +47,14 @@ No. RDI is designed and tested to work only with Redis Enterprise. The staging d
 only use version 6.4 or above. The target Redis database can be of any version and can be a
 replica of an Active-Active replication setup or an Auto tiering database.
 
+## Can I use Active-Active for the RDI database?
+
+Yes, starting with RDI 1.16.0, you can use Active-Active for the RDI database. This is useful if you
+want to create a disaster recovery setup for RDI using Google Cloud Storage (GCS) to provide a reliable lease mechanism for leader election.
+The configuration for the GCS is available only for [Helm based installations]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}}).
+
+**Important:** You should only use this configuration when both sites use the same source configuration.
+
 ## Can RDI automatically track changes to the source database schema?
 
 If you don't configure RDI to capture a specific set of tables in the schema then it will
