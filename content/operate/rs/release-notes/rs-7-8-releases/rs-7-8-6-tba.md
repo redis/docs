@@ -8,7 +8,7 @@ categories:
 compatibleOSSVersion: Redis 7.4.0, 7.2.4, 6.2.13
 description: Internal fixes and improvements.
 linkTitle: 7.8.6-tba (May 2026)
-weight: 76
+weight: 75
 ---
 
 This is a maintenance release for Redis Software version 7.8.6.
