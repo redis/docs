@@ -61,6 +61,10 @@ class Worker:
         with self._lock:
             return self._processed
 
+    def reset_processed(self) -> None:
+        with self._lock:
+            self._processed = 0
+
     def _run(self) -> None:
         while not self._stop.is_set():
             job = self.queue.claim(timeout_ms=500)
@@ -160,6 +164,11 @@ class WorkerPool:
     def total_processed(self) -> int:
         with self._lock:
             return sum(w.processed() for w in self._workers)
+
+    def reset_processed(self) -> None:
+        with self._lock:
+            for worker in self._workers:
+                worker.reset_processed()
 
     def configure(
         self,

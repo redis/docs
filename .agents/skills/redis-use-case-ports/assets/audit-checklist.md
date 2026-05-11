@@ -163,6 +163,48 @@ A naked `DEL` without the token check is a bug: if the lock expired and was re-a
 
 ---
 
+## 11. Token-checked atomic state transitions (multi-step state machines)
+
+**What to scan for:** any helper that issues a state transition (e.g. `complete`, `fail`, `reclaim`) keyed on a per-claim or per-session token. The pattern involves: HGET the token, compare against the caller's token, then LREM/LPUSH/HSET/EXPIRE on multiple keys.
+
+**Pass criterion:** the token check **and** the dependent multi-key writes must run inside a **single Lua script**, not split between client-side code and a follow-up pipeline. A client-side `HGET → if matches → MULTI/EXEC` pattern has a TOCTOU window: between the HGET and the EXEC, the reclaimer can move the job and a new worker can re-claim it, at which point the old worker's `LREM` removes the new claimant's processing entry and the `LPUSH` puts a duplicate ID into pending/completed/failed.
+
+**Sample audit prompt:**
+
+> Audit complete/fail/reclaim (or equivalent) in all 9 client implementations of `content/develop/use-cases/{{USE_CASE_NAME}}/`. For each, verify (a) the token check (`HGET claim_token` vs caller-token) happens **inside the same Lua script** as the LREM and the LPUSH, not in client code; (b) the script returns a non-success value when the token doesn't match; (c) the reclaim path **clears the token and resets the claim timestamp** atomically when it moves a job back to pending, otherwise a worker finishing its hang right after reclaim could still pass the token check on the next call. Flag any uncovered site.
+
+**Why on list:** Job-queue use case, Phase 4 audit. Same shape as row 3 (single-flight lock with token) but generalised to multi-step state machines where the token guards a `LREM + HSET + LPUSH` sequence, not just a `DEL`.
+
+---
+
+## 12. Crash-window fallback timer on claimed-but-unwritten state
+
+**What to scan for:** any helper where a worker `BLMOVE`s (or `BRPOPLPUSH`es) an ID from a pending list into a processing list, then **immediately afterward** writes `claimed_at_ms` / `claim_token` via a follow-up call. There is a small window (microseconds, but real) where the worker process can die between the move and the write, leaving the ID stranded in the processing list with no `claimed_at_ms` for the reclaim sweep to compare against.
+
+**Pass criterion:** the reclaim script must include a fallback path that recovers the stranded job. The standard shape is: a job is stale if **either** `claimed_at_ms > 0 AND (now - claimed_at_ms) > visibility_ms` **or** `claimed_at_ms == 0 AND (now - enqueued_at_ms) > 2 × visibility_ms`. The fallback timer uses `enqueued_at_ms` (which was written by `enqueue()`) and a longer threshold (typically 2×) so it doesn't fire spuriously against a worker that's only milliseconds behind on writing its metadata.
+
+**Sample audit prompt:**
+
+> For each of the 9 client implementations in `content/develop/use-cases/{{USE_CASE_NAME}}/`, locate the reclaim Lua script. Confirm it handles the case where `claimed_at_ms` is missing or zero by falling back to `enqueued_at_ms` plus a longer threshold (typically `2 × visibility_ms`). Also confirm `enqueue()` writes `enqueued_at_ms` (so the fallback has something to compare against) and the reclaim path resets `claimed_at_ms` to 0 and clears `claim_token` when moving a job back to pending. Flag any port where the fallback is missing — those ports can lose work to a single kill-9.
+
+**Why on list:** Job-queue use case, Phase 4 audit. The race window is tiny but real, and the fix is mechanical (a few extra Lua lines). Every job-queue-style use case ported in the future should preserve this pattern.
+
+---
+
+## 13. Shared-keyspace collision during parallel smoke tests
+
+**What to scan for:** the helper's default key prefix (cache name, queue name, namespace). When Phase 2 fans out 8 sub-agents in parallel, each runs its own demo server against the same local Redis. If every demo uses the same default prefix (`cache:product:*`, `queue:jobs:*`, etc.), the agents stomp on each other's state and the smoke tests become unreliable.
+
+**Pass criterion:** the helper is parameterised on a name/prefix argument, and the demo server exposes a `--queue-name` (or `--key-prefix`, `--cache-name`, etc.) flag / env var. Each Phase 2 agent uses a port-specific suffix during its smoke tests (e.g. `jobs-nodejs`, `jobs-go`) but the **default** in the shipping code remains unsuffixed so end-user docs and `redis-cli` examples are unchanged. The helper's `purge()` must scope its `SCAN MATCH` to `<prefix>:{name}:*` using the parameterised name, not a hard-coded constant.
+
+**Sample audit prompt:**
+
+> For each of the 9 client implementations of `content/develop/use-cases/{{USE_CASE_NAME}}/`, verify the helper accepts a name/prefix parameter and the demo server exposes a CLI flag to override the default. Confirm `purge()` (or equivalent reset path) uses `SCAN MATCH` against the parameterised prefix, not a hard-coded literal. Flag any port where the default is hard-coded all the way through, since that port can't run smoke tests safely alongside its siblings.
+
+**Why on list:** Unanimous finding across all 8 sub-agent reports in the job-queue use case — every agent had to add their own queue-name flag mid-port to avoid colliding with the other 7 demos running against the same Redis. The brief should call this out from the start so it doesn't reappear.
+
+---
+
 ## How to add a new row
 
 When a bug class is identified after this skill has been used:

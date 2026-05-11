@@ -212,24 +212,41 @@ The demo HTTP server should use the language's standard library where possible:
 
 **Avoid** pulling in additional web frameworks (Flask, Express, Spring, Sinatra). The point is to keep the demo self-contained and not teach a framework alongside Redis.
 
+## Parallel-port smoke tests against a shared Redis
+
+When Phase 2 of `SKILL.md` fans out 8 sub-agents in parallel, all 8 demo servers connect to the same local Redis. If the brief tells every agent to use the *default* queue/cache key prefix, the agents stomp on each other: agent A's workers happily claim and complete agent B's jobs (or invalidate agent B's cache entries), and Redis-side `KEYS '<prefix>:*'` cleanup wipes everyone's state. This is the unanimous finding across the eight `job-queue` agent reports.
+
+To avoid it:
+
+- **Brief each agent to add a `--queue-name` / `--key-prefix` CLI flag** (or env var) that defaults to the documented value but lets the agent run smoke tests under a port-specific suffix (e.g., `jobs-nodejs`, `cache-nodejs`).
+- **Tell each agent to use a suffixed name during its own smoke tests**, and to leave the suffix-free default in the shipping code.
+- **The `purge()` helper must be parameterised on the queue/cache name** and scope its `SCAN MATCH` to `<prefix>:{name}:*`, so a clean-up in one port's namespace can't touch another's.
+- Alternative: run sibling agents against a per-port `--redis-db` number (e.g., `redis-cli -n 1`, `-n 2`, ...). Less ergonomic but a clean fallback if a use case can't easily parameterise its key prefix.
+
 ## PHP-specific notes
 
 PHP runs each HTTP request in a fresh process under `php -S`. This means:
 
-- **In-process state doesn't persist.** Cache stats, primary record state, and the primary read counter must live in Redis (under a `demo:*` keyspace).
-- **Stampede tests can't use `pcntl_fork` from the request handler** because the forked children inherit the dev server's accept socket and corrupt the response stream. Use `proc_open` to spawn worker PHP processes that connect independently to Redis, run the cache helper, and write their result to stdout. The orchestrating request collects their outputs after `proc_close`.
-- The brief should call out that the stampede approach is **PHP-specific** in the production-usage section.
+- **In-process state doesn't persist.** Cache stats, primary record state, primary read counters, and per-job-queue counters must live in Redis (under a `demo:*` keyspace, or a `<prefix>:{name}:stats` hash).
+- **Spawning sub-processes from a request handler must detach from the dev server's listen socket.** This bites both `pcntl_fork` (forked children inherit the accept socket) and `proc_open` (children inherit FDs unless explicitly redirected). The fix is **`setsid` on Linux**, and a shell-based new-session wrapper on macOS (which lacks `setsid(1)`). The detach also needs to redirect stdin/stdout/stderr to files; closing them alone isn't enough.
+- **Predis 3.x's `hset()` is variadic, not associative.** The 1.x `$redis->hset($key, ['field' => 'value'])` form raises `wrong number of arguments for 'hset'` against a 3.x client/server. Use `$redis->hset($key, 'field', 'value', 'field2', 'value2', ...)` and write a small `flattenFields()` helper if you're storing a map.
+- The brief should call out that the cross-process supervision approach is **PHP-specific** in the production-usage section.
 
 ## .NET-specific notes
 
-- The demo helper is synchronous to keep the code compact. .NET's `ThreadPool` grows by ~2 threads/second under load, which starves polling threads in the stampede test and produces false fall-through reads. Call `ThreadPool.SetMinThreads(64, 64)` at startup as a workaround, and note in the production-usage section that a real helper would be `async` (using `HashGetAllAsync`, `ScriptEvaluateAsync`, `await Task.Delay`).
+- The demo helper is synchronous to keep the code compact. .NET's `ThreadPool` grows by ~2 threads/second under load, which starves polling threads in the stampede / claim test and produces false fall-through reads. Call `ThreadPool.SetMinThreads(64, 64)` at startup as a workaround, and note in the production-usage section that a real helper would be `async` (using `HashGetAllAsync`, `ScriptEvaluateAsync`, `await Task.Delay`).
 - Use `Environment.TickCount64` (not `Environment.TickCount`) for any deadline arithmetic.
 - Use `Microsoft.NET.Sdk.Web` and minimal APIs. Reference `StackExchange.Redis` at a recent version (2.7+).
+- **StackExchange.Redis intentionally does not expose blocking pops** (`BRPOPLPUSH` / `BLMOVE` with a timeout) because they would monopolise the multiplexer's single command pipeline. Use cases that need a blocking claim (job queue, etc.) should poll the non-blocking `IDatabase.ListRightPopLeftPush` on a short interval (50 ms is a reasonable default). Document this in the helper's "Claiming jobs" / "How it works" section.
+- **`RedisChannel` no longer has an implicit `string` conversion in 2.7+.** `db.Publish(...)` needs `RedisChannel.Literal("channel:name")` or `RedisChannel.Pattern(...)` explicitly.
+- StackExchange.Redis transparently caches Lua scripts: the first `ScriptEvaluate(script, keys, args)` sends `EVAL`, subsequent calls switch to `EVALSHA` automatically. No need to manage SHAs by hand.
 
 ## Java-specific notes
 
 - **Jedis**: use `JedisPool` and acquire a `Jedis` instance per call with try-with-resources. Each transaction gets its own connection; no in-process lock is needed.
-- **Lettuce**: by default the demo shares one `StatefulRedisConnection` across HTTP handlers. Transactions are connection-scoped, so concurrent `MULTI`/`EXEC` blocks on the same connection will interleave. Serialise **every** `MULTI`/`EXEC` block (including the cache-miss repopulate and the field-update path) behind a `ReentrantLock`. The production-usage section should explain that you'd switch to `ConnectionPoolSupport` in production and drop the lock.
+- **Jedis 5.x's `brpoplpush` takes integer seconds.** Sub-second blocking-claim timeouts (e.g. 500 ms polling windows) round up to 1 s on the wire. The polling loop still observes its stop flag promptly enough; just be aware the per-iteration block is longer than the reference suggests.
+- **Lettuce**: by default the demo shares one `StatefulRedisConnection` across HTTP handlers. Lettuce is thread-safe for individual commands but pipelined sequences and transactions are connection-scoped — concurrent pipelines or `MULTI`/`EXEC` blocks on one connection can interleave. Options when an enqueue / update needs two-or-more commands atomic-ish: (a) wrap in a `ReentrantLock`; (b) use `MULTI`/`EXEC` with the same lock; (c) merge into a Lua script (preferred — atomic server-side and lock-free, but requires writing the script). The production-usage section should explain you'd switch to `ConnectionPoolSupport.createGenericObjectPool(...)` in production and drop the lock.
+- Lettuce's `BLMOVE` accepts a `double` timeout in seconds with sub-second precision (`bRPopLPush(timeout: double)`). Don't use the older `long`-overload — pre-6.x builds treated values < 1 as "block forever".
 - Both Java demos depend on a small classpath. The `_index.md` should give an example `javac` + `java` command listing the jars by name.
 
 ## Go-specific notes

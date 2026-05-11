@@ -86,6 +86,7 @@ class JobQueueDemoHandler(BaseHTTPRequestHandler):
             self.pool.stop()
             time.sleep(0.1)
             self.queue.purge()
+            self.pool.reset_processed()
             self._send_json({"stats": self._build_stats()}, 200)
             return
 
