@@ -1,0 +1,2862 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "MemoryDataPlaneServer",
+        "version": "",
+        "description": "API for managing Agentic Memory Service (AMS) data plane operations."
+    },
+    "paths": {
+        "/health": {
+            "get": {
+                "description": "Return information about the operational status of the service.",
+                "operationId": "Health",
+                "responses": {
+                    "200": {
+                        "description": "Health 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HealthResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "NotImplementedError 501 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "management"
+                ]
+            }
+        },
+        "/v1/stores/{storeId}/long-term-memory": {
+            "delete": {
+                "description": "Deletes long-term memories in bulk by their IDs.",
+                "operationId": "BulkDeleteLongTermMemories",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BulkDeleteLongTermMemoriesRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "The store instance ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "description": "The store instance ID."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "BulkDeleteLongTermMemories 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BulkDeleteLongTermMemoriesResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "NotImplementedError 501 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "long-term-memory"
+                ]
+            },
+            "post": {
+                "description": "Creates long-term memories in bulk.",
+                "operationId": "BulkCreateLongTermMemories",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BulkCreateLongTermMemoriesRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "The store instance ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "description": "The store instance ID."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "BulkCreateLongTermMemories 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BulkCreateLongTermMemoriesResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "NotImplementedError 501 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "long-term-memory"
+                ]
+            }
+        },
+        "/v1/stores/{storeId}/long-term-memory/search": {
+            "post": {
+                "description": "Runs a semantic search on long-term memory with filtering options.",
+                "operationId": "SearchLongTermMemory",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SearchLongTermMemoryRequestContent"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "The store instance ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "description": "The store instance ID."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "SearchLongTermMemory 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SearchLongTermMemoryResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "NotImplementedError 501 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "long-term-memory"
+                ]
+            }
+        },
+        "/v1/stores/{storeId}/long-term-memory/{memoryId}": {
+            "get": {
+                "description": "Returns a long-term memory by its ID.",
+                "operationId": "GetLongTermMemory",
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "The store instance ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "description": "The store instance ID."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "memoryId",
+                        "in": "path",
+                        "description": "The memory record ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "The memory record ID."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetLongTermMemory 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetLongTermMemoryResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "NotImplementedError 501 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "long-term-memory"
+                ]
+            },
+            "patch": {
+                "description": "Partially updates a long-term memory by its ID.",
+                "operationId": "UpdateLongTermMemory",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateLongTermMemoryRequestContent"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "The store instance ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "description": "The store instance ID."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "memoryId",
+                        "in": "path",
+                        "description": "The memory record ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "The memory record ID."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UpdateLongTermMemory 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateLongTermMemoryResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "NotImplementedError 501 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "long-term-memory"
+                ]
+            }
+        },
+        "/v1/stores/{storeId}/session-memory": {
+            "get": {
+                "description": "Returns a paginated list of session IDs for a store.",
+                "operationId": "ListSessions",
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "The store instance ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "description": "The store instance ID."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Maximum number of sessions to return.",
+                        "schema": {
+                            "type": "integer",
+                            "description": "Maximum number of sessions to return.",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Pagination offset.",
+                        "schema": {
+                            "type": "integer",
+                            "description": "Pagination offset.",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListSessions 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListSessionsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "NotImplementedError 501 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "session-memory"
+                ]
+            }
+        },
+        "/v1/stores/{storeId}/session-memory/events": {
+            "post": {
+                "description": "Appends a single event to a session. Creates the session if it does not exist. If sessionId is omitted, the server generates one.",
+                "operationId": "AddSessionEvent",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddSessionEventRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "The store instance ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "description": "The store instance ID."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "AddSessionEvent 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddSessionEventResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "NotImplementedError 501 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "session-memory"
+                ]
+            }
+        },
+        "/v1/stores/{storeId}/session-memory/{sessionId}": {
+            "delete": {
+                "description": "Deletes the session memory for a session.",
+                "operationId": "DeleteSessionMemory",
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "The store instance ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "description": "The store instance ID."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "sessionId",
+                        "in": "path",
+                        "description": "The session ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "The session ID."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "DeleteSessionMemory 204 response"
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "NotImplementedError 501 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "session-memory"
+                ]
+            },
+            "get": {
+                "description": "Returns the session memory for a session.",
+                "operationId": "GetSessionMemory",
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "The store instance ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "description": "The store instance ID."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "sessionId",
+                        "in": "path",
+                        "description": "The session ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "The session ID."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetSessionMemory 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetSessionMemoryResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "NotImplementedError 501 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "session-memory"
+                ]
+            }
+        },
+        "/v1/stores/{storeId}/session-memory/{sessionId}/events/{eventId}": {
+            "delete": {
+                "description": "Deletes a single event from a session by event ID.",
+                "operationId": "DeleteSessionEvent",
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "The store instance ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "description": "The store instance ID."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "sessionId",
+                        "in": "path",
+                        "description": "The session ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "The session ID."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "eventId",
+                        "in": "path",
+                        "description": "The event ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "pattern": "^[a-zA-Z0-9]+$",
+                            "description": "The event ID."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "DeleteSessionEvent 204 response"
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "NotImplementedError 501 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "session-memory"
+                ]
+            },
+            "get": {
+                "description": "Returns a single event from a session by event ID.",
+                "operationId": "GetSessionEvent",
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "The store instance ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "description": "The store instance ID."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "sessionId",
+                        "in": "path",
+                        "description": "The session ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "The session ID."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "eventId",
+                        "in": "path",
+                        "description": "The event ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 32,
+                            "minLength": 32,
+                            "pattern": "^[a-zA-Z0-9]+$",
+                            "description": "The event ID."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetSessionEvent 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetSessionEventResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "NotImplementedError 501 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "session-memory"
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AddSessionEventRequestContent": {
+                "type": "object",
+                "properties": {
+                    "sessionId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Optional session ID. If omitted, the server generates a unique ID."
+                    },
+                    "actorId": {
+                        "type": "string",
+                        "description": "Unique actor identifier (1-255 chars). Can represent a user, agent, or any participant."
+                    },
+                    "role": {
+                        "$ref": "#/components/schemas/MessageRole"
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Content"
+                        },
+                        "description": "The message content as an array of typed content parts."
+                    },
+                    "createdAt": {
+                        "type": "integer",
+                        "description": "Timestamp when the event was created in milliseconds.",
+                        "format": "int64"
+                    },
+                    "metadata": {
+                        "description": "Optional key-value pairs (max 15)."
+                    }
+                },
+                "required": [
+                    "actorId",
+                    "content",
+                    "createdAt",
+                    "role"
+                ]
+            },
+            "AddSessionEventResponseContent": {
+                "type": "object",
+                "properties": {
+                    "event": {
+                        "$ref": "#/components/schemas/SessionEvent"
+                    }
+                },
+                "required": [
+                    "event"
+                ]
+            },
+            "AuthenticationErrorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 401,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/AuthenticationErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "AuthenticationErrorType": {
+                "type": "string",
+                "enum": [
+                    "/errors/authentication-failed"
+                ]
+            },
+            "BadRequestErrorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 400,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/BadRequestErrorType"
+                    },
+                    "fields": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FieldError"
+                        }
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "BadRequestErrorType": {
+                "type": "string",
+                "enum": [
+                    "/errors/invalid-data"
+                ]
+            },
+            "BulkCreateLongTermMemoriesRequestContent": {
+                "type": "object",
+                "properties": {
+                    "memories": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CreateMemoryRecord"
+                        },
+                        "description": "List of memory records to create."
+                    }
+                },
+                "required": [
+                    "memories"
+                ]
+            },
+            "BulkCreateLongTermMemoriesResponseContent": {
+                "type": "object",
+                "properties": {
+                    "created": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Memory record identifier (1-64 chars, alphanumeric and dashes)."
+                        },
+                        "description": "IDs of successfully created memory records."
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BulkOperationError"
+                        },
+                        "description": "Errors for memory records that failed to be created."
+                    }
+                },
+                "required": [
+                    "created"
+                ]
+            },
+            "BulkDeleteLongTermMemoriesRequestContent": {
+                "type": "object",
+                "properties": {
+                    "memoryIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Memory record identifier (1-64 chars, alphanumeric and dashes)."
+                        },
+                        "description": "List of memory record IDs to delete."
+                    }
+                },
+                "required": [
+                    "memoryIds"
+                ]
+            },
+            "BulkDeleteLongTermMemoriesResponseContent": {
+                "type": "object",
+                "properties": {
+                    "deleted": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Memory record identifier (1-64 chars, alphanumeric and dashes)."
+                        },
+                        "description": "IDs of successfully deleted memory records."
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BulkOperationError"
+                        },
+                        "description": "Errors for memory records that failed to be deleted."
+                    }
+                },
+                "required": [
+                    "deleted"
+                ]
+            },
+            "BulkOperationError": {
+                "type": "object",
+                "description": "Error detail for a single item in a bulk operation.",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Memory record ID of the item that failed."
+                    },
+                    "error": {
+                        "type": "string",
+                        "description": "Error message describing the failure."
+                    }
+                },
+                "required": [
+                    "error",
+                    "id"
+                ]
+            },
+            "Content": {
+                "description": "A single content item in a message. Exactly one member is set.",
+                "oneOf": [
+                    {
+                        "type": "object",
+                        "title": "text",
+                        "properties": {
+                            "text": {
+                                "type": "string",
+                                "description": "Text content."
+                            }
+                        },
+                        "required": [
+                            "text"
+                        ]
+                    }
+                ]
+            },
+            "CreateMemoryRecord": {
+                "type": "object",
+                "description": "A memory record to create.",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Client-provided memory record ID for idempotent creation."
+                    },
+                    "text": {
+                        "type": "string",
+                        "description": "The memory content."
+                    },
+                    "memoryType": {
+                        "$ref": "#/components/schemas/MemoryType"
+                    },
+                    "sessionId": {
+                        "type": "string",
+                        "description": "Session ID associated with this memory."
+                    },
+                    "ownerId": {
+                        "type": "string",
+                        "description": "Owner ID associated with this memory."
+                    },
+                    "namespace": {
+                        "type": "string",
+                        "description": "Namespace for logical grouping."
+                    },
+                    "topics": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Topic tags for categorization."
+                    }
+                },
+                "required": [
+                    "id",
+                    "text"
+                ]
+            },
+            "FailedDependencyErrorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 424,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/FailedDependencyErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "FailedDependencyErrorType": {
+                "type": "string",
+                "enum": [
+                    "/errors/resource-unavailable",
+                    "/errors/database-out-of-memory"
+                ]
+            },
+            "FieldError": {
+                "type": "object",
+                "properties": {
+                    "field": {
+                        "type": "string"
+                    },
+                    "rule": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "field",
+                    "message",
+                    "rule"
+                ]
+            },
+            "FilterConjunction": {
+                "type": "string",
+                "description": "Filter conjunction mode.",
+                "enum": [
+                    "all",
+                    "any"
+                ]
+            },
+            "ForbiddenErrorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 403,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ForbiddenErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "ForbiddenErrorType": {
+                "type": "string",
+                "enum": [
+                    "/errors/insufficient-permissions"
+                ]
+            },
+            "GetLongTermMemoryResponseContent": {
+                "type": "object",
+                "description": "A long-term memory record.",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Unique memory record ID."
+                    },
+                    "text": {
+                        "type": "string",
+                        "description": "The memory content."
+                    },
+                    "memoryType": {
+                        "$ref": "#/components/schemas/MemoryType"
+                    },
+                    "sessionId": {
+                        "type": "string",
+                        "description": "Session ID associated with this memory."
+                    },
+                    "ownerId": {
+                        "type": "string",
+                        "description": "Owner ID associated with this memory."
+                    },
+                    "namespace": {
+                        "type": "string",
+                        "description": "Namespace for logical grouping."
+                    },
+                    "topics": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Topic tags for categorization."
+                    },
+                    "createdAt": {
+                        "type": "integer",
+                        "description": "Timestamp when the memory was created (Unix milliseconds).",
+                        "format": "int64"
+                    },
+                    "updatedAt": {
+                        "type": "integer",
+                        "description": "Timestamp when the memory was last updated (Unix milliseconds).",
+                        "format": "int64"
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "id",
+                    "text",
+                    "updatedAt"
+                ]
+            },
+            "GetSessionEventResponseContent": {
+                "type": "object",
+                "properties": {
+                    "event": {
+                        "$ref": "#/components/schemas/SessionEvent"
+                    }
+                },
+                "required": [
+                    "event"
+                ]
+            },
+            "GetSessionMemoryResponseContent": {
+                "type": "object",
+                "description": "Session memory state for a session.",
+                "properties": {
+                    "sessionId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "The session ID."
+                    },
+                    "ownerId": {
+                        "type": "string",
+                        "description": "The owner of the session, set from the actorId of the first event."
+                    },
+                    "events": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SessionEvent"
+                        },
+                        "description": "Events stored in this session."
+                    }
+                },
+                "required": [
+                    "events",
+                    "ownerId",
+                    "sessionId"
+                ]
+            },
+            "HealthResponseContent": {
+                "type": "object",
+                "description": "Health check response.",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Status of the service."
+                    }
+                },
+                "required": [
+                    "status"
+                ]
+            },
+            "ListSessionsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "sessions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of session IDs."
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": "Total number of matching sessions.",
+                        "format": "int32"
+                    }
+                },
+                "required": [
+                    "sessions",
+                    "total"
+                ]
+            },
+            "LongTermMemoryFilter": {
+                "type": "object",
+                "description": "Grouping of filter conditions for long-term memory search.",
+                "properties": {
+                    "sessionId": {
+                        "$ref": "#/components/schemas/TagFilter"
+                    },
+                    "ownerId": {
+                        "$ref": "#/components/schemas/TagFilter"
+                    },
+                    "namespace": {
+                        "$ref": "#/components/schemas/TagFilter"
+                    },
+                    "topics": {
+                        "$ref": "#/components/schemas/TagFilter"
+                    },
+                    "memoryType": {
+                        "$ref": "#/components/schemas/TagFilter"
+                    },
+                    "createdAt": {
+                        "$ref": "#/components/schemas/NumericFilter"
+                    }
+                }
+            },
+            "MemoryRecord": {
+                "type": "object",
+                "description": "A long-term memory record.",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Unique memory record ID."
+                    },
+                    "text": {
+                        "type": "string",
+                        "description": "The memory content."
+                    },
+                    "memoryType": {
+                        "$ref": "#/components/schemas/MemoryType"
+                    },
+                    "sessionId": {
+                        "type": "string",
+                        "description": "Session ID associated with this memory."
+                    },
+                    "ownerId": {
+                        "type": "string",
+                        "description": "Owner ID associated with this memory."
+                    },
+                    "namespace": {
+                        "type": "string",
+                        "description": "Namespace for logical grouping."
+                    },
+                    "topics": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Topic tags for categorization."
+                    },
+                    "createdAt": {
+                        "type": "integer",
+                        "description": "Timestamp when the memory was created (Unix milliseconds).",
+                        "format": "int64"
+                    },
+                    "updatedAt": {
+                        "type": "integer",
+                        "description": "Timestamp when the memory was last updated (Unix milliseconds).",
+                        "format": "int64"
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "id",
+                    "text",
+                    "updatedAt"
+                ]
+            },
+            "MemoryType": {
+                "type": "string",
+                "description": "Type of long-term memory.",
+                "enum": [
+                    "semantic",
+                    "episodic",
+                    "message"
+                ]
+            },
+            "MessageRole": {
+                "type": "string",
+                "description": "Message role for session events.",
+                "enum": [
+                    "USER",
+                    "ASSISTANT",
+                    "SYSTEM"
+                ]
+            },
+            "NotFoundErrorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 404,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/NotFoundErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "NotFoundErrorType": {
+                "type": "string",
+                "enum": [
+                    "/errors/resource-not-found"
+                ]
+            },
+            "NotImplementedErrorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 501,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/NotImplementedErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "NotImplementedErrorType": {
+                "type": "string",
+                "enum": [
+                    "/errors/not-implemented"
+                ]
+            },
+            "NumericFilter": {
+                "type": "object",
+                "description": "Filter for numeric fields. The server validates that exactly one operator is set.",
+                "properties": {
+                    "gt": {
+                        "type": "integer",
+                        "description": "Greater than the given value.",
+                        "format": "int64"
+                    },
+                    "lt": {
+                        "type": "integer",
+                        "description": "Less than the given value.",
+                        "format": "int64"
+                    },
+                    "gte": {
+                        "type": "integer",
+                        "description": "Greater than or equal to the given value.",
+                        "format": "int64"
+                    },
+                    "lte": {
+                        "type": "integer",
+                        "description": "Less than or equal to the given value.",
+                        "format": "int64"
+                    },
+                    "eq": {
+                        "type": "integer",
+                        "description": "Equals the given value.",
+                        "format": "int64"
+                    }
+                }
+            },
+            "PayloadTooLargeErrorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 413,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/PayloadTooLargeErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "PayloadTooLargeErrorType": {
+                "type": "string",
+                "enum": [
+                    "/errors/payload-too-large"
+                ]
+            },
+            "SearchLongTermMemoryRequestContent": {
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "description": "Text to use for semantic search."
+                    },
+                    "similarityThreshold": {
+                        "type": "number",
+                        "description": "The minimum similarity threshold for vector search results (normalized cosine similarity).",
+                        "format": "float"
+                    },
+                    "filter": {
+                        "$ref": "#/components/schemas/LongTermMemoryFilter"
+                    },
+                    "filterOp": {
+                        "$ref": "#/components/schemas/FilterConjunction"
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "Maximum number of results to return.",
+                        "format": "int32"
+                    },
+                    "pageToken": {
+                        "type": "string",
+                        "description": "Opaque token from a previous response for the next page."
+                    }
+                }
+            },
+            "SearchLongTermMemoryResponseContent": {
+                "type": "object",
+                "properties": {
+                    "memories": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MemoryRecord"
+                        },
+                        "description": "List of matching memory records."
+                    },
+                    "nextPageToken": {
+                        "type": "string",
+                        "description": "Opaque token for fetching the next page. Omitted when no more results."
+                    }
+                },
+                "required": [
+                    "memories"
+                ]
+            },
+            "SessionEvent": {
+                "type": "object",
+                "description": "A single event in the session history.",
+                "properties": {
+                    "eventId": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 32,
+                        "pattern": "^[a-zA-Z0-9]+$",
+                        "description": "Auto-generated event ID."
+                    },
+                    "actorId": {
+                        "type": "string",
+                        "description": "Unique actor identifier (1-255 chars). Can represent a user, agent, or any participant."
+                    },
+                    "sessionId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Session identifier (client-provided or server-generated)."
+                    },
+                    "role": {
+                        "$ref": "#/components/schemas/MessageRole"
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Content"
+                        },
+                        "description": "The message content as an array of typed content parts."
+                    },
+                    "createdAt": {
+                        "type": "integer",
+                        "description": "Timestamp when the event was created in milliseconds.",
+                        "format": "int64"
+                    },
+                    "metadata": {
+                        "description": "Optional key-value pairs (max 15)."
+                    }
+                },
+                "required": [
+                    "actorId",
+                    "content",
+                    "createdAt",
+                    "eventId",
+                    "role",
+                    "sessionId"
+                ]
+            },
+            "TagFilter": {
+                "type": "object",
+                "description": "Filter for tag/string fields. The server validates that exactly one operator is set.",
+                "properties": {
+                    "eq": {
+                        "type": "string",
+                        "description": "Equals the given value."
+                    },
+                    "ne": {
+                        "type": "string",
+                        "description": "Not equal to the given value."
+                    },
+                    "in": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Matches any of the given values."
+                    },
+                    "all": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Matches all of the given values."
+                    }
+                }
+            },
+            "TimeoutErrorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 408,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TimeoutErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "TimeoutErrorType": {
+                "type": "string",
+                "enum": [
+                    "/errors/timeout"
+                ]
+            },
+            "TooManyRequestsErrorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 429,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TooManyRequestsErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "TooManyRequestsErrorType": {
+                "type": "string",
+                "enum": [
+                    "/errors/too-many-requests"
+                ]
+            },
+            "UnexpectedErrorResponseContent": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 500,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/UnexpectedErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "UnexpectedErrorType": {
+                "type": "string",
+                "enum": [
+                    "/errors/unexpected-error"
+                ]
+            },
+            "UpdateLongTermMemoryRequestContent": {
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "description": "Updated text content."
+                    },
+                    "memoryType": {
+                        "$ref": "#/components/schemas/MemoryType"
+                    },
+                    "topics": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Updated topics."
+                    },
+                    "namespace": {
+                        "type": "string",
+                        "description": "Updated namespace."
+                    },
+                    "ownerId": {
+                        "type": "string",
+                        "description": "Updated owner ID."
+                    },
+                    "sessionId": {
+                        "type": "string",
+                        "description": "Updated session ID."
+                    }
+                }
+            },
+            "UpdateLongTermMemoryResponseContent": {
+                "type": "object",
+                "description": "A long-term memory record.",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Unique memory record ID."
+                    },
+                    "text": {
+                        "type": "string",
+                        "description": "The memory content."
+                    },
+                    "memoryType": {
+                        "$ref": "#/components/schemas/MemoryType"
+                    },
+                    "sessionId": {
+                        "type": "string",
+                        "description": "Session ID associated with this memory."
+                    },
+                    "ownerId": {
+                        "type": "string",
+                        "description": "Owner ID associated with this memory."
+                    },
+                    "namespace": {
+                        "type": "string",
+                        "description": "Namespace for logical grouping."
+                    },
+                    "topics": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Topic tags for categorization."
+                    },
+                    "createdAt": {
+                        "type": "integer",
+                        "description": "Timestamp when the memory was created (Unix milliseconds).",
+                        "format": "int64"
+                    },
+                    "updatedAt": {
+                        "type": "integer",
+                        "description": "Timestamp when the memory was last updated (Unix milliseconds).",
+                        "format": "int64"
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "id",
+                    "text",
+                    "updatedAt"
+                ]
+            }
+        }
+    }
+}
