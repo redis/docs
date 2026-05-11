@@ -2495,6 +2495,63 @@
       }
     },
     "/v1/ldap_mappings/{uid}": {
+      "delete": {
+        "description": "Delete an LDAP mapping by unique ID.",
+        "operationId": "cluster_delete_ldap_mapping",
+        "parameters": [
+          {
+            "description": "The LDAP mapping unique ID.",
+            "example": 17,
+            "in": "path",
+            "name": "uid",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "action_uid": "12345-abcde-67890"
+                  },
+                  "properties": {
+                    "action_uid": {
+                      "description": "Action uid for tracking progress.",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "LDAP mapping deleted successfully."
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "delete_ldap_mapping"
+            ]
+          }
+        ],
+        "summary": "Delete a Redis Software LDAP mapping",
+        "tags": [
+          "LDAP Mapping"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
       "get": {
         "description": "Get a single LDAP mapping by unique ID.",
         "operationId": "cluster_get_ldap_mapping",
