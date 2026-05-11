@@ -28,7 +28,7 @@ OpenShift routes allow requests to be routed to the database or cluster API from
 
    * **Name**: Choose any name you want as the first part of your generated hostname
    * **Hostname**: Leave blank
-   * **Path**: Leave as is ("/")
+   * **Path**: Leave blank
    * **Service**: Select the service for the database you want to access
    * **TLS Termination**: Choose "passthrough"
    * **Insecure Traffic**: Select "None"

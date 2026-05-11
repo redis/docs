@@ -22,7 +22,7 @@ apiVersion:
 
 
 
-RedisEnterpriseActiveActiveDatabase is the Schema for the redisenterpriseactiveactivedatabase API
+The schema for the redisenterpriseactiveactivedatabase API.
 
 <table>
     <thead>
@@ -54,14 +54,14 @@ RedisEnterpriseActiveActiveDatabase is the Schema for the redisenterpriseactivea
         <td><a href="#spec">spec</a></td>
         <td>object</td>
         <td>
-          RedisEnterpriseActiveActiveDatabaseSpec defines the desired state of RedisEnterpriseActiveActiveDatabase<br/>
+          Defines the desired state of RedisEnterpriseActiveActiveDatabase.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td><a href="#status">status</a></td>
         <td>object</td>
         <td>
-          RedisEnterpriseActiveActiveDatabaseStatus defines the observed state of RedisEnterpriseActiveActiveDatabase<br/>
+          Defines the observed state of RedisEnterpriseActiveActiveDatabase.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -71,7 +71,7 @@ RedisEnterpriseActiveActiveDatabase is the Schema for the redisenterpriseactivea
 ### spec
 <sup><sup>[↩ Parent](#)</sup></sup>
 
-RedisEnterpriseActiveActiveDatabaseSpec defines the desired state of RedisEnterpriseActiveActiveDatabase
+Defines the desired state of RedisEnterpriseActiveActiveDatabase.
 
 <table>
     <thead>
@@ -86,21 +86,21 @@ RedisEnterpriseActiveActiveDatabaseSpec defines the desired state of RedisEnterp
         <td><a href="#specparticipatingclusters">participatingClusters</a></td>
         <td>[]object</td>
         <td>
-          The list of instances/ clusters specifications and configurations.<br/>
+          List of participating cluster specifications and configurations.<br/>
         </td>
         <td>true</td>
       </tr><tr>
         <td><a href="#specglobalconfigurations">globalConfigurations</a></td>
         <td>object</td>
         <td>
-          The Active-Active database global configurations, contains the global properties for each of the participating clusters/ instances databases within the Active-Active database.<br/>
+          Global configurations for the Active-Active database. Contains the global properties for each participating cluster database within the Active-Active database.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td><a href="#specredisenterprisecluster">redisEnterpriseCluster</a></td>
         <td>object</td>
         <td>
-          Connection to Redis Enterprise Cluster<br/>
+          Connection to the Redis Enterprise Cluster.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -110,7 +110,7 @@ RedisEnterpriseActiveActiveDatabaseSpec defines the desired state of RedisEnterp
 ### spec.participatingClusters[]
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
-
+Specifies the configuration for a participating cluster in the Active-Active database.
 
 <table>
     <thead>
@@ -125,21 +125,21 @@ RedisEnterpriseActiveActiveDatabaseSpec defines the desired state of RedisEnterp
         <td>name</td>
         <td>string</td>
         <td>
-          The name of the remote cluster CR to link.<br/>
+          Name of the remote cluster custom resource to link.<br/>
         </td>
         <td>true</td>
       </tr><tr>
         <td>externalReplicationPort</td>
         <td>integer</td>
         <td>
-          The desired replication endpoint's port number for users who utilize LoadBalancers for sync between AA replicas and need to provide the specific port number that the LoadBalancer listens to.<br/>
+          Port number for the replication endpoint. Use this field when you use LoadBalancers for synchronization between Active-Active replicas and need to specify the port number that the LoadBalancer listens on.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>namespace</td>
         <td>string</td>
         <td>
-          Namespace in which the REAADB object will be deployed to within the corresponding participating cluster. The user must ensure that the Redis Enterprise operator is configured to watch this namespace in the corresponding cluster, and the required RBAC configuration is properly set up. See https://redis.io/docs/latest/operate/kubernetes/re-clusters/multi-namespace/ for more information how to set up multiple namespaces. If no namespace is specified, then the REAADB is deployed to the REC's namespace in the corresponding cluster.<br/>
+          Namespace where the REAADB object is deployed within the corresponding participating cluster. Ensure that the Redis Enterprise operator is configured to watch this namespace in the corresponding cluster and that the required RBAC configuration is properly set up. For more information about setting up multiple namespaces, see https://redis.io/docs/latest/operate/kubernetes/re-clusters/multi-namespace/. If you don't specify a namespace, the REAADB is deployed to the REC's namespace in the corresponding cluster.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -149,7 +149,7 @@ RedisEnterpriseActiveActiveDatabaseSpec defines the desired state of RedisEnterp
 ### spec.globalConfigurations
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
-The Active-Active database global configurations, contains the global properties for each of the participating clusters/ instances databases within the Active-Active database.
+Global configurations for the Active-Active database. Contains the global properties for each participating cluster database within the Active-Active database.
 
 <table>
     <thead>
@@ -193,6 +193,13 @@ The Active-Active database global configurations, contains the global properties
         <td>[]string</td>
         <td>
           The Secrets containing TLS Client Certificate to use for Authentication<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specglobalconfigurationsconnectionsettings">connectionSettings</a></td>
+        <td>object</td>
+        <td>
+          Connection-related settings such as proxy connections and scheduling policy.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -359,6 +366,13 @@ The Active-Active database global configurations, contains the global properties
         <td>[]object</td>
         <td>
           List of Redis Enteprise ACL and Role bindings to apply<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>searchOnBigstore</td>
+        <td>boolean</td>
+        <td>
+          Enables search module indexing on flash storage for Redis Flex (v2) databases. Only applicable when isRof=true and Redis version >= 8.6. Defaults to false.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -1110,7 +1124,14 @@ Target for automatic database backups.
         <td>interval</td>
         <td>integer</td>
         <td>
-          Backup Interval in seconds<br/>
+          Backup Interval in seconds. Specifies the time interval in seconds at which periodic backup is performed.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>intervalOffset</td>
+        <td>integer</td>
+        <td>
+          Backup Interval Offset in seconds. Specifies a time offset in seconds at which the periodic backup job starts. This can only be used if the backup interval is 24 hours (86400 seconds) or 12 hours (43200 seconds). The offset is relative to 00:00 UTC for 24-hour mode, and 00:00 + 12:00 UTC for 12-hour mode. If not specified, a random starting time (offset) is automatically chosen. The offset must be less than the backup interval.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -1302,6 +1323,13 @@ MountPointStorage
         </td>
         <td>true</td>
       </tr><tr>
+        <td>regionName</td>
+        <td>string</td>
+        <td>
+          Optional. Amazon S3 region name. If not specified, the region is auto-detected using a HEAD request to the bucket. For AWS GovCloud or other regions where auto-detection may not work, specify the region explicitly (e.g., "us-gov-east-1").<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>subdir</td>
         <td>string</td>
         <td>
@@ -1390,6 +1418,63 @@ MountPointStorage
 </table>
 
 
+### spec.globalConfigurations.connectionSettings
+<sup><sup>[↩ Parent](#specglobalconfigurations)</sup></sup>
+
+Connection-related settings such as proxy connections and scheduling policy.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>connectionLimitType</td>
+        <td>enum</td>
+        <td>
+          Connections limit type.<br/>
+          <br/>
+            <i>Enum</i>: per-thread, per-shard<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>connectionSchedulingPolicy</td>
+        <td>enum</td>
+        <td>
+          Controls how server-side connections are used when forwarding traffic to shards. Values: cmp: Closest to max_pipelined policy. Pick the connection with the most pipelined commands that has not reached the max_pipelined limit. mru: Try to use most recently used connections. spread: Try to use all connections. mnp: Minimal pipeline policy. Pick the connection with the least pipelined commands.<br/>
+          <br/>
+            <i>Enum</i>: cmp, mru, spread, mnp<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>globalMaxDedicatedConnections</td>
+        <td>integer</td>
+        <td>
+          Defines the maximum number of dedicated server connections for a given database. The total number across all workers. The default is 0 for unlimited. Defaults to 0, which means unlimited.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>internalConnections</td>
+        <td>integer</td>
+        <td>
+          The number of internal proxy connections. Defaults to 5 if unspecified.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>minDedicatedConnections</td>
+        <td>integer</td>
+        <td>
+          Number of dedicated server connections the DMC has per worker per shard. Defaults to 2 if unspecified.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
 ### spec.globalConfigurations.modulesList[]
 <sup><sup>[↩ Parent](#specglobalconfigurations)</sup></sup>
 
@@ -1447,7 +1532,7 @@ Additional OSS cluster settings that may be provided to tweak OSS cluster behavi
         <td>enableExternalAccess</td>
         <td>boolean</td>
         <td>
-          <br/>
+          Toggles whether this database supports external access in OSS cluster mode. When enabled, advertised database topology includes the external endpoints for the Redis Enterprise nodes hosting the database shards. The external access mechanism (e.g., LoadBalancer services) is configured via the ossClusterSettings.externalAccessType field of the RedisEnterpriseCluster. When external access is enabled, the corresponding database secret will have the list of primary shard IPs in the oss_startup_nodes field. Currently enabling OSS cluster API in conjunction with external access is not supported for active active databases.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -1609,7 +1694,7 @@ Specifications for DB upgrade.
 ### spec.redisEnterpriseCluster
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
-Connection to Redis Enterprise Cluster
+Connection to the Redis Enterprise Cluster.
 
 <table>
     <thead>
@@ -1634,7 +1719,7 @@ Connection to Redis Enterprise Cluster
 ### status
 <sup><sup>[↩ Parent](#)</sup></sup>
 
-RedisEnterpriseActiveActiveDatabaseStatus defines the observed state of RedisEnterpriseActiveActiveDatabase
+Defines the observed state of RedisEnterpriseActiveActiveDatabase.
 
 <table>
     <thead>
@@ -1649,7 +1734,7 @@ RedisEnterpriseActiveActiveDatabaseStatus defines the observed state of RedisEnt
         <td>clusterCertificatesGeneration</td>
         <td>integer</td>
         <td>
-          Tracks the certificate generation from the participating cluster's REC.Status.CertificatesStatus.Generation. The operator automatically monitors this field to detect when proxy or syncer certificates are updated on the local participating cluster. When a change is detected, the operator automatically executes a CRDB force update (equivalent to 'crdb-cli crdb update --force'), which synchronizes the certificate changes to all participating clusters, preventing sync issues. This eliminates the manual step of running crdb-cli commands when rotating certificates in Active-Active deployments on Kubernetes.<br/>
+          Certificate generation number from the participating cluster's REC.Status.CertificatesStatus.Generation. The operator monitors this field to detect when proxy or syncer certificates are updated on the local participating cluster. When the operator detects a change, it automatically runs a CRDB force update (equivalent to 'crdb-cli crdb update --force'), which synchronizes the certificate changes to all participating clusters and prevents sync issues. This eliminates the manual step of running crdb-cli commands when you rotate certificates in Active-Active deployments on Kubernetes.<br/>
           <br/>
             <i>Format</i>: int64<br/>
         </td>
@@ -1658,42 +1743,42 @@ RedisEnterpriseActiveActiveDatabaseStatus defines the observed state of RedisEnt
         <td>guid</td>
         <td>string</td>
         <td>
-          The active-active database corresponding GUID.<br/>
+          GUID of the Active-Active database.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>lastTaskUid</td>
         <td>string</td>
         <td>
-          The last active-active database task UID.<br/>
+          UID of the last Active-Active database task.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>linkedRedbs</td>
         <td>[]string</td>
         <td>
-          The linked REDBs.<br/>
+          List of linked REDBs.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td><a href="#statusparticipatingclusters">participatingClusters</a></td>
         <td>[]object</td>
         <td>
-          The list of instances/ clusters statuses.<br/>
+          List of participating cluster statuses.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>redisEnterpriseCluster</td>
         <td>string</td>
         <td>
-          The Redis Enterprise Cluster Object this Resource is associated with<br/>
+          Name of the Redis Enterprise Cluster that this resource is associated with.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>replicationStatus</td>
         <td>enum</td>
         <td>
-          The overall replication status<br/>
+          Overall replication status.<br/>
           <br/>
             <i>Enum</i>: up, down<br/>
         </td>
@@ -1702,21 +1787,21 @@ RedisEnterpriseActiveActiveDatabaseStatus defines the observed state of RedisEnt
         <td><a href="#statussecretsstatus">secretsStatus</a></td>
         <td>[]object</td>
         <td>
-          The status of the secrets<br/>
+          Status of the secrets.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>specStatus</td>
         <td>string</td>
         <td>
-          Whether the desired specification is valid<br/>
+          Indicates whether the desired specification is valid.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>status</td>
         <td>string</td>
         <td>
-          The status of the active active database.<br/>
+          Status of the Active-Active database. This status doesn't include the replication link (data path) status. To view the replication link status, see the ReplicationStatus field or status.replicationStatus on the custom resource.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -1726,7 +1811,7 @@ RedisEnterpriseActiveActiveDatabaseStatus defines the observed state of RedisEnt
 ### status.participatingClusters[]
 <sup><sup>[↩ Parent](#status)</sup></sup>
 
-Status of participating cluster.
+The status of a participating cluster.
 
 <table>
     <thead>
@@ -1741,14 +1826,14 @@ Status of participating cluster.
         <td>name</td>
         <td>string</td>
         <td>
-          The name of the remote cluster CR that is linked.<br/>
+          Name of the linked remote cluster custom resource.<br/>
         </td>
         <td>true</td>
       </tr><tr>
         <td>id</td>
         <td>integer</td>
         <td>
-          The corresponding ID of the instance in the active-active database.<br/>
+          ID of the instance in the Active-Active database.<br/>
           <br/>
             <i>Format</i>: int64<br/>
         </td>
@@ -1757,7 +1842,7 @@ Status of participating cluster.
         <td>replicationStatus</td>
         <td>enum</td>
         <td>
-          The replication status of the participating cluster<br/>
+          Replication status of the participating cluster.<br/>
           <br/>
             <i>Enum</i>: up, down<br/>
         </td>
@@ -1769,7 +1854,7 @@ Status of participating cluster.
 ### status.secretsStatus[]
 <sup><sup>[↩ Parent](#status)</sup></sup>
 
-Status of secrets.
+The status of a secret.
 
 <table>
     <thead>
@@ -1784,14 +1869,14 @@ Status of secrets.
         <td>name</td>
         <td>string</td>
         <td>
-          The name of the secret.<br/>
+          Name of the secret.<br/>
         </td>
         <td>true</td>
       </tr><tr>
         <td>status</td>
         <td>enum</td>
         <td>
-          The status of the secret.<br/>
+          Status of the secret.<br/>
           <br/>
             <i>Enum</i>: Valid, Invalid<br/>
         </td>

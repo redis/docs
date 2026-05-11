@@ -7,7 +7,7 @@ categories:
 - rs
 - rc
 description: Implement a Redis-backed session store in Ruby with redis-rb
-linkTitle: Ruby session store
+linkTitle: redis-rb example (Ruby)
 title: Redis session store with Ruby
 weight: 7
 ---

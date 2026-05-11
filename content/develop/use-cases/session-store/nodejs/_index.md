@@ -7,7 +7,7 @@ categories:
 - rs
 - rc
 description: Implement a Redis-backed session store in Node.js with node-redis
-linkTitle: Node.js session store
+linkTitle: node-redis example (Node.js)
 title: Redis session store with node-redis
 weight: 2
 ---

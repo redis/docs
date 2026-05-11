@@ -6,9 +6,9 @@ categories:
 - oss
 - rs
 - rc
-description: Implement a Redis-backed session store in .NET with StackExchange.Redis
-linkTitle: .NET session store
-title: Redis session store with .NET
+description: Implement a Redis-backed session store in C#/.NET with StackExchange.Redis
+linkTitle: StackExchange.Redis example (C#/.NET)
+title: Redis session store with C#/.NET
 weight: 5
 ---
 

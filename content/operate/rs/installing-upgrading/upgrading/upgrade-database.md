@@ -25,6 +25,8 @@ The default Redis database version differs between Redis Software releases as fo
 <a name="db-versions-table"></a>
 | Redis<br />Software | Bundled Redis<br />DB versions | Default DB version<br />(upgraded/new databases) |
 |-------|----------|-----|
+| 8.0.18 | 6.2, 7.2, 7.4, 8.0, 8.2, 8.4, 8.6 | 8.6 |
+| 8.0.16 | 6.2, 7.2, 7.4, 8.0, 8.2, 8.4 | 8.4 |
 | 8.0.10 | 6.2, 7.2, 7.4, 8.0, 8.2, 8.4 | 8.4 |
 | 8.0.6 | 6.2, 7.2, 7.4, 8.0, 8.2 | 8.2 |
 | 8.0.2 | 6.2, 7.2, 7.4, 8.0, 8.2 | 8.2 |
@@ -79,7 +81,8 @@ To upgrade a database:
 
 {{< multitabs id="upgrade-db"
     tab1="Cluster Manager UI"
-    tab2="rladmin" >}}
+    tab2="rladmin"
+    tab3="REST API" >}}
 
 1. Complete all [prerequisites](#upgrade-prerequisites) before starting the upgrade.
 
@@ -154,5 +157,23 @@ To upgrade a database:
     ```sh
     rladmin status databases extra all
     ```
+
+-tab-sep-
+
+1. Complete all [prerequisites](#upgrade-prerequisites) before starting the upgrade.
+
+1. Optionally, back up the database to minimize the risk of data loss.
+
+1. Use an [upgrade database]({{< relref "/operate/rs/references/rest-api/requests/bdbs/upgrade" >}}) REST API request. During the upgrade process, the database will restart without losing any data. Use the `preserve_roles` option to keep the database's current state, including primary shard placement, and prevent the cluster from becoming unbalanced.
+
+    ```sh
+    POST https://<host>:<port>/v1/bdbs/<database_id>/upgrade
+    {
+        "preserve_roles": true,
+        // Additional fields
+    }
+    ```
+
+    For additional database upgrade options, see the [request body]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade#request-body">}}) section of the database upgrade requests reference.
 
 {{< /multitabs >}}

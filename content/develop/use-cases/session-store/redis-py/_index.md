@@ -7,7 +7,7 @@ categories:
 - rs
 - rc
 description: Implement a Redis-backed session store in Python with redis-py
-linkTitle: redis-py session store
+linkTitle: redis-py example (Python)
 title: Redis session store with redis-py
 weight: 1
 ---
@@ -86,8 +86,9 @@ The implementation uses:
 * [`HINCRBY`]({{< relref "/commands/hincrby" >}}) to update counters
 * [`EXPIRE`]({{< relref "/commands/expire" >}}) to implement sliding expiration
 * [`DEL`]({{< relref "/commands/del" >}}) to remove a session on logout
+* [`TTL`]({{< relref "/commands/ttl" >}}) to read the remaining session lifetime
 
-The store treats `created_at`, `last_accessed_at`, and `session_ttl` as reserved internal fields, so caller-provided session data cannot overwrite them.
+The store defines `created_at`, `last_accessed_at`, and `session_ttl` as `RESERVED_SESSION_FIELDS` so caller-provided session data cannot overwrite them.
 
 ## Session store implementation
 
@@ -121,6 +122,7 @@ def create_session(
         }
     )
 
+    # Pipeline sends HSET and EXPIRE together so the key never exists without a TTL.
     pipeline = self.redis.pipeline()
     pipeline.hset(key, mapping=payload)
     pipeline.expire(key, session_ttl)
@@ -128,31 +130,164 @@ def create_session(
     return session_id
 ```
 
-When the application reads a session, it refreshes the configured TTL so active users stay logged in:
+When the application reads a session, it uses a `WATCH`/`MULTI`/`EXEC` block to refresh the TTL atomically. If another client modifies the key between the read and the update, `WatchError` is raised and the operation retries from the start:
 
 ```python
-def get_session(self, session_id: str, refresh_ttl: bool = True) -> Optional[dict[str, str]]:
+def get_session(
+    self,
+    session_id: str,
+    refresh_ttl: bool = True,
+) -> Optional[dict[str, str]]:
     key = self._session_key(session_id)
 
-    session_ttl = self.get_configured_ttl(session_id)
-    if session_ttl is None:
-        return None
+    with self.redis.pipeline() as pipeline:
+        while True:
+            try:
+                # WATCH causes the transaction to abort if another client
+                # modifies the key before the MULTI/EXEC block completes.
+                pipeline.watch(key)
+                session = self._load_session_data(pipeline, key)
+                if session is None:
+                    pipeline.unwatch()
+                    return None
 
-    if not refresh_ttl:
-        session = self.redis.hgetall(key)
-        return session or None
+                session_ttl = self._normalize_ttl(int(session["session_ttl"]))
 
-    now = self._timestamp()
-    pipeline = self.redis.pipeline()
-    pipeline.hset(key, mapping={"last_accessed_at": now})
-    pipeline.expire(key, session_ttl)
-    pipeline.hgetall(key)
-    _, _, session = pipeline.execute()
+                if not refresh_ttl:
+                    pipeline.unwatch()
+                    return session
 
-    return session or None
+                now = self._timestamp()
+                pipeline.multi()
+                pipeline.hset(key, mapping={"last_accessed_at": now})
+                pipeline.expire(key, session_ttl)
+                pipeline.hgetall(key)
+                _, _, refreshed_session = pipeline.execute()
+
+                if not refreshed_session or not RESERVED_SESSION_FIELDS.issubset(refreshed_session):
+                    return None
+
+                return refreshed_session
+            except redis.WatchError:
+                # Another client modified the key; retry from the start.
+                continue
 ```
 
-This is a simple and effective pattern for many apps. For more complex requirements, you might add separate metadata keys, rotate session IDs after login, or store less frequently accessed data elsewhere.
+The `increment_field()` method uses [`HINCRBY`]({{< relref "/commands/hincrby" >}}) to atomically increment a numeric field and also refreshes `last_accessed_at` and the TTL in the same `WATCH`/`MULTI`/`EXEC` block:
+
+```python
+def increment_field(
+    self,
+    session_id: str,
+    field: str,
+    amount: int = 1,
+) -> Optional[int]:
+    key = self._session_key(session_id)
+
+    with self.redis.pipeline() as pipeline:
+        while True:
+            try:
+                pipeline.watch(key)
+                session = self._load_session_data(pipeline, key)
+                if session is None:
+                    pipeline.unwatch()
+                    return None
+
+                session_ttl = self._normalize_ttl(int(session["session_ttl"]))
+
+                pipeline.multi()
+                pipeline.hincrby(key, field, amount)
+                pipeline.hset(key, mapping={"last_accessed_at": self._timestamp()})
+                pipeline.expire(key, session_ttl)
+                new_value, _, _ = pipeline.execute()
+                return int(new_value)
+            except redis.WatchError:
+                continue
+```
+
+The `delete_session()` method removes the session hash from Redis when the user logs out and returns `True` if a key was deleted, `False` if it did not exist:
+
+```python
+def delete_session(self, session_id: str) -> bool:
+    return self.redis.delete(self._session_key(session_id)) == 1
+```
+
+The `update_session()` method writes new values to arbitrary session fields and refreshes the TTL. Reserved fields are silently excluded. It returns `False` if the session does not exist:
+
+```python
+def update_session(self, session_id: str, data: dict[str, str]) -> bool:
+    key = self._session_key(session_id)
+
+    payload = {
+        field: str(value)
+        for field, value in data.items()
+        if field not in RESERVED_SESSION_FIELDS
+    }
+
+    with self.redis.pipeline() as pipeline:
+        while True:
+            try:
+                pipeline.watch(key)
+                session = self._load_session_data(pipeline, key)
+                if session is None:
+                    pipeline.unwatch()
+                    return False
+
+                if not payload:
+                    pipeline.unwatch()
+                    return True
+
+                session_ttl = self._normalize_ttl(int(session["session_ttl"]))
+                payload["last_accessed_at"] = self._timestamp()
+
+                pipeline.multi()
+                pipeline.hset(key, mapping=payload)
+                pipeline.expire(key, session_ttl)
+                pipeline.execute()
+                return True
+            except redis.WatchError:
+                continue
+```
+
+The `set_session_ttl()` method replaces the stored `session_ttl` field and calls `EXPIRE` with the new value immediately, so the change takes effect on the running session without waiting for the next request:
+
+```python
+def set_session_ttl(self, session_id: str, ttl: int) -> bool:
+    key = self._session_key(session_id)
+    session_ttl = self._normalize_ttl(ttl)
+
+    with self.redis.pipeline() as pipeline:
+        while True:
+            try:
+                pipeline.watch(key)
+                session = self._load_session_data(pipeline, key)
+                if session is None:
+                    pipeline.unwatch()
+                    return False
+
+                pipeline.multi()
+                pipeline.hset(
+                    key,
+                    mapping={
+                        "session_ttl": str(session_ttl),
+                        "last_accessed_at": self._timestamp(),
+                    },
+                )
+                pipeline.expire(key, session_ttl)
+                pipeline.execute()
+                return True
+            except redis.WatchError:
+                continue
+```
+
+The `get_ttl()` method returns the remaining lifetime of a session in seconds, read directly from Redis using [`TTL`]({{< relref "/commands/ttl" >}}):
+
+```python
+def get_ttl(self, session_id: str) -> int:
+    return int(self.redis.ttl(self._session_key(session_id)))
+```
+
+This is a simple and effective pattern for many apps. For more complex requirements, you might add separate metadata keys, rotate session IDs after login, or store less frequently accessed data elsewhere. Multi-device session tracking — tracking all sessions per user in a Redis Set so you can implement logout-all — is outside the scope of this guide.
 
 ## Prerequisites
 

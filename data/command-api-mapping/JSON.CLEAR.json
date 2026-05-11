@@ -282,6 +282,48 @@
           "description": ""
         }
       }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "json_clear(key: K, path: P)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path to the value or container to clear."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The number of values cleared."
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "json_clear(key: K, path: P)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path to the value or container to clear."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The number of values cleared."
+        }
+      }
     ]
   }
 }

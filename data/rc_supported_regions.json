@@ -281,7 +281,7 @@
         "location": "Los Angeles, USA",
         "area": "americas",
         "pro": true,
-        "essentials": false
+        "essentials": true
       },
       "us-west3": {
         "location": "Salt Lake City, USA",
@@ -341,7 +341,7 @@
         "location": "Netherlands",
         "area": "europe",
         "pro": true,
-        "essentials": false
+        "essentials": true
       },
       "europe-west6": {
         "location": "Zurich, Switzerland",
@@ -377,7 +377,7 @@
         "location": "Taiwan",
         "area": "asia_pacific",
         "pro": true,
-        "essentials": false
+        "essentials": true
       },
       "asia-east2": {
         "location": "Hong Kong, China",
@@ -419,7 +419,7 @@
         "location": "Singapore",
         "area": "asia_pacific",
         "pro": true,
-        "essentials": false
+        "essentials": true
       },
       "asia-southeast2": {
         "location": "Jakarta, Indonesia",
