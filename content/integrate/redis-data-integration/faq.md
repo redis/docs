@@ -117,16 +117,21 @@ This option is available in RDI 1.16.2 and later.
 ## Which processor should I use? {#which-processor-should-i-use}
 
 RDI ships with two stream processor implementations: the *classic*
-processor and the *Flink* processor. The Flink processor is available
-in RDI 1.18.0 and later. We strongly recommend using the Flink
-processor for new pipelines and migrating existing pipelines to it
-where possible. The Flink processor delivers significantly higher
-snapshot throughput, lower end-to-end latency, horizontal scaling,
-and Flink checkpointing on top of the same at-least-once delivery
-guarantees as the classic processor.
+processor and the *Flink* processor. The classic processor is the
+production-supported default. The Flink processor was introduced in
+RDI 1.18.0 as a **Preview** and is not yet supported for production
+use; we encourage you to try it on new, non-production pipelines and
+share feedback so we can prioritize improvements before general
+availability. Regular preview terms apply.
 
-Use the classic processor only if your pipeline depends on a feature
-that the Flink processor does not yet support:
+The Flink processor delivers significantly higher snapshot throughput,
+lower end-to-end latency, horizontal scaling, and Flink checkpointing
+on top of the same at-least-once delivery guarantees as the classic
+processor.
+
+Continue to use the classic processor for production pipelines, and
+in any of the following cases where the Flink processor does not yet
+apply:
 
 -   **Output `data_type` other than `hash` or `json`** (for example,
     `set`, `sorted_set`, `stream`, or `string`).
