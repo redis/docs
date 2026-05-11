@@ -287,9 +287,9 @@ no `sysadmin` server role.
 
 {{< warning >}}The identity used to enable CDC must match the type of identity that
 created the database. If the database was created by a Microsoft Entra user, CDC must
-be enabled (and later disabled) by a Microsoft Entra user — SQL logins, even those in
-the `sysadmin` role, cannot manage CDC on it. The same restriction applies in reverse
-for databases created by SQL users.{{< /warning >}}
+be enabled (and later disabled) by a Microsoft Entra user; SQL logins cannot manage
+CDC on it. The same restriction applies in reverse for databases created by SQL
+logins.{{< /warning >}}
 
 Connect to the user database and run:
 
@@ -317,9 +317,10 @@ scale the database up before retrying.
 {{< note >}}Capture and cleanup run automatically on Azure SQL Database — there is no
 SQL Server Agent. The internal scheduler runs the capture process every 20 seconds and
 the cleanup process every hour, with a default change-data retention period of three
-days. The [SQL Server capture job agent configuration parameters](#sql-server-capture-job-agent-configuration-parameters)
-described earlier on this page do not apply to Azure SQL Database; they apply only to
-on-premises SQL Server and Azure SQL Managed Instance.{{< /note >}}
+days. The capture cadence — the `pollinginterval` parameter described in the
+[SQL Server capture job agent configuration parameters](#sql-server-capture-job-agent-configuration-parameters)
+section — is fixed on Azure SQL Database and cannot be tuned. The `maxtrans` and
+`maxscans` parameters from that section can still be adjusted via `sp_cdc_change_job`.{{< /note >}}
 
 Enabling CDC increases transaction log usage on Azure SQL Database because it disables
 the aggressive log truncation behavior of Accelerated Database Recovery. You may need
@@ -385,8 +386,11 @@ permission does not exist on Azure SQL Database.{{< /note >}}
 
 1. **Set a Microsoft Entra admin on the Azure SQL logical server.**
     In the Azure portal, open the logical SQL server and set a Microsoft Entra admin (a
-    user or group you can sign in as). Only that admin can create contained users that
-    are mapped to Microsoft Entra principals.
+    user or group you can sign in as). You will connect as this admin to create the
+    contained user in the next step. (The permission to create contained users mapped
+    to Microsoft Entra principals can also be delegated to other database principals;
+    see Microsoft's [Microsoft Entra authentication for Azure SQL](https://learn.microsoft.com/en-us/azure/azure-sql/database/authentication-aad-overview)
+    documentation.)
 
 1. **Create a contained database user for the service principal.**
     Connect to the user database as the Microsoft Entra admin (for example, using
@@ -411,7 +415,10 @@ permission does not exist on Azure SQL Database.{{< /note >}}
     {{< note >}}`<sp-display-name>` is the **display name** of the app registration — the
     value shown in the **Name** column on the **App registrations** page — not its client
     ID. The client ID is used by the RDI connector (see the next section), but the
-    database user must be created from the display name.{{< /note >}}
+    database user must be created from the display name. If the display name is not
+    unique in your Microsoft Entra tenant (display names are not guaranteed unique),
+    disambiguate by adding the `WITH OBJECT_ID = '<sp-object-id>'` clause to the
+    `CREATE USER` statement.{{< /note >}}
 
 ### Configure the RDI source for Azure SQL
 
@@ -459,8 +466,8 @@ Debezium SQL Server connector and JDBC driver. The Azure-specific values are:
 | `driver.authentication` | Selects the JDBC Microsoft Entra authentication mode. | `ActiveDirectoryServicePrincipal` (validated). See [other Microsoft Entra authentication modes](#other-microsoft-entra-authentication-modes) for alternatives. |
 | `database.encrypt` | Enforces TLS on the JDBC connection. | `"true"`. Azure SQL rejects unencrypted connections. |
 | `database.trustServerCertificate` | If `true`, the driver skips certificate validation. | `"false"`. Azure SQL presents a valid certificate; never disable validation in production. |
-| `database.hostNameInCertificate` | The hostname pattern that must appear in the server's TLS certificate. | `"*.database.windows.net"`. |
-| `database.applicationIntent` | When set to `ReadOnly`, routes the connection to a read-only replica. | `ReadOnly`. RDI only reads, so this keeps the CDC scan off the primary. On Business Critical and Hyperscale tiers this uses the included read-only replica; on General Purpose it is a safe no-op. |
+| `database.hostNameInCertificate` | Tells the JDBC driver which hostname pattern to expect in the server's TLS certificate. Set explicitly when the certificate's subject does not match the connection hostname directly. | `"*.database.windows.net"` (used in the RDI-validated configuration to match Azure SQL's wildcard certificate). |
+| `database.applicationIntent` | When set to `ReadOnly`, routes the connection to a read-only replica on tiers that support [read scale-out](https://learn.microsoft.com/en-us/azure/azure-sql/database/read-scale-out). | `ReadOnly`. Recommended because RDI only reads. On Business Critical and Hyperscale tiers, the CDC scan is routed to the included read-only replica and kept off the primary. On General Purpose, which has no read scale-out, the connection is routed to the primary; the setting is harmless but has no effect. |
 | `snapshot.mode` | The Debezium snapshot strategy. | `initial`. Captures a snapshot of the existing rows, then streams subsequent changes from the CDC tables. |
 
 For SQL authentication, omit the `driver.authentication` line and set
@@ -534,10 +541,12 @@ GO
   principals exist.
 - **`SSL Server certificate validation failed` or hostname mismatch** —
   `database.hostNameInCertificate` is missing or has the wrong value. For Azure SQL
-  Database it must be `"*.database.windows.net"`.
-- **`Change data capture is not supported for this edition of SQL Server`** — the Azure
-  SQL Database is on an unsupported service tier. Scale it up to General Purpose or
-  higher.
+  Database, set it to `"*.database.windows.net"` to match the wildcard certificate.
+- **`Change data capture is not supported for this edition of SQL Server`** — the
+  Azure SQL Database is on an unsupported service tier. In the DTU purchasing model,
+  scale up to S3 or higher. In the vCore purchasing model, CDC is supported on all
+  tiers, so check that you are connecting to a standard Azure SQL Database (CDC is
+  not supported on Azure SQL Edge or other variants).
 - **Connection timeouts** — the RDI connector's source IP is not allowed by the Azure
   SQL firewall, or the private endpoint is not reachable from the connector's network.
   Verify firewall rules in the Azure portal and that DNS resolves to the expected
