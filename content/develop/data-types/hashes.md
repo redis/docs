@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/hashes/
+- /manual/data-types/hashes/
 categories:
 - docs
 - develop

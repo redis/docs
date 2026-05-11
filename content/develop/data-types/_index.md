@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/
+- /manual/data-types/
 categories:
 - docs
 - develop
@@ -13,8 +16,6 @@ description: Overview of data types supported by Redis
 linkTitle: Data types
 title: Redis data types
 hideListLinks: true
-aliases:
-- /data-types/
 weight: 35
 ---
 

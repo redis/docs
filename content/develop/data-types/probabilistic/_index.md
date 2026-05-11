@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/probabilistic/
+- /manual/data-types/probabilistic/
 categories:
 - docs
 - develop

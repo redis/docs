@@ -321,8 +321,11 @@
         {{/* Hint positioned outside step-code-view so it stays visible when toggling views */}}
         <span class="run-hint">Ctrl+Enter to run</span>
         {{/* Step code view - shown by default and when CodeMirror is active */}}
+        {{/* Map internal language identifier to a CodeMirror mode name for data-language */}}
+        {{ $cmLanguage := $language }}
+        {{ if eq $language "node.js" }}{{ $cmLanguage = "javascript" }}{{ end }}
         <div class="step-code-view">
-            <div data-executable="true" data-language="{{ $language }}" class="thebe-cell">
+            <div data-executable="true" data-language="{{ $cmLanguage }}" class="thebe-cell">
                 {{- highlight $stepCode $language "" -}}
             </div>
         </div>

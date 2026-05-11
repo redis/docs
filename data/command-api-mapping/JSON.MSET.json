@@ -132,6 +132,38 @@
           "description": ""
         }
       }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "json_mset(key_path_values: &[(K, P, V)])",
+        "params": [
+          {
+            "name": "key_path_values",
+            "type": "&[(K, P, V)]",
+            "description": "The key, path, and value tuples to set in a single call."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The status reply for the multi-set operation."
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "json_mset(key_path_values: &[(K, P, V)])",
+        "params": [
+          {
+            "name": "key_path_values",
+            "type": "&[(K, P, V)]",
+            "description": "The key, path, and value tuples to set in a single call."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The status reply for the multi-set operation."
+        }
+      }
     ]
   }
 }

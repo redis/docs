@@ -13,10 +13,42 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.32 requires:
+RediSearch v2.8.37 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.37 (May 2026)
+
+This is a maintenance release for Redis Search 2.8.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+
+- [#Q7860](https://github.com/redisearch/redisearch/pull/7860): `FT.SUGADD` and `FT.SUGDEL`return inconsistent results in sharded pre-Redis-8 deployments due to random shard routing (MOD-13152)
+- [#Q8949](https://github.com/redisearch/redisearch/pull/8949): `FT.CURSOR` enters an infinite loop when the caller's ACL restricts key access (MOD-14479)
+- [#Q8795](https://github.com/redisearch/redisearch/pull/8795):  `FT.EXPLAIN` crashes or reads stale state under concurrent schema changes (MOD-14461)
+- [#Q7697](https://github.com/redisearch/redisearch/pull/7697): Stack-use-after-scope in `_FT.CURSOR PROFILE` produces undefined behavior (MOD-12955)
+- [#Q7687](https://github.com/redisearch/redisearch/pull/7687): Cursor resources leak when the associated index is dropped while the cursor is open (MOD-12807)
+- [#Q8466](https://github.com/redisearch/redisearch/pull/8466): Garbage collector mishandles Out-of-Memory conditions on replicas (MOD-14066)
+- [#Q8163](https://github.com/redisearch/redisearch/pull/8163): `FT.PROFILE` reports incorrect shard total profile time in cluster mode (MOD-13735, MOD-13181)
+- [#Q8085](https://github.com/redisearch/redisearch/pull/8085): `FT.PROFILE` reports incorrect `FULLTEXT` field metric count (MOD-13432)
+- [#Q7721](https://github.com/redisearch/redisearch/pull/7721): `FT.PROFILE` always reports GILTime 0 due to missing initialization and accumulation (MOD-11987, MOD-12816)
+- [#Q9074](https://github.com/redisearch/redisearch/pull/9074): `FT.CREATE` accepts invalid schema option combinations that fail silently at query time (MOD-14655)
+- [#Q9083](https://github.com/redisearch/redisearch/pull/9083): `FT.SPELLCHECK` ignores $param placeholders from the `PARAMS` clause (MOD-10596)
+- [#Q9435](https://github.com/redisearch/redisearch/pull/9435): RDB loader accepts out-of-range or malformed values, causing instability on restore (MOD-13118)
+- [#Q7703](https://github.com/redisearch/redisearch/pull/7703), #Q7727: Pending coordinator and worker jobs are not correctly tracked in the queue
+- [#Q7629](https://github.com/redisearch/redisearch/pull/7629), #Q7653, #Q7662: `FT.PROFILE` gains a debug mode to simulate timeouts, crashes, and mid-execution pauses (MOD-8127, MOD-11155, MOD-12627)
+- [#Q7966](https://github.com/redisearch/redisearch/pull/7966): Module load no longer fails when find_module is undefined (MOD-13330)
+
+Metrics:
+
+- [#Q7597](https://github.com/redisearch/redisearch/pull/7597), [#Q7645](https://github.com/redisearch/redisearch/pull/7645), [#Q7665](https://github.com/redisearch/redisearch/pull/7665): New `active_io_threads`, `active_worker_threads`, and `active_coord_threads` metrics expose live thread activity (MOD-12069, MOD-12694, MOD-12695)
+- [#Q7778](https://github.com/redisearch/redisearch/pull/7778): New counters track total documents indexed and fields indexed per field type across all indexes (MOD-12070)
+- [#Q7788](https://github.com/redisearch/redisearch/pull/7788), [#Q7819](https://github.com/redisearch/redisearch/pull/7819), [#Q7820](https://github.com/redisearch/redisearch/pull/7820): New `FT.INFO` counters track query syntax errors, timeout errors/warnings, and MAXPREFIXEXPANSIONS warnings (MOD-12416, MOD-12417, MOD-12419)
+- [#Q7751](https://github.com/redisearch/redisearch/pull/7751): Cluster-mode `FT.PROFILE` now reports Internal cursor reads per shard (MOD-12414)
+- [#Q8066](https://github.com/redisearch/redisearch/pull/8066): Index commands now emit informational log entries for operational visibility (MOD-13431)
 
 ## v2.8.32 (November 2025)
 

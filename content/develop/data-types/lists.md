@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/lists/
+- /manual/data-types/lists/
 categories:
 - docs
 - develop

@@ -1,37 +1,19 @@
 ---
-Title: Featureform
+Title: Redis Feature Form
 alwaysopen: false
 categories:
 - docs
 - develop
 - ai
-description: Build feature engineering workflows with Featureform and Redis.
-linkTitle: Featureform
-hideListLinks: true
+description: Build feature engineering workflows with Redis Feature Form.
+linkTitle: Redis Feature Form
 weight: 60
-bannerText: Featureform is currently in preview and subject to change. To request access to the Featureform Docker image, contact your Redis account team.
+bannerText: Redis Feature Form is currently in preview and subject to change. To request access to the Feature Form Docker image, contact your Redis account team.
 bannerChildren: true
 ---
 
-Featureform helps data teams define, materialize, and serve machine learning features by using a declarative Python SDK on top of existing data systems.
+Redis Feature Form helps teams define, manage, materialize, and serve machine learning features while keeping existing data systems in place. In the documented workflow, Redis acts as the low-latency online store for feature serving.
 
-Featureform works with offline systems such as Snowflake, BigQuery, and Databricks or Spark, then uses Redis as the low-latency online store for feature serving.
+This documentation describes platform setup, workspace access, provider and secret registration, definitions-file authoring, apply, and serving. Refer to [Deploy]({{< relref "/operate/featureform" >}}) for installation and authentication instructions.
 
-## Get started
 
-- [Overview]({{< relref "/develop/ai/featureform/overview" >}})
-- [Quickstart]({{< relref "/develop/ai/featureform/quickstart" >}})
-- [Connect providers]({{< relref "/develop/ai/featureform/providers" >}})
-- [Define datasets and transformations]({{< relref "/develop/ai/featureform/datasets-and-transformations" >}})
-- [Define features and labels]({{< relref "/develop/ai/featureform/features-and-labels" >}})
-- [Work with training sets and feature views]({{< relref "/develop/ai/featureform/training-sets-and-feature-views" >}})
-
-## Next steps
-
-- [Streaming features]({{< relref "/develop/ai/featureform/streaming" >}})
-
-## What this section covers
-
-- The Python SDK workflow for registering providers, datasets, transformations, entities, features, labels, training sets, and feature views
-- The distinction between metadata registration and materialization in the current API
-- Point-in-time correct feature definitions for both batch and streaming workflows

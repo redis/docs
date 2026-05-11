@@ -1,4 +1,9 @@
 ---
+aliases:
+- /develop/use/patterns
+- /connect/clients/patterns/
+- /clients/patterns/
+- /manual/patterns/
 categories:
 - docs
 - develop
@@ -13,7 +18,6 @@ description: Novel patterns for working with Redis data structures
 hideListLinks: true
 linkTitle: Coding patterns
 title: Coding patterns
-aliases: /develop/use/patterns
 weight: 100
 ---
 

@@ -19,9 +19,9 @@ Redis stores and indexes vector embeddings that semantically represent unstructu
   {{< image-card image="images/ai-brain.svg" alt="AI Redis icon" title="Use LangCache to store LLM responses" url="/develop/ai/langcache/" >}}
 </div>
 
-## Featureform
+## Redis Feature Form
 
-Use [Featureform]({{< relref "/develop/ai/featureform/" >}}) to define, manage, and serve machine learning features on top of your existing data systems. The Featureform docs cover the Python SDK workflow from provider registration through feature serving.
+Use [Redis Feature Form]({{< relref "/develop/ai/featureform/" >}}) to define, manage, and serve machine learning features on top of your existing data systems. The Feature Form docs cover the Python SDK workflow from provider registration through feature serving.
 
 #### Overview
 
@@ -44,7 +44,7 @@ This page is organized into a few sections depending on what you're trying to do
 
 #### Learn how to index and query vector embeddings
 * [redis-py (Python)]({{< relref "/develop/clients/redis-py/vecsearch" >}})
-* [NRedisStack (C#/.NET)]({{< relref "/develop/clients/dotnet/vecsearch" >}})
+* [NRedisStack (C#/.NET)]({{< relref "/develop/clients/dotnet/nredisstack/vecsearch" >}})
 * [node-redis (JavaScript)]({{< relref "/develop/clients/nodejs/vecsearch" >}})
 * [Jedis (Java)]({{< relref "/develop/clients/jedis/vecsearch" >}})
 * [go-redis (Go)]({{< relref "/develop/clients/go/vecsearch" >}})

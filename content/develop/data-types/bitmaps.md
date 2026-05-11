@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/bitmaps/
+- /manual/data-types/bitmaps/
 categories:
 - docs
 - develop

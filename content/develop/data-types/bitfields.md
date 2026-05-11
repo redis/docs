@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/bitfields/
+- /manual/data-types/bitfields/
 categories:
 - docs
 - develop

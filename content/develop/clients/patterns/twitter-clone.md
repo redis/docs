@@ -283,7 +283,7 @@ This is the actual code:
     setcookie("auth",$authsecret,time()+3600*24*365);
     header("Location: index.php");
 
-This happens every time a user logs in, but we also need a function `isLoggedIn` in order to check if a given user is already authenticated or not. These are the logical steps preformed by the `isLoggedIn` function:
+This happens every time a user logs in, but we also need a function `isLoggedIn` in order to check if a given user is already authenticated or not. These are the logical steps performed by the `isLoggedIn` function:
 
  * Get the "auth" cookie from the user. If there is no cookie, the user is not logged in, of course. Let's call the value of the cookie `<authcookie>`.
  * Check if `<authcookie>` field in the `auths` Hash exists, and what the value (the user ID) is (1000 in the example).

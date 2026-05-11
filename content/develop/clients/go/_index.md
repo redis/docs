@@ -1,5 +1,8 @@
 ---
-aliases: /develop/connect/clients/go
+aliases:
+- /develop/connect/clients/go
+- /connect/clients/go/
+- /clients/go/
 categories:
 - docs
 - develop

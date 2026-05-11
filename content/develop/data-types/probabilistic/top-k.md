@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/probabilistic/top-k/
+- /manual/data-types/probabilistic/top-k/
 categories:
 - docs
 - develop

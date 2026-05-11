@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/probabilistic/cuckoo-filter/
+- /manual/data-types/probabilistic/cuckoo-filter/
 categories:
 - docs
 - develop

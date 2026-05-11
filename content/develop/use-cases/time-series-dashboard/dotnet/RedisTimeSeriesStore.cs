@@ -1,5 +1,8 @@
-using System.Globalization;
 using System.Text.Json.Serialization;
+using NRedisStack;
+using NRedisStack.DataTypes;
+using NRedisStack.Literals.Enums;
+using NRedisStack.RedisStackCommands;
 using StackExchange.Redis;
 
 namespace TimeSeriesDashboardDemo;
@@ -11,12 +14,12 @@ public sealed class RedisTimeSeriesStore
     public const int BucketMs = 3_000;
     public const int RetentionMs = 12_000;
 
-    private readonly IDatabase _db;
+    private readonly ITimeSeriesCommandsAsync _ts;
     private readonly IReadOnlyList<SensorDefinition> _sensors;
 
     public RedisTimeSeriesStore(IDatabase db, IReadOnlyList<SensorDefinition> sensors)
     {
-        _db = db;
+        _ts = db.TS();
         _sensors = sensors;
     }
 
@@ -24,23 +27,13 @@ public sealed class RedisTimeSeriesStore
     {
         foreach (var sensor in _sensors)
         {
-            var args = new List<object>
-            {
-                sensor.Key,
-                "RETENTION",
-                RetentionMs,
-                "LABELS"
-            };
-
-            foreach (var label in sensor.Labels)
-            {
-                args.Add(label.Key);
-                args.Add(label.Value);
-            }
+            var labels = sensor.Labels
+                .Select(label => new TimeSeriesLabel(label.Key, label.Value))
+                .ToList();
 
             try
             {
-                await _db.ExecuteAsync("TS.CREATE", args.ToArray());
+                await _ts.CreateAsync(sensor.Key, retentionTime: RetentionMs, labels: labels);
             }
             catch (RedisServerException ex) when (ex.Message.Contains("key already exists", StringComparison.OrdinalIgnoreCase))
             {
@@ -56,15 +49,11 @@ public sealed class RedisTimeSeriesStore
         }
 
         var timestampMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        var args = new List<object>();
-        foreach (var sample in samples)
-        {
-            args.Add(sample.Sensor.Key);
-            args.Add(timestampMs);
-            args.Add(sample.Value.ToString(CultureInfo.InvariantCulture));
-        }
+        var sequence = samples
+            .Select(sample => (sample.Sensor.Key, (TimeStamp)timestampMs, sample.Value))
+            .ToList();
 
-        return _db.ExecuteAsync("TS.MADD", args.ToArray());
+        return _ts.MAddAsync(sequence);
     }
 
     public async Task<DashboardSnapshot> DashboardSnapshotAsync()
@@ -77,9 +66,9 @@ public sealed class RedisTimeSeriesStore
         foreach (var sensor in _sensors)
         {
             var rawPoints = await RangeQueryAsync(sensor, startMs, nowMs);
-            var minPoints = await AggregateQueryAsync(sensor, aggregateStartMs, nowMs, "min");
-            var maxPoints = await AggregateQueryAsync(sensor, aggregateStartMs, nowMs, "max");
-            var avgPoints = await AggregateQueryAsync(sensor, aggregateStartMs, nowMs, "avg");
+            var minPoints = await AggregateQueryAsync(sensor, aggregateStartMs, nowMs, TsAggregation.Min);
+            var maxPoints = await AggregateQueryAsync(sensor, aggregateStartMs, nowMs, TsAggregation.Max);
+            var avgPoints = await AggregateQueryAsync(sensor, aggregateStartMs, nowMs, TsAggregation.Avg);
             var latest = await LatestQueryAsync(sensor);
 
             var minByBucket = IndexPoints(minPoints);
@@ -131,51 +120,35 @@ public sealed class RedisTimeSeriesStore
 
     private async Task<List<PointSnapshot>> RangeQueryAsync(SensorDefinition sensor, long startMs, long endMs)
     {
-        var result = await _db.ExecuteAsync("TS.RANGE", sensor.Key, startMs, endMs);
-        return ParsePoints(result);
+        var tuples = await _ts.RangeAsync(sensor.Key, startMs, endMs);
+        return ToPointSnapshots(tuples);
     }
 
     private async Task<List<PointSnapshot>> AggregateQueryAsync(
         SensorDefinition sensor,
         long startMs,
         long endMs,
-        string aggregation)
+        TsAggregation aggregation)
     {
-        var result = await _db.ExecuteAsync(
-            "TS.RANGE",
+        var tuples = await _ts.RangeAsync(
             sensor.Key,
             startMs,
             endMs,
-            "ALIGN",
-            0,
-            "AGGREGATION",
-            aggregation,
-            BucketMs);
+            align: 0L,
+            aggregation: aggregation,
+            timeBucket: BucketMs);
 
-        return ParsePoints(result);
+        return ToPointSnapshots(tuples);
     }
 
     private async Task<LatestValueSnapshot?> LatestQueryAsync(SensorDefinition sensor)
     {
         try
         {
-            var result = await _db.ExecuteAsync("TS.GET", sensor.Key);
-            if (result.IsNull)
-            {
-                return null;
-            }
-
-            RedisResult[] row = (RedisResult[])result!;
-            if (row.Length < 2)
-            {
-                return null;
-            }
-
-            return new LatestValueSnapshot
-            {
-                Timestamp = ParseInt64(row[0]),
-                Value = ParseDouble(row[1])
-            };
+            var tuple = await _ts.GetAsync(sensor.Key);
+            return tuple is null
+                ? null
+                : new LatestValueSnapshot { Timestamp = tuple.Time, Value = tuple.Val };
         }
         catch (RedisServerException ex) when (ex.Message.Contains("does not exist", StringComparison.OrdinalIgnoreCase))
         {
@@ -183,47 +156,14 @@ public sealed class RedisTimeSeriesStore
         }
     }
 
-    private static List<PointSnapshot> ParsePoints(RedisResult result)
-    {
-        var points = new List<PointSnapshot>();
-        if (result.IsNull)
-        {
-            return points;
-        }
-
-        RedisResult[] rows = (RedisResult[])result!;
-        foreach (var row in rows)
-        {
-            RedisResult[] pair = (RedisResult[])row!;
-            if (pair.Length < 2)
-            {
-                continue;
-            }
-
-            points.Add(
-                new PointSnapshot
-                {
-                    Timestamp = ParseInt64(pair[0]),
-                    Value = ParseDouble(pair[1])
-                });
-        }
-
-        return points;
-    }
+    private static List<PointSnapshot> ToPointSnapshots(IEnumerable<TimeSeriesTuple> tuples) =>
+        tuples
+            .Select(tuple => new PointSnapshot { Timestamp = tuple.Time, Value = tuple.Val })
+            .ToList();
 
     private static Dictionary<long, double?> IndexPoints(IEnumerable<PointSnapshot> points)
     {
         return points.ToDictionary(point => point.Timestamp, point => (double?)point.Value);
-    }
-
-    private static long ParseInt64(RedisResult result)
-    {
-        return long.Parse(result.ToString()!, CultureInfo.InvariantCulture);
-    }
-
-    private static double ParseDouble(RedisResult result)
-    {
-        return double.Parse(result.ToString()!, CultureInfo.InvariantCulture);
     }
 }
 

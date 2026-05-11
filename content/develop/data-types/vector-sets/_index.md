@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/vector-sets/
+- /manual/data-types/vector-sets/
 categories:
 - docs
 - develop

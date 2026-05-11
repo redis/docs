@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/probabilistic/count-min-sketch/
+- /manual/data-types/probabilistic/count-min-sketch/
 categories:
 - docs
 - develop
@@ -14,8 +17,6 @@ description: Count-min sketch is a probabilistic data structure that estimates t
 linkTitle: Count-min sketch
 stack: true
 title: Count-min sketch
-aliases:
-- /data-types/probabilistic/count-min-sketch/
 weight: 60
 ---
 

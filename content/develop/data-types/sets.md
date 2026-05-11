@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/sets/
+- /manual/data-types/sets/
 categories:
 - docs
 - develop

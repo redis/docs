@@ -165,7 +165,7 @@ The `maintnotifications.Config` object accepts the following parameters:
 | Name | Description |
 |------ |------------- |
 | `Mode` | Whether or not to enable SCH. The options are `ModeDisabled`, `ModeEnabled` (require SCH and abort the connection if not supported), and `ModeAuto` (require SCH and fall back to a non-SCH connection if not supported). The default is `ModeAuto`.   |
-| `EndpointType` | The type of endpoint to use for the connection. The options are `EndpointTypeExternalIP`, `EndpointTypeInternalIP`, `EndpointTypeExternalFQDN`, `EndpointTypeInternalFQDN`, `EndpointTypeAuto` (auto-detect based on connection), and `EndpointTypeNone` (reconnect with current config). The default is `EndpointTypeExternalIP`. |
+| `EndpointType` | The type of endpoint to use for the connection. The options are `EndpointTypeExternalIP`, `EndpointTypeInternalIP`, `EndpointTypeExternalFQDN`, `EndpointTypeInternalFQDN`, `EndpointTypeAuto` (auto-detect based on connection), and `EndpointTypeNone` (reconnect with current config). The default is `EndpointTypeAuto`. |
 | `HandoffTimeout` | The timeout to connect to the replacement node. The default is 15 seconds. |
 | `RelaxedTimeout` | The timeout to use for commands and connections while the server is performing maintenance. The default is 10 seconds. |
 | `PostHandoffRelaxedDuration` | The duration to continue using relaxed timeouts after a successful handoff (this provides extra resilience during cluster transitions). The default is 20 seconds. |

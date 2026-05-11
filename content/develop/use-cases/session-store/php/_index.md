@@ -7,7 +7,7 @@ categories:
 - rs
 - rc
 description: Implement a Redis-backed session store in PHP with Predis
-linkTitle: PHP session store
+linkTitle: Predis example (PHP)
 title: Redis session store with PHP
 weight: 6
 ---

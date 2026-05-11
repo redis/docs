@@ -146,11 +146,17 @@ function detectSplitTables(
 
 /**
  * Detect sections with no meaningful content.
+ *
+ * Skips "organizational headings" - sections that exist purely to group
+ * child sections (e.g., "## Encrypt data in transit" followed immediately
+ * by "### TLS"). These are structural navigation aids, not content gaps.
  */
 function detectEmptySections(sections: Section[]): HardFail[] {
   const hardFails: HardFail[] = [];
 
-  for (const section of sections) {
+  for (let i = 0; i < sections.length; i++) {
+    const section = sections[i];
+
     // Skip sections that only contained metadata (not a structural issue)
     if (section.hadOnlyMetadata) {
       continue;
@@ -164,6 +170,16 @@ function detectEmptySections(sections: Section[]): HardFail[] {
       .filter(line => line.trim().length > 0);
 
     if (contentLines.length === 0) {
+      // Check if this is an organizational heading (immediately followed by a child section)
+      const nextSection = sections[i + 1];
+      const isOrganizationalHeading = nextSection &&
+        nextSection.headingLevel > section.headingLevel;
+
+      if (isOrganizationalHeading) {
+        // This is a structural grouping heading, not a content problem
+        continue;
+      }
+
       hardFails.push({
         type: "EMPTY_SECTION" as HardFailType,
         location: {

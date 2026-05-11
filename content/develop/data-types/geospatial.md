@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/geospatial/
+- /manual/data-types/geospatial/
 categories:
 - docs
 - develop

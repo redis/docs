@@ -23,7 +23,7 @@ The following table shows which Redis Open Source features are supported by Redi
 | [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}})   | &#x2705; Supported | &#x2705; Supported |
 | [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}) | &#x2705; Supported | &#x2705; Supported |
 | [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}) | &#x2705; Supported | &#x2705; Supported |
-| [Gears]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1" >}}) | &#x2705; Supported | &#x274c; Not supported |
+| [Gears]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1" >}}) | &#x2705; Supported | &#x274c; Not supported |
 | [Triggers and functions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/" >}}) | &#x26A0;&#xFE0F; Deprecated | &#x26A0;&#xFE0F; Deprecated |
 | [Graph]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph" >}}) | &#x26A0;&#xFE0F; Deprecated | &#x26A0;&#xFE0F; Deprecated |
 
@@ -65,7 +65,7 @@ For details about individual features, see the corresponding documentation.
 
 [^6]: Although time series are compatible with Auto Tiering, the entire series either lives in RAM or on flash.
 
-| Feature name/capability | [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}) | [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}) | [Gears]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1" >}}) |
+| Feature name/capability | [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}) | [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}) | [Gears]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1" >}}) |
 |--------------------------|:--------------:|:------------:|:----------:|
 | Active-Active (CRDB)[^5] | No             | No           | Yes (v1.0) |
 | Backup/Restore           | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) |

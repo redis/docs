@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/sorted-sets/
+- /manual/data-types/sorted-sets/
 categories:
 - docs
 - develop
@@ -14,8 +17,6 @@ description: 'Introduction to Redis sorted sets
   '
 linkTitle: Sorted sets
 title: Redis sorted sets
-aliases:
-- /data-types/sorted-sets/
 weight: 50
 ---
 

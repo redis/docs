@@ -380,6 +380,48 @@
           "description": ""
         }
       }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "json_get(key: K, path: P)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path or paths to retrieve."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The JSON value at the requested path."
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "json_get(key: K, path: P)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path or paths to retrieve."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The JSON value at the requested path."
+        }
+      }
     ]
   }
 }
