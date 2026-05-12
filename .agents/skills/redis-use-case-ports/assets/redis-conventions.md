@@ -170,7 +170,7 @@ Section skeleton:
 5. (Per-operation sections — names depend on use case. For cache-aside: "Cache-aside reads", "Stampede protection with a Lua lock", "Invalidation on write", "Field-level updates". For session-store: "Creating a session", "Refreshing a session", "Expiring a session". Match what the helper exposes.)
 6. ## Hit/miss accounting *(if applicable)* — stats interface, with a code snippet.
 7. ## Prerequisites — Redis running, client library version, install command.
-8. ## Running the demo — command to start, what the UI shows, server URL.
+8. ## Running the demo — opens with a `### Get the source files` subsection (a `curl` block that pulls the port's files from GitHub raw URLs), then a `### Start the demo server` subsection (the run command, expected log output, the `http://...` URL, and any environment-override flags). See [Source links and "Get the source files" block](#source-links-and-get-the-source-files-block) below.
 9. ## The mock primary store — what it simulates, the read-latency knob.
 10. ## Production usage — `###` subsections covering: TTL choice, invalidate-don't-sync, missing-record handling, lock TTL tuning, namespacing, plus any client-specific concerns (connection pool, async API, ThreadPool, etc.). Always finish with a `### Inspect cached entries directly in Redis` showing `redis-cli` commands.
 11. ## Learn more — bulleted list of Redis commands used + the client docs link.
@@ -186,13 +186,54 @@ Always use Hugo `{{< relref >}}` for cross-doc links:
 
 External links use plain Markdown `[text](https://...)`.
 
-### Code references in prose
+### Source links and "Get the source files" block
 
-`(source)` links to local files use relative paths from the current `_index.md`:
+A `_index.md` page is rendered to HTML on the docs site. Readers see the rendered HTML in a browser, not the source tree in this repo — so a relative-path link like `[source](cache.py)` 404s in production. Use a full GitHub blob URL instead:
 
 ```markdown
-The `RedisCache` class wraps the cache-aside operations ([source](cache.py)):
+The `RedisCache` class wraps the cache-aside operations
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/<use-case>/<client>/cache.py)):
 ```
+
+Use the same pattern for every code reference: function-of-mention link, "see X for the full implementation", etc. The URL pins to `main`, so the docs always link to the latest code; if you ever need to pin to a specific docs version, swap `main` for the release tag.
+
+For the standalone `[FileName.ext](FileName.ext)` link style (used when listing related files like `[AsyncSessionStore.java](AsyncSessionStore.java)`), keep the link text as the bare filename and only rewrite the URL to the GitHub blob.
+
+The `## Running the demo` section in every per-client guide must open with a `### Get the source files` subsection, so a reader can go from "I'm reading the docs in a browser" to "I have the files locally and can run them" without already having the repo. The standard shape:
+
+````markdown
+## Running the demo
+
+### Get the source files
+
+The demo consists of <N> files. Download them from the [`<client>` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/<use-case>/<client>) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir <use-case>-demo && cd <use-case>-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/<use-case>/<client>
+curl -O $BASE/<file1>
+curl -O $BASE/<file2>
+...
+```
+
+### Start the demo server
+
+From that directory:
+
+```bash
+<run command>
+```
+
+<existing prose — log output, http URL, env-override flags — stays from here>
+````
+
+Per-client variations:
+
+- **Rust ports with a `src/` layout** (some use cases use it, some have flat layouts driven by explicit `path =` directives in `Cargo.toml`): `mkdir -p <use-case>-demo/src && cd <use-case>-demo`, then `curl -O $BASE/Cargo.toml` for top-level files and `curl -o src/<file> $BASE/src/<file>` for sources under `src/`. Match the on-disk layout — don't invent a `src/` if the use case doesn't have one.
+- **Node.js / PHP**: include `package.json` / `composer.json` in the curl block, and follow up with `npm install` / `composer install` before the run command.
+- **.NET**: include the `*.csproj` in the curl block; `dotnet run` resolves dependencies on first invocation.
+- **Go**: include `go.mod` and `go.sum`. If the use case uses the `RunDemoServer()` pattern (because `package main` and the use-case package can't share a directory), the curl block creates the small `cmd/demo/main.go` shim file too — the existing prose already explains the pattern; preserve it.
+- **Java**: include all source files; the existing `javac` instructions stay.
 
 ## HTTP server choices per client
 

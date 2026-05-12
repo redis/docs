@@ -79,6 +79,11 @@ Tokenise the lock with a per-caller random value (8+ bytes hex). The release scr
 8. `POST /reset` and verify stats zero out.
 9. Stop the demo server. Clean up any compiled artefacts (`*.class`, `bin/`, `obj/`, `target/`, `node_modules/`) so the working tree is clean.
 
+### Documentation conventions
+
+- **Source links use full GitHub blob URLs**, not relative paths. The `_index.md` is rendered to HTML and served from `redis.io/docs/...`, so a `[source](cache.py)` link 404s in production. Use `[source](https://github.com/redis/docs/blob/main/content/develop/use-cases/{{USE_CASE_NAME}}/{{CLIENT}}/cache.py)` instead, with the full path to *this* port's folder.
+- **`## Running the demo` opens with a `### Get the source files` subsection** containing a `curl` block that pulls the port's files from GitHub raw URLs into a fresh local directory, followed by a `### Start the demo server` subsection with the run command. See the "Source links and 'Get the source files' block" section of [`assets/redis-conventions.md`](redis-conventions.md) for the exact shape.
+
 ### Conventions to follow
 
 - Method names match the reference (`get`, `invalidate`, `update_field`/`updateField`, `stats`, `reset_stats`/`resetStats`, `ttl_remaining`/`ttlRemaining`).

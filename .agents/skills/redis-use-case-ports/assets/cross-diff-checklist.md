@@ -178,6 +178,20 @@ The visible HTML structure should be identical across clients. Each demo inlines
 
 The only per-client variation should be the **pill text** at the top of `<body>` describing the client + HTTP framework (e.g., `"Lettuce + Java HttpServer demo"`).
 
+## Source links and "Get the source files" block
+
+| Concern | What to compare |
+|---|---|
+| Inline source links | Every `[source](...)` (and any `[FileName.ext](...)` standalone reference) must point to a full `https://github.com/redis/docs/blob/main/content/develop/use-cases/<use-case>/<client>/...` URL — never a relative path. |
+| URL routes to this port | The URL after `/use-cases/<use-case>/` matches the port's own directory, not a sibling's. (Common failure: `java-jedis` guide linking to `java-lettuce/RedisCache.java`.) |
+| `Get the source files` subsection | Every `_index.md` has a `### Get the source files` subsection as the first child of `## Running the demo`. It contains a `mkdir <use-case>-demo && cd <use-case>-demo`, a `BASE=https://raw.githubusercontent.com/redis/docs/main/...` variable, and one `curl -O $BASE/<file>` per source file the port needs. |
+| Files curled match files run | The set of files in the curl block matches what the existing run command (e.g. `python3 demo_server.py`, `dotnet run`, `php -S ... demo_server.php`) actually requires. No missing config files (`package.json`, `composer.json`, `*.csproj`, `go.mod`, `Cargo.toml`), no extras (`Cargo.lock` only if `cargo` expects it; build outputs never). |
+| Rust folder layout | The curl block matches the port's on-disk layout: if files live under `src/`, the block does `mkdir -p .../src && cd ...` then `curl -o src/<file> $BASE/src/<file>`; if files are flat at the project root (driven by explicit `path =` in `Cargo.toml`), `curl -O $BASE/<file>` for all of them. |
+
+**Audit prompt:**
+
+> For each of the 9 client implementations of `content/develop/use-cases/{{USE_CASE_NAME}}/`, grep `_index.md` with `grep -nE "\]\(([^h)][^)]*\.[a-z]+)\)"` — the result must be empty (no relative file links). Then confirm `## Running the demo` is followed by `### Get the source files`, and that the curl block downloads the same files the run command needs. Flag any port where the curl-block file set diverges from the run-time requirements, or where a Rust port's `src/` layout doesn't match its on-disk reality.
+
 ## File names per client
 
 | Client | Helper file | Primary file | Demo entry |
