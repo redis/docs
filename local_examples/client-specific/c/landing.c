@@ -2,6 +2,7 @@
 // BINDER_ID c-landing
 // KERNEL_NAME c
 // STEP_START connect
+// The following comment is required to make the example interactive.
 //%cflags:-lhiredis
 #include <stdio.h>
 #include <stdlib.h>
