@@ -74,7 +74,7 @@ Redis provides the following features that make it a good fit for background job
     across multiple worker pools with independent progress tracking.
 -   [Hashes]({{< relref "/develop/data-types/hashes" >}}) for job metadata with
     [`EXPIRE`]({{< relref "/commands/expire" >}}) so completed jobs are cleaned up automatically.
--   [Pub/Sub]({{< relref "/develop/interact/pubsub" >}})
+-   [Pub/Sub]({{< relref "/develop/pubsub" >}})
     ([`PUBLISH`]({{< relref "/commands/publish" >}}),
     [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}})) for job completion signalling so the
     submitter is notified without polling.
