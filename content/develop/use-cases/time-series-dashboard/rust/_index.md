@@ -40,9 +40,9 @@ Each sensor is stored in its own time series with labels such as `sensor_type`, 
 
 The implementation is split across three files:
 
-* [`sensor_simulator.rs`](sensor_simulator.rs) - Sensor definitions and sample generation
-* [`timeseries_store.rs`](timeseries_store.rs) - Redis TimeSeries command helpers
-* [`demo_server.rs`](demo_server.rs) - Local HTTP server and inline dashboard UI
+* [`sensor_simulator.rs`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/rust/sensor_simulator.rs) - Sensor definitions and sample generation
+* [`timeseries_store.rs`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/rust/timeseries_store.rs) - Redis TimeSeries command helpers
+* [`demo_server.rs`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/rust/demo_server.rs) - Local HTTP server and inline dashboard UI
 
 The Redis helper issues time series commands with `redis::cmd(...)`, which keeps the example small while still making the Redis command flow explicit.
 
@@ -97,6 +97,21 @@ cargo build
 ```
 
 ## Running the demo
+
+### Get the source files
+
+The demo uses a Cargo project with sources at the project root. Download the files from the [`rust` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/time-series-dashboard/rust) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir time-series-dashboard-demo && cd time-series-dashboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/time-series-dashboard/rust
+curl -O $BASE/Cargo.toml
+curl -O $BASE/sensor_simulator.rs
+curl -O $BASE/timeseries_store.rs
+curl -O $BASE/demo_server.rs
+```
+
+### Start the demo server
 
 Build and run the demo:
 

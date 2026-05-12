@@ -51,7 +51,7 @@ npm install redis
 ## The JavaScript leaderboard
 
 The `RedisLeaderboard` class wraps common leaderboard operations
-([source](leaderboard.js)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/nodejs/leaderboard.js)):
 
 ```javascript
 const { createClient } = require("redis");
@@ -164,8 +164,20 @@ This is a useful pattern when the ranking view and the profile view need differe
 
 ## Running the demo
 
-A local demo server is included to show the leaderboard in action
-([source](demoServer.js)):
+### Get the source files
+
+The demo consists of two JavaScript files. Download them from the [`nodejs` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/leaderboard/nodejs) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir leaderboard-demo && cd leaderboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/leaderboard/nodejs
+curl -O $BASE/leaderboard.js
+curl -O $BASE/demoServer.js
+```
+
+### Start the demo server
+
+A local demo server ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/nodejs/demoServer.js)) is included to show the leaderboard in action:
 
 ```bash
 # Install dependencies

@@ -136,7 +136,7 @@ Add the Jedis dependency to your project:
 ## Using the Java class
 
 The `TokenBucket` class provides a thread-safe interface for rate limiting
-([source](TokenBucket.java)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/java-jedis/TokenBucket.java)):
 
 ```java
 import redis.clients.jedis.JedisPool;
@@ -219,8 +219,21 @@ executor.shutdown();
 
 ## Running the demo
 
+### Get the source files
+
+The demo consists of two Java files. Download them from the [`java-jedis` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/rate-limiter/java-jedis) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir rate-limiter-demo && cd rate-limiter-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/rate-limiter/java-jedis
+curl -O $BASE/TokenBucket.java
+curl -O $BASE/DemoServer.java
+```
+
+### Start the demo server
+
 A demonstration HTTP server is included to show the rate limiter in action
-([source](DemoServer.java)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/java-jedis/DemoServer.java)):
 
 ```bash
 # Compile

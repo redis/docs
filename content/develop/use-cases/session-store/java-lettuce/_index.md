@@ -52,8 +52,8 @@ Because the cookie only contains an opaque identifier, the browser never receive
 
 The async and reactive session store classes wrap the basic session operations:
 
-* Async API: [AsyncSessionStore.java](AsyncSessionStore.java)
-* Reactive API: [ReactiveSessionStore.java](ReactiveSessionStore.java)
+* Async API: [AsyncSessionStore.java](https://github.com/redis/docs/blob/main/content/develop/use-cases/session-store/java-lettuce/AsyncSessionStore.java)
+* Reactive API: [ReactiveSessionStore.java](https://github.com/redis/docs/blob/main/content/develop/use-cases/session-store/java-lettuce/ReactiveSessionStore.java)
 
 ### Async usage
 
@@ -197,8 +197,22 @@ Add Lettuce to your project:
 
 ## Running the demo
 
+### Get the source files
+
+The demo consists of three Java files. Download them from the [`java-lettuce` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/session-store/java-lettuce) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir session-store-demo && cd session-store-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/session-store/java-lettuce
+curl -O $BASE/AsyncSessionStore.java
+curl -O $BASE/ReactiveSessionStore.java
+curl -O $BASE/DemoServer.java
+```
+
+### Start the demo server
+
 A local demo server is included to show the session store in action
-([source](DemoServer.java)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/session-store/java-lettuce/DemoServer.java)):
 
 ```bash
 javac -cp lettuce-core-6.7.1.RELEASE.jar AsyncSessionStore.java DemoServer.java
