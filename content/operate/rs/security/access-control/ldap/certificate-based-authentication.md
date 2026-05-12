@@ -41,6 +41,8 @@ To set up certificate-based authentication for LDAP:
     
     - The certificate subject must follow [RFC 4514](https://datatracker.ietf.org/doc/html/rfc4514) formatting.
 
+    - Do not create local user accounts for LDAP users.
+
     {{<multitabs id="set-up-cba-ldap"
         tab1="Subject CN"
         tab2="Subject OID" >}}
