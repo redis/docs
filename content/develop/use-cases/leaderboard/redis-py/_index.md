@@ -43,7 +43,7 @@ Separating rank data from metadata keeps the leaderboard operations efficient wh
 ## The Python leaderboard
 
 The `RedisLeaderboard` class wraps the common leaderboard operations
-([source](leaderboard.py)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/redis-py/leaderboard.py)):
 
 ```python
 import redis
@@ -172,8 +172,20 @@ If your Redis server is running elsewhere, start the demo with `--redis-host` an
 
 ## Running the demo
 
-A local demo server is included to show the leaderboard in action
-([source](demo_server.py)):
+### Get the source files
+
+The demo consists of two Python files. Download them from the [`redis-py` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/leaderboard/redis-py) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir leaderboard-demo && cd leaderboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/leaderboard/redis-py
+curl -O $BASE/leaderboard.py
+curl -O $BASE/demo_server.py
+```
+
+### Start the demo server
+
+A local demo server ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/redis-py/demo_server.py)) is included to show the leaderboard in action:
 
 ```bash
 python demo_server.py

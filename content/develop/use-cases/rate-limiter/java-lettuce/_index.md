@@ -144,7 +144,7 @@ Unlike [`Jedis`]({{< relref "/develop/clients/jedis" >}}), which uses a connecti
 ## Using the Java class
 
 The `TokenBucket` class provides a thread-safe interface for rate limiting
-([source](TokenBucket.java)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/java-lettuce/TokenBucket.java)):
 
 ```java
 import io.lettuce.core.RedisClient;
@@ -240,7 +240,7 @@ redisClient.shutdown();
 ### Asynchronous usage
 
 Lettuce also supports asynchronous command execution. The async version of the rate limiter
-([source](AsyncTokenBucket.java)) returns a `CompletableFuture<RateLimitResult>`:
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/java-lettuce/AsyncTokenBucket.java)) returns a `CompletableFuture<RateLimitResult>`:
 
 ```java
 import io.lettuce.core.RedisClient;
@@ -266,7 +266,7 @@ redisClient.shutdown();
 ### Reactive usage
 
 Lettuce's reactive API is useful when you are already using Reactor in a non-blocking application.
-The reactive version of the rate limiter ([source](ReactiveTokenBucket.java)) returns a `Mono<RateLimitResult>`:
+The reactive version of the rate limiter ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/java-lettuce/ReactiveTokenBucket.java)) returns a `Mono<RateLimitResult>`:
 
 ```java
 import io.lettuce.core.RedisClient;
@@ -293,8 +293,23 @@ redisClient.shutdown();
 
 ## Running the demo
 
+### Get the source files
+
+The demo consists of four Java files. Download them from the [`java-lettuce` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/rate-limiter/java-lettuce) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir rate-limiter-demo && cd rate-limiter-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/rate-limiter/java-lettuce
+curl -O $BASE/TokenBucket.java
+curl -O $BASE/AsyncTokenBucket.java
+curl -O $BASE/ReactiveTokenBucket.java
+curl -O $BASE/DemoServer.java
+```
+
+### Start the demo server
+
 A demonstration HTTP server is included to show the rate limiter in action
-([source](DemoServer.java)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/java-lettuce/DemoServer.java)):
 
 ```bash
 # Compile

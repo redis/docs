@@ -40,9 +40,9 @@ Each sensor is stored in its own time series with labels such as `sensor_type`, 
 
 The implementation is split across three small files:
 
-* [`sensorSimulator.js`](sensorSimulator.js) - Sensor definitions and sample generation
-* [`timeseriesStore.js`](timeseriesStore.js) - Redis TimeSeries command helpers
-* [`dashboard.js`](dashboard.js) - Local HTTP server and inline dashboard UI
+* [`sensorSimulator.js`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/nodejs/sensorSimulator.js) - Sensor definitions and sample generation
+* [`timeseriesStore.js`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/nodejs/timeseriesStore.js) - Redis TimeSeries command helpers
+* [`dashboard.js`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/nodejs/dashboard.js) - Local HTTP server and inline dashboard UI
 
 The `RedisTimeSeriesStore` class wraps the Redis operations directly through `node-redis`'s generic `sendCommand()` interface:
 
@@ -121,6 +121,20 @@ npm install redis
 ```
 
 ## Running the demo
+
+### Get the source files
+
+The demo consists of three Node.js files. Download them from the [`nodejs` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/time-series-dashboard/nodejs) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir time-series-dashboard-demo && cd time-series-dashboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/time-series-dashboard/nodejs
+curl -O $BASE/sensorSimulator.js
+curl -O $BASE/timeseriesStore.js
+curl -O $BASE/dashboard.js
+```
+
+### Start the demo server
 
 Start the dashboard server:
 

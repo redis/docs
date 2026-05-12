@@ -40,9 +40,9 @@ Each sensor is stored in its own time series with labels such as `sensor_type`, 
 
 The implementation is split across three small files:
 
-* [`SensorSimulator.cs`](SensorSimulator.cs) - Sensor definitions and sample generation
-* [`RedisTimeSeriesStore.cs`](RedisTimeSeriesStore.cs) - Redis TimeSeries command helpers
-* [`Program.cs`](Program.cs) - Local HTTP server and inline dashboard UI
+* [`SensorSimulator.cs`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/dotnet/SensorSimulator.cs) - Sensor definitions and sample generation
+* [`RedisTimeSeriesStore.cs`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/dotnet/RedisTimeSeriesStore.cs) - Redis TimeSeries command helpers
+* [`Program.cs`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/dotnet/Program.cs) - Local HTTP server and inline dashboard UI
 
 The Redis helper calls `db.TS()` to get an `ITimeSeriesCommandsAsync` from NRedisStack, then issues time series commands as strongly typed methods (`CreateAsync`, `MAddAsync`, `RangeAsync`, `GetAsync`) that return `TimeSeriesTuple` values rather than raw `RedisResult` arrays.
 
@@ -98,6 +98,21 @@ dotnet add package StackExchange.Redis
 ```
 
 ## Running the demo
+
+### Get the source files
+
+The demo consists of three C# source files plus the project file. Download them from the [`dotnet` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/time-series-dashboard/dotnet) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir time-series-dashboard-demo && cd time-series-dashboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/time-series-dashboard/dotnet
+curl -O $BASE/SensorSimulator.cs
+curl -O $BASE/RedisTimeSeriesStore.cs
+curl -O $BASE/Program.cs
+curl -O $BASE/TimeSeriesDashboardDemo.csproj
+```
+
+### Start the demo server
 
 Start the dashboard server:
 
