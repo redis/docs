@@ -245,6 +245,7 @@
 | <span class="break-all">redis_server_search_total_query_commands</span> | The total number of successful query command executions (including `FT.SEARCH`, `FT.AGGREGATE`, and `FT.CURSOR READ`). <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_total_query_execution_time_ms</span> | The cumulative execution time of all query commands, including `FT.SEARCH`, `FT.AGGREGATE`, and `FT.CURSOR READ`, measured in ms. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_total_active_queries</span> | The total number of background queries currently being executed in the shard, excluding `FT.CURSOR READ`. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_total_coord_dispatch_time_ms</span> | The cumulative time the coordinator spent building and dispatching query commands (`FT.SEARCH`, `FT.AGGREGATE`, and `FT.HYBRID`) to the shards, measured in ms. <sup>[4](#tnote-4)</sup> |
 | <span class="break-all">redis_server_search_errors_indexing_failures</span> | The total number of indexing failures recorded across all indexes in the shard. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_errors_for_index_with_max_failures</span> | The number of indexing failures in the index with the highest count of failures. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">shard_ping_failures</span> | gauge | Number of consecutive ping failures for a shard. Labels: shard_uid, role |
