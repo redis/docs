@@ -125,7 +125,7 @@ Increments or decrements the numeric value stored at `key` by the specified amou
 If the key does not exist, it is set to `0` before performing the operation.
 An error is returned if the key contains a value of the wrong type or a string that cannot be interpreted as a number.
 
-Unlike [`INCR`]({{< relref "/commands/incr" >}}) and [`INCRBY`]({{< relref "/commands/incrby" >}}), `INCREX` always returns an array of two elements: the new value of the key after the increment, and the increment that was actually applied. The `OVERFLOW` option controls what happens when the computed result would fall outside an explicit `LBOUND`/`UBOUND` or the type limits: the command can fail with an error (the default), saturate the result to the bound, or silently skip the operation.
+Unlike [`INCR`]({{< relref "/commands/incr" >}}) and [`INCRBY`]({{< relref "/commands/incrby" >}}), `INCREX` returns an array of two elements: the new value of the key after the increment, and the increment that was actually applied. The `OVERFLOW` option controls what happens when the computed result would fall outside an explicit `LBOUND`/`UBOUND` or the type limits: the command can fail with an error (the default), saturate the result to the bound, or skip the operation.
 
 ## Required arguments
 
@@ -142,7 +142,7 @@ The name of the key to increment.
 Specifies the increment amount and type:
 
 * `BYFLOAT increment`: increment the value by the given long-double float. The key's existing value may be either an integer or a float, since integers can be promoted to floats losslessly. Results that would produce NaN or Infinity are rejected.
-* `BYINT increment`: increment the value by the given 64-bit signed integer. The increment may be negative to decrement the value. `BYINT` requires the key's existing value to be integer-typed; a stored float such as `"1.5"` cannot be parsed back as an integer. This is consistent with [`INCR`]({{< relref "/commands/incr" >}})/[`INCRBY`]({{< relref "/commands/incrby" >}}) (integer-only) and [`INCRBYFLOAT`]({{< relref "/commands/incrbyfloat" >}}) (accepts both). Type-limit overflow is governed by the `OVERFLOW` option.
+* `BYINT increment`: increment the value by the given 64-bit signed integer. The increment may be negative to decrement the value. `BYINT` requires the key's existing value to be integer-typed; a stored float such as `"1.5"` cannot be parsed back as an integer. This is consistent with [`INCR`]({{< relref "/commands/incr" >}})/[`INCRBY`]({{< relref "/commands/incrby" >}}) (integer-only) and [`INCRBYFLOAT`]({{< relref "/commands/incrbyfloat" >}}) (accepts both).
 
 If neither `BYFLOAT` nor `BYINT` is specified, the key is incremented by `1` in integer mode. `BYFLOAT` and `BYINT` are mutually exclusive.
 
@@ -165,8 +165,8 @@ Sets an upper bound for the resulting value. If the computed result would exceed
 Sets the policy for handling out-of-bounds results. A bound violation includes both exceeding an explicit `LBOUND`/`UBOUND` and overflowing the type limits when no explicit bound is given.
 
 * `FAIL` (default): if the computed result would violate a bound, the command returns an error and the key is left unchanged. This matches the existing semantics of [`INCRBY`]({{< relref "/commands/incrby" >}}) and [`INCRBYFLOAT`]({{< relref "/commands/incrbyfloat" >}}) on overflow.
-* `SAT`: the result is silently capped at `UBOUND` or floored at `LBOUND` (or saturated to the type limits when no explicit bound is given). The second element of the reply reflects the saturated delta. An error is returned if the delta cannot be represented as a 64-bit signed integer in integer mode, or would produce Infinity in `BYFLOAT` mode. If the result is saturated, any expiration option is still applied as specified.
-* `REJECT`: the operation is silently skipped. The key value and its TTL are left unchanged, no keyspace notification is fired, and nothing is replicated. The reply is `[current_value, 0]`, allowing the caller to detect the rejection without handling an error. Any expiration option is ignored on the rejected branch.
+* `SAT`: the result is capped at `UBOUND` or floored at `LBOUND` (or saturated to the type limits when no explicit bound is given). The second element of the reply reflects the saturated delta. An error is returned if the delta cannot be represented as a 64-bit signed integer in integer mode, or would produce Infinity in `BYFLOAT` mode. If the result is saturated, any expiration option is still applied as specified.
+* `REJECT`: the operation is skipped. The key value and its TTL are left unchanged, no keyspace notification is fired, and nothing is replicated. The reply is `[current_value, 0]`, allowing the caller to detect the rejection without handling an error. Any expiration option is ignored on the rejected branch.
 
 </details>
 
@@ -186,7 +186,7 @@ When no expiration option is given, the key's existing TTL (if any) is preserved
 
 <details open><summary><code>ENX</code></summary>
 
-Only sets the expiration if the key currently has no TTL. If the key already has an expiration, the increment is still applied but the TTL is left unchanged. `ENX` must be combined with `EX`, `PX`, `EXAT`, or `PXAT` and is incompatible with `PERSIST`.
+Only sets the TTL/expiration if the key currently has no TTL/expiration. If the key already has a TTL, the increment is still applied but the TTL is left unchanged. `ENX` can ensure that a window counter rate limiter's TTL is set only when it is created, and not reset on subsequent token requests.`ENX` must be combined with `EX`, `PX`, `EXAT`, or `PXAT` and is incompatible with `PERSIST`.
 
 </details>
 
@@ -258,7 +258,7 @@ INCREX mykey BYINT 5 UBOUND 100 OVERFLOW REJECT
 
 A common rate-limiting pattern requires atomically incrementing a counter and setting its expiration. With plain [`INCR`]({{< relref "/commands/incr" >}}) and [`EXPIRE`]({{< relref "/commands/expire" >}}), this typically requires a Lua script to be atomic.
 
-`INCREX` requires a single native command. `UBOUND` enforces the rate cap, `OVERFLOW REJECT` silently skips the operation once the cap is reached, and `ENX` ensures that a new window with the correct duration is created if the previous one has expired; if a window already exists, it won't be extended. When the counter has already reached the cap, `actual_increment` is `0`, giving the caller immediate feedback without extra reads or error handling:
+`INCREX` requires a single native command. `UBOUND` enforces the rate cap, `OVERFLOW REJECT` skips the operation once the cap is reached, and `ENX` ensures that a new window with the correct duration is created if the previous one has expired; if a window already exists, it won't be extended. When the counter has already reached the cap, `actual_increment` is `0`, giving the caller immediate feedback without extra reads or error handling:
 
 ```python
 new_val, actual_incr = redis.execute_command(
