@@ -12,9 +12,10 @@ Register the providers and secret backends a Redis Feature Form workspace needs 
 Before you register providers, make sure you have:
 
 - A workspace. See [Manage workspaces](./manage-workspace.md) for the workspace lifecycle commands.
-- The `ff` CLI installed and able to reach the Feature Form server. The CLI connects to `localhost:9090` by default; override with `--server <host:port>` or by setting `ServerAddress` in `~/.featureform/config.yaml`.
-- Any environment variables your provider commands reference set **in the Feature Form server's environment**, not in your shell. 
-    For example, `--pg-password-secret env:PG_PASSWORD` makes the server resolve `PG_PASSWORD` from its own process environment at runtime. For Helm-based deployments, set these through chart values; for binary deployments, export them where the server starts.
+- The `ff` CLI installed and able to reach the Feature Form server. 
+  - The CLI connects to `localhost:9090` by default; override with `--server <host:port>` or by setting `ServerAddress` in `~/.featureform/config.yaml`.
+- Any environment variables your provider commands reference set **in the Feature Form server's environment**, not in your shell.
+  - For example, `--pg-password-secret env:PG_PASSWORD` makes the server resolve `PG_PASSWORD` from its own process environment at runtime. For Helm-based deployments, set these through chart values; for binary deployments, export them where the server starts.
 
 The examples on this page use placeholder names like `demo-workspace`, `demo_postgres`, and `spark-main`. Substitute the names you want to use in your own deployment.
 
