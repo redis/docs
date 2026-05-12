@@ -11,9 +11,9 @@ title: Create an Agent Memory service
 weight: 5
 ---
 
-Redis Agent Memory provides a persistent, structured memory layer that AI agents can use to store, retrieve, and manage contextual data across interactions. This guide walks you through creating and configuring an Agent Memory service in Redis Cloud. This guide walks you through creating and configuring an Agent Memory service in Redis Cloud.
+Redis Agent Memory provides a persistent, structured memory layer that AI agents can use to store, retrieve, and manage contextual data across interactions. This guide walks you through creating and configuring an Agent Memory service in Redis Cloud.
 
-## Prerequisites & Limitations
+## Prerequisites and limitations
 
 To create a Redis Agent Memory service, you will need a Redis Cloud database. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
 
@@ -29,19 +29,19 @@ Agent Memory does not support the following databases during public preview:
 
 From the [Redis Cloud console](https://cloud.redis.io/), select **Agent Memory** from the left-hand menu. 
 
-If you have not already created a Agent Memory service, you'll see a page with an introduction to Agent Memory. Otherwise, select **New service** to go to the Agent Memory introduction page.
+If you have not already created an Agent Memory service, you'll see a page with an introduction to Agent Memory. Otherwise, select **New service** to go to the Agent Memory introduction page.
 
 {{<image filename="images/rc/langcache-new-service.png" alt="The New service button." width="150px" >}}
 
 From here: 
 
-- Select **Quick create** to create a Agent Memory service with default settings using your Free 30MB database. If you haven't created a Free database yet, Redis Cloud will create one and set up the Agent Memory service for you.
+- Select **Quick create** to create an Agent Memory service with default settings using your Free 30MB database. If you haven't created a Free database yet, Redis Cloud will create one and set up the Agent Memory service for you.
 
     {{<image filename="images/rc/langcache-quick-create.png" alt="The Quick create button." width="150px" >}}
 
     After Redis Cloud creates your Agent Memory service, a window containing your Agent Memory service key will appear. Select **Copy** to copy the key to your clipboard. 
 
-    {{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." >}}
+    {{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." width=80% >}}
 
     {{<warning>}}
 This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
@@ -87,11 +87,11 @@ The **Memory configuration** section allows you to define the time-to-live (TTL)
 
 When you are done setting the details of your Agent Memory service, select **Create** to create it.
 
-{{<image filename="images/rc/button-access-management-user-key-create.png" alt="Use the Create button to create a Agent Memory service." >}}
+{{<image filename="images/rc/button-access-management-user-key-create.png" alt="Use the Create button to create an Agent Memory service." >}}
 
 A window containing your Agent Memory service key will appear. Select **Copy** to copy the key to your clipboard. 
 
-{{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." >}}
+{{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." width=80% >}}
 
 {{<warning>}}
 This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>

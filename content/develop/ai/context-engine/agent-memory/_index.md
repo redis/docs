@@ -26,8 +26,8 @@ Redis Agent Memory uses a two-tier memory model:
 
 The promotion from short term memory to long-term memory is automatic. When you store a conversation event in session memory, the Agent Memory Server asynchronously extracts important information using the configured extraction strategy (discrete, summary, preferences, or custom). These extracted memories are then stored as long-term memory entries with vector embeddings and metadata.
 
-This process is non-blocking: the extraction and promotion happen in the background via a task worker, so the main agent interaction remains responsive. Users do not need to explicitly trigger promotion; it happens as a natural byproduct of storing conversation events in working memory.
-Users can also create long-term memories directly via the API.This is useful for bulk memory creation or for importing knowledge from external sources.
+This process is non-blocking: the extraction and promotion happen in the background using a task worker, so the main agent interaction remains responsive. Users do not need to explicitly trigger promotion; it happens as a natural byproduct of storing conversation events in working memory.
+Users can also create long-term memories directly using the API. This is useful for bulk memory creation or for importing knowledge from external sources.
 
 The short-term memory that is not promoted will eventually expire based on its TTL configuration. As a conversation progresses, Redis Agent Memory extracts and asynchronously stores important information into long-term memory. This process ensures responsive interactions while knowledge gradually accumulates.
 
