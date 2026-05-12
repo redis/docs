@@ -46,7 +46,7 @@ Every state change holds the token: a worker that has been reclaimed cannot late
 
 ## The job queue helper
 
-The `JobQueue` class wraps the queue operations ([source](JobQueue.php)):
+The `JobQueue` class wraps the queue operations ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/php/JobQueue.php)):
 
 ```php
 require __DIR__ . '/vendor/autoload.php';
@@ -313,10 +313,32 @@ The completed and failed lists are capped via `LTRIM` so they never grow unbound
 
 ## Running the demo
 
-From the [`php`](.) directory:
+### Get the source files
+
+The demo consists of six files. Download them from the [`php` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/job-queue/php) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir job-queue-demo && cd job-queue-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/job-queue/php
+curl -O $BASE/JobQueue.php
+curl -O $BASE/JobWorker.php
+curl -O $BASE/WorkerSupervisor.php
+curl -O $BASE/demo_server.php
+curl -O $BASE/worker.php
+curl -O $BASE/composer.json
+```
+
+Then install dependencies:
 
 ```bash
 composer install
+```
+
+### Start the demo server
+
+From that directory:
+
+```bash
 php -S 127.0.0.1:8796 demo_server.php
 ```
 
@@ -344,14 +366,14 @@ REDIS_HOST=redis.local REDIS_PORT=6380 VISIBILITY_MS=10000 \
 
 The demo uses two files that together stand in for whatever real background work your application would run:
 
-* [`JobWorker.php`](JobWorker.php) — the `JobWorker` class. A worker calls `$queue->claim(500)`, sleeps `workLatencyMs` to simulate doing the work, then either completes the job, fails it, or *hangs* — returning without completing or failing the job so the reclaimer has to recover it.
-* [`worker.php`](worker.php) — a CLI entry point that constructs a `JobQueue` and a `JobWorker` from command-line flags, then calls `$worker->run()` until SIGTERM. Run one manually like this:
+* [`JobWorker.php`](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/php/JobWorker.php) — the `JobWorker` class. A worker calls `$queue->claim(500)`, sleeps `workLatencyMs` to simulate doing the work, then either completes the job, fails it, or *hangs* — returning without completing or failing the job so the reclaimer has to recover it.
+* [`worker.php`](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/php/worker.php) — a CLI entry point that constructs a `JobQueue` and a `JobWorker` from command-line flags, then calls `$worker->run()` until SIGTERM. Run one manually like this:
 
   ```bash
   php worker.php --name worker-1 --work-latency-ms 200 --fail-rate 0 --hang-rate 0
   ```
 
-When the UI's **Start / apply** button is clicked, the demo server spawns one `worker.php` process per worker through the `WorkerSupervisor` ([source](WorkerSupervisor.php)). The supervisor:
+When the UI's **Start / apply** button is clicked, the demo server spawns one `worker.php` process per worker through the `WorkerSupervisor` ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/php/WorkerSupervisor.php)). The supervisor:
 
 * Builds the worker command line with the requested size, latency, and failure / hang rates.
 * Launches each worker via `proc_open()` so it survives the `php -S` request that started it.

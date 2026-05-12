@@ -47,7 +47,7 @@ Every state change holds the token: a worker that has been reclaimed cannot late
 ## The job queue helper
 
 The `RedisJobQueue` struct wraps the queue operations
-([source](src/job_queue.rs)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/rust/src/job_queue.rs)):
 
 ```rust
 use redis::aio::ConnectionManager;
@@ -370,7 +370,23 @@ The `connection-manager` feature gives you `ConnectionManager` — a cheap, clon
 
 ## Running the demo
 
-From the [`rust`](.) directory, build and start the demo server:
+### Get the source files
+
+The demo uses a Cargo project with sources under `src/`. Download the files from the [`rust` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/job-queue/rust) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir -p job-queue-demo/src && cd job-queue-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/job-queue/rust
+curl -O $BASE/Cargo.toml
+curl -O $BASE/Cargo.lock
+curl -o src/job_queue.rs $BASE/src/job_queue.rs
+curl -o src/worker.rs $BASE/src/worker.rs
+curl -o src/main.rs $BASE/src/main.rs
+```
+
+### Start the demo server
+
+From that directory, build and run:
 
 ```bash
 cargo run --release
@@ -395,7 +411,7 @@ The demo accepts a `--visibility-ms` flag to tune the visibility timeout, and re
 
 ## The mock worker pool
 
-The demo includes a small `Worker` and `WorkerPool` ([source](src/worker.rs)) that stands in for whatever real background work your application would run. Each worker is a `tokio::spawn`ed task that:
+The demo includes a small `Worker` and `WorkerPool` ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/rust/src/worker.rs)) that stands in for whatever real background work your application would run. Each worker is a `tokio::spawn`ed task that:
 
 * Blocks on `queue.claim(500).await` for new jobs.
 * `tokio::time::sleep`s `work_latency_ms` to simulate doing the work.

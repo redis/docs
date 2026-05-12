@@ -47,7 +47,7 @@ Every state change holds the token: a worker that has been reclaimed cannot late
 ## The job queue helper
 
 The `RedisJobQueue` type wraps the queue operations
-([source](job_queue.go)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/go/job_queue.go)):
 
 ```go
 import (
@@ -320,7 +320,23 @@ The completed and failed lists are capped via `LTRIM` so they never grow unbound
 
 ## Running the demo
 
-From the [`go`](.) directory, create a tiny `main.go` to start the server. Go's `package main` can't live in the same directory as `package jobqueue`, so put it in a subdirectory:
+### Get the source files
+
+The demo consists of five files. Download them from the [`go` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/job-queue/go) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir job-queue-demo && cd job-queue-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/job-queue/go
+curl -O $BASE/job_queue.go
+curl -O $BASE/worker.go
+curl -O $BASE/demo_server.go
+curl -O $BASE/go.mod
+curl -O $BASE/go.sum
+```
+
+### Start the demo server
+
+From that directory, create a tiny `main.go` to start the server. Go's `package main` can't live in the same directory as `package jobqueue`, so put it in a subdirectory:
 
 ```bash
 mkdir -p cmd/demo
@@ -359,7 +375,7 @@ If your Redis server is running elsewhere, start the demo with `-redis-host` and
 
 ## The mock worker pool
 
-The demo includes a small `Worker` and `WorkerPool` ([source](worker.go)) that stands in for whatever real background work your application would run. Each worker:
+The demo includes a small `Worker` and `WorkerPool` ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/go/worker.go)) that stands in for whatever real background work your application would run. Each worker:
 
 * Blocks on `queue.Claim()` for new jobs.
 * Sleeps `workLatencyMs` to simulate doing the work.

@@ -47,7 +47,7 @@ Every state change holds the token: a worker that has been reclaimed cannot late
 ## The job queue helper
 
 The `RedisJobQueue` class wraps the queue operations
-([source](RedisJobQueue.java)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/java-lettuce/RedisJobQueue.java)):
 
 ```java
 import io.lettuce.core.RedisClient;
@@ -306,7 +306,22 @@ Add Lettuce to your project:
 
 ## Running the demo
 
-From the [`java-lettuce`](.) directory, compile the sources and run the server. With the Lettuce + netty + reactor jars staged in a local `lib/` directory:
+### Get the source files
+
+The demo consists of four Java source files. Download them from the [`java-lettuce` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/job-queue/java-lettuce) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir job-queue-demo && cd job-queue-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/job-queue/java-lettuce
+curl -O $BASE/RedisJobQueue.java
+curl -O $BASE/JobWorker.java
+curl -O $BASE/WorkerPool.java
+curl -O $BASE/DemoServer.java
+```
+
+### Start the demo server
+
+From that directory, compile the sources and run the server. With the Lettuce + netty + reactor jars staged in a local `lib/` directory:
 
 ```bash
 javac -cp "lib/*" -d build RedisJobQueue.java JobWorker.java WorkerPool.java DemoServer.java
@@ -332,7 +347,7 @@ If your Redis server is running elsewhere, start the demo with `--redis-host` an
 
 ## The mock worker pool
 
-The demo includes a small `JobWorker` and `WorkerPool` ([source](JobWorker.java), [WorkerPool.java](WorkerPool.java)) that stands in for whatever real background work your application would run. Each worker:
+The demo includes a small `JobWorker` and `WorkerPool` ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/java-lettuce/JobWorker.java), [WorkerPool.java](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/java-lettuce/WorkerPool.java)) that stands in for whatever real background work your application would run. Each worker:
 
 * Blocks on `queue.claim()` for new jobs.
 * Sleeps `workLatencyMs` to simulate doing the work.

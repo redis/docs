@@ -47,7 +47,7 @@ Every state change holds the token: a worker that has been reclaimed cannot late
 ## The job queue helper
 
 The `RedisJobQueue` class wraps the queue operations
-([source](RedisJobQueue.cs)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/dotnet/RedisJobQueue.cs)):
 
 ```csharp
 using StackExchange.Redis;
@@ -326,7 +326,23 @@ The completed and failed lists are capped via `LTRIM` so they never grow unbound
 
 ## Running the demo
 
-From the [`dotnet`](.) directory, start the demo server:
+### Get the source files
+
+The demo consists of five files. Download them from the [`dotnet` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/job-queue/dotnet) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir job-queue-demo && cd job-queue-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/job-queue/dotnet
+curl -O $BASE/RedisJobQueue.cs
+curl -O $BASE/JobWorker.cs
+curl -O $BASE/WorkerPool.cs
+curl -O $BASE/Program.cs
+curl -O $BASE/JobQueueDemo.csproj
+```
+
+### Start the demo server
+
+From that directory:
 
 ```bash
 dotnet run
@@ -352,7 +368,7 @@ If your Redis server is running elsewhere, start the demo with `--redis-host` an
 
 ## The mock worker pool
 
-The demo includes a small `JobWorker` and `WorkerPool` ([`JobWorker.cs`](JobWorker.cs), [`WorkerPool.cs`](WorkerPool.cs)) that stands in for whatever real background work your application would run. Each worker is a dedicated background `Thread` that:
+The demo includes a small `JobWorker` and `WorkerPool` ([`JobWorker.cs`](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/dotnet/JobWorker.cs), [`WorkerPool.cs`](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/dotnet/WorkerPool.cs)) that stands in for whatever real background work your application would run. Each worker is a dedicated background `Thread` that:
 
 * Polls `queue.Claim(500)` for new jobs.
 * `Thread.Sleep(workLatencyMs)` to simulate doing the work.

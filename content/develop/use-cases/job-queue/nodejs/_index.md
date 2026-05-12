@@ -47,7 +47,7 @@ Every state change holds the token: a worker that has been reclaimed cannot late
 ## The job queue helper
 
 The `RedisJobQueue` class wraps the queue operations
-([source](job_queue.js)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/nodejs/job_queue.js)):
 
 ```javascript
 const { createClient } = require("redis");
@@ -302,10 +302,30 @@ The completed and failed lists are capped via `LTRIM` so they never grow unbound
 
 ## Running the demo
 
-From the [`nodejs`](.) directory, install dependencies and start the demo server:
+### Get the source files
+
+The demo consists of four files. Download them from the [`nodejs` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/job-queue/nodejs) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir job-queue-demo && cd job-queue-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/job-queue/nodejs
+curl -O $BASE/job_queue.js
+curl -O $BASE/worker.js
+curl -O $BASE/demoServer.js
+curl -O $BASE/package.json
+```
+
+Then install dependencies:
 
 ```bash
 npm install
+```
+
+### Start the demo server
+
+From that directory:
+
+```bash
 node demoServer.js
 ```
 
@@ -328,7 +348,7 @@ If your Redis server is running elsewhere, start the demo with `--redis-host` an
 
 ## The mock worker pool
 
-The demo includes a small `Worker` and `WorkerPool` ([source](worker.js)) that stands in for whatever real background work your application would run. Each worker:
+The demo includes a small `Worker` and `WorkerPool` ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/nodejs/worker.js)) that stands in for whatever real background work your application would run. Each worker:
 
 * Blocks on `queue.claim()` for new jobs.
 * Sleeps `workLatencyMs` to simulate doing the work.

@@ -47,7 +47,7 @@ Every state change holds the token: a worker that has been reclaimed cannot late
 ## The job queue helper
 
 The `RedisJobQueue` class wraps the queue operations
-([source](job_queue.rb)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/ruby/job_queue.rb)):
 
 ```ruby
 require 'redis'
@@ -289,7 +289,21 @@ Totals live in a Redis hash so each worker thread — which holds its own Redis 
 
 ## Running the demo
 
-From the [`ruby`](.) directory, start the demo server:
+### Get the source files
+
+The demo consists of three Ruby files. Download them from the [`ruby` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/job-queue/ruby) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir job-queue-demo && cd job-queue-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/job-queue/ruby
+curl -O $BASE/job_queue.rb
+curl -O $BASE/worker.rb
+curl -O $BASE/demo_server.rb
+```
+
+### Start the demo server
+
+From that directory:
 
 ```bash
 ruby demo_server.rb
@@ -314,7 +328,7 @@ If your Redis server is running elsewhere, start the demo with `--redis-host` an
 
 ## The mock worker pool
 
-The demo includes a small `Worker` and `WorkerPool` ([source](worker.rb)) that stands in for whatever real background work your application would run. Each worker:
+The demo includes a small `Worker` and `WorkerPool` ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/ruby/worker.rb)) that stands in for whatever real background work your application would run. Each worker:
 
 * Blocks on `queue.claim` for new jobs.
 * Sleeps `work_latency_ms` to simulate doing the work.

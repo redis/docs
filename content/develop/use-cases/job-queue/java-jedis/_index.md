@@ -46,7 +46,7 @@ Every state change holds the token: a worker that has been reclaimed cannot late
 
 ## The `RedisJobQueue` helper
 
-The `RedisJobQueue` class wraps the queue operations ([source](RedisJobQueue.java)):
+The `RedisJobQueue` class wraps the queue operations ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/java-jedis/RedisJobQueue.java)):
 
 ```java
 import java.util.Map;
@@ -325,7 +325,23 @@ implementation 'redis.clients:jedis:5.0.1'
 
 ## Running the demo
 
-A local demo server is included to show the queue in action ([source](DemoServer.java)). Compile and run with `javac` and `java`, listing each jar on the classpath:
+### Get the source files
+
+The demo consists of five Java source files. Download them from the [`java-jedis` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/job-queue/java-jedis) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir job-queue-demo && cd job-queue-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/job-queue/java-jedis
+curl -O $BASE/RedisJobQueue.java
+curl -O $BASE/JobWorker.java
+curl -O $BASE/WorkerPool.java
+curl -O $BASE/DemoServer.java
+curl -O $BASE/JsonUtil.java
+```
+
+### Start the demo server
+
+A local demo server is included to show the queue in action ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/java-jedis/DemoServer.java)). Compile and run with `javac` and `java`, listing each jar on the classpath:
 
 ```bash
 javac -cp jedis-5.0.1.jar:commons-pool2-2.12.1.jar:slf4j-api-2.0.12.jar \
@@ -354,7 +370,7 @@ If your Redis server is running elsewhere, start the demo with `--redis-host` an
 
 ## The mock worker pool
 
-The demo includes a small `JobWorker` ([source](JobWorker.java)) and `WorkerPool` ([source](WorkerPool.java)) that stand in for whatever real background work your application would run. Each worker:
+The demo includes a small `JobWorker` ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/java-jedis/JobWorker.java)) and `WorkerPool` ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/job-queue/java-jedis/WorkerPool.java)) that stand in for whatever real background work your application would run. Each worker:
 
 * Blocks on `queue.claim()` for new jobs.
 * Sleeps `workLatencyMs` to simulate doing the work.
