@@ -46,10 +46,10 @@ From here:
     {{<warning>}}
 This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
 
-If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/rc/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Agent Memory API.
+If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/rc/context-engine/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Agent Memory API.
     {{</warning>}}
 
-    After your service is created, you can [use the Agent Memory API]({{< relref "/operate/rc/agent-memory/use-agent-memory" >}}) from your client app.
+    After your service is created, you can [use the Agent Memory API]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}) from your client app.
 
 - If you want to customize your Agent Memory service, select **Create custom**. 
 
@@ -96,13 +96,13 @@ A window containing your Agent Memory service key will appear. Select **Copy** t
 {{<warning>}}
 This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
 
-If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/rc/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Agent Memory API.
+If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/rc/context-engine/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Agent Memory API.
 {{</warning>}}
 
 If an error occurs, verify that your database is active. For help, [contact support](https://redis.io/support/).
 
 ## Next steps
 
-After your service is created, you can [use the Agent Memory API]({{< relref "/operate/rc/agent-memory/use-agent-memory" >}}) from your client app.
+After your service is created, you can [use the Agent Memory API]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}) from your client app.
 
-You can also [view and edit the service]({{< relref "/operate/rc/agent-memory/view-service" >}}).
+You can also [view and edit the service]({{< relref "/operate/rc/context-engine/agent-memory/view-service" >}}).

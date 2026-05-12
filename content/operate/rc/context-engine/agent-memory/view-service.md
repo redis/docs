@@ -11,7 +11,7 @@ title: View and manage Agent Memory service
 weight: 15
 ---
 
-After you have [created your first Agent Memory service]({{< relref "/operate/rc/agent-memory/create-service" >}}), selecting **Agent Memory** from the Redis Cloud Console menu will take you to the **Agent Memory Services** page.
+After you have [created your first Agent Memory service]({{< relref "/operate/rc/context-engine/agent-memory/create-service" >}}), selecting **Agent Memory** from the Redis Cloud Console menu will take you to the **Agent Memory Services** page.
 
 This page displays a list of all Agent Memory services associated with your account.
 
@@ -44,7 +44,7 @@ The **General settings** section provides section provides the connection detail
 
 Select the **Copy** button next to the Store ID and API Base URL to copy them to the clipboard.
 
-See [use the Agent Memory API]({{< relref "/operate/rc/agent-memory/use-agent-memory" >}}) for more information on how to use the connection information and API keys.
+See [use the Agent Memory API]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}) for more information on how to use the connection information and API keys.
 
 ### Memory configuration
 
@@ -91,7 +91,12 @@ Deleting the Agent Memory service is permanent and cannot be undone.
 
 ## Metrics tab
 
-The **Metrics** tab provides a series of graphs showing performance data for your Agent Memory service. See [Monitor an Agent Memory service]({{< relref "/operate/rc/agent-memory/monitor-service" >}}) for more information.
+The **Metrics** tab provides a series of graphs showing performance data for your Agent Memory service. 
+
+| Metric | Description |
+|--------|-------------|
+| Short-term Memory Latency | The average time to process a Short-term memory (or Session memory) lookup request.  |
+| Long-term Memory Latency | The average time to process a Long-term memory lookup request. |
 
 ## API keys tab
 
@@ -117,7 +122,7 @@ To generate a new service key:
 
 1. The new key will appear in a dialog box. Select **Copy** to copy the key to the clipboard.
 
-    {{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." width-80% >}}
+    {{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." width=80% >}}
 
     {{<warning>}}
 This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box. <br/><br/>
