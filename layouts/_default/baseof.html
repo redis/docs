@@ -43,7 +43,7 @@
     {{ partial "ai-metadata.html" . }}
 
     {{ partial "fonts.html" . }}
-    
+
     {{ if hugo.IsProduction -}}
       <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -1627,6 +1627,84 @@
           }, 120000);
         }
 
+        // Same workaround as JS/Ruby above, applied to C cells.
+        // CodeMirror 5 ships C support inside the "clike" mode, exposed under MIME "text/x-csrc".
+        const CM_CLIKE_MODE_URL = 'https://unpkg.com/codemirror@5.65.16/mode/clike/clike.js';
+
+        function loadCodeMirrorCMode(CM) {
+          if (!CM || typeof CM.defineMode !== 'function') return Promise.resolve(false);
+          if (CM.modes && CM.modes.clike) return Promise.resolve(true);
+          if (window.__cmCModePromise) return window.__cmCModePromise;
+
+          window.__cmCModePromise = new Promise(function(resolve) {
+            const hadPrev = Object.prototype.hasOwnProperty.call(window, 'CodeMirror');
+            const prev = window.CodeMirror;
+            window.CodeMirror = CM;
+            const script = document.createElement('script');
+            script.src = CM_CLIKE_MODE_URL;
+            const restore = function() {
+              if (hadPrev) { window.CodeMirror = prev; } else { try { delete window.CodeMirror; } catch (e) { window.CodeMirror = undefined; } }
+            };
+            script.onload = function() {
+              restore();
+              resolve(!!(CM.modes && CM.modes.clike));
+            };
+            script.onerror = function() {
+              restore();
+              console.warn('[Thebe] Failed to load CodeMirror C mode from', CM_CLIKE_MODE_URL);
+              window.__cmCModePromise = null;
+              resolve(false);
+            };
+            document.head.appendChild(script);
+          });
+          return window.__cmCModePromise;
+        }
+
+        function findCCmInstances() {
+          const out = [];
+          document.querySelectorAll('.thebe-cell .CodeMirror').forEach(function(cmEl) {
+            const cm = cmEl.CodeMirror;
+            if (!cm) return;
+            const mode = cm.getOption('mode');
+            const modeName = (typeof mode === 'string') ? mode : (mode && mode.name);
+            if (modeName === 'text/x-csrc') out.push(cm);
+          });
+          return out;
+        }
+
+        function applyCModeToCells() {
+          findCCmInstances().forEach(function(cm) {
+            cm.setOption('mode', null);
+            cm.setOption('mode', 'text/x-csrc');
+          });
+        }
+
+        let __cHighlightDone = false;
+        let __cHighlightObserver = null;
+        function __tryRegisterCMode() {
+          if (__cHighlightDone) return;
+          const cCms = findCCmInstances();
+          if (cCms.length === 0) return;
+          __cHighlightDone = true;
+          if (__cHighlightObserver) { __cHighlightObserver.disconnect(); __cHighlightObserver = null; }
+          const CM = cCms[0].constructor;
+          loadCodeMirrorCMode(CM).then(function(ok) {
+            if (ok) applyCModeToCells();
+          });
+        }
+        function ensureCHighlightingForActivatedCells() {
+          __tryRegisterCMode();
+          if (__cHighlightDone || __cHighlightObserver) return;
+          if (typeof MutationObserver !== 'function') return;
+          __cHighlightObserver = new MutationObserver(function() { __tryRegisterCMode(); });
+          __cHighlightObserver.observe(document.body, { childList: true, subtree: true });
+          // Safety net: stop observing after 2 minutes even if no C cells ever appear.
+          setTimeout(function() {
+            if (__cHighlightObserver) { __cHighlightObserver.disconnect(); __cHighlightObserver = null; }
+          }, 120000);
+        }
+
+
         // Function to handle kernel expiration/disconnection
         function handleKernelExpired() {
           // Clear localStorage session so fresh start on reload
@@ -1676,6 +1754,7 @@
           // as Thebe creates the editors (covers both fresh click and auto-reconnect).
           ensureJsHighlightingForActivatedCells();
           ensureRubyHighlightingForActivatedCells();
+          ensureCHighlightingForActivatedCells();
 
           // NOTE: Loading state is now managed by individual click handlers (lines 1189-1190)
           // This prevents all blocks from showing "Starting kernel..." when only one is clicked
@@ -1741,6 +1820,8 @@
                   // Thebe's bundled CodeMirror lacks the JavaScript mode; lazy-load it
                   // so Node.js cells keep syntax highlighting after activation.
                   ensureJsHighlightingForActivatedCells();
+                  // Same workaround for C cells (clike mode under MIME text/x-csrc).
+                  ensureCHighlightingForActivatedCells();
                   // Note: Removed focus() call that was causing scroll jump on page refresh
                   // Users can click into any editor to focus when they want to edit
                 }

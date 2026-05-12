@@ -41,8 +41,7 @@ a string key using [`SET`]({{< relref "/commands/set" >}}) and
 [`GET`]({{< relref "/commands/get" >}}), and then finally closes the
 connection. An explanation of the code follows the example.
 
-{{< clients-example set="landing" step="connect" lang_filter="C" description="Foundational: Connect to a Redis server, set and retrieve string values using SET and GET, then close the connection" difficulty="beginner" >}}
-{{< /clients-example >}}
+{{< jupyter-example set="landing" step="connect" lang_filter="C" description="Foundational: Connect to a Redis server, set and retrieve string values using SET and GET, then close the connection" difficulty="beginner" />}}
 
 For a real project, you would build your code with a makefile, but for
 this simple test, you can just place it in a file called `main.c` and

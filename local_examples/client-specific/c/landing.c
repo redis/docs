@@ -1,5 +1,6 @@
 // EXAMPLE: landing
 // BINDER_ID c-landing
+// KERNEL_NAME c_kernel
 // STEP_START connect
 #include <stdio.h>
 #include <stdlib.h>
