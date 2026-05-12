@@ -23,7 +23,7 @@ Read-heavy workloads (product catalogs, user profiles, API responses) hit the sa
 
 An in-process cache solves this for a single instance but breaks across multiple stateless services: each instance warms independently, duplicates memory, and cannot be invalidated consistently. When a popular cached key expires under high concurrency, dozens of processes simultaneously query the database for the same record — a cache stampede that amplifies the exact load spike caching was supposed to prevent.
 
-This use case is distinct from write-through or write-behind caching, where the cache mirrors the full dataset on every write. It is also distinct from [semantic caching]({{< relref "/develop/ai/semantic-cache" >}}), which matches LLM responses by embedding similarity rather than exact key lookup.
+This use case is distinct from write-through or write-behind caching, where the cache mirrors the full dataset on every write. It is also distinct from semantic caching, which matches LLM responses by embedding similarity rather than exact key lookup.
 
 ## What you can expect from a Redis solution
 
@@ -64,6 +64,7 @@ Redis provides the following features that make it a good fit for cache-aside:
     request path. If Redis is already in the stack for sessions, rate limiting, or queues,
     cache-aside runs on the same instance at zero marginal infrastructure cost.
 
+<!-- TODO: add item about INCREX command when Redis 8.8 is GA -->
 ## Ecosystem
 
 The following libraries and frameworks provide Redis-backed cache-aside integrations:
