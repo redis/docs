@@ -43,7 +43,7 @@ This example expects several variables to be set in the shell:
 
 ### Add session event
 
-Use [`POST /v1/stores/{storeId}/session-memory`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference#ADD_TAG" >}}) to add an event to a session in short-term memory. If a session doesn't exist yet, it will be created.
+Use [`POST /v1/stores/{storeId}/session-memory`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference#tag/session-memory/operation/AddSessionEvent" >}}) to add an event to a session in short-term memory. If a session doesn't exist yet, it will be created.
 
 ```json
 POST /v1/stores/{storeId}/session-memory
@@ -72,7 +72,7 @@ The Agent Memory model will automatically promote relevant short-term memories t
 
 You may want to add one or more long-term memories to add specific preference information.
 
-Use [`POST /v1/stores/{storeId}/long-term-memory/`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference#ADD_TAG" >}}) to add one or more long-term memories to long-term memory storage.
+Use [`POST /v1/stores/{storeId}/long-term-memory/`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference#tag/long-term-memory/operation/BulkCreateLongTermMemories" >}}) to add one or more long-term memories to long-term memory storage.
 
 ```json
 POST /v1/stores/{storeId}/long-term-memory
@@ -91,7 +91,7 @@ POST /v1/stores/{storeId}/long-term-memory
 
 ### Search Long-term memories
 
-Use [`POST /v1/stores/{storeId}/long-term-memory/search`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference#ADD_TAG" >}}) to search for long-term memories.
+Use [`POST /v1/stores/{storeId}/long-term-memory/search`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference#tag/long-term-memory/operation/SearchLongTermMemory" >}}) to search for long-term memories.
 
 ```json
 POST /v1/stores/{storeId}/long-term-memory/search
