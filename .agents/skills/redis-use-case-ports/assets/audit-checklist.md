@@ -252,6 +252,74 @@ The recommended cross-client idiom is to **bypass the library wrapper** and send
 
 **Why on list:** Locked-emit ordering is what guarantees a CDC consumer can replay events deterministically. Caught and fixed in the prefetch-cache reference's `_emit_change_locked` pattern after Codex review; the prefetch-cache cross-port audit confirmed all 9 ports preserve the invariant, including PHP's Lua-script equivalent. ([PR #3317 audit C](https://github.com/redis/docs/pull/3317))
 
+## 17. Subscribe-acknowledgement race in pub/sub-style helpers
+
+**What to scan for:** the constructor or registration path of any subscriber object (pub/sub Subscription, message-listener, channel consumer). Specifically, the code path between "request the SUBSCRIBE / PSUBSCRIBE" and "return the Subscription handle to the caller".
+
+**Pass criterion:** the helper must not return its Subscription until Redis has acknowledged the subscribe for every target. Synchronous-socket clients (redis-py's `PubSub.execute_command`, go-redis's `client.Subscribe`, Lettuce's `sync()`, StackExchange.Redis's `ISubscriber.Subscribe`) are safe by construction — the bytes are written and (for sync APIs) the ack is read before return. Helpers whose subscribe runs on a **spawned thread** (Jedis, redis-rb), a **spawned process** (PHP under `php -S`), or a **fire-and-forget async future** (Lettuce `async()`) need an **explicit handshake**: a `CountDownLatch` decremented by `onSubscribe`/`onPSubscribe`, a `Queue` latch populated by `on.subscribe`/`on.psubscribe`, a NUMSUB/NUMPAT-delta wait, or an awaited future. Without the handshake, a `PUBLISH` issued immediately after a successful subscribe response can race ahead of the SUBSCRIBE on the wire and the first message is silently dropped.
+
+**Sample audit prompt:**
+
+> Audit every Subscription / subscriber constructor in the 9 client implementations under `content/develop/use-cases/{{USE_CASE_NAME}}/`. For each, trace the path from "request SUBSCRIBE" to "return the handle to the caller". Classify each as (a) synchronous send + synchronous ack — safe, (b) synchronous send only (ack read later by dispatch) — safe iff Redis processes commands in receive order, (c) fire-and-forget async — racy, (d) spawned thread/process — racy unless an explicit handshake is wired up. For (c) and (d), confirm the handshake exists and is awaited before return. Flag any helper that returns the Subscription before the SUBSCRIBE has been acknowledged for every target. Read the helper file in every client.
+
+**Why on list:** Pub/sub use case, Codex independent review. Lettuce `async().subscribe(...)` discarded its `RedisFuture`. Jedis spawned a thread that called the blocking subscribe but the parent didn't wait. PHP spawned a worker process and the parent kept polling NUMPAT after a 2-second timeout but silently fell through on failure. All three shipped clean Phase 4 audit passes because the audit prompt looked for the *existence* of a handshake without verifying it was *awaited*. Future Phase 4 prompts must adversarially verify the wait is reachable on every code path.
+
+---
+
+## 18. Concurrent-name reservation race in async helpers
+
+**What to scan for:** any helper that does "check map for duplicate → release lock → do async work → acquire lock → insert". This shape is common in Rust (`std::sync::Mutex` is `!Send`, so can't be held across `await`) and any async language where the check and the insert are bracketed by an `await` that releases the lock implicitly.
+
+**Pass criterion:** the name (or other unique key) must be **atomically reserved** at the duplicate-check step, before any await. Two patterns are acceptable: (a) a separate `pending: Mutex<HashSet>` set that's locked alongside the live map at the check, holds the name during the async work, and is cleared in both success and error paths; (b) insert a sentinel/placeholder into the live map before awaiting, replace with the real value on success or remove on failure. A pure "re-check on insert and bail if someone else got there first" pattern silently leaks the loser's now-orphaned async work, so it's not enough.
+
+**Sample audit prompt:**
+
+> For each helper in the 9 client implementations of `content/develop/use-cases/{{USE_CASE_NAME}}/` that does "name uniqueness check → async work → insert into a registry", verify the name is atomically reserved before the async portion. Flag any helper that releases its registry lock between the check and the insert without reserving the name (placeholder, pending-set, or equivalent). Two concurrent callers with the same name must produce one success and one error, never two successes that overwrite each other.
+
+**Why on list:** Pub/sub use case, Codex independent review. Rust's `register()` locked the subscriptions HashMap, checked for the name, released the lock, ran `pubsub.subscribe(...).await`, re-acquired the lock, and called `subs.insert(...)` unconditionally. Two concurrent same-name registrations both passed the check, both subscribed live, and the second `insert` overwrote the first — leaking a live Subscription whose handle was unreachable and whose task could not be stopped via the registry.
+
+---
+
+## 19. Detached-worker PID capture
+
+**What to scan for:** in any port that spawns subscriber/worker processes from a request handler (typically PHP under `php -S`, but any helper that uses `proc_open`, `subprocess.Popen`, `child_process.spawn`, `posix_spawn`, etc.), how is the worker's PID recorded? Look for `proc_get_status()['pid']` after `proc_open([...])`, or `pid` properties on subprocess handles.
+
+**Pass criterion:** the recorded PID must be the **worker's** PID, not a wrapper's. Specifically: `proc_open(['setsid', '-f', ...])` returns the `setsid` wrapper's PID; `setsid -f` forks, the child execs the worker, the wrapper exits, and the recorded PID is now dead. Any later `posix_kill($recordedPid, ...)` is a no-op (or worse, kills an unrelated process if the PID has been reused). The right pattern is a shell wrapper that backgrounds the worker and echoes its real PID via `& echo $!`, captured from `proc_open`'s stdout pipe — works the same on Linux and macOS. If process-group detachment is required, put `setsid` (no `-f`) *inside* the shell wrapper so it exec-replaces in-place and the PID is preserved.
+
+**Sample audit prompt:**
+
+> For every port in `content/develop/use-cases/{{USE_CASE_NAME}}/` that spawns external worker processes, trace how the worker's PID is recorded. Confirm the recorded PID corresponds to the actual long-running worker, not a short-lived wrapper (`setsid -f`, `nohup` forking into background, daemon-style double-fork). Cross-check by running the demo, recording state.pid, and running `ps -p $pid` — they must match. Flag any port where the recorded PID is a wrapper.
+
+**Why on list:** Pub/sub use case, Codex independent review. The PHP port shipped with a `PHP_OS_FAMILY === 'Darwin'` shell-wrapper branch that correctly captured the worker PID, and a Linux branch using `proc_open(['setsid', '-f', ...])` that captured the (already-dead) setsid wrapper PID. Smoke tests ran on macOS so the Linux bug never surfaced. Future ports that use platform-specific worker-spawn paths must verify both branches end up with a usable worker PID.
+
+---
+
+## 20. Silent timeout fallthrough in readiness waits
+
+**What to scan for:** functions named `waitFor*`, `pollUntil*`, `awaitReady`, etc. that loop with a deadline. Especially ones that return `void` / `None` / `()` instead of a status.
+
+**Pass criterion:** if the wait deadline expires without the readiness condition becoming true, the function must surface the failure — either via a return value (`bool`, `Result`, exception) or by propagating an error to the caller. A function that silently returns on timeout has reintroduced the exact race the wait exists to close. The caller must check the return and react (typically: tear down the partial state and propagate the failure).
+
+**Sample audit prompt:**
+
+> For each helper in `content/develop/use-cases/{{USE_CASE_NAME}}/` that contains a deadline-bounded polling loop (looking for `while < deadline`, `loop { tokio::select! { ... timeout ... } }`, `Thread.sleep` inside an `until`, etc.), confirm the function communicates whether the condition was met or the deadline expired. Flag any function whose timeout path is "fall through anyway", "let the caller find out later", or similar wording. Cross-check the call sites — even a function that returns a status is broken if the caller ignores it.
+
+**Why on list:** Pub/sub use case, Codex independent review. PHP's `waitForSubscription()` had an explicit `// Fall through anyway — the worker may still be coming up` comment after its 2-second deadline. The caller didn't check, so a `subscribe()` that never got Redis to acknowledge the PSUBSCRIBE would still register the (dead) subscription in the demo's state, and the very first publish that followed would silently miss the subscriber. The whole point of the wait is to close that race; silently returning defeats it.
+
+---
+
+## 21. Pub/sub introspection commands are server-wide
+
+**What to scan for:** any test or smoke-test step that asserts an **absolute** value of `PUBSUB CHANNELS`, `PUBSUB NUMSUB`, or `PUBSUB NUMPAT`. Especially common in pub/sub-style use cases.
+
+**Pass criterion:** smoke tests against a Redis instance that **might** be shared (Phase 2 parallel runs, dev boxes with prior sessions still holding pubsub clients, CI runners with multiple use cases sharing one Redis) must compare a **delta from a pre-test snapshot**, not an absolute count. Channel-name prefixing (`smoke-{client}:test`) helps for `PUBSUB CHANNELS` but doesn't help for `PUBSUB NUMPAT` — that's a single global counter that includes every pattern subscriber from every connected client. A prior session's `psubscribe` to `*` will keep NUMPAT ≥ 1 indefinitely (until the TCP connection is reaped by Redis's idle timeout).
+
+**Sample audit prompt:**
+
+> For each smoke-test step in the brief and in the per-client `_index.md` files of `content/develop/use-cases/{{USE_CASE_NAME}}/`, identify every assertion against `PUBSUB CHANNELS`, `PUBSUB NUMSUB`, or `PUBSUB NUMPAT`. Confirm the assertion is delta-based (or uses `>= n` with `n ≥ 1` to allow for sibling pollution). Flag any test that expects an exact absolute value of these counters. Also confirm the test-setup hygiene includes a way to identify stale pubsub clients from prior sessions (`redis-cli client list type pubsub`), even if not a way to forcibly clear them.
+
+**Why on list:** Pub/sub use case, surfaced repeatedly during Phase 2 sub-agent reports. Multiple agents had to switch from "expect NUMPAT == 1" to "expect NUMPAT ≥ 1" after sibling agents on the same Redis added their own pattern subscribers. During Phase 5 retrofit smoke-testing, a stale `python3 demo_server.py` from earlier in the session was holding `notifications:*` pattern open, polluting NUMPAT and triggering the PHP auto-seed timeout. The class of issue is permanent in pub/sub: NUMPAT/CHANNELS/NUMSUB are global by Redis design and tests must reflect that.
+
 ---
 
 ## How to add a new row

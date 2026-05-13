@@ -25,12 +25,13 @@ Do NOT use this skill for:
 
 ## Workflow at a glance
 
-The workflow has six phases. Phase 1 is sequential and human-reviewed; phases 2–6 are mechanical and benefit from parallelism + automated review.
+The workflow has seven phases. Phase 1 is sequential and human-reviewed; phases 2–6 are mechanical and benefit from parallelism + automated review.
 
 1. **Reference implementation** (sequential, human-in-the-loop) — One language (default: `redis-py`). Establishes conventions and acts as the spec for the other 8.
 2. **Parallel build** — Spawn 8 sub-agents in one message, one per remaining client. Each follows [`assets/brief-template.md`](assets/brief-template.md) and returns a report per [`assets/report-template.md`](assets/report-template.md).
 3. **Synthesis** — Read all 8 reports. Identify cross-cutting issues, spec ambiguities, and retrofit candidates (including for the reference implementation).
 4. **Targeted audit** — Spawn code-reviewer sub-agents per bug class from [`assets/audit-checklist.md`](assets/audit-checklist.md), each scanning all 9 implementations for that specific class.
+4b. **Independent review** — Hand the full codebase to a fresh reviewer (different model, no context) to catch what structured audits missed. Append any new bug classes to `assets/audit-checklist.md`.
 5. **Retrofit** — Apply fixes. Parallel fan-out if mechanical; sequential (in the main thread) if judgement-heavy or needing user input.
 6. **Cross-client diff** — Final consistency pass against [`assets/cross-diff-checklist.md`](assets/cross-diff-checklist.md).
 
@@ -109,6 +110,16 @@ Examples of audit prompts:
 
 Append any new bug classes discovered during this audit (or by external review like Cursor's bugbot) to [`assets/audit-checklist.md`](assets/audit-checklist.md). This file is a living document — every future project benefits from the rows added in this one.
 
+## Phase 4b — Independent review
+
+Goal: catch bugs the structured audits missed by handing the codebase to a fresh reviewer with no context.
+
+Phase 4's targeted audits work well for known bug classes (the rows in `audit-checklist.md`). They're less good at the unknown unknowns — bugs where the *shape* of the audit prompt anchors the auditor to a false-positive answer. The pub/sub project's first Phase 4 said all 8 sibling ports passed the subscribe-ack check; an independent Codex review then found that Jedis returned its Subscription before the spawned thread had even sent the SUBSCRIBE, PHP's `waitForSubscription` silently fell through on timeout, PHP's Linux branch recorded the wrong PID, and Rust's duplicate-name check released its lock across the await. All four were real correctness bugs that Phase 4 had cleared.
+
+Run an independent reviewer (different model, fresh context — the [`codex:rescue`](../../codex/) skill is a good fit, with a prompt that lists files plus the specific concerns: correctness bugs, cross-client divergence, doc drift) **before** declaring Phase 4 done. Treat its findings as candidates for the Phase 5 retrofit, with the orchestrator triaging which to accept (some "race conditions" are safe by accident — e.g. redis-py and go-redis subscribe-ack — because the synchronous socket write closes the window before the helper returns).
+
+Add a new row to `assets/audit-checklist.md` for any *class* of bug the reviewer found that wasn't already covered, so the next project's Phase 4 won't have to rediscover it.
+
 ## Phase 5 — Retrofit
 
 Goal: apply the fixes from synthesis + audit.
@@ -150,3 +161,5 @@ Keep `SKILL.md` itself focused on the workflow. The concrete artefacts live in `
 
 - [`content/develop/use-cases/cache-aside/`](../../../content/develop/use-cases/cache-aside/) — the worked example that produced this skill. Includes the conventions, helper API shape, and prose structure that the templates encode.
 - [`content/develop/use-cases/session-store/`](../../../content/develop/use-cases/session-store/) — earlier worked example. Same shape, different helper API.
+- [`content/develop/use-cases/job-queue/`](../../../content/develop/use-cases/job-queue/) — the project that introduced rows 11–13 of [`audit-checklist.md`](assets/audit-checklist.md) (token-checked atomic state transitions, crash-window fallback timer, shared-keyspace collision in parallel smoke tests).
+- [`content/develop/use-cases/pub-sub/`](../../../content/develop/use-cases/pub-sub/) — the first non-keyspace use case ported. Introduced rows 14–18 of [`audit-checklist.md`](assets/audit-checklist.md) (subscribe-ack race, concurrent-name reservation, detached-worker PID capture, silent timeout fallthrough, server-wide PUBSUB introspection) plus the pub/sub conventions section in [`redis-conventions.md`](assets/redis-conventions.md). Also the project that motivated adding Phase 4b (independent review) after Codex caught four real bugs that Phase 4 cleared.
