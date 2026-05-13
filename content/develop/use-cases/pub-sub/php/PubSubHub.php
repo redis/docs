@@ -93,7 +93,12 @@ class RedisPubSubHub
      */
     public function publish(string $channel, $message): int
     {
-        $payload = is_string($message) ? $message : json_encode($message, JSON_UNESCAPED_SLASHES);
+        // JSON-encode every payload — including strings — so subscribers
+        // see the same wire shape regardless of which port is publishing.
+        // The reference (redis-py) uses `json.dumps` here too, which
+        // quotes a bare string. Skipping the encode for strings would
+        // diverge from every other port and break cross-port consumers.
+        $payload = json_encode($message, JSON_UNESCAPED_SLASHES);
         $delivered = (int) $this->redis->publish($channel, $payload);
 
         $statsKey = self::KEY_PREFIX . ':stats';
@@ -188,10 +193,18 @@ class RedisPubSubHub
         }
         $this->redis->set($this->pidKey($name), (string) $pid);
 
-        // Give the worker a moment to call SUBSCRIBE before returning
-        // to the caller, so a quick PUBLISH that follows a /subscribe
-        // request actually reaches it.
-        $this->waitForSubscription($isPattern, $targets, $beforeNumpat, $beforeNumsub);
+        // Block until the worker has actually called SUBSCRIBE so a
+        // quick PUBLISH that follows a /subscribe request can reach it.
+        // If the worker never acknowledges, tear everything down and
+        // surface the failure instead of silently returning a dead
+        // subscription.
+        if (!$this->waitForSubscription($isPattern, $targets, $beforeNumpat, $beforeNumsub)) {
+            $this->killPid($pid);
+            $this->deleteSubscriptionKeys($name);
+            throw new RuntimeException(
+                "subscriber worker for '{$name}' did not acknowledge SUBSCRIBE within timeout"
+            );
+        }
 
         return $this->getSubscription($name) ?? [];
     }
@@ -412,20 +425,32 @@ class RedisPubSubHub
         //   2. Redirect every standard FD to a file so no socket FDs
         //      leak into the worker.
         $logFile = sys_get_temp_dir() . '/pubsub_subscriber_worker.log';
-        if (PHP_OS_FAMILY === 'Darwin') {
-            // macOS ships `setsid` without the -f flag. Use a shell
-            // command that backgrounds the worker (`&`), echoes its PID
-            // so the parent can capture it, and detaches stdio.
-            $escaped = array_map('escapeshellarg', $workerArgs);
-            $shellCmd = sprintf(
-                'exec %s >>%s 2>&1 </dev/null & echo $!',
-                implode(' ', $escaped),
-                escapeshellarg($logFile)
-            );
-            $args = ['/bin/sh', '-c', $shellCmd];
-        } else {
-            $args = array_merge(['setsid', '-f'], $workerArgs);
-        }
+
+        // Use the same shape on both platforms: a shell wrapper that
+        // backgrounds the worker (`&`), echoes the worker's PID through
+        // `$!`, and detaches stdio. On Linux we prepend `setsid` (no -f)
+        // so the worker becomes its own session leader, immunising it
+        // against any process-group signals the php -S dev server might
+        // send. On macOS, where `setsid` isn't shipped by default, the
+        // shell wrapper alone is enough — the worker is reparented to
+        // launchd after the wrapper exits.
+        //
+        // The earlier Linux branch used `setsid -f` directly via
+        // proc_open(), which forks and leaves the wrapper PID behind in
+        // proc_get_status() instead of the worker PID — so unsubscribe()
+        // would later kill the wrong PID. Capturing $! from a shell that
+        // owns the background job is the only reliable way to get the
+        // worker's own PID across both platforms.
+        $escaped = array_map('escapeshellarg', $workerArgs);
+        $workerCmd = implode(' ', $escaped);
+        $prefix = (PHP_OS_FAMILY === 'Darwin') ? '' : 'setsid ';
+        $shellCmd = sprintf(
+            '%s%s >>%s 2>&1 </dev/null & echo $!',
+            $prefix,
+            $workerCmd,
+            escapeshellarg($logFile)
+        );
+        $args = ['/bin/sh', '-c', $shellCmd];
 
         $descriptorSpec = [
             0 => ['file', '/dev/null', 'r'],
@@ -438,15 +463,10 @@ class RedisPubSubHub
             return 0;
         }
 
-        $childPid = 0;
-        if (PHP_OS_FAMILY === 'Darwin') {
-            // The shell echoes the backgrounded child's PID on stdout.
-            $line = trim((string) fgets($pipes[1]));
-            $childPid = (int) $line;
-        } else {
-            $status = proc_get_status($proc);
-            $childPid = (int) ($status['pid'] ?? 0);
-        }
+        // The shell echoes the backgrounded child's PID on stdout.
+        $line = trim((string) fgets($pipes[1]));
+        $childPid = (int) $line;
+
         foreach ($pipes as $pipe) {
             if (is_resource($pipe)) {
                 fclose($pipe);
@@ -473,12 +493,12 @@ class RedisPubSubHub
         array $targets,
         int $beforeNumpat,
         array $beforeNumsub
-    ): void {
+    ): bool {
         $deadline = microtime(true) + 2.0;
         while (microtime(true) < $deadline) {
             if ($isPattern) {
                 if ($this->patternSubscriberCount() > $beforeNumpat) {
-                    return;
+                    return true;
                 }
             } else {
                 $counts = $this->channelSubscriberCounts($targets);
@@ -492,13 +512,12 @@ class RedisPubSubHub
                     }
                 }
                 if ($allUp) {
-                    return;
+                    return true;
                 }
             }
             usleep(25 * 1000);
         }
-        // Fall through anyway — the worker may still be coming up. A
-        // later /state poll will pick up the count.
+        return false;
     }
 
     // -----------------------------------------------------------------

@@ -20,7 +20,7 @@ use redis::aio::ConnectionManager;
 use redis::{AsyncCommands, Client, RedisResult};
 use serde::Serialize;
 use serde_json::Value;
-use std::collections::{HashMap, VecDeque};
+use std::collections::{HashMap, HashSet, VecDeque};
 use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
 use std::time::{SystemTime, UNIX_EPOCH};
@@ -179,6 +179,11 @@ struct HubInner {
     introspect: ConnectionManager,
     buffer_size: usize,
     subscriptions: Mutex<HashMap<String, Arc<Subscription>>>,
+    /// Names currently mid-`register`. Held only across the lock-aware
+    /// duplicate check so two concurrent registrations of the same name
+    /// can't both run their async subscribe work and have the second
+    /// overwrite the first's HashMap entry, leaking a live subscriber.
+    pending_names: Mutex<HashSet<String>>,
     published_total: AtomicU64,
     delivered_total: AtomicU64,
     channel_published: Mutex<HashMap<String, u64>>,
@@ -212,6 +217,7 @@ impl PubSubHub {
                 introspect,
                 buffer_size,
                 subscriptions: Mutex::new(HashMap::new()),
+                pending_names: Mutex::new(HashSet::new()),
                 published_total: AtomicU64::new(0),
                 delivered_total: AtomicU64::new(0),
                 channel_published: Mutex::new(HashMap::new()),
@@ -266,17 +272,76 @@ impl PubSubHub {
         if targets.is_empty() {
             return Err(HubError::EmptyTargets);
         }
+
+        // Reserve the name atomically before doing any async work. Two
+        // concurrent register() calls that pass the live-map check could
+        // otherwise both subscribe, and the second `subs.insert(...)`
+        // below would overwrite the first — leaking a live subscriber
+        // whose handle is now unreachable. Holding the live-map and
+        // pending-name locks together at this point makes the duplicate
+        // check race-free.
         {
             let subs = self
                 .inner
                 .subscriptions
                 .lock()
                 .expect("subscriptions lock poisoned");
-            if subs.contains_key(name) {
+            let mut pending = self
+                .inner
+                .pending_names
+                .lock()
+                .expect("pending_names lock poisoned");
+            if subs.contains_key(name) || pending.contains(name) {
                 return Err(HubError::DuplicateName(name.to_string()));
             }
+            pending.insert(name.to_string());
         }
 
+        // From here on, any early return must release the pending name.
+        // The result of the async work is captured first; cleanup runs
+        // unconditionally before we return.
+        let owned_name = name.to_string();
+        let result = self
+            .register_inner(&owned_name, targets, is_pattern)
+            .await;
+
+        match result {
+            Ok(sub) => {
+                let mut subs = self
+                    .inner
+                    .subscriptions
+                    .lock()
+                    .expect("subscriptions lock poisoned");
+                let mut pending = self
+                    .inner
+                    .pending_names
+                    .lock()
+                    .expect("pending_names lock poisoned");
+                pending.remove(&owned_name);
+                subs.insert(owned_name, sub.clone());
+                Ok(sub)
+            }
+            Err(err) => {
+                let mut pending = self
+                    .inner
+                    .pending_names
+                    .lock()
+                    .expect("pending_names lock poisoned");
+                pending.remove(&owned_name);
+                Err(err)
+            }
+        }
+    }
+
+    /// Async portion of `register`. Owns no registry state; the caller
+    /// is responsible for releasing the pending-name reservation and
+    /// installing the returned subscription into the live map.
+    async fn register_inner(
+        &self,
+        name: &str,
+        targets: Vec<String>,
+        is_pattern: bool,
+    ) -> Result<Arc<Subscription>, HubError> {
         // Each subscription owns its own pub/sub connection. Sharing one
         // connection across subscribers would couple their lifetimes —
         // closing one would close the channel for the others.
@@ -347,12 +412,6 @@ impl PubSubHub {
             .expect("subscription task lock poisoned")
             .replace(handle);
 
-        let mut subs = self
-            .inner
-            .subscriptions
-            .lock()
-            .expect("subscriptions lock poisoned");
-        subs.insert(name.to_string(), sub.clone());
         Ok(sub)
     }
 

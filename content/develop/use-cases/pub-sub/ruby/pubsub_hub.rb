@@ -89,9 +89,19 @@ module PubSubHub
       # so the very first message can't race the subscription handshake.
       @ready_latch = Queue.new
       @thread = Thread.new { run }
-      # Block until the first subscribe acknowledgement arrives, or
-      # until the worker exits without subscribing (error path).
-      @ready_latch.pop
+      # Block until the first subscribe acknowledgement arrives. The
+      # worker pushes `true` on a successful SUBSCRIBE/PSUBSCRIBE ack
+      # and `false` if it errored before getting an ack — surface the
+      # failure here instead of registering a dead subscription.
+      ack = @ready_latch.pop
+      unless ack
+        begin
+          @redis.close
+        rescue StandardError
+          # ignore — we're already aborting
+        end
+        raise "subscribe acknowledgement did not arrive for '#{@name}'"
+      end
     end
 
     def is_pattern?

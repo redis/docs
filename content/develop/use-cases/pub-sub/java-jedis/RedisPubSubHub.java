@@ -10,6 +10,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -101,6 +103,13 @@ public class RedisPubSubHub {
             // unsubscribing one would close the channel for the others.
             this.jedis = pool.getResource();
 
+            // ackLatch is counted down by Jedis once per target after Redis
+            // acknowledges the SUBSCRIBE / PSUBSCRIBE. The constructor blocks
+            // on it so a publish issued right after subscribe() can't race
+            // ahead of the handshake.
+            final CountDownLatch ackLatch = new CountDownLatch(targets.size());
+            final AtomicLong startupError = new AtomicLong(0L);
+
             this.listener = new JedisPubSub() {
                 @Override
                 public void onMessage(String channel, String message) {
@@ -110,6 +119,16 @@ public class RedisPubSubHub {
                 @Override
                 public void onPMessage(String pattern, String channel, String message) {
                     dispatch(channel, pattern, message);
+                }
+
+                @Override
+                public void onSubscribe(String channel, int subscribedChannels) {
+                    ackLatch.countDown();
+                }
+
+                @Override
+                public void onPSubscribe(String pattern, int subscribedChannels) {
+                    ackLatch.countDown();
                 }
             };
 
@@ -121,8 +140,14 @@ public class RedisPubSubHub {
                     } else {
                         jedis.subscribe(listener, targetArr);
                     }
-                } catch (Exception ignored) {
-                    // Connection closed by close(); thread exits.
+                } catch (Exception e) {
+                    // Connection closed by close() is expected on shutdown.
+                    // If we never got the first ack through, surface the
+                    // failure so the constructor's wait can give up.
+                    startupError.compareAndSet(0L, 1L);
+                    while (ackLatch.getCount() > 0) {
+                        ackLatch.countDown();
+                    }
                 } finally {
                     try {
                         jedis.close();
@@ -133,12 +158,20 @@ public class RedisPubSubHub {
             this.thread.setDaemon(true);
             this.thread.start();
 
-            // jedis.subscribe / psubscribe send the SUBSCRIBE command
-            // on its own connection. The command flushes immediately and
-            // Redis registers the client as a subscriber before any
-            // publish race can occur; tests that publish right after
-            // returning from this constructor should still wait a few ms
-            // for the round-trip to complete.
+            // Wait up to 2 s for Redis to acknowledge every target. If the
+            // subscribe call blew up before its first ack, startupError
+            // will be set and the latch released so we don't block forever.
+            try {
+                boolean acked = ackLatch.await(2, TimeUnit.SECONDS);
+                if (!acked || startupError.get() != 0L) {
+                    throw new RuntimeException(
+                            "subscribe acknowledgement did not arrive for '" + name + "'");
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException(
+                        "interrupted waiting for subscribe acknowledgement for '" + name + "'", e);
+            }
         }
 
         // The JedisPubSub callbacks deliver (channel, pattern, message).

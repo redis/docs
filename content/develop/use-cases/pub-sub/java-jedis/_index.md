@@ -141,20 +141,22 @@ public Subscription subscribe(String name, List<String> channels) {
 }
 ```
 
-Inside the `Subscription` constructor, the helper builds a `JedisPubSub` listener and starts the dispatch thread:
+Inside the `Subscription` constructor, the helper builds a `JedisPubSub` listener, starts the dispatch thread, and blocks until Redis has acknowledged every `SUBSCRIBE` so the very first publish can't race ahead:
 
 ```java
 this.jedis = pool.getResource();
 
+final CountDownLatch ackLatch = new CountDownLatch(targets.size());
+
 this.listener = new JedisPubSub() {
-    @Override
-    public void onMessage(String channel, String message) {
+    @Override public void onMessage(String channel, String message) {
         dispatch(channel, null, message);
     }
-    @Override
-    public void onPMessage(String pattern, String channel, String message) {
+    @Override public void onPMessage(String pattern, String channel, String message) {
         dispatch(channel, pattern, message);
     }
+    @Override public void onSubscribe(String channel, int n) { ackLatch.countDown(); }
+    @Override public void onPSubscribe(String pattern, int n) { ackLatch.countDown(); }
 };
 
 final String[] targetArr = this.targets.toArray(new String[0]);
@@ -167,12 +169,17 @@ this.thread = new Thread(() -> {
 }, "pubsub-" + name);
 this.thread.setDaemon(true);
 this.thread.start();
+
+if (!ackLatch.await(2, TimeUnit.SECONDS)) {
+    throw new RuntimeException("subscribe acknowledgement did not arrive for '" + name + "'");
+}
 ```
 
 A few details matter here:
 
 * `jedis.subscribe(...)` and `jedis.psubscribe(...)` **block the calling thread** until the listener unsubscribes from every target. Running each subscription on its own thread is the only way to keep the rest of the application responsive — there is no "run in background" helper in Jedis.
 * Each `Subscription` gets its own `Jedis` connection from the pool. A connection that has issued `SUBSCRIBE` or `PSUBSCRIBE` is switched into subscribe-only mode, so other commands on the same connection would fail. Sharing one connection across subscribers would also couple their lifetimes — unsubscribing one would tear down the channel for the others.
+* The constructor waits on a `CountDownLatch` that's decremented once per target inside `onSubscribe` / `onPSubscribe`. Without it, the parent thread could return from `subscribe()` while the spawned worker thread is still about to send the SUBSCRIBE command — and a `PUBLISH` issued immediately afterwards would beat the subscription into Redis.
 * The `JedisPubSub` listener is the same object on both threads: it's safe to call `listener.unsubscribe()` from a different thread because Jedis ships the unsubscribe command back over the listener's own socket. After the unsubscribe round-trip completes, the blocking `subscribe()` call returns and the worker thread exits.
 
 ## Pattern subscriptions with PSUBSCRIBE

@@ -263,7 +263,7 @@ The `Stats` struct uses `json:"..."` tags with snake_case names so the demo UI's
 ## Prerequisites
 
 * Redis 6.2 or later running locally on the default port (6379). Earlier versions still work for plain `PUBLISH`/`SUBSCRIBE`; `PUBSUB NUMPAT` is older than that.
-* Go 1.21 or later.
+* Go 1.23 or later (matching the version declared in this port's `go.mod`).
 * The `go-redis` client. The included `go.mod` pins:
 
   ```text

@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Minimal JSON encoder/decoder for the job-queue demo.
+ * Minimal JSON encoder/decoder for the pub/sub demo.
  *
- * <p>The job-queue payload and result values are always small maps of
+ * <p>Published messages and received payloads are always small maps of
  * scalar values plus the occasional nested map/list, so a hand-rolled
  * encoder is sufficient. Avoids pulling in a JSON library for what is
  * otherwise a self-contained demo.</p>
