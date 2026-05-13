@@ -206,12 +206,10 @@
     {{ else }}
       {{/* Regular line - add to full file */}}
       {{ if $inAnyStep }}
-        {{/* Skip comment-only lines in steps */}}
-        {{ if or (eq $trimmed "") (not (hasPrefix $trimmed $commentPrefix)) }}
-          {{ $currentSection = $currentSection | append . }}
-          {{ if $inCurrentStep }}
-            {{ $currentStepLines = $currentStepLines | append . }}
-          {{ end }}
+        {{/* Preserve all lines verbatim, comments included. */}}
+        {{ $currentSection = $currentSection | append . }}
+        {{ if $inCurrentStep }}
+          {{ $currentStepLines = $currentStepLines | append . }}
         {{ end }}
       {{ else }}
         {{/* Context lines (outside any step) - include empty lines for consistent spacing */}}
@@ -324,6 +322,7 @@
         {{/* Map internal language identifier to a CodeMirror mode name for data-language */}}
         {{ $cmLanguage := $language }}
         {{ if eq $language "node.js" }}{{ $cmLanguage = "javascript" }}{{ end }}
+        {{ if eq $language "c" }}{{ $cmLanguage = "text/x-csrc" }}{{ end }}
         <div class="step-code-view">
             <div data-executable="true" data-language="{{ $cmLanguage }}" class="thebe-cell">
                 {{- highlight $stepCode $language "" -}}
