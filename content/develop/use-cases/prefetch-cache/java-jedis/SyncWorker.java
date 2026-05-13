@@ -150,10 +150,14 @@ public class SyncWorker {
             if (pauseRequested) {
                 lock.lock();
                 try {
-                    // Announce that we're parked and wait for resume/stop.
-                    workerIdle = true;
-                    idleSignal.signalAll();
+                    // Park until resume/stop. Re-announce "I am idle" on
+                    // every iteration so a *new* pause() that arrives
+                    // while we are still parked from the previous cycle
+                    // gets acknowledged immediately, not after the
+                    // caller's full pause-timeout.
                     while (pauseRequested && !stopRequested) {
+                        workerIdle = true;
+                        idleSignal.signalAll();
                         try {
                             stateChanged.await();
                         } catch (InterruptedException e) {

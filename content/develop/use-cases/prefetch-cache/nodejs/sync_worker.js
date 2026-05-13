@@ -116,12 +116,16 @@ class SyncWorker {
   async _run() {
     while (!this._stopped) {
       if (this._paused) {
-        // Signal "I am parked; no apply is in flight." pause() awaits this.
-        if (this._pausedIdleResolve) {
-          this._pausedIdleResolve();
-        }
         // Park until resume() or stop() is called.
+        // Resolve `_pausedIdleResolve` on every iteration (after each
+        // resume/pause cycle that's re-armed by `_resetIdleSignal`) so a
+        // *new* pause() that arrives while we are still parked from the
+        // previous cycle gets acknowledged immediately, not after the
+        // caller's full pause-timeout.
         while (this._paused && !this._stopped) {
+          if (this._pausedIdleResolve) {
+            this._pausedIdleResolve();
+          }
           await this._resumePromise;
         }
         // Loop will re-check flags at the top.

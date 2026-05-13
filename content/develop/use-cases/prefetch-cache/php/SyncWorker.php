@@ -86,8 +86,13 @@ class SyncWorker
                 // /clear and /reprefetch handlers wait for this flag
                 // before writing to the cache, so a queued event can't
                 // be applied between cache.clear() and bulk_load().
-                $this->redis->set($this->idleKey, '1');
+                //
+                // Re-SET idle=1 on every iteration so a *new* pause
+                // request that arrives while we are still parked from
+                // the previous cycle gets acknowledged within one tick,
+                // not after the supervisor's full pause-timeout.
                 while ($this->isPaused() && !$this->stop) {
+                    $this->redis->set($this->idleKey, '1');
                     usleep(20 * 1000);
                 }
                 $this->redis->set($this->idleKey, '0');

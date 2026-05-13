@@ -9,6 +9,11 @@ using StackExchange.Redis;
 // await Task.Delay) and avoid this entirely.
 ThreadPool.SetMinThreads(64, 64);
 
+// pauseMu serialises /clear and /reprefetch so two concurrent admin
+// callers cannot pause/resume each other into a sync-worker live state.
+// Mirrors the `pauseMu sync.Mutex` in the go-redis port.
+var pauseMu = new object();
+
 var host = "127.0.0.1";
 var port = 8787;
 var redisHost = "localhost";
@@ -179,48 +184,58 @@ app.MapPost("/invalidate", async (HttpContext ctx) =>
 
 app.MapPost("/clear", () =>
 {
-    // Pause the sync worker so it cannot recreate keys between SCAN
-    // and DEL. Queued events accumulate and apply after resume.
-    sync.Pause();
-    int deleted;
-    try
+    // Serialise admin handlers so two concurrent callers cannot
+    // pause/resume each other into a sync-worker live state.
+    lock (pauseMu)
     {
-        deleted = cache.Clear();
+        // Pause the sync worker so it cannot recreate keys between SCAN
+        // and DEL. Queued events accumulate and apply after resume.
+        sync.Pause();
+        int deleted;
+        try
+        {
+            deleted = cache.Clear();
+        }
+        finally
+        {
+            sync.Resume();
+        }
+        return Results.Json(new { deleted, stats = BuildStats() });
     }
-    finally
-    {
-        sync.Resume();
-    }
-    return Results.Json(new { deleted, stats = BuildStats() });
 });
 
 app.MapPost("/reprefetch", () =>
 {
-    // Pause the sync worker so it cannot interleave with the
-    // clear + snapshot + bulk_load sequence. Without this, a change
-    // applied between ListRecords() and BulkLoad() would be overwritten
-    // by the stale snapshot.
-    sync.Pause();
-    int loaded;
-    double elapsedMs;
-    try
+    // Serialise admin handlers so two concurrent callers cannot
+    // pause/resume each other into a sync-worker live state.
+    lock (pauseMu)
     {
-        var sw = System.Diagnostics.Stopwatch.StartNew();
-        cache.Clear();
-        loaded = cache.BulkLoad(primary.ListRecords());
-        sw.Stop();
-        elapsedMs = sw.Elapsed.TotalMilliseconds;
+        // Pause the sync worker so it cannot interleave with the
+        // clear + snapshot + bulk_load sequence. Without this, a change
+        // applied between ListRecords() and BulkLoad() would be overwritten
+        // by the stale snapshot.
+        sync.Pause();
+        int loaded;
+        double elapsedMs;
+        try
+        {
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            cache.Clear();
+            loaded = cache.BulkLoad(primary.ListRecords());
+            sw.Stop();
+            elapsedMs = sw.Elapsed.TotalMilliseconds;
+        }
+        finally
+        {
+            sync.Resume();
+        }
+        return Results.Json(new
+        {
+            loaded,
+            elapsed_ms = Round2(elapsedMs),
+            stats = BuildStats(),
+        });
     }
-    finally
-    {
-        sync.Resume();
-    }
-    return Results.Json(new
-    {
-        loaded,
-        elapsed_ms = Round2(elapsedMs),
-        stats = BuildStats(),
-    });
 });
 
 app.MapPost("/reset", () =>

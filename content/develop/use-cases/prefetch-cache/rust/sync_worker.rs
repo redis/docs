@@ -180,13 +180,11 @@ async fn run_loop(
             return;
         }
         if *pause_rx.borrow() {
-            // Notify any pauser waiting for us to park. We notify each
-            // time we observe the pause flag so a pauser that
-            // subscribed slightly after we entered park still gets a
-            // wake-up promptly.
-            idle_notify.notify_waiters();
-
             // Park until the pause is lifted or the worker is stopped.
+            // Re-notify on every iteration so a *new* pause() that
+            // subscribes while we are still parked from the previous
+            // cycle gets a wake-up within one poll interval, not after
+            // the caller's full pause-timeout.
             loop {
                 if *stop_rx.borrow() {
                     return;
@@ -194,6 +192,7 @@ async fn run_loop(
                 if !*pause_rx.borrow() {
                     break;
                 }
+                idle_notify.notify_waiters();
                 tokio::select! {
                     _ = pause_rx.changed() => {}
                     _ = stop_rx.changed() => {}

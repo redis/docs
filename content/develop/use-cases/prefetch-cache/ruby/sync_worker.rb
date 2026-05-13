@@ -96,10 +96,14 @@ class SyncWorker
 
       if should_pause
         @state_mutex.synchronize do
-          @paused_idle = true
-          @state_cv.broadcast
           # Park until the pause is lifted or the worker is stopped.
+          # Re-set @paused_idle on every iteration so a *new* pause
+          # that arrives while we are still parked from the previous
+          # cycle gets acknowledged immediately, not after the caller's
+          # full pause-timeout.
           while @pause && !@stop
+            @paused_idle = true
+            @state_cv.broadcast
             @state_cv.wait(@state_mutex, @poll_timeout_s)
           end
           @paused_idle = false

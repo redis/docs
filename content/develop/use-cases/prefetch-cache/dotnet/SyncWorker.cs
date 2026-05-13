@@ -106,10 +106,14 @@ public class SyncWorker
         {
             if (_pauseEvent.IsSet)
             {
-                _pausedIdleEvent.Set();
                 // Park until the pause is lifted or the worker is stopped.
+                // Re-Set _pausedIdleEvent on every iteration so a *new*
+                // Pause call that arrives while we are still parked from
+                // the previous cycle gets acknowledged within one poll
+                // interval, not the Pause's 2 s timeout.
                 while (_pauseEvent.IsSet && !_stopEvent.IsSet)
                 {
+                    _pausedIdleEvent.Set();
                     _stopEvent.Wait(_pollTimeout);
                 }
                 _pausedIdleEvent.Reset();

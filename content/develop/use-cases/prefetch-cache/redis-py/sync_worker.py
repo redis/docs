@@ -87,9 +87,13 @@ class SyncWorker:
     def _run(self) -> None:
         while not self._stop_event.is_set():
             if self._pause_event.is_set():
-                self._paused_idle_event.set()
                 # Park until the pause is lifted or the worker is stopped.
+                # Re-set ``_paused_idle_event`` on every iteration so a *new*
+                # ``pause()`` that arrives while we are still parked from
+                # the previous cycle gets acknowledged within one poll
+                # interval, not the caller's full pause-timeout.
                 while self._pause_event.is_set() and not self._stop_event.is_set():
+                    self._paused_idle_event.set()
                     self._stop_event.wait(timeout=self.poll_timeout_s)
                 self._paused_idle_event.clear()
                 continue

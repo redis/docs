@@ -131,10 +131,15 @@ public class SyncWorker {
         while (!stopRequested) {
             if (pauseRequested) {
                 synchronized (pausedSignal) {
-                    pausedIdle = true;
-                    pausedSignal.notifyAll();
                     // Park until pause is lifted or worker is stopped.
+                    // Re-announce "pausedIdle" on every iteration so a
+                    // *new* pause() that arrives while we are still
+                    // parked from the previous cycle gets acknowledged
+                    // immediately, not after the caller's full
+                    // pause-timeout.
                     while (pauseRequested && !stopRequested) {
+                        pausedIdle = true;
+                        pausedSignal.notifyAll();
                         try {
                             pausedSignal.wait(pollTimeoutMs);
                         } catch (InterruptedException e) {

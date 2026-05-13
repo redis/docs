@@ -335,9 +335,11 @@ func (s *demoServer) handleClear(w http.ResponseWriter, r *http.Request) {
 	defer pauseMu.Unlock()
 	// Pause the sync worker so it cannot recreate keys between SCAN
 	// and DEL. Queued events accumulate and apply after resume.
+	// `defer Resume()` guarantees the worker is unparked even if
+	// Clear panics or returns an error mid-way.
 	s.sync.Pause(2 * time.Second)
+	defer s.sync.Resume()
 	deleted, err := s.cache.Clear(r.Context())
-	s.sync.Resume()
 	if err != nil {
 		s.writeJSON(w, http.StatusInternalServerError, map[string]any{"error": err.Error()})
 		return
@@ -358,8 +360,10 @@ func (s *demoServer) handleReprefetch(w http.ResponseWriter, r *http.Request) {
 	// Pause the sync worker so it cannot interleave with the clear
 	// + snapshot + bulk_load sequence. Without this, a change applied
 	// between ListRecords() and BulkLoad() would be overwritten by
-	// the stale snapshot.
+	// the stale snapshot. `defer Resume()` guarantees the worker is
+	// unparked even if Clear or BulkLoad panics mid-way.
 	s.sync.Pause(2 * time.Second)
+	defer s.sync.Resume()
 	started := time.Now()
 	var loaded int
 	var clearErr, loadErr error
@@ -367,7 +371,6 @@ func (s *demoServer) handleReprefetch(w http.ResponseWriter, r *http.Request) {
 		loaded, loadErr = s.cache.BulkLoad(r.Context(), s.primary.ListRecords())
 	}
 	elapsedMs := float64(time.Since(started).Microseconds()) / 1000.0
-	s.sync.Resume()
 	if clearErr != nil {
 		s.writeJSON(w, http.StatusInternalServerError, map[string]any{"error": clearErr.Error()})
 		return
