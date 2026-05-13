@@ -99,7 +99,10 @@ class MockPrimaryStore:
             if entity_id in self._records:
                 return False
             self._records[entity_id] = dict(record)
-        self._emit_change(CHANGE_OP_UPSERT, entity_id, dict(record))
+            # Emit while the lock is held so the queue order matches the
+            # mutation order. Two concurrent callers cannot interleave
+            # mutation A → mutation B → emit B → emit A.
+            self._emit_change_locked(CHANGE_OP_UPSERT, entity_id, dict(record))
         return True
 
     def update_field(self, entity_id: str, field: str, value: str) -> bool:
@@ -108,8 +111,7 @@ class MockPrimaryStore:
             if record is None:
                 return False
             record[field] = value
-            snapshot = dict(record)
-        self._emit_change(CHANGE_OP_UPSERT, entity_id, snapshot)
+            self._emit_change_locked(CHANGE_OP_UPSERT, entity_id, dict(record))
         return True
 
     def delete_record(self, entity_id: str) -> bool:
@@ -117,7 +119,7 @@ class MockPrimaryStore:
             if entity_id not in self._records:
                 return False
             del self._records[entity_id]
-        self._emit_change(CHANGE_OP_DELETE, entity_id, None)
+            self._emit_change_locked(CHANGE_OP_DELETE, entity_id, None)
         return True
 
     def next_change(self, timeout: float) -> Optional[dict]:
@@ -135,12 +137,19 @@ class MockPrimaryStore:
         with self._lock:
             self._reads = 0
 
-    def _emit_change(
+    def _emit_change_locked(
         self,
         op: str,
         entity_id: str,
         fields: Optional[dict[str, str]],
     ) -> None:
+        """Append a change event to the feed. Caller must hold ``self._lock``.
+
+        ``queue.Queue.put`` is itself thread-safe and never tries to acquire
+        ``self._lock``, so calling it while holding the records lock cannot
+        deadlock. Holding the lock here is what guarantees that the queue
+        order matches the order in which the records dict was mutated.
+        """
         self._changes.put(
             {
                 "op": op,

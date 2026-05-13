@@ -55,7 +55,16 @@ class PrefetchCache:
         return key[len(self.prefix):] if key.startswith(self.prefix) else key
 
     def bulk_load(self, records: Iterable[dict[str, str]]) -> int:
-        """Pipeline ``HSET`` + ``EXPIRE`` for every record. Returns the count loaded."""
+        """Pipeline ``HSET`` + ``EXPIRE`` for every record. Returns the count loaded.
+
+        The pipeline is non-transactional: it is fast on startup (when
+        nothing is reading the cache) and on the live ``/reprefetch``
+        path (when the demo pauses the sync worker around the call).
+        Calling ``bulk_load`` on a cache that is actively being read
+        and written to can briefly expose a key that has been deleted
+        but not yet rewritten; pause the writers first or rewrite this
+        with ``pipeline(transaction=True)`` if that matters.
+        """
         loaded = 0
         pipe = self.redis.pipeline(transaction=False)
         for record in records:

@@ -136,8 +136,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       fall-back to the primary on the read path. When you add, update, or
       delete a record, the primary emits a change event that a background
       sync worker applies to Redis within a few milliseconds. A long
-      safety-net TTL (__CACHE_TTL__ s) is refreshed on every sync event
-      and bounds memory if sync ever stops.
+      safety-net TTL (__CACHE_TTL__ s) is refreshed on every add or update
+      event (delete events remove the key) and bounds memory if sync ever stops.
     </p>
 
     <div class="grid">
@@ -451,14 +451,28 @@ class PrefetchCacheDemoHandler(BaseHTTPRequestHandler):
             self._handle_invalidate()
             return
         if parsed.path == "/clear":
-            deleted = self.cache.clear()
+            # Pause the sync worker so it cannot recreate keys between
+            # SCAN and DEL. Queued events accumulate and apply after resume.
+            self.sync.pause()
+            try:
+                deleted = self.cache.clear()
+            finally:
+                self.sync.resume()
             self._send_json({"deleted": deleted, "stats": self._build_stats()}, 200)
             return
         if parsed.path == "/reprefetch":
-            started = time.perf_counter()
-            self.cache.clear()
-            loaded = self.cache.bulk_load(self.primary.list_records())
-            elapsed = (time.perf_counter() - started) * 1000.0
+            # Pause the sync worker so it cannot interleave with the
+            # clear + snapshot + bulk_load sequence. Without this, a
+            # change applied between list_records() and bulk_load()
+            # would be overwritten by the stale snapshot.
+            self.sync.pause()
+            try:
+                started = time.perf_counter()
+                self.cache.clear()
+                loaded = self.cache.bulk_load(self.primary.list_records())
+                elapsed = (time.perf_counter() - started) * 1000.0
+            finally:
+                self.sync.resume()
             self._send_json(
                 {"loaded": loaded, "elapsed_ms": round(elapsed, 2), "stats": self._build_stats()},
                 200,

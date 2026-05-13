@@ -31,7 +31,7 @@ You can:
 
 -   Achieve near-100% cache hit ratios for country codes, product categories, translations, configuration, and other reference tables.
 -   Keep P95 read latency under 1 ms for lookup-heavy request paths at peak traffic.
--   Sync source database changes into cache within seconds, without writing custom pipeline code.
+-   Sync source database changes into cache within seconds using a managed CDC pipeline (such as Redis Data Integration), or a small consumer in front of Debezium, Kafka, or a Redis stream.
 -   Offload all reference-data reads from the primary database, avoiding the cost of dedicated read replicas.
 -   Pre-warm the cache on deploy or restart so cold starts never reach the backend.
 -   Bound memory with a long safety-net TTL that expires entries if the sync pipeline ever stops, so a silent failure never serves stale data forever.

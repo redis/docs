@@ -26,7 +26,7 @@ That gives you:
 * Source-database changes propagated into Redis within a few milliseconds
 * A long safety-net TTL that bounds memory if the sync pipeline ever stops
 
-In this example, each cached category is stored as a Redis hash under a key like `cache:category:{id}`. The hash holds the category fields (`id`, `name`, `display_order`, `featured`, `parent_id`) and the key has a long safety-net TTL that the sync worker refreshes on every change event.
+In this example, each cached category is stored as a Redis hash under a key like `cache:category:{id}`. The hash holds the category fields (`id`, `name`, `display_order`, `featured`, `parent_id`) and the key has a long safety-net TTL that the sync worker refreshes on every add or update event. Delete events remove the cache key outright, so there is no TTL to refresh in that case.
 
 ## How it works
 
@@ -34,7 +34,7 @@ The flow has three independent paths:
 
 1. **On startup**, the demo server calls `cache.bulk_load(primary.list_records())`, which pipelines `DEL` + `HSET` + `EXPIRE` for every record in one round trip.
 2. **On every read**, the application calls `cache.get(entity_id)`, which runs `HGETALL` against Redis only. A miss is treated as an error, not a trigger to query the primary.
-3. **On every primary mutation**, the primary appends a change event to an in-process queue. The sync worker thread drains the queue and calls `cache.apply_change(event)`, which rewrites the cache hash (or deletes it for a `delete` event) and refreshes the safety-net TTL.
+3. **On every primary mutation**, the primary appends a change event to an in-process queue. The sync worker thread drains the queue and calls `cache.apply_change(event)`. For an `upsert`, the helper rewrites the cache hash and refreshes the safety-net TTL; for a `delete`, it removes the cache key.
 
 In a real system the in-process change queue is replaced by a CDC pipeline — [Redis Data Integration]({{< relref "/integrate/redis-data-integration" >}}), Debezium plus a lightweight consumer, or an equivalent tool that tails the source's binlog/WAL and pushes events into Redis.
 
@@ -107,7 +107,7 @@ def bulk_load(self, records: Iterable[dict[str, str]]) -> int:
     return loaded
 ```
 
-`transaction=False` is intentional: bulk prefetch is idempotent and the records do not need to be applied atomically as a set. Skipping `MULTI`/`EXEC` reduces server-side coordination and keeps the bulk load fast.
+`transaction=False` is intentional on the **startup** path: nothing is reading the cache yet, the records do not need to be applied atomically as a set, and skipping `MULTI`/`EXEC` keeps the bulk load fast. The same method is used for the live `/reprefetch` reload, which is safe because the demo pauses the sync worker around the clear-and-reload sequence — see [Re-prefetch under load](#re-prefetch-under-load) below. If you call `bulk_load` directly from your own code on a cache that is already serving reads, either pause your writers first or rewrite it with `pipeline(transaction=True)` so callers cannot observe a half-loaded record.
 
 ## Reads from Redis only
 
@@ -189,6 +189,21 @@ Two helpers exist for testing and recovery:
 * `clear()` runs `SCAN MATCH cache:category:*` and deletes every key under the prefix. The demo uses it to simulate a full cache loss.
 
 In both cases, the recovery path is to call `bulk_load(primary.list_records())` again — re-prefetching from the primary. The demo exposes this as the "Re-prefetch" button so you can see the cache come back to a fully-warm state in one operation.
+
+### Re-prefetch under load
+
+`clear()` and `bulk_load()` are not atomic against the sync worker. If a change event arrives between the snapshot (`primary.list_records()`) and the bulk write, the bulk write can overwrite a newer value; if a change event arrives between `clear()`'s `SCAN` and `DEL`, the cleared entry can immediately be recreated. The demo's `/clear` and `/reprefetch` handlers solve this by pausing the sync worker around the operation:
+
+```python
+self.sync.pause()
+try:
+    self.cache.clear()
+    self.cache.bulk_load(self.primary.list_records())
+finally:
+    self.sync.resume()
+```
+
+`pause()` waits for the worker to finish whatever event it is currently applying, parks the run loop, and returns. Change events that arrive during the pause sit in the primary's queue and apply in order once `resume()` is called, so no event is lost.
 
 ## Hit/miss accounting
 
@@ -276,7 +291,7 @@ It exposes a small interactive page where you can:
 * Add and delete categories and watch them appear and disappear from the cache
 * Invalidate one key or clear the entire cache to simulate a sync-pipeline failure
 * Re-prefetch from the primary to recover from a broken cache state
-* Watch the average sync lag and confirm primary reads stay at one — the initial bulk load
+* Watch the average sync lag, and confirm primary reads stay at one until you re-prefetch — each `/reprefetch` adds another primary read for the snapshot, but normal request traffic never reaches the primary at all
 
 ## The mock primary store
 
@@ -310,7 +325,7 @@ The demo's in-process queue is the simplest possible stand-in for a CDC change f
 
 ### Use a long safety-net TTL, not a freshness TTL
 
-The TTL on each cache key is a **safety net**: it bounds memory if the sync pipeline silently stops, so a stuck consumer cannot leave stale data in Redis indefinitely. The TTL is not the freshness mechanism — freshness comes from the sync worker, which refreshes the TTL on every event. Pick a TTL that is comfortably longer than your worst-case sync lag plus your alerting window, so a transient sync hiccup never expires hot keys.
+The TTL on each cache key is a **safety net**: it bounds memory if the sync pipeline silently stops, so a stuck consumer cannot leave stale data in Redis indefinitely. The TTL is not the freshness mechanism — freshness comes from the sync worker, which refreshes the TTL on every add or update event (delete events remove the key). Pick a TTL that is comfortably longer than your worst-case sync lag plus your alerting window, so a transient sync hiccup never expires hot keys.
 
 ### Decide what to do on a cache miss
 
@@ -343,7 +358,7 @@ redis-cli HGETALL cache:category:cat-001
 redis-cli TTL cache:category:cat-001
 ```
 
-If a key is missing, the sync worker has not yet applied a delete event — or the prefetch never ran. If the TTL is much lower than the configured safety-net value, the sync worker is not keeping up.
+If a key is missing for an ID that still exists in the primary, the prefetch did not run, the key expired without a sync refresh, or someone invalidated it. If a key is still present for an ID that was deleted in the primary, the delete event has not yet been applied. If the TTL is much lower than the configured safety-net value on a hot key, the sync worker is not keeping up.
 
 ## Learn more
 
