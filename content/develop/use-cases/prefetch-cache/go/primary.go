@@ -97,7 +97,7 @@ func (p *MockPrimaryStore) ReadLatencyMs() int {
 }
 
 // ListIDs returns the primary record IDs in sorted order. No sleep, no
-// counter increment -- this stands in for a fast metadata query (e.g.
+// counter increment -- this stands in for a fast metadata query (for example,
 // SELECT id FROM categories) rather than a full record read.
 func (p *MockPrimaryStore) ListIDs() []string {
 	p.mu.Lock()
