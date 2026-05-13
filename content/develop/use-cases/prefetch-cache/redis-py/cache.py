@@ -122,7 +122,14 @@ class PrefetchCache:
         cache_key = self._cache_key(entity_id)
 
         if op == "upsert":
-            fields = change.get("fields") or {}
+            fields = change.get("fields")
+            if not fields:
+                # Malformed upsert with no fields. Skip rather than crash
+                # the sync worker: HSET with an empty mapping raises
+                # DataError, and there's nothing to write anyway. A real
+                # CDC consumer would route this to a dead-letter queue
+                # and alert; the demo just drops it.
+                return
             pipe = self.redis.pipeline(transaction=True)
             pipe.delete(cache_key)
             pipe.hset(cache_key, mapping=fields)

@@ -13,7 +13,6 @@ the primary on the read path.
 from __future__ import annotations
 
 import argparse
-from html import escape
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 from pathlib import Path
@@ -336,7 +335,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       const d = await r.json();
       renderRead(d);
       if (d.stats) renderStats(d.stats);
-      setStatus(d.hit ? "Served from Redis." : "Cache miss &mdash; no entry in Redis.", d.hit ? "ok" : "error");
+      setStatus(d.hit ? "Served from Redis." : "Cache miss — no entry in Redis.", d.hit ? "ok" : "error");
     });
 
     document.getElementById("update-button").addEventListener("click", async () => {
