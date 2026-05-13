@@ -69,6 +69,13 @@ Tokenise the lock with a per-caller random value (8+ bytes hex). The release scr
 
 ### Smoke tests you MUST run before reporting
 
+> **Note when reusing this template:** the steps below are **cache-aside-shaped** (stampede, primary-read counters, invalidate-on-update). They are illustrative of the *shape* a smoke-test list should take, not a fixed recipe. Pub/sub, job-queue, leaderboard, etc. each need their own list — replace steps 3–8 with operations and assertions that exercise *this* use case's invariants. Keep step 1 (FLUSHDB), step 2 (unique port), and the final "stop server + clean artefacts" steps; everything between them is per-pattern.
+>
+> Worked examples from prior projects:
+> - **Cache-aside**: `read` (miss/hit/latency), `invalidate`, `update + reread`, `stampede @ 20 concurrent → exactly 1 primary read`, `reset` (template default below).
+> - **Job queue**: `enqueue`, `claim`, `complete`, `fail + retry`, `reclaim after visibility timeout`, `reset` (the agent reports during the job-queue project established this set).
+> - **Pub/sub**: unsubscribe-seeds → subscribe-channel + immediate-publish → subscribe-pattern + immediate-publish → verify `delivered` returned by `PUBLISH` matches expected fan-out → verify per-subscriber `received_total` after a short sleep → snapshot-delta NUMSUB/NUMPAT (never absolute) → unsubscribe → reset. **Use port-prefixed channel and pattern names** so cross-agent fan-out doesn't pollute results.
+
 1. Start Redis if not running. Run `redis-cli FLUSHDB` to clear state.
 2. Start your demo server on a **unique port** (avoid 8080, 8769, ports 8770–8775 if other agents may be using them; pick something in 8780–8830).
 3. `GET /read?id=p-001` → expect cache miss, latency ≥ primary latency, `hit: false`.
