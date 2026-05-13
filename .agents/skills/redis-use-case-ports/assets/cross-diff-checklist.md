@@ -25,7 +25,7 @@ A sub-agent can run this in read-only mode. For each row, produce a 9-column com
 | Write path | `HSET` (with all fields) + `EXPIRE`, ideally pipelined or in a single `HSET ... EXPIRE` MULTI. |
 | Invalidate | `DEL` (not `EXPIRE 0`, not `UNLINK`). |
 | Field update | `HSET key field value` + `EXPIRE` inside a conditional transaction or `Condition.KeyExists`. |
-| TTL inspection | `TTL` (not `PTTL`, not `OBJECT`). |
+| TTL inspection | `TTL` (not `PTTL`, not `OBJECT`). The wrapper must preserve the `-2` (missing key) and `-1` (no TTL) sentinels as integer seconds; if the client's typed wrapper collapses or rescales them (go-redis's `time.Duration` with nanosecond-encoded sentinels, StackExchange.Redis's `KeyTimeToLive` returning `null` for both cases), bypass it with the raw command (`Do("TTL", ...)` / `Execute("TTL", ...)`). See audit-checklist row 15. |
 | Single-flight acquire | Lua script using `SET NX PX`. |
 | Single-flight release | Lua script using `GET == token` check + `DEL`. |
 | Counters (where stats are in Redis, e.g. PHP) | `HINCRBY`. |
@@ -187,10 +187,11 @@ The only per-client variation should be the **pill text** at the top of `<body>`
 | `Get the source files` subsection | Every `_index.md` has a `### Get the source files` subsection as the first child of `## Running the demo`. It contains a `mkdir <use-case>-demo && cd <use-case>-demo`, a `BASE=https://raw.githubusercontent.com/redis/docs/main/...` variable, and one `curl -O $BASE/<file>` per source file the port needs. |
 | Files curled match files run | The set of files in the curl block matches what the existing run command (e.g. `python3 demo_server.py`, `dotnet run`, `php -S ... demo_server.php`) actually requires. No missing config files (`package.json`, `composer.json`, `*.csproj`, `go.mod`, `Cargo.toml`), no extras (`Cargo.lock` only if `cargo` expects it; build outputs never). |
 | Rust folder layout | The curl block matches the port's on-disk layout: if files live under `src/`, the block does `mkdir -p .../src && cd ...` then `curl -o src/<file> $BASE/src/<file>`; if files are flat at the project root (driven by explicit `path =` in `Cargo.toml`), `curl -O $BASE/<file>` for all of them. |
+| Source-file count in prose matches curl block | Prose like *"The demo consists of N files"* in `### Get the source files` must match the actual number of `curl -O` lines in the block. Easy drift when a port adds an extra worker entry point (e.g. PHP's separate `sync_worker.php`) and the count is not updated. |
 
 **Audit prompt:**
 
-> For each of the 9 client implementations of `content/develop/use-cases/{{USE_CASE_NAME}}/`, grep `_index.md` with `grep -nE "\]\(([^h)][^)]*\.[a-z]+)\)"` — the result must be empty (no relative file links). Then confirm `## Running the demo` is followed by `### Get the source files`, and that the curl block downloads the same files the run command needs. Flag any port where the curl-block file set diverges from the run-time requirements, or where a Rust port's `src/` layout doesn't match its on-disk reality.
+> For each of the 9 client implementations of `content/develop/use-cases/{{USE_CASE_NAME}}/`, grep `_index.md` with `grep -nE "\]\(([^h)][^)]*\.[a-z]+)\)"` — the result must be empty (no relative file links). Then confirm `## Running the demo` is followed by `### Get the source files`, and that the curl block downloads the same files the run command needs. Count the `curl -O` lines and confirm the prose intro ("The demo consists of N files") matches. Flag any port where the curl-block file set diverges from the run-time requirements, or where a Rust port's `src/` layout doesn't match its on-disk reality.
 
 ## File names per client
 
