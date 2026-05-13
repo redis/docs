@@ -75,20 +75,13 @@ func (w *SyncWorker) Stop(joinTimeout time.Duration) {
 	}
 	cancel := w.cancel
 	done := w.done
-	// Also wake any parked goroutine waiting on resumeCh so it can
-	// observe ctx.Done() and exit cleanly.
-	resumeCh := w.resumeCh
+	// Close resumeCh inside the lock so a concurrent Resume cannot
+	// pass the "already closed?" check and then race us to close()
+	// the same channel twice (which would panic).
+	closeOnce(w.resumeCh)
 	w.mu.Unlock()
 
 	cancel()
-	// Closing resumeCh wakes the parked select in run().
-	select {
-	case <-resumeCh:
-		// Already closed (worker was not parked or Resume already
-		// closed it).
-	default:
-		close(resumeCh)
-	}
 
 	select {
 	case <-done:
@@ -149,19 +142,26 @@ func (w *SyncWorker) Pause(timeout time.Duration) bool {
 // Resume clears the pause flag and wakes the parked worker goroutine.
 func (w *SyncWorker) Resume() {
 	w.mu.Lock()
+	defer w.mu.Unlock()
 	if !w.paused {
-		w.mu.Unlock()
 		return
 	}
 	w.paused = false
-	resumeCh := w.resumeCh
-	w.mu.Unlock()
-	// Close the resume channel exactly once. If it was already closed
-	// (e.g. by Stop), Resume is a no-op.
+	// Close inside the lock so a concurrent Stop cannot pass the
+	// "already closed?" check and then race us to close() the same
+	// channel twice (which would panic).
+	closeOnce(w.resumeCh)
+}
+
+// closeOnce closes ch if it isn't already closed. Callers MUST hold
+// w.mu while invoking it (the non-blocking receive + close pair is not
+// atomic on its own; the mutex provides the missing serialisation).
+func closeOnce(ch chan struct{}) {
 	select {
-	case <-resumeCh:
+	case <-ch:
+		// Already closed.
 	default:
-		close(resumeCh)
+		close(ch)
 	}
 }
 
