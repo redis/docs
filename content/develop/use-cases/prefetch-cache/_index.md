@@ -95,3 +95,11 @@ The following libraries and frameworks support Redis-backed prefetch caching:
 The following guides show how to build a simple Redis-backed prefetch cache in front of a primary store of reference data. Each guide includes a runnable interactive demo that pre-loads records on startup, runs a background sync worker that applies primary-store changes to Redis within milliseconds, and lets you watch the cache stay current as records are added, updated, and deleted on the source.
 
 * [redis-py (Python)]({{< relref "/develop/use-cases/prefetch-cache/redis-py" >}})
+* [node-redis (Node.js)]({{< relref "/develop/use-cases/prefetch-cache/nodejs" >}})
+* [go-redis (Go)]({{< relref "/develop/use-cases/prefetch-cache/go" >}})
+* [Jedis (Java)]({{< relref "/develop/use-cases/prefetch-cache/java-jedis" >}})
+* [Lettuce (Java)]({{< relref "/develop/use-cases/prefetch-cache/java-lettuce" >}})
+* [StackExchange.Redis (C#)]({{< relref "/develop/use-cases/prefetch-cache/dotnet" >}})
+* [Predis (PHP)]({{< relref "/develop/use-cases/prefetch-cache/php" >}})
+* [redis-rb (Ruby)]({{< relref "/develop/use-cases/prefetch-cache/ruby" >}})
+* [redis-rs (Rust)]({{< relref "/develop/use-cases/prefetch-cache/rust" >}})

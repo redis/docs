@@ -278,7 +278,10 @@ impl PrefetchCache {
         let hit_rate_pct = if total == 0 {
             0.0
         } else {
-            ((1000 * hits / total) as f64) / 10.0
+            // Round-half-up to 1 decimal in floating point. Earlier
+            // `(1000 * hits / total) as f64 / 10.0` did integer division
+            // and truncated, so 2/3 came out as 66.6 instead of 66.7.
+            (1000.0 * hits as f64 / total as f64).round() / 10.0
         };
         let sync_lag_ms_avg = if sync_lag_samples == 0 {
             0.0

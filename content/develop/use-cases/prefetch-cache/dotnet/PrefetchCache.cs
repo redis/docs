@@ -228,8 +228,11 @@ public class PrefetchCache
 
     public long TtlRemaining(string entityId)
     {
-        var ttl = _db.KeyTimeToLive(CacheKey(entityId));
-        return ttl is null ? -1 : (long) ttl.Value.TotalSeconds;
+        // Use Execute("TTL", ...) rather than KeyTimeToLive: the latter
+        // returns `null` for BOTH a missing key and a key without a TTL,
+        // collapsing the -2 and -1 sentinels. Execute returns the raw
+        // integer so the demo UI can show the correct value in each case.
+        return (long) _db.Execute("TTL", CacheKey(entityId));
     }
 
     public Dictionary<string, object> Stats()

@@ -290,7 +290,7 @@ If your Redis server is running elsewhere, start the demo with the `PREFETCH_RED
 
 ### Get the source files
 
-The demo consists of seven files. Download them from the [`php` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/prefetch-cache/php) on GitHub, or grab them with `curl`:
+The demo consists of six files. Download them from the [`php` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/prefetch-cache/php) on GitHub, or grab them with `curl`:
 
 ```bash
 mkdir prefetch-cache-demo && cd prefetch-cache-demo
