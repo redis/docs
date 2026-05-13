@@ -2,7 +2,7 @@
 title: Certificate-based authentication for LDAP
 linkTitle: Certificate-based authentication for LDAP
 description: Learn how to set up certificate-based authentication for LDAP in Redis Software.
-weight: 40
+weight: 50
 ---
 
 You can configure Redis Software to use certificate-based authentication in combination with LDAP to authenticate and authorize users.
