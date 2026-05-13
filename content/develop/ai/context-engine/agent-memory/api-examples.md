@@ -36,7 +36,7 @@ curl -s -X GET "https://$HOST/v1/caches/$STORE_ID/session-memory/" \
 This example expects several variables to be set in the shell:
 
 - **$HOST** - the Agent Memory API endpoint
-- **$CACHE_ID** - the Cache ID of your cache
+- **$STORE_ID** - the Store ID ID of your cache
 - **$API_KEY** - The Agent Memory API token
 
 ## Examples
