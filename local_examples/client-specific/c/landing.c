@@ -30,12 +30,12 @@ int main() {
 
     // Set a string key.
     redisReply *reply = redisCommand(c, "SET foo bar");
-    printf("Reply: %s\n", reply->str); // >>> Reply: OK
+    printf("Reply: %s\n", reply->str);
     freeReplyObject(reply);
 
     // Get the key we have just stored.
     reply = redisCommand(c, "GET foo");
-    printf("Reply: %s\n", reply->str); // >>> Reply: bar
+    printf("Reply: %s\n", reply->str);
     freeReplyObject(reply);
 
     // Close the connection.
