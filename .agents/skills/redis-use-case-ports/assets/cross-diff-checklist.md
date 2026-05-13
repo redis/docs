@@ -208,6 +208,20 @@ The only per-client variation should be the **pill text** at the top of `<body>`
 
 Plus any language-required config file (`go.mod`, `Cargo.toml`, `*.csproj`) — see [`redis-conventions.md`](redis-conventions.md).
 
+## Pub/sub-specific consistency
+
+Use these rows in addition to the cache-aside-style rows above when the use case involves SUBSCRIBE/PSUBSCRIBE.
+
+| Concern | What to compare |
+|---|---|
+| Subscribe-ack handshake | Every port's Subscription constructor must wait for Redis to acknowledge SUBSCRIBE/PSUBSCRIBE for every target before returning. Confirm the wait exists and is reachable (not "fall-through on timeout"). See [`audit-checklist.md`](audit-checklist.md) row 14 for the full pass criterion. |
+| Buffer size default | All 9 ports use the same per-subscriber ring-buffer cap (50 for pub/sub). Document in the helper constructor's default and in the `_index.md` Data-model section. |
+| Pattern field on ReceivedMessage | `pattern` is `null` (or language equivalent — `None`, `nil`, `Option::None`) for exact-match subscriptions; the matched pattern string for pattern subscriptions. Wire JSON emits `null`, never `""`. Some clients (node-redis, StackExchange.Redis) don't pass the pattern to the listener — those helpers must close over it per-binding. |
+| `numsub` wire shape | The /state response's `numsub` is a JSON object `{channel: count}` keyed by the channels the demo's exact-match subscribers cover. Zero-subscriber channels are present with value 0 (re-projected through caller's input), not omitted. |
+| `pattern_subscriptions` semantics | The /state `stats.pattern_subscriptions` is the server-wide `PUBSUB NUMPAT` reading, not this process's pattern-subscription count. Document this distinction in every port's "Inspecting active subscribers" section so users aren't surprised when sibling agents inflate the number. |
+| Seed subscriptions | All 9 ports auto-seed the same three subscribers on startup: `orders-listener` → `orders:new` (channel), `billing-listener` → `billing:invoice` (channel), `all-notifications` → `notifications:*` (pattern). `/reset` re-applies them. |
+| Detached-worker PID (PHP-style ports only) | The PID stored in state for each subscription matches the actual long-running worker (`ps -p $pid` succeeds). Not a wrapper (`setsid -f`'s exited PID). See [`audit-checklist.md`](audit-checklist.md) row 16. |
+
 ## How to flag a finding
 
 For each row that's inconsistent across clients, the cross-diff sub-agent should report:
