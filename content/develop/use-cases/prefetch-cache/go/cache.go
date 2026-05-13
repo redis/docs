@@ -276,21 +276,17 @@ func (c *PrefetchCache) Count(ctx context.Context) (int, error) {
 // TTLRemaining returns the remaining TTL on the cached key in seconds
 // (Redis TTL semantics: -2 = missing, -1 = no expiry).
 //
-// go-redis stores the sentinel -2/-1 values as raw nanosecond durations
-// rather than multiplying by the seconds precision, so we have to
-// translate them back to integer seconds explicitly.
+// Use Do("TTL", ...) rather than client.TTL().Result(): the latter
+// returns time.Duration, encoding the -2 / -1 sentinels as raw
+// nanoseconds (so a naive int(d.Seconds()) would truncate them to 0).
+// Sending the raw command and reading the integer reply preserves the
+// value Redis actually returned.
 func (c *PrefetchCache) TTLRemaining(ctx context.Context, id string) (int, error) {
-	d, err := c.client.TTL(ctx, c.cacheKey(id)).Result()
+	n, err := c.client.Do(ctx, "TTL", c.cacheKey(id)).Int64()
 	if err != nil {
 		return 0, err
 	}
-	switch d {
-	case -2 * time.Nanosecond:
-		return -2, nil
-	case -1 * time.Nanosecond:
-		return -1, nil
-	}
-	return int(d.Seconds()), nil
+	return int(n), nil
 }
 
 // Stats returns the in-process counters and derived rates. JSON keys
