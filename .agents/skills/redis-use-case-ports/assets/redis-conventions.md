@@ -311,6 +311,80 @@ PHP runs each HTTP request in a fresh process under `php -S`. This means:
 - The helper's loader callback should be `Fn(String) -> impl Future<Output = Option<HashMap<String, String>>>` so callers can pass an `async move` closure cleanly.
 - Use raw string literals (`r##"..."##`) for the inlined HTML template.
 
+## Pub/sub-specific notes
+
+These apply to any use case whose helper exposes a `SUBSCRIBE` or `PSUBSCRIBE` primitive (pub/sub broadcasters, keyspace-notification listeners, WebSocket-fan-out demos, etc.). Pub/sub touches a fundamentally different set of Redis primitives from the keyspace use cases, and the per-client divergence is much wider than for cache-aside-style ports.
+
+### Subscribe-acknowledgement handshake
+
+Every helper that creates a Subscription **must not return the handle to the caller** until Redis has acknowledged the SUBSCRIBE / PSUBSCRIBE for every target. The acknowledgement is what tells Redis to route subsequent PUBLISHes to this client; if the caller's next line is `hub.publish(...)`, the publish can race ahead of the subscribe on the wire and the first message is silently dropped.
+
+Per-client status:
+
+| Client | Subscribe primitive | Ack guarantee | Helper must... |
+|---|---|---|---|
+| redis-py | `PubSub.subscribe(**bindings)` | First call reads ack synchronously; multi-channel calls only ack the first | Single-target subs are safe; for multi-channel subs document the residual race or split into per-target calls. |
+| node-redis 5.x | `client.subscribe(channel, listener)` | Returns `Promise<void>` resolved on ack | `await` the promise before registering the Subscription. |
+| go-redis | `client.Subscribe(ctx, channels...)` | Synchronous socket write; ack is read by the channel pump | Safe as long as Redis processes commands in receive order, which is always. |
+| Jedis | `jedis.subscribe(JedisPubSub, channels...)` | **Blocks the calling thread**; ack arrives via `onSubscribe`/`onPSubscribe` | Spawn a thread for the blocking call, and `CountDownLatch.await(...)` the per-target acks in the parent before returning. |
+| Lettuce | `psConnection.sync().subscribe(...)` vs `.async()` | `sync()` blocks until ack; `async()` returns `RedisFuture<Void>` immediately | **Use `sync()`**. `async()` without an awaited future is the canonical foot-gun. |
+| StackExchange.Redis | `ISubscriber.Subscribe(RedisChannel, handler)` | Synchronous; returns after Redis ack | Use `RedisChannel.Literal(...)` and `RedisChannel.Pattern(...)` (no implicit string conversion in 2.7+). |
+| Predis (PHP) | `$client->pubSubLoop(...)` runs inside the spawned worker | Worker subscribes asynchronously to the parent | Parent polls `PUBSUB NUMSUB`/`NUMPAT` for a delta from a pre-spawn snapshot, with a bounded timeout that **returns a status** and surfaces failure (silent fall-through reintroduces the race). |
+| redis-rb | `redis.subscribe(*targets) do |on| ... end` | Blocks the connection until unsubscribe | Spawn a thread; use a `Queue` latch populated by `on.subscribe`/`on.psubscribe`; `@ready_latch.pop` in the parent and check the value (push `false` from a rescue block to propagate startup failure). |
+| redis-rs | `pubsub.subscribe(channel).await` / `psubscribe(pattern).await` | Awaited future resolves after ack | The `await` is the handshake. The only trap is the `on_message()` stream borrowing from `pubsub`, which forces the spawned task to own `pubsub`. |
+
+The audit-checklist row "Subscribe-acknowledgement race in pub/sub-style helpers" (#14) covers this class. Phase 4 audit prompts must adversarially verify the wait is reachable and awaited, not just that it exists in the code.
+
+### Pattern field availability differs across clients
+
+When a `PUBLISH` matches a `PSUBSCRIBE` pattern, Redis sends both the matched channel and the originating pattern over the wire. Some client libraries surface both to the listener callback; others surface only the channel. Helpers must close over the pattern per-binding when the library doesn't pass it through, so `ReceivedMessage.pattern` is correctly populated for pattern subscribers (and `null`/`None` for exact-match subscribers).
+
+| Client | Pattern reaches the listener? |
+|---|---|
+| redis-py | Yes, in the dispatched dict's `pattern` key |
+| go-redis | Yes, on `redis.Message.Pattern` (empty string for exact-match) |
+| Jedis | Yes — separate `onMessage(channel, msg)` and `onPMessage(pattern, channel, msg)` overrides |
+| Lettuce | Yes — overloaded `message(channel, msg)` and `message(pattern, channel, msg)` (the three-arg form's first arg is the pattern, not the channel — easy to mix up) |
+| node-redis 5.x | **No** — `pSubscribe` listener gets `(message, channel)` only. Bind one listener per pattern, closing over the pattern string. |
+| StackExchange.Redis | **No** — handler gets `(RedisChannel matchedChannel, RedisValue value)`. Helper must remember the pattern per binding and either look it up or run a glob matcher to recover it. |
+| redis-rb | Yes — `on.pmessage do \|pattern, channel, raw\|` |
+| Predis | Yes — `pubSubLoop` event has `pattern` set on `pmessage`-type events |
+| redis-rs | Yes — `Msg::get_pattern()` returns the matched pattern (or empty for exact-match) |
+
+### `PUBSUB NUMSUB` return-shape normalisation
+
+The raw `PUBSUB NUMSUB ch1 ch2 ...` reply is a flat alternating array (`[ch1, count1, ch2, count2, ...]`). Different clients decode it differently — some to a `Map`/`Hash`, some to a list of pairs, some leave it flat. Helpers must **normalise to a deterministic `{channel: count}` map keyed by the caller's input order**, so the JSON wire shape matches across all 9 ports and the shared UI JavaScript works uniformly.
+
+| Client | Native shape | Helper must do |
+|---|---|---|
+| redis-py | `list[tuple[str, int]]` | Convert to dict; preserve caller order |
+| node-redis 5.x | `object {ch: count}` (may omit zero entries) | Re-project through caller's channel list; fill missing with 0 |
+| go-redis | `map[string]int64` | Re-project through caller's channels for stable order |
+| Jedis | `Map<String, Long>` | Walk caller's channel list, pull from map |
+| Lettuce | `Map<String, Long>` (insertion-order-undefined) | `LinkedHashMap` keyed by caller's channel order |
+| StackExchange.Redis | No high-level wrapper — `db.Execute("PUBSUB","NUMSUB",...)` returns a flat `RedisResult` array | Pair-walk the array |
+| Predis | `executeRaw(['PUBSUB','NUMSUB',...])` flat array | Pair-walk |
+| redis-rb | Flat array via `redis.pubsub("numsub", *channels)` | Pair-walk |
+| redis-rs | `Vec<(String, i64)>` or HashMap depending on `FromRedisValue` impl | Coerce to HashMap |
+
+### `PUBSUB CHANNELS`, `NUMPAT`, `NUMSUB` are server-wide
+
+These are global counters on the Redis server, not per-client or per-connection. During Phase 2 parallel smoke tests, every agent's pubsub clients contribute to the same NUMPAT and the same NUMSUB. Tests must use **delta-from-pre-snapshot** comparisons, never absolute equality. Phase 2 briefs should explicitly tell agents to:
+
+- Use port-prefixed channel and pattern names (`smoke-{client}:test`, `smoke-{client}:*`) so cross-agent fan-out doesn't pollute their results.
+- Treat any introspection assertion as `≥ n` (not `== n`) where `n` is the count they themselves added, plus the pre-test snapshot.
+
+Test-setup hygiene: before a smoke test, `redis-cli client list type pubsub` shows whether any prior sessions still hold pubsub connections (`lib-name=redis-py`, `cmd=psubscribe`, large `age` and `idle` values). These don't show in `ps` because they're often inside detached or daemon-thread processes. The Phase 4 / Phase 5 retrofit cycle for pub/sub will hit them if not.
+
+### Detached-worker PID capture (PHP-style ports)
+
+When a port spawns subscriber workers as external processes (PHP under `php -S`), the PID recorded for later signalling must be the **worker's** PID, not a short-lived wrapper's:
+
+- `proc_open(['setsid', '-f', ...])` returns the `setsid` wrapper's PID — `setsid -f` forks, exec's the worker as the new session leader, and the wrapper exits. Subsequent `posix_kill($recordedPid, ...)` is a no-op.
+- The correct cross-platform pattern is a shell wrapper that backgrounds the worker and echoes its real PID through `& echo $!`: `proc_open(['/bin/sh', '-c', "$workerCmd >>$log 2>&1 </dev/null & echo $!"], ...)`. The parent reads `$!` from the wrapper's stdout pipe.
+- If process-group detachment is required (immunity to the dev-server process group's SIGHUP on Linux), prepend `setsid ` (no `-f`) **inside** the shell wrapper. `setsid` then exec-replaces in-place, so the PID `$!` captured is still the worker's.
+- The descriptor spec on `proc_open` only covers FDs 0–2. Higher FDs (the dev server's listening socket) leak into the child unless they were opened `O_CLOEXEC`, or the child explicitly closes them. PHP's `php -S` doesn't always set CLOEXEC on its listener, so workers can end up holding the port open after the dev server dies. Worth mentioning in the port's "Production usage" section.
+
 ## Mock primary store
 
 Every client has a `MockPrimaryStore` that:
