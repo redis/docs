@@ -206,13 +206,10 @@
     {{ else }}
       {{/* Regular line - add to full file */}}
       {{ if $inAnyStep }}
-        {{/* Skip comment-only lines in steps, but preserve kernel-magic comments
-             (e.g. //%ldflags:-lhiredis for jupyter-c-kernel) so they reach Thebe. */}}
-        {{ if or (eq $trimmed "") (not (hasPrefix $trimmed $commentPrefix)) (hasPrefix $trimmed (printf "%s%%" $commentPrefix)) }}
-          {{ $currentSection = $currentSection | append . }}
-          {{ if $inCurrentStep }}
-            {{ $currentStepLines = $currentStepLines | append . }}
-          {{ end }}
+        {{/* Preserve all lines verbatim, comments included. */}}
+        {{ $currentSection = $currentSection | append . }}
+        {{ if $inCurrentStep }}
+          {{ $currentStepLines = $currentStepLines | append . }}
         {{ end }}
       {{ else }}
         {{/* Context lines (outside any step) - include empty lines for consistent spacing */}}
