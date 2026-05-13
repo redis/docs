@@ -11,15 +11,44 @@ linkTitle: Connect
 weight: 12
 ---
 
-After you [create your database]({{< relref "/operate/rc/databases/create-database" >}}), you can connect to it.
+After you [create your database]({{< relref "/operate/rc/databases/create-database" >}}), you can connect to it using the public or private endpoint.
 
-To connect to the database, you need your username and password. By default, your database is protected by a [**Default user**]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) called `default` and a masked **Default user password**. You can see the default user password in the **Security** section of the **Configuration** details for your database. Select the eye icon to show or hide the password.    
+## Get connection information
+
+To connect to the database, you need the following information:
+- The database endpoint
+- Your database username and password
+
+### Database endpoints
+
+The database endpoints are listed in the **General** section of the **Configuration** tab for your database.
+
+{{<image filename="images/rc/databases-configuration-general-endpoints.png" alt="The General section of the Configuration tab of the database details page." >}}
+
+Redis Cloud Pro and Redis Cloud Essentials databases have a public endpoint, which you can access from the public internet. Redis Cloud Pro databases also have a private endpoint. You can connect to the private endpoint from a private network. Before you can connect to the private endpoint, you must set up a private connectivity method, such as:
+- [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}})
+- [Google Cloud Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}) (Google Cloud only)
+- [AWS Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) or [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) (AWS only)
+
+Redis Cloud Pro users can block the public endpoint for their databases. For more information, see [Block public endpoints]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}).
+
+#### Static and dynamic endpoints
+
+{{< embed-md "rc-endpoint-description.md" >}}
+
+You can redirect the dynamic endpoints to a different database at any time, but you cannot redirect the static endpoints. We recommend using the dynamic endpoints for your application so that you can migrate your database endpoints to a different database in the future without any code changes. See [Redirect dynamic endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) for more information.
+
+### Database username and password
+
+By default, your database is protected by a [**Default user**]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) with the username `default` and a masked **Default user password**. You can see the default user password in the **Security** section of the **Configuration** details for your database. Select the eye icon to show or hide the password.    
 
 {{<image filename="images/rc/database-fixed-configuration-security.png" width="75%" alt="The Security section of the Configuration tab of the database details page." >}}
 
 If you've turned on [Role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) for your database and [turned off the default User]({{< relref "/operate/rc/security/access-control/data-access-control/default-user#turn-off-default-user" >}}), use the username and password for your data access role.
 
-Once you have the username and password, select **Connect** to open the connection wizard.
+## Connect to your database with connection wizard
+
+Select **Connect** to open the connection wizard.
 
 {{< image filename="/images/rc/button-connect.png#no-click" alt="Connect button." >}}
 
@@ -37,7 +66,7 @@ The connection wizard provides the following database connection methods:
 
 {{<image filename="images/rc/connection-wizard.png" alt="The connection wizard." width=500px >}}
 
-## Redis Insight {#using-redisinsight}
+### Redis Insight {#using-redisinsight}
 
 [Redis Insight]({{< relref "/develop/tools/insight" >}}) is a free Redis GUI that lets you visualize your Redis data and learn more about Redis.
 
@@ -47,7 +76,7 @@ You can connect to your database with Redis Insight in two ways:
 
 1. [Download and Install Redis Insight](#ri-app) on Windows, macOS, and Linux.
 
-### Open in your browser {#ri-browser}
+#### Open in your browser {#ri-browser}
 
 {{< note >}}
 Opening your database with Redis Insight in your browser is only available for Essentials databases. For all other databases, [Download and install Redis Insight](#ri-app) on your computer.
@@ -65,7 +94,7 @@ Redis Insight will open in a new tab.
 
 This browser-based version of Redis Insight has a subset of the features of Redis Insight. For more information, see [Open with Redis Insight on Redis Cloud]({{< relref "/operate/rc/databases/connect/insight-cloud" >}}).
 
-### Install and open on your computer {#ri-app}
+#### Install and open on your computer {#ri-app}
 
 1. If you haven't downloaded Redis Insight, select **Download** under **Redis Insight** in the Connection wizard to download it. 
 
@@ -79,7 +108,7 @@ If you get an error when connecting with Redis Insight, [manually connect to you
 
 You can use Redis Insight to view your data, run Redis commands, and analyze database performance. See the [Redis Insight docs]({{< relref "/develop/tools/insight" >}}) for more info.
 
-## Redis client {#using-redis-client}
+### Redis client {#using-redis-client}
 
 A Redis client is a software library or tool that enables applications to interact with a Redis server. Each client has its own syntax and installation process. For help with a specific client, see the client's documentation.
 
@@ -98,7 +127,11 @@ If the username and password are not already filled in, replace `<username>` and
 
 See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients.
 
-### redis-cli {#using-rediscli}
+{{< note >}}
+We recommend using the [dynamic endpoints](#static-and-dynamic-endpoints) for your application so that you can migrate your database endpoints to a different database in the future without any code changes.  See [Redirect dynamic endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) for more information.
+{{< /note >}}
+
+#### redis-cli {#using-rediscli}
 
 The [`redis-cli`]({{< relref "/develop/tools/cli" >}}) utility is installed when you install Redis.  It provides a command-line interface that lets you work with your database using core [Redis commands]({{< relref "/commands" >}}).
 

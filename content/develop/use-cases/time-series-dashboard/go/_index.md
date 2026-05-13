@@ -40,9 +40,9 @@ Each sensor is stored in its own time series with labels such as `sensor_type`, 
 
 The implementation is split across three files:
 
-* [`sensor_simulator.go`](sensor_simulator.go) - Sensor definitions and sample generation
-* [`timeseries_store.go`](timeseries_store.go) - Redis TimeSeries command helpers
-* [`demo_server.go`](demo_server.go) - Local HTTP server and inline dashboard UI
+* [`sensor_simulator.go`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/go/sensor_simulator.go) - Sensor definitions and sample generation
+* [`timeseries_store.go`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/go/timeseries_store.go) - Redis TimeSeries command helpers
+* [`demo_server.go`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/go/demo_server.go) - Local HTTP server and inline dashboard UI
 
 The Redis helper issues time series commands with `client.Do(...)`, which keeps the example small while still making the Redis command flow explicit.
 
@@ -97,6 +97,22 @@ go get github.com/redis/go-redis/v9
 ```
 
 ## Running the demo
+
+### Get the source files
+
+The demo consists of three Go source files plus a `go.mod` module file. Download them from the [`go` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/time-series-dashboard/go) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir time-series-dashboard-demo && cd time-series-dashboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/time-series-dashboard/go
+curl -O $BASE/sensor_simulator.go
+curl -O $BASE/timeseries_store.go
+curl -O $BASE/demo_server.go
+curl -O $BASE/go.mod
+curl -O $BASE/go.sum
+```
+
+### Start the demo server
 
 Build and run the demo:
 

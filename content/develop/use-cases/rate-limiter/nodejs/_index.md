@@ -124,7 +124,7 @@ npm install redis
 ## Using the Node.js module
 
 The `TokenBucket` class provides an async interface for rate limiting
-([source](tokenBucket.js)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/nodejs/tokenBucket.js)):
 
 ```javascript
 const { createClient } = require('redis');
@@ -192,8 +192,21 @@ const result2 = await limiter.allow('user:123'); // Uses EVALSHA (faster)
 
 ## Running the demo
 
+### Get the source files
+
+The demo consists of two JavaScript files. Download them from the [`nodejs` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/rate-limiter/nodejs) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir rate-limiter-demo && cd rate-limiter-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/rate-limiter/nodejs
+curl -O $BASE/tokenBucket.js
+curl -O $BASE/demoServer.js
+```
+
+### Start the demo server
+
 A demonstration HTTP server is included to show the rate limiter in action
-([source](demoServer.js)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/nodejs/demoServer.js)):
 
 ```bash
 # Install dependencies

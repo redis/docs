@@ -7,10 +7,10 @@ categories:
 - rs
 - rc
 description: Learn how to implement common use cases with Redis
+hideListLinks: true
 linkTitle: Use cases
 title: Redis use cases
 weight: 50
-draft: true
 ---
 
 This section provides practical examples and reference implementations for common Redis use cases.
@@ -21,3 +21,5 @@ This section provides practical examples and reference implementations for commo
 * [Session storage]({{< relref "/develop/use-cases/session-store" >}}) - Store web sessions in Redis with TTL-based expiration
 * [Time series dashboard]({{< relref "/develop/use-cases/time-series-dashboard" >}}) - Build a rolling sensor graph demo with Redis time series data
 * [Leaderboards]({{< relref "/develop/use-cases/leaderboard" >}}) - Build a ranked leaderboard with sorted sets and user metadata
+* [Job queue]({{< relref "/develop/use-cases/job-queue" >}}) - Run a reliable background job queue with at-least-once delivery and visibility-timeout reclaim
+* [Pub/sub messaging]({{< relref "/develop/use-cases/pub-sub" >}}) - Broadcast real-time events to many consumers with channel and pattern subscriptions

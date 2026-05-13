@@ -7,7 +7,7 @@ categories:
 - rs
 - rc
 description: Implement a Redis-backed session store in PHP with Predis
-linkTitle: PHP session store
+linkTitle: Predis example (PHP)
 title: Redis session store with PHP
 weight: 6
 ---
@@ -43,7 +43,7 @@ Because the cookie only contains an opaque identifier, the browser never receive
 ## The PHP session store
 
 The `RedisSessionStore` class wraps the basic session operations
-([source](SessionStore.php)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/session-store/php/SessionStore.php)):
 
 ```php
 <?php
@@ -174,8 +174,20 @@ If your Redis server is running elsewhere, start the demo with the `REDIS_HOST` 
 
 ## Running the demo
 
-A local demo server is included to show the session store in action
-([source](demo_server.php)):
+### Get the source files
+
+The demo consists of two PHP files. Download them from the [`php` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/session-store/php) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir session-store-demo && cd session-store-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/session-store/php
+curl -O $BASE/SessionStore.php
+curl -O $BASE/demo_server.php
+```
+
+### Start the demo server
+
+From that directory:
 
 ```bash
 composer require predis/predis

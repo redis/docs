@@ -66,9 +66,17 @@ A Redis Cloud Essentials database has a set maintenance window based on the regi
 
 ## Set up Redis clients
 
-When you're developing your apps, it is best to use specific Redis Client features to connect to Redis Cloud if they are available for your preferred client.
+When you're developing your apps, it is best to use specific Redis Client features to connect to Redis Cloud if they are available for your preferred client. Use the latest version of your client library to ensure you have access to the latest resilience features and security patches.
 
 See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients.
+
+### Use Smart Client Handoffs
+
+Some Redis client libraries support [Smart Client Handoffs (SCH)]({{< relref "/develop/clients/sch" >}}).
+SCH allows the Cloud server to notify the client when server maintenance is about to start. The client can then take action to avoid disruptions in service.
+
+See [Smart client handoffs]({{< relref "/develop/clients/sch" >}}) for more information about SCH,
+including a list of clients that support it.
 
 ### Production usage guides
 

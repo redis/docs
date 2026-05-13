@@ -63,7 +63,7 @@ Add the Jedis dependency to your project:
 ## The Java leaderboard
 
 The `RedisLeaderboard` class wraps common leaderboard operations
-([source](RedisLeaderboard.java)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/java-jedis/RedisLeaderboard.java)):
 
 ```java
 import java.util.Map;
@@ -197,8 +197,20 @@ This is a useful pattern when the ranking view and the profile view need differe
 
 ## Running the demo
 
-A local demo server is included to show the leaderboard in action
-([source](DemoServer.java)):
+### Get the source files
+
+The demo consists of two Java files. Download them from the [`java-jedis` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/leaderboard/java-jedis) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir leaderboard-demo && cd leaderboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/leaderboard/java-jedis
+curl -O $BASE/RedisLeaderboard.java
+curl -O $BASE/DemoServer.java
+```
+
+### Start the demo server
+
+A local demo server ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/java-jedis/DemoServer.java)) is included to show the leaderboard in action:
 
 ```bash
 # Compile

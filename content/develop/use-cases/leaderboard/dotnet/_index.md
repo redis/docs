@@ -57,7 +57,7 @@ Or add it directly to your `.csproj` file:
 ## The .NET class
 
 The `RedisLeaderboard` class wraps common leaderboard operations
-([source](RedisLeaderboard.cs)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/dotnet/RedisLeaderboard.cs)):
 
 ```csharp
 using StackExchange.Redis;
@@ -185,8 +185,21 @@ This is a useful pattern when the ranking view and the profile view need differe
 
 ## Running the demo
 
-A local demo server is included to show the leaderboard in action
-([source](Program.cs)):
+### Get the source files
+
+The demo consists of three files. Download them from the [`dotnet` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/leaderboard/dotnet) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir leaderboard-demo && cd leaderboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/leaderboard/dotnet
+curl -O $BASE/RedisLeaderboard.cs
+curl -O $BASE/Program.cs
+curl -O $BASE/LeaderboardDemo.csproj
+```
+
+### Start the demo server
+
+A local demo server ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/dotnet/Program.cs)) is included to show the leaderboard in action:
 
 ```bash
 dotnet run

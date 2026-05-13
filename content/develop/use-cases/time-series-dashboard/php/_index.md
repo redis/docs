@@ -42,9 +42,9 @@ Because PHP's built-in development server is request-driven, this version advanc
 
 The implementation is split across three small files:
 
-* [`SensorSimulator.php`](SensorSimulator.php) - Sensor definitions and sample generation
-* [`RedisTimeSeriesStore.php`](RedisTimeSeriesStore.php) - Redis TimeSeries command helpers
-* [`demo_server.php`](demo_server.php) - PHP router, simulator advancement, and inline dashboard UI
+* [`SensorSimulator.php`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/php/SensorSimulator.php) - Sensor definitions and sample generation
+* [`RedisTimeSeriesStore.php`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/php/RedisTimeSeriesStore.php) - Redis TimeSeries command helpers
+* [`demo_server.php`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/php/demo_server.php) - PHP router, simulator advancement, and inline dashboard UI
 
 The Redis helper issues time series commands through Predis' `executeRaw()` method, which keeps the example small while still making the Redis command flow explicit.
 
@@ -99,6 +99,20 @@ composer require predis/predis
 ```
 
 ## Running the demo
+
+### Get the source files
+
+The demo consists of three PHP files. Download them from the [`php` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/time-series-dashboard/php) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir time-series-dashboard-demo && cd time-series-dashboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/time-series-dashboard/php
+curl -O $BASE/SensorSimulator.php
+curl -O $BASE/RedisTimeSeriesStore.php
+curl -O $BASE/demo_server.php
+```
+
+### Start the demo server
 
 Start the dashboard server:
 

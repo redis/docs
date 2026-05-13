@@ -133,7 +133,7 @@ tokio = { version = "1", features = ["full"] }
 ## Using the Rust module
 
 The `TokenBucket` struct provides a type-safe interface for rate limiting
-([source](token_bucket.rs)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/rust/token_bucket.rs)):
 
 ```rust
 use redis::{Client, Commands, RedisResult};
@@ -235,8 +235,23 @@ for handle in handles {
 
 ## Running the demo
 
+### Get the source files
+
+The demo uses a Cargo project. Download the files from the [`rust` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/rate-limiter/rust) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir rate-limiter-demo && cd rate-limiter-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/rate-limiter/rust
+curl -O $BASE/Cargo.toml
+curl -O $BASE/Cargo.lock
+curl -O $BASE/token_bucket.rs
+curl -O $BASE/demo_server.rs
+```
+
+### Start the demo server
+
 A demonstration HTTP server is included to show the rate limiter in action
-([source](demo_server.rs)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/rust/demo_server.rs)):
 
 ```bash
 # Install dependencies
