@@ -167,7 +167,7 @@ def _dispatch(self, raw: dict) -> None:
     ...
 ```
 
-That distinction is useful for routing: a pattern subscriber can do one thing for the whole hierarchy (e.g., increment a counter) and dispatch on the specific channel within its callback (e.g., "invalidate this region's cache").
+That distinction is useful for routing: a pattern subscriber can do one thing for the whole hierarchy (such as increment a counter) and dispatch on the specific channel within its callback (such as "invalidate this region's cache").
 
 ## Inspecting active subscribers
 
