@@ -18286,6 +18286,13 @@
         ],
         "type": "object",
         "properties": {
+          "customerManagedKeys": {
+            "type": "array",
+            "description": "The customer managed keys (CMK) to use for this subscription. If is active-active subscription, must set a key for each region.",
+            "items": {
+              "$ref": "#/components/schemas/CustomerManagedKey"
+            }
+          },
           "deletionGracePeriod": {
             "type": "string",
             "description": "Optional. The grace period for deleting the subscription if Redis cannot access the provided key. Required when applying customer managed keys for a new subscription.",
@@ -18301,13 +18308,6 @@
               "12-hours",
               "24-hours"
             ]
-          },
-          "customerManagedKeys": {
-            "type": "array",
-            "description": "The customer managed keys (CMK) to use for this subscription. If is active-active subscription, must set a key for each region.",
-            "items": {
-              "$ref": "#/components/schemas/CustomerManagedKey"
-            }
           }
         },
         "description": "Optional. Contains information about the keys used for each region. Can be used only with external cloud account"
