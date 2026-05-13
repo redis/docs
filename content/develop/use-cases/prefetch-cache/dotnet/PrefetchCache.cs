@@ -180,26 +180,19 @@ public class PrefetchCache
     public int Clear()
     {
         var deleted = 0;
-        var endpoints = _db.Multiplexer.GetEndPoints();
-        var pattern = $"{_prefix}*";
-        foreach (var endpoint in endpoints)
+        var batch = new List<RedisKey>(500);
+        foreach (var key in ScanKeys())
         {
-            var server = _db.Multiplexer.GetServer(endpoint);
-            if (!server.IsConnected || server.IsReplica) continue;
-            var batch = new List<RedisKey>(500);
-            foreach (var key in server.Keys(database: _db.Database, pattern: pattern, pageSize: 500))
-            {
-                batch.Add(key);
-                if (batch.Count >= 500)
-                {
-                    deleted += (int) _db.KeyDelete(batch.ToArray());
-                    batch.Clear();
-                }
-            }
-            if (batch.Count > 0)
+            batch.Add(key);
+            if (batch.Count >= 500)
             {
                 deleted += (int) _db.KeyDelete(batch.ToArray());
+                batch.Clear();
             }
+        }
+        if (batch.Count > 0)
+        {
+            deleted += (int) _db.KeyDelete(batch.ToArray());
         }
         return deleted;
     }
@@ -208,20 +201,38 @@ public class PrefetchCache
     public List<string> Ids()
     {
         var ids = new List<string>();
-        var endpoints = _db.Multiplexer.GetEndPoints();
-        var pattern = $"{_prefix}*";
-        foreach (var endpoint in endpoints)
+        foreach (var key in ScanKeys())
         {
-            var server = _db.Multiplexer.GetServer(endpoint);
-            if (!server.IsConnected || server.IsReplica) continue;
-            foreach (var key in server.Keys(database: _db.Database, pattern: pattern, pageSize: 500))
-            {
-                var s = (string) key!;
-                ids.Add(s.StartsWith(_prefix, StringComparison.Ordinal) ? s.Substring(_prefix.Length) : s);
-            }
+            var s = (string) key!;
+            ids.Add(s.StartsWith(_prefix, StringComparison.Ordinal) ? s.Substring(_prefix.Length) : s);
         }
         ids.Sort(StringComparer.Ordinal);
         return ids;
+    }
+
+    /// <summary>
+    /// Iterate every key under the cache's prefix using a raw SCAN command.
+    ///
+    /// Sending SCAN through <c>IDatabase.Execute</c> avoids
+    /// <c>IServer.Keys</c>, which would require <c>AllowAdmin=true</c> on
+    /// the connection options — a flag that also grants
+    /// <c>FLUSHDB</c>/<c>CONFIG</c> and is best avoided in production.
+    /// </summary>
+    private IEnumerable<RedisKey> ScanKeys()
+    {
+        var cursor = "0";
+        var match = $"{_prefix}*";
+        do
+        {
+            var reply = (RedisResult[]) _db.Execute(
+                "SCAN", cursor, "MATCH", match, "COUNT", 500)!;
+            cursor = (string) reply[0]!;
+            var keys = (RedisResult[]) reply[1]!;
+            foreach (var key in keys)
+            {
+                yield return (RedisKey) (string) key!;
+            }
+        } while (cursor != "0");
     }
 
     public int Count() => Ids().Count;

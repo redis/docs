@@ -46,7 +46,6 @@ ConnectionMultiplexer redis;
 try
 {
     var configuration = ConfigurationOptions.Parse($"{redisHost}:{redisPort}");
-    configuration.AllowAdmin = true; // Required for SCAN-based enumeration via IServer.Keys.
     redis = ConnectionMultiplexer.Connect(configuration);
     redis.GetDatabase().Ping();
 }
