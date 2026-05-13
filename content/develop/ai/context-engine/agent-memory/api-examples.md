@@ -28,7 +28,7 @@ When you call the API, you need to pass the Agent Memory API key in the `Authori
 For example:
 
 ```sh
-curl -s -X GET "https://$HOST/v1/caches/$CACHE_ID/session-memory/" \
+curl -s -X GET "https://$HOST/v1/caches/$STORE_ID/session-memory/" \
     -H "accept: application/json" \
     -H "Authorization: Bearer $API_KEY" 
 ```
