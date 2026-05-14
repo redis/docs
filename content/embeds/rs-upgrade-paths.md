@@ -13,4 +13,4 @@
 | 7.8.x | – | – | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | 7.22.x | – | – | – | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | 8.0.2<br />8.0.6<br />8.0.10 | – | – | – | – | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
-| 8.0.16<br />8.0.18 | – | – | – | – | - | <span title="Supported">&#x2705;</span> |
+| 8.0.16<br />8.0.18<br />8.0.20 | – | – | – | – | - | <span title="Supported">&#x2705;</span> |
