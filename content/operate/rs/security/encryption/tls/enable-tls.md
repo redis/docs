@@ -77,7 +77,13 @@ To enable mutual TLS using the Cluster Manager UI:
 
     <img src="../../../../../../images/rs/screenshots/databases/security-mtls-clients-7-8-2.png" alt="Mutual TLS authentication configuration.">
 
-1. For each client certificate, select **+ Add certificate**, paste or upload the client certificate, then select **Done**.
+1. For all clients, upload a client certificate, an intermediary certificate, or a trusted client CA certificate.
+
+    1. Click **+ Add certificate**.
+
+    1. Paste or upload the client certificate, intermediary certificate, or trusted client CA certificate.
+
+    1. Click **Done**.
 
     If your database uses Replica Of, you also need to add the syncer certificates for the participating clusters. See [Enable TLS for Replica Of cluster connections](#enable-tls-for-replica-of-cluster-connections) for instructions.
 

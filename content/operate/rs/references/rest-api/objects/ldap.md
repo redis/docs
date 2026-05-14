@@ -18,6 +18,9 @@ An API object that represents the cluster's [LDAP]({{< relref "/operate/rs/secur
 | bind_pass | string | Password used when binding with the LDAP server to run queries |
 | ca_cert | string | PEM-encoded CA certificate(s) used to validate TLS connections to the LDAP server |
 | cache_ttl | integer (default: 300) | Maximum TTL (in seconds) of cached entries |
+| cba | boolean (default: false) | Whether to allow LDAP as an identity source for certificate-based authentication |
+| cba_identity_oid | string | The certificate subject OID to use when `cba_identity_source` is set to `subject_oid` |
+| cba_identity_source | "subject_cn"<br />"subject_oid" | The certificate subject identity source to use for LDAP lookup |
 | control_plane | boolean (default: false) | Use LDAP for user authentication/authorization in the control plane |
 | data_plane | boolean (default: false) | Use LDAP for user authentication/authorization in the data plane |
 | directory_timeout_s | integer (range: 5-60) (default: 5) | The connection timeout to the LDAP server when authenticating a user, in seconds |
