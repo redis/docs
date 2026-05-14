@@ -74,11 +74,11 @@ Redis 8.8 introduces new features and performance improvements.
 - RediSearch/RediSearch[#9012](https://github.com/redisearch/redisearch/pull/9012) `PERSIST` and `HPERSIST` notifications are not reflected in index expiration tracking (MOD-14800)
 - RediSearch/RediSearch[#9066](https://github.com/redisearch/redisearch/pull/9066) Race condition in `FT.HYBRID` causes intermittent failures under concurrent hybrid query load (MOD-14732)
 - RediSearch/RediSearch[#9163](https://github.com/redisearch/redisearch/pull/9163) Crash on `FT.SEARCH` when topology validation fails (for example, some nodes unreachable) (MOD-14475)
-- RediSearch/RediSearch[#9031](https://github.com/redisearch/redisearch/pull/9031), RediSearch/RediSearch[#9473](https://github.com/redis/redis/pull/9473) Coordinator deadlock under mixed `FT.SEARCH` and `FT.AGGREGATE` load (MOD-14268)
+- RediSearch/RediSearch[#9031](https://github.com/redisearch/redisearch/pull/9031), RediSearch/RediSearch[#9473](https://github.com/redisearch/redisearch/pull/9473) Coordinator deadlock under mixed `FT.SEARCH` and `FT.AGGREGATE` load (MOD-14268)
 - RediSearch/RediSearch[#9028](https://github.com/redisearch/redisearch/pull/9028) Memory leak when `FT.DROPINDEX` runs concurrently with in-flight hybrid queries (MOD-14135)
-- RediSearch/RediSearch[#9310](https://github.com/redisearch/redisearch/pull/9310), RediSearch/RediSearch[#9350](https://github.com/redis/redis/pull/9350) `FT.CURSOR READ` timeout and `ON_TIMEOUT FAIL` not enforced on coordinator and shard (MOD-14284, MOD-14998)
+- RediSearch/RediSearch[#9310](https://github.com/redisearch/redisearch/pull/9310), RediSearch/RediSearch[#9350](https://github.com/redisearch/redisearch/pull/9350) `FT.CURSOR READ` timeout and `ON_TIMEOUT FAIL` not enforced on coordinator and shard (MOD-14284, MOD-14998)
 - RediSearch/RediSearch[#9425](https://github.com/redisearch/redisearch/pull/9425) Cursors not cleaned up after `MAXIDLE`, causing resource exhaustion (MOD-6430)
-- RediSearch/RediSearch[#9234](https://github.com/redisearch/redisearch/pull/9234), RediSearch/RediSearch[#9404](https://github.com/redis/redis/pull/9404) Coordinator `RETURN_STRICT` returns wrong data on partial results, including `SORTBY` pipeline (MOD-13617)
+- RediSearch/RediSearch[#9234](https://github.com/redisearch/redisearch/pull/9234), RediSearch/RediSearch[#9404](https://github.com/redisearch/redisearch/pull/9404) Coordinator `RETURN_STRICT` returns wrong data on partial results, including `SORTBY` pipeline (MOD-13617)
 - RediSearch/RediSearch[#9382](https://github.com/redisearch/redisearch/pull/9382) `MAXPREFIXEXPANSION` warnings not propagated to clients in cluster mode (MOD-13804)
 - RediSearch/RediSearch[#9218](https://github.com/redisearch/redisearch/pull/9218) Search commands fail when no worker thread is available instead of falling back to main thread (MOD-14921)
 - RediSearch/RediSearch[#9448](https://github.com/redisearch/redisearch/pull/9448) RDB load missing validation of `FT.CREATE` arguments, allowing corrupt index state on load (MOD-13118)
@@ -101,11 +101,11 @@ Redis 8.8 introduces new features and performance improvements.
 - [#15071](https://github.com/redis/redis/pull/15071) Pass size hint to jemalloc for faster deallocation
 - [#15096](https://github.com/redis/redis/pull/15096) Reduces allocator and accounting overhead by adding compile-time jemalloc tuning
 - RediSearch/RediSearch[#9197](https://github.com/redisearch/redisearch/pull/9197) Vector index hot path (HNSW and brute-force) devirtualized, reducing per-query latency (MOD-14916)
-- RediSearch/RediSearch[#9262](https://github.com/redisearch/redisearch/pull/9262), RediSearch/RediSearch[#9476](https://github.com/redis/redis/pull/9476) Inline LSE atomics enabled on AArch64, improving atomic operation throughput on ARM64 (MOD-14916, MOD-15419)
+- RediSearch/RediSearch[#9262](https://github.com/redisearch/redisearch/pull/9262), RediSearch/RediSearch[#9476](https://github.com/redisearch/redisearch/pull/9476) Inline LSE atomics enabled on AArch64, improving atomic operation throughput on ARM64 (MOD-14916, MOD-15419)
 - RediSearch/RediSearch[#9293](https://github.com/redisearch/redisearch/pull/9293) Expiration handling overhead reduced when many keys expire simultaneously (MOD-14916)
 - RediSearch/RediSearch[#9017](https://github.com/redisearch/redisearch/pull/9017) LTO (link-time optimization) enabled for x86_64 release builds (MOD-14700)
 - RediSearch/RediSearch[#8765](https://github.com/redisearch/redisearch/pull/8765) Shard-level timeout adjusted to coordinator dispatch time for more accurate accounting (MOD-13189)
-- RediSearch/RediSearch[#8790](https://github.com/redisearch/redisearch/pull/8790), RediSearch/RediSearch[#8900](https://github.com/redis/redis/pull/8900), RediSearch/RediSearch[#8827](https://github.com/redis/redis/pull/8827), RediSearch/RediSearch[#8971](https://github.com/redis/redis/pull/8971), RediSearch/RediSearch[#8966](https://github.com/redis/redis/pull/8966), RediSearch/RediSearch[#8762](https://github.com/redis/redis/pull/8762), RediSearch/RediSearch[#8678](https://github.com/redis/redis/pull/8678), RediSearch/RediSearch[#8915](https://github.com/redis/redis/pull/8915), RediSearch/RediSearch[#8653](https://github.com/redis/redis/pull/8653), RediSearch/RediSearch[#9085](https://github.com/redis/redis/pull/9085), RediSearch/RediSearch[#8751](https://github.com/redis/redis/pull/8751), RediSearch/RediSearch[#8692](https://github.com/redis/redis/pull/8692), RediSearch/RediSearch[#9224](https://github.com/redis/redis/pull/9224) Iterators ported to Rust, reducing FFI overhead
+- RediSearch/RediSearch[#8790](https://github.com/redisearch/redisearch/pull/8790), RediSearch/RediSearch[#8900](https://github.com/redisearch/redisearch/pull/8900), RediSearch/RediSearch[#8827](https://github.com/redisearch/redisearch/pull/8827), RediSearch/RediSearch[#8971](https://github.com/redisearch/redisearch/pull/8971), RediSearch/RediSearch[#8966](https://github.com/redisearch/redisearch/pull/8966), RediSearch/RediSearch[#8762](https://github.com/redisearch/redisearch/pull/8762), RediSearch/RediSearch[#8678](https://github.com/redisearch/redisearch/pull/8678), RediSearch/RediSearch[#8915](https://github.com/redisearch/redisearch/pull/8915), RediSearch/RediSearch[#8653](https://github.com/redisearch/redisearch/pull/8653), RediSearch/RediSearch[#9085](https://github.com/redisearch/redisearch/pull/9085), RediSearch/RediSearch[#8751](https://github.com/redisearch/redisearch/pull/8751), RediSearch/RediSearch[#8692](https://github.com/redisearch/redisearch/pull/8692), RediSearch/RediSearch[#9224](https://github.com/redisearch/redisearch/pull/9224) Iterators ported to Rust, reducing FFI overhead
 - RediSearch/RediSearch[#9500](https://github.com/redisearch/redisearch/pull/9500) `numRecords` no longer updated for vector fields, removing unnecessary write overhead on ingest (MOD-15487)
 - VecSim SVS thread pool integrated with the worker pool for better thread utilization (MOD-9881)
 
@@ -114,11 +114,11 @@ Redis 8.8 introduces new features and performance improvements.
 - [#15182](https://github.com/redis/redis/pull/15182) Slowlog entry truncation limits:
   - `slowlog-entry-max-argc`: maximum number of command arguments kept in a slowlog entry
   - `slowlog-entry-max-string-len`: maximum length of a command argument in a slowlog entry
-- RediSearch/RediSearch[#8876](https://github.com/redisearch/redisearch/pull/8876), RediSearch/RediSearch[#8960](https://github.com/redis/redis/pull/8960) Default maximum worker threads value updated; `MAX_WORKER_THREADS` is now a string config (MOD-14486, MOD-14763)
+- RediSearch/RediSearch[#8876](https://github.com/redisearch/redisearch/pull/8876), RediSearch/RediSearch[#8960](https://github.com/redisearch/redisearch/pull/8960) Default maximum worker threads value updated; `MAX_WORKER_THREADS` is now a string config (MOD-14486, MOD-14763)
 
 ### Metrics (compared to 8.8-M03)
 
-- RediSearch/RediSearch[#8210](https://github.com/redisearch/redisearch/pull/8210), RediSearch/RediSearch[#8231](https://github.com/redis/redis/pull/8231) `FT.PROFILE`: added queue time tracking (MOD-13602)
+- RediSearch/RediSearch[#8210](https://github.com/redisearch/redisearch/pull/8210), RediSearch/RediSearch[#8231](https://github.com/redisearch/redisearch/pull/8231) `FT.PROFILE`: added queue time tracking (MOD-13602)
 
 ### CLI tools
 
