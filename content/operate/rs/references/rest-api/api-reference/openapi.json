@@ -2158,7 +2158,8 @@
           "Cluster"
         ],
         "x-publish-docs": true,
-        "x-stability-level": "stable"
+        "x-stability-level": "stable",
+        "x-timeout-seconds": 900
       }
     },
     "/v1/cluster/certificates/rotate": {
@@ -2454,7 +2455,8 @@
           "Cluster"
         ],
         "x-publish-docs": true,
-        "x-stability-level": "stable"
+        "x-stability-level": "stable",
+        "x-timeout-seconds": 900
       }
     },
     "/v1/ldap_mappings": {
