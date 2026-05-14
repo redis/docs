@@ -2,7 +2,7 @@
 
 <span title="X icon">:x:</span> Not supported – You cannot upgrade directly from the current Redis Software cluster version. You must first upgrade to a supported intermediate version.
 
-| Current Redis Software cluster version | Upgrade to Redis Software 7.2.x | Upgrade to Redis Software 7.4.x |  Upgrade to Redis Software 7.8.x | Upgrade to Redis Software 7.22.x | Upgrade to Redis Software 8.0.2-8.0.10 | Upgrade to Redis Software 8.0.16-8.0.18 |
+| Current Redis Software cluster version | Upgrade to Redis Software 7.2.x | Upgrade to Redis Software 7.4.x |  Upgrade to Redis Software 7.8.x | Upgrade to Redis Software 7.22.x | Upgrade to Redis Software 8.0.2-8.0.10 | Upgrade to Redis Software 8.0.16-8.0.20 |
 |:-----------------------:|:----------------:|:----------------:|:----------------:|:----------------:|:----------------:|:----------------:|
 | 6.0.x | <span title="Supported">&#x2705;</span> | <span title="Not supported">:x:</span> | <span title="Not supported">:x:</span> | <span title="Not supported">:x:</span> | <span title="Not supported">:x:</span> | <span title="Not supported">:x:</span> |
 | 6.2.4<br />6.2.8 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Not supported">:x:</span> | <span title="Not supported">:x:</span> | <span title="Not supported">:x:</span> | <span title="Not supported">:x:</span> |
