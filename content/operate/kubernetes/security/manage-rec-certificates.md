@@ -5,67 +5,110 @@ categories:
 - docs
 - operate
 - kubernetes
-description: Install your own certificates to be used by the Redis Enterprise cluster's
-  operator.
+description: Install your own certificates to replace the self-signed certificates used by a Redis Enterprise cluster on Kubernetes.
 linkTitle: Manage REC certificates
 weight: 94
 ---
 
-{{<note>}}To automate certificate management, you can use cert-manager instead of manually created secrets. See [cert-manager integration]({{< relref "/operate/kubernetes/security/cert-manager" >}}) for details.{{</note>}}
+Redis Software for Kubernetes generates self-signed TLS certificates for each new cluster. You can replace any of those certificates with your own.
 
-By default, Redis Enterprise Software for Kubernetes generates TLS certificates for the cluster during creation. These self-signed certificates are generated on the first node of each Redis Enterprise cluster (REC) and are copied to all other nodes added to the cluster. For the list of of certificates used by Redis Enterprise Software and the traffic they encrypt, see the [certificates table]({{< relref "/operate/rs/security/certificates" >}}).
+You can manage REC certificates in two ways:
 
-To install and use your own certificates with Kubernetes on your Redis Enterprise cluster, they need to be stored in [secrets](https://kubernetes.io/docs/concepts/configuration/secret/). The REC custom resource also needs to be configured with those secret names to read and use the certificates.
+- **[Method 1: Manage certificates with the REC custom resource](#method-1-manage-certificates-with-the-rec-custom-resource)** (recommended). Store each certificate in a Kubernetes secret and reference the secret from the REC custom resource. The operator applies the certificate and keeps the cluster in sync with the secret. Use this method whenever the certificate type is exposed in `spec.certificates`.
+- **[Method 2: Manage certificates with the Redis Software REST API](#method-2-manage-certificates-with-the-redis-software-rest-api)**. Call the cluster's REST API directly, bypassing the operator. Use this method only when you need to follow the Redis Software procedure for a cluster that does not define the certificate in `spec.certificates`. The operator overwrites changes made this way if the same certificate is also defined in the REC custom resource.
 
-## Create a secret to hold the new certificate
+For the list of certificates and what each one encrypts, see the [certificates table]({{< relref "/operate/rs/security/certificates" >}}).
 
-Create the [secret](https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-kubectl/) with the required fields shown below.
+## Method 1: Manage certificates with the REC custom resource
 
-  ```sh
-  kubectl create secret generic <secret-name> \
-    --from-file=certificate=</PATH/TO/certificate.pem> \
-    --from-file=key=</PATH/TO/key.pem> \
-    --from-literal=name=<proxy | api | cm | syncer | metrics_exporter | cp_internode_encryption | dp_internode_encryption>
-  ```
+This is the Kubernetes-native method. The operator detects changes to a referenced secret and rotates the certificate without manual intervention. You can create the secret manually with `kubectl`, or have [cert-manager]({{< relref "/operate/kubernetes/security/cert-manager" >}}) issue and renew it automatically.
 
-{{<note>}}For internode encryption certificates, see [Internode encryption]({{< relref "/operate/kubernetes/security/internode-encryption" >}}) for detailed configuration instructions.{{</note>}}
+### Supported certificates
 
-## Update certificates in the REC custom resource
+The REC custom resource lets you replace these certificates through `spec.certificates`:
 
-Edit the Redis Enterprise cluster (REC) custom resource to add a `certificates` subsection under the `spec` section. You are only required to add the fields for the certificates you are installing.
+| Certificate                        | REC custom resource field                     | Secret `name` value        |
+| ---------------------------------- | --------------------------------------------- | -------------------------- |
+| API                                | `apiCertificateSecretName`                    | `api`                      |
+| Cluster Manager UI                 | `cmCertificateSecretName`                     | `cm`                       |
+| Control plane internode encryption | `cpInternodeEncryptionCertificateSecretName`  | `cp_internode_encryption`  |
+| Data plane internode encryption    | `dpInternodeEncryptionCertificateSecretName`  | `dp_internode_encryption`  |
+| LDAP client                        | `ldapClientCertificateSecretName`             | `ldap_client`              |
+| Metrics exporter                   | `metricsExporterCertificateSecretName`        | `metrics_exporter`         |
+| Proxy                              | `proxyCertificateSecretName`                  | `proxy`                    |
+| SSO issuer (SAML IdP)              | `ssoIssuerCertificateSecretName`              | `sso_issuer`               |
+| SSO service (SAML SP)              | `ssoServiceCertificateSecretName`             | `sso_service`              |
+| Syncer                             | `syncerCertificateSecretName`                 | `syncer`                   |
+
+Rotating any of these certificates does not restart REC pods.
+
+### Step 1: Create a secret for the certificate
+
+Create a Kubernetes [secret](https://kubernetes.io/docs/concepts/configuration/secret/) that holds the PEM-encoded certificate and key:
+
+```sh
+kubectl create secret generic <secret-name> \
+  --from-file=certificate=</path/to/certificate.pem> \
+  --from-file=key=</path/to/key.pem> \
+  --from-literal=name=<certificate-name>
+```
+
+Replace the placeholders:
+
+- `<secret-name>`: any name you choose. You'll reference it from `spec.certificates` in [Step 2](#step-2-reference-the-secret-in-the-rec-custom-resource).
+- `<certificate-name>`: the value from the **Secret `name` value** column in the [supported certificates](#supported-certificates) table.
+
+{{<note>}}For internode encryption certificates, use the secret format described in [Internode encryption]({{< relref "/operate/kubernetes/security/internode-encryption" >}}). The rest of this procedure applies.{{</note>}}
+
+### Step 2: Reference the secret in the REC custom resource
+
+Edit the REC custom resource and add a `certificates` section under `spec`. Include only the fields for the certificates you are replacing:
 
 ```yaml
 spec:
   certificates:
+    # See the supported certificates table for the full list of fields.
     apiCertificateSecretName: <apicert-secret-name>
     cmCertificateSecretName: <cmcert-secret-name>
-    syncerCertificateSecretName: <syncercert-secret-name>
-    metricsExporterCertificateSecretName: <metricscert-secret-name>
-    proxyCertificateSecretName: <proxycert-secret-name>
     cpInternodeEncryptionCertificateSecretName: <cpine-secret-name>
     dpInternodeEncryptionCertificateSecretName: <dpine-secret-name>
+    metricsExporterCertificateSecretName: <metricscert-secret-name>
+    proxyCertificateSecretName: <proxycert-secret-name>
+    syncerCertificateSecretName: <syncercert-secret-name>
 ```
 
-### Update certificates through the API
+Apply the updated REC custom resource:
 
-Alternatively, you can also update the REC certificates via the API:
-
-```API
-PUT /v1/cluster/update_cert
-{
-   "certificate": <certificate>, 
-   "key": <cert-key>,
-   "name": <cert-name> 
-}
+```sh
+kubectl apply -f <rec-file>.yaml
 ```
 
-### Verify the certificate was updated
+The operator detects the change and rotates the certificate on the cluster. New client connections use the new certificate; existing connections continue with the old one until they reconnect.
 
-Check the operator logs and use the API to verify the certificate has been updated.
+### Step 3: Verify the rotation
 
-  ```api
-  GET /v1/cluster/certificates
-  ```
+Check the operator logs and the REC status:
+
+```sh
+kubectl logs deployment/redis-enterprise-operator
+kubectl describe rec <rec-name>
+```
+
+To list the active certificates on the cluster, call the Redis Software REST API:
+
+```http
+GET /v1/cluster/certificates
+```
+
+## Method 2: Manage certificates with the Redis Software REST API
+
+Use the Redis Software REST API or `rladmin` directly against the cluster, bypassing the operator.
+
+{{<warning>}}If `spec.certificates` in the REC custom resource defines the same certificate, the operator overwrites your API change. Before you update a certificate through the REST API, remove the corresponding field from `spec.certificates`, or apply the same change in both places.{{</warning>}}
+
+For the procedure, including the `rladmin` and REST API examples, see [Update certificates]({{< relref "/operate/rs/security/certificates/updating-certificates" >}}).
+
+After the update, verify the rotation as described in [Step 3](#step-3-verify-the-rotation).
 
 ## Active-Active database certificate updates
 
@@ -77,4 +120,5 @@ This automation applies whether you manage the secret directly or with [cert-man
 
 - [Update certificates]({{< relref "/operate/rs/security/certificates/updating-certificates" >}})
 - [Install your own certificates]({{< relref "/operate/rs/security/certificates/create-certificates" >}})
+- [Certificates table]({{< relref "/operate/rs/security/certificates" >}})
 - [Glossary/Transport Layer Security (TLS)]({{< relref "/glossary#letter-t" >}})
