@@ -1,19 +1,26 @@
 """
 Background consumer thread for a single consumer in a consumer group.
 
-Each worker owns a daemon thread that loops on ``XREADGROUP`` with a
-short block timeout and acks every entry it processes. Two demo-only
-levers are wired into the loop:
+Each worker owns a daemon thread that loops on ``XREADGROUP >`` with a
+short block timeout and acks every entry it processes. Recovery of
+stuck PEL entries (this consumer's, or anyone else's) happens through
+``reap_idle_pel()``, which is the textbook Streams pattern: each
+consumer periodically (or on demand) calls ``XAUTOCLAIM`` with itself
+as the target, then processes whatever it claimed. The demo's
+"XAUTOCLAIM to selected" button is exactly that call.
+
+Two demo-only levers are wired into the loop:
 
 * ``pause()`` parks the worker (so its pending entries age into the
-  ``XAUTOCLAIM`` window).
+  ``XAUTOCLAIM`` window without being consumed by ``>`` reads).
 * ``crash_next(n)`` tells the worker to drop its next ``n`` deliveries
   on the floor without acking them — the same effect as a worker
   process dying mid-message. Those entries stay in the group's PEL
-  until claimed.
+  until ``reap_idle_pel`` recovers them.
 
-Real consumers do not need either lever; they only need the
-``XREADGROUP`` -> process -> ``XACK`` loop in ``_run``.
+Real consumers do not need either lever; they only need
+``XREADGROUP`` → process → ``XACK`` in ``_run`` and a periodic
+``reap_idle_pel`` call to recover stuck entries.
 """
 
 from __future__ import annotations
@@ -45,6 +52,7 @@ class ConsumerWorker:
         self._recent: deque[dict] = deque(maxlen=recent_capacity)
         self._lock = threading.Lock()
         self._processed = 0
+        self._reaped = 0
         self._crashed_drops = 0
 
         self._paused = threading.Event()
@@ -106,11 +114,51 @@ class ConsumerWorker:
                 "name": self.name,
                 "group": self.group,
                 "processed": self._processed,
+                "reaped": self._reaped,
                 "crashed_drops": self._crashed_drops,
                 "paused": self._paused.is_set(),
                 "crash_queued": self._crash_next,
                 "alive": bool(self._thread and self._thread.is_alive()),
             }
+
+    # ------------------------------------------------------------------
+    # Recovery
+    # ------------------------------------------------------------------
+
+    def reap_idle_pel(self) -> dict:
+        """Run ``XAUTOCLAIM`` into self and process the claimed entries.
+
+        Returns a summary dict with ``claimed``, ``deleted_ids``, and
+        ``processed`` counts. Safe to call from any thread — the heavy
+        lifting is ``stream.autoclaim`` (a Redis call) and the
+        sequential per-entry dispatch via ``_dispatch``.
+
+        ``deleted_ids`` are PEL entries whose stream payload was
+        already trimmed by ``MAXLEN ~`` / ``XTRIM`` before the sweep
+        ran. Redis 7+ removes them from the PEL inside ``XAUTOCLAIM``
+        itself, so the caller does not have to ``XACK`` them; they are
+        reported so the caller can route them to a dead-letter store.
+        """
+        claimed, deleted = self.stream.autoclaim(
+            self.group, self.name, page_count=100, max_pages=10,
+        )
+        processed = 0
+        for entry_id, fields in claimed:
+            try:
+                self._handle_entry(entry_id, fields)
+                processed += 1
+            except Exception as exc:
+                print(
+                    f"[{self.group}/{self.name}] reap failed on "
+                    f"{entry_id}: {exc}"
+                )
+        with self._lock:
+            self._reaped += processed
+        return {
+            "claimed": len(claimed),
+            "deleted_ids": deleted,
+            "processed": processed,
+        }
 
     # ------------------------------------------------------------------
     # Main loop
@@ -133,9 +181,32 @@ class ConsumerWorker:
                 continue
 
             for entry_id, fields in entries:
-                if self.process_latency_ms:
-                    time.sleep(self.process_latency_ms / 1000.0)
-                self._handle_entry(entry_id, fields)
+                self._dispatch(entry_id, fields)
+
+    def _dispatch(self, entry_id: str, fields: dict[str, str]) -> None:
+        if self.process_latency_ms:
+            time.sleep(self.process_latency_ms / 1000.0)
+        try:
+            self._handle_entry(entry_id, fields)
+        except Exception as exc:
+            # A failure here (typically XACK against Redis) must not
+            # kill the daemon thread — that would silently halt this
+            # consumer while every other entry sat in its PEL waiting
+            # for XAUTOCLAIM. The entry stays unacked; the next
+            # ``reap_idle_pel`` call (here or on any consumer in the
+            # group) can recover it once it exceeds the idle threshold.
+            print(
+                f"[{self.group}/{self.name}] failed to handle "
+                f"{entry_id}: {exc}"
+            )
+            with self._lock:
+                self._recent.appendleft({
+                    "id": entry_id,
+                    "type": fields.get("type", ""),
+                    "fields": fields,
+                    "acked": False,
+                    "note": f"handler error: {exc}",
+                })
 
     def _handle_entry(self, entry_id: str, fields: dict[str, str]) -> None:
         with self._lock:

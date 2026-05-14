@@ -16,7 +16,7 @@ This guide shows you how to build a Redis-backed event-streaming pipeline in Pyt
 
 ## Overview
 
-A Redis Stream is an append-only log of field/value entries with auto-generated, time-ordered IDs. Producers append with [`XADD`]({{< relref "/commands/xadd" >}}); consumers belong to *consumer groups* and read with [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), which gives each consumer a private cursor and a pending-entries list (PEL) of in-flight messages. Once a consumer has processed an entry it acknowledges it with [`XACK`]({{< relref "/commands/xack" >}}); entries left unacknowledged past an idle threshold can be reassigned to a healthy consumer with [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}).
+A Redis Stream is an append-only log of field/value entries with auto-generated, time-ordered IDs. Producers append with [`XADD`]({{< relref "/commands/xadd" >}}); consumers belong to *consumer groups* and read with [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}). The group as a whole tracks a single `last-delivered-id` cursor, and each consumer gets its own pending-entries list (PEL) of messages it has been handed but not yet acknowledged. Once a consumer has processed an entry it calls [`XACK`]({{< relref "/commands/xack" >}}) to clear the entry from its PEL; entries left unacknowledged past an idle threshold can be reassigned to a healthy consumer with [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}).
 
 That gives you:
 
@@ -74,8 +74,17 @@ for entry_id, fields in entries:
     handle(fields)                              # your processing
     stream.ack("notifications", [entry_id])     # XACK
 
-# Recover entries from a crashed consumer (idle ≥ claim_min_idle_ms)
-stream.autoclaim("notifications", "worker-b", count=100)
+# Recover stuck PEL entries by reaping them into a healthy consumer.
+# The textbook pattern: each consumer periodically calls XAUTOCLAIM
+# with itself as the target and processes whatever it claimed.
+# `ConsumerWorker.reap_idle_pel` wraps that flow; the low-level helper
+# `stream.autoclaim(group, target_name)` is also available if you
+# want to drive XAUTOCLAIM directly.
+result = worker_b.reap_idle_pel()
+# result == {"claimed": N, "processed": M, "deleted_ids": [...]}
+# deleted_ids are PEL entries whose payload was already trimmed.
+# Redis 7+ has already removed those slots from the PEL, so no XACK
+# is needed — log them and route to a dead-letter store for audit.
 
 # Replay history (independent of any group's cursor)
 for entry_id, fields in stream.replay("-", "+", count=50):
@@ -94,7 +103,7 @@ demo:events:orders
   ...
 ```
 
-The ID is `{milliseconds}-{sequence}`, so IDs are globally ordered and you can range-query by approximate wall-clock time without any extra index. The implementation uses:
+The ID is `{milliseconds}-{sequence}`, monotonically increasing within the stream, so you can range-query by approximate wall-clock time without an extra index. (IDs are ordered within a stream, not across streams — two events appended to different streams at the same millisecond can produce the same ID.) The implementation uses:
 
 * [`XADD ... MAXLEN ~ n`]({{< relref "/commands/xadd" >}}), pipelined, for batch production with a retention cap
 * [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) with the special ID `>` for fresh deliveries to a consumer
@@ -169,7 +178,7 @@ def ack(self, group: str, ids: Iterable[str]) -> int:
     return int(self.redis.xack(self.stream_key, group, *ids))
 ```
 
-This is the linchpin of at-least-once delivery: an entry that is never acked stays in the PEL forever (until a claim moves it elsewhere). If your consumer thread crashes between processing and ack, the entry is *retained*, not lost — the next claim sweep picks it up.
+This is the linchpin of at-least-once delivery: an entry that is never acked stays in the PEL until a claim moves it elsewhere. If your consumer thread crashes between processing and ack, the next claim sweep picks the entry back up. The one caveat is retention: `XADD MAXLEN ~` and `XTRIM` can release the entry's *payload* even while its ID is still in the PEL. The next `XAUTOCLAIM` returns those IDs in its `deleted` list and removes them from the PEL inside the same command — the entry cannot be retried, so the caller should log it and route to a dead-letter store for audit. The example handles this explicitly in `_handle_autoclaim` further down.
 
 The trade-off is the opposite of pub/sub: a slow or crashed consumer doesn't lose messages, but it does mean your downstream system must be idempotent. If you process an order twice because the first attempt died after the side effect but before the ack, the second attempt must be safe.
 
@@ -188,32 +197,64 @@ The `start_id="0-0"` argument means "deliver everything in the stream from the b
 
 ## Recovering crashed consumers with XAUTOCLAIM
 
-The demo's "Crash next 3" button tells a chosen consumer to drop its next three deliveries on the floor without acking them — the same effect as a worker process dying mid-message. Those entries stay in the group's PEL with their delivery counter incremented. Once they have been idle for at least `claim_min_idle_ms`, the recovery sweep picks them up:
+The demo's "Crash next 3" button tells a chosen consumer to drop its next three deliveries on the floor without acking them — the same effect as a worker process dying mid-message. Those entries stay in the group's PEL with their delivery counter incremented. Once they have been idle for at least `claim_min_idle_ms`, any healthy consumer in the group can rescue them by calling `XAUTOCLAIM` *with itself as the target*. `ConsumerWorker.reap_idle_pel` wraps that pattern:
+
+```python
+def reap_idle_pel(self) -> dict:
+    claimed, deleted = self.stream.autoclaim(
+        self.group, self.name, page_count=100, max_pages=10,
+    )
+    processed = 0
+    for entry_id, fields in claimed:
+        try:
+            self._handle_entry(entry_id, fields)
+            processed += 1
+        except Exception as exc:
+            print(f"reap failed on {entry_id}: {exc}")
+    return {
+        "claimed": len(claimed),
+        "deleted_ids": deleted,
+        "processed": processed,
+    }
+```
+
+The underlying `stream.autoclaim` helper pages through the group's PEL with `XAUTOCLAIM`'s continuation cursor:
 
 ```python
 def autoclaim(
     self,
     group: str,
     consumer: str,
-    count: int = 100,
+    page_count: int = 100,
     start_id: str = "0-0",
-) -> list[Entry]:
-    _next_id, claimed, _deleted = self.redis.xautoclaim(
-        self.stream_key,
-        group,
-        consumer,
-        min_idle_time=self.claim_min_idle_ms,
-        start_id=start_id,
-        count=count,
-    )
-    return list(claimed)
+    max_pages: int = 10,
+) -> tuple[list[Entry], list[str]]:
+    claimed_all, deleted_all = [], []
+    cursor = start_id
+    for _ in range(max_pages):
+        next_id, claimed, deleted = self.redis.xautoclaim(
+            self.stream_key,
+            group,
+            consumer,
+            min_idle_time=self.claim_min_idle_ms,
+            start_id=cursor,
+            count=page_count,
+        )
+        claimed_all.extend(claimed)
+        deleted_all.extend(deleted or [])
+        if next_id == "0-0":
+            break
+        cursor = next_id
+    return claimed_all, deleted_all
 ```
 
-`XAUTOCLAIM` walks the group's PEL, finds every entry idle longer than `min_idle_time`, reassigns it to the named consumer, and returns the reassigned entries. The delivery counter is incremented on every claim — after a few cycles you can use it to detect a *poison-pill* message that crashes every consumer that touches it, and route it to a dead-letter stream instead of looping forever.
+A single `XAUTOCLAIM` call scans up to `page_count` PEL entries starting at `start_id`, reassigns the ones idle for at least `min_idle_time` to the named consumer, and returns a continuation cursor in the first slot of the reply. For a full sweep, loop until the cursor returns to `0-0` (with a `max_pages` safety net so one call cannot monopolise a very large PEL). The delivery counter is incremented on every claim — after a few cycles you can use it to spot a *poison-pill* message that crashes every consumer that touches it, and route it to a dead-letter stream so the bad entry stops cycling. (New entries keep flowing past the poison pill — `XREADGROUP >` still delivers fresh work — but the bad entry's repeated reclaim wastes consumer time and keeps the PEL larger than it needs to be.)
 
-In production this loop runs periodically (every few seconds) on every healthy consumer, or on a dedicated reaper. The demo exposes it as a button so you can trigger it manually after waiting for the idle threshold.
+The `deleted` list contains PEL entry IDs whose stream payload was already trimmed by the time the claim ran (typically because `MAXLEN ~` retention outran a slow consumer). `XAUTOCLAIM` removes those dangling slots from the PEL itself, so the caller does *not* need to `XACK` them — but the entries cannot be retried either, so log and route them to a dead-letter store for offline inspection. Redis 7.0 introduced this third return element; the example requires Redis 7.0+ for that reason.
 
-`XCLAIM` (singular, no auto) does the same thing for a specific list of entry IDs you already have in hand — useful when you want to take ownership of one known stuck entry rather than sweep the whole PEL.
+`reap_idle_pel` is the right primitive for the recovery path because it claims and processes in one step: every entry the call returned is now in *this* consumer's PEL, so the same consumer is responsible for processing and acking it. In production each consumer thread runs `reap_idle_pel` periodically (every few seconds, on a timer) so a crashed peer's entries never sit invisibly. The demo exposes it as a manual button so you can trigger the reap after waiting for the idle threshold.
+
+`XCLAIM` (singular, no auto) does the same thing for a specific list of entry IDs you already have in hand — useful when you want to take ownership of one known stuck entry, or when you need to move a specific consumer's PEL to a peer (the case the demo's "Remove consumer" button handles via `handover_pending`). `XAUTOCLAIM` cannot filter by source consumer, so it cannot be used for a per-consumer handover.
 
 ## Replay with XRANGE
 
@@ -267,11 +308,16 @@ def _run(self) -> None:
 
 `_handle_entry` either acks (the normal path) or, when the demo has asked the worker to "crash", drops the entry on the floor and increments a counter so the UI can show what is currently in the PEL waiting to be claimed.
 
+Recovery of stuck PEL entries — this consumer's, after a restart, or another consumer's, after a crash — runs through a separate `reap_idle_pel` method rather than the read loop. That method calls `XAUTOCLAIM` with this consumer as the target, then processes whatever was claimed in the same flow as new entries. This is the textbook Streams pattern: each consumer is its own reaper, running `XAUTOCLAIM(self)` periodically (or on demand) so a crashed peer's entries never sit invisibly in the PEL. The demo's "XAUTOCLAIM to selected" button calls `reap_idle_pel` on the chosen consumer; in production you would run it from a timer every few seconds.
+
+Note that the worker's main read loop deliberately does *not* call `XREADGROUP 0` to drain its own PEL on every iteration. That would re-deliver every pending entry continuously and *reset its idle counter to zero* each time, which would keep crashed entries below the `XAUTOCLAIM` threshold forever. Using `XAUTOCLAIM(self)` as the recovery primitive — which only fires for entries idle longer than `min_idle_time` — avoids that whole class of bug.
+
 The pause and crash levers exist only for the demo. A real consumer is just the read-process-ack loop — everything else in this class is instrumentation.
 
 ## Prerequisites
 
-* Redis 6.2 or later (Redis 7.0+ recommended for `XAUTOCLAIM`).
+* Redis 7.0 or later. `XAUTOCLAIM` was added in Redis 6.2, but its reply gained a third
+  element (the list of deleted IDs) in 7.0; the example relies on that shape.
 * Python 3.9 or later.
 * The `redis-py` client. Install it with:
 
@@ -306,10 +352,13 @@ python3 demo_server.py
 You should see:
 
 ```text
+Deleting any existing data at key 'demo:events:orders' for a clean demo run (pass --no-reset to keep it).
 Redis streaming demo server listening on http://127.0.0.1:8083
 Using Redis at localhost:6379 with stream key 'demo:events:orders' (MAXLEN ~ 2000)
 Seeded 3 consumer(s) across 2 group(s)
 ```
+
+By default the demo wipes the configured stream key on startup so each run starts from a clean state. Pass `--no-reset` to keep any existing data at the key (useful when re-running against the same stream to inspect prior state), or `--stream-key <name>` to point the demo at a different key entirely.
 
 Open [http://127.0.0.1:8083](http://127.0.0.1:8083) in a browser. You can:
 
@@ -345,7 +394,7 @@ The same applies inside a group: `XINFO CONSUMERS` reports per-consumer pending 
 
 ### Bound the delivery counter as a poison-pill signal
 
-`XPENDING` returns each entry's delivery count, incremented on every claim. If an entry has been delivered (and dropped) several times, the next consumer is unlikely to fare better. After some threshold — `deliveries >= 5`, say — route the entry to a *dead-letter stream*, ack it on the original group, and alert. Without this, one bad entry can stop the group's forward progress indefinitely.
+`XPENDING` returns each entry's delivery count, incremented on every claim. If an entry has been delivered (and dropped) several times, the next consumer is unlikely to fare better. After some threshold — `deliveries >= 5`, say — route the entry to a *dead-letter stream*, ack it on the original group, and alert. New entries keep flowing past a poison pill (`XREADGROUP >` still delivers fresh work), but the bad entry's repeated reclaim wastes consumer time and keeps the PEL bigger than it needs to be — without a DLQ threshold it can also slowly trip retention/lag alerts.
 
 ### Partition by tenant or entity for scale
 

@@ -26,7 +26,7 @@ import argparse
 import json
 import random
 import sys
-import time
+import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
@@ -289,6 +289,19 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         groupsView.innerHTML = "<p>No groups.</p>";
         return;
       }
+      // Preserve any text the user has typed into an add-consumer input
+      // (and which one was focused) so the 1.5s auto-refresh doesn't wipe it.
+      const addWorkerValues = {};
+      let focusedGroup = null;
+      let focusedSelectionStart = null;
+      groupsView.querySelectorAll("input[id^='addworker-']").forEach((input) => {
+        const group = input.id.slice("addworker-".length);
+        addWorkerValues[group] = input.value;
+        if (document.activeElement === input) {
+          focusedGroup = group;
+          focusedSelectionStart = input.selectionStart;
+        }
+      });
       groupsView.innerHTML = groups.map((g) => {
         const consumers = (g.consumers_detail || []).map((c) => {
           const recent = (c.recent || []).slice(0, 3).map((m) => `
@@ -302,7 +315,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           return `
             <div class="consumer-row">
               <span class="name">${escapeHtml(c.name)}</span>
-              <span class="mono">pending=${c.pending} idle=${c.idle_ms}ms processed=${c.processed}</span>
+              <span class="mono">pending=${c.pending} idle=${c.idle_ms}ms processed=${c.processed} reaped=${c.reaped ?? 0}</span>
               ${badges.join(" ")}
               <button class="small secondary" data-action="crash" data-group="${escapeHtml(g.name)}" data-name="${escapeHtml(c.name)}">Crash next 3</button>
               <button class="small danger" data-action="remove" data-group="${escapeHtml(g.name)}" data-name="${escapeHtml(c.name)}">Remove</button>
@@ -323,6 +336,21 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
           </div>`;
       }).join("");
+
+      // Restore the typed text (and focus) into the add-consumer inputs.
+      for (const [group, value] of Object.entries(addWorkerValues)) {
+        const input = document.getElementById(`addworker-${group}`);
+        if (input) input.value = value;
+      }
+      if (focusedGroup) {
+        const input = document.getElementById(`addworker-${focusedGroup}`);
+        if (input) {
+          input.focus();
+          if (focusedSelectionStart !== null) {
+            try { input.setSelectionRange(focusedSelectionStart, focusedSelectionStart); } catch (_) {}
+          }
+        }
+      }
 
       // Populate the autoclaim-target dropdown with every (group, consumer)
       const previous = autoclaimTarget.value;
@@ -421,13 +449,24 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       const body = new URLSearchParams({ group, consumer });
       const r = await fetch("/autoclaim", { method: "POST", body });
       const d = await r.json();
-      setStatus(`XAUTOCLAIM reassigned ${d.claimed} entry/entries to ${group}/${consumer}.`, "ok");
-      const rows = (d.entries || []).map((e) => `
-        <tr><td class="mono">${escapeHtml(e.id)}</td><td>${escapeHtml(e.fields.type)}</td></tr>`).join("");
+      if (!r.ok) { setStatus(d.error || "Autoclaim failed.", "error"); return; }
+      const deletedCount = (d.deleted || []).length;
+      const msg = deletedCount
+        ? `${group}/${consumer} reaped ${d.claimed} entry/entries and processed ${d.processed}; ${deletedCount} pending ID(s) were already trimmed out of the stream and removed from the PEL by Redis.`
+        : `${group}/${consumer} reaped ${d.claimed} entry/entries and processed ${d.processed}.`;
+      setStatus(msg, "ok");
+      const deletedBlock = deletedCount
+        ? `<h3>Deleted IDs (payload already trimmed — removed from PEL by Redis)</h3>
+           <p class="mono">${(d.deleted || []).map(escapeHtml).join(", ")}</p>
+           <p>In production these would also be routed to a dead-letter store for offline inspection.</p>`
+        : "";
       resultView.innerHTML = `
-        <p>Claimed ${d.claimed} entry/entries idle ≥ ${d.min_idle_ms} ms into <strong>${escapeHtml(group)}/${escapeHtml(consumer)}</strong>.</p>
-        ${rows ? `<table><thead><tr><th>id</th><th>type</th></tr></thead><tbody>${rows}</tbody></table>`
-                : "<p>(nothing was idle enough yet — try again after a few seconds)</p>"}`;
+        <p><strong>${escapeHtml(group)}/${escapeHtml(consumer)}</strong> ran <code>XAUTOCLAIM</code>
+           into itself with <code>min_idle_time = ${d.min_idle_ms} ms</code>,
+           claimed <strong>${d.claimed}</strong> stuck entry/entries, processed
+           <strong>${d.processed}</strong>, and acked them.</p>
+        ${d.claimed === 0 ? "<p>(nothing was idle enough yet — try again after a few seconds)</p>" : ""}
+        ${deletedBlock}`;
       await refresh();
     });
 
@@ -452,10 +491,17 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         await refresh();
       } else if (action === "remove") {
         const name = t.dataset.name;
-        if (!confirm(`Remove ${group}/${name}? Its pending entries will be released.`)) return;
+        if (!confirm(`Remove ${group}/${name}? Any pending entries it still owns will be handed over to a peer consumer in the group via XCLAIM before XGROUP DELCONSUMER.`)) return;
         const body = new URLSearchParams({ group, name });
-        await fetch("/remove-worker", { method: "POST", body });
-        setStatus(`Removed ${group}/${name}.`, "ok");
+        const r = await fetch("/remove-worker", { method: "POST", body });
+        const d = await r.json();
+        if (!d.removed) {
+          setStatus(d.message || `Could not remove ${group}/${name} (${d.reason || "unknown"}).`, "error");
+        } else if (d.handed_over_count > 0) {
+          setStatus(`Removed ${group}/${name}. Handed ${d.handed_over_count} pending entr${d.handed_over_count === 1 ? "y" : "ies"} over to ${d.handed_over_to}.`, "ok");
+        } else {
+          setStatus(`Removed ${group}/${name} (no pending entries to hand over).`, "ok");
+        }
         await refresh();
       } else if (action === "add") {
         const input = document.getElementById(`addworker-${group}`);
@@ -480,51 +526,102 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
 
 class StreamingDemo:
-    """In-memory registry of consumer workers across all groups."""
+    """In-memory registry of consumer workers across all groups.
+
+    ``ThreadingHTTPServer`` dispatches each HTTP request on a fresh
+    thread, so any code that mutates ``self.workers`` (or iterates it
+    while another handler is mutating it) needs the lock.
+    """
 
     def __init__(self, stream: RedisEventStream) -> None:
         self.stream = stream
         self.workers: dict[tuple[str, str], ConsumerWorker] = {}
+        self._lock = threading.RLock()
 
     def seed(self, groups: dict[str, list[str]]) -> int:
-        for group, names in groups.items():
-            self.stream.ensure_group(group, start_id="0-0")
-            for name in names:
-                self.add_worker(group, name)
-        return sum(len(v) for v in groups.values())
+        with self._lock:
+            for group, names in groups.items():
+                self.stream.ensure_group(group, start_id="0-0")
+                for name in names:
+                    self.add_worker(group, name)
+            return sum(len(v) for v in groups.values())
 
     def add_worker(self, group: str, name: str) -> bool:
-        key = (group, name)
-        if key in self.workers:
-            return False
-        self.stream.ensure_group(group, start_id="0-0")
-        worker = ConsumerWorker(self.stream, group=group, name=name)
-        worker.start()
-        self.workers[key] = worker
-        return True
+        with self._lock:
+            key = (group, name)
+            if key in self.workers:
+                return False
+            self.stream.ensure_group(group, start_id="0-0")
+            worker = ConsumerWorker(self.stream, group=group, name=name)
+            worker.start()
+            self.workers[key] = worker
+            return True
 
-    def remove_worker(self, group: str, name: str) -> bool:
-        key = (group, name)
-        worker = self.workers.pop(key, None)
-        if worker is None:
-            return False
-        worker.stop()
-        self.stream.delete_consumer(group, name)
-        return True
+    def remove_worker(self, group: str, name: str) -> dict:
+        """Remove a consumer safely.
+
+        ``XGROUP DELCONSUMER`` destroys the consumer's PEL entries
+        outright, so any pending message it still owned would become
+        unreachable. Before deleting, hand its PEL off to another
+        consumer in the same group with ``XCLAIM``. Without a peer
+        consumer to take over, refuse to delete and leave the worker
+        in place so the user can add a peer first.
+        """
+        with self._lock:
+            key = (group, name)
+            worker = self.workers.get(key)
+            if worker is None:
+                return {"removed": False, "reason": "not-found"}
+
+            peers = [
+                n for (g, n) in self.workers if g == group and n != name
+            ]
+            if not peers:
+                return {
+                    "removed": False,
+                    "reason": "no-peer",
+                    "message": (
+                        f"{group}/{name} still owns pending entries and is the only "
+                        "consumer in its group; add another consumer first so its "
+                        "PEL can be handed over before deletion."
+                    ),
+                }
+
+            handover_target = peers[0]
+            claimed = self.stream.handover_pending(
+                group, from_consumer=name, to_consumer=handover_target,
+            )
+
+            self.workers.pop(key, None)
+            worker.stop()
+            self.stream.delete_consumer(group, name)
+            return {
+                "removed": True,
+                "handed_over_to": handover_target,
+                "handed_over_count": len(claimed),
+            }
 
     def get_worker(self, group: str, name: str) -> ConsumerWorker | None:
-        return self.workers.get((group, name))
+        with self._lock:
+            return self.workers.get((group, name))
+
+    def workers_snapshot(self) -> list[tuple[tuple[str, str], ConsumerWorker]]:
+        """Stable list of (key, worker) safe to iterate outside the lock."""
+        with self._lock:
+            return list(self.workers.items())
 
     def stop_all(self) -> None:
-        for worker in list(self.workers.values()):
-            worker.stop()
-        self.workers.clear()
+        with self._lock:
+            for worker in list(self.workers.values()):
+                worker.stop()
+            self.workers.clear()
 
     def reset(self) -> int:
-        self.stop_all()
-        self.stream.delete_stream()
-        self.stream.reset_stats()
-        return self.seed(DEFAULT_GROUPS)
+        with self._lock:
+            self.stop_all()
+            self.stream.delete_stream()
+            self.stream.reset_stats()
+            return self.seed(DEFAULT_GROUPS)
 
 
 class StreamingDemoHandler(BaseHTTPRequestHandler):
@@ -602,8 +699,9 @@ class StreamingDemoHandler(BaseHTTPRequestHandler):
         params = self._read_form_data()
         group = params.get("group", [""])[0].strip()
         name = params.get("name", [""])[0].strip()
-        removed = self.demo.remove_worker(group, name)
-        self._send_json({"removed": removed}, 200)
+        result = self.demo.remove_worker(group, name)
+        status = 200 if result.get("removed") or result.get("reason") == "not-found" else 409
+        self._send_json(result, status)
 
     def _handle_crash(self) -> None:
         params = self._read_form_data()
@@ -618,20 +716,37 @@ class StreamingDemoHandler(BaseHTTPRequestHandler):
         self._send_json({"queued": count}, 200)
 
     def _handle_autoclaim(self) -> None:
+        """Have the chosen consumer reap stuck PEL entries into itself.
+
+        This is the textbook ``XAUTOCLAIM`` recovery flow: each
+        consumer periodically calls ``XAUTOCLAIM`` with itself as the
+        target, then processes whatever was returned. The demo
+        exposes it as a manual button so you can trigger the reap on
+        a chosen consumer after waiting for the idle threshold.
+        """
         params = self._read_form_data()
         group = params.get("group", [""])[0].strip()
         consumer = params.get("consumer", [""])[0].strip()
         if not group or not consumer:
             self._send_json({"error": "group and consumer are required"}, 400)
             return
-        claimed = self.stream.autoclaim(group, consumer, count=100)
-        entries = [
-            {"id": entry_id, "fields": fields} for entry_id, fields in claimed
-        ]
+        worker = self.demo.get_worker(group, consumer)
+        if worker is None:
+            self._send_json({"error": f"unknown consumer {group}/{consumer}"}, 404)
+            return
+        # ``reap_idle_pel`` runs XAUTOCLAIM(self) + process + ack.
+        # ``deleted_ids`` are PEL entries whose stream payload was
+        # already trimmed by ``MAXLEN ~`` before the sweep ran. Redis
+        # 7+ removes them from the PEL inside XAUTOCLAIM itself, so
+        # the caller doesn't have to XACK them; in production they
+        # would be routed to a dead-letter store for offline
+        # inspection.
+        result = worker.reap_idle_pel()
         self._send_json(
             {
-                "claimed": len(claimed),
-                "entries": entries,
+                "claimed": result["claimed"],
+                "processed": result["processed"],
+                "deleted": result["deleted_ids"],
                 "min_idle_ms": self.stream.claim_min_idle_ms,
             },
             200,
@@ -669,11 +784,14 @@ class StreamingDemoHandler(BaseHTTPRequestHandler):
 
         groups_detail = []
         pending_rows: list[dict] = []
+        # Snapshot the workers dict under the demo's lock once per state
+        # build so concurrent add/remove requests can't change it mid-loop.
+        workers_snapshot = self.demo.workers_snapshot()
         for group in groups:
             name = group["name"]
             consumer_info = {c["name"]: c for c in self.stream.info_consumers(name)}
             consumers_detail = []
-            for (g_name, c_name), worker in self.demo.workers.items():
+            for (g_name, c_name), worker in workers_snapshot:
                 if g_name != name:
                     continue
                 info = consumer_info.get(c_name, {})
@@ -706,8 +824,11 @@ class StreamingDemoHandler(BaseHTTPRequestHandler):
             for row in self.stream.pending_detail(name, count=50):
                 pending_rows.append({**row, "group": name})
 
-        tail_entries = self.stream.replay("-", "+", count=10)
-        tail_entries = list(reversed(tail_entries))  # newest first
+        # XREVRANGE returns the *newest* N entries (in reverse order) — the
+        # tail view wants the most recent activity, not the head of history.
+        tail_entries = list(self.stream.redis.xrevrange(
+            self.stream.stream_key, max="+", min="-", count=10,
+        ))
         tail = [
             {"id": entry_id, "fields": fields} for entry_id, fields in tail_entries
         ]
@@ -782,6 +903,16 @@ def parse_args() -> argparse.Namespace:
         default=5000,
         help="Minimum idle time before XAUTOCLAIM may reassign a pending entry",
     )
+    parser.add_argument(
+        "--no-reset",
+        dest="reset_on_start",
+        action="store_false",
+        help=(
+            "Keep any existing data at --stream-key instead of deleting it"
+            " on startup. By default the demo wipes the stream so each run"
+            " starts from an empty state."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -800,7 +931,12 @@ def main() -> None:
         claim_min_idle_ms=args.claim_idle_ms,
     )
     demo = StreamingDemo(stream)
-    stream.delete_stream()
+    if args.reset_on_start:
+        print(
+            f"Deleting any existing data at key '{args.stream_key}'"
+            " for a clean demo run (pass --no-reset to keep it)."
+        )
+        stream.delete_stream()
     seeded = demo.seed(DEFAULT_GROUPS)
 
     StreamingDemoHandler.stream = stream

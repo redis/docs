@@ -52,7 +52,10 @@ You can:
 -   Replay historical events for debugging, bootstrapping a new projection, or rebuilding a
     downstream system from scratch.
 -   Bound memory by retaining events by length or by minimum ID, without a separate cleanup job.
--   Recover unacknowledged entries from crashed consumers so no event sits invisibly in flight.
+-   Recover unacknowledged entries from crashed consumers, so a worker dying mid-message does not
+    silently lose work (entries trimmed by `MAXLEN ~` before they are acked are surfaced in
+    `XAUTOCLAIM`'s deleted-IDs list, so the caller can route them to a dead-letter store rather
+    than retry against a missing payload).
 -   Partition streams by tenant, region, or entity for load distribution and per-entity event
     sourcing.
 -   Replace a dedicated Kafka deployment for moderate-scale, short-retention streaming workloads
@@ -64,8 +67,9 @@ In practice, producers append events to a stream with
 [`XADD`]({{< relref "/commands/xadd" >}}) and Redis assigns each entry an auto-generated,
 time-ordered ID. Consumers either read the stream directly with
 [`XREAD`]({{< relref "/commands/xread" >}}), or join a *consumer group* and read with
-[`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), which gives every consumer a private
-cursor and a pending-entries list of in-flight messages. Once a consumer finishes processing an
+[`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}). Each consumer gets its own
+pending-entries list of in-flight messages, while the group as a whole tracks a single
+`last-delivered-id` cursor that advances as entries are handed out to any consumer. Once a consumer finishes processing an
 entry, it acknowledges it with [`XACK`]({{< relref "/commands/xack" >}}); entries left
 unacknowledged past a timeout can be reassigned to a healthy consumer with
 [`XCLAIM`]({{< relref "/commands/xclaim" >}}) or

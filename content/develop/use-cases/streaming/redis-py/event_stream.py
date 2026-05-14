@@ -2,19 +2,25 @@
 Redis event-stream helper backed by a single Redis Stream.
 
 Producers append events with ``XADD``. Consumers belong to consumer
-groups and read with ``XREADGROUP``, which gives each consumer a
-private cursor and a pending-entries list (PEL) of in-flight messages.
+groups and read with ``XREADGROUP``. The group as a whole tracks a
+single ``last-delivered-id`` cursor, and each consumer gets its own
+pending-entries list (PEL) of in-flight messages it has been handed.
 Once a consumer has processed an entry it acknowledges it with
 ``XACK``; entries left unacknowledged past an idle threshold can be
 swept to a healthy consumer with ``XAUTOCLAIM`` (or to a specific one
 with ``XCLAIM``).
 
 Each ``XADD`` carries an approximate ``MAXLEN`` so the stream stays
-bounded as it rolls forward. ``XRANGE`` supports replay from any point
-in history for debugging, audit, or rebuilding a downstream projection.
+bounded as it rolls forward. ``XRANGE`` supports replay over the
+retained history for debugging, audit, or rebuilding a downstream
+projection. Note that approximate trimming can release entries that
+are still in a group's PEL: those entries appear in ``XAUTOCLAIM``'s
+deleted-IDs list, which the caller should log and route to a
+dead-letter store. Redis 7+ removes them from the PEL inside the
+``XAUTOCLAIM`` call itself, so no explicit ``XACK`` is needed.
 
 The same stream can be read by any number of consumer groups — each
-group has its own cursor and its own pending list, so analytics,
+group has its own cursor and its own pending lists, so analytics,
 notifications, and audit can all process the full event flow at their
 own pace without coordinating with each other.
 """
@@ -128,8 +134,8 @@ class RedisEventStream:
         The ``>`` ID means "deliver entries this consumer group has not
         delivered to *anyone* yet" — that is the at-least-once path.
         Replaying an explicit ID instead would re-deliver an entry that
-        is already in this consumer's pending list (used to recover
-        after a crash on the same consumer name).
+        is already in this consumer's pending list (see
+        ``consume_own_pel`` for that recovery path).
         """
         result = self.redis.xreadgroup(
             group,
@@ -137,6 +143,29 @@ class RedisEventStream:
             {self.stream_key: ">"},
             count=count,
             block=block_ms,
+        )
+        return _flatten_entries(result)
+
+    def consume_own_pel(
+        self,
+        group: str,
+        consumer: str,
+        count: int = 10,
+    ) -> list[Entry]:
+        """Re-deliver entries already in this consumer's PEL.
+
+        Reading with an explicit ID (``0`` here) instead of ``>``
+        replays the entries already assigned to this consumer name
+        without advancing the group's ``last-delivered-id``. This is
+        the canonical recovery path after a crash on the same
+        consumer name, and is also how a consumer picks up entries
+        that another consumer (or ``XAUTOCLAIM``) handed to it.
+        """
+        result = self.redis.xreadgroup(
+            group,
+            consumer,
+            {self.stream_key: "0"},
+            count=count,
         )
         return _flatten_entries(result)
 
@@ -153,37 +182,101 @@ class RedisEventStream:
         self,
         group: str,
         consumer: str,
-        count: int = 100,
+        page_count: int = 100,
         start_id: str = "0-0",
-    ) -> list[Entry]:
+        max_pages: int = 10,
+    ) -> tuple[list[Entry], list[str]]:
         """Sweep idle pending entries to ``consumer``.
 
-        ``XAUTOCLAIM`` walks the group's PEL from ``start_id`` and
-        reassigns every entry that has been idle for at least
-        ``claim_min_idle_ms`` to the named consumer. The reassigned
-        entry's delivery counter is incremented so a poison-pill
-        message can be detected after a few claim cycles.
+        A single ``XAUTOCLAIM`` call scans up to ``page_count`` PEL
+        entries starting at ``start_id`` and returns a continuation
+        cursor. For a full sweep of the PEL, loop until the cursor
+        returns to ``0-0`` (or hit ``max_pages`` as a safety net so a
+        very large PEL can't monopolise the call).
+
+        Returns ``(claimed, deleted_ids)``. ``deleted_ids`` are PEL
+        entries whose stream payload had already been trimmed by the
+        time this sweep ran (typically because ``MAXLEN ~`` retention
+        outran a slow consumer). ``XAUTOCLAIM`` removes those dangling
+        slots from the PEL itself — the caller does **not** need to
+        ``XACK`` them — but they cannot be retried, so log and route
+        them to a dead-letter store for observability.
         """
-        _next_id, claimed, _deleted = self.redis.xautoclaim(
-            self.stream_key,
-            group,
-            consumer,
-            min_idle_time=self.claim_min_idle_ms,
-            start_id=start_id,
-            count=count,
-        )
+        claimed_all: list[Entry] = []
+        deleted_all: list[str] = []
+        cursor = start_id
+        for _ in range(max_pages):
+            next_id, claimed, deleted = self.redis.xautoclaim(
+                self.stream_key,
+                group,
+                consumer,
+                min_idle_time=self.claim_min_idle_ms,
+                start_id=cursor,
+                count=page_count,
+            )
+            claimed_all.extend(claimed)
+            deleted_all.extend(deleted or [])
+            if next_id == "0-0":
+                break
+            cursor = next_id
         with self._stats_lock:
-            self._claimed_total += len(claimed)
-        return list(claimed)
+            self._claimed_total += len(claimed_all)
+        return claimed_all, deleted_all
 
     def delete_consumer(self, group: str, consumer: str) -> int:
-        """Remove a consumer from a group. Its pending entries are released."""
+        """Drop a consumer from a group.
+
+        ``XGROUP DELCONSUMER`` destroys this consumer's PEL entries —
+        any entry it still owned is no longer tracked anywhere in the
+        group, and ``XAUTOCLAIM`` will never find it again. Always
+        ``handover_pending`` (or ``XCLAIM`` it manually) to a healthy
+        consumer first; this method is the raw destructive call and
+        is exposed only for explicit cleanup.
+        """
         try:
             return int(self.redis.xgroup_delconsumer(
                 self.stream_key, group, consumer,
             ))
         except redis.ResponseError:
             return 0
+
+    def handover_pending(
+        self,
+        group: str,
+        from_consumer: str,
+        to_consumer: str,
+        batch: int = 100,
+    ) -> list[Entry]:
+        """Move every PEL entry owned by ``from_consumer`` to ``to_consumer``.
+
+        Enumerates the source consumer's PEL with ``XPENDING ... CONSUMER``
+        and reassigns each ID with ``XCLAIM`` at zero idle time so the
+        move is unconditional. (``XAUTOCLAIM`` does not filter by source
+        consumer, so it cannot be used for a per-consumer handover.)
+
+        Call this before ``delete_consumer`` whenever the source still
+        has pending entries — otherwise ``XGROUP DELCONSUMER`` would
+        silently destroy them and they could never be recovered.
+        """
+        claimed_all: list[Entry] = []
+        while True:
+            rows = self.redis.xpending_range(
+                self.stream_key, group, min="-", max="+",
+                count=batch, consumername=from_consumer,
+            )
+            if not rows:
+                break
+            ids = [row["message_id"] for row in rows]
+            claimed = self.redis.xclaim(
+                self.stream_key, group, to_consumer,
+                min_idle_time=0, message_ids=ids,
+            )
+            claimed_all.extend(claimed)
+            if len(rows) < batch:
+                break
+        with self._stats_lock:
+            self._claimed_total += len(claimed_all)
+        return claimed_all
 
     # ------------------------------------------------------------------
     # Replay, length, trim
