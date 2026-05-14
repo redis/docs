@@ -322,6 +322,55 @@ The recommended cross-client idiom is to **bypass the library wrapper** and send
 
 ---
 
+## 22. Typed `XAUTOCLAIM` wrappers that silently drop the deleted-IDs slot
+
+**What to scan for:** any helper that calls the client library's typed `xautoclaim` / `XAutoClaim` / `StreamAutoClaim` wrapper. Look at the return-type binding: does it expose a third slot (deleted IDs / `deleted_messages` / `deletedIds`) alongside the next-cursor and claimed-messages?
+
+**Pass criterion:** the helper must surface the third slot of the Redis 7+ `XAUTOCLAIM` reply (the IDs whose stream payload was trimmed out before the claim ran). The reference helper's API is `(claimed, deleted_ids)` — and the caller is expected to log/route the deleted IDs to a dead-letter store. If the client library's typed wrapper hides the third slot (extremely common), the helper must drop to a raw-command path (`client.Do("XAUTOCLAIM", ...)`, `Jedis.sendCommand(XAUTOCLAIM, ...)`, `connection.dispatch(CommandType.XAUTOCLAIM, NestedMultiOutput, ...)`, `redis.call('XAUTOCLAIM', ...)`, `redis::cmd("XAUTOCLAIM").query_async(...)`) and parse the three-element reply by hand. **A wrapper that returns `(cursor, messages)` only — with no compile-time hint that a third slot exists — silently makes the dead-letter path invisible.**
+
+**Sample audit prompt:**
+
+> Audit every `XAUTOCLAIM` call site across the 9 client implementations under `content/develop/use-cases/{{USE_CASE_NAME}}/`. For each, identify whether the helper goes through the client library's typed wrapper or through a raw command. For the typed wrappers, verify against the library's documentation or source whether the wrapper surfaces all three reply elements (next-cursor, claimed-messages, deleted-IDs). Flag any helper that uses a typed wrapper whose return type omits the deleted-IDs slot — that helper has silently lost the dead-letter signalling path. Cross-check the helper's `_index.md` "Production usage" prose to confirm the deleted-IDs handling is documented for the reader.
+
+**Why on list:** Streaming use case, Phase 2 cross-port finding. Confirmed in **five** independent ports:
+
+- **go-redis v9.18.0** — `client.XAutoClaim(...)` and `XAutoClaimJustID(...)` both parse the reply and call `rd.DiscardNext()` on the third element. Workaround: `client.Do(ctx, "XAUTOCLAIM", ...)` with manual parsing.
+- **Jedis 5.0.1 and 6.2.0** — `xautoclaim(...)` returns `Map.Entry<StreamEntryID, List<StreamEntry>>` (only 2 slots). Workaround: `Jedis.sendCommand(STREAM_AUTOCLAIM, ...)` with manual decode.
+- **Lettuce 6.5.0** — `RedisCommands.xautoclaim(...)` returns `ClaimedMessages<K,V>` exposing only the cursor and claimed messages. Workaround: `connection.dispatch(CommandType.XAUTOCLAIM, new NestedMultiOutput<>(...), args)`.
+- **redis-rb 5.x** — typed `redis.xautoclaim` is decoded via the generic `HashifyStreamAutoclaim` proc, which drops the third element. Workaround: `redis.call('XAUTOCLAIM', ...)` with manual parsing.
+- **redis-rs 0.24** — no typed `xautoclaim` wrapper exists at all, so the helper must use `redis::cmd("XAUTOCLAIM").arg(...).query_async()` directly.
+
+This is the most common class of finding in streaming-style ports. The reference's `(claimed, deleted_ids)` API surface assumed wrappers preserve all three reply elements; they don't. Every future port must verify whether its library's typed wrapper has caught up before relying on it.
+
+---
+
+## 23. Handover-then-delete safety on consumer removal
+
+**What to scan for:** any helper / demo path that removes a consumer from a consumer group. Look for the sequence (a) handover the consumer's pending entries to a peer, then (b) `XGROUP DELCONSUMER`. The handover is typically a per-consumer `XPENDING ... CONSUMER` walk plus `XCLAIM` at `MIN-IDLE-TIME 0`.
+
+**Pass criterion:** the `XGROUP DELCONSUMER` call must run **only after the handover has provably succeeded**. Specifically:
+
+- Every error from the handover path (`XPENDING` failure, `XCLAIM` failure, partial-batch break, deadline timeout, etc.) must abort the removal. Do not log-and-continue.
+- The handover must verify the source consumer's PEL is empty before deletion, OR the caller must surface the partial-handover failure so the user can retry.
+- The registry-removal step (popping from the in-process workers map) must happen **after** the destructive `DELCONSUMER`, not before — otherwise a thrown exception between map-pop and DELCONSUMER leaves a half-removed worker.
+
+A naked `try { handover() } catch { ignore } finally { delete_consumer() }` is the **wrong shape**. `XGROUP DELCONSUMER` destroys the PEL of the deleted consumer — any entries the handover failed to move are unreachable by `XAUTOCLAIM` afterwards. The destruction is silent: no error, no log on the Redis side, no count of lost messages.
+
+**Sample audit prompt:**
+
+> Audit every consumer-removal path in the 9 client implementations under `content/develop/use-cases/{{USE_CASE_NAME}}/`. For each port's `remove_worker` (or equivalent) helper, trace the error-handling boundary between the `handover_pending` (or equivalent) call and the `XGROUP DELCONSUMER` call. Flag any port where: (a) handover errors are silently swallowed before delete fires; (b) the in-process registry entry is removed before delete fires (so a thrown exception between the two leaves a half-removed worker); (c) a partial-handover return value is accepted without verifying the source consumer's PEL is empty. Cross-check the demo's HTTP `/remove-worker` handler — if it returns 200 on a failed handover, the bug is user-visible.
+
+**Why on list:** Streaming use case, Phase 4b Codex independent review. Targeted Phase 4 audits cleared `remove_worker` paths in `rust`, `go`, `nodejs`, and `dotnet`; Codex's fresh-context review then found that all four shipped variants of the same pattern:
+
+- **rust** ([`demo_server.rs:154-160`](../../../content/develop/use-cases/streaming/rust/demo_server.rs)) — `handover_pending(...).await.unwrap_or(0)` swallows errors, then `delete_consumer` runs unconditionally. `event_stream.rs:367-376` discards `XCLAIM` failures as an empty claim list.
+- **go** ([`demo_server.go:187-193`](../../../content/develop/use-cases/streaming/go/demo_server.go)) — `HandoverPending` correctly returns errors, but the caller logs them and continues to `DeleteConsumer`.
+- **nodejs** ([`demoServer.js:635-649`](../../../content/develop/use-cases/streaming/nodejs/demoServer.js)) — `handoverPending` breaks and returns a partial count on `xPendingRange` or `xClaim` errors (`eventStream.js:365-399`). `removeWorker` then deletes regardless.
+- **dotnet** ([`Program.cs:429-433`](../../../content/develop/use-cases/streaming/dotnet/Program.cs)) — `HandoverPending` catches `RedisServerException` and breaks early (`EventStream.cs:321-333`), returning whatever count it has. The caller stops the worker and deletes the consumer; if `StreamClaim` threw, the worker is already gone from `_workers` before `DELCONSUMER` runs.
+
+The reference (`redis-py/demo_server.py:590-598` + `event_stream.py:263-274`) aborts on handover errors before `delete_consumer` is reached, but the reference's `handover_pending` raises rather than returning partial counts — so the safe pattern is implicit and easy to miss when porting to languages where errors are returned values.
+
+---
+
 ## How to add a new row
 
 When a bug class is identified after this skill has been used:
