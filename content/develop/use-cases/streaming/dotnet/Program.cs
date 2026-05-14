@@ -1,57 +1,527 @@
-#!/usr/bin/env python3
-"""
-Redis streaming demo server.
+using System.Text.Json;
+using StackExchange.Redis;
+using StreamingDemo;
 
-Run this file and visit http://localhost:8083 to watch a Redis Stream
-in action: producers append events to a single stream, two independent
-consumer groups read the same stream at their own pace, and within
-the ``notifications`` group two consumers share the work.
+// .NET grows its ThreadPool gradually, which can starve polling threads
+// in the consumer workers when many groups/consumers run concurrently.
+// Raising the floor up front keeps the demo's behaviour clean. A
+// production helper would more naturally be async (using StreamAddAsync,
+// StreamRangeAsync, ScriptEvaluateAsync, etc.) and avoid this entirely.
+ThreadPool.SetMinThreads(64, 64);
 
-Use the UI to:
+var port = 8785;
+var redisHost = "localhost";
+var redisPort = 6379;
+var streamKey = "demo:events:orders";
+var maxlen = 2000;
+var claimIdleMs = 5000L;
+var resetOnStart = true;
 
-* Produce events into the stream.
-* Watch each consumer group's last-delivered ID, PEL count, and the
-  consumers inside it.
-* Drop the next ``N`` messages from a chosen consumer to simulate a
-  crash mid-processing, then run ``XAUTOCLAIM`` to reassign the
-  stuck entries to a healthy consumer.
-* Replay any ID range with ``XRANGE`` to confirm the history is
-  independent of consumer-group state.
-* Trim the stream with ``XTRIM`` to bound retention.
-"""
-
-from __future__ import annotations
-
-import argparse
-import json
-import random
-import sys
-import threading
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from pathlib import Path
-from urllib.parse import parse_qs, urlparse
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-
-try:
-    import redis
-
-    from consumer_worker import ConsumerWorker
-    from event_stream import RedisEventStream
-except ImportError as exc:
-    print(f"Error: {exc}")
-    print("Make sure the 'redis' package is installed: pip install redis")
-    sys.exit(1)
-
-
-EVENT_TYPES = ["order.placed", "order.paid", "order.shipped", "order.cancelled"]
-DEFAULT_GROUPS: dict[str, list[str]] = {
-    "notifications": ["worker-a", "worker-b"],
-    "analytics": ["worker-c"],
+for (var i = 0; i < args.Length; i++)
+{
+    switch (args[i])
+    {
+        case "--port" when i + 1 < args.Length: port = int.Parse(args[++i]); break;
+        case "--redis-host" when i + 1 < args.Length: redisHost = args[++i]; break;
+        case "--redis-port" when i + 1 < args.Length: redisPort = int.Parse(args[++i]); break;
+        case "--stream-key" when i + 1 < args.Length: streamKey = args[++i]; break;
+        case "--maxlen" when i + 1 < args.Length: maxlen = int.Parse(args[++i]); break;
+        case "--claim-idle-ms" when i + 1 < args.Length: claimIdleMs = long.Parse(args[++i]); break;
+        case "--no-reset": resetOnStart = false; break;
+    }
 }
 
+port = int.TryParse(Environment.GetEnvironmentVariable("PORT"), out var envPort) ? envPort : port;
+redisHost = Environment.GetEnvironmentVariable("REDIS_HOST") ?? redisHost;
+redisPort = int.TryParse(Environment.GetEnvironmentVariable("REDIS_PORT"), out var envRedisPort)
+    ? envRedisPort
+    : redisPort;
 
-HTML_TEMPLATE = """<!DOCTYPE html>
+ConnectionMultiplexer redis;
+try
+{
+    redis = ConnectionMultiplexer.Connect($"{redisHost}:{redisPort}");
+    redis.GetDatabase().Ping();
+}
+catch (Exception ex)
+{
+    Console.Error.WriteLine($"Failed to connect to Redis at {redisHost}:{redisPort}: {ex.Message}");
+    return 1;
+}
+
+var stream = new EventStream(
+    redis.GetDatabase(),
+    streamKey: streamKey,
+    maxlenApprox: maxlen,
+    claimMinIdleMs: claimIdleMs);
+
+var defaultGroups = new Dictionary<string, string[]>
+{
+    ["notifications"] = new[] { "worker-a", "worker-b" },
+    ["analytics"] = new[] { "worker-c" },
+};
+
+var demo = new StreamingDemoState(stream);
+if (resetOnStart)
+{
+    Console.WriteLine(
+        $"Deleting any existing data at key '{streamKey}' " +
+        "for a clean demo run (pass --no-reset to keep it).");
+    stream.DeleteStream();
+}
+demo.Seed(defaultGroups);
+
+var builder = WebApplication.CreateBuilder();
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+builder.Logging.SetMinimumLevel(LogLevel.Warning);
+var app = builder.Build();
+
+var jsonOptions = new JsonSerializerOptions
+{
+    PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
+};
+
+app.MapGet("/", () => Results.Content(
+    HtmlPage.Generate(stream.StreamKey, stream.MaxlenApprox, stream.ClaimMinIdleMs),
+    "text/html"));
+
+app.MapGet("/state", () => Results.Json(BuildState(), jsonOptions));
+
+app.MapGet("/replay", (string? start, string? end, int? count) =>
+{
+    var startId = string.IsNullOrEmpty(start) ? "-" : start;
+    var endId = string.IsNullOrEmpty(end) ? "+" : end;
+    var limit = Math.Max(1, Math.Min(500, count ?? 20));
+    var entries = stream.Replay(startId, endId, count: limit);
+    return Results.Json(new Dictionary<string, object?>
+    {
+        ["start"] = startId,
+        ["end"] = endId,
+        ["limit"] = limit,
+        ["entries"] = entries.Select(e => new Dictionary<string, object?>
+        {
+            ["id"] = e.Id,
+            ["fields"] = e.Fields,
+        }).ToList(),
+    }, jsonOptions);
+});
+
+var eventTypes = new[] { "order.placed", "order.paid", "order.shipped", "order.cancelled" };
+
+app.MapPost("/produce", async (HttpContext ctx) =>
+{
+    var form = await ctx.Request.ReadFormAsync();
+    var count = Math.Max(1, Math.Min(500, int.TryParse(form["count"], out var c) ? c : 1));
+    var rawType = (form["type"].ToString() ?? "").Trim();
+    var events = new List<(string, IDictionary<string, string?>)>(count);
+    for (var i = 0; i < count; i++)
+    {
+        var picked = string.IsNullOrEmpty(rawType)
+            ? eventTypes[Random.Shared.Next(eventTypes.Length)]
+            : rawType;
+        events.Add((picked, FakePayload()));
+    }
+    var ids = stream.ProduceBatch(events);
+    return Results.Json(new Dictionary<string, object?>
+    {
+        ["produced"] = ids.Length,
+        ["ids"] = ids,
+    }, jsonOptions);
+});
+
+app.MapPost("/add-worker", async (HttpContext ctx) =>
+{
+    var form = await ctx.Request.ReadFormAsync();
+    var group = (form["group"].ToString() ?? "").Trim();
+    var name = (form["name"].ToString() ?? "").Trim();
+    if (string.IsNullOrEmpty(group) || string.IsNullOrEmpty(name))
+    {
+        return Results.Json(new { error = "group and name are required" }, jsonOptions, statusCode: 400);
+    }
+    var added = demo.AddWorker(group, name);
+    if (!added)
+    {
+        return Results.Json(new { error = $"{group}/{name} already exists" }, jsonOptions, statusCode: 409);
+    }
+    return Results.Json(new { group, name }, jsonOptions);
+});
+
+app.MapPost("/remove-worker", async (HttpContext ctx) =>
+{
+    var form = await ctx.Request.ReadFormAsync();
+    var group = (form["group"].ToString() ?? "").Trim();
+    var name = (form["name"].ToString() ?? "").Trim();
+    var result = demo.RemoveWorker(group, name);
+    var status = result.Removed || result.Reason == "not-found" ? 200 : 409;
+    return Results.Json(new Dictionary<string, object?>
+    {
+        ["removed"] = result.Removed,
+        ["reason"] = result.Reason,
+        ["message"] = result.Message,
+        ["handed_over_to"] = result.HandedOverTo,
+        ["handed_over_count"] = result.HandedOverCount,
+    }, jsonOptions, statusCode: status);
+});
+
+app.MapPost("/crash", async (HttpContext ctx) =>
+{
+    var form = await ctx.Request.ReadFormAsync();
+    var group = (form["group"].ToString() ?? "").Trim();
+    var name = (form["name"].ToString() ?? "").Trim();
+    var count = int.TryParse(form["count"], out var c) ? c : 1;
+    var worker = demo.GetWorker(group, name);
+    if (worker is null)
+    {
+        return Results.Json(new { error = $"unknown consumer {group}/{name}" }, jsonOptions, statusCode: 404);
+    }
+    worker.CrashNext(count);
+    return Results.Json(new { queued = count }, jsonOptions);
+});
+
+app.MapPost("/autoclaim", async (HttpContext ctx) =>
+{
+    // Have the chosen consumer reap stuck PEL entries into itself.
+    // This is the textbook XAUTOCLAIM recovery flow: each consumer
+    // periodically calls XAUTOCLAIM with itself as the target, then
+    // processes whatever was returned. The demo exposes it as a manual
+    // button so you can trigger the reap on a chosen consumer after
+    // waiting for the idle threshold.
+    var form = await ctx.Request.ReadFormAsync();
+    var group = (form["group"].ToString() ?? "").Trim();
+    var consumer = (form["consumer"].ToString() ?? "").Trim();
+    if (string.IsNullOrEmpty(group) || string.IsNullOrEmpty(consumer))
+    {
+        return Results.Json(new { error = "group and consumer are required" }, jsonOptions, statusCode: 400);
+    }
+    var worker = demo.GetWorker(group, consumer);
+    if (worker is null)
+    {
+        return Results.Json(new { error = $"unknown consumer {group}/{consumer}" }, jsonOptions, statusCode: 404);
+    }
+    // ReapIdlePel runs XAUTOCLAIM(self) + process + ack. deleted are
+    // PEL entries whose stream payload was already trimmed by MAXLEN ~
+    // before the sweep ran. Redis 7+ removes them from the PEL inside
+    // XAUTOCLAIM itself, so the caller doesn't have to XACK them; in
+    // production they would be routed to a dead-letter store for
+    // offline inspection.
+    var result = worker.ReapIdlePel();
+    return Results.Json(new Dictionary<string, object?>
+    {
+        ["claimed"] = result.Claimed,
+        ["processed"] = result.Processed,
+        ["deleted"] = result.DeletedIds,
+        ["min_idle_ms"] = stream.ClaimMinIdleMs,
+    }, jsonOptions);
+});
+
+app.MapPost("/trim", async (HttpContext ctx) =>
+{
+    var form = await ctx.Request.ReadFormAsync();
+    var maxlenForm = int.TryParse(form["maxlen"], out var m) ? m : 0;
+    var deleted = stream.TrimMaxlen(maxlenForm);
+    return Results.Json(new { deleted, maxlen = maxlenForm }, jsonOptions);
+});
+
+app.MapPost("/reset", () =>
+{
+    var count = demo.Reset(defaultGroups);
+    return Results.Json(new { consumers = count }, jsonOptions);
+});
+
+Console.WriteLine($"Redis streaming demo server listening on http://localhost:{port}");
+Console.WriteLine(
+    $"Using Redis at {redisHost}:{redisPort} with stream key '{streamKey}' " +
+    $"(MAXLEN ~ {maxlen})");
+Console.WriteLine($"Seeded {defaultGroups.Sum(g => g.Value.Length)} consumer(s) across {defaultGroups.Count} group(s)");
+
+AppDomain.CurrentDomain.ProcessExit += (_, _) => demo.StopAll();
+
+app.Run();
+return 0;
+
+Dictionary<string, object?> BuildState()
+{
+    var streamInfo = stream.InfoStream();
+    var groups = stream.InfoGroups();
+    var workersSnapshot = demo.WorkersSnapshot();
+    var groupsDetail = new List<Dictionary<string, object?>>();
+    var pendingRows = new List<Dictionary<string, object?>>();
+
+    foreach (var group in groups)
+    {
+        var groupName = (string)group["name"]!;
+        var consumerInfo = stream.InfoConsumers(groupName)
+            .ToDictionary(c => (string)c["name"]!, c => c);
+        var consumersDetail = new List<Dictionary<string, object?>>();
+        foreach (var (key, worker) in workersSnapshot)
+        {
+            if (key.Group != groupName)
+            {
+                continue;
+            }
+            consumerInfo.TryGetValue(key.Name, out var info);
+            var status = worker.Status();
+            var combined = new Dictionary<string, object?>(status);
+            combined["pending"] = info is not null ? (long)info["pending"]! : 0L;
+            combined["idle_ms"] = info is not null ? (long)info["idle_ms"]! : 0L;
+            combined["recent"] = worker.Recent().Select(a => new Dictionary<string, object?>
+            {
+                ["id"] = a.Id,
+                ["type"] = a.Type,
+                ["fields"] = a.Fields,
+                ["acked"] = a.Acked,
+                ["note"] = a.Note,
+            }).ToList();
+            consumersDetail.Add(combined);
+        }
+        // Also include consumers that exist in Redis but not in our
+        // in-process registry (e.g. orphaned after a restart).
+        foreach (var (consumerName, info) in consumerInfo)
+        {
+            if (consumersDetail.Any(c => (string)c["name"]! == consumerName))
+            {
+                continue;
+            }
+            consumersDetail.Add(new Dictionary<string, object?>
+            {
+                ["name"] = consumerName,
+                ["group"] = groupName,
+                ["processed"] = 0,
+                ["reaped"] = 0,
+                ["crashed_drops"] = 0,
+                ["paused"] = false,
+                ["crash_queued"] = 0,
+                ["alive"] = false,
+                ["pending"] = (long)info["pending"]!,
+                ["idle_ms"] = (long)info["idle_ms"]!,
+                ["recent"] = new List<object>(),
+            });
+        }
+        consumersDetail.Sort((a, b) => string.Compare((string)a["name"]!, (string)b["name"]!, StringComparison.Ordinal));
+        var combinedGroup = new Dictionary<string, object?>(group)
+        {
+            ["consumers_detail"] = consumersDetail,
+        };
+        groupsDetail.Add(combinedGroup);
+
+        foreach (var pending in stream.PendingDetail(groupName, count: 50))
+        {
+            pendingRows.Add(new Dictionary<string, object?>
+            {
+                ["id"] = pending.Id,
+                ["consumer"] = pending.Consumer,
+                ["idle_ms"] = pending.IdleMs,
+                ["deliveries"] = pending.Deliveries,
+                ["group"] = groupName,
+            });
+        }
+    }
+
+    var tail = stream.Tail(count: 10).Select(e => new Dictionary<string, object?>
+    {
+        ["id"] = e.Id,
+        ["fields"] = e.Fields,
+    }).ToList();
+
+    return new Dictionary<string, object?>
+    {
+        ["stream"] = streamInfo,
+        ["tail"] = tail,
+        ["groups"] = groupsDetail,
+        ["pending"] = pendingRows,
+        ["stats"] = stream.Stats(),
+    };
+}
+
+static IDictionary<string, string?> FakePayload()
+{
+    var customers = new[] { "alice", "bob", "carol", "dan", "erin" };
+    return new Dictionary<string, string?>
+    {
+        ["order_id"] = $"o-{Random.Shared.Next(1000, 9999)}",
+        ["customer"] = customers[Random.Shared.Next(customers.Length)],
+        ["amount"] = (5.0 + Random.Shared.NextDouble() * 245.0).ToString("F2"),
+    };
+}
+
+/// <summary>
+/// In-memory registry of consumer workers across all groups.
+/// </summary>
+sealed class StreamingDemoState
+{
+    private readonly EventStream _stream;
+    private readonly Dictionary<(string Group, string Name), ConsumerWorker> _workers = new();
+    private readonly object _lock = new();
+
+    public StreamingDemoState(EventStream stream)
+    {
+        _stream = stream;
+    }
+
+    public int Seed(IDictionary<string, string[]> groups)
+    {
+        lock (_lock)
+        {
+            foreach (var (group, names) in groups)
+            {
+                _stream.EnsureGroup(group, startId: "0-0");
+                foreach (var name in names)
+                {
+                    AddWorkerLocked(group, name);
+                }
+            }
+            return groups.Sum(g => g.Value.Length);
+        }
+    }
+
+    public bool AddWorker(string group, string name)
+    {
+        lock (_lock)
+        {
+            return AddWorkerLocked(group, name);
+        }
+    }
+
+    private bool AddWorkerLocked(string group, string name)
+    {
+        var key = (group, name);
+        if (_workers.ContainsKey(key))
+        {
+            return false;
+        }
+        _stream.EnsureGroup(group, startId: "0-0");
+        var worker = new ConsumerWorker(_stream, group, name);
+        worker.Start();
+        _workers[key] = worker;
+        return true;
+    }
+
+    public RemoveResult RemoveWorker(string group, string name)
+    {
+        ConsumerWorker? worker;
+        string? handoverTarget;
+        lock (_lock)
+        {
+            var key = (group, name);
+            if (!_workers.TryGetValue(key, out worker))
+            {
+                return new RemoveResult(false, "not-found", null, null, 0);
+            }
+            // XGROUP DELCONSUMER destroys the consumer's PEL entries
+            // outright, so any pending message it still owned would
+            // become unreachable. Before deleting, hand its PEL off to
+            // another consumer in the same group with XCLAIM. Without
+            // a peer consumer to take over, refuse to delete.
+            handoverTarget = _workers.Keys
+                .Where(k => k.Group == group && k.Name != name)
+                .Select(k => k.Name)
+                .FirstOrDefault();
+            if (handoverTarget is null)
+            {
+                return new RemoveResult(
+                    false,
+                    "no-peer",
+                    $"{group}/{name} still owns pending entries and is the only consumer in its group; " +
+                    "add another consumer first so its PEL can be handed over before deletion.",
+                    null,
+                    0);
+            }
+        }
+
+        // Run the handover BEFORE removing the worker from the registry.
+        // XGROUP DELCONSUMER would destroy the source's pending list, so
+        // any handover failure must abort the removal — leaving the
+        // worker in place lets the user retry once the underlying Redis
+        // issue is resolved. The worker keeps consuming during the
+        // handover; XCLAIM with MIN-IDLE-TIME 0 races acks gracefully —
+        // anything the worker acks during the window is gone from
+        // XPENDING and isn't moved.
+        int handed;
+        try
+        {
+            handed = _stream.HandoverPending(group, fromConsumer: name, toConsumer: handoverTarget);
+        }
+        catch (Exception ex)
+        {
+            return new RemoveResult(
+                false,
+                "handover-failed",
+                $"Handover from {group}/{name} to {handoverTarget} failed before XGROUP DELCONSUMER could run: {ex.Message}. " +
+                $"{group}/{name} is still in the group; retry the remove or investigate the Redis error before deleting " +
+                "(DELCONSUMER would destroy the source consumer's pending entries).",
+                null,
+                0);
+        }
+
+        // Handover succeeded; now safe to remove from the registry, stop
+        // the worker, and destroy the consumer record in Redis.
+        lock (_lock)
+        {
+            _workers.Remove((group, name));
+        }
+        worker.Stop();
+        _stream.DeleteConsumer(group, name);
+        return new RemoveResult(true, null, null, handoverTarget, handed);
+    }
+
+    public ConsumerWorker? GetWorker(string group, string name)
+    {
+        lock (_lock)
+        {
+            return _workers.TryGetValue((group, name), out var worker) ? worker : null;
+        }
+    }
+
+    public List<KeyValuePair<(string Group, string Name), ConsumerWorker>> WorkersSnapshot()
+    {
+        lock (_lock)
+        {
+            return _workers.ToList();
+        }
+    }
+
+    public void StopAll()
+    {
+        List<ConsumerWorker> snapshot;
+        lock (_lock)
+        {
+            snapshot = _workers.Values.ToList();
+            _workers.Clear();
+        }
+        foreach (var worker in snapshot)
+        {
+            worker.Stop();
+        }
+    }
+
+    public int Reset(IDictionary<string, string[]> defaultGroups)
+    {
+        StopAll();
+        _stream.DeleteStream();
+        _stream.ResetStats();
+        return Seed(defaultGroups);
+    }
+}
+
+sealed record RemoveResult(
+    bool Removed,
+    string? Reason,
+    string? Message,
+    string? HandedOverTo,
+    int HandedOverCount);
+
+static class HtmlPage
+{
+    public static string Generate(string streamKey, int maxlen, long claimIdleMs)
+    {
+        return Template
+            .Replace("__STREAM_KEY__", System.Net.WebUtility.HtmlEncode(streamKey))
+            .Replace("__MAXLEN__", maxlen.ToString())
+            .Replace("__CLAIM_IDLE__", claimIdleMs.ToString());
+    }
+
+    private const string Template = """""
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -151,7 +621,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </head>
 <body>
   <main>
-    <div class="pill">redis-py + Python standard library HTTP server</div>
+    <div class="pill">StackExchange.Redis + ASP.NET Core minimal API</div>
     <h1>Redis Streaming Demo</h1>
     <p class="lede">
       Producers append events to a single Redis Stream
@@ -218,7 +688,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       <section class="panel wide">
         <h2>Pending entries (XPENDING)</h2>
         <p>Entries delivered to a consumer that haven't been acked yet.
-        Idle time ≥ <code>__CLAIM_IDLE__</code> ms is eligible for
+        Idle time &ge; <code>__CLAIM_IDLE__</code> ms is eligible for
         <code>XAUTOCLAIM</code>.</p>
         <div id="pending-view">Loading...</div>
         <div class="row">
@@ -289,8 +759,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         groupsView.innerHTML = "<p>No groups.</p>";
         return;
       }
-      // Preserve any text the user has typed into an add-consumer input
-      // (and which one was focused) so the 1.5s auto-refresh doesn't wipe it.
       const addWorkerValues = {};
       let focusedGroup = null;
       let focusedSelectionStart = null;
@@ -337,7 +805,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           </div>`;
       }).join("");
 
-      // Restore the typed text (and focus) into the add-consumer inputs.
       for (const [group, value] of Object.entries(addWorkerValues)) {
         const input = document.getElementById(`addworker-${group}`);
         if (input) input.value = value;
@@ -352,7 +819,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
       }
 
-      // Populate the autoclaim-target dropdown with every (group, consumer)
       const previous = autoclaimTarget.value;
       const options = [];
       for (const g of groups) {
@@ -402,7 +868,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       if (!r.ok) { setStatus(d.error || "Produce failed.", "error"); return; }
       setStatus(`Produced ${d.produced} event(s).`, "ok");
       resultView.innerHTML = `<p>Produced <strong>${d.produced}</strong> events. New IDs:</p>
-        <pre class="mono">${d.ids.map(escapeHtml).join("\\n")}</pre>`;
+        <pre class="mono">${d.ids.map(escapeHtml).join("\n")}</pre>`;
       await refresh();
     });
 
@@ -522,441 +988,5 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   </script>
 </body>
 </html>
-"""
-
-
-class StreamingDemo:
-    """In-memory registry of consumer workers across all groups.
-
-    ``ThreadingHTTPServer`` dispatches each HTTP request on a fresh
-    thread, so any code that mutates ``self.workers`` (or iterates it
-    while another handler is mutating it) needs the lock.
-    """
-
-    def __init__(self, stream: RedisEventStream) -> None:
-        self.stream = stream
-        self.workers: dict[tuple[str, str], ConsumerWorker] = {}
-        self._lock = threading.RLock()
-
-    def seed(self, groups: dict[str, list[str]]) -> int:
-        with self._lock:
-            for group, names in groups.items():
-                self.stream.ensure_group(group, start_id="0-0")
-                for name in names:
-                    self.add_worker(group, name)
-            return sum(len(v) for v in groups.values())
-
-    def add_worker(self, group: str, name: str) -> bool:
-        with self._lock:
-            key = (group, name)
-            if key in self.workers:
-                return False
-            self.stream.ensure_group(group, start_id="0-0")
-            worker = ConsumerWorker(self.stream, group=group, name=name)
-            worker.start()
-            self.workers[key] = worker
-            return True
-
-    def remove_worker(self, group: str, name: str) -> dict:
-        """Remove a consumer safely.
-
-        ``XGROUP DELCONSUMER`` destroys the consumer's PEL entries
-        outright, so any pending message it still owned would become
-        unreachable. Before deleting, hand its PEL off to another
-        consumer in the same group with ``XCLAIM``. Without a peer
-        consumer to take over, refuse to delete and leave the worker
-        in place so the user can add a peer first.
-        """
-        with self._lock:
-            key = (group, name)
-            worker = self.workers.get(key)
-            if worker is None:
-                return {"removed": False, "reason": "not-found"}
-
-            peers = [
-                n for (g, n) in self.workers if g == group and n != name
-            ]
-            if not peers:
-                return {
-                    "removed": False,
-                    "reason": "no-peer",
-                    "message": (
-                        f"{group}/{name} still owns pending entries and is the only "
-                        "consumer in its group; add another consumer first so its "
-                        "PEL can be handed over before deletion."
-                    ),
-                }
-
-            handover_target = peers[0]
-            claimed = self.stream.handover_pending(
-                group, from_consumer=name, to_consumer=handover_target,
-            )
-
-            self.workers.pop(key, None)
-            worker.stop()
-            self.stream.delete_consumer(group, name)
-            return {
-                "removed": True,
-                "handed_over_to": handover_target,
-                "handed_over_count": len(claimed),
-            }
-
-    def get_worker(self, group: str, name: str) -> ConsumerWorker | None:
-        with self._lock:
-            return self.workers.get((group, name))
-
-    def workers_snapshot(self) -> list[tuple[tuple[str, str], ConsumerWorker]]:
-        """Stable list of (key, worker) safe to iterate outside the lock."""
-        with self._lock:
-            return list(self.workers.items())
-
-    def stop_all(self) -> None:
-        with self._lock:
-            for worker in list(self.workers.values()):
-                worker.stop()
-            self.workers.clear()
-
-    def reset(self) -> int:
-        with self._lock:
-            self.stop_all()
-            self.stream.delete_stream()
-            self.stream.reset_stats()
-            return self.seed(DEFAULT_GROUPS)
-
-
-class StreamingDemoHandler(BaseHTTPRequestHandler):
-    """HTTP handler. Server-state is hung off class attributes."""
-
-    stream: RedisEventStream | None = None
-    demo: StreamingDemo | None = None
-
-    def do_GET(self) -> None:
-        parsed = urlparse(self.path)
-        if parsed.path in {"/", "/index.html"}:
-            self._send_html(self._html_page())
-            return
-        if parsed.path == "/state":
-            self._send_json(self._build_state(), 200)
-            return
-        if parsed.path == "/replay":
-            self._handle_replay(parse_qs(parsed.query))
-            return
-        self.send_error(404)
-
-    def do_POST(self) -> None:
-        parsed = urlparse(self.path)
-        if parsed.path == "/produce":
-            self._handle_produce()
-            return
-        if parsed.path == "/add-worker":
-            self._handle_add_worker()
-            return
-        if parsed.path == "/remove-worker":
-            self._handle_remove_worker()
-            return
-        if parsed.path == "/crash":
-            self._handle_crash()
-            return
-        if parsed.path == "/autoclaim":
-            self._handle_autoclaim()
-            return
-        if parsed.path == "/trim":
-            self._handle_trim()
-            return
-        if parsed.path == "/reset":
-            count = self.demo.reset()
-            self._send_json({"consumers": count}, 200)
-            return
-        self.send_error(404)
-
-    # ---- POST handlers ----------------------------------------------
-
-    def _handle_produce(self) -> None:
-        params = self._read_form_data()
-        count = max(1, min(500, int(params.get("count", ["1"])[0] or "1")))
-        event_type = (params.get("type", [""])[0] or "").strip()
-        events = []
-        for _ in range(count):
-            picked = event_type or random.choice(EVENT_TYPES)
-            events.append((picked, _fake_payload()))
-        ids = self.stream.produce_batch(events)
-        self._send_json({"produced": len(ids), "ids": ids}, 200)
-
-    def _handle_add_worker(self) -> None:
-        params = self._read_form_data()
-        group = params.get("group", [""])[0].strip()
-        name = params.get("name", [""])[0].strip()
-        if not group or not name:
-            self._send_json({"error": "group and name are required"}, 400)
-            return
-        added = self.demo.add_worker(group, name)
-        if not added:
-            self._send_json({"error": f"{group}/{name} already exists"}, 409)
-            return
-        self._send_json({"group": group, "name": name}, 200)
-
-    def _handle_remove_worker(self) -> None:
-        params = self._read_form_data()
-        group = params.get("group", [""])[0].strip()
-        name = params.get("name", [""])[0].strip()
-        result = self.demo.remove_worker(group, name)
-        status = 200 if result.get("removed") or result.get("reason") == "not-found" else 409
-        self._send_json(result, status)
-
-    def _handle_crash(self) -> None:
-        params = self._read_form_data()
-        group = params.get("group", [""])[0].strip()
-        name = params.get("name", [""])[0].strip()
-        count = int(params.get("count", ["1"])[0] or "1")
-        worker = self.demo.get_worker(group, name)
-        if worker is None:
-            self._send_json({"error": f"unknown consumer {group}/{name}"}, 404)
-            return
-        worker.crash_next(count)
-        self._send_json({"queued": count}, 200)
-
-    def _handle_autoclaim(self) -> None:
-        """Have the chosen consumer reap stuck PEL entries into itself.
-
-        This is the textbook ``XAUTOCLAIM`` recovery flow: each
-        consumer periodically calls ``XAUTOCLAIM`` with itself as the
-        target, then processes whatever was returned. The demo
-        exposes it as a manual button so you can trigger the reap on
-        a chosen consumer after waiting for the idle threshold.
-        """
-        params = self._read_form_data()
-        group = params.get("group", [""])[0].strip()
-        consumer = params.get("consumer", [""])[0].strip()
-        if not group or not consumer:
-            self._send_json({"error": "group and consumer are required"}, 400)
-            return
-        worker = self.demo.get_worker(group, consumer)
-        if worker is None:
-            self._send_json({"error": f"unknown consumer {group}/{consumer}"}, 404)
-            return
-        # ``reap_idle_pel`` runs XAUTOCLAIM(self) + process + ack.
-        # ``deleted_ids`` are PEL entries whose stream payload was
-        # already trimmed by ``MAXLEN ~`` before the sweep ran. Redis
-        # 7+ removes them from the PEL inside XAUTOCLAIM itself, so
-        # the caller doesn't have to XACK them; in production they
-        # would be routed to a dead-letter store for offline
-        # inspection.
-        result = worker.reap_idle_pel()
-        self._send_json(
-            {
-                "claimed": result["claimed"],
-                "processed": result["processed"],
-                "deleted": result["deleted_ids"],
-                "min_idle_ms": self.stream.claim_min_idle_ms,
-            },
-            200,
-        )
-
-    def _handle_trim(self) -> None:
-        params = self._read_form_data()
-        maxlen = int(params.get("maxlen", ["0"])[0] or "0")
-        deleted = self.stream.trim_maxlen(maxlen)
-        self._send_json({"deleted": deleted, "maxlen": maxlen}, 200)
-
-    def _handle_replay(self, query: dict[str, list[str]]) -> None:
-        start = query.get("start", ["-"])[0] or "-"
-        end = query.get("end", ["+"])[0] or "+"
-        limit = max(1, min(500, int(query.get("count", ["20"])[0] or "20")))
-        entries = self.stream.replay(start, end, count=limit)
-        self._send_json(
-            {
-                "start": start,
-                "end": end,
-                "limit": limit,
-                "entries": [
-                    {"id": entry_id, "fields": fields}
-                    for entry_id, fields in entries
-                ],
-            },
-            200,
-        )
-
-    # ---- State assembly ---------------------------------------------
-
-    def _build_state(self) -> dict:
-        stream_info = self.stream.info_stream()
-        groups = self.stream.info_groups()
-
-        groups_detail = []
-        pending_rows: list[dict] = []
-        # Snapshot the workers dict under the demo's lock once per state
-        # build so concurrent add/remove requests can't change it mid-loop.
-        workers_snapshot = self.demo.workers_snapshot()
-        for group in groups:
-            name = group["name"]
-            consumer_info = {c["name"]: c for c in self.stream.info_consumers(name)}
-            consumers_detail = []
-            for (g_name, c_name), worker in workers_snapshot:
-                if g_name != name:
-                    continue
-                info = consumer_info.get(c_name, {})
-                status = worker.status()
-                consumers_detail.append({
-                    **status,
-                    "pending": info.get("pending", 0),
-                    "idle_ms": info.get("idle_ms", 0),
-                    "recent": worker.recent(),
-                })
-            # Also include consumers that exist in Redis but not in
-            # our in-process registry (e.g. orphaned after a restart).
-            for c_name, info in consumer_info.items():
-                if not any(c["name"] == c_name for c in consumers_detail):
-                    consumers_detail.append({
-                        "name": c_name,
-                        "group": name,
-                        "processed": 0,
-                        "crashed_drops": 0,
-                        "paused": False,
-                        "crash_queued": 0,
-                        "alive": False,
-                        "pending": info.get("pending", 0),
-                        "idle_ms": info.get("idle_ms", 0),
-                        "recent": [],
-                    })
-            consumers_detail.sort(key=lambda c: c["name"])
-            groups_detail.append({**group, "consumers_detail": consumers_detail})
-
-            for row in self.stream.pending_detail(name, count=50):
-                pending_rows.append({**row, "group": name})
-
-        # XREVRANGE returns the *newest* N entries (in reverse order) — the
-        # tail view wants the most recent activity, not the head of history.
-        tail_entries = list(self.stream.redis.xrevrange(
-            self.stream.stream_key, max="+", min="-", count=10,
-        ))
-        tail = [
-            {"id": entry_id, "fields": fields} for entry_id, fields in tail_entries
-        ]
-
-        return {
-            "stream": stream_info,
-            "tail": tail,
-            "groups": groups_detail,
-            "pending": pending_rows,
-            "stats": self.stream.stats(),
-        }
-
-    # ---- HTTP plumbing ----------------------------------------------
-
-    def _read_form_data(self) -> dict[str, list[str]]:
-        content_length = int(self.headers.get("Content-Length", "0"))
-        raw_body = self.rfile.read(content_length).decode("utf-8")
-        return parse_qs(raw_body)
-
-    def _send_html(self, html: str, status: int = 200) -> None:
-        self.send_response(status)
-        self.send_header("Content-Type", "text/html; charset=utf-8")
-        self.end_headers()
-        self.wfile.write(html.encode("utf-8"))
-
-    def _send_json(self, payload: dict, status: int) -> None:
-        self.send_response(status)
-        self.send_header("Content-Type", "application/json")
-        self.end_headers()
-        self.wfile.write(json.dumps(payload).encode("utf-8"))
-
-    def log_message(self, format: str, *args) -> None:  # noqa: A002
-        sys.stderr.write(f"[demo] {format % args}\n")
-
-    def _html_page(self) -> str:
-        return (
-            HTML_TEMPLATE
-            .replace("__STREAM_KEY__", self.stream.stream_key)
-            .replace("__MAXLEN__", str(self.stream.maxlen_approx))
-            .replace("__CLAIM_IDLE__", str(self.stream.claim_min_idle_ms))
-        )
-
-
-def _fake_payload() -> dict:
-    return {
-        "order_id": f"o-{random.randint(1000, 9999)}",
-        "customer": random.choice(["alice", "bob", "carol", "dan", "erin"]),
-        "amount": f"{random.uniform(5, 250):.2f}",
-    }
-
-
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run the Redis streaming demo server.")
-    parser.add_argument("--host", default="127.0.0.1", help="HTTP bind host")
-    parser.add_argument("--port", type=int, default=8083, help="HTTP bind port")
-    parser.add_argument("--redis-host", default="localhost", help="Redis host")
-    parser.add_argument("--redis-port", type=int, default=6379, help="Redis port")
-    parser.add_argument(
-        "--stream-key",
-        default="demo:events:orders",
-        help="Redis Stream key",
-    )
-    parser.add_argument(
-        "--maxlen",
-        type=int,
-        default=2000,
-        help="Approximate MAXLEN cap on every XADD",
-    )
-    parser.add_argument(
-        "--claim-idle-ms",
-        type=int,
-        default=5000,
-        help="Minimum idle time before XAUTOCLAIM may reassign a pending entry",
-    )
-    parser.add_argument(
-        "--no-reset",
-        dest="reset_on_start",
-        action="store_false",
-        help=(
-            "Keep any existing data at --stream-key instead of deleting it"
-            " on startup. By default the demo wipes the stream so each run"
-            " starts from an empty state."
-        ),
-    )
-    return parser.parse_args()
-
-
-def main() -> None:
-    args = parse_args()
-
-    redis_client = redis.Redis(
-        host=args.redis_host,
-        port=args.redis_port,
-        decode_responses=True,
-    )
-    stream = RedisEventStream(
-        redis_client=redis_client,
-        stream_key=args.stream_key,
-        maxlen_approx=args.maxlen,
-        claim_min_idle_ms=args.claim_idle_ms,
-    )
-    demo = StreamingDemo(stream)
-    if args.reset_on_start:
-        print(
-            f"Deleting any existing data at key '{args.stream_key}'"
-            " for a clean demo run (pass --no-reset to keep it)."
-        )
-        stream.delete_stream()
-    seeded = demo.seed(DEFAULT_GROUPS)
-
-    StreamingDemoHandler.stream = stream
-    StreamingDemoHandler.demo = demo
-
-    print(f"Redis streaming demo server listening on http://{args.host}:{args.port}")
-    print(
-        f"Using Redis at {args.redis_host}:{args.redis_port}"
-        f" with stream key '{args.stream_key}' (MAXLEN ~ {args.maxlen})"
-    )
-    print(f"Seeded {seeded} consumer(s) across {len(DEFAULT_GROUPS)} group(s)")
-
-    server = ThreadingHTTPServer((args.host, args.port), StreamingDemoHandler)
-    try:
-        server.serve_forever()
-    except KeyboardInterrupt:
-        pass
-    finally:
-        demo.stop_all()
-
-
-if __name__ == "__main__":
-    main()
+""""";
+}
