@@ -100,6 +100,29 @@ kubectl create secret generic dp-internode-cert \
 
 Reference these secrets in your REC specification under `spec.certificates`. See [Internode encryption]({{< relref "/operate/kubernetes/7.22/security/internode-encryption" >}}) for complete configuration details.
 
+## Secrets and PEM files in Redis Enterprise pods
+
+Redis Enterprise pods use Kubernetes Secrets and PEM-encoded certificates and keys for cluster formation, node identity, encrypted communication, and automated recovery. Their presence is expected — not a sign of compromise.
+
+You create the Secrets. The operator references them and manages their lifecycle (for example, when you rename the credential Secret). TLS, license, and client authentication Secrets are always user-supplied.
+
+### What's mounted in the pod
+
+- Kubernetes Secret volumes at operator-managed mount paths such as:
+  - `/opt/redislabs/credentials` — cluster admin credential Secret.
+  - `/opt/redislabs/proxy` — call-home proxy credentials, when configured.
+- PEM-encoded certificates and keys for TLS, internode encryption, and proxy or database endpoints. Exact paths vary by version and component.
+
+### What the Secrets contain
+
+Field names vary by deployment.
+
+- **Cluster admin credentials** — `username` and `password` in the Secret named by `clusterCredentialSecretName`.
+- **License** — `license` field in the Secret named by `licenseSecretName`.
+- **Cluster Certificate Authority (CA)** — `ca.crt` or `ca.pem`. Validates peer certificates for mutual TLS. Optional.
+- **Service TLS certificates and keys** for API, Cluster Manager (CM), metrics exporter, proxy, syncer, and LDAP. Fields: `certificate`, `cert`, or `tls.crt`, plus `key` or `tls.key`. See [Service certificates](#service-certificates).
+- **Client authentication certificates** for databases. Set in the Redis Enterprise database (REDB) `clientAuthenticationCertificates` field.
+
 ## Best practices
 
 - Store sensitive configuration in Secrets rather than directly in YAML files.
