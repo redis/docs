@@ -354,6 +354,60 @@ REDUCE RANDOM_SAMPLE {nargs} {property} {sample_size}
 
 Perform a reservoir sampling of the group elements with a given size, and return an array of the sampled items with an even distribution.
 
+#### COLLECT
+
+{{< note >}}
+The `COLLECT` reducer was introduced in version 8.8.0.
+{{< /note >}}
+
+**Format**
+
+```
+REDUCE COLLECT {nargs}
+    FIELDS ( * | {num_fields} {field_1} [{field_2} ...] )
+    [DISTINCT]
+    [SORTBY {nargs} {@field} [ASC|DESC] [{@field} [ASC|DESC] ...]]
+    [LIMIT {offset} {count}]
+  [AS {alias}]
+```
+
+**Description**
+
+Fetch complete documents or project specific fields directly within an aggregation query, with optional sorting, limiting, and deduplication per group.
+
+- `FIELDS *` returns all document fields available at the current pipeline stage. This is stage-local: it does not trigger an implicit load and does not reach back to fields from earlier stages that were not preserved as grouping keys or reducer aliases.
+- `FIELDS {num} {field_1} ...` projects a specific list of fields. The special fields `@__key` (document key) and `@__score` (document score) are supported as projectable fields alongside document fields.
+- Fields missing from a document are omitted from that entry (sparse output, with no NULL placeholders).
+- `DISTINCT` (optional) deduplicates entries with identical projected fields, keeping the best representative according to the sort keys. When `DISTINCT` is omitted, all documents are retained including duplicates.
+- `SORTBY` (optional) sorts documents within each group by one or more fields with `ASC`/`DESC`.
+- `LIMIT` (optional) limits the number of documents returned per group.
+
+Each collected entry is returned as a key-value map (matching the standard `FT.AGGREGATE` result format). The `COLLECT` output is an array of such maps nested under the alias. For example:
+
+```
+"top_fruits" =>
+    1) "__key"    => "doc_10"
+       "__score"  => "0.95"
+       "fruit"    => "apple"
+       "color"    => "yellow"
+       "sweetness"=> "6"
+    2) "__key"    => "doc_1"
+       "__score"  => "0.82"
+       "fruit"    => "banana"
+       "color"    => "yellow"
+       "sweetness"=> "5"
+```
+
+For example, to group movies by genre and collect the top 5 movies per group, sorted by rating in descending order:
+
+```
+FT.AGGREGATE idx:movies "*"
+    LOAD *
+    GROUPBY 1 @genre
+      REDUCE COLLECT 10 FIELDS 1 * SORTBY 2 @rating DESC LIMIT 0 5 AS top_movies
+    SORTBY 1 @genre LIMIT 0 50
+```
+
 ## APPLY expressions
 
 `APPLY` performs a one-to-one transformation on one or more properties in each record. It either stores the result as a new property down the pipeline, or replaces any property using this transformation.
