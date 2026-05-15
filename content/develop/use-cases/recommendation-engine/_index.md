@@ -113,3 +113,5 @@ The following libraries and frameworks build on Redis Search for recommendation 
 The following guides show how to build a small Redis-backed product recommendation service. Each guide includes a runnable interactive demo that lets you embed a query, retrieve candidates with KNN, filter by category and price, feed clicks back as a session signal, and watch the next recommendation incorporate them immediately.
 
 * [redis-py (Python)]({{< relref "/develop/use-cases/recommendation-engine/redis-py" >}})
+* [node-redis (Node.js)]({{< relref "/develop/use-cases/recommendation-engine/nodejs" >}})
+* [go-redis (Go)]({{< relref "/develop/use-cases/recommendation-engine/go" >}})
