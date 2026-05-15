@@ -314,8 +314,10 @@ class RedisRecommender:
     # Characters Redis Search treats as syntax inside a TAG value; any of
     # them appearing in a user-supplied filter must be backslash-escaped
     # or the surrounding ``{...}`` block won't parse correctly. The list
-    # comes from the Redis Search query-syntax documentation.
-    _TAG_SPECIAL = set(",.<>{}[]\"':;!@#$%^&*()-+=~| ")
+    # comes from the Redis Search query-syntax documentation. The
+    # backslash itself is included so a value containing a literal
+    # ``\`` can't ``eat`` the next character's escape.
+    _TAG_SPECIAL = set("\\,.<>{}[]\"':;!@#$%^&*()-+=~| ")
 
     @classmethod
     def _escape_tag_value(cls, value: str) -> str:
