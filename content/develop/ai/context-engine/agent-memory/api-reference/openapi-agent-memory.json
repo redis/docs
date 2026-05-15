@@ -2,8 +2,8 @@
     "openapi": "3.0.2",
     "info": {
         "title": "MemoryDataPlaneServer",
-        "version": "",
-        "description": "API for managing Agentic Memory Service (AMS) data plane operations."
+        "version": "1.0.0",
+        "description": "API for managing Redis Agent Memory (RAM) data plane operations.\n\nAuthentication:\n- Cloud deployments require `Authorization: Bearer <store-api-key>`, where the store API key is obtained from [Redis Cloud Agent Memory](https://cloud.redis.io/#/agent-memory).\n- On-prem deployments run with authentication disabled.\n"
     },
     "paths": {
         "/health": {
@@ -20,110 +20,10 @@
                                 }
                             }
                         }
-                    },
-                    "400": {
-                        "description": "BadRequestError 400 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "AuthenticationError 401 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "ForbiddenError 403 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "NotFoundError 404 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
-                                }
-                            }
-                        }
-                    },
-                    "408": {
-                        "description": "TimeoutError 408 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
-                                }
-                            }
-                        }
-                    },
-                    "413": {
-                        "description": "PayloadTooLargeError 413 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
-                                }
-                            }
-                        }
-                    },
-                    "424": {
-                        "description": "FailedDependencyError 424 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
-                                }
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "TooManyRequestsError 429 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "UnexpectedError 500 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
-                                }
-                            }
-                        }
-                    },
-                    "501": {
-                        "description": "NotImplementedError 501 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
-                                }
-                            }
-                        }
                     }
                 },
                 "tags": [
-                    "management"
+                    "Service Health"
                 ]
             }
         },
@@ -148,8 +48,9 @@
                         "description": "The store instance ID.",
                         "schema": {
                             "type": "string",
-                            "maxLength": 32,
-                            "minLength": 32,
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
                             "description": "The store instance ID."
                         },
                         "required": true
@@ -255,20 +156,10 @@
                                 }
                             }
                         }
-                    },
-                    "501": {
-                        "description": "NotImplementedError 501 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
-                                }
-                            }
-                        }
                     }
                 },
                 "tags": [
-                    "long-term-memory"
+                    "Long-Term Memory"
                 ]
             },
             "post": {
@@ -291,16 +182,17 @@
                         "description": "The store instance ID.",
                         "schema": {
                             "type": "string",
-                            "maxLength": 32,
-                            "minLength": 32,
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
                             "description": "The store instance ID."
                         },
                         "required": true
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "BulkCreateLongTermMemories 200 response",
+                    "201": {
+                        "description": "BulkCreateLongTermMemories 201 response",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -398,20 +290,10 @@
                                 }
                             }
                         }
-                    },
-                    "501": {
-                        "description": "NotImplementedError 501 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
-                                }
-                            }
-                        }
                     }
                 },
                 "tags": [
-                    "long-term-memory"
+                    "Long-Term Memory"
                 ]
             }
         },
@@ -435,8 +317,9 @@
                         "description": "The store instance ID.",
                         "schema": {
                             "type": "string",
-                            "maxLength": 32,
-                            "minLength": 32,
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
                             "description": "The store instance ID."
                         },
                         "required": true
@@ -542,20 +425,10 @@
                                 }
                             }
                         }
-                    },
-                    "501": {
-                        "description": "NotImplementedError 501 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
-                                }
-                            }
-                        }
                     }
                 },
                 "tags": [
-                    "long-term-memory"
+                    "Long-Term Memory"
                 ]
             }
         },
@@ -570,8 +443,9 @@
                         "description": "The store instance ID.",
                         "schema": {
                             "type": "string",
-                            "maxLength": 32,
-                            "minLength": 32,
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
                             "description": "The store instance ID."
                         },
                         "required": true
@@ -690,20 +564,10 @@
                                 }
                             }
                         }
-                    },
-                    "501": {
-                        "description": "NotImplementedError 501 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
-                                }
-                            }
-                        }
                     }
                 },
                 "tags": [
-                    "long-term-memory"
+                    "Long-Term Memory"
                 ]
             },
             "patch": {
@@ -725,8 +589,9 @@
                         "description": "The store instance ID.",
                         "schema": {
                             "type": "string",
-                            "maxLength": 32,
-                            "minLength": 32,
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
                             "description": "The store instance ID."
                         },
                         "required": true
@@ -845,20 +710,10 @@
                                 }
                             }
                         }
-                    },
-                    "501": {
-                        "description": "NotImplementedError 501 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
-                                }
-                            }
-                        }
                     }
                 },
                 "tags": [
-                    "long-term-memory"
+                    "Long-Term Memory"
                 ]
             }
         },
@@ -873,8 +728,9 @@
                         "description": "The store instance ID.",
                         "schema": {
                             "type": "string",
-                            "maxLength": 32,
-                            "minLength": 32,
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
                             "description": "The store instance ID."
                         },
                         "required": true
@@ -882,21 +738,23 @@
                     {
                         "name": "limit",
                         "in": "query",
-                        "description": "Maximum number of sessions to return.",
+                        "description": "Maximum number of sessions to return. Defaults to 100. Allowed range: 1-1000.",
                         "schema": {
                             "type": "integer",
-                            "description": "Maximum number of sessions to return.",
+                            "default": 100,
+                            "maximum": 1000,
+                            "minimum": 1,
+                            "description": "Maximum number of sessions to return. Defaults to 100. Allowed range: 1-1000.",
                             "format": "int32"
                         }
                     },
                     {
-                        "name": "offset",
+                        "name": "pageToken",
                         "in": "query",
-                        "description": "Pagination offset.",
+                        "description": "Opaque token from a previous response for the next page.",
                         "schema": {
-                            "type": "integer",
-                            "description": "Pagination offset.",
-                            "format": "int32"
+                            "type": "string",
+                            "description": "Opaque token from a previous response for the next page."
                         }
                     }
                 ],
@@ -1000,20 +858,10 @@
                                 }
                             }
                         }
-                    },
-                    "501": {
-                        "description": "NotImplementedError 501 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
-                                }
-                            }
-                        }
                     }
                 },
                 "tags": [
-                    "session-memory"
+                    "Session Memory"
                 ]
             }
         },
@@ -1038,16 +886,17 @@
                         "description": "The store instance ID.",
                         "schema": {
                             "type": "string",
-                            "maxLength": 32,
-                            "minLength": 32,
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
                             "description": "The store instance ID."
                         },
                         "required": true
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "AddSessionEvent 200 response",
+                    "201": {
+                        "description": "AddSessionEvent 201 response",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1145,20 +994,10 @@
                                 }
                             }
                         }
-                    },
-                    "501": {
-                        "description": "NotImplementedError 501 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
-                                }
-                            }
-                        }
                     }
                 },
                 "tags": [
-                    "session-memory"
+                    "Session Memory"
                 ]
             }
         },
@@ -1173,8 +1012,9 @@
                         "description": "The store instance ID.",
                         "schema": {
                             "type": "string",
-                            "maxLength": 32,
-                            "minLength": 32,
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
                             "description": "The store instance ID."
                         },
                         "required": true
@@ -1286,20 +1126,10 @@
                                 }
                             }
                         }
-                    },
-                    "501": {
-                        "description": "NotImplementedError 501 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
-                                }
-                            }
-                        }
                     }
                 },
                 "tags": [
-                    "session-memory"
+                    "Session Memory"
                 ]
             },
             "get": {
@@ -1312,8 +1142,9 @@
                         "description": "The store instance ID.",
                         "schema": {
                             "type": "string",
-                            "maxLength": 32,
-                            "minLength": 32,
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
                             "description": "The store instance ID."
                         },
                         "required": true
@@ -1432,20 +1263,10 @@
                                 }
                             }
                         }
-                    },
-                    "501": {
-                        "description": "NotImplementedError 501 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
-                                }
-                            }
-                        }
                     }
                 },
                 "tags": [
-                    "session-memory"
+                    "Session Memory"
                 ]
             }
         },
@@ -1460,8 +1281,9 @@
                         "description": "The store instance ID.",
                         "schema": {
                             "type": "string",
-                            "maxLength": 32,
-                            "minLength": 32,
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
                             "description": "The store instance ID."
                         },
                         "required": true
@@ -1586,20 +1408,10 @@
                                 }
                             }
                         }
-                    },
-                    "501": {
-                        "description": "NotImplementedError 501 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
-                                }
-                            }
-                        }
                     }
                 },
                 "tags": [
-                    "session-memory"
+                    "Session Memory"
                 ]
             },
             "get": {
@@ -1612,8 +1424,9 @@
                         "description": "The store instance ID.",
                         "schema": {
                             "type": "string",
-                            "maxLength": 32,
-                            "minLength": 32,
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
                             "description": "The store instance ID."
                         },
                         "required": true
@@ -1745,20 +1558,10 @@
                                 }
                             }
                         }
-                    },
-                    "501": {
-                        "description": "NotImplementedError 501 response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotImplementedErrorResponseContent"
-                                }
-                            }
-                        }
                     }
                 },
                 "tags": [
-                    "session-memory"
+                    "Session Memory"
                 ]
             }
         }
@@ -1777,6 +1580,9 @@
                     },
                     "actorId": {
                         "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
                         "description": "Unique actor identifier (1-255 chars). Can represent a user, agent, or any participant."
                     },
                     "role": {
@@ -1790,12 +1596,12 @@
                         "description": "The message content as an array of typed content parts."
                     },
                     "createdAt": {
-                        "type": "integer",
-                        "description": "Timestamp when the event was created in milliseconds.",
-                        "format": "int64"
+                        "type": "string",
+                        "description": "Client-supplied timestamp for when the event happened (UTC).",
+                        "format": "date-time"
                     },
                     "metadata": {
-                        "description": "Optional key-value pairs (max 15)."
+                        "description": "Optional metadata as any valid JSON value."
                     }
                 },
                 "required": [
@@ -1807,6 +1613,7 @@
             },
             "AddSessionEventResponseContent": {
                 "type": "object",
+                "description": "Response returned after appending a session event.",
                 "properties": {
                     "event": {
                         "$ref": "#/components/schemas/SessionEvent"
@@ -1818,6 +1625,7 @@
             },
             "AuthenticationErrorResponseContent": {
                 "type": "object",
+                "description": "Authentication credentials are missing, malformed, or invalid.",
                 "properties": {
                     "title": {
                         "type": "string",
@@ -1849,12 +1657,14 @@
             },
             "AuthenticationErrorType": {
                 "type": "string",
+                "description": "Problem type URI for authentication errors.",
                 "enum": [
                     "/errors/authentication-failed"
                 ]
             },
             "BadRequestErrorResponseContent": {
                 "type": "object",
+                "description": "Request validation or input decoding failed.",
                 "properties": {
                     "title": {
                         "type": "string",
@@ -1881,7 +1691,8 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/FieldError"
-                        }
+                        },
+                        "description": "Optional field-level validation errors."
                     }
                 },
                 "required": [
@@ -1892,18 +1703,22 @@
             },
             "BadRequestErrorType": {
                 "type": "string",
+                "description": "Problem type URI for bad request errors.",
                 "enum": [
                     "/errors/invalid-data"
                 ]
             },
             "BulkCreateLongTermMemoriesRequestContent": {
                 "type": "object",
+                "description": "Bulk create request for long-term memory records.",
                 "properties": {
                     "memories": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/CreateMemoryRecord"
                         },
+                        "maxItems": 100,
+                        "minItems": 1,
                         "description": "List of memory records to create."
                     }
                 },
@@ -1913,6 +1728,7 @@
             },
             "BulkCreateLongTermMemoriesResponseContent": {
                 "type": "object",
+                "description": "Bulk create result for long-term memory records.",
                 "properties": {
                     "created": {
                         "type": "array",
@@ -1921,9 +1737,9 @@
                             "maxLength": 64,
                             "minLength": 1,
                             "pattern": "^[a-zA-Z0-9-]+$",
-                            "description": "Memory record identifier (1-64 chars, alphanumeric and dashes)."
+                            "description": "Memory record identifier (1-64 chars, alphanumeric and dashes). Client-provided for idempotent long-term memory creation."
                         },
-                        "description": "IDs of successfully created memory records."
+                        "description": "IDs of successfully created memory records. Always returned; empty when no records were created."
                     },
                     "errors": {
                         "type": "array",
@@ -1939,6 +1755,7 @@
             },
             "BulkDeleteLongTermMemoriesRequestContent": {
                 "type": "object",
+                "description": "Bulk delete request for long-term memory records.",
                 "properties": {
                     "memoryIds": {
                         "type": "array",
@@ -1947,9 +1764,11 @@
                             "maxLength": 64,
                             "minLength": 1,
                             "pattern": "^[a-zA-Z0-9-]+$",
-                            "description": "Memory record identifier (1-64 chars, alphanumeric and dashes)."
+                            "description": "Memory record identifier (1-64 chars, alphanumeric and dashes). Client-provided for idempotent long-term memory creation."
                         },
-                        "description": "List of memory record IDs to delete."
+                        "maxItems": 100,
+                        "minItems": 1,
+                        "description": "List of memory record IDs to delete (1-100 IDs)."
                     }
                 },
                 "required": [
@@ -1958,6 +1777,7 @@
             },
             "BulkDeleteLongTermMemoriesResponseContent": {
                 "type": "object",
+                "description": "Bulk delete result for long-term memory records.",
                 "properties": {
                     "deleted": {
                         "type": "array",
@@ -1966,9 +1786,9 @@
                             "maxLength": 64,
                             "minLength": 1,
                             "pattern": "^[a-zA-Z0-9-]+$",
-                            "description": "Memory record identifier (1-64 chars, alphanumeric and dashes)."
+                            "description": "Memory record identifier (1-64 chars, alphanumeric and dashes). Client-provided for idempotent long-term memory creation."
                         },
-                        "description": "IDs of successfully deleted memory records."
+                        "description": "IDs of successfully deleted memory records. Always returned; empty when no records were deleted."
                     },
                     "errors": {
                         "type": "array",
@@ -2034,29 +1854,44 @@
                     },
                     "text": {
                         "type": "string",
-                        "description": "The memory content."
+                        "maxLength": 50000,
+                        "minLength": 1,
+                        "description": "The memory content (1-50000 chars)."
                     },
                     "memoryType": {
                         "$ref": "#/components/schemas/MemoryType"
                     },
                     "sessionId": {
                         "type": "string",
-                        "description": "Session ID associated with this memory."
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Session ID associated with this memory (1-64 chars, alphanumeric and dashes)."
                     },
                     "ownerId": {
                         "type": "string",
-                        "description": "Owner ID associated with this memory."
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Owner ID associated with this memory (1-64 chars, alphanumeric and dashes)."
                     },
                     "namespace": {
                         "type": "string",
-                        "description": "Namespace for logical grouping."
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Namespace for logical grouping (1-64 chars, alphanumeric and dashes)."
                     },
                     "topics": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "description": "Topic name (1-100 chars)."
                         },
-                        "description": "Topic tags for categorization."
+                        "maxItems": 50,
+                        "description": "Topic tags for categorization (max 50 topics, each 1-100 chars)."
                     }
                 },
                 "required": [
@@ -2064,8 +1899,40 @@
                     "text"
                 ]
             },
+            "CreatedAtFilter": {
+                "type": "object",
+                "description": "Filter by creation timestamp.",
+                "properties": {
+                    "gt": {
+                        "type": "string",
+                        "description": "After the given timestamp.",
+                        "format": "date-time"
+                    },
+                    "gte": {
+                        "type": "string",
+                        "description": "At or after the given timestamp.",
+                        "format": "date-time"
+                    },
+                    "lt": {
+                        "type": "string",
+                        "description": "Before the given timestamp.",
+                        "format": "date-time"
+                    },
+                    "lte": {
+                        "type": "string",
+                        "description": "At or before the given timestamp.",
+                        "format": "date-time"
+                    },
+                    "eq": {
+                        "type": "string",
+                        "description": "Exactly at the given timestamp.",
+                        "format": "date-time"
+                    }
+                }
+            },
             "FailedDependencyErrorResponseContent": {
                 "type": "object",
+                "description": "A dependent resource required to process the request is unavailable or unhealthy.",
                 "properties": {
                     "title": {
                         "type": "string",
@@ -2097,6 +1964,7 @@
             },
             "FailedDependencyErrorType": {
                 "type": "string",
+                "description": "Problem type URI for failed-dependency errors.",
                 "enum": [
                     "/errors/resource-unavailable",
                     "/errors/database-out-of-memory"
@@ -2104,15 +1972,19 @@
             },
             "FieldError": {
                 "type": "object",
+                "description": "Validation error details for a single request field.",
                 "properties": {
                     "field": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Name of the invalid request field."
                     },
                     "rule": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Validation rule that was violated."
                     },
                     "message": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Human-readable validation error message."
                     }
                 },
                 "required": [
@@ -2131,6 +2003,7 @@
             },
             "ForbiddenErrorResponseContent": {
                 "type": "object",
+                "description": "The caller is authenticated but not allowed to access the requested resource.",
                 "properties": {
                     "title": {
                         "type": "string",
@@ -2162,6 +2035,7 @@
             },
             "ForbiddenErrorType": {
                 "type": "string",
+                "description": "Problem type URI for authorization errors.",
                 "enum": [
                     "/errors/insufficient-permissions"
                 ]
@@ -2186,32 +2060,45 @@
                     },
                     "sessionId": {
                         "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
                         "description": "Session ID associated with this memory."
                     },
                     "ownerId": {
                         "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
                         "description": "Owner ID associated with this memory."
                     },
                     "namespace": {
                         "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
                         "description": "Namespace for logical grouping."
                     },
                     "topics": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "description": "Topic name (1-100 chars)."
                         },
+                        "maxItems": 50,
                         "description": "Topic tags for categorization."
                     },
                     "createdAt": {
-                        "type": "integer",
-                        "description": "Timestamp when the memory was created (Unix milliseconds).",
-                        "format": "int64"
+                        "type": "string",
+                        "description": "Timestamp when the memory was created (UTC).",
+                        "format": "date-time"
                     },
                     "updatedAt": {
-                        "type": "integer",
-                        "description": "Timestamp when the memory was last updated (Unix milliseconds).",
-                        "format": "int64"
+                        "type": "string",
+                        "description": "Timestamp when the memory was last updated (UTC).",
+                        "format": "date-time"
                     }
                 },
                 "required": [
@@ -2223,6 +2110,7 @@
             },
             "GetSessionEventResponseContent": {
                 "type": "object",
+                "description": "Response containing a single requested session event.",
                 "properties": {
                     "event": {
                         "$ref": "#/components/schemas/SessionEvent"
@@ -2245,6 +2133,9 @@
                     },
                     "ownerId": {
                         "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
                         "description": "The owner of the session, set from the actorId of the first event."
                     },
                     "events": {
@@ -2266,32 +2157,47 @@
                 "description": "Health check response.",
                 "properties": {
                     "status": {
-                        "type": "string",
-                        "description": "Status of the service."
+                        "$ref": "#/components/schemas/HealthStatus"
                     }
                 },
                 "required": [
                     "status"
                 ]
             },
+            "HealthStatus": {
+                "type": "string",
+                "description": "Health status returned by the /health endpoint.",
+                "enum": [
+                    "healthy"
+                ]
+            },
             "ListSessionsResponseContent": {
                 "type": "object",
+                "description": "Paginated list of session IDs for a store.",
                 "properties": {
-                    "sessions": {
+                    "items": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Session identifier (1-64 chars, alphanumeric and dashes). When the server generates one, it uses a 32-character UUID without dashes."
                         },
-                        "description": "List of session IDs."
+                        "description": "List of session IDs. Always returned; empty when the store has no sessions."
                     },
                     "total": {
                         "type": "integer",
                         "description": "Total number of matching sessions.",
                         "format": "int32"
+                    },
+                    "nextPageToken": {
+                        "type": "string",
+                        "description": "Opaque token for fetching the next page. Omitted when no more results."
                     }
                 },
                 "required": [
-                    "sessions",
+                    "items",
                     "total"
                 ]
             },
@@ -2300,22 +2206,22 @@
                 "description": "Grouping of filter conditions for long-term memory search.",
                 "properties": {
                     "sessionId": {
-                        "$ref": "#/components/schemas/TagFilter"
+                        "$ref": "#/components/schemas/SessionIdFilter"
                     },
                     "ownerId": {
-                        "$ref": "#/components/schemas/TagFilter"
+                        "$ref": "#/components/schemas/OwnerIdFilter"
                     },
                     "namespace": {
-                        "$ref": "#/components/schemas/TagFilter"
+                        "$ref": "#/components/schemas/NamespaceFilter"
                     },
                     "topics": {
-                        "$ref": "#/components/schemas/TagFilter"
+                        "$ref": "#/components/schemas/TopicsFilter"
                     },
                     "memoryType": {
-                        "$ref": "#/components/schemas/TagFilter"
+                        "$ref": "#/components/schemas/MemoryTypeFilter"
                     },
                     "createdAt": {
-                        "$ref": "#/components/schemas/NumericFilter"
+                        "$ref": "#/components/schemas/CreatedAtFilter"
                     }
                 }
             },
@@ -2339,32 +2245,45 @@
                     },
                     "sessionId": {
                         "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
                         "description": "Session ID associated with this memory."
                     },
                     "ownerId": {
                         "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
                         "description": "Owner ID associated with this memory."
                     },
                     "namespace": {
                         "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
                         "description": "Namespace for logical grouping."
                     },
                     "topics": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "description": "Topic name (1-100 chars)."
                         },
+                        "maxItems": 50,
                         "description": "Topic tags for categorization."
                     },
                     "createdAt": {
-                        "type": "integer",
-                        "description": "Timestamp when the memory was created (Unix milliseconds).",
-                        "format": "int64"
+                        "type": "string",
+                        "description": "Timestamp when the memory was created (UTC).",
+                        "format": "date-time"
                     },
                     "updatedAt": {
-                        "type": "integer",
-                        "description": "Timestamp when the memory was last updated (Unix milliseconds).",
-                        "format": "int64"
+                        "type": "string",
+                        "description": "Timestamp when the memory was last updated (UTC).",
+                        "format": "date-time"
                     }
                 },
                 "required": [
@@ -2383,6 +2302,34 @@
                     "message"
                 ]
             },
+            "MemoryTypeFilter": {
+                "type": "object",
+                "description": "Filter by memory type.",
+                "properties": {
+                    "eq": {
+                        "type": "string",
+                        "description": "Equals the given value."
+                    },
+                    "ne": {
+                        "type": "string",
+                        "description": "Not equal to the given value."
+                    },
+                    "in": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Matches any of the given values."
+                    },
+                    "all": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Matches all of the given values."
+                    }
+                }
+            },
             "MessageRole": {
                 "type": "string",
                 "description": "Message role for session events.",
@@ -2392,8 +2339,51 @@
                     "SYSTEM"
                 ]
             },
+            "NamespaceFilter": {
+                "type": "object",
+                "description": "Filter by namespace.",
+                "properties": {
+                    "eq": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Equals the given value."
+                    },
+                    "ne": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Not equal to the given value."
+                    },
+                    "in": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Namespace for logical grouping of long-term memory records (1-64 chars, alphanumeric and dashes)."
+                        },
+                        "description": "Matches any of the given values."
+                    },
+                    "all": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Namespace for logical grouping of long-term memory records (1-64 chars, alphanumeric and dashes)."
+                        },
+                        "description": "Matches all of the given values."
+                    }
+                }
+            },
             "NotFoundErrorResponseContent": {
                 "type": "object",
+                "description": "The requested resource does not exist.",
                 "properties": {
                     "title": {
                         "type": "string",
@@ -2425,80 +2415,56 @@
             },
             "NotFoundErrorType": {
                 "type": "string",
+                "description": "Problem type URI for not-found errors.",
                 "enum": [
                     "/errors/resource-not-found"
                 ]
             },
-            "NotImplementedErrorResponseContent": {
+            "OwnerIdFilter": {
                 "type": "object",
+                "description": "Filter by the long-term memory ownerId field.",
                 "properties": {
-                    "title": {
-                        "type": "string",
-                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
-                    },
-                    "status": {
-                        "type": "integer",
-                        "default": 501,
-                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
-                        "format": "int32"
-                    },
-                    "detail": {
-                        "type": "string",
-                        "description": "A human-readable explanation specific to this occurrence of the problem."
-                    },
-                    "instance": {
-                        "type": "string",
-                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
-                    },
-                    "type": {
-                        "$ref": "#/components/schemas/NotImplementedErrorType"
-                    }
-                },
-                "required": [
-                    "status",
-                    "title",
-                    "type"
-                ]
-            },
-            "NotImplementedErrorType": {
-                "type": "string",
-                "enum": [
-                    "/errors/not-implemented"
-                ]
-            },
-            "NumericFilter": {
-                "type": "object",
-                "description": "Filter for numeric fields. The server validates that exactly one operator is set.",
-                "properties": {
-                    "gt": {
-                        "type": "integer",
-                        "description": "Greater than the given value.",
-                        "format": "int64"
-                    },
-                    "lt": {
-                        "type": "integer",
-                        "description": "Less than the given value.",
-                        "format": "int64"
-                    },
-                    "gte": {
-                        "type": "integer",
-                        "description": "Greater than or equal to the given value.",
-                        "format": "int64"
-                    },
-                    "lte": {
-                        "type": "integer",
-                        "description": "Less than or equal to the given value.",
-                        "format": "int64"
-                    },
                     "eq": {
-                        "type": "integer",
-                        "description": "Equals the given value.",
-                        "format": "int64"
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Equals the given value."
+                    },
+                    "ne": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Not equal to the given value."
+                    },
+                    "in": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Actor/owner identifier (1-64 chars, alphanumeric and dashes). Used for users, agents, or other participants."
+                        },
+                        "description": "Matches any of the given values."
+                    },
+                    "all": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Actor/owner identifier (1-64 chars, alphanumeric and dashes). Used for users, agents, or other participants."
+                        },
+                        "description": "Matches all of the given values."
                     }
                 }
             },
             "PayloadTooLargeErrorResponseContent": {
                 "type": "object",
+                "description": "The request payload exceeds the maximum supported size.",
                 "properties": {
                     "title": {
                         "type": "string",
@@ -2530,12 +2496,14 @@
             },
             "PayloadTooLargeErrorType": {
                 "type": "string",
+                "description": "Problem type URI for payload-too-large errors.",
                 "enum": [
                     "/errors/payload-too-large"
                 ]
             },
             "SearchLongTermMemoryRequestContent": {
                 "type": "object",
+                "description": "Semantic search request for long-term memory records.",
                 "properties": {
                     "text": {
                         "type": "string",
@@ -2543,7 +2511,9 @@
                     },
                     "similarityThreshold": {
                         "type": "number",
-                        "description": "The minimum similarity threshold for vector search results (normalized cosine similarity).",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "The minimum similarity threshold for vector search results (normalized cosine similarity). Allowed range: 0-1.",
                         "format": "float"
                     },
                     "filter": {
@@ -2554,7 +2524,10 @@
                     },
                     "limit": {
                         "type": "integer",
-                        "description": "Maximum number of results to return.",
+                        "default": 10,
+                        "maximum": 100,
+                        "minimum": 1,
+                        "description": "Maximum number of results to return. Defaults to 10. Allowed range: 1-100.",
                         "format": "int32"
                     },
                     "pageToken": {
@@ -2565,13 +2538,14 @@
             },
             "SearchLongTermMemoryResponseContent": {
                 "type": "object",
+                "description": "Semantic search result for long-term memory records.",
                 "properties": {
-                    "memories": {
+                    "items": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/MemoryRecord"
                         },
-                        "description": "List of matching memory records."
+                        "description": "List of matching memory records. Always returned; empty when no records match."
                     },
                     "nextPageToken": {
                         "type": "string",
@@ -2579,7 +2553,7 @@
                     }
                 },
                 "required": [
-                    "memories"
+                    "items"
                 ]
             },
             "SessionEvent": {
@@ -2595,6 +2569,9 @@
                     },
                     "actorId": {
                         "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
                         "description": "Unique actor identifier (1-255 chars). Can represent a user, agent, or any participant."
                     },
                     "sessionId": {
@@ -2615,12 +2592,17 @@
                         "description": "The message content as an array of typed content parts."
                     },
                     "createdAt": {
-                        "type": "integer",
-                        "description": "Timestamp when the event was created in milliseconds.",
-                        "format": "int64"
+                        "type": "string",
+                        "description": "Client-supplied timestamp for when the event happened (UTC).",
+                        "format": "date-time"
+                    },
+                    "systemTimestamp": {
+                        "type": "string",
+                        "description": "Server-set timestamp for when the dataplane ingested the event (UTC).",
+                        "format": "date-time"
                     },
                     "metadata": {
-                        "description": "Optional key-value pairs (max 15)."
+                        "description": "Optional metadata as any valid JSON value."
                     }
                 },
                 "required": [
@@ -2629,32 +2611,47 @@
                     "createdAt",
                     "eventId",
                     "role",
-                    "sessionId"
+                    "sessionId",
+                    "systemTimestamp"
                 ]
             },
-            "TagFilter": {
+            "SessionIdFilter": {
                 "type": "object",
-                "description": "Filter for tag/string fields. The server validates that exactly one operator is set.",
+                "description": "Filter by the long-term memory sessionId field.",
                 "properties": {
                     "eq": {
                         "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
                         "description": "Equals the given value."
                     },
                     "ne": {
                         "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
                         "description": "Not equal to the given value."
                     },
                     "in": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Session identifier (1-64 chars, alphanumeric and dashes). When the server generates one, it uses a 32-character UUID without dashes."
                         },
                         "description": "Matches any of the given values."
                     },
                     "all": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Session identifier (1-64 chars, alphanumeric and dashes). When the server generates one, it uses a 32-character UUID without dashes."
                         },
                         "description": "Matches all of the given values."
                     }
@@ -2662,6 +2659,7 @@
             },
             "TimeoutErrorResponseContent": {
                 "type": "object",
+                "description": "The request timed out before the service could complete it.",
                 "properties": {
                     "title": {
                         "type": "string",
@@ -2693,12 +2691,14 @@
             },
             "TimeoutErrorType": {
                 "type": "string",
+                "description": "Problem type URI for timeout errors.",
                 "enum": [
                     "/errors/timeout"
                 ]
             },
             "TooManyRequestsErrorResponseContent": {
                 "type": "object",
+                "description": "The service rejected the request because rate limits were exceeded.",
                 "properties": {
                     "title": {
                         "type": "string",
@@ -2730,12 +2730,42 @@
             },
             "TooManyRequestsErrorType": {
                 "type": "string",
+                "description": "Problem type URI for rate-limit errors.",
                 "enum": [
                     "/errors/too-many-requests"
                 ]
             },
+            "TopicsFilter": {
+                "type": "object",
+                "description": "Filter by topics.",
+                "properties": {
+                    "eq": {
+                        "type": "string",
+                        "description": "Equals the given value."
+                    },
+                    "ne": {
+                        "type": "string",
+                        "description": "Not equal to the given value."
+                    },
+                    "in": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Matches any of the given values."
+                    },
+                    "all": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Matches all of the given values."
+                    }
+                }
+            },
             "UnexpectedErrorResponseContent": {
                 "type": "object",
+                "description": "The service failed with an unexpected internal error.",
                 "properties": {
                     "title": {
                         "type": "string",
@@ -2767,16 +2797,20 @@
             },
             "UnexpectedErrorType": {
                 "type": "string",
+                "description": "Problem type URI for unexpected internal errors.",
                 "enum": [
                     "/errors/unexpected-error"
                 ]
             },
             "UpdateLongTermMemoryRequestContent": {
                 "type": "object",
+                "description": "Partial update request for a long-term memory record.",
                 "properties": {
                     "text": {
                         "type": "string",
-                        "description": "Updated text content."
+                        "maxLength": 50000,
+                        "minLength": 1,
+                        "description": "Updated text content (1-50000 chars)."
                     },
                     "memoryType": {
                         "$ref": "#/components/schemas/MemoryType"
@@ -2784,21 +2818,25 @@
                     "topics": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "description": "Topic name (1-100 chars)."
                         },
-                        "description": "Updated topics."
+                        "maxItems": 50,
+                        "description": "Updated topics (max 50 topics, each 1-100 chars)."
                     },
                     "namespace": {
                         "type": "string",
-                        "description": "Updated namespace."
+                        "description": "Updated namespace. When provided, must be 1-64 chars alphanumeric and dashes; omit the field or send an empty string to clear."
                     },
                     "ownerId": {
                         "type": "string",
-                        "description": "Updated owner ID."
+                        "description": "Updated owner ID. When provided, must be 1-64 chars alphanumeric and dashes; omit the field or send an empty string to clear."
                     },
                     "sessionId": {
                         "type": "string",
-                        "description": "Updated session ID."
+                        "description": "Updated session ID. When provided, must be 1-64 chars alphanumeric and dashes; omit the field or send an empty string to clear."
                     }
                 }
             },
@@ -2822,32 +2860,45 @@
                     },
                     "sessionId": {
                         "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
                         "description": "Session ID associated with this memory."
                     },
                     "ownerId": {
                         "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
                         "description": "Owner ID associated with this memory."
                     },
                     "namespace": {
                         "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
                         "description": "Namespace for logical grouping."
                     },
                     "topics": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "description": "Topic name (1-100 chars)."
                         },
+                        "maxItems": 50,
                         "description": "Topic tags for categorization."
                     },
                     "createdAt": {
-                        "type": "integer",
-                        "description": "Timestamp when the memory was created (Unix milliseconds).",
-                        "format": "int64"
+                        "type": "string",
+                        "description": "Timestamp when the memory was created (UTC).",
+                        "format": "date-time"
                     },
                     "updatedAt": {
-                        "type": "integer",
-                        "description": "Timestamp when the memory was last updated (Unix milliseconds).",
-                        "format": "int64"
+                        "type": "string",
+                        "description": "Timestamp when the memory was last updated (UTC).",
+                        "format": "date-time"
                     }
                 },
                 "required": [
