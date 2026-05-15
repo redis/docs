@@ -205,7 +205,54 @@ A naked `DEL` without the token check is a bug: if the lock expired and was re-a
 
 ---
 
-## 14. Subscribe-acknowledgement race in pub/sub-style helpers
+## 14. Empty-fields `HSET` guard in change-event consumers
+
+**What to scan for:** any code path that takes a "fields" payload from a change event / message / callback and forwards it to `HSET` (or the client-equivalent `hSet` / `hSetMultiple` / `HashSet` / `hMSet` / etc.). Typically this is a CDC consumer, sync worker, or write-through path.
+
+**Pass criterion:** before the `HSET` call, the code explicitly guards against `fields` being null, missing, or empty, and returns early on the malformed case (or routes to a dead-letter, etc.). The guard must run before the pipeline / transaction is opened.
+
+**Sample audit prompt:**
+
+> Audit every code path in the 9 client implementations under `content/develop/use-cases/{{USE_CASE_NAME}}/` that forwards a fields payload from a change-event / callback / message to `HSET` (or the client equivalent). For each, confirm there is an explicit early-return guard for null / missing / empty fields **before** any pipeline or transaction is constructed. Flag any port without the guard with file path and line number.
+
+**Why on list:** Every Redis client tested in the prefetch-cache use case raises or panics on `HSET` with an empty fields mapping: redis-py `DataError`, node-redis throws, Predis "wrong number of arguments", redis-rs **panics** on `pipe().hset_multiple(&key, &[])`, Jedis errors, go-redis errors. A defensive `|| {}` fallback that LOOKS like it handles the empty case is actually misleading — Cursor bugbot caught this on the reference implementation. ([PR #3317 comment](https://github.com/redis/docs/pull/3317))
+
+---
+
+## 15. TTL sentinel preservation across libraries
+
+**What to scan for:** any `TTL` / `ttl_remaining` / `ttlRemaining` helper that wraps the client's TTL command. Particularly any code that converts the library's return type (often `time.Duration`, `TimeSpan?`, `Long`) into integer seconds.
+
+**Pass criterion:** the helper returns **`-2`** for a missing key and **`-1`** for a key with no TTL, as integer seconds (or the language's native integer type). Libraries encode these sentinels inconsistently:
+
+- **redis-py**: returns `int` directly with `-2` / `-1` preserved.
+- **go-redis**: returns `time.Duration` with `-2` / `-1` as **raw nanoseconds** (not seconds-scaled). A naive `int(d.Seconds())` truncates to `0`.
+- **StackExchange.Redis**: `KeyTimeToLive` returns `TimeSpan?` and collapses **both** missing-key and no-TTL into `null` — a null-coalesce loses the `-2` sentinel.
+- **node-redis / Jedis / Lettuce / Predis / redis-rb**: return integer-typed seconds with `-2` / `-1` preserved.
+
+The recommended cross-client idiom is to **bypass the library wrapper** and send the raw command (`client.Do(ctx, "TTL", key).Int64()` in Go, `IDatabase.Execute("TTL", key)` in .NET) so the integer reply comes through untouched.
+
+**Sample audit prompt:**
+
+> For each port's `TTLRemaining` (or equivalent) under `content/develop/use-cases/{{USE_CASE_NAME}}/`, confirm it returns `-2` for a missing key and `-1` for a key with no TTL. Test each by reading a non-existent ID and by running `PERSIST` on an existing cache key then reading it. Flag any port that returns `0`, `null`, or collapses the two sentinels into one value.
+
+**Why on list:** Caught in the prefetch-cache cross-port audit. go-redis and StackExchange.Redis both shipped with subtle bugs in their TTL conversion that the audit caught. ([PR #3317 audit B](https://github.com/redis/docs/pull/3317))
+
+---
+
+## 16. Locked-emit ordering for producer/consumer queues
+
+**What to scan for:** any mock primary store, in-memory writer, or producer that (a) mutates internal state under a lock and (b) appends a corresponding event to an out-of-process or out-of-thread queue/stream/channel. Typical methods: `add_record` / `update_field` / `delete_record`, `enqueue`, `publish_change`.
+
+**Pass criterion:** the queue append happens **inside the same locked section** as the state mutation, not after it. Without this, two concurrent mutations can complete in one order but enqueue their events in the opposite order, and a downstream consumer applies them out of order — the cache ends up divergent from the source. For cross-process producers (PHP, etc.), the equivalent is wrapping the mutation + `LPUSH` in a Lua script so the server enforces ordering.
+
+**Sample audit prompt:**
+
+> Audit every mutation method in each port's mock primary store (or equivalent producer) under `content/develop/use-cases/{{USE_CASE_NAME}}/`. For each, confirm the change event is appended to the queue / stream / channel **while the mutation lock is still held** (or, for cross-process ports, wrapped in a Lua script that combines the record write and the LPUSH server-side). Flag any port where the emit happens after the lock release.
+
+**Why on list:** Locked-emit ordering is what guarantees a CDC consumer can replay events deterministically. Caught and fixed in the prefetch-cache reference's `_emit_change_locked` pattern after Codex review; the prefetch-cache cross-port audit confirmed all 9 ports preserve the invariant, including PHP's Lua-script equivalent. ([PR #3317 audit C](https://github.com/redis/docs/pull/3317))
+
+## 17. Subscribe-acknowledgement race in pub/sub-style helpers
 
 **What to scan for:** the constructor or registration path of any subscriber object (pub/sub Subscription, message-listener, channel consumer). Specifically, the code path between "request the SUBSCRIBE / PSUBSCRIBE" and "return the Subscription handle to the caller".
 
@@ -219,7 +266,7 @@ A naked `DEL` without the token check is a bug: if the lock expired and was re-a
 
 ---
 
-## 15. Concurrent-name reservation race in async helpers
+## 18. Concurrent-name reservation race in async helpers
 
 **What to scan for:** any helper that does "check map for duplicate → release lock → do async work → acquire lock → insert". This shape is common in Rust (`std::sync::Mutex` is `!Send`, so can't be held across `await`) and any async language where the check and the insert are bracketed by an `await` that releases the lock implicitly.
 
@@ -233,7 +280,7 @@ A naked `DEL` without the token check is a bug: if the lock expired and was re-a
 
 ---
 
-## 16. Detached-worker PID capture
+## 19. Detached-worker PID capture
 
 **What to scan for:** in any port that spawns subscriber/worker processes from a request handler (typically PHP under `php -S`, but any helper that uses `proc_open`, `subprocess.Popen`, `child_process.spawn`, `posix_spawn`, etc.), how is the worker's PID recorded? Look for `proc_get_status()['pid']` after `proc_open([...])`, or `pid` properties on subprocess handles.
 
@@ -247,7 +294,7 @@ A naked `DEL` without the token check is a bug: if the lock expired and was re-a
 
 ---
 
-## 17. Silent timeout fallthrough in readiness waits
+## 20. Silent timeout fallthrough in readiness waits
 
 **What to scan for:** functions named `waitFor*`, `pollUntil*`, `awaitReady`, etc. that loop with a deadline. Especially ones that return `void` / `None` / `()` instead of a status.
 
@@ -261,7 +308,7 @@ A naked `DEL` without the token check is a bug: if the lock expired and was re-a
 
 ---
 
-## 18. Pub/sub introspection commands are server-wide
+## 21. Pub/sub introspection commands are server-wide
 
 **What to scan for:** any test or smoke-test step that asserts an **absolute** value of `PUBSUB CHANNELS`, `PUBSUB NUMSUB`, or `PUBSUB NUMPAT`. Especially common in pub/sub-style use cases.
 
@@ -272,6 +319,55 @@ A naked `DEL` without the token check is a bug: if the lock expired and was re-a
 > For each smoke-test step in the brief and in the per-client `_index.md` files of `content/develop/use-cases/{{USE_CASE_NAME}}/`, identify every assertion against `PUBSUB CHANNELS`, `PUBSUB NUMSUB`, or `PUBSUB NUMPAT`. Confirm the assertion is delta-based (or uses `>= n` with `n ≥ 1` to allow for sibling pollution). Flag any test that expects an exact absolute value of these counters. Also confirm the test-setup hygiene includes a way to identify stale pubsub clients from prior sessions (`redis-cli client list type pubsub`), even if not a way to forcibly clear them.
 
 **Why on list:** Pub/sub use case, surfaced repeatedly during Phase 2 sub-agent reports. Multiple agents had to switch from "expect NUMPAT == 1" to "expect NUMPAT ≥ 1" after sibling agents on the same Redis added their own pattern subscribers. During Phase 5 retrofit smoke-testing, a stale `python3 demo_server.py` from earlier in the session was holding `notifications:*` pattern open, polluting NUMPAT and triggering the PHP auto-seed timeout. The class of issue is permanent in pub/sub: NUMPAT/CHANNELS/NUMSUB are global by Redis design and tests must reflect that.
+
+---
+
+## 22. Typed `XAUTOCLAIM` wrappers that silently drop the deleted-IDs slot
+
+**What to scan for:** any helper that calls the client library's typed `xautoclaim` / `XAutoClaim` / `StreamAutoClaim` wrapper. Look at the return-type binding: does it expose a third slot (deleted IDs / `deleted_messages` / `deletedIds`) alongside the next-cursor and claimed-messages?
+
+**Pass criterion:** the helper must surface the third slot of the Redis 7+ `XAUTOCLAIM` reply (the IDs whose stream payload was trimmed out before the claim ran). The reference helper's API is `(claimed, deleted_ids)` — and the caller is expected to log/route the deleted IDs to a dead-letter store. If the client library's typed wrapper hides the third slot (extremely common), the helper must drop to a raw-command path (`client.Do("XAUTOCLAIM", ...)`, `Jedis.sendCommand(XAUTOCLAIM, ...)`, `connection.dispatch(CommandType.XAUTOCLAIM, NestedMultiOutput, ...)`, `redis.call('XAUTOCLAIM', ...)`, `redis::cmd("XAUTOCLAIM").query_async(...)`) and parse the three-element reply by hand. **A wrapper that returns `(cursor, messages)` only — with no compile-time hint that a third slot exists — silently makes the dead-letter path invisible.**
+
+**Sample audit prompt:**
+
+> Audit every `XAUTOCLAIM` call site across the 9 client implementations under `content/develop/use-cases/{{USE_CASE_NAME}}/`. For each, identify whether the helper goes through the client library's typed wrapper or through a raw command. For the typed wrappers, verify against the library's documentation or source whether the wrapper surfaces all three reply elements (next-cursor, claimed-messages, deleted-IDs). Flag any helper that uses a typed wrapper whose return type omits the deleted-IDs slot — that helper has silently lost the dead-letter signalling path. Cross-check the helper's `_index.md` "Production usage" prose to confirm the deleted-IDs handling is documented for the reader.
+
+**Why on list:** Streaming use case, Phase 2 cross-port finding. Confirmed in **five** independent ports:
+
+- **go-redis v9.18.0** — `client.XAutoClaim(...)` and `XAutoClaimJustID(...)` both parse the reply and call `rd.DiscardNext()` on the third element. Workaround: `client.Do(ctx, "XAUTOCLAIM", ...)` with manual parsing.
+- **Jedis 5.0.1 and 6.2.0** — `xautoclaim(...)` returns `Map.Entry<StreamEntryID, List<StreamEntry>>` (only 2 slots). Workaround: `Jedis.sendCommand(STREAM_AUTOCLAIM, ...)` with manual decode.
+- **Lettuce 6.5.0** — `RedisCommands.xautoclaim(...)` returns `ClaimedMessages<K,V>` exposing only the cursor and claimed messages. Workaround: `connection.dispatch(CommandType.XAUTOCLAIM, new NestedMultiOutput<>(...), args)`.
+- **redis-rb 5.x** — typed `redis.xautoclaim` is decoded via the generic `HashifyStreamAutoclaim` proc, which drops the third element. Workaround: `redis.call('XAUTOCLAIM', ...)` with manual parsing.
+- **redis-rs 0.24** — no typed `xautoclaim` wrapper exists at all, so the helper must use `redis::cmd("XAUTOCLAIM").arg(...).query_async()` directly.
+
+This is the most common class of finding in streaming-style ports. The reference's `(claimed, deleted_ids)` API surface assumed wrappers preserve all three reply elements; they don't. Every future port must verify whether its library's typed wrapper has caught up before relying on it.
+
+---
+
+## 23. Handover-then-delete safety on consumer removal
+
+**What to scan for:** any helper / demo path that removes a consumer from a consumer group. Look for the sequence (a) handover the consumer's pending entries to a peer, then (b) `XGROUP DELCONSUMER`. The handover is typically a per-consumer `XPENDING ... CONSUMER` walk plus `XCLAIM` at `MIN-IDLE-TIME 0`.
+
+**Pass criterion:** the `XGROUP DELCONSUMER` call must run **only after the handover has provably succeeded**. Specifically:
+
+- Every error from the handover path (`XPENDING` failure, `XCLAIM` failure, partial-batch break, deadline timeout, etc.) must abort the removal. Do not log-and-continue.
+- The handover must verify the source consumer's PEL is empty before deletion, OR the caller must surface the partial-handover failure so the user can retry.
+- The registry-removal step (popping from the in-process workers map) must happen **after** the destructive `DELCONSUMER`, not before — otherwise a thrown exception between map-pop and DELCONSUMER leaves a half-removed worker.
+
+A naked `try { handover() } catch { ignore } finally { delete_consumer() }` is the **wrong shape**. `XGROUP DELCONSUMER` destroys the PEL of the deleted consumer — any entries the handover failed to move are unreachable by `XAUTOCLAIM` afterwards. The destruction is silent: no error, no log on the Redis side, no count of lost messages.
+
+**Sample audit prompt:**
+
+> Audit every consumer-removal path in the 9 client implementations under `content/develop/use-cases/{{USE_CASE_NAME}}/`. For each port's `remove_worker` (or equivalent) helper, trace the error-handling boundary between the `handover_pending` (or equivalent) call and the `XGROUP DELCONSUMER` call. Flag any port where: (a) handover errors are silently swallowed before delete fires; (b) the in-process registry entry is removed before delete fires (so a thrown exception between the two leaves a half-removed worker); (c) a partial-handover return value is accepted without verifying the source consumer's PEL is empty. Cross-check the demo's HTTP `/remove-worker` handler — if it returns 200 on a failed handover, the bug is user-visible.
+
+**Why on list:** Streaming use case, Phase 4b Codex independent review. Targeted Phase 4 audits cleared `remove_worker` paths in `rust`, `go`, `nodejs`, and `dotnet`; Codex's fresh-context review then found that all four shipped variants of the same pattern:
+
+- **rust** ([`demo_server.rs:154-160`](../../../content/develop/use-cases/streaming/rust/demo_server.rs)) — `handover_pending(...).await.unwrap_or(0)` swallows errors, then `delete_consumer` runs unconditionally. `event_stream.rs:367-376` discards `XCLAIM` failures as an empty claim list.
+- **go** ([`demo_server.go:187-193`](../../../content/develop/use-cases/streaming/go/demo_server.go)) — `HandoverPending` correctly returns errors, but the caller logs them and continues to `DeleteConsumer`.
+- **nodejs** ([`demoServer.js:635-649`](../../../content/develop/use-cases/streaming/nodejs/demoServer.js)) — `handoverPending` breaks and returns a partial count on `xPendingRange` or `xClaim` errors (`eventStream.js:365-399`). `removeWorker` then deletes regardless.
+- **dotnet** ([`Program.cs:429-433`](../../../content/develop/use-cases/streaming/dotnet/Program.cs)) — `HandoverPending` catches `RedisServerException` and breaks early (`EventStream.cs:321-333`), returning whatever count it has. The caller stops the worker and deletes the consumer; if `StreamClaim` threw, the worker is already gone from `_workers` before `DELCONSUMER` runs.
+
+The reference (`redis-py/demo_server.py:590-598` + `event_stream.py:263-274`) aborts on handover errors before `delete_consumer` is reached, but the reference's `handover_pending` raises rather than returning partial counts — so the safe pattern is implicit and easy to miss when porting to languages where errors are returned values.
 
 ---
 

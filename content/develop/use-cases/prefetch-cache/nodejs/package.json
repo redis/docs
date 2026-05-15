@@ -1,0 +1,16 @@
+{
+  "name": "redis-prefetch-cache-demo",
+  "version": "1.0.0",
+  "description": "Redis prefetch-cache demo with node-redis and the Node.js standard http module.",
+  "private": true,
+  "main": "demoServer.js",
+  "scripts": {
+    "start": "node demoServer.js"
+  },
+  "dependencies": {
+    "redis": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

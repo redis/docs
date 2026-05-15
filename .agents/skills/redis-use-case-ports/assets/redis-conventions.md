@@ -271,6 +271,9 @@ PHP runs each HTTP request in a fresh process under `php -S`. This means:
 - **In-process state doesn't persist.** Cache stats, primary record state, primary read counters, and per-job-queue counters must live in Redis (under a `demo:*` keyspace, or a `<prefix>:{name}:stats` hash).
 - **Spawning sub-processes from a request handler must detach from the dev server's listen socket.** This bites both `pcntl_fork` (forked children inherit the accept socket) and `proc_open` (children inherit FDs unless explicitly redirected). The fix is **`setsid` on Linux**, and a shell-based new-session wrapper on macOS (which lacks `setsid(1)`). The detach also needs to redirect stdin/stdout/stderr to files; closing them alone isn't enough.
 - **Predis 3.x's `hset()` is variadic, not associative.** The 1.x `$redis->hset($key, ['field' => 'value'])` form raises `wrong number of arguments for 'hset'` against a 3.x client/server. Use `$redis->hset($key, 'field', 'value', 'field2', 'value2', ...)` and write a small `flattenFields()` helper if you're storing a map.
+- **Predis `BRPOP` only accepts whole-second timeouts.** Sub-second polling intervals (e.g. a 50 ms `next_change` loop in the reference Python) need a workaround: use a 1 s `BRPOP` for change draining plus a separate fast pause-flag poll (e.g. 20 ms `usleep`) so pause/resume latency stays low even when the main `BRPOP` is parked.
+- **Cross-process pause/resume goes through Redis flags.** Where threaded ports use a `threading.Event` (or equivalent) inside one process, PHP needs the demo server and the long-running sync worker to coordinate across processes. The pattern is two keys: `demo:sync:paused` (writer to worker) and `demo:sync:idle` (worker acks parked state). The demo's `/clear` and `/reprefetch` handlers set `paused=1`, spin-wait for `idle=1` with a 10 ms poll and a 2 s timeout, do the cache write, then set `paused=0`. The worker checks `paused` on each loop iteration; if set, writes `idle=1` and spin-waits for it to clear. Established in the prefetch-cache PHP port.
+- **Mutation + change-event emit needs Lua-script atomicity** when the producer is also stateless (PHP). The reference Python uses an in-process `Lock` to make "mutate-then-emit" atomic; the PHP equivalent is wrapping the record write and the `LPUSH` (or `XADD`) onto the change feed in a single `EVAL`. Without this, two concurrent mutations on the same key can land in queue order opposite to their server-side commit order. (Audit-checklist row 16.)
 - The brief should call out that the cross-process supervision approach is **PHP-specific** in the production-usage section.
 
 ## .NET-specific notes
@@ -281,20 +284,25 @@ PHP runs each HTTP request in a fresh process under `php -S`. This means:
 - **StackExchange.Redis intentionally does not expose blocking pops** (`BRPOPLPUSH` / `BLMOVE` with a timeout) because they would monopolise the multiplexer's single command pipeline. Use cases that need a blocking claim (job queue, etc.) should poll the non-blocking `IDatabase.ListRightPopLeftPush` on a short interval (50 ms is a reasonable default). Document this in the helper's "Claiming jobs" / "How it works" section.
 - **`RedisChannel` no longer has an implicit `string` conversion in 2.7+.** `db.Publish(...)` needs `RedisChannel.Literal("channel:name")` or `RedisChannel.Pattern(...)` explicitly.
 - StackExchange.Redis transparently caches Lua scripts: the first `ScriptEvaluate(script, keys, args)` sends `EVAL`, subsequent calls switch to `EVALSHA` automatically. No need to manage SHAs by hand.
+- **`IDatabase.KeyTimeToLive` collapses the `-2` (missing) and `-1` (no TTL) sentinels into a single `TimeSpan?` null.** For any `TTL` lookup that needs to distinguish them, send the raw command instead: `(long) db.Execute("TTL", key)` returns the integer the server actually replied with. (Audit-checklist row 15.)
+- **`IServer.Keys` (the typed SCAN enumerator) requires `AllowAdmin = true` on the `ConfigurationOptions`** — which also grants `FLUSHDB` / `CONFIG`, a real security concern in production. Where SCAN-style enumeration is needed (e.g. a `clear()` helper) prefer `db.Execute("SCAN", cursor, "MATCH", pattern, "COUNT", count)` so the demo doesn't pull in admin-privileged client config.
 
 ## Java-specific notes
 
 - **Jedis**: use `JedisPool` and acquire a `Jedis` instance per call with try-with-resources. Each transaction gets its own connection; no in-process lock is needed.
 - **Jedis 5.x's `brpoplpush` takes integer seconds.** Sub-second blocking-claim timeouts (e.g. 500 ms polling windows) round up to 1 s on the wire. The polling loop still observes its stop flag promptly enough; just be aware the per-iteration block is longer than the reference suggests.
 - **Lettuce**: by default the demo shares one `StatefulRedisConnection` across HTTP handlers. Lettuce is thread-safe for individual commands but pipelined sequences and transactions are connection-scoped — concurrent pipelines or `MULTI`/`EXEC` blocks on one connection can interleave. Options when an enqueue / update needs two-or-more commands atomic-ish: (a) wrap in a `ReentrantLock`; (b) use `MULTI`/`EXEC` with the same lock; (c) merge into a Lua script (preferred — atomic server-side and lock-free, but requires writing the script). The production-usage section should explain you'd switch to `ConnectionPoolSupport.createGenericObjectPool(...)` in production and drop the lock.
+- **Lettuce sync API does not cooperate with `setAutoFlushCommands(false)`.** Each sync call internally awaits its `CompletableFuture`; with auto-flush off, those futures never complete because nothing flushes. Symptom: bulk-load deadlocks silently — no exception, just a hung process. Use the **async API** (`RedisAsyncCommands<K,V>`) for any pipelined batch where you intend to flush at the end: queue commands without awaiting each one, then `connection.flushCommands()` and await the futures in bulk. Documented after the prefetch-cache Lettuce port hit it during testing.
 - Lettuce's `BLMOVE` accepts a `double` timeout in seconds with sub-second precision (`bRPopLPush(timeout: double)`). Don't use the older `long`-overload — pre-6.x builds treated values < 1 as "block forever".
 - Both Java demos depend on a small classpath. The `_index.md` should give an example `javac` + `java` command listing the jars by name.
+- **JDK version: pick text blocks (15+) or string concatenation (11+) and apply it across both Java ports of the same use case.** Text blocks (`"""..."""`) keep the inlined HTML readable; concatenation works on older JDKs. The cache-aside Java ports use concatenation with JDK 11+ prereq; the prefetch-cache Java ports use text blocks with JDK 17+ prereq. Either is fine — just don't mix within a use case, and set Prerequisites accordingly.
 
 ## Go-specific notes
 
 - Use `package <use-case-package>` (e.g., `package cacheaside`) for all files, including the demo server. Expose the entry point as a `RunDemoServer()` function rather than `main()` directly.
 - Ask the user to create a one-line `main.go` next to the files: `package main; import "<use-case-package>"; func main() { <pkg>.RunDemoServer() }`. This avoids the Go limitation that `package main` can't coexist with another package in the same directory.
 - `go.mod` should declare `module <use-case-package>` and `require github.com/redis/go-redis/v9` at a recent stable version.
+- **go-redis encodes the `TTL` sentinels `-2` / `-1` as raw nanoseconds**, not seconds-scaled. `client.TTL(...).Result()` returns `time.Duration(-2)` (one nanosecond) for a missing key, and a naive `int(d.Seconds())` truncates it to `0`. For any `TTL` lookup, bypass the typed wrapper: `client.Do(ctx, "TTL", key).Int64()` returns the integer reply directly. Same idiom maps to the .NET `Execute("TTL", ...)` workaround. (Audit-checklist row 15.)
 
 ## Rust-specific notes
 
@@ -386,6 +394,27 @@ Every client has a `MockPrimaryStore` that:
 - Exposes `list_ids()`, `read(id)` (with the simulated sleep), `update_field(id, field, value)`, `reads()` (cumulative count), and `reset_reads()`.
 - Is thread-safe (mutex around the records map, atomic on the counter).
 - Lives entirely in-process — except in PHP, where it persists in Redis under `demo:primary:*` keys for cross-request survival.
+
+### Locked-emit ordering for producer/consumer use cases
+
+When the mock primary store doubles as the *producer* of a change feed that some downstream consumer (CDC worker, sync worker, replicator) drains — as in the prefetch-cache use case — every mutation method must emit its change event **while the mutation lock is still held**. The append-to-queue cannot happen after the lock is released, even though the queue itself is thread-safe.
+
+Without this, two concurrent `update_field` calls can mutate the records map in one order (T1 then T2 → primary state ends at T2's value) and then enqueue their events in the opposite order (T2 then T1 → consumer applies T1 last → cache ends at T1's value, divergent from primary).
+
+The reference Python pattern is an `_emit_change_locked(...)` helper called inside each `with self._lock:` block. The equivalent in other languages:
+
+| Language | Pattern |
+|---|---|
+| Python | `_emit_change_locked` inside `with self._lock:` |
+| Node.js | mutation + emit are synchronous within the same function; no `await` between them (single-threaded event loop guarantees serial execution) |
+| Go | `defer mu.Unlock()` + `emitChangeLocked` before the deferred unlock |
+| Java | `synchronized (lock) { ...mutate...; emitChangeLocked(...); }` |
+| C# | `lock (_lock) { ...mutate...; EmitChangeLocked(...); }` |
+| PHP | Lua scripts that combine the record write and the `LPUSH` server-side (no in-process lock to hold across requests) |
+| Ruby | `@lock.synchronize { ...mutate...; emit_change_locked(...); }` |
+| Rust | `emit_locked(...)` while the `MutexGuard` is still in scope (call before drop) |
+
+See audit-checklist row 16 for the audit prompt.
 
 ## Library versions to standardise (when this skill is updated)
 

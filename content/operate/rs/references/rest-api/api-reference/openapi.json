@@ -448,6 +448,19 @@
           "availability": {
             "$ref": "#/components/schemas/replication_status"
           },
+          "availability_errors": {
+            "description": "List of errors that caused the BDB to be unavailable",
+            "items": {
+              "enum": [
+                "general_error",
+                "port_unbound",
+                "shard_unreachable"
+              ],
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
           "creation_time": {
             "description": "Database creation time.",
             "format": "date-time",
@@ -1315,7 +1328,8 @@
               "busy",
               "down",
               "trimming",
-              "unknown"
+              "unknown",
+              "role_mismatch"
             ],
             "type": "string"
           },
@@ -2158,7 +2172,8 @@
           "Cluster"
         ],
         "x-publish-docs": true,
-        "x-stability-level": "stable"
+        "x-stability-level": "stable",
+        "x-timeout-seconds": 900
       }
     },
     "/v1/cluster/certificates/rotate": {
@@ -2454,7 +2469,8 @@
           "Cluster"
         ],
         "x-publish-docs": true,
-        "x-stability-level": "stable"
+        "x-stability-level": "stable",
+        "x-timeout-seconds": 900
       }
     },
     "/v1/ldap_mappings": {
