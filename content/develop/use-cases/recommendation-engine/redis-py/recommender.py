@@ -11,19 +11,23 @@ joins, no extra round trips.
 
 Per-user state lives in ``user:<id>:features``: a session vector
 written as an exponentially weighted average of recently-clicked item
-embeddings, plus per-category affinity counters. ``HSET`` updates to
-that hash are atomic and immediately visible to the next ``FT.SEARCH``,
-so a click feeds the very next recommendation without a batch cycle.
+embeddings, plus per-category affinity counters incremented atomically
+with ``HINCRBYFLOAT``. The next time the application reads that hash
+to build a query, it sees the click — no batch cycle, no cache
+invalidation.
 
-The recommendation flow is three stages:
+The recommendation flow has two paths:
 
-1. **Candidate retrieval** — ``FT.SEARCH`` with ``KNN`` over the
-   embedding, optionally pre-filtered by structured attributes, and
-   optionally biased toward a session vector blended into the query.
-2. **Re-ranking** — the client takes the top-N candidates and applies
-   a category-affinity bonus from the user features hash.
-3. **Real-time signal update** — every click writes back into the user
-   hash, so the next request reflects it.
+* **Query path** (per recommendation request)
+  1. *Candidate retrieval* — ``FT.SEARCH`` with ``KNN`` over the
+     embedding, optionally pre-filtered by structured attributes,
+     optionally biased toward a session vector blended into the query.
+  2. *Re-ranking* — the client takes the top-N candidates and adds a
+     log-scaled per-category affinity bonus pulled from the user
+     features hash.
+* **Click path** (per user interaction) — the click writes a new
+  EWMA-blended session vector and increments the category affinity in
+  the user features hash. The next query path picks both up.
 
 This helper expects a ``redis.Redis`` client constructed with
 ``decode_responses=False`` because the embedding field is binary and
@@ -34,6 +38,7 @@ fields it returns are decoded explicitly where needed.
 from __future__ import annotations
 
 import base64
+import math
 from dataclasses import dataclass
 from typing import Iterable, Optional
 
@@ -244,11 +249,20 @@ class RedisRecommender:
         max_price: float | None = None,
         in_stock_only: bool = False,
         min_rating: float | None = None,
+        text_match: str | None = None,
+        text_field: str = "description",
         k: int = 10,
         session_vec: np.ndarray | None = None,
         session_weight: float = 0.3,
     ) -> list[Candidate]:
         """Retrieve top-``k`` candidates with ``FT.SEARCH`` KNN + filters.
+
+        Pre-filter knobs are TAG (``category``, ``brand``,
+        ``in_stock_only``), NUMERIC (``min_price`` / ``max_price``,
+        ``min_rating``), and TEXT (``text_match`` against
+        ``text_field``, default ``description``). They combine with an
+        implicit AND in front of the ``KNN`` clause, so Redis evaluates
+        them first and then KNN-ranks only the matching documents.
 
         If ``session_vec`` is provided, the query vector is blended
         with it before retrieval — that's the real-time signal path.
@@ -271,6 +285,8 @@ class RedisRecommender:
             max_price=max_price,
             in_stock_only=in_stock_only,
             min_rating=min_rating,
+            text_match=text_match,
+            text_field=text_field,
         )
 
         knn_query = (
@@ -295,8 +311,27 @@ class RedisRecommender:
             for doc in result.docs
         ]
 
-    @staticmethod
+    # Characters Redis Search treats as syntax inside a TAG value; any of
+    # them appearing in a user-supplied filter must be backslash-escaped
+    # or the surrounding ``{...}`` block won't parse correctly. The list
+    # comes from the Redis Search query-syntax documentation.
+    _TAG_SPECIAL = set(",.<>{}[]\"':;!@#$%^&*()-+=~| ")
+
+    @classmethod
+    def _escape_tag_value(cls, value: str) -> str:
+        """Backslash-escape characters that have meaning inside ``@tag:{...}``.
+
+        With this in place a TAG filter built from external input can't
+        accidentally close the brace, inject an additional clause, or
+        misparse a value that simply contains a space or a hyphen.
+        """
+        return "".join(
+            "\\" + ch if ch in cls._TAG_SPECIAL else ch for ch in value
+        )
+
+    @classmethod
     def _build_filter_clause(
+        cls,
         *,
         category: str | None,
         brand: str | None,
@@ -304,12 +339,14 @@ class RedisRecommender:
         max_price: float | None,
         in_stock_only: bool,
         min_rating: float | None,
+        text_match: str | None = None,
+        text_field: str = "description",
     ) -> str:
         clauses: list[str] = []
         if category:
-            clauses.append(f"@category:{{{category}}}")
+            clauses.append(f"@category:{{{cls._escape_tag_value(category)}}}")
         if brand:
-            clauses.append(f"@brand:{{{brand}}}")
+            clauses.append(f"@brand:{{{cls._escape_tag_value(brand)}}}")
         if min_price is not None or max_price is not None:
             lo = "-inf" if min_price is None else str(float(min_price))
             hi = "+inf" if max_price is None else str(float(max_price))
@@ -318,6 +355,13 @@ class RedisRecommender:
             clauses.append(f"@rating:[{float(min_rating)} +inf]")
         if in_stock_only:
             clauses.append("@in_stock:{true}")
+        if text_match:
+            # TEXT-field filter. Wrapping in quotes makes the value a
+            # single phrase and avoids tripping the query parser on
+            # operators (``-``, ``|``, ``"``, etc.) that a user might
+            # legitimately type in a search box.
+            safe = text_match.replace("\\", "\\\\").replace('"', '\\"')
+            clauses.append(f'@{text_field}:"{safe}"')
         return "(" + " ".join(clauses) + ")" if clauses else "(*)"
 
     @staticmethod
@@ -336,9 +380,11 @@ class RedisRecommender:
 
     @staticmethod
     def _decode_candidate(doc, key_prefix: str) -> Candidate:
-        # FT.SEARCH return fields come back as ``bytes`` when the client
-        # is in ``decode_responses=False`` mode; decode explicitly so
-        # the rest of the pipeline is plain Python types.
+        # FT.SEARCH return fields may come back as ``bytes`` when the
+        # client is in ``decode_responses=False`` mode, depending on the
+        # redis-py version and whether the field is on the
+        # ``Document``'s ``payload`` or its own attribute. Decode
+        # defensively so the rest of the pipeline is plain Python types.
         def _s(name: str, default: str = "") -> str:
             value = getattr(doc, name, None)
             if value is None:
@@ -385,8 +431,11 @@ class RedisRecommender:
         """Apply a per-category affinity bonus and re-sort.
 
         ``user_features['affinities']`` is a ``{category: weight}`` map
-        accumulated from previous clicks. The bonus is subtracted from
-        the cosine distance so a category the user has shown interest
+        accumulated from previous clicks. The bonus is shaped by
+        ``log(1 + affinity) * affinity_weight`` so repeated clicks see
+        diminishing returns and a single dominant category can't
+        push the bonus arbitrarily large. The bonus is subtracted from
+        the cosine distance, so a category the user has shown interest
         in pulls its members up the list (closer to zero) without
         overwhelming the vector signal.
         """
@@ -394,7 +443,8 @@ class RedisRecommender:
         if not affinities or affinity_weight <= 0:
             return sorted(candidates, key=lambda c: c.score)
         for candidate in candidates:
-            bonus = affinities.get(candidate.category, 0.0) * affinity_weight
+            raw_aff = affinities.get(candidate.category, 0.0)
+            bonus = math.log1p(max(raw_aff, 0.0)) * affinity_weight
             candidate.score = candidate.vector_distance - bonus
         return sorted(candidates, key=lambda c: c.score)
 
@@ -406,16 +456,30 @@ class RedisRecommender:
         self,
         user_id: str,
         product_id: str,
-        ewma_alpha: float = 0.6,
+        ewma_alpha: float = 0.4,
         affinity_step: float = 1.0,
     ) -> dict:
         """Update a user's session vector and category affinity.
 
         Reads the clicked item's embedding from its hash, blends it
         into the user's session vector with an exponentially weighted
-        moving average, and bumps the category counter. All updates
-        are written back with one ``HSET``, so they're atomically
-        visible to the very next ``FT.SEARCH``.
+        moving average, and bumps the category counter and click total.
+
+        ``ewma_alpha`` is the weight given to the *new* click; the
+        previous session keeps ``1 - ewma_alpha``. The default biases
+        history (0.6) over the latest click (0.4) so a single
+        accidental click doesn't swing the session.
+
+        The category-affinity bump and click-count bump use
+        ``HINCRBYFLOAT`` / ``HINCRBY`` so they're atomic against any
+        concurrent caller. The session vector blend is inherently
+        read-modify-write — the new vector depends on the previous
+        one — and is *not* atomic against a concurrent click for the
+        same user. For the per-user data this helper writes, that
+        window is rare in practice; if it matters in a given
+        deployment, wrap the read and the writeback in
+        ``WATCH/MULTI/EXEC`` (or move the whole blend into a Lua
+        script).
         """
         product_key = self.product_key(product_id)
         # Pull the fields we need from the product hash in one round trip.
@@ -426,43 +490,37 @@ class RedisRecommender:
         category = raw[1].decode("utf-8") if raw[1] else "unknown"
 
         user_key = self.user_key(user_id)
-        current = self.redis.hmget(user_key, "session_vec", f"aff:{category}")
-        if current[0]:
-            previous_vec = self._bytes_to_vec(current[0])
-            mixed = ewma_alpha * previous_vec + (1.0 - ewma_alpha) * clicked_vec
+        previous_raw = self.redis.hget(user_key, "session_vec")
+        if previous_raw:
+            previous_vec = self._bytes_to_vec(previous_raw)
+            mixed = ewma_alpha * clicked_vec + (1.0 - ewma_alpha) * previous_vec
             new_session = mixed / max(float(np.linalg.norm(mixed)), 1e-12)
         else:
             new_session = clicked_vec  # already unit-normalised
-        new_aff = float(current[1] or 0) + affinity_step
 
-        self.redis.hset(
+        # Affinity and click counters are independent atomic increments;
+        # only the session vector needs the read-modify-write because
+        # it depends on the previous value. Pipelining sends the three
+        # writes in one round trip.
+        pipe = self.redis.pipeline(transaction=False)
+        pipe.hset(
             user_key,
             mapping={
                 "session_vec": new_session.astype(np.float32).tobytes(),
-                f"aff:{category}": str(new_aff),
                 "last_clicked_id": product_id,
                 "last_clicked_category": category,
-                # HINCRBY would be nicer for a pure counter, but mixing
-                # it with HSET in one call is awkward — for the demo's
-                # display purposes a plain overwrite of the click total
-                # is fine.
-                "clicks": str(int(self._get_int(user_key, "clicks")) + 1),
             },
         )
+        pipe.hincrbyfloat(user_key, f"aff:{category}", affinity_step)
+        pipe.hincrby(user_key, "clicks", 1)
+        _hset_n, new_aff_raw, new_clicks = pipe.execute()
+
         return {
             "category": category,
-            "affinity": new_aff,
+            "affinity": float(new_aff_raw),
+            "clicks": int(new_clicks),
             "last_clicked_id": product_id,
         }
-
-    def _get_int(self, key: str, field: str) -> int:
-        raw = self.redis.hget(key, field)
-        if raw is None:
-            return 0
-        try:
-            return int(raw)
-        except (TypeError, ValueError):
-            return 0
 
     def get_user_features(self, user_id: str) -> dict:
         """Read a user's session vector and affinities for re-ranking."""
@@ -496,11 +554,17 @@ class RedisRecommender:
         """Delete a user's feature hash. Next request starts cold."""
         self.redis.delete(self.user_key(user_id))
 
-    @staticmethod
-    def _bytes_to_vec(raw: bytes) -> np.ndarray:
+    def _bytes_to_vec(self, raw: bytes) -> np.ndarray:
         # Vector fields come back as raw little-endian float32 bytes.
-        # struct unpacking is slightly faster than ``np.frombuffer`` for
-        # short vectors, but ``np.frombuffer`` is the conventional read.
+        # Validate the length: a corrupted or wrong-dim field would
+        # otherwise produce a vector that NumPy or Redis Search rejects
+        # later with a less useful error.
+        expected_bytes = self.vector_dim * 4
+        if len(raw) != expected_bytes:
+            raise ValueError(
+                f"expected {expected_bytes} bytes for a "
+                f"{self.vector_dim}-dim float32 vector, got {len(raw)}"
+            )
         return np.frombuffer(raw, dtype=np.float32)
 
     # ------------------------------------------------------------------
@@ -516,14 +580,25 @@ class RedisRecommender:
         path is what an offline retraining pipeline would use to roll
         out a re-trained model: stream the new vectors into Redis and
         the serving tier picks them up on the next query.
+
+        Raises ``KeyError`` if ``product_id`` does not already exist —
+        ``HSET`` would otherwise happily create a new key with only an
+        ``embedding`` field, which the index would then pick up as a
+        partially-populated document. Also rejects vectors with the
+        wrong dimensionality so a model swap doesn't quietly corrupt
+        the index.
         """
         if new_vector.dtype != np.float32:
             new_vector = new_vector.astype(np.float32, copy=False)
-        self.redis.hset(
-            self.product_key(product_id),
-            "embedding",
-            new_vector.tobytes(),
-        )
+        if new_vector.shape != (self.vector_dim,):
+            raise ValueError(
+                f"new_vector has shape {new_vector.shape}; "
+                f"index expects ({self.vector_dim},)"
+            )
+        key = self.product_key(product_id)
+        if not self.redis.exists(key):
+            raise KeyError(f"unknown product {product_id}")
+        self.redis.hset(key, "embedding", new_vector.tobytes())
 
     # ------------------------------------------------------------------
     # Inspection
@@ -604,21 +679,15 @@ class RedisRecommender:
 
 
 def _safe_mb(info: dict) -> float:
-    """Pull total vector-index memory out of ``FT.INFO`` if it's there."""
-    attrs = info.get("attributes", [])
-    for attr in attrs:
-        # Older redis-py builds: list of [k, v, k, v, ...]
-        if isinstance(attr, list) and "embedding" in attr:
-            for i, v in enumerate(attr):
-                if v == "vector_index_sz_mb" and i + 1 < len(attr):
-                    try:
-                        return float(attr[i + 1])
-                    except (TypeError, ValueError):
-                        return 0.0
-        # Newer redis-py builds: dict
-        if isinstance(attr, dict) and attr.get("identifier") == "embedding":
-            try:
-                return float(attr.get("vector_index_sz_mb", 0.0) or 0.0)
-            except (TypeError, ValueError):
-                return 0.0
-    return 0.0
+    """Pull total vector-index memory out of ``FT.INFO``.
+
+    Redis Search reports ``vector_index_sz_mb`` at the top level of
+    ``FT.INFO`` (alongside other ``*_sz_mb`` counters), so we don't
+    have to dig into the per-attribute structure, which under
+    ``decode_responses=False`` is a list of bytes that's awkward to
+    introspect.
+    """
+    try:
+        return float(info.get("vector_index_sz_mb", 0.0) or 0.0)
+    except (TypeError, ValueError):
+        return 0.0

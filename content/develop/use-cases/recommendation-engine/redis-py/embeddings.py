@@ -21,7 +21,6 @@ import numpy as np
 # Importing sentence-transformers is the heavy part — defer until the
 # embedder is actually constructed so importing this module is cheap.
 _DEFAULT_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-_VECTOR_DIM = 384
 
 
 class LocalEmbedder:
@@ -37,7 +36,11 @@ class LocalEmbedder:
 
         self.model_name = model_name
         self.model = SentenceTransformer(model_name)
-        self.dim = _VECTOR_DIM
+        # Read the dimensionality from the loaded model so a different
+        # model (e.g. ``bge-small-en-v1.5`` at 384 vs. ``bge-base-en``
+        # at 768) lines up with the Redis Search vector field without
+        # a separate constant to keep in sync.
+        self.dim = int(self.model.get_sentence_embedding_dimension())
 
     def encode_one(self, text: str) -> np.ndarray:
         """Encode a single string. Returns a 1-D ``float32`` array."""
@@ -60,20 +63,3 @@ class LocalEmbedder:
         if vector.dtype != np.float32:
             vector = vector.astype(np.float32, copy=False)
         return vector.tobytes()
-
-    @staticmethod
-    def blend(query_vec: np.ndarray, session_vec: np.ndarray | None,
-              session_weight: float = 0.3) -> np.ndarray:
-        """Mix a query vector with an optional session vector.
-
-        Both inputs are assumed unit-normalised. The result is
-        re-normalised so the blended vector stays on the unit sphere
-        and cosine scores remain comparable to the un-blended path.
-        """
-        if session_vec is None or session_weight <= 0:
-            return query_vec
-        mixed = (1.0 - session_weight) * query_vec + session_weight * session_vec
-        norm = float(np.linalg.norm(mixed))
-        if norm == 0.0:
-            return query_vec
-        return (mixed / norm).astype(np.float32, copy=False)

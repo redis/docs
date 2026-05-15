@@ -33,7 +33,7 @@ Recommendation pipelines have to produce a ranked list in roughly 200 ms end to 
     in-session behaviour — the user clicks something, and the next request still ranks against the
     yesterday's offline batch.
 
-A workable serving layer needs vector KNN, structured pre-filters, and atomic per-user feature updates, all on the request path, all in one round trip.
+A workable serving layer needs vector KNN, structured pre-filters, and per-user feature updates that take effect within the request path — without standing up a separate vector store and synchronising it with the primary.
 
 ## What you can expect from a Redis solution
 
@@ -45,10 +45,14 @@ You can:
     [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call, with no cross-store joins.
 -   Incorporate real-time session signals (clicks, dwell time, cart adds) into the *next*
     recommendation without waiting for a batch pipeline — a session vector written with
-    [`HSET`]({{< relref "/commands/hset" >}}) is visible to the very next
-    [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}).
--   Refresh item embeddings from the offline training pipeline without serving downtime, by
-    dual-writing under a new field or swapping a key alias.
+    [`HSET`]({{< relref "/commands/hset" >}}) is visible to the very next read of the user
+    features hash, which the application passes through to
+    [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) as the query vector.
+-   Refresh item embeddings from the offline training pipeline without serving downtime by
+    overwriting the vector field with [`HSET`]({{< relref "/commands/hset" >}}); the HNSW index
+    reflects the new vector on the next query. For schema changes (different dimensionality or
+    model), the same playbook scales out to a dual-field write followed by
+    [`FT.ALTER`]({{< relref "/commands/ft.alter" >}}) or a swap of the indexed key prefix.
 -   Co-locate item embeddings, item metadata, user features, and short-term interaction state in
     one serving layer, eliminating cross-store hops on the request path.
 -   Run the recommendation index on the same Redis instance already in the stack handling cache,
@@ -62,9 +66,11 @@ its structured metadata — category, brand, price, in-stock flag, popularity sc
 [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) index covers the vector field and
 every filter field, so one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call can do KNN
 retrieval over millions of items with a TAG, NUMERIC, or TEXT pre-filter applied in the same
-pass. Per-user features live in a separate hash that the application can update atomically with
-[`HSET`]({{< relref "/commands/hset" >}}); those updates are immediately visible to the next
-retrieval, so session signals feed scoring without any batch cycle.
+pass. Per-user features live in a separate hash that the application updates atomically with
+[`HSET`]({{< relref "/commands/hset" >}}) and
+[`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}); the next time the application reads
+that hash to build a query, it sees the click, so session signals feed scoring without any batch
+cycle.
 
 Redis provides the following features that make it a good fit for a recommendation serving layer:
 
@@ -76,11 +82,14 @@ Redis provides the following features that make it a good fit for a recommendati
     approximate KNN over the embedding field at HNSW speeds, and the same
     [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call applies TAG / NUMERIC / TEXT filters
     to constrain the candidate set in one pass.
--   [`HSET`]({{< relref "/commands/hset" >}}) updates to user feature hashes are atomic and
-    immediately visible to the next search, so session signals feed re-ranking without a batch
-    cycle or cache invalidation.
--   [`FT.ALTER`]({{< relref "/commands/ft.alter" >}}) and dual-field write patterns let you swap in
-    a new embedding model — or re-train an existing one — without taking the serving index offline.
+-   [`HSET`]({{< relref "/commands/hset" >}}) and
+    [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}) updates to user feature hashes are
+    atomic, so the next time the application reads that hash to build a query it sees the click
+    — session signals feed scoring without any batch cycle or cache invalidation.
+-   Overwriting the vector field with [`HSET`]({{< relref "/commands/hset" >}}) re-trains the
+    HNSW entry in place; for embedding-model changes,
+    [`FT.ALTER`]({{< relref "/commands/ft.alter" >}}) and dual-field write patterns let you swap
+    in a new model without taking the serving index offline.
 -   Sub-millisecond reads and writes from memory let the recommendation index ride on the same
     Redis instance already handling cache, sessions, or rate limiting at zero marginal cost.
 

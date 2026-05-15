@@ -16,28 +16,39 @@ This guide shows you how to build a small Redis-backed product recommendation se
 
 ## Overview
 
-Each product is stored as a single Redis [Hash]({{< relref "/develop/data-types/hashes" >}}) at `product:<id>`. The hash holds the structured metadata (name, description, category, brand, price, rating, in-stock flag) alongside the raw `float32` bytes of a 384-dimensional embedding. A single [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) index covers every field, so one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call with a `KNN` clause does the vector similarity *and* the TAG / NUMERIC pre-filtering in the same pass — no cross-store joins.
+Each product is stored as a single Redis [Hash]({{< relref "/develop/data-types/hashes" >}}) at `product:<id>`. The hash holds the structured metadata (name, description, category, brand, price, rating, in-stock flag) alongside the raw `float32` bytes of a 384-dimensional embedding. A single [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) index covers every field, so one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call with a `KNN` clause does the vector similarity *and* the TAG / NUMERIC / TEXT pre-filtering in the same pass — no cross-store joins.
 
-Per-user state lives in `user:<id>:features`: a session vector written as an exponentially weighted average of recently-clicked item embeddings, plus per-category affinity counters. [`HSET`]({{< relref "/commands/hset" >}}) updates to that hash are atomic and immediately visible to the next [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}), so a click feeds the very next recommendation without a batch cycle.
+Per-user state lives in `user:<id>:features`: a session vector written as an exponentially weighted average of recently-clicked item embeddings, plus per-category affinity counters incremented atomically with [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}). [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) does *not* read that hash directly; instead, the application reads it on the next request and passes the session vector to `FT.SEARCH` as the query parameter. The two-step is what lets a click feed the very next recommendation without a batch cycle or cache invalidation.
 
 That gives you:
 
 * A single round trip for retrieval — vector KNN + structured filters in one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}).
-* Sub-millisecond hot path once the query is embedded; the embedding itself is the bottleneck, and that's a model-side cost, not a Redis one.
-* Real-time session signals — a click writes a new session vector and the next query picks it up with zero coordination.
+* Sub-millisecond hot path once the query is embedded; embedding the query is the bottleneck, and that's a model-side cost, not a Redis one.
+* Real-time session signals — a click writes a new session vector and bumps an affinity counter; the next query reads them and folds them in.
 * No-downtime embedding refresh — [`HSET`]({{< relref "/commands/hset" >}}) on the vector field, and the HNSW index reflects the change on the next query.
 
 ## How it works
 
-The flow looks like this:
+There are two distinct paths: a **query path** runs every time the application wants a recommendation, and a **click path** runs every time the user interacts with a product.
+
+### Query path (per recommendation request)
 
 1. The application calls `embedder.encode_one(query_text)` to turn a natural-language query into a 384-dimensional `float32` vector.
-2. Optionally, the application reads the user's session vector from the user features hash and blends it into the query vector with a tunable weight, so the user's recent clicks pull retrieval toward what they've been engaging with.
-3. `recommender.candidate_retrieve(query_vec, ...)` runs [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) with a pre-filter clause built from the request's TAG / NUMERIC inputs, followed by a `KNN k @embedding $vec` clause. Redis returns up to `k` candidates with the cosine distance to the query (lower is closer).
-4. `recommender.rerank(candidates, user_features)` subtracts a per-category affinity bonus from that distance, pulled from the same user features hash, and re-sorts the list closest-first.
-5. When the user clicks a product, `recommender.record_click(user_id, product_id)` reads that item's embedding, blends it into the user's session vector with an exponentially weighted moving average, bumps the category affinity counter, and writes everything back with a single [`HSET`]({{< relref "/commands/hset" >}}). The update is visible to the next [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) immediately.
+2. The application reads the user's session vector and affinities from the user features hash. If a session vector exists, it gets blended into the query vector with a tunable weight, so the user's recent clicks pull retrieval toward what they've been engaging with.
+3. `recommender.candidate_retrieve(query_vec, ...)` runs [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) with a pre-filter clause built from the request's TAG / NUMERIC / TEXT inputs, followed by a `KNN k @embedding $vec` clause. Redis returns up to `k` candidates with the cosine distance to the query (lower is closer).
+4. `recommender.rerank(candidates, user_features)` subtracts a log-scaled per-category affinity bonus from each candidate's distance and re-sorts the list closest-first. The log scaling keeps repeated clicks from running away with the ranking.
 
-Refreshing an item's embedding follows the same path: encode the new text, write the vector bytes back with [`HSET`]({{< relref "/commands/hset" >}}), and the HNSW index picks up the change on the next query without a rebuild.
+### Click path (per user interaction)
+
+When the user clicks a product, `recommender.record_click(user_id, product_id)` does the following:
+
+1. Reads the clicked item's embedding from its hash.
+2. Reads the user's previous session vector from the user features hash, blends the new click in via an exponentially weighted moving average, and writes the new session vector back with [`HSET`]({{< relref "/commands/hset" >}}). This is a read-modify-write — atomic against any single write but not against a concurrent click for the same user; in practice, per-user click streams don't generate the contention to make this matter, and if a deployment does, the read and write can be wrapped in [`WATCH/MULTI/EXEC`]({{< relref "/commands/multi" >}}) or a small Lua script.
+3. Bumps the per-category affinity counter with [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}) — atomic, no read needed — and the click count with [`HINCRBY`]({{< relref "/commands/hincrby" >}}).
+
+The next query path picks both changes up the next time it reads the user features hash.
+
+Refreshing an item's embedding follows a similar shape: encode the new text, write the vector bytes back with [`HSET`]({{< relref "/commands/hset" >}}), and the HNSW index reflects the change on the next query without a rebuild.
 
 ## The recommender helper
 
@@ -62,12 +73,16 @@ recommender.create_index()
 query_vec = embedder.encode_one("warm waterproof jacket for hiking")
 
 # Retrieval: KNN with structured pre-filter in one round trip.
+# Filters combine TAG (category, brand, in_stock_only), NUMERIC
+# (price range, rating), and TEXT (text_match against text_field) —
+# Redis applies them all in front of the KNN.
 candidates = recommender.candidate_retrieve(
     query_vec,
     category="outerwear",
     in_stock_only=True,
     min_price=50,
     max_price=200,
+    text_match="waterproof",        # TEXT pre-filter on @description
     k=10,
 )
 
@@ -180,15 +195,15 @@ vectors = embedder.encode_many(
 # startup and HSETs every product into Redis.
 ```
 
-In production the equivalent of this script lives in an offline pipeline: embed once on catalogue updates and ship the vectors into Redis with [`HSET`]({{< relref "/commands/hset" >}}). The serving tier never has to load a model.
+In production the equivalent of this script lives in an offline pipeline: embed once on catalogue updates and ship the vectors into Redis with [`HSET`]({{< relref "/commands/hset" >}}). The serving tier still embeds the *query* on each request, but that's usually fronted by a dedicated model server or batched at the API gateway rather than co-located with the data tier as it is in this demo.
 
 ## The interactive demo
 
 `demo_server.py` runs a ThreadingHTTPServer with one demo user (`demo`). The HTML page lets you:
 
-* Type a natural-language query and toggle filters (category, brand, price range, rating, in-stock).
+* Type a natural-language query and toggle filters: TAG (category, brand, in-stock), NUMERIC (price range, rating), and TEXT (the **Description contains** field, a phrase pre-filter against the `description` text index).
 * Toggle session blending and category-affinity re-ranking independently to see what each layer contributes.
-* Click any product card to record a click into the session. The page re-renders the user features panel immediately — that hash was atomically updated by the click, so the next search picks it up with no extra work.
+* Click any product card to record a click into the session. The page re-renders the user features panel immediately — the click wrote to the user features hash, and the next search reads that hash to fold the update in.
 * Refresh a single product's embedding with new text and watch the ranking change on the next query.
 
 The server holds one `LocalEmbedder` instance and one `RedisRecommender` for the lifetime of the process. Endpoints:
@@ -204,33 +219,43 @@ The server holds one `LocalEmbedder` instance and one `RedisRecommender` for the
 
 ## Run the demo locally
 
-1.  Install the dependencies:
+1.  Clone the [`redis/docs`](https://github.com/redis/docs) repository and change into the example
+    directory:
+
+    ```bash
+    git clone https://github.com/redis/docs.git
+    cd docs/content/develop/use-cases/recommendation-engine/redis-py
+    ```
+
+2.  Install the dependencies:
 
     ```bash
     pip install redis sentence-transformers numpy
     ```
 
-2.  Make sure a Redis instance with the Redis Search module is running locally on
+3.  Make sure a Redis instance with the Redis Search module is running locally on
     port 6379. [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
     [Redis 8 with Search]({{< relref "/develop/ai/search-and-query" >}}) both work.
 
-3.  Generate the catalogue with pre-computed embeddings. The first run downloads the
+4.  Generate the catalogue with pre-computed embeddings. The first run downloads the
     `all-MiniLM-L6-v2` model (~80 MB) into the local Hugging Face cache:
 
     ```bash
     python build_catalog.py
     ```
 
-4.  Start the demo server:
+5.  Start the demo server:
 
     ```bash
     python demo_server.py
     ```
 
-5.  Open <http://localhost:8084> and try some queries:
+6.  Open <http://localhost:8084> and try some queries:
 
-    * **"warm waterproof jacket for hiking"** — filtered to `outerwear`, in-stock only.
+    * **"insulated down jacket for cold weather"** — filtered to `outerwear`, in-stock only.
     * **"comfortable shoes for trail running"** — filtered to `footwear`.
+    * Add **Description contains: waterproof** to either query above to see a TEXT pre-filter
+      combine with the KNN.
     * Click a couple of products to seed a session, then re-run the same query
       with **Blend session vector into query** on and watch the ranking shift.
     * Use **Refresh embedding** to change a product's vector — for example,

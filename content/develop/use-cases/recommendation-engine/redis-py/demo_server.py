@@ -233,6 +233,16 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           </div>
         </div>
         <div class="row">
+          <div style="flex: 2 1 280px;">
+            <label for="q-description-contains">
+              Description contains
+              <span class="meta">(TEXT pre-filter on the description field)</span>
+            </label>
+            <input id="q-description-contains" type="text"
+                   placeholder='e.g. "waterproof", "fleece"'>
+          </div>
+        </div>
+        <div class="row">
           <div class="check-row">
             <input id="q-in-stock" type="checkbox" checked>
             <label for="q-in-stock">In stock only</label>
@@ -253,11 +263,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
       <section class="panel">
         <h2>Session signal</h2>
-        <p>Each click writes the user features hash (<code>HSET
-        __USER_KEY__</code>) — a new session vector via EWMA over the
-        clicked item vectors, and a per-category affinity counter.
-        The next <code>FT.SEARCH</code> sees it immediately; no batch
-        cycle.</p>
+        <p>Each click updates the user features hash (<code>__USER_KEY__</code>):
+        a new session vector blended via EWMA over the clicked item
+        vectors, plus an atomic <code>HINCRBYFLOAT</code> on the
+        per-category affinity counter. The next request reads the
+        updated hash and passes the session vector to
+        <code>FT.SEARCH</code> as the <code>$vec</code> parameter — no
+        batch cycle.</p>
         <dl id="user-features"></dl>
         <h3>Affinities</h3>
         <div id="user-affinities"></div>
@@ -468,6 +480,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         min_price: $('#q-min-price').value,
         max_price: $('#q-max-price').value,
         min_rating: $('#q-min-rating').value,
+        text_match: $('#q-description-contains').value,
         k: $('#q-k').value,
         in_stock_only: $('#q-in-stock').checked ? '1' : '',
         use_session: $('#q-use-session').checked ? '1' : '',
@@ -676,7 +689,7 @@ class RecommenderDemoHandler(BaseHTTPRequestHandler):
         features = self.recommender.get_user_features(self.demo.user_id)
         session_vec = features["session_vec"] if use_session else None
 
-        k = int(params.get("k", [str(self.default_topk)])[0] or self.default_topk)
+        k = self._int_or_default(params, "k", self.default_topk)
         k = max(1, min(40, k))
 
         kwargs = {
@@ -686,6 +699,8 @@ class RecommenderDemoHandler(BaseHTTPRequestHandler):
             "max_price": self._float_or_none(params, "max_price"),
             "min_rating": self._float_or_none(params, "min_rating"),
             "in_stock_only": bool(params.get("in_stock_only", [""])[0]),
+            "text_match":
+                params.get("text_match", [""])[0].strip() or None,
         }
         # Echo the actual filter clause back to the UI so the docs page
         # doesn't have to guess what the server built.
@@ -696,6 +711,7 @@ class RecommenderDemoHandler(BaseHTTPRequestHandler):
             max_price=kwargs["max_price"],
             in_stock_only=kwargs["in_stock_only"],
             min_rating=kwargs["min_rating"],
+            text_match=kwargs["text_match"],
         )
 
         t1 = _time.perf_counter()
@@ -755,7 +771,14 @@ class RecommenderDemoHandler(BaseHTTPRequestHandler):
         t0 = _time.perf_counter()
         vec = self.embedder.encode_one(text)
         embed_ms = (_time.perf_counter() - t0) * 1000
-        self.recommender.refresh_embedding(product_id, vec)
+        try:
+            self.recommender.refresh_embedding(product_id, vec)
+        except KeyError:
+            self._send_json({"error": f"unknown product {product_id}"}, 404)
+            return
+        except ValueError as exc:
+            self._send_json({"error": str(exc)}, 400)
+            return
         self._send_json(
             {"product_id": product_id, "embed_ms": embed_ms}, 200,
         )
@@ -790,6 +813,18 @@ class RecommenderDemoHandler(BaseHTTPRequestHandler):
             return float(raw)
         except ValueError:
             return None
+
+    @staticmethod
+    def _int_or_default(
+        params: dict[str, list[str]], key: str, default: int,
+    ) -> int:
+        raw = params.get(key, [""])[0].strip()
+        if raw == "":
+            return default
+        try:
+            return int(raw)
+        except ValueError:
+            return default
 
     def _send_html(self, html: str, status: int = 200) -> None:
         self.send_response(status)
