@@ -15,7 +15,7 @@ Context engine includes four services:
 
 - **[LangCache]({{< relref "/develop/ai/context-engine/langcache" >}})**: A semantic caching service that stores and reuses LLM responses for similar queries, reducing API costs and improving response latency.
 - **[Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}})**: A persistent memory service that maintains short-term session memory and long-term memory across agent interactions.
-- **[Context Retriever](#context-retriever)**: Turns your business data into structured tools that AI agents can safely and reliably use, defined once and reused across all agents.
+- **[Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever" >}})**: Turns your business data into structured tools that AI agents can safely and reliably use, defined once and reused across all agents.
 - **[Data integration]({{< relref "/develop/ai/context-engine/data-integration" >}})**: Syncs live data from your existing relational databases into Redis Cloud so agents always have access to fresh, accurate business data.
 
 All four services are available on [Redis Cloud]({{< relref "/operate/rc/context-engine" >}}) using the REST API, with no database setup or management required.
@@ -61,7 +61,7 @@ You define your data model once, specifying the entities that matter (such as cu
 - **Controlled access**: Each agent requires a key, and access tags automatically filter what data each agent can see.
 - **Governed by design**: Agents can only use tools that have been explicitly defined, with no direct database access.
 
-[Get started with Context Retriever](#) <!-- link to be added -->
+[Get started with Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever" >}})
 
 ## Data integration
 
