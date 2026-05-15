@@ -24,6 +24,10 @@ url: '/operate/rs/7.22/references/rest-api/requests/users/password/'
     
 Replaces the password list of the specified user with a single new password. If a `username` is not provided in the JSON request body, it replaces the password list of the authenticated user making this request instead.
 
+{{<warning>}}
+For Redis Software version 7.22.0-95, this request ignores the `username` parameter if provided in the request body and changes the password of the authenticated user due to a breaking change introduced in [Redis Software version 7.8.2]({{<relref "/operate/rs/release-notes/rs-7-8-releases/rs-7-8-2-34#breaking-changes">}}). This issue (RS161290) was fixed in [Redis Software version 7.22.0-216]({{<relref "/operate/rs/release-notes/rs-7-22-releases/rs-7-22-0-216">}}).
+{{</warning>}}
+
 ### Request {#put-request}
 
 #### Example HTTP request
@@ -87,6 +91,10 @@ The following are possible `error_code` values:
 
 Adds a new password to the specified user's password list. If a `username` is not provided in the JSON request body, it adds the password to the password list of the authenticated user making this request instead.
 
+{{<warning>}}
+For Redis Software version 7.22.0-95, this request ignores the `username` parameter if provided in the request body and adds the password to the authenticated user's password list due to a breaking change introduced in [Redis Software version 7.8.2]({{<relref "/operate/rs/release-notes/rs-7-8-releases/rs-7-8-2-34#breaking-changes">}}). This issue (RS161290) was fixed in [Redis Software version 7.22.0-216]({{<relref "/operate/rs/release-notes/rs-7-22-releases/rs-7-22-0-216">}}).
+{{</warning>}}
+
 ### Request {#post-request}
 
 #### Example HTTP request
@@ -149,6 +157,10 @@ The following are possible `error_code` values:
     DELETE /v1/users/password
 
 Deletes a password from the specified user's password list. If a `username` is not provided in the JSON request body, it deletes the password from the password list of the authenticated user making this request instead.
+
+{{<warning>}}
+For Redis Software version 7.22.0-95, this request ignores the `username` parameter if provided in the request body and deletes the password from the authenticated user's password list due to a breaking change introduced in [Redis Software version 7.8.2]({{<relref "/operate/rs/release-notes/rs-7-8-releases/rs-7-8-2-34#breaking-changes">}}). This issue (RS161290) was fixed in [Redis Software version 7.22.0-216]({{<relref "/operate/rs/release-notes/rs-7-22-releases/rs-7-22-0-216">}}).
+{{</warning>}}
 
 ### Request {#delete-request}
 
