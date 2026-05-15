@@ -32,8 +32,9 @@ The remaining data types are more general-purpose:
 
 -   [Strings]({{< relref "/develop/data-types/strings" >}}):
     store text or binary data.
--   [Arrays]({{< relref "/develop/data-types/arrays" >}}): 
-    store text or binary data in a list.
+-   [Arrays]({{< relref "/develop/data-types/arrays" >}}):
+    store strings addressed by integer index, with support for sparse
+    indices and server-side aggregation.
 -   [Hashes]({{< relref "/develop/data-types/hashes" >}}):
     store key-value pairs within a single key.
 -   [JSON]({{< relref "/develop/data-types/json" >}}):
@@ -322,7 +323,7 @@ questions:
 ### Sequences
 
 You would normally store sequences of string or binary data using sorted sets,
-lists, or streams. They each have advantages and disadvantages for particular purposes.  
+lists, streams, or arrays. They each have advantages and disadvantages for particular purposes.  
 Use the decision tree below as a guide to choosing the best data type for your task.
 
 ```decision-tree {id="sequences-tree"}
@@ -333,17 +334,35 @@ questions:
     root:
         text: |
             Do you need to maintain an arbitrary priority order, lexicographical order,
-            frequently access elements by index, or perform set operations?
+            or perform set operations?
         whyAsk: |
-            Sorted sets are the only sequence type that supports both ordering and set operations.
-            While lists also support indexing, it is O(n) for lists but O(log n) for sorted sets,
-            so sorted sets are more efficient if you need frequent index access
+            Sorted sets are the only sequence type that supports both ordering and set operations
         answers:
             yes:
                 value: "Yes"
                 outcome:
                     label: "Use sorted sets"
                     id: sortedSetsOutcome
+            no:
+                value: "No"
+                nextQuestion: indexedAccess
+    indexedAccess:
+        text: |
+            Do you need to address elements by a caller-chosen integer index
+            (including sparse or non-contiguous indices), perform server-side
+            aggregation over index ranges (sum, min, max, bitwise), or use a
+            fixed-size ring buffer that overwrites the oldest entries?
+        whyAsk: |
+            Arrays map integer indices directly to string values with O(1) access,
+            support sparse indexing without allocating the gaps, and include
+            server-side aggregation and ring-buffer operations that lists and
+            streams do not provide
+        answers:
+            yes:
+                value: "Yes"
+                outcome:
+                    label: "Use arrays"
+                    id: arraysOutcome
             no:
                 value: "No"
                 nextQuestion: timestampOrder
