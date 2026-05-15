@@ -81,7 +81,7 @@ The **Memory configuration** section allows you to define the time-to-live (TTL)
 | Setting name          |Description|
 |:----------------------|:----------|
 | **Short-term TTL** | Defines the time-to-live (TTL) of your agent's **short-term memory** (also known as **session memory**). You can define this TTL in seconds, minutes, hours, or days. Default: 1 hour |
-| **Long-term TTL** | Select the Redis Cloud database to use for this service from the list. You can define this TTL in seconds, minutes, hours, or days. Default: 365 days |
+| **Long-term TTL** | Defines the time-to-live (TTL) of your agent's **long-term memory**. You can define this TTL in seconds, minutes, hours, or days. Default: 365 days |
 
 ### Create service
 

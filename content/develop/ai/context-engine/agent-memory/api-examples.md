@@ -28,7 +28,7 @@ When you call the API, you need to pass the Agent Memory API key in the `Authori
 For example:
 
 ```sh
-curl -s -X GET "https://$HOST/v1/caches/$STORE_ID/session-memory/" \
+curl -s -X GET "https://$HOST/v1/stores/$STORE_ID/session-memory" \
     -H "accept: application/json" \
     -H "Authorization: Bearer $API_KEY" 
 ```
@@ -36,17 +36,17 @@ curl -s -X GET "https://$HOST/v1/caches/$STORE_ID/session-memory/" \
 This example expects several variables to be set in the shell:
 
 - **$HOST** - the Agent Memory API endpoint
-- **$STORE_ID** - the Store ID ID of your cache
+- **$STORE_ID** - the Store ID of your Agent Memory service
 - **$API_KEY** - The Agent Memory API token
 
 ## Examples
 
 ### Add session event
 
-Use [`POST /v1/stores/{storeId}/session-memory`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference#tag/session-memory/operation/AddSessionEvent" >}}) to add an event to a session in short-term memory. If a session doesn't exist yet, it will be created.
+Use [`POST /v1/stores/{storeId}/session-memory/events`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference#tag/session-memory/operation/AddSessionEvent" >}}) to add an event to a session in short-term memory. If a session doesn't exist yet, it will be created.
 
 ```json
-POST /v1/stores/{storeId}/session-memory
+POST /v1/stores/{storeId}/session-memory/events
 {
     "sessionId": "abcd-efgh",
     "actorId": "user-name",
@@ -56,7 +56,7 @@ POST /v1/stores/{storeId}/session-memory
             "text": "I'm planning a trip to Japan next month."
         }
     ],
-    "createdAt": 1778076906498,
+    "createdAt": "2026-05-02T18:15:06Z",
     "metadata": {
         "browser": "Chrome",
         "source": "web-chat"
@@ -120,8 +120,9 @@ In the `filter` object of the request body, you can filter the search by any of 
 | `sessionId` | string | The session ID the memory comes from. | `eq`, `ne`, `in`, `all` |
 | `ownerId` | string | The owner ID of the memory. | `eq`, `ne`, `in`, `all` |
 | `namespace` | string | The namespace of the memory. | `eq`, `ne`, `in`, `all` |
-| `namespace` | string | The topics of the memory. | `eq`, `ne`, `in`, `all` |
-| `createdAt` | integer | The timestamp when the memory was created. | `eq`, `gt`, `lt`, `gte`, `lte` |
+| `topics` | string | The topics of the memory. | `eq`, `ne`, `in`, `all` |
+| `memoryType` | string | The type of memory (`semantic`, `episodic`, `message`). | `eq`, `ne`, `in`, `all` |
+| `createdAt` | string (ISO 8601) | The timestamp when the memory was created. | `eq`, `gt`, `lt`, `gte`, `lte` |
 
 For all values, you must set only one of these operators:
 
