@@ -5277,10 +5277,11 @@ is interested in. This can be an ORed mask of any of the following flags:
  - `REDISMODULE_NOTIFY_OVERWRITTEN`: Overwritten events
  - `REDISMODULE_NOTIFY_TYPE_CHANGED`: Type-changed events
  - `REDISMODULE_NOTIFY_KEY_TRIMMED`: Key trimmed events after a slot migration operation
+ - `REDISMODULE_NOTIFY_RATE_LIMIT`: Rate limit event
  - `REDISMODULE_NOTIFY_ALL`: All events (Excluding `REDISMODULE_NOTIFY_KEYMISS`,
                            REDISMODULE_NOTIFY_NEW, REDISMODULE_NOTIFY_OVERWRITTEN,
-                           REDISMODULE_NOTIFY_TYPE_CHANGED
-                           and REDISMODULE_NOTIFY_KEY_TRIMMED)
+                           REDISMODULE_NOTIFY_TYPE_CHANGED, REDISMODULE_NOTIFY_KEY_TRIMMED
+                           and REDISMODULE_NOTIFY_RATE_LIMIT)
  - `REDISMODULE_NOTIFY_LOADED`: A special notification available only for modules,
                               indicates that the key was loaded from persistence.
                               Notice, when this event fires, the given key
@@ -5344,6 +5345,77 @@ Returns:
  - `REDISMODULE_OK` on successful removal of the subscription.
  - `REDISMODULE_ERR` if no matching subscription was found or if invalid parameters were provided.
 
+<span id="RedisModule_SubscribeToKeyspaceEventsWithSubkeys"></span>
+
+### `RedisModule_SubscribeToKeyspaceEventsWithSubkeys`
+
+    int RedisModule_SubscribeToKeyspaceEventsWithSubkeys(RedisModuleCtx *ctx,
+                                                         int types,
+                                                         int flags,
+                                                         RedisModuleNotificationWithSubkeysFunc callback);
+
+**Available since:** unreleased
+
+Subscribe to keyspace notifications with subkey information.
+
+This is the extended version of [`RedisModule_SubscribeToKeyspaceEvents`](#RedisModule_SubscribeToKeyspaceEvents). When subkeys
+are available, the `subkeys` array and `count` are passed to the callback.
+`subkeys` contains only the names of affected subkeys (values are not included),
+and `count` is the number of elements. The array may contain duplicates when
+the same subkey appears more than once in a command (e.g. HSET key f1 v1 f1 v2
+produces subkeys=["f1","f1"], count=2). When no subkeys are present, `subkeys`
+will be NULL and `count` will be 0. Whether events without subkeys are delivered
+depends on the `flags` parameter (see below).
+
+`types` is a bit mask of event types the module is interested in
+(using the same `REDISMODULE_NOTIFY_`* flags as [`RedisModule_SubscribeToKeyspaceEvents`](#RedisModule_SubscribeToKeyspaceEvents)).
+
+`flags` controls delivery filtering:
+ - `REDISMODULE_NOTIFY_FLAG_NONE`: The callback is invoked for all matching
+   events regardless of whether subkeys are present, so a separate
+   [`RedisModule_SubscribeToKeyspaceEvents`](#RedisModule_SubscribeToKeyspaceEvents) registration can be omitted.
+ - `REDISMODULE_NOTIFY_FLAG_SUBKEYS_REQUIRED`: The callback is only invoked
+   when subkeys are not empty. Events without subkey information (e.g. SET,
+   EXPIRE, DEL) are skipped.
+
+The callback signature is:
+  void callback(`RedisModuleCtx` *ctx, int type, const char *event,
+                RedisModuleString *key, RedisModuleString **subkeys, int count);
+
+The subkeys array and its contents are only valid during the callback.
+The underlying objects may be stack-allocated or temporary, so
+[`RedisModule_RetainString`](#RedisModule_RetainString) must NOT be used on them. To keep a subkey beyond
+the callback (e.g. in a [`RedisModule_AddPostNotificationJob`](#RedisModule_AddPostNotificationJob) callback), use
+[`RedisModule_HoldString`](#RedisModule_HoldString) (which handles static objects by copying) or
+[`RedisModule_CreateStringFromString`](#RedisModule_CreateStringFromString) to make a deep copy before returning.
+
+<span id="RedisModule_UnsubscribeFromKeyspaceEventsWithSubkeys"></span>
+
+### `RedisModule_UnsubscribeFromKeyspaceEventsWithSubkeys`
+
+    int RedisModule_UnsubscribeFromKeyspaceEventsWithSubkeys(RedisModuleCtx *ctx,
+                                                             int types,
+                                                             int flags,
+                                                             RedisModuleNotificationWithSubkeysFunc callback);
+
+**Available since:** unreleased
+
+Unregister a module's callback from keyspace notifications with subkeys
+for specific event types.
+
+This function removes a previously registered subscription identified by
+the event mask, delivery flags, and the callback function.
+
+Parameters:
+ - ctx: The `RedisModuleCtx` associated with the calling module.
+ - types: The event mask representing the notification types to unsubscribe from.
+ - flags: The delivery flags that were used during registration.
+ - callback: The callback function pointer that was originally registered.
+
+Returns:
+ - `REDISMODULE_OK` on successful removal of the subscription.
+ - `REDISMODULE_ERR` if no matching subscription was found.
+
 <span id="RedisModule_AddPostNotificationJob"></span>
 
 ### `RedisModule_AddPostNotificationJob`
@@ -5396,6 +5468,26 @@ for additional filtering in `RedisModuleNotificationFunc`)
 **Available since:** 6.0.0
 
 Expose notifyKeyspaceEvent to modules
+
+<span id="RedisModule_NotifyKeyspaceEventWithSubkeys"></span>
+
+### `RedisModule_NotifyKeyspaceEventWithSubkeys`
+
+    int RedisModule_NotifyKeyspaceEventWithSubkeys(RedisModuleCtx *ctx,
+                                                   int type,
+                                                   const char *event,
+                                                   ;
+
+**Available since:** unreleased
+
+Like [`RedisModule_NotifyKeyspaceEvent`](#RedisModule_NotifyKeyspaceEvent), but also triggers subkey-level notifications
+when subkeys are provided. Both key-level (keyspace/keyevent) and
+subkey-level (subkeyspace/subkeyevent/subkeyspaceitem/subkeyspaceevent)
+channels are published to, depending on the server configuration.
+
+This is the extended version of [`RedisModule_NotifyKeyspaceEvent`](#RedisModule_NotifyKeyspaceEvent) and can actually
+replace it. When called with subkeys=NULL and count=0, it behaves
+identically to [`RedisModule_NotifyKeyspaceEvent`](#RedisModule_NotifyKeyspaceEvent).
 
 <span id="section-modules-cluster-api"></span>
 
@@ -8963,6 +9055,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_ModuleTypeSetValue`](#RedisModule_ModuleTypeSetValue)
 * [`RedisModule_MonotonicMicroseconds`](#RedisModule_MonotonicMicroseconds)
 * [`RedisModule_NotifyKeyspaceEvent`](#RedisModule_NotifyKeyspaceEvent)
+* [`RedisModule_NotifyKeyspaceEventWithSubkeys`](#RedisModule_NotifyKeyspaceEventWithSubkeys)
 * [`RedisModule_OpenKey`](#RedisModule_OpenKey)
 * [`RedisModule_PoolAlloc`](#RedisModule_PoolAlloc)
 * [`RedisModule_PublishMessage`](#RedisModule_PublishMessage)
@@ -9076,6 +9169,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_StringToULongLong`](#RedisModule_StringToULongLong)
 * [`RedisModule_StringTruncate`](#RedisModule_StringTruncate)
 * [`RedisModule_SubscribeToKeyspaceEvents`](#RedisModule_SubscribeToKeyspaceEvents)
+* [`RedisModule_SubscribeToKeyspaceEventsWithSubkeys`](#RedisModule_SubscribeToKeyspaceEventsWithSubkeys)
 * [`RedisModule_SubscribeToServerEvent`](#RedisModule_SubscribeToServerEvent)
 * [`RedisModule_ThreadSafeContextLock`](#RedisModule_ThreadSafeContextLock)
 * [`RedisModule_ThreadSafeContextTryLock`](#RedisModule_ThreadSafeContextTryLock)
@@ -9088,6 +9182,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_UnlinkKey`](#RedisModule_UnlinkKey)
 * [`RedisModule_UnregisterCommandFilter`](#RedisModule_UnregisterCommandFilter)
 * [`RedisModule_UnsubscribeFromKeyspaceEvents`](#RedisModule_UnsubscribeFromKeyspaceEvents)
+* [`RedisModule_UnsubscribeFromKeyspaceEventsWithSubkeys`](#RedisModule_UnsubscribeFromKeyspaceEventsWithSubkeys)
 * [`RedisModule_ValueLength`](#RedisModule_ValueLength)
 * [`RedisModule_WrongArity`](#RedisModule_WrongArity)
 * [`RedisModule_Yield`](#RedisModule_Yield)
