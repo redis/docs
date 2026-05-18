@@ -8,14 +8,16 @@ categories:
 description: Store LLM responses for AI apps in a semantic cache.
 linkTitle: LangCache
 hideListLinks: true
-weight: 30
+weight: 10
 bannerText: LangCache is currently available in preview. Features and behavior are subject to change.
 bannerChildren: true
+aliases:
+- /develop/ai/langcache
 ---
 
 Redis LangCache is a fully-managed semantic caching service that reduces large language model (LLM) costs and improves response times for AI applications. 
 
-[Get started](#get-started) with LangCache on [Redis Cloud]({{< relref "/operate/rc/langcache" >}}) or join the [private preview](https://redis.io/langcache/).
+[Get started](#get-started) with LangCache on [Redis Cloud]({{< relref "/operate/rc/context-engine/langcache" >}}) or join the [private preview](https://redis.io/langcache/).
 
 ## LangCache overview
 
@@ -62,13 +64,13 @@ The following diagram displays how you can integrate LangCache into your GenAI a
 1. Your app sends the prompt and the new response to LangCache through the `POST /v1/caches/{cacheId}/entries` endpoint. 
 1. LangCache stores the embedding with the new response in the cache for future use.
 
-See the [LangCache API and SDK examples]({{< relref "/develop/ai/langcache/api-examples" >}}) for more information on how to use the LangCache API.
+See the [LangCache API and SDK examples]({{< relref "/develop/ai/context-engine/langcache/api-examples" >}}) for more information on how to use the LangCache API.
 
 ## Get started
 
 LangCache is currently in preview:
 
-- Public preview on [Redis Cloud]({{< relref "/operate/rc/langcache" >}})
+- Public preview on [Redis Cloud]({{< relref "/operate/rc/context-engine/langcache" >}})
 - Fully-managed [private preview](https://redis.io/langcache/)
 
 {{< multitabs id="langcache-get-started" 

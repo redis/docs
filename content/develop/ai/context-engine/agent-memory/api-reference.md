@@ -4,6 +4,6 @@ linkTitle: API reference
 layout: apireference
 type: page
 params:
-  sourcefile: ./api.yaml
+  sourcefile: ./openapi-agent-memory.json
   sortOperationsAlphabetically: false
 ---

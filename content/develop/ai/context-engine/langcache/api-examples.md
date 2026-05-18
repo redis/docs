@@ -9,9 +9,11 @@ hideListLinks: true
 linktitle: API and SDK examples
 title: Use the LangCache API and SDK
 weight: 10
+aliases:
+- /develop/ai/langcache/api-examples
 ---
 
-Use the [LangCache API]({{< relref "/develop/ai/langcache/api-reference" >}}) from your client app to store and retrieve LLM, RAG, or agent responses.
+Use the [LangCache API]({{< relref "/develop/ai/context-engine/langcache/api-reference" >}}) from your client app to store and retrieve LLM, RAG, or agent responses.
 
 You can use any standard REST client or library to access the API. If your app is written in Python or Javascript, you can also use the LangCache Software Development Kits (SDKs) to access the API:
 
@@ -47,7 +49,7 @@ This example expects several variables to be set in the shell:
 
 ### Search LangCache for similar responses
 
-Use [`POST /v1/caches/{cacheId}/entries/search`]({{< relref "/develop/ai/langcache/api-reference#tag/Cache-Entries/operation/search" >}}) to search the cache for matching responses to a user prompt.
+Use [`POST /v1/caches/{cacheId}/entries/search`]({{< relref "/develop/ai/context-engine/langcache/api-reference#tag/Cache-Entries/operation/search" >}}) to search the cache for matching responses to a user prompt.
 
 {{< clients-example set="langcache_sdk" step="search_basic" dft_tab_name="REST API" show_footer="false" description="Foundational: Search the cache for semantically similar responses to a user prompt" difficulty="beginner" >}}
 POST https://[host]/v1/caches/{cacheId}/entries/search
@@ -91,7 +93,7 @@ POST https://[host]/v1/caches/{cacheId}/entries/search
 
 ### Store a new response in LangCache
 
-Use [`POST /v1/caches/{cacheId}/entries`]({{< relref "/develop/ai/langcache/api-reference#tag/Cache-Entries/operation/set" >}}) to store a new response in the cache.
+Use [`POST /v1/caches/{cacheId}/entries`]({{< relref "/develop/ai/context-engine/langcache/api-reference#tag/Cache-Entries/operation/set" >}}) to store a new response in the cache.
 
 {{< clients-example set="langcache_sdk" step="store_basic" dft_tab_name="REST API" show_footer="false" description="Foundational: Store a new LLM response in the cache with its corresponding prompt for future retrieval" difficulty="beginner" >}}
 POST https://[host]/v1/caches/{cacheId}/entries
@@ -118,13 +120,13 @@ POST https://[host]/v1/caches/{cacheId}/entries
 
 ### Delete cached responses
 
-Use [`DELETE /v1/caches/{cacheId}/entries/{entryId}`]({{< relref "/develop/ai/langcache/api-reference#tag/Cache-Entries/operation/delete" >}}) to delete a cached response from the cache.
+Use [`DELETE /v1/caches/{cacheId}/entries/{entryId}`]({{< relref "/develop/ai/context-engine/langcache/api-reference#tag/Cache-Entries/operation/delete" >}}) to delete a cached response from the cache.
 
 {{< clients-example set="langcache_sdk" step="delete_entry" dft_tab_name="REST API" show_footer="false" description="Foundational: Delete a specific cached response by its entry ID when you need to remove outdated or incorrect cache entries" difficulty="beginner" >}}
 DELETE https://[host]/v1/caches/{cacheId}/entries/{entryId}
 {{< /clients-example >}}
 
-You can also use [`DELETE /v1/caches/{cacheId}/entries`]({{< relref "/develop/ai/langcache/api-reference#tag/Cache-Entries/operation/deleteQuery" >}}) to delete multiple cached responses based on the `attributes` you specify. If you specify multiple `attributes`, LangCache will delete entries that contain all given attributes.
+You can also use [`DELETE /v1/caches/{cacheId}/entries`]({{< relref "/develop/ai/context-engine/langcache/api-reference#tag/Cache-Entries/operation/deleteQuery" >}}) to delete multiple cached responses based on the `attributes` you specify. If you specify multiple `attributes`, LangCache will delete entries that contain all given attributes.
 
 {{< warning >}}
 If you do not specify any `attributes`, all responses in the cache will be deleted. This cannot be undone.
@@ -144,7 +146,7 @@ DELETE https://[host]/v1/caches/{cacheId}/entries
 ### Flush the cache
 
 Use
-[POST /v1/caches/{cacheId}/flush](https://redis.io/docs/latest/develop/ai/langcache/api-reference/#tag/Cache-Entries/operation/flush)
+[POST /v1/caches/{cacheId}/flush](https://redis.io/docs/latest/develop/ai/context-engine/langcache/api-reference/#tag/Cache-Entries/operation/flush)
 to flush all entries from the cache.
 
 {{< clients-example set="langcache_sdk" step="flush" dft_tab_name="REST API" show_footer="false" description="Flush cache: Clear all cached responses from the cache in a single operation (use with caution as this cannot be undone)" difficulty="advanced" >}}
