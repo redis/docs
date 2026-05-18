@@ -568,7 +568,7 @@ assigns an alias to the search score for use in post-processing operations like 
 <details open>
 <summary><code>KNN count K top-k [EF_RUNTIME ef-value] [SHARD_K_RATIO shard-k-ratio] [YIELD_SCORE_AS name]</code></summary>
 
-configures K-nearest neighbors search for vector similarity. The `count` parameter indicates the number of following parameters. `K` specifies the number of nearest neighbors to find. `EF_RUNTIME` controls the search accuracy vs. speed tradeoff. `SHARD_K_RATIO` controls the number of results each shard retrieves relative to the requested `top_k` in cluster setups. `YIELD_SCORE_AS` assigns an alias to the score value.
+configures K-nearest neighbors search for vector similarity. The `count` parameter indicates the number of following parameters. `K` specifies the number of nearest neighbors to find. `EF_RUNTIME` controls the search accuracy vs. speed tradeoff. `SHARD_K_RATIO` controls the number of results each shard retrieves relative to the requested `top_k` in cluster setups. `YIELD_SCORE_AS` assigns an alias to the score value. See the [vector search]({{< relref "/develop/ai/search-and-query/vectors#cluster-optimization-examples" >}}) documentation for more information about `SHARD_K_RATIO`.
 </details>
 
 <details open>
