@@ -8,7 +8,7 @@ categories:
 description: Store LLM responses for AI apps in a semantic cache.
 linkTitle: LangCache
 hideListLinks: true
-weight: 30
+weight: 10
 bannerText: LangCache is currently available in preview. Features and behavior are subject to change.
 bannerChildren: true
 aliases:
