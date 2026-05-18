@@ -326,9 +326,10 @@ public class Recommender {
      * overwhelming the vector signal.</p>
      */
     public List<Candidate> rerank(List<Candidate> candidates, UserFeatures features, double affinityWeight) {
-        if (affinityWeight <= 0) affinityWeight = 0.15;
         Map<String, Double> affinities = features == null ? Collections.emptyMap() : features.affinities;
-        if (affinities == null || affinities.isEmpty()) {
+        // ``affinityWeight <= 0`` disables the bonus and is the
+        // documented "rerank off" escape hatch (matching redis-py).
+        if (affinities == null || affinities.isEmpty() || affinityWeight <= 0) {
             candidates.sort((a, b) -> Double.compare(a.score, b.score));
             return candidates;
         }

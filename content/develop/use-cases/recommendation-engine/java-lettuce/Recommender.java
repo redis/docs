@@ -393,9 +393,10 @@ public class Recommender {
      * overwhelming the vector signal.</p>
      */
     public List<Candidate> rerank(List<Candidate> candidates, UserFeatures features, double affinityWeight) {
-        if (affinityWeight <= 0) affinityWeight = 0.15;
         Map<String, Double> affinities = features == null ? Collections.emptyMap() : features.affinities;
-        if (affinities == null || affinities.isEmpty()) {
+        // ``affinityWeight <= 0`` disables the bonus and is the
+        // documented "rerank off" escape hatch (matching redis-py).
+        if (affinities == null || affinities.isEmpty() || affinityWeight <= 0) {
             candidates.sort((a, b) -> Double.compare(a.score, b.score));
             return candidates;
         }
@@ -561,38 +562,28 @@ public class Recommender {
         // Affinity and click counters are independent atomic
         // increments; only the session vector needs the
         // read-modify-write because it depends on the previous value.
-        // Pipeline the writes so they go in one round trip.
-        RedisAsyncCommands<String, byte[]> binAsync = binConnection.async();
-        binConnection.setAutoFlushCommands(false);
-        try {
-            Map<String, byte[]> stringFields = new LinkedHashMap<>();
-            stringFields.put("last_clicked_id", utf8(productId));
-            stringFields.put("last_clicked_category", utf8(category));
-            RedisFuture<Long> hsetMeta = binAsync.hset(userKey, stringFields);
-            RedisFuture<Boolean> hsetVec = binAsync.hset(userKey, "session_vec", floatsToBytes(newSession));
-            RedisFuture<Double> affFuture = binAsync.hincrbyfloat(userKey, "aff:" + category, affinityStep);
-            RedisFuture<Long> clicksFuture = binAsync.hincrby(userKey, "clicks", 1L);
-            binConnection.flushCommands();
-            try {
-                hsetMeta.get();
-                hsetVec.get();
-                Double aff = affFuture.get();
-                Long clicks = clicksFuture.get();
-                RecordClickResult out = new RecordClickResult();
-                out.category = category;
-                out.affinity = aff == null ? 0.0 : aff;
-                out.clicks = clicks == null ? 0L : clicks;
-                out.lastClickedId = productId;
-                return out;
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new RuntimeException("recordClick interrupted", e);
-            } catch (ExecutionException e) {
-                throw new RuntimeException("recordClick failed", e.getCause());
-            }
-        } finally {
-            binConnection.setAutoFlushCommands(true);
-        }
+        // We could batch these four writes with
+        // ``setAutoFlushCommands(false)`` + manual ``flushCommands()``,
+        // but that toggle is connection-wide and a shared recommender
+        // services concurrent HTTP threads — one click flipping the
+        // flag would race against another's queued commands. Four
+        // sequential sync calls against a local Redis cost sub-
+        // millisecond in aggregate; correctness wins over the
+        // micro-optimisation.
+        Map<String, byte[]> stringFields = new LinkedHashMap<>();
+        stringFields.put("last_clicked_id", utf8(productId));
+        stringFields.put("last_clicked_category", utf8(category));
+        binSync.hset(userKey, stringFields);
+        binSync.hset(userKey, "session_vec", floatsToBytes(newSession));
+        Double aff = binSync.hincrbyfloat(userKey, "aff:" + category, affinityStep);
+        Long clicks = binSync.hincrby(userKey, "clicks", 1L);
+
+        RecordClickResult out = new RecordClickResult();
+        out.category = category;
+        out.affinity = aff == null ? 0.0 : aff;
+        out.clicks = clicks == null ? 0L : clicks;
+        out.lastClickedId = productId;
+        return out;
     }
 
     /** Read a user's session vector and affinities for re-ranking. */

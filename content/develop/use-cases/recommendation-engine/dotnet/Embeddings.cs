@@ -89,8 +89,6 @@ public sealed class Embedder : IDisposable
         // BitConverter on little-endian platforms (x86/ARM, every
         // platform that runs .NET in practice) is a no-op memcpy; on
         // hypothetical big-endian hosts we'd need to swap bytes.
-        System.Buffers.Binary.BinaryPrimitives.WriteSingleLittleEndian(
-            bytes, vec[0]);
         for (var i = 0; i < vec.Length; i++)
         {
             System.Buffers.Binary.BinaryPrimitives.WriteSingleLittleEndian(

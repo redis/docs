@@ -12,7 +12,7 @@ title: Redis recommendation engine with NRedisStack
 weight: 5
 ---
 
-This guide shows you how to build a small Redis-backed product recommendation service in C# with [`NRedisStack`]({{< relref "/develop/clients/dotnet" >}}) (the Redis Stack wrapper on top of [StackExchange.Redis](https://stackexchange.github.io/StackExchange.Redis/)) and the [`SmartComponents.LocalEmbeddings`](https://www.nuget.org/packages/SmartComponents.LocalEmbeddings) library (in-process ONNX runtime, no API key, no shared library to install). It includes a local web server built on `System.Net.HttpListener` so you can embed a natural-language query, run a KNN retrieval with structured pre-filters in one round trip, feed clicks back as a session signal, and watch the next recommendation incorporate them immediately.
+This guide shows you how to build a small Redis-backed product recommendation service in C# with [`NRedisStack`]({{< relref "/develop/clients/dotnet" >}}) (the Redis Stack wrapper on top of [StackExchange.Redis](https://stackexchange.github.io/StackExchange.Redis/)) and the [`SmartComponents.LocalEmbeddings`](https://www.nuget.org/packages/SmartComponents.LocalEmbeddings) library, which ships a bundled 384-dimensional [BAAI `bge-micro-v2`](https://huggingface.co/TaylorAI/bge-micro-v2) ONNX model (no API key, no shared library to install). The other ports in this guide series use [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2), also a 384-dim encoder; the index schema is identical, so the same `FT.SEARCH` query shape works for both. It includes a local web server built on `System.Net.HttpListener` so you can embed a natural-language query, run a KNN retrieval with structured pre-filters in one round trip, feed clicks back as a session signal, and watch the next recommendation incorporate them immediately.
 
 ## Overview
 
@@ -66,7 +66,13 @@ var recommender = new Recommender(
     keyPrefix: "product:");
 recommender.CreateIndex();                 // idempotent
 
-using var embedder = new Embedder();       // default ONNX model, 384-dim
+// SmartComponents.LocalEmbeddings ships its own 384-dim ONNX model
+// (BAAI's bge-micro-v2) which the Embedder loads on construction. The
+// other ports in this guide series use sentence-transformers/all-MiniLM-L6-v2,
+// also 384-dim. Both encode to the same vector field; vectors aren't
+// interchangeable across the two models, but each port produces its own
+// catalog.json so cross-port mixing isn't an issue.
+using var embedder = new Embedder();       // bge-micro-v2, 384-dim
 var queryVec = embedder.EncodeOne("warm waterproof jacket for hiking");
 
 // Retrieval: KNN with structured pre-filter in one round trip.

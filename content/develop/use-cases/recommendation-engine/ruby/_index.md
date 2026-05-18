@@ -221,7 +221,7 @@ The server holds one `LocalEmbedder` instance and one `RedisRecommender` for the
 ## Prerequisites
 
 * Redis 7.x or later with the Redis Search module loaded (Redis Stack, or Redis 8 with Search).
-* Ruby 3.0 or later. The `informers` gem requires a recent Ruby; the demo also uses `webrick`, which was removed from Ruby's standard library in Ruby 3.0 and is declared in the Gemfile.
+* Ruby 3.2 or later. `informers` pulls in the `onnxruntime` gem, which requires Ruby >= 3.2. The demo also uses `webrick`, which was removed from Ruby's standard library in Ruby 3.0 and is declared in the Gemfile. On older macOS releases the system Ruby at `/usr/bin/ruby` is Ruby 2.6 and won't work; install a newer Ruby with [Homebrew](https://docs.brew.sh/Homebrew-and-Python#virtualenv) (`brew install ruby`, then run `bundle` from `/opt/homebrew/opt/ruby/bin`), [`rbenv`](https://github.com/rbenv/rbenv), or [`asdf`](https://asdf-vm.com/).
 * `redis-rb` 5.x for the typed core commands and the `redis.call(...)` raw escape hatch for the Redis Search calls.
 * `informers` (the Ankane ONNX-runtime port of sentence-transformers) for the local text embedder. The first call downloads `sentence-transformers/all-MiniLM-L6-v2` (~80 MB) into the local Hugging Face cache.
 

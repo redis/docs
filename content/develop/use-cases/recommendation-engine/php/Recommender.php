@@ -44,12 +44,7 @@ declare(strict_types=1);
 namespace Redis\RecommendationEngine;
 
 use Predis\Client as PredisClient;
-use Predis\Command\Argument\Search\CreateArguments;
 use Predis\Command\Argument\Search\DropArguments;
-use Predis\Command\Argument\Search\SchemaFields\NumericField;
-use Predis\Command\Argument\Search\SchemaFields\TagField;
-use Predis\Command\Argument\Search\SchemaFields\TextField;
-use Predis\Command\Argument\Search\SchemaFields\VectorField;
 use Predis\Command\Argument\Search\SearchArguments;
 use Predis\Response\ServerException;
 
@@ -113,39 +108,30 @@ class Recommender
      */
     public function createIndex(): void
     {
-        $schema = [
-            // Both TEXT fields use the default WEIGHT of 1.0. Predis's
-            // ``TextField`` typedefs the WEIGHT argument as ``int``, so
-            // the Python reference's ``description=0.5`` would need a
-            // direct ``executeRaw('FT.CREATE', ...)`` call to set.
-            // For the demo we accept the default; phrase scoring is
-            // still dominated by name matches because ``name`` text is
-            // short and ``description`` text is long.
-            new TextField('name'),
-            new TextField('description'),
-            new TagField('category'),
-            new TagField('brand'),
-            new TagField('in_stock'),
-            new NumericField('price', '', NumericField::SORTABLE),
-            new NumericField('rating', '', NumericField::SORTABLE),
-            new VectorField(
-                'embedding',
-                'HNSW',
-                [
-                    'TYPE', 'FLOAT32',
-                    'DIM', (string) $this->vectorDim,
-                    'DISTANCE_METRIC', 'COSINE',
-                ]
-            ),
+        // Build FT.CREATE as a raw command string so we can pass the
+        // ``description`` field a fractional WEIGHT of 0.5 — the same
+        // value the Python and Node.js ports use. Predis's typed
+        // ``TextField`` declares its WEIGHT argument as ``int``, so the
+        // typed builder would silently lose any non-integer weight.
+        $args = [
+            'FT.CREATE', $this->indexName,
+            'ON', 'HASH',
+            'PREFIX', '1', $this->keyPrefix,
+            'SCHEMA',
+            'name', 'TEXT', 'WEIGHT', '1.0',
+            'description', 'TEXT', 'WEIGHT', '0.5',
+            'category', 'TAG',
+            'brand', 'TAG',
+            'in_stock', 'TAG',
+            'price', 'NUMERIC', 'SORTABLE',
+            'rating', 'NUMERIC', 'SORTABLE',
+            'embedding', 'VECTOR', 'HNSW', '6',
+            'TYPE', 'FLOAT32',
+            'DIM', (string) $this->vectorDim,
+            'DISTANCE_METRIC', 'COSINE',
         ];
         try {
-            $this->redis->ftcreate(
-                $this->indexName,
-                $schema,
-                (new CreateArguments())
-                    ->on('HASH')
-                    ->prefix([$this->keyPrefix])
-            );
+            $this->redis->executeRaw($args);
         } catch (ServerException $exc) {
             // FT.CREATE on an existing index raises ``Index already
             // exists``. Tolerate it so create_index() is idempotent.

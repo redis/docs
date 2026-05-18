@@ -145,6 +145,10 @@ FT.CREATE recommend:idx
     embedding   VECTOR HNSW 6 TYPE FLOAT32 DIM 384 DISTANCE_METRIC COSINE
 ```
 
+{{< note >}}
+The other ports in this guide series set `description` to `WEIGHT 0.5` so phrase matches in the longer `description` field don't outweigh matches in the short `name` field. Lettuce 7's typed `TextFieldArgs.weight(long)` accepts only integer weights, so this port leaves `description` at its default weight of 1. The difference is only visible if you compare BM25-style TEXT relevance scores side by side; KNN retrieval and TEXT pre-filtering are unaffected.
+{{< /note >}}
+
 Per-user state is a separate hash. The session vector is stored as raw `float32` bytes the same way; affinity counters are stored as plain numeric strings, one field per category, prefixed with `aff:` so they don't collide with anything else.
 
 ```text

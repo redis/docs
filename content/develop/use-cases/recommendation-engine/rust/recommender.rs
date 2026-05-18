@@ -345,12 +345,11 @@ impl RedisRecommender {
         features: &UserFeatures,
         affinity_weight: f64,
     ) {
-        let weight = if affinity_weight <= 0.0 {
-            0.15
-        } else {
-            affinity_weight
-        };
-        if features.affinities.is_empty() {
+        // ``affinity_weight <= 0`` disables the bonus; the caller gets
+        // candidates sorted by the existing scores. This matches the
+        // Python reference where passing ``0`` is the "rerank off"
+        // escape hatch.
+        if features.affinities.is_empty() || affinity_weight <= 0.0 {
             candidates.sort_by(|a, b| {
                 a.score.partial_cmp(&b.score).unwrap_or(std::cmp::Ordering::Equal)
             });
@@ -359,7 +358,7 @@ impl RedisRecommender {
         for c in candidates.iter_mut() {
             let raw_aff = *features.affinities.get(&c.category).unwrap_or(&0.0);
             let raw_aff = if raw_aff < 0.0 { 0.0 } else { raw_aff };
-            let bonus = (1.0_f64 + raw_aff).ln() * weight;
+            let bonus = (1.0_f64 + raw_aff).ln() * affinity_weight;
             c.score = c.vector_distance - bonus;
         }
         candidates.sort_by(|a, b| {

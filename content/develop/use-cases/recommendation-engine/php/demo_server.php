@@ -3,7 +3,11 @@
  * Redis recommendation-engine demo server (PHP).
  *
  * Run with:
- *     php -S 127.0.0.1:8091 demo_server.php
+ *     php -d ffi.enable=true -S 127.0.0.1:8091 demo_server.php
+ *
+ * The ``-d ffi.enable=true`` override is required because the PHP
+ * cli-server SAPI sets ``ffi.enable=preload`` by default, which blocks
+ * the FFI calls TransformersPHP makes into the bundled ONNX Runtime.
  *
  * Visit http://127.0.0.1:8091 to drive a small product catalogue indexed
  * by Redis Search. The UI lets you:
