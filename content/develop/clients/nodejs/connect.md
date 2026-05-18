@@ -338,6 +338,11 @@ lets a client take action to avoid disruptions in service.
 See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
 for more information about SCH.
 
+{{< note >}}Using SCH with node-redis requires v5.9.0 or later for
+basic connections, and v5.11.0 or later for
+[OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}) connections.
+{{< /note >}}
+
 Use the configuration options shown in the example below to enable SCH
 during the connection:
 

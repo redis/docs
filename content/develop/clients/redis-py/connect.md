@@ -262,6 +262,11 @@ lets a client take action to avoid disruptions in service.
 See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
 for more information about SCH.
 
+{{< note >}}Using SCH with redis-py requires v7.0.0 or later for
+basic connections, and v7.2.0 or later for
+[OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}) connections.
+{{< /note >}}
+
 By default, `redis-py` always attempts to connect via SCH but falls back to
 a non-SCH connection if the server doesn't support it. However, you can configure SCH
 explicitly by passing a `MaintNotificationsConfig` object during the connection,

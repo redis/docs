@@ -59,12 +59,17 @@ if you select the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-vers
 protocol, which is a requirement for SCH. However, you can
 configure some parameters, such as the timeouts to use
 during maintenance.
-See the pages linked below to learn how to configure SCH for:
 
-- [redis-py]({{< relref "/develop/clients/redis-py/connect#connect-using-smart-client-handoffs-sch" >}})
-- [node-redis]({{< relref "/develop/clients/nodejs/connect#connect-using-smart-client-handoffs-sch" >}})
-- [Lettuce]({{< relref "/develop/clients/lettuce/connect#connect-using-smart-client-handoffs-sch" >}})
-- [go-redis]({{< relref "/develop/clients/go/connect#connect-using-smart-client-handoffs-sch" >}})
+The table below lists the Redis client libraries that support SCH,
+and the versions that added support for basic connections and
+[OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}) connections.
+
+| Client | Basic connection | OSS Cluster API |
+| :-- | :-- | :-- |
+| [redis-py]({{< relref "/develop/clients/redis-py/connect#connect-using-smart-client-handoffs-sch" >}}) | v7.0.0 | v7.2.0 |
+| [node-redis]({{< relref "/develop/clients/nodejs/connect#connect-using-smart-client-handoffs-sch" >}}) | v5.9.0 | v5.11.0 |
+| [Lettuce]({{< relref "/develop/clients/lettuce/connect#connect-using-smart-client-handoffs-sch" >}}) | v7.0.0 | - |
+| [go-redis]({{< relref "/develop/clients/go/connect#connect-using-smart-client-handoffs-sch" >}}) | v9.16.0 | v9.18.0 |
 
 ## SCH support in Redis server products
 
