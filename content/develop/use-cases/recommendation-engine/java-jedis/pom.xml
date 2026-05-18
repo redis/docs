@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Maven build for the Redis recommendation-engine demo (Java + Jedis +
+  DJL + ONNX Runtime). Run from this directory:
+
+      mvn package
+      mvn exec:java -Dexec.mainClass=BuildCatalog
+      mvn exec:java -Dexec.mainClass=DemoServer -Dexec.args="..."
+
+  The plain .java files live in the same directory as the pom so they
+  are easy to read alongside the guide.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.redis.docs</groupId>
+  <artifactId>recommendation-engine-jedis</artifactId>
+  <version>0.1.0</version>
+  <packaging>jar</packaging>
+
+  <properties>
+    <maven.compiler.release>17</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <djl.version>0.33.0</djl.version>
+  </properties>
+
+  <dependencies>
+    <!-- Redis client -->
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <version>6.2.0</version>
+    </dependency>
+
+    <!-- DJL: pure-Java inference orchestration -->
+    <dependency>
+      <groupId>ai.djl</groupId>
+      <artifactId>api</artifactId>
+      <version>${djl.version}</version>
+    </dependency>
+
+    <!-- HuggingFace tokenizers (pulls the model translator factory we
+         use in LocalEmbedder.java). -->
+    <dependency>
+      <groupId>ai.djl.huggingface</groupId>
+      <artifactId>tokenizers</artifactId>
+      <version>${djl.version}</version>
+    </dependency>
+
+    <!-- ONNX Runtime as the inference engine. Lighter native dep
+         than the PyTorch engine and good enough for the encoder
+         models the demo uses. -->
+    <dependency>
+      <groupId>ai.djl.onnxruntime</groupId>
+      <artifactId>onnxruntime-engine</artifactId>
+      <version>${djl.version}</version>
+    </dependency>
+
+    <!-- JSON helper for catalog.json -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.11.0</version>
+    </dependency>
+
+    <!-- SLF4J + logback for DJL's noisy logger. We pin a no-op
+         binding so the demo prints clean output. -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>2.0.13</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Treat the project root as the source directory so the
+           .java files live alongside the pom (matches the streaming
+           java-jedis example layout). -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.6.0</version>
+        <executions>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals><goal>add-source</goal></goals>
+            <configuration>
+              <sources>
+                <source>${project.basedir}</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <release>17</release>
+          <!-- The .java files are in the basedir; default include
+               pattern picks them up via the add-source step. -->
+          <includes>
+            <include>*.java</include>
+          </includes>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.5.0</version>
+      </plugin>
+    </plugins>
+
+    <!-- Discard the conventional ``src/main/java`` for clarity in
+         this demo. -->
+    <sourceDirectory>${project.basedir}</sourceDirectory>
+  </build>
+</project>
