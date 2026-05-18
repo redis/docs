@@ -504,7 +504,7 @@ railroad_diagram: /images/railroad/ft.hybrid.svg
 since: 8.4.0
 summary: Performs hybrid search combining text search and vector similarity search
 syntax_fmt: "FT.HYBRID index\n  SEARCH query\n    [SCORER scorer]\n    [YIELD_SCORE_AS\
-  \ name]\n  VSIM vector_field $vector_param\n    [KNN count K k [EF_RUNTIME ef_runtime]]\n\
+  \ name]\n  VSIM vector_field $vector_param\n    [KNN count K k [EF_RUNTIME ef_runtime]] [SHARD_K_RATIO shard_k_ratio]]\n\
   \    [RANGE count RADIUS radius [EPSILON epsilon]]\n    [YIELD_SCORE_AS name]\n\
   \    [FILTER filter]\n  [COMBINE RRF count [CONSTANT constant] [WINDOW window]\
   \ [YIELD_SCORE_AS name]]\n  [COMBINE LINEAR count [[ALPHA alpha] [BETA beta]] [WINDOW\
@@ -566,9 +566,9 @@ assigns an alias to the search score for use in post-processing operations like 
 </details>
 
 <details open>
-<summary><code>KNN count K top-k [EF_RUNTIME ef-value] [YIELD_SCORE_AS name]</code></summary>
+<summary><code>KNN count K top-k [EF_RUNTIME ef-value] [SHARD_K_RATIO shard-k-ratio] [YIELD_SCORE_AS name]</code></summary>
 
-configures K-nearest neighbors search for vector similarity. The `count` parameter indicates the number of following parameters. `K` specifies the number of nearest neighbors to find. `EF_RUNTIME` controls the search accuracy vs. speed tradeoff. `YIELD_SCORE_AS` assigns an alias to the score value.
+configures K-nearest neighbors search for vector similarity. The `count` parameter indicates the number of following parameters. `K` specifies the number of nearest neighbors to find. `EF_RUNTIME` controls the search accuracy vs. speed tradeoff. `SHARD_K_RATIO` controls the number of results each shard retrieves relative to the requested `top_k` in cluster setups. `YIELD_SCORE_AS` assigns an alias to the score value.
 </details>
 
 <details open>
