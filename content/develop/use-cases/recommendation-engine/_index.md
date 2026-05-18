@@ -25,21 +25,21 @@ Recommendation pipelines have to produce a ranked list in roughly 200 ms end to 
     perform sub-millisecond approximate nearest-neighbour search at serving-time concurrency. KNN
     over millions of vectors is not what a row store is built for.
 -   **A dedicated vector database** handles KNN with metadata filtering, but adds a separate
-    scaling and monitoring surface, another network hop, and a synchronisation layer between item
+    scaling and monitoring surface, another network hop, and a synchronization layer between item
     metadata in the primary store and embeddings in the vector store. Most are also optimised for
     batch-loaded read-heavy workloads, not sub-millisecond writes interleaved with reads when
     session signals need to update user features mid-request.
 -   **Pre-computing recommendations offline** removes the serving-time cost but cannot react to
-    in-session behaviour — the user clicks something, and the next request still ranks against the
+    in-session behavior — the user clicks something, and the next request still ranks against the
     yesterday's offline batch.
 
-A workable serving layer needs vector KNN, structured pre-filters, and per-user feature updates that take effect within the request path — without standing up a separate vector store and synchronising it with the primary.
+A workable serving layer needs vector KNN, structured pre-filters, and per-user feature updates that take effect within the request path — without standing up a separate vector store and synchronizing it with the primary.
 
 ## What you can expect from a Redis solution
 
 You can:
 
--   Return personalised recommendations with P99 latency under 10 ms for the retrieval stage at
+-   Return personalized recommendations with P99 latency under 10 ms for the retrieval stage at
     peak concurrency.
 -   Combine embedding similarity with TAG, NUMERIC, and TEXT pre-filters in a single
     [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call, with no cross-store joins.
