@@ -796,14 +796,15 @@ Group movies by genre and collect the top 5 movies per group, sorted by rating i
 
 {{< highlight bash >}}
 FT.AGGREGATE idx:movies "*"
-    LOAD *
+    LOAD 4 @genre @title @rating @year
     GROUPBY 1 @genre
-      REDUCE COLLECT 10 FIELDS 1 * SORTBY 2 @rating DESC LIMIT 0 5 AS top_movies
+      REDUCE COLLECT 12 FIELDS 3 @title @rating @year SORTBY 2 @rating DESC LIMIT 0 5 AS top_movies
     SORTBY 1 @genre LIMIT 0 50
 {{< /highlight >}}
 
 In this example:
-- All document fields are fetched via `*`.
+- `LOAD` brings `@genre`, `@title`, `@rating`, and `@year` into the pipeline. `COLLECT` projects from fields already available in the pipeline; it does not trigger an implicit document load. Using `FIELDS *` in place of the explicit field list would return only the fields the pipeline already has, as controlled by `LOAD` and any field-generating operations such as `APPLY`.
+- `FIELDS 3 @title @rating @year` projects those three fields into each collected entry.
 - Duplicates are retained (default behavior, no `DISTINCT` flag).
 - Documents within each group are sorted by `@rating` descending.
 - Only the top 5 documents per group are returned.

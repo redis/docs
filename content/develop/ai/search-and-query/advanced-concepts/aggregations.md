@@ -373,7 +373,7 @@ REDUCE COLLECT {nargs}
 
 **Description**
 
-Fetch complete documents or project specific fields directly within an aggregation query, with optional sorting, limiting, and deduplication per group.
+Collect documents within each group as an array of key-value maps, projecting either all fields currently available in the pipeline or an explicit list of fields, with optional sorting, limiting, and deduplication.
 
 - `FIELDS *` returns all document fields available at the current pipeline stage. This is stage-local: it does not trigger an implicit load and does not reach back to fields from earlier stages that were not preserved as grouping keys or reducer aliases.
 - `FIELDS {num} {field_1} ...` projects a specific list of fields. The special fields `@__key` (document key) and `@__score` (document score) are supported as projectable fields alongside document fields.
