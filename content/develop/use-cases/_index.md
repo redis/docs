@@ -26,4 +26,4 @@ This section provides practical examples and reference implementations for commo
 * [Prefetch cache]({{< relref "/develop/use-cases/prefetch-cache" >}}) - Pre-load reference data into Redis so every read is a cache hit, kept current by a CDC sync worker
 * [Pub/sub messaging]({{< relref "/develop/use-cases/pub-sub" >}}) - Broadcast real-time events to many consumers with channel and pattern subscriptions
 * [Streaming]({{< relref "/develop/use-cases/streaming" >}}) - Process ordered event streams with consumer groups, replay, and configurable retention
-* [Recommendation engine]({{< relref "/develop/use-cases/recommendation-engine" >}}) - Serve personalised recommendations under tight latency budgets by combining vector similarity with structured filters in a single Redis call
+* [Recommendation engine]({{< relref "/develop/use-cases/recommendation-engine" >}}) - Serve personalized recommendations under tight latency budgets by combining vector similarity with structured filters in a single Redis call
