@@ -549,7 +549,19 @@ public sealed class Recommender
             if (name == "session_vec")
             {
                 var bytes = (byte[])e.Value!;
-                if (bytes.Length > 0) features.SessionVec = Embedder.BytesToFloats(bytes);
+                if (bytes.Length > 0)
+                {
+                    var vec = Embedder.BytesToFloats(bytes);
+                    // A stored session vector with the wrong length means
+                    // the embedding model has changed since the click
+                    // that wrote it (e.g. the catalog was rebuilt under
+                    // a different model and the demo started with
+                    // --no-reset). Drop the stale vector so the blended
+                    // query path doesn't index out of bounds — the user
+                    // sees no session signal until they click again
+                    // under the current model.
+                    if (vec.Length == VectorDim) features.SessionVec = vec;
+                }
             }
             else if (name.StartsWith("aff:", StringComparison.Ordinal))
             {
@@ -709,7 +721,13 @@ public sealed class Recommender
 
     internal static float[] BlendVectors(float[] query, float[]? session, double weight)
     {
-        if (session is null || weight <= 0) return query;
+        // A null session (or a length mismatch — e.g. a stale session
+        // from a different-dim model still in the user features hash)
+        // means no signal to blend; return the query unchanged.
+        // GetUserFeatures already drops mismatched session vectors,
+        // but the defensive check here keeps the blend safe even if a
+        // caller wires its own session source.
+        if (session is null || weight <= 0 || session.Length != query.Length) return query;
         if (weight > 1) weight = 1;
         var mixed = new float[query.Length];
         for (var i = 0; i < query.Length; i++)
@@ -721,6 +739,10 @@ public sealed class Recommender
 
     internal static float[] EwmaBlend(float[] prev, float[] next, double alpha)
     {
+        // Length mismatch shouldn't happen — both vectors come from
+        // the same embedder — but bail out defensively rather than
+        // throwing IndexOutOfRangeException.
+        if (prev.Length != next.Length) return next;
         var mixed = new float[prev.Length];
         for (var i = 0; i < prev.Length; i++)
         {

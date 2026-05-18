@@ -613,7 +613,16 @@ func (r *RedisRecommender) GetUserFeatures(ctx context.Context, userID string) (
 		if ferr != nil {
 			return out, ferr
 		}
-		out.SessionVec = vec
+		// A stored session vector with the wrong length means the
+		// embedding model has changed since the click that wrote it
+		// (e.g. the catalog was rebuilt under a different model and
+		// the demo started with --no-reset). The blended-query path
+		// would panic on length mismatch, so we drop the stale vector
+		// here — the caller sees no session signal until the user
+		// clicks again under the current model.
+		if len(vec) == r.VectorDim {
+			out.SessionVec = vec
+		}
 	}
 	for k, v := range raw {
 		if strings.HasPrefix(k, "aff:") {
@@ -775,7 +784,13 @@ func (r *RedisRecommender) listTagVals(ctx context.Context, field string) ([]str
 // -----------------------------------------------------------------------------
 
 func blendVectors(query, session []float32, weight float64) []float32 {
-	if session == nil || weight <= 0 {
+	// A nil session (or a length mismatch — e.g. a stale session from a
+	// different-dim model still sitting in the user features hash) means
+	// no signal to blend; return the query unchanged. ``GetUserFeatures``
+	// already drops mismatched session vectors, but the defensive check
+	// here keeps the blend safe even if a caller wires its own session
+	// source.
+	if session == nil || weight <= 0 || len(session) != len(query) {
 		return query
 	}
 	if weight > 1 {
@@ -789,6 +804,12 @@ func blendVectors(query, session []float32, weight float64) []float32 {
 }
 
 func ewmaBlend(prev, next []float32, alpha float64) []float32 {
+	// Length mismatch shouldn't happen — both vectors come from the
+	// same embedder — but bail out defensively rather than panicking
+	// on an out-of-range index.
+	if len(prev) != len(next) {
+		return next
+	}
 	mixed := make([]float32, len(prev))
 	for i := range prev {
 		mixed[i] = float32(alpha*float64(next[i]) + (1-alpha)*float64(prev[i]))
