@@ -6,7 +6,7 @@ categories:
 - oss
 - rs
 - rc
-description: Serve personalised recommendations under tight latency budgets by combining vector similarity with structured filters in a single Redis call.
+description: Serve personalized recommendations under tight latency budgets by combining vector similarity with structured filters in a single Redis call.
 hideListLinks: true
 linkTitle: Recommendation engine
 title: Redis recommendation engine
@@ -26,7 +26,7 @@ Recommendation pipelines have to produce a ranked list in roughly 200 ms end to 
     over millions of vectors is not what a row store is built for.
 -   **A dedicated vector database** handles KNN with metadata filtering, but adds a separate
     scaling and monitoring surface, another network hop, and a synchronization layer between item
-    metadata in the primary store and embeddings in the vector store. Most are also optimised for
+    metadata in the primary store and embeddings in the vector store. Most are also optimized for
     batch-loaded read-heavy workloads, not sub-millisecond writes interleaved with reads when
     session signals need to update user features mid-request.
 -   **Pre-computing recommendations offline** removes the serving-time cost but cannot react to
@@ -82,6 +82,9 @@ Redis provides the following features that make it a good fit for a recommendati
     approximate KNN over the embedding field at HNSW speeds, and the same
     [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call applies TAG / NUMERIC / TEXT filters
     to constrain the candidate set in one pass.
+-   [`FT.HYBRID`]({{< relref "/commands/ft.hybrid" >}}) (Redis 8.4+) combines text and vector
+    similarity into a single ranked result via Reciprocal Rank Fusion or linear combination, for
+    queries where lexical match should contribute to the score, not just gate the candidate set.
 -   [`HSET`]({{< relref "/commands/hset" >}}) and
     [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}) updates to user feature hashes are
     atomic, so the next time the application reads that hash to build a query it sees the click
