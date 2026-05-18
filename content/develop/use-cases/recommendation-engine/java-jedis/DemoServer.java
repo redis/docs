@@ -376,7 +376,7 @@ public class DemoServer {
             }
             Recommender.RecordClickResult result;
             try {
-                result = recommender.recordClick(DEMO_USER_ID, productId, 0.4, 1.0);
+                result = recommender.recordClick(DEMO_USER_ID, productId);
             } catch (Recommender.UnknownProductException exc) {
                 sendJson(exchange, 404, "{\"error\":\"unknown product " + jsonEscape(productId) + "\"}");
                 return;

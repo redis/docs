@@ -527,13 +527,10 @@ func (r *RedisRecommender) RecordClick(
 	ctx context.Context, userID, productID string, opts *RecordClickOptions,
 ) (RecordClickResult, error) {
 	if opts == nil {
-		opts = &RecordClickOptions{}
-	}
-	if opts.EWMAAlpha <= 0 {
-		opts.EWMAAlpha = 0.4
-	}
-	if opts.AffinityStep == 0 {
-		opts.AffinityStep = 1.0
+		// Nil opts means "use the documented defaults". An explicitly
+		// passed zero EWMAAlpha or AffinityStep is honoured — zero is
+		// the disable escape hatch (audit-checklist row 28).
+		opts = &RecordClickOptions{EWMAAlpha: 0.4, AffinityStep: 1.0}
 	}
 
 	productKey := r.ProductKey(productID)

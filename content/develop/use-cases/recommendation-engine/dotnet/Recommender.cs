@@ -488,9 +488,14 @@ public sealed class Recommender
     /// </summary>
     public RecordClickResult RecordClick(string userId, string productId, RecordClickOptions? options = null)
     {
+        // ``new RecordClickOptions()`` already supplies the documented
+        // defaults (EwmaAlpha = 0.4, AffinityStep = 1.0). Honour
+        // whatever values the caller put on the options object,
+        // including zero — that's the documented "disable this
+        // contribution" escape hatch (audit-checklist row 28).
         var opts = options ?? new RecordClickOptions();
-        var alpha = opts.EwmaAlpha <= 0 ? 0.4 : opts.EwmaAlpha;
-        var step = opts.AffinityStep == 0 ? 1.0 : opts.AffinityStep;
+        var alpha = opts.EwmaAlpha;
+        var step = opts.AffinityStep;
 
         var productKey = ProductKey(productId);
         // Pull the fields we need from the product hash in one round trip.

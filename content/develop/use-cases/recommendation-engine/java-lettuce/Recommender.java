@@ -520,10 +520,24 @@ public class Recommender {
      * {@code WATCH}/{@code MULTI}/{@code EXEC} or move the whole
      * blend into a Lua script.</p>
      */
+    /**
+     * Two-arg convenience overload using the documented defaults
+     * ({@code ewmaAlpha=0.4}, {@code affinityStep=1.0}). Callers that
+     * want to disable a contribution (alpha=0 keeps the session
+     * unchanged; step=0 records the click without bumping affinity)
+     * use the four-arg form explicitly — passing zero here would
+     * select this overload, not silently coerce.
+     */
+    public RecordClickResult recordClick(String userId, String productId) {
+        return recordClick(userId, productId, 0.4, 1.0);
+    }
+
     public RecordClickResult recordClick(String userId, String productId,
                                           double ewmaAlpha, double affinityStep) {
-        if (ewmaAlpha <= 0) ewmaAlpha = 0.4;
-        if (affinityStep == 0) affinityStep = 1.0;
+        // Honour every value the caller passed in — including zero,
+        // which is the documented "disable this contribution" escape
+        // hatch (audit-checklist row 28). Use the two-arg overload
+        // above if you want the defaults.
         String productKey = productKey(productId);
 
         // Pull the embedding (binary) and category (text-as-bytes) in
