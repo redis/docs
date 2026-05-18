@@ -264,6 +264,9 @@ lets a client take action to avoid disruptions in service.
 See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
 for more information about SCH.
 
+{{< note >}}Support for SCH in Lettuce requires v7.0.0 or later.
+{{< /note >}}
+
 By default, `Lettuce` always attempts to connect via SCH but falls back to
 a non-SCH connection if the server doesn't support it. However, you can configure SCH
 explicitly by creating a `MaintNotificationsConfig` object and/or a `TimeoutOptions`
