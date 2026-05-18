@@ -20,7 +20,35 @@ To get started with Prometheus and Grafana, see the following [quick start](#qui
 
 ## Quick start
 
+### Hardware requirements
+
+The minimum hardware requirements to set up Redis Enterprise Software monitoring in production using Prometheus, Grafana, and the metrics stream engine are:
+
+- **CPU**: 4 vCPUs
+- **Memory**: 8-12 GB RAM
+- **Storage**: 100 GB SSD
+
+You should also consider the following to determine your deployment's hardware requirements:
+
+- The number of Redis instances being scraped.
+
+- Lower scrape intervals, such as 15 seconds versus 1 minute, increase resource usage. The Redis scraping interval is 30 seconds.
+
+- Longer retention increases storage requirements. Basic retention is 90 days.
+
+- For high availability, run Prometheus in a replicated or federated mode for redundancy, and use Grafana’s load balancing for multiple users.
+
+- Factor in overhead if Prometheus is writing metrics to remote storage such as Thanos or Cortex.
+
+- Ensure high disk IOPS for Prometheus TSDB for better write and read performance.
+
+For more details about Grafana hardware requirements, see the [offical Grafana documentation](https://grafana.com/docs/enterprise-traces/latest/setup/hardware-requirements/).
+
+### Setup steps
+
 To get started with Prometheus and Grafana:
+
+1. Install Docker on your system. For installation instructions, see the [official Docker documentation](https://docs.docker.com/get-started/get-docker/).
 
 1. Create a directory called 'prometheus' on your local machine.
 
@@ -104,7 +132,7 @@ scrape_configs:
 ```
     {{< /multitabs >}}
 
-1. Set up your Prometheus and Grafana servers.
+1. Set up your Prometheus and Grafana servers. See the official [Prometheus installation](https://prometheus.io/docs/prometheus/latest/installation/) and [Grafana installation](https://grafana.com/docs/grafana/latest/setup-grafana/installation/) documentation for help.
 
     {{< note >}}
 
@@ -112,7 +140,8 @@ We recommend running Prometheus in Docker only for development and testing.
 
     {{< /note >}}
 
-    To set up Prometheus and Grafana on Docker:
+    To set up Prometheus and Grafana on Docker, follow these steps. For additional help, see the official [Prometheus](https://prometheus.io/docs/prometheus/latest/installation/#using-docker) and [Grafana](https://grafana.com/docs/grafana/latest/setup-grafana/installation/docker/) Docker image documentation.
+
     1. Create a _docker-compose.yml_ file:
 
         ```yml
@@ -124,6 +153,8 @@ We recommend running Prometheus in Docker only for development and testing.
                     - 9090:9090
                 volumes:
                     - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+                    # Persistent storage for Prometheus
+                    - prometheus-data:/prometheus
 
             grafana-ui:
                 image: grafana/grafana
@@ -131,8 +162,17 @@ We recommend running Prometheus in Docker only for development and testing.
                     - 3000:3000
                 environment:
                     - GF_SECURITY_ADMIN_PASSWORD=secret
+                volumes:
+                    # Persistent storage for Grafana
+                    - grafana-storage:/var/lib/grafana
                 links:
                     - prometheus-server:prometheus
+
+        # Define Docker-managed volumes for persistent storage
+        # These volumes are created automatically and persist data between container restarts
+        volumes:
+            prometheus-data:
+            grafana-storage:
         ```
 
     1. To start the containers, run:
@@ -188,7 +228,29 @@ We recommend running Prometheus in Docker only for development and testing.
     To add preconfigured dashboards:
     1. In the Grafana dashboards menu, select **Manage**.
     1. Click **Import**.
-    1. Upload one or more [Grafana dashboards](#grafana-dashboards-for-redis-enterprise).
+    1. Upload one or more [Grafana dashboards](#grafana-dashboards-for-redis-software).
+
+1. To set up alerts in Prometheus or Grafana, see the following resources:
+
+    - [Official Prometheus alerting documentation](https://prometheus.io/docs/alerting/latest/overview/)
+
+    - For v1 metrics alerts:
+
+        - [Configuring Prometheus
+ for v1 metrics alerts](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/prometheus#readme)
+    
+        - [Example Prometheus alert rules for v1 metrics](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/prometheus/rules/alerts.yml)
+
+    - For v2 metrics alerts:
+
+        - [Configuring Prometheus
+ for v2 metrics alerts](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/prometheus_v2#readme)
+    
+        - [Example Prometheus alert rules for v2 metrics](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/prometheus_v2/rules/alerts.yml)
+
+        - [Tutorial on how to set up alerting for Redis](https://redis.io/tutorials/operate/observability/redis-software-prometheus-and-grafana/#how-do-you-set-up-alerting-for-redis)
+
+    - [Official Grafana Alerting documentation](https://grafana.com/docs/grafana/latest/alerting/)
 
 ## Grafana dashboards for Redis Software
 
