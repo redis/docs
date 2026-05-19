@@ -416,6 +416,79 @@ The reference Python pattern is an `_emit_change_locked(...)` helper called insi
 
 See audit-checklist row 16 for the audit prompt.
 
+## ML / vector-search use cases
+
+These apply to any use case whose helper has to embed text (or any other modality) into a vector and store the bytes in a Redis Search VECTOR field — recommendation engines, semantic search, RAG retrieval, classification feature stores. The shape is fundamentally different from the keyspace use cases because each port has to choose its own embedding library, and the library choice has real implications for setup ergonomics, performance, and which sentence encoder it ships.
+
+### Embedding library per client
+
+Aim for libraries that are mainstream, locally-runnable (no API key, no paid service), and ship a 384-dim sentence encoder so a single index schema works across all 9 ports. The reference set, established by the recommendation-engine use case, is:
+
+| Client | Library | Model | Setup notes |
+|---|---|---|---|
+| `redis-py` | [`sentence-transformers`](https://www.sbert.net/) | `sentence-transformers/all-MiniLM-L6-v2` | `pip install sentence-transformers`; model downloads on first `encode` into `~/.cache/huggingface`. |
+| `nodejs` | [`@xenova/transformers`](https://www.npmjs.com/package/@xenova/transformers) | `Xenova/all-MiniLM-L6-v2` | `npm install @xenova/transformers`; downloads ONNX weights into the npm install dir on first call. |
+| `go` | [Hugot](https://pkg.go.dev/github.com/knights-analytics/hugot) (pure-Go ONNX backend) | `sentence-transformers/all-MiniLM-L6-v2` | `go get github.com/knights-analytics/hugot`; the `NewGoSession(ctx)` backend uses `gomlx` and needs **no ONNX shared library** install — important for cross-platform docs. |
+| `java-jedis` / `java-lettuce` | [DJL](https://djl.ai/) + `ai.djl.huggingface:tokenizers` + `ai.djl.onnxruntime:onnxruntime-engine` | `sentence-transformers/all-MiniLM-L6-v2` | DJL pulls native libs via Maven; the ONNX engine ships its own runtime. The Java ports use Maven (`pom.xml`) for this — a deviation from `streaming/java-jedis`'s plain `javac` style, but DJL's transitive deps make Maven the only sane build option. |
+| `dotnet` | [`SmartComponents.LocalEmbeddings`](https://www.nuget.org/packages/SmartComponents.LocalEmbeddings) | `bge-micro-v2` (bundled with the package, 384-dim) | The package only exposes its bundled model. Re-tooling to MiniLM via raw `Microsoft.ML.OnnxRuntime` is possible but adds substantial boilerplate. Document the model mismatch in the port's guide. |
+| `php` | [`codewithkyrian/transformers`](https://packagist.org/packages/codewithkyrian/transformers) | `Xenova/all-MiniLM-L6-v2` | Requires PHP's FFI extension. The cli-server SAPI (`php -S`) defaults to `ffi.enable=preload`, which blocks the runtime. Run with `php -d ffi.enable=true -S ...` — and **document this in the demo file header comment**, not just the guide, so readers copying the run command from the source get the right invocation. |
+| `ruby` | [`informers`](https://github.com/ankane/informers) (Andrew Kane / ankane) | `sentence-transformers/all-MiniLM-L6-v2` | Pulls in the `onnxruntime` gem, which **requires Ruby ≥ 3.2**. macOS's system Ruby is 2.6.x; the guide's prerequisites must point users at Homebrew / `rbenv` / `asdf` and explicitly warn off `/usr/bin/ruby`. |
+| `rust` | [`fastembed`](https://crates.io/crates/fastembed) | `AllMiniLML6V2` (preset) | The crate bundles tokenizers and uses `ort` for ONNX. Builds clean on stable Rust; first call downloads model files into `./models/`. |
+
+When porting a new ML-style use case, **the brief must list the library per port explicitly** — the choice is not obvious from the use case spec, and subagents will spend hours rediscovering the right library if left to their own devices.
+
+### Pre-computed artefact wire format
+
+Use cases that ship pre-computed assets (item embeddings, indexed corpora, learned weights) should adopt the recommendation-engine `catalog.json` shape so the same loader works across all 9 ports:
+
+```json
+{
+  "model": "<HF hub ID of the encoder that produced these vectors>",
+  "dim": 384,
+  "products": [
+    {
+      "id": "...",
+      "name": "...",
+      "...other structured fields...": "...",
+      "embedding_b64": "<base64 of float32 little-endian bytes, length dim * 4>"
+    }
+  ]
+}
+```
+
+Each port's catalog builder re-computes the embeddings under its own library and writes its own `catalog.json` — vectors are not shared across ports (different ONNX implementations produce numerically-identical-ish but not bit-equal output, and different models produce non-comparable vectors entirely). The on-disk *format* is shared so the loaders are parallel.
+
+The `embedding_b64` field carries raw little-endian float32 bytes, base64-encoded. This is the same byte sequence that gets written to Redis as the `embedding` hash field — the loader can decode-once and `HSET` the bytes directly. Avoid storing embeddings as JSON number arrays: they're 3-4× larger on disk and require per-port parsing/repacking before the `HSET` write.
+
+### Vector dim mismatch and L2 normalisation invariants
+
+Any helper that combines two vectors arithmetically (session blending, EWMA averaging, dot products outside of the FT.SEARCH query) must defend against (a) length mismatch — a stale session vector left in a user hash from a previous model — and (b) un-normalised stored vectors. The audit checklist row 24 (vector dim mismatch) and row 25 (L2 normalisation silently skipped) cover the specific tests. Highlights:
+
+- **Don't trust the library's `normalize: true` kwarg.** Some libraries don't propagate the flag through their pipeline-output unwrap step. Always add an explicit L2-normalise in the wrapper's encode path. Silent un-normalised vectors don't break KNN search (Redis Search normalises internally for cosine distance) but they do break any client-side blend / EWMA that assumes unit magnitudes.
+- **Validate vector length at the read boundary.** When the helper reads a stored vector (typically a session vector from a user hash), it should check the byte length against the configured `vector_dim` and discard mismatched data — same outcome as an empty session. The Python reference's `_bytes_to_vec` is the model; the Go and .NET subagents both missed this on first port and bugbot caught it. ([Audit row 24](audit-checklist.md))
+
+### Per-port deviations from the model spec — call them out
+
+When a library / typed API forces a deviation from the reference's documented behaviour (e.g. Lettuce 7's `TextFieldArgs.weight(long)` won't accept a fractional weight; .NET's `SmartComponents.LocalEmbeddings` only ships `bge-micro-v2`), call out the deviation in two places:
+
+1. **A `{{< note >}}` block in the port's `_index.md`**, right under the schema or API code where the deviation appears.
+2. **A code comment at the deviation site**, citing the library constraint that forced it.
+
+Examples from the recommendation-engine ports:
+
+- Lettuce's `_index.md` notes `description` text weight is 1.0 (not 0.5) because `TextFieldArgs.weight(long)` accepts integers only.
+- .NET's `_index.md` lede names `bge-micro-v2` explicitly and notes the other ports use MiniLM but the schema works for both.
+
+The cross-diff checklist (`cross-diff-checklist.md`) catches *undocumented* deviations; a noted deviation passes the audit. Don't try to force every port to be byte-identical when a library API genuinely forbids it.
+
+### Cross-port numerical-invariant smoke testing
+
+Use cases that produce deterministic numerical outputs (the recommendation-engine demo's session-blended search returns p001 at `d=0.340, score=0.175` for a standard query) should bake one such invariant into the smoke checklist:
+
+> After clicking p001 twice, the next session-blended search must return p001 first with `d ≈ 0.340, score ≈ 0.175`. Any port whose numbers differ by more than ~0.01 has a bug in the encoder, the byte packing, the cosine math, or the EWMA blend.
+
+The recommendation-engine ports running MiniLM through ONNX (Rust, Jedis, Lettuce, Ruby, PHP after the L2-normalise fix) all match to four decimals; the .NET port using `bge-micro-v2` produces different numbers but the *shape* of the result (p001 first, identical score-from-distance arithmetic) holds. Treat the invariant as a per-model expected-value table, not a single hardcoded number.
+
 ## Library versions to standardise (when this skill is updated)
 
 Pin the recommended versions in the `_index.md` Prerequisites section. As of the cache-aside use case:

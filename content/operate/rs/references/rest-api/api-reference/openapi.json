@@ -702,6 +702,33 @@
         "type": "object"
       },
       "LdapMapping": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/LdapMappingBody"
+          },
+          {
+            "properties": {
+              "action_uid": {
+                "description": "Action uid. If exists - progress can be tracked by the GET /actions/\u003cuid\u003e API.",
+                "type": "string"
+              },
+              "uid": {
+                "description": "LDAP mapping's unique uid.",
+                "type": "integer",
+                "x-go-type": "json.Number"
+              }
+            },
+            "required": [
+              "uid",
+              "name",
+              "dn",
+              "email",
+              "email_alerts",
+              "role_uids"
+            ],
+            "type": "object"
+          }
+        ],
         "description": "An API object that represents a Redis Software LDAP mapping.",
         "example": {
           "dn": "OU=ops.group,DC=redislabs,DC=com",
@@ -712,15 +739,14 @@
             1
           ],
           "uid": 17
-        },
+        }
+      },
+      "LdapMappingBody": {
+        "description": "Common LDAP mapping properties shared across LDAP mapping payloads.",
         "properties": {
           "account_id": {
             "description": "SM account ID.",
             "type": "integer"
-          },
-          "action_uid": {
-            "description": "Action uid. If exists - progress can be tracked by the GET /actions/\u003cuid\u003e API.",
-            "type": "string"
           },
           "bdbs_email_alerts": {
             "description": "UIDs of databases that LDAP mapping users will receive alerts for.",
@@ -736,11 +762,16 @@
           },
           "dn": {
             "description": "LDAP group's distinguished name.",
-            "type": "string"
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string",
+            "x-pattern-error-message": "must contain at least one non-whitespace character"
           },
           "email": {
             "description": "LDAP mapping's email.",
-            "type": "string"
+            "pattern": "(^$|^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)",
+            "type": "string",
+            "x-pattern-error-message": "must be empty or a valid email address"
           },
           "email_alerts": {
             "default": true,
@@ -749,7 +780,10 @@
           },
           "name": {
             "description": "LDAP mapping's name.",
-            "type": "string"
+            "maxLength": 255,
+            "pattern": "^[a-zA-Z0-9_ \\[\\]()@,.;#-]+$",
+            "type": "string",
+            "x-pattern-error-message": "may contain only letters, numbers, spaces, and the characters _ [] () @ , . ; # -"
           },
           "role_uids": {
             "description": "List of role uids associated with the LDAP mapping.",
@@ -757,23 +791,36 @@
               "type": "integer",
               "x-go-type": "json.Number"
             },
+            "minItems": 1,
             "type": "array"
-          },
-          "uid": {
-            "description": "LDAP mapping's unique uid.",
-            "type": "integer",
-            "x-go-type": "json.Number"
           }
         },
-        "required": [
-          "uid",
-          "name",
-          "dn",
-          "email",
-          "email_alerts",
-          "role_uids"
-        ],
         "type": "object"
+      },
+      "LdapMappingCreateRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/LdapMappingBody"
+          },
+          {
+            "required": [
+              "name",
+              "dn",
+              "role_uids"
+            ],
+            "type": "object"
+          }
+        ],
+        "description": "Request body for creating a Redis Software LDAP mapping.",
+        "example": {
+          "dn": "OU=ops.group,DC=redislabs,DC=com",
+          "email": "ops.group@redislabs.com",
+          "email_alerts": true,
+          "name": "Admins",
+          "role_uids": [
+            1
+          ]
+        }
       },
       "LdapQuery": {
         "additionalProperties": false,
@@ -2503,6 +2550,54 @@
           }
         ],
         "summary": "Get all Redis Software LDAP mappings",
+        "tags": [
+          "LDAP Mapping"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "post": {
+        "description": "Create a new Redis Software LDAP mapping.",
+        "operationId": "cluster_create_ldap_mapping",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LdapMappingCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LdapMapping"
+                }
+              }
+            },
+            "description": "LDAP mapping created successfully."
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "create_ldap_mapping"
+            ]
+          }
+        ],
+        "summary": "Create a Redis Software LDAP mapping",
         "tags": [
           "LDAP Mapping"
         ],

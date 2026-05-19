@@ -136,6 +136,11 @@ lets a client take action to avoid disruptions in service.
 See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
 for more information about SCH.
 
+{{< note >}}Using SCH with go-redis requires v9.16.0 or later for
+basic connections, and v9.18.0 or later for
+[OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}) connections.
+{{< /note >}}
+
 By default, `go-redis` always attempts to connect via SCH but falls back to
 a non-SCH connection if the server doesn't support it. However, you can configure SCH
 explicitly by passing a `MaintNotificationsConfig` object during the connection,

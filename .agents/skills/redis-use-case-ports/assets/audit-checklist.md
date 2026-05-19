@@ -371,6 +371,115 @@ The reference (`redis-py/demo_server.py:590-598` + `event_stream.py:263-274`) ab
 
 ---
 
+## 24. Vector dimension mismatch in client-side blend / arithmetic helpers
+
+**What to scan for:** any helper that iterates one vector and indexes another (`for i in query: mixed[i] = a*query[i] + b*session[i]`, `for i in prev: mixed[i] = α*next[i] + (1-α)*prev[i]`, or the equivalent in any language). Typical sites: `blendVectors(query, session, weight)`, `ewmaBlend(prev, next, alpha)`, dot-product / cosine helpers.
+
+**Pass criterion:** dim mismatch is caught and handled before the arithmetic. Two defensive layers, mirroring the Python reference:
+
+1. **At the read boundary.** When the helper reads a stored vector from Redis (e.g. the session vector in a user features hash), it validates the byte length against the index's configured `vector_dim` and drops the vector if it doesn't match. A stale session that doesn't match the current model is treated as "no signal" — same outcome as an empty session.
+2. **At the arithmetic boundary.** The blend / EWMA helpers themselves check `len(a) == len(b)` at entry and return the longer/safer input unchanged on mismatch, rather than indexing out of range.
+
+A pure "validate at read" defense is not enough — callers can wire their own session sources (mocks in tests, externally-provided session vectors from another service) and bypass the read path. A pure "validate in the blend" defense is not enough either — silently treating a stale session as "no signal" is the right user-facing behaviour for a model change, which the read-boundary check delivers; the blend-boundary check is just the safety net.
+
+**Sample audit prompt:**
+
+> For each port under `content/develop/use-cases/{{USE_CASE_NAME}}/`, locate any function that takes two vectors and combines them element-wise (typically `blendVectors`, `ewmaBlend`, dot-product helpers). For each, verify (a) the function checks the two inputs are the same length before indexing, and (b) the path that loads stored vectors from Redis validates their length against the configured `vector_dim` and discards mismatched ones at the boundary. Flag any helper where a stale session vector from a previous model could panic / throw / produce a silently-wrong result.
+
+**Why on list:** Recommendation-engine use case, Cursor bugbot. Go's `blendVectors` and `ewmaBlend` panicked on length mismatch; .NET's `BlendVectors` / `EwmaBlend` threw `IndexOutOfRangeException`. The Python reference handled it correctly because `_bytes_to_vec` validates length at the read boundary, but neither the Go nor .NET subagent translated that defense across — the bug only triggers when an operator regenerates the catalog with a different-dim model and restarts with `--no-reset`, leaving stale session vectors at the old dim. ([PR #3331](https://github.com/redis/docs/pull/3331))
+
+---
+
+## 25. L2 normalisation silently skipped in embedding wrappers
+
+**What to scan for:** the embedding helper in any port that wraps a library claiming to produce normalised vectors. Look at the call site (e.g. `pipeline('embeddings', model)` with a `normalize: true` kwarg, or `model.encode(text, normalize_embeddings=True)`) and confirm the output is actually unit-norm.
+
+**Pass criterion:** every stored vector and every query-time vector has L2 norm `≈ 1.0`. Verify with a one-liner:
+
+```python
+import redis, struct, math
+r = redis.Redis(decode_responses=False)
+v = r.hget('product:p001', 'embedding')
+arr = struct.unpack(f'<{len(v)//4}f', v)
+print(math.sqrt(sum(x*x for x in arr)))  # expect ≈ 1.0
+```
+
+If the embedder ships unnormalised vectors, the Redis Search cosine-distance index still works correctly (Redis normalises internally for cosine), but **any client-side arithmetic that blends a stored vector with a freshly-computed query vector under-weights the stored side** — because the stored side has higher magnitude. Symptoms: session blending appears to do almost nothing; EWMA averaging produces unexpected magnitudes. The bug is silent — search rankings look plausible, just not as session-influenced as the spec promises.
+
+The fix is an explicit L2-normalise in the wrapper's encode path, regardless of what the library claims. Treat the library's "normalised" kwarg as untrusted.
+
+**Sample audit prompt:**
+
+> For each port under `content/develop/use-cases/{{USE_CASE_NAME}}/`, locate the embedding wrapper (typically `Embedder`, `LocalEmbedder`, `embeddings.X`). After the catalog is built, run the verification one-liner — read the first product's stored embedding, unpack it as `<dim>` little-endian float32s, compute the L2 norm, confirm it's between 0.99 and 1.01. Flag any port where the norm is significantly off; the wrapper needs an explicit normalise step regardless of what the library's `normalize: true` flag suggests.
+
+**Why on list:** Recommendation-engine use case, surfaced during smoke testing. The PHP port's `Embedder` passed `normalize: true` to TransformersPHP's `pipeline()`, but unwrapping `$result[0]` returned the un-normalised inner array — vectors stored at norm ≈ 3.23. The bug was invisible in pure-KNN search (Redis normalises for cosine) and only became visible when session-blended search produced a markedly weaker signal than the other 7 ports. Fixed by adding an explicit `l2Normalise()` in the wrapper's encode path. ([PR #3331](https://github.com/redis/docs/pull/3331))
+
+---
+
+## 26. TAG escape character set must include the backslash itself
+
+**What to scan for:** the helper's TAG-value escape function (typically `escapeTagValue`, `_escape_tag_value`, `EscapeTagValue`). Look at the character set being escaped — usually defined as a constant set or string like `",.<>{}[]\"':;!@#$%^&*()-+=~| "`.
+
+**Pass criterion:** the **backslash character itself** must be in the escape set, in addition to the brace, brace-closing, pipe, dash, etc. The standard set is:
+
+```
+\,.<>{}[]"':;!@#$%^&*()-+=~| <space>
+```
+
+Without the backslash in the set, a TAG value containing `\` (e.g. a category like `c\d` or a brand with a Windows-style path) gets passed through unescaped. The `\` then "eats" the next character's escape — e.g. `\}` becomes a literal close-brace escape inside the `{...}` block, leaving the TAG block parser confused and the FT.SEARCH parser unable to close the predicate.
+
+**Sample audit prompt:**
+
+> For each port's TAG escape function under `content/develop/use-cases/{{USE_CASE_NAME}}/`, list every character in the escape set. Confirm the backslash `\` is one of them. Test the function with these inputs and verify the output (and the resulting `@tag:{...}` clause) parses without errors against Redis: `\` (single backslash), `\\}` (backslash + brace), `a-b c` (hyphen + space), `foo|bar` (pipe), `foo}bar` (brace). Flag any port that omits the backslash from the escape set.
+
+**Why on list:** Recommendation-engine use case, Cursor bugbot caught it on the reference Python implementation. The original `_TAG_SPECIAL` set included braces, brackets, pipes, and operators but not the backslash itself. The fix is a one-character addition to the set; if you don't catch it in the reference before fanning out, all 8 ports inherit the bug. ([PR #3331 bugbot](https://github.com/redis/docs/pull/3331))
+
+---
+
+## 27. Connection-wide state toggle race on a shared client
+
+**What to scan for:** any helper that toggles a connection-level setting around a batch of writes — `setAutoFlushCommands(false) / flushCommands() / setAutoFlushCommands(true)` (Lettuce), `pipeline.multi() / pipeline.exec()` on a shared connection without a per-call lease (Lettuce / redis-rs without pool), or any analogous "set option, do work, restore option" pattern.
+
+**Pass criterion:** either (a) the connection is acquired per call from a pool (no shared state to race on), (b) the toggle is replaced with a primitive that doesn't share state with concurrent callers (sync API, Lua script, dedicated connection), or (c) the toggle is serialised with a lock that blocks every other caller on the same connection for the duration of the batch — and the lock's existence is documented in the production-usage section so users know to switch to a pool in production.
+
+A common foot-gun is "auto-flush off → queue commands → flush → auto-flush on" wrapped in a `try/finally` on a shared connection. The auto-flush flag is per-connection, not per-call. Two concurrent handlers can interleave: handler A turns auto-flush off, handler B's commands queue up under A's flag, A flushes, A's `finally` restores auto-flush on, B's queued commands have already been flushed by A's flush, B's `finally` turns auto-flush on again (no-op) — the visible behaviour might still pass smoke tests because Redis processes commands in order, but B's commands have lost their batching guarantees, and any subtle dependency on flush ordering breaks under load.
+
+**Sample audit prompt:**
+
+> For each port under `content/develop/use-cases/{{USE_CASE_NAME}}/`, scan for any place that toggles a connection-level setting around a batched write (`setAutoFlushCommands`, manual flush, etc.). For each site, confirm one of: (1) it runs on a per-call leased connection from a pool, (2) it's wrapped in a lock that serialises concurrent callers on that connection, or (3) it's been replaced with a primitive that doesn't share connection state. Flag any toggle on a shared connection that isn't serialised, particularly anything in `recordClick`, `enqueue`, `publish` — endpoints that an HTTP server might fan out across thread-pool workers.
+
+**Why on list:** Recommendation-engine use case, Codex independent review. Lettuce's `Recommender.recordClick` toggled `setAutoFlushCommands(false)` on a `StatefulRedisConnection` shared across the demo's 16-thread HTTP executor. Under concurrent load, threads could observe each other's flag flips and produce non-deterministic flush behaviour. Fixed by replacing the four batched async writes with four sequential `sync()` calls — sub-millisecond locally, eliminates the shared state. ([PR #3331](https://github.com/redis/docs/pull/3331))
+
+---
+
+## 28. Weight / threshold of zero must disable, not normalise to default
+
+**What to scan for:** any helper that accepts a "weight", "threshold", "alpha", or similar tuning parameter, and clamps it. Look for `if weight <= 0: weight = default` or `weight = max(weight, 0.15)` at the top of the function.
+
+**Pass criterion:** zero (and negative) values must be honoured as "disable this contribution" — the documented escape hatch — not silently coerced up to the default. The pattern is:
+
+```python
+if not affinities or affinity_weight <= 0:
+    return sorted(candidates, key=lambda c: c.score)
+```
+
+Not:
+
+```python
+if affinity_weight <= 0:
+    affinity_weight = 0.15  # WRONG — caller cannot disable
+```
+
+The first form lets a caller pass `0` to bypass the bonus entirely (and a downstream test can pass `weight=0` to assert "rerank not applied"). The second form makes the API silently uncallable in disabled-mode — the caller is forced to either accept the default or skip the call. Plus it lies about the API: the parameter name says "weight" but the value is being treated as "magic non-default-must-be-positive".
+
+**Sample audit prompt:**
+
+> For each helper under `content/develop/use-cases/{{USE_CASE_NAME}}/` that accepts a tuning weight, threshold, or alpha parameter, confirm that passing `0` or a negative value disables the contribution rather than being silently rewritten to the default. Read the helper's docstring to see whether "disable via zero" is the documented behaviour — if so, the implementation must honour it. Flag any port where `weight <= 0` is clamped up to a non-zero default.
+
+**Why on list:** Recommendation-engine use case, Codex independent review. Rust's `rerank`, Jedis's `rerank`, and Lettuce's `rerank` all rewrote `affinity_weight <= 0` to `0.15` at the top of the function, even though the Python reference treated `<= 0` as the disable case. Three of the eight subagent ports independently introduced the same regression — strongly suggests this is a default reach in many typed-language idioms (Java/Rust/Kotlin) that's easy to drop without thinking.
+
+---
+
 ## How to add a new row
 
 When a bug class is identified after this skill has been used:

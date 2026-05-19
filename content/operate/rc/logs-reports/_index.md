@@ -8,7 +8,7 @@ categories:
 - rc
 description: null
 hideListLinks: false
-weight: 37
+weight: 42
 ---
 
 Here, you learn how to use Redis Cloud logs and reports to track activity and usage statistics. 

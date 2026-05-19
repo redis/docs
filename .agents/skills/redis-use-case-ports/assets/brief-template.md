@@ -29,6 +29,25 @@ For this use case the helper exposes:
 
 {{HELPER_API_SURFACE}}
 
+### For ML / vector-search use cases — embedding library
+
+*(Skip this section if the use case doesn't involve embeddings.)*
+
+Use the library named for your client in [`assets/redis-conventions.md`](redis-conventions.md#ml--vector-search-use-cases). Don't choose your own — the choice is non-obvious from the use case spec and a different library may not interoperate with the reference's vector format. Setup gotchas worth knowing before you start:
+
+- **Go (Hugot):** use `NewGoSession(ctx)` to get the pure-Go ONNX backend. The CGO/`ort` backend requires installing the ONNX Runtime shared library, which is a friction point for docs readers.
+- **PHP (`codewithkyrian/transformers`):** the demo must run with `php -d ffi.enable=true -S 127.0.0.1:<port> demo_server.php`. The cli-server SAPI defaults to `ffi.enable=preload`, which blocks TransformersPHP's FFI calls into ONNX Runtime. **Document the `-d` flag in the source-file header comment**, not just the guide.
+- **Ruby (`informers`):** the gem pulls in `onnxruntime`, which requires Ruby ≥ 3.2. macOS's system Ruby is 2.6, which can't load the gem. Document this in Prerequisites and point at Homebrew / rbenv / asdf.
+- **.NET (`SmartComponents.LocalEmbeddings`):** only ships its bundled `bge-micro-v2` model. Don't try to force MiniLM — write the deviation up in the guide.
+- **Lettuce 7 typed Search API:** `TextFieldArgs.weight(long)` accepts integers only. If the reference's schema has a fractional TEXT weight (e.g. `description WEIGHT 0.5`), document the deviation rather than rewriting to raw command dispatch.
+
+Wrapper invariants — verify on your way out:
+
+- Encoded vectors are L2-normalised on every output path. **Don't trust** the library's `normalize: true` kwarg without verifying. Read one stored vector back via `redis-cli HGET` and confirm `sqrt(sum(x^2)) ≈ 1.0`. See [`audit-checklist.md`](audit-checklist.md) row 25.
+- Any helper that blends two vectors arithmetically (session vector blend, EWMA averaging) checks `len(a) == len(b)` at entry and returns the longer input unchanged on mismatch. The path that loads stored vectors from Redis validates their length against the configured `vector_dim` and discards mismatched data. See [`audit-checklist.md`](audit-checklist.md) row 24.
+- Any tuning weight / threshold / alpha treats `0` as "disable this contribution" (the documented escape hatch), not as a magic value to be silently coerced up to the default. See [`audit-checklist.md`](audit-checklist.md) row 28.
+- TAG escape character set includes the backslash itself, in addition to the brace / pipe / dash / etc. characters. See [`audit-checklist.md`](audit-checklist.md) row 26.
+
 ### File layout for `{{CLIENT}}`
 
 Follow the conventions in [`assets/redis-conventions.md`](redis-conventions.md#per-client-file-layout). At a minimum:
