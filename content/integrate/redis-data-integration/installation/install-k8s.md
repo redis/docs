@@ -174,7 +174,7 @@ To pull images from a private image registry, you must provide the image pull se
     `rdi`. If you want to use a different namespace, pass the option
     `-n <custom-namespace>` to the `helm install` command instead.
     {{< /note >}}
-
+    &nbsp;
     {{< warning >}}Only one RDI installation is supported per Kubernetes
     cluster. Installing RDI into multiple namespaces in the same cluster is
     not supported and will fail. If you need more than one RDI deployment,
