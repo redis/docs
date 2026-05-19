@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 - rc
-description: An overview of Redis for AI and search documentation
+description: An overview of Redis for AI and search documentation, including vector search, AI agents, and the Context Engine (Redis Iris) managed services.
 linkTitle: Redis for AI and search
 weight: 40
 hideListLinks: true
@@ -29,11 +29,11 @@ AI agents are autonomous systems that combine LLMs with memory, tools, and plann
 
 - [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) — Use the interactive code generator to create a working agent in your preferred language with your choice of LLM.
 - [How agents work]({{< relref "/develop/ai/agent-builder/agent-concepts" >}}) — Learn the agent processing cycle, memory architecture, and why Redis is the foundation for production agents.
-- [Redis Context Engine]({{< relref "/develop/ai/context-engine" >}}) — The managed service suite that gives agents what they need: semantic caching, persistent memory, structured data access, and live data integration.
+- [Context Engine]({{< relref "/develop/ai/context-engine" >}}) — The managed service suite that gives agents what they need: semantic caching, persistent memory, structured data access, and live data integration.
 
 ### Context Engine services
 
-The [Redis Context Engine]({{< relref "/develop/ai/context-engine" >}}) (Redis Iris) includes four fully-managed services available on Redis Cloud:
+The [Context Engine]({{< relref "/develop/ai/context-engine" >}}) (Redis Iris) includes four fully-managed services available on Redis Cloud:
 
 - [LangCache]({{< relref "/develop/ai/context-engine/langcache" >}}) — Semantic caching that reduces LLM API costs and improves response times by reusing cached responses for similar queries.
 - [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) — Two-tier persistent memory (session and long-term) for agents, available as a REST API and Python SDK.
@@ -49,6 +49,8 @@ The [Redis Context Engine]({{< relref "/develop/ai/context-engine" >}}) (Redis I
 1. [**Build an AI agent**]({{< relref "/develop/ai/agent-builder" >}}): Use the interactive agent builder to generate complete working code for conversational assistants and recommendation engines.
 1. [**Add semantic caching**]({{< relref "/develop/ai/context-engine/langcache" >}}): Reduce LLM API calls by caching and reusing responses for semantically similar queries.
 1. [**Add agent memory**]({{< relref "/develop/ai/context-engine/agent-memory" >}}): Give your agent persistent session and long-term memory using the Agent Memory REST API.
+1. [**Access structured business data**]({{< relref "/develop/ai/context-engine/context-retriever" >}}): Use Context Retriever to define your business data as governed tools that any agent can query reliably.
+1. [**Sync live data to Redis**]({{< relref "/develop/ai/context-engine/data-integration" >}}): Use Data Integration to keep your Redis Cloud database in sync with your primary relational database using Change Data Capture.
 
 #### Learn how to index and query vector embeddings
 * [redis-py (Python)]({{< relref "/develop/clients/redis-py/vecsearch" >}})
@@ -100,10 +102,11 @@ AI agents can act autonomously to plan and execute tasks for the user.
 * [Redis Notebooks for LangGraph](https://github.com/redis-developer/langgraph-redis/tree/main/examples) — End-to-end agent examples using LangGraph and Redis.
 
 #### Context Engine
-The Redis Context Engine provides managed services for agent memory and data access.
+The Context Engine provides managed services for agent memory and data access.
 
 * [Get started with LangCache]({{< relref "/develop/ai/context-engine/langcache" >}}) — Add semantic caching to reduce LLM costs in minutes.
 * [Get started with Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) — Add persistent two-tier memory to any agent using the REST API.
+* [Get started with Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever" >}}) — Expose your business data as governed tools that agents can reliably query.
 * [Get started with Data Integration]({{< relref "/develop/ai/context-engine/data-integration" >}}) — Keep Redis in sync with your primary database so agents always have fresh data.
 
 ## Tutorials
@@ -112,6 +115,13 @@ Need a deeper-dive through different use cases and topics?
 #### Agents
 * [Agentic RAG](https://github.com/redis-developer/agentic-rag) - A tutorial focused on agentic RAG with LlamaIndex and Amazon Bedrock
 * [Redis Notebooks for LangGraph](https://github.com/redis-developer/langgraph-redis/tree/main/examples) - Working with LangGraph agents and Redis memory
+* [Build a LangGraph travel agent with Redis Agent Memory](https://redis.io/tutorials/redis-agent-memory-with-langgraph/) - Build a LangGraph agent with short-term session memory and long-term persistent memory using Redis Agent Memory
+* [Build a real-time AI agent with Redis Iris](https://redis.io/tutorials/redis-iris-call-agent/) - Combine Redis Agent Memory and Context Retriever to build a wealth advisor agent with persistent memory and structured data access
+* [Build a car dealership agent with Google ADK and Redis Agent Memory](https://redis.io/tutorials/build-a-car-dealership-agent-with-google-adk-and-redis-agent-memory/) - Build a persistent AI agent using Google ADK and Redis Agent Memory Server with working and long-term memory
+* [Build Google ADK agents with persistent, real-time memory on Redis](https://redis.io/en/blog/build-google-adk-agents-with-persistent-real-time-memory-on-redis/) - Use the `adk-redis` package to integrate Google ADK with Redis for persistent memory, sessions, and semantic caching in production agents
+
+#### Context Engine
+* [Semantic caching with Redis LangCache](https://redis.io/tutorials/semantic-caching-with-redis-langcache/) - Build a FastAPI app with semantic caching using LangCache to reduce LLM costs and improve response times
 
 #### RAG
 * [RAG on Vertex AI](https://github.com/redis-developer/gcp-redis-llm-stack/tree/main) - A RAG tutorial featuring Redis with Vertex AI
@@ -122,6 +132,10 @@ Need a deeper-dive through different use cases and topics?
 * [Recommendation systems w/ NVIDIA Merlin & Redis](https://github.com/redis-developer/redis-nvidia-recsys) - Three examples, each escalating in complexity, showcasing the process of building a realtime recsys with NVIDIA and Redis
 * [Redis product search](https://github.com/redis-developer/redis-product-search) - Build a real-time product search engine using features like full-text search, vector similarity, and real-time data updates
 * [ArXiv Search](https://github.com/redis-developer/redis-arxiv-search) - Full stack implementation of Redis with React FE
+
+#### Vector sets
+* [Getting started with vector sets](https://redis.io/tutorials/howtos/vector-sets-basics/) - Learn the fundamentals of Redis vector sets for similarity search using the `VADD` and `VSIM` commands
+* [Face similarity search with Redis vector sets](https://redis.io/tutorials/face-similarity-search-with-redis-vector-sets/) - Build a celebrity lookalike app using Redis vector sets and a Vision Transformer model for face embedding and similarity search
 
 ## Ecosystem integrations
 
@@ -149,9 +163,24 @@ See how we stack up against the competition.
 
 ## Best practices
 See how leaders in the industry are building their AI apps.
-* [Get better RAG responses with Ragas](https://redis.io/blog/get-better-rag-responses-with-ragas/)
-* [What is semantic caching](https://redis.io/blog/what-is-semantic-caching) — When and how to apply semantic caching in your AI applications.
+
+#### Agents and architecture
+* [AI Agent vs Chatbot: Key Differences Explained](https://redis.io/en/blog/ai-agent-vs-chatbot/) — Understand the architectural differences between chatbots and agents and when to use each based on task complexity, cost, and latency.
+* [Agentic AI Architecture: 5 Patterns Explained](https://redis.io/en/blog/agentic-ai-architecture-examples/) — Learn five production agentic patterns and the data layer requirements needed to support them.
+* [AI Agents vs Workflows: When to Use Each](https://redis.io/en/blog/agents-vs-workflows/) — Understand the distinction between deterministic workflows and autonomous agents and how to combine them in production.
 * [How agents work]({{< relref "/develop/ai/agent-builder/agent-concepts" >}}) — Agent memory patterns, data structure selection, and production deployment considerations.
+
+#### Memory and context
+* [Context Engineering for AI: What It Is & How to Build It](https://redis.io/en/blog/context-engineering-ai/) — Learn the discipline of designing what an LLM receives at inference time, including the four core operations and how Redis provides the infrastructure.
+* [Long-Term Memory Architectures for AI Agents](https://redis.io/en/blog/long-term-memory-architectures-ai-agents/) — Design persistent memory systems that retain information across sessions, with guidance on memory types and design tradeoffs.
+* [Context Pruning: Cut LLM Tokens Without Losing Quality](https://redis.io/en/blog/context-pruning-llm-tokens/) — Selectively remove low-value tokens from LLM input to reduce costs and improve quality, with benchmarks and failure modes.
+
+#### Performance
+* [What is semantic caching](https://redis.io/blog/what-is-semantic-caching) — When and how to apply semantic caching in your AI applications.
+* [Streaming LLM Responses: Make Your AI App Feel Fast](https://redis.io/en/blog/streaming-llm-responses/) — Deliver tokens incrementally via Server-Sent Events and combine streaming with caching and context optimization in production.
+
+#### RAG
+* [Get better RAG responses with Ragas](https://redis.io/blog/get-better-rag-responses-with-ragas/)
 
 ## Continue learning with Redis University
 
