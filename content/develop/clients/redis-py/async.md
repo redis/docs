@@ -139,7 +139,7 @@ Always close clients and pools when you're done:
 ## Cancellation and timeouts
 
 You can cancel an in-flight command by wrapping it in `asyncio.wait_for()`
-(or `asyncio.timeout()` on Python 3.11+). If the command is cancelled
+(or `asyncio.timeout()` on Python 3.11+). If the command is canceled
 mid-flight, `redis-py` disconnects the underlying connection to avoid
 response/request misalignment on subsequent reads. The next command
 transparently picks up a new connection from the pool.

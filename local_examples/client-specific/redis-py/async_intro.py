@@ -147,7 +147,7 @@ async def timeout_example():
             # BLPOP blocks waiting for a value, so the timeout reliably fires.
             await asyncio.wait_for(r.blpop('empty-queue'), timeout=0.1)
         except asyncio.TimeoutError:
-            print('command cancelled')
+            print('command canceled')
 
 asyncio.run(timeout_example())
 # STEP_END
