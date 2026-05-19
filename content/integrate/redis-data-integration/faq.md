@@ -55,6 +55,14 @@ The configuration for the GCS is available only for [Helm based installations]({
 
 **Important:** You should only use this configuration when both sites use the same source configuration.
 
+## Can I run multiple RDI installations in the same Kubernetes cluster?
+
+No. Only one RDI installation is supported per Kubernetes cluster, even if
+you install into different namespaces. If you need more than one RDI
+deployment, use separate Kubernetes clusters. See
+[Install on Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}})
+for installation details.
+
 ## Can RDI automatically track changes to the source database schema?
 
 If you don't configure RDI to capture a specific set of tables in the schema then it will
