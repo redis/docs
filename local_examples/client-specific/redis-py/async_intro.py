@@ -106,21 +106,20 @@ async def pubsub_example():
     async with redis.Redis(
         host='localhost', port=6379, decode_responses=True
     ) as r:
-        pubsub = r.pubsub()
-        await pubsub.subscribe('channel-1')
+        async with r.pubsub() as pubsub:
+            await pubsub.subscribe('channel-1')
 
-        async def reader():
-            async for message in pubsub.listen():
-                if message['type'] == 'message':
-                    print(message['data'])
-                    # hello
-                    break
+            async def reader():
+                async for message in pubsub.listen():
+                    if message['type'] == 'message':
+                        print(message['data'])
+                        # hello
+                        break
 
-        reader_task = asyncio.create_task(reader())
-        await asyncio.sleep(0.1)
-        await r.publish('channel-1', 'hello')
-        await reader_task
-        await pubsub.aclose()
+            reader_task = asyncio.create_task(reader())
+            await asyncio.sleep(0.1)
+            await r.publish('channel-1', 'hello')
+            await reader_task
 
 asyncio.run(pubsub_example())
 # STEP_END
@@ -145,8 +144,10 @@ async def timeout_example():
         host='localhost', port=6379, decode_responses=True
     ) as r:
         try:
-            async with asyncio.timeout(0.001):
-                await r.set('foo', 'bar')
-        except TimeoutError:
+            # BLPOP blocks waiting for a value, so the timeout reliably fires.
+            await asyncio.wait_for(r.blpop('empty-queue'), timeout=0.1)
+        except asyncio.TimeoutError:
             print('command cancelled')
+
+asyncio.run(timeout_example())
 # STEP_END

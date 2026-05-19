@@ -32,10 +32,10 @@ but you can translate any of them to async by following the rules in
 
 ## Basic connection
 
-Import the async client from `redis.asyncio` and `await` each command. The
-constructor itself is *not* awaitable — the connection is established lazily
-the first time you issue a command. Call `aclose()` when you're done to
-release the underlying socket.
+Import the async client from `redis.asyncio` and `await` each command.
+Construction is synchronous and doesn't open a connection — the pool
+establishes one lazily the first time you issue a command. Call `aclose()`
+when you're done to release the underlying socket.
 
 {{< clients-example set="async_intro" step="connect" lang_filter="Python" description="Foundational: Connect to Redis with the async client and run a basic SET/GET" difficulty="beginner" >}}
 {{< /clients-example >}}
@@ -78,8 +78,10 @@ Because each command is a coroutine, you can run several concurrently with
 {{< clients-example set="async_intro" step="gather" lang_filter="Python" description="Run several Redis commands concurrently with asyncio.gather" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
-Each `gather()` argument uses its own connection from the pool, so size the
-pool to match your peak concurrency.
+Each in-flight command consumes one pooled connection while it's executing,
+so size `max_connections` to match your peak concurrency. (If you instantiate
+the client with `single_connection_client=True`, all commands serialize
+through a single connection instead.)
 
 ## Pipelines and transactions
 
@@ -102,8 +104,9 @@ because it only toggles internal pipeline state.
 
 The async pub/sub object follows the same shape as the sync version. Call
 `await pubsub.subscribe(...)` to register channels, then iterate messages
-with `async for message in pubsub.listen():`. Call `await pubsub.aclose()`
-to release the connection.
+with `async for message in pubsub.listen():`. Use the `PubSub` object as an
+async context manager (`async with r.pubsub() as pubsub:`) or call
+`await pubsub.aclose()` explicitly to release the connection.
 
 {{< clients-example set="async_intro" step="pubsub" lang_filter="Python" description="Subscribe and receive messages with the async pub/sub API" difficulty="intermediate" >}}
 {{< /clients-example >}}
@@ -135,11 +138,11 @@ Always close clients and pools when you're done:
 
 ## Cancellation and timeouts
 
-You can cancel an in-flight command by wrapping it in `asyncio.timeout()`
-or `asyncio.wait_for()`. If the command is cancelled mid-flight, `redis-py`
-disconnects the underlying connection to avoid response/request misalignment
-on subsequent reads. The next command transparently picks up a new
-connection from the pool.
+You can cancel an in-flight command by wrapping it in `asyncio.wait_for()`
+(or `asyncio.timeout()` on Python 3.11+). If the command is cancelled
+mid-flight, `redis-py` disconnects the underlying connection to avoid
+response/request misalignment on subsequent reads. The next command
+transparently picks up a new connection from the pool.
 
 {{< clients-example set="async_intro" step="timeout" lang_filter="Python" description="Apply an asyncio timeout to a Redis command" difficulty="intermediate" >}}
 {{< /clients-example >}}
@@ -156,7 +159,9 @@ client, apply these rules:
 - Replace `import redis` with `import redis.asyncio as redis`.
 - Wrap the example in an `async def` function and call it with
   `asyncio.run(...)`.
-- Add `await` in front of every command call.
+- Add `await` in front of every command call. (Exception: buffered pipeline
+  commands such as `pipe.set(...)` stay un-awaited; only `pipe.watch(...)`,
+  any reads issued before `pipe.multi()`, and `pipe.execute()` are awaited.)
 - Replace `with r.pipeline(...) as pipe:` with
   `async with r.pipeline(...) as pipe:`, and `await pipe.execute()`.
 - Replace `r.close()` with `await r.aclose()`, or use
