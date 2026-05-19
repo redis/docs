@@ -106,12 +106,12 @@ Redis Enterprise pods use Kubernetes Secrets and PEM-encoded certificates and ke
 
 You create the Secrets. The operator references them and manages their lifecycle (for example, when you rename the credential Secret). TLS, license, and client authentication Secrets are always user-supplied.
 
-### What's mounted in the pod
+### What you'll see in the pod
 
-- Kubernetes Secret volumes at operator-managed mount paths such as:
+- **Mounted Secret volumes** at operator-managed paths such as:
   - `/opt/redislabs/credentials` — cluster admin credential Secret.
   - `/opt/redislabs/proxy` — call-home proxy credentials, when configured.
-- PEM-encoded certificates and keys for TLS, internode encryption, and proxy or database endpoints. Exact paths vary by version and component.
+- **PEM-encoded certificates and keys** for TLS, internode encryption, and proxy or database endpoints. The operator applies these certificates through the cluster's REST API rather than as Secret volume mounts, and Redis Enterprise writes them to the pod filesystem. Exact paths vary by version and component.
 
 ### What the Secrets contain
 
