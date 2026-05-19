@@ -27,18 +27,18 @@ This is the Kubernetes-native method. The operator detects changes to a referenc
 
 The REC custom resource lets you replace these certificates through `spec.certificates`:
 
-| Certificate                        | REC custom resource field                     | Secret `name` value        |
-| ---------------------------------- | --------------------------------------------- | -------------------------- |
-| API                                | `apiCertificateSecretName`                    | `api`                      |
-| Cluster Manager UI                 | `cmCertificateSecretName`                     | `cm`                       |
-| Control plane internode encryption | `cpInternodeEncryptionCertificateSecretName`  | `cp_internode_encryption`  |
-| Data plane internode encryption    | `dpInternodeEncryptionCertificateSecretName`  | `dp_internode_encryption`  |
-| LDAP client                        | `ldapClientCertificateSecretName`             | `ldap_client`              |
-| Metrics exporter                   | `metricsExporterCertificateSecretName`        | `metrics_exporter`         |
-| Proxy                              | `proxyCertificateSecretName`                  | `proxy`                    |
-| SSO issuer (SAML IdP)              | `ssoIssuerCertificateSecretName`              | `sso_issuer`               |
-| SSO service (SAML SP)              | `ssoServiceCertificateSecretName`             | `sso_service`              |
-| Syncer                             | `syncerCertificateSecretName`                 | `syncer`                   |
+| Certificate                        | REC custom resource field                     | Certificate name in Redis Software |
+| ---------------------------------- | --------------------------------------------- | ---------------------------------- |
+| API                                | `apiCertificateSecretName`                    | `api`                              |
+| Cluster Manager UI                 | `cmCertificateSecretName`                     | `cm`                               |
+| Control plane internode encryption | `cpInternodeEncryptionCertificateSecretName`  | `cp_internode_encryption`          |
+| Data plane internode encryption    | `dpInternodeEncryptionCertificateSecretName`  | `dp_internode_encryption`          |
+| LDAP client                        | `ldapClientCertificateSecretName`             | `ldap_client`                      |
+| Metrics exporter                   | `metricsExporterCertificateSecretName`        | `metrics_exporter`                 |
+| Proxy                              | `proxyCertificateSecretName`                  | `proxy`                            |
+| SSO issuer (SAML IdP)              | `ssoIssuerCertificateSecretName`              | `sso_issuer`                       |
+| SSO service (SAML SP)              | `ssoServiceCertificateSecretName`             | `sso_service`                      |
+| Syncer                             | `syncerCertificateSecretName`                 | `syncer`                           |
 
 Rotating any of these certificates does not restart REC pods.
 
@@ -49,31 +49,40 @@ Create a Kubernetes [secret](https://kubernetes.io/docs/concepts/configuration/s
 ```sh
 kubectl create secret generic <secret-name> \
   --from-file=certificate=</path/to/certificate.pem> \
-  --from-file=key=</path/to/key.pem> \
-  --from-literal=name=<certificate-name>
+  --from-file=key=</path/to/key.pem>
 ```
 
-Replace the placeholders:
+Choose any value for `<secret-name>`; you'll reference it from `spec.certificates` in [Step 2](#step-2-reference-the-secret-in-the-rec-custom-resource). The operator resolves which Redis Software certificate to replace from the REC field name, not from the secret.
 
-- `<secret-name>`: any name you choose. You'll reference it from `spec.certificates` in [Step 2](#step-2-reference-the-secret-in-the-rec-custom-resource).
-- `<certificate-name>`: the value from the **Secret `name` value** column in the [supported certificates](#supported-certificates) table.
+#### Supported secret keys
 
-{{<note>}}For internode encryption certificates, use the secret format described in [Internode encryption]({{< relref "/operate/kubernetes/security/internode-encryption" >}}). The rest of this procedure applies.{{</note>}}
+The operator accepts several key names for the certificate and private key, so you can use either an opaque secret or a [kubernetes.io/tls](https://kubernetes.io/docs/concepts/configuration/secret/#tls-secrets) secret (the format that cert-manager produces):
+
+| Field       | Accepted secret keys                  |
+| ----------- | ------------------------------------- |
+| Certificate | `cert`, `certificate`, or `tls.crt`   |
+| Private key | `key` or `tls.key`                    |
+
+{{<note>}}On Redis Software for Kubernetes versions older than 8.0.18, also include `--from-literal=name=<certificate-name>` in the `kubectl create secret` command, where `<certificate-name>` is the value from the **Certificate name in Redis Software** column in the [supported certificates](#supported-certificates) table.{{</note>}}
+
+For internode encryption certificates, see [Internode encryption]({{< relref "/operate/kubernetes/security/internode-encryption" >}}) for the full setup, which covers enabling internode encryption alongside the certificate configuration.
 
 ### Step 2: Reference the secret in the REC custom resource
 
-Edit the REC custom resource and add a `certificates` section under `spec`. Include only the fields for the certificates you are replacing:
+Edit the REC custom resource and add a `certificates` section under `spec`. Include only the fields for the certificates you are replacing; omit the rest.
 
 ```yaml
 spec:
   certificates:
-    # See the supported certificates table for the full list of fields.
     apiCertificateSecretName: <apicert-secret-name>
     cmCertificateSecretName: <cmcert-secret-name>
     cpInternodeEncryptionCertificateSecretName: <cpine-secret-name>
     dpInternodeEncryptionCertificateSecretName: <dpine-secret-name>
+    ldapClientCertificateSecretName: <ldapcert-secret-name>
     metricsExporterCertificateSecretName: <metricscert-secret-name>
     proxyCertificateSecretName: <proxycert-secret-name>
+    ssoIssuerCertificateSecretName: <ssoissuer-secret-name>
+    ssoServiceCertificateSecretName: <ssoservice-secret-name>
     syncerCertificateSecretName: <syncercert-secret-name>
 ```
 
@@ -85,16 +94,9 @@ kubectl apply -f <rec-file>.yaml
 
 The operator detects the change and rotates the certificate on the cluster. New client connections use the new certificate; existing connections continue with the old one until they reconnect.
 
-### Step 3: Verify the rotation
+### Step 3: Verify the rotation (optional)
 
-Check the operator logs and the REC status:
-
-```sh
-kubectl logs deployment/redis-enterprise-operator
-kubectl describe rec <rec-name>
-```
-
-To list the active certificates on the cluster, call the Redis Software REST API:
+To confirm that the new certificate is in place, call the Redis Software REST API and list the active cluster certificates:
 
 ```http
 GET /v1/cluster/certificates
@@ -108,7 +110,7 @@ Use the Redis Software REST API or `rladmin` directly against the cluster, bypas
 
 For the procedure, including the `rladmin` and REST API examples, see [Update certificates]({{< relref "/operate/rs/security/certificates/updating-certificates" >}}).
 
-After the update, verify the rotation as described in [Step 3](#step-3-verify-the-rotation).
+After the update, verify the rotation as described in [Step 3](#step-3-verify-the-rotation-optional).
 
 ## Active-Active database certificate updates
 
