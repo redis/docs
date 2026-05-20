@@ -140,22 +140,21 @@ If neither `BYFLOAT` nor `BYINT` is specified, the key is incremented by `1` in 
 
 <details open><summary><code>LBOUND lowerbound</code></summary>
 
-Sets a lower bound for the resulting value. If the computed result would fall below `lowerbound`, the behavior is determined by the `SATURATE` option. Defaults to `LLONG_MIN` in integer mode or `-LDBL_MAX` in `BYFLOAT` mode. `LBOUND` must be less than or equal to `UBOUND` when both are specified.
+Sets a lower bound for the resulting value. If the computed result would fall below `lowerbound`, the behavior is determined by the `SATURATE` flag. Defaults to `LLONG_MIN` in integer mode or `-LDBL_MAX` in `BYFLOAT` mode. `LBOUND` must be less than or equal to `UBOUND` when both are specified.
 
 </details>
 
 <details open><summary><code>UBOUND upperbound</code></summary>
 
-Sets an upper bound for the resulting value. If the computed result would exceed `upperbound`, the behavior is determined by the `SATURATE` option. Defaults to `LLONG_MAX` in integer mode or `LDBL_MAX` in `BYFLOAT` mode. `UBOUND` must be greater than or equal to `LBOUND` when both are specified.
+Sets an upper bound for the resulting value. If the computed result would exceed `upperbound`, the behavior is determined by the `SATURATE` flag. Defaults to `LLONG_MAX` in integer mode or `LDBL_MAX` in `BYFLOAT` mode. `UBOUND` must be greater than or equal to `LBOUND` when both are specified.
 
 </details>
 
 <details open><summary><code>SATURATE</code></summary>
 
-Controls how out-of-bounds results are handled. A bound violation includes both exceeding an explicit `LBOUND`/`UBOUND` and overflowing the type limits when no explicit bound is given.
+When specified, an out-of-bounds result is capped at `UBOUND` or floored at `LBOUND` (or saturated to the type limits when no explicit bound is given). The second element of the reply reflects the saturated delta. An error is returned if the delta cannot be represented as a 64-bit signed integer in integer mode, or would produce Infinity in `BYFLOAT` mode. Any expiration option is still applied as specified.
 
-* Default (without `SATURATE`): the operation is skipped. The key value and its TTL are left unchanged, no keyspace notification is fired, and nothing is replicated. The reply is `[current_value, 0]`, allowing the caller to detect the non-application by checking the applied-increment field without handling an error. Any expiration option is ignored on the rejected branch.
-* With `SATURATE`: the result is capped at `UBOUND` or floored at `LBOUND` (or saturated to the type limits when no explicit bound is given). The second element of the reply reflects the saturated delta. An error is returned if the delta cannot be represented as a 64-bit signed integer in integer mode, or would produce Infinity in `BYFLOAT` mode. Any expiration option is still applied as specified.
+A bound violation includes both exceeding an explicit `LBOUND`/`UBOUND` and overflowing the type limits when no explicit bound is given.
 
 </details>
 
