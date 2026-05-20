@@ -1,0 +1,279 @@
+{
+  "$schema": "https://redis.io/docs/schemas/causal-flow-metric-index.schema.v0.json",
+  "schema_version": "0.1",
+  "type": "causal_flow_metric_index",
+  "status": "draft",
+  "id": "rdi.pipeline.metric-index",
+  "part_of": "rdi.pipeline.cdc-backpressure",
+  "title": "RDI pipeline metric-to-causal-node index",
+  "summary": "Maps RDI metrics to causal-flow nodes and focused sidecar sections.",
+  "routing": {
+    "selector_tree_id": "rdi-causal-flow-selector",
+    "outcome_ids": [
+      "loadMetricIndex"
+    ]
+  },
+  "related_sections": [
+    {
+      "id": "section.cdc-input",
+      "href": "causal-flow.rdi-pipeline.cdc-input.json",
+      "relationship": "source_and_collector_metrics"
+    },
+    {
+      "id": "section.backpressure",
+      "href": "causal-flow.rdi-pipeline.backpressure.json",
+      "relationship": "backlog_and_backpressure_metrics"
+    },
+    {
+      "id": "section.target-slowdown",
+      "href": "causal-flow.rdi-pipeline.target-slowdown.json",
+      "relationship": "target_write_metrics"
+    },
+    {
+      "id": "section.checkpoint-replay",
+      "href": "causal-flow.rdi-pipeline.checkpoint-replay.json",
+      "relationship": "checkpoint_metrics"
+    },
+    {
+      "id": "section.processing-errors",
+      "href": "causal-flow.rdi-pipeline.processing-errors.json",
+      "relationship": "error_metrics"
+    }
+  ],
+  "metric_index": {
+    "Connected": {
+      "nodes": [
+        "collector_source_connection"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.cdc-input.json"
+      ],
+      "meaning": "Collector connection to the source database."
+    },
+    "MilliSecondsBehindSource": {
+      "nodes": [
+        "lag_behind_source",
+        "source_held_changes"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.cdc-input.json",
+        "causal-flow.rdi-pipeline.backpressure.json"
+      ],
+      "meaning": "Time lag between the source database and collector or pipeline progress."
+    },
+    "CurrentQueueSizeInBytes": {
+      "nodes": [
+        "collector_intake_rate",
+        "rdi_memory_pressure"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.cdc-input.json",
+        "causal-flow.rdi-pipeline.backpressure.json"
+      ],
+      "meaning": "Collector queue size, useful for intake capacity and pressure."
+    },
+    "QueueRemainingCapacity": {
+      "nodes": [
+        "collector_intake_rate",
+        "rdi_memory_pressure"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.backpressure.json"
+      ],
+      "meaning": "Remaining collector queue capacity; falling capacity can indicate growing pressure."
+    },
+    "RowsScanned": {
+      "nodes": [
+        "snapshot_scan_volume"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.cdc-input.json"
+      ],
+      "meaning": "Rows scanned during snapshot."
+    },
+    "SnapshotPaused": {
+      "nodes": [
+        "backpressure_level"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.backpressure.json"
+      ],
+      "meaning": "Whether snapshot processing is paused, which can indicate throttling or backpressure."
+    },
+    "rdi_incoming_entries": {
+      "nodes": [
+        "stream_append_rate",
+        "rdi_stream_backlog",
+        "processing_errors"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.cdc-input.json",
+        "causal-flow.rdi-pipeline.backpressure.json",
+        "causal-flow.rdi-pipeline.processing-errors.json"
+      ],
+      "meaning": "Incoming event counts by data source and operation type, including pending, filtered, and rejected events."
+    },
+    "rdi_stream_event_latency_ms": {
+      "nodes": [
+        "stream_event_latency",
+        "target_data_freshness",
+        "lag_behind_source"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.backpressure.json",
+        "causal-flow.rdi-pipeline.target-slowdown.json"
+      ],
+      "meaning": "Age of the oldest event in each data stream; useful for freshness and backlog reasoning."
+    },
+    "rdi_processor_write_time_ms_last": {
+      "nodes": [
+        "target_write_latency"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.target-slowdown.json",
+        "causal-flow.rdi-pipeline.processing-errors.json"
+      ],
+      "meaning": "Last batch write time to the Redis target."
+    },
+    "rdi_processor_transform_time_ms_last": {
+      "nodes": [
+        "transformation_work"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.processing-errors.json"
+      ],
+      "meaning": "Last batch transformation time."
+    },
+    "rdi_processor_process_time_ms_last": {
+      "nodes": [
+        "transformation_work"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.processing-errors.json"
+      ],
+      "meaning": "Last batch processing time."
+    },
+    "rdi_processor_rec_per_sec_last": {
+      "nodes": [
+        "processor_throughput"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.backpressure.json",
+        "causal-flow.rdi-pipeline.target-slowdown.json"
+      ],
+      "meaning": "Most recent record processing throughput."
+    },
+    "rdi_processor_ack_time_ms_last": {
+      "nodes": [
+        "checkpoint_progress"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.checkpoint-replay.json"
+      ],
+      "meaning": "Last batch acknowledgement time."
+    },
+    "rejected_records_total": {
+      "nodes": [
+        "processing_errors"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.processing-errors.json"
+      ],
+      "meaning": "Records rejected during processing; investigate as processing or data quality failures."
+    },
+    "NumberOfErroneousEvents": {
+      "nodes": [
+        "processing_errors"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.processing-errors.json"
+      ],
+      "meaning": "Collector events that caused errors."
+    },
+    "flink_jobmanager_job_operator_coordinator_enumerator_stream_type_rdiRecords": {
+      "nodes": [
+        "rdi_stream_backlog",
+        "stream_event_latency",
+        "rdi_memory_pressure"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.backpressure.json",
+        "causal-flow.rdi-pipeline.target-slowdown.json"
+      ],
+      "meaning": "Flink per-stream backlog and freshness counters."
+    },
+    "flink_taskmanager_job_task_operator_rdi_connected": {
+      "nodes": [
+        "collector_source_connection",
+        "target_connection_health"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.cdc-input.json",
+        "causal-flow.rdi-pipeline.target-slowdown.json"
+      ],
+      "meaning": "Source or target connection status for Flink processor pipelines."
+    },
+    "flink_taskmanager_job_task_operator_rdi_lastModified": {
+      "nodes": [
+        "target_connection_health",
+        "target_data_freshness"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.target-slowdown.json"
+      ],
+      "meaning": "Timestamp of the last successful target write."
+    },
+    "flink_taskmanager_job_task_operator_pendingAck": {
+      "nodes": [
+        "checkpoint_progress",
+        "pending_ack_records"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.checkpoint-replay.json"
+      ],
+      "meaning": "Records emitted by the source but awaiting checkpoint completion before acknowledgement."
+    },
+    "flink_taskmanager_job_task_backPressuredTimeMsPerSecond": {
+      "nodes": [
+        "backpressure_level"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.backpressure.json",
+        "causal-flow.rdi-pipeline.target-slowdown.json"
+      ],
+      "meaning": "Time spent back-pressured because downstream processing cannot keep up."
+    },
+    "flink_jobmanager_job_numberOfCompletedCheckpoints": {
+      "nodes": [
+        "checkpoint_progress"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.checkpoint-replay.json"
+      ],
+      "meaning": "Number of completed Flink checkpoints."
+    },
+    "flink_jobmanager_job_numberOfFailedCheckpoints": {
+      "nodes": [
+        "checkpoint_progress"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.checkpoint-replay.json"
+      ],
+      "meaning": "Number of failed Flink checkpoints."
+    },
+    "flink_jobmanager_job_numRestarts": {
+      "nodes": [
+        "duplicate_write_attempts"
+      ],
+      "sections": [
+        "causal-flow.rdi-pipeline.checkpoint-replay.json"
+      ],
+      "meaning": "Flink job restarts, which can widen replay and duplicate-write reasoning."
+    }
+  },
+  "answering_guidance": [
+    "Map metric names to nodes first, then load the referenced focused section.",
+    "If a metric appears in multiple sections, prefer the section that matches the user's symptom wording.",
+    "For alerts that combine lag, backlog, and target latency, load both backpressure and target slowdown sections."
+  ]
+}

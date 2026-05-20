@@ -147,12 +147,22 @@ whyAsk: |
 The code block fence supports the following attributes:
 
 - **`id`** (optional): Unique identifier for the tree. Should match the `id` field in the YAML. Used by Hugo to pass metadata to the render hook.
+- **`aionly`** (optional): Set to `"true"` for selector or routing trees that should be preserved for AI agents but not rendered as a human-visible diagram. The render hook still emits the raw YAML and metadata, but the JavaScript renderer skips the tree.
 
 Example:
 ```markdown
 ```decision-tree {id="documents-tree"}
 id: documents-tree
 scope: documents
+# ...
+```
+```
+
+AI-only routing tree:
+```markdown
+```decision-tree {id="rdi-causal-flow-selector" aionly="true"}
+id: rdi-causal-flow-selector
+scope: rdi-causal-flow-routing
 # ...
 ```
 ```
@@ -184,6 +194,8 @@ Decision trees are rendered as:
 - **Normalized JSON** embedded for AI agents (accessible via `.html.md` URLs)
 - **Raw YAML** preserved in `<pre>` element for accessibility
 
+Trees marked with `aionly="true"` skip the human-visible SVG diagram but still preserve the raw YAML and metadata for AI agents.
+
 ## AI Agent Compatibility
 
 The format is designed to be easily parseable by AI agents:
@@ -213,4 +225,3 @@ This metadata helps AI agents:
 - Filter trees by scope
 - Reference specific trees in recommendations
 - Understand the tree's applicability to different problems
-

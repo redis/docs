@@ -15,6 +15,15 @@ hideListLinks: false
 linkTitle: Data pipelines
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
+aiSidecars:
+- type: decision_tree
+  id: rdi-causal-flow-selector
+  inline: true
+  aiOnly: true
+- type: causal_flow
+  id: rdi.pipeline.cdc-backpressure
+  href: causal-flow.rdi-pipeline.json
+  mediaType: application/vnd.redis.docs.causal-flow+json
 type: integration
 weight: 40
 ---
@@ -89,6 +98,121 @@ completely. For example, you might want to apply a new transformation to all the
 data or refresh the dataset if RDI is disconnected from the
 source for a long time. In situations like these, you can *reset* the pipeline back
 to the snapshot phase. When this is complete, the pipeline continues with CDC as usual. 
+
+<!-- AI-only routing metadata for causal-flow sidecars. -->
+```decision-tree {id="rdi-causal-flow-selector" aionly="true"}
+id: rdi-causal-flow-selector
+scope: rdi-causal-flow-routing
+indentWidth: 25
+rootQuestion: questionIntent
+questions:
+    questionIntent:
+        text: |
+            What kind of RDI pipeline behavior question is this?
+        whyAsk: |
+            RDI pipeline behavior questions usually need only one causal neighborhood. Select the smallest relevant sidecar before loading the full causal-flow index.
+        answers:
+            metric:
+                value: Metric name or alert
+                outcome:
+                    id: loadMetricIndex
+                    label: Load metric-to-causal-node index
+                    sentiment: positive
+                    causalFlowIds:
+                        - rdi.pipeline.cdc-backpressure
+                    sidecarHrefs:
+                        - causal-flow.rdi-pipeline.metric-index.json
+            cdc:
+                value: CDC or snapshot creates input
+                outcome:
+                    id: loadCdcInput
+                    label: Load CDC and snapshot input flow
+                    sentiment: positive
+                    causalFlowIds:
+                        - rdi.pipeline.cdc-backpressure
+                    sidecarHrefs:
+                        - causal-flow.rdi-pipeline.cdc-input.json
+                    chainIds:
+                        - chain.cdc-produces-input
+                        - chain.snapshot-vs-cdc
+            backpressure:
+                value: Backlog, memory pressure, or backpressure
+                outcome:
+                    id: loadBackpressure
+                    label: Load backlog and backpressure flow
+                    sentiment: positive
+                    causalFlowIds:
+                        - rdi.pipeline.cdc-backpressure
+                    sidecarHrefs:
+                        - causal-flow.rdi-pipeline.backpressure.json
+                    chainIds:
+                        - chain.backpressure-protects-streams
+            target:
+                value: Target writes are slow or disconnected
+                outcome:
+                    id: loadTargetSlowdown
+                    label: Load target slowdown flow
+                    sentiment: positive
+                    causalFlowIds:
+                        - rdi.pipeline.cdc-backpressure
+                    sidecarHrefs:
+                        - causal-flow.rdi-pipeline.target-slowdown.json
+                    chainIds:
+                        - chain.target-slowdown
+            multiple:
+                value: Multiple symptoms or unclear root cause
+                outcome:
+                    id: loadCrossCutting
+                    label: Load index, metric index, target slowdown, and backpressure
+                    sentiment: positive
+                    causalFlowIds:
+                        - rdi.pipeline.cdc-backpressure
+                    sidecarHrefs:
+                        - causal-flow.rdi-pipeline.json
+                        - causal-flow.rdi-pipeline.metric-index.json
+                        - causal-flow.rdi-pipeline.target-slowdown.json
+                        - causal-flow.rdi-pipeline.backpressure.json
+                    chainIds:
+                        - chain.target-slowdown
+                        - chain.backpressure-protects-streams
+                    loopIds:
+                        - loop.catch-up-after-target-recovery
+                        - loop.memory-protection
+            replay:
+                value: Checkpoints, restart, or duplicate writes
+                outcome:
+                    id: loadCheckpointReplay
+                    label: Load checkpoint and replay flow
+                    sentiment: positive
+                    causalFlowIds:
+                        - rdi.pipeline.cdc-backpressure
+                    sidecarHrefs:
+                        - causal-flow.rdi-pipeline.checkpoint-replay.json
+                    loopIds:
+                        - loop.failure-replay
+            errors:
+                value: Rejected records or processing errors
+                outcome:
+                    id: loadProcessingErrors
+                    label: Load processing errors flow
+                    sentiment: positive
+                    causalFlowIds:
+                        - rdi.pipeline.cdc-backpressure
+                    sidecarHrefs:
+                        - causal-flow.rdi-pipeline.processing-errors.json
+                    diagnosticHintIds:
+                        - hint.processing-errors-not-normal-backpressure
+            overview:
+                value: General pipeline behavior
+                outcome:
+                    id: loadCausalFlowIndex
+                    label: Load causal-flow index and guidance
+                    sentiment: positive
+                    causalFlowIds:
+                        - rdi.pipeline.cdc-backpressure
+                    sidecarHrefs:
+                        - causal-flow.rdi-pipeline.json
+```
 
 ## Using a pipeline
 

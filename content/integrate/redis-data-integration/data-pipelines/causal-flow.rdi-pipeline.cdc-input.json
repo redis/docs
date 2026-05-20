@@ -1,0 +1,198 @@
+{
+  "$schema": "https://redis.io/docs/schemas/causal-flow-section.schema.v0.json",
+  "schema_version": "0.1",
+  "type": "causal_flow_section",
+  "status": "draft",
+  "id": "rdi.pipeline.cdc-input",
+  "part_of": "rdi.pipeline.cdc-backpressure",
+  "title": "CDC and snapshot input into an RDI pipeline",
+  "summary": "Explains how committed source changes and initial snapshot reads become input to an RDI pipeline.",
+  "routing": {
+    "selector_tree_id": "rdi-causal-flow-selector",
+    "outcome_ids": [
+      "loadCdcInput"
+    ],
+    "question_patterns": [
+      "How does CDC produce new input?",
+      "What produces records for the pipeline?",
+      "How does snapshot input differ from CDC input?",
+      "Why is the collector behind the source?"
+    ]
+  },
+  "related_sections": [
+    {
+      "id": "section.backpressure",
+      "href": "causal-flow.rdi-pipeline.backpressure.json",
+      "relationship": "input_can_create_backlog"
+    },
+    {
+      "id": "section.metric-index",
+      "href": "causal-flow.rdi-pipeline.metric-index.json",
+      "relationship": "metric_lookup"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "source_committed_changes",
+      "label": "Committed source changes",
+      "kind": "flow",
+      "description": "Insert, update, and delete operations committed to the source database.",
+      "metrics": [
+        "NumberOfCommittedTransactions",
+        "TotalNumberOfEventsSeen",
+        "TotalNumberOfCreateEventsSeen",
+        "TotalNumberOfUpdateEventsSeen",
+        "TotalNumberOfDeleteEventsSeen"
+      ]
+    },
+    {
+      "id": "snapshot_scan_volume",
+      "label": "Snapshot scan volume",
+      "kind": "stock",
+      "description": "The full source dataset that RDI reads during initial cache loading.",
+      "metrics": [
+        "RowsScanned",
+        "RemainingTableCount",
+        "SnapshotRunning",
+        "SnapshotCompleted",
+        "SnapshotDurationInSeconds"
+      ]
+    },
+    {
+      "id": "collector_source_connection",
+      "label": "Collector source connection",
+      "kind": "condition",
+      "description": "Whether the collector can read source snapshot data and CDC changes.",
+      "metrics": [
+        "Connected",
+        "flink_taskmanager_job_task_operator_rdi_connected"
+      ]
+    },
+    {
+      "id": "collector_intake_rate",
+      "label": "Collector intake rate",
+      "kind": "rate",
+      "description": "The rate at which the collector accepts source records for the pipeline.",
+      "metrics": [
+        "CurrentQueueSizeInBytes",
+        "QueueRemainingCapacity",
+        "QueueTotalCapacity"
+      ]
+    },
+    {
+      "id": "stream_append_rate",
+      "label": "RDI stream append rate",
+      "kind": "rate",
+      "description": "The rate at which captured events are written to Redis streams in the RDI database.",
+      "metrics": [
+        "rdi_incoming_entries",
+        "flink_jobmanager_job_operator_coordinator_stream_type_rdiRecords"
+      ]
+    },
+    {
+      "id": "rdi_stream_backlog",
+      "label": "RDI stream backlog",
+      "kind": "stock",
+      "description": "Captured events waiting in RDI streams to be processed, written to the target, and acknowledged.",
+      "metrics": [
+        "rdi_incoming_entries",
+        "flink_jobmanager_job_operator_coordinator_enumerator_stream_type_rdiRecords"
+      ]
+    },
+    {
+      "id": "lag_behind_source",
+      "label": "Lag behind source",
+      "kind": "variable",
+      "description": "How far the pipeline is behind the source database in time.",
+      "metrics": [
+        "MilliSecondsBehindSource",
+        "rdi_stream_event_latency_ms"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge.source-commits.produce-cdc-input",
+      "from": "source_committed_changes",
+      "to": "collector_intake_rate",
+      "polarity": "positive",
+      "relationship": "produces_input_for",
+      "condition": "CDC phase is active and the collector is connected to the source.",
+      "summary": "More committed source changes create more CDC input for the collector."
+    },
+    {
+      "id": "edge.snapshot.produces-initial-input",
+      "from": "snapshot_scan_volume",
+      "to": "collector_intake_rate",
+      "polarity": "positive",
+      "relationship": "produces_initial_input_for",
+      "condition": "Snapshot phase is active.",
+      "summary": "During initial cache loading, the full source dataset behaves like pipeline input."
+    },
+    {
+      "id": "edge.source-connection.enables-intake",
+      "from": "collector_source_connection",
+      "to": "collector_intake_rate",
+      "polarity": "positive",
+      "relationship": "enables",
+      "summary": "A healthy source connection allows the collector to read snapshot rows and CDC events."
+    },
+    {
+      "id": "edge.collector-intake.appends-streams",
+      "from": "collector_intake_rate",
+      "to": "stream_append_rate",
+      "polarity": "positive",
+      "relationship": "adds_to",
+      "condition": "RDI has not throttled intake and the RDI database is available.",
+      "summary": "Higher collector intake increases the rate at which captured events are added to Redis streams."
+    },
+    {
+      "id": "edge.stream-append.fills-backlog",
+      "from": "stream_append_rate",
+      "to": "rdi_stream_backlog",
+      "polarity": "positive",
+      "relationship": "fills",
+      "condition": "Append rate exceeds completed processing rate.",
+      "summary": "Events appended to RDI streams increase backlog when they arrive faster than the stream processor completes them."
+    },
+    {
+      "id": "edge.source-held-changes.raise-lag",
+      "from": "source_committed_changes",
+      "to": "lag_behind_source",
+      "polarity": "positive",
+      "relationship": "can_raise",
+      "condition": "The source continues to receive changes while the collector cannot keep up.",
+      "summary": "Source changes increase lag when they are not captured and processed quickly enough."
+    }
+  ],
+  "causal_chains": [
+    {
+      "id": "chain.cdc-produces-input",
+      "question": "How does CDC produce new input to the pipeline?",
+      "node_ids": [
+        "source_committed_changes",
+        "collector_source_connection",
+        "collector_intake_rate",
+        "stream_append_rate",
+        "rdi_stream_backlog"
+      ],
+      "summary": "In the CDC phase, committed source changes are captured by the collector, converted into pipeline input, and appended to Redis streams in the RDI database."
+    },
+    {
+      "id": "chain.snapshot-vs-cdc",
+      "question": "How does the snapshot phase differ from CDC for flow reasoning?",
+      "node_ids": [
+        "snapshot_scan_volume",
+        "collector_intake_rate",
+        "stream_append_rate",
+        "rdi_stream_backlog"
+      ],
+      "summary": "During snapshot, the whole source dataset produces pipeline input. During CDC, newly committed source changes produce ongoing input. Both phases can create backlog if input exceeds processing capacity."
+    }
+  ],
+  "answering_guidance": [
+    "CDC produces new pipeline input from committed source changes.",
+    "Snapshot produces input from the full selected source dataset.",
+    "If the collector is disconnected or throttled, source lag can increase even before events appear in RDI streams."
+  ]
+}

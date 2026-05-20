@@ -351,6 +351,8 @@
     const sources = document.querySelectorAll('pre.decision-tree-source');
 
     sources.forEach(pre => {
+      if (pre.dataset.aiOnly === 'true') return;
+
       const yamlText = pre.textContent;
       const treeData = parseDecisionTreeYAML(yamlText);
 

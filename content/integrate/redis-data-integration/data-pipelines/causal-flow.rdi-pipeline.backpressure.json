@@ -1,0 +1,247 @@
+{
+  "$schema": "https://redis.io/docs/schemas/causal-flow-section.schema.v0.json",
+  "schema_version": "0.1",
+  "type": "causal_flow_section",
+  "status": "draft",
+  "id": "rdi.pipeline.backpressure",
+  "part_of": "rdi.pipeline.cdc-backpressure",
+  "title": "RDI backlog, memory pressure, and backpressure",
+  "summary": "Explains how stream backlog consumes memory and how RDI backpressure slows intake so the pipeline can recover.",
+  "routing": {
+    "selector_tree_id": "rdi-causal-flow-selector",
+    "outcome_ids": [
+      "loadBackpressure"
+    ],
+    "question_patterns": [
+      "Why is stream backlog growing?",
+      "What does backpressure do?",
+      "Is backpressure data loss?",
+      "Why does the Debezium log say out of memory during snapshot?"
+    ]
+  },
+  "related_sections": [
+    {
+      "id": "section.target-slowdown",
+      "href": "causal-flow.rdi-pipeline.target-slowdown.json",
+      "relationship": "downstream_cause"
+    },
+    {
+      "id": "section.cdc-input",
+      "href": "causal-flow.rdi-pipeline.cdc-input.json",
+      "relationship": "source_side_lag"
+    },
+    {
+      "id": "section.metric-index",
+      "href": "causal-flow.rdi-pipeline.metric-index.json",
+      "relationship": "metric_lookup"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "stream_append_rate",
+      "label": "RDI stream append rate",
+      "kind": "rate",
+      "description": "The rate at which captured events are written to Redis streams in the RDI database.",
+      "metrics": [
+        "rdi_incoming_entries",
+        "flink_jobmanager_job_operator_coordinator_stream_type_rdiRecords"
+      ]
+    },
+    {
+      "id": "processor_throughput",
+      "label": "Processor throughput",
+      "kind": "rate",
+      "description": "The rate at which records complete read, transform, write, and acknowledgement steps.",
+      "metrics": [
+        "processed_records_total",
+        "rdi_processor_rec_per_sec_last",
+        "flink_taskmanager_job_task_operator_numRecordsInPerSecond"
+      ]
+    },
+    {
+      "id": "rdi_stream_backlog",
+      "label": "RDI stream backlog",
+      "kind": "stock",
+      "description": "Captured events waiting in RDI streams to be processed, written to the target, and acknowledged.",
+      "metrics": [
+        "rdi_incoming_entries",
+        "flink_jobmanager_job_operator_coordinator_enumerator_stream_type_rdiRecords"
+      ]
+    },
+    {
+      "id": "stream_event_latency",
+      "label": "Stream event latency",
+      "kind": "variable",
+      "description": "The age of the oldest unprocessed event in each RDI data stream.",
+      "metrics": [
+        "rdi_stream_event_latency_ms"
+      ]
+    },
+    {
+      "id": "rdi_memory_pressure",
+      "label": "RDI database memory pressure",
+      "kind": "variable",
+      "description": "Memory pressure from staged change events and RDI state in the Redis Enterprise cluster.",
+      "metrics": [
+        "CurrentQueueSizeInBytes",
+        "QueueRemainingCapacity",
+        "flink_jobmanager_job_operator_coordinator_enumerator_stream_type_rdiRecords"
+      ]
+    },
+    {
+      "id": "backpressure_level",
+      "label": "Backpressure level",
+      "kind": "control",
+      "description": "The degree to which RDI slows or stops incoming data to protect the streams and target side of the pipeline.",
+      "metrics": [
+        "SnapshotPaused",
+        "SnapshotPausedDurationInSeconds",
+        "flink_taskmanager_job_task_backPressuredTimeMsPerSecond"
+      ]
+    },
+    {
+      "id": "collector_intake_rate",
+      "label": "Collector intake rate",
+      "kind": "rate",
+      "description": "The rate at which the collector accepts source records for the pipeline.",
+      "metrics": [
+        "CurrentQueueSizeInBytes",
+        "QueueRemainingCapacity",
+        "QueueTotalCapacity"
+      ]
+    },
+    {
+      "id": "source_held_changes",
+      "label": "Changes held at source",
+      "kind": "stock",
+      "description": "Change data that remains at the source while RDI is throttled and will be captured when intake resumes.",
+      "metrics": [
+        "MilliSecondsBehindSource"
+      ]
+    },
+    {
+      "id": "lag_behind_source",
+      "label": "Lag behind source",
+      "kind": "variable",
+      "description": "How far the pipeline is behind the source database in time.",
+      "metrics": [
+        "MilliSecondsBehindSource",
+        "rdi_stream_event_latency_ms"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge.stream-append.fills-backlog",
+      "from": "stream_append_rate",
+      "to": "rdi_stream_backlog",
+      "polarity": "positive",
+      "relationship": "fills",
+      "condition": "Append rate exceeds completed processing rate.",
+      "summary": "Events appended to RDI streams increase backlog when they arrive faster than the stream processor completes them."
+    },
+    {
+      "id": "edge.throughput.drains-backlog",
+      "from": "processor_throughput",
+      "to": "rdi_stream_backlog",
+      "polarity": "negative",
+      "relationship": "drains",
+      "condition": "Completed throughput exceeds stream append rate.",
+      "summary": "When processing completes faster than events arrive, the RDI stream backlog falls."
+    },
+    {
+      "id": "edge.backlog.raises-stream-latency",
+      "from": "rdi_stream_backlog",
+      "to": "stream_event_latency",
+      "polarity": "positive",
+      "relationship": "raises",
+      "summary": "A larger backlog tends to increase the age of the oldest unprocessed stream event."
+    },
+    {
+      "id": "edge.backlog.raises-memory-pressure",
+      "from": "rdi_stream_backlog",
+      "to": "rdi_memory_pressure",
+      "polarity": "positive",
+      "relationship": "uses_memory_in",
+      "summary": "A growing stream backlog consumes more memory in the RDI database."
+    },
+    {
+      "id": "edge.memory-pressure.activates-backpressure",
+      "from": "rdi_memory_pressure",
+      "to": "backpressure_level",
+      "polarity": "positive",
+      "relationship": "activates",
+      "condition": "RDI detects that stream growth could exhaust available memory.",
+      "summary": "RDI increases backpressure when backlog and memory pressure threaten the pipeline."
+    },
+    {
+      "id": "edge.backpressure.throttles-intake",
+      "from": "backpressure_level",
+      "to": "collector_intake_rate",
+      "polarity": "negative",
+      "relationship": "throttles",
+      "summary": "Backpressure slows or stops incoming data from the collector."
+    },
+    {
+      "id": "edge.backpressure.defers-source-changes",
+      "from": "backpressure_level",
+      "to": "source_held_changes",
+      "polarity": "positive",
+      "relationship": "defers_to_source",
+      "summary": "When intake is throttled, change data remains at the source until RDI has capacity to resume."
+    },
+    {
+      "id": "edge.source-held-changes.raise-lag",
+      "from": "source_held_changes",
+      "to": "lag_behind_source",
+      "polarity": "positive",
+      "relationship": "raises",
+      "summary": "Held source changes increase the time lag between the source and the RDI pipeline."
+    }
+  ],
+  "feedback_loops": [
+    {
+      "id": "loop.memory-protection",
+      "type": "balancing",
+      "label": "Memory protection through backpressure",
+      "summary": "When stream backlog raises memory pressure, RDI applies backpressure. Backpressure reduces collector intake, which lowers future stream appends and gives the processor time to clear backlog."
+    }
+  ],
+  "causal_chains": [
+    {
+      "id": "chain.backpressure-protects-streams",
+      "question": "How does backpressure act on the flow of data?",
+      "node_ids": [
+        "rdi_stream_backlog",
+        "rdi_memory_pressure",
+        "backpressure_level",
+        "collector_intake_rate",
+        "source_held_changes",
+        "lag_behind_source"
+      ],
+      "summary": "Backpressure is a protective control. It reduces collector intake when backlog threatens memory, leaving change data at the source and increasing lag until the processor catches up."
+    }
+  ],
+  "diagnostic_hints": [
+    {
+      "id": "hint.backpressure-is-not-data-loss",
+      "when": [
+        "backpressure_level is high",
+        "source_held_changes is increasing",
+        "lag_behind_source is increasing"
+      ],
+      "interpretation": "RDI is protecting the pipeline by slowing or stopping intake. This indicates delayed capture, not necessarily lost changes.",
+      "check": [
+        "Target connection health",
+        "Target write latency",
+        "RDI stream backlog",
+        "RDI database memory pressure"
+      ]
+    }
+  ],
+  "answering_guidance": [
+    "Explain backpressure as protective throttling, not data loss by default.",
+    "Mention that change data is held at the source until RDI clears the backlog and has enough free memory to resume streaming.",
+    "Treat Debezium out-of-memory messages during initial snapshot as possible evidence that backpressure is active, not automatically as a fatal error."
+  ]
+}

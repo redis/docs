@@ -5,8 +5,10 @@
   {{- /* Empty code block - just set the flag to load the JS, don't render anything */ -}}
   {{ .Page.Store.Set "hasDecisionTree" true }}
 {{- else -}}
+  {{- $aiOnlyAttr := printf "%v" (.Attributes.aionly | default false) -}}
+  {{- $aiOnly := eq $aiOnlyAttr "true" -}}
   {{- /* Preserve YAML source for visual display and JavaScript parsing */ -}}
-  <pre class="decision-tree-source">{{ .Inner | htmlEscape | safeHTML }}</pre>
+  <pre class="decision-tree-source" data-ai-only="{{ $aiOnly }}">{{ .Inner | htmlEscape | safeHTML }}</pre>
 
   {{- /* Extract id and scope from YAML for metadata (only top-level fields) */ -}}
   {{- $lines := split .Inner "\n" -}}
@@ -28,11 +30,12 @@
   {{- end -}}
 
   {{- /* Embed metadata as custom JSON for AI agents */ -}}
-  {{- $metadata := dict "type" "decision-tree" "id" $id "scope" $scope -}}
+  {{- $metadata := dict "type" "decision-tree" "id" $id "scope" $scope "aiOnly" $aiOnly -}}
 
   {{ $jsonMetadata := $metadata | jsonify (dict "indent" "  ") }}
   {{ printf "<script type=\"application/json\" data-redis-metadata=\"decision-tree\">\n%s\n</script>" $jsonMetadata | safeHTML }}
 
-  {{ .Page.Store.Set "hasDecisionTree" true }}
+  {{- if not $aiOnly -}}
+    {{ .Page.Store.Set "hasDecisionTree" true }}
+  {{- end -}}
 {{- end -}}
-

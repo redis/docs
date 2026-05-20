@@ -1,0 +1,125 @@
+{
+  "$schema": "https://redis.io/docs/schemas/causal-flow-section.schema.v0.json",
+  "schema_version": "0.1",
+  "type": "causal_flow_section",
+  "status": "draft",
+  "id": "rdi.pipeline.checkpoint-replay",
+  "part_of": "rdi.pipeline.cdc-backpressure",
+  "title": "Checkpointing and at-least-once replay",
+  "summary": "Explains how checkpointing supports recovery and why at-least-once delivery can repeat idempotent writes.",
+  "routing": {
+    "selector_tree_id": "rdi-causal-flow-selector",
+    "outcome_ids": [
+      "loadCheckpointReplay"
+    ],
+    "question_patterns": [
+      "Why can duplicate writes happen?",
+      "What happens after processor failure?",
+      "How does checkpointing prevent data loss?",
+      "What does pending acknowledgement mean?"
+    ]
+  },
+  "related_sections": [
+    {
+      "id": "section.target-slowdown",
+      "href": "causal-flow.rdi-pipeline.target-slowdown.json",
+      "relationship": "target_recovery_context"
+    },
+    {
+      "id": "section.processing-errors",
+      "href": "causal-flow.rdi-pipeline.processing-errors.json",
+      "relationship": "failure_context"
+    },
+    {
+      "id": "section.metric-index",
+      "href": "causal-flow.rdi-pipeline.metric-index.json",
+      "relationship": "metric_lookup"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "checkpoint_progress",
+      "label": "Checkpoint progress",
+      "kind": "control",
+      "description": "Progress in marking events as successfully processed so the pipeline can restart without losing changes.",
+      "metrics": [
+        "rdi_processor_ack_time_ms_last",
+        "flink_taskmanager_job_task_operator_pendingAck",
+        "flink_jobmanager_job_numberOfCompletedCheckpoints",
+        "flink_jobmanager_job_numberOfFailedCheckpoints"
+      ]
+    },
+    {
+      "id": "pending_ack_records",
+      "label": "Records awaiting acknowledgement",
+      "kind": "stock",
+      "description": "Records emitted by the source or processor that are waiting for checkpoint completion before they are acknowledged.",
+      "metrics": [
+        "flink_taskmanager_job_task_operator_pendingAck"
+      ]
+    },
+    {
+      "id": "duplicate_write_attempts",
+      "label": "Duplicate write attempts",
+      "kind": "event",
+      "description": "Possible repeated writes after restart or reprocessing under the at-least-once delivery guarantee.",
+      "metrics": [
+        "processed_records_total",
+        "flink_jobmanager_job_numRestarts"
+      ]
+    },
+    {
+      "id": "target_data_freshness",
+      "label": "Target data freshness",
+      "kind": "outcome",
+      "description": "How up to date the Redis target database is compared with the source database.",
+      "metrics": [
+        "MilliSecondsBehindSource",
+        "rdi_stream_event_latency_ms",
+        "flink_taskmanager_job_task_operator_rdi_lastModified"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge.checkpoints.reduce-pending-ack",
+      "from": "checkpoint_progress",
+      "to": "pending_ack_records",
+      "polarity": "negative",
+      "relationship": "acknowledges",
+      "condition": "Records have been processed and checkpoint completion advances.",
+      "summary": "Successful checkpoint progress reduces the number of records waiting for acknowledgement."
+    },
+    {
+      "id": "edge.pending-ack.increases-replay-window",
+      "from": "pending_ack_records",
+      "to": "duplicate_write_attempts",
+      "polarity": "positive",
+      "relationship": "can_replay_as",
+      "condition": "The processor fails before records are acknowledged.",
+      "summary": "Records awaiting acknowledgement can be replayed after failure, which preserves changes but may repeat target writes."
+    },
+    {
+      "id": "edge.duplicates-preserve-target-state",
+      "from": "duplicate_write_attempts",
+      "to": "target_data_freshness",
+      "polarity": "positive",
+      "relationship": "safe_when_idempotent",
+      "condition": "RDI target writes are idempotent.",
+      "summary": "Under at-least-once delivery, duplicate writes may occur but should not change the final target state when writes are idempotent."
+    }
+  ],
+  "feedback_loops": [
+    {
+      "id": "loop.failure-replay",
+      "type": "recovery",
+      "label": "At-least-once replay after failure",
+      "summary": "Checkpointing prevents data loss by allowing replay after processor failure. Replay can repeat writes, but idempotent writes preserve the target state."
+    }
+  ],
+  "answering_guidance": [
+    "Use at-least-once delivery language: a change should not be lost, but it can be processed more than once.",
+    "Explain duplicate writes together with idempotent writes, not as corruption by default.",
+    "Use pending acknowledgement and checkpoint metrics when troubleshooting replay windows."
+  ]
+}

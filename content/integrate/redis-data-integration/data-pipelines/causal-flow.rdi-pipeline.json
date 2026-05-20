@@ -1,0 +1,235 @@
+{
+  "$schema": "https://redis.io/docs/schemas/causal-flow-index.schema.v0.json",
+  "schema_version": "0.1",
+  "type": "causal_flow_index",
+  "status": "draft",
+  "id": "rdi.pipeline.cdc-backpressure",
+  "title": "RDI pipeline CDC and backpressure behavior",
+  "summary": "Index of focused causal-flow sections for reasoning about RDI pipeline input, backlog, target writes, backpressure, checkpoint replay, and processing errors.",
+  "primary_page": {
+    "source_path": "content/integrate/redis-data-integration/data-pipelines/_index.md",
+    "url_path": "/integrate/redis-data-integration/data-pipelines/",
+    "selector_tree_id": "rdi-causal-flow-selector"
+  },
+  "load_policy": {
+    "default": "Load this index first. Load a focused section only when its routing terms, metrics, or selector-tree outcome match the user question.",
+    "small_context": "Use the selector tree, metric index, or causal_chains summaries before loading a full section.",
+    "full_context": "Load multiple sections only when the user asks a cross-cutting question, such as how target slowdown leads to backpressure and then catch-up."
+  },
+  "cross_cutting_routes": [
+    {
+      "id": "route.multiple-symptoms",
+      "selector_outcome_id": "loadCrossCutting",
+      "when": [
+        "The user reports multiple symptoms, such as lag, target write latency, and backpressure.",
+        "The user asks for end-to-end behavior rather than one causal neighborhood.",
+        "The root cause is unclear from the user's first question."
+      ],
+      "hrefs": [
+        "causal-flow.rdi-pipeline.json",
+        "causal-flow.rdi-pipeline.metric-index.json",
+        "causal-flow.rdi-pipeline.target-slowdown.json",
+        "causal-flow.rdi-pipeline.backpressure.json"
+      ],
+      "summary": "Start from the index and metric index, then inspect target slowdown and backpressure together because downstream target pressure can create backlog and activate backpressure."
+    }
+  ],
+  "sections": [
+    {
+      "id": "section.cdc-input",
+      "title": "CDC and snapshot input",
+      "href": "causal-flow.rdi-pipeline.cdc-input.json",
+      "question_patterns": [
+        "How does CDC produce pipeline input?",
+        "What happens during snapshot compared with CDC?",
+        "Why is the collector falling behind the source?"
+      ],
+      "chain_ids": [
+        "chain.cdc-produces-input",
+        "chain.snapshot-vs-cdc"
+      ],
+      "key_metrics": [
+        "Connected",
+        "MilliSecondsBehindSource",
+        "NumberOfCommittedTransactions",
+        "RowsScanned",
+        "SnapshotRunning"
+      ]
+    },
+    {
+      "id": "section.backpressure",
+      "title": "Backlog, memory pressure, and backpressure",
+      "href": "causal-flow.rdi-pipeline.backpressure.json",
+      "question_patterns": [
+        "Why is stream backlog growing?",
+        "What does RDI backpressure mean?",
+        "Is an out-of-memory message during snapshot always an error?"
+      ],
+      "chain_ids": [
+        "chain.backpressure-protects-streams"
+      ],
+      "loop_ids": [
+        "loop.memory-protection"
+      ],
+      "key_metrics": [
+        "CurrentQueueSizeInBytes",
+        "QueueRemainingCapacity",
+        "rdi_incoming_entries",
+        "rdi_stream_event_latency_ms",
+        "flink_taskmanager_job_task_backPressuredTimeMsPerSecond"
+      ]
+    },
+    {
+      "id": "section.target-slowdown",
+      "title": "Target slowdown and catch-up",
+      "href": "causal-flow.rdi-pipeline.target-slowdown.json",
+      "question_patterns": [
+        "What happens if the target Redis database is slow?",
+        "Why does target write latency increase backlog?",
+        "How does RDI catch up after a target disconnection?"
+      ],
+      "chain_ids": [
+        "chain.target-slowdown"
+      ],
+      "loop_ids": [
+        "loop.catch-up-after-target-recovery"
+      ],
+      "key_metrics": [
+        "rdi_processor_write_time_ms_last",
+        "rdi_processor_rec_per_sec_last",
+        "flink_taskmanager_job_task_operator_rdi_connected",
+        "flink_taskmanager_job_task_operator_rdi_lastModified"
+      ]
+    },
+    {
+      "id": "section.checkpoint-replay",
+      "title": "Checkpointing and at-least-once replay",
+      "href": "causal-flow.rdi-pipeline.checkpoint-replay.json",
+      "question_patterns": [
+        "Why can duplicate writes happen?",
+        "How does RDI avoid data loss after processor failure?",
+        "What does pending acknowledgement mean?"
+      ],
+      "loop_ids": [
+        "loop.failure-replay"
+      ],
+      "key_metrics": [
+        "rdi_processor_ack_time_ms_last",
+        "flink_taskmanager_job_task_operator_pendingAck",
+        "flink_jobmanager_job_numberOfCompletedCheckpoints",
+        "flink_jobmanager_job_numberOfFailedCheckpoints",
+        "flink_jobmanager_job_numRestarts"
+      ]
+    },
+    {
+      "id": "section.processing-errors",
+      "title": "Rejected records and processing errors",
+      "href": "causal-flow.rdi-pipeline.processing-errors.json",
+      "question_patterns": [
+        "Are rejected records normal backpressure?",
+        "Why are records being rejected?",
+        "How should processing errors be separated from lag?"
+      ],
+      "diagnostic_hint_ids": [
+        "hint.processing-errors-not-normal-backpressure"
+      ],
+      "key_metrics": [
+        "NumberOfErroneousEvents",
+        "rejected_records_total",
+        "rdi_incoming_entries"
+      ]
+    },
+    {
+      "id": "section.metric-index",
+      "title": "Metric-to-causal-node index",
+      "href": "causal-flow.rdi-pipeline.metric-index.json",
+      "question_patterns": [
+        "What does this metric mean?",
+        "Which causal-flow section should I use for this alert?",
+        "Map a Grafana panel metric to likely RDI causes."
+      ],
+      "key_metrics": [
+        "MilliSecondsBehindSource",
+        "rdi_stream_event_latency_ms",
+        "rdi_processor_write_time_ms_last",
+        "flink_taskmanager_job_task_backPressuredTimeMsPerSecond",
+        "flink_taskmanager_job_task_operator_pendingAck"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "id": "rdi.pipeline",
+      "label": "RDI pipeline",
+      "aliases": [
+        "data pipeline",
+        "Redis Data Integration pipeline"
+      ]
+    },
+    {
+      "id": "rdi.cdc",
+      "label": "Change data capture",
+      "aliases": [
+        "CDC",
+        "change streaming"
+      ]
+    },
+    {
+      "id": "rdi.collector",
+      "label": "CDC collector",
+      "aliases": [
+        "Debezium collector",
+        "collector"
+      ]
+    },
+    {
+      "id": "rdi.stream-processor",
+      "label": "Stream processor",
+      "aliases": [
+        "classic processor",
+        "Flink processor"
+      ]
+    },
+    {
+      "id": "rdi.backpressure",
+      "label": "Backpressure",
+      "aliases": [
+        "backpressure mechanism",
+        "pipeline backoff"
+      ]
+    },
+    {
+      "id": "redis.streams",
+      "label": "Redis streams",
+      "aliases": [
+        "RDI change data streams",
+        "staging streams"
+      ]
+    }
+  ],
+  "guidance_summary": [
+    "Backpressure is protective throttling, not data loss by default.",
+    "Reason downstream-to-upstream when target writes are slow: target latency constrains throughput, throughput affects backlog, backlog affects memory pressure, and memory pressure can activate backpressure.",
+    "Distinguish source lag, stream event latency, and target data freshness.",
+    "Separate rejected records and erroneous events from normal backpressure behavior.",
+    "Mention at-least-once delivery and idempotent writes when discussing duplicates after restart or reprocessing."
+  ],
+  "related_pages": [
+    {
+      "url_path": "/integrate/redis-data-integration/",
+      "relationship": "overview"
+    },
+    {
+      "url_path": "/integrate/redis-data-integration/architecture/",
+      "relationship": "details"
+    },
+    {
+      "url_path": "/integrate/redis-data-integration/observability/",
+      "relationship": "observability"
+    },
+    {
+      "url_path": "/integrate/redis-data-integration/troubleshooting/",
+      "relationship": "troubleshooting"
+    }
+  ]
+}

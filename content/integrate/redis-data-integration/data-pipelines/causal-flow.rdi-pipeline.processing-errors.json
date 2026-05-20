@@ -1,0 +1,148 @@
+{
+  "$schema": "https://redis.io/docs/schemas/causal-flow-section.schema.v0.json",
+  "schema_version": "0.1",
+  "type": "causal_flow_section",
+  "status": "draft",
+  "id": "rdi.pipeline.processing-errors",
+  "part_of": "rdi.pipeline.cdc-backpressure",
+  "title": "Rejected records and processing errors",
+  "summary": "Explains how processing errors differ from normal backpressure and which metrics should trigger troubleshooting.",
+  "routing": {
+    "selector_tree_id": "rdi-causal-flow-selector",
+    "outcome_ids": [
+      "loadProcessingErrors"
+    ],
+    "question_patterns": [
+      "Are rejected records normal?",
+      "Why are records being rejected?",
+      "Is this a backpressure issue or a processing failure?",
+      "Which errors need investigation?"
+    ]
+  },
+  "related_sections": [
+    {
+      "id": "section.backpressure",
+      "href": "causal-flow.rdi-pipeline.backpressure.json",
+      "relationship": "distinguish_from_normal_backpressure"
+    },
+    {
+      "id": "section.target-slowdown",
+      "href": "causal-flow.rdi-pipeline.target-slowdown.json",
+      "relationship": "compare_target_bottleneck"
+    },
+    {
+      "id": "section.metric-index",
+      "href": "causal-flow.rdi-pipeline.metric-index.json",
+      "relationship": "metric_lookup"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "processing_errors",
+      "label": "Processing errors",
+      "kind": "event",
+      "description": "Errors encountered while collecting, transforming, or writing records.",
+      "metrics": [
+        "NumberOfErroneousEvents",
+        "rejected_records_total",
+        "rdi_incoming_entries"
+      ]
+    },
+    {
+      "id": "transformation_work",
+      "label": "Transformation work",
+      "kind": "variable",
+      "description": "The processing cost of mapping source records into intermediate JSON change events and any custom job output.",
+      "metrics": [
+        "rdi_processor_transform_time_ms_last",
+        "rdi_processor_process_time_ms_last",
+        "flink_taskmanager_job_task_busyTimeMsPerSecond"
+      ]
+    },
+    {
+      "id": "processor_throughput",
+      "label": "Processor throughput",
+      "kind": "rate",
+      "description": "The rate at which records complete read, transform, write, and acknowledgement steps.",
+      "metrics": [
+        "processed_records_total",
+        "rdi_processor_rec_per_sec_last",
+        "flink_taskmanager_job_task_operator_numRecordsInPerSecond"
+      ]
+    },
+    {
+      "id": "target_write_latency",
+      "label": "Target write latency",
+      "kind": "variable",
+      "description": "The time needed to write transformed records to the Redis target database.",
+      "metrics": [
+        "rdi_processor_write_time_ms_last",
+        "rdi_processor_write_time_ms_total"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge.processing-errors.create-rejections",
+      "from": "processing_errors",
+      "to": "processor_throughput",
+      "polarity": "negative",
+      "relationship": "interrupts",
+      "condition": "Records are rejected or processing failures prevent successful target writes.",
+      "summary": "Processing errors reduce successful throughput and should be investigated separately from normal backpressure."
+    },
+    {
+      "id": "edge.transformation-work.slows-throughput",
+      "from": "transformation_work",
+      "to": "processor_throughput",
+      "polarity": "negative",
+      "relationship": "constrains",
+      "condition": "Custom transformations or mappings require more processing per record.",
+      "summary": "More transformation work reduces effective processor throughput when CPU or task capacity becomes limiting."
+    },
+    {
+      "id": "edge.target-latency.slows-throughput",
+      "from": "target_write_latency",
+      "to": "processor_throughput",
+      "polarity": "negative",
+      "relationship": "constrains",
+      "condition": "Target writes are on the critical path for completed processing.",
+      "summary": "Slow target writes reduce the rate at which the processor can complete batches."
+    }
+  ],
+  "diagnostic_hints": [
+    {
+      "id": "hint.processing-errors-not-normal-backpressure",
+      "when": [
+        "processing_errors is increasing",
+        "rejected_records_total is greater than 0"
+      ],
+      "interpretation": "Rejected records or erroneous events indicate processing failures or data quality problems, not ordinary protective backpressure.",
+      "check": [
+        "NumberOfErroneousEvents",
+        "rejected_records_total",
+        "RDI processor logs",
+        "DLQ streams if present"
+      ]
+    },
+    {
+      "id": "hint.transformation-bottleneck",
+      "when": [
+        "transformation_work is increasing",
+        "target_write_latency is stable",
+        "processor_throughput is decreasing"
+      ],
+      "interpretation": "Custom transformation cost may be limiting processor throughput.",
+      "check": [
+        "rdi_processor_transform_time_ms_last",
+        "rdi_processor_process_time_ms_last",
+        "flink_taskmanager_job_task_busyTimeMsPerSecond"
+      ]
+    }
+  ],
+  "answering_guidance": [
+    "Do not explain rejected records as normal backpressure.",
+    "Ask for or inspect processor logs when rejected records or erroneous events are present.",
+    "Separate transformation bottlenecks from target write bottlenecks by comparing transform/process metrics with write-time metrics."
+  ]
+}
