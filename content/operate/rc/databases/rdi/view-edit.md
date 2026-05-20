@@ -151,6 +151,11 @@ Stopping the data pipeline will suspend data processing. To restart the pipeline
 
 To delete the data pipeline:
 
+{{< note >}}
+You can't delete a data pipeline while the target database's Redis Cloud cluster is in maintenance mode.
+Wait until maintenance is complete, and then delete the data pipeline.
+{{< /note >}}
+
 1. From the **Data pipeline** tab, select **More actions**, and then **Delete pipeline**.
 
 1. Select **Delete data pipeline** to confirm.
