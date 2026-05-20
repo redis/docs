@@ -8,7 +8,7 @@ categories:
 - oss
 - rs
 - rc
-description: Vector, hybrid, text, and range search tools for Google ADK agents.
+description: Vector, hybrid, text, range, and SQL search tools for Google ADK agents, plus the RedisVL MCP server.
 group: ai
 stack: true
 summary: Add retrieval-augmented generation (RAG) to ADK agents using RedisVL-powered
@@ -17,7 +17,7 @@ type: integration
 weight: 3
 ---
 
-adk-redis provides four search tools that wrap [RedisVL]({{< relref "/develop/ai/redisvl" >}}) query types into ADK-compatible tools. The LLM sees each tool as a callable function with a `query` parameter and gets back structured results.
+adk-redis provides five in-process search tools that wrap [RedisVL]({{< relref "/develop/ai/redisvl" >}}) query types into ADK-compatible tools. The LLM sees each tool as a callable function and gets back structured results. For multi-agent or polyglot deployments, the same RedisVL index can also be served over MCP via the `rvl mcp` server and consumed with ADK's native `McpToolset` (see the [RedisVL MCP server](#redisvl-mcp-server) section below).
 
 ## Overview
 
@@ -27,6 +27,7 @@ adk-redis provides four search tools that wrap [RedisVL]({{< relref "/develop/ai
 | `RedisHybridSearchTool` | Vector + BM25 | Queries with specific terms + concepts |
 | `RedisTextSearchTool` | BM25 keyword | Exact terms, error messages, IDs |
 | `RedisRangeSearchTool` | Distance threshold | Exhaustive retrieval within a radius |
+| `RedisSQLSearchTool` | SQL `SELECT` | Structured filters (`WHERE`, `BETWEEN`, parameterized) |
 
 ## Vector search
 
@@ -106,6 +107,80 @@ range_tool = RedisRangeSearchTool(
 )
 ```
 
+## SQL search
+
+`RedisSQLSearchTool` wraps `redisvl.query.SQLQuery`. The LLM emits a SQL `SELECT` statement (with optional `:name` parameter placeholders) and the tool translates it into the right `FT.SEARCH` or `FT.AGGREGATE` call. Best for structured filters: tag equality, numeric ranges, multi-predicate `WHERE` clauses. Requires `pip install 'adk-redis[sql]'`.
+
+```python
+from adk_redis import RedisSQLSearchTool
+
+sql_tool = RedisSQLSearchTool(
+    index=index,
+    name="catalog_sql_search",
+    description=(
+        "Run a SQL SELECT against the product catalog. "
+        "Use :name placeholders for values."
+    ),
+)
+```
+
+The LLM might emit a call like:
+
+```sql
+SELECT title, brand, price
+FROM products
+WHERE category = 'electronics' AND price < :max_price
+```
+
+with `params={"max_price": 100}`. See the [redis_sql_search example](https://github.com/redis-developer/adk-redis/tree/main/examples/redis_sql_search) for a runnable demo.
+
+## RedisVL MCP server
+
+The five tools above run in-process against a Python `SearchIndex`. To serve one Redis index to multiple agents (Python, JS, Claude Desktop), or to put server-side guardrails like `--read-only` and bearer auth between the agent and the index, run RedisVL's MCP server (`rvl mcp`) and connect ADK's native `McpToolset` to it.
+
+```python
+from google.adk import Agent
+from google.adk.tools.mcp_tool import McpToolset
+from google.adk.tools.mcp_tool.mcp_session_manager import StdioConnectionParams
+from mcp import StdioServerParameters
+
+agent = Agent(
+    model="gemini-2.5-flash",
+    name="redis_mcp_agent",
+    instruction="Use the search-records tool to answer questions.",
+    tools=[
+        McpToolset(
+            connection_params=StdioConnectionParams(
+                server_params=StdioServerParameters(
+                    command="rvl",
+                    args=[
+                        "mcp",
+                        "--config",
+                        "/path/to/mcp_config.yaml",
+                        "--read-only",
+                    ],
+                ),
+                timeout=30,
+            ),
+            tool_filter=["search-records"],
+        ),
+    ],
+)
+```
+
+The server is configured per index via a YAML file and exposes two tools: `search-records` (vector / fulltext / hybrid, chosen at server start, with schema-aware filter and return-field hints) and `upsert-records` (suppress with `--read-only`). Supports `stdio`, `sse`, and `streamable-http` transports; bearer auth on HTTP.
+
+Install the CLI with `pip install 'redisvl[mcp]>=0.18.2'`. For a runnable demo, see the [redisvl_mcp_search example](https://github.com/redis-developer/adk-redis/tree/main/examples/redisvl_mcp_search).
+
+### When to choose in-process vs MCP
+
+| Path | Use when |
+|------|----------|
+| In-process tools (above) | Single Python agent, fast onboarding, complex Python-side `FilterExpression` composition. |
+| MCP server | Multi-agent or polyglot deployments, server-side ops gates, schema-aware tool descriptions. |
+
+Range and SQL search have no MCP equivalent today; use the in-process tools for either.
+
 ## Multi-tool agent
 
 Wire multiple search tools into a single agent and let the LLM choose the right one:
@@ -129,5 +204,7 @@ The `name` and `description` on each tool matter: the LLM reads them to decide w
 
 ## More info
 
-- [redis_search_tools example](https://github.com/redis-developer/adk-redis/tree/main/examples/redis_search_tools): All four search tools with a product catalog
+- [redis_search_tools example](https://github.com/redis-developer/adk-redis/tree/main/examples/redis_search_tools): vector, text, and range tools with a product catalog
+- [redis_sql_search example](https://github.com/redis-developer/adk-redis/tree/main/examples/redis_sql_search): SQL `SELECT` against a bound index
+- [redisvl_mcp_search example](https://github.com/redis-developer/adk-redis/tree/main/examples/redisvl_mcp_search): same corpus served via `rvl mcp` + ADK `McpToolset`
 - [RedisVL documentation]({{< relref "/develop/ai/redisvl" >}})
