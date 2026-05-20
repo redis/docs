@@ -21,7 +21,7 @@ For the list of certificates and what each one encrypts, see the [certificates t
 
 ## Method 1: Manage certificates with the REC custom resource
 
-This is the Kubernetes-native method. The operator detects changes to a referenced secret and rotates the certificate without manual intervention. You can create the secret manually with `kubectl`, or have [cert-manager]({{< relref "/operate/kubernetes/security/cert-manager" >}}) issue and renew it automatically.
+This is the Kubernetes-native method. The operator detects changes to a referenced secret and rotates the certificate without manual intervention. You can create the secret manually, or have [cert-manager]({{< relref "/operate/kubernetes/security/cert-manager" >}}) issue and renew it automatically.
 
 ### Supported certificates
 
