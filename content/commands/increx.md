@@ -115,7 +115,7 @@ Increments or decrements the numeric value stored at `key` by the specified amou
 If the key does not exist, it is set to `0` before performing the operation.
 An error is returned if the key contains a value of the wrong type or a string that cannot be interpreted as a number.
 
-Unlike [`INCR`]({{< relref "/commands/incr" >}}) and [`INCRBY`]({{< relref "/commands/incrby" >}}), `INCREX` returns an array of two elements: the new value of the key after the increment, and the increment that was actually applied. When the computed result would fall outside an explicit `LBOUND`/`UBOUND` or the type limits, the default is to skip the operation and reply with `[current_value, 0]`, leaving the key and its TTL untouched. The `SATURATE` option changes this behavior so the result is capped at the bound instead.
+Unlike [`INCR`]({{< relref "/commands/incr" >}}) and [`INCRBY`]({{< relref "/commands/incrby" >}}), `INCREX` returns an array of two elements: the new value of the key after the increment, and the increment that was actually applied. When the computed result would fall outside an explicit `LBOUND`/`UBOUND` or the type limits, the default is to skip the operation and reply with `[current_value, 0]`, leaving the key and its TTL untouched. The `SATURATE` flag changes this behavior so the result is capped at the bound instead.
 
 ## Required arguments
 
@@ -140,13 +140,13 @@ If neither `BYFLOAT` nor `BYINT` is specified, the key is incremented by `1` in 
 
 <details open><summary><code>LBOUND lowerbound</code></summary>
 
-Sets a lower bound for the resulting value. If the computed result would fall below `lowerbound`, the behavior is determined by the `SATURATE` flag. Defaults to `LLONG_MIN` in integer mode or `-LDBL_MAX` in `BYFLOAT` mode. `LBOUND` must be less than or equal to `UBOUND` when both are specified.
+Sets a lower bound for the resulting value. If the computed result would fall below `lowerbound`, the operation is skipped and the reply is `[current_value, 0]` (or use the `SATURATE` flag to floor the result at `lowerbound` instead). When omitted, the bound is `LLONG_MIN` in integer mode or `-LDBL_MAX` in `BYFLOAT` mode. `LBOUND` must be less than or equal to `UBOUND` when both are specified.
 
 </details>
 
 <details open><summary><code>UBOUND upperbound</code></summary>
 
-Sets an upper bound for the resulting value. If the computed result would exceed `upperbound`, the behavior is determined by the `SATURATE` flag. Defaults to `LLONG_MAX` in integer mode or `LDBL_MAX` in `BYFLOAT` mode. `UBOUND` must be greater than or equal to `LBOUND` when both are specified.
+Sets an upper bound for the resulting value. If the computed result would exceed `upperbound`, the operation is skipped and the reply is `[current_value, 0]` (or use the `SATURATE` flag to cap the result at `upperbound` instead). When omitted, the bound is `LLONG_MAX` in integer mode or `LDBL_MAX` in `BYFLOAT` mode. `UBOUND` must be greater than or equal to `LBOUND` when both are specified.
 
 </details>
 
