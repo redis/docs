@@ -12,25 +12,29 @@ url: '/operate/kubernetes/7.4.6/networking/ingressorroutespec/'
 ---
 An Ingress is an API resource that provides a standardized and flexible way to manage external access to services running within a Kubernetes cluster.
 
+{{<warning>}}
+The community [Ingress-NGINX controller](https://github.com/kubernetes/ingress-nginx) (`kubernetes/ingress-nginx`) is retired. Best-effort maintenance ended in March 2026 and the project no longer ships releases, bug fixes, or security updates. If you are not already using it, use HAProxy or Istio, or migrate to a [Gateway API](https://gateway-api.sigs.k8s.io/) implementation.
+{{</warning>}}
+
 ## Install Ingress controller
 
 Redis Enterprise for Kubernetes supports the Ingress controllers below:
 * [HAProxy](https://haproxy-ingress.github.io/)
-* [NGINX](https://kubernetes.github.io/ingress-nginx/)
 * [Istio](https://istio.io/latest/docs/setup/getting-started/)
+* [Ingress-NGINX](https://kubernetes.github.io/ingress-nginx/) (retired; existing deployments only)
 
 OpenShift users can use [routes]({{< relref "/operate/kubernetes/7.4.6/networking/routes.md" >}}) instead of an Ingress.
 
-Install your chosen Ingress controller, making sure `ssl-passthrough` is enabled. `ssl-passthrough` is turned off by default for NGINX but enabled by default for HAProxy.
+Install your chosen Ingress controller, making sure `ssl-passthrough` is enabled. It is on by default for HAProxy and off by default for Ingress-NGINX. For Ingress-NGINX, start the controller with the `--enable-ssl-passthrough` flag.
 
 ## Configure DNS
 
-1. Choose the hostname (FQDN) you will use to access your database according to the recommended naming conventions below, replacing `<placeholders>` with your own values.
+1. Choose the API hostname and database hostname suffix you will use, replacing `<placeholders>` with your own values. The recommended formats are:
 
-     REC API hostname: `api-<rec-name>-<rec-namespace>.<subdomain>`
-     REAADB hostname: `-db-<rec-name>-<rec-namespace>.<subdomain>`
-     
-     We recommend using a wildcard (`*`) in place of the database name, followed by the hostname suffix.
+     * REC API hostname (`apiFqdnUrl`): `api-<rec-name>-<rec-namespace>.<subdomain>`
+     * Database hostname suffix (`dbFqdnSuffix`): `-db-<rec-name>-<rec-namespace>.<subdomain>`
+
+     The operator appends each database name to `dbFqdnSuffix` to build the per-database hostname. For example, a database named `mydb` with the suffix above resolves to `mydb-db-<rec-name>-<rec-namespace>.<subdomain>`. For the wildcard DNS record, use `*` in place of the database name followed by the suffix.
 
 1. Retrieve the `EXTERNAL-IP` of your Ingress controller's `LoadBalancer` service.
 
@@ -60,16 +64,17 @@ Edit the RedisEnterpriseCluster (REC) spec to add the `ingressOrRouteSpec` field
 * Add any additional annotations required for your ingress controller. See [NGINX docs](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/) or [HAproxy docs](https://haproxy-ingress.github.io/docs/configuration/keys/) for more information.
 
 ```sh
-kubectl patch rec  <rec-name> --type merge --patch "{\"spec\": \
+kubectl patch rec <rec-name> --type merge --patch "{\"spec\": \
     {\"ingressOrRouteSpec\": \
       {\"apiFqdnUrl\": \"api-<rec-name>-<rec-namespace>.example.com\", \
       \"dbFqdnSuffix\": \"-db-<rec-name>-<rec-namespace>.example.com\", \
       \"ingressAnnotations\": \
-       {\"<kubernetes | github>.io/ingress.class\": \
-       \"<ingress-controller>\", \
-       \"<ingress-controller-annotation>/ssl-passthrough\": \ \"true\"}, \
+       {\"kubernetes.io/ingress.class\": \"<ingress-controller>\", \
+       \"<ingress-controller-annotation>/ssl-passthrough\": \"true\"}, \
       \"method\": \"ingress\"}}}"
 ```
+
+Set `<ingress-controller>` to `haproxy` or `nginx`. The operator validates that `ingressAnnotations` includes `kubernetes.io/ingress.class` and is the only annotation key it requires; add any other controller-specific annotations alongside it.
 
 ### OpenShift routes
 
