@@ -223,6 +223,16 @@ class RedisSemanticCache:
             else self.distance_threshold
         )
 
+        # Match the shape check that ``put`` performs. A wrong-dim
+        # vector would otherwise hit Redis as a malformed FT.SEARCH
+        # parameter and surface as a server-side parse error instead
+        # of a clear caller-side ValueError.
+        if query_vec.shape != (self.vector_dim,):
+            raise ValueError(
+                f"query_vec has shape {query_vec.shape}; "
+                f"index expects ({self.vector_dim},)"
+            )
+
         filter_clause = self._build_filter_clause(
             tenant=tenant,
             locale=locale,
@@ -258,13 +268,26 @@ class RedisSemanticCache:
         if distance > threshold:
             return CacheMiss(nearest_distance=distance, nearest_id=entry_id)
 
-        # Bump the hit counter and refresh the TTL atomically. Pipeline
-        # keeps it to a single round trip; the read of ``hit_count``
-        # uses the new value the increment produced.
-        pipe = self.redis.pipeline(transaction=False)
-        pipe.hincrby(self.entry_key(entry_id), "hit_count", 1)
-        pipe.expire(self.entry_key(entry_id), self.default_ttl_seconds)
-        pipe.ttl(self.entry_key(entry_id))
+        # The hash may have expired between FT.SEARCH returning the
+        # row and us getting here — the search index lags expirations
+        # by its periodic scan. If we just blindly ``HINCRBY``-ed,
+        # Redis would helpfully recreate the hash with only
+        # ``hit_count`` set and the search index would then log it as
+        # an indexing failure (no embedding, no metadata). EXISTS
+        # narrows that race to the pipeline round-trip; a strictly
+        # race-free version would wrap the bump in a Lua script that
+        # checks existence and acts in one server-side step.
+        entry_key = self.entry_key(entry_id)
+        if not self.redis.exists(entry_key):
+            return CacheMiss(nearest_distance=distance, nearest_id=entry_id)
+
+        # MULTI/EXEC the three writes so they apply as a unit on the
+        # server — a partial failure between HINCRBY and EXPIRE would
+        # otherwise leave the entry without a refreshed TTL.
+        pipe = self.redis.pipeline(transaction=True)
+        pipe.hincrby(entry_key, "hit_count", 1)
+        pipe.expire(entry_key, self.default_ttl_seconds)
+        pipe.ttl(entry_key)
         new_hit_count, _expired, ttl = pipe.execute()
 
         return CacheHit(
@@ -326,7 +349,12 @@ class RedisSemanticCache:
             "hit_count": "0",
             "embedding": embedding.tobytes(),
         }
-        pipe = self.redis.pipeline(transaction=False)
+        # MULTI/EXEC so HSET and EXPIRE either both apply or neither
+        # does. Without the transaction wrapper a connection drop
+        # between the two writes could leave the entry without a TTL
+        # and the cache would then keep an answer past its intended
+        # lifetime (or forever, on a database with no eviction policy).
+        pipe = self.redis.pipeline(transaction=True)
         pipe.hset(key, mapping=mapping)
         pipe.expire(key, ttl)
         pipe.execute()

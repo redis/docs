@@ -350,6 +350,22 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       tokens_saved: 0, ms_saved: 0,
     };
 
+    // Every value that ends up inside ``innerHTML`` flows through this
+    // helper. Cached prompts are user input — a prompt like
+    // ``<img src=x onerror=alert(1)>`` would otherwise execute when
+    // the cache table is rendered. The pattern matters less for a
+    // local demo (the only user is the operator) but it matters a lot
+    // for the example: docs readers copy what they see.
+    function esc(value) {
+      if (value == null) return '';
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     function showStatus(text, kind) {
       status.textContent = text;
       status.className = kind || 'ok';
@@ -379,16 +395,16 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     function renderEntry(entry) {
       return `
         <tr>
-          <td><code>${entry.id}</code></td>
-          <td>${entry.prompt}</td>
+          <td><code>${esc(entry.id)}</code></td>
+          <td>${esc(entry.prompt)}</td>
           <td class="meta">
-            ${entry.tenant} · ${entry.locale}<br>
-            <code>${entry.model_version}</code>
+            ${esc(entry.tenant)} · ${esc(entry.locale)}<br>
+            <code>${esc(entry.model_version)}</code>
           </td>
-          <td>${entry.hit_count}</td>
-          <td>${entry.ttl_seconds}s</td>
+          <td>${esc(entry.hit_count)}</td>
+          <td>${esc(entry.ttl_seconds)}s</td>
           <td>
-            <button class="small danger" data-drop-id="${entry.id}">Drop</button>
+            <button class="small danger" data-drop-id="${esc(entry.id)}">Drop</button>
           </td>
         </tr>
       `;
@@ -397,12 +413,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     function renderIndex(info) {
       $('#index-state').innerHTML = `
         <dl>
-          <dt>Entries</dt><dd>${info.num_docs}</dd>
-          <dt>Index name</dt><dd><code>${info.index_name}</code></dd>
-          <dt>Indexing failures</dt><dd>${info.indexing_failures}</dd>
-          <dt>Vector index size</dt><dd>${info.vector_index_size_mb} MB</dd>
-          <dt>Embedding model</dt><dd><code>${info.model}</code></dd>
-          <dt>Mock LLM latency</dt><dd>${info.mock_llm_latency_ms} ms</dd>
+          <dt>Entries</dt><dd>${esc(info.num_docs)}</dd>
+          <dt>Index name</dt><dd><code>${esc(info.index_name)}</code></dd>
+          <dt>Indexing failures</dt><dd>${esc(info.indexing_failures)}</dd>
+          <dt>Vector index size</dt><dd>${esc(info.vector_index_size_mb)} MB</dd>
+          <dt>Embedding model</dt><dd><code>${esc(info.model)}</code></dd>
+          <dt>Mock LLM latency</dt><dd>${esc(info.mock_llm_latency_ms)} ms</dd>
         </dl>
       `;
     }
@@ -429,9 +445,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         verdict.className = 'verdict hit';
         verdict.innerHTML = `
           <span class="label">CACHE HIT</span>
-          <span class="badge dist">distance ${payload.distance.toFixed(3)}</span>
-          <span class="badge ttl">ttl ${payload.ttl_seconds}s</span>
-          <span class="meta">entry <code>${payload.entry_id}</code>, ${payload.hit_count} hit(s)</span>
+          <span class="badge dist">distance ${esc(payload.distance.toFixed(3))}</span>
+          <span class="badge ttl">ttl ${esc(payload.ttl_seconds)}s</span>
+          <span class="meta">entry <code>${esc(payload.entry_id)}</code>, ${esc(payload.hit_count)} hit(s)</span>
         `;
       } else {
         verdict.className = 'verdict miss';
@@ -440,13 +456,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           : 'nearest distance ' + payload.nearest_distance.toFixed(3);
         verdict.innerHTML = `
           <span class="label">CACHE MISS</span>
-          <span class="meta">${nearest} (threshold ${payload.threshold.toFixed(2)})</span>
+          <span class="meta">${esc(nearest)} (threshold ${esc(payload.threshold.toFixed(2))})</span>
           ${payload.wrote_entry_id
-            ? '<span class="badge ttl">cached as <code>' + payload.wrote_entry_id + '</code></span>'
+            ? '<span class="badge ttl">cached as <code>' + esc(payload.wrote_entry_id) + '</code></span>'
             : ''}
         `;
       }
-      answer.innerHTML = `<p>${payload.response || '(no response)'}</p>`;
+      answer.innerHTML = `<p>${esc(payload.response) || '(no response)'}</p>`;
       timing.innerHTML = `
         Embed: <code>${payload.embed_ms.toFixed(1)} ms</code> ·
         Cache lookup: <code>${payload.lookup_ms.toFixed(1)} ms</code> ·
@@ -475,15 +491,23 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       try {
         const payload = await postForm('/query', params);
         renderVerdict(payload);
-        stats.queries += 1;
-        if (payload.outcome === 'hit') {
-          stats.hits += 1;
-          stats.tokens_saved += payload.tokens_avoided || 0;
-          stats.ms_saved += payload.ms_avoided || 0;
-        } else if (!lookupOnly) {
-          stats.misses += 1;
+        // Lookup-only queries are a dry-run for threshold exploration:
+        // no LLM call would have happened either way, so they don't
+        // count as queries the cache "served" or as savings the cache
+        // produced. Updating any of these would skew the hit-ratio,
+        // tokens-saved, and ms-saved panels — exactly the numbers the
+        // user is watching when sweeping the threshold.
+        if (!lookupOnly) {
+          stats.queries += 1;
+          if (payload.outcome === 'hit') {
+            stats.hits += 1;
+            stats.tokens_saved += payload.tokens_avoided || 0;
+            stats.ms_saved += payload.ms_avoided || 0;
+          } else {
+            stats.misses += 1;
+          }
+          renderStats();
         }
-        renderStats();
         await refreshState();
       } catch (exc) {
         showStatus('Query failed: ' + exc.message, 'error');
@@ -497,22 +521,30 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     $('#ask-button').onclick = () => ask(false);
     $('#lookup-button').onclick = () => ask(true);
     $('#reset-button').onclick = async () => {
-      await postForm('/reset', {});
-      stats = {queries: 0, hits: 0, misses: 0, tokens_saved: 0, ms_saved: 0};
-      renderStats();
-      $('#verdict').style.display = 'none';
-      $('#answer').style.display = 'none';
-      $('#timing').textContent = '';
-      await refreshState();
-      showStatus('Cache cleared and re-seeded', 'ok');
+      try {
+        await postForm('/reset', {});
+        stats = {queries: 0, hits: 0, misses: 0, tokens_saved: 0, ms_saved: 0};
+        renderStats();
+        $('#verdict').style.display = 'none';
+        $('#answer').style.display = 'none';
+        $('#timing').textContent = '';
+        await refreshState();
+        showStatus('Cache cleared and re-seeded', 'ok');
+      } catch (exc) {
+        showStatus('Reset failed: ' + exc.message, 'error');
+      }
     };
 
     document.body.addEventListener('click', async e => {
       const id = e.target?.dataset?.dropId;
       if (!id) return;
-      await postForm('/drop', {entry_id: id});
-      await refreshState();
-      showStatus(`Dropped ${id}`, 'ok');
+      try {
+        await postForm('/drop', {entry_id: id});
+        await refreshState();
+        showStatus(`Dropped ${id}`, 'ok');
+      } catch (exc) {
+        showStatus('Drop failed: ' + exc.message, 'error');
+      }
     });
 
     refreshState();
@@ -666,32 +698,56 @@ class SemanticCacheHandler(BaseHTTPRequestHandler):
     # ------------------------------------------------------------------
 
     def do_GET(self) -> None:
-        parsed = urlparse(self.path)
-        if parsed.path in {"/", "/index.html"}:
-            self._send_html(self._html_page())
-            return
-        if parsed.path == "/state":
-            self._send_json(self._build_state(), 200)
-            return
-        self.send_error(404)
+        try:
+            parsed = urlparse(self.path)
+            if parsed.path in {"/", "/index.html"}:
+                self._send_html(self._html_page())
+                return
+            if parsed.path == "/state":
+                self._send_json(self._build_state(), 200)
+                return
+            self.send_error(404)
+        except Exception as exc:
+            self._send_error_json(exc)
 
     # ------------------------------------------------------------------
     # POST
     # ------------------------------------------------------------------
 
     def do_POST(self) -> None:
-        parsed = urlparse(self.path)
-        if parsed.path == "/query":
-            self._handle_query()
-            return
-        if parsed.path == "/reset":
-            self.demo.seed()
-            self._send_json({"ok": True}, 200)
-            return
-        if parsed.path == "/drop":
-            self._handle_drop()
-            return
-        self.send_error(404)
+        try:
+            parsed = urlparse(self.path)
+            if parsed.path == "/query":
+                self._handle_query()
+                return
+            if parsed.path == "/reset":
+                self.demo.seed()
+                self._send_json({"ok": True}, 200)
+                return
+            if parsed.path == "/drop":
+                self._handle_drop()
+                return
+            self.send_error(404)
+        except Exception as exc:
+            self._send_error_json(exc)
+
+    def _send_error_json(self, exc: Exception) -> None:
+        """Return a JSON 500 so the client's ``await res.json()`` works.
+
+        Without this wrapper, an exception in a handler escapes to
+        ``BaseHTTPRequestHandler`` which writes a plain-text 500 page;
+        the demo's ``fetch().then(r => r.json())`` then explodes with
+        an opaque JSON parse error instead of surfacing what went wrong.
+        """
+        sys.stderr.write(f"[demo] handler error: {type(exc).__name__}: {exc}\n")
+        try:
+            self._send_json(
+                {"error": str(exc), "type": type(exc).__name__}, 500,
+            )
+        except Exception:
+            # Headers may already be partially flushed; nothing useful
+            # left to do beyond letting the connection drop.
+            pass
 
     # ---- handlers ---------------------------------------------------
 
@@ -705,6 +761,15 @@ class SemanticCacheHandler(BaseHTTPRequestHandler):
             threshold = float(params.get("threshold", ["0.5"])[0])
         except ValueError:
             threshold = 0.5
+        # ``float()`` happily parses "nan" / "inf"; either would
+        # silently turn the lookup into a permanent hit (NaN comparisons
+        # are always False, so ``distance > nan`` cannot reject) or a
+        # permanent miss. Clamp to the meaningful cosine-distance range
+        # so a malformed POST can't override the threshold semantics.
+        import math
+        if not math.isfinite(threshold):
+            threshold = 0.5
+        threshold = max(0.0, min(2.0, threshold))
         payload = self.demo.run_query(
             prompt=prompt,
             tenant=params.get("tenant", ["acme"])[0] or "acme",
