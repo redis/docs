@@ -8,7 +8,7 @@ categories:
 description: Build feature engineering workflows with Redis Feature Form.
 linkTitle: Redis Feature Form
 weight: 60
-bannerText: Redis Feature Form is currently in preview and subject to change. To request access to the Feature Form Docker image, contact your Redis account team.
+bannerText: Redis Feature Form is currently in preview and subject to change. Feature Form Docker images are available on Docker Hub; contact your Redis account team for a license key to deploy.
 bannerChildren: true
 ---
 
