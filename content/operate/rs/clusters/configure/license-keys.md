@@ -13,6 +13,8 @@ weight: 20
 The cluster license key enables Redis Software features and determines shard usage and limits.
 You can add or update a cluster key at any time.
 
+A single license can only be deployed on a single cluster. Each cluster, including passive or cold standby clusters used for disaster recovery, requires its own separate license, regardless of whether all clusters are active simultaneously.
+
 ## Trial mode
 
 Trial mode allows all features to be enabled during the trial period.
