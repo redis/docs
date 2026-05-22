@@ -71,7 +71,6 @@ railroad_diagram: /images/railroad/pexpire.svg
 since: 2.6.0
 summary: Sets the expiration time of a key in milliseconds.
 syntax_fmt: PEXPIRE key milliseconds [NX | XX | GT | LT]
-syntax_str: milliseconds [NX | XX | GT | LT]
 title: PEXPIRE
 ---
 This command works exactly like [`EXPIRE`]({{< relref "/commands/expire" >}}) but the time to live of the key is
@@ -102,9 +101,9 @@ PEXPIRE mykey 1000 NX
 TTL mykey
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

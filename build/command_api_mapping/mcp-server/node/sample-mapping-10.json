@@ -1,0 +1,779 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-02-17T11:04:46.785Z",
+  "description": "Sample Redis Command-to-API Mapping (10 core commands, 14 clients)",
+  "total_commands": 10,
+  "total_clients": 14,
+  "commands": [
+    {
+      "command": "DEL",
+      "module": "core",
+      "summary": "Deletes one or more keys.",
+      "clients": [
+        {
+          "client_id": "go-redis",
+          "client_name": "go-redis",
+          "language": "Go"
+        },
+        {
+          "client_id": "ioredis",
+          "client_name": "ioredis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "jedis",
+          "client_name": "jedis",
+          "language": "Java-Sync"
+        },
+        {
+          "client_id": "lettuce_async",
+          "client_name": "lettuce_async",
+          "language": "Java-Async"
+        },
+        {
+          "client_id": "lettuce_reactive",
+          "client_name": "lettuce_reactive",
+          "language": "Java-Reactive"
+        },
+        {
+          "client_id": "lettuce_sync",
+          "client_name": "lettuce_sync",
+          "language": "Lettuce-Sync"
+        },
+        {
+          "client_id": "node_redis",
+          "client_name": "node-redis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "nredisstack_async",
+          "client_name": "NRedisStack_Async",
+          "language": "C#"
+        },
+        {
+          "client_id": "nredisstack_sync",
+          "client_name": "NRedisStack_Sync",
+          "language": "C#"
+        },
+        {
+          "client_id": "php",
+          "client_name": "Predis",
+          "language": "PHP"
+        },
+        {
+          "client_id": "redis_py",
+          "client_name": "redis-py",
+          "language": "Python"
+        },
+        {
+          "client_id": "redis_rs_async",
+          "client_name": "redis-rs-async",
+          "language": "Rust-Async"
+        },
+        {
+          "client_id": "redis_rs_sync",
+          "client_name": "redis-rs-sync",
+          "language": "Rust-Sync"
+        },
+        {
+          "client_id": "redisvl",
+          "client_name": "RedisVL",
+          "language": "Python"
+        }
+      ]
+    },
+    {
+      "command": "EXPIRE",
+      "module": "core",
+      "summary": "Sets the expiration time of a key in seconds.",
+      "clients": [
+        {
+          "client_id": "go-redis",
+          "client_name": "go-redis",
+          "language": "Go"
+        },
+        {
+          "client_id": "ioredis",
+          "client_name": "ioredis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "jedis",
+          "client_name": "jedis",
+          "language": "Java-Sync"
+        },
+        {
+          "client_id": "lettuce_async",
+          "client_name": "lettuce_async",
+          "language": "Java-Async"
+        },
+        {
+          "client_id": "lettuce_reactive",
+          "client_name": "lettuce_reactive",
+          "language": "Java-Reactive"
+        },
+        {
+          "client_id": "lettuce_sync",
+          "client_name": "lettuce_sync",
+          "language": "Lettuce-Sync"
+        },
+        {
+          "client_id": "node_redis",
+          "client_name": "node-redis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "nredisstack_async",
+          "client_name": "NRedisStack_Async",
+          "language": "C#"
+        },
+        {
+          "client_id": "nredisstack_sync",
+          "client_name": "NRedisStack_Sync",
+          "language": "C#"
+        },
+        {
+          "client_id": "php",
+          "client_name": "Predis",
+          "language": "PHP"
+        },
+        {
+          "client_id": "redis_py",
+          "client_name": "redis-py",
+          "language": "Python"
+        },
+        {
+          "client_id": "redis_rs_async",
+          "client_name": "redis-rs-async",
+          "language": "Rust-Async"
+        },
+        {
+          "client_id": "redis_rs_sync",
+          "client_name": "redis-rs-sync",
+          "language": "Rust-Sync"
+        },
+        {
+          "client_id": "redisvl",
+          "client_name": "RedisVL",
+          "language": "Python"
+        }
+      ]
+    },
+    {
+      "command": "GET",
+      "module": "core",
+      "summary": "Returns the string value of a key.",
+      "clients": [
+        {
+          "client_id": "go-redis",
+          "client_name": "go-redis",
+          "language": "Go"
+        },
+        {
+          "client_id": "ioredis",
+          "client_name": "ioredis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "jedis",
+          "client_name": "jedis",
+          "language": "Java-Sync"
+        },
+        {
+          "client_id": "lettuce_async",
+          "client_name": "lettuce_async",
+          "language": "Java-Async"
+        },
+        {
+          "client_id": "lettuce_reactive",
+          "client_name": "lettuce_reactive",
+          "language": "Java-Reactive"
+        },
+        {
+          "client_id": "lettuce_sync",
+          "client_name": "lettuce_sync",
+          "language": "Lettuce-Sync"
+        },
+        {
+          "client_id": "node_redis",
+          "client_name": "node-redis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "nredisstack_async",
+          "client_name": "NRedisStack_Async",
+          "language": "C#"
+        },
+        {
+          "client_id": "nredisstack_sync",
+          "client_name": "NRedisStack_Sync",
+          "language": "C#"
+        },
+        {
+          "client_id": "php",
+          "client_name": "Predis",
+          "language": "PHP"
+        },
+        {
+          "client_id": "redis_py",
+          "client_name": "redis-py",
+          "language": "Python"
+        },
+        {
+          "client_id": "redis_rs_async",
+          "client_name": "redis-rs-async",
+          "language": "Rust-Async"
+        },
+        {
+          "client_id": "redis_rs_sync",
+          "client_name": "redis-rs-sync",
+          "language": "Rust-Sync"
+        },
+        {
+          "client_id": "redisvl",
+          "client_name": "RedisVL",
+          "language": "Python"
+        }
+      ]
+    },
+    {
+      "command": "HSET",
+      "module": "core",
+      "summary": "Creates or modifies the value of a field in a hash.",
+      "clients": [
+        {
+          "client_id": "go-redis",
+          "client_name": "go-redis",
+          "language": "Go"
+        },
+        {
+          "client_id": "ioredis",
+          "client_name": "ioredis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "jedis",
+          "client_name": "jedis",
+          "language": "Java-Sync"
+        },
+        {
+          "client_id": "lettuce_async",
+          "client_name": "lettuce_async",
+          "language": "Java-Async"
+        },
+        {
+          "client_id": "lettuce_reactive",
+          "client_name": "lettuce_reactive",
+          "language": "Java-Reactive"
+        },
+        {
+          "client_id": "lettuce_sync",
+          "client_name": "lettuce_sync",
+          "language": "Lettuce-Sync"
+        },
+        {
+          "client_id": "node_redis",
+          "client_name": "node-redis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "nredisstack_async",
+          "client_name": "NRedisStack_Async",
+          "language": "C#"
+        },
+        {
+          "client_id": "nredisstack_sync",
+          "client_name": "NRedisStack_Sync",
+          "language": "C#"
+        },
+        {
+          "client_id": "php",
+          "client_name": "Predis",
+          "language": "PHP"
+        },
+        {
+          "client_id": "redis_py",
+          "client_name": "redis-py",
+          "language": "Python"
+        },
+        {
+          "client_id": "redis_rs_async",
+          "client_name": "redis-rs-async",
+          "language": "Rust-Async"
+        },
+        {
+          "client_id": "redis_rs_sync",
+          "client_name": "redis-rs-sync",
+          "language": "Rust-Sync"
+        },
+        {
+          "client_id": "redisvl",
+          "client_name": "RedisVL",
+          "language": "Python"
+        }
+      ]
+    },
+    {
+      "command": "INCR",
+      "module": "core",
+      "summary": "Increments the integer value of a key by one. Uses 0 as initial value if the key doesn't exist.",
+      "clients": [
+        {
+          "client_id": "go-redis",
+          "client_name": "go-redis",
+          "language": "Go"
+        },
+        {
+          "client_id": "ioredis",
+          "client_name": "ioredis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "jedis",
+          "client_name": "jedis",
+          "language": "Java-Sync"
+        },
+        {
+          "client_id": "lettuce_async",
+          "client_name": "lettuce_async",
+          "language": "Java-Async"
+        },
+        {
+          "client_id": "lettuce_reactive",
+          "client_name": "lettuce_reactive",
+          "language": "Java-Reactive"
+        },
+        {
+          "client_id": "lettuce_sync",
+          "client_name": "lettuce_sync",
+          "language": "Lettuce-Sync"
+        },
+        {
+          "client_id": "node_redis",
+          "client_name": "node-redis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "nredisstack_async",
+          "client_name": "NRedisStack_Async",
+          "language": "C#"
+        },
+        {
+          "client_id": "nredisstack_sync",
+          "client_name": "NRedisStack_Sync",
+          "language": "C#"
+        },
+        {
+          "client_id": "php",
+          "client_name": "Predis",
+          "language": "PHP"
+        },
+        {
+          "client_id": "redis_py",
+          "client_name": "redis-py",
+          "language": "Python"
+        },
+        {
+          "client_id": "redis_rs_async",
+          "client_name": "redis-rs-async",
+          "language": "Rust-Async"
+        },
+        {
+          "client_id": "redis_rs_sync",
+          "client_name": "redis-rs-sync",
+          "language": "Rust-Sync"
+        },
+        {
+          "client_id": "redisvl",
+          "client_name": "RedisVL",
+          "language": "Python"
+        }
+      ]
+    },
+    {
+      "command": "LPUSH",
+      "module": "core",
+      "summary": "Prepends one or more elements to a list. Creates the key if it doesn't exist.",
+      "clients": [
+        {
+          "client_id": "go-redis",
+          "client_name": "go-redis",
+          "language": "Go"
+        },
+        {
+          "client_id": "ioredis",
+          "client_name": "ioredis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "jedis",
+          "client_name": "jedis",
+          "language": "Java-Sync"
+        },
+        {
+          "client_id": "lettuce_async",
+          "client_name": "lettuce_async",
+          "language": "Java-Async"
+        },
+        {
+          "client_id": "lettuce_reactive",
+          "client_name": "lettuce_reactive",
+          "language": "Java-Reactive"
+        },
+        {
+          "client_id": "lettuce_sync",
+          "client_name": "lettuce_sync",
+          "language": "Lettuce-Sync"
+        },
+        {
+          "client_id": "node_redis",
+          "client_name": "node-redis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "nredisstack_async",
+          "client_name": "NRedisStack_Async",
+          "language": "C#"
+        },
+        {
+          "client_id": "nredisstack_sync",
+          "client_name": "NRedisStack_Sync",
+          "language": "C#"
+        },
+        {
+          "client_id": "php",
+          "client_name": "Predis",
+          "language": "PHP"
+        },
+        {
+          "client_id": "redis_py",
+          "client_name": "redis-py",
+          "language": "Python"
+        },
+        {
+          "client_id": "redis_rs_async",
+          "client_name": "redis-rs-async",
+          "language": "Rust-Async"
+        },
+        {
+          "client_id": "redis_rs_sync",
+          "client_name": "redis-rs-sync",
+          "language": "Rust-Sync"
+        },
+        {
+          "client_id": "redisvl",
+          "client_name": "RedisVL",
+          "language": "Python"
+        }
+      ]
+    },
+    {
+      "command": "RPOP",
+      "module": "core",
+      "summary": "Returns and removes the last elements of a list. Deletes the list if the last element was popped.",
+      "clients": [
+        {
+          "client_id": "go-redis",
+          "client_name": "go-redis",
+          "language": "Go"
+        },
+        {
+          "client_id": "ioredis",
+          "client_name": "ioredis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "jedis",
+          "client_name": "jedis",
+          "language": "Java-Sync"
+        },
+        {
+          "client_id": "lettuce_async",
+          "client_name": "lettuce_async",
+          "language": "Java-Async"
+        },
+        {
+          "client_id": "lettuce_reactive",
+          "client_name": "lettuce_reactive",
+          "language": "Java-Reactive"
+        },
+        {
+          "client_id": "lettuce_sync",
+          "client_name": "lettuce_sync",
+          "language": "Lettuce-Sync"
+        },
+        {
+          "client_id": "node_redis",
+          "client_name": "node-redis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "nredisstack_async",
+          "client_name": "NRedisStack_Async",
+          "language": "C#"
+        },
+        {
+          "client_id": "nredisstack_sync",
+          "client_name": "NRedisStack_Sync",
+          "language": "C#"
+        },
+        {
+          "client_id": "php",
+          "client_name": "Predis",
+          "language": "PHP"
+        },
+        {
+          "client_id": "redis_py",
+          "client_name": "redis-py",
+          "language": "Python"
+        },
+        {
+          "client_id": "redis_rs_async",
+          "client_name": "redis-rs-async",
+          "language": "Rust-Async"
+        },
+        {
+          "client_id": "redis_rs_sync",
+          "client_name": "redis-rs-sync",
+          "language": "Rust-Sync"
+        },
+        {
+          "client_id": "redisvl",
+          "client_name": "RedisVL",
+          "language": "Python"
+        }
+      ]
+    },
+    {
+      "command": "SADD",
+      "module": "core",
+      "summary": "Adds one or more members to a set. Creates the key if it doesn't exist.",
+      "clients": [
+        {
+          "client_id": "go-redis",
+          "client_name": "go-redis",
+          "language": "Go"
+        },
+        {
+          "client_id": "ioredis",
+          "client_name": "ioredis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "jedis",
+          "client_name": "jedis",
+          "language": "Java-Sync"
+        },
+        {
+          "client_id": "lettuce_async",
+          "client_name": "lettuce_async",
+          "language": "Java-Async"
+        },
+        {
+          "client_id": "lettuce_reactive",
+          "client_name": "lettuce_reactive",
+          "language": "Java-Reactive"
+        },
+        {
+          "client_id": "lettuce_sync",
+          "client_name": "lettuce_sync",
+          "language": "Lettuce-Sync"
+        },
+        {
+          "client_id": "node_redis",
+          "client_name": "node-redis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "nredisstack_async",
+          "client_name": "NRedisStack_Async",
+          "language": "C#"
+        },
+        {
+          "client_id": "nredisstack_sync",
+          "client_name": "NRedisStack_Sync",
+          "language": "C#"
+        },
+        {
+          "client_id": "php",
+          "client_name": "Predis",
+          "language": "PHP"
+        },
+        {
+          "client_id": "redis_py",
+          "client_name": "redis-py",
+          "language": "Python"
+        },
+        {
+          "client_id": "redis_rs_async",
+          "client_name": "redis-rs-async",
+          "language": "Rust-Async"
+        },
+        {
+          "client_id": "redis_rs_sync",
+          "client_name": "redis-rs-sync",
+          "language": "Rust-Sync"
+        },
+        {
+          "client_id": "redisvl",
+          "client_name": "RedisVL",
+          "language": "Python"
+        }
+      ]
+    },
+    {
+      "command": "SET",
+      "module": "core",
+      "summary": "Sets the string value of a key, ignoring its type. The key is created if it doesn't exist.",
+      "clients": [
+        {
+          "client_id": "go-redis",
+          "client_name": "go-redis",
+          "language": "Go"
+        },
+        {
+          "client_id": "ioredis",
+          "client_name": "ioredis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "jedis",
+          "client_name": "jedis",
+          "language": "Java-Sync"
+        },
+        {
+          "client_id": "lettuce_async",
+          "client_name": "lettuce_async",
+          "language": "Java-Async"
+        },
+        {
+          "client_id": "lettuce_reactive",
+          "client_name": "lettuce_reactive",
+          "language": "Java-Reactive"
+        },
+        {
+          "client_id": "lettuce_sync",
+          "client_name": "lettuce_sync",
+          "language": "Lettuce-Sync"
+        },
+        {
+          "client_id": "node_redis",
+          "client_name": "node-redis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "nredisstack_async",
+          "client_name": "NRedisStack_Async",
+          "language": "C#"
+        },
+        {
+          "client_id": "nredisstack_sync",
+          "client_name": "NRedisStack_Sync",
+          "language": "C#"
+        },
+        {
+          "client_id": "php",
+          "client_name": "Predis",
+          "language": "PHP"
+        },
+        {
+          "client_id": "redis_py",
+          "client_name": "redis-py",
+          "language": "Python"
+        },
+        {
+          "client_id": "redis_rs_async",
+          "client_name": "redis-rs-async",
+          "language": "Rust-Async"
+        },
+        {
+          "client_id": "redis_rs_sync",
+          "client_name": "redis-rs-sync",
+          "language": "Rust-Sync"
+        },
+        {
+          "client_id": "redisvl",
+          "client_name": "RedisVL",
+          "language": "Python"
+        }
+      ]
+    },
+    {
+      "command": "ZADD",
+      "module": "core",
+      "summary": "Adds one or more members to a sorted set, or updates their scores. Creates the key if it doesn't exist.",
+      "clients": [
+        {
+          "client_id": "go-redis",
+          "client_name": "go-redis",
+          "language": "Go"
+        },
+        {
+          "client_id": "ioredis",
+          "client_name": "ioredis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "jedis",
+          "client_name": "jedis",
+          "language": "Java-Sync"
+        },
+        {
+          "client_id": "lettuce_async",
+          "client_name": "lettuce_async",
+          "language": "Java-Async"
+        },
+        {
+          "client_id": "lettuce_reactive",
+          "client_name": "lettuce_reactive",
+          "language": "Java-Reactive"
+        },
+        {
+          "client_id": "lettuce_sync",
+          "client_name": "lettuce_sync",
+          "language": "Lettuce-Sync"
+        },
+        {
+          "client_id": "node_redis",
+          "client_name": "node-redis",
+          "language": "Node.js"
+        },
+        {
+          "client_id": "nredisstack_async",
+          "client_name": "NRedisStack_Async",
+          "language": "C#"
+        },
+        {
+          "client_id": "nredisstack_sync",
+          "client_name": "NRedisStack_Sync",
+          "language": "C#"
+        },
+        {
+          "client_id": "php",
+          "client_name": "Predis",
+          "language": "PHP"
+        },
+        {
+          "client_id": "redis_py",
+          "client_name": "redis-py",
+          "language": "Python"
+        },
+        {
+          "client_id": "redis_rs_async",
+          "client_name": "redis-rs-async",
+          "language": "Rust-Async"
+        },
+        {
+          "client_id": "redis_rs_sync",
+          "client_name": "redis-rs-sync",
+          "language": "Rust-Sync"
+        },
+        {
+          "client_id": "redisvl",
+          "client_name": "RedisVL",
+          "language": "Python"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "monitor()",
+        "params": [],
+        "returns": {
+          "type": "Monitor",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "void monitor(JedisMonitor jedisMonitor)",
+        "params": [
+          {
+            "name": "jedisMonitor",
+            "type": "JedisMonitor",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "monitor()",
+        "params": [],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

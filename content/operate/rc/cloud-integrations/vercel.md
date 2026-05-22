@@ -17,19 +17,14 @@ The [Redis Cloud Vercel integration](https://vercel.com/marketplace/redis-cloud)
 
 1. Log in to your Vercel account (or create a new one).
 
-1. Navigate to the **Storage** tab and select **Create database**.
-    {{<image filename="/images/rc/vercel-storage-create-database-button.png" alt="Storage - Create Database">}}
+1. Navigate to the **Storage** tab. Under **Marketplace Database Providers**, find **Redis** and select **Create**.
+    {{<image filename="/images/rc/vercel-storage-create-database-button.png" alt="The Redis database provider in the Vercel Storage tab.">}}
 
-1. Under **Storage partners**, select **View all partners**.
-    {{<image filename="/images/rc/vercel-redis-cloud-partners.png" alt="Browse storage" width=400px >}}
+1. In the **Install integration** dialog under **Configuration and plan**, select your region and [high availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) settings.
 
-1. Find **Redis Cloud** and select **Continue**.
+    {{<image filename="/images/rc/vercel-create-db-select-plan.png" alt="Vercel Region and high availability settings">}}
 
-1. In the **Create Database** dialog, select your plan and **Continue**.
-
-    {{<image filename="/images/rc/vercel-create-db-select-plan.png" alt="Create database">}}
-
-    More configuration options are coming soon, such as region selection and multi-zone high availability.
+1. Choose a plan and select **Continue**.
 
 1. Enter your database name or use the automatically generated name.
 
@@ -60,13 +55,17 @@ More configuration options are coming soon, including plan changes, multi-zone h
 
 ### Configure from Redis Cloud
 
-You can also edit some configuration options in Redis Cloud.
+You can also edit some configuration options on the Redis Cloud console.
 
-From the database detail page, select **Open in Redis Cloud**.
+From the database detail page, select **Open in Redis**.
 
 {{<image filename="/images/rc/vercel-open-in-redis-cloud.png" alt="Open in Redis">}}
 
 Your Redis Cloud account is linked to your Vercel account. All your team's Redis databases will be listed under **Databases** in Redis Cloud.
+
+{{< warning >}}
+Anybody on your team that has a [Vercel access role](https://vercel.com/docs/rbac/access-roles) other than **Pro Viewer**, **Enterprise Viewer**, or **Billing**, can make changes to your database configuration on the Redis Cloud console as if they were an **Owner** on Redis Cloud. See [Team management roles]({{< relref "/operate/rc/security/access-control/access-management#team-management-roles" >}}) for more information.
+{{</ warning >}}
 
 Select your new database to make configuration changes such as passwords or the eviction policy.
 

@@ -113,6 +113,9 @@ mod cmds_generic_tests {
             }
         }
         // STEP_END
+        // REMOVE_START
+        let _: Result<i32, _> = r.del(&["key1", "key2"]).await;
+        // REMOVE_END
 
         // STEP_START expire
         if let Ok(res) = r.set("mykey", "Hello").await {
@@ -275,6 +278,66 @@ mod cmds_generic_tests {
         }
         // STEP_END
 
+        // STEP_START keys
+        match r.mset(&[("firstname", "Jack"), ("lastname", "Stuntman"), ("age", "35")]).await {
+            Ok(res) => {
+                let res: String = res;
+                println!("{res}");    // >>> OK
+                // REMOVE_START
+                assert_eq!(res, "OK");
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting keys: {e}");
+                return;
+            }
+        }
+
+        match r.keys::<&str, Vec<String>>("*name*").await {
+            Ok(res) => {
+                let mut sorted_res = res.clone();
+                sorted_res.sort();
+                println!("{sorted_res:?}");    // >>> ["firstname", "lastname"]
+                // REMOVE_START
+                assert_eq!(sorted_res, vec!["firstname", "lastname"]);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting keys: {e}");
+                return;
+            }
+        }
+
+        match r.keys::<&str, Vec<String>>("a??").await {
+            Ok(res) => {
+                println!("{res:?}");    // >>> ["age"]
+                // REMOVE_START
+                assert_eq!(res, vec!["age"]);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting keys: {e}");
+                return;
+            }
+        }
+
+        match r.keys::<&str, Vec<String>>("*").await {
+            Ok(res) => {
+                let mut sorted_res = res.clone();
+                sorted_res.sort();
+                println!("{sorted_res:?}");    // >>> ["age", "firstname", "lastname"]
+                // REMOVE_START
+                assert_eq!(sorted_res, vec!["age", "firstname", "lastname"]);
+                let _: Result<i32, _> = r.del(&["firstname", "lastname", "age"]).await;
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting keys: {e}");
+                return;
+            }
+        }
+        // STEP_END
+
         // STEP_START scan1
         match r.sadd("myset", &["1", "2", "3", "foo", "foobar", "feelsgood"]).await {
             Ok(res) => {
@@ -292,8 +355,8 @@ mod cmds_generic_tests {
 
         let res = match r.sscan_match("myset", "f*").await {
             Ok(iter) => {
-                let res: Vec<String> = iter.collect().await;
-                res
+                let res: Vec<Result<String, _>> = iter.collect().await;
+                res.into_iter().filter_map(|r| r.ok()).collect::<Vec<String>>()
             },
             Err(e) => {
                 println!("Error scanning set: {e}");
@@ -324,8 +387,8 @@ mod cmds_generic_tests {
         // This simulates the Python cursor-based output but uses the available API
         let keys = match r.scan_match("*11*").await {
             Ok(iter) => {
-                let keys: Vec<String> = iter.collect().await;
-                keys
+                let keys: Vec<Result<String, _>> = iter.collect().await;
+                keys.into_iter().filter_map(|r| r.ok()).collect::<Vec<String>>()
             },
             Err(e) => {
                 println!("Error scanning keys: {e}");
@@ -338,7 +401,10 @@ mod cmds_generic_tests {
 
         // Clean up all keys
         let all_keys: Vec<String> = match r.scan_match("key:*").await {
-            Ok(iter) => iter.collect().await,
+            Ok(iter) => {
+                let keys: Vec<Result<String, _>> = iter.collect().await;
+                keys.into_iter().filter_map(|r| r.ok()).collect()
+            },
             Err(_) => Vec::new(),
         };
         if !all_keys.is_empty() {
@@ -458,8 +524,8 @@ mod cmds_generic_tests {
 
         let fields = match r.hscan("myhash").await {
             Ok(iter) => {
-                let fields: std::collections::HashMap<String, String> = iter.collect().await;
-                fields
+                let items: Vec<Result<(String, String), _>> = iter.collect().await;
+                items.into_iter().filter_map(|r| r.ok()).collect::<std::collections::HashMap<String, String>>()
             },
             Err(e) => {
                 println!("Error scanning hash: {e}");

@@ -32,7 +32,6 @@ since: 1.0.0
 stack_path: docs/data-types/json
 summary: Deletes a value
 syntax_fmt: JSON.DEL key [path]
-syntax_str: '[path]'
 title: JSON.DEL
 ---
 Delete a value
@@ -55,6 +54,8 @@ is JSONPath to specify. Default is root `$`. Nonexisting paths are ignored.
 {{% alert title="Note" color="warning" %}}
  
 Deleting an object's root is equivalent to deleting the key from Redis.
+If `JSON.DEL` deletes a value and leaves the root object or array empty,
+the key is also deleted from Redis.
 
 {{% /alert %}}
 </details>
@@ -84,14 +85,24 @@ Get the updated document.
 redis> JSON.GET doc $
 "[{\"nested\":{\"b\":3}}]"
 {{< / highlight >}}
+
+Delete the last value from the root object.
+
+{{< highlight bash >}}
+redis> JSON.SET doc $ '{"a": 1}'
+OK
+redis> JSON.DEL doc $.a
+(integer) 1
+redis> EXISTS doc
+(integer) 0
+{{< / highlight >}}
 </details>
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 
@@ -115,6 +126,3 @@ redis> JSON.GET doc $
 
 * [RedisJSON]({{< relref "/develop/data-types/json/" >}})
 * [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
-
-
-

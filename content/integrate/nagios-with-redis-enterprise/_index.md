@@ -1,27 +1,27 @@
 ---
-LinkTitle: Nagios with Redis Enterprise
-Title: Nagios with Redis Enterprise
+LinkTitle: Nagios with Redis Software
+Title: Nagios with Redis Software
 alwaysopen: false
 categories:
 - docs
 - integrate
 - rs
-description: "The Redis Enterprise Software (RS)\_Nagios plugin enables you to monitor\
+description: "The Redis Software (RS)\_Nagios plugin enables you to monitor\
   \ the status of RS\_related objects and alerts. The RS\_alerts can be related to\
   \ the cluster, nodes, or databases."
 group: observability
-summary: "This\_Nagios plugin enables you to monitor the status of Redis Enterprise\_\
+summary: "This\_Nagios plugin enables you to monitor the status of Redis Software\_\
   related components and alerts."
-title: Nagios integration with Redis Enterprise Software
+title: Nagios integration with Redis Software
 type: integration
 weight: 7
 ---
 
 {{<banner-article>}}
-The Nagios plugin has been retired as of Redis Enterprise Software version 7.2.4.
+The Nagios plugin has been retired as of Redis Software version 7.2.4.
 {{</banner-article>}}
 
-The Redis Enterprise Software (RS) Nagios plugin enables you to monitor the status of RS related
+The Redis Software (RS) Nagios plugin enables you to monitor the status of RS related
 objects and alerts. The RS alerts can be related to the cluster, nodes,
 or databases.
 

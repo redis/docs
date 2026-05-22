@@ -22,15 +22,17 @@ jobs:
         run: sudo apt-get install jq
 
       - name: Create Comment
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BRANCH_NAME: ${{ github.head_ref }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           set -e
 
-          PR_NUMBER=${{ github.event.pull_request.number }}
-          BRANCH_NAME=${{ github.head_ref }}
-          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-          CREATE_COMMENT_URL="https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
-          UPDATE_COMMENT_URL="https://api.github.com/repos/${{ github.repository }}/issues/comments"
-          FILES_URL="https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/files"
+          CREATE_COMMENT_URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments"
+          UPDATE_COMMENT_URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/comments"
+          FILES_URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/files"
 
           # Check if comment already exists
           EXISTING_COMMENT_JSON=$(curl -Ls \

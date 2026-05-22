@@ -36,7 +36,6 @@ replaced_by: '`CLUSTER REPLICAS`'
 since: 3.0.0
 summary: Lists the replica nodes of a master node.
 syntax_fmt: CLUSTER SLAVES node-id
-syntax_str: ''
 title: CLUSTER SLAVES
 ---
 **A note about the word slave used in this man page and command name**: starting with Redis version 5, if not for backward compatibility, the Redis project no longer uses the word slave. Please use the new command [`CLUSTER REPLICAS`]({{< relref "/commands/cluster-replicas" >}}). The command `CLUSTER SLAVES` will continue to work for backward compatibility.
@@ -53,9 +52,9 @@ configuration update, it may show stale information. However eventually
 (in a matter of seconds if there are no network partitions) all the nodes
 will agree about the set of nodes associated with a given master.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Deprecated as of Redis v5.0.0. |
 

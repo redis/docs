@@ -1,0 +1,348 @@
+// EXAMPLE: cmds_string
+// HIDE_START
+
+using NRedisStack.Tests;
+using StackExchange.Redis;
+
+// HIDE_END
+
+// REMOVE_START
+namespace Doc;
+
+[Collection("DocsTests")]
+// REMOVE_END
+
+// HIDE_START
+public class CmdsStringExample
+// REMOVE_START
+: AbstractNRedisStackTest, IDisposable
+// REMOVE_END
+{
+    // REMOVE_START
+    public CmdsStringExample(EndpointsFixture fixture) : base(fixture) { }
+
+    [Fact]
+    // REMOVE_END
+    public void Run()
+    {
+        //REMOVE_START
+        // This is needed because we're constructing ConfigurationOptions in the test before calling GetConnection
+        SkipIfTargetConnectionDoesNotExist(EndpointsFixture.Env.Standalone);
+        var _ = GetCleanDatabase(EndpointsFixture.Env.Standalone);
+        //REMOVE_END
+        var muxer = ConnectionMultiplexer.Connect("localhost:6379");
+        var db = muxer.GetDatabase();
+        //REMOVE_START
+        // Clear any keys here before using them in tests.
+
+        //REMOVE_END
+        // HIDE_END
+
+
+        // STEP_START append1
+
+        // STEP_END
+
+        // Tests for 'append1' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START append2
+
+        // STEP_END
+
+        // Tests for 'append2' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START decr
+
+        // STEP_END
+
+        // Tests for 'decr' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START decrby
+
+        // STEP_END
+
+        // Tests for 'decrby' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START get
+
+        // STEP_END
+
+        // Tests for 'get' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START getdel
+
+        // STEP_END
+
+        // Tests for 'getdel' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START getex
+
+        // STEP_END
+
+        // Tests for 'getex' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START getrange
+
+        // STEP_END
+
+        // Tests for 'getrange' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START getset
+
+        // STEP_END
+
+        // Tests for 'getset' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START incr
+        bool incrResult1 = db.StringSet("mykey", "10");
+        Console.WriteLine(incrResult1); // >>> true
+
+        long incrResult2 = db.StringIncrement("mykey");
+        Console.WriteLine(incrResult2); // >>> 11
+
+        RedisValue incrResult3 = db.StringGet("mykey");
+        Console.WriteLine(incrResult3); // >>> 11
+        // STEP_END
+
+        // Tests for 'incr' step.
+        // REMOVE_START
+        Assert.True(incrResult1);
+        Assert.Equal(11, incrResult2);
+        Assert.Equal("11", incrResult3);
+        db.KeyDelete("mykey");
+        // REMOVE_END
+
+
+        // STEP_START incrby
+
+        // STEP_END
+
+        // Tests for 'incrby' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START incrbyfloat
+
+        // STEP_END
+
+        // Tests for 'incrbyfloat' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START lcs1
+
+        // STEP_END
+
+        // Tests for 'lcs1' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START lcs2
+
+        // STEP_END
+
+        // Tests for 'lcs2' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START lcs3
+
+        // STEP_END
+
+        // Tests for 'lcs3' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START lcs4
+
+        // STEP_END
+
+        // Tests for 'lcs4' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START lcs5
+
+        // STEP_END
+
+        // Tests for 'lcs5' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START mget
+        bool mgetResult1 = db.StringSet("key1", "Hello");
+        bool mgetResult2 = db.StringSet("key2", "World");
+
+        RedisValue[] mgetResult3 = db.StringGet(new RedisKey[] { "key1", "key2", "nonexisting" });
+        Console.WriteLine(string.Join(", ", mgetResult3.Select(v => v.IsNull ? "null" : v.ToString())));
+        // >>> Hello, World, null
+
+        // STEP_END
+
+        // Tests for 'mget' step.
+        // REMOVE_START
+        Assert.True(mgetResult1);
+        Assert.True(mgetResult2);
+        Assert.Equal(3, mgetResult3.Length);
+        Assert.Equal("Hello", mgetResult3[0]);
+        Assert.Equal("World", mgetResult3[1]);
+        Assert.True(mgetResult3[2].IsNull);
+        db.KeyDelete(new RedisKey[] { "key1", "key2", "nonexisting" });
+
+        // REMOVE_END
+
+
+        // STEP_START mset
+
+        // STEP_END
+
+        // Tests for 'mset' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START msetnx
+
+        // STEP_END
+
+        // Tests for 'msetnx' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START psetex
+
+        // STEP_END
+
+        // Tests for 'psetex' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START set
+
+        // STEP_END
+
+        // Tests for 'set' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START setex
+
+        // STEP_END
+
+        // Tests for 'setex' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START setnx
+
+        // STEP_END
+
+        // Tests for 'setnx' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START setrange1
+
+        // STEP_END
+
+        // Tests for 'setrange1' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START setrange2
+
+        // STEP_END
+
+        // Tests for 'setrange2' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START strlen
+
+        // STEP_END
+
+        // Tests for 'strlen' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // STEP_START substr
+
+        // STEP_END
+
+        // Tests for 'substr' step.
+        // REMOVE_START
+
+        // REMOVE_END
+
+
+        // HIDE_START
+    }
+}
+// HIDE_END

@@ -74,7 +74,6 @@ since: 6.2.0
 summary: Changes, or acquires, ownership of messages in a consumer group, as if the
   messages were delivered to as consumer group member.
 syntax_fmt: "XAUTOCLAIM key group consumer min-idle-time start [COUNT\_count]\n  [JUSTID]"
-syntax_str: "group consumer min-idle-time start [COUNT\_count] [JUSTID]"
 title: XAUTOCLAIM
 ---
 This command transfers ownership of pending stream entries that match the specified criteria. Conceptually, `XAUTOCLAIM`  is equivalent to calling [`XPENDING`]({{< relref "/commands/xpending" >}}) and then [`XCLAIM`]({{< relref "/commands/xclaim" >}}),
@@ -120,9 +119,9 @@ The consumer "Alice" from the "mygroup" group acquires ownership of these messag
 Note that the stream ID returned in the example is `0-0`, indicating that the entire stream was scanned.
 We can also see that `XAUTOCLAIM` did not stumble upon any deleted messages (the third reply element is an empty array).
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

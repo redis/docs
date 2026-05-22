@@ -15,6 +15,22 @@
 {{ $editURL := printf "%s/edit/%s/content/%s%s" $gh_repo $gh_branch $gh_path $gh_file }}
 {{ $issuesURL := printf "%s/issues/new?title=Feedback: %s&body=Page https://redis.io/docs/latest/%s%s" $gh_repo (safeURL $.Title ) $gh_path $stripped_filename }}
 
+{{/* Get the markdown output format URL and generate a proper filename */}}
+{{ $markdownURL := "" }}
+{{ range .AlternativeOutputFormats }}
+  {{ if eq .Name "markdown" }}
+    {{ $markdownURL = .Permalink }}
+  {{ end }}
+{{ end }}
+
+{{/* Generate a filename based on the page path */}}
+{{ $filename := "" }}
+{{ if $stripped_filename }}
+  {{ $filename = printf "%s.md" $stripped_filename }}
+{{ else }}
+  {{ $filename = printf "%s.md" (replaceRE "[^a-zA-Z0-9-]+" "-" .Title | lower) }}
+{{ end }}
+
 <nav class="flex flex-col gap-3 pb-3 w-52 text-redis-pencil-600 border-b border-b-redis-pen-700 border-opacity-50">
   <a {{ printf "href=%q" $editURL | safeHTMLAttr }} target="_blank" class="group inline-flex items-center gap-1  hover:text-redis-pen-400 mt-auto self-start">
     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
@@ -28,5 +44,31 @@
     </svg>
     Create an issue
   </a>
+  {{ if $markdownURL }}
+  <a href="#" onclick="downloadMarkdown('{{ $markdownURL }}', '{{ $filename }}'); return false;" class="group inline-flex items-center gap-1  hover:text-redis-pen-400 mt-auto self-start">
+    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6zm6-10v5l-2-2-1.5 1.5L12 18l3.5-3.5L14 13l-2 2V10h-2z"/>
+    </svg>
+    Download Markdown
+  </a>
+
+  <script>
+  function downloadMarkdown(url, filename) {
+    fetch(url)
+      .then(response => response.blob())
+      .then(blob => {
+        const a = document.createElement('a');
+        a.href = window.URL.createObjectURL(blob);
+        a.download = filename;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(a.href);
+      })
+      .catch(error => console.error('Download failed:', error));
+  }
+  </script>
+  {{ end }}
 </nav>
 

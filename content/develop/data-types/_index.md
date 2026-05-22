@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/
+- /manual/data-types/
 categories:
 - docs
 - develop
@@ -214,7 +217,7 @@ structures let you store and query timestamped data points.
 For more information, see:
 
 - [Redis time series overview]({{< relref "/develop/data-types/timeseries" >}})
-- [Count-min sketch command reference]({{< relref "/commands" >}}?group=timeseries)
+- [Time series command reference]({{< relref "/commands" >}}?group=timeseries)
 
 ## Adding extensions
 

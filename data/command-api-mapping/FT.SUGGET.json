@@ -1,0 +1,344 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "sugget(key: str, prefix: str, fuzzy: bool = False, num: int = 5, with_scores: bool = False, with_payloads: bool = False)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "prefix",
+            "type": "str",
+            "description": "The prefix to search for"
+          },
+          {
+            "name": "fuzzy",
+            "type": "bool",
+            "description": "Whether to use fuzzy matching"
+          },
+          {
+            "name": "num",
+            "type": "int",
+            "description": "Maximum number of suggestions to return"
+          },
+          {
+            "name": "with_scores",
+            "type": "bool",
+            "description": "Whether to include scores"
+          },
+          {
+            "name": "with_payloads",
+            "type": "bool",
+            "description": "Whether to include payloads"
+          }
+        ],
+        "returns": {
+          "type": "List[Union[str, Tuple]]",
+          "description": "List of suggestions"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<String> ftSugGet(String key, String prefix)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "prefix",
+            "type": "String",
+            "description": "The prefix to search for"
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "List of suggestions"
+        }
+      },
+      {
+        "signature": "List<Suggestion> ftSugGetWithScores(String key, String prefix, int max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "prefix",
+            "type": "String",
+            "description": "The prefix to search for"
+          },
+          {
+            "name": "max",
+            "type": "int",
+            "description": "Maximum number of suggestions"
+          }
+        ],
+        "returns": {
+          "type": "List<Suggestion>",
+          "description": "List of suggestions with scores"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTSugGet(ctx context.Context, key string, prefix string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "prefix",
+            "type": "string",
+            "description": "The prefix to search for"
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": "List of suggestions"
+        }
+      },
+      {
+        "signature": "FTSugGetWithArgs(ctx context.Context, key string, prefix string, options *FTSugGetOptions)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "prefix",
+            "type": "string",
+            "description": "The prefix to search for"
+          },
+          {
+            "name": "options",
+            "type": "*FTSugGetOptions",
+            "description": "Get options"
+          }
+        ],
+        "returns": {
+          "type": "*FTSugGetCmd",
+          "description": "List of suggestions"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SUGGET(key: RedisArgument, prefix: RedisArgument, options?: FTSugGetOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "prefix",
+            "type": "RedisArgument",
+            "description": "The prefix to search for"
+          },
+          {
+            "name": "options",
+            "type": "FTSugGetOptions",
+            "description": "Optional get options"
+          }
+        ],
+        "returns": {
+          "type": "Promise<Array<string> | Array<FTSuggestion>>",
+          "description": "List of suggestions"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "List<string> SugGet(string key, string prefix, bool fuzzy = false, bool withPayloads = false, int? max = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "prefix",
+            "type": "string",
+            "description": "The prefix to search for"
+          },
+          {
+            "name": "fuzzy",
+            "type": "bool",
+            "description": "Whether to use fuzzy matching"
+          },
+          {
+            "name": "withPayloads",
+            "type": "bool",
+            "description": "Whether to return payloads"
+          },
+          {
+            "name": "max",
+            "type": "int?",
+            "description": "Maximum number of suggestions to return"
+          }
+        ],
+        "returns": {
+          "type": "List<string>",
+          "description": "List of suggestions"
+        }
+      },
+      {
+        "signature": "List<Tuple<string, double>> SugGetWithScores(string key, string prefix, bool fuzzy = false, bool withPayloads = false, int? max = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "prefix",
+            "type": "string",
+            "description": "The prefix to search for"
+          },
+          {
+            "name": "fuzzy",
+            "type": "bool",
+            "description": "Whether to use fuzzy matching"
+          },
+          {
+            "name": "withPayloads",
+            "type": "bool",
+            "description": "Whether to return payloads"
+          },
+          {
+            "name": "max",
+            "type": "int?",
+            "description": "Maximum number of suggestions to return"
+          }
+        ],
+        "returns": {
+          "type": "List<Tuple<string, double>>",
+          "description": "List of suggestions with scores"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<List<string>> SugGetAsync(string key, string prefix, bool fuzzy = false, bool withPayloads = false, int? max = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "prefix",
+            "type": "string",
+            "description": "The prefix to search for"
+          },
+          {
+            "name": "fuzzy",
+            "type": "bool",
+            "description": "Whether to use fuzzy matching"
+          },
+          {
+            "name": "withPayloads",
+            "type": "bool",
+            "description": "Whether to return payloads"
+          },
+          {
+            "name": "max",
+            "type": "int?",
+            "description": "Maximum number of suggestions to return"
+          }
+        ],
+        "returns": {
+          "type": "Task<List<string>>",
+          "description": "List of suggestions"
+        }
+      },
+      {
+        "signature": "Task<List<Tuple<string, double>>> SugGetWithScoresAsync(string key, string prefix, bool fuzzy = false, bool withPayloads = false, int? max = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "prefix",
+            "type": "string",
+            "description": "The prefix to search for"
+          },
+          {
+            "name": "fuzzy",
+            "type": "bool",
+            "description": "Whether to use fuzzy matching"
+          },
+          {
+            "name": "withPayloads",
+            "type": "bool",
+            "description": "Whether to return payloads"
+          },
+          {
+            "name": "max",
+            "type": "int?",
+            "description": "Maximum number of suggestions to return"
+          }
+        ],
+        "returns": {
+          "type": "Task<List<Tuple<string, double>>>",
+          "description": "List of suggestions with scores"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftsugget(string $key, string $prefix, ?SugGetArguments $arguments = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "$prefix",
+            "type": "string",
+            "description": "The prefix to search for"
+          },
+          {
+            "name": "$arguments",
+            "type": "?SugGetArguments",
+            "description": "Optional arguments (FUZZY, WITHSCORES, WITHPAYLOADS, MAX)"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "List of suggestions"
+        }
+      }
+    ]
+  }
+}
+

@@ -1,0 +1,169 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "incrby(key, items, increments)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "name": "items",
+            "type": "List"
+          },
+          {
+            "name": "increments",
+            "type": "List"
+          }
+        ],
+        "returns": {
+          "type": "List",
+          "description": "Items dropped from Top-K list"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "topkIncrBy(String key, String item, long increment)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "item",
+            "type": "String"
+          },
+          {
+            "name": "increment",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Item dropped from list"
+        }
+      },
+      {
+        "signature": "topkIncrBy(String key, Map<String, Long> itemIncrements)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "itemIncrements",
+            "type": "Map<String, Long>"
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "Items dropped from list"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TopKIncrBy(ctx context.Context, key string, elements ...interface{}) *StringSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "elements",
+            "type": "...interface{}",
+            "description": "Alternating items and increments"
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": "Items dropped from filter"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TOPK.INCRBY(key, items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "name": "items",
+            "type": "TopKIncrByItem | Array<TopKIncrByItem>",
+            "description": "{ item, incrementBy }"
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<SimpleStringReply | NullReply>",
+          "description": "Items dropped from list"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "IncrBy(RedisKey key, params Tuple<RedisValue, long>[] itemIncrements)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "itemIncrements",
+            "type": "params Tuple<RedisValue, long>[]"
+          }
+        ],
+        "returns": {
+          "type": "RedisResult[]",
+          "description": "Items dropped from list"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "IncrByAsync(RedisKey key, params Tuple<RedisValue, long>[] itemIncrements)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "itemIncrements",
+            "type": "params Tuple<RedisValue, long>[]"
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisResult[]>",
+          "description": "Items dropped from list"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "topkincrby($key, ...$itemsAndIncrements)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "itemsAndIncrements",
+            "type": "mixed...",
+            "description": "Alternating items and increments"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Items dropped from Top-K list"
+        }
+      }
+    ]
+  }
+}

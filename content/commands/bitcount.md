@@ -69,7 +69,6 @@ railroad_diagram: /images/railroad/bitcount.svg
 since: 2.6.0
 summary: Counts the number of set bits (population counting) in a string.
 syntax_fmt: BITCOUNT key [start end [BYTE | BIT]]
-syntax_str: '[start end [BYTE | BIT]]'
 title: BITCOUNT
 ---
 Count the number of set bits (population counting) in a string.
@@ -99,7 +98,6 @@ BITCOUNT mykey 1 1
 BITCOUNT mykey 1 1 BYTE
 BITCOUNT mykey 5 30 BIT
 {{% /redis-cli %}}
-
 
 ## Pattern: real-time metrics using bitmaps
 
@@ -143,9 +141,9 @@ When the bitmap is big, there are two alternatives:
   optional parameters, accumulating the results client-side, and optionally
   caching the result into a key.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

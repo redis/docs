@@ -33,7 +33,6 @@ summary: Returns, for each input value (floating-point), the estimated rank of t
   value (the number of observations in the sketch that are smaller than the value
   + half the number of observations that are equal to the value)
 syntax_fmt: TDIGEST.RANK key value [value ...]
-syntax_str: value [value ...]
 title: TDIGEST.RANK
 ---
 Returns, for each floating-point input value, the estimated rank of the value (_the number of observations in the sketch that are smaller than the value_ + _half the number of observations that are equal to the value_).
@@ -91,9 +90,9 @@ redis> TDIGEST.REVRANK s 10 20
 2) (integer) 1
 {{< / highlight >}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 

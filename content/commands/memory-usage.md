@@ -46,7 +46,6 @@ railroad_diagram: /images/railroad/memory-usage.svg
 since: 4.0.0
 summary: Estimates the memory usage of a key.
 syntax_fmt: "MEMORY USAGE key [SAMPLES\_count]"
-syntax_str: "[SAMPLES\_count]"
 title: MEMORY USAGE
 ---
 The `MEMORY USAGE` command reports the number of bytes that a key and its value
@@ -89,9 +88,9 @@ OK
 (integer) 160
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 |<span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref "/develop/programmability">}}) in Redis versions earlier than 7. |
 

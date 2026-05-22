@@ -1,0 +1,128 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "suglen(key: str)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The suggestion dictionary key"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "The size of the suggestion dictionary"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long ftSugLen(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The suggestion dictionary key"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The size of the suggestion dictionary"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTSugLen(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": "The size of the suggestion dictionary"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SUGLEN(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The suggestion dictionary key"
+          }
+        ],
+        "returns": {
+          "type": "Promise<number>",
+          "description": "The size of the suggestion dictionary"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "long SugLen(string key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of suggestions in the dictionary"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<long> SugLenAsync(string key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "The number of suggestions in the dictionary"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftsuglen(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "The number of suggestions in the dictionary"
+        }
+      }
+    ]
+  }
+}
+

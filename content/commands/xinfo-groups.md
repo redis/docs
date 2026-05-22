@@ -46,7 +46,6 @@ railroad_diagram: /images/railroad/xinfo-groups.svg
 since: 5.0.0
 summary: Returns a list of the consumer groups of a stream.
 syntax_fmt: XINFO GROUPS key
-syntax_str: ''
 title: XINFO GROUPS
 ---
 This command returns the list of all consumer groups of the stream stored at `<key>`.
@@ -120,9 +119,9 @@ Once the consumer group delivers the last message in the stream to its members, 
    12) (integer) 1
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

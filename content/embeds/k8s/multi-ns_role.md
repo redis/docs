@@ -1,4 +1,5 @@
 ```yaml
+---
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:

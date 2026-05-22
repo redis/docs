@@ -1,0 +1,88 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [],
+    "node_redis": [],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "HybridSearchResult HybridSearch(string indexName, HybridSearchQuery query, IReadOnlyDictionary<string, object>? parameters = null)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "HybridSearchQuery",
+            "description": "The hybrid search query"
+          },
+          {
+            "name": "parameters",
+            "type": "IReadOnlyDictionary<string, object>?",
+            "description": "Optional query parameters"
+          }
+        ],
+        "returns": {
+          "type": "HybridSearchResult",
+          "description": "Hybrid search results"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<HybridSearchResult> HybridSearchAsync(string indexName, HybridSearchQuery query, IReadOnlyDictionary<string, object>? parameters = null)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "HybridSearchQuery",
+            "description": "The hybrid search query"
+          },
+          {
+            "name": "parameters",
+            "type": "IReadOnlyDictionary<string, object>?",
+            "description": "Optional query parameters"
+          }
+        ],
+        "returns": {
+          "type": "Task<HybridSearchResult>",
+          "description": "Hybrid search results"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "fthybrid(string $index, HybridSearchQuery $query)",
+        "params": [
+          {
+            "name": "$index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "$query",
+            "type": "HybridSearchQuery",
+            "description": "The hybrid search query"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Hybrid search results"
+        }
+      }
+    ]
+  }
+}
+

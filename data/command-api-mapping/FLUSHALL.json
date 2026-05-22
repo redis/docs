@@ -1,0 +1,191 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "flushall(asynchronous: bool = False, **kwargs)",
+        "params": [
+          {
+            "name": "asynchronous",
+            "type": "bool",
+            "description": "Async flush"
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String flushAll()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "String flushAll(FlushMode flushMode)",
+        "params": [
+          {
+            "name": "flushMode",
+            "type": "FlushMode",
+            "description": "Flush mode"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "FlushAll(ctx context.Context) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "FLUSHALL(mode?: RedisFlushMode)",
+        "params": [
+          {
+            "name": "mode",
+            "type": "RedisFlushMode",
+            "description": "Optional flush mode (ASYNC or SYNC)"
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String flushall()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String flushall(FlushMode flushMode)",
+        "params": [
+          {
+            "name": "flushMode",
+            "type": "FlushMode",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String flushallAsync()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> flushall()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "RedisFuture<String> flushall(FlushMode flushMode)",
+        "params": [
+          {
+            "name": "flushMode",
+            "type": "FlushMode",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "RedisFuture<String> flushallAsync()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> flushall()",
+        "params": [],
+        "returns": {
+          "type": "Mono<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Mono<String> flushall(FlushMode flushMode)",
+        "params": [
+          {
+            "name": "flushMode",
+            "type": "FlushMode",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Mono<String> flushallAsync()",
+        "params": [],
+        "returns": {
+          "type": "Mono<String>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "flushall()",
+        "params": [],
+        "returns": {
+          "type": "mixed",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

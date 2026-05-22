@@ -1,4 +1,5 @@
 // EXAMPLE: list_tutorial
+// BINDER_ID php-dt-list
 <?php
 
 require 'vendor/autoload.php';
@@ -106,10 +107,11 @@ extends PredisTestCase
         $this->assertEquals('bike:2', $res12);
         $this->assertEquals(['bike:1'], $res13);
         $this->assertEquals(['bike:2'], $res14);
-        $r->del('bikes:repairs');
         // REMOVE_END
 
         // STEP_START lpush_rpush
+        $r->del('bikes:repairs');
+        
         $res15 = $r->rpush('bikes:repairs', 'bike:1');
         echo $res15 . PHP_EOL;
         // >>> 1
@@ -131,10 +133,11 @@ extends PredisTestCase
         $this->assertEquals(2, $res16);
         $this->assertEquals(3, $res17);
         $this->assertEquals(['bike:important_bike', 'bike:1', 'bike:2'], $res18);
-        $r->del('bikes:repairs');
         // REMOVE_END
 
         // STEP_START variadic
+        $r->del('bikes:repairs');
+
         $res19 = $r->rpush('bikes:repairs', 'bike:1', 'bike:2', 'bike:3');
         echo $res19 . PHP_EOL;
         // >>> 3
@@ -157,10 +160,11 @@ extends PredisTestCase
             'bike:2',
             'bike:3',
         ], $res21);
-        $r->del('bikes:repairs');
         // REMOVE_END
 
         // STEP_START lpop_rpop
+        $r->del('bikes:repairs');
+        
         $res22 = $r->rpush('bikes:repairs', 'bike:1', 'bike:2', 'bike:3');
         echo $res22 . PHP_EOL;
         // >>> 3
@@ -206,10 +210,11 @@ extends PredisTestCase
         $this->assertEquals(5, $res27);
         $this->assertEquals('OK', $res28);
         $this->assertEquals(['bike:1', 'bike:2', 'bike:3'], $res29);
-        $r->del('bikes:repairs');
         // REMOVE_END
 
         // STEP_START ltrim_end_of_list
+        $r->del('bikes:repairs');
+
         $res27 = $r->rpush('bikes:repairs', 'bike:1', 'bike:2', 'bike:3', 'bike:4', 'bike:5');
         echo $res27 . PHP_EOL;
         // >>> 5
@@ -226,10 +231,11 @@ extends PredisTestCase
         $this->assertEquals(5, $res27);
         $this->assertEquals('OK', $res28);
         $this->assertEquals(['bike:3', 'bike:4', 'bike:5'], $res29);
-        $r->del('bikes:repairs');
         // REMOVE_END
 
         // STEP_START brpop
+        $r->del('bikes:repairs');
+
         $res31 = $r->rpush('bikes:repairs', 'bike:1', 'bike:2');
         echo $res31 . PHP_EOL;
         // >>> 2
@@ -267,10 +273,11 @@ extends PredisTestCase
         // REMOVE_START
         $this->assertEquals(0, $res35);
         $this->assertEquals(3, $res36);
-        $r->del('new_bikes');
         // REMOVE_END
 
         // STEP_START rule_1.1
+        $r->del('new_bikes');
+
         $res37 = $r->set('new_bikes', 'bike:1');
         echo $res37 . PHP_EOL;
         // >>> True
@@ -297,10 +304,10 @@ extends PredisTestCase
         } catch (\Predis\Response\ServerException $e) {
             $this->assertStringContainsString('wrong kind of value', strtolower($e->getMessage()));
         }
-        $r->del('new_bikes');
         // REMOVE_END
 
         // STEP_START rule_2
+        $r->del('bikes:repairs');
         $res36 = $r->lpush('bikes:repairs', 'bike:1', 'bike:2', 'bike:3');
         echo $res36 . PHP_EOL;
         // >>> 3

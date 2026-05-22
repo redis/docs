@@ -69,7 +69,6 @@ railroad_diagram: /images/railroad/geodist.svg
 since: 3.2.0
 summary: Returns the distance between two members of a geospatial index.
 syntax_fmt: GEODIST key member1 member2 [M | KM | FT | MI]
-syntax_str: member1 member2 [M | KM | FT | MI]
 title: GEODIST
 ---
 Return the distance between two members in the geospatial index represented by the sorted set.
@@ -97,9 +96,9 @@ GEODIST Sicily Palermo Catania mi
 GEODIST Sicily Foo Bar
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

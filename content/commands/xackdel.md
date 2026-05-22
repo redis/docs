@@ -76,7 +76,6 @@ railroad_diagram: /images/railroad/xackdel.svg
 since: 8.2.0
 summary: Acknowledges and conditionally deletes one or multiple entries for a stream consumer group.
 syntax_fmt: "XACKDEL key group [KEEPREF | DELREF | ACKED] IDS\_numids id [id ...]"
-syntax_str: "group [KEEPREF | DELREF | ACKED] IDS\_numids id [id ...]"
 title: XACKDEL
 ---
 
@@ -159,9 +158,9 @@ OK
 (empty array)
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

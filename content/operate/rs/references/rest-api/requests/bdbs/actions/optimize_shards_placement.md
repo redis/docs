@@ -12,7 +12,7 @@ weight: $weight
 ---
 
 {{<banner-article>}}
-This REST API path is deprecated as of Redis Enterprise Software version 7.22. Use [`PUT /v1/bdbs/<uid>/actions/revamp?dry_run=true`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/revamp/#put-bdbs-actions-revamp">}}) instead.
+This REST API path is deprecated as of Redis Software version 7.22. Use [`PUT /v1/bdbs/<uid>/actions/revamp?dry_run=true`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/revamp/#put-bdbs-actions-revamp">}}) instead.
 {{</banner-article>}}
 
 | Method | Path | Description |

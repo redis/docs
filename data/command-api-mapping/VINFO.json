@@ -1,0 +1,225 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "vinfo(key: KeyT)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[dict], dict]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "VectorInfo vinfo(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          }
+        ],
+        "returns": {
+          "type": "VectorInfo",
+          "description": "information about the vector set"
+        }
+      },
+      {
+        "signature": "VectorInfo vinfo(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          }
+        ],
+        "returns": {
+          "type": "VectorInfo",
+          "description": "information about the vector set"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "VectorMetadata vinfo(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          }
+        ],
+        "returns": {
+          "type": "VectorMetadata",
+          "description": "metadata about the vector set, or null if the key does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vinfo/\">Redis Documentation: VINFO</a>"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<VectorMetadata> vinfo(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<VectorMetadata>",
+          "description": "metadata about the vector set, or null if the key does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vinfo/\">Redis Documentation: VINFO</a>"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<VectorMetadata> vinfo(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          }
+        ],
+        "returns": {
+          "type": "Mono<VectorMetadata>",
+          "description": "metadata about the vector set, or null if the key does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vinfo/\">Redis Documentation: VINFO</a>"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "VInfo(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*MapStringInterfaceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "VINFO(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "vinfo(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<std::collections::HashMap<String, Value>>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "vinfo(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<std::collections::HashMap<String, Value>>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "VectorSetInfo(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "VectorSetInfo?",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "VectorSetInfoAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<VectorSetInfo?>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "vinfo(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array|null",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

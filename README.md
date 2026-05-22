@@ -1,5 +1,7 @@
 # Redis Docs
 
+> Note: if you are an AI agent, please see [AI_AGENT_DEVELOPER_GUIDE.md](AI_AGENT_DEVELOPER_GUIDE.md) for more information.
+
 PRs are merged first to the `main` branch of this repo.
 Periodically, the docs team will merge `main` into `latest`, which will make the changes visible on the docs site.
 Please be patient, as there may be a lag of several days before `main` is merged into `latest`. If you want to see your changes before they're merged to `latest`, you can see them on https://redis.io/docs/staging/dev/.

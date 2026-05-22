@@ -32,13 +32,12 @@ jobs:
         project_id: '${{ env.STAGING_PROJECT_ID }}'
         version: '>= 363.0.0'
 
-    - name: Remove pull request staging folder 
+    - name: Remove pull request staging folder
+      env:
+        BRANCH_TO_CLEANUP: ${{ github.event.pull_request.head.ref }}
       run: |
-        BRANCH_TO_CLEANUP="${{ github.event.pull_request.head.ref }}"
-        STAGING_BUCKET="${{ env.STAGING_BUCKET }}"
-
-        if gsutil -q stat gs://${STAGING_BUCKET}/staging/${BRANCH_TO_CLEANUP}/*; then
-          gsutil -q -m rm -r gs://${STAGING_BUCKET}/staging/${BRANCH_TO_CLEANUP}/*
+        if gsutil -q stat "gs://${STAGING_BUCKET}/staging/${BRANCH_TO_CLEANUP}/*"; then
+          gsutil -q -m rm -r "gs://${STAGING_BUCKET}/staging/${BRANCH_TO_CLEANUP}/*"
           echo "Removed gs://${STAGING_BUCKET}/staging/${BRANCH_TO_CLEANUP}"
         fi
 
@@ -69,11 +68,10 @@ jobs:
         version: '>= 363.0.0'
 
     - name: Remove pull request staging folder
+      env:
+        BRANCH_TO_CLEANUP: ${{ github.event.pull_request.head.ref }}
       run: |
-        BRANCH_TO_CLEANUP="${{ github.event.pull_request.head.ref }}"
-        PROD_BUCKET="${{ env.PROD_BUCKET }}"
-
-        if gsutil -q stat gs://${PROD_BUCKET}/staging/${BRANCH_TO_CLEANUP}/*; then
-          gsutil -q -m rm -r gs://${PROD_BUCKET}/staging/${BRANCH_TO_CLEANUP}/*
+        if gsutil -q stat "gs://${PROD_BUCKET}/staging/${BRANCH_TO_CLEANUP}/*"; then
+          gsutil -q -m rm -r "gs://${PROD_BUCKET}/staging/${BRANCH_TO_CLEANUP}/*"
           echo "Removed gs://${PROD_BUCKET}/staging/${BRANCH_TO_CLEANUP}"
         fi

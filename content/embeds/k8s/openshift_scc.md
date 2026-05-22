@@ -1,4 +1,5 @@
 ```yaml
+---
 apiVersion: security.openshift.io/v1
 kind: SecurityContextConstraints
 metadata:

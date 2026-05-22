@@ -31,7 +31,6 @@ railroad_diagram: /images/railroad/config-resetstat.svg
 since: 2.0.0
 summary: Resets the server's statistics.
 syntax_fmt: CONFIG RESETSTAT
-syntax_str: ''
 title: CONFIG RESETSTAT
 ---
 Resets the statistics reported by Redis using the [`INFO`]({{< relref "/commands/info" >}}) and [`LATENCY HISTOGRAM`]({{< relref "/commands/latency-histogram" >}}) commands.
@@ -45,9 +44,9 @@ The following is a non-exhaustive list of values that are reset:
 * Persistence statistics
 * Active defragmentation statistics
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

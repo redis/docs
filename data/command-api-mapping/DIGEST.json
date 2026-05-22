@@ -1,0 +1,221 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "digest(name: KeyT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[str, bytes, None]",
+          "description": "- None if the key does not exist - (bulk string) the XXH3 digest of the value as a hex string"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String digest(String script)",
+        "params": [
+          {
+            "name": "script",
+            "type": "String",
+            "description": "script content."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "the SHA1 value. @since 6.0"
+        }
+      },
+      {
+        "signature": "String digest(byte[] script)",
+        "params": [
+          {
+            "name": "script",
+            "type": "byte[]",
+            "description": "script content."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "the SHA1 value. @since 6.0"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "String digest(String script)",
+        "params": [
+          {
+            "name": "script",
+            "type": "String",
+            "description": "script content."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "the SHA1 value. @since 6.0"
+        }
+      },
+      {
+        "signature": "String digest(byte[] script)",
+        "params": [
+          {
+            "name": "script",
+            "type": "byte[]",
+            "description": "script content."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "the SHA1 value. @since 6.0"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "String digest(String script)",
+        "params": [
+          {
+            "name": "script",
+            "type": "String",
+            "description": "script content."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "the SHA1 value. @since 6.0"
+        }
+      },
+      {
+        "signature": "String digest(byte[] script)",
+        "params": [
+          {
+            "name": "script",
+            "type": "byte[]",
+            "description": "script content."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "the SHA1 value. @since 6.0"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Digest(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*DigestCmd",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "digest(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "digest(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StringDigest(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ValueCondition?",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StringDigest(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ValueCondition?",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "digest(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

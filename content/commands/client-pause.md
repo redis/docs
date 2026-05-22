@@ -49,7 +49,6 @@ railroad_diagram: /images/railroad/client-pause.svg
 since: 3.0.0
 summary: Suspends commands processing.
 syntax_fmt: CLIENT PAUSE timeout [WRITE | ALL]
-syntax_str: '[WRITE | ALL]'
 title: CLIENT PAUSE
 ---
 `CLIENT PAUSE` is a connections control command able to suspend all the Redis clients for the specified amount of time (in milliseconds).
@@ -93,9 +92,9 @@ to be static not just from the point of view of clients not being able to write,
 
 *   `>= 3.2.0`: Client pause prevents client pause and key eviction as well.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

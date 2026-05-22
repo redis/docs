@@ -67,7 +67,6 @@ railroad_diagram: /images/railroad/lcs.svg
 since: 7.0.0
 summary: Finds the longest common substring.
 syntax_fmt: "LCS key1 key2 [LEN] [IDX] [MINMATCHLEN\_min-match-len] [WITHMATCHLEN]"
-syntax_str: "key2 [LEN] [IDX] [MINMATCHLEN\_min-match-len] [WITHMATCHLEN]"
 title: LCS
 ---
 
@@ -143,9 +142,9 @@ Finally to also have the match len:
 4) (integer) 6
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

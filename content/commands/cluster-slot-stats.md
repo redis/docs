@@ -88,7 +88,6 @@ summary: Return an array of slot usage statistics for slots assigned to the curr
   node.
 syntax_fmt: "CLUSTER SLOT-STATS <SLOTSRANGE\_start-slot end-slot | ORDERBY\_metric\n  [LIMIT\_\
   limit] [ASC | DESC]>"
-syntax_str: ''
 title: CLUSTER SLOT-STATS
 ---
 
@@ -106,12 +105,17 @@ The command reports on the following statistics:
 
 * `KEY-COUNT`: Number of keys stored in the slot.
 * `CPU-USEC`: CPU time (in microseconds) spent handling the slot.
+* `MEMORY-BYTES`: Number of bytes allocated by the slot.
 * `NETWORK-BYTES-IN`: Total inbound network traffic (in bytes) received by the slot.
 * `NETWORK-BYTES-OUT`: Total outbound network traffic (in bytes) sent from the slot.
 
-## Redis Enterprise and Redis Cloud compatibility
+{{< note>}}
+All metrics except `KEY-COUNT` require that `cluster-slot-stats-enabled` is set to `yes` in the `redis.conf` file.
+{{< /note >}}
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

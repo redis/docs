@@ -5,14 +5,14 @@ categories:
 - docs
 - operate
 - rs
-description: Restarts Redis Enterprise Software processes for a specific database.
+description: Restarts Redis Software processes for a specific database.
 headerRange: '[1-2]'
 linkTitle: restart
 toc: 'true'
 weight: $weight
 ---
 
-Schedules a restart of the Redis Enterprise Software processes on primary and replica instances of a specific database.
+Schedules a restart of the Redis Software processes on primary and replica instances of a specific database.
 
 ``` sh
 rladmin restart db { db:<id> | <name> }
@@ -25,7 +25,7 @@ rladmin restart db { db:<id> | <name> }
 
 | Parameter      | Type/Value                     | Description                                                           |
 |----------------|--------------------------------|-----------------------------------------------------------------------|
-| db             | db:\<id\><br /> name           | Restarts Redis Enterprise Software processes for the specified database                |
+| db             | db:\<id\><br /> name           | Restarts Redis Software processes for the specified database                |
 | discard_data   |                                | Allows discarding data if there is no persistence or replication      |
 | force_discard  |                                | Forcibly discards data even if there is persistence or replication    |
 | preserve_roles |                                | Performs an additional failover to maintain shard roles               |

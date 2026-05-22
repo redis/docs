@@ -51,7 +51,6 @@ since: 2.6.0
 summary: Increment the floating point value of a key by a number. Uses 0 as initial
   value if the key doesn't exist.
 syntax_fmt: INCRBYFLOAT key increment
-syntax_str: increment
 title: INCRBYFLOAT
 ---
 Increment the string representing a floating point number stored at `key` by the
@@ -89,16 +88,15 @@ SET mykey 5.0e3
 INCRBYFLOAT mykey 2.0e2
 {{% /redis-cli %}}
 
-
 ## Implementation details
 
 The command is always propagated in the replication link and the Append Only
 File as a [`SET`]({{< relref "/commands/set" >}}) operation, so that differences in the underlying floating point
 math implementation will not be sources of inconsistency.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

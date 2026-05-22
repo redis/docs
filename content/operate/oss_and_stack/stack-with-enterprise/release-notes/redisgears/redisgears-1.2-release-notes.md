@@ -166,7 +166,7 @@ This is the General Availability release of RedisGears 1.2.
 
 RedisGears 1.2 comes with a new plugin mechanism that allows you to decide which languages you want to load into RedisGears. Currently, we support two languages: Python and Java (JVM languages). You can decide which language you want to use using the new `Plugin` configuration.
 
-Full documentation for JVM support can be found on the [Redis documentation website]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/jvm" >}}).
+Full documentation for JVM support can be found on the [Redis documentation website]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm" >}}).
 
 #### Python async await support
 

@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the mdns_server object used with Redis Enterprise Software
+description: Documents the mdns_server object used with Redis Software
   REST API calls.
 linkTitle: mdns_server
 weight: $weight

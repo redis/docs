@@ -1,0 +1,208 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "merge(destKey, numKeys, srcKeys, weights=[])",
+        "params": [
+          {
+            "name": "destKey",
+            "type": "str"
+          },
+          {
+            "name": "numKeys",
+            "type": "int"
+          },
+          {
+            "name": "srcKeys",
+            "type": "List",
+            "description": "Source sketch keys"
+          },
+          {
+            "name": "weights",
+            "type": "List",
+            "description": "Optional weights for each source"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "True if merged successfully"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "cmsMerge(String destKey, String... keys)",
+        "params": [
+          {
+            "name": "destKey",
+            "type": "String"
+          },
+          {
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "cmsMerge(String destKey, Map<String, Long> keysAndWeights)",
+        "params": [
+          {
+            "name": "destKey",
+            "type": "String"
+          },
+          {
+            "name": "keysAndWeights",
+            "type": "Map<String, Long>"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "CMSMerge(ctx context.Context, destKey string, sourceKeys ...string) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "destKey",
+            "type": "string"
+          },
+          {
+            "name": "sourceKeys",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "Status command result"
+        }
+      },
+      {
+        "signature": "CMSMergeWithWeight(ctx context.Context, destKey string, sourceKeys map[string]int64) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "destKey",
+            "type": "string"
+          },
+          {
+            "name": "sourceKeys",
+            "type": "map[string]int64"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "Status command result"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "CMS.MERGE(destination, source)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "RedisArgument"
+          },
+          {
+            "name": "source",
+            "type": "BfMergeSketches",
+            "description": "Array of sketch names or sketches with weights"
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Merge(RedisValue destination, long numKeys, RedisValue[] source, long[]? weight = null)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "RedisValue"
+          },
+          {
+            "name": "numKeys",
+            "type": "long"
+          },
+          {
+            "name": "source",
+            "type": "RedisValue[]"
+          },
+          {
+            "name": "weight",
+            "type": "long[]?",
+            "description": "Optional weights"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "True if merged successfully"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "MergeAsync(RedisValue destination, long numKeys, RedisValue[] source, long[]? weight = null)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "RedisValue"
+          },
+          {
+            "name": "numKeys",
+            "type": "long"
+          },
+          {
+            "name": "source",
+            "type": "RedisValue[]"
+          },
+          {
+            "name": "weight",
+            "type": "long[]?",
+            "description": "Optional weights"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "True if merged successfully"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "cmsmerge($destKey, ...$sourceKeys)",
+        "params": [
+          {
+            "name": "destKey",
+            "type": "string"
+          },
+          {
+            "name": "sourceKeys",
+            "type": "string..."
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": "OK"
+        }
+      }
+    ]
+  }
+}

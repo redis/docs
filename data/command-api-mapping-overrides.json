@@ -1,0 +1,23 @@
+{
+  "_comment": "Manual overrides for command-api-mapping.json. Entries here replace (not merge with) the auto-generated data. Structure mirrors command-api-mapping.json: { \"COMMAND\": { \"api_calls\": { \"client_id\": [...signatures...] } } }",
+  "_example": {
+    "SET": {
+      "api_calls": {
+        "redis_py": [
+          {
+            "signature": "def set(name, value, ex=None, px=None, nx=False, xx=False)",
+            "params": [
+              {"name": "name", "type": "str", "description": "The key name"},
+              {"name": "value", "type": "str", "description": "The value to set"}
+            ],
+            "returns": {
+              "type": "bool",
+              "description": "True if SET was executed successfully"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+

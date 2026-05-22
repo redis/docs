@@ -93,8 +93,6 @@ summary: Changes, or acquires, ownership of a message in a consumer group, as if
   message was delivered a consumer group member.
 syntax_fmt: "XCLAIM key group consumer min-idle-time id [id ...] [IDLE\_ms]\n  [TIME\_\
   unix-time-milliseconds] [RETRYCOUNT\_count] [FORCE] [JUSTID]\n  [LASTID\_lastid]"
-syntax_str: "group consumer min-idle-time id [id ...] [IDLE\_ms] [TIME\_unix-time-milliseconds]\
-  \ [RETRYCOUNT\_count] [FORCE] [JUSTID] [LASTID\_lastid]"
 title: XCLAIM
 ---
 In the context of a stream consumer group, this command changes the ownership
@@ -145,9 +143,9 @@ useful to normal users:
 
 In the above example we claim the message with ID `1526569498055-0`, only if the message is idle for at least one hour without the original consumer or some other consumer making progresses (acknowledging or claiming it), and assigns the ownership to the consumer `Alice`.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

@@ -37,6 +37,7 @@ Use the `add_field` transformation to add a new field that contains the value of
 
 
 ```yaml
+name: Add operation code to employee
 source:
   schema: public
   table: employee
@@ -57,6 +58,7 @@ transform:
 In some cases you may want to ignore certain operations (for example, you may not be interested in deletions). Use the `filter` transformation to filter out any operations you don't need to process.
 
 ```yaml
+name: Filter out delete operations
 source:
   schema: public
   table: employee
@@ -76,6 +78,7 @@ The previous example filters out specific operations, but you can also modify th
 Note that when a source record is deleted, you must modify the value of the `opcode` field if you want to prevent the corresponding record in the target database from being removed automatically.
 
 ```yaml
+name: Track status based on operation code
 source:
   schema: public
   table: employee

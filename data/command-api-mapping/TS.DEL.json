@@ -1,0 +1,191 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "delete(key: KeyT, from_time: int, to_time: int)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "from_time",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "to_time",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": "The number of samples deleted."
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long tsDel(String key, long fromTimestamp, long toTimestamp)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "fromTimestamp",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "toTimestamp",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of samples that were removed"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TSDel(ctx context.Context, Key string, fromTimestamp int, toTimestamp int)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "Key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "fromTimestamp",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "toTimestamp",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "DEL(key: RedisArgument, fromTimestamp: Timestamp, toTimestamp: Timestamp)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "fromTimestamp",
+            "type": "Timestamp",
+            "description": ""
+          },
+          {
+            "name": "toTimestamp",
+            "type": "Timestamp",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Del(string key, TimeStamp fromTimeStamp, TimeStamp toTimeStamp)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "fromTimeStamp",
+            "type": "TimeStamp",
+            "description": ""
+          },
+          {
+            "name": "toTimeStamp",
+            "type": "TimeStamp",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "DelAsync(string key, TimeStamp fromTimeStamp, TimeStamp toTimeStamp)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "fromTimeStamp",
+            "type": "TimeStamp",
+            "description": ""
+          },
+          {
+            "name": "toTimeStamp",
+            "type": "TimeStamp",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tsdel(string $key, int $fromTimestamp, int $toTimestamp)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$fromTimestamp",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$toTimestamp",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

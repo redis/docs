@@ -11,7 +11,7 @@ toc: 'true'
 weight: 70
 ---
 
-Redis Enterprise Software lets you implement password rotation policies using the [REST API]({{< relref "/operate/rs/references/rest-api" >}}).
+Redis Software lets you implement password rotation policies using the [REST API]({{< relref "/operate/rs/references/rest-api" >}}).
 
 You can add a new password for a database user without immediately invalidating the old one to prevent possible authentication errors in production.
 
@@ -21,13 +21,13 @@ Password rotation does not work for the default user. [Add additional users]({{<
 
 ## Password rotation policies
 
-For user access to the Redis Enterprise Software Cluster Manager UI,
+For user access to the Redis Software Cluster Manager UI,
 you can set a [password expiration policy]({{< relref "/operate/rs/security/access-control/manage-passwords/password-expiration" >}}) to prompt the user to change their password.
 
 However, for database connections that rely on password authentication,
 you need to allow for authentication with the existing password while you roll out the new password to your systems.
 
-With the Redis Enterprise Software REST API, you can add additional passwords to your user account for authentication to the database or the Cluster Manager UI and API.
+With the Redis Software REST API, you can add additional passwords to your user account for authentication to the database or the Cluster Manager UI and API.
 
 After the old password is replaced in the database connections, you can delete the old password to finish the password rotation process.
 

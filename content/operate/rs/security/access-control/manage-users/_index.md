@@ -11,7 +11,7 @@ linkTitle: Manage user security
 weight: 20
 ---
 
-Redis Enterprise supports the following user account security settings:
+Redis Software supports the following user account security settings:
 
 - Password complexity
 - Password expiration

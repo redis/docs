@@ -1,0 +1,175 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "client_unblock(client_id: int, error: bool = False, **kwargs)",
+        "params": [
+          {
+            "name": "client_id",
+            "type": "int",
+            "description": "The client ID"
+          },
+          {
+            "name": "error",
+            "type": "bool",
+            "description": "Whether to unblock with error"
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long clientUnblock(final long clientId)",
+        "params": [
+          {
+            "name": "clientId",
+            "type": "long",
+            "description": "The client ID"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "Number of unblocked connections"
+        }
+      },
+      {
+        "signature": "long clientUnblock(final long clientId, final UnblockType unblockType)",
+        "params": [
+          {
+            "name": "clientId",
+            "type": "long",
+            "description": "The client ID"
+          },
+          {
+            "name": "unblockType",
+            "type": "UnblockType",
+            "description": "Unblock type"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "Number of unblocked connections"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClientUnblock(ctx context.Context, id int64) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "id",
+            "type": "int64",
+            "description": "Client ID to unblock"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ClientUnblockWithError(ctx context.Context, id int64) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "id",
+            "type": "int64",
+            "description": "Client ID to unblock with error"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "Long clientUnblock(long id, UnblockType type)",
+        "params": [
+          {
+            "name": "id",
+            "type": "long",
+            "description": "The client ID"
+          },
+          {
+            "name": "type",
+            "type": "UnblockType",
+            "description": "Unblock type"
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Number of unblocked connections"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> clientUnblock(long id, UnblockType type)",
+        "params": [
+          {
+            "name": "id",
+            "type": "long",
+            "description": "The client ID"
+          },
+          {
+            "name": "type",
+            "type": "UnblockType",
+            "description": "Unblock type"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Number of unblocked connections"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> clientUnblock(long id, UnblockType type)",
+        "params": [
+          {
+            "name": "id",
+            "type": "long",
+            "description": "The client ID"
+          },
+          {
+            "name": "type",
+            "type": "UnblockType",
+            "description": "Unblock type"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Number of unblocked connections"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

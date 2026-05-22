@@ -1,12 +1,11 @@
 // EXAMPLE: cmds_generic
 <?php
-require_once 'vendor/autoload.php';
-
+use PHPUnit\Framework\TestCase;
 use Predis\Client as PredisClient;
 
 class CmdsGenericTest
 // REMOVE_START
-extends PredisTestCase
+extends TestCase
 // REMOVE_END
 {
     public function testCmdsGeneric() {
@@ -43,6 +42,30 @@ extends PredisTestCase
         $this->assertEquals(0, $existsResult3);
         $this->assertEquals('OK', $existsResult4);
         $this->assertEquals(2, $existsResult5);
+        $r->del('key1', 'key2');
+        // REMOVE_END
+
+        // STEP_START keys
+        $keysResult1 = $r->mset(['firstname' => 'Jack', 'lastname' => 'Stuntman', 'age' => '35']);
+        echo $keysResult1 . PHP_EOL; // >>> OK
+
+        $keysResult2 = $r->keys('*name*');
+        sort($keysResult2);
+        echo implode(', ', $keysResult2) . PHP_EOL; // >>> firstname, lastname
+
+        $keysResult3 = $r->keys('a??');
+        echo implode(', ', $keysResult3) . PHP_EOL; // >>> age
+
+        $keysResult4 = $r->keys('*');
+        sort($keysResult4);
+        echo implode(', ', $keysResult4) . PHP_EOL; // >>> age, firstname, lastname
+        // STEP_END
+        // REMOVE_START
+        $this->assertEquals('OK', $keysResult1);
+        $this->assertEquals(['firstname', 'lastname'], $keysResult2);
+        $this->assertEquals(['age'], $keysResult3);
+        $this->assertEquals(['age', 'firstname', 'lastname'], $keysResult4);
+        $r->del('firstname', 'lastname', 'age');
         // REMOVE_END
 
     }

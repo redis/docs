@@ -10,6 +10,8 @@ linkTitle: Resource usage
 weight: $weight
 ---
 
+The following metrics are available in the Redis Software Cluster Manager UI.
+
 ## Connections
 
 Number of connections to the database.
@@ -62,6 +64,12 @@ Used memory does not include:
     - AOF rewrite process
 
 Used memory is not measured during [shard migration]({{< relref "/operate/rs/databases/configure/replica-ha" >}}).
+
+Additional factors for [Active-Active databases]({{<relref "/operate/rs/databases/active-active">}}):
+
+- By default, the [Active-Active replication backlog]({{<relref "/operate/rs/databases/active-active/manage#replication-backlog">}}), used for synchronization between clusters or regions, is set to 1% of the database size.
+
+- Active-Active databases have a lower threshold for activating the eviction policy, because it requires propagation to all participating clusters. The eviction policy starts to evict keys when one of the Active-Active instances reaches 80% of its memory limit.
 
 **Components measured**: Database and Shard
 

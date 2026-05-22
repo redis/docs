@@ -25,7 +25,6 @@ railroad_diagram: /images/railroad/cluster-info.svg
 since: 3.0.0
 summary: Returns information about the state of a node.
 syntax_fmt: CLUSTER INFO
-syntax_str: ''
 title: CLUSTER INFO
 ---
 `CLUSTER INFO` provides [`INFO`]({{< relref "/commands/info" >}}) style information about Redis Cluster vital parameters.
@@ -87,9 +86,9 @@ Here are the explanation of these fields:
 
 More information about the Current Epoch and Config Epoch variables are available in the [Redis Cluster specification document]({{< relref "/operate/oss_and_stack/reference/cluster-spec#cluster-current-epoch" >}}).
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). |
 

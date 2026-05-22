@@ -1,5 +1,8 @@
 ---
-aliases: /develop/connect/cli
+aliases:
+- /develop/connect/cli
+- /connect/cli/
+- /manual/cli/
 categories:
 - docs
 - develop
@@ -63,6 +66,8 @@ even on the terminal with the `--raw` option:
 
 You can force human readable output when writing to a file or in
 pipe to other commands by using `--no-raw`.
+
+For complete command line usage, see [below](#usage).
 
 ## String quoting and escaping
 
@@ -504,6 +509,7 @@ dataset for big keys, but also provides information about the data types
 that the data set consists of. This mode is enabled with the `--bigkeys` option,
 and produces verbose output:
 
+{{< trimmable head="12" tail="8" >}}
 ```
 $ redis-cli --bigkeys
 
@@ -537,6 +543,7 @@ Biggest   zset found "racer_scores" has 8 members
 2 zsets with 11 members (03.64% of keys, avg size 5.50)
 25 ReJSON-RLs with 0 ? (45.45% of keys, avg size 0.00)
 ```
+{{< /trimmable >}}
 
 In the first part of the output, each new key larger than the previous larger
 key (of the same type) encountered is reported. The summary section
@@ -561,6 +568,7 @@ The `--bigkeys` option now works on cluster replicas.
 Similar to the `--bigkeys` option, `--memkeys` allows you to scan the entire keyspace to find biggest keys as well as
 the average sizes per key type.
 
+{{< trimmable head="12" tail="8" >}}
 ```
 $ redis-cli --memkeys
 
@@ -599,6 +607,7 @@ Biggest ReJSON-RL found "bikes:inventory" has 4865 bytes
 2 zsets with 304 bytes (03.64% of keys, avg size 152.00)
 25 ReJSON-RLs with 15748 bytes (45.45% of keys, avg size 629.92)
 ```
+{{< /trimmable >}}
 
 The `--memkeys` option now works on cluster replicas.
 
@@ -606,6 +615,7 @@ The `--memkeys` option now works on cluster replicas.
 
 You can use the `--keystats` and `--keystats-samples` options to combine `--memkeys` and `--bigkeys` with additional distribution data.
 
+{{< trimmable head="14" tail="12" >}}
 ```
 $ redis-cli --keystats
 
@@ -682,6 +692,7 @@ CMSk-TYPE            1   1.82%  140.68K  140.68K                 -           -
 zset                 2   3.64%     304B     152B         11 members        5.50
 ReJSON-RL           25  45.45%   15.38K     629B                 -           - 
 ```
+{{< /trimmable >}}
 
 ## Get a list of keys
 
@@ -954,7 +965,7 @@ The program shows stats every second. In the first seconds the cache starts to b
     127000 Gets/sec | Hits: 50870 (40.06%) | Misses: 76130 (59.94%)
     124250 Gets/sec | Hits: 50147 (40.36%) | Misses: 74103 (59.64%)
 
-A miss rate of 59% may not be acceptable for certain use cases therefor
+A miss rate of 59% may not be acceptable for certain use cases;
 100MB of memory is not enough. Observe an example using a half gigabyte of memory. After several
 minutes the output stabilizes to the following figures:
 
@@ -964,3 +975,130 @@ minutes the output stabilizes to the following figures:
     140500 Gets/sec | Hits: 135947 (96.76%) | Misses: 4553 (3.24%)
 
 With 500MB there is sufficient space for the key quantity (10 million) and distribution (80-20 style).
+
+## Usage
+
+{{< usage >}}
+```
+Usage: redis-cli [OPTIONS] [cmd [arg [arg ...]]]
+  -h <hostname>      Server hostname (default: 127.0.0.1).
+  -p <port>          Server port (default: 6379).
+  -t <timeout>       Server connection timeout in seconds (decimals allowed).
+                     Default timeout is 0, meaning no limit, depending on the OS.
+  -s <socket>        Server socket (overrides hostname and port).
+  -a <password>      Password to use when connecting to the server.
+                     You can also use the REDISCLI_AUTH environment
+                     variable to pass this password more safely
+                     (if both are used, this argument takes precedence).
+  --user <username>  Used to send ACL style 'AUTH username pass'. Needs -a.
+  --pass <password>  Alias of -a for consistency with the new --user option.
+  --askpass          Force user to input password with mask from STDIN.
+                     If this argument is used, '-a' and REDISCLI_AUTH
+                     environment variable will be ignored.
+  -u <uri>           Server URI on format redis://user:password@host:port/dbnum
+                     User, password and dbnum are optional. For authentication
+                     without a username, use username 'default'. For TLS, use
+                     the scheme 'rediss'.
+  -r <repeat>        Execute specified command N times.
+  -i <interval>      When -r is used, waits <interval> seconds per command.
+                     It is possible to specify sub-second times like -i 0.1.
+                     This interval is also used in --scan and --stat per cycle.
+                     and in --bigkeys, --memkeys, --keystats, and --hotkeys per 100 cycles.
+  -n <db>            Database number.
+  -2                 Start session in RESP2 protocol mode.
+  -3                 Start session in RESP3 protocol mode.
+  -x                 Read last argument from STDIN (see example below).
+  -X                 Read <tag> argument from STDIN (see example below).
+  -d <delimiter>     Delimiter between response bulks for raw formatting (default: \n).
+  -D <delimiter>     Delimiter between responses for raw formatting (default: \n).
+  -c                 Enable cluster mode (follow -ASK and -MOVED redirections).
+  -e                 Return exit error code when command execution fails.
+  -4                 Prefer IPv4 over IPv6 on DNS lookup.
+  -6                 Prefer IPv6 over IPv4 on DNS lookup.
+  --raw              Use raw formatting for replies (default when STDOUT is
+                     not a tty).
+  --no-raw           Force formatted output even when STDOUT is not a tty.
+  --quoted-input     Force input to be handled as quoted strings.
+  --csv              Output in CSV format.
+  --json             Output in JSON format (default RESP3, use -2 if you want to use with RESP2).
+  --quoted-json      Same as --json, but produce ASCII-safe quoted strings, not Unicode.
+  --show-pushes <yn> Whether to print RESP3 PUSH messages.  Enabled by default when
+                     STDOUT is a tty but can be overridden with --show-pushes no.
+  --stat             Print rolling stats about server: mem, clients, ...
+  --latency          Enter a special mode continuously sampling latency.
+                     If you use this mode in an interactive session it runs
+                     forever displaying real-time stats. Otherwise if --raw or
+                     --csv is specified, or if you redirect the output to a non
+                     TTY, it samples the latency for 1 second (you can use
+                     -i to change the interval), then produces a single output
+                     and exits.
+  --latency-history  Like --latency but tracking latency changes over time.
+                     Default time interval is 15 sec. Change it using -i.
+  --latency-dist     Shows latency as a spectrum, requires xterm 256 colors.
+                     Default time interval is 1 sec. Change it using -i.
+  --lru-test <keys>  Simulate a cache workload with an 80-20 distribution.
+  --replica          Simulate a replica showing commands received from the master.
+  --rdb <filename>   Transfer an RDB dump from remote server to local file.
+                     Use filename of "-" to write to stdout.
+  --functions-rdb <filename> Like --rdb but only get the functions (not the keys)
+                     when getting the RDB dump file.
+  --pipe             Transfer raw Redis protocol from stdin to server.
+  --pipe-timeout <n> In --pipe mode, abort with error if after sending all data.
+                     no reply is received within <n> seconds.
+                     Default timeout: 30. Use 0 to wait forever.
+  --bigkeys          Sample Redis keys looking for keys with many elements (complexity).
+  --memkeys          Sample Redis keys looking for keys consuming a lot of memory.
+  --memkeys-samples <n> Sample Redis keys looking for keys consuming a lot of memory.
+                     And define number of key elements to sample
+  --keystats         Sample Redis keys looking for keys memory size and length (combine bigkeys and memkeys).
+  --keystats-samples <n> Sample Redis keys looking for keys memory size and length.
+                     And define number of key elements to sample (only for memory usage).
+  --cursor <n>       Start the scan at the cursor <n> (usually after a Ctrl-C).
+                     Optionally used with --keystats and --keystats-samples.
+  --top <n>          To display <n> top key sizes (default: 10).
+                     Optionally used with --keystats and --keystats-samples.
+  --hotkeys          Sample Redis keys looking for hot keys.
+                     only works when maxmemory-policy is *lfu.
+  --scan             List all keys using the SCAN command.
+  --pattern <pat>    Keys pattern when using the --scan, --bigkeys, --memkeys,
+                     --keystats or --hotkeys options (default: *).
+  --count <count>    Count option when using the --scan, --bigkeys, --memkeys,
+                     --keystats or --hotkeys (default: 10).
+  --quoted-pattern <pat> Same as --pattern, but the specified string can be
+                         quoted, in order to pass an otherwise non binary-safe string.
+  --intrinsic-latency <sec> Run a test to measure intrinsic system latency.
+                     The test will run for the specified amount of seconds.
+  --eval <file>      Send an EVAL command using the Lua script at <file>.
+  --ldb              Used with --eval enable the Redis Lua debugger.
+  --ldb-sync-mode    Like --ldb but uses the synchronous Lua debugger, in
+                     this mode the server is blocked and script changes are
+                     not rolled back from the server memory.
+  --cluster <command> [args...] [opts...]
+                     Cluster Manager command and arguments (see below).
+  --verbose          Verbose mode.
+  --no-auth-warning  Don't show warning message when using password on command
+                     line interface.
+  --help             Output this help and exit.
+  --version          Output version and exit.
+
+Cluster Manager Commands:
+  Use --cluster help to list all available cluster manager commands.
+
+Examples:
+  redis-cli -u redis://default:PASSWORD@localhost:6379/0
+  cat /etc/passwd | redis-cli -x set mypasswd
+  redis-cli -D "" --raw dump key > key.dump && redis-cli -X dump_tag restore key2 0 dump_tag replace < key.dump
+  redis-cli -r 100 lpush mylist x
+  redis-cli -r 100 -i 1 info | grep used_memory_human:
+  redis-cli --quoted-input set '"null-\x00-separated"' value
+  redis-cli --eval myscript.lua key1 key2 , arg1 arg2 arg3
+  redis-cli --scan --pattern '*:12345*'
+  redis-cli --scan --pattern '*:12345*' --count 100
+
+  (Note: when using --eval the comma separates KEYS[] from ARGV[] items)
+
+When no command is given, redis-cli starts in interactive mode.
+Type "help" in interactive mode for information on available commands
+and settings.
+```
+{{< /usage >}}

@@ -16,6 +16,7 @@ jobs:
   k8s_apis_sync:
     runs-on: ubuntu-latest
     permissions:
+      id-token: write
       contents: write
       pull-requests: write
       actions: write
@@ -38,11 +39,18 @@ jobs:
           tar -xvzf crdoc_Linux_x86_64.tar.gz
           sudo mv crdoc /bin/crdoc
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::022044324644:role/GitHubRedisDocsS3Access
+          aws-region: us-east-1
+
       - name: 'Fetch release'
+        env:
+          RELEASE: ${{ github.event.inputs.release }}
+          BUCKET_FOLDER: ${{ github.event.inputs.bucket_folder }}
         run: |-
-          RELEASE="${{ github.event.inputs.release }}"
-          BUCKET_FOLDER="${{ github.event.inputs.bucket_folder }}"
-          aws s3 cp "s3://redislabs-k8s/${BUCKET_FOLDER}/redis-enterprise-operator-${RELEASE}.tar.gz" --no-sign-request . --region us-east-1
+          aws s3 cp "s3://redislabs-k8s/${BUCKET_FOLDER}/redis-enterprise-operator-${RELEASE}.tar.gz" .
 
           tar xf "redis-enterprise-operator-${RELEASE}.tar.gz"
 
@@ -79,6 +87,48 @@ jobs:
           sed -E -i 's/<td><a href="#redisenterpriseremotecluster/<td><a href="#/' artifacts/redis_enterprise_remote_cluster_api.md
           sed -E -i 's/\[index\]/\[\]/g' artifacts/redis_enterprise_remote_cluster_api.md
           awk '/(#[^")]+)index/ {gsub(/index/,"")}; {print}' artifacts/redis_enterprise_remote_cluster_api.md > _tmp.md && mv _tmp.md artifacts/redis_enterprise_remote_cluster_api.md
+
+          crdoc --resources crds/reacl_crd.yaml --output artifacts/redis_enterprise_acl_api.md --template templates/template.tmpl
+          sed -E -i 's/^### RedisEnterpriseACL\./### /g' artifacts/redis_enterprise_acl_api.md
+          sed -E -i 's/^<sup><sup>\[↩ Parent\]\(#redisenterpriseacl/<sup><sup>\[↩ Parent\]\(#/g' artifacts/redis_enterprise_acl_api.md
+          sed -E -i 's/<td><a href="#redisenterpriseacl/<td><a href="#/' artifacts/redis_enterprise_acl_api.md
+          sed -E -i 's/\[index\]/\[\]/g' artifacts/redis_enterprise_acl_api.md
+          awk '/(#[^")]+)index/ {gsub(/index/,"")}; {print}' artifacts/redis_enterprise_acl_api.md > _tmp.md && mv _tmp.md artifacts/redis_enterprise_acl_api.md
+
+          crdoc --resources crds/recrole_crd.yaml --output artifacts/redis_enterprise_cluster_role_api.md --template templates/template.tmpl
+          sed -E -i 's/^### RedisEnterpriseClusterRole\./### /g' artifacts/redis_enterprise_cluster_role_api.md
+          sed -E -i 's/^<sup><sup>\[↩ Parent\]\(#redisenterpriseclusterrole/<sup><sup>\[↩ Parent\]\(#/g' artifacts/redis_enterprise_cluster_role_api.md
+          sed -E -i 's/<td><a href="#redisenterpriseclusterrole/<td><a href="#/' artifacts/redis_enterprise_cluster_role_api.md
+          sed -E -i 's/\[index\]/\[\]/g' artifacts/redis_enterprise_cluster_role_api.md
+          awk '/(#[^")]+)index/ {gsub(/index/,"")}; {print}' artifacts/redis_enterprise_cluster_role_api.md > _tmp.md && mv _tmp.md artifacts/redis_enterprise_cluster_role_api.md
+
+          crdoc --resources crds/recrolebinding_crd.yaml --output artifacts/redis_enterprise_cluster_role_binding_api.md --template templates/template.tmpl
+          sed -E -i 's/^### RedisEnterpriseClusterRoleBinding\./### /g' artifacts/redis_enterprise_cluster_role_binding_api.md
+          sed -E -i 's/^<sup><sup>\[↩ Parent\]\(#redisenterpriseclusterrolebinding/<sup><sup>\[↩ Parent\]\(#/g' artifacts/redis_enterprise_cluster_role_binding_api.md
+          sed -E -i 's/<td><a href="#redisenterpriseclusterrolebinding/<td><a href="#/' artifacts/redis_enterprise_cluster_role_binding_api.md
+          sed -E -i 's/\[index\]/\[\]/g' artifacts/redis_enterprise_cluster_role_binding_api.md
+          awk '/(#[^")]+)index/ {gsub(/index/,"")}; {print}' artifacts/redis_enterprise_cluster_role_binding_api.md > _tmp.md && mv _tmp.md artifacts/redis_enterprise_cluster_role_binding_api.md
+
+          crdoc --resources crds/redbrole_crd.yaml --output artifacts/redis_enterprise_database_role_api.md --template templates/template.tmpl
+          sed -E -i 's/^### RedisEnterpriseDatabaseRole\./### /g' artifacts/redis_enterprise_database_role_api.md
+          sed -E -i 's/^<sup><sup>\[↩ Parent\]\(#redisenterprisedatabaserole/<sup><sup>\[↩ Parent\]\(#/g' artifacts/redis_enterprise_database_role_api.md
+          sed -E -i 's/<td><a href="#redisenterprisedatabaserole/<td><a href="#/' artifacts/redis_enterprise_database_role_api.md
+          sed -E -i 's/\[index\]/\[\]/g' artifacts/redis_enterprise_database_role_api.md
+          awk '/(#[^")]+)index/ {gsub(/index/,"")}; {print}' artifacts/redis_enterprise_database_role_api.md > _tmp.md && mv _tmp.md artifacts/redis_enterprise_database_role_api.md
+
+          crdoc --resources crds/redbrolebinding_crd.yaml --output artifacts/redis_enterprise_database_role_binding_api.md --template templates/template.tmpl
+          sed -E -i 's/^### RedisEnterpriseDatabaseRoleBinding\./### /g' artifacts/redis_enterprise_database_role_binding_api.md
+          sed -E -i 's/^<sup><sup>\[↩ Parent\]\(#redisenterprisedatabaserolebinding/<sup><sup>\[↩ Parent\]\(#/g' artifacts/redis_enterprise_database_role_binding_api.md
+          sed -E -i 's/<td><a href="#redisenterprisedatabaserolebinding/<td><a href="#/' artifacts/redis_enterprise_database_role_binding_api.md
+          sed -E -i 's/\[index\]/\[\]/g' artifacts/redis_enterprise_database_role_binding_api.md
+          awk '/(#[^")]+)index/ {gsub(/index/,"")}; {print}' artifacts/redis_enterprise_database_role_binding_api.md > _tmp.md && mv _tmp.md artifacts/redis_enterprise_database_role_binding_api.md
+
+          crdoc --resources crds/reuser_crd.yaml --output artifacts/redis_enterprise_user_api.md --template templates/template.tmpl
+          sed -E -i 's/^### RedisEnterpriseUser\./### /g' artifacts/redis_enterprise_user_api.md
+          sed -E -i 's/^<sup><sup>\[↩ Parent\]\(#redisenterpriseuser/<sup><sup>\[↩ Parent\]\(#/g' artifacts/redis_enterprise_user_api.md
+          sed -E -i 's/<td><a href="#redisenterpriseuser/<td><a href="#/' artifacts/redis_enterprise_user_api.md
+          sed -E -i 's/\[index\]/\[\]/g' artifacts/redis_enterprise_user_api.md
+          awk '/(#[^")]+)index/ {gsub(/index/,"")}; {print}' artifacts/redis_enterprise_user_api.md > _tmp.md && mv _tmp.md artifacts/redis_enterprise_user_api.md
 
       - name: 'Remove fields without description'
         run: |-
@@ -153,6 +203,12 @@ jobs:
           sed -E -i 's/linkTitle: RedisEnterpriseCluster API Reference/linkTitle: REC API/g' artifacts/redis_enterprise_cluster_api.md
           sed -E -i 's/linkTitle: RedisEnterpriseDatabase API Reference/linkTitle: REDB API/g' artifacts/redis_enterprise_database_api.md
           sed -E -i 's/linkTitle: RedisEnterpriseRemoteCluster API Reference/linkTitle: RERC API/g' artifacts/redis_enterprise_remote_cluster_api.md
+          sed -E -i 's/linkTitle: RedisEnterpriseACL API Reference/linkTitle: REACL API/g' artifacts/redis_enterprise_acl_api.md
+          sed -E -i 's/linkTitle: RedisEnterpriseClusterRole API Reference/linkTitle: RECROLE API/g' artifacts/redis_enterprise_cluster_role_api.md
+          sed -E -i 's/linkTitle: RedisEnterpriseClusterRoleBinding API Reference/linkTitle: RECROLEBINDING API/g' artifacts/redis_enterprise_cluster_role_binding_api.md
+          sed -E -i 's/linkTitle: RedisEnterpriseDatabaseRole API Reference/linkTitle: REDBROLE API/g' artifacts/redis_enterprise_database_role_api.md
+          sed -E -i 's/linkTitle: RedisEnterpriseDatabaseRoleBinding API Reference/linkTitle: REDBROLEBINDING API/g' artifacts/redis_enterprise_database_role_binding_api.md
+          sed -E -i 's/linkTitle: RedisEnterpriseUser API Reference/linkTitle: REUSER API/g' artifacts/redis_enterprise_user_api.md
 
       - name: 'Generate YAML snippets'
         run: |-
@@ -192,8 +248,8 @@ jobs:
       - name: 'Send pull request'
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          RELEASE: ${{ github.event.inputs.release }}
         run: |-
-          RELEASE="${{ github.event.inputs.release }}"
           BRANCH="k8s_apis_docs_${RELEASE}"
 
           # Setup git email and username
@@ -206,6 +262,12 @@ jobs:
           cp artifacts/redis_enterprise_cluster_api.md content/operate/kubernetes/reference/api/
           cp artifacts/redis_enterprise_database_api.md content/operate/kubernetes/reference/api/
           cp artifacts/redis_enterprise_remote_cluster_api.md content/operate/kubernetes/reference/api/
+          cp artifacts/redis_enterprise_acl_api.md content/operate/kubernetes/reference/api/
+          cp artifacts/redis_enterprise_cluster_role_api.md content/operate/kubernetes/reference/api/
+          cp artifacts/redis_enterprise_cluster_role_binding_api.md content/operate/kubernetes/reference/api/
+          cp artifacts/redis_enterprise_database_role_api.md content/operate/kubernetes/reference/api/
+          cp artifacts/redis_enterprise_database_role_binding_api.md content/operate/kubernetes/reference/api/
+          cp artifacts/redis_enterprise_user_api.md content/operate/kubernetes/reference/api/
 
           git add content/operate/kubernetes/reference/api/
           git add content/embeds/k8s/

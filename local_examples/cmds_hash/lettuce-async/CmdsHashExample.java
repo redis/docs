@@ -134,6 +134,26 @@ public class CmdsHashExample {
             asyncCommands.del("myhash").toCompletableFuture().join();
             // REMOVE_END
 
+            // STEP_START hmget
+            Map<String, String> hmgetExampleParams = new HashMap<>();
+            hmgetExampleParams.put("field1", "Hello");
+            hmgetExampleParams.put("field2", "World");
+
+            CompletableFuture<Void> hmgetExample = asyncCommands.hset("myhash", hmgetExampleParams).thenCompose(res1 -> {
+                return asyncCommands.hmget("myhash", "field1", "field2", "nofield");
+            }).thenAccept(res2 -> {
+                System.out.println(res2); // >>> [KeyValue[field1, Hello], KeyValue[field2, World], KeyValue[nofield, null]]
+                // REMOVE_START
+                assertThat(res2).hasSize(3);
+                // REMOVE_END
+            }).toCompletableFuture();
+            // STEP_END
+
+            hmgetExample.join();
+            // REMOVE_START
+            asyncCommands.del("myhash").toCompletableFuture().join();
+            // REMOVE_END
+
             // STEP_START hgetall
             Map<String, String> hGetAllExampleParams = new HashMap<>();
             hGetAllExampleParams.put("field1", "Hello");
@@ -218,7 +238,7 @@ public class CmdsHashExample {
                     // REMOVE_START
                     .thenApply(res4 -> {
                         assertThat(res4).isEqualTo(Arrays.asList(-2L));
-                        return res;
+                        return res4;
                     })
                     // REMOVE_END
                     .thenAccept(System.out::println)

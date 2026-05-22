@@ -1,0 +1,13 @@
+{
+  "name": "redis-pub-sub-nodejs-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Redis pub/sub demo with node-redis",
+  "main": "demo_server.js",
+  "scripts": {
+    "start": "node demo_server.js"
+  },
+  "dependencies": {
+    "redis": "^5.0.0"
+  }
+}

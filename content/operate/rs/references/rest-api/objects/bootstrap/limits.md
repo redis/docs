@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the limits object used with Redis Enterprise Software REST
+description: Documents the limits object used with Redis Software REST
   API calls.
 linkTitle: limits
 weight: $weight

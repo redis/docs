@@ -44,7 +44,6 @@ railroad_diagram: /images/railroad/expiretime.svg
 since: 7.0.0
 summary: Returns the expiration time of a key as a Unix timestamp.
 syntax_fmt: EXPIRETIME key
-syntax_str: ''
 title: EXPIRETIME
 ---
 Returns the absolute Unix timestamp (since January 1, 1970) in seconds at which the given key will expire.
@@ -59,9 +58,9 @@ EXPIREAT mykey 33177117420
 EXPIRETIME mykey
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

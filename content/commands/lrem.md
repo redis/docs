@@ -51,7 +51,6 @@ railroad_diagram: /images/railroad/lrem.svg
 since: 1.0.0
 summary: Removes elements from a list. Deletes the list if the last element was removed.
 syntax_fmt: LREM key count element
-syntax_str: count element
 title: LREM
 ---
 Removes the first `count` occurrences of elements equal to `element` from the list
@@ -79,9 +78,9 @@ LREM mylist -2 "hello"
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

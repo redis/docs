@@ -1,0 +1,8 @@
+{
+    "name": "redis/prefetch-cache-php-demo",
+    "description": "Redis prefetch-cache demo using Predis (PHP).",
+    "require": {
+        "php": ">=8.1",
+        "predis/predis": "^3.0"
+    }
+}

@@ -59,7 +59,6 @@ replaced_by: '`HSET` with multiple field-value pairs'
 since: 2.0.0
 summary: Sets the values of multiple fields.
 syntax_fmt: HMSET key field value [field value ...]
-syntax_str: field value [field value ...]
 title: HMSET
 ---
 Sets the specified fields to their respective values in the hash stored at
@@ -75,9 +74,9 @@ HGET myhash field1
 HGET myhash field2
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v4.0.0. |
 

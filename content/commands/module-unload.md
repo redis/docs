@@ -31,7 +31,6 @@ railroad_diagram: /images/railroad/module-unload.svg
 since: 4.0.0
 summary: Unloads a module.
 syntax_fmt: MODULE UNLOAD name
-syntax_str: ''
 title: MODULE UNLOAD
 ---
 Unloads a module.
@@ -44,9 +43,9 @@ Known limitations:
 
 *   Modules that register custom data types can not be unloaded.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

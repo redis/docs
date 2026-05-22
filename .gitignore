@@ -16,3 +16,6 @@ package-lock.json
 .vscode/
 .DS_Store
 .idea
+# Rust docs demos
+/content/develop/use-cases/rate-limiter/rust/target/
+/content/develop/use-cases/rate-limiter/rust/Cargo.lock

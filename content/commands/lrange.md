@@ -51,7 +51,6 @@ railroad_diagram: /images/railroad/lrange.svg
 since: 1.0.0
 summary: Returns a range of elements from a list.
 syntax_fmt: LRANGE key start stop
-syntax_str: start stop
 title: LRANGE
 ---
 Returns the specified elements of the list stored at `key`.
@@ -81,7 +80,7 @@ the last element of the list.
 
 ## Examples
 
-{{< clients-example cmds_list lrange >}}
+{{< clients-example set="cmds_list" step="lrange" description="Foundational: Retrieve a range of elements from a list using LRANGE with start and stop indexes (supports negative indexes, inclusive range)" difficulty="beginner" >}}
 redis> RPUSH mylist "one"
 (integer) 1
 redis> RPUSH mylist "two"
@@ -114,9 +113,9 @@ LRANGE mylist -100 100
 LRANGE mylist 5 10
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

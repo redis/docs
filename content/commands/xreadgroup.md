@@ -92,10 +92,13 @@ summary: Returns new or historical messages from a stream for a consumer in a gr
   Blocks until a message is available otherwise.
 syntax_fmt: "XREADGROUP GROUP\_group consumer [COUNT\_count] [BLOCK\_milliseconds]\n\
   \  [CLAIM\_min-idle-time] [NOACK] STREAMS\_key [key ...] id [id ...]"
-syntax_str: "[COUNT\_count] [BLOCK\_milliseconds] [CLAIM\_min-idle-time] [NOACK] STREAMS\_key [key ...] id\
-  \ [id ...]"
 title: XREADGROUP
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 The `XREADGROUP` command is a special version of the [`XREAD`]({{< relref "/commands/xread" >}}) command
 with support for consumer groups. Probably you will have to understand the
 [`XREAD`]({{< relref "/commands/xread" >}}) command before reading this page will makes sense.
@@ -160,7 +163,7 @@ are no differences in this regard.
 
 ## The CLAIM option
 
-When `CLAIM min-idle-time` is specified, Redis will first try to claim messages which have been pending for at least min-idle-time milliseconds from the consumer group of each specified stream key. The pending messages with the highest idle time would be claimed first. Note that the `CLAIM min-idle-time` condition may become true for some pending entries during the `BLOCK milliseconds` period (if specified).
+The `CLAIM` option was added as part of Redis 8.4. When `CLAIM min-idle-time` is specified, Redis will first try to claim messages which have been pending for at least min-idle-time milliseconds from the consumer group of each specified stream key. The pending messages with the highest idle time would be claimed first. Note that the `CLAIM min-idle-time` condition may become true for some pending entries during the `BLOCK milliseconds` period (if specified).
 
 If there are no such messages, Redis will continue as normal (consume incoming messages).
 
@@ -177,11 +180,15 @@ When `CLAIM min-idle-time` is used, additional information is provided for each 
 
 ### Ordering guarantees
 
-When using `CLAIM`, the following ordering guarantees apply:
+Within each stream, entries are reported in the same order they were added by `XADD` (older first).
+
+When not blocked, across streams, entries are reported in the order the streams were specified.
+
+When using `CLAIM`, the following ordering guarantees apply per stream:
 
 - Idle pending entries are reported first, then incoming entries
 - Idle pending entries are ordered by idle time (longer first)
-- Incoming entries are ordered by the order they were appended to the stream (older first)
+- Incoming entries are reported in the order they were added by `XADD` (older first)
 
 For example, if there are 20 idle pending entries and 200 incoming entries (in all the specified streams together):
 - When calling `XREADGROUP ... CLAIM ...`, you would retrieve 220 entries in the reply
@@ -266,9 +273,9 @@ Reading the [Redis Streams introduction]({{< relref "/develop/data-types/streams
 suggested in order to understand more about the streams overall behavior
 and semantics.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

@@ -99,7 +99,7 @@ add. The following example adds some names to a Bloom filter representing
 a list of users and checks for the presence or absence of users in the list.
 Note that you must use the `bf()` method to access the Bloom filter commands.
 
-{{< clients-example home_prob_dts bloom Python >}}
+{{< clients-example set="home_prob_dts" step="bloom" lang_filter="Python" description="Foundational: Use Bloom filters for memory-efficient set membership testing with false positive possibility" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 A Cuckoo filter has similar features to a Bloom filter, but also supports
@@ -107,7 +107,7 @@ a deletion operation to remove hashes from a set, as shown in the example
 below. Note that you must use the `cf()` method to access the Cuckoo filter
 commands.
 
-{{< clients-example home_prob_dts cuckoo Python >}}
+{{< clients-example set="home_prob_dts" step="cuckoo" lang_filter="Python" description="Foundational: Use Cuckoo filters for set membership testing with deletion support and faster lookups than Bloom filters" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Which of these two data types you choose depends on your use case.
@@ -128,7 +128,7 @@ You can also merge two or more HyperLogLogs to find the cardinality of the
 [union](https://en.wikipedia.org/wiki/Union_(set_theory)) of the sets they
 represent.
 
-{{< clients-example home_prob_dts hyperloglog Python >}}
+{{< clients-example set="home_prob_dts" step="hyperloglog" lang_filter="Python" description="Foundational: Estimate set cardinality with HyperLogLog for memory-efficient counting of distinct items" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 The main benefit that HyperLogLogs offer is their very low
@@ -169,7 +169,7 @@ a Count-min sketch object, add data to it, and then query it.
 Note that you must use the `cms()` method to access the Count-min
 sketch commands.
 
-{{< clients-example home_prob_dts cms Python >}}
+{{< clients-example set="home_prob_dts" step="cms" lang_filter="Python" description="Foundational: Track approximate item frequencies with Count-min sketch for memory-efficient statistics on data streams" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 The advantage of using a CMS over keeping an exact count with a
@@ -195,14 +195,14 @@ save a lot of memory when you have a large number of samples.
 
 The example below shows how to add data samples to a t-digest
 object and obtain some basic statistics, such as the minimum and
-maximum values, the quantile of 0.75, and the 
+maximum values, the quantile of 0.75, and the
 [cumulative distribution function](https://en.wikipedia.org/wiki/Cumulative_distribution_function)
 (CDF), which is effectively the inverse of the quantile function. It also
 shows how to merge two or more t-digest objects to query the combined
 data set. Note that you must use the `tdigest()` method to access the
 t-digest commands.
 
-{{< clients-example home_prob_dts tdigest Python >}}
+{{< clients-example set="home_prob_dts" step="tdigest" lang_filter="Python" description="Foundational: Estimate quantiles and percentiles with t-digest for memory-efficient statistical analysis of large datasets" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 A t-digest object also supports several other related commands, such
@@ -225,5 +225,5 @@ top *k* items and query whether or not a given item is in the
 list. Note that you must use the `topk()` method to access the
 Top-K commands.
 
-{{< clients-example home_prob_dts topk Python >}}
+{{< clients-example set="home_prob_dts" step="topk" lang_filter="Python" description="Foundational: Track top K most frequent items in a data stream with Top-K for efficient ranking without storing all items" difficulty="intermediate" >}}
 {{< /clients-example >}}

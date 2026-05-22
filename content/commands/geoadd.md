@@ -83,7 +83,6 @@ summary: Adds one or more members to a geospatial index. The key is created if i
   doesn't exist.
 syntax_fmt: "GEOADD key [NX | XX] [CH] longitude latitude member [longitude\n  latitude\
   \ member ...]"
-syntax_str: '[NX | XX] [CH] longitude latitude member [longitude latitude member ...]'
 title: GEOADD
 ---
 Adds the specified geospatial items (longitude, latitude, name) to the specified key. Data is stored into the key as a sorted set, in a way that makes it possible to query the items with the [`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) command.
@@ -136,9 +135,9 @@ GEORADIUS Sicily 15 37 100 km
 GEORADIUS Sicily 15 37 200 km
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

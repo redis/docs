@@ -34,7 +34,6 @@ railroad_diagram: /images/railroad/command-getkeys.svg
 since: 2.8.13
 summary: Extracts the key names from an arbitrary command.
 syntax_fmt: COMMAND GETKEYS command [arg [arg ...]]
-syntax_str: '[arg [arg ...]]'
 title: COMMAND GETKEYS
 ---
 Returns [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of keys from a full Redis command.
@@ -54,9 +53,9 @@ COMMAND GETKEYS EVAL "not consulted" 3 key1 key2 key3 arg1 arg2 arg3 argN
 COMMAND GETKEYS SORT mylist ALPHA STORE outlist
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

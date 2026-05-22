@@ -1,0 +1,479 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "xdelex(, name: KeyT,, *ids: StreamIdT,, ref_policy: Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\",)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "*ids",
+            "type": "StreamIdT",
+            "description": ""
+          },
+          {
+            "name": "ref_policy",
+            "type": "Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\"",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<StreamEntryDeletionResult> xdelex(byte[] key, byte[]... ids)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<StreamEntryDeletionResult>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<StreamEntryDeletionResult> xdelex(byte[] key, StreamDeletionPolicy trimMode, byte[]... ids)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "trimMode",
+            "type": "StreamDeletionPolicy",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<StreamEntryDeletionResult>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<StreamEntryDeletionResult> xdelex(final String key, final StreamEntryID... ids)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "StreamEntryID...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<StreamEntryDeletionResult>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<StreamEntryDeletionResult> xdelex(final String key, final StreamDeletionPolicy trimMode, final StreamEntryID... ids)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "trimMode",
+            "type": "StreamDeletionPolicy",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "StreamEntryID...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<StreamEntryDeletionResult>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<StreamEntryDeletionResult> xdelex(String key, StreamEntryID... ids)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "StreamEntryID...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<StreamEntryDeletionResult>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<StreamEntryDeletionResult> xdelex(K key, String... messageIds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "messageIds",
+            "type": "String...",
+            "description": "stream message Id's."
+          }
+        ],
+        "returns": {
+          "type": "List<StreamEntryDeletionResult>",
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8"
+        }
+      },
+      {
+        "signature": "List<StreamEntryDeletionResult> xdelex(K key, StreamDeletionPolicy policy, String... messageIds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "policy",
+            "type": "StreamDeletionPolicy",
+            "description": "the deletion policy to apply."
+          },
+          {
+            "name": "messageIds",
+            "type": "String...",
+            "description": "stream message Id's."
+          }
+        ],
+        "returns": {
+          "type": "List<StreamEntryDeletionResult>",
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<StreamEntryDeletionResult>> xdelex(K key, String... messageIds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "messageIds",
+            "type": "String...",
+            "description": "stream message Id's."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<StreamEntryDeletionResult>>",
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<StreamEntryDeletionResult>> xdelex(K key, StreamDeletionPolicy policy, String... messageIds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "policy",
+            "type": "StreamDeletionPolicy",
+            "description": "the deletion policy to apply."
+          },
+          {
+            "name": "messageIds",
+            "type": "String...",
+            "description": "stream message Id's."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<StreamEntryDeletionResult>>",
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<StreamEntryDeletionResult> xdelex(K key, String... messageIds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "messageIds",
+            "type": "String...",
+            "description": "stream message Id's."
+          }
+        ],
+        "returns": {
+          "type": "Flux<StreamEntryDeletionResult>",
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8"
+        }
+      },
+      {
+        "signature": "Flux<StreamEntryDeletionResult> xdelex(K key, StreamDeletionPolicy policy, String... messageIds)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "policy",
+            "type": "StreamDeletionPolicy",
+            "description": "the deletion policy to apply."
+          },
+          {
+            "name": "messageIds",
+            "type": "String...",
+            "description": "stream message Id's."
+          }
+        ],
+        "returns": {
+          "type": "Flux<StreamEntryDeletionResult>",
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "XDelEx(ctx context.Context, stream string, mode string, ids ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "stream",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "mode",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*SliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "XDELEX(key: RedisArgument, id: RedisVariadicArgument, policy?: StreamDeletionPolicy)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "id",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          },
+          {
+            "name": "policy?",
+            "type": "StreamDeletionPolicy",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "xdelex(...args: [, key: RedisKey, idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], callback: Callback<unknown>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xdelex(...args: [, key: RedisKey, idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xdelex(...args: [, key: RedisKey, keepref: \"KEEPREF\", idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], callback: Callback<unknown>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xdelex(...args: [, key: RedisKey, keepref: \"KEEPREF\", idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xdelex(...args: [, key: RedisKey, delref: \"DELREF\", idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], callback: Callback<unknown>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "xdel_ex(key: K, ids: &'a [ID], options: streams::StreamDeletionPolicy)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "&'a [ID]",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "streams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<streams::XDelExStatusCode>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "xdel_ex(key: K, ids: &'a [ID], options: streams::StreamDeletionPolicy)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "ids",
+            "type": "&'a [ID]",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "streams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<streams::XDelExStatusCode>)",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "xdelex(string $key, string $mode, array $ids)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$mode",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$ids",
+            "type": "array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

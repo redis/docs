@@ -39,7 +39,6 @@ railroad_diagram: /images/railroad/acl-getuser.svg
 since: 6.0.0
 summary: Lists the ACL rules of a user.
 syntax_fmt: ACL GETUSER username
-syntax_str: ''
 title: ACL GETUSER
 ---
 The command returns all the rules defined for an existing ACL user.
@@ -82,9 +81,9 @@ Here's an example configuration for a user
        10) "&*"
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref "/develop/programmability">}}). |
 

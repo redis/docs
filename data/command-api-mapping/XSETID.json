@@ -1,0 +1,199 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "XSETID(key: RedisArgument, lastId: RedisArgument, options?: XSetIdOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "lastId",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "XSetIdOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "xsetid(key: RedisKey, lastId: string | Buffer | number, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "lastId",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xsetid(key: RedisKey, lastId: string | Buffer | number, maxDeletedEntryIdToken: \"MAXDELETEDID\", maxDeletedEntryId: string | Buffer | number, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "lastId",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "maxDeletedEntryIdToken",
+            "type": "\"MAXDELETEDID\"",
+            "description": ""
+          },
+          {
+            "name": "maxDeletedEntryId",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xsetid(key: RedisKey, lastId: string | Buffer | number, entriesAddedToken: \"ENTRIESADDED\", entriesAdded: number | string, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "lastId",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "entriesAddedToken",
+            "type": "\"ENTRIESADDED\"",
+            "description": ""
+          },
+          {
+            "name": "entriesAdded",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xsetid(key: RedisKey, lastId: string | Buffer | number, entriesAddedToken: \"ENTRIESADDED\", entriesAdded: number | string, maxDeletedEntryIdToken: \"MAXDELETEDID\", maxDeletedEntryId: string | Buffer | number, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "lastId",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "entriesAddedToken",
+            "type": "\"ENTRIESADDED\"",
+            "description": ""
+          },
+          {
+            "name": "entriesAdded",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "maxDeletedEntryIdToken",
+            "type": "\"MAXDELETEDID\"",
+            "description": ""
+          },
+          {
+            "name": "maxDeletedEntryId",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "xsetid(string $key, string $lastId, ?int $entriesAdded = null, ?string $maxDeleteId = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$lastId",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "?int $entriesAdded = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "?string $maxDeleteId = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

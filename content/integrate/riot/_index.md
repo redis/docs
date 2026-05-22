@@ -11,21 +11,21 @@ description: Redis Input/Output Tools
 group: mig
 hidden: false
 hideListLinks: true
-linkTitle: RIOT
-summary: Redis Input/Output Tools (RIOT) is a command-line utility designed to help
+linkTitle: RIOT-X
+summary: Redis Input/Output Tools (RIOT-X) is a command-line utility designed to help
   you get data in and out of Redis.
-title: RIOT
+title: RIOT-X
 type: integration
 weight: 1
 ---
 
-Redis Input/Output Tools (RIOT) is a command-line utility designed to help you get data in and out of Redis.
+Redis Input/Output Tools (RIOT-X) is a command-line utility designed to help you get data in and out of Redis.
 
-It supports many different sources and targets:
+RIOT-X supports many different sources and targets:
 
-* [Files](https://redis.github.io/riot/#_file) (CSV, JSON, XML)
-* [Data generators](https://redis.github.io/riot/#_datagen) (Redis data structures, Faker)
-* [Relational databases](https://redis.github.io/riot/#_db)
-* [Redis itself](https://redis.github.io/riot/#_replication) (snapshot and live replication)
+* [Redis](https://redis.github.io/riotx/replication/overview.html) (snapshot and live replication)
+* [Files](https://redis.github.io/riotx/files.html) (CSV, JSON, XML, and others)
+* [Relational databases](https://redis.github.io/riotx/databases/drivers.html) (MySQL, Snowflake, Oracle, and others)
+* [Data generators](https://redis.github.io/riotx/generators/generate.html) (Redis data structures and Faker)
 
-Full documentation is available at [redis.github.io/riot](https://redis.github.io/riot/)
+Full documentation is available at [redis.github.io/riotx](https://redis.github.io/riotx/).

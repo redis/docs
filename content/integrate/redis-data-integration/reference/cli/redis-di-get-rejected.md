@@ -17,14 +17,12 @@ Usage: redis-di get-rejected [OPTIONS]
 ## Options
 
 - `log_level`:
-
   - Type: Choice(['TRACE', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
   - Default: `info`
   - Usage: `--log-level
 -l`
 
 - `rdi_host` (REQUIRED):
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-host`
@@ -32,7 +30,6 @@ Usage: redis-di get-rejected [OPTIONS]
   Host/IP of RDI Database
 
 - `rdi_port` (REQUIRED):
-
   - Type: <IntRange 1<=x<=65535>
   - Default: `none`
   - Usage: `--rdi-port`
@@ -40,7 +37,6 @@ Usage: redis-di get-rejected [OPTIONS]
   Port of RDI Database
 
 - `rdi_user`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-user`
@@ -48,7 +44,6 @@ Usage: redis-di get-rejected [OPTIONS]
   RDI Database Username
 
 - `rdi_password`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-password`
@@ -56,7 +51,6 @@ Usage: redis-di get-rejected [OPTIONS]
   RDI Database Password
 
 - `rdi_key`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-key`
@@ -64,7 +58,6 @@ Usage: redis-di get-rejected [OPTIONS]
   Private key file to authenticate with
 
 - `rdi_cert`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-cert`
@@ -72,7 +65,6 @@ Usage: redis-di get-rejected [OPTIONS]
   Client certificate file to authenticate with
 
 - `rdi_cacert`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-cacert`
@@ -80,7 +72,6 @@ Usage: redis-di get-rejected [OPTIONS]
   CA certificate file to verify with
 
 - `rdi_key_password`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-key-password`
@@ -88,7 +79,6 @@ Usage: redis-di get-rejected [OPTIONS]
   Password for unlocking an encrypted private key
 
 - `max_records`:
-
   - Type: <IntRange x>=1>
   - Default: `none`
   - Usage: `--max-records`
@@ -96,7 +86,6 @@ Usage: redis-di get-rejected [OPTIONS]
   Maximum rejected records per DLQ
 
 - `oldest`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--oldest
@@ -105,7 +94,6 @@ Usage: redis-di get-rejected [OPTIONS]
   Displays the oldest rejected records. If omitted, most recent records will be retrieved
 
 - `dlq_name`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--dlq-name`
@@ -113,7 +101,6 @@ Usage: redis-di get-rejected [OPTIONS]
   Only prints the rejected records for the specified DLQ (Dead Letter Queue) name
 
 - `help`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--help`

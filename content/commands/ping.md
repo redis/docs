@@ -32,7 +32,6 @@ railroad_diagram: /images/railroad/ping.svg
 since: 1.0.0
 summary: Returns the server's liveliness response.
 syntax_fmt: PING [message]
-syntax_str: ''
 title: PING
 ---
 Returns `PONG` if no argument is provided, otherwise return a copy of the
@@ -55,9 +54,9 @@ PING
 PING "hello world"
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

@@ -22,11 +22,6 @@ Redis Enterprise custom resources.
 
 The operator image also includes the admission controller, which runs as part of the operator container and provides validation for Redis Enterprise database resources.
 
-In general, images for deployments that do not have a registry domain
-name (e.g., `gcr.io` or `localhost:5000`) are pulled from the default registry associated
-with the Kubernetes cluster. A plain reference to `redislabs/redis` will likely pull from DockerHub
-(except on OpenShift where it pulls from Red Hat).
-
 For security reasons (e.g., in air-gapped environments), you may want to pull the images
 from a public registry once and then push them to a private registry under
 your control.

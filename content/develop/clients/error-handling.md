@@ -277,7 +277,10 @@ graph LR
 In production, you may find it useful to log errors when they
 occur and monitor the logs for patterns. This can help you identify
 which errors are most common and whether your retry and fallback
-strategies are effective.
+strategies are effective. Note that some Redis client
+libraries have built-in instrumentation that can provide this
+information for you (see [Observability]({{< relref "/develop/clients/observability" >}})
+for a full description).
 
 ### What to log
 
@@ -386,4 +389,4 @@ For detailed information about exceptions in your client library, see:
 - [Node.js error handling]({{< relref "/develop/clients/nodejs/error-handling" >}})
 - [Java (Jedis) error handling]({{< relref "/develop/clients/jedis/error-handling" >}})
 - [Go (go-redis) error handling]({{< relref "/develop/clients/go/error-handling" >}})
-- [.NET (NRedisStack) error handling]({{< relref "/develop/clients/dotnet/error-handling" >}})
+- [.NET (StackExchange.Redis) error handling]({{< relref "/develop/clients/dotnet/error-handling" >}})

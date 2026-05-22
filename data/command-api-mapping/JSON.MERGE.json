@@ -1,0 +1,373 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "merge(, name: str,, path: str,, obj: JsonType,, decode_keys: Optional[bool] = False,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "obj",
+            "type": "JsonType",
+            "description": ""
+          },
+          {
+            "name": "decode_keys",
+            "type": "Optional[bool] = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Optional[str]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String jsonMerge(String key, Path path, Object pojo)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path",
+            "description": ""
+          },
+          {
+            "name": "pojo",
+            "type": "Object",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String jsonMerge(String key, Path2 path, Object object)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Path2",
+            "description": ""
+          },
+          {
+            "name": "object",
+            "type": "Object",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String jsonMerge(K key, JsonPath jsonPath, JsonValue value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value to merge."
+          },
+          {
+            "name": "value",
+            "type": "JsonValue",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String \"OK\" if the merge was successful, error if the operation failed. @since 6.8"
+        }
+      },
+      {
+        "signature": "String jsonMerge(K key, JsonPath jsonPath, String jsonString)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value to merge."
+          },
+          {
+            "name": "jsonString",
+            "type": "String",
+            "description": "the JSON string to merge."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String \"OK\" if the merge was successful, error if the operation failed. @since 6.8"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> jsonMerge(K key, JsonPath jsonPath, JsonValue value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value to merge."
+          },
+          {
+            "name": "value",
+            "type": "JsonValue",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String \"OK\" if the merge was successful, error if the operation failed. @since 6.8"
+        }
+      },
+      {
+        "signature": "RedisFuture<String> jsonMerge(K key, JsonPath jsonPath, String jsonString)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value to merge."
+          },
+          {
+            "name": "jsonString",
+            "type": "String",
+            "description": "the JSON string to merge."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String \"OK\" if the merge was successful, error if the operation failed. @since 6.8"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> jsonMerge(K key, JsonPath jsonPath, JsonValue value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value to merge."
+          },
+          {
+            "name": "value",
+            "type": "JsonValue",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String \"OK\" if the merge was successful, error if the operation failed. @since 6.8"
+        }
+      },
+      {
+        "signature": "Mono<String> jsonMerge(K key, JsonPath jsonPath, String jsonString)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key holding the JSON document."
+          },
+          {
+            "name": "jsonPath",
+            "type": "JsonPath",
+            "description": "the JsonPath pointing to the value to merge."
+          },
+          {
+            "name": "jsonString",
+            "type": "String",
+            "description": "the JSON string to merge."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String \"OK\" if the merge was successful, error if the operation failed. @since 6.8"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "JSONMerge(ctx context.Context, key, path string, value string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "MERGE(key: RedisArgument, path: RedisArgument, value: RedisJSON)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisJSON",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Merge(RedisKey key, RedisValue path, RedisValue json)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "json",
+            "type": "RedisValue",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Merge(RedisKey key, RedisValue path, object obj, JsonSerializerOptions? serializerOptions = default)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "obj",
+            "type": "object",
+            "description": ""
+          },
+          {
+            "name": "serializerOptions",
+            "type": "JsonSerializerOptions?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "jsonmerge(string $key, string $path, string $value)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$path",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

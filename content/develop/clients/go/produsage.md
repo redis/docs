@@ -72,7 +72,7 @@ more detailed discussion of error handling approaches in `go-redis`.
 `go-redis` supports [OpenTelemetry](https://opentelemetry.io/). This lets
 you trace command execution and monitor your server's performance.
 You can use this information to detect problems before they are reported
-by users. See [Observability]({{< relref "/develop/clients/go#observability" >}})
+by users. See [Observability]({{< relref "/develop/clients/go/observability" >}})
 for more information.
 
 ### Retries
@@ -130,7 +130,7 @@ response that will never arrive.
 ### Smart client handoffs
 
 *Smart client handoffs (SCH)* is a feature of Redis Cloud and
-Redis Enterprise servers that lets them actively notify clients
+Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
 

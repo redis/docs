@@ -30,8 +30,8 @@ jobs:
       - name: 'Generate modules-api-ref.md and commands.json files and push if necessary'
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          RELEASE: ${{ github.event.inputs.release }}
         run: |-
-          RELEASE="${{ github.event.inputs.release }}"
           BRANCH="redis_docs_sync_${RELEASE}"
 
           # Generate modules-api-ref.md

@@ -1,0 +1,105 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "ping(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[bool], bool]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String ping()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "PONG"
+        }
+      },
+      {
+        "signature": "String ping(final String message)",
+        "params": [
+          {
+            "name": "message",
+            "type": "String",
+            "description": "The message to echo"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "The message"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Ping(ctx context.Context) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "parseCommand(parser: CommandParser, message?: RedisArgument)",
+        "params": [
+          {
+            "name": "parser",
+            "type": "CommandParser",
+            "description": "The command parser"
+          },
+          {
+            "name": "message",
+            "type": "RedisArgument",
+            "description": "Optional message to be returned instead of PONG"
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply | BlobStringReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "ping(?string $message = null)",
+        "params": [
+          {
+            "name": "$message",
+            "type": "?string",
+            "description": "Optional message"
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

@@ -1,0 +1,183 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "cursor_read(cursor_id: int, read_size: Optional[int] = None)",
+        "params": [
+          {
+            "name": "cursor_id",
+            "type": "int",
+            "description": "The cursor ID to read from"
+          },
+          {
+            "name": "read_size",
+            "type": "Optional[int]",
+            "description": "Number of results to read"
+          }
+        ],
+        "returns": {
+          "type": "AggregateResult",
+          "description": "The aggregation results"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "AggregationResult ftCursorRead(String indexName, long cursorId, int count)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          },
+          {
+            "name": "cursorId",
+            "type": "long",
+            "description": "The cursor ID"
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "Number of results to read"
+          }
+        ],
+        "returns": {
+          "type": "AggregationResult",
+          "description": "The aggregation results"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTCursorRead(ctx context.Context, index string, cursorId int, count int)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "cursorId",
+            "type": "int",
+            "description": "The cursor ID"
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "Number of results to read"
+          }
+        ],
+        "returns": {
+          "type": "*MapStringInterfaceCmd",
+          "description": "The aggregation results"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "CURSOR_READ(index: RedisArgument, cursorId: number, options?: { COUNT?: number })",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisArgument",
+            "description": "The index name"
+          },
+          {
+            "name": "cursorId",
+            "type": "number",
+            "description": "The cursor ID"
+          },
+          {
+            "name": "options",
+            "type": "{ COUNT?: number }",
+            "description": "Optional read options"
+          }
+        ],
+        "returns": {
+          "type": "Promise<AggregateResult>",
+          "description": "The aggregation results"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "AggregationResult CursorRead(AggregationResult result, int? count = null)",
+        "params": [
+          {
+            "name": "result",
+            "type": "AggregationResult",
+            "description": "The aggregation result containing the cursor"
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": "Number of rows to read"
+          }
+        ],
+        "returns": {
+          "type": "AggregationResult",
+          "description": "The next batch of aggregation results"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<AggregationResult> CursorReadAsync(AggregationResult result, int? count = null)",
+        "params": [
+          {
+            "name": "result",
+            "type": "AggregationResult",
+            "description": "The aggregation result containing the cursor"
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": "Number of rows to read"
+          }
+        ],
+        "returns": {
+          "type": "Task<AggregationResult>",
+          "description": "The next batch of aggregation results"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ft_cursor(string $index)->read(int $cursorId, ?int $count = null)",
+        "params": [
+          {
+            "name": "$index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "$cursorId",
+            "type": "int",
+            "description": "The cursor ID to read from"
+          },
+          {
+            "name": "$count",
+            "type": "int?",
+            "description": "Number of rows to read"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "The next batch of aggregation results"
+        }
+      }
+    ]
+  }
+}
+

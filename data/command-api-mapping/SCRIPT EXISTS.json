@@ -1,0 +1,163 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "script_exists(*args: str)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "str",
+            "description": "SHA1 digests to check"
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": "List of boolean values indicating script existence"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Boolean scriptExists(final String sha1)",
+        "params": [
+          {
+            "name": "sha1",
+            "type": "String",
+            "description": "SHA1 digest to check"
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "True if script exists"
+        }
+      },
+      {
+        "signature": "List<Boolean> scriptExists(final String... sha1)",
+        "params": [
+          {
+            "name": "sha1",
+            "type": "String...",
+            "description": "SHA1 digests to check"
+          }
+        ],
+        "returns": {
+          "type": "List<Boolean>",
+          "description": "List of boolean values indicating script existence"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ScriptExists(ctx context.Context, hashes ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context for the operation"
+          },
+          {
+            "name": "hashes",
+            "type": "...string",
+            "description": "SHA1 digests to check"
+          }
+        ],
+        "returns": {
+          "type": "*BoolSliceCmd",
+          "description": "List of boolean values indicating script existence"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "scriptExists(sha1: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "sha1",
+            "type": "RedisVariadicArgument",
+            "description": "One or more SHA1 digests of scripts"
+          }
+        ],
+        "returns": {
+          "type": "Promise<ArrayReply<NumberReply>>",
+          "description": "Array of 1s and 0s indicating script existence"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Boolean> scriptExists(String... digests)",
+        "params": [
+          {
+            "name": "digests",
+            "type": "String...",
+            "description": "SHA1 digests"
+          }
+        ],
+        "returns": {
+          "type": "List<Boolean>",
+          "description": "List of boolean values indicating script existence"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Boolean>> scriptExists(String... digests)",
+        "params": [
+          {
+            "name": "digests",
+            "type": "String...",
+            "description": "SHA1 digests"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Boolean>>",
+          "description": "List of boolean values indicating script existence"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Boolean> scriptExists(String... digests)",
+        "params": [
+          {
+            "name": "digests",
+            "type": "String...",
+            "description": "SHA1 digests"
+          }
+        ],
+        "returns": {
+          "type": "Flux<Boolean>",
+          "description": "Boolean values indicating script existence"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "script($subcommand, $argument = null)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": "SCRIPT subcommand (e.g., 'EXISTS')"
+          },
+          {
+            "name": "$argument",
+            "type": "mixed",
+            "description": "Optional argument for the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": "Command result"
+        }
+      }
+    ]
+  }
+}
+

@@ -84,6 +84,23 @@ section.prose {
   @apply text-base;
 }
 
+/* Nested ordered list styling for alphabetic numbering on sublists */
+.prose ol {
+  list-style-type: decimal;
+}
+
+.prose ol ol {
+  list-style-type: lower-alpha;
+}
+
+.prose ol ol ol {
+  list-style-type: lower-roman;
+}
+
+.prose ol ol ol ol {
+  list-style-type: decimal;
+}
+
 .prose pre {
   @apply bg-slate-900 rounded-lg;
 }
@@ -108,7 +125,7 @@ section.prose {
 .prose h4[id],
 .prose h5[id],
 .prose h6[id] {
-  @apply mt-16 scroll-mt-6;
+	  @apply mt-16 scroll-mt-24;
 }
 
 /* Reduce top margin when headers immediately follow other headers */
@@ -442,6 +459,10 @@ select {
   min-height: 32px;
 }
 
+.cli-footer.commands-foldout-open {
+  @apply opacity-100 visible;
+}
+
 .cli-footer a.rounded {
   @apply bg-red-900/80 hover:bg-red-700/80 text-white;
 }
@@ -450,6 +471,24 @@ select {
     margin: 1rem 1rem 0.1rem 0.1rem;
     overflow-x: auto;
     padding-bottom: 0;
+}
+
+.codetabs .cli-output-shell-trimmable .highlight > .chroma {
+  max-height: calc((var(--cli-preview-lines, 10) * 1.25rem) + 1.5rem);
+  overflow-y: hidden;
+  position: relative;
+}
+
+.codetabs .panel[data-cli-trimmable="true"]:not([data-cli-expanded]) .cli-output-shell-trimmable .highlight > .chroma {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+}
+
+.codetabs .panel[data-cli-trimmable="true"][data-cli-expanded] .cli-output-shell-trimmable .highlight > .chroma {
+  max-height: none;
+  overflow-y: auto;
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 
 .codetabs .chroma .language-plaintext .cl {
@@ -464,31 +503,31 @@ select {
   @apply rounded-none p-0;
 }
 
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > code > .line:not(.hl),
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .lntable .lntd code > .lnt,
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > code > .line:not(.hl),
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .lntable .lntd code > .lnt,
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
   @apply hidden;
 }
 
-.codetabs > .panel:where([aria-expanded]) .highlight .chroma > code > .line:not(.hl),
-.codetabs > .panel:where([aria-expanded]) .highlight .chroma > .lntable .lntd code > .lnt,
-.codetabs > .panel:where([aria-expanded]) .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
+.codetabs > .panel:where([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > code > .line:not(.hl),
+.codetabs > .panel:where([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .lntable .lntd code > .lnt,
+.codetabs > .panel:where([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
   @apply opacity-60;
 }
 
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .language-Go > .hl {
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .language-Go > .hl {
   tab-size: 3ch;
   left: -3ch;
   position: relative;
 }
 
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .language-C\# > .hl
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .language-C\# > .hl
 {
   left: -8ch;
   position: relative;
 }
 
-.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .language-Java > .hl
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .language-Java > .hl
 {
   left: -4ch;
   position: relative;
@@ -507,6 +546,28 @@ select {
 .codetabs > .panel:where([aria-expanded]) #visibility-off,
 .codetabs > .panel:not([aria-expanded]) #visibility-on {
   @apply block;
+}
+
+/* Jupyter example toggle visibility - same pattern as codetabs */
+/* When aria-expanded is not set (initial state), show all lines at full opacity */
+/* This is the default state showing only the step code */
+
+/* When aria-expanded="true", show full file with context lines dimmed */
+.thebe-container > .panel[aria-expanded="true"] .full-file-view .highlight .chroma > code > .line:not(.hl),
+.thebe-container > .panel[aria-expanded="true"] .full-file-view .highlight .chroma > .lntable .lntd code > .lnt,
+.thebe-container > .panel[aria-expanded="true"] .full-file-view .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
+  @apply opacity-60;
+}
+
+/* Ensure highlighted lines (current step) have full opacity when expanded */
+.thebe-container > .panel[aria-expanded="true"] .full-file-view .highlight .chroma > code > .hl,
+.thebe-container > .panel[aria-expanded="true"] .full-file-view .highlight .chroma > .lntable .lntd code > .hl {
+  opacity: 1 !important;
+}
+
+.thebe-container > .panel .highlight .chroma > code > .hl,
+.thebe-container > .panel .highlight .chroma > .lntable .lntd code > .hl {
+  @apply bg-inherit;
 }
 
 .download-cards {
@@ -949,9 +1010,66 @@ input[type="radio"] {
   @apply h-full overflow-y-auto font-monogeist;
 }
 
+.trimmable-label-less {
+  display: none;
+}
+
+.trimmable-toggle::before {
+  border-bottom: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  content: "";
+  display: inline-block;
+  height: 0.5rem;
+  transform: translateY(-0.1rem) rotate(45deg);
+  transition: transform 0.2s ease;
+  width: 0.5rem;
+}
+
+.trimmable-input:checked ~ .trimmable-toggle::before {
+  transform: translateY(0.1rem) rotate(-135deg);
+}
+
+.trimmable-input:checked ~ .trimmable-toggle .trimmable-label-more {
+  display: none;
+}
+
+.trimmable-input:checked ~ .trimmable-toggle .trimmable-label-less {
+  display: inline;
+}
+
+.trimmable-content {
+  max-height: 10lh;
+}
+
+.trimmable-content pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.trimmable-content > *:first-child {
+  margin-top: 0;
+}
+
+.trimmable-content > *:last-child {
+  margin-bottom: 0;
+}
+
+.trimmable-input:not(:checked) ~ .trimmable-content {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
+}
+
+.trimmable-input:checked ~ .trimmable-content {
+  max-height: none;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
 code {
   @apply font-monogeist;
 }
+
+
 
 /* no-click turns off border and click event on small icons */
 a[href*="#no-click"], img[src*="#no-click"] {

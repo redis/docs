@@ -315,16 +315,16 @@ Note that when you use `createForDefaultAzureCredential()`, you must:
 When you have created your credential provider instance, you are ready to
 connect to AMR.
 The example below shows how to pass the instance as a parameter to the standard
-`createClient()` connection method.
+`createCluster()` connection method.
 
 ```js
-import { createClient } from '@redis/client';
+import { createCluster } from '@redis/client';
 import { EntraIdCredentialsProviderFactory }
     from '@redis/entraid';
     
 // Create credentials provider instance...
-
-const client = createClient({
+// Note: AMR databases have clustering enabled by default.
+const client = createCluster({
   url: 'redis://localhost',
   credentialsProvider: provider
 });

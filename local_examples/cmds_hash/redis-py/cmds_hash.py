@@ -10,18 +10,18 @@ hdel1 = r.hset("myhash", "field1", "foo")
 print(hdel1)
 # >>> 1
 
-hdel2 = r.hget("myhash", "field1")
+hdel2 = r.hdel("myhash", "field1")
 print(hdel2)
 # >>> 1
 
-hdel3 = r.hget("myhash", "field2")
+hdel3 = r.hdel("myhash", "field2")
 print(hdel3)
 # >>> 0
 
 # REMOVE_START
 assert hdel1 == 1
-assert hdel2 == "foo"
-assert hdel3 == None
+assert hdel2 == 1
+assert hdel3 == 0
 r.delete("myhash")
 # REMOVE_END
 # STEP_END
@@ -79,6 +79,18 @@ print(res9)
 assert res7 == 1
 assert res8 == "foo"
 assert res9 == None
+r.delete("myhash")
+# REMOVE_END
+# STEP_END
+
+# STEP_START hmget
+r.hset("myhash", mapping={"field1": "Hello", "field2": "World"})
+
+hmget_result = r.hmget("myhash", ["field1", "field2", "nofield"])
+print(hmget_result)  # >>> ['Hello', 'World', None]
+
+# REMOVE_START
+assert hmget_result == ["Hello", "World", None]
 r.delete("myhash")
 # REMOVE_END
 # STEP_END

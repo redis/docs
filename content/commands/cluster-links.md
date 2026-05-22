@@ -25,7 +25,6 @@ railroad_diagram: /images/railroad/cluster-links.svg
 since: 7.0.0
 summary: Returns a list of all TCP links to and from peer nodes.
 syntax_fmt: CLUSTER LINKS
-syntax_str: ''
 title: CLUSTER LINKS
 ---
 Each node in a Redis Cluster maintains a pair of long-lived TCP link with each peer in the cluster: One for sending outbound messages towards the peer and one for receiving inbound messages from the peer.
@@ -73,9 +72,9 @@ Each map is composed of the following attributes of the corresponding cluster li
 5. `send-buffer-allocated`: Allocated size of the link's send buffer, which is used to buffer outgoing messages toward the peer.
 6. `send-buffer-used`: Size of the portion of the link's send buffer that is currently holding data(messages).
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

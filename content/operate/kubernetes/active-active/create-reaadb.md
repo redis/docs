@@ -81,6 +81,9 @@ Naming requirements:
 * contains only lowercase letters, numbers, or hyphens
 * starts with a letter
 * ends with a letter or digit
+* **must be unique across all participating clusters**
+
+   The admission controller prevents duplicate database names when databases are created via the Kubernetes operator. Ensure database names are unique across all participating clusters to avoid service deletion and database unavailability.
 
 Example REAADB named `reaadb-boeing` linked to the REC named `rec-chicago` with two participating clusters and a global database configuration with shard count set to 3:
 

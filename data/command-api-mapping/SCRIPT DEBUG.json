@@ -1,0 +1,69 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "script_debug(*args)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "Any",
+            "description": "Debug mode arguments"
+          }
+        ],
+        "returns": {
+          "type": "None",
+          "description": "No return value"
+        }
+      }
+    ],
+    "jedis": [],
+    "go-redis": [],
+    "node_redis": [
+      {
+        "signature": "scriptDebug(mode: 'YES' | 'SYNC' | 'NO')",
+        "params": [
+          {
+            "name": "mode",
+            "type": "'YES' | 'SYNC' | 'NO'",
+            "description": "Debug mode"
+          }
+        ],
+        "returns": {
+          "type": "Promise<SimpleStringReply<'OK'>>",
+          "description": "Status response"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "script($subcommand, $argument = null)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": "SCRIPT subcommand (e.g., 'DEBUG')"
+          },
+          {
+            "name": "$argument",
+            "type": "mixed",
+            "description": "Optional argument for the subcommand"
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": "Command result"
+        }
+      }
+    ]
+  }
+}
+

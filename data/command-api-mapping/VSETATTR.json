@@ -1,0 +1,435 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "vsetattr(key: KeyT, element: str, attributes: Optional[Union[dict, str]] = None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "attributes",
+            "type": "Optional[Union[dict, str]] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[int], int]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "boolean vsetattr(String key, String element, String attributes)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "the name of the element whose attributes to set"
+          },
+          {
+            "name": "attributes",
+            "type": "String",
+            "description": "the attributes to set as a JSON string"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "true if the attributes were set successfully"
+        }
+      },
+      {
+        "signature": "boolean vsetattr(byte[] key, byte[] element, byte[] attributes)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "element",
+            "type": "byte[]",
+            "description": "the name of the element whose attributes to set"
+          },
+          {
+            "name": "attributes",
+            "type": "byte[]",
+            "description": "the attributes to set as a JSON string"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "true if the attributes were set successfully"
+        }
+      },
+      {
+        "signature": "boolean vsetattr(String key, String element, String attributes)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "the name of the element whose attributes to set"
+          },
+          {
+            "name": "attributes",
+            "type": "String",
+            "description": "the attributes to set as a JSON string"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "true if the attributes were set successfully"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Boolean vsetattr(K key, V element, String json)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          },
+          {
+            "name": "json",
+            "type": "String",
+            "description": "the attributes as a JsonValue object"
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "true if the attributes were set, false if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsetattr/\">Redis Documentation: VSETATTR</a>"
+        }
+      },
+      {
+        "signature": "Boolean vsetattr(K key, V element, JsonValue json)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          },
+          {
+            "name": "json",
+            "type": "JsonValue",
+            "description": "the attributes as a JsonValue object"
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "true if the attributes were set, false if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsetattr/\">Redis Documentation: VSETATTR</a>"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Boolean> vsetattr(K key, V element, String json)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          },
+          {
+            "name": "json",
+            "type": "String",
+            "description": "the attributes as a JsonValue object"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "true if the attributes were set, false if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsetattr/\">Redis Documentation: VSETATTR</a>"
+        }
+      },
+      {
+        "signature": "RedisFuture<Boolean> vsetattr(K key, V element, JsonValue json)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          },
+          {
+            "name": "json",
+            "type": "JsonValue",
+            "description": "the attributes as a JsonValue object"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "true if the attributes were set, false if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsetattr/\">Redis Documentation: VSETATTR</a>"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Boolean> vsetattr(K key, V element, String json)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          },
+          {
+            "name": "json",
+            "type": "String",
+            "description": "the attributes as a JsonValue object"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "true if the attributes were set, false if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsetattr/\">Redis Documentation: VSETATTR</a>"
+        }
+      },
+      {
+        "signature": "Mono<Boolean> vsetattr(K key, V element, JsonValue json)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          },
+          {
+            "name": "json",
+            "type": "JsonValue",
+            "description": "the attributes as a JsonValue object"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "true if the attributes were set, false if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsetattr/\">Redis Documentation: VSETATTR</a>"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "VSetAttr(ctx context.Context, key, element string, attr interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "attr",
+            "type": "interface{}",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*BoolCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "VSETATTR(key: RedisArgument, element: RedisArgument, attributes: RedisArgument | Record<string, any>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "attributes",
+            "type": "RedisArgument | Record<string, any>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "vsetattr(key: K, element: E, json_object: &'a J)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "E",
+            "description": ""
+          },
+          {
+            "name": "json_object",
+            "type": "&'a J",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "vsetattr(key: K, element: E, json_object: &'a J)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "E",
+            "description": ""
+          },
+          {
+            "name": "json_object",
+            "type": "&'a J",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "VectorSetSetAttributesJsonAsync(RedisKey key, RedisValue member, #if NET7_0_OR_GREATER, [StringSyntax(StringSyntaxAttribute.Json)], #endif, string attributesJson, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "NET7_0_OR_GREATER",
+            "type": "#if",
+            "description": ""
+          },
+          {
+            "name": "[StringSyntax(StringSyntaxAttribute.Json)]",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "#endif",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "attributesJson",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "vsetattr(string $key, string $elem, string|array $attributes)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$elem",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$attributes",
+            "type": "string|array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

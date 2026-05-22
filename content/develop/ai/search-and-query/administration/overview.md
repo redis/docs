@@ -19,15 +19,15 @@ weight: 1
 
 ## Abstract
 
-Redis Query Engine ("RQE") is a powerful text search and secondary indexing engine that is built on top of Redis Open Source. 
+Redis Search is a powerful text search and secondary indexing engine that is built on top of Redis Open Source. 
 
 Unlike other Redis search libraries, it does not use the internal data structures of Redis such as sorted sets. Using its own highly optimized data structures and algorithms, it allows for advanced search features, high performance, and a low memory footprint. It can perform simple text searches, as well as complex structured queries, filtering by numeric properties and geographical distances.
 
-RQE supports continuous indexing with no performance degradation, maintaining concurrent loads of querying and indexing. This makes it ideal for searching frequently updated databases without the need for batch indexing and service interrupts. 
+Redis Search supports continuous indexing with no performance degradation, maintaining concurrent loads of querying and indexing. This makes it ideal for searching frequently updated databases without the need for batch indexing and service interrupts. 
 
-The Enterprise version of RQE supports scaling the search engine across many servers, allowing it to easily grow to billions of documents on hundreds of servers. 
+The Enterprise version of Redis Search supports scaling the search engine across many servers, allowing it to easily grow to billions of documents on hundreds of servers. 
 
-All of this is done while taking advantage of Redis's robust architecture and infrastructure. Using Redis's protocol, replication, persistence, and clustering, RQE delivers a powerful yet simple to manage and maintain search and indexing engine that can be used as a standalone database, or to augment existing Redis databases with advanced powerful indexing capabilities.
+All of this is done while taking advantage of Redis's robust architecture and infrastructure. Using Redis's protocol, replication, persistence, and clustering, Redis Search delivers a powerful yet simple to manage and maintain search and indexing engine that can be used as a standalone database, or to augment existing Redis databases with advanced powerful indexing capabilities.
 
 ---
 
@@ -315,11 +315,11 @@ See the [autocomplete page]({{< relref "/develop/ai/search-and-query/advanced-co
 
 ### The Redis module API
 
-RQE is implemented using the [Redis module API]({{< relref "/develop/reference/modules/" >}}) and is loaded into Redis as an extension module at start-up.
+Redis Search is implemented using the [Redis module API]({{< relref "/develop/reference/modules/" >}}) and is loaded into Redis as an extension module at start-up.
 
 Redis modules make it possible to extend Redis's core functionality, implementing new Redis commands, data structures, and capabilities with similar performance to native core Redis itself. Redis modules are dynamic libraries that can be loaded into Redis at start-up or loaded at run-time using the [`MODULE LOAD`]({{< relref "/commands/module-load" >}}) command. Redis exports a C API, in the form of a single C header file called `redismodule.h`. 
 
-While the logic of RQE and its algorithms are mostly independent, and it could be ported quite easily to run as a stand-alone server, it still takes advantage of Redis as a robust infrastructure for a database server. Building on top of Redis means that, by default, modules are afforded:
+While the logic of Redis Search and its algorithms are mostly independent, and it could be ported quite easily to run as a stand-alone server, it still takes advantage of Redis as a robust infrastructure for a database server. Building on top of Redis means that, by default, modules are afforded:
 
 * A high performance network protocol server
 * Robust replication
@@ -349,17 +349,17 @@ The resulting matching documents are then fed to a post-processing chain of resu
 
 ### Concurrent updates and searches
 
-While RQE is extremely fast and uses highly optimized data structures and algorithms, it was facing the same problem with regards to concurrency. Depending on the size of your data set and the cardinality of search queries, queries can take anywhere between a few microseconds to hundreds of milliseconds, or even seconds in extreme cases. When that happens, the entire Redis server process is blocked. 
+While Redis Search is extremely fast and uses highly optimized data structures and algorithms, it was facing the same problem with regards to concurrency. Depending on the size of your data set and the cardinality of search queries, queries can take anywhere between a few microseconds to hundreds of milliseconds, or even seconds in extreme cases. When that happens, the entire Redis server process is blocked. 
 
 Think, for example, of a full-text query intersecting the terms "hello" and "world", each with a million entries, and a half-million common intersection points. To perform that query in a millisecond, Redis would have to scan, intersect, and rank each result in one nanosecond, [which is impossible with current hardware](https://gist.github.com/jboner/2841832). The same goes for indexing a 1,000 word document. It blocks Redis entirely for the duration of the query.
 
-RQE uses the Redis Module API's concurrency features to avoid stalling the server for long periods of time. The idea is simple - while Redis itself is single-threaded, a module can run many threads, and any one of those threads can acquire the **Global Lock** when it needs to access Redis data, operate on it, and release it. 
+Redis Search uses the Redis Module API's concurrency features to avoid stalling the server for long periods of time. The idea is simple - while Redis itself is single-threaded, a module can run many threads, and any one of those threads can acquire the **Global Lock** when it needs to access Redis data, operate on it, and release it. 
 
 Redis cannot be queried in parallel, as only one thread can acquire the lock, including the Redis main thread, but care is taken to make sure that a long-running query will give other queries time to run by yielding this lock from time to time.
 
 The following design principles were adopted to allow concurrency:
 
-1. RQE has a thread pool for running concurrent search queries. 
+1. Redis Search has a thread pool for running concurrent search queries. 
 
 2. When a search request arrives, it is passed to the handler, parsed on the main thread, and then a request object is passed to the thread pool via a queue.
 
@@ -377,14 +377,14 @@ Thus the operating system's scheduler makes sure all query threads get CPU time 
 
 ### Index garbage collection
 
-RQE is optimized for high write, update, and delete throughput. One of the main design choices dictated by this goal is that deleting and updating documents do not actually delete anything from the index: 
+Redis Search is optimized for high write, update, and delete throughput. One of the main design choices dictated by this goal is that deleting and updating documents do not actually delete anything from the index: 
 
 1. Deletion simply marks the document deleted in a global document metadata table using a single bit. 
 2. Updating, on the other hand, marks a document as deleted, assigns it a new incremental document ID, and re-indexes the document under a new ID, without performing a comparison of the change. 
 
 What this means, is that index entries belonging to deleted documents are not removed from the index, and can be seen as garbage. Over time, an index with many deletes and updates will contain mostly garbage, both slowing things down and consuming unnecessary memory. 
 
-To overcome this, RQE employs a background garbage collection (GC) mechanism. During normal operation of the index, a special thread randomly samples indexes, traverses them, and looks for garbage. Index sections containing garbage are cleaned and memory is reclaimed. This is done in a non- intrusive way, operating on very small amounts of data per scan, and utilizing Redis's concurrency mechanism (see above) to avoid interrupting searches and indexing. The algorithm also tries to adapt to the state of the index, increasing the GC's frequency if the index contains a lot of garbage, and decreasing it if it doesn't, to the point of hardly scanning if the index does not contain garbage. 
+To overcome this, Redis Search employs a background garbage collection (GC) mechanism. During normal operation of the index, a special thread randomly samples indexes, traverses them, and looks for garbage. Index sections containing garbage are cleaned and memory is reclaimed. This is done in a non- intrusive way, operating on very small amounts of data per scan, and utilizing Redis's concurrency mechanism (see above) to avoid interrupting searches and indexing. The algorithm also tries to adapt to the state of the index, increasing the GC's frequency if the index contains a lot of garbage, and decreasing it if it doesn't, to the point of hardly scanning if the index does not contain garbage. 
 
 ### Extension model
 
@@ -395,13 +395,13 @@ There are two kinds of extension APIs at the moment:
 1. **Query expanders**, whose role is to expand query tokens (i.e., stemmers).
 2. **Scoring functions**, whose role is to rank search results at query time.
 
-Extensions are compiled into dynamic libraries and loaded into RQE on initialization of the module. The mechanism is based on the code of Redis's own module system, albeit far simpler.
+Extensions are compiled into dynamic libraries and loaded into Redis Search on initialization of the module. The mechanism is based on the code of Redis's own module system, albeit far simpler.
 
 ---
 
 ## Scalable distributed search
 
-While RQE is very fast and memory efficient, if an index is big enough, at some point it will be too slow or consume too much memory. It must then be scaled out and partitioned over several machines, each of which will hold a small part of the complete search index.
+While Redis Search is very fast and memory efficient, if an index is big enough, at some point it will be too slow or consume too much memory. It must then be scaled out and partitioned over several machines, each of which will hold a small part of the complete search index.
 
 Traditional clusters map different keys to different shards to achieve this. However, with search indexes this approach is not practical. If each word’s index was mapped to a different shard, it would be necessary to intersect records from different servers for multi-term queries. 
 

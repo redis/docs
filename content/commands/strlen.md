@@ -43,7 +43,6 @@ railroad_diagram: /images/railroad/strlen.svg
 since: 2.2.0
 summary: Returns the length of a string value.
 syntax_fmt: STRLEN key
-syntax_str: ''
 title: STRLEN
 ---
 Returns the length of the string value stored at `key`.
@@ -57,9 +56,9 @@ STRLEN mykey
 STRLEN nonexisting
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

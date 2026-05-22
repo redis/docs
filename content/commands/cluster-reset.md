@@ -41,7 +41,6 @@ railroad_diagram: /images/railroad/cluster-reset.svg
 since: 3.0.0
 summary: Resets a node.
 syntax_fmt: CLUSTER RESET [HARD | SOFT]
-syntax_str: ''
 title: CLUSTER RESET
 ---
 Reset a Redis Cluster node, in a more or less drastic way depending on the
@@ -66,9 +65,9 @@ reset the state of the cluster every time a new test unit is executed.
 
 If no reset type is specified, the default is **soft**.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

@@ -1,0 +1,332 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "decrby(, key: KeyT,, value: Number,, timestamp: Optional[Union[int, str]] = None,, retention_msecs: Optional[int] = None,, uncompressed: Optional[bool] = False,, labels: Optional[Dict[str, str]] = None,, chunk_size: Optional[int] = None,, duplicate_policy: Optional[str] = None,, ignore_max_time_diff: Optional[int] = None,, ignore_max_val_diff: Optional[Number] = None,)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "Number",
+            "description": ""
+          },
+          {
+            "name": "timestamp",
+            "type": "Optional[Union[int, str]] = None",
+            "description": ""
+          },
+          {
+            "name": "retention_msecs",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "uncompressed",
+            "type": "Optional[bool] = False",
+            "description": ""
+          },
+          {
+            "name": "labels",
+            "type": "Optional[Dict[str, str]] = None",
+            "description": ""
+          },
+          {
+            "name": "chunk_size",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "duplicate_policy",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "ignore_max_time_diff",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "ignore_max_val_diff",
+            "type": "Optional[Number] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long tsDecrBy(String key, double value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "timestamp"
+        }
+      },
+      {
+        "signature": "long tsDecrBy(String key, double value, long timestamp)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "timestamp",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "timestamp"
+        }
+      },
+      {
+        "signature": "long tsDecrBy(String key, double subtrahend, TSDecrByParams decrByParams)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "subtrahend",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "decrByParams",
+            "type": "TSDecrByParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "timestamp"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TSDecrBy(ctx context.Context, Key string, timestamp float64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "Key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "timestamp",
+            "type": "float64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "DECRBY(...args: Parameters<typeof parseIncrByArguments>)",
+        "params": [
+          {
+            "name": "...args",
+            "type": "Parameters<typeof parseIncrByArguments>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "DecrBy(string key, double value, TimeStamp? timestamp = null, long? retentionTime = null, IReadOnlyCollection<TimeSeriesLabel>? labels = null, bool? uncompressed = null, long? chunkSizeBytes = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "timestamp",
+            "type": "TimeStamp?",
+            "description": ""
+          },
+          {
+            "name": "retentionTime",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "labels",
+            "type": "IReadOnlyCollection<TimeSeriesLabel>?",
+            "description": ""
+          },
+          {
+            "name": "uncompressed",
+            "type": "bool?",
+            "description": ""
+          },
+          {
+            "name": "chunkSizeBytes",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "TimeStamp",
+          "description": ""
+        }
+      },
+      {
+        "signature": "DecrBy(string key, TsDecrByParams parameters)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "parameters",
+            "type": "TsDecrByParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "TimeStamp",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "DecrByAsync(string key, double value, TimeStamp? timestamp = null, long? retentionTime = null, IReadOnlyCollection<TimeSeriesLabel>? labels = null, bool? uncompressed = null, long? chunkSizeBytes = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": ""
+          },
+          {
+            "name": "timestamp",
+            "type": "TimeStamp?",
+            "description": ""
+          },
+          {
+            "name": "retentionTime",
+            "type": "long?",
+            "description": ""
+          },
+          {
+            "name": "labels",
+            "type": "IReadOnlyCollection<TimeSeriesLabel>?",
+            "description": ""
+          },
+          {
+            "name": "uncompressed",
+            "type": "bool?",
+            "description": ""
+          },
+          {
+            "name": "chunkSizeBytes",
+            "type": "long?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<TimeStamp>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "DecrByAsync(string key, TsDecrByParams parameters)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "parameters",
+            "type": "TsDecrByParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<TimeStamp>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tsdecrby(string $key, float $value, ?DecrByArguments $arguments = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "float",
+            "description": ""
+          },
+          {
+            "name": "?DecrByArguments $arguments = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

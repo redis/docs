@@ -200,7 +200,7 @@ The fields of `TokenManagerOptions` are explained below:
 When you have created your `StreamingCredentialsProvider` instance, you are ready to
 connect to AMR.
 The example below shows how to pass the instance as a parameter to the standard
-`NewClient()` connection method. It also illustrates how to use
+`NewClusterClient()` connection method. It also illustrates how to use
 [`os.Getenv()`](https://pkg.go.dev/os#Getenv) to get the connection details
 from environment variables rather than include their values in the code.
 
@@ -240,7 +240,8 @@ func main() {
     }
 
     // Create Redis client
-    client := redis.NewClient(&redis.Options{
+    // Note: AMR databases have clustering enabled by default.
+    client := redis.NewClusterClient(&redis.Options{
         Addr: redisEndpoint,
         StreamingCredentialsProvider: provider,
     })

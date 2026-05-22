@@ -1,4 +1,7 @@
 ---
+aliases:
+- /manual/optimization/latency-monitor/
+- /management/optimization/latency-monitor/
 categories:
 - docs
 - operate

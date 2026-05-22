@@ -121,8 +121,6 @@ summary: Sorts the elements in a list, a set, or a sorted set, optionally storin
   the result.
 syntax_fmt: "SORT key [BY\_pattern] [LIMIT\_offset count] [GET\_pattern [GET pattern\n\
   \  ...]] [ASC | DESC] [ALPHA] [STORE\_destination]"
-syntax_str: "[BY\_pattern] [LIMIT\_offset count] [GET\_pattern [GET pattern ...]]\
-  \ [ASC | DESC] [ALPHA] [STORE\_destination]"
 title: SORT
 ---
 Returns or stores the elements contained in the [list][tdtl], [set][tdts] or
@@ -278,9 +276,9 @@ The string `->` is used to separate the key name from the hash field name.
 The key is substituted as documented above, and the hash stored at the resulting
 key is accessed to retrieve the specified hash field.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

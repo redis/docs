@@ -33,14 +33,18 @@ database to work with RDI.
 RDI requires some changes to database parameters. On AWS RDS and AWS Aurora, you change these parameters via a parameter group.
 
 ```checklist {id="aurorapostgresql-param-group" nointeractive="true" }
-- [ ] [Create a parameter group](#create-a-parameter-group)
+- [ ] [Create/modify a parameter group](#create-a-parameter-group)
 - [ ] [Apply the parameter group](#apply-the-parameter-group)
 - [ ] [Apply the parameter group to the database](#apply-the-parameter-group-to-the-database)
 - [ ] [Reboot the database instance](#reboot-the-database-instance)
 ```
 
 1. <a id="create-a-parameter-group"></a>
-    In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/), navigate to **Parameter groups > Create parameter group**. [Create a parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.CreatingCluster.html) with the following settings:
+    In the [Relational Database Service (RDS) console](https://console.aws.amazon.com/rds/), navigate to **Parameter groups**.
+    
+    If you have no existing parameter group,
+    [create a new parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.CreatingCluster.html)
+    with the following settings:
 
     | Name | Value |
     | :-- | :-- |
@@ -51,8 +55,18 @@ RDI requires some changes to database parameters. On AWS RDS and AWS Aurora, you
 
     Select **Create** to create the parameter group.
 
+    If you *do* have an existing parameter group, select it and then either:
+
+    -   Select **Edit** from **Parameter group actions** to 
+        [modify the parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.ModifyingCluster.html)
+        with the settings shown in the table above.
+    -   Select **Copy** from **Parameter group actions** to
+        [copy the existing parameter group](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.CopyingCluster.html)
+        and then modify the copy with the settings shown in the table above.
+
 1. <a id="apply-the-parameter-group"></a>
-    Navigate to **Parameter groups** in the console. Select the group you have just created and then select **Edit**. Change the following parameters:
+    Ensure that the parameter group you have just created or modified is selected
+    and then select **Edit**. Change the following parameter:
 
     | Name | Value |
     | :-- | :-- |
@@ -107,3 +121,37 @@ to capture changes.
 
     Replace `<username>` with the username of the Debezium user and `<schema>` with the schema name.
 
+1. <a id="allow-connection-from-debezium-user"></a>
+    Connect to your database as the `postgres` user and allow the Debezium user to connect to the database:
+
+    ```sql
+    GRANT CONNECT ON DATABASE <database> TO <username>;
+    ```
+
+    Replace `<database>` with the name of the database and `<username>` with the username of the Debezium user.
+
+1. <a id="grant-usage-to-schema"></a>
+    Connect to your database as the `postgres` user and grant the new user usage on the schema:
+
+    ```sql
+    GRANT USAGE ON SCHEMA <schema> TO <username>;
+    ```
+
+    Replace `<schema>` with the schema name and `<username>` with the username of the Debezium user.">
+
+1. <a id="grant-privileges-for-the-future"></a>
+    Connect to your database as the `postgres` user and grant the new user the necessary privileges for the future:
+
+    ```sql
+    ALTER DEFAULT PRIVILEGES IN SCHEMA <schema>
+        GRANT SELECT ON TABLES TO <username>;
+    ```
+
+    Replace `<schema>` with the schema name and `<username>` with the username of the Debezium user.
+
+1. <a id="create-publication"></a>
+    Connect to your database as the `postgres` user and create a publication for the database:
+
+    ```sql
+    CREATE PUBLICATION dbz_publication FOR ALL TABLES;
+    ```

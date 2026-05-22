@@ -1,32 +1,32 @@
 ---
-Title: Install, set up, and upgrade Redis Enterprise Software
+Title: Install, set up, and upgrade Redis Software
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Learn how to install, set up, and upgrade Redis Enterprise Software.
+description: Learn how to install, set up, and upgrade Redis Software.
 hideListLinks: true
 linkTitle: Install and upgrade
 toc: 'true'
 weight: 35
 ---
 
-You can run self-managed Redis Enterprise Software in an on-premises data center or on your preferred cloud platform. 
+You can run self-managed Redis Software in an on-premises data center or on your preferred cloud platform. 
 
 If you prefer a fully managed Redis database-as-a-service, available on major public cloud services, consider setting up a [Redis Cloud]({{<relref "/operate/rc">}}) subscription. You can [try Redis Cloud](https://redis.io/try-free/) for free.
 
 ## Quickstarts
 
-If you want to try out Redis Enterprise Software, see the following quickstarts:
+If you want to try out Redis Software, see the following quickstarts:
 
-- [Redis Enterprise Software quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
+- [Redis Software quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
 
-- [Docker quickstart for Redis Enterprise Software]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}})
+- [Docker quickstart for Redis Software]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}})
 
-## Install Redis Enterprise Software
+## Install Redis Software
 
-To install Redis Enterprise Software on a [supported platform]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/supported-platforms" >}}), you need to:
+To install Redis Software on a [supported platform]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/supported-platforms" >}}), you need to:
 
 1. [Plan your deployment]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment" >}}).
 
@@ -38,7 +38,7 @@ Depending on your needs, you may also want to [customize the installation](#more
 
 ## Upgrade existing deployment
 
-If you already installed Redis Enterprise Software, you can:
+If you already installed Redis Software, you can:
 
 - [Upgrade a cluster]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster" >}})
 
@@ -46,7 +46,7 @@ If you already installed Redis Enterprise Software, you can:
 
 - [Upgrade an Active-Active database]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-active-active" >}})
 
-## Uninstall Redis Enterprise Software
+## Uninstall Redis Software
 
 - [Uninstall existing deployment]({{< relref "/operate/rs/installing-upgrading/uninstalling" >}})
 
@@ -65,7 +65,7 @@ More information is available to help with customization and related questions:
 
 ## Next steps
 
-After you install Redis Enterprise Software and set up your cluster, you can:
+After you install Redis Software and set up your cluster, you can:
 
 - [Add users]({{< relref "/operate/rs/security/access-control/create-users" >}}) to the cluster with specific permissions.  To begin, start with [Access control]({{< relref "/operate/rs/security/access-control" >}}).
 

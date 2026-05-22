@@ -1,6 +1,7 @@
 ---
 aliases:
 - /develop/interact/search-and-query/advanced-concepts/synonyms
+- /interact/search-and-query/advanced-concepts/synonyms/
 categories:
 - docs
 - develop

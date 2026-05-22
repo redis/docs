@@ -165,9 +165,6 @@ summary: Queries a geospatial index for members inside an area of a box or a cir
 syntax_fmt: "GEOSEARCH key <FROMMEMBER\_member | FROMLONLAT\_longitude latitude>\n\
   \  <BYRADIUS\_radius <M | KM | FT | MI> | BYBOX\_width height <M | KM |\n  FT |\
   \ MI>> [ASC | DESC] [COUNT\_count [ANY]] [WITHCOORD] [WITHDIST]\n  [WITHHASH]"
-syntax_str: "<FROMMEMBER\_member | FROMLONLAT\_longitude latitude> <BYRADIUS\_radius\
-  \ <M | KM | FT | MI> | BYBOX\_width height <M | KM | FT | MI>> [ASC | DESC] [COUNT\_\
-  count [ANY]] [WITHCOORD] [WITHDIST] [WITHHASH]"
 title: GEOSEARCH
 ---
 Return the members of a sorted set populated with geospatial information using [`GEOADD`]({{< relref "/commands/geoadd" >}}), which are within the borders of the area specified by a given shape. This command extends the [`GEORADIUS`]({{< relref "/commands/georadius" >}}) command, so in addition to searching within circular areas, it supports searching within rectangular areas.
@@ -209,9 +206,9 @@ GEOSEARCH Sicily FROMLONLAT 15 37 BYRADIUS 200 km ASC
 GEOSEARCH Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC WITHCOORD WITHDIST
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

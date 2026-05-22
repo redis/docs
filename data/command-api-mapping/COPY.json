@@ -1,0 +1,411 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "copy(source: str, destination: str, destination_db: Optional[int] = None, replace: bool = False)",
+        "params": [
+          {
+            "name": "source",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "destination_db",
+            "type": "Optional[int]",
+            "description": ""
+          },
+          {
+            "name": "replace",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long copy(final byte[] srcKey, final byte[] dstKey, final boolean replace)",
+        "params": [
+          {
+            "name": "srcKey",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "dstKey",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "replace",
+            "type": "boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if source was copied. 0 if source was not copied."
+        }
+      },
+      {
+        "signature": "long copy(final String srcKey, final String dstKey, final boolean replace)",
+        "params": [
+          {
+            "name": "srcKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "replace",
+            "type": "boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if source was copied. 0 if source was not copied."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Copy(ctx context.Context, sourceKey string, destKey string, db int, replace bool)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "sourceKey",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "destKey",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "db",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "replace",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "COPY(source: RedisArgument, destination: RedisArgument, options?: CopyOptions)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "CopyOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Boolean copy(K source, K destination)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination key."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean integer-reply specifically: true if source was copied. false if source was not copied."
+        }
+      },
+      {
+        "signature": "Boolean copy(K source, K destination, CopyArgs copyArgs)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination key."
+          },
+          {
+            "name": "copyArgs",
+            "type": "CopyArgs",
+            "description": "the copy arguments."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean integer-reply specifically: true if source was copied. false if source was not copied."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Boolean> copy(K source, K destination)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "Boolean integer-reply specifically: true if source was copied. false if source was not copied."
+        }
+      },
+      {
+        "signature": "RedisFuture<Boolean> copy(K source, K destination, CopyArgs copyArgs)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination key."
+          },
+          {
+            "name": "copyArgs",
+            "type": "CopyArgs",
+            "description": "the copy arguments."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "Boolean integer-reply specifically: true if source was copied. false if source was not copied."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Boolean> copy(K source, K destination)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "Boolean integer-reply specifically: true if source was copied. false if source was not copied."
+        }
+      },
+      {
+        "signature": "Mono<Boolean> copy(K source, K destination, CopyArgs copyArgs)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination key."
+          },
+          {
+            "name": "copyArgs",
+            "type": "CopyArgs",
+            "description": "the copy arguments."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "Boolean integer-reply specifically: true if source was copied. false if source was not copied."
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "KeyCopy(RedisKey sourceKey, RedisKey destinationKey, int destinationDatabase = -1, bool replace = false, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "sourceKey",
+            "type": "RedisKey",
+            "description": "The source key."
+          },
+          {
+            "name": "destinationKey",
+            "type": "RedisKey",
+            "description": "The destination key."
+          },
+          {
+            "name": "destinationDatabase",
+            "type": "int",
+            "description": "The destination database."
+          },
+          {
+            "name": "replace",
+            "type": "bool",
+            "description": "Whether to replace the destination key if it exists."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if source was copied. false if source was not copied."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "KeyCopyAsync(RedisKey sourceKey, RedisKey destinationKey, int destinationDatabase = -1, bool replace = false, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "sourceKey",
+            "type": "RedisKey",
+            "description": "The source key."
+          },
+          {
+            "name": "destinationKey",
+            "type": "RedisKey",
+            "description": "The destination key."
+          },
+          {
+            "name": "destinationDatabase",
+            "type": "int",
+            "description": "The destination database."
+          },
+          {
+            "name": "replace",
+            "type": "bool",
+            "description": "Whether to replace the destination key if it exists."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if source was copied. false if source was not copied."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "copy(string $src, string $dst, array|null $options = null)",
+        "params": [
+          {
+            "name": "$src",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$dst",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$options",
+            "type": "array|null",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "copy(source, destination, db: nil, replace: false)",
+        "params": [
+          {
+            "name": "source",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "db",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "replace",
+            "type": "Boolean",
+            "description": "removes the destination key before copying value to it"
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "whether the key was copied or not"
+        }
+      }
+    ]
+  }
+}

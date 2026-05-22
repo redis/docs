@@ -33,7 +33,6 @@ replaced_by: just closing the connection
 since: 1.0.0
 summary: Closes the connection.
 syntax_fmt: QUIT
-syntax_str: ''
 title: QUIT
 ---
 Ask the server to close the connection.
@@ -44,9 +43,9 @@ client.
 Instead, clients should simply close the connection when they're not used anymore.
 Terminating a connection on the client side is preferable, as it eliminates `TIME_WAIT` lingering sockets on the server side.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v7.2.0. |
 

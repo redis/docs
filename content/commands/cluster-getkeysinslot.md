@@ -32,7 +32,6 @@ railroad_diagram: /images/railroad/cluster-getkeysinslot.svg
 since: 3.0.0
 summary: Returns the key names in a hash slot.
 syntax_fmt: CLUSTER GETKEYSINSLOT slot count
-syntax_str: count
 title: CLUSTER GETKEYSINSLOT
 ---
 The command returns an array of keys names stored in the contacted node and
@@ -55,9 +54,9 @@ of the [`CLUSTER SETSLOT`]({{< relref "/commands/cluster-setslot" >}}) command d
 3) "key_92937"
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

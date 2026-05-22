@@ -1,0 +1,102 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [
+      {
+        "signature": "String clusterDelSlotsRange(int... ranges)",
+        "params": [
+          {
+            "name": "ranges",
+            "type": "int...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClusterDelSlotsRange(ctx context.Context, min, max int)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "String clusterDelSlotsRange(Range<Integer>... ranges)",
+        "params": [
+          {
+            "name": "ranges",
+            "type": "Range<Integer>...",
+            "description": "One or more slot ranges"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clusterDelSlotsRange(Range<Integer>... ranges)",
+        "params": [
+          {
+            "name": "ranges",
+            "type": "Range<Integer>...",
+            "description": "One or more slot ranges"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clusterDelSlotsRange(Range<Integer>... ranges)",
+        "params": [
+          {
+            "name": "ranges",
+            "type": "Range<Integer>...",
+            "description": "One or more slot ranges"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

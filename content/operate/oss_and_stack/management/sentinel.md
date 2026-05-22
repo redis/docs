@@ -1,4 +1,7 @@
 ---
+aliases:
+- /management/sentinel/
+- /manual/sentinel/
 categories:
 - docs
 - operate

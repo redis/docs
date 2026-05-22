@@ -1,0 +1,22 @@
+source 'https://rubygems.org'
+
+# `informers` runs the same `sentence-transformers/all-MiniLM-L6-v2` model
+# as the Python and Node ports, via ONNX Runtime. The first call downloads
+# the model files (~80 MB) into the local Hugging Face cache. Pin to >= 1.0
+# for the modern API; 1.3.x is current.
+gem 'informers', '~> 1.3'
+
+# redis-rb 5.x has typed wrappers for most commands; we drive Redis Search
+# (`FT.CREATE`, `FT.SEARCH`, `FT.INFO`, `FT.DROPINDEX`, `FT.TAGVALS`) through
+# the raw `redis.call(...)` escape hatch because the gem doesn't ship typed
+# bindings for the Search module.
+gem 'redis', '~> 5.0'
+
+# `webrick` was removed from Ruby's standard library in Ruby 3.0, so the
+# demo declares it explicitly. Matches the streaming/ruby example.
+gem 'webrick', '~> 1.8'
+
+# `base64` was removed from the default gems in Ruby 3.4. The catalogue
+# loader uses it to unpack the base64-encoded float32 vectors written
+# by `build_catalog.rb` into `catalog.json`.
+gem 'base64', '~> 0.2'

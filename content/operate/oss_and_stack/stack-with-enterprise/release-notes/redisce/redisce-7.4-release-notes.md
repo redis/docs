@@ -11,6 +11,31 @@ min-version-db: blah
 min-version-rs: blah
 weight: 100
 ---
+
+## Redis Community Edition 7.4.9 (May 2026):
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- (CVE-2026-23479) Use-After-Free in unblock client flow may lead to Remote Code Execution.
+- (CVE-2026-25243) Invalid memory access in `RESTORE` may lead to Remote Code Execution.
+- (CVE-2026-23631) Lua Use-After-Free may lead to remote code execution.
+
+### Bug fixes
+
+- `SUBSCRIBE`, `PSUBSCRIBE`, `SSUBSCRIBE`: crash on OOM (RED-167788).
+- `CONFIG SET`: some settings allow invalid characters (RED-167787).
+- `SCRIPT DEBUG`: potential crash on scripts (RED-175507).
+
+## Redis Community Edition 7.4.8 (February 2026)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- A user can manipulate data read by a connection by injecting `\r\n` sequences into a Redis error reply.
+
 ## Redis Community Edition 7.4.7 (November 2025)
 
 Update urgency: `HIGH`: There is a critical bug that may affect a subset of users.

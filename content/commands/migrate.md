@@ -134,8 +134,6 @@ since: 2.6.0
 summary: Atomically transfers a key from one Redis instance to another.
 syntax_fmt: "MIGRATE host port <key | \"\"> destination-db timeout [COPY] [REPLACE]\n\
   \  [AUTH\_password | AUTH2\_username password] [KEYS\_key [key ...]]"
-syntax_str: "port <key | \"\"> destination-db timeout [COPY] [REPLACE] [AUTH\_password\
-  \ | AUTH2\_username password] [KEYS\_key [key ...]]"
 title: MIGRATE
 ---
 Atomically transfer a key from a source Redis instance to a destination Redis
@@ -206,9 +204,9 @@ just a single key exists.
 * `AUTH` -- Authenticate with the given password to the remote instance.
 * `AUTH2` -- Authenticate with the given username and password pair (Redis 6 or greater ACL auth style).
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

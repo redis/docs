@@ -2,10 +2,10 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
-        // Add copy buttons to code blocks (but skip those inside codetabs)
+        // Add copy buttons to code blocks (but skip those inside codetabs or thebe-container)
         document.querySelectorAll('div.highlight').forEach(block => {
-            // Skip if this code block is inside a codetabs container
-            if (block.closest('.codetabs')) {
+            // Skip if this code block is inside a codetabs container or thebe-container
+            if (block.closest('.codetabs') || block.closest('.thebe-container')) {
                 return;
             }
                 // Create a wrapper for the button and message

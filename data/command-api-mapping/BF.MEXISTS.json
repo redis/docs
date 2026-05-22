@@ -1,0 +1,156 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "mexists(key, *items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "*items",
+            "type": "str",
+            "description": "Items to check"
+          }
+        ],
+        "returns": {
+          "type": "list",
+          "description": "List of booleans indicating if each item may exist"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Boolean> bfMExists(String key, String... items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "items",
+            "type": "String...",
+            "description": "Items to check"
+          }
+        ],
+        "returns": {
+          "type": "List<Boolean>",
+          "description": "List of booleans"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BFMExists(ctx context.Context, key string, elements ...interface{}) *BoolSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "elements",
+            "type": "...interface{}",
+            "description": "Items to check"
+          }
+        ],
+        "returns": {
+          "type": "*BoolSliceCmd",
+          "description": "Boolean slice command result"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "BF.MEXISTS(key: RedisArgument, items: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "items",
+            "type": "RedisVariadicArgument",
+            "description": "Items to check"
+          }
+        ],
+        "returns": {
+          "type": "boolean[]",
+          "description": "Array of booleans"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "bool[] MExists(RedisKey key, RedisValue[] items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "items",
+            "type": "RedisValue[]",
+            "description": "Items to check"
+          }
+        ],
+        "returns": {
+          "type": "bool[]",
+          "description": "Array of booleans"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "async Task<bool[]> MExistsAsync(RedisKey key, RedisValue[] items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "items",
+            "type": "RedisValue[]",
+            "description": "Items to check"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool[]>",
+          "description": "Array of booleans"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "bfmexists(string $key, ...$item)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "$item",
+            "type": "...",
+            "description": "Items to check"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Array of booleans"
+        }
+      }
+    ]
+  }
+}

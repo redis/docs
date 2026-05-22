@@ -12,7 +12,7 @@ weight: 30
 To avoid problems with internal cluster communications that can impact your data integrity,
 make sure that the clocks on all of the cluster nodes are synchronized using Chrony and/or NTP.
 
-When you install Redis Enterprise Software,
+When you install Redis Software,
 the install script checks if Chrony or NTP is running.
 If they are not, the installation process asks for permission to configure a scheduled Cron job.
 This should make sure that the node's clock is always synchronized.

@@ -39,7 +39,6 @@ railroad_diagram: /images/railroad/cluster-delslotsrange.svg
 since: 7.0.0
 summary: Sets hash slot ranges as unbound for a node.
 syntax_fmt: CLUSTER DELSLOTSRANGE start-slot end-slot [start-slot end-slot ...]
-syntax_str: ''
 title: CLUSTER DELSLOTSRANGE
 ---
 The `CLUSTER DELSLOTSRANGE` command is similar to the [`CLUSTER DELSLOTS`]({{< relref "/commands/cluster-delslots" >}}) command in that they both remove hash slots from the node.
@@ -70,9 +69,9 @@ debugging and in order to manually orchestrate a cluster configuration
 when a new cluster is created. It is currently not used by `redis-cli`,
 and mainly exists for API completeness.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
