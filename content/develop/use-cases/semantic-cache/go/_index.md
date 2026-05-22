@@ -151,7 +151,7 @@ The lookup is a hybrid query: a TAG pre-filter expression in parentheses, then `
 ```go
 result, _ := client.FTSearchWithArgs(ctx,
     "semcache:idx",
-    "(@tenant:{acme} @locale:{en} @model_version:{gpt-4.5-2026} @safety:{ok})"+
+    "(@tenant:{acme} @locale:{en} @model_version:{gpt\\-4\\.5\\-2026} @safety:{ok})"+
         "=>[KNN 1 @embedding $vec AS distance]",
     &redis.FTSearchOptions{
         DialectVersion: 2,

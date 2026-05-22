@@ -144,7 +144,7 @@ The lookup is a hybrid query: a TAG pre-filter expression in parentheses, then `
 
 ```text
 FT.SEARCH semcache:idx
-  "(@tenant:{acme} @locale:{en} @model_version:{gpt-4.5-2026} @safety:{ok})
+  "(@tenant:{acme} @locale:{en} @model_version:{gpt\-4\.5\-2026} @safety:{ok})
      =>[KNN 1 @embedding $vec AS distance]"
   PARAMS 2 vec <384-float32-bytes>
   SORTBY distance

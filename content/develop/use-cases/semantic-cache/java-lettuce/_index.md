@@ -6,13 +6,13 @@ categories:
 - oss
 - rs
 - rc
-description: Build a Redis-backed semantic cache for LLM responses in Java with Jedis and DJL (PyTorch)
-linkTitle: Jedis example (Java)
-title: Redis semantic cache with Jedis
-weight: 3
+description: Build a Redis-backed semantic cache for LLM responses in Java with Lettuce and DJL (PyTorch)
+linkTitle: Lettuce example (Java)
+title: Redis semantic cache with Lettuce
+weight: 4
 ---
 
-This guide shows you how to build a small Redis-backed semantic cache for LLM responses in Java with [Jedis]({{< relref "/develop/clients/jedis" >}}) and [DJL (Deep Java Library)](https://djl.ai/) running the [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) encoder locally on PyTorch. It includes a local web server built with the JDK's standard `com.sun.net.httpserver.HttpServer` so you can send paraphrased prompts at a mock LLM, watch the cache decide hit or miss, sweep the cosine-distance threshold, and see the cumulative latency and token savings build up.
+This guide shows you how to build a small Redis-backed semantic cache for LLM responses in Java with [Lettuce]({{< relref "/develop/clients/lettuce" >}}) and [DJL (Deep Java Library)](https://djl.ai/) running the [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) encoder locally on PyTorch. It includes a local web server built with the JDK's standard `com.sun.net.httpserver.HttpServer` so you can send paraphrased prompts at a mock LLM, watch the cache decide hit or miss, sweep the cosine-distance threshold, and see the cumulative latency and token savings build up.
 
 ## Overview
 
@@ -20,7 +20,7 @@ Each cache entry is stored as a single Redis [Hash]({{< relref "/develop/data-ty
 
 The lookup is thresholded: [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) always returns the nearest entry that satisfies the filters, but the application only serves it as a hit when the reported cosine distance is at or below `distanceThreshold`. Anything further away is treated as a miss; the caller runs the LLM and writes the new prompt, response, and embedding back to the same key pattern with a TTL.
 
-The embedder is [DJL](https://djl.ai/) loading the [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) PyTorch model from the DJL model zoo. This is the same 384-dimensional encoder the [Python example]({{< relref "/develop/use-cases/semantic-cache/redis-py" >}}) and the [Node.js example]({{< relref "/develop/use-cases/semantic-cache/nodejs" >}}) use. Embeddings produced by the three implementations are semantically equivalent — paraphrase distances differ only at the fourth decimal place — so a cache populated by one demo can be queried by another against the same Redis instance.
+The embedder is [DJL](https://djl.ai/) loading the [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) PyTorch model from the DJL model zoo. This is the same 384-dimensional encoder the [Python example]({{< relref "/develop/use-cases/semantic-cache/redis-py" >}}), the [Node.js example]({{< relref "/develop/use-cases/semantic-cache/nodejs" >}}), and the [Jedis example]({{< relref "/develop/use-cases/semantic-cache/java-jedis" >}}) use. Embeddings produced by the four implementations are semantically equivalent — paraphrase distances differ only at the fourth decimal place — so a cache populated by one demo can be queried by another against the same Redis instance.
 
 That gives you:
 
@@ -51,20 +51,30 @@ When the distance is above the threshold — or there is no candidate in scope a
 ## The cache helper
 
 The `RedisSemanticCache` class wraps the Redis Search index and the lookup / write flow
-([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/semantic-cache/java-jedis/src/main/java/com/redis/semcache/RedisSemanticCache.java)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/semantic-cache/java-lettuce/src/main/java/com/redis/semcache/RedisSemanticCache.java)):
 
 ```java
-import redis.clients.jedis.JedisPooled;
+import io.lettuce.core.ClientOptions;
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.codec.ByteArrayCodec;
+import io.lettuce.core.protocol.ProtocolVersion;
 import com.redis.semcache.RedisSemanticCache;
 import com.redis.semcache.LocalEmbedder;
 import com.redis.semcache.LookupResult;
 import com.redis.semcache.CacheHit;
 
-JedisPooled jedis = new JedisPooled("localhost", 6379);
+RedisClient client = RedisClient.create("redis://localhost:6379");
+client.setOptions(ClientOptions.builder()
+        .protocolVersion(ProtocolVersion.RESP2)
+        .build());
+StatefulRedisConnection<byte[], byte[]> connection =
+        client.connect(ByteArrayCodec.INSTANCE);
+
 LocalEmbedder embedder = LocalEmbedder.create();   // sentence-transformers/all-MiniLM-L6-v2
 
 RedisSemanticCache cache = new RedisSemanticCache(
-        jedis,
+        connection,
         "semcache:idx",
         "cache:",
         384,
@@ -108,6 +118,8 @@ if (result instanceof CacheHit hit) {
 }
 ```
 
+The connection uses Lettuce's `ByteArrayCodec` so the binary float-32 bytes of the embedding can share an `HSET` mapping with the UTF-8 text fields without a second connection. RESP2 is pinned explicitly: Lettuce 6.7 negotiates RESP3 by default, which returns the [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) reply as a map keyed by `results` / `total_results` instead of the flat alternating list the demo's parser expects, and pinning RESP2 keeps the wire format identical to what the Python, Node, and Jedis ports speak.
+
 ### Data model
 
 Each cache entry is one Redis Hash. The vector field is raw little-endian `float32` bytes — no JSON wrapping — because the Redis Search vector encoding expects exactly that. The helper packs the `float[]` with a `ByteBuffer` in `ByteOrder.LITTLE_ENDIAN`, which matches the bytes Redis Search reads and is identical to the encoding the Python and Node ports write.
@@ -144,20 +156,26 @@ FT.CREATE semcache:idx
 
 ### The query
 
-The lookup is a hybrid query: a TAG pre-filter expression in parentheses, then `=>[KNN 1 @embedding $vec]`. With `DIALECT 2`, Redis applies the filter first and KNN-ranks only the matching documents. In Jedis:
+The lookup is a hybrid query: a TAG pre-filter expression in parentheses, then `=>[KNN 1 @embedding $vec]`. With `DIALECT 2`, Redis applies the filter first and KNN-ranks only the matching documents. Lettuce 6.7 doesn't yet ship first-class [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) bindings, so the helper sends the command through `RedisCommands.dispatch()` with a custom `ProtocolKeyword` — the same machinery Lettuce uses internally for any command it does support natively, just spelled out by the caller. The wire bytes are identical to typing the command in `redis-cli`:
 
 ```java
-Query q = new Query(
-        "(@tenant:{acme} @locale:{en} @model_version:{gpt\\-4\\.5\\-2026} @safety:{ok})"
+CommandArgs<byte[], byte[]> args = new CommandArgs<>(ByteArrayCodec.INSTANCE)
+        .add(indexNameBytes)
+        .add("(@tenant:{acme} @locale:{en} @model_version:{gpt\\-4\\.5\\-2026} @safety:{ok})"
                 + "=>[KNN 1 @embedding $vec AS distance]")
-        .returnFields("prompt", "response", "tenant", "locale",
-                "model_version", "hit_count", "distance")
-        .setSortBy("distance", true)
-        .limit(0, 1)
-        .addParam("vec", LocalEmbedder.toBytes(queryVec))
-        .dialect(2);
+        .add("RETURN").add(7)
+        .add("prompt").add("response").add("tenant").add("locale")
+        .add("model_version").add("hit_count").add("distance")
+        .add("SORTBY").add("distance").add("ASC")
+        .add("LIMIT").add(0).add(1)
+        .add("PARAMS").add(2).add("vec".getBytes()).add(LocalEmbedder.toBytes(queryVec))
+        .add("DIALECT").add(2);
 
-SearchResult result = jedis.ftSearch("semcache:idx", q);
+List<Object> raw = sync.dispatch(
+        FtCommand.FT_SEARCH,
+        new NestedMultiOutput<>(ByteArrayCodec.INSTANCE),
+        args
+);
 ```
 
 `distance` is the cosine *distance* (0 means identical, 2 means opposite). The result is sorted ascending, so the top row is the closest candidate. The application inspects `distance` against the threshold and decides hit or miss in user code — Redis returns the row either way, and treating it as a hit or a miss is a policy decision the cache helper owns, not a server-side filter.
@@ -165,7 +183,7 @@ SearchResult result = jedis.ftSearch("semcache:idx", q);
 ## The mock LLM
 
 To make the latency and token savings visible without requiring an API key, `MockLLM.java` provides a deterministic stand-in
-([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/semantic-cache/java-jedis/src/main/java/com/redis/semcache/MockLLM.java)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/semantic-cache/java-lettuce/src/main/java/com/redis/semcache/MockLLM.java)):
 
 ```java
 import com.redis.semcache.MockLLM;
@@ -182,7 +200,7 @@ The mock sleeps for the configured latency, then keyword-matches against a small
 ## Pre-seeding the cache
 
 In a real deployment the cache fills up organically: a first-time question is a miss, the LLM answers, and the response is written back. For the demo, `SeedCache.java` pre-loads a small set of canonical FAQ prompts so the very first query lands on a hit
-([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/semantic-cache/java-jedis/src/main/java/com/redis/semcache/SeedCache.java)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/semantic-cache/java-lettuce/src/main/java/com/redis/semcache/SeedCache.java)):
 
 ```java
 import com.redis.semcache.SeedCache;
@@ -203,7 +221,7 @@ The seed list stores the canonical phrasing of each question ("What is your retu
 * Watch the cumulative panel build up: total queries, cache hits, cache misses, hit ratio, tokens not spent, LLM milliseconds not waited.
 * Inspect every cached entry, including remaining TTL and total hit count, and drop individual entries to simulate eviction.
 
-The server holds one `LocalEmbedder`, one `RedisSemanticCache`, and one `MockLLM` for the lifetime of the process. The HTML page is shared with the Python, Node.js, and Go demos; the build embeds `index.html` from the project root as a classpath resource so the jar runs from any working directory. Endpoints:
+The server holds one `LocalEmbedder`, one `RedisSemanticCache`, and one `MockLLM` for the lifetime of the process. The HTML page is shared with the Python, Node.js, Go, and Jedis demos; the build embeds `index.html` from the project root as a classpath resource so the jar runs from any working directory. Endpoints:
 
 | Endpoint        | What it does                                                                  |
 |-----------------|-------------------------------------------------------------------------------|
@@ -219,14 +237,14 @@ The server holds one `LocalEmbedder`, one `RedisSemanticCache`, and one `MockLLM
 
     ```bash
     git clone https://github.com/redis/docs.git
-    cd docs/content/develop/use-cases/semantic-cache/java-jedis
+    cd docs/content/develop/use-cases/semantic-cache/java-lettuce
     ```
 
 2.  Make sure a Redis instance with the Redis Search module is running locally on
     port 6379. [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
     [Redis 8 with Search]({{< relref "/develop/ai/search-and-query" >}}) both work.
 
-3.  Build the project with Maven. This pulls Jedis, DJL, and the PyTorch native
+3.  Build the project with Maven. This pulls Lettuce, DJL, and the PyTorch native
     libraries. The first build takes a couple of minutes:
 
     ```bash
@@ -237,7 +255,7 @@ The server holds one `LocalEmbedder`, one `RedisSemanticCache`, and one `MockLLM
     PyTorch weights into the local DJL cache (~90 MB); every subsequent run is offline:
 
     ```bash
-    java -jar target/semantic-cache-jedis.jar
+    java -jar target/semantic-cache-lettuce.jar
     ```
 
     Or with `mvn`:
@@ -246,7 +264,7 @@ The server holds one `LocalEmbedder`, one `RedisSemanticCache`, and one `MockLLM
     mvn -q exec:java
     ```
 
-5.  Open <http://localhost:8089> and try some queries:
+5.  Open <http://localhost:8090> and try some queries:
 
     * **"What is your return policy?"** — exact match against the seed, distance ≈ 0,
       hit at any threshold.
@@ -256,11 +274,11 @@ The server holds one `LocalEmbedder`, one `RedisSemanticCache`, and one `MockLLM
       seed; distance around 0.49, still a hit at the default threshold. Slide
       the threshold down to 0.4 to see this one flip to a miss.
     * **"What payment methods do you accept?"** — unrelated to anything in the
-      seed; distance > 0.8, so you'll see a miss, the mock LLM kicks in for
+      seed; distance > 0.65, so you'll see a miss, the mock LLM kicks in for
       ~1.5 s, the new answer is cached, and a follow-up of the same question
       is now an immediate hit.
     * Switch the **Tenant** dropdown to `globex` or `initech` and re-ask any
       seeded question — the result flips to a miss because the cache entries
       live under `acme`. That's the metadata pre-filter at work inside `FT.SEARCH`.
 
-The server is read/write against your local Redis. The default index name is `semcache:idx` and entry keys live under `cache:`. Flags mirror the Python and Node demos: `--no-reset` to keep an existing cache across restarts, `--threshold` to change the default cosine-distance cutoff, `--llm-latency-ms` to make the mock LLM faster or slower for the demo, or `--port` to listen on a different port.
+The server is read/write against your local Redis. The default index name is `semcache:idx` and entry keys live under `cache:`. Flags mirror the Python, Node, and Jedis demos: `--no-reset` to keep an existing cache across restarts, `--threshold` to change the default cosine-distance cutoff, `--llm-latency-ms` to make the mock LLM faster or slower for the demo, or `--port` to listen on a different port.

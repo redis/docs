@@ -147,7 +147,7 @@ The lookup is a hybrid query: a TAG pre-filter expression in parentheses, then `
 ```javascript
 const result = await client.ft.search(
   'semcache:idx',
-  '(@tenant:{acme} @locale:{en} @model_version:{gpt-4.5-2026} @safety:{ok})'
+  '(@tenant:{acme} @locale:{en} @model_version:{gpt\-4\.5\-2026} @safety:{ok})'
     + '=>[KNN 1 @embedding $vec AS distance]',
   {
     PARAMS: { vec: Buffer.from(queryVec.buffer, queryVec.byteOffset, queryVec.byteLength) },
