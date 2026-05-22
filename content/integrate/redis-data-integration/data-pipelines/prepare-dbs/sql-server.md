@@ -334,6 +334,134 @@ For more information about CDC on Azure SQL Database, see Microsoft's
 [Change Data Capture with Azure SQL Database](https://learn.microsoft.com/en-us/azure/azure-sql/database/change-data-capture-overview?view=azuresql)
 guide.
 
+#### Reducing end-to-end latency on Azure SQL Database
+
+Because the capture cadence on Azure SQL Database is fixed at ~20 seconds and
+cannot be tuned, the CDC step alone can add up to that much latency to your
+end-to-end change-propagation time. If your workload needs sub-5-second
+end-to-end latency, you can lower the effective cadence by running an external
+worker that periodically calls the `sys.sp_cdc_scan` stored procedure. Each
+manual call advances the capture log to the current LSN, so the worker's
+polling interval becomes the effective capture cadence.
+
+This is a customer-operated workaround for an Azure platform limitation, not a
+Redis-supplied component. It does not apply to Azure SQL Managed Instance,
+SQL Server on Azure VM, or on-premises SQL Server — those use SQL Server Agent
+and the tunable `pollinginterval` parameter described in
+[SQL Server capture job agent configuration parameters](#sql-server-capture-job-agent-configuration-parameters).
+
+{{< warning >}}Run **only one** instance of the scan worker per source database.
+`sys.sp_cdc_scan` is serialized internally; concurrent callers fail with an
+`sp_replcmds` error rather than running in parallel, so additional replicas
+add no throughput and increase error noise.{{< /warning >}}
+
+##### Requirements
+
+- A database identity with permission to execute `sys.sp_cdc_scan`. This
+  requires `db_owner` and is **more privilege than the Debezium user needs**, so
+  create a separate login dedicated to the scan worker rather than reusing the
+  RDI source credentials.
+- A single-replica runtime (a Kubernetes Deployment with `replicas: 1`, a
+  systemd unit, a serverless cron with `maxConcurrency: 1`, or equivalent).
+- Network access from the worker to the Azure SQL endpoint on TCP 1433.
+
+##### Scan loop
+
+The worker repeatedly opens a connection (or holds a long-lived one), runs
+`EXEC sys.sp_cdc_scan;` with a bounded command timeout, sleeps for the
+configured interval, and handles two expected error classes:
+
+- **Scan already running** — a SQL error referencing `sp_replcmds`. This means
+  the Azure-internal scheduler is mid-scan, or a previous call from this worker
+  has not yet returned. Log and continue; do not back off.
+- **Connection or transport errors** — close and reopen the connection with
+  exponential backoff before the next attempt.
+
+The example below shows the loop in pseudocode:
+
+```text
+loop until shutdown:
+    start = now()
+    try:
+        EXEC sys.sp_cdc_scan        # command timeout: 30s
+        log("scan_ok", now() - start)
+    catch SqlException where message contains "sp_replcmds":
+        log("scan_already_running", now() - start)
+    catch any other exception as e:
+        log("scan_error", e)
+        reconnect with exponential backoff
+    sleep(max(0, interval - (now() - start)))
+```
+
+##### Choosing the interval
+
+The scan interval directly trades end-to-end latency against source-database
+load — each call reads the transaction log. Pick the largest interval that
+meets your latency target:
+
+| Interval | Approximate CDC-step latency | Typical use |
+| --- | --- | --- |
+| 10s | Up to 10s | Default Azure cadence; no worker required. |
+| 5s  | Up to 5s  | Workload tolerates ~5s end-to-end. |
+| 2s  | Up to 2s  | Sub-5-second end-to-end. |
+
+Intervals below 1s are not recommended — each call has a fixed cost on the
+source database and the marginal latency improvement is small.
+
+##### Example Kubernetes deployment
+
+A minimal single-replica deployment skeleton — adapt the image, namespace, and
+secret reference to your environment:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-sql-cdc-scan-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: azure-sql-cdc-scan-worker
+  template:
+    metadata:
+      labels:
+        app: azure-sql-cdc-scan-worker
+    spec:
+      containers:
+        - name: worker
+          image: <your-registry>/<your-scan-worker-image>:<tag>
+          env:
+            - name: SQL_HOST
+              value: <server-name>.database.windows.net
+            - name: SQL_DATABASE
+              value: <database-name>
+            - name: SCAN_INTERVAL_MS
+              value: "2000"
+          envFrom:
+            - secretRef:
+                name: <scan-worker-db-secret>
+```
+
+The secret referenced by `envFrom` must provide the credentials of the
+`db_owner` identity created for the scan worker — not the RDI source
+credentials.
+
+##### Verifying the workaround
+
+After the worker has been running for a few minutes, confirm that the cadence
+has dropped by querying the capture-job state:
+
+```sql
+SELECT TOP 5 start_time, end_time, scan_phase, DATEDIFF(MILLISECOND, start_time, end_time) AS scan_ms
+FROM cdc.dbo_<table>_CT     -- replace with one of your CDC change tables
+ORDER BY start_time DESC
+```
+
+You can also confirm that end-to-end change propagation through RDI now meets
+your latency target by measuring `<change committed in source> → <change visible in Redis>`
+on a representative table.
+
 #### Azure SQL Managed Instance
 
 Follow the on-premises instructions for
