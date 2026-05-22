@@ -8,7 +8,7 @@ categories:
 description: Deploy and operate Feature Form on Kubernetes.
 linkTitle: Deploy
 weight: 60
-bannerText: Feature Form is currently in preview and subject to change. To request access to the Feature Form Docker image, contact your Redis account team.
+bannerText: Feature Form is currently in preview and subject to change. Feature Form Docker images are available on Docker Hub; contact your Redis account team for a license key to deploy.
 bannerChildren: true
 ---
 

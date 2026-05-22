@@ -11,13 +11,13 @@ categories:
 description: Complete examples for every adk-redis capability.
 group: ai
 stack: true
-summary: Seven runnable examples covering Redis Agent Memory, search tools, semantic
+summary: Nine runnable examples covering Redis Agent Memory, search tools, semantic
   caching, and MCP integration.
 type: integration
 weight: 5
 ---
 
-The [adk-redis repository](https://github.com/redis-developer/adk-redis/tree/main/examples) includes seven complete examples. Each focuses on a specific capability.
+The [adk-redis repository](https://github.com/redis-developer/adk-redis/tree/main/examples) includes nine complete examples. Each focuses on a specific capability.
 
 ## Prerequisites
 
@@ -64,9 +64,25 @@ Demonstrates MCP-based memory integration. The agent connects to the Agent Memor
 
 **Capability:** Vector, hybrid, text, and range search
 
-All four RedisVL [search tools]({{< relref "/integrate/google-adk/search-tools" >}}) plugged into a single agent with a product catalog dataset.
+Four in-process RedisVL [search tools]({{< relref "/integrate/google-adk/search-tools" >}}) plugged into a single agent with a product catalog dataset.
 
 [View on GitHub](https://github.com/redis-developer/adk-redis/tree/main/examples/redis_search_tools)
+
+## `redis_sql_search`
+
+**Capability:** SQL `SELECT` search
+
+A 10-product catalog with the `RedisSQLSearchTool`. The agent emits parameterized SQL (`WHERE category = 'electronics' AND price < :max_price`) to answer structured catalog questions. Requires `pip install 'adk-redis[sql]'`.
+
+[View on GitHub](https://github.com/redis-developer/adk-redis/tree/main/examples/redis_sql_search)
+
+## `redisvl_mcp_search`
+
+**Capability:** RedisVL MCP server via ADK's `McpToolset`
+
+The MCP counterpart of `redis_search_tools`. A `rvl mcp` server hosts a knowledge-base index in hybrid (vector + BM25) mode and the agent connects via ADK's native `McpToolset`. No adk-redis wrapper involved; the standard `McpToolset` + `StdioConnectionParams` pattern is used.
+
+[View on GitHub](https://github.com/redis-developer/adk-redis/tree/main/examples/redisvl_mcp_search)
 
 ## `semantic_cache`
 

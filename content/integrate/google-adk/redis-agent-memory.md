@@ -45,7 +45,7 @@ session_service = RedisWorkingMemorySessionService(
     config=RedisWorkingMemorySessionServiceConfig(
         api_base_url="http://localhost:8088",
         default_namespace="my_app",
-        model_name="gemini-2.0-flash",
+        model_name="gemini-2.5-flash",
         context_window_max=8000,
     )
 )

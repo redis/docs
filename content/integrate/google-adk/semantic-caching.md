@@ -45,7 +45,7 @@ provider = RedisVLCacheProvider(
         ttl=3600,
         distance_threshold=0.1,
     ),
-    vectorizer=HFTextVectorizer(model="redis/langcache-embed-v1"),
+    vectorizer=HFTextVectorizer(model="redis/langcache-embed-v2"),
 )
 ```
 
@@ -89,7 +89,7 @@ before_cb, after_cb = create_llm_cache_callbacks(llm_cache)
 
 agent = Agent(
     name="cached_agent",
-    model="gemini-2.0-flash",
+    model="gemini-2.5-flash",
     instruction="You are a helpful assistant.",
     before_model_callback=before_cb,
     after_model_callback=after_cb,
