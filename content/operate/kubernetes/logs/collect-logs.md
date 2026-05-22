@@ -18,7 +18,7 @@ The log collector tool has two modes:
 - **restricted** collects only resources and logs created by the operator and Redis Enterprise deployments
 - **all** collects everything from your environment
 
-{{<note>}} This script requires Python 3.6 or later. {{</note>}}
+{{<note>}} This script requires Python 3.11 or later. {{</note>}}
 
 ## Prerequisites
 

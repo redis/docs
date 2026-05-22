@@ -20,10 +20,10 @@ The **Status** table shows statistics for the whole data pipeline:
 - **Status**: The status of the data pipeline. Possible statuses include:
     | Status | Description |
     |--------|-------------|
-    | {{<image filename="images/rc/rdi/pipeline-status-initial-sync.png#no-click" height=30px alt="Initial Sync" class="inline" >}} | The data pipeline is ingesting all records from the source database into the target database. |
-    | {{<image filename="images/rc/rdi/pipeline-status-streaming.png#no-click" height=30px alt="Streaming" class="inline" >}} | The data pipeline is capturing new changes from the source database as they happen. Changes in the source database are added to the target database within a few seconds. |
-    | {{<image filename="images/rc/rdi/pipeline-status-stopped.png#no-click" height=30px alt="Stopped" class="inline" >}}| The data pipeline has been [stopped](#stop-and-restart-data-pipeline). |
-    | {{<image filename="images/rc/rdi/pipeline-status-error.png#no-click" height=30px alt="Error" class="inline" >}} | There is an error in the data pipeline. [Reset the pipeline](#reset-data-pipeline) and contact support if the issue persists. |
+    | **Initial Sync** | The data pipeline is ingesting all records from the source database into the target database. |
+    | **Streaming** | The data pipeline is capturing new changes from the source database as they happen. Changes in the source database are added to the target database within a few seconds. |
+    | **Stopped**| The data pipeline has been [stopped](#stop-and-restart-data-pipeline). |
+    | **Error** | There is an error in the data pipeline. [Reset the pipeline](#reset-data-pipeline) and contact support if the issue persists. |
 - **Total ingested**: Total number of records ingested from the source database.
 - **Total inserted**: Total number of records inserted into the target database.
 - **Total filtered**: Total number of records filtered from being inserted into the target database.
@@ -62,10 +62,6 @@ To change the data you want to ingest from the data pipeline:
 
     If any tables are missing a unique constraint, a warning will appear in the **Data modeling** section. Select **Manage columns** to select the columns that define a unique constraint for those tables.
 
-    {{<image filename="images/rc/rdi/rdi-missing-unique-constraint.png" alt="The missing unique constraint list." width=75% >}}
-
-    {{<image filename="images/rc/rdi/rdi-select-constraints.png" alt="The missing unique constraint list with columns selected." width=75% >}}
-
     Select **Save** to save your column changes and go back to schema selection.
 
     {{<image filename="images/rc/button-save.png" alt="The save button." width=100px >}}
@@ -90,6 +86,13 @@ To change the data you want to ingest from the data pipeline:
     {{<image filename="images/rc/rdi/rdi-transformation-jobs.png" alt="The transformation jobs section. Select Upload jobs to upload transformation jobs." >}}
 
     When you upload job files, Redis Cloud will validate the job files to check for errors. 
+
+    Select **Continue**.
+    {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
+
+1. In the **Advanced properties** section, you can add any processor properties to control how the data is processed. See the [RDI configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}}) for all available processor properties.
+
+    {{<image filename="images/rc/rdi/rdi-processor-properties.png" alt="The advanced properties section with processor properties." >}}
 
     Select **Continue**.
     {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}

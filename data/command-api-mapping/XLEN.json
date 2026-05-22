@@ -1,0 +1,329 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "xlen(name: KeyT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long xlen(byte[] key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "length of stream"
+        }
+      },
+      {
+        "signature": "long xlen(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "length of stream"
+        }
+      },
+      {
+        "signature": "long xlen(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "length of stream"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long xlen(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "simple-reply the lenght of the stream."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> xlen(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "simple-reply the lenght of the stream."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> xlen(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "simple-reply the lenght of the stream."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "XLen(ctx context.Context, stream string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "stream",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "XLEN(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "xlen(key: RedisKey, callback?: Callback<number>): Result<number, Context>;, /**, * Return information and entries from a stream consumer group pending entries list, that are messages fetched but never acknowledged., * - _group_: stream, * - _complexity_: O(N) with N being the number of elements returned, so asking for a small fixed number of entries per call is O(1). O(M), where M is the total number of entries scanned when used with the IDLE filter. When the command returns just the summary and the list of consumers is small, it runs in O(1) time; otherwise, an additional O(N) time for iterating every consumer., * - _since_: 5.0.0, */, xpending(, key: RedisKey, group: string | Buffer, callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>)",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "xlen(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "usize",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "xlen(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "usize",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StreamLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of entries inside the given stream."
+        }
+      },
+      {
+        "signature": "StreamLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of entries inside the given stream."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StreamLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of entries inside the given stream."
+        }
+      },
+      {
+        "signature": "StreamLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of entries inside the given stream."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "xlen(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xlen(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of entries"
+        }
+      }
+    ]
+  }
+}

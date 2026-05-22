@@ -1,0 +1,422 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "brpoplpush(src: KeyT, dst: KeyT, timeout: Optional[Number] = 0)",
+        "params": [
+          {
+            "name": "src",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "dst",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "Optional[Number] = 0",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[Optional[str]], Optional[str]]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String brpoplpush(final String source, final String destination, final int timeout)",
+        "params": [
+          {
+            "name": "source",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "int",
+            "description": "seconds to block. A timeout of zero can be used to block indefinitely."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "The element being popped from source and pushed to destination @deprecated Use ListCommands#blmove(String, String, ListDirection, ListDirection, double) with ListDirection#RIGHT and ListDirection#LEFT. Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 6.2.0."
+        }
+      },
+      {
+        "signature": "String brpoplpush(String source, String destination, int timeout)",
+        "params": [
+          {
+            "name": "source",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "int",
+            "description": "seconds to block. A timeout of zero can be used to block indefinitely."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "The element being popped from source and pushed to destination @deprecated Use ListCommands#blmove(String, String, ListDirection, ListDirection, double) with ListDirection#RIGHT and ListDirection#LEFT. Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 6.2.0."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "V brpoplpush(long timeout, K source, K destination)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          }
+        ],
+        "returns": {
+          "type": "V",
+          "description": "V bulk-string-reply the element being popped from source and pushed to destination. If timeout is reached, a. @since 6.1.3"
+        }
+      },
+      {
+        "signature": "V brpoplpush(double timeout, K source, K destination)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          }
+        ],
+        "returns": {
+          "type": "V",
+          "description": "V bulk-string-reply the element being popped from source and pushed to destination. If timeout is reached, a. @since 6.1.3"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<V> brpoplpush(long timeout, K source, K destination)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<V>",
+          "description": "V bulk-string-reply the element being popped from source and pushed to destination. If timeout is reached, a. @since 6.1.3"
+        }
+      },
+      {
+        "signature": "RedisFuture<V> brpoplpush(double timeout, K source, K destination)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<V>",
+          "description": "V bulk-string-reply the element being popped from source and pushed to destination. If timeout is reached, a. @since 6.1.3"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<V> brpoplpush(long timeout, K source, K destination)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<V>",
+          "description": "V bulk-string-reply the element being popped from source and pushed to destination. If timeout is reached, a. @since 6.1.3"
+        }
+      },
+      {
+        "signature": "Mono<V> brpoplpush(double timeout, K source, K destination)",
+        "params": [
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          },
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<V>",
+          "description": "V bulk-string-reply the element being popped from source and pushed to destination. If timeout is reached, a. @since 6.1.3"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BRPopLPush(ctx context.Context, source, destination string, timeout time.Duration)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "source",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "time.Duration",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "brpoplpush(source: RedisKey, destination: RedisKey, timeout: number | string, callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "brpoplpush(srckey: S, dstkey: D, timeout: f64)",
+        "params": [
+          {
+            "name": "srckey",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "dstkey",
+            "type": "D",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "f64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "brpoplpush(srckey: S, dstkey: D, timeout: f64)",
+        "params": [
+          {
+            "name": "srckey",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "dstkey",
+            "type": "D",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "f64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "BRPopLPush(RedisKey source, RedisKey destination, double timeout)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": "The key of the source list."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the destination list."
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue?",
+          "description": "The element being popped and pushed, or null if the server timeout expires."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "brpoplpush(string $source, string $destination, int|float $timeout)",
+        "params": [
+          {
+            "name": "$source",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$timeout",
+            "type": "int|float",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string|null",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "brpoplpush(source, destination, timeout: 0)",
+        "params": [
+          {
+            "name": "source",
+            "type": "String",
+            "description": "source key"
+          },
+          {
+            "name": "destination",
+            "type": "String",
+            "description": "destination key"
+          },
+          {
+            "name": "timeout",
+            "type": "Float, Integer",
+            "description": "timeout in seconds"
+          }
+        ],
+        "returns": {
+          "type": "nil, String",
+          "description": "the element was popped and pushed"
+        }
+      }
+    ]
+  }
+}

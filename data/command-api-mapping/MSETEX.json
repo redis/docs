@@ -1,0 +1,252 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "msetex(, mapping: Mapping[AnyKeyT, EncodableT],, data_persist_option: Optional[DataPersistOptions] = None,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, keepttl: bool = False,)",
+        "params": [
+          {
+            "name": "mapping",
+            "type": "Mapping[AnyKeyT, EncodableT]",
+            "description": ""
+          },
+          {
+            "name": "data_persist_option",
+            "type": "Optional[DataPersistOptions] = None",
+            "description": ""
+          },
+          {
+            "name": "ex",
+            "type": "Optional[ExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "px",
+            "type": "Optional[ExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "exat",
+            "type": "Optional[AbsExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "pxat",
+            "type": "Optional[AbsExpiryT] = None",
+            "description": ""
+          },
+          {
+            "name": "keepttl",
+            "type": "bool = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[int], int]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "boolean msetex(final MSetExParams params, final byte[]... keysvalues)",
+        "params": [
+          {
+            "name": "params",
+            "type": "MSetExParams",
+            "description": ""
+          },
+          {
+            "name": "keysvalues",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "1 if the all the keys were set, 0 if no key was set (at least one key already existed)"
+        }
+      },
+      {
+        "signature": "boolean msetex(final MSetExParams params, final String... keysvalues)",
+        "params": [
+          {
+            "name": "params",
+            "type": "MSetExParams",
+            "description": ""
+          },
+          {
+            "name": "keysvalues",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "1 if the all the keys were set, 0 if no key was set (at least one key already existed)"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Boolean msetex(Map<K, V> map, MSetExArgs args)",
+        "params": [
+          {
+            "name": "map",
+            "type": "Map<K, V>",
+            "description": "the map of keys and values."
+          },
+          {
+            "name": "args",
+            "type": "MSetExArgs",
+            "description": "the MSetExArgs specifying NX/XX and expiration."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean from integer-reply: 1 if all keys were set, 0 otherwise. @since 7.1"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Boolean> msetex(Map<K, V> map, MSetExArgs args)",
+        "params": [
+          {
+            "name": "map",
+            "type": "Map<K, V>",
+            "description": "the map of keys and values."
+          },
+          {
+            "name": "args",
+            "type": "MSetExArgs",
+            "description": "the MSetExArgs specifying NX/XX and expiration."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "Boolean from integer-reply: 1 if all keys were set, 0 otherwise. @since 7.1"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Boolean> msetex(Map<K, V> map, MSetExArgs args)",
+        "params": [
+          {
+            "name": "map",
+            "type": "Map<K, V>",
+            "description": "the map of keys and values."
+          },
+          {
+            "name": "args",
+            "type": "MSetExArgs",
+            "description": "the MSetExArgs specifying NX/XX and expiration."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "Boolean from integer-reply: 1 if all keys were set, 0 otherwise. @since 7.1"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "MSetEX(ctx context.Context, args MSetEXArgs, values ...interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "args",
+            "type": "MSetEXArgs",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "...interface{}",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "mset_ex(items: &'a [(K, V)], options: MSetOptions)",
+        "params": [
+          {
+            "name": "items",
+            "type": "&'a [(K, V)]",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "MSetOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "mset_ex(items: &'a [(K, V)], options: MSetOptions)",
+        "params": [
+          {
+            "name": "items",
+            "type": "&'a [(K, V)]",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "MSetOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "msetex(array $dictionary, ?string $existModifier = null, ?string $expireResolution = null, ?int $expireTTL = null)",
+        "params": [
+          {
+            "name": "$dictionary",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "?string $existModifier = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "?string $expireResolution = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "?int $expireTTL = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

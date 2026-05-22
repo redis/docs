@@ -1,0 +1,191 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "loadchunk(key, iter, data)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "iter",
+            "type": "int",
+            "description": "Iterator from SCANDUMP"
+          },
+          {
+            "name": "data",
+            "type": "bytes",
+            "description": "Data from SCANDUMP"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String cfLoadChunk(String key, long iterator, byte[] data)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "iterator",
+            "type": "long",
+            "description": "Iterator from SCANDUMP"
+          },
+          {
+            "name": "data",
+            "type": "byte[]",
+            "description": "Data from SCANDUMP"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "CFLoadChunk(ctx context.Context, key string, iterator int64, data interface{}) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "iterator",
+            "type": "int64",
+            "description": "Iterator from SCANDUMP"
+          },
+          {
+            "name": "data",
+            "type": "interface{}",
+            "description": "Data from SCANDUMP"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "Status command result"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "CF.LOADCHUNK(key: RedisArgument, iterator: number, data: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "iterator",
+            "type": "number",
+            "description": "Iterator from SCANDUMP"
+          },
+          {
+            "name": "data",
+            "type": "RedisArgument",
+            "description": "Data from SCANDUMP"
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "bool LoadChunk(RedisKey key, long iterator, Byte[] data)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "iterator",
+            "type": "long",
+            "description": "Iterator from SCANDUMP"
+          },
+          {
+            "name": "data",
+            "type": "Byte[]",
+            "description": "Data from SCANDUMP"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true on success"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "async Task<bool> LoadChunkAsync(RedisKey key, long iterator, Byte[] data)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "iterator",
+            "type": "long",
+            "description": "Iterator from SCANDUMP"
+          },
+          {
+            "name": "data",
+            "type": "Byte[]",
+            "description": "Data from SCANDUMP"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true on success"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "cfloadchunk(string $key, int $iterator, $data)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "$iterator",
+            "type": "int",
+            "description": "Iterator from SCANDUMP"
+          },
+          {
+            "name": "$data",
+            "type": "mixed",
+            "description": "Data from SCANDUMP"
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": "OK on success"
+        }
+      }
+    ]
+  }
+}

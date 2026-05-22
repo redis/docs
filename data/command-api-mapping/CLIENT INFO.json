@@ -1,0 +1,111 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "client_info(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "dict",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String clientInfo()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClientInfo(ctx context.Context) *ClientInfoCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*ClientInfoCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "clientInfo()",
+        "params": [],
+        "returns": {
+          "type": "ClientInfoReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String clientInfo()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clientInfo()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clientInfo()",
+        "params": [],
+        "returns": {
+          "type": "Mono<String>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "client(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

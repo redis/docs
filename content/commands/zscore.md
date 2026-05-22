@@ -47,7 +47,6 @@ railroad_diagram: /images/railroad/zscore.svg
 since: 1.2.0
 summary: Returns the score of a member in a sorted set.
 syntax_fmt: ZSCORE key member
-syntax_str: member
 title: ZSCORE
 ---
 Returns the score of `member` in the sorted set at `key`.
@@ -62,9 +61,9 @@ ZADD myzset 1 "one"
 ZSCORE myzset "one"
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

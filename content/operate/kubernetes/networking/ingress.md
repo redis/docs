@@ -123,7 +123,7 @@ You can use the code below to test your access with Python, substituting your ow
 ``` python
 import redis
 
-r = redis.StrictRedis(host='<my-db-hostname>',
+r = redis.Redis(host='<my-db-hostname>',
               port=443, db=0, ssl=True,
               ssl_ca_certs='/<file-path>/proxy_cert.pem')
 
@@ -134,7 +134,7 @@ print(r.info())
 Your output should look something like this:  
 
 ``` sh
-$ /Users/example-user/Documents/Projects/test_client/venv3.7/bin/python \
+$ /Users/example-user/Documents/Projects/test_client/venv/bin/python \
     /Users/example-user/Documents/Projects/test_client/test_ssl.py
 {
     'redis_version': '5.0.5',

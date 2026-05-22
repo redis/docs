@@ -54,7 +54,6 @@ since: 1.2.0
 summary: Removes one or more members from a sorted set. Deletes the sorted set if
   all members were removed.
 syntax_fmt: ZREM key member [member ...]
-syntax_str: member [member ...]
 title: ZREM
 ---
 Removes the specified members from the sorted set stored at `key`.
@@ -72,9 +71,9 @@ ZREM myzset "two"
 ZRANGE myzset 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

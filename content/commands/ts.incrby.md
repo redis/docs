@@ -96,8 +96,6 @@ syntax: "TS.INCRBY key addend \n  [TIMESTAMP timestamp] \n  [RETENTION retention
   \ ...]]\n"
 syntax_fmt: "TS.INCRBY key value [TIMESTAMP\_timestamp]\n  [RETENTION\_retentionPeriod]\
   \ [UNCOMPRESSED] [CHUNK_SIZE\_size]\n  [LABELS\_label value [label value ...]]"
-syntax_str: "value [TIMESTAMP\_timestamp] [RETENTION\_retentionPeriod] [UNCOMPRESSED]\
-  \ [CHUNK_SIZE\_size] [LABELS\_label value [label value ...]]"
 title: TS.INCRBY
 ---
 
@@ -114,7 +112,7 @@ is key name for the time series.
 
 <details open><summary><code>addend</code></summary> 
 
-is numeric value of the addend (double).
+is numeric value of the addend (double). An error is returned if the addend is NaN.
 </details>
 
 <note><b>Notes</b>
@@ -134,9 +132,11 @@ Unix time is the number of milliseconds that have elapsed since 00:00:00 UTC on 
 
 `timestamp` must be equal to or higher than the maximum existing timestamp. When equal, the value of the sample with the maximum existing timestamp is increased. If it is higher, a new sample with a timestamp set to `timestamp` is created, and its value is set to the value of the sample with the maximum existing timestamp plus `addend`.
 
-If the time series is empty, the value is set to `addend`. 
-  
+If the time series is empty, the value is set to `addend`.
+
 When not specified, the timestamp is set to the Unix time of the server's clock.
+
+<note><b>NaN Handling (Redis 8.6+):</b> An error is returned if the current value at the maximum existing timestamp is NaN.</note>
 </details>
 
 <details open><summary><code>RETENTION retentionPeriod</code></summmary> 
@@ -234,12 +234,11 @@ Suppose a sensor ticks whenever a car is passed on a road, and you want to count
 The timestamp is filled automatically.
 </details>
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

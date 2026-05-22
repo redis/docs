@@ -7,7 +7,7 @@ rootQuestion: cacheTarget
 questions:
     cacheTarget:
         text: |
-            Do you want to use Redis as the target database for caching data?
+            Do you want to use Redis as the target database?
         whyAsk: |
             RDI is specifically designed to keep Redis in sync with a primary database. If you don't need Redis as a cache, RDI is not the right tool.
         answers:
@@ -17,6 +17,21 @@ questions:
                     label: "❌ RDI only works with Redis as the target database"
                     id: noRedisCache
                     sentiment: "negative"
+            yes:
+                value: "Yes"
+                nextQuestion: deployment
+    deployment:
+        text: |
+            Do you want a self-managed solution or an AWS-based solution?
+        whyAsk: |
+            RDI is available as a self-managed solution or as an AWS-based managed service. If you need a different deployment model, RDI may not be suitable.
+        answers:
+            no:
+                value: "No"
+                outcome:
+                    label: "⚠️ Check deployment options to see if RDI is suitable for your needs before proceeding"
+                    id: deploymentMismatch
+                    sentiment: "indeterminate"
             yes:
                 value: "Yes"
                 nextQuestion: singleSource
@@ -34,6 +49,21 @@ questions:
                     sentiment: "negative"
             yes:
                 value: "Yes"
+                nextQuestion: consistency
+    consistency:
+        text: |
+            Can your app tolerate eventual consistency in the Redis cache?
+        whyAsk: |
+            RDI provides eventual consistency, not immediate consistency. If your app needs real-time cache consistency or hard latency limits, RDI is not suitable.
+        answers:
+            no:
+                value: "No"
+                outcome:
+                    label: "⚠️ Check that RDI's performance meets your latency requirements before proceeding (RDI can't guarantee *immediate* consistency)"
+                    id: needsImmediate
+                    sentiment: "indeterminate"
+            yes:
+                value: "Yes"
                 nextQuestion: systemOfRecord
     systemOfRecord:
         text: |
@@ -49,36 +79,6 @@ questions:
                     sentiment: "negative"
             yes:
                 value: "Yes"
-                nextQuestion: consistency
-    consistency:
-        text: |
-            Can your app tolerate eventual consistency in the Redis cache?
-        whyAsk: |
-            RDI provides eventual consistency, not immediate consistency. If your app needs real-time cache consistency or hard latency limits, RDI is not suitable.
-        answers:
-            no:
-                value: "No"
-                outcome:
-                    label: "❌ RDI does not provide immediate cache consistency"
-                    id: needsImmediate
-                    sentiment: "negative"
-            yes:
-                value: "Yes"
-                nextQuestion: deployment
-    deployment:
-        text: |
-            Do you want a self-managed solution or an AWS-based solution?
-        whyAsk: |
-            RDI is available as a self-managed solution or as an AWS-based managed service. If you need a different deployment model, RDI may not be suitable.
-        answers:
-            no:
-                value: "No"
-                outcome:
-                    label: "❌ RDI may not be suitable - check deployment options"
-                    id: deploymentMismatch
-                    sentiment: "negative"
-            yes:
-                value: "Yes"
                 nextQuestion: dataChangePattern
     dataChangePattern:
         text: |
@@ -89,9 +89,9 @@ questions:
             no:
                 value: "No"
                 outcome:
-                    label: "❌ RDI will fail with batch/ETL processes and large transactions"
+                    label: "⚠️ Check that RDI can handle your data change pattern before proceeding (RDI will fail with batch/ETL processes and transactions beyond a certain size)"
                     id: batchProcessing
-                    sentiment: "negative"
+                    sentiment: "indeterminate"
             yes:
                 value: "Yes"
                 nextQuestion: changeRate
@@ -104,9 +104,9 @@ questions:
             no:
                 value: "No"
                 outcome:
-                    label: "❌ RDI throughput limits will be exceeded"
+                    label: "⚠️ RDI is fast but there are practical limits on throughput - check that RDI can handle your change rate before proceeding"
                     id: exceedsChangeRate
-                    sentiment: "negative"
+                    sentiment: "indeterminate"
             yes:
                 value: "Yes"
                 nextQuestion: dataSize
@@ -120,9 +120,9 @@ questions:
             no:
                 value: "No"
                 outcome:
-                    label: "❌ RDI may not be suitable - your data set is probably too large"
+                    label: "⚠️ RDI might be unacceptably slow during the full-sync phase. Check that performance will be acceptable for your needs"
                     id: dataTooLarge
-                    sentiment: "negative"
+                    sentiment: "indeterminate"
             yes:
                 value: "Yes"
                 nextQuestion: joins
@@ -135,9 +135,9 @@ questions:
             yes:
                 value: "Yes"
                 outcome:
-                    label: "❌ RDI may not be suitable - complex joins are not well supported"
+                    label: "⚠️ RDI may not be suitable - complex joins are not well supported, so check that RDI's data transformations will meet your needs"
                     id: complexJoins
-                    sentiment: "negative"
+                    sentiment: "indeterminate"
             no:
                 value: "No"
                 nextQuestion: transformations
@@ -150,9 +150,9 @@ questions:
             no:
                 value: "No"
                 outcome:
-                    label: "❌ RDI may not be able to perform the required data transformations"
+                    label: "⚠️ RDI supports a wide range of data transformations, but doesn't support free-form code execution. Check that RDI's data transformations will meet your needs"
                     id: unsupportedTransformations
-                    sentiment: "negative"
+                    sentiment: "indeterminate"
             yes:
                 value: "Yes"
                 nextQuestion: adminReview
@@ -166,9 +166,9 @@ questions:
             no:
                 value: "No"
                 outcome:
-                    label: "❌ RDI requirements for the source database can't be met"
-                    id: adminRejected
-                    sentiment: "negative"
+                    label: "⚠️ RDI has requirements that might conflict with practical considerations for your database (such as security policies). Check with your DBA before proceeding"
+                    id: adminReviewNeeded
+                    sentiment: "indeterminate"
             yes:
                 value: "Yes"
                 outcome:

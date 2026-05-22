@@ -4,7 +4,7 @@ categories:
 - docs
 - operate
 - rs
-description: Update certificates in a Redis Enterprise cluster.
+description: Update certificates in a Redis Software cluster.
 linkTitle: Update certificates
 title: Update certificates
 weight: 20
@@ -13,6 +13,10 @@ weight: 20
 {{<warning>}}
 When you update the certificates, the new certificate replaces the same certificates on all nodes in the cluster.
 {{</warning>}}
+
+## Prerequisites
+
+You need to create new certificates before you can update them in the cluster. To create replacement certificates, see [Renew self-signed certificates]({{<relref "/operate/rs/security/certificates/create-certificates#renew-self-signed-certificates">}}) or [Create CA-signed certificates]({{<relref "/operate/rs/security/certificates/create-certificates#create-ca-signed-certificates">}}) for detailed instructions.
 
 ## How to update certificates
 
@@ -68,7 +72,7 @@ rladmin cluster certificate set cm certificate_file cluster.pem key_file key.pem
 
 To replace a certificate using the REST API, use an [update cluster certificates]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates">}}) request.
 
-For Redis Enterprise Software versions 7.22.2 and later, use:
+For Redis Software versions 7.22.2 and later, use:
 
 ```sh
 PUT https://<host>:<port>/v1/cluster/certificates
@@ -83,7 +87,7 @@ PUT https://<host>:<port>/v1/cluster/certificates
 }
 ```
 
-For Redis Enterprise Software versions 7.22.0 and earlier, use:
+For Redis Software versions 7.22.0 and earlier, use:
 
 ```sh
 PUT https://<host>:<port>/v1/cluster/update_cert

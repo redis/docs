@@ -51,7 +51,6 @@ since: 1.0.0
 summary: Increments the integer value of a key by a number. Uses 0 as initial value
   if the key doesn't exist.
 syntax_fmt: INCRBY key increment
-syntax_str: increment
 title: INCRBY
 ---
 Increments the number stored at `key` by `increment`.
@@ -69,9 +68,9 @@ SET mykey "10"
 INCRBY mykey 5
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

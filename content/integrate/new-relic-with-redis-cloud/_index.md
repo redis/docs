@@ -62,6 +62,10 @@ Get metrics from Redis Cloud:
       - targets: ["REDIS_CLOUD_HOST:8070"]
 ```
 
+Replace `REDIS_CLOUD_HOST` with the [Prometheus endpoint for your database]({{< relref "/operate/rc/databases/monitor-performance#connect-to-prometheus" >}}), which you can get from the [Redis Cloud console](https://cloud.redis.io/). 
+
+{{< embed-md "rc-get-prometheus-endpoint.md" >}}
+
 Write them to New Relic:
 
 ```yaml
@@ -76,7 +80,7 @@ remote_write:
 
 ## View metrics
 
-The Redis Cloud Integration for New Relic contains pre-defined dashboards to aid in monitoring your Redis Enterprise deployment.
+The Redis Cloud Integration for New Relic contains pre-defined dashboards to aid in monitoring your Redis Software deployment.
 
 The following dashboards are currently available:
 

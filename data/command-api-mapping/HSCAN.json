@@ -1,0 +1,816 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "hscan(, name: KeyT,, cursor: int = 0,, match: Union[PatternT, None] = None,, count: Optional[int] = None,, no_values: Union[bool, None] = None,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "cursor",
+            "type": "int = 0",
+            "description": ""
+          },
+          {
+            "name": "match",
+            "type": "Union[PatternT, None] = None",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "no_values",
+            "type": "Union[bool, None] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "ScanResult<Map.Entry<byte[], byte[]>> hscan(final byte[] key, final byte[] cursor final ScanParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "byte[] cursor final ScanParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ScanResult<Map.Entry<byte[], byte[]>>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ScanResult<Map.Entry<String, String>> hscan(final String key, final String cursor final ScanParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "String cursor final ScanParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ScanResult<Map.Entry<String, String>>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ScanResult<String> hscanNoValues(final String key, final String cursor, final ScanParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "cursor",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "ScanParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ScanResult<String>",
+          "description": "OK @deprecated Use Jedis#set(String, String, redis.clients.jedis.params.SetParams) with redis.clients.jedis.params.SetParams#px(long). Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 2.6.12."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "MapScanCursor<K, V> hscan(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "MapScanCursor<K, V>",
+          "description": "StreamScanCursor scan cursor."
+        }
+      },
+      {
+        "signature": "KeyScanCursor<K> hscanNovalues(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "KeyScanCursor<K>",
+          "description": "StreamScanCursor scan cursor. @since 6.4"
+        }
+      },
+      {
+        "signature": "MapScanCursor<K, V> hscan(K key, ScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "scanArgs",
+            "type": "ScanArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "MapScanCursor<K, V>",
+          "description": "StreamScanCursor scan cursor."
+        }
+      },
+      {
+        "signature": "KeyScanCursor<K> hscanNovalues(K key, ScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "scanArgs",
+            "type": "ScanArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "KeyScanCursor<K>",
+          "description": "StreamScanCursor scan cursor. @since 6.4"
+        }
+      },
+      {
+        "signature": "MapScanCursor<K, V> hscan(K key, ScanCursor scanCursor, ScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "scanCursor",
+            "type": "ScanCursor",
+            "description": "cursor to resume from a previous scan, must not be null."
+          },
+          {
+            "name": "scanArgs",
+            "type": "ScanArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "MapScanCursor<K, V>",
+          "description": "StreamScanCursor scan cursor."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<MapScanCursor<K, V>> hscan(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<MapScanCursor<K, V>>",
+          "description": "StreamScanCursor scan cursor."
+        }
+      },
+      {
+        "signature": "RedisFuture<KeyScanCursor<K>> hscanNovalues(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyScanCursor<K>>",
+          "description": "StreamScanCursor scan cursor. @since 6.4"
+        }
+      },
+      {
+        "signature": "RedisFuture<MapScanCursor<K, V>> hscan(K key, ScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "scanArgs",
+            "type": "ScanArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<MapScanCursor<K, V>>",
+          "description": "StreamScanCursor scan cursor."
+        }
+      },
+      {
+        "signature": "RedisFuture<KeyScanCursor<K>> hscanNovalues(K key, ScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "scanArgs",
+            "type": "ScanArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<KeyScanCursor<K>>",
+          "description": "StreamScanCursor scan cursor. @since 6.4"
+        }
+      },
+      {
+        "signature": "RedisFuture<MapScanCursor<K, V>> hscan(K key, ScanCursor scanCursor, ScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "scanCursor",
+            "type": "ScanCursor",
+            "description": "cursor to resume from a previous scan, must not be null."
+          },
+          {
+            "name": "scanArgs",
+            "type": "ScanArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<MapScanCursor<K, V>>",
+          "description": "StreamScanCursor scan cursor."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<MapScanCursor<K, V>> hscan(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<MapScanCursor<K, V>>",
+          "description": "StreamScanCursor scan cursor. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #hscan."
+        }
+      },
+      {
+        "signature": "Mono<KeyScanCursor<K>> hscanNovalues(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyScanCursor<K>>",
+          "description": "StreamScanCursor scan cursor. @deprecated since 6.4 in favor of consuming large results through the org.reactivestreams.Publisher returned by #hscanNovalues."
+        }
+      },
+      {
+        "signature": "Mono<MapScanCursor<K, V>> hscan(K key, ScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "scanArgs",
+            "type": "ScanArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<MapScanCursor<K, V>>",
+          "description": "StreamScanCursor scan cursor. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #hscan."
+        }
+      },
+      {
+        "signature": "Mono<KeyScanCursor<K>> hscanNovalues(K key, ScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "scanArgs",
+            "type": "ScanArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<KeyScanCursor<K>>",
+          "description": "StreamScanCursor scan cursor. @deprecated since 6.4 in favor of consuming large results through the org.reactivestreams.Publisher returned by #hscanNovalues."
+        }
+      },
+      {
+        "signature": "Mono<MapScanCursor<K, V>> hscan(K key, ScanCursor scanCursor, ScanArgs scanArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "scanCursor",
+            "type": "ScanCursor",
+            "description": "cursor to resume from a previous scan, must not be null."
+          },
+          {
+            "name": "scanArgs",
+            "type": "ScanArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<MapScanCursor<K, V>>",
+          "description": "StreamScanCursor scan cursor. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #hscan."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "HScan(ctx context.Context, key string, cursor uint64, match string, count int64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "cursor",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "match",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ScanCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "HScanNoValues(ctx context.Context, key string, cursor uint64, match string, count int64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "cursor",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "match",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ScanCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "HSCAN(key: RedisArgument, cursor: RedisArgument, options?: ScanCommonOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "cursor",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "ScanCommonOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "hscan(key: RedisKey, cursor: number | string, callback?: Callback<[cursor: string, elements: string[]]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "cursor",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<[cursor",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hscan(key: RedisKey, cursor: number | string, countToken: \"COUNT\", count: number | string, callback?: Callback<[cursor: string, elements: string[]]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "cursor",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "countToken",
+            "type": "\"COUNT\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<[cursor",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hscan(key: RedisKey, cursor: number | string, patternToken: \"MATCH\", pattern: string, callback?: Callback<[cursor: string, elements: string[]]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "cursor",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "patternToken",
+            "type": "\"MATCH\"",
+            "description": ""
+          },
+          {
+            "name": "pattern",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<[cursor",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hscan(key: RedisKey, cursor: number | string, patternToken: \"MATCH\", pattern: string, countToken: \"COUNT\", count: number | string, callback?: Callback<[cursor: string, elements: string[]]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "cursor",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "patternToken",
+            "type": "\"MATCH\"",
+            "description": ""
+          },
+          {
+            "name": "pattern",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "countToken",
+            "type": "\"COUNT\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<[cursor",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "HashScan(RedisKey key, RedisValue pattern, int pageSize, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "pattern",
+            "type": "RedisValue",
+            "description": "The pattern of keys to get entries for."
+          },
+          {
+            "name": "pageSize",
+            "type": "int",
+            "description": "The page size to iterate by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "IEnumerable<HashEntry>",
+          "description": "Yields all elements of the hash matching the pattern."
+        }
+      },
+      {
+        "signature": "HashScan(RedisKey key, RedisValue pattern = default, int pageSize = RedisBase.CursorUtils.DefaultLibraryPageSize, long cursor = RedisBase.CursorUtils.Origin, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "pattern",
+            "type": "RedisValue",
+            "description": "The pattern of keys to get entries for."
+          },
+          {
+            "name": "pageSize",
+            "type": "int",
+            "description": "The page size to iterate by."
+          },
+          {
+            "name": "cursor",
+            "type": "long",
+            "description": "The cursor position to start at."
+          },
+          {
+            "name": "pageOffset",
+            "type": "int",
+            "description": "The page offset to start at."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "IEnumerable<HashEntry>",
+          "description": "Yields all elements of the hash matching the pattern."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "HashScan(RedisKey key, RedisValue pattern, int pageSize, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "pattern",
+            "type": "RedisValue",
+            "description": "The pattern of keys to get entries for."
+          },
+          {
+            "name": "pageSize",
+            "type": "int",
+            "description": "The page size to iterate by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "IEnumerable<HashEntry>",
+          "description": "Yields all elements of the hash matching the pattern."
+        }
+      },
+      {
+        "signature": "HashScan(RedisKey key, RedisValue pattern = default, int pageSize = RedisBase.CursorUtils.DefaultLibraryPageSize, long cursor = RedisBase.CursorUtils.Origin, int pageOffset = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "pattern",
+            "type": "RedisValue",
+            "description": "The pattern of keys to get entries for."
+          },
+          {
+            "name": "pageSize",
+            "type": "int",
+            "description": "The page size to iterate by."
+          },
+          {
+            "name": "cursor",
+            "type": "long",
+            "description": "The cursor position to start at."
+          },
+          {
+            "name": "pageOffset",
+            "type": "int",
+            "description": "The page offset to start at."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "IEnumerable<HashEntry>",
+          "description": "Yields all elements of the hash matching the pattern."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "hscan(string $key, $cursor, ?array $options = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$cursor",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "?array $options = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "hscan(key, cursor, **options)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "cursor",
+            "type": "String, Integer",
+            "description": "the cursor of the iteration"
+          },
+          {
+            "name": "match",
+            "type": "String",
+            "description": "only return keys matching the pattern"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "return count keys at most per iteration"
+          },
+          {
+            "name": "novalues",
+            "type": "Boolean",
+            "description": "whether or not to include values in the output"
+          }
+        ],
+        "returns": {
+          "type": "Array",
+          "description": "the next cursor and all found keys"
+        }
+      }
+    ]
+  }
+}

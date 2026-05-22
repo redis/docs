@@ -1,5 +1,7 @@
 ---
-aliases: /develop/connect/clients/client-side-caching
+aliases:
+- /develop/connect/clients/client-side-caching
+- /manual/client-side-caching/
 categories:
 - docs
 - develop
@@ -106,7 +108,7 @@ will use cached data, except for the following:
     [`HSCAN`]({{< relref "/commands/hscan" >}}),
     and [`ZRANDMEMBER`]({{< relref "/commands/zrandmember" >}}). By design, these commands
     give different results each time they are called.
--   Redis Query Engine commands (with the `FT.*` prefix), such as
+-   Redis Search commands (with the `FT.*` prefix), such as
     [`FT.SEARCH`]({{< relref "commands/ft.search" >}}).
 
 You can use the [`MONITOR`]({{< relref "/commands/monitor" >}}) command to

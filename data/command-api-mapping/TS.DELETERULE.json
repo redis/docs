@@ -1,0 +1,156 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "deleterule(source_key: KeyT, dest_key: KeyT)",
+        "params": [
+          {
+            "name": "source_key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "dest_key",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String tsDeleteRule(String sourceKey, String destKey)",
+        "params": [
+          {
+            "name": "sourceKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "destKey",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TSDeleteRule(ctx context.Context, sourceKey string, destKey string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "sourceKey",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "destKey",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "DELETERULE(sourceKey: RedisArgument, destinationKey: RedisArgument)",
+        "params": [
+          {
+            "name": "sourceKey",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "destinationKey",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "DeleteRule(string sourceKey, string destKey)",
+        "params": [
+          {
+            "name": "sourceKey",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "destKey",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "DeleteRuleAsync(string sourceKey, string destKey)",
+        "params": [
+          {
+            "name": "sourceKey",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "destKey",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tsdeleterule(string $sourceKey, string $destKey)",
+        "params": [
+          {
+            "name": "$sourceKey",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$destKey",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

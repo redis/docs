@@ -61,7 +61,6 @@ railroad_diagram: /images/railroad/fcall.svg
 since: 7.0.0
 summary: Invokes a function.
 syntax_fmt: FCALL function numkeys [key [key ...]] [arg [arg ...]]
-syntax_str: numkeys [key [key ...]] [arg [arg ...]]
 title: FCALL
 ---
 Invoke a function.
@@ -93,9 +92,9 @@ redis> FCALL myfunc 0 hello
 "hello"
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

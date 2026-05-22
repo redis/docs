@@ -16,6 +16,8 @@ import logging
 from components.example import Example
 from components.util import mkdir_p
 from components.structured_data import load_dict, dump_dict
+from components.cli_parser import extract_cli_commands
+from components.command_enricher import enrich_commands
 
 
 # File extension to language mapping
@@ -28,6 +30,7 @@ EXTENSION_TO_LANGUAGE = {
     '.cs': 'c#',
     '.java': 'java',
     '.php': 'php',
+    '.rb': 'ruby',
     '.rs': 'rust'
 }
 
@@ -37,12 +40,33 @@ LANGUAGE_TO_CLIENT = {
     'node.js': 'Node.js',
     'go': 'Go',
     'c': 'C',
-    'c#': 'C#-Sync',
+    'c#': 'C#-Sync (NRedisStack)',  # Default; overridden by content check in get_client_name_from_language_and_path
     'java': 'Java-Sync',  # Default to sync, could be overridden
     'php': 'PHP',
+    'ruby': 'Ruby',
     'redisvl': 'RedisVL',
     'rust': 'Rust-Sync'
 }
+
+# Marker used to identify NRedisStack examples (matches any NRedisStack namespace import)
+NREDISSTACK_IMPORT_MARKER = 'using NRedisStack'
+# Test-infrastructure import that appears in every C# file regardless of client
+NREDISSTACK_TEST_IMPORT = 'using NRedisStack.Tests'
+
+
+def is_nredisstack_example(content: str) -> bool:
+    """Return True if the file genuinely uses NRedisStack.
+
+    Checks line by line for NREDISSTACK_IMPORT_MARKER ('using NRedisStack'),
+    but ignores lines that contain NREDISSTACK_TEST_IMPORT ('using NRedisStack.Tests')
+    because that import appears in every C# test file as test-infrastructure
+    boilerplate, regardless of whether the example uses NRedisStack or plain
+    StackExchange.Redis.
+    """
+    return any(
+        NREDISSTACK_IMPORT_MARKER in line and NREDISSTACK_TEST_IMPORT not in line
+        for line in content.splitlines()
+    )
 
 
 def get_language_from_extension(filename: str) -> str:
@@ -56,16 +80,30 @@ def get_client_name_from_language(language: str) -> str:
     return LANGUAGE_TO_CLIENT.get(language, language.title())
 
 
-def get_client_name_from_language_and_path(language: str, path: str) -> str:
-    """Get client name from language with path-based overrides.
+def get_client_name_from_language_and_path(language: str, path: str,
+                                           content: str = '') -> str:
+    """Get client name from language with path-based and content-based overrides.
+
+    For JavaScript (.js) files, override based on path substrings:
+    - If 'ioredis' in path -> ioredis
+    - Otherwise -> Node.js
 
     For Java (.java) files, override based on path substrings:
     - If 'lettuce-sync' in path -> Lettuce-Sync
     - If 'lettuce-async' in path -> Java-Async
     - If 'lettuce-reactive' in path -> Java-Reactive
 
+    For C# (.cs) files, override based on path substrings and file content:
+    - Sync vs Async determined by 'async' appearing in the path
+    - NRedisStack vs SE.Redis determined by the presence of NREDISSTACK_IMPORT_MARKER
+      ('using NRedisStack') anywhere in the file content, which matches both the root
+      namespace import and any subnamespace imports (e.g. 'using NRedisStack.Search;').
+
     Substring checks are case-sensitive and can appear anywhere in the path.
     """
+    if language == 'node.js':
+        if 'ioredis' in path:
+            return 'ioredis'
     if language == 'java':
         if 'lettuce-sync' in path:
             return 'Lettuce-Sync'
@@ -79,10 +117,9 @@ def get_client_name_from_language_and_path(language: str, path: str) -> str:
         if 'rust-sync' in path:
             return 'Rust-Sync'
     if language == 'c#':
-        if 'async' in path:
-            return 'C#-Async'
-        if 'sync' in path:
-            return 'C#-Sync'
+        variant = 'Async' if 'async' in path else 'Sync'
+        client = 'NRedisStack' if is_nredisstack_example(content) else 'SE.Redis'
+        return f'C#-{variant} ({client})'
     # Default behavior for all languages (and Java fallback)
     return get_client_name_from_language(language)
 
@@ -169,11 +206,17 @@ def process_local_examples(local_examples_dir: str = 'local_examples',
             target_file = os.path.join(target_dir, target_filename)
             shutil.copy2(source_file, target_file)
 
+            # Read source file content for content-based client detection
+            # (must be done before Example processes the copy, which strips markers)
+            with open(source_file, 'r', encoding='utf-8', errors='ignore') as sf:
+                source_content = sf.read()
+
             # Process with Example class
             example = Example(language, target_file)
 
-            # Get client name (with Java path-based overrides)
-            client_name = get_client_name_from_language_and_path(language, source_file)
+            # Get client name (with path-based and content-based overrides)
+            client_name = get_client_name_from_language_and_path(
+                language, source_file, source_content)
 
             # Create metadata
             example_metadata = {
@@ -189,6 +232,17 @@ def process_local_examples(local_examples_dir: str = 'local_examples',
             # Add binderId only if it exists
             if example.binder_id:
                 example_metadata['binderId'] = example.binder_id
+
+            # Add kernelName only if it exists
+            if example.kernel_name:
+                example_metadata['kernelName'] = example.kernel_name
+
+            # Extract and enrich CLI commands if present
+            cli_commands = extract_cli_commands(example.content)
+            if cli_commands:
+                enriched_commands = enrich_commands(cli_commands)
+                example_metadata['cli_commands'] = enriched_commands
+                logging.debug(f"Found {len(cli_commands)} CLI commands in {example_id}")
 
             examples_data[example_id][client_name] = example_metadata
             logging.info(f"Processed {client_name} example for {example_id}")

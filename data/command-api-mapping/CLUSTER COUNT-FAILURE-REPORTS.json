@@ -1,0 +1,62 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "Long clusterCountFailureReports(String nodeId)",
+        "params": [
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "The node ID"
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Number of failure reports"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> clusterCountFailureReports(String nodeId)",
+        "params": [
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "The node ID"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Number of failure reports"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> clusterCountFailureReports(String nodeId)",
+        "params": [
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "The node ID"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Number of failure reports"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

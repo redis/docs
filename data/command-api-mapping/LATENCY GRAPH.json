@@ -1,0 +1,86 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "latency_graph(event: str, **kwargs)",
+        "params": [
+          {
+            "name": "event",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String latencyGraph(String event)",
+        "params": [
+          {
+            "name": "event",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [],
+    "node_redis": [
+      {
+        "signature": "latencyGraph(event: LatencyEvent)",
+        "params": [
+          {
+            "name": "event",
+            "type": "LatencyEvent",
+            "description": "The latency event to get the graph for"
+          }
+        ],
+        "returns": {
+          "type": "BlobStringReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "latency(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

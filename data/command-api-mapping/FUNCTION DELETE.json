@@ -1,0 +1,84 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "function_delete(library: str)",
+        "params": [
+          {
+            "name": "library",
+            "type": "str",
+            "description": "Library name to delete"
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[str], str]",
+          "description": "Status response"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String functionDelete(final String libraryName)",
+        "params": [
+          {
+            "name": "libraryName",
+            "type": "String",
+            "description": "Library name to delete"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Status response"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "FunctionDelete(ctx context.Context, libName string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context for the operation"
+          },
+          {
+            "name": "libName",
+            "type": "string",
+            "description": "Library name to delete"
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": "Status response"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "functionDelete(library: RedisArgument)",
+        "params": [
+          {
+            "name": "library",
+            "type": "RedisArgument",
+            "description": "Name of the library to delete"
+          }
+        ],
+        "returns": {
+          "type": "Promise<SimpleStringReply>",
+          "description": "Status response"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": []
+  }
+}
+

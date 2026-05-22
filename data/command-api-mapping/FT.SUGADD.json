@@ -1,0 +1,281 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "sugadd(key: str, *suggestions: Suggestion)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "suggestions",
+            "type": "*Suggestion",
+            "description": "Suggestions to add"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "The current size of the suggestion dictionary"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long ftSugAdd(String key, String string, double score)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "string",
+            "type": "String",
+            "description": "The suggestion string"
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": "The suggestion score"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The current size of the suggestion dictionary"
+        }
+      },
+      {
+        "signature": "long ftSugAddIncr(String key, String string, double score)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "string",
+            "type": "String",
+            "description": "The suggestion string"
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": "The suggestion score"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The current size of the suggestion dictionary"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTSugAdd(ctx context.Context, key string, suggestion string, score float64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "suggestion",
+            "type": "string",
+            "description": "The suggestion string"
+          },
+          {
+            "name": "score",
+            "type": "float64",
+            "description": "The suggestion score"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": "The current size of the suggestion dictionary"
+        }
+      },
+      {
+        "signature": "FTSugAddWithArgs(ctx context.Context, key string, suggestion string, score float64, options *FTSugAddOptions)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "suggestion",
+            "type": "string",
+            "description": "The suggestion string"
+          },
+          {
+            "name": "score",
+            "type": "float64",
+            "description": "The suggestion score"
+          },
+          {
+            "name": "options",
+            "type": "*FTSugAddOptions",
+            "description": "Add options"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": "The current size of the suggestion dictionary"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SUGADD(key: RedisArgument, string: RedisArgument, score: number, options?: { INCR?: boolean, PAYLOAD?: RedisArgument })",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "string",
+            "type": "RedisArgument",
+            "description": "The suggestion string"
+          },
+          {
+            "name": "score",
+            "type": "number",
+            "description": "The suggestion score"
+          },
+          {
+            "name": "options",
+            "type": "{ INCR?: boolean, PAYLOAD?: RedisArgument }",
+            "description": "Optional add options"
+          }
+        ],
+        "returns": {
+          "type": "Promise<number>",
+          "description": "The current size of the suggestion dictionary"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "long SugAdd(string key, string str, double score, bool increment = false, string? payload = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "str",
+            "type": "string",
+            "description": "The suggestion string"
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": "The suggestion score"
+          },
+          {
+            "name": "increment",
+            "type": "bool",
+            "description": "Whether to increment the score if the suggestion exists"
+          },
+          {
+            "name": "payload",
+            "type": "string?",
+            "description": "Optional payload"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The current size of the suggestion dictionary"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<long> SugAddAsync(string key, string str, double score, bool increment = false, string? payload = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "str",
+            "type": "string",
+            "description": "The suggestion string"
+          },
+          {
+            "name": "score",
+            "type": "double",
+            "description": "The suggestion score"
+          },
+          {
+            "name": "increment",
+            "type": "bool",
+            "description": "Whether to increment the score if the suggestion exists"
+          },
+          {
+            "name": "payload",
+            "type": "string?",
+            "description": "Optional payload"
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "The current size of the suggestion dictionary"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftsugadd(string $key, string $string, float $score, ?SugAddArguments $arguments = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The suggestion dictionary key"
+          },
+          {
+            "name": "$string",
+            "type": "string",
+            "description": "The suggestion string"
+          },
+          {
+            "name": "$score",
+            "type": "float",
+            "description": "The suggestion score"
+          },
+          {
+            "name": "$arguments",
+            "type": "?SugAddArguments",
+            "description": "Optional arguments (INCR, PAYLOAD)"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "The current size of the suggestion dictionary"
+        }
+      }
+    ]
+  }
+}
+

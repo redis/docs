@@ -82,7 +82,7 @@ There are many additional improvements, including new command arguments, securit
 
 `Probabilistic`: Now, an error is returned if `CMS.MERGE` results in an overflow or underflow.
 
-**Search and query**
+**Redis Search**
 
 - New `BFLOAT16` and `FLOAT16` vector data types reduce memory consumed by vectors while preserving accuracy.
 - Support for indexing empty and missing values and enhanced developer experience for queries with exact matching capabilities.
@@ -100,7 +100,7 @@ Redis Stack 7.4 will no longer include triggers and functions. To ensure a seaml
 ### Details
 Find more details about features and optimizations introduced with Redis Stack 7.4 here:
   * [Redis server](https://github.com/redis/redis/blob/7.4.0/00-RELEASENOTES)
-  * [Search and query capability](https://github.com/RediSearch/RediSearch/releases/tag/v2.10.5)
+  * [Redis Search capability](https://github.com/RediSearch/RediSearch/releases/tag/v2.10.5)
   * [JSON data structure](https://github.com/RedisJSON/RedisJSON/releases/tag/v2.8.3)
   * [Time series data structure](https://github.com/RedisTimeSeries/RedisTimeSeries/releases/tag/v1.12.2)
   * [Probabilistic data structures](https://github.com/RedisBloom/RedisBloom/releases/tag/v2.8.2)

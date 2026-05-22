@@ -1,0 +1,117 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [
+      {
+        "signature": "long clusterKeySlot(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClusterKeySlot(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "parseCommand(parser: CommandParser, key: RedisArgument)",
+        "params": [
+          {
+            "name": "parser",
+            "type": "CommandParser",
+            "description": "The Redis command parser"
+          },
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The key to get the hash slot for"
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long clusterKeyslot(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key to get the hash slot for"
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "The hash slot number"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> clusterKeyslot(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key to get the hash slot for"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "The hash slot number"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> clusterKeyslot(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key to get the hash slot for"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "The hash slot number"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

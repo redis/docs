@@ -13,11 +13,11 @@ aliases:
 url: '/operate/rs/7.4/databases/configure/oss-cluster-api/'
 ---
 
-Review [Redis OSS Cluster API]({{< relref "/operate/rs/7.4/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
+Review [OSS Cluster API]({{< relref "/operate/rs/7.4/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
 
 ## Prerequisites
 
-The Redis OSS Cluster API is supported only when a database meets specific criteria.  
+The OSS Cluster API is supported only when a database meets specific criteria.
 
 The database must:
 
@@ -27,7 +27,7 @@ The database must:
 In addition, the database must _not_:
 
 - Use node `include` or `exclude` in the proxy policy.
-- Use [RediSearch]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}), [RedisTimeSeries]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}), or [RedisGears]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1" >}}) modules.
+- Use [RediSearch]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}), [RedisTimeSeries]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}), or [RedisGears]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1" >}}) modules.
 
 The OSS Cluster API setting applies to individual databases instead of the entire cluster.
 

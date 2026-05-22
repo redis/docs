@@ -44,7 +44,6 @@ railroad_diagram: /images/railroad/ssubscribe.svg
 since: 7.0.0
 summary: Listens for messages published to shard channels.
 syntax_fmt: SSUBSCRIBE shardchannel [shardchannel ...]
-syntax_str: ''
 title: SSUBSCRIBE
 ---
 Subscribes the client to the specified shard channels.
@@ -69,9 +68,9 @@ Reading messages... (press Ctrl-C to quit)
 3) "hello"
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

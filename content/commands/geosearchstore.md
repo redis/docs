@@ -174,11 +174,13 @@ summary: Queries a geospatial index for members inside an area of a box or a cir
 syntax_fmt: "GEOSEARCHSTORE destination source <FROMMEMBER\_member |\n  FROMLONLAT\_\
   longitude latitude> <BYRADIUS\_radius <M | KM | FT | MI>\n  | BYBOX\_width height\
   \ <M | KM | FT | MI>> [ASC | DESC] [COUNT\_count\n  [ANY]] [STOREDIST]"
-syntax_str: "source <FROMMEMBER\_member | FROMLONLAT\_longitude latitude> <BYRADIUS\_\
-  radius <M | KM | FT | MI> | BYBOX\_width height <M | KM | FT | MI>> [ASC | DESC]\
-  \ [COUNT\_count [ANY]] [STOREDIST]"
 title: GEOSEARCHSTORE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 This command is like [`GEOSEARCH`]({{< relref "/commands/geosearch" >}}), but stores the result in destination key.
 
 This command replaces the now deprecated [`GEORADIUS`]({{< relref "/commands/georadius" >}}) and [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}).
@@ -198,9 +200,9 @@ GEOSEARCHSTORE key2 Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC COUNT 3 STOREDI
 ZRANGE key2 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

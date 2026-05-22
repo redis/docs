@@ -7,5 +7,7 @@ categories:
 description: An administrator's guide to Redis
 linkTitle: Manage Redis
 title: Manage Redis
+aliases:
+- /management/
 weight: 60
 ---

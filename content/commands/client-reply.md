@@ -42,7 +42,6 @@ railroad_diagram: /images/railroad/client-reply.svg
 since: 3.2.0
 summary: Instructs the server whether to reply to commands.
 syntax_fmt: CLIENT REPLY <ON | OFF | SKIP>
-syntax_str: ''
 title: CLIENT REPLY
 ---
 Sometimes it can be useful for clients to completely disable replies from the Redis server. For example when the client sends fire and forget commands or performs a mass loading of data, or in caching contexts where new data is streamed constantly. In such contexts to use server time and bandwidth in order to send back replies to clients, which are going to be ignored, is considered wasteful.
@@ -53,9 +52,9 @@ The `CLIENT REPLY` command controls whether the server will reply the client's c
 * `OFF`. In this mode the server will not reply to client commands.
 * `SKIP`. This mode skips the reply of command immediately after it.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

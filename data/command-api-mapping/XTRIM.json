@@ -1,0 +1,1122 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "xtrim(, name: KeyT,, maxlen: Optional[int] = None,, approximate: bool = True,, minid: Union[StreamIdT, None] = None,, limit: Optional[int] = None,, ref_policy: Optional[Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"]] = None,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "maxlen",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "approximate",
+            "type": "bool = True",
+            "description": ""
+          },
+          {
+            "name": "minid",
+            "type": "Union[StreamIdT, None] = None",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "ref_policy",
+            "type": "Optional[Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"]] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long xtrim(byte[] key, long maxLen, boolean approximateLength)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "maxLen",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "approximateLength",
+            "type": "boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long xtrim(byte[] key, XTrimParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "XTrimParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long xtrim(final String key, final long maxLen, final boolean approximateLength)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "maxLen",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "approximateLength",
+            "type": "boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long xtrim(final String key, final XTrimParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "XTrimParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long xtrim(String key, long maxLen, boolean approximate)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "maxLen",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "approximate",
+            "type": "boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long xtrim(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "simple-reply number of removed entries. @since 6.1"
+        }
+      },
+      {
+        "signature": "Long xtrim(K key, boolean approximateTrimming, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "approximateTrimming",
+            "type": "boolean",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "simple-reply number of removed entries. @since 6.1"
+        }
+      },
+      {
+        "signature": "Long xtrim(K key, XTrimArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XTrimArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "simple-reply number of removed entries. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> xtrim(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "simple-reply number of removed entries. @since 6.1"
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> xtrim(K key, boolean approximateTrimming, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "approximateTrimming",
+            "type": "boolean",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "simple-reply number of removed entries. @since 6.1"
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> xtrim(K key, XTrimArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XTrimArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "simple-reply number of removed entries. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> xtrim(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "simple-reply number of removed entries. @since 6.1"
+        }
+      },
+      {
+        "signature": "Mono<Long> xtrim(K key, boolean approximateTrimming, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "approximateTrimming",
+            "type": "boolean",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "simple-reply number of removed entries. @since 6.1"
+        }
+      },
+      {
+        "signature": "Mono<Long> xtrim(K key, XTrimArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XTrimArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "simple-reply number of removed entries. @since 6.1"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "xTrim(ctx context.Context, key, strategy string, approx bool, threshold interface{}, limit int64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "strategy",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "approx",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "threshold",
+            "type": "interface{}",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "XTrimMaxLen(ctx context.Context, key string, maxLen int64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "maxLen",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "XTrimMaxLenApprox(ctx context.Context, key string, maxLen, limit int64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "maxLen",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "XTrimMinID(ctx context.Context, key string, minID string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "minID",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "XTrimMinIDApprox(ctx context.Context, key string, minID string, limit int64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "minID",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "XTRIM(key: RedisArgument, strategy: 'MAXLEN' | 'MINID', threshold: number | string, options?: XTrimOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "strategy",
+            "type": "'MAXLEN' | 'MINID'",
+            "description": ""
+          },
+          {
+            "name": "threshold",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "XTrimOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "xtrim(key: RedisKey, maxlen: \"MAXLEN\", threshold: string | Buffer | number, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "maxlen",
+            "type": "\"MAXLEN\"",
+            "description": ""
+          },
+          {
+            "name": "threshold",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xtrim(key: RedisKey, maxlen: \"MAXLEN\", threshold: string | Buffer | number, keepref: \"KEEPREF\", callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "maxlen",
+            "type": "\"MAXLEN\"",
+            "description": ""
+          },
+          {
+            "name": "threshold",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "keepref",
+            "type": "\"KEEPREF\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xtrim(key: RedisKey, maxlen: \"MAXLEN\", threshold: string | Buffer | number, delref: \"DELREF\", callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "maxlen",
+            "type": "\"MAXLEN\"",
+            "description": ""
+          },
+          {
+            "name": "threshold",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "delref",
+            "type": "\"DELREF\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xtrim(key: RedisKey, maxlen: \"MAXLEN\", threshold: string | Buffer | number, acked: \"ACKED\", callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "maxlen",
+            "type": "\"MAXLEN\"",
+            "description": ""
+          },
+          {
+            "name": "threshold",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "acked",
+            "type": "\"ACKED\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xtrim(key: RedisKey, maxlen: \"MAXLEN\", threshold: string | Buffer | number, countToken: \"LIMIT\", count: number | string, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "maxlen",
+            "type": "\"MAXLEN\"",
+            "description": ""
+          },
+          {
+            "name": "threshold",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "countToken",
+            "type": "\"LIMIT\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "xtrim(key: K, maxlen: streams::StreamMaxlen)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "maxlen",
+            "type": "streams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "usize",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xtrim_options(key: K, options: &'a streams::StreamTrimOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "&'a streams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "usize",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "xtrim(key: K, maxlen: streams::StreamMaxlen)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "maxlen",
+            "type": "streams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "usize",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xtrim_options(key: K, options: &'a streams::StreamTrimOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "&'a streams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "usize",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StreamTrim(RedisKey key, int maxLength, bool useApproximateMaxLength, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "maxLength",
+            "type": "int",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages removed from the stream."
+        }
+      },
+      {
+        "signature": "StreamTrim(RedisKey key, long maxLength, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode mode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "maxLength",
+            "type": "long",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "limit",
+            "type": "long?",
+            "description": "Specifies the maximal count of entries that will be evicted."
+          },
+          {
+            "name": "mode",
+            "type": "StreamTrimMode",
+            "description": "Determines how stream trimming should be performed."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages removed from the stream."
+        }
+      },
+      {
+        "signature": "StreamTrim(RedisKey key, int maxLength, bool useApproximateMaxLength, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "maxLength",
+            "type": "int",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages removed from the stream."
+        }
+      },
+      {
+        "signature": "StreamTrim(RedisKey key, long maxLength, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode mode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "maxLength",
+            "type": "long",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "limit",
+            "type": "long?",
+            "description": "Specifies the maximal count of entries that will be evicted."
+          },
+          {
+            "name": "mode",
+            "type": "StreamTrimMode",
+            "description": "Determines how stream trimming should be performed."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages removed from the stream."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StreamTrim(RedisKey key, int maxLength, bool useApproximateMaxLength, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "maxLength",
+            "type": "int",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages removed from the stream."
+        }
+      },
+      {
+        "signature": "StreamTrim(RedisKey key, long maxLength, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode mode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "maxLength",
+            "type": "long",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "limit",
+            "type": "long?",
+            "description": "Specifies the maximal count of entries that will be evicted."
+          },
+          {
+            "name": "mode",
+            "type": "StreamTrimMode",
+            "description": "Determines how stream trimming should be performed."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages removed from the stream."
+        }
+      },
+      {
+        "signature": "StreamTrim(RedisKey key, int maxLength, bool useApproximateMaxLength, CommandFlags flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "maxLength",
+            "type": "int",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages removed from the stream."
+        }
+      },
+      {
+        "signature": "StreamTrim(RedisKey key, long maxLength, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode mode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "maxLength",
+            "type": "long",
+            "description": "The maximum length of the stream."
+          },
+          {
+            "name": "useApproximateMaxLength",
+            "type": "bool",
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages."
+          },
+          {
+            "name": "limit",
+            "type": "long?",
+            "description": "Specifies the maximal count of entries that will be evicted."
+          },
+          {
+            "name": "mode",
+            "type": "StreamTrimMode",
+            "description": "Determines how stream trimming should be performed."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of messages removed from the stream."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "xtrim(string $key, array|string $strategy, string $threshold, array $options = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$strategy",
+            "type": "array|string",
+            "description": ""
+          },
+          {
+            "name": "$threshold",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "array $options = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xtrim(key, len_or_id, strategy: 'MAXLEN', approximate: false, limit: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          },
+          {
+            "name": "len_or_id",
+            "type": "Integer, String",
+            "description": "max length or minimum id"
+          },
+          {
+            "name": "strategy",
+            "type": "String",
+            "description": "MAXLEN or MINID"
+          },
+          {
+            "name": "approximate",
+            "type": "Boolean",
+            "description": "whether to add ~ modifier"
+          },
+          {
+            "name": "limit",
+            "type": "Integer",
+            "description": "maximum count of entries to be evicted"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of entries actually deleted"
+        }
+      }
+    ]
+  }
+}

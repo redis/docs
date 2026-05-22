@@ -37,7 +37,6 @@ railroad_diagram: /images/railroad/function-list.svg
 since: 7.0.0
 summary: Returns information about all libraries.
 syntax_fmt: "FUNCTION LIST [LIBRARYNAME\_library-name-pattern] [WITHCODE]"
-syntax_str: '[WITHCODE]'
 title: FUNCTION LIST
 ---
 Return information about the functions and libraries.
@@ -58,9 +57,9 @@ The following information is provided for each of the libraries in the response:
 
 For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

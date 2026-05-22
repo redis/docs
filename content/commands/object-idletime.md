@@ -44,16 +44,15 @@ railroad_diagram: /images/railroad/object-idletime.svg
 since: 2.2.3
 summary: Returns the time since the last access to a Redis object.
 syntax_fmt: OBJECT IDLETIME key
-syntax_str: ''
 title: OBJECT IDLETIME
 ---
 This command returns the time in seconds since the last access to the value stored at `<key>`.
 
 The command is only available when the `maxmemory-policy` configuration directive is not set to one of the LFU policies.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

@@ -42,14 +42,14 @@ standard command method. A `Response` object contains a valid result
 only after the pipeline has finished executing. You can access the
 result using the `Response` object's `get()` method.
 
-{{< clients-example pipe_trans_tutorial basic_pipe Java-Sync >}}
+{{< clients-example set="pipe_trans_tutorial" step="basic_pipe" lang_filter="Java-Sync" description="Foundational: Use pipelines to batch multiple commands together and reduce network round trips" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Execute a transaction
 
 A transaction works in a similar way to a pipeline. Create a
 transaction object with the `multi()` command, call command methods
-on that object, and then call the transaction object's 
+on that object, and then call the transaction object's
 `exec()` method to execute it. You can access the results
 from commands in the transaction using `Response` objects, as
 you would with a pipeline. However, the `exec()` method also
@@ -58,7 +58,7 @@ values in the order the commands were executed (see
 [Watch keys for changes](#watch-keys-for-changes) below for
 an example that uses the results list).
 
-{{< clients-example pipe_trans_tutorial basic_trans Java-Sync >}}
+{{< clients-example set="pipe_trans_tutorial" step="basic_trans" lang_filter="Java-Sync" description="Foundational: Use transactions to execute multiple commands atomically without interruption from other clients" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Watch keys for changes
@@ -82,5 +82,5 @@ for the transaction on the transaction object.
 For production usage, you would generally call code like the following in
 a loop to retry it until it succeeds or else report or log the failure.
 
-{{< clients-example pipe_trans_tutorial trans_watch Java-Sync >}}
+{{< clients-example set="pipe_trans_tutorial" step="trans_watch" lang_filter="Java-Sync" description="Optimistic locking: Use WATCH to monitor keys for changes and retry transactions when conflicts occur" difficulty="intermediate" >}}
 {{< /clients-example >}}

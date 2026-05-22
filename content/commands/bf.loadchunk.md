@@ -31,7 +31,6 @@ since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Restores a filter previously saved using SCANDUMP
 syntax_fmt: BF.LOADCHUNK key iterator data
-syntax_str: iterator data
 title: BF.LOADCHUNK
 ---
 Restores a Bloom filter previously saved using [`BF.SCANDUMP`]({{< relref "commands/bf.scandump/" >}}).
@@ -66,12 +65,11 @@ Current data chunk (returned by [`BF.SCANDUMP`]({{< relref "commands/bf.scandump
 
 See [`BF.SCANDUMP`]({{< relref "commands/bf.scandump/" >}}) for an example.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

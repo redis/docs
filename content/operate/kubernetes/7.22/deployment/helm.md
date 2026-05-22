@@ -37,7 +37,7 @@ The steps below use the following placeholders to indicate command line paramete
 1. Add the Redis repository.
 
    ```sh
-   helm repo add <repo-name> https://helm.redis.io/
+   helm repo add <repo-name> https://helm.redis.io
    ```
 
 2. Install the Helm chart into a new namespace.

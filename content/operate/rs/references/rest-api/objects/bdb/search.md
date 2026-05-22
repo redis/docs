@@ -55,3 +55,11 @@ Configuration fields for search and query.
 | search-max-aggregate-results | integer (range: 0-9223372036854775807) (default: 2147483648) | The maximum number of results to be returned by the FT.AGGREGATE command if LIMIT is used |
 | search-io-threads | integer (range: 1-256) (default: 1) | The number of threads the coordinator is using for IO threads to handle network to/from other shards |
 | search-enable-unstable-features | boolean (default: false) | Enable unstable features. |
+| search-index-cursor-limit | integer (range: 0-9223372036854775807) (default: 128) | The maximum number of cursors that can be opened, per shard, at any given time. Cursors can be opened by the user via FT.AGGREGATE WITHCURSOR. Cursors are also opened internally by Redis Search for long-running queries. Once INDEX_CURSOR_LIMIT is reached, any further attempts to open a cursor will result in an error. |
+| search-bm25std-tanh-factor | integer (range: 1-10000) (default: 4) | Set the BM25STD.TANH stretch factor. This is an integer value that divides the argument of the tanh function that is used to normalize the score computed by the BM25STD scorer. |
+| search-indexer-yield-every-ops | integer (range: 1-4294967295) (default: 1000) | The number of operations to perform before yielding to Redis during indexing while loading. |
+| search-on-oom | "return"<br />"fail"<br />"ignore"<br />(default: "return") | Action to perform when search OOM is exceeded. |
+| search-default-scorer | "TFIDF"<br />"BM25"<br />"TFIDF.DOCNORM"<br />"BM25STD"<br />"BM25STD.TANH"<br />"BM25STD.NORM"<br />"DISMAX"<br />"DOCSCORE"<br />"HAMMING"<br />(default: "BM25STD") | Default scorer to use when no scorer is specified in queries. |
+| search-_bg-index-mem-pct-thr | integer (range: 0-100) (default: 100) | Set the percentage of memory usage threshold out of maxmemory at which background indexing will stop. |
+| search-_bg-index-oom-pause-time | integer (range: 0-4294967295) (default: 5) | Set the time in seconds given to the background indexing thread to sleep when it reaches the memory limit. |
+| search-bg-index-sleep-duration-us | integer (range: 0-999999) (default: 1) | Sleep duration in microseconds (µs) during background indexing. |

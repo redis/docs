@@ -35,7 +35,6 @@ since: 2.0.0
 summary: Stops listening to messages published to channels that match one or more
   patterns.
 syntax_fmt: PUNSUBSCRIBE [pattern [pattern ...]]
-syntax_str: ''
 title: PUNSUBSCRIBE
 ---
 Unsubscribes the client from the given patterns, or from all of them if none is
@@ -46,9 +45,9 @@ previously subscribed patterns.
 In this case, a message for every unsubscribed pattern will be sent to the
 client.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

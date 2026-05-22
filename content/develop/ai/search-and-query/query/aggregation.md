@@ -48,7 +48,7 @@ Here is a more detailed explanation of the query syntax:
 
 The following example shows you how to calculate a discounted price for new bicycles:
 
-{{< clients-example query_agg agg1 >}}
+{{< clients-example set="query_agg" step="agg1" description="Foundational: Apply mapping functions to transform field values using APPLY when you need to calculate derived values" difficulty="beginner" >}}
 FT.AGGREGATE idx:bicycle "@condition:{new}" LOAD 2 "__key" "price" APPLY "@price - (@price * 0.1)" AS "discounted"
 {{< /clients-example >}}
 
@@ -94,7 +94,7 @@ Here is an explanation of the additional constructs:
 
 The following query shows you how to group by the field `condition` and apply a reduction based on the previously derived `price_category`. The expression `@price<1000` causes a bicycle to have the price category `1` if its price is lower than 1000 USD. Otherwise, it has the price category `0`. The output is the number of affordable bicycles grouped by price category.
 
-{{< clients-example query_agg agg2 >}}
+{{< clients-example set="query_agg" step="agg2" description="Grouping with aggregation: Use GROUPBY with REDUCE to group results by field values and apply aggregation functions when you need to summarize data across groups" difficulty="intermediate" >}}
 FT.AGGREGATE idx:bicycle "*" LOAD 1 price APPLY "@price<1000" AS price_category GROUPBY 1 @condition REDUCE SUM 1 "@price_category" AS "num_affordable"
 {{< /clients-example >}}
 
@@ -125,7 +125,7 @@ You can't use an aggregation function outside of a `GROUPBY` clause, but you can
 
 Here is an example that adds a type attribute `bicycle` to each document before counting all documents with that type:
 
-{{< clients-example query_agg agg3 >}}
+{{< clients-example set="query_agg" step="agg3" description="Aggregating without grouping: Create a dummy grouping field with APPLY to aggregate across all documents when you need a single aggregate result" difficulty="intermediate" >}}
 FT.AGGREGATE idx:bicycle "*" APPLY "'bicycle'" AS type GROUPBY 1 @type REDUCE COUNT 0 AS num_total
 {{< /clients-example >}}
 
@@ -145,7 +145,7 @@ It's sometimes necessary to group your data without applying a mathematical aggr
 
 The following example shows how to group all bicycles by `condition`:
 
-{{< clients-example query_agg agg4 >}}
+{{< clients-example set="query_agg" step="agg4" description="Grouping without aggregation: Use TOLIST to collect grouped values without applying mathematical functions when you need to organize results by category" difficulty="intermediate" >}}
 FT.AGGREGATE idx:bicycle "*" LOAD 1 "__key" GROUPBY 1 "@condition" REDUCE TOLIST 1 "__key" AS bicycles
 {{< /clients-example >}}
 

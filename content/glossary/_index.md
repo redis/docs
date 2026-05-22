@@ -195,7 +195,7 @@ More info: [`fsync` man page](https://man7.org/linux/man-pages/man2/fsync.2.html
 {{%definition "full-text search"%}}
 A search technique that examines all words in every stored document to find matches to search criteria. Redis provides full-text search capabilities through its Search and Query features.
 
-More info: [Search and query]({{<relref "/develop/ai/search-and-query">}}), [Full-text search]({{<relref "/develop/ai/search-and-query/query/full-text">}})
+More info: [Redis Search]({{<relref "/develop/ai/search-and-query">}}), [Full-text search]({{<relref "/develop/ai/search-and-query/query/full-text">}})
 {{%/definition%}}
 
 ## G - J {#letter-g}
@@ -203,7 +203,7 @@ More info: [Search and query]({{<relref "/develop/ai/search-and-query">}}), [Ful
 {{%definition "indexing"%}}
 The process of creating data structures that improve the speed of data retrieval operations. Redis supports various types of indexing including secondary indexing, vector indexing, and full-text indexing.
 
-More info: [Search and query]({{<relref "/develop/ai/search-and-query">}}), [Indexing concepts]({{<relref "/develop/ai/search-and-query/advanced-concepts">}})
+More info: [Redis Search]({{<relref "/develop/ai/search-and-query">}}), [Indexing concepts]({{<relref "/develop/ai/search-and-query/advanced-concepts">}})
 {{%/definition%}}
 
 {{%definition "JSON"%}}
@@ -505,13 +505,13 @@ More info: [Role and ClusterRole](https://kubernetes.io/docs/reference/access-au
 {{%definition "search"%}}
 The ability to query and retrieve data using various search methods including full-text search, vector search, and secondary indexing. Redis provides search capabilities through its Search and Query features.
 
-More info: [Search and query]({{<relref "/develop/ai/search-and-query">}}), [RedisSearch]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}})
+More info: [Redis Search]({{<relref "/develop/ai/search-and-query">}}), [RedisSearch]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}})
 {{%/definition%}}
 
 {{%definition "secondary indexing"%}}
 Creating additional data structures to enable fast lookups on fields other than the primary key. Redis supports secondary indexing for JSON documents, hashes, and other data types.
 
-More info: [Search and query]({{<relref "/develop/ai/search-and-query">}}), [Indexing concepts]({{<relref "/develop/ai/search-and-query/advanced-concepts">}})
+More info: [Redis Search]({{<relref "/develop/ai/search-and-query">}}), [Indexing concepts]({{<relref "/develop/ai/search-and-query/advanced-concepts">}})
 {{%/definition%}}
 
 {{%definition "secret"%}}

@@ -2,13 +2,13 @@
 ## Introduction
 
 This document provides observability and monitoring guidance for developers running applications
-that connect to Redis Enterprise. In particular, this guide focuses on the systems
+that connect to Redis Software. In particular, this guide focuses on the systems
 and resources that are most likely to impact the performance of your application.
 
 The screenshot below shows a dashboard with relevant statistics for a node:
 {{< image filename="/images/node_summary.png" alt="Dashboard showing relevant statistics for a Node" >}}
 
-To effectively monitor a Redis Enterprise cluster you need to observe
+To effectively monitor a Redis Software cluster you need to observe
 core cluster resources and key database performance indicators as described in the following sections for this guide.
 
 Core cluster resources include:
@@ -33,7 +33,7 @@ In addition to manually monitoring these resources and indicators, it is best pr
 
 ## Core cluster resource monitoring
 
-Redis Enterprise version 7.8.2 introduces a preview of the new metrics stream engine that exposes the v2 Prometheus scraping endpoint at `https://<IP>:8070/v2`. This new engine exports all time-series metrics to external monitoring tools such as Grafana, DataDog, NewRelic, and Dynatrace using Prometheus.
+Redis Software version 7.8.2 introduces a preview of the new metrics stream engine that exposes the v2 Prometheus scraping endpoint at `https://<IP>:8070/v2`. This new engine exports all time-series metrics to external monitoring tools such as Grafana, DataDog, NewRelic, and Dynatrace using Prometheus.
 
 The new engine enables real-time monitoring, including full monitoring during maintenance operations, providing full visibility into performance during events such as shards' failovers and scaling operations. See [Monitoring with metrics and alerts]({{<relref "/operate/rs/monitoring/">}}) for more details.
 
@@ -41,7 +41,7 @@ If you are already using the existing scraping endpoint for integration, follow 
 
 ### Memory
 
-Every Redis Enterprise database has a maximum configured memory limit to ensure isolation
+Every Redis Software database has a maximum configured memory limit to ensure isolation
 in a multi-database cluster.
 
 | Metric name | Definition | Unit |
@@ -157,7 +157,7 @@ After your database reaches this 80% threshold, you should closely review the ra
 
 |Issue | Possible causes | Remediation |
 | ------ | ------ | :------ |
-|Redis memory usage has reached 100% |This may indicate an insufficient Redis memory limit for your application's workload | For non-caching workloads (where eviction is unacceptable), immediately increase the memory limit for the database. You can accomplish this through the Redis Enterprise console or its API. Alternatively, you can contact Redis support to assist. For caching workloads, you need to monitor performance closely. Confirm that you have an [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) in place. If your application's performance starts to degrade, you may need to increase the memory limit, as described above. |
+|Redis memory usage has reached 100% |This may indicate an insufficient Redis memory limit for your application's workload | For non-caching workloads (where eviction is unacceptable), immediately increase the memory limit for the database. You can accomplish this through the Redis Software console or its API. Alternatively, you can contact Redis support to assist. For caching workloads, you need to monitor performance closely. Confirm that you have an [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) in place. If your application's performance starts to degrade, you may need to increase the memory limit, as described above. |
 |Redis has stopped accepting writes | Memory is at 100% and no eviction policy is in place | Increase the database's total amount of memory. If this is for a caching workload, consider enabling an [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}). In addition, you may want to determine whether the application can set a reasonable TTL (time-to-live) on some or all of the data being written to Redis. |
 |Cache hit ratio is steadily decreasing | The application's working set size may be steadily increasing. Alternatively, the application may be misconfigured (for example, generating more than one unique cache key per cached item.) | If the working set size is increasing, consider increasing the memory limit for the database. If the application is misconfigured, review the application's cache key generation logic. |
 
@@ -165,7 +165,7 @@ After your database reaches this 80% threshold, you should closely review the ra
 
 ## CPU
 
-Redis Enterprise provides several CPU metrics:
+Redis Software provides several CPU metrics:
 
 | Metric name | Definition | Unit |
 | ------ | ------ | :------ |
@@ -174,7 +174,7 @@ Redis Enterprise provides several CPU metrics:
 | Node CPU (User and System) | CPU time portion spent by all user-space and kernel-level processesas a Percentage | 100% per node CPU |
 
 
-To understand CPU metrics, it's worth recalling how a Redis Enterprise cluster is organized.
+To understand CPU metrics, it's worth recalling how a Redis Software cluster is organized.
 A cluster consists of one or more nodes. Each node is a VM (or cloud compute instance) or
 a bare-metal server.
 
@@ -215,7 +215,7 @@ excess inefficient Redis operations, and hot master shards.
 
 | Issue | Possible causes | Remediation 
 | ------ | ------ | :------ |
-|High CPU utilization across all shards of a database | This usually indicates that the database is under-provisioned in terms of number of shards. A secondary cause may be that the application is running too many inefficient Redis operations. | You can detect slow Redis operations by enabling the slow log in the Redis Enterprise UI. First, rule out inefficient Redis operations as the cause of the high CPU utilization. The Latency section below includes a broader discussion of this metric in the context of your application. If inefficient Redis operations are not the cause, then increase the number of shards in the database. |
+|High CPU utilization across all shards of a database | This usually indicates that the database is under-provisioned in terms of number of shards. A secondary cause may be that the application is running too many inefficient Redis operations. | You can detect slow Redis operations by enabling the slow log in the Redis Software UI. First, rule out inefficient Redis operations as the cause of the high CPU utilization. The Latency section below includes a broader discussion of this metric in the context of your application. If inefficient Redis operations are not the cause, then increase the number of shards in the database. |
 |High CPU utilization on a single shard, with the remaining shards having low CPU utilization | This usually indicates a master shard with at least one hot key. Hot keys are keys that are accessed extremely frequently (for example, more than 1000 times per second). | Hot key issues generally cannot be resolved by increasing the number of shards. To resolve this issue, see the section on Hot keys below. |
 | High Proxy CPU | There are several possible causes of high proxy CPU. First, review the behavior of connections to the database. Frequent cycling of connections, especially with TLS is enabled, can cause high proxy CPU utilization. This is especially true when you see more than 100 connections per second per thread. Such behavior is almost always a sign of a misbehaving application. Review the total number of operations per second against the cluster. If you see more than 50k operations per second per thread, you may need to increase the number of proxy threads. | In the case of high connection cycling, review the application's connection behavior. In the case of high operations per second, [increase the number of proxy threads]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-proxy" >}}). |
 |High Node CPU | You will typically detect high shard or proxy CPU utilization before you detect high node CPU utilization. Use the remediation steps above to address high shard and proxy CPU utilization. In spite of this, if you see high node CPU utilization, you may need to increase the number of nodes in the cluster. | Consider increasing the number of nodes in the cluster and the rebalancing the shards across the new nodes. This is a complex operation and you should do it with the help of Redis support. |
@@ -223,7 +223,7 @@ excess inefficient Redis operations, and hot master shards.
 
 ## Connections
 
-The Redis Enterprise database dashboard indicates the total number of connections to the database.
+The Redis Software database dashboard indicates the total number of connections to the database.
 
 You should monitor this connection count metric with both a minimum and maximum number of connections in mind.
 Based on the number of application instances connecting to Redis (and whether your application uses [connection pooling]({{< relref "/develop/clients/pools-and-muxing" >}})),
@@ -260,8 +260,8 @@ In this case, the only remediation is to add more nodes to the cluster and scale
 
 ## Synchronization
 
-In Redis Enterprise, geographically-distributed synchronization is based on Conflict-free replicated data types (CRDT) technology.
-The Redis Enterprise implementation of CRDT is called an Active-Active database (formerly known as CRDB).
+In Redis Software, geographically-distributed synchronization is based on Conflict-free replicated data types (CRDT) technology.
+The Redis Software implementation of CRDT is called an Active-Active database (formerly known as CRDB).
 With Active-Active databases, applications can read and write to the same data set from different geographical locations seamlessly and with low latency, without changing the way the application connects to the database.
 
 An Active-Active architecture is a data resiliency architecture that distributes the database information over multiple data centers using independent and geographically distributed clusters and nodes.
@@ -292,7 +292,7 @@ There are several key performance indicators that report your database's perform
 ### Latency
 
 Latency is **the time it takes for Redis to respond to a request**.
-Redis Enterprise measures latency from the first byte received by the proxy to the last byte sent in the command's response.
+Redis Software measures latency from the first byte received by the proxy to the last byte sent in the command's response.
 
 An adequately provisioned Redis database running efficient Redis operations will report an average latency below 1 millisecond. In fact, it's common to measure
 latency in terms of microseconds. Businesses regularly achieve, and sometimes require, average latencies of 400-600
@@ -335,7 +335,7 @@ is already populated.
 Dashboard showing the cache hit ratio along with read/write misses - [Database Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json)
 {{< image filename="/images/playbook_cache-hit.png" alt="Dashboard showing the cache hit ratio along with read/write misses" >}}
 
-**Note:** Redis Enterprise actually reports four different cache hit / miss metrics.
+**Note:** Redis Software actually reports four different cache hit / miss metrics.
 These are defined as follows:
 
 | Metric name | Definition | 
@@ -364,7 +364,7 @@ Dashboard displaying object evictions - [Database Dashboard](https://github.com/
 
 ## Proxy performance
 
-Redis Enterprise Software provides high-performance data access through a proxy process that manages and optimizes access to shards within the cluster. Each node contains a single proxy process. Each proxy can be active and take incoming traffic or it can be passive and wait for failovers.
+Redis Software provides high-performance data access through a proxy process that manages and optimizes access to shards within the cluster. Each node contains a single proxy process. Each proxy can be active and take incoming traffic or it can be passive and wait for failovers.
 
 ### Proxy policies
 
@@ -444,8 +444,8 @@ and block other operations. If you need to scan the keyspace, especially in a pr
 ### Troubleshooting
 
 The best way to discover slow operations is to view the slow log.
-The slow log is available in the Redis Enterprise and Redis Cloud consoles:
-* [Redis Enterprise slow log docs]({{< relref "/operate/rs/clusters/logging/redis-slow-log" >}})
+The slow log is available in the Redis Software and Redis Cloud consoles:
+* [Redis Software slow log docs]({{< relref "/operate/rs/clusters/logging/redis-slow-log" >}})
 * [Redis Cloud slow log docs]({{< relref "/operate/rc/databases/view-edit-database#other-actions-and-info" >}})
 
 Redis Cloud dashboard showing slow database operations
@@ -512,7 +512,7 @@ to the application's data model or the way it interacts with Redis.
 
 ## Alerting
 
-The Redis Enterprise observability package includes a suite of alerts and their associated tests for use with Prometheus.
+The Redis Software observability package includes a suite of alerts and their associated tests for use with Prometheus.
 
 - [Alerts for the v1 metrics endpoint](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/prometheus)
 
@@ -569,7 +569,7 @@ you will see this alert, as well as the alerts in any other file you have includ
 
 The following is a list of alerts contained in the `alerts.yml` file. There are several points to consider:
 
-- Not all Redis Enterprise deployments export all metrics
+- Not all Redis Software deployments export all metrics
 - Most metrics only alert if the specified trigger persists for a given duration
 
 ## List of alerts
@@ -603,7 +603,7 @@ The following is a list of alerts contained in the `alerts.yml` file. There are 
 
 ## Appendix A: Grafana Dashboards
 
-Grafana dashboards are available for Redis Enterprise Software and Redis Cloud deployments.
+Grafana dashboards are available for Redis Software and Redis Cloud deployments.
 
 These dashboards come in three styles, which may be used together to provide
 a full picture of your deployment.
@@ -612,7 +612,7 @@ a full picture of your deployment.
 2. Basic dashboards provide a high-level overviews of the various cluster components.
 3. Extended dashboards. These require a third-party library to perform ReST calls.
 
-There are also two workflow dashboards for Redis Enterprise software that provide drill-down functionality.
+There are also two workflow dashboards for Redis Software that provide drill-down functionality.
 
 ### Software
 - [Basic](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/software/basic)

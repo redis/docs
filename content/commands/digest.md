@@ -44,7 +44,6 @@ railroad_diagram: /images/railroad/digest.svg
 since: 8.4.0
 summary: Returns the hash digest of a string value as a hexadecimal string.
 syntax_fmt: DIGEST key
-syntax_str: ''
 title: DIGEST
 ---
 
@@ -56,7 +55,7 @@ A hash digest is a fixed-size numerical representation of a string value, comput
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

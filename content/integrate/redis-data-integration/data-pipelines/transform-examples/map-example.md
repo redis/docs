@@ -31,6 +31,7 @@ transformation, as described in the following sections.
 You can use the `map` transformation to create a new structure for the output data, which can include nested objects and calculated fields. The `map` transformation allows you to define a new structure using an expression language, such as SQL or JavaScript.
 
 ```yaml
+name: Create multilevel employee JSON
 source:
   db: chinook
   table: employee
@@ -120,6 +121,7 @@ stored in the `milliseconds` field) and the storage size (originally stored in t
 The full example is shown below:
 
 ```yaml
+name: Create track hash with calculated fields
 source:
   db: chinook
   table: track

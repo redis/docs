@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the Redis Enterprise Software REST API debuginfo/node requests.
+description: Documents the Redis Software REST API debuginfo/node requests.
 headerRange: '[1-2]'
 hideListLinks: true
 linkTitle: node
@@ -13,7 +13,7 @@ weight: $weight
 ---
 
 {{<banner-article>}}
-This REST API path is deprecated as of Redis Enterprise Software version 7.4.2. Use the new path [`/v1/nodes/debuginfo`]({{< relref "/operate/rs/references/rest-api/requests/nodes/debuginfo" >}}) instead.
+This REST API path is deprecated as of Redis Software version 7.4.2. Use the new path [`/v1/nodes/debuginfo`]({{< relref "/operate/rs/references/rest-api/requests/nodes/debuginfo" >}}) instead.
 {{</banner-article>}}
 
 | Method | Path | Description |

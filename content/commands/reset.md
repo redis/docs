@@ -29,7 +29,6 @@ railroad_diagram: /images/railroad/reset.svg
 since: 6.2.0
 summary: Resets the connection.
 syntax_fmt: RESET
-syntax_str: ''
 title: RESET
 ---
 This command performs a full reset of the connection's server-side context, 
@@ -54,9 +53,9 @@ following:
 * Turns off `NO-EVICT` mode.
 * Turns off `NO-TOUCH` mode.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

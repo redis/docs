@@ -6,14 +6,14 @@ categories:
 - operate
 - rs
 - rc
-description: Cluster management commands compatible with Redis Enterprise.
+description: Cluster management commands compatible with Redis Software.
 linkTitle: Cluster management
 weight: 10
 ---
 
-[Clustering in Redis Enterprise Software]({{< relref "/operate/rs/databases/durability-ha/clustering" >}}) and [Redis Cloud]({{< relref "/operate/rc/databases/configuration/clustering" >}}) differs from the [Redis Open Source cluster]({{<relref "/operate/oss_and_stack/management/scaling">}}) and works with all standard Redis clients.
+[Clustering in Redis Software]({{< relref "/operate/rs/databases/durability-ha/clustering" >}}) and [Redis Cloud]({{< relref "/operate/rc/databases/configuration/clustering" >}}) differs from the [Redis Open Source cluster]({{<relref "/operate/oss_and_stack/management/scaling">}}) and works with all standard Redis clients.
 
-Redis Enterprise blocks most [cluster commands]({{< relref "/commands" >}}?group=cluster). If you try to use a blocked cluster command, it returns an error.
+Redis Software blocks most [cluster commands]({{< relref "/commands" >}}?group=cluster). If you try to use a blocked cluster command, it returns an error.
 
 | Command | Redis<br />Software | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|
@@ -43,7 +43,7 @@ Redis Enterprise blocks most [cluster commands]({{< relref "/commands" >}}?group
 | [CLUSTER SAVECONFIG]({{< relref "/commands/cluster-saveconfig" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [CLUSTER SET-CONFIG-EPOCH]({{< relref "/commands/cluster-set-config-epoch" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [CLUSTER SETSLOT]({{< relref "/commands/cluster-setslot" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
-| [CLUSTER SHARDS]({{< relref "/commands/cluster-shards" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+| [CLUSTER SHARDS]({{< relref "/commands/cluster-shards" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). |
 | [CLUSTER SLAVES]({{< relref "/commands/cluster-slaves" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Deprecated as of Redis v5.0.0. |
 | [CLUSTER SLOT-STATS]({{< relref "/commands/cluster-slot-stats" >}}) | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 | [CLUSTER SLOTS]({{< relref "/commands/cluster-slots" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). Deprecated as of Redis v7.0.0. |

@@ -8238,6 +8238,162 @@
             "deprecated"
         ]
     },
+    "HOTKEYS": {
+        "summary": "A container for hotkeys tracking commands.",
+        "since": "8.6.0",
+        "group": "server",
+        "complexity": "Depends on subcommand.",
+        "acl_categories": [
+            "@slow"
+        ],
+        "arity": -2
+    },
+    "HOTKEYS GET": {
+        "summary": "Returns lists of top K hotkeys depending on metrics chosen in HOTKEYS START command.",
+        "since": "8.6.0",
+        "group": "server",
+        "complexity": "O(K) where K is the number of hotkeys returned.",
+        "acl_categories": [
+            "@admin",
+            "@slow",
+            "@dangerous"
+        ],
+        "arity": 2,
+        "command_flags": [
+            "admin",
+            "noscript"
+        ],
+        "hints": [
+            "nondeterministic_output",
+            "request_policy:special",
+            "response_policy:special"
+        ]
+    },
+    "HOTKEYS RESET": {
+        "summary": "Release the resources used for hotkey tracking.",
+        "since": "8.6.0",
+        "group": "server",
+        "complexity": "O(1)",
+        "acl_categories": [
+            "@admin",
+            "@slow",
+            "@dangerous"
+        ],
+        "arity": 2,
+        "command_flags": [
+            "admin",
+            "noscript"
+        ],
+        "hints": [
+            "request_policy:special"
+        ]
+    },
+    "HOTKEYS START": {
+        "summary": "Starts hotkeys tracking.",
+        "since": "8.6.0",
+        "group": "server",
+        "complexity": "O(1)",
+        "acl_categories": [
+            "@admin",
+            "@slow",
+            "@dangerous"
+        ],
+        "arity": -2,
+        "arguments": [
+            {
+                "name": "metrics",
+                "type": "block",
+                "token": "METRICS",
+                "arguments": [
+                    {
+                        "name": "count",
+                        "type": "integer",
+                        "display_text": "count"
+                    },
+                    {
+                        "name": "cpu",
+                        "type": "pure-token",
+                        "display_text": "cpu",
+                        "token": "CPU",
+                        "optional": true
+                    },
+                    {
+                        "name": "net",
+                        "type": "pure-token",
+                        "display_text": "net",
+                        "token": "NET",
+                        "optional": true
+                    }
+                ]
+            },
+            {
+                "name": "k",
+                "type": "integer",
+                "display_text": "k",
+                "token": "COUNT",
+                "optional": true
+            },
+            {
+                "name": "seconds",
+                "type": "integer",
+                "display_text": "seconds",
+                "token": "DURATION",
+                "optional": true
+            },
+            {
+                "name": "ratio",
+                "type": "integer",
+                "display_text": "ratio",
+                "token": "SAMPLE",
+                "optional": true
+            },
+            {
+                "name": "slots",
+                "type": "block",
+                "token": "SLOTS",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "count",
+                        "type": "integer",
+                        "display_text": "count"
+                    },
+                    {
+                        "name": "slot",
+                        "type": "integer",
+                        "display_text": "slot",
+                        "multiple": true
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "admin",
+            "noscript"
+        ],
+        "hints": [
+            "request_policy:special"
+        ]
+    },
+    "HOTKEYS STOP": {
+        "summary": "Stops hotkeys tracking.",
+        "since": "8.6.0",
+        "group": "server",
+        "complexity": "O(1)",
+        "acl_categories": [
+            "@admin",
+            "@slow",
+            "@dangerous"
+        ],
+        "arity": 2,
+        "command_flags": [
+            "admin",
+            "noscript"
+        ],
+        "hints": [
+            "request_policy:special"
+        ]
+    },
     "HPERSIST": {
         "summary": "Removes the expiration time for each specified field",
         "since": "7.4.0",
@@ -17092,6 +17248,52 @@
                 ]
             },
             {
+                "name": "idmp",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "idmpauto-with-pid",
+                        "type": "block",
+                        "arguments": [
+                            {
+                                "name": "idmpauto-token",
+                                "type": "pure-token",
+                                "display_text": "idmpauto-token",
+                                "token": "IDMPAUTO"
+                            },
+                            {
+                                "name": "pid",
+                                "type": "string",
+                                "display_text": "pid"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "idmp-with-pid-iid",
+                        "type": "block",
+                        "arguments": [
+                            {
+                                "name": "idmp-token",
+                                "type": "pure-token",
+                                "display_text": "idmp-token",
+                                "token": "IDMP"
+                            },
+                            {
+                                "name": "pid",
+                                "type": "string",
+                                "display_text": "pid"
+                            },
+                            {
+                                "name": "iid",
+                                "type": "string",
+                                "display_text": "iid"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
                 "name": "trim",
                 "type": "block",
                 "optional": true,
@@ -17278,6 +17480,86 @@
         ],
         "hints": [
             "nondeterministic_output"
+        ]
+    },
+    "XCFGSET": {
+        "summary": "Sets the IDMP configuration parameters for a stream.",
+        "since": "8.6.0",
+        "group": "stream",
+        "complexity": "O(1)",
+        "acl_categories": [
+            "@write",
+            "@stream",
+            "@fast"
+        ],
+        "arity": -2,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "idmp-duration-block",
+                "type": "block",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "idmp-duration-token",
+                        "type": "pure-token",
+                        "display_text": "idmp-duration-token",
+                        "token": "IDMP-DURATION"
+                    },
+                    {
+                        "name": "duration",
+                        "type": "integer",
+                        "display_text": "duration"
+                    }
+                ]
+            },
+            {
+                "name": "idmp-maxsize-block",
+                "type": "block",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "idmp-maxsize-token",
+                        "type": "pure-token",
+                        "display_text": "idmp-maxsize-token",
+                        "token": "IDMP-MAXSIZE"
+                    },
+                    {
+                        "name": "maxsize",
+                        "type": "integer",
+                        "display_text": "maxsize"
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "write",
+            "fast"
         ]
     },
     "XCLAIM": {
@@ -18019,6 +18301,10 @@
             [
                 "7.2.0",
                 "Added the `active-time` field, and changed the meaning of `seen-time`."
+            ],
+            [
+                "8.6.0",
+                "Added the `idmp-duration`, `idmp-maxsize`, `pids-tracked`, `iids-tracked`, `iids-added` and `iids-duplicates` fields for IDMP tracking."
             ]
         ],
         "acl_categories": [

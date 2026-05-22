@@ -32,7 +32,6 @@ railroad_diagram: /images/railroad/cluster-replicas.svg
 since: 5.0.0
 summary: Lists the replica nodes of a master node.
 syntax_fmt: CLUSTER REPLICAS node-id
-syntax_str: ''
 title: CLUSTER REPLICAS
 ---
 The command provides a list of replica nodes replicating from the specified
@@ -47,9 +46,9 @@ configuration update, it may show stale information. However eventually
 (in a matter of seconds if there are no network partitions) all the nodes
 will agree about the set of nodes associated with a given master.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

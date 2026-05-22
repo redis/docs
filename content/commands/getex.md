@@ -71,8 +71,6 @@ since: 6.2.0
 summary: Returns the string value of a key after setting its expiration time.
 syntax_fmt: "GETEX key [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds |\n\
   \  PXAT\_unix-time-milliseconds | PERSIST]"
-syntax_str: "[EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds | PXAT\_unix-time-milliseconds\
-  \ | PERSIST]"
 title: GETEX
 ---
 Get the value of `key` and optionally set its expiration.
@@ -98,9 +96,9 @@ GETEX mykey EX 60
 TTL mykey
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active\*</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active\*</nobr></span> | \*Not supported for HyperLogLog. |
 

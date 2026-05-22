@@ -32,7 +32,6 @@ since: 6.0.0
 summary: Generates a pseudorandom, secure password that can be used to identify ACL
   users.
 syntax_fmt: ACL GENPASS [bits]
-syntax_str: ''
 title: ACL GENPASS
 ---
 ACL users need a solid password in order to authenticate to the server without
@@ -75,9 +74,9 @@ hex character.
 "90"
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

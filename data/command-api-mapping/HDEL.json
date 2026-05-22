@@ -1,0 +1,485 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "hdel(name: str, *keys: str)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "*keys",
+            "type": "str",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[int], int]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long hdel(final byte[] key, final byte[]... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of fields that were removed from the hash, not including specified but non-existing fields. If key does not exist, it is treated as an empty hash and this command returns 0."
+        }
+      },
+      {
+        "signature": "long hdel(final String key, final String... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of fields that were removed from the hash, not including specified but non-existing fields. If key does not exist, it is treated as an empty hash and this command returns 0."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long hdel(K key, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "the field type: key."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of fields that were removed from the hash, not including specified but non existing fields."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> hdel(K key, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "the field type: key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of fields that were removed from the hash, not including specified but non existing fields."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> hdel(K key, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "the field type: key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of fields that were removed from the hash, not including specified but non existing fields."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "HDel(ctx context.Context, key string, fields ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "HDEL(key: RedisArgument, field: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "hdel(...args: [, key: RedisKey, ...fields: (string | Buffer)[], callback: Callback<number>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hdel(...args: [key: RedisKey, ...fields: (string | Buffer)[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "hdel(key: K, field: F)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "F",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "hdel(key: K, field: F)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "F",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "HashDelete(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of fields that were removed."
+        }
+      },
+      {
+        "signature": "HashDelete(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to delete."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of fields that were removed."
+        }
+      },
+      {
+        "signature": "HashDelete(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of fields that were removed."
+        }
+      },
+      {
+        "signature": "HashDelete(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to delete."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of fields that were removed."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "HashDelete(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of fields that were removed."
+        }
+      },
+      {
+        "signature": "HashDelete(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to delete."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of fields that were removed."
+        }
+      },
+      {
+        "signature": "HashDelete(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The number of fields that were removed."
+        }
+      },
+      {
+        "signature": "HashDelete(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to delete."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of fields that were removed."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "hdel(string $key, array $fields)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$fields",
+            "type": "array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "hdel(key, *fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*fields",
+            "type": "String, Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of fields that were removed from the hash"
+        }
+      }
+    ]
+  }
+}

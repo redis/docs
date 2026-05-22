@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-compatibleOSSVersion: Redis 6.2.5
+compatibleOSSVersion: Redis 6.2.5, 6.0
 description: Python 3 support.  RHEL 8.5 support.
 linkTitle: 6.2.10 (February 2022)
 weight: 75

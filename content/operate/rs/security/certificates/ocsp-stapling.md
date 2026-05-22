@@ -17,9 +17,9 @@ To check whether a certificate is still valid or has been revoked, a client or s
 
 ## OCSP stapling overview
 
- With OCSP enabled, the Redis Enterprise server regularly polls the CA's OCSP responder for the certificate's status. After it receives the response, the server caches this status until its next polling attempt.
+ With OCSP enabled, the Redis Software server regularly polls the CA's OCSP responder for the certificate's status. After it receives the response, the server caches this status until its next polling attempt.
 
- When a client tries to connect to the Redis Enterprise server, they perform a [TLS handshake](https://en.wikipedia.org/wiki/Transport_Layer_Security#TLS_handshake) to authenticate the server and create a secure, encrypted connection. During the TLS handshake, [OCSP stapling](https://en.wikipedia.org/wiki/OCSP_stapling) lets the Redis Enterprise server send (or "staple") the cached certificate status to the client.
+ When a client tries to connect to the Redis Software server, they perform a [TLS handshake](https://en.wikipedia.org/wiki/Transport_Layer_Security#TLS_handshake) to authenticate the server and create a secure, encrypted connection. During the TLS handshake, [OCSP stapling](https://en.wikipedia.org/wiki/OCSP_stapling) lets the Redis Software server send (or "staple") the cached certificate status to the client.
 
 If the stapled OCSP response confirms the certificate is still valid, the TLS handshake succeeds and the client connects to the server.
 
@@ -31,13 +31,13 @@ The TLS handshake fails and the client blocks the connection to the server if th
 
 ## Set up OCSP stapling
 
-You can configure and enable OCSP stapling for your Redis Enterprise cluster with the [Cluster Manager UI](#cluster-manager-ui-method), the [REST API](#rest-api-method), or [`rladmin`](#rladmin-method).
+You can configure and enable OCSP stapling for your Redis Software cluster with the [Cluster Manager UI](#cluster-manager-ui-method), the [REST API](#rest-api-method), or [`rladmin`](#rladmin-method).
 
 While OCSP is enabled, the server always staples the cached OCSP status when a client tries to connect. It is the client's responsibility to use the stapled OCSP status. Some Redis clients, such as [Jedis](https://github.com/redis/jedis) and [redis-py](https://github.com/redis/redis-py), already support OCSP stapling, but others might require additional configuration.
 
 ### Cluster Manager UI method
 
-To set up OCSP stapling with the Redis Enterprise Cluster Manager UI:
+To set up OCSP stapling with the Redis Software Cluster Manager UI:
 
 1. Go to **Cluster > Security > OCSP**.
 

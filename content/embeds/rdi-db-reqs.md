@@ -34,6 +34,8 @@
     -H "Content-Type: application/json" \
     -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
   ```
+ If you don't have permissions to use AOF persistence, please check the [Using RDI without persistence]({{< relref "/integrate/redis-data-integration/faq#can-i-use-rdi-without-persistence-enabled" >}}) section in the FAQ.
+
 * **Ensure that the RDI database is not clustered.** RDI will not work correctly if the
   RDI database is clustered (but note that the target database *can* be clustered without
   any problems).

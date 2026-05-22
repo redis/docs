@@ -57,7 +57,6 @@ railroad_diagram: /images/railroad/bitfield_ro.svg
 since: 6.0.0
 summary: Performs arbitrary read-only bitfield integer operations on strings.
 syntax_fmt: "BITFIELD_RO key [GET\_encoding offset [GET encoding offset ...]]"
-syntax_str: "[GET\_encoding offset [GET encoding offset ...]]"
 title: BITFIELD_RO
 ---
 Read-only variant of the [`BITFIELD`]({{< relref "/commands/bitfield" >}}) command.
@@ -76,9 +75,9 @@ See original [`BITFIELD`]({{< relref "/commands/bitfield" >}}) for more details.
 BITFIELD_RO hello GET i8 16
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

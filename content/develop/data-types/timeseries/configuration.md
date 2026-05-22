@@ -57,6 +57,8 @@ In a cluster, you must run `CONFIG SET` and `CONFIG REWRITE` on each node separa
 In Redis 8.0, new names for the time series configuration parameters were introduced to align the naming with the Redis configuration parameters.
 You must use the new names when using the `CONFIG` command.
 
+See also [Redis configuration]({{< relref "/operate/oss_and_stack/management/config" >}}).
+
 ## Time series configuration parameters
 
 | Parameter name<br />(version < 8.0) | Parameter name<br />(version &#8805; 8.0) | Run-time | Redis<br />Software | Redis<br />Cloud |

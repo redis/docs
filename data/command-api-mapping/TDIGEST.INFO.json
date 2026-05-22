@@ -1,0 +1,113 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "info(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "type": "dict",
+          "description": "Sketch information"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "tdigestInfo(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "type": "Map<String, Object>",
+          "description": "Sketch information"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TDigestInfo(ctx context.Context, key string) *TDigestInfoCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "*TDigestInfoCmd",
+          "description": "Sketch information"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TDIGEST.INFO(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "object",
+          "description": "Sketch information"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Info(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          }
+        ],
+        "returns": {
+          "type": "TDigestInformation",
+          "description": "Sketch information"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "InfoAsync(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          }
+        ],
+        "returns": {
+          "type": "Task<TDigestInformation>",
+          "description": "Sketch information"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tdigestinfo($key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Sketch information"
+        }
+      }
+    ]
+  }
+}

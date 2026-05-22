@@ -22,6 +22,8 @@ capture. You need administrator privileges to do this.
 
 Once you enable CDC, it captures all of the INSERT, UPDATE, and DELETE operations
 on your chosen tables. The Debezium connector can then emit these events to RDI.
+RDI only reads from the source database; it captures changes through the CDC tables
+and never modifies the source data.
 
 The following checklist summarizes the steps to prepare a SQL Server
 database for RDI, with links to the sections that explain the steps in
@@ -233,10 +235,494 @@ See the SQL Server documentation for more information about capture agent parame
 
 ## SQL Server on Azure
 
-You can also use the Debezium SQL Server connector with SQL Server on Azure.
-See Microsoft's guide to
-[configuring SQL Server on Azure for CDC with Debezium](https://learn.microsoft.com/en-us/samples/azure-samples/azure-sql-db-change-stream-debezium/azure-sql%2D%2Dsql-server-change-stream-with-debezium/)
-for more information.
+RDI can capture changes from Microsoft SQL Server hosted on Azure. The preparation
+steps are similar to the on-premises instructions above, but Azure adds extra
+requirements for authentication, networking, and (for Azure SQL Database) the
+database service tier. Use the checklist below to track the additional steps.
+
+```checklist {id="sqlserverazurelist"}
+- [ ] [Confirm your Azure SQL product and service tier](#supported-azure-sql-products)
+- [ ] [Configure network access](#configure-network-access)
+- [ ] [Enable CDC on the database](#enable-cdc-on-the-database-azure)
+- [ ] [Create a database user for Debezium](#create-a-database-user-for-debezium)
+- [ ] [Configure the RDI source for Azure SQL](#configure-the-rdi-source-for-azure-sql)
+- [ ] [Verify the connection](#verify-the-connection)
+```
+
+### Supported Azure SQL products
+
+| Product | Supported | Notes |
+| --- | --- | --- |
+| Azure SQL Database (single database or elastic pool) | Yes | Supported on any service tier in the vCore-based purchasing model. In the DTU-based purchasing model, CDC requires the S3 tier or higher — it is not supported on Basic, S0, S1, or S2. |
+| Azure SQL Managed Instance | Yes | Behaves like on-premises SQL Server. The SQL Server Agent is available and the on-premises CDC procedures apply unchanged. |
+| SQL Server on an Azure VM | Yes | Treat as on-premises — follow the [main SQL Server instructions](#1-create-a-debezium-user). The Azure-specific guidance below does not apply. |
+| Azure Synapse Analytics, Microsoft Fabric SQL database | No | These products do not support the SQL Server CDC features that Debezium relies on. |
+
+### Configure network access
+
+The RDI connector must be able to reach the Azure SQL endpoint on the configured port
+(TCP 1433 by default; set via the `port` field in your RDI source configuration).
+
+- **Public endpoint**: add a server-level or database-level firewall rule that allows
+  the public outbound IP address of the host running the RDI connector. See Microsoft's
+  [Azure SQL firewall configuration](https://learn.microsoft.com/en-us/azure/azure-sql/database/firewall-configure)
+  documentation for details.
+- **Private endpoint or VNet integration** (recommended for production): expose the
+  Azure SQL server through a
+  [private endpoint](https://learn.microsoft.com/en-us/azure/azure-sql/database/private-endpoint-overview)
+  on the same VNet as the RDI connector — for example, when RDI runs on Azure
+  Kubernetes Service.
+
+Azure SQL rejects unencrypted connections, so the RDI connection must always use TLS.
+This is enforced by the [connector source settings](#configure-the-rdi-source-for-azure-sql)
+described below.
+
+### Enable CDC on the database {#enable-cdc-on-the-database-azure}
+
+The procedure depends on which Azure SQL product you are using.
+
+#### Azure SQL Database
+
+You must be a member of the `db_owner` role on the database — Azure SQL Database has
+no `sysadmin` server role.
+
+{{< warning >}}The identity used to enable CDC must match the type of identity that
+created the database. If the database was created by a Microsoft Entra user, CDC must
+be enabled (and later disabled) by a Microsoft Entra user; SQL logins cannot manage
+CDC on it. The same restriction applies in reverse for databases created by SQL
+logins.{{< /warning >}}
+
+Connect to the user database and run:
+
+```sql
+EXEC sys.sp_cdc_enable_db
+GO
+```
+
+This creates the `cdc` schema, the `cdc` database user, the CDC metadata tables, and
+other system objects in your database. Do not modify or drop these objects manually.
+Then enable CDC on each table you want to capture, using the same
+`sys.sp_cdc_enable_table` procedure described in the
+[on-premises instructions](#3-enable-cdc-for-the-tables-you-want-to-capture).
+
+CDC service-tier requirements differ between purchasing models:
+
+- **vCore-based purchasing model**: CDC is supported on any service tier, including
+  General Purpose.
+- **DTU-based purchasing model**: CDC requires the S3 tier or higher. It is not
+  supported on Basic, S0, S1, or S2.
+
+If `sys.sp_cdc_enable_db` returns an error such as `Change data capture is not supported for this edition of SQL Server`,
+scale the database up before retrying.
+
+{{< note >}}Capture and cleanup run automatically on Azure SQL Database — there is no
+SQL Server Agent. The internal scheduler runs the capture process every 20 seconds and
+the cleanup process every hour, with a default change-data retention period of three
+days. The capture cadence — the `pollinginterval` parameter described in the
+[SQL Server capture job agent configuration parameters](#sql-server-capture-job-agent-configuration-parameters)
+section — is fixed on Azure SQL Database and cannot be tuned. The `maxtrans` and
+`maxscans` parameters from that section can still be adjusted via `sp_cdc_change_job`.{{< /note >}}
+
+Enabling CDC increases transaction log usage on Azure SQL Database because it disables
+the aggressive log truncation behavior of Accelerated Database Recovery. You may need
+to scale the database to a higher service tier to provide enough transaction log
+throughput for your workload combined with CDC. After a local or geo-replication
+failover, CDC continues to operate automatically on the new primary; no manual
+reconfiguration is required.
+
+For more information about CDC on Azure SQL Database, see Microsoft's
+[Change Data Capture with Azure SQL Database](https://learn.microsoft.com/en-us/azure/azure-sql/database/change-data-capture-overview?view=azuresql)
+guide.
+
+#### Reducing end-to-end latency on Azure SQL Database
+
+Because the capture cadence on Azure SQL Database is fixed at ~20 seconds and
+cannot be tuned, the CDC step alone can add up to that much latency to your
+end-to-end change-propagation time. If your workload needs lower latency, you
+can supplement the automatic Azure scheduler with an external worker that
+periodically calls the `sys.sp_cdc_scan` stored procedure. The automatic
+scheduler continues to run; each manual call adds an extra CDC log scan in
+between, lowering the effective capture cadence to roughly the worker's
+polling interval.
+
+Each call runs one CDC log scan, bounded by the `maxtrans` and `maxscans`
+parameters covered in
+[SQL Server capture job agent configuration parameters](#sql-server-capture-job-agent-configuration-parameters).
+On Azure SQL Database, `pollinginterval` and `continuous` do not apply, but
+`maxtrans` and `maxscans` remain tunable via `sp_cdc_change_job`. For low and
+moderate change volumes the defaults are usually fine — each call drains the
+pending transactions. For high-volume workloads, raise `maxtrans` and
+`maxscans` if a single call cannot keep up with the change rate.
+
+This is a customer-operated workaround for an Azure platform limitation, not a
+Redis-supplied component. It does not apply to Azure SQL Managed Instance,
+SQL Server on Azure VM, or on-premises SQL Server — those use SQL Server Agent
+and the tunable `pollinginterval` parameter described in
+[SQL Server capture job agent configuration parameters](#sql-server-capture-job-agent-configuration-parameters).
+
+{{< warning >}}Run **only one** instance of the scan worker per source database.
+`sys.sp_cdc_scan` holds an exclusive log-reader lock for the duration of each
+call; concurrent callers fail rather than running in parallel, so additional
+replicas add no throughput and only generate error noise.{{< /warning >}}
+
+##### Requirements
+
+- A database identity with permission to execute `sys.sp_cdc_scan`. This
+  requires `db_owner` and is **more privilege than the Debezium user needs**, so
+  create a separate login dedicated to the scan worker rather than reusing the
+  RDI source credentials.
+- A single-replica runtime (a Kubernetes Deployment with `replicas: 1`, a
+  systemd unit, a serverless cron with `maxConcurrency: 1`, or equivalent).
+- Network access from the worker to the Azure SQL endpoint on TCP 1433.
+
+##### Scan loop
+
+The worker repeatedly opens a connection (or holds a long-lived one), runs
+`EXEC sys.sp_cdc_scan;` with a bounded command timeout, sleeps for the
+configured interval, and handles two expected error classes:
+
+- **Scan already in progress** — `sys.sp_cdc_scan` cannot run while another
+  CDC log scan is active, either the Azure-internal scheduler's scan or a
+  previous call from this worker that has not yet returned. The procedure
+  returns a SQL error in this state. The error message has been observed to
+  contain `sp_replcmds` (the underlying log-reader procedure), but the exact
+  wording is not contractual — match by whatever signature your client
+  surfaces, then log the occurrence and continue. Do not back off.
+- **Connection or transport errors** — close and reopen the connection with
+  exponential backoff before the next attempt.
+
+The example below shows the loop in pseudocode:
+
+```text
+loop until shutdown:
+    start = now()
+    try:
+        EXEC sys.sp_cdc_scan        # command timeout: 30s
+        log("scan_ok", now() - start)
+    catch SqlException identifying "scan already active":
+        log("scan_already_running", now() - start)
+    catch any other exception as e:
+        log("scan_error", e)
+        reconnect with exponential backoff
+    sleep(max(0, interval - (now() - start)))
+```
+
+##### Choosing the interval
+
+The scan interval directly trades end-to-end latency against source-database
+load — each call reads the transaction log. Pick the largest interval that
+meets your latency target:
+
+| Interval | Approximate CDC-step latency | Typical use |
+| --- | --- | --- |
+| No worker | Up to ~20s | Azure SQL Database default; the automatic scheduler runs every ~20s. |
+| 5s  | Around 5s | Workload tolerates ~5s end-to-end. |
+| 2s  | Around 2s under low to moderate load; can be higher under heavy write volume | Latency-sensitive workloads. Confirm the achieved latency under your own workload before relying on it. |
+
+Intervals below 1s are not recommended — each call has a fixed cost on the
+source database and the marginal latency improvement is small.
+
+{{< warning >}}CDC scans consume regular database resources. Every call reads
+the transaction log, competing with the workload for CPU, memory, and log I/O.
+An aggressive interval can degrade the source database, especially on lower
+service tiers or under high write volume. Microsoft provides no SLA on CDC
+freshness on Azure SQL Database; treat measured end-to-end latency under your
+own workload as the source of truth, not the configured interval. If scans
+start falling behind, raise the service tier, raise `maxtrans` and `maxscans`,
+or relax the interval.{{< /warning >}}
+
+##### Example Kubernetes deployment
+
+A minimal single-replica deployment skeleton — adapt the image, namespace, and
+secret reference to your environment:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-sql-cdc-scan-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: azure-sql-cdc-scan-worker
+  template:
+    metadata:
+      labels:
+        app: azure-sql-cdc-scan-worker
+    spec:
+      containers:
+        - name: worker
+          image: <your-registry>/<your-scan-worker-image>:<tag>
+          env:
+            - name: SQL_HOST
+              value: <server-name>.database.windows.net
+            - name: SQL_DATABASE
+              value: <database-name>
+            - name: SCAN_INTERVAL_MS
+              value: "2000"
+          envFrom:
+            - secretRef:
+                name: <scan-worker-db-secret>
+```
+
+The secret referenced by `envFrom` must provide the credentials of the
+`db_owner` identity created for the scan worker — not the RDI source
+credentials.
+
+##### Verifying the workaround
+
+After the worker has been running for a few minutes, confirm that the
+effective scan cadence has dropped to the worker's interval by querying the
+`sys.dm_cdc_log_scan_sessions` dynamic management view. This DMV records both
+the automatic scheduler's scans and the worker's manual scans, so the gap
+between successive `start_time` values should now match the worker's interval:
+
+```sql
+-- Recent CDC log-scan sessions (manual and automatic combined)
+SELECT TOP (10)
+  session_id, start_time, end_time, duration, scan_phase,
+  latency, tran_count, last_commit_cdc_time
+FROM sys.dm_cdc_log_scan_sessions
+WHERE session_id > 0
+ORDER BY session_id DESC
+```
+
+To check the commit time of the latest change captured for a specific table,
+map the highest captured LSN back to a time using `sys.fn_cdc_map_lsn_to_time`:
+
+```sql
+-- Replace <capture-instance> with the capture instance name shown by
+-- sys.sp_cdc_help_change_data_capture
+SELECT sys.fn_cdc_map_lsn_to_time(MAX(__$start_lsn)) AS latest_captured_commit_time
+FROM cdc.<capture-instance>_CT
+```
+
+The difference between that value and the current time is an upper bound on
+how stale the captured stream is for that table.
+
+You can also confirm that end-to-end change propagation through RDI now meets
+your latency target by measuring `<change committed in source> → <change visible in Redis>`
+on a representative table.
+
+#### Azure SQL Managed Instance
+
+Follow the on-premises instructions for
+[enabling CDC on the database](#2-enable-cdc-on-the-database) and
+[enabling CDC on the tables you want to capture](#3-enable-cdc-for-the-tables-you-want-to-capture).
+The procedures are identical on Managed Instance.
+
+### Create a database user for Debezium
+
+RDI only reads from the source database, so the Debezium user only needs read access.
+Do not grant `db_datawriter` or any other write permissions.
+
+You can authenticate to Azure SQL using either SQL authentication or Microsoft Entra ID.
+Microsoft Entra authentication with a service principal is the validated path for RDI;
+use it for production deployments. SQL authentication is supported and is the simplest
+option for development or proof-of-concept setups.
+
+#### Option A: SQL authentication
+
+Follow the on-premises instructions for
+[creating the Debezium user](#1-create-a-debezium-user), with one Azure-specific
+change: on Azure SQL Database, omit the `master`-database step and create a contained
+user in the user database. Connect to your user database as the server admin and run:
+
+```sql
+CREATE USER <username> WITH PASSWORD = '<password>'
+GO
+ALTER ROLE db_datareader ADD MEMBER <username>
+GO
+GRANT VIEW DATABASE STATE TO <username>
+GO
+```
+
+After enabling CDC on the tables you want to capture, add the user to the CDC role:
+
+```sql
+EXEC sp_addrolemember N'<cdc-role>', N'<username>'
+GO
+```
+
+{{< note >}}Use `VIEW DATABASE STATE` rather than `VIEW SERVER STATE`. The server-scoped
+permission does not exist on Azure SQL Database.{{< /note >}}
+
+#### Option B: Microsoft Entra service principal
+
+1. **Register an application in Microsoft Entra ID.**
+    In the Azure portal, go to **Microsoft Entra ID > App registrations > New registration**.
+    Note the **Application (client) ID** — you'll use it as the RDI `user` value. Create
+    a client secret under **Certificates & secrets** and note its value — you'll use it
+    as the RDI `password` value.
+
+1. **Set a Microsoft Entra admin on the Azure SQL logical server.**
+    In the Azure portal, open the logical SQL server and set a Microsoft Entra admin (a
+    user or group you can sign in as). You will connect as this admin to create the
+    contained user in the next step. (The permission to create contained users mapped
+    to Microsoft Entra principals can also be delegated to other database principals;
+    see Microsoft's [Microsoft Entra authentication for Azure SQL](https://learn.microsoft.com/en-us/azure/azure-sql/database/authentication-aad-overview)
+    documentation.)
+
+1. **Create a contained database user for the service principal.**
+    Connect to the user database as the Microsoft Entra admin (for example, using
+    `sqlcmd -G` or Azure Data Studio) and run:
+
+    ```sql
+    CREATE USER [<sp-display-name>] FROM EXTERNAL PROVIDER
+    GO
+    ALTER ROLE db_datareader ADD MEMBER [<sp-display-name>]
+    GO
+    GRANT VIEW DATABASE STATE TO [<sp-display-name>]
+    GO
+    ```
+
+    After enabling CDC on the tables you want to capture, add the principal to the CDC role:
+
+    ```sql
+    EXEC sp_addrolemember N'<cdc-role>', N'<sp-display-name>'
+    GO
+    ```
+
+    {{< note >}}`<sp-display-name>` is the **display name** of the app registration — the
+    value shown in the **Name** column on the **App registrations** page — not its client
+    ID. The client ID is used by the RDI connector (see the next section), but the
+    database user must be created from the display name. If the display name is not
+    unique in your Microsoft Entra tenant (display names are not guaranteed unique),
+    disambiguate by adding the `WITH OBJECT_ID = '<sp-object-id>'` clause to the
+    `CREATE USER` statement.{{< /note >}}
+
+### Configure the RDI source for Azure SQL
+
+Use a `cdc` source with `type: sqlserver`. The example below shows the validated
+configuration for Azure SQL Database with Microsoft Entra service-principal
+authentication:
+
+```yaml
+sources:
+  sqlserver:
+    type: cdc
+    connection:
+      type: sqlserver
+      host: <server-name>.database.windows.net
+      port: 1433
+      database: <database-name>
+      user: ${SOURCE_DB_USERNAME}
+      password: ${SOURCE_DB_PASSWORD}
+    logging:
+      level: info
+    schemas:
+      - dbo
+    tables:
+      <table-name>:
+        columns:
+          - <column-1>
+          - <column-2>
+        keys:
+          - <column-1>
+    advanced:
+      source:
+        driver.authentication: ActiveDirectoryServicePrincipal
+        database.encrypt: "true"
+        database.hostNameInCertificate: "*.database.windows.net"
+        database.trustServerCertificate: "false"
+        database.applicationIntent: ReadOnly
+        snapshot.mode: initial
+```
+
+The properties under `advanced.source` are passed straight through to the underlying
+Debezium SQL Server connector and JDBC driver. The Azure-specific values are:
+
+| Property | Purpose | Value for Azure SQL Database |
+| --- | --- | --- |
+| `driver.authentication` | Selects the JDBC Microsoft Entra authentication mode. | `ActiveDirectoryServicePrincipal` (validated). See [other Microsoft Entra authentication modes](#other-microsoft-entra-authentication-modes) for alternatives. |
+| `database.encrypt` | Enforces TLS on the JDBC connection. | `"true"`. Azure SQL rejects unencrypted connections. |
+| `database.trustServerCertificate` | If `true`, the driver skips certificate validation. | `"false"`. Azure SQL presents a valid certificate; never disable validation in production. |
+| `database.hostNameInCertificate` | Tells the JDBC driver which hostname pattern to expect in the server's TLS certificate. Set explicitly when the certificate's subject does not match the connection hostname directly. | `"*.database.windows.net"` (used in the RDI-validated configuration to match Azure SQL's wildcard certificate). |
+| `database.applicationIntent` | When set to `ReadOnly`, routes the connection to a read-only replica on tiers that support [read scale-out](https://learn.microsoft.com/en-us/azure/azure-sql/database/read-scale-out). | `ReadOnly`. Recommended because RDI only reads. On tiers where Azure SQL read scale-out is available (Business Critical and Hyperscale), this routes the RDI read connection to a read-only replica. On General Purpose, which has no read scale-out, the setting has no effect. |
+| `snapshot.mode` | The Debezium snapshot strategy. | `initial`. Captures a snapshot of the existing rows, then streams subsequent changes from the CDC tables. |
+
+For SQL authentication, omit the `driver.authentication` line and set
+`${SOURCE_DB_USERNAME}` and `${SOURCE_DB_PASSWORD}` to the SQL user's credentials.
+Keep the other Azure-specific properties.
+
+#### Secret mapping
+
+For Microsoft Entra service-principal authentication, the RDI source secret must
+provide:
+
+| Secret key | Value |
+| --- | --- |
+| `SOURCE_DB_USERNAME` | The service principal's **Application (client) ID** (a GUID). |
+| `SOURCE_DB_PASSWORD` | The service principal's **client secret**. |
+
+{{< warning >}}The `SOURCE_DB_USERNAME` value is the client ID (a GUID), but the contained
+database user created in the previous section uses the service principal's **display
+name**. These are two different identifiers for the same principal — mixing them up is
+the most common cause of `Login failed for user '<token-identified principal>'` errors
+at connection time.{{< /warning >}}
+
+#### Other Microsoft Entra authentication modes
+
+The Microsoft JDBC driver supports several other Microsoft Entra modes. The following
+are technically usable but are not currently validated by RDI — check with Redis
+support before using them in production:
+
+- **`ActiveDirectoryServicePrincipalCertificate`** — service principal authenticated by
+  a certificate instead of a secret. Useful when organizational policy forbids
+  long-lived shared secrets.
+- **`ActiveDirectoryManagedIdentity`** — for RDI installations running on an Azure
+  resource (such as an Azure VM or Azure Kubernetes Service node) that has a system-
+  or user-assigned managed identity.
+
+The deprecated `ActiveDirectoryPassword` mode and the interactive
+`ActiveDirectoryInteractive` mode are not suitable for a server-side connector and are
+not supported.
+
+See Microsoft's
+[Connect using Microsoft Entra authentication](https://learn.microsoft.com/en-us/sql/connect/jdbc/connecting-using-azure-active-directory-authentication?view=sql-server-ver17)
+for the full list of modes and their connection-string syntax.
+
+### Verify the connection
+
+Connect to the database as the Debezium user (the SQL user or the Microsoft Entra
+service principal) and run `sys.sp_cdc_help_change_data_capture` to confirm that the
+user can see the captured tables. The query is the same as for
+[on-premises SQL Server](#4-check-that-you-have-access-to-the-cdc-table).
+
+You can also confirm the database-level and table-level CDC state directly from the
+catalog views:
+
+```sql
+-- Check whether CDC is enabled on the database
+SELECT name, is_cdc_enabled FROM sys.databases WHERE name = '<database-name>'
+GO
+
+-- Check which tables in the current database have CDC enabled
+SELECT name, is_tracked_by_cdc FROM sys.tables WHERE is_tracked_by_cdc = 1
+GO
+```
+
+### Troubleshooting
+
+- **`Login failed for user '<token-identified principal>'`** — the contained database
+  user was not created for this service principal, or it was created with the wrong
+  identifier. Verify that the `CREATE USER ... FROM EXTERNAL PROVIDER` statement used
+  the service principal's display name, and that `SOURCE_DB_USERNAME` contains its
+  client ID. Query `sys.database_principals` on the source database to see which
+  principals exist.
+- **`SSL Server certificate validation failed` or hostname mismatch** —
+  `database.hostNameInCertificate` is missing or has the wrong value. For Azure SQL
+  Database, set it to `"*.database.windows.net"` to match the wildcard certificate.
+- **`Change data capture is not supported for this edition of SQL Server`** — the
+  Azure SQL Database is on an unsupported service tier. In the DTU purchasing model,
+  scale up to S3 or higher. In the vCore purchasing model, CDC is supported on all
+  tiers, so check that you are connecting to a standard Azure SQL Database (CDC is
+  not supported on Azure SQL Edge or other variants).
+- **Connection timeouts** — the RDI connector's source IP is not allowed by the Azure
+  SQL firewall, or the private endpoint is not reachable from the connector's network.
+  Verify firewall rules in the Azure portal and that DNS resolves to the expected
+  (public or private) endpoint.
 
 ## Handling changes to the schema
 

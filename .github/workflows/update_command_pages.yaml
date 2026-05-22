@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: make deps
 
-      - name: 'Run build/update_cmds.py script'
+      - name: 'Run build/cmd_tools.py update-all'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -44,7 +44,7 @@ jobs:
             git checkout -b "${branch}"
           fi
 
-          python3 build/update_cmds.py
+          python3 build/cmd_tools.py update-all
           
           commands_are_different=$(git diff "content/commands/")
 

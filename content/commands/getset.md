@@ -54,7 +54,6 @@ replaced_by: '`SET` with the `!GET` argument'
 since: 1.0.0
 summary: Returns the previous string value of a key after setting it to a new value.
 syntax_fmt: GETSET key value
-syntax_str: value
 title: GETSET
 ---
 Atomically sets `key` to `value` and returns the old value stored at `key`.
@@ -76,7 +75,6 @@ GETSET mycounter "0"
 GET mycounter
 {{% /redis-cli %}}
 
-
 ## Examples
 
 {{% redis-cli %}}
@@ -85,9 +83,9 @@ GETSET mykey "World"
 GET mykey
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
 

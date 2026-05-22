@@ -188,13 +188,42 @@ const mobileMenu = (() => {
 
 // Simple click-to-open for standalone images
 document.addEventListener('click', function(e) {
-  // Check if clicked element is a standalone img (not inside an anchor, not image-card, not no-click)
-  if (e.target.tagName === 'IMG' &&
-      !e.target.closest('a') &&
-      !e.target.classList.contains('image-card-img') &&
-      !e.target.src.includes('#no-click')) {
+	  // Check if clicked element is a standalone img (not inside an anchor, not image-card, not no-click)
+	  if (e.target.tagName === 'IMG' &&
+	      !e.target.closest('a') &&
+	      !e.target.classList.contains('image-card-img') &&
+	      !e.target.src.includes('#no-click')) {
+	  
+	    // Open image in same tab, just like clicking a regular link
+	    window.location.href = e.target.src
+	  }
+	})
 
-    // Open image in same tab, just like clicking a regular link
-    window.location.href = e.target.src
-  }
+// Ensure hash-based navigation lands correctly after dynamic content (like Mermaid diagrams)
+// has finished rendering and potentially shifted the layout.
+window.addEventListener('load', () => {
+	  if (!window.location.hash) return
+
+	  // Support hashes with optional query parameters (e.g., #pattern-1-fail-fast?lang=Python)
+	  const rawHash = window.location.hash
+	  const baseHash = rawHash.split('?')[0]
+	  const targetId = decodeURIComponent(baseHash.substring(1))
+	  if (!targetId) return
+
+	  const scrollToTarget = () => {
+	    const target = document.getElementById(targetId)
+	    if (!target) return
+
+	    const header = document.querySelector('header.sticky')
+	    const headerHeight = header ? header.offsetHeight : 0
+	    const offset = headerHeight + 16 // small extra padding
+
+	    const targetTop = target.getBoundingClientRect().top + window.scrollY - offset
+	    window.scrollTo({ top: targetTop, behavior: 'auto' })
+	  }
+
+	  // Run a few times to account for late layout shifts (e.g., Mermaid rendering)
+	  ;[50, 250, 500].forEach(delay => {
+	    setTimeout(scrollToTarget, delay)
+	  })
 })

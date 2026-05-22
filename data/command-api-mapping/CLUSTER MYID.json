@@ -1,0 +1,68 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [
+      {
+        "signature": "String clusterMyId()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClusterMyID(ctx context.Context)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "String clusterMyId()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "The node ID"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clusterMyId()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "The node ID"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clusterMyId()",
+        "params": [],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "The node ID"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

@@ -45,7 +45,6 @@ railroad_diagram: /images/railroad/acl-setuser.svg
 since: 6.0.0
 summary: Creates and modifies an ACL user and its rules.
 syntax_fmt: ACL SETUSER username [rule [rule ...]]
-syntax_str: '[rule [rule ...]]'
 title: ACL SETUSER
 ---
 Create an ACL user with the specified rules or modify the rules of an
@@ -146,9 +145,9 @@ This is a list of all the supported Redis ACL rules:
 (error) ERR Error in ACL SETUSER modifier 'heeyyyy': Syntax error
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

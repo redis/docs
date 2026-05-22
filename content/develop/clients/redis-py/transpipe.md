@@ -41,7 +41,7 @@ Note that the command methods for a pipeline always return the original
 pipeline object, so you can "chain" several commands together, as the
 example below shows:
 
-{{< clients-example pipe_trans_tutorial basic_pipe Python >}}
+{{< clients-example set="pipe_trans_tutorial" step="basic_pipe" lang_filter="Python" description="Foundational: Use pipelines to batch multiple commands together and reduce network round trips" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Execute a transaction
@@ -73,7 +73,7 @@ key is modified by another client before writing, the transaction aborts
 with a `WatchError` exception, and the loop executes again for another attempt.
 Otherwise, the loop terminates successfully.
 
-{{< clients-example pipe_trans_tutorial trans_watch Python >}}
+{{< clients-example set="pipe_trans_tutorial" step="trans_watch" lang_filter="Python" description="Optimistic locking: Use WATCH to monitor keys for changes and retry transactions when conflicts occur" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Because this is a common pattern, the library includes a convenience
@@ -86,5 +86,5 @@ using `transaction()`. Note that `transaction()` can't add the `multi()`
 call automatically, so you must still place this correctly in your
 transaction function.
 
-{{< clients-example pipe_trans_tutorial watch_conv_method Python >}}
+{{< clients-example set="pipe_trans_tutorial" step="watch_conv_method" lang_filter="Python" description="Optimistic locking with convenience method: Use the transaction() helper to simplify watched transaction patterns" difficulty="intermediate" >}}
 {{< /clients-example >}}

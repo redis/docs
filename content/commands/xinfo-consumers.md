@@ -51,7 +51,6 @@ railroad_diagram: /images/railroad/xinfo-consumers.svg
 since: 5.0.0
 summary: Returns a list of the consumers in a consumer group.
 syntax_fmt: XINFO CONSUMERS key group
-syntax_str: group
 title: XINFO CONSUMERS
 ---
 This command returns the list of consumers that belong to the `<groupname>` consumer group of the stream stored at `<key>`.
@@ -88,9 +87,9 @@ In 7.2.0, **inactive** was added and **idle** was changed to denote the time pas
    8) (integer) 993841998
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

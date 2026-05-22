@@ -1,0 +1,255 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "create_index(fields: Iterable[Field], definition: Optional[IndexDefinition] = None)",
+        "params": [
+          {
+            "name": "fields",
+            "type": "Iterable[Field]",
+            "description": "The fields to index"
+          },
+          {
+            "name": "definition",
+            "type": "Optional[IndexDefinition]",
+            "description": "Optional index definition"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String ftCreate(String indexName, IndexOptions indexOptions, Schema schema)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          },
+          {
+            "name": "indexOptions",
+            "type": "IndexOptions",
+            "description": "Index options"
+          },
+          {
+            "name": "schema",
+            "type": "Schema",
+            "description": "The schema definition"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      },
+      {
+        "signature": "String ftCreate(String indexName, FTCreateParams createParams, Iterable<SchemaField> schemaFields)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          },
+          {
+            "name": "createParams",
+            "type": "FTCreateParams",
+            "description": "Create parameters"
+          },
+          {
+            "name": "schemaFields",
+            "type": "Iterable<SchemaField>",
+            "description": "The schema fields"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTCreate(ctx context.Context, index string, options *FTCreateOptions, schema ...*FieldSchema)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "options",
+            "type": "*FTCreateOptions",
+            "description": "Create options"
+          },
+          {
+            "name": "schema",
+            "type": "...*FieldSchema",
+            "description": "The schema fields"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "CREATE(index: RedisArgument, schema: Array<SchemaField>, options?: FTCreateOptions)",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisArgument",
+            "description": "The index name"
+          },
+          {
+            "name": "schema",
+            "type": "Array<SchemaField>",
+            "description": "The schema fields"
+          },
+          {
+            "name": "options",
+            "type": "FTCreateOptions",
+            "description": "Optional create options"
+          }
+        ],
+        "returns": {
+          "type": "Promise<string>",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "bool Create(string indexName, FTCreateParams parameters, Schema schema)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "parameters",
+            "type": "FTCreateParams",
+            "description": "Index creation parameters"
+          },
+          {
+            "name": "schema",
+            "type": "Schema",
+            "description": "The index schema"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the index was created"
+        }
+      },
+      {
+        "signature": "bool Create(string indexName, Schema schema)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "schema",
+            "type": "Schema",
+            "description": "The index schema"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the index was created"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<bool> CreateAsync(string indexName, FTCreateParams parameters, Schema schema)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "parameters",
+            "type": "FTCreateParams",
+            "description": "Index creation parameters"
+          },
+          {
+            "name": "schema",
+            "type": "Schema",
+            "description": "The index schema"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if the index was created"
+        }
+      },
+      {
+        "signature": "Task<bool> CreateAsync(string indexName, Schema schema)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "schema",
+            "type": "Schema",
+            "description": "The index schema"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if the index was created"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftcreate(string $index, FieldInterface[] $schema, ?CreateArguments $arguments = null)",
+        "params": [
+          {
+            "name": "$index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "$schema",
+            "type": "FieldInterface[]",
+            "description": "The index schema fields"
+          },
+          {
+            "name": "$arguments",
+            "type": "?CreateArguments",
+            "description": "Optional create arguments"
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": "OK on success"
+        }
+      }
+    ]
+  }
+}
+

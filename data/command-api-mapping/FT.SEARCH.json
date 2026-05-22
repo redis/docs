@@ -1,0 +1,226 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "search(query: Union[str, Query], query_params: Optional[Dict[str, Union[str, int, float]]] = None)",
+        "params": [
+          {
+            "name": "query",
+            "type": "Union[str, Query]",
+            "description": "The search query"
+          },
+          {
+            "name": "query_params",
+            "type": "Optional[Dict[str, Union[str, int, float]]]",
+            "description": "Optional query parameters"
+          }
+        ],
+        "returns": {
+          "type": "Result",
+          "description": "The search results"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "SearchResult ftSearch(String indexName, Query query)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "Query",
+            "description": "The search query"
+          }
+        ],
+        "returns": {
+          "type": "SearchResult",
+          "description": "The search results"
+        }
+      },
+      {
+        "signature": "SearchResult ftSearch(String indexName, String query, FTSearchParams searchParams)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "The search query"
+          },
+          {
+            "name": "searchParams",
+            "type": "FTSearchParams",
+            "description": "Search parameters"
+          }
+        ],
+        "returns": {
+          "type": "SearchResult",
+          "description": "The search results"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTSearch(ctx context.Context, index string, query string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The search query"
+          }
+        ],
+        "returns": {
+          "type": "*FTSearchCmd",
+          "description": "The search results"
+        }
+      },
+      {
+        "signature": "FTSearchWithArgs(ctx context.Context, index string, query string, options *FTSearchOptions)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The search query"
+          },
+          {
+            "name": "options",
+            "type": "*FTSearchOptions",
+            "description": "Search options"
+          }
+        ],
+        "returns": {
+          "type": "*FTSearchCmd",
+          "description": "The search results"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SEARCH(index: RedisArgument, query: RedisArgument, options?: FTSearchOptions)",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisArgument",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "RedisArgument",
+            "description": "The search query"
+          },
+          {
+            "name": "options",
+            "type": "FTSearchOptions",
+            "description": "Optional search options"
+          }
+        ],
+        "returns": {
+          "type": "Promise<FTSearchResult>",
+          "description": "The search results"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "SearchResult Search(string indexName, Query q)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "q",
+            "type": "Query",
+            "description": "The search query"
+          }
+        ],
+        "returns": {
+          "type": "SearchResult",
+          "description": "Search results"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<SearchResult> SearchAsync(string indexName, Query q)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "q",
+            "type": "Query",
+            "description": "The search query"
+          }
+        ],
+        "returns": {
+          "type": "Task<SearchResult>",
+          "description": "Search results"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftsearch(string $index, string $query, ?SearchArguments $arguments = null)",
+        "params": [
+          {
+            "name": "$index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "$query",
+            "type": "string",
+            "description": "The search query"
+          },
+          {
+            "name": "$arguments",
+            "type": "?SearchArguments",
+            "description": "Optional search arguments"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Search results"
+        }
+      }
+    ]
+  }
+}
+

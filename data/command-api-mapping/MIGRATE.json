@@ -1,0 +1,644 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "migrate(host: str, port: int, keys: KeysT, destination_db: int, timeout: int, copy: bool = False, replace: bool = False, auth: Optional[str] = None, **kwargs)",
+        "params": [
+          {
+            "name": "host",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "KeysT",
+            "description": ""
+          },
+          {
+            "name": "destination_db",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "copy",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "replace",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "auth",
+            "type": "Optional[str]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String migrate(final String host, final int port, final byte[] key, final int destinationDB, final int timeout)",
+        "params": [
+          {
+            "name": "host",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "destinationDB",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Status code reply"
+        }
+      },
+      {
+        "signature": "String migrate(final String host, final int port, final int destinationDB, final int timeout, final MigrateParams params, final byte[]... keys)",
+        "params": [
+          {
+            "name": "host",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "destinationDB",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "MigrateParams",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Status code reply"
+        }
+      },
+      {
+        "signature": "String migrate(final String host, final int port, final String key, final int destinationDB, final int timeout)",
+        "params": [
+          {
+            "name": "host",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "destinationDB",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Status code reply"
+        }
+      },
+      {
+        "signature": "String migrate(final String host, final int port, final int destinationDB, final int timeout, final MigrateParams params, final String... keys)",
+        "params": [
+          {
+            "name": "host",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "destinationDB",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "MigrateParams",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Status code reply"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Migrate(ctx context.Context, host string, port int, key string, db int, timeout time.Duration)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "host",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "db",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "time.Duration",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "MIGRATE(host: string, port: number, key: RedisArgument, destination: number, timeout: number, options?: MigrateOptions)",
+        "params": [
+          {
+            "name": "host",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "port",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "MigrateOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String migrate(String host, int port, K key, int db, long timeout)",
+        "params": [
+          {
+            "name": "host",
+            "type": "String",
+            "description": "the host."
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": "the port."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "db",
+            "type": "int",
+            "description": "the database."
+          },
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply The command returns OK on success."
+        }
+      },
+      {
+        "signature": "String migrate(String host, int port, int db, long timeout, MigrateArgs<K> migrateArgs)",
+        "params": [
+          {
+            "name": "host",
+            "type": "String",
+            "description": "the host."
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": "the port."
+          },
+          {
+            "name": "db",
+            "type": "int",
+            "description": "the database."
+          },
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout."
+          },
+          {
+            "name": "migrateArgs",
+            "type": "MigrateArgs<K>",
+            "description": "the migrate arguments."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply The command returns OK on success."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> migrate(String host, int port, K key, int db, long timeout)",
+        "params": [
+          {
+            "name": "host",
+            "type": "String",
+            "description": "the host."
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": "the port."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "db",
+            "type": "int",
+            "description": "the database."
+          },
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply The command returns OK on success."
+        }
+      },
+      {
+        "signature": "RedisFuture<String> migrate(String host, int port, int db, long timeout, MigrateArgs<K> migrateArgs)",
+        "params": [
+          {
+            "name": "host",
+            "type": "String",
+            "description": "the host."
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": "the port."
+          },
+          {
+            "name": "db",
+            "type": "int",
+            "description": "the database."
+          },
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout."
+          },
+          {
+            "name": "migrateArgs",
+            "type": "MigrateArgs<K>",
+            "description": "the migrate arguments."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply The command returns OK on success."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> migrate(String host, int port, K key, int db, long timeout)",
+        "params": [
+          {
+            "name": "host",
+            "type": "String",
+            "description": "the host."
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": "the port."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "db",
+            "type": "int",
+            "description": "the database."
+          },
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply The command returns OK on success."
+        }
+      },
+      {
+        "signature": "Mono<String> migrate(String host, int port, int db, long timeout, MigrateArgs<K> migrateArgs)",
+        "params": [
+          {
+            "name": "host",
+            "type": "String",
+            "description": "the host."
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "description": "the port."
+          },
+          {
+            "name": "db",
+            "type": "int",
+            "description": "the database."
+          },
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout."
+          },
+          {
+            "name": "migrateArgs",
+            "type": "MigrateArgs<K>",
+            "description": "the migrate arguments."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply The command returns OK on success."
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "KeyMigrate(RedisKey key, EndPoint toServer, int toDatabase = 0, int timeoutMilliseconds = 0, MigrateOptions migrateOptions = MigrateOptions.None, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to migrate."
+          },
+          {
+            "name": "toServer",
+            "type": "EndPoint",
+            "description": "The destination server."
+          },
+          {
+            "name": "toDatabase",
+            "type": "int",
+            "description": "The destination database."
+          },
+          {
+            "name": "timeoutMilliseconds",
+            "type": "int",
+            "description": "The timeout in milliseconds."
+          },
+          {
+            "name": "migrateOptions",
+            "type": "MigrateOptions",
+            "description": "The migrate options."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "KeyMigrateAsync(RedisKey key, EndPoint toServer, int toDatabase = 0, int timeoutMilliseconds = 0, MigrateOptions migrateOptions = MigrateOptions.None, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to migrate."
+          },
+          {
+            "name": "toServer",
+            "type": "EndPoint",
+            "description": "The destination server."
+          },
+          {
+            "name": "toDatabase",
+            "type": "int",
+            "description": "The destination database."
+          },
+          {
+            "name": "timeoutMilliseconds",
+            "type": "int",
+            "description": "The timeout in milliseconds."
+          },
+          {
+            "name": "migrateOptions",
+            "type": "MigrateOptions",
+            "description": "The migrate options."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "migrate(string $host, int $port, string|array $key, int $dstdb, int $timeout, bool $copy = false, bool $replace = false)",
+        "params": [
+          {
+            "name": "$host",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$port",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$key",
+            "type": "string|array",
+            "description": ""
+          },
+          {
+            "name": "$dstdb",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$timeout",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$copy",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "$replace",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "migrate(key, options)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String, Array<String>",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "Hash",
+            "description": "host, port, db, timeout, copy, replace"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\""
+        }
+      }
+    ]
+  }
+}

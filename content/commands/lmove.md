@@ -85,9 +85,13 @@ since: 6.2.0
 summary: Returns an element after popping it from one list and pushing it to another.
   Deletes the list if the last element was moved.
 syntax_fmt: LMOVE source destination <LEFT | RIGHT> <LEFT | RIGHT>
-syntax_str: destination <LEFT | RIGHT> <LEFT | RIGHT>
 title: LMOVE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Atomically returns and removes the first/last element (head/tail depending on
 the `wherefrom` argument) of the list stored at `source`, and pushes the
 element at the first/last element (head/tail depending on the `whereto`
@@ -119,7 +123,6 @@ LMOVE mylist myotherlist LEFT RIGHT
 LRANGE mylist 0 -1
 LRANGE myotherlist 0 -1
 {{% /redis-cli %}}
-
 
 ## Pattern: Reliable queue
 
@@ -167,9 +170,9 @@ Note that this implementation of workers is trivially scalable and reliable,
 because even if a message is lost the item is still in the queue and will be
 processed at the next iteration.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

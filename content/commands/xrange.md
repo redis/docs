@@ -58,7 +58,6 @@ railroad_diagram: /images/railroad/xrange.svg
 since: 5.0.0
 summary: Returns the messages from a stream within a range of IDs.
 syntax_fmt: "XRANGE key start end [COUNT\_count]"
-syntax_str: "start end [COUNT\_count]"
 title: XRANGE
 ---
 The command returns the stream entries matching a given range of IDs.
@@ -275,9 +274,9 @@ XLEN writers
 XRANGE writers - + COUNT 2
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

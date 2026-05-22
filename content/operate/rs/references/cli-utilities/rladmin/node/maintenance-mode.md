@@ -38,7 +38,7 @@ rladmin node <ID> maintenance_mode on
 | evict_ha_replica | `enabled`<br />`disabled` | Migrates the HA replica shards in the node |
 | evict_active_active_replica | `enabled`<br />`disabled` | Migrates the Active-Active replica shards in the node |
 | evict_dbs | list of database names or IDs | Specify databases whose shards should be evicted from the node when entering maintenance mode.<br /><br />Examples:<br />`$ rladmin node 1 maintenance_mode on evict_dbs db:1 db:2`<br />`$ rladmin node 1 maintenance_mode on evict_dbs db_name1 db_name2` |
-| keep_slave_shards     |                                | Keeps replica shards in the node and demotes primary shards to replicas.<br /><br />Deprecated as of Redis Enterprise Software 7.4.2. Use `evict_ha_replica disabled evict_active_active_replica disabled` instead. |
+| keep_slave_shards     |                                | Keeps replica shards in the node and demotes primary shards to replicas.<br /><br />Deprecated as of Redis Software 7.4.2. Use `evict_ha_replica disabled evict_active_active_replica disabled` instead. |
 | max_concurrent_actions | integer | Maximum number of concurrent actions during node maintenance |
 | overwrite_snapshot | | Overwrites the latest existing node snapshot taken when enabling maintenance mode |
 

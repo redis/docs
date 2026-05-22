@@ -33,7 +33,6 @@ railroad_diagram: /images/railroad/command-docs.svg
 since: 7.0.0
 summary: Returns documentary information about one, multiple or all commands.
 syntax_fmt: COMMAND DOCS [command-name [command-name ...]]
-syntax_str: ''
 title: COMMAND DOCS
 ---
 Return documentary information about commands.
@@ -88,9 +87,9 @@ The following keys may be included in the mapped reply:
 COMMAND DOCS SET
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

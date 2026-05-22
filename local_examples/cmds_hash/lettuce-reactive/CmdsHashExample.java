@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 // REMOVE_END
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.*;
@@ -162,6 +163,29 @@ public class CmdsHashExample {
             // STEP_END
 
             hGetExample3.block();
+            // REMOVE_START
+            reactiveCommands.del("myhash").block();
+            // REMOVE_END
+
+            // STEP_START hmget
+            Map<String, String> hmgetExampleParams = new HashMap<>();
+            hmgetExampleParams.put("field1", "Hello");
+            hmgetExampleParams.put("field2", "World");
+
+            Mono<Long> hmgetExample1 = reactiveCommands.hset("myhash", hmgetExampleParams);
+
+            hmgetExample1.block();
+
+            Flux<KeyValue<String, String>> hmgetExample2 = reactiveCommands.hmget("myhash", "field1", "field2", "nofield")
+                    .doOnNext(result -> {
+                        System.out.println(result);
+                        // >>> KeyValue[field1, Hello]
+                        // >>> KeyValue[field2, World]
+                        // >>> KeyValue[nofield, null]
+                    });
+            // STEP_END
+
+            hmgetExample2.collectList().block();
             // REMOVE_START
             reactiveCommands.del("myhash").block();
             // REMOVE_END

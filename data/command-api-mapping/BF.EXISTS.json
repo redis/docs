@@ -1,0 +1,156 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "exists(key, item)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "item",
+            "type": "str",
+            "description": "The item to check"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "1 if item may exist, 0 if item definitely does not exist"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "boolean bfExists(String key, String item)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "item",
+            "type": "String",
+            "description": "The item to check"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "true if item may exist"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BFExists(ctx context.Context, key string, element interface{}) *BoolCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "element",
+            "type": "interface{}",
+            "description": "The item to check"
+          }
+        ],
+        "returns": {
+          "type": "*BoolCmd",
+          "description": "Boolean command result"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "BF.EXISTS(key: RedisArgument, item: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "item",
+            "type": "RedisArgument",
+            "description": "The item to check"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "true if item may exist"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "bool Exists(RedisKey key, RedisValue item)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "item",
+            "type": "RedisValue",
+            "description": "The item to check"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if item may exist"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "async Task<bool> ExistsAsync(RedisKey key, RedisValue item)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "item",
+            "type": "RedisValue",
+            "description": "The item to check"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if item may exist"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "bfexists(string $key, $item)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "$item",
+            "type": "mixed",
+            "description": "The item to check"
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": "1 if may exist, 0 otherwise"
+        }
+      }
+    ]
+  }
+}

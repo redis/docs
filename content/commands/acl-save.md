@@ -31,7 +31,6 @@ railroad_diagram: /images/railroad/acl-save.svg
 since: 6.0.0
 summary: Saves the effective ACL rules in the configured ACL file.
 syntax_fmt: ACL SAVE
-syntax_str: ''
 title: ACL SAVE
 ---
 When Redis is configured to use an ACL file (with the `aclfile` configuration
@@ -47,9 +46,9 @@ option), this command will save the currently defined ACLs from the server memor
 -ERR There was an error trying to save the ACLs. Please check the server logs for more information
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

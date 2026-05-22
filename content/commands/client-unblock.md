@@ -45,7 +45,6 @@ railroad_diagram: /images/railroad/client-unblock.svg
 since: 5.0.0
 summary: Unblocks a client blocked by a blocking command from a different connection.
 syntax_fmt: CLIENT UNBLOCK client-id [TIMEOUT | ERROR]
-syntax_str: '[TIMEOUT | ERROR]'
 title: CLIENT UNBLOCK
 ---
 This command can unblock, from a different connection, a client blocked in a blocking operation, such as for instance [`BRPOP`]({{< relref "/commands/brpop" >}}) or [`XREAD`]({{< relref "/commands/xread" >}}) or [`WAIT`]({{< relref "/commands/wait" >}}).
@@ -100,9 +99,9 @@ NULL
 (client is blocked again)
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

@@ -23,16 +23,15 @@ railroad_diagram: /images/railroad/cluster-myid.svg
 since: 3.0.0
 summary: Returns the ID of a node.
 syntax_fmt: CLUSTER MYID
-syntax_str: ''
 title: CLUSTER MYID
 ---
 Returns the node's id.
 
 The `CLUSTER MYID` command returns the unique, auto-generated identifier that is associated with the connected cluster node.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

@@ -1,0 +1,547 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "zlexcount(name, min, max)",
+        "params": [
+          {
+            "name": "name",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long zlexcount(final byte[] key, final byte[] min, final byte[] max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the sorted set at dstkey"
+        }
+      },
+      {
+        "signature": "long zlexcount(final String key, final String min, final String max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the sorted set at dstkey"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long zlexcount(K key, String min, String max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of elements in the specified score range. @since 4.3"
+        }
+      },
+      {
+        "signature": "Long zlexcount(K key, Range<? extends V> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends V>",
+            "description": "the range."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of elements in the specified score range. @since 4.3"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> zlexcount(K key, String min, String max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of elements in the specified score range. @since 4.3"
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> zlexcount(K key, Range<? extends V> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends V>",
+            "description": "the range."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of elements in the specified score range. @since 4.3"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> zlexcount(K key, String min, String max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of elements in the specified score range. @since 4.3"
+        }
+      },
+      {
+        "signature": "Mono<Long> zlexcount(K key, Range<? extends V> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "range",
+            "type": "Range<? extends V>",
+            "description": "the range."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of elements in the specified score range. @since 4.3"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ZLexCount(ctx context.Context, key, min, max string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ZLEXCOUNT(key: RedisArgument, min: RedisArgument, max: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "zlexcount(key: RedisKey, min: string | Buffer | number, max: string | Buffer | number, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "zlexcount(key: K, min: M, max: MM)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "M",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "MM",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "zlexcount(key: K, min: M, max: MM)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "M",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "MM",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SortedSetLengthByValue(RedisKey key, RedisValue min, RedisValue max, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "min",
+            "type": "RedisValue",
+            "description": "The min value to filter by."
+          },
+          {
+            "name": "max",
+            "type": "RedisValue",
+            "description": "The max value to filter by."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Whether to exclude min and max from the range check (defaults to both inclusive)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the specified score range."
+        }
+      },
+      {
+        "signature": "SortedSetLengthByValue(RedisKey key, RedisValue min, RedisValue max, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "min",
+            "type": "RedisValue",
+            "description": "The min value to filter by."
+          },
+          {
+            "name": "max",
+            "type": "RedisValue",
+            "description": "The max value to filter by."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Whether to exclude min and max from the range check (defaults to both inclusive)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the specified score range."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SortedSetLengthByValue(RedisKey key, RedisValue min, RedisValue max, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "min",
+            "type": "RedisValue",
+            "description": "The min value to filter by."
+          },
+          {
+            "name": "max",
+            "type": "RedisValue",
+            "description": "The max value to filter by."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Whether to exclude min and max from the range check (defaults to both inclusive)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the specified score range."
+        }
+      },
+      {
+        "signature": "SortedSetLengthByValue(RedisKey key, RedisValue min, RedisValue max, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "min",
+            "type": "RedisValue",
+            "description": "The min value to filter by."
+          },
+          {
+            "name": "max",
+            "type": "RedisValue",
+            "description": "The max value to filter by."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Whether to exclude min and max from the range check (defaults to both inclusive)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of elements in the specified score range."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "zlexcount(string $key, string $min, string $max)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$min",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$max",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zlexcount(key, min, max)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "number of members within the specified lexicographical range"
+        }
+      }
+    ]
+  }
+}

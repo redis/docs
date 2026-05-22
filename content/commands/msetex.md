@@ -99,8 +99,6 @@ summary: Atomically sets multiple string keys with a shared expiration in a sing
 syntax_fmt: "MSETEX numkeys key value [key value ...] [NX | XX] [EX\_seconds |\n \
   \ PX\_milliseconds | EXAT\_unix-time-seconds |\n  PXAT\_unix-time-milliseconds |\
   \ KEEPTTL]"
-syntax_str: "key value [key value ...] [NX | XX] [EX\_seconds | PX\_milliseconds |\
-  \ EXAT\_unix-time-seconds | PXAT\_unix-time-milliseconds | KEEPTTL]"
 title: MSETEX
 ---
 Atomically sets multiple string keys with an optional shared expiration in a single operation.
@@ -137,7 +135,7 @@ The `MSETEX` command supports a set of options that modify its behavior:
 
 ## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

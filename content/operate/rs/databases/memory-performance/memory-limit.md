@@ -43,11 +43,11 @@ Additional factors for  databases with Auto Tiering enabled:
 
 - [**database persistence**]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}}): Auto Tiering uses dual database persistence where both the primary and replica shards persist to disk. This may add some processor and network overhead, especially in cloud configurations with network attached storage.
 
-## What happens when Redis Enterprise Software is low on RAM?
+## What happens when Redis Software is low on RAM?
 
-Redis Enterprise Software manages node memory so that data is entirely in RAM (unless using Auto Tiering). If not enough RAM is available, Redis Enterprise prevents adding more data into the databases.
+Redis Software manages node memory so that data is entirely in RAM (unless using Auto Tiering). If not enough RAM is available, Redis Software prevents adding more data into the databases.
 
-Redis Enterprise Software protects the existing data and prevents the database from being able to store data into the shards.
+Redis Software protects the existing data and prevents the database from being able to store data into the shards.
 
 You can configure the cluster to move the data to another node, or even discard it according to the [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy.md" >}}) set on each database by the administrator.
 
@@ -61,11 +61,38 @@ manage memory so that you can also use flash memory (SSD) to store data.
 which can result in data loss.
 3. If the eviction policy does not allow eviction, you'll receive
 out of memory (OOM) messages.
-4. If shards can't free memory, Redis Enterprise relies on the OS processes to stop replicas,
+4. If shards can't free memory, Redis Software relies on the OS processes to stop replicas,
 but tries to avoid stopping primary shards.
 
 We recommend that you have a [monitoring platform]({{< relref "/operate/rs/monitoring/" >}}) that alerts you before a system gets low on RAM.
-You must maintain sufficient free memory to make sure that you have a healthy Redis Enterprise installation.
+You must maintain sufficient free memory to make sure that you have a healthy Redis Software installation.
+
+### Active-Active replication OOM protection
+
+When a shard in an Active-Active database reaches an out-of-memory (OOM) condition:
+
+1. Replication between that shard and its peers stops immediately.
+
+1. The syncer process sends commands to the affected shard to trigger garbage collection and free memory.
+
+If the database has no [eviction policy]({{<relref "/operate/rs/databases/memory-performance/eviction-policy/">}}) and no keys with [expiration times (TTL)]({{<relref "/develop/using-commands/keyspace#key-expiration">}}), no memory can be freed, which can lead to persistent replication failure and data desynchronization.
+
+To reduce this risk, Active-Active databases running Redis version 8.4 or later support a configurable memory buffer through the `replication_oom_threshold_percent` setting. This setting reserves a percentage of memory below `maxmemory` for internal replication operations.
+
+The `replication_oom_threshold_percent` setting works as follows:
+
+- If memory usage is below the threshold, all client writes proceed normally.
+
+- If memory usage exceeds the threshold, Redis blocks external client write commands with an out-of-memory error, but internal replication and garbage collection continue in the reserved buffer.
+
+- If memory reaches `maxmemory` despite the client block, the standard out-of-memory behavior applies to all operations, including replication.
+
+`replication_oom_threshold_percent` defaults to `5`, which means 5% of `maxmemory` is reserved. To adjust the reserved percentage, use an [update database configuration]({{<relref "operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
+
+```sh
+PUT https://<host>:<port>/v1/bdbs/<database_id>
+{ "replication_oom_threshold_percent": <integer from 0 to 20> }
+```
 
 ## Adaptive memory allocation
 

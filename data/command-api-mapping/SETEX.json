@@ -1,0 +1,350 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "setex(name: KeyT, time: ExpiryT, value: EncodableT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "time",
+            "type": "ExpiryT",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "EncodableT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String setex(final byte[] key, final long seconds, final byte[] value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK @deprecated Use Jedis#set(String, String, redis.clients.jedis.params.SetParams) with redis.clients.jedis.params.SetParams#ex(long). Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 2.6.12."
+        }
+      },
+      {
+        "signature": "String setex(final String key, final long seconds, final String value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK @deprecated Use Jedis#set(String, String, redis.clients.jedis.params.SetParams) with redis.clients.jedis.params.SetParams#ex(long). Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 2.6.12."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String setex(K key, long seconds, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": "the seconds type: long."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> setex(K key, long seconds, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": "the seconds type: long."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> setex(K key, long seconds, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "seconds",
+            "type": "long",
+            "description": "the seconds type: long."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SetEx(ctx context.Context, key string, value interface{}, expiration time.Duration)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "interface{}",
+            "description": ""
+          },
+          {
+            "name": "expiration",
+            "type": "time.Duration",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SETEX(key: RedisArgument, seconds: number, value: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "setex(key: RedisKey, seconds: number | string, value: string | Buffer | number, callback?: Callback<\"OK\">)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<\"OK\">",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "set_ex(key: K, value: V, seconds: u64)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "u64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(())",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "set_ex(key: K, value: V, seconds: u64)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          },
+          {
+            "name": "seconds",
+            "type": "u64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(())",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "setex(string $key, $seconds, $value)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$seconds",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "setex(key, ttl, value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\""
+        }
+      }
+    ]
+  }
+}

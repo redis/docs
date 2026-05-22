@@ -1,0 +1,156 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "scandump(key, iter)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "iter",
+            "type": "int",
+            "description": "Iterator value (start with 0)"
+          }
+        ],
+        "returns": {
+          "type": "tuple",
+          "description": "Tuple of (iterator, data) - continue until iterator is 0"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Map.Entry<Long, byte[]> bfScanDump(String key, long iterator)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "iterator",
+            "type": "long",
+            "description": "Iterator value (start with 0)"
+          }
+        ],
+        "returns": {
+          "type": "Map.Entry<Long, byte[]>",
+          "description": "Pair of next iterator and current data"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BFScanDump(ctx context.Context, key string, iterator int64) *ScanDumpCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "iterator",
+            "type": "int64",
+            "description": "Iterator value (start with 0)"
+          }
+        ],
+        "returns": {
+          "type": "*ScanDumpCmd",
+          "description": "ScanDump command result with Iter and Data"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "BF.SCANDUMP(key: RedisArgument, iterator: number)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "iterator",
+            "type": "number",
+            "description": "Iterator value (start with 0)"
+          }
+        ],
+        "returns": {
+          "type": "{ iterator: number, chunk: BlobStringReply }",
+          "description": "Object with iterator and chunk"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Tuple<long, Byte[]> ScanDump(RedisKey key, long iterator)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "iterator",
+            "type": "long",
+            "description": "Iterator value (start with 0)"
+          }
+        ],
+        "returns": {
+          "type": "Tuple<long, Byte[]>",
+          "description": "Tuple of iterator and data"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "async Task<Tuple<long, Byte[]>> ScanDumpAsync(RedisKey key, long iterator)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "iterator",
+            "type": "long",
+            "description": "Iterator value (start with 0)"
+          }
+        ],
+        "returns": {
+          "type": "Task<Tuple<long, Byte[]>>",
+          "description": "Tuple of iterator and data"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "bfscandump(string $key, int $iterator)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "$iterator",
+            "type": "int",
+            "description": "Iterator value (start with 0)"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Array with iterator and data"
+        }
+      }
+    ]
+  }
+}

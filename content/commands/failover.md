@@ -54,7 +54,6 @@ railroad_diagram: /images/railroad/failover.svg
 since: 6.2.0
 summary: Starts a coordinated failover from a server to one of its replicas.
 syntax_fmt: "FAILOVER [TO\_host port [FORCE]] [ABORT] [TIMEOUT\_milliseconds]"
-syntax_str: "[ABORT] [TIMEOUT\_milliseconds]"
 title: FAILOVER
 ---
 This command will start a coordinated failover between the currently-connected-to master and one of its replicas.
@@ -102,9 +101,9 @@ If a multi-master scenario is encountered, you will need to manually identify wh
 
 NOTE: [`REPLICAOF`]({{< relref "/commands/replicaof" >}}) is disabled while a failover is in progress, this is to prevent unintended interactions with the failover that might cause data loss.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

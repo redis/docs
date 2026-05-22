@@ -11,7 +11,7 @@ weight: 50
 tocEmbedHeaders: true
 ---
 
-RedisJSON v2.2 adds support for JSON in [Active-Active Redis Enterprise databases]({{< relref "/operate/rs/databases/active-active" >}}).
+RedisJSON v2.2 adds support for JSON in [Active-Active Redis Software databases]({{< relref "/operate/rs/databases/active-active" >}}).
 
 The design is based on [A Conflict-Free Replicated JSON Datatype](https://arxiv.org/abs/1608.03960) by Kleppmann and Beresford, but the implementation includes some changes. Several [conflict resolution rule](#conflict-resolution-rules) examples were adapted from this paper as well.
 
@@ -21,9 +21,9 @@ To use JSON in an Active-Active database, you must enable JSON during database c
 
 Active-Active Redis Cloud databases add JSON by default. See [Create an Active-Active database]({{< relref "/operate/rc/databases/active-active/create-active-active-database#select-capabilities" >}}) in the Redis Cloud documentation for details.
 
-In Redis Enterprise Software, Active-Active databases created with or upgraded to Redis version 8 or later automatically enable JSON. For earlier Redis versions, you can enable JSON during database creation:
+In Redis Software, Active-Active databases created with or upgraded to Redis version 8 or later automatically enable JSON. For earlier Redis versions, you can enable JSON during database creation:
 
-1. See [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/databases/active-active/create" >}}) in the Redis Enterprise Software documentation for prerequisites and detailed steps.
+1. See [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/databases/active-active/create" >}}) in the Redis Software documentation for prerequisites and detailed steps.
 
 1. In the **Capabilities** section of the **Create Active-Active database** screen, select **JSON**:
 

@@ -1,0 +1,145 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "quantile(key, quantile, *quantiles)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "name": "quantile",
+            "type": "float"
+          },
+          {
+            "name": "*quantiles",
+            "type": "float"
+          }
+        ],
+        "returns": {
+          "type": "List[float]",
+          "description": "Quantile estimates"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "tdigestQuantile(String key, double... quantiles)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "quantiles",
+            "type": "double..."
+          }
+        ],
+        "returns": {
+          "type": "List<Double>",
+          "description": "Quantile estimates"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TDigestQuantile(ctx context.Context, key string, elements ...float64) *FloatSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "elements",
+            "type": "...float64"
+          }
+        ],
+        "returns": {
+          "type": "*FloatSliceCmd",
+          "description": "Quantile estimates"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TDIGEST.QUANTILE(key, quantiles)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "quantiles",
+            "type": "number[]"
+          }
+        ],
+        "returns": {
+          "type": "number[]",
+          "description": "Quantile estimates"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Quantile(key, quantiles)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "quantiles",
+            "type": "params double[]"
+          }
+        ],
+        "returns": {
+          "type": "double[]",
+          "description": "Quantile estimates"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "QuantileAsync(key, quantiles)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "quantiles",
+            "type": "params double[]"
+          }
+        ],
+        "returns": {
+          "type": "Task<double[]>",
+          "description": "Quantile estimates"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tdigestquantile($key, ...$quantiles)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "quantiles",
+            "type": "float..."
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Quantile estimates"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,269 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "move(name: KeyT, db: int)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "db",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long move(final byte[] key, final int dbIndex)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "dbIndex",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if key was moved. 0 if key was not moved."
+        }
+      },
+      {
+        "signature": "long move(final String key, final int dbIndex)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dbIndex",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if key was moved. 0 if key was not moved."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Move(ctx context.Context, key string, db int)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "db",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*BoolCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "MOVE(key: RedisArgument, db: number)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "db",
+            "type": "number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Boolean move(K key, int db)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "db",
+            "type": "int",
+            "description": "the database."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean integer-reply specifically: true if key was moved. false if key was not moved."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Boolean> move(K key, int db)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "db",
+            "type": "int",
+            "description": "the database."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "Boolean integer-reply specifically: true if key was moved. false if key was not moved."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Boolean> move(K key, int db)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "db",
+            "type": "int",
+            "description": "the database."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "Boolean integer-reply specifically: true if key was moved. false if key was not moved."
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "KeyMove(RedisKey key, int database, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to move."
+          },
+          {
+            "name": "database",
+            "type": "int",
+            "description": "The database to move to."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if key was moved. false if key was not moved."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "KeyMoveAsync(RedisKey key, int database, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to move."
+          },
+          {
+            "name": "database",
+            "type": "int",
+            "description": "The database to move to."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if key was moved. false if key was not moved."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "move(string $key, int $index)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$index",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "move(key, db)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "db",
+            "type": "Integer",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "whether the key was moved or not"
+        }
+      }
+    ]
+  }
+}

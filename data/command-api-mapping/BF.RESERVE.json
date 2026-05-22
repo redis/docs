@@ -1,0 +1,323 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "create(key, errorRate, capacity, expansion=None, noScale=None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "errorRate",
+            "type": "float",
+            "description": "Desired probability for false positives (0-1)"
+          },
+          {
+            "name": "capacity",
+            "type": "int",
+            "description": "Number of entries intended to be added"
+          },
+          {
+            "name": "expansion",
+            "type": "int",
+            "description": "Optional expansion rate"
+          },
+          {
+            "name": "noScale",
+            "type": "bool",
+            "description": "If True, prevent auto-scaling"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "OK on success"
+        }
+      },
+      {
+        "signature": "reserve(key, errorRate, capacity, expansion=None, noScale=None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "errorRate",
+            "type": "float",
+            "description": "Desired probability for false positives (0-1)"
+          },
+          {
+            "name": "capacity",
+            "type": "int",
+            "description": "Number of entries intended to be added"
+          },
+          {
+            "name": "expansion",
+            "type": "int",
+            "description": "Optional expansion rate"
+          },
+          {
+            "name": "noScale",
+            "type": "bool",
+            "description": "If True, prevent auto-scaling"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "OK on success (alias for create)"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String bfReserve(String key, double errorRate, long capacity)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "errorRate",
+            "type": "double",
+            "description": "Error rate (0-1)"
+          },
+          {
+            "name": "capacity",
+            "type": "long",
+            "description": "Initial capacity"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      },
+      {
+        "signature": "String bfReserve(String key, double errorRate, long capacity, BFReserveParams reserveParams)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "errorRate",
+            "type": "double",
+            "description": "Error rate (0-1)"
+          },
+          {
+            "name": "capacity",
+            "type": "long",
+            "description": "Initial capacity"
+          },
+          {
+            "name": "reserveParams",
+            "type": "BFReserveParams",
+            "description": "Reserve parameters (expansion, nonscaling)"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BFReserve(ctx context.Context, key string, errorRate float64, capacity int64) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "errorRate",
+            "type": "float64",
+            "description": "Error rate (0-1)"
+          },
+          {
+            "name": "capacity",
+            "type": "int64",
+            "description": "Initial capacity"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "Status command result"
+        }
+      },
+      {
+        "signature": "BFReserveWithArgs(ctx context.Context, key string, options *BFReserveOptions) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "options",
+            "type": "*BFReserveOptions",
+            "description": "Reserve options (Error, Capacity, Expansion, NonScaling)"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "Status command result"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "BF.RESERVE(key: RedisArgument, errorRate: number, capacity: number, options?: BfReserveOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "errorRate",
+            "type": "number",
+            "description": "Error rate (0-1)"
+          },
+          {
+            "name": "capacity",
+            "type": "number",
+            "description": "Initial capacity"
+          },
+          {
+            "name": "options",
+            "type": "BfReserveOptions",
+            "description": "Optional: EXPANSION, NONSCALING"
+          }
+        ],
+        "returns": {
+          "type": "SimpleStringReply<'OK'>",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "bool Reserve(RedisKey key, double errorRate, long capacity, int? expansion = null, bool nonscaling = false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "errorRate",
+            "type": "double",
+            "description": "Error rate (0-1)"
+          },
+          {
+            "name": "capacity",
+            "type": "long",
+            "description": "Initial capacity"
+          },
+          {
+            "name": "expansion",
+            "type": "int?",
+            "description": "Optional expansion rate"
+          },
+          {
+            "name": "nonscaling",
+            "type": "bool",
+            "description": "If true, prevent scaling"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true on success"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "async Task<bool> ReserveAsync(RedisKey key, double errorRate, long capacity, int? expansion = null, bool nonscaling = false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "errorRate",
+            "type": "double",
+            "description": "Error rate (0-1)"
+          },
+          {
+            "name": "capacity",
+            "type": "long",
+            "description": "Initial capacity"
+          },
+          {
+            "name": "expansion",
+            "type": "int?",
+            "description": "Optional expansion rate"
+          },
+          {
+            "name": "nonscaling",
+            "type": "bool",
+            "description": "If true, prevent scaling"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true on success"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "bfreserve(string $key, float $errorRate, int $capacity, int $expansion = -1, bool $nonScaling = false)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "$errorRate",
+            "type": "float",
+            "description": "Error rate (0-1)"
+          },
+          {
+            "name": "$capacity",
+            "type": "int",
+            "description": "Initial capacity"
+          },
+          {
+            "name": "$expansion",
+            "type": "int",
+            "description": "Optional expansion rate (-1 for default)"
+          },
+          {
+            "name": "$nonScaling",
+            "type": "bool",
+            "description": "If true, prevent scaling"
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": "OK on success"
+        }
+      }
+    ]
+  }
+}

@@ -1,6 +1,7 @@
 ```yaml
 # The minimal Role and ClusterRole required for running the log collector in 'restricted' mode.
 # The roles should be bound to the user executing the log collector, in each of the namespaces to be collected.
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:

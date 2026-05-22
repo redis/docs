@@ -24,7 +24,6 @@ railroad_diagram: /images/railroad/function-dump.svg
 since: 7.0.0
 summary: Dumps all libraries into a serialized binary payload.
 syntax_fmt: FUNCTION DUMP
-syntax_str: ''
 title: FUNCTION DUMP
 ---
 Return the serialized payload of loaded libraries.
@@ -60,9 +59,9 @@ redis> FUNCTION LIST
          6) (empty array)
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

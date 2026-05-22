@@ -1,0 +1,87 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "client_getredir(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long clientGetredir()",
+        "params": [],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "Long clientGetredir()",
+        "params": [],
+        "returns": {
+          "type": "Long",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> clientGetredir()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> clientGetredir()",
+        "params": [],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "client(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

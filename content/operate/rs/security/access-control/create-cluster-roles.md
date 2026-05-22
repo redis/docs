@@ -14,7 +14,7 @@ Roles with cluster access allow access to the Cluster Management UI and REST API
 
 ## Default management roles
 
-Redis Enterprise Software includes five predefined roles that determine a user's level of access to the Cluster Manager UI and [REST API]({{<relref "/operate/rs/references/rest-api">}}).
+Redis Software includes five predefined roles that determine a user's level of access to the Cluster Manager UI and [REST API]({{<relref "/operate/rs/references/rest-api">}}).
 
 1. **DB Viewer** - Read database settings
 1. **DB Member** - Administer databases

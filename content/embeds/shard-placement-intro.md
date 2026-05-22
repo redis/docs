@@ -12,7 +12,7 @@ The shard placement policies are:
 - `sparse` - Spread the shards across as many nodes in the cluster as possible to spread the traffic across cluster nodes;
     Recommended for databases with Auto Tiering enabled to optimize disk resources
 
-When you create a Redis Enterprise Software cluster, the default shard placement policy (`dense`) is assigned to all databases that you create on the cluster.
+When you create a Redis Software cluster, the default shard placement policy (`dense`) is assigned to all databases that you create on the cluster.
 
 You can:
 

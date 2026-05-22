@@ -1,0 +1,78 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "pubsub_numpat(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": "Additional keyword arguments"
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": "Number of unique pattern subscriptions"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Long pubsubNumPat()",
+        "params": [],
+        "returns": {
+          "type": "Long",
+          "description": "Number of unique pattern subscriptions"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "PubSubNumPat(ctx context.Context)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context for the operation"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": "Number of unique pattern subscriptions"
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "pubsub($subcommand, $argument)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": "PUBSUB subcommand (e.g., 'NUMPAT')"
+          },
+          {
+            "name": "$argument",
+            "type": "mixed",
+            "description": "Not used for NUMPAT"
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": "Number of unique pattern subscriptions"
+        }
+      }
+    ]
+  }
+}
+

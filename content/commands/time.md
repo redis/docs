@@ -27,7 +27,6 @@ railroad_diagram: /images/railroad/time.svg
 since: 2.6.0
 summary: Returns the server time.
 syntax_fmt: TIME
-syntax_str: ''
 title: TIME
 ---
 The `TIME` command returns the current server time as a two items lists: a Unix
@@ -42,9 +41,9 @@ TIME
 TIME
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

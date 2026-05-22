@@ -1,0 +1,419 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "vemb(key: KeyT, element: str, raw: Optional[bool] = False)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "raw",
+            "type": "Optional[bool] = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Double> vemb(String key, String element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "the name of the element whose vector you want to retrieve"
+          }
+        ],
+        "returns": {
+          "type": "List<Double>",
+          "description": "list of real numbers representing the vector"
+        }
+      },
+      {
+        "signature": "RawVector vembRaw(String key, String element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "the name of the element whose vector you want to retrieve"
+          }
+        ],
+        "returns": {
+          "type": "RawVector",
+          "description": "RawVector containing raw vector data, quantization type, and metadata"
+        }
+      },
+      {
+        "signature": "List<Double> vemb(byte[] key, byte[] element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "element",
+            "type": "byte[]",
+            "description": "the name of the element whose vector you want to retrieve"
+          }
+        ],
+        "returns": {
+          "type": "List<Double>",
+          "description": "list of real numbers representing the vector"
+        }
+      },
+      {
+        "signature": "RawVector vembRaw(byte[] key, byte[] element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "element",
+            "type": "byte[]",
+            "description": "the name of the element whose vector you want to retrieve"
+          }
+        ],
+        "returns": {
+          "type": "RawVector",
+          "description": "RawVector containing raw vector data, quantization type, and metadata"
+        }
+      },
+      {
+        "signature": "List<Double> vemb(String key, String element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "the name of the element whose vector you want to retrieve"
+          }
+        ],
+        "returns": {
+          "type": "List<Double>",
+          "description": "list of real numbers representing the vector"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Double> vemb(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          }
+        ],
+        "returns": {
+          "type": "List<Double>",
+          "description": "the vector values as a list of floating point numbers, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vemb/\">Redis Documentation: VEMB</a>"
+        }
+      },
+      {
+        "signature": "RawVector vembRaw(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          }
+        ],
+        "returns": {
+          "type": "RawVector",
+          "description": "the raw vector data, or null if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vemb/\">Redis Documentation: VEMB</a>"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Double>> vemb(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Double>>",
+          "description": "the vector values as a list of floating point numbers, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vemb/\">Redis Documentation: VEMB</a>"
+        }
+      },
+      {
+        "signature": "RedisFuture<RawVector> vembRaw(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<RawVector>",
+          "description": "the raw vector data, or null if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vemb/\">Redis Documentation: VEMB</a>"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Double> vemb(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          }
+        ],
+        "returns": {
+          "type": "Flux<Double>",
+          "description": "the vector values as a list of floating point numbers, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vemb/\">Redis Documentation: VEMB</a>"
+        }
+      },
+      {
+        "signature": "Mono<RawVector> vembRaw(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element in the vector set"
+          }
+        ],
+        "returns": {
+          "type": "Mono<RawVector>",
+          "description": "the raw vector data, or null if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vemb/\">Redis Documentation: VEMB</a>"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "VEmb(ctx context.Context, key, element string, raw bool)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "raw",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*SliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "VEMB(key: RedisArgument, element: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "vemb(key: K, element: E)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "E",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Generic",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "vemb(key: K, element: E)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "E",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Generic",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "VectorSetGetApproximateVector(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Lease<float>?",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "VectorSetGetApproximateVectorAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<Lease<float>?>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "vemb(string $key, string $elem, bool $raw = false)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$elem",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "bool $raw = false",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

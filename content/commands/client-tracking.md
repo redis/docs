@@ -71,8 +71,6 @@ since: 6.0.0
 summary: Controls server-assisted client-side caching for the connection.
 syntax_fmt: "CLIENT TRACKING <ON | OFF> [REDIRECT\_client-id] [PREFIX\_prefix\n  [PREFIX\
   \ prefix ...]] [BCAST] [OPTIN] [OPTOUT] [NOLOOP]"
-syntax_str: "[REDIRECT\_client-id] [PREFIX\_prefix [PREFIX prefix ...]] [BCAST] [OPTIN]\
-  \ [OPTOUT] [NOLOOP]"
 title: CLIENT TRACKING
 ---
 This command enables the tracking feature of the Redis server, that is used
@@ -103,11 +101,11 @@ command when enabling tracking:
 * `PREFIX <prefix>`: for broadcasting, register a given key prefix, so that notifications will be provided only for keys starting with this string. This option can be given multiple times to register multiple prefixes. If broadcasting is enabled without this option, Redis will send notifications for every key. You can't delete a single prefix, but you can delete all prefixes by disabling and re-enabling tracking. Using this option adds the additional time complexity of O(N^2), where N is the total number of prefixes tracked. 
 * `OPTIN`: when broadcasting is NOT active, normally don't track keys in read only commands, unless they are called immediately after a `CLIENT CACHING yes` command.
 * `OPTOUT`: when broadcasting is NOT active, normally track keys in read only commands, unless they are called immediately after a `CLIENT CACHING no` command.
-* `NOLOOP`: don't send notifications about keys modified by this connection itself.
+* `NOLOOP`: don't send notifications about keys modified by this connection itself. In the default tracking mode, modifying a tracked key removes it from the invalidation table even when `NOLOOP` suppresses the notification to the modifying connection. The connection must read the key again to track it for future invalidations.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

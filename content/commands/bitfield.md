@@ -114,10 +114,6 @@ syntax_fmt: "BITFIELD key [GET\_encoding offset | [OVERFLOW\_<WRAP | SAT | FAIL>
   \  <SET\_encoding offset value | INCRBY\_encoding offset increment>\n  [GET\_encoding\
   \ offset | [OVERFLOW\_<WRAP | SAT | FAIL>]\n  <SET\_encoding offset value | INCRBY\_\
   encoding offset increment>\n  ...]]"
-syntax_str: "[GET\_encoding offset | [OVERFLOW\_<WRAP | SAT | FAIL>] <SET\_encoding\
-  \ offset value | INCRBY\_encoding offset increment> [GET\_encoding offset | [OVERFLOW\_\
-  <WRAP | SAT | FAIL>] <SET\_encoding offset value | INCRBY\_encoding offset increment>\
-  \ ...]]"
 title: BITFIELD
 ---
 The command treats a Redis string as an array of bits, and is capable of addressing specific integer fields of varying bit widths and arbitrary non (necessary) aligned offset. In practical terms using this command you can set, for example, a signed 5 bits integer at bit offset 1234 to a specific value, retrieve a 31 bit unsigned integer from offset 4567. Similarly the command handles increments and decrements of the specified integers, providing guaranteed and well specified overflow and underflow behavior that the user can configure.
@@ -231,9 +227,9 @@ When offsets and integer sizes are aligned to bytes boundaries, this is the
 same as big endian, however when such alignment does not exist, its important
 to also understand how the bits inside a byte are ordered.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

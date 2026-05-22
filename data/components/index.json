@@ -9,8 +9,11 @@
     "clients": [
         "nredisstack_sync",
         "nredisstack_async",
+        "seredis_sync",
+        "seredis_async",
         "go_redis",
         "node_redis",
+        "ioredis",
         "php",
         "redis_py",
         "jedis",
@@ -20,7 +23,8 @@
         "redis_vl",
         "redis_rs_sync",
         "redis_rs_async",
-        "hi_redis"
+        "hi_redis",
+        "redis_rb"
     ],
     "assets": [],
     "website": {

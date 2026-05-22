@@ -1,0 +1,148 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "cursor_del(cursor_id: int)",
+        "params": [
+          {
+            "name": "cursor_id",
+            "type": "int",
+            "description": "The cursor ID to delete"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String ftCursorDel(String indexName, long cursorId)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          },
+          {
+            "name": "cursorId",
+            "type": "long",
+            "description": "The cursor ID"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTCursorDel(ctx context.Context, index string, cursorId int)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "cursorId",
+            "type": "int",
+            "description": "The cursor ID"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "CURSOR_DEL(index: RedisArgument, cursorId: number)",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisArgument",
+            "description": "The index name"
+          },
+          {
+            "name": "cursorId",
+            "type": "number",
+            "description": "The cursor ID"
+          }
+        ],
+        "returns": {
+          "type": "Promise<string>",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "bool CursorDel(AggregationResult result)",
+        "params": [
+          {
+            "name": "result",
+            "type": "AggregationResult",
+            "description": "The aggregation result containing the cursor"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the cursor was deleted"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<bool> CursorDelAsync(AggregationResult result)",
+        "params": [
+          {
+            "name": "result",
+            "type": "AggregationResult",
+            "description": "The aggregation result containing the cursor"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if the cursor was deleted"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ft_cursor(string $index)->delete(int $cursorId)",
+        "params": [
+          {
+            "name": "$index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "$cursorId",
+            "type": "int",
+            "description": "The cursor ID to delete"
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": "OK on success"
+        }
+      }
+    ]
+  }
+}
+

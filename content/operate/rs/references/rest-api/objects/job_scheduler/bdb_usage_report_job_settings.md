@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the bdb_usage_report_job_settings object used with Redis Enterprise Software REST API calls.
+description: Documents the bdb_usage_report_job_settings object used with Redis Software REST API calls.
 linkTitle: bdb_usage_report_job_settings
 weight: $weight
 ---

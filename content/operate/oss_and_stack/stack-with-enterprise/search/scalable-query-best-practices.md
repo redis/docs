@@ -1,16 +1,16 @@
 ---
-Title: Best practices for scalable Redis Query Engine
+Title: Best practices for scalable Redis Search
 alwaysopen: false
 categories:
 - docs
 - operate
 - stack
-description: Best practices for scalable Redis Query Engine in Redis Software and Redis Cloud.
-linkTitle: Best practices for scalable Redis Query Engine
+description: Best practices for scalable Redis Search in Redis Software and Redis Cloud.
+linkTitle: Best practices for scalable Redis Search
 weight: 25
 ---
 
-[Vertical scaling of Redis Query Engine]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor">}}) requires configuring query performance factors. With careful crafting of search indexes and queries, query performance factors allow throughput scaling up to 16X. The following recommendations can help optimize your indexes and queries to maximize the performance benefits from additional CPUs allocated by query performance factors.
+[Vertical scaling of Redis Search]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor">}}) requires configuring query performance factors. With careful crafting of search indexes and queries, query performance factors allow throughput scaling up to 16X. The following recommendations can help optimize your indexes and queries to maximize the performance benefits from additional CPUs allocated by query performance factors.
 
 ## Best candidates for query performance factor improvements
 
@@ -68,7 +68,7 @@ Follow these best practices to optimize [queries]({{<relref "/develop/ai/search-
 
 ## Index and query examples
 
-The following examples depict an anti-pattern index schema and query, followed by a corrected schema and query, which allows for scalability with the Redis Query Engine.
+The following examples depict an anti-pattern index schema and query, followed by a corrected schema and query, which allows for scalability with Redis Search.
 
 ### Anti-pattern index schema
 

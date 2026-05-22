@@ -59,7 +59,6 @@ The example below shows how to import the required modules and call
 `create_from_service_principal()`:
 
 ```python
-from redis import Redis
 from redis_entraid.cred_provider import *
 
 credential_provider = create_from_service_principal(
@@ -102,7 +101,6 @@ Pass `ManagedIdentityType.USER_ASSIGNED` or `ManagedIdentityType.SYSTEM_ASSIGNED
 as the `identity_type` parameter.
 
 ```python
-from redis import Redis
 from redis_entraid.cred_provider import *
 
 credential_provider = create_from_managed_identity(
@@ -135,7 +133,7 @@ credential_provider = create_from_managed_identity(
 When you have created your `CredentialProvider` instance, you are ready to
 connect to AMR.
 The example below shows how to pass the instance as a parameter to the standard
-`Redis()` connection method.
+`RedisCluster()` connection method.
 {{< note >}} Azure requires you to use
 [Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security)
 when you connect (see
@@ -143,7 +141,11 @@ when you connect (see
 {{< /note >}}
 
 ```python
-r = Redis(
+from redis import RedisCluster
+# ...
+
+# AMR databases have clustering enabled by default.
+r = RedisCluster(
     host=<HOST>, port=<PORT>,
     credential_provider=credential_provider,
     ssl=True,

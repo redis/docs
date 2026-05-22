@@ -45,7 +45,6 @@ railroad_diagram: /images/railroad/sunsubscribe.svg
 since: 7.0.0
 summary: Stops listening to messages posted to shard channels.
 syntax_fmt: SUNSUBSCRIBE [shardchannel [shardchannel ...]]
-syntax_str: ''
 title: SUNSUBSCRIBE
 ---
 Unsubscribes the client from the given shard channels, or from all of them if none is given.
@@ -57,9 +56,9 @@ Note: The global channels and shard channels needs to be unsubscribed from separ
 
 For more information about sharded Pub/Sub, see [Sharded Pub/Sub]({{< relref "/develop/pubsub#sharded-pubsub" >}}).
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

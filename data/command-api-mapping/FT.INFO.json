@@ -1,0 +1,122 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "info()",
+        "params": [],
+        "returns": {
+          "type": "Dict[str, Any]",
+          "description": "Index information and statistics"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Map<String, Object> ftInfo(String indexName)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "Map<String, Object>",
+          "description": "Index information and statistics"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTInfo(ctx context.Context, index string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "*FTInfoCmd",
+          "description": "Index information and statistics"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "INFO(index: RedisArgument)",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisArgument",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "Promise<FTInfoResult>",
+          "description": "Index information and statistics"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "InfoResult Info(RedisValue index)",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisValue",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "InfoResult",
+          "description": "Index information"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<InfoResult> InfoAsync(RedisValue index)",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisValue",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "Task<InfoResult>",
+          "description": "Index information"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftinfo(string $index)",
+        "params": [
+          {
+            "name": "$index",
+            "type": "string",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Index information"
+        }
+      }
+    ]
+  }
+}
+

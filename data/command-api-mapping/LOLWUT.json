@@ -1,0 +1,84 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "lolwut(version: int | None = None, *args, **kwargs)",
+        "params": [
+          {
+            "name": "version",
+            "type": "int | None",
+            "description": ""
+          },
+          {
+            "name": "*args",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String lolwut()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String lolwut(int version, LolwutParams params)",
+        "params": [
+          {
+            "name": "version",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "LolwutParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "lolwut(...$args)",
+        "params": [
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

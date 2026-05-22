@@ -12,7 +12,7 @@ weight: 15
 
 Roles with database access grant the ability to access and interact with a database's data. Database access privileges are determined by defining [Redis ACLs]({{<relref "/operate/rs/security/access-control/redis-acl-overview">}}) and adding them to roles.
 
-To create a role that grants database access without granting access to the Redis Enterprise Cluster Manager UI and REST API:
+To create a role that grants database access without granting access to the Redis Software Cluster Manager UI and REST API:
 
 1. [Define Redis ACLs](#define-redis-acls) that determine database access privileges.
 
@@ -74,7 +74,7 @@ For multi-key commands on multi-slot keys, the return value is `failure`, but th
 
 ## Create roles with ACLs
 
-To create a role that grants database access to users but blocks access to the Redis Enterprise Cluster Manager UI and REST API, set the **Management role** to **None**.
+To create a role that grants database access to users but blocks access to the Redis Software Cluster Manager UI and REST API, set the **Management role** to **None**.
 
 {{< multitabs id="create-db-roles" 
 tab1="Cluster Manager UI"

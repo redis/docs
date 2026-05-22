@@ -5,8 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the rotate_ccs_job_settings object used with Redis Enterprise
-  Software REST API calls.
+description: Documents the rotate_ccs_job_settings object used with Redis Software REST API calls.
 linkTitle: rotate_ccs_job_settings
 weight: $weight
 ---

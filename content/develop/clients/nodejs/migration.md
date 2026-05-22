@@ -15,7 +15,7 @@ title: Migrate from ioredis
 weight: 10
 ---
 
-Redis previously recommended the [`ioredis`](https://github.com/redis/ioredis)
+Redis previously recommended the [`ioredis`]({{< relref "/develop/clients/ioredis" >}})
 client library for development with [Node.js](https://nodejs.org/en),
 but this library is now deprecated in favor of
 [`node-redis`]({{< relref "/develop/clients/nodejs" >}}). This guide
@@ -148,7 +148,7 @@ client.hset('user', 'name', 'Bob', 'age', 20, 'description', 'I am a programmer'
 ```
 
 `node-redis` uses predefined formats for command arguments. These include specific
-classes for commmand options that generally don't correspond to the syntax
+classes for command options that generally don't correspond to the syntax
 of the CLI command. Internally, `node-redis` constructs the correct command using
 the method arguments you pass:
 

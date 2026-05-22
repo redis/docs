@@ -1,0 +1,290 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "setnx(name: KeyT, value: EncodableT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "EncodableT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long setnx(final byte[] key, final byte[] value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the key was set, 0 if the key was not set @deprecated Use Jedis#set(String, String, redis.clients.jedis.params.SetParams) with redis.clients.jedis.params.SetParams#nx(). Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 2.6.12."
+        }
+      },
+      {
+        "signature": "long setnx(final String key, final String value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "1 if the key was set, 0 if the key was not set @deprecated Use Jedis#set(String, String, redis.clients.jedis.params.SetParams) with redis.clients.jedis.params.SetParams#nx(). Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 2.6.12."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Boolean setnx(K key, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "Boolean integer-reply specifically: 1 if the key was set 0 if the key was not set."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Boolean> setnx(K key, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "Boolean integer-reply specifically: 1 if the key was set 0 if the key was not set."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Boolean> setnx(K key, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "Boolean integer-reply specifically: 1 if the key was set 0 if the key was not set."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SetNX(ctx context.Context, key string, value interface{}, expiration time.Duration)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "interface{}",
+            "description": ""
+          },
+          {
+            "name": "expiration",
+            "type": "time.Duration",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*BoolCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SETNX(key: RedisArgument, value: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "setnx(key: RedisKey, value: string | Buffer | number, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "set_nx(key: K, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "set_nx(key: K, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "setnx(string $key, $value)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "setnx(key, value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "whether the key was set or not"
+        }
+      }
+    ]
+  }
+}

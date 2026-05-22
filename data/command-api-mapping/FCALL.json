@@ -1,0 +1,306 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "fcall(function, numkeys: int, *keys_and_args: Any)",
+        "params": [
+          {
+            "name": "function",
+            "type": "str",
+            "description": "Function name to invoke"
+          },
+          {
+            "name": "numkeys",
+            "type": "int",
+            "description": "Number of keys"
+          },
+          {
+            "name": "*keys_and_args",
+            "type": "Any",
+            "description": "Keys and arguments for the function"
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[str], str]",
+          "description": "Function execution result"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Object fcall(final String name, final List<String> keys, final List<String> args)",
+        "params": [
+          {
+            "name": "name",
+            "type": "String",
+            "description": "Function name to invoke"
+          },
+          {
+            "name": "keys",
+            "type": "List<String>",
+            "description": "Keys for the function"
+          },
+          {
+            "name": "args",
+            "type": "List<String>",
+            "description": "Arguments for the function"
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": "Function execution result"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "FCall(ctx context.Context, function string, keys []string, args ...interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context for the operation"
+          },
+          {
+            "name": "function",
+            "type": "string",
+            "description": "Function name to invoke"
+          },
+          {
+            "name": "keys",
+            "type": "[]string",
+            "description": "Keys for the function"
+          },
+          {
+            "name": "args",
+            "type": "...interface{}",
+            "description": "Arguments for the function"
+          }
+        ],
+        "returns": {
+          "type": "*Cmd",
+          "description": "Function execution result"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "fCall(functionName: RedisArgument, options?: EvalOptions)",
+        "params": [
+          {
+            "name": "functionName",
+            "type": "RedisArgument",
+            "description": "Name of the function to call"
+          },
+          {
+            "name": "options",
+            "type": "EvalOptions",
+            "description": "Function execution options including keys and arguments"
+          }
+        ],
+        "returns": {
+          "type": "Promise<ReplyUnion>",
+          "description": "Function execution result"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "<T> T fcall(String function, ScriptOutputType type, K... keys)",
+        "params": [
+          {
+            "name": "function",
+            "type": "String",
+            "description": "Function name to invoke"
+          },
+          {
+            "name": "type",
+            "type": "ScriptOutputType",
+            "description": "Expected output type"
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "Keys for the function"
+          }
+        ],
+        "returns": {
+          "type": "T",
+          "description": "Function execution result"
+        }
+      },
+      {
+        "signature": "<T> T fcall(String function, ScriptOutputType type, K[] keys, V... values)",
+        "params": [
+          {
+            "name": "function",
+            "type": "String",
+            "description": "Function name to invoke"
+          },
+          {
+            "name": "type",
+            "type": "ScriptOutputType",
+            "description": "Expected output type"
+          },
+          {
+            "name": "keys",
+            "type": "K[]",
+            "description": "Keys for the function"
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "Arguments for the function"
+          }
+        ],
+        "returns": {
+          "type": "T",
+          "description": "Function execution result"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "<T> RedisFuture<T> fcall(String function, ScriptOutputType type, K... keys)",
+        "params": [
+          {
+            "name": "function",
+            "type": "String",
+            "description": "Function name to invoke"
+          },
+          {
+            "name": "type",
+            "type": "ScriptOutputType",
+            "description": "Expected output type"
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "Keys for the function"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<T>",
+          "description": "Function execution result"
+        }
+      },
+      {
+        "signature": "<T> RedisFuture<T> fcall(String function, ScriptOutputType type, K[] keys, V... values)",
+        "params": [
+          {
+            "name": "function",
+            "type": "String",
+            "description": "Function name to invoke"
+          },
+          {
+            "name": "type",
+            "type": "ScriptOutputType",
+            "description": "Expected output type"
+          },
+          {
+            "name": "keys",
+            "type": "K[]",
+            "description": "Keys for the function"
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "Arguments for the function"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<T>",
+          "description": "Function execution result"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "<T> Mono<T> fcall(String function, ScriptOutputType type, K... keys)",
+        "params": [
+          {
+            "name": "function",
+            "type": "String",
+            "description": "Function name to invoke"
+          },
+          {
+            "name": "type",
+            "type": "ScriptOutputType",
+            "description": "Expected output type"
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "Keys for the function"
+          }
+        ],
+        "returns": {
+          "type": "Mono<T>",
+          "description": "Function execution result"
+        }
+      },
+      {
+        "signature": "<T> Mono<T> fcall(String function, ScriptOutputType type, K[] keys, V... values)",
+        "params": [
+          {
+            "name": "function",
+            "type": "String",
+            "description": "Function name to invoke"
+          },
+          {
+            "name": "type",
+            "type": "ScriptOutputType",
+            "description": "Expected output type"
+          },
+          {
+            "name": "keys",
+            "type": "K[]",
+            "description": "Keys for the function"
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "Arguments for the function"
+          }
+        ],
+        "returns": {
+          "type": "Mono<T>",
+          "description": "Function execution result"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "fcall(string $function, array $keys, ...$args)",
+        "params": [
+          {
+            "name": "$function",
+            "type": "string",
+            "description": "Function name to invoke"
+          },
+          {
+            "name": "$keys",
+            "type": "array",
+            "description": "Keys for the function"
+          },
+          {
+            "name": "$args",
+            "type": "...",
+            "description": "Arguments for the function"
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": "Function execution result"
+        }
+      }
+    ]
+  }
+}
+

@@ -56,7 +56,6 @@ since: 2.0.0
 summary: Sets the string value and expiration time of a key. Creates the key if it
   doesn't exist.
 syntax_fmt: SETEX key seconds value
-syntax_str: seconds value
 title: SETEX
 ---
 Set `key` to hold the string `value` and set `key` to timeout after a given
@@ -81,9 +80,9 @@ GET mykey
 
 [`TTL`]({{< relref "/commands/ttl" >}})
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

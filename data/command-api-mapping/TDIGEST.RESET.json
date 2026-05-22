@@ -1,0 +1,113 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "reset(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "tdigestReset(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TDigestReset(ctx context.Context, key string) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TDIGEST.RESET(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Reset(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true on success"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ResetAsync(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true on success"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tdigestreset($key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": "OK on success"
+        }
+      }
+    ]
+  }
+}

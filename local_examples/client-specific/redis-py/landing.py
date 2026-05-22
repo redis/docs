@@ -1,8 +1,9 @@
 # EXAMPLE: landing
 # BINDER_ID python-landing
-import redis
+# KERNEL_NAME python3
 
 # STEP_START connect
+import redis
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 # STEP_END
 

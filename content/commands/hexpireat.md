@@ -80,8 +80,6 @@ since: 7.4.0
 summary: Set expiry for hash field using an absolute Unix timestamp (seconds)
 syntax_fmt: "HEXPIREAT key unix-time-seconds [NX | XX | GT | LT] FIELDS\_numfields\n\
   \  field [field ...]"
-syntax_str: "unix-time-seconds [NX | XX | GT | LT] FIELDS\_numfields field [field\
-  \ ...]"
 title: HEXPIREAT
 ---
 `HEXPIREAT` has the same effect and semantics as [`HEXPIRE`]({{< relref "/commands/hexpire" >}}), but instead of
@@ -116,9 +114,9 @@ redis> HTTL mykey FIELDS 2 field1 field2
 2) (integer) 567
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

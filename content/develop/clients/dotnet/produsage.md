@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Get your NRedisStack app ready for production
+description: Get your `StackExchange.Redis` app ready for production
 linkTitle: Production usage
 title: Production usage
 weight: 70
@@ -59,7 +59,6 @@ inform users who try to connect that service is temporarily unavailable
 rather than letting them run into errors.
 
 ```cs
-using NRedisStack;
 using StackExchange.Redis;
 
 ConnectionMultiplexer muxer = ConnectionMultiplexer.Connect("localhost:6379");
@@ -74,19 +73,19 @@ muxer.ServerMaintenanceEvent += (object sender, ServerMaintenanceEvent e) => {
 
 If a network or server error occurs while your code is opening a
 connection or issuing a command, it can end up hanging indefinitely.
-To prevent this, `NRedisStack` sets timeouts for socket
+To prevent this, `StackExchange.Redis` sets timeouts for socket
 reads and writes and for opening connections.
 
-By default, the timeout is five seconds for all operations, but
-you can set the time (in milliseconds) separately for connections
-and commands using the `ConnectTimeout`, `SyncTimeout`, and
-`AsyncTimeout` configuration options:
+By default, the timeout is five seconds for `ConnectTimeout` and `SyncTimeout`,
+and `AsyncTimeout` uses the same value as `SyncTimeout`. You can set the time
+(in milliseconds) separately for connections and commands using these
+configuration options:
 
 ```cs
 var muxer = ConnectionMultiplexer.Connect(new ConfigurationOptions {
-    ConnectTimeout = 1000,  // 1 second timeout for connections.
-    SyncTimeout = 2000,     // 2 seconds for synchronous commands.
-    AsyncTimeout = 3000     // 3 seconds for asynchronous commands.
+    ConnectTimeout = 10000,  // 10 seconds for connections.
+    SyncTimeout = 10000,     // 10 seconds for synchronous commands.
+    AsyncTimeout = 10000     // 10 seconds for asynchronous commands.
         .
         .
 });
@@ -94,8 +93,10 @@ var muxer = ConnectionMultiplexer.Connect(new ConfigurationOptions {
 var db = muxer.GetDatabase();
 ```
 
-The default timeouts are a good starting point, but you may be able
-to improve performance by adjusting the values to suit your use case.
+The default timeouts are a good starting point, but cloud applications may need
+longer timeouts to handle transient network or server delays. Shorter timeouts
+do not make commands run faster; they only fail sooner. Tune these values to
+improve reliability and resilience for your workload.
 
 ### Exception handling
 
@@ -117,23 +118,31 @@ for more information on handling exceptions.
 
 ### Retries
 
-During the initial `ConnectionMultiplexer.Connect()` call, `NRedisStack` will
-keep trying to connect if the first attempt fails. By default, it will make
-three attempts, but you can configure the number of retries using the
-`ConnectRetry` configuration option:
+During the initial `ConnectionMultiplexer.Connect()` call, `StackExchange.Redis`
+will repeat failed connection attempts. By default, it will make three attempts,
+but you can configure the number of retries using the `ConnectRetry`
+configuration option.
+
+You should also consider the `AbortOnConnectFail` option. If this is `true`,
+`Connect()` fails when it can't connect after the configured number of attempts. If it is
+`false`, `Connect()` can return a disconnected multiplexer and keep trying to
+connect in the background, which is helpful in cloud environments where
+dependencies may come online out of sequence. The default is `true`, except for
+Azure endpoints, where it defaults to `false`.
 
 ```cs
 var muxer = ConnectionMultiplexer.Connect(new ConfigurationOptions {
     ConnectRetry = 5,  // Retry up to five times.
+    AbortOnConnectFail = false,
         .
         .
 });
 ```
 
-After the initial `Connect()` call is successful, `NRedisStack` will
+After the initial `Connect()` call is successful, `StackExchange.Redis` will
 automatically attempt to reconnect if the connection is lost. You can
 specify a reconnection strategy with the `ReconnectRetryPolicy` configuration
-option. `NRedisStack` provides two built-in classes that implement
+option. `StackExchange.Redis` provides two built-in classes that implement
 reconnection strategies:
 
 - `ExponentialRetry`: (Default) Uses an
@@ -154,28 +163,12 @@ var muxer = ConnectionMultiplexer.Connect(new ConfigurationOptions {
 });
 ```
 
-You can also implement your own custom retry policy by creating a class
+You can also implement your own custom reconnect policy by creating a class
 that implements the `IReconnectRetryPolicy` interface.
 
-`NRedisStack` doesn't provide an automated retry mechanism for commands, but
-you can implement your own retry logic in your application code. Use
-a loop with a `try`/`catch` block to catch `RedisConnectionException` and
-`RedisTimeoutException` exceptions and then retry the command after a
-suitable delay, as shown in the example below:
-
-```cs
-const int MAX_RETRIES = 3;
-
-for (int i = 0; i < MAX_RETRIES; i++) {
-    try {
-        string value = db.StringGet("foo");
-        break;
-    } catch (RedisConnectionException) {
-        // Wait before retrying.
-        Thread.Sleep(500 * (i + 1));
-    } catch (RedisTimeoutException) {
-        // Wait before retrying.
-        Thread.Sleep(500 * (i + 1));
-    }
-}
-```
+`StackExchange.Redis` doesn't provide an automated retry mechanism for commands.
+For command retries, use a bounded retry strategy in your application code and
+retry only transient failures such as `RedisConnectionException` and
+`RedisTimeoutException`. Many .NET apps use a resilience library such as
+[Polly](https://www.pollydocs.org/strategies/retry.html) to manage retry delays,
+backoff, jitter, and retry limits instead of writing retry loops by hand.

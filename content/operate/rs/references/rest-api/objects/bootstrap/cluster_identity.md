@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the cluster_identity object used with Redis Enterprise Software
+description: Documents the cluster_identity object used with Redis Software
   REST API calls.
 linkTitle: cluster_identity
 weight: $weight

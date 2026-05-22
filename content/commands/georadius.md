@@ -169,10 +169,13 @@ summary: Queries a geospatial index for members within a distance from a coordin
 syntax_fmt: "GEORADIUS key longitude latitude radius <M | KM | FT | MI>\n  [WITHCOORD]\
   \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC]\n  [STORE\_key | STOREDIST\_\
   key]"
-syntax_str: "longitude latitude radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH]\
-  \ [COUNT\_count [ANY]] [ASC | DESC] [STORE\_key | STOREDIST\_key]"
 title: GEORADIUS
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Return the members of a sorted set populated with geospatial information using [`GEOADD`]({{< relref "/commands/geoadd" >}}), which are within the borders of the area specified with the center location and the maximum distance from the center (the radius).
 
 This manual page also covers the [`GEORADIUS_RO`]({{< relref "/commands/georadius_ro" >}}) and [`GEORADIUSBYMEMBER_RO`]({{< relref "/commands/georadiusbymember_ro" >}}) variants (see the section below for more information).
@@ -223,9 +226,9 @@ GEORADIUS Sicily 15 37 200 km WITHCOORD
 GEORADIUS Sicily 15 37 200 km WITHDIST WITHCOORD
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
 

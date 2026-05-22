@@ -53,7 +53,6 @@ since: 5.0.0
 summary: Returns the number of messages that were successfully acknowledged by the
   consumer group member of a stream.
 syntax_fmt: XACK key group id [id ...]
-syntax_str: group id [id ...]
 title: XACK
 ---
 The `XACK` command removes one or multiple messages from the
@@ -79,9 +78,9 @@ redis> XACK mystream mygroup 1526569495631-0
 (integer) 1
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

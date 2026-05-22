@@ -1,0 +1,126 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "info(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The name of the Bloom filter"
+          }
+        ],
+        "returns": {
+          "type": "dict",
+          "description": "Dictionary with capacity, size, number of filters, items inserted, and expansion rate"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Map<String, Object> bfInfo(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Bloom filter"
+          }
+        ],
+        "returns": {
+          "type": "Map<String, Object>",
+          "description": "Map containing filter information"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BFInfo(ctx context.Context, key string) *BFInfoCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The name of the Bloom filter"
+          }
+        ],
+        "returns": {
+          "type": "*BFInfoCmd",
+          "description": "BFInfo command result with Capacity, Size, Filters, ItemsInserted, ExpansionRate"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "BF.INFO(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The name of the Bloom filter"
+          }
+        ],
+        "returns": {
+          "type": "BfInfoReplyMap",
+          "description": "Map with Capacity, Size, Number of filters, Items inserted, Expansion rate"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "BloomInformation Info(RedisKey key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Bloom filter"
+          }
+        ],
+        "returns": {
+          "type": "BloomInformation",
+          "description": "Object containing filter information"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "async Task<BloomInformation> InfoAsync(RedisKey key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Bloom filter"
+          }
+        ],
+        "returns": {
+          "type": "Task<BloomInformation>",
+          "description": "Object containing filter information"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "bfinfo(string $key, string $modifier = '')",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "$modifier",
+            "type": "string",
+            "description": "Optional modifier (CAPACITY, SIZE, FILTERS, ITEMS, EXPANSION)"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Array containing filter information"
+        }
+      }
+    ]
+  }
+}

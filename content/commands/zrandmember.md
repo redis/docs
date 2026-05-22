@@ -57,7 +57,6 @@ railroad_diagram: /images/railroad/zrandmember.svg
 since: 6.2.0
 summary: Returns one or more random members from a sorted set.
 syntax_fmt: ZRANDMEMBER key [count [WITHSCORES]]
-syntax_str: '[count [WITHSCORES]]'
 title: ZRANDMEMBER
 ---
 When called with just the `key` argument, return a random element from the sorted set value stored at `key`.
@@ -79,7 +78,6 @@ ZRANDMEMBER dadi
 ZRANDMEMBER dadi -5 WITHSCORES
 {{% /redis-cli %}}
 
-
 ## Specification of the behavior when count is passed
 
 When the `count` argument is a positive value this command behaves as follows:
@@ -94,9 +92,9 @@ When the `count` is a negative value, the behavior changes as follows:
 * Exactly `count` elements, or an empty array if the sorted set is empty (non-existing key), are always returned.
 * The order of elements in the reply is truly random.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

@@ -1,11 +1,11 @@
 ---
-Title: Redis Enterprise REST API objects
+Title: Redis Software REST API objects
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Documents the objects used with Redis Enterprise Software REST API calls.
+description: Documents the objects used with Redis Software REST API calls.
 hideListLinks: true
 linkTitle: Objects
 weight: 40

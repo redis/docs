@@ -1,0 +1,213 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "incrby(key, items, increments)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "name": "items",
+            "type": "List",
+            "description": "Items to increment"
+          },
+          {
+            "name": "increments",
+            "type": "List",
+            "description": "Increment values for each item"
+          }
+        ],
+        "returns": {
+          "type": "List[int]",
+          "description": "Count of each item after increment"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "cmsIncrBy(String key, String item, long increment)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "item",
+            "type": "String"
+          },
+          {
+            "name": "increment",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "Count for item after increment"
+        }
+      },
+      {
+        "signature": "cmsIncrBy(String key, Map<String, Long> itemIncrements)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "itemIncrements",
+            "type": "Map<String, Long>"
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "Count of each item after increment"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "CMSIncrBy(ctx context.Context, key string, elements ...interface{}) *IntSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "elements",
+            "type": "...interface{}",
+            "description": "Alternating items and increments"
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": "Counts after increment"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "CMS.INCRBY(key, items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "name": "items",
+            "type": "BfIncrByItem | Array<BfIncrByItem>",
+            "description": "{ item, incrementBy }"
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<NumberReply>",
+          "description": "Counts after increment"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "IncrBy(RedisKey key, RedisValue item, long increment)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "item",
+            "type": "RedisValue"
+          },
+          {
+            "name": "increment",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "Count after increment"
+        }
+      },
+      {
+        "signature": "IncrBy(RedisKey key, Tuple<RedisValue, long>[] itemIncrements)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "itemIncrements",
+            "type": "Tuple<RedisValue, long>[]"
+          }
+        ],
+        "returns": {
+          "type": "long[]",
+          "description": "Counts after increment"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "IncrByAsync(RedisKey key, RedisValue item, long increment)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "item",
+            "type": "RedisValue"
+          },
+          {
+            "name": "increment",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "type": "Task<long>",
+          "description": "Count after increment"
+        }
+      },
+      {
+        "signature": "IncrByAsync(RedisKey key, Tuple<RedisValue, long>[] itemIncrements)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "itemIncrements",
+            "type": "Tuple<RedisValue, long>[]"
+          }
+        ],
+        "returns": {
+          "type": "Task<long[]>",
+          "description": "Counts after increment"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "cmsincrby($key, ...$itemsAndIncrements)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "itemsAndIncrements",
+            "type": "mixed...",
+            "description": "Alternating items and increments"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Counts after increment"
+        }
+      }
+    ]
+  }
+}

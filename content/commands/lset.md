@@ -51,7 +51,6 @@ railroad_diagram: /images/railroad/lset.svg
 since: 1.0.0
 summary: Sets the value of an element in a list by its index.
 syntax_fmt: LSET key index element
-syntax_str: index element
 title: LSET
 ---
 Sets the list element at `index` to `element`.
@@ -70,9 +69,9 @@ LSET mylist -2 "five"
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

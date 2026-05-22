@@ -1,0 +1,391 @@
+/**
+ * OpenTelemetry Metrics Styling
+ */
+
+/* Main container */
+.otel-metrics-rendered {
+  margin: 2rem 0;
+}
+
+/* Metric groups section */
+.otel-metric-groups {
+  margin-bottom: 3rem;
+}
+
+/* Individual metric group */
+.otel-metric-group {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.otel-metric-group:last-child {
+  border-bottom: none;
+}
+
+.otel-metric-group h3 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.group-description {
+  color: #666;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+/* Group ID in heading */
+.group-id {
+  font-size: 0.85em;
+  font-weight: normal;
+  color: #666;
+  background: #f5f5f5;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+}
+
+/* Individual metric */
+.otel-metric {
+  margin: 1.5rem 0 1.5rem 1rem;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-left: 3px solid #0066cc;
+  border-radius: 4px;
+}
+
+.otel-metric h4 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.metric-description {
+  margin: 0.5rem 0 1rem 0;
+  color: #333;
+}
+
+/* Metric name in code font */
+.metric-name {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  font-size: 0.95em;
+  background: transparent;
+  padding: 0;
+}
+
+/* Metric unit */
+.metric-unit {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0.25rem 0 0.5rem 0;
+}
+
+/* Metric type badge */
+.metric-type-badge-link {
+  text-decoration: none;
+}
+
+.metric-type-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: #0066cc;
+  color: white;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+
+.metric-type-badge-link:hover .metric-type-badge {
+  background: #0052a3;
+}
+
+/* Collapsible attributes section */
+.metric-attributes-details {
+  margin: 1rem 0;
+}
+
+.metric-attributes-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.5rem;
+  background: #f0f0f0;
+  border-radius: 4px;
+  user-select: none;
+  list-style: none;
+}
+
+.metric-attributes-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.metric-attributes-details summary::before {
+  content: '▶ ';
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.metric-attributes-details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.metric-attributes-details summary:hover {
+  background: #e8e8e8;
+}
+
+.metric-attributes-details .attribute-references {
+  margin-top: 0.5rem;
+}
+
+/* Metadata table */
+.metric-metadata {
+  width: auto;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+  border-collapse: collapse;
+}
+
+.metric-metadata th {
+  text-align: left;
+  padding: 0.3rem 1rem 0.3rem 0;
+  font-weight: 600;
+  color: #666;
+  width: 120px;
+}
+
+.metric-metadata td {
+  padding: 0.3rem 0;
+  color: #333;
+}
+
+/* Attribute references table */
+.attribute-references {
+  width: 100%;
+  margin: 1rem 0;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.attribute-references th {
+  text-align: left;
+  padding: 0.5rem;
+  background: #f0f0f0;
+  border-bottom: 2px solid #ddd;
+  font-weight: 600;
+}
+
+.attribute-references td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.attribute-references tr:hover {
+  background: #f9f9f9;
+}
+
+.attribute-link {
+  color: #0066cc;
+  text-decoration: none;
+  font-family: monospace;
+}
+
+.attribute-link:hover {
+  text-decoration: underline;
+}
+
+/* Cardinality badges */
+.cardinality-badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 3px;
+}
+
+.cardinality-required {
+  background: #d32f2f;
+  color: white;
+}
+
+.cardinality-recommended {
+  background: #f57c00;
+  color: white;
+}
+
+.cardinality-optional {
+  background: #7cb342;
+  color: white;
+}
+
+/* Attributes section */
+.otel-attributes-section {
+  margin-top: 3rem;
+}
+
+.attribute-table {
+  margin-bottom: 2rem;
+}
+
+/* Attributes list container */
+.attributes-list {
+  margin: 1rem 0;
+}
+
+/* Individual attribute card */
+.attribute-card {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-left: 3px solid #7cb342;
+  border-radius: 4px;
+}
+
+.attribute-card h4 {
+  margin: 0 0 0.5rem 0;
+}
+
+.attribute-name {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  font-size: 0.95em;
+  background: transparent;
+  padding: 0;
+}
+
+.attribute-type {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0.25rem 0 0.5rem 0;
+}
+
+.attribute-type code {
+  background: #f5f5f5;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+.attribute-description {
+  margin: 0.75rem 0;
+  color: #333;
+}
+
+.attribute-examples {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0.5rem 0;
+}
+
+.attribute-examples code {
+  background: #f5f5f5;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+.attribute-requirement-condition {
+  font-size: 0.85rem;
+  color: #666;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+/* Requirement badges */
+.requirement-badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 3px;
+}
+
+.requirement-required {
+  background: #d32f2f;
+  color: white;
+}
+
+.requirement-recommended {
+  background: #f57c00;
+  color: white;
+}
+
+.requirement-optional {
+  background: #7cb342;
+  color: white;
+}
+
+.requirement-conditionally_required {
+  background: #ff9800;
+  color: white;
+}
+
+.requirement-condition {
+  display: block;
+  margin-top: 0.25rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Anchor links */
+.anchor-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.anchor-link:hover {
+  text-decoration: underline;
+}
+
+/* Copy link icon */
+.copy-link-icon {
+  display: inline-flex;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+  color: #666;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+h3:hover .copy-link-icon,
+h4:hover .copy-link-icon {
+  opacity: 1;
+}
+
+.copy-link-icon:hover {
+  color: #0066cc;
+}
+
+.copy-link-icon.copied {
+  color: #7cb342;
+}
+
+.copy-link-icon svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .otel-metric {
+    margin-left: 0;
+  }
+
+  .attributes-list,
+  .attribute-references {
+    font-size: 0.85rem;
+  }
+
+  .attributes-list td,
+  .attributes-list th,
+  .attribute-references td,
+  .attribute-references th {
+    padding: 0.5rem;
+  }
+}
+
