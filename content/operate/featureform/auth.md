@@ -8,7 +8,7 @@ categories:
 description: Manage Feature Form auth and RBAC
 linkTitle: Authentication and RBAC
 weight: 70
-bannerText: Feature Form is currently in preview and subject to change. To request access to the Feature Form Docker image, contact your Redis account team.
+bannerText: Feature Form is currently in preview and subject to change. Feature Form Docker images are available on Docker Hub; contact your Redis account team for a license key to deploy.
 bannerChildren: true
 ---
 Feature Form separates deployment-wide administration from workspace-scoped actions. A workspace is the isolation boundary, but membership and permissions are managed separately through RBAC bindings.
