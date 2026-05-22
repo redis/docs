@@ -10,8 +10,10 @@ edit any files until I approve the plan.
    `DOC-XXXX` key from the start of the branch name. If there isn't one, stop
    and tell me.
 
-2. **Read the ticket.** Use the Atlassian MCP tools to fetch the issue from
-   Redis Labs (cloudId `06f73ca7-8f2c-4392-b40a-08288e9d0ba3`). Pull:
+2. **Read the ticket.** Use the Atlassian MCP tools to fetch the issue. If
+   you don't already have a cloudId, call `getAccessibleAtlassianResources`
+   first and pick the entry whose URL is `redislabs.atlassian.net`. Then
+   pull:
    - summary, description, status, assignee
    - comments / discussion
    - any linked issues or Confluence pages worth a look
