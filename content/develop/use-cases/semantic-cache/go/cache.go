@@ -103,9 +103,10 @@ func NewRedisSemanticCache(
 	if vectorDim <= 0 {
 		vectorDim = vectorDimDefault
 	}
-	if distanceThreshold <= 0 {
-		distanceThreshold = 0.5
-	}
+	// distanceThreshold is honoured as-is. Zero is a legitimate value
+	// ("exact matches only") and negative numbers are clamped by the
+	// HTTP boundary anyway. Silently rewriting `0` to a default would
+	// make `--threshold 0` uncallable — see audit-checklist row 28.
 	if defaultTTLSeconds <= 0 {
 		defaultTTLSeconds = 3600
 	}
