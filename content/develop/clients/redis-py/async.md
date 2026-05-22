@@ -53,18 +53,25 @@ rather than opening and closing them individually.
 See [Connection pools and multiplexing]({{< relref "/develop/clients/pools-and-muxing" >}})
 for more information about how this works.
 
-In a long-running async application, create a single
-`redis.asyncio.ConnectionPool` at startup and share it across requests by
-passing it to each `Redis(connection_pool=...)` instance. Avoid creating a
-new `Redis()` per request — it defeats pooling and pays the connection cost
-on every call.
+A `Redis` client instance already creates and manages its own connection
+pool internally, so in a long-running async application the recommended
+pattern is to create a single client at startup, share it across requests
+and tasks, and close it at shutdown. Avoid creating a new `Redis()` per
+request — it defeats pooling and pays the connection cost on every call.
 
-{{< clients-example set="async_intro" step="pool" lang_filter="Python" description="Foundational: Create and share an async connection pool" difficulty="beginner" >}}
+{{< clients-example set="async_intro" step="pool" lang_filter="Python" description="Foundational: Create and share a single async client across the app" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Tune `max_connections` to the maximum number of concurrent Redis operations
-you expect from the process. A `BlockingConnectionPool` is also available
-if you'd rather block on pool exhaustion than raise an error.
+you expect from the process. If you'd rather block on pool exhaustion than
+raise an error, construct the client with a `BlockingConnectionPool`.
+
+{{% alert title="Note" %}}
+Don't share a single `ConnectionPool` across multiple `Redis(connection_pool=...)`
+instances. Closing any one of those clients also closes the shared pool,
+which silently invalidates the connections held by every other client using
+it. Share the `Redis` client object instead.
+{{% /alert %}}
 
 ## Awaiting commands
 

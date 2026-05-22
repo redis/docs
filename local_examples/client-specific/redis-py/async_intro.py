@@ -29,17 +29,24 @@ asyncio.run(context_example())
 # STEP_END
 
 # STEP_START pool
-async def pool_example():
-    pool = redis.ConnectionPool(
+async def shared_client_example():
+    # Create one client at startup. It owns its own internal pool,
+    # which is sized by max_connections.
+    r = redis.Redis(
         host='localhost', port=6379, decode_responses=True,
         max_connections=10,
     )
-    r = redis.Redis(connection_pool=pool)
-    await r.set('foo', 'bar')
-    await r.aclose()
-    await pool.aclose()
+    try:
+        # Share `r` across every request and task for the app's lifetime.
+        await r.set('foo', 'bar')
+        value = await r.get('foo')
+        print(value)
+        # bar
+    finally:
+        # Close the client at shutdown to release pooled connections.
+        await r.aclose()
 
-asyncio.run(pool_example())
+asyncio.run(shared_client_example())
 # STEP_END
 
 # STEP_START gather
