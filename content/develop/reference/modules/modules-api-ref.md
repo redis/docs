@@ -5506,9 +5506,9 @@ or the node ID does not exist from the POV of this local node, `REDISMODULE_ERR`
 is returned.
 
 The arguments `ip`, `master_id`, `port` and `flags` can be NULL in case we don't
-need to populate back certain info. If an `ip` and `master_id` (only populated
+need to populate back certain info. If an `ip` and/or `master_id` (only populated
 if the instance is a slave) are specified, they point to buffers holding
-at least `REDISMODULE_NODE_ID_LEN` bytes. The strings written back as `ip`
+at least `INET6_ADDRSTRLEN` (46) and `REDISMODULE_NODE_ID_LEN` bytes, respectively. The strings written back as `ip`
 and `master_id` are not null terminated.
 
 The list of flags reported is the following:
