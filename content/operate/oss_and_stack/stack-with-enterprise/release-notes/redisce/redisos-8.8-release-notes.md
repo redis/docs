@@ -12,6 +12,47 @@ min-version-rs: blah
 weight: 15
 ---
 
+## Redis Open Source 8.8.0 (May 2026)
+
+This is the General Availability release of Redis 8.8 in Redis Open Source.
+
+### Major changes compared to 8.6
+
+- New data structure: Array (@antirez)
+- Subkey notification for hash fields - field-level notifications
+- `INCREX`: a window counter rate limiter combining `INCR`, `INCRBY`, `INCRBYFLOAT`, bounds, and expiration (@raffertyyu + Redis team)
+- `XNACK`: a new streams command - allow consumers to explicitly release pending messages
+- `ZUNION`, `ZINTER`, `ZUNIONSTORE`, `ZINTERSTORE`: new `COUNT` aggregator
+- `JSON.SET`: new `FPHA` argument to specify the FP type for homogeneous FP arrays
+- `TS.RANGE`, `TS.REVRANGE`, `TS.MRANGE`, `TS.MREVRANGE`: multiple aggregators in a single command
+- `FT.HYBRID` `KNN` clause: new argument to request fewer candidates per shard
+- `FT.PROFILE` `HYBRID`: profiling support for `FT.HYBRID`
+- Performance improvements
+
+### Binary distributions
+
+- Alpine and Debian Docker images - https://hub.docker.com/_/redis
+- Install using snap - see https://github.com/redis/redis-snap
+- Install using brew - see https://github.com/redis/homebrew-redis
+- Install using RPM - see https://github.com/redis/redis-rpm
+- Install using Debian APT - see https://github.com/redis/redis-debian
+
+### Operating systems we test Redis 8.8 on
+
+- Ubuntu 22.04 (Jammy Jellyfish), 24.04 (Noble Numbat), 26.04 (Resolute Raccoon)
+- Rocky Linux 8.10, 9.7, 10.1
+- AlmaLinux 8.10, 9.7, 10.1
+- Debian 12.13 (Bookworm), Debian 13.4 (Trixie)
+- Alpine 3.23
+- macOS 14.8.4 (Sonoma), 15.7.4 (Sequoia), 26.3 (Tahoe) - for both Intel and ARM
+
+### Bug fixes (compared to 8.8-RC1)
+
+- [#15237](https://github.com/redis/redis/pull/15237) `INCREX` syntax update.
+- [#15005](https://github.com/redis/redis/pull/15005) Memory tracking can be enabled at runtime in non-clustered mode .
+- RedisTimeSeries/RedisTimeSeries[#1930](https://github.com/redistimeseries/redistimeseries/pull/1930) Cluster topology changes during a multi-shard command are not handled (MOD-14439).
+- RedisBloom/RedisBloom[#1007](https://github.com/redisbloom/redisbloom/pull/1007) Memory leak on RDB load (MOD-15418).
+
 ## Redis Open Source 8.8-RC1 (May 2026)
 
 This is the first Release Candidate of Redis 8.8 in Redis Open Source.
