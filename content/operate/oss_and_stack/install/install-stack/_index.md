@@ -164,11 +164,12 @@ A preview of Redis Open Source 8.2 RC1 is available on Windows through [Memurai]
 
 The latest version of Redis Open Source has been tested on the following platforms:
 
-- Ubuntu 22.04 (Jammy Jellyfish) and 24.04 (Noble Numbat).
-- Rocky Linux 8.10, 9.5.
-- AlmaLinux 8.10, 9.5, and 10.1.
-- Debian 12 (Bookworm) and 13 (Trixie).
-- macOS 14 (Sonoma), and 15 (Sequoia).
+- Ubuntu 22.04 (Jammy Jellyfish), 24.04 (Noble Numbat), and 26.04 (Resolute Raccoon).
+- Rocky Linux 8.10, 9.7, and 10.1.
+- AlmaLinux 8.10, 9.7, and 10.1.
+- Debian 12.13 (Bookworm) and Debian 13.4 (Trixie).
+- Alpine 3.23.
+- macOS 14.8.4 (Sonoma), 15.7.4 (Sequoia), and 26.3 (Tahoe) - for both Intel and ARM processors.
 
 While you can install Redis Open Source on any of the platforms listed below, you might also consider using Redis Cloud by creating a [free account](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
 

@@ -17,7 +17,7 @@ description: 'Introduction to Redis lists
   '
 linkTitle: Lists
 title: Redis lists
-weight: 20
+weight: 70
 ---
 
 {{< command-group group="list" title="List command summary" show_link=true >}}

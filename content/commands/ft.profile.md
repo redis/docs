@@ -45,13 +45,13 @@ module: Search
 railroad_diagram: /images/railroad/ft.profile.svg
 since: 2.2.0
 stack_path: docs/interact/search-and-query
-summary: Performs a `FT.SEARCH` or `FT.AGGREGATE` command and collects performance
+summary: Performs a `FT.SEARCH`, `FT.HYBRID`, or `FT.AGGREGATE` command and collects performance
   information
-syntax_fmt: FT.PROFILE index <SEARCH | AGGREGATE> [LIMITED] QUERY query
+syntax_fmt: FT.PROFILE index <SEARCH | HYBRID | AGGREGATE> [LIMITED] QUERY query
 title: FT.PROFILE
 ---
 
-Apply [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) or [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) command to collect performance details. For usage, see [Examples](#examples).
+Apply [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}), [`FT.HYBRID`]({{< relref "commands/ft.hybrid/" >}}), or [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) command to collect performance details. For usage, see [Examples](#examples).
 
 ## Required arguments
 
@@ -62,9 +62,9 @@ is the name of an index created using [`FT.CREATE`]({{< relref "commands/ft.crea
 </details>
 
 <details open>
-<summary><code>SEARCH | AGGREGATE</code></summary>
+<summary><code>SEARCH | HYBRID |  AGGREGATE</code></summary>
 
-represents the profile type, either [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) or [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}).
+represents the profile type, either [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}), [`FT.HYBRID`]({{< relref "commands/ft.hybrid/" >}}), or [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}).
 </details>
 
 <details open>
@@ -76,7 +76,7 @@ removes details of any `reader` iterators.
 <details open>
 <summary><code>QUERY {query}</code></summary>
 
-is the query string, sent to `FT.SEARCH` or `FT.AGGREGATE`.
+is the query string, sent to `FT.SEARCH`, `FT.HYBRID`, or `FT.AGGREGATE`.
 </details>
 
 <note><b>Note:</b> To reduce the size of the output, use `NOCONTENT` or `LIMIT 0 0` to reduce the number of reply results, or `LIMITED` to not reply with details of `reader iterators` inside built-in unions, such as `fuzzy` or `prefix` iterators.</note>
@@ -88,7 +88,7 @@ This page contains the up-to-date profile output as of RediSearch v2.8.33, v2.10
 The output format itself may differ between RediSearch versions, and RESP protocol versions.
 {{< /note >}}
 
-`FT.PROFILE` returns a two-element array reply. The first element contains the results of the provided `FT.SEARCH` or `FT.AGGREGATE` command.
+`FT.PROFILE` returns a two-element array reply. The first element contains the results of the provided `FT.SEARCH`, `FT.HYBRID`, or `FT.AGGREGATE` command.
 The second element contains information about query creation, iterator profiles, and result processor profiles.
 Details of the second element follow in the sections below.
 
@@ -103,7 +103,7 @@ If there's only one shard, the label will be omitted.
 | `Shard ID`               | String containing the unique shard ID. In Redis Open Source, this identifier is denoted as the node ID, and is received from the `RedisModule_GetMyClusterID()` API. (Available as of RediSearch v8.4.3)                               |
 | `Total`&nbsp;`profile`&nbsp;`time`     | The total run time (ms) of the query. Normally just a few ms.                                                                                                                                                         |
 | `Parsing`&nbsp;`time`           | The time (ms) spent parsing the query and its parameters into a query plan. Normally just a few ms.                                                                                                                   |
-| `Pipeline`&nbsp;`creation`&nbsp;`time` | The creation time (ms) of the execution plan, including iterators, result processors, and reducers creation. Normally just a few ms for `FT.SEARCH` queries, but expect a larger number for `FT.AGGREGATE` queries.   |
+| `Pipeline`&nbsp;`creation`&nbsp;`time` | The creation time (ms) of the execution plan, including iterators, result processors, and reducers creation. Normally just a few ms for `FT.SEARCH` or `FT.HYBRID` queries, but expect a larger number for `FT.AGGREGATE` queries.   |
 | `Total`&nbsp;`GIL`&nbsp;`time` | In multi-threaded deployments, the total time (ms) the query spent holding and waiting for the Redis Global Lock (referred to as GIL) during execution. Note: this value is only valid in the shards profile section. |
 | `Warning`                | Errors that occurred during query execution.                                                                                                                                                                          |
 | `Internal`&nbsp;`cursor`&nbsp;`reads` | The number of times the coordinator fetched result batches from a given shard during a distributed `AGGREGATE` query in cluster mode. Includes the initial request plus any subsequent batch fetches.                 |
@@ -460,9 +460,10 @@ One of the following:
 
 ## See also
 
-[`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) 
+[`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.HYBRID`]({{< relref "commands/ft.hybrid/" >}}) | [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) 
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+- [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+- [Search commands in MULTI/EXEC transactions and Lua scripts]({{< relref "/develop/ai/search-and-query/advanced-concepts/transactions" >}})
 
