@@ -18,7 +18,7 @@ The tasks on this page require one of two roles:
 - A global admin (`global_admin`) creates workspaces and grants access.
 - A workspace admin (`workspace_admin`) verifies their access, runs health checks, and updates or deletes the workspace.
 
-For the full list of built-in roles and the scope model, see [Authentication and RBAC]({{< relref "/operate/featureform/auth" >}}).
+For the full list of built-in roles and the scope model, see [Authentication and RBAC]({{< relref "/operate/featureform/configure-auth" >}}).
 
 Most commands on this page identify a workspace by its UUID, either as a positional argument or via the `--workspace` flag. Find the UUID with `ff workspace create` or `ff workspace list`. The examples below use `<workspace-id>`, substitute the actual UUID.
 
@@ -138,5 +138,5 @@ ff workspace delete <workspace-id> --force
 ## Next steps
 
 - [Register providers]({{< relref "/develop/ai/featureform/register-providers" >}}) to connect a workspace to its storage, compute, and catalog systems.
-- See [Authentication and RBAC]({{< relref "/operate/featureform/auth" >}}) for the deployment-wide role and scope model.
+- See [Authentication and RBAC]({{< relref "/operate/featureform/configure-auth" >}}) for the deployment-wide role and scope model.
 - See [Concepts]({{< relref "/develop/ai/featureform/concepts" >}}) for the workspace, resource graph, and serving model.
