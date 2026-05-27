@@ -1,6 +1,7 @@
 ---
 aliases:
 - /develop/interact/search-and-query/administration/extensions
+- /interact/search-and-query/administration/extensions/
 categories:
 - docs
 - develop

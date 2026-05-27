@@ -14,6 +14,8 @@ summary: The Redis OM for Java library is based on the Spring framework and prov
   object-mapping abstractions.
 title: Redis OM Spring
 type: integration
+aliases:
+- /connect/clients/om-clients/stack-spring/
 weight: 9
 ---
 

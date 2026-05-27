@@ -12,6 +12,8 @@ categories:
 description: Understand how to use basic Redis data types
 linkTitle: Data structure store
 title: Redis as an in-memory data structure store quick start guide
+aliases:
+- /get-started/data-store/
 weight: 1
 ---
 

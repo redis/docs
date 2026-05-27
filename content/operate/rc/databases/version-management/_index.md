@@ -43,6 +43,7 @@ When a Redis version reaches **End-of-Life (EOL)**, Redis Cloud will automatical
 
 | Version | Support model | Status | EOL Date | Plans |
 |---------|--------|--------|----------|-------|
+| **Redis 8.6** | STS | Preview | TBD | Essentials |
 | **Redis 8.4** | STS | GA | TBD | Essentials, Pro | 
 | **Redis 8.2** | LTS | GA | TBD | Essentials, Pro |
 | **Redis 8.0** | STS | Preview | TBD | Essentials<sup>[1](#table-note-1)</sup> |

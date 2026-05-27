@@ -12,6 +12,9 @@ categories:
 description: Building secondary indexes in Redis
 linkTitle: Secondary indexing
 title: Secondary indexing
+aliases:
+- /develop/use/patterns/indexes
+- /manual/patterns/indexes/
 weight: 1
 ---
 

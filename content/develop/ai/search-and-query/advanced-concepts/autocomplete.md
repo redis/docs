@@ -1,6 +1,7 @@
 ---
 aliases:
 - /develop/interact/search-and-query/advanced-concepts/autocomplete
+- /interact/search-and-query/advanced-concepts/autocomplete/
 categories:
 - docs
 - develop

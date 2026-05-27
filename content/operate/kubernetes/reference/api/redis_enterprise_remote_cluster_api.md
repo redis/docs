@@ -22,7 +22,7 @@ apiVersion:
 
 
 
-RedisEntepriseRemoteCluster represents a remote participating cluster.
+Represents a remote participating cluster.
 
 <table>
     <thead>
@@ -86,42 +86,42 @@ RedisEntepriseRemoteCluster represents a remote participating cluster.
         <td>apiFqdnUrl</td>
         <td>string</td>
         <td>
-          The URL of the cluster, will be used for the active-active database URL.<br/>
+          URL of the cluster. Used for the Active-Active database URL.<br/>
         </td>
         <td>true</td>
       </tr><tr>
         <td>recName</td>
         <td>string</td>
         <td>
-          The name of the REC that the RERC is pointing at<br/>
+          Name of the REC that this RERC points to.<br/>
         </td>
         <td>true</td>
       </tr><tr>
         <td>recNamespace</td>
         <td>string</td>
         <td>
-          The namespace of the REC that the RERC is pointing at<br/>
+          Namespace of the REC that this RERC points to.<br/>
         </td>
         <td>true</td>
       </tr><tr>
         <td>apiPort</td>
         <td>integer</td>
         <td>
-          The port number of the cluster's URL used for connectivity/sync<br/>
+          Port number of the cluster's URL. Used for connectivity and synchronization.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>dbFqdnSuffix</td>
         <td>string</td>
         <td>
-          The database URL suffix, will be used for the active-active database replication endpoint and replication endpoint SNI.<br/>
+          Database URL suffix. Used for the Active-Active database replication endpoint and replication endpoint SNI.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>secretName</td>
         <td>string</td>
         <td>
-          The name of the secret containing cluster credentials. Must be of the following format: "redis-enterprise-<RERC name>"<br/>
+          Name of the secret containing cluster credentials. Must use the following format: "redis-enterprise-<RERC name>".<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -146,35 +146,35 @@ RedisEntepriseRemoteCluster represents a remote participating cluster.
         <td>internalObservedSecretResourceVersion</td>
         <td>string</td>
         <td>
-          The observed secret resource version. Used for internal purposes only.<br/>
+          Observed secret resource version. For internal use only.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>local</td>
         <td>boolean</td>
         <td>
-          Indicates whether this object represents a local or a remote cluster.<br/>
+          Indicates whether this object represents a local or remote cluster.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>observedGeneration</td>
         <td>integer</td>
         <td>
-          The most recent generation observed for this RERC. It corresponds to the RERC's generation, which is updated by the API Server.<br/>
+          Most recent generation observed for this RERC. Corresponds to the RERC's generation, which is updated by the API Server.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>specStatus</td>
         <td>string</td>
         <td>
-          Whether the desired specification is valid.<br/>
+          Indicates whether the desired specification is valid.<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>status</td>
         <td>string</td>
         <td>
-          The status of the remote cluster.<br/>
+          Status of the remote cluster.<br/>
         </td>
         <td>false</td>
       </tr></tbody>

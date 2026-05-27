@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/sets/
+- /manual/data-types/sets/
 categories:
 - docs
 - develop
@@ -14,7 +17,7 @@ description: 'Introduction to Redis sets
   '
 linkTitle: Sets
 title: Redis sets
-weight: 30
+weight: 90
 ---
 
 {{< command-group group="set" title="Set command summary" show_link=true >}}

@@ -28,11 +28,13 @@ To add a user to the cluster:
 
 1. Enter the name, email, and password of the new user.
 
-    {{<image filename="images/rs/screenshots/access-control/7-22-updates/create-user-panel.png" alt="Create user panel with fields for username, email, password, and alerts.">}}
-
     {{< note >}}
-To use [single sign-on (SSO)]({{< relref "/operate/rs/security/access-control/saml-sso" >}}), users must have email addresses.
+- Usernames must contain ASCII characters only.
+
+- To use [single sign-on (SSO)]({{< relref "/operate/rs/security/access-control/saml-sso" >}}), users must have email addresses.
     {{< /note >}}
+
+    {{<image filename="images/rs/screenshots/access-control/7-22-updates/create-user-panel.png" alt="Create user panel with fields for username, email, password, and alerts.">}}
 
 1. Select the **Alerts** the user should receive by email:
 

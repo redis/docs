@@ -40,6 +40,7 @@ rladmin status
 | extra rack_id | Shows `rack_id` and `second_rack_id` even if the cluster is not `rack_aware` |
 | extra redis_version | Shows Redis version of all databases in the cluster |
 | extra state_machine | Shows execution of state machine information  |
+| extra traffic_manually_disabled | Conditionally shows if any database's traffic was manually stopped with the `stop_traffic` API |
 | extra watchdog | Shows watchdog status  |
 
 ### Returns
@@ -112,6 +113,7 @@ rladmin status databases
 | extra rack_id | Shows `rack_id` and `second_rack_id` even if the cluster is not `rack_aware` |
 | extra redis_version | Shows Redis version of all databases in the cluster |
 | extra state_machine | Shows execution of state machine information  |
+| extra traffic_manually_disabled | Conditionally shows if any database's traffic was manually stopped with the `stop_traffic` API |
 | extra watchdog | Shows watchdog status  |
 
 ### Returns {#returns-dbs}

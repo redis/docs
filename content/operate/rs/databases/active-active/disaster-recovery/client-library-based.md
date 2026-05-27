@@ -47,8 +47,13 @@ The following diagram shows a client-based disaster recovery approach that also 
 <img src="../../../../../../images/active-active-disaster-recovery/client-library-connection-pool.svg" alt="Diagram of client libraries with connection pooling routing traffic to Active-Active database members" width="50%">
 </div>
 
-For additional information, see the following client library guides for failover and failback:
+For additional information, see the the introduction to
+[Client-side geographic failover]({{<relref "/develop/clients/failover">}})
+and also the following client library guides for failover and failback:
 
 - [Jedis (Java)]({{<relref "/develop/clients/jedis/failover">}})
 
+- [Lettuce (Java)]({{<relref "/develop/clients/lettuce/failover">}})
+
 - [redis-py (Python)]({{<relref "/develop/clients/redis-py/failover">}})
+

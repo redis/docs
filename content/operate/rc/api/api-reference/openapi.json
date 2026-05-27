@@ -7236,6 +7236,75 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/databases/{databaseId}/traffic/resume": {
+      "post": {
+        "tags": [
+          "Databases - Pro"
+        ],
+        "summary": "Resume Pro database traffic",
+        "description": "Resumes traffic for the specified Pro database.",
+        "operationId": "resumeBdbTraffic",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "databaseId",
+            "in": "path",
+            "description": "Database ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "204": {
+            "description": "Traffic resumed"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/databases/{databaseId}/import": {
       "get": {
         "tags": [
@@ -7944,6 +8013,75 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/traffic/resume": {
+      "post": {
+        "tags": [
+          "Databases - Essentials"
+        ],
+        "summary": "Resume Essentials database traffic",
+        "description": "Resumes traffic for the specified Essentials database.",
+        "operationId": "resumeBdbTraffic_1",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "databaseId",
+            "in": "path",
+            "description": "Database ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "204": {
+            "description": "Traffic resumed"
           },
           "401": {
             "description": "Unauthorized - Authentication failed for requested resource"
@@ -9691,6 +9829,76 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/databases/{databaseId}/traffic": {
+      "get": {
+        "tags": [
+          "Databases - Pro"
+        ],
+        "summary": "Get Pro database traffic",
+        "description": "Gets traffic information for the specified Pro database. If the database was not a source in a redirect endpoints operation, a not found error will be returned.",
+        "operationId": "getDatabaseTraffic",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "databaseId",
+            "in": "path",
+            "description": "Database ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatabaseTrafficStateResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/databases/{databaseId}/slow-log": {
       "get": {
         "tags": [
@@ -10287,6 +10495,76 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AccountSystemLogEntries"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/traffic": {
+      "get": {
+        "tags": [
+          "Databases - Essentials"
+        ],
+        "summary": "Get Essentials database traffic",
+        "description": "Gets traffic information for the specified Essentials database. If the database was not a source in a redirect endpoints operation, a not found error will be returned.",
+        "operationId": "getDatabaseTraffic_1",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "databaseId",
+            "in": "path",
+            "description": "Database ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatabaseTrafficStateResponse"
                 }
               }
             }
@@ -11859,9 +12137,11 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"
@@ -12015,9 +12295,11 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"
@@ -12736,6 +13018,31 @@
         },
         "description": "Active-Active VPC peering update request message"
       },
+      "DatabaseTrafficStateResponse": {
+        "type": "object",
+        "properties": {
+          "bdbId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "trafficStatus": {
+            "type": "string"
+          },
+          "canResume": {
+            "type": "boolean"
+          },
+          "resumeInProgress": {
+            "type": "boolean"
+          },
+          "stopReason": {
+            "type": "string"
+          },
+          "resumeEligibleAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "DataPersistenceEntry": {
         "type": "object",
         "properties": {
@@ -13285,7 +13592,7 @@
           },
           "deletionGracePeriod": {
             "type": "string",
-            "description": "Optional. The grace period for deleting the subscription. If not set, will default to immediate deletion grace period.",
+            "description": "Optional. The grace period for deleting the subscription if Redis cannot access the provided key. Required when applying customer managed keys for a new subscription.",
             "example": "alerts-only",
             "enum": [
               "alerts-only",
@@ -14652,9 +14959,11 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"
@@ -16050,9 +16359,11 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"
@@ -16261,9 +16572,11 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"
@@ -16551,6 +16864,7 @@
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_NOT_ALLOWED_WITH_CLOUD_PROVIDER_MANAGED_KEY",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_NOT_ALLOWED_WITH_INTERNAL_CLOUD_ACCOUNT",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_REQUIRED_FOR_EXTERNAL_CLOUD_ACCOUNT",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_DELETION_GRACE_PERIOD_REQUIRED",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_INVALID_NUMBER_OF_KEYS",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_REGION_NOT_REQUIRED",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_REGION_REQUIRED",
@@ -16592,11 +16906,8 @@
               "DATABASE_QUERY_PERFORMANCE_FACTOR_IS_NOT_SUPPORTED_ON_ACTIVE_ACTIVE",
               "REDISEARCH_SUPPORTS_ONLY_OPERATIONS_PER_SECOND_AS_THROUGHPUT_MEASUREMENT",
               "REDIS_GRAPH_SUPPORTS_ONLY_OPS_PER_SECOND_AS_THROUGHPUT_MEASUREMENT",
-              "DATABASE_MULTI_MODULES_IS_DISABLED",
               "DATABASE_RESP_VERSION_IS_NOT_SUPPORTED",
               "DATABASE_RESP_VERSION_IS_NOT_SUPPORTED_ON_CREATE_SUBSCRIPTION",
-              "CLUSTER_MULTI_MODULES_IS_NOT_SUPPORTED",
-              "DATABASE_INVALID_MULTI_MODULES_COMBINATION",
               "DATABASE_ROF_NOT_SUPPORTED",
               "DATABASE_REDISGRAPH_OVERSIZED",
               "DATABASE_BACKUP_NOT_SUPPORTED",
@@ -16685,6 +16996,7 @@
               "DATABASE_INVALID_REGEX_RULES",
               "DATABASE_INVALID_QUANTITY",
               "DATABASE_REPLICA_OF_VERSION_NOT_COMPATIBLE",
+              "DATABASE_REPLICA_OF_SOURCE_INCOMPATIBLE",
               "DATABASE_IMPORT_FAILED",
               "DATABASE_IMPORT_FROM_NON_OSS",
               "DATABASE_IMPORT_SOURCE_NOT_FOUND",
@@ -16694,7 +17006,6 @@
               "DATABASE_IMPORT_MULTIPLE_REDIS_SOURCES",
               "DATABASE_IMPORT_REDIS_BAD_URI",
               "DATABASE_REPLICA_OF_BAD_URI",
-              "DATABASE_REPLICA_OF_DYNAMIC_ENDPOINT_NOT_ALLOWED",
               "DATABASE_IMPORT_S3_BAD_URI",
               "DATABASE_IMPORT_HTTP_BAD_URI",
               "DATABASE_IMPORT_FTP_BAD_URI",
@@ -16907,7 +17218,10 @@
               "FIXED_DATABASE_NO_EVICTION_IS_NOT_SUPPORTED_BY_CLUSTER",
               "FIXED_DATABASE_DATA_EVICTION_POLICY_IS_NOT_SUPPORTED_BY_CLUSTER",
               "FIXED_DATABASE_DATA_EVICTION_POLICY_IS_NOT_SUPPORTED_BY_SELECTED_MODULES",
-              "FIXED_DATABASE_EVICTION_POLICY_IS_NOT_SUPPORTED_BY_REDIS_FLEX_PLAN",
+              "FIXED_DATABASE_EVICTION_POLICY_NOT_COMPATIBLE_WITH_REDIS_VERSION",
+              "DATABASE_EVICTION_POLICY_NOT_COMPATIBLE_WITH_REDIS_VERSION",
+              "DATABASE_EVICTION_POLICY_NOT_COMPATIBLE_WITH_REDIS_FLEX",
+              "FIXED_DATABASE_EVICTION_POLICY_NOT_COMPATIBLE_WITH_REDIS_FLEX",
               "FIXED_DATABASE_REPLICA_OF_IS_NOT_SUPPORTED_BY_SELECTED_MODULES",
               "FIXED_DATABASE_DATA_PERSISTENCE_VALUE_NOT_SUPPORTED_FOR_FIXED",
               "FIXED_DATABASE_DATA_EVICTION_POLICY_IS_NOT_SUPPORTED_BY_ALL_MODULES_IN_SELECTED_PLAN_OR_CLUSTER",
@@ -17908,9 +18222,11 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"
@@ -18282,7 +18598,7 @@
           },
           "deletionGracePeriod": {
             "type": "string",
-            "description": "Optional. The grace period for deleting the subscription. If not set, will default to immediate deletion grace period.",
+            "description": "Optional. The grace period for deleting the subscription if Redis cannot access the provided key. Required when applying customer managed keys for a new subscription.",
             "example": "alerts-only",
             "enum": [
               "alerts-only",

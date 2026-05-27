@@ -1,42 +1,48 @@
 ---
-title: Featureform overview
-description: Learn what Featureform is, who it is for, and how it fits into Redis-based ML workflows.
+title: Redis Feature Form overview
+description: Learn what Redis Feature Form is, who it is for, and how it fits into Redis-based ML workflows.
 linkTitle: Overview
 weight: 10
 ---
 
-Featureform is a feature engineering and feature serving workflow built for teams that want to define machine learning features in code while keeping their existing data platforms. It gives application teams a declarative Python SDK for working with providers, datasets, transformations, entities, features, labels, training sets, and online feature serving.
+This page describes the standard Feature Form onboarding path: workspace creation, access handoff, secrets, providers, definitions, apply, and serving. Use it as the high-level sequence before you dive into task-specific guides.
 
-In a typical deployment, Featureform reads or computes feature data in an offline system such as Snowflake, BigQuery, or Databricks and materializes selected features to Redis for low-latency inference.
+## Audience
 
-## Core workflow
+- Global admins creating and handing off workspaces
+- Workspace admins wiring secrets and providers
+- Feature engineers authoring definitions files
+- Application or model teams serving ready feature views
 
-The Featureform workflow follows a consistent progression:
+## Recommended path
 
-1. Register providers for your offline systems and your Redis online store.
-2. Register datasets that represent raw inputs or curated tables.
-3. Define SQL or DataFrame transformations for feature engineering logic.
-4. Define entities, features, and labels in the Python SDK.
-5. Register metadata with `client.apply()`.
-6. Materialize feature views to Redis for serving.
-7. Retrieve online values at inference time or create training sets for model development.
+1. Create the workspace and grant initial access.
+2. Confirm the intended principal can see the workspace.
+3. Reuse the built-in `env` secret provider or register another backend.
+4. Register the providers the workspace will reference.
+5. Author a definitions file and run `ff apply`.
+6. Inspect the graph and catalog, then serve from a feature view.
 
-## Where Redis fits
+## What to verify before the first apply
 
-Redis is the online inference store in the Featureform workflow. After you materialize a feature view, applications can retrieve feature values with low latency for prediction requests, personalization, fraud detection, recommendation systems, and similar ML use cases.
+- The workspace exists and the right principal can access it.
+- Secret references such as `env:PG_PASSWORD` resolve from the runtime environment.
+- Providers are already registered by the names the definitions file expects.
+- The team understands whether the definitions file represents complete desired state or a partial subset.
 
-## Main interfaces
+## Latest updates
 
-The main user-facing interface is the Python SDK:
+The latest release adds enterprise-oriented capabilities:
 
-- `ff.Client(...)` to connect to Featureform
-- provider registration methods such as `register_snowflake`, `register_spark`, and `register_redis`
-- decorators and builder APIs for transformations, features, and labels
-- materialization and serving methods such as `materialize_feature_view(...)` and `serve_feature_view(...)`
-
-Featureform also includes a dashboard for viewing registered resources and tasks, but the Python SDK is the primary authoring interface.
+- **Unified batch and streaming pipelines**: Support for tiling, backfills, and incremental updates reduces custom pipeline work.
+- **Workspaces for multi-tenancy**: Isolate providers, data, authentication, and observability at the workspace level.
+- **Fine-grained job control**: Planning, impact analysis, split materializations, and queue-based job management provide visibility into changes before they affect production systems.
+- **Atomic DAG updates**: Manage graph-level changes atomically instead of versioning individual resources, which simplifies rollback and change history.
+- **Enhanced RBAC and security**: Workspace-scoped access controls, API key pairs, a granular role model, audit logs, secret-provider improvements, mTLS, and encrypted internal transport.
+- **Two-service deployment model**: A simplified deployment architecture that reduces operational complexity.
+- **Redesigned dashboard**: Configure workspaces and providers directly from the UI.
 
 ## What to read next
 
 - [Quickstart]({{< relref "/develop/ai/featureform/quickstart" >}})
-- [Connect providers]({{< relref "/develop/ai/featureform/providers" >}})
+- [Connect providers]({{< relref "/develop/ai/featureform/streaming" >}})

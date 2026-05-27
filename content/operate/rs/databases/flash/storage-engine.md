@@ -11,6 +11,10 @@ weight: 100
 aliases: /operate/rs/databases/auto-tiering/storage-engine/
 ---
 
+{{<banner-article>}}
+This article includes information about the storage engines used by Flex and its predecessor Auto Tiering. For more detailed information about Flex, see the dedicated [Flex databases]({{<relref "/operate/rs/flex">}}) section instead.
+{{</banner-article>}}
+
 ## Manage the storage engine
 
 Auto Tiering supports two storage engines:
@@ -19,7 +23,7 @@ Auto Tiering supports two storage engines:
 
 - [RocksDB](https://rocksdb.org/): Used up to Redis version 6.2. Deprecated for later Redis versions.
 
-Redis Flex supports Speedb only.
+Flex supports Speedb only.
 
 {{<warning>}}Switching between storage engines requires guidance by Redis Support or your Account Manager.{{</warning>}}
 

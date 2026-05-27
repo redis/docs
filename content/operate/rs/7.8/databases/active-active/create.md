@@ -195,7 +195,7 @@ Active-Active databases support append-only file (AOF) persistence only. Snapsho
 
 - **Unauthenticated access** - You can access the database as the default user without providing credentials.
 
-- **Password-only authentication** - When you configure a password for your database's default user, all connections to the database must authenticate with the [AUTH command]({{< relref "/commands/auth" >}}.
+- **Password-only authentication** - When you configure a password for your database's default user, all connections to the database must authenticate with the [AUTH command]({{< relref "/commands/auth" >}}).
 
     If you also configure an access control list, connections can specify other users for authentication, and requests are allowed according to the Redis ACLs specified for that user.
 

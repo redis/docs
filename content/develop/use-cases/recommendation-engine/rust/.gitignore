@@ -1,0 +1,4 @@
+/target/
+/Cargo.lock
+/.fastembed_cache/
+/demo_server.log

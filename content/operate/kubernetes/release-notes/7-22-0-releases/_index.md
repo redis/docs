@@ -57,6 +57,8 @@ For detailed steps, see the relevant upgrade page:
 
 ## Known limitations
 
+- **Expired license causes pod readiness failures, blocking recovery and upgrades** <!--RED-185977--> If a pod is stuck during upgrade, manually update the licenses via the REST API.
+
 - **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 7.8.2-6 or later.
 
 - **When changing the REDB field `spec.modulesList`, version might be upgraded to latest, even if a different version is specified.** To prevent the upgrade to latest, set  `spec.upgradeSpec.setModuleToLatest` to `false` before upgrading.

@@ -19,6 +19,8 @@ Redis Enterprise for Kubernetes 8.0.6 includes bug fixes, enhancements, and supp
 
 ## Known limitations
 
+- **Expired license causes pod readiness failures, blocking recovery and upgrades** <!--RED-185977--> If a pod is stuck during upgrade, manually update the licenses via the REST API.
+
 - **SSO configuration doesn't work with IPv6 or dual stack (IPv4/IPv6) clusters.** <!--RED-180550-->
 
 - **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 8.0.6-8.
