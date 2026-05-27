@@ -20,6 +20,12 @@
                 description: "A chatbot that maintains conversation history using semantic message history and provides contextual responses.",
                 features: ["Conversation memory", "Context awareness", "Multi-turn dialogue"],
                 keywords: ["chat", "conversation", "assistant", "bot", "chatbot", "talk", "dialogue"]
+            },
+            rag: {
+                name: "Knowledge Assistant",
+                description: "A RAG agent that ingests documents, uses Redis-native hybrid retrieval (text pre-filter + vector search), semantic caching, and session memory to answer questions with citations.",
+                features: ["Document ingestion with chunking", "Hybrid vector + full-text search", "Semantic caching", "Citations"],
+                keywords: ["rag", "knowledge", "documents", "search", "retrieval", "qa", "question answering", "citations", "hybrid"]
             }
         },
         languages: {
@@ -286,16 +292,18 @@
         let suggestions = [];
 
         switch (conversationState.step) {
-            case 'agent-type':
+            case 'agent-type': {
+                const agentIcons = { recommendation: '🛍️', conversational: '💬', rag: '🔍' };
                 suggestions = Object.entries(CONFIG.agentTypes).map(([key, config]) => ({
                     value: key,
                     label: config.name,
-                    icon: key === 'recommendation' ? '🛍️' : '💬'
+                    icon: agentIcons[key] || '🤖'
                 })).filter(s =>
                     s.label.toLowerCase().includes(lowerInput) ||
                     CONFIG.agentTypes[s.value].keywords.some(k => k.includes(lowerInput))
                 );
                 break;
+            }
 
             case 'language':
                 suggestions = Object.entries(CONFIG.languages).map(([key, config]) => ({
@@ -381,7 +389,8 @@
             // Generate a default agent name based on the type
             const defaultNames = {
                 recommendation: 'RecommendationEngine',
-                conversational: 'ConversationalAgent'
+                conversational: 'ConversationalAgent',
+                rag: 'KnowledgeAssistant'
             };
             conversationState.selections.agentName = defaultNames[selectedType] || 'RedisAgent';
 
@@ -398,7 +407,8 @@
         } else {
             addMessage("I didn't understand that. Please choose one of the agent types:", 'bot', [
                 { value: 'recommendation', label: '🛍️ Recommendation Engine' },
-                { value: 'conversational', label: '💬 Conversational Assistant' }
+                { value: 'conversational', label: '💬 Conversational Assistant' },
+                { value: 'rag', label: '🔍 Knowledge Assistant' }
             ]);
         }
     }
@@ -426,8 +436,8 @@
         }
 
         if (selectedLang) {
-            // Check if it's Python (fully supported)
-            if (selectedLang === 'python') {
+            // Check if it's a supported language
+            if (selectedLang === 'python' || selectedLang === 'javascript') {
                 conversationState.selections.programmingLanguage = selectedLang;
                 const config = CONFIG.languages[selectedLang];
 
@@ -445,9 +455,10 @@
                 const config = CONFIG.languages[selectedLang];
                 const languageName = config.name;
 
-                addMessage(`${languageName} support is coming soon. Currently, only Python is fully supported.`, 'bot');
-                addMessage(`Would you like to build a Python agent instead?`, 'bot', [
-                    { value: 'python', label: 'Yes, use Python' },
+                addMessage(`${languageName} support is coming soon. Currently, Python and JavaScript are supported.`, 'bot');
+                addMessage(`Would you like to build a Python or JavaScript agent instead?`, 'bot', [
+                    { value: 'python', label: '🐍 Yes, use Python' },
+                    { value: 'javascript', label: '🟨 Yes, use JavaScript' },
                     { value: 'wait', label: 'I\'ll wait for ' + languageName }
                 ]);
             }
@@ -520,8 +531,7 @@
             java: '.java',
             csharp: '.cs'
         };
-        const base = window.HUGO_BASEURL || '';
-        const filename = `${base}code/agent-templates/${formData.programmingLanguage}/${formData.agentType}_agent${fileExtensions[formData.programmingLanguage]}`;
+        const filename = `/code/agent-templates/${formData.programmingLanguage}/${formData.agentType}_agent${fileExtensions[formData.programmingLanguage]}`;
 
         return loadTemplateFile(filename, formData) || genericTemplates[formData.programmingLanguage](formData);
     }
