@@ -426,8 +426,8 @@
         }
 
         if (selectedLang) {
-            // Check if it's Python (fully supported)
-            if (selectedLang === 'python') {
+            // Check if it's a fully supported language
+            if (selectedLang === 'python' || selectedLang === 'javascript') {
                 conversationState.selections.programmingLanguage = selectedLang;
                 const config = CONFIG.languages[selectedLang];
 
@@ -445,9 +445,10 @@
                 const config = CONFIG.languages[selectedLang];
                 const languageName = config.name;
 
-                addMessage(`${languageName} support is coming soon. Currently, only Python is fully supported.`, 'bot');
-                addMessage(`Would you like to build a Python agent instead?`, 'bot', [
-                    { value: 'python', label: 'Yes, use Python' },
+                addMessage(`${languageName} support is coming soon. Currently, Python and JavaScript (Node.js) are fully supported.`, 'bot');
+                addMessage(`Would you like to build an agent in a supported language instead?`, 'bot', [
+                    { value: 'python', label: 'Use Python' },
+                    { value: 'javascript', label: 'Use JavaScript (Node.js)' },
                     { value: 'wait', label: 'I\'ll wait for ' + languageName }
                 ]);
             }
@@ -520,8 +521,7 @@
             java: '.java',
             csharp: '.cs'
         };
-        const base = window.HUGO_BASEURL || '';
-        const filename = `${base}code/agent-templates/${formData.programmingLanguage}/${formData.agentType}_agent${fileExtensions[formData.programmingLanguage]}`;
+        const filename = `/code/agent-templates/${formData.programmingLanguage}/${formData.agentType}_agent${fileExtensions[formData.programmingLanguage]}`;
 
         return loadTemplateFile(filename, formData) || genericTemplates[formData.programmingLanguage](formData);
     }
