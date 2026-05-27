@@ -1,5 +1,8 @@
 ---
 Title: View and edit data pipeline
+aliases:
+    - /operate/rc/databases/rdi/view-edit/
+    - /operate/rc/databases/rdi/view-edit
 alwaysopen: false
 categories:
 - docs

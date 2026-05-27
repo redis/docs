@@ -1,6 +1,9 @@
 ---
 Title: RDI on Redis Cloud quick start
 linkTitle: Quick start
+aliases:
+    - /operate/rc/databases/rdi/quick-start/
+    - /operate/rc/databases/rdi/quick-start
 alwaysopen: false
 categories:
 - docs

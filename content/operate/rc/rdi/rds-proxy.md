@@ -1,5 +1,8 @@
 ---
 Title: RDS Proxy setup for RDI
+aliases:
+    - /operate/rc/databases/rdi/rds-proxy/
+    - /operate/rc/databases/rdi/rds-proxy
 alwaysopen: false
 categories:
 - docs

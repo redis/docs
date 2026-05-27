@@ -1,5 +1,8 @@
 ---
 Title: Prepare source database
+aliases:
+    - /operate/rc/databases/rdi/setup/
+    - /operate/rc/databases/rdi/setup
 alwaysopen: false
 categories:
 - docs

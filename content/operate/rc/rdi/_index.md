@@ -1,5 +1,8 @@
 ---
 Title: Data Integration
+aliases:
+    - /operate/rc/databases/rdi/
+    - /operate/rc/databases/rdi
 alwaysopen: false
 categories:
 - docs
@@ -7,7 +10,7 @@ categories:
 - rc
 description: Use Redis Data Integration with Redis Cloud.
 hideListLinks: true
-weight: 99
+weight: 38
 tocEmbedHeaders: true
 ---
 

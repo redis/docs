@@ -1,5 +1,8 @@
 ---
 Title: Define data pipeline
+aliases:
+    - /operate/rc/databases/rdi/define/
+    - /operate/rc/databases/rdi/define
 alwaysopen: false
 categories:
 - docs
