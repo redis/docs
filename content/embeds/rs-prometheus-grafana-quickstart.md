@@ -57,7 +57,7 @@ To get started with Prometheus and Grafana:
 
     {{< multitabs id="prometheus-config-yml" 
 tab1="v2 (metrics stream engine)"
-tab2="v1" >}}
+tab2="v1 (deprecated)" >}}
 
 ```yml
 global:
@@ -232,25 +232,35 @@ We recommend running Prometheus in Docker only for development and testing.
 
 1. To set up alerts in Prometheus or Grafana, see the following resources:
 
-    - [Official Prometheus alerting documentation](https://prometheus.io/docs/alerting/latest/overview/)
+    {{< multitabs id="metrics-alerts" 
+tab1="v2 (metrics stream engine)"
+tab2="v1 (deprecated)" >}}
 
-    - For v1 metrics alerts:
+For v2 metrics alerts:
 
-        - [Configuring Prometheus
- for v1 metrics alerts](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/prometheus#readme)
+- [Official Prometheus alerting documentation](https://prometheus.io/docs/alerting/latest/overview/)
+
+- [Configuring Prometheus for v2 metrics alerts](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/prometheus_v2#readme)
     
-        - [Example Prometheus alert rules for v1 metrics](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/prometheus/rules/alerts.yml)
+- [Example Prometheus alert rules for v2 metrics](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/prometheus_v2/rules/alerts.yml)
 
-    - For v2 metrics alerts:
+- [Tutorial on how to set up alerting for Redis](https://redis.io/tutorials/operate/observability/redis-software-prometheus-and-grafana/#how-do-you-set-up-alerting-for-redis)
 
-        - [Configuring Prometheus
- for v2 metrics alerts](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/prometheus_v2#readme)
+- [Official Grafana Alerting documentation](https://grafana.com/docs/grafana/latest/alerting/)
+
+-tab-sep-
+
+For v1 metrics alerts:
+
+- [Official Prometheus alerting documentation](https://prometheus.io/docs/alerting/latest/overview/)
+
+- [Configuring Prometheus for v1 metrics alerts](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/prometheus#readme)
     
-        - [Example Prometheus alert rules for v2 metrics](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/prometheus_v2/rules/alerts.yml)
+- [Example Prometheus alert rules for v1 metrics](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/prometheus/rules/alerts.yml)
 
-        - [Tutorial on how to set up alerting for Redis](https://redis.io/tutorials/operate/observability/redis-software-prometheus-and-grafana/#how-do-you-set-up-alerting-for-redis)
+- [Official Grafana Alerting documentation](https://grafana.com/docs/grafana/latest/alerting/)
 
-    - [Official Grafana Alerting documentation](https://grafana.com/docs/grafana/latest/alerting/)
+{{< /multitabs >}}
 
 ## Grafana dashboards for Redis Software
 
@@ -264,17 +274,9 @@ These dashboards are open source. For additional dashboard options, or to file a
 
 For more information about configuring Grafana dashboards, see the [Grafana documentation](https://grafana.com/docs/).
 
-### V1 metrics dashboards
-
-Use the following dashboards when connecting to the v1 metrics endpoint (`https://<cluster_name>:8070/`):
-
-* The [cluster status dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-cluster-dashboard_v9-11.json) provides an overview of your Redis Software clusters.
-* The [database status dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-database-dashboard_v9-11.json) displays specific database metrics, including latency, memory usage, ops/second, and key count.
-* The [node metrics dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-node-dashboard_v9-11.json) provides metrics for each of the nodes hosting your cluster.
-* The [shard metrics dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-shard-dashboard_v9-11.json) displays metrics for the individual Redis processes running on your cluster nodes.
-* The [Active-Active dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-active-active-dashboard_v9-11.json) displays metrics specific to [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}).
-
-### V2 metrics dashboards
+{{< multitabs id="metrics-dashboards" 
+tab1="v2 (metrics stream engine)"
+tab2="v1 (deprecated)" >}}
 
 Use the following dashboards when connecting to the v2 metrics endpoint (`https://<cluster_name>:8070/v2`):
 
@@ -285,3 +287,15 @@ Use the following dashboards when connecting to the v2 metrics endpoint (`https:
 * The [Active-Active dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana_v2/dashboards/grafana_v9-11/software/basic/redis-software-active-active-dashboard_v9-11.json) displays metrics specific to [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}).
 * The [QPS dashboard - Redis Search metrics](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana_v2/dashboards/grafana_v9-11/search/RediSearchQPS.json) displays metrics specific to Redis Search, showcasing QPS, Query Latency, Indexing performance, and more.
 * The [OPS dashboards](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana_v2/dashboards/grafana_v9-11/software/ops) are advanced operational dashboards for on-premises deployments.
+
+-tab-sep-
+
+Use the following dashboards when connecting to the v1 metrics endpoint (`https://<cluster_name>:8070/`):
+
+* The [cluster status dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-cluster-dashboard_v9-11.json) provides an overview of your Redis Software clusters.
+* The [database status dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-database-dashboard_v9-11.json) displays specific database metrics, including latency, memory usage, ops/second, and key count.
+* The [node metrics dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-node-dashboard_v9-11.json) provides metrics for each of the nodes hosting your cluster.
+* The [shard metrics dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-shard-dashboard_v9-11.json) displays metrics for the individual Redis processes running on your cluster nodes.
+* The [Active-Active dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-active-active-dashboard_v9-11.json) displays metrics specific to [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}).
+
+{{< /multitabs >}}
