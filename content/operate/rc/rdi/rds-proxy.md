@@ -15,7 +15,7 @@ weight: 99
 ---
 
 {{<warning>}}
-We do not recommend using RDS Proxy for RDI connections. The [Lambda function approach]({{< relref "/operate/rc/databases/rdi/setup#setup-lambda-function" >}}) provides better failover handling and is the recommended solution for production environments.
+We do not recommend using RDS Proxy for RDI connections. The [Lambda function approach]({{< relref "/operate/rc/rdi/setup#setup-lambda-function" >}}) provides better failover handling and is the recommended solution for production environments.
 
 Additionally, RDS Proxy does not work with RDS PostgreSQL and Aurora PostgreSQL because it does not support PostgreSQL logical replication.
 
@@ -94,20 +94,20 @@ Replace `<proxy-endpoint>` with the endpoint of your RDS Proxy. Save this IP add
 
 ## Configure the Network Load Balancer
 
-When you [create the Network Load Balancer]({{< relref "/operate/rc/databases/rdi/setup#create-network-load-balancer-rds" >}}), use the RDS Proxy IP address instead of the database IP address:
+When you [create the Network Load Balancer]({{< relref "/operate/rc/rdi/setup#create-network-load-balancer-rds" >}}), use the RDS Proxy IP address instead of the database IP address:
 
 1. In **Register targets**, enter the static IP address of your RDS Proxy (obtained in the previous step).
 2. Enter the port number where your RDS Proxy is exposed.
 3. Select **Include as pending below**.
-4. Complete the remaining Network Load Balancer setup as described in the [main setup guide]({{< relref "/operate/rc/databases/rdi/setup#create-network-load-balancer-rds" >}}).
+4. Complete the remaining Network Load Balancer setup as described in the [main setup guide]({{< relref "/operate/rc/rdi/setup#create-network-load-balancer-rds" >}}).
 
 ## Next steps
 
 After setting up RDS Proxy and the Network Load Balancer:
 
-1. [Create an endpoint service]({{< relref "/operate/rc/databases/rdi/setup#create-endpoint-service-rds" >}}) through AWS PrivateLink.
-2. [Share your source database credentials]({{< relref "/operate/rc/databases/rdi/setup#share-source-database-credentials" >}}) with Redis Cloud.
-3. Continue with the [RDI pipeline configuration]({{< relref "/operate/rc/databases/rdi/define" >}}).
+1. [Create an endpoint service]({{< relref "/operate/rc/rdi/setup#create-endpoint-service-rds" >}}) through AWS PrivateLink.
+2. [Share your source database credentials]({{< relref "/operate/rc/rdi/setup#share-source-database-credentials" >}}) with Redis Cloud.
+3. Continue with the [RDI pipeline configuration]({{< relref "/operate/rc/rdi/define" >}}).
 
 {{<note>}}
 When using RDS Proxy, you do not need to set up the Lambda function for failover handling, as the proxy provides a static endpoint.

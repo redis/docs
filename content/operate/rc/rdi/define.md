@@ -13,7 +13,7 @@ hideListLinks: true
 weight: 3
 ---
 
-After you have [prepared your source database]({{<relref "/operate/rc/databases/rdi/setup">}}) and connection information, you can set up your new pipeline. To do this:
+After you have [prepared your source database]({{<relref "/operate/rc/rdi/setup">}}) and connection information, you can set up your new pipeline. To do this:
 
 1. [Define the source connection](#define-source-connection) by entering all required source database information.
 2. [Define the data pipeline](#define-data-pipeline) by selecting the data that you want to sync from your source database to the target database.
@@ -26,19 +26,19 @@ After you have [prepared your source database]({{<relref "/operate/rc/databases/
 1. Enter a **Pipeline name**. 
     {{<image filename="images/rc/rdi/rdi-define-pipeline-cidr.png" alt="The pipeline name and deployment CIDR fields." >}}
 1. A **Deployment CIDR** is automatically generated for you. If, for any reason, a CIDR is not generated, enter a valid CIDR that does not conflict with your applications or other databases.
-1. In the **Source database connectivity** section, enter the **PrivateLink service name** of the [PrivateLink connected to your source database]({{< relref "/operate/rc/databases/rdi/setup#set-up-connectivity" >}}).
+1. In the **Source database connectivity** section, enter the **PrivateLink service name** of the [PrivateLink connected to your source database]({{< relref "/operate/rc/rdi/setup#set-up-connectivity" >}}).
     {{<image filename="images/rc/rdi/rdi-define-connectivity.png" alt="The Source database connectivity section, with database connection details and connectivity options." >}}
 1. Enter your database details. This depends on your database type, and includes:
     - **Port**: The database's port
     - **Database**: Your database's name, or the root database *(PostgreSQL, Oracle only)*, or a comma-separated list of one or more databases you want to connect to *(SQL Server only)*
     - **Database Server ID**: Unique ID for the replication client. Enter a number that is not used by any existing replication clients *(mySQL and mariaDB only)*
     - **PDB**: Name of the Oracle pluggable database *(Oracle only)*
-1. Enter the ARN of your [database credentials secret]({{< relref "/operate/rc/databases/rdi/setup#create-database-credentials-secrets" >}}) in the **Source database secrets ARN** field.
-1. If your database requires TLS, select **Use TLS**. Enter the ARN of your [CA certificate secret]({{< relref "/operate/rc/databases/rdi/setup#create-database-credentials-secrets" >}}) in the **CA Cert Secret ARN** field.
+1. Enter the ARN of your [database credentials secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}}) in the **Source database secrets ARN** field.
+1. If your database requires TLS, select **Use TLS**. Enter the ARN of your [CA certificate secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}}) in the **CA Cert Secret ARN** field.
     {{<image filename="images/rc/rdi/rdi-define-tls.png" alt="The Source database connectivity section, with Use TLS selected and the CA Cert Secret ARN field." >}}
-1. If your database requires mTLS, select **Use mTLS**. Enter the ARN of your [Client certificate secret]({{< relref "/operate/rc/databases/rdi/setup#create-database-credentials-secrets" >}}) in the **Client Certificate Secret ARN** field and the ARN of your [Client key secret]({{< relref "/operate/rc/databases/rdi/setup#create-database-credentials-secrets" >}}) in the **Client Key Secret ARN** field.
+1. If your database requires mTLS, select **Use mTLS**. Enter the ARN of your [Client certificate secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}}) in the **Client Certificate Secret ARN** field and the ARN of your [Client key secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}}) in the **Client Key Secret ARN** field.
     {{<image filename="images/rc/rdi/rdi-define-mtls.png" alt="The Source database connectivity section, with Use TLS selected and the Client Certificate Secret ARN and Client Key Secret ARN fields." >}}
-1. If your database requires mTLS with a client key passphrase, enter the ARN of your [Client key passphrase secret]({{< relref "/operate/rc/databases/rdi/setup#create-database-credentials-secrets" >}}) in the **Please add a secret ARN for the password to use with the secret store** field.
+1. If your database requires mTLS with a client key passphrase, enter the ARN of your [Client key passphrase secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}}) in the **Please add a secret ARN for the password to use with the secret store** field.
 1. Select **Advanced properties** to configure additional optional properties for your pipeline.
     {{<image filename="images/rc/rdi/rdi-advanced-properties.png" alt="The advanced properties section." >}}
     You can add any [Debezium source property](https://debezium.io/documentation/reference/stable/connectors/) for your source database type in the **Collector source properties** section and any [Redis server Debezium sink property](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream) in the **Collector sink properties** section. 
@@ -46,7 +46,7 @@ After you have [prepared your source database]({{<relref "/operate/rc/databases/
     {{<image filename="images/rc/rdi/rdi-start-pipeline-setup.png" alt="The start pipeline setup button." width=200px >}}
 1. Redis Cloud will attempt to connect to PrivateLink. If your PrivateLink does not allow automatic acceptance of incoming connections, accept the incoming connection on AWS PrivateLink to proceed. See [Accept or Reject PrivateLink connection requests](https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html#accept-reject-connection-requests).
 
-    If Redis Cloud can't find your PrivateLink connection, make sure that the PrivateLink service name is correct and that Redis Cloud is listed as an Allowed Principal for your VPC. See [Set up connectivity]({{<relref "/operate/rc/databases/rdi/setup#set-up-connectivity">}}) for more info.
+    If Redis Cloud can't find your PrivateLink connection, make sure that the PrivateLink service name is correct and that Redis Cloud is listed as an Allowed Principal for your VPC. See [Set up connectivity]({{<relref "/operate/rc/rdi/setup#set-up-connectivity">}}) for more info.
 
 At this point, Redis Cloud will provision the pipeline infrastructure that will allow you to define your data pipeline. 
 
@@ -122,4 +122,4 @@ At this point, the data pipeline will ingest data from the source database to yo
 
 After this initial sync is complete, the data pipeline enters the *change streaming* phase, where changes are captured as they happen. Changes in the source database are added to the target within a few seconds of capture. 
 
-You can view the status of your data pipeline in the **Data pipeline** tab of your database. See [View and edit data pipeline]({{<relref "/operate/rc/databases/rdi/view-edit">}}) to learn more.
+You can view the status of your data pipeline in the **Data pipeline** tab of your database. See [View and edit data pipeline]({{<relref "/operate/rc/rdi/view-edit">}}) to learn more.

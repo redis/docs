@@ -97,9 +97,9 @@ For more info on how RDI works, see [RDI Architecture]({{<relref "/integrate/red
 
 ### Pipeline security
 
-Data pipelines are set up to ensure a high level of data security. Source database credentials and TLS secrets are stored in AWS secret manager and shared using the Kubernetes CSI driver for secrets. See [Share source database credentials]({{<relref "/operate/rc/databases/rdi/setup#share-source-database-credentials">}}) to learn how to share your source database credentials and TLS certificates with Redis Cloud.
+Data pipelines are set up to ensure a high level of data security. Source database credentials and TLS secrets are stored in AWS secret manager and shared using the Kubernetes CSI driver for secrets. See [Share source database credentials]({{<relref "/operate/rc/rdi/setup#share-source-database-credentials">}}) to learn how to share your source database credentials and TLS certificates with Redis Cloud.
 
-Connections to the source database use Java Database Connectivity (JDBC) through [AWS PrivateLink](https://aws.amazon.com/privatelink/), ensuring that the data pipeline is only exposed to the specific database endpoint. See [Set up connectivity]({{<relref "/operate/rc/databases/rdi/setup#set-up-connectivity">}}) to learn how to connect your PrivateLink to the Redis Cloud VPC.
+Connections to the source database use Java Database Connectivity (JDBC) through [AWS PrivateLink](https://aws.amazon.com/privatelink/), ensuring that the data pipeline is only exposed to the specific database endpoint. See [Set up connectivity]({{<relref "/operate/rc/rdi/setup#set-up-connectivity">}}) to learn how to connect your PrivateLink to the Redis Cloud VPC.
 
 RDI encrypts all network connections with TLS. The pipeline will process data from the source database in-memory and write it to the target database using a TLS connection. There are no external connections to your data pipeline except from Redis Cloud management services.
 
@@ -136,11 +136,11 @@ Please be aware of the following limitations:
 
 ## Get started
 
-To get started fast with RDI on Redis Cloud, see the [RDI Cloud quick start]({{<relref "operate/rc/databases/rdi/quick-start">}}) to create a data pipeline between a PostgreSQL source database and a Redis Cloud target database.
+To get started fast with RDI on Redis Cloud, see the [RDI Cloud quick start]({{<relref "operate/rc/rdi/quick-start">}}) to create a data pipeline between a PostgreSQL source database and a Redis Cloud target database.
 
 To create a new data pipeline, you need to:
 
-1. [Prepare your source database]({{<relref "/operate/rc/databases/rdi/setup">}}) and any associated credentials.
-2. [Define the source connection and data pipeline]({{<relref "/operate/rc/databases/rdi/define">}}) by selecting which tables to sync.
+1. [Prepare your source database]({{<relref "/operate/rc/rdi/setup">}}) and any associated credentials.
+2. [Define the source connection and data pipeline]({{<relref "/operate/rc/rdi/define">}}) by selecting which tables to sync.
 
-Once your data pipeline is defined, you can [view and edit]({{<relref "/operate/rc/databases/rdi/view-edit">}}) it.
+Once your data pipeline is defined, you can [view and edit]({{<relref "/operate/rc/rdi/view-edit">}}) it.

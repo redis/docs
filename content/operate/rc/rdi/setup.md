@@ -35,7 +35,7 @@ weight: 2
 
 ## Prepare source database
 
-Before using the pipeline, you must first prepare your source database to use the Debezium connector for change data capture (CDC). See [Prerequisites]({{<relref "/operate/rc/databases/rdi#prerequisites">}}) to find a list of supported source databases and database versions.
+Before using the pipeline, you must first prepare your source database to use the Debezium connector for change data capture (CDC). See [Prerequisites]({{<relref "/operate/rc/rdi#prerequisites">}}) to find a list of supported source databases and database versions.
 
 See [Prepare source databases]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/">}}) to find steps for your database type:
 - Hosted on an AWS EC2 instance:
@@ -140,7 +140,7 @@ To connect to your RDS or Aurora database, we recommend using a Lambda function 
 1. [Set up Lambda function connectivity](#setup-lambda-function) to route requests to your database.
 
 {{<note>}}
-If you have specific requirements that necessitate using RDS Proxy instead of the recommended Lambda function approach, see the [RDS Proxy setup guide]({{< relref "/operate/rc/databases/rdi/rds-proxy" >}}). Note that RDS Proxy is not recommended and does not work with PostgreSQL.
+If you have specific requirements that necessitate using RDS Proxy instead of the recommended Lambda function approach, see the [RDS Proxy setup guide]({{< relref "/operate/rc/rdi/rds-proxy" >}}). Note that RDS Proxy is not recommended and does not work with PostgreSQL.
 {{</note>}}
 
 ### Create network load balancer {#create-network-load-balancer-rds}
@@ -415,6 +415,6 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
 
 ## Next steps
 
-After you have set up your source database and prepared connectivity and credentials, select **Define source database** to [define your source connection and data pipeline]({{<relref "/operate/rc/databases/rdi/define">}}).
+After you have set up your source database and prepared connectivity and credentials, select **Define source database** to [define your source connection and data pipeline]({{<relref "/operate/rc/rdi/define">}}).
 
 {{<image filename="images/rc/rdi/rdi-define-source-database.png" alt="The define source database button." width=200px >}}

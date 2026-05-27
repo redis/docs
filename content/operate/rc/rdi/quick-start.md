@@ -126,18 +126,18 @@ When your pipeline is provisioned, select **Complete setup**.
 
 After your pipeline is provisioned, you will be able to define your pipeline. You will select the database schemas, tables, and columns that you want to import and synchronize with your primary database.
 
-See [Define data pipeline]({{<relref "/operate/rc/databases/rdi/define#define-data-pipeline">}}) for detailed steps on defining your data pipeline.
+See [Define data pipeline]({{<relref "/operate/rc/rdi/define#define-data-pipeline">}}) for detailed steps on defining your data pipeline.
 
 After you define your data pipeline, it will ingest data from the source database to your target Redis database. This process will take time, especially if you have a lot of records in your source database. 
 
 After this initial sync is complete, the data pipeline enters the *change streaming* phase, where changes are captured as they happen. Changes in the source database are added to the target within a few seconds of capture. You can see this by connecting to your source database and making changes to the data, and then connecting to your target Redis database and verifying that the changes are reflected there.
 
-You can view the status of your data pipeline in the **Data pipeline** tab of your database. See [View and edit data pipeline]({{<relref "/operate/rc/databases/rdi/view-edit">}}) to learn more.
+You can view the status of your data pipeline in the **Data pipeline** tab of your database. See [View and edit data pipeline]({{<relref "/operate/rc/rdi/view-edit">}}) to learn more.
 
 ## Delete sample resources
 
 {{< warning >}}
-Make sure to [delete your data pipeline]({{<relref "/operate/rc/databases/rdi/view-edit#delete-pipeline">}}) before deleting the sample resources.
+Make sure to [delete your data pipeline]({{<relref "/operate/rc/rdi/view-edit#delete-pipeline">}}) before deleting the sample resources.
 {{< /warning >}}
 
 To delete the sample resources created by Terraform, run:
