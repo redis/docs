@@ -9,30 +9,28 @@ Redis Feature Form is a feature platform. It turns raw data from your existing s
 
 ## How the pieces fit together
 
-A Feature Form deployment runs one or more **[workspaces](#workspaces)**. Each workspace owns a versioned **[resource graph](#the-resource-graph)** that describes what features should exist, where their inputs live, and how they're served. You author that graph in a Python **[definitions file](#definitions-files-and-ff-apply)** and submit it with `ff apply`.
+A Feature Form deployment runs one or more [workspaces](#workspaces). Each workspace owns a versioned [resource graph](#the-resource-graph) that describes what features should exist, where their inputs live, and how they're served. You author that graph in a Python [definitions file](#definitions-files-and-ff-apply) and apply it with `ff apply`.
 
-The graph itself is data, not credentials or connections. **[Providers](#providers)** connect the workspace to external systems (Postgres, Redis, S3, Spark, an Iceberg catalog), and **[secret references](#secrets-and-secret-references)** point to the backend that holds the credentials. At the end of the chain, a **[feature view](#feature-views-and-serving)** is the single resource the rest of your stack reads from to serve features online.
-
-Each of these terms is unpacked in the rest of this page.
+The graph itself is data, not credentials or connections. [Providers](#providers) connect the workspace to external systems (Postgres, Redis, S3, Spark, an Iceberg catalog), and [secret references](#secrets-and-secret-references) point to the backend that holds the credentials. At the end of the chain, a [feature view](#feature-views-and-serving) is the single resource the rest of your stack reads from to serve features online.
 
 ## Workspaces
 
-A workspace is the tenant boundary for everything Feature Form manages. The graph, the providers, the secret references, the catalog of materialized locations, and the serving metadata all live inside one workspace and cannot leak across to another.
+A workspace is a self-contained environment in Feature Form. Each one owns its own resource graph, providers, secret references, and serving metadata. Nothing is shared between workspaces.
 
-That isolation is the unit you use to separate environments — dev, staging, prod — or to give independent teams their own slice of a shared deployment. Two workspaces can point at the same external Postgres database and still not see each other's resources, because the graph that names those resources is workspace-scoped.
+Use workspaces to keep environments such as dev, staging, and prod separate, or to give independent teams their own area on a shared deployment. Two workspaces can connect to the same external Postgres database and remain fully isolated, because each workspace tracks its own resources.
 
-A workspace also tracks `last_applied_version`, a counter that advances each time the graph commits a new version. Inspection and serving commands always read from the latest committed version, not from a draft.
+Every workspace also has a `last_applied_version` counter that increases each time you successfully apply a change. Read commands always return the latest committed version.
 
 To create, inspect, update, or delete workspaces, see [Manage workspaces]({{< relref "/develop/ai/featureform/manage-workspace" >}}).
 
 ## The resource graph
 
-The resource graph is the single object that represents the desired state of a workspace. Every feature, label, transformation, dataset, and feature view belongs to that graph and references the others by name.
+The resource graph describes what a workspace should look like. Every feature, label, transformation, dataset, and feature view lives in this graph and refers to the others by name.
 
-Two properties make the graph the right mental model:
+Two properties shape how you work with it:
 
-- **It is versioned as a whole.** When you submit a change, Feature Form commits a new graph version atomically. Either everything in the change lands together or nothing does. You don't end up with half-applied feature definitions.
-- **It is declarative.** You describe what the graph should look like, not the sequence of steps to get there. Feature Form is responsible for figuring out the delta between what exists and what you've asked for.
+- It is versioned as a whole. Each successful change creates a new version of the entire graph. Either every resource in the change lands together, or nothing does — you never end up with half-applied feature definitions.
+- It is declarative. You describe what the graph should look like, not the steps to get there. Feature Form figures out the difference between the current graph and the new one and applies only what changed.
 
 ### Resource types
 
@@ -46,7 +44,7 @@ A graph is built from seven resource types. New users encountering Feature Form 
 - **Training sets** join one or more features with a label on the entity key, so an offline training job reads a single time-aligned table instead of stitching things together by hand.
 - **Feature views** are the online serving interface for a group of features. They are the only resource that downstream applications and model services interact with directly.
 
-A short definitions file makes the shape concrete. The reader shouldn't worry about syntax yet — the point is to see how the vocabulary above appears as code.
+The following example definitions file shows how the vocabulary above appears as code.
 
 ```python
 import featureform as ff
@@ -88,21 +86,21 @@ customer_risk_view = ff.FeatureView(
 
 ### Definitions files and `ff apply` {#definitions-files-and-ff-apply}
 
-The Python file above is the source of truth for what the graph should look like — not a script that mutates Feature Form imperatively. When you run `ff apply`, Feature Form imports the file, collects the resources it defines, and treats that set as the workspace's desired state. A planner compares the submission with the current graph, and if the change is accepted, a new graph version is committed.
+The Python definitions file is the source of truth for what the graph should look like. The file uses Python to declare resources, not to run commands against Feature Form. When you run `ff apply`, Feature Form imports the file, collects those resources, and treats them as the workspace's desired state. Feature Form compares that set with the current graph and, if the change is accepted, commits a new graph version.
 
-By default, an apply is replacement-oriented: a resource that exists in the workspace but is not in the submitted set is a candidate for removal. That behavior is what makes the file a true source of truth. When you intentionally submit a partial set and want missing resources to stay untouched, you can apply in merge mode instead.
+By default, `ff apply` replaces the workspace's current graph with the resources defined in the file. Any existing resource not in the file becomes a candidate for removal. To apply a partial set and leave missing resources untouched, run `ff apply --merge` instead.
 
 {{< note >}}
-**Definitions files describe features, not infrastructure.** Providers and secret backends are registered separately by a workspace admin. Definitions files reference providers by name and assume they already exist. This separation keeps feature authors away from credentials and infrastructure choices.
+Definitions files describe features, not infrastructure. Providers and secret backends are registered separately by a workspace admin. Definitions files reference providers by name and assume they already exist. This separation keeps feature authors away from credentials and infrastructure choices.
 {{< /note >}}
 
 For an end-to-end walkthrough of authoring a definitions file and applying it, see the [Quickstart]({{< relref "/develop/ai/featureform/quickstart" >}}). For the full apply lifecycle and editing loop, see [Define and deploy features]({{< relref "/develop/ai/featureform/define-and-deploy-features" >}}) and [Update features]({{< relref "/develop/ai/featureform/update-features" >}}).
 
 ## Providers
 
-A provider is the workspace's connection to an external system. It carries the host, port, credentials reference, and any backend-specific configuration Feature Form needs to talk to that system. Resources in the graph reference providers by name, so a provider must be registered in the workspace before any resource that uses it can be applied.
+A provider is the workspace's connection to an external system. It carries the host, port, credentials reference, and any configuration Feature Form needs to talk to that system. Resources in the graph reference providers by name, so you must register a provider in the workspace before applying any resource that uses it.
 
-Every provider fills one or more **roles**, which describe the kind of work it can do for the workspace:
+Every provider fills one or more roles, which describe the kind of work it can do for the workspace:
 
 | Role            | What it does                                                            |
 | --------------- | ----------------------------------------------------------------------- |
@@ -127,12 +125,12 @@ To register providers in a workspace, see [Register providers]({{< relref "/deve
 
 ## Secrets and secret references
 
-Feature Form never stores plaintext credentials in the graph. A provider configuration carries a **secret reference** that looks like `env:PG_PASSWORD`, and Feature Form resolves that reference through a registered **secret provider** at the moment the credential is needed.
+Feature Form never stores plaintext credentials in the graph. A provider configuration carries a secret reference. Feature Form resolves it through a registered secret provider when the credential is needed.
 
-Two consequences are worth internalizing as a new user:
+Keeping credentials out of the graph has two important consequences:
 
-- **The graph is safe to inspect and export.** Nothing in it contains a usable credential. You can hand the graph to another team, version it, or paste it into a ticket without leaking secrets.
-- **The process that resolves a reference is whichever process actually needs the credential.** In a deployed environment, that's almost always the Feature Form server, not your local CLI shell. A reference such as `env:PG_PASSWORD` reads from the server's process environment, not yours.
+- The graph is safe to inspect and export. Nothing in it contains a usable credential. You can hand the graph to another team, version it, or paste it into a ticket without leaking secrets.
+- The process that resolves a reference is whichever process actually needs the credential. In a deployed environment, that's almost always the Feature Form server, not your local CLI shell. A reference such as `env:PG_PASSWORD` reads from the server's process environment, not yours.
 
 Every new workspace is created with a built-in `env` secret provider, which makes `env:` references work out of the box for local development. Production deployments typically register a Vault, Kubernetes-secrets, or AWS Secrets Manager backend instead, because the `env` backend offers no rotation, no audit, and exposes values in process listings.
 
@@ -140,14 +138,16 @@ To register a secret provider for a workspace, see [Configure secret providers](
 
 ## Feature views and serving
 
-A feature view is the resource that everything else in the graph eventually feeds. It is the online serving interface — the single name an application or model service uses when it asks Feature Form for the latest features about a particular entity.
+A feature view is the resource that everything else in the graph eventually feeds. Applications query it to get the latest features for an entity.
 
 A feature view declares:
 
-- The entity it is keyed by (for example, `customer`).
+- The entity used as the lookup key (for example, `customer`).
 - The list of features it exposes.
 - The online provider that holds the materialized values — typically Redis.
 - A materialization engine that produces those values from offline data.
+
+For example:
 
 ```python
 customer_risk_view = ff.FeatureView(
@@ -158,21 +158,31 @@ customer_risk_view = ff.FeatureView(
 )
 ```
 
-For a feature view to actually serve, three things must line up: the online provider it points to must be registered and reachable, the graph version that introduced the feature view must be committed, and materialization must have populated values for the entities you want to query. If any of those are missing, serving fails immediately rather than returning stale data.
+### Feature view requirements 
 
-The same logical operation is reachable through three surfaces, so applications can pick whichever fits their stack:
+Before applications can read from a feature view:
+
+- The online provider it points to must be registered and reachable.
+- The graph version that introduced the feature view must be committed.
+- Materialization must have populated values for the entities you want to query.
+
+If any of those are missing, the read fails immediately rather than returning stale data.
+
+### Serving interfaces
+
+Applications can read feature values through any of three interfaces:
 
 - A gRPC service (`ServingService.Serve` and `ServingService.GetServingMetadata`).
 - A REST endpoint (`POST /api/v1/serve`).
 - A Python client (`client.serve(...)`).
 
-One subtle but important detail: reading feature values and reading serving metadata are governed by **separate** RBAC permissions. A dashboard or diagnostic principal can be allowed to inspect what a feature view looks like without also being allowed to read live feature values, and vice versa.
+{{< note >}}
+Reading feature values and reading serving metadata are governed by separate RBAC permissions. For example, a dashboard user can have access to feature view schemas without access to the actual values — or vice versa.
+{{< /note >}}
 
 To serve from a feature view in an application, see [Serve features]({{< relref "/develop/ai/featureform/serve-features" >}}). To inspect datasets, training sets, or feature views directly, see [Query data]({{< relref "/develop/ai/featureform/query-data" >}}).
 
 ## Next steps
-
-Now that the vocabulary is in place, the rest of the documentation maps cleanly onto these concepts:
 
 - [Quickstart]({{< relref "/develop/ai/featureform/quickstart" >}}) — one end-to-end walkthrough that exercises every concept on this page.
 - [Manage workspaces]({{< relref "/develop/ai/featureform/manage-workspace" >}}) — create, inspect, update, and delete workspaces.
