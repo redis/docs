@@ -5,13 +5,13 @@ linkTitle: Concepts
 weight: 30
 ---
 
-Redis Feature Form is a feature platform: it manages how raw data in your existing systems becomes the entity-keyed values your models read at inference time. This page introduces the vocabulary and the model behind that workflow, so the rest of the documentation reads as application rather than memorization.
+Redis Feature Form is a feature platform. It turns raw data from your existing systems into the values your models read at inference time. This page introduces the core concepts behind that workflow.
 
 ## How the pieces fit together
 
-A Feature Form deployment runs one or more **workspaces**. Each workspace owns a versioned **resource graph** that describes what features should exist, where their inputs live, and how they're served. You author that graph in a Python **definitions file** and submit it with `ff apply`.
+A Feature Form deployment runs one or more **[workspaces](#workspaces)**. Each workspace owns a versioned **[resource graph](#the-resource-graph)** that describes what features should exist, where their inputs live, and how they're served. You author that graph in a Python **[definitions file](#definitions-files-and-ff-apply)** and submit it with `ff apply`.
 
-The graph itself is data, not credentials or connections. **Providers** connect the workspace to external systems (Postgres, Redis, S3, Spark, an Iceberg catalog), and **secret references** in those providers point at a secret backend that holds the actual passwords and tokens. At the end of the chain, a **feature view** is the single resource the rest of your stack reads from to serve features online.
+The graph itself is data, not credentials or connections. **[Providers](#providers)** connect the workspace to external systems (Postgres, Redis, S3, Spark, an Iceberg catalog), and **[secret references](#secrets-and-secret-references)** point to the backend that holds the credentials. At the end of the chain, a **[feature view](#feature-views-and-serving)** is the single resource the rest of your stack reads from to serve features online.
 
 Each of these terms is unpacked in the rest of this page.
 
@@ -86,7 +86,7 @@ customer_risk_view = ff.FeatureView(
 )
 ```
 
-### Definitions files and `ff apply`
+### Definitions files and `ff apply` {#definitions-files-and-ff-apply}
 
 The Python file above is the source of truth for what the graph should look like — not a script that mutates Feature Form imperatively. When you run `ff apply`, Feature Form imports the file, collects the resources it defines, and treats that set as the workspace's desired state. A planner compares the submission with the current graph, and if the change is accepted, a new graph version is committed.
 
