@@ -1,4 +1,5 @@
 ---
+bannerText: This page is generated automatically from the Redis source code. To report an issue, please [open one on the redis/redis repo](https://github.com/redis/redis/issues/new?title=Feedback%20on%20Modules%20API%20reference).
 categories:
 - docs
 - develop
@@ -10,6 +11,7 @@ categories:
 - kubernetes
 - clients
 description: Reference for the Redis Modules API
+hideEditLinks: true
 linkTitle: API reference
 title: Modules API reference
 weight: 1
