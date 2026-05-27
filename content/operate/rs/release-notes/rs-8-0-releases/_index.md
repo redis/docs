@@ -215,6 +215,8 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 ## Known issues
 
+- RS196225: After upgrading to Redis Software version 8.0.x, previously working LDAP filters that use an `OR` clause to match multiple attributes can fail to find a unique DN for some users.
+
 - RS193156: Active Directory LDAP authentication can fail in the Cluster Manager UI after upgrading to Redis Software version 8.0.16-33 due to an issue with LDAP TLS client certificate handling. Users previously authenticated through Active Directory can no longer sign in to the Cluster Manager UI after the upgrade.
 
     As a workaround, configure an LDAP client certificate using an [update cluster certificates]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates">}}) REST API request:
