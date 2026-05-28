@@ -34,7 +34,7 @@ See the [RDI architecture overview]({{< relref "/integrate/redis-data-integratio
 
 Before you can set up your source connectivity and secrets, you need the AWS Account ID for your Redis Cloud cluster so that you can give it access to your connectivity and secrets. 
 
-1. In the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Pipelines** tab.
+1. On the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Pipelines** tab.
 1. Select **Add pipeline**.
     {{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The workspace section of the Pipelines tab for a database. Select Add pipeline to add a pipeline." width=80% >}}
 1. Select your source database type. The following database types are supported:
@@ -49,7 +49,7 @@ Before you can set up your source connectivity and secrets, you need the AWS Acc
 
     {{<image filename="images/rc/rdi/rdi-continue-to-source-button.png" alt="The select source database type list." width=200px >}}
 
-1. Under **Source connectivity**, save the provided Role ARN and extract the AWS account ID for the account associated with your Redis Cloud cluster from it. 
+1. Under **Source connectivity**, save the provided ARN and extract the AWS account ID for the account associated with your Redis Cloud cluster from it. 
 
     {{<image filename="images/rc/rdi/rdi-setup-connectivity-arn.png" alt="The Private Link Role ARN and availability zones." width=80% >}}
 

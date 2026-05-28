@@ -107,7 +107,7 @@ Select **Validate** to check that Redis Cloud can access your secrets.
 
 ### Source configuration {#source-configuration-section}
 
-In this step, you'll enter your database details. This depends on your database type, and includes:
+In this section, you'll enter your database details. This depends on your database type, and includes:
 
 - **Port**: The database's port
 - **Database**: Your database's name, or the root database *(PostgreSQL, Oracle only)*, or a comma-separated list of one or more databases you want to connect to *(SQL Server only)*
