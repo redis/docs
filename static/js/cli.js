@@ -81,10 +81,33 @@ function shouldAnimate(cli) {
 }
 
 function getCommandsToExecute(cli) {
+  const fromUrl = getCommandsFromUrl();
+  if (fromUrl) return fromUrl;
+
   const textContent = cli.textContent.trim();
   if (!textContent) return;
 
   return textContent.split('\n').map(x => x.trim());
+}
+
+function getCommandsFromUrl() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get('commands');
+    if (!raw) return;
+    if (params.get('autorun') !== 'true') return;
+
+    const b64 = raw.replace(/-/g, '+').replace(/_/g, '/');
+    const padded = b64 + '==='.slice((b64.length + 3) % 4);
+    const json = decodeURIComponent(escape(atob(padded)));
+    const commands = JSON.parse(json);
+    if (!Array.isArray(commands)) return;
+
+    const cleaned = commands.map(c => String(c).trim()).filter(Boolean);
+    return cleaned.length ? cleaned : undefined;
+  } catch (err) {
+    console.warn('cli: failed to parse commands from URL', err);
+  }
 }
 
 function createPre(cli) {

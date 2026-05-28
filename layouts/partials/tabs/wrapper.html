@@ -276,7 +276,13 @@ window.openTryItCli = window.openTryItCli || function(button) {
     const commands = window._tryItCommands[codetabsId];
     if (!commands || !commands.length) return;
 
-    const url = 'https://redis.io/cli?commands=' + encodeURIComponent(JSON.stringify(commands)) + '&autorun=true';
+    // URL-safe base64 of the JSON payload, no padding. Avoids the %5C%22
+    // patterns produced by raw JSON+encodeURIComponent, which trigger
+    // Cloudflare WAF SQLi/XSS-bypass rules.
+    const json = JSON.stringify(commands);
+    const b64 = btoa(unescape(encodeURIComponent(json)))
+        .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    const url = 'https://redis.io/cli?commands=' + b64 + '&autorun=true';
     window.open(url, '_blank', 'noopener,noreferrer');
 };
 
