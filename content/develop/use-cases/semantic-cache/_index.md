@@ -19,7 +19,7 @@ Use Redis as a semantic cache when you need to reuse LLM responses for queries t
 
 ## Why the problem is hard
 
-Every repeated or paraphrased question that reaches an LLM triggers the full pipeline — embedding, retrieval, generation — driving per-query cost up by 10–100x compared to a cache lookup, and pushing P95 latency into multi-second territory. Some of the obvious workarounds have real drawbacks:
+Every repeated or paraphrased question that reaches an LLM triggers the full pipeline — embedding, retrieval, generation — driving per-query cost up by 10–100x compared to a cache lookup, and pushing P95 latency (the 95th percentile latency) into multi-second territory. Some of the obvious workarounds have real drawbacks:
 
 -   **A traditional exact-match cache** (string key to response) only hits when the query is byte-identical, so it misses near-duplicates like *"What's your return policy?"* versus *"How do I return an item?"* — exactly the queries that dominate FAQ-style workloads.
 -   **A standalone vector database** can find similar past queries, but adds operational overhead for what is fundamentally a caching problem, and most lack first-class TTL management, eviction, and metadata filtering — features the cache needs in order to stay correct under churn.
