@@ -23,7 +23,7 @@ You can also go to the **Pipelines** page from the left-hand menu and select **A
 
 If you've started to create a pipeline, you'll see a draft pipeline. Select **More actions > Resume pipeline setup** to continue with pipeline setup.
 
-{{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The workspace section of the Pipelines tab for a database with a draft pipeline. Select Resume pipeline setup to continue." width=80% >}}
+{{<image filename="images/rc/rdi/rdi-workspace-resume-setup.png" alt="The workspace section of the Pipelines tab for a database with a draft pipeline. Select Resume pipeline setup to continue." width=80% >}}
 
 Creating a pipeline is split into the following steps:
 
@@ -160,7 +160,7 @@ Select **Continue to transformations** to move to the **Transformations** step.
 
 1. Select **Edit advanced properties** to add any processor properties to control how the data is processed. 
 
-    {{<image filename="images/rc/rdi/rdi-transformations.png" alt="The Transformations step." >}}
+    {{<image filename="images/rc/rdi/rdi-processor-advanced-properties.png" alt="The Advanced Processor properties." >}}
 
     See the [RDI configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}}) for all available processor properties.
 

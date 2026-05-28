@@ -35,7 +35,7 @@ To create a Data Integration workspace for an existing [Pro subscription]({{< re
 
 2. Select your Pro subscription from the list if it's not already selected.
 
-    {{<image filename="images/rc/rdi/rdi-rdi-create-workspace-select-subscription.png" alt="The select pro subscription drop down." width=80% >}}
+    {{<image filename="images/rc/rdi/rdi-create-workspace-select-subscription.png" alt="The select pro subscription drop down." width=80% >}}
 
 3. A **Data Integration subnet (CIDR)** is automatically generated for you. If, for any reason, a CIDR is not generated, enter a valid CIDR that does not conflict with your applications or other databases.
 
