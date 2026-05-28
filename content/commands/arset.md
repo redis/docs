@@ -1,6 +1,8 @@
 ---
 acl_categories:
-- ARRAY
+- "@write"
+- "@array"
+- "@fast"
 arguments:
 - key_spec_index: 0
   name: key

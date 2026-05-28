@@ -1,6 +1,8 @@
 ---
 acl_categories:
-- '@array'
+- "@read"
+- "@array"
+- "@slow"
 arguments:
 - key_spec_index: 0
   name: key
