@@ -74,7 +74,7 @@
 {{- if $exampleId -}}
 <a id="{{ $exampleId }}" class="relative"{{ if $description }} data-description="{{ $description | htmlEscape }}"{{ end }}{{ if $difficulty }} data-difficulty="{{ $difficulty | htmlEscape }}"{{ end }}{{ if $buildsUpon }} data-builds-upon="{{ delimit $buildsUpon "," }}"{{ end }} data-codetabs-id="{{ $id }}"></a>
 {{- end -}}
-<div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}" data-codetabs-meta="{{ $codetabsMetaJson | htmlEscape }}"{{ if $tryItCommands }} data-tryit-commands="{{ $tryItCommands | jsonify | htmlEscape }}"{{ end }}>
+<div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}" data-codetabs-meta="{{ $codetabsMetaJson | htmlEscape }}"{{ if $tryItCommands }} data-tryit-commands="{{ $tryItCommands | jsonify }}"{{ end }}>
     <!-- Language selector dropdown with controls -->
     <div class="codetabs-header flex flex-col px-4 py-2 bg-slate-900 rounded-t-lg">
         <div class="flex items-start justify-between">
