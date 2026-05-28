@@ -38,7 +38,7 @@ Before you can create your first Data Integration pipeline for a Redis Cloud sub
 
 {{< embed-md "rc-rdi-create-rdi-workspace.md" >}}
 
-## Create a data pipeline
+## Get required ARNs
 
 1. On the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Pipelines** tab.
 1. Select **Add pipeline**.
@@ -106,7 +106,7 @@ Save the following outputs:
 
 If you lose any outputs, run `terraform output` to view them again.
 
-## Add pipeline
+## Resume pipeline setup
 
 1. Return to the [Redis Cloud console](https://cloud.redis.io/). Go to your target database and select the **Pipelines** tab.
 1. You'll see a draft pipeline in the workspace you created. Select **More actions > Resume pipeline setup** to continue with pipeline setup.
