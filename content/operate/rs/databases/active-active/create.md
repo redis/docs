@@ -173,9 +173,18 @@ After you create the Active-Active database, you can set the TLS mode to **Requi
         
     - Clear the **Enable sharding** option to use only one shard, which allows you to use [multi-key operations]({{<relref "/operate/rs/databases/durability-ha/clustering#multikey-operations">}}) without the limitations.
 
-    {{<note>}}
-You cannot enable or turn off database clustering after the Active-Active database is created.
-    {{</note>}}
+        {{<note>}}
+You cannot turn off database clustering after the Active-Active database is created.
+        {{</note>}}
+
+        To enable clustering after the Active-Active database is created, use the [`crdb-cli crdb update`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/update" >}}) command to update `shards_count`:
+
+        ```sh
+        crdb-cli crdb update --crdb-guid <crdb-guid> --default-db-config '{"shards_count": <primary_shards_count>}'
+        ```
+        {{< warning >}}
+Do not increase the shard count using other methods, as they could cause data synchronization issues.
+        {{< /warning >}}
 
 - [**OSS Cluster API**]({{< relref "/operate/rs/databases/configure/oss-cluster-api.md" >}}) - The OSS Cluster API configuration allows access to multiple endpoints for increased throughput. The OSS Cluster API setting applies to all instances of the Active-Active database across participating clusters.
 

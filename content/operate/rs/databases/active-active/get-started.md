@@ -145,9 +145,18 @@ Each Active-Active instance must have a unique fully-qualified domain name (FQDN
 
         - Turn off **Sharding** to use only one shard and avoid [Multi-key command]({{< relref "/operate/rs/databases/durability-ha/clustering" >}}) limitations.
 
-        {{< note >}}
-You cannot enable or turn off database clustering after the Active-Active database is created.
-        {{< /note >}}
+            {{< note >}}
+You cannot turn off database clustering after the Active-Active database is created.
+            {{< /note >}}
+
+            To enable clustering after the Active-Active database is created, use the [`crdb-cli crdb update`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/update" >}}) command to update `shards_count`:
+
+            ```sh
+            crdb-cli crdb update --crdb-guid <crdb-guid> --default-db-config '{"shards_count": <primary_shards_count>}'
+            ```
+            {{< warning >}}
+Do not increase the shard count using other methods, as they could cause data synchronization issues.
+            {{< /warning >}}
 
 1. Click **Create**.
 

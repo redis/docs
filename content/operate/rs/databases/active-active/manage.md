@@ -15,7 +15,7 @@ You can configure and manage your Active-Active database from either the Cluster
 
 ## Database settings
 
-Most Active-Active database settings can be changed after database creation. One notable exception is database clustering, which can't be turned on or off after the database has been created.
+Most Active-Active database settings can be changed after database creation, except for database clustering, which can't be turned off later.
 
 As of Redis Software version 8.0.16, the Cluster Manager UI supports both [global](#change-global-configuration) and [local](#change-local-configuration) configuration changes for Active-Active databases. In earlier versions, configuration changes made in the Cluster Manager UI applied only to the local instance and required additional manual updates for each participating cluster.
 
@@ -104,6 +104,18 @@ If a warning symbol appears next to a setting on the **Global** configuration ta
 On the **Local** configuration tab, any locally configured settings that differ from the global settings are marked with a **Local configuration** label:
 
 {{<image filename="images/rs/screenshots/databases/active-active-databases/local-config-tag.png" alt="A local configuration label appears next to Memory eviction allkeys-lru." >}}
+
+### Enable clustering after database creation
+
+To enable clustering after the Active-Active database is created, use the [`crdb-cli crdb update`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/update" >}}) command to update `shards_count`:
+
+```sh
+crdb-cli crdb update --crdb-guid <crdb-guid> --default-db-config '{"shards_count": <primary_shards_count>}'
+```
+
+{{< warning >}}
+Do not use other methods to enable clustering after database creation, as they could cause data synchronization issues.
+{{< /warning >}}
 
 ## Participating clusters
 
