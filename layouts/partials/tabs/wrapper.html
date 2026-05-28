@@ -74,7 +74,7 @@
 {{- if $exampleId -}}
 <a id="{{ $exampleId }}" class="relative"{{ if $description }} data-description="{{ $description | htmlEscape }}"{{ end }}{{ if $difficulty }} data-difficulty="{{ $difficulty | htmlEscape }}"{{ end }}{{ if $buildsUpon }} data-builds-upon="{{ delimit $buildsUpon "," }}"{{ end }} data-codetabs-id="{{ $id }}"></a>
 {{- end -}}
-<div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}" data-codetabs-meta="{{ $codetabsMetaJson | htmlEscape }}"{{ if $tryItCommands }} data-tryit-commands="{{ $tryItCommands | jsonify }}"{{ end }}>
+<div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}" data-codetabs-meta="{{ $codetabsMetaJson | htmlEscape }}">
     <!-- Language selector dropdown with controls -->
     <div class="codetabs-header flex flex-col px-4 py-2 bg-slate-900 rounded-t-lg">
         <div class="flex items-start justify-between">
@@ -267,16 +267,15 @@
 <!-- spellchecker-enable -->
 
 <script>
+// Registry for Try It CLI commands (populated per codetabs instance)
+window._tryItCommands = window._tryItCommands || {};
+
 // Global function to open Try It CLI with pre-populated commands
 window.openTryItCli = window.openTryItCli || function(button) {
     const codetabsId = button.getAttribute('data-codetabs-id');
-    const container = document.getElementById(codetabsId);
-    if (!container) return;
+    const commands = window._tryItCommands[codetabsId];
+    if (!commands || !commands.length) return;
 
-    const commandsJson = container.getAttribute('data-tryit-commands');
-    if (!commandsJson) return;
-
-    const commands = JSON.parse(commandsJson);
     const url = 'https://redis.io/cli?commands=' + encodeURIComponent(JSON.stringify(commands)) + '&autorun=true';
     window.open(url, '_blank', 'noopener,noreferrer');
 };
@@ -475,8 +474,11 @@ window.toggleCliOutputForCodetabs = window.toggleCliOutputForCodetabs || functio
 };
 
 (function() {
-    // Initialize BinderHub link for this codetabs instance
+    // Register Try It commands for this codetabs instance
     const codetabsId = '{{ $id }}';
+    {{ if $tryItCommands }}
+    window._tryItCommands[codetabsId] = {{ $tryItCommands | jsonify | safeJS }};
+    {{ end }}
     const langSelect = document.getElementById('lang-select-' + codetabsId);
 
     // Initialize on page load - use a delay to allow codetabs.js to restore localStorage selection
