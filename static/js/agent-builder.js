@@ -531,7 +531,8 @@
             java: '.java',
             csharp: '.cs'
         };
-        const filename = `/code/agent-templates/${formData.programmingLanguage}/${formData.agentType}_agent${fileExtensions[formData.programmingLanguage]}`;
+        const templateBase = (window.AGENT_TEMPLATE_BASE || '/code/agent-templates').replace(/\/$/, '');
+        const filename = `${templateBase}/${formData.programmingLanguage}/${formData.agentType}_agent${fileExtensions[formData.programmingLanguage]}`;
 
         return loadTemplateFile(filename, formData) || genericTemplates[formData.programmingLanguage](formData);
     }
