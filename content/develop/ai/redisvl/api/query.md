@@ -12,7 +12,7 @@ queries for different use cases. Each query class wraps the `redis-py` Query mod
 
 ## VectorQuery
 
-### `class VectorQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, hybrid_policy=None, batch_size=None, ef_runtime=None, epsilon=None, search_window_size=None, use_search_history=None, search_buffer_capacity=None, normalize_vector_distance=False)`
+### `class VectorQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, hybrid_policy=None, batch_size=None, ef_runtime=None, search_window_size=None, use_search_history=None, search_buffer_capacity=None, normalize_vector_distance=False)`
 
 Bases: `BaseVectorQuery`, `BaseQuery`
 
@@ -57,10 +57,6 @@ expression.
   * **ef_runtime** (*Optional* *[* *int* *]*) – Controls the size of the dynamic candidate list for HNSW
     algorithm at query time. Higher values improve recall at the expense of
     slower search performance. Defaults to None, which uses the index-defined value.
-  * **epsilon** (*Optional* *[* *float* *]*) – The range search approximation factor for HNSW and SVS-VAMANA
-    indexes. Sets boundaries for candidates within radius \* (1 + epsilon). Higher values
-    allow more extensive search and more accurate results at the expense of run time.
-    Defaults to None, which uses the index-defined value (typically 0.01).
   * **search_window_size** (*Optional* *[* *int* *]*) – The size of the search window for SVS-VAMANA KNN searches.
     Increasing this value generally yields more accurate but slower search results.
     Defaults to None, which uses the index-defined value (typically 10).
@@ -231,19 +227,6 @@ Set the EF_RUNTIME parameter for the query.
   * **TypeError** – If ef_runtime is not an integer
   * **ValueError** – If ef_runtime is not positive
 
-#### `set_epsilon(epsilon)`
-
-Set the epsilon parameter for the query.
-
-* **Parameters:**
-  **epsilon** (*float*) – The range search approximation factor for HNSW and SVS-VAMANA
-  indexes. Sets boundaries for candidates within radius \* (1 + epsilon).
-  Higher values allow more extensive search and more accurate results at the
-  expense of run time.
-* **Raises:**
-  * **TypeError** – If epsilon is not a float or int
-  * **ValueError** – If epsilon is negative
-
 #### `set_filter(filter_expression=None)`
 
 Set the filter expression for the query.
@@ -393,15 +376,6 @@ Return the EF_RUNTIME parameter for the query.
   The EF_RUNTIME value for the query.
 * **Return type:**
   Optional[int]
-
-#### `property epsilon: float | None`
-
-Return the epsilon parameter for the query.
-
-* **Returns:**
-  The epsilon value for the query.
-* **Return type:**
-  Optional[float]
 
 #### `property filter: str | `[`FilterExpression`]({{< relref "filter/#filterexpression" >}})` `
 
