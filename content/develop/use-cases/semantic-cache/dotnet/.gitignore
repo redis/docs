@@ -1,0 +1,7 @@
+bin/
+obj/
+model_cache/
+*.user
+*.suo
+.vs/
+.idea/

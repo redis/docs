@@ -1,0 +1,7 @@
+# Hugot downloads the ONNX model into ./models on first run; the
+# weights are ~87 MB and we don't want them in the repo.
+models/
+
+# `go build` in this directory produces a `go` binary that we
+# also don't want to commit.
+/go

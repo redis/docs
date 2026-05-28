@@ -1,0 +1,5 @@
+# Maven build output: ~25 MB shaded jar plus intermediates. The
+# DJL native libraries and the all-MiniLM-L6-v2 model weights land
+# in ~/.djl.ai/ on first run, not here, so no extra ignore is needed
+# for those.
+target/
