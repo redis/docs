@@ -9,6 +9,7 @@
 {{ $description := .description }}
 {{ $difficulty := .difficulty }}
 {{ $buildsUpon := .buildsUpon }}
+{{ $tryItCommands := .tryItCommands }}
 
 {{- /* Build metadata map for each language/client combination */ -}}
 {{- $codetabsMeta := dict -}}
@@ -73,7 +74,7 @@
 {{- if $exampleId -}}
 <a id="{{ $exampleId }}" class="relative"{{ if $description }} data-description="{{ $description | htmlEscape }}"{{ end }}{{ if $difficulty }} data-difficulty="{{ $difficulty | htmlEscape }}"{{ end }}{{ if $buildsUpon }} data-builds-upon="{{ delimit $buildsUpon "," }}"{{ end }} data-codetabs-id="{{ $id }}"></a>
 {{- end -}}
-<div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}" data-codetabs-meta="{{ $codetabsMetaJson | htmlEscape }}">
+<div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}" data-codetabs-meta="{{ $codetabsMetaJson | htmlEscape }}"{{ if $tryItCommands }} data-tryit-commands="{{ $tryItCommands | jsonify | htmlEscape }}"{{ end }}>
     <!-- Language selector dropdown with controls -->
     <div class="codetabs-header flex flex-col px-4 py-2 bg-slate-900 rounded-t-lg">
         <div class="flex items-start justify-between">
@@ -101,6 +102,21 @@
             </div>
 
             <div class="flex items-center gap-2">
+            {{/* "Try it" button - opens redis.io/cli with pre-populated commands */}}
+            {{ if $tryItCommands }}
+            <button tabindex="1"
+                    type="button"
+                    class="tryit-button flex items-center gap-1 text-slate-300 hover:text-white bg-red-700 hover:bg-red-600 h-7 px-3 rounded text-xs font-medium transition duration-150 ease-in-out"
+                    title="Run these commands in the Redis CLI"
+                    data-codetabs-id="{{ $id }}"
+                    onclick="openTryItCli(this)"
+                    aria-label="Try these Redis commands in an interactive CLI">
+                <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <span>Try it</span>
+            </button>
+            {{ end }}
             {{/* BinderHub "Run in browser" link - shown conditionally based on current tab's binderId */}}
             <div id="binder-link-container-{{ $id }}" class="flex items-center">
                 {{/* Link will be shown/hidden by JavaScript based on selected tab */}}
@@ -251,6 +267,20 @@
 <!-- spellchecker-enable -->
 
 <script>
+// Global function to open Try It CLI with pre-populated commands
+window.openTryItCli = window.openTryItCli || function(button) {
+    const codetabsId = button.getAttribute('data-codetabs-id');
+    const container = document.getElementById(codetabsId);
+    if (!container) return;
+
+    const commandsJson = container.getAttribute('data-tryit-commands');
+    if (!commandsJson) return;
+
+    const commands = JSON.parse(commandsJson);
+    const url = 'https://redis.io/cli?commands=' + encodeURIComponent(JSON.stringify(commands)) + '&autorun=true';
+    window.open(url, '_blank', 'noopener,noreferrer');
+};
+
 // Global function to toggle commands foldout
 window.toggleCommandsFoldout = window.toggleCommandsFoldout || function(button) {
     const details = button.nextElementSibling;
@@ -297,6 +327,28 @@ window.toggleApiSignatures = window.toggleApiSignatures || function(button) {
     if (icon) {
         icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(90deg)';
     }
+};
+
+// Global function to show/hide Try It buttons based on selected language
+// The button should only be visible when the Redis CLI tab is active
+window.updateAllTryItButtons = window.updateAllTryItButtons || function() {
+    const buttons = document.querySelectorAll('.tryit-button');
+    buttons.forEach((button) => {
+        const codetabsId = button.getAttribute('data-codetabs-id');
+        const langSelect = document.getElementById('lang-select-' + codetabsId);
+        if (!langSelect) return;
+
+        const selectedOption = langSelect.options[langSelect.selectedIndex];
+        const selectedLang = selectedOption ? selectedOption.value : '';
+
+        if (selectedLang === 'redis-cli') {
+            button.classList.remove('hidden');
+            button.classList.add('flex');
+        } else {
+            button.classList.add('hidden');
+            button.classList.remove('flex');
+        }
+    });
 };
 
 // Global function to update all binder links on the page
@@ -432,6 +484,7 @@ window.toggleCliOutputForCodetabs = window.toggleCliOutputForCodetabs || functio
     setTimeout(() => {
         window.updateAllBinderLinks();
         window.updateAllCliOutputToggles();
+        window.updateAllTryItButtons();
     }, 100);
 
     // Update all binder links when language changes
@@ -441,6 +494,7 @@ window.toggleCliOutputForCodetabs = window.toggleCliOutputForCodetabs || functio
             setTimeout(() => {
                 window.updateAllBinderLinks();
                 window.updateAllCliOutputToggles();
+                window.updateAllTryItButtons();
             }, 10);
         });
     }

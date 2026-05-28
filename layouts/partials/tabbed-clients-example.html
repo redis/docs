@@ -39,6 +39,20 @@
     {{ warnf "[tabbed-clients-example] Example not found %q for %q" $id $.Page }}
 {{ end }}
 
+{{/* Extract executable CLI commands (lines starting with "> " or "redis> ") for Try It button */}}
+{{ $tryItCommands := slice }}
+{{ if (ne (trim $redisCommands "\n") "") }}
+    {{ range $line := split (trim $redisCommands "\n") "\n" }}
+        {{ $trimmedLine := trim $line " " }}
+        {{ if hasPrefix $trimmedLine "redis> " }}
+            {{ $tryItCommands = $tryItCommands | append (strings.TrimPrefix "redis> " $trimmedLine) }}
+        {{ else if hasPrefix $trimmedLine "> " }}
+            {{ $tryItCommands = $tryItCommands | append (strings.TrimPrefix "> " $trimmedLine) }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+
 {{ $tabs := slice }}
 {{/* Render redis-cli example from inner content if any */}}
 {{ if (ne (trim $redisCommands "\n") "") }}
@@ -130,5 +144,8 @@
 {{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter "exampleId" $step "description" $description "difficulty" $difficulty }}
 {{ if gt (len $buildsUpon) 0 }}
   {{ $params = merge $params (dict "buildsUpon" $buildsUpon) }}
+{{ end }}
+{{ if gt (len $tryItCommands) 0 }}
+  {{ $params = merge $params (dict "tryItCommands" $tryItCommands) }}
 {{ end }}
 {{ partial "tabs/wrapper.html" $params }}
