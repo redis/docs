@@ -1,5 +1,5 @@
 ---
-Title: Define data pipeline
+Title: Create data pipeline
 aliases:
     - /operate/rc/databases/rdi/define/
     - /operate/rc/databases/rdi/define
@@ -10,113 +10,165 @@ categories:
 - rc
 description: Define the source connection and data pipeline.
 hideListLinks: true
-weight: 3
+weight: 4
 ---
 
-After you have [prepared your source database]({{<relref "/operate/rc/rdi/setup">}}) and connection information, you can set up your new pipeline. To do this:
+After you have [prepared your source database]({{<relref "/operate/rc/rdi/setup">}}) and connection information, and [created the workspace for your pipeline]({{<relref "/operate/rc/rdi/create-workspace">}}), you can set up your new pipeline.
 
-1. [Define the source connection](#define-source-connection) by entering all required source database information.
-2. [Define the data pipeline](#define-data-pipeline) by selecting the data that you want to sync from your source database to the target database.
+In the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Pipelines** tab. You'll see your subscription's workspace. Select **Add pipeline** to add a pipeline to the workspace. 
 
-## Define source connection
+You can also go to the **Pipelines** page from the left-hand menu and select **Add pipeline** from your workspace. Or, you can go to the **Pipelines** tab of your subscription and select **Add pipeline** from your workspace.
 
-1. In the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Pipeline** tab.
-1. Select **Define source database**.
-    {{<image filename="images/rc/rdi/rdi-define-source-database.png" alt="The define source database button." width=200px >}}
-1. Enter a **Pipeline name**. 
-    {{<image filename="images/rc/rdi/rdi-define-pipeline-cidr.png" alt="The pipeline name and deployment CIDR fields." >}}
-1. A **Deployment CIDR** is automatically generated for you. If, for any reason, a CIDR is not generated, enter a valid CIDR that does not conflict with your applications or other databases.
-1. In the **Source database connectivity** section, enter the **PrivateLink service name** of the [PrivateLink connected to your source database]({{< relref "/operate/rc/rdi/setup#set-up-connectivity" >}}).
-    {{<image filename="images/rc/rdi/rdi-define-connectivity.png" alt="The Source database connectivity section, with database connection details and connectivity options." >}}
-1. Enter your database details. This depends on your database type, and includes:
-    - **Port**: The database's port
-    - **Database**: Your database's name, or the root database *(PostgreSQL, Oracle only)*, or a comma-separated list of one or more databases you want to connect to *(SQL Server only)*
-    - **Database Server ID**: Unique ID for the replication client. Enter a number that is not used by any existing replication clients *(mySQL and mariaDB only)*
-    - **PDB**: Name of the Oracle pluggable database *(Oracle only)*
-1. Enter the ARN of your [database credentials secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}}) in the **Source database secrets ARN** field.
-1. If your database requires TLS, select **Use TLS**. Enter the ARN of your [CA certificate secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}}) in the **CA Cert Secret ARN** field.
-    {{<image filename="images/rc/rdi/rdi-define-tls.png" alt="The Source database connectivity section, with Use TLS selected and the CA Cert Secret ARN field." >}}
-1. If your database requires mTLS, select **Use mTLS**. Enter the ARN of your [Client certificate secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}}) in the **Client Certificate Secret ARN** field and the ARN of your [Client key secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}}) in the **Client Key Secret ARN** field.
-    {{<image filename="images/rc/rdi/rdi-define-mtls.png" alt="The Source database connectivity section, with Use TLS selected and the Client Certificate Secret ARN and Client Key Secret ARN fields." >}}
-1. If your database requires mTLS with a client key passphrase, enter the ARN of your [Client key passphrase secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}}) in the **Please add a secret ARN for the password to use with the secret store** field.
-1. Select **Advanced properties** to configure additional optional properties for your pipeline.
-    {{<image filename="images/rc/rdi/rdi-advanced-properties.png" alt="The advanced properties section." >}}
-    You can add any [Debezium source property](https://debezium.io/documentation/reference/stable/connectors/) for your source database type in the **Collector source properties** section and any [Redis server Debezium sink property](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream) in the **Collector sink properties** section. 
-1. Select **Start pipeline setup**.
-    {{<image filename="images/rc/rdi/rdi-start-pipeline-setup.png" alt="The start pipeline setup button." width=200px >}}
-1. Redis Cloud will attempt to connect to PrivateLink. If your PrivateLink does not allow automatic acceptance of incoming connections, accept the incoming connection on AWS PrivateLink to proceed. See [Accept or Reject PrivateLink connection requests](https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html#accept-reject-connection-requests).
+{{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The workspace section of the Pipelines tab for a database. Select Add pipeline to add a pipeline." width=80% >}}
 
+If you've started to create a pipeline, you'll see a draft pipeline. Select **More actions > Resume pipeline setup** to continue with pipeline setup.
+
+{{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The workspace section of the Pipelines tab for a database with a draft pipeline. Select Resume pipeline setup to continue." width=80% >}}
+
+Creating a pipeline is split into the following steps:
+
+1. [**Pipeline setup**](#pipeline-setup): Defines the source database type and the target database.
+2. [**Source configuration**](#source-configuration): Defines and tests the source database connectivity and credentials.
+3. [**Dataset**](#dataset): Defines the data to import to your Redis database.
+4. [**Transformations**](#transformations): Defines how records are stored in Redis.
+5. [**Review & deploy**](#review-and-deploy): Shows your pipeline details and deploys it.
+
+## Pipeline setup
+
+In the **Pipeline setup** step:
+
+1. Select your source database type. The following database types are supported:
+    - MySQL
+    - mariaDB
+    - Oracle
+    - SQL Server
+    - PostgreSQL
+    {{<image filename="images/rc/rdi/rdi-select-source-db.png" alt="The select source database type list and source name field." width=80% >}}
+
+1. Enter a name for your source database in the **Source name** field. This is a name for the source database that will appear on Redis Cloud.
+1. Select the target Redis Cloud database from the **Target database** list.
+
+    {{<image filename="images/rc/rdi/rdi-choose-target.png" alt="The target database list." width=80% >}}
+
+Select **Continue to source** to move to the **Source configuration** step.
+
+{{<image filename="images/rc/rdi/rdi-continue-to-source-button.png" alt="The Continue to source button." width=200px >}}
+
+## Source configuration
+
+During the **Source configuration** step, you'll share the connectivity information and credentials you created when you prepared your source database.
+
+This step is separated into three expandable sections:
+
+1. [Source connectivity](#source-connectivity) defines the connectivity method for your source database.
+2. [Secrets](#secrets) defines the authentication needed for your source database.
+3. [Source configuration](#source-configuration-section) defines the source-specific settings for your database connection.
+
+When you've completed all three sections, select **Test source** to test Redis Cloud's connection with the source database. After the test completes, select **Continue to dataset** to move to the [**Dataset**](#dataset) step.
+
+{{<image filename="images/rc/rdi/rdi-continue-to-dataset-button.png" alt="The Continue to dataset button." width=200px >}}
+
+### Source connectivity
+
+Select whether you want your pipeline to connect to your database using **AWS Private Link** or using the **Public endpoint**.
+
+- If your pipeline uses AWS PrivateLink, enter the **Private Link service name** of the [PrivateLink connected to your source database]({{< relref "/operate/rc/rdi/setup#set-up-connectivity" >}}).
+
+    {{<image filename="images/rc/rdi/rdi-source-configuration-source-connectivity-privatelink.png" alt="The Source database connectivity section for PrivateLink connection." >}}
+
+    Select **Connect to Private Link** to test your Private Link connectivity. This will take a few minutes.
+    
     If Redis Cloud can't find your PrivateLink connection, make sure that the PrivateLink service name is correct and that Redis Cloud is listed as an Allowed Principal for your VPC. See [Set up connectivity]({{<relref "/operate/rc/rdi/setup#set-up-connectivity">}}) for more info.
 
-At this point, Redis Cloud will provision the pipeline infrastructure that will allow you to define your data pipeline. 
+- If your pipeline uses the public endpoint, enter the source IP address or hostname in the **Source IP address / Hostname** field.
 
-{{<image filename="images/rc/rdi/rdi-pipeline-setup-in-progress.png" alt="The Pipeline setup in progress screen." width=75% >}}
+    {{<image filename="images/rc/rdi/rdi-source-configuration-source-connectivity-public.png" alt="The Source database connectivity section for Public endpoint connection." >}}
 
-Pipelines are provisioned in the background. You aren't allowed to make changes to your data pipeline or to your database during provisioning. This process will take about an hour, so you can close the window and come back later.
+### Secrets
 
-When your pipeline is provisioned, select **Complete setup**. You will then [define your data pipeline](#define-data-pipeline).
+{{<image filename="images/rc/rdi/rdi-source-configuration-secrets.png" alt="The Secrets section." >}}
 
-{{<image filename="images/rc/rdi/rdi-complete-setup.png" alt="The complete setup button." width=200px >}}
+Enter the ARN of your [database credentials secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}}) in the **Credentials secret ARN** field.
 
-## Define data pipeline
+Under **Transit security**:
 
-After your pipeline is provisioned, you will be able to define your pipeline. You will select the database schemas, tables, and columns that you want to import and synchronize with your primary database.
+- If your database requires TLS, select **TLS**. Enter the ARN of your [CA certificate secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}}) in the **CA Certificate Secret ARN** field.
+    {{<image filename="images/rc/rdi/rdi-define-tls.png" alt="The Source database connectivity section, with TLS selected and the CA Cert Secret ARN field." >}}
+- If your database requires mTLS, select **mTLS**. 
+    {{<image filename="images/rc/rdi/rdi-define-mtls.png" alt="The Source database connectivity section, with mTLS selected and the Client Certificate Secret ARN and Client Key Secret ARN fields." >}}
 
-### Configure a new pipeline
+    Enter the following secrets in the fields:
+    - **CA Certificate Secret ARN**: [CA certificate secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}})
+    - **Client Certificate Secret ARN**: [Client certificate secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}})
+    - **Client Private Key Secret ARN**: [Client key secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}})
+    - **Password secret ARN for secret store** (_Optional_): [Client key passphrase secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}})
 
-1. In the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Pipeline** tab. If your pipeline is already provisioned, select **Complete setup** to go to the **Data modeling** section.
-    {{<image filename="images/rc/rdi/rdi-complete-setup.png" alt="The complete setup button." width=200px >}}
-1. Select the Schema and Tables you want to migrate to the target database from the list. 
-    {{<image filename="images/rc/rdi/rdi-select-source-data.png" alt="The data modeling section. " width=75% >}}
+Select **Validate** to check that Redis Cloud can access your secrets. 
 
-    Select **Manage Columns** to choose which columns you want to import.
+### Source configuration {#source-configuration-section}
 
-    {{<image filename="images/rc/rdi/rdi-manage-columns.png" alt="The manage columns button." width=150px >}}
+In this step, you'll enter your database details. This depends on your database type, and includes:
 
-    You can select any number of columns from a table.
+- **Port**: The database's port
+- **Database**: Your database's name, or the root database *(PostgreSQL, Oracle only)*, or a comma-separated list of one or more databases you want to connect to *(SQL Server only)*
+- **Database Server ID**: Unique ID for the replication client. Enter a number that is not used by any existing replication clients *(mySQL and mariaDB only)*
+- **PDB**: Name of the Oracle pluggable database *(Oracle only)*
 
-    {{<image filename="images/rc/rdi/rdi-select-columns.png" alt="The manage columns screen, with a few columns selected from one table" width=75% >}}
+Under **Collector properties**, Select **Edit advanced properties** to configure additional optional properties for your pipeline.
 
-    If any tables are missing a unique constraint, a warning will appear in the **Data modeling** section. Select **Manage columns** to select the columns that define a unique constraint for those tables.
+{{<image filename="images/rc/rdi/rdi-source-configuration-collector-properties.png" alt="The collector properties section." width=500px >}}
 
-    Select **Save** to save your column changes and go back to schema selection.
+{{<image filename="images/rc/rdi/rdi-advanced-properties.png" alt="The advanced properties section." width=80% >}}
 
-    {{<image filename="images/rc/button-save.png" alt="The save button." width=100px >}}
+You can add any [Debezium source property](https://debezium.io/documentation/reference/stable/connectors/) for your source database type in the **Collector source properties** section and any [Redis server Debezium sink property](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream) in the **Collector sink properties** section. Select **Save properties** to return to Source configuration.
 
-    Select **Add schema** to add more database schemas.
+## Dataset
 
-    {{<image filename="images/rc/rdi/rdi-add-schema.png" alt="The add schema button." width=150px >}}
+In this step, you will select the database schemas, tables, and columns that you want to import and synchronize with your primary database.
+
+{{<image filename="images/rc/rdi/rdi-dataset-empty.png" alt="The dataset step." width=75% >}}
+
+1. In the **Schemas** section, select the schema(s) you want to migrate to the target database from the list.
+
+    {{<image filename="images/rc/rdi/rdi-dataset-schema-selected.png" alt="The dataset step with a schema selected." width=75% >}}
+
+1. When you select a schema, you will see its tables in the **Tables** section. Redis Cloud will automatically select all tables for import. You can de-select any columns you do not wish to import to your Redis database.
+
+1. Select a table to view its columns in the **Columns** section. You can de-select any columns you do not wish to import.
+
+    {{<image filename="images/rc/rdi/rdi-select-columns.png" alt="The columns section, with a few columns selected from one table" width=75% >}}
+
+    If any tables are missing a unique key, a warning will appear in the **Data modeling** section. Select **Show affected** to filter the **Tables** section to the tables without a unique key.
     
-    Select **Delete** to delete a schema. You must have at least one schema to continue.
+    {{<image filename="images/rc/rdi/rdi-dataset-missing-unique-key.png" alt="The dataset step filtered to show tables that are missing a unique key." width=75% >}}
 
-    {{<image filename="images/rc/rdi/rdi-delete-schema.png" alt="The delete schema button." width=50px >}}
+    For these tables, select the key icon next to the column that defines a unique key. 
 
-    After you've selected the schemas and tables you want to sync, select **Continue**.
+    {{<image filename="images/rc/rdi/rdi-unique-key-selected.png" alt="The unique key icon." width=500px >}}
 
-     {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
-    
-1. Select the Redis data type to write keys to the target. You can choose **Hash key** or **JSON key** if the target database supports JSON. 
-    {{<image filename="images/rc/rdi/rdi-configure-new-pipeline.png" alt="The data modeling section, with Hash Key selected." width=75% >}}
+Select **Continue to transformations** to move to the **Transformations** step.
 
-    You can also supply one or more [transformation job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) that specify how you want to transform the captured data before writing it to the target. Select **Upload jobs** to upload your job files.
+{{<image filename="images/rc/rdi/rdi-continue-to-transformations-button.png" alt="The Continue to dataset button." width=200px >}}
 
-    {{<image filename="images/rc/rdi/rdi-transformation-jobs.png" alt="The transformation jobs section. Select Upload jobs to upload transformation jobs." >}}
+## Transformations
 
-    When you upload job files, Redis Cloud will validate the job files to check for errors. 
+{{<image filename="images/rc/rdi/rdi-transformations.png" alt="The Transformations step." >}}
 
-    Select **Continue**.
-    {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
+1. Select how your records will be stored in Redis. You can choose **Hash** or **JSON**.
 
-1. In the **Advanced properties** section, you can add any processor properties to control how the data is processed. See the [RDI configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}}) for all available processor properties.
+1. Under **Transformation jobs**, you can supply one or more [transformation job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) that specify how you want to transform the captured data before writing it to the target. Select **Upload jobs** to upload your job files. When you upload job files, Redis Cloud will validate the job files to check for errors. 
 
-    {{<image filename="images/rc/rdi/rdi-processor-properties.png" alt="The advanced properties section with processor properties." >}}
+1. Select **Edit advanced properties** to add any processor properties to control how the data is processed. 
 
-    Select **Continue**.
-    {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
+    {{<image filename="images/rc/rdi/rdi-transformations.png" alt="The Transformations step." >}}
 
-1. Review the tables you selected in the **Review and deploy** section. If everything looks correct, select **Confirm & Deploy** to start ingesting data from your source database.
+    See the [RDI configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}}) for all available processor properties.
 
-    {{<image filename="images/rc/rdi/rdi-confirm-deploy.png" alt="The Confirm & Deploy button." width=175px >}}
+## Review and deploy
+
+Review the tables you selected in the **Review and deploy** step. If everything looks correct, select **Deploy pipeline** to start ingesting data from your source database.
+
+{{<image filename="images/rc/rdi/rdi-confirm-deploy.png" alt="The Deploy pipeline button." width=175px >}}
 
 At this point, the data pipeline will ingest data from the source database to your target Redis database. This process will take time, especially if you have a lot of records in your source database. 
 

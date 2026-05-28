@@ -140,7 +140,8 @@ To get started fast with RDI on Redis Cloud, see the [RDI Cloud quick start]({{<
 
 To create a new data pipeline, you need to:
 
+1. [Create a Data Integration workspace]({{<relref "/operate/rc/rdi/create-workspace">}}) for your Pro subscription.
 1. [Prepare your source database]({{<relref "/operate/rc/rdi/setup">}}) and any associated credentials.
-2. [Define the source connection and data pipeline]({{<relref "/operate/rc/rdi/define">}}) by selecting which tables to sync.
+1. [Define the source connection and data pipeline]({{<relref "/operate/rc/rdi/define">}}) by selecting which tables to sync.
 
 Once your data pipeline is defined, you can [view and edit]({{<relref "/operate/rc/rdi/view-edit">}}) it.
