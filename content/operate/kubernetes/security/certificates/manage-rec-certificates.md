@@ -5,9 +5,10 @@ categories:
 - docs
 - operate
 - kubernetes
+aliases: [/operate/kubernetes/security/manage-rec-certificates/]
 description: Install your own certificates to replace the self-signed certificates used by a Redis Enterprise cluster on Kubernetes.
 linkTitle: Manage REC certificates
-weight: 94
+weight: 10
 ---
 
 Redis Software for Kubernetes generates self-signed TLS certificates for each new cluster. You can replace any of those certificates with your own.
@@ -21,7 +22,7 @@ For the list of certificates and what each one encrypts, see the [certificates t
 
 ## Method 1: Manage certificates with the REC custom resource
 
-This is the Kubernetes-native method. The operator detects changes to a referenced secret and rotates the certificate without manual intervention. You can create the secret manually, or have [cert-manager]({{< relref "/operate/kubernetes/security/cert-manager" >}}) issue and renew it automatically.
+This is the Kubernetes-native method. The operator detects changes to a referenced secret and rotates the certificate without manual intervention. You can create the secret manually, or have [cert-manager]({{< relref "/operate/kubernetes/security/certificates/cert-manager" >}}) issue and renew it automatically.
 
 ### Supported certificates
 
@@ -65,7 +66,7 @@ The operator accepts several key names for the certificate and private key, so y
 
 {{<note>}}On Redis Software for Kubernetes versions older than 8.0.18, also include `--from-literal=name=<certificate-name>` in the `kubectl create secret` command, where `<certificate-name>` is the value from the **Certificate name in Redis Software** column in the [supported certificates](#supported-certificates) table.{{</note>}}
 
-For internode encryption certificates, see [Internode encryption]({{< relref "/operate/kubernetes/security/internode-encryption" >}}) for the full setup, which covers enabling internode encryption alongside the certificate configuration.
+For internode encryption certificates, see [Internode encryption]({{< relref "/operate/kubernetes/security/certificates/internode-encryption" >}}) for the full setup, which covers enabling internode encryption alongside the certificate configuration.
 
 ### Step 2: Reference the secret in the REC custom resource
 
@@ -116,7 +117,7 @@ After the update, verify the rotation as described in [Step 3](#step-3-verify-th
 
 The operator automates certificate updates for [Active-Active]({{< relref "/operate/kubernetes/active-active" >}}) databases. When you update the proxy or syncer certificate secret referenced by the REC, the operator detects the change and propagates the new certificate to all participating clusters.
 
-This automation applies whether you manage the secret directly or with [cert-manager]({{< relref "/operate/kubernetes/security/cert-manager#active-active-databases-with-automatic-certificate-sync" >}}).
+This automation applies whether you manage the secret directly or with [cert-manager]({{< relref "/operate/kubernetes/security/certificates/cert-manager#active-active-databases-with-automatic-certificate-sync" >}}).
 
 ## More info
 

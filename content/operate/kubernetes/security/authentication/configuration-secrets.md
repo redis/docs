@@ -3,10 +3,11 @@ categories:
 - docs
 - operate
 - kubernetes
+aliases: [/operate/kubernetes/security/configuration-secrets/]
 description: Store Redis Enterprise configuration items in Kubernetes Secrets for automatic updates and secure management.
 linkTitle: Configuration secrets
 title: Store configuration in Kubernetes Secrets
-weight: 96
+weight: 20
 ---
 
 You can store Redis Enterprise configuration items in Kubernetes Secrets for automatic updates and secure management. When you update these Secrets, the operator immediately reads the changes and propagates them to the Redis Enterprise Cluster (REC).
@@ -70,7 +71,7 @@ You can customize the credential secret name during cluster creation using the `
 The `clusterCredentialSecretName` field cannot be changed after cluster creation.
 {{</note>}}
 
-For detailed instructions, see [Customize the credential secret name]({{< relref "/operate/kubernetes/security/manage-rec-credentials#customize-the-credential-secret-name" >}}).
+For detailed instructions, see [Customize the credential secret name]({{< relref "/operate/kubernetes/security/authentication/manage-rec-credentials#customize-the-credential-secret-name" >}}).
 
 ## TLS certificate configuration
 
@@ -84,7 +85,7 @@ You can store TLS certificates in Kubernetes Secrets to secure communication bet
     kubectl -n <namespace> create secret generic client-cert-secret --from-file=cert=<path-to-cert>
     ```
 
-2. Add the secret to your REDB using the `clientAuthenticationCertificates` property. See [Add client certificates]({{< relref "/operate/kubernetes/security/add-client-certificates" >}}) for details.
+2. Add the secret to your REDB using the `clientAuthenticationCertificates` property. See [Add client certificates]({{< relref "/operate/kubernetes/security/certificates/add-client-certificates" >}}) for details.
 
 ### Service certificates
 
@@ -115,7 +116,7 @@ kubectl create secret generic dp-internode-cert \
   --from-literal=name=dp_internode_encryption
 ```
 
-Reference these secrets in your REC specification under `spec.certificates`. See [Internode encryption]({{< relref "/operate/kubernetes/security/internode-encryption" >}}) for complete configuration details.
+Reference these secrets in your REC specification under `spec.certificates`. See [Internode encryption]({{< relref "/operate/kubernetes/security/certificates/internode-encryption" >}}) for complete configuration details.
 
 ## Secrets and PEM files in Redis Enterprise pods
 
@@ -150,7 +151,7 @@ Field names vary by deployment.
 
 ## See also
 
-- [Manage REC credentials]({{< relref "/operate/kubernetes/security/manage-rec-credentials" >}})
-- [Manage REC certificates]({{< relref "/operate/kubernetes/security/manage-rec-certificates" >}})
-- [Add client certificates]({{< relref "/operate/kubernetes/security/add-client-certificates" >}})
+- [Manage REC credentials]({{< relref "/operate/kubernetes/security/authentication/manage-rec-credentials" >}})
+- [Manage REC certificates]({{< relref "/operate/kubernetes/security/certificates/manage-rec-certificates" >}})
+- [Add client certificates]({{< relref "/operate/kubernetes/security/certificates/add-client-certificates" >}})
 - [Redis Enterprise Cluster API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}})
