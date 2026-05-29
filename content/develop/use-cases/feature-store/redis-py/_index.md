@@ -213,11 +213,19 @@ def bulk_load(
     ...
 ```
 
-`transaction=False` switches the pipeline from `MULTI/EXEC` to a plain command
-batch: there's no all-or-nothing semantic, just a network optimization. That
-is the right choice here — each user's `HSET` + `EXPIRE` is independent, and
-wrapping the whole thing in a transaction would block the server for the
-duration of the batch.
+`transaction=False` skips the `MULTI/EXEC` wrapper that
+[`pipeline`]({{< relref "/develop/clients/redis-py/transpipe" >}}) defaults to
+— commands still queue and ship in one round trip, but they execute as
+independent commands rather than as one atomic block. That is the right
+choice here: each user's `HSET` + `EXPIRE` pair is independent of every
+other user's, and an all-or-nothing transaction would block the server for
+the duration of the batch. It does *not* make the `HSET` + `EXPIRE` pair
+atomic — in the extremely unlikely event the server crashes between the two,
+the entity exists without a key-level TTL until the next batch run re-pins
+it. For an ingestion script that runs end-to-end every cycle this is fine;
+if you need the pair to be inseparable, wrap each user in its own tiny
+`MULTI/EXEC` or a Lua script (see [`EVAL`]({{< relref "/commands/eval" >}}) /
+[Eval scripting]({{< relref "/develop/programmability/eval-intro" >}})).
 
 In production, the equivalent of this script runs as an offline pipeline (a
 Spark or Feast `materialize` job) that reads from the warehouse and writes
@@ -249,10 +257,14 @@ def update_streaming(
 ```
 
 [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) sets the TTL on *individual*
-hash fields, not on the whole key. The two commands here are sent in one round
-trip but they could in principle run any order — the `HSET` always wins because
-the field name is the same in both calls; in practice they run in pipeline
-order on the server, so the field is written, then its TTL is applied.
+hash fields, not on the whole key. The two commands are sent in one round trip
+and Redis executes them in pipeline order: the `HSET` runs first and creates
+or overwrites the fields, then `HEXPIRE` attaches a TTL to each of those same
+fields. `HEXPIRE` returns one status code per field — `1` if the TTL was set,
+`-2` if the field doesn't exist — so the helper raises if any code is anything
+other than `1`. That makes the "every streaming write renews its TTL"
+invariant fail loudly rather than silently leaving a streaming field with no
+expiry attached.
 
 If a streaming pipeline stops, the streaming fields drop out one by one as
 their per-field TTLs elapse — there is no application-side cleaner involved.
@@ -331,7 +343,7 @@ One round trip for the whole batch — the demo regularly returns 100 users in
 2-3 ms against a local Redis. On a real network the round trip dominates;
 pipelining is what keeps batch scoring practical.
 
-For very large batches on a clustered deployment, the same shape generalises
+For very large batches on a clustered deployment, the same shape generalizes
 to one pipeline per shard: bucket the entity IDs by their hash slot
 (`cluster.keyslot(key)`), then issue one pipeline against each shard in
 parallel. `redis-py`'s
@@ -349,8 +361,10 @@ and resume it; in production this code would live in the streaming layer.
 
 Every tick the worker picks a few random users, generates a new value for each
 streaming feature, and calls `store.update_streaming(user_id, fields)`. The
-demo defaults to 5 users per tick at 1-second intervals — enough that within a
-minute every user in a 200-user store has been touched at least once.
+demo defaults to 5 users per tick at 1-second intervals — so a 200-user store
+sees roughly half its users refreshed in the first minute, and most after a
+few minutes. Drop `--seed-users` or raise `--users-per-tick` if you'd rather
+have every user touched quickly.
 
 ```python
 def _tick(self) -> None:
@@ -532,6 +546,16 @@ The server is read/write against your local Redis. The default key prefix is
 
 ## Production usage
 
+The guidance below focuses on the production concerns that are specific to
+running a feature store on Redis. For the generic redis-py production checklist
+— connection-pool sizing,
+[TLS and AUTH]({{< relref "/develop/clients/redis-py/connect#connect-to-your-production-redis-with-tls" >}}),
+[exception handling]({{< relref "/develop/clients/redis-py/produsage#exception-handling" >}}),
+and the rest — see the
+[redis-py production usage guide]({{< relref "/develop/clients/redis-py/produsage" >}}).
+The feature-store demo runs against `localhost` with the defaults; a real
+deployment should harden the client first.
+
 ### Pick the batch TTL to outlast a failed refresher
 
 The whole-entity `EXPIRE` is your safety net against silent staleness from a
@@ -580,7 +604,8 @@ write applies `HEXPIRE` *every time*. If a streaming worker writes a field
 without renewing its TTL, the field carries whatever expiry was there before
 — possibly none, possibly stale — and the mixed-staleness invariant breaks.
 Keep the `HSET` and `HEXPIRE` in the same pipeline (or, even safer, in the
-same Lua script if you don't trust the call site).
+same [Lua script]({{< relref "/develop/programmability/eval-intro" >}}) if
+you don't trust the call site).
 
 ### Avoid HGETALL on the request path
 

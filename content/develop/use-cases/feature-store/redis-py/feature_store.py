@@ -165,7 +165,17 @@ class RedisFeatureStore:
         pipe = self.redis.pipeline(transaction=False)
         pipe.hset(key, mapping=encoded)
         pipe.hexpire(key, ttl, *encoded.keys())
-        pipe.execute()
+        _, expire_result = pipe.execute()
+        # HEXPIRE returns one status code per field: 1 = TTL set, 2 = skipped
+        # under a conditional flag (NX/XX/GT/LT), 0 = no such field, -2 = no
+        # such key. We just HSET every field on the same call, so any code
+        # other than 1 means the per-field TTL invariant didn't hold — the
+        # mixed-staleness story relies on every streaming field carrying a
+        # fresh TTL after the write.
+        if expire_result is None or any(int(code) != 1 for code in expire_result):
+            raise RuntimeError(
+                f"HEXPIRE did not set every field TTL for {key}: {expire_result}"
+            )
         with self._stats_lock:
             self._streaming_writes_total += len(encoded)
 
@@ -261,6 +271,14 @@ class RedisFeatureStore:
         if not names:
             return {}
         ttls = self.redis.httl(self.key_for(entity_id), *names)
+        # redis-py 7.x returns a flat list of integers — including `-2`s for
+        # every field when the key itself is missing. Older / future versions
+        # have reported `None` for a missing key or a singleton list-of-list
+        # in pipeline contexts, so normalize both shapes before the zip below.
+        if ttls is None:
+            ttls = [-2] * len(names)
+        elif len(ttls) == 1 and isinstance(ttls[0], list):
+            ttls = ttls[0]
         return {n: int(t) for n, t in zip(names, ttls)}
 
     # ------------------------------------------------------------------
@@ -294,8 +312,8 @@ class RedisFeatureStore:
     def reset(self) -> int:
         """Drop every entity under ``key_prefix``. Used by the demo reset path.
 
-        Scans in batches and ``DEL``s them in one pipeline per batch,
-        so a large demo dataset doesn't load the server with one big
+        Scans in batches and issues one variadic ``DEL`` per batch, so a
+        large demo dataset doesn't land on the server as one giant
         synchronous delete.
         """
         deleted = 0

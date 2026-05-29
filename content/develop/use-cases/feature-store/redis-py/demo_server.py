@@ -512,9 +512,20 @@ class FeatureStoreDemo:
         return {"loaded": loaded, "ttl_seconds": ttl_seconds, "elapsed_ms": elapsed_ms}
 
     def reset(self) -> dict:
-        deleted = self.store.reset()
-        self.store.reset_stats()
-        self.worker.reset_stats()
+        # Pause the streaming worker around the DEL sweep so a concurrent
+        # tick can't recreate a user that was just enumerated for deletion
+        # (streaming HSET creates the key if it's missing, and that would
+        # leave behind a streaming-only hash with no key-level TTL).
+        was_paused = self.worker.is_paused
+        if self.worker.is_running and not was_paused:
+            self.worker.pause()
+        try:
+            deleted = self.store.reset()
+            self.store.reset_stats()
+            self.worker.reset_stats()
+        finally:
+            if self.worker.is_running and not was_paused:
+                self.worker.resume()
         return {"deleted": deleted}
 
     def toggle_worker(self) -> dict:
@@ -658,12 +669,15 @@ class FeatureStoreDemoHandler(BaseHTTPRequestHandler):
     # ---- State assembly -------------------------------------------------
 
     def _build_state(self) -> dict:
+        # The dropdown only needs a manageable list — cap at 500 — but the
+        # displayed user count should be the real total, not the cap, or the
+        # UI silently understates how many users are in the store.
         ids = self.store.list_entity_ids(limit=500)
         return {
             "key_prefix": self.store.key_prefix,
             "batch_ttl_seconds": self.store.batch_ttl_seconds,
             "streaming_ttl_seconds": self.store.streaming_ttl_seconds,
-            "entity_count": len(ids),
+            "entity_count": self.store.count_entities(),
             "entity_ids": ids,
             "stats": self.store.stats(),
             "worker": self.worker.stats(),
