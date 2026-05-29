@@ -102,6 +102,20 @@ class StreamingWorker {
     }
     // Wait for any in-flight tick to settle so we don't leak a write
     // that completes after the caller has moved on.
+    await this.waitForIdle();
+  }
+
+  /**
+   * Wait until any in-flight tick has finished its current `await`
+   * sequence. `pause()` only stops *future* ticks from running — it
+   * does not interrupt one that is already mid-flight. Callers that
+   * need a quiesced worker (a reset that's about to DEL every entity,
+   * for example) must pause AND await this before they touch state
+   * the tick might still be writing to.
+   *
+   * @returns {Promise<void>}
+   */
+  async waitForIdle() {
     while (this._tickInFlight) await new Promise((r) => setTimeout(r, 20));
   }
 

@@ -373,6 +373,7 @@ const HTML_TEMPLATE = `<!DOCTYPE html>
       if (!confirm("Drop every user from the store?")) return;
       const r = await fetch("/reset", { method: "POST" });
       const d = await r.json();
+      if (!r.ok) { setStatus(d.error || "Reset failed.", "error"); return; }
       setStatus(\`Reset. Dropped \${d.deleted} user(s).\`, "ok");
       await refresh();
     });
@@ -506,8 +507,14 @@ class FeatureStoreDemo {
     // tick can't recreate a user that was just enumerated for deletion
     // (streaming HSET creates the key if it's missing, and that would
     // leave behind a streaming-only hash with no key-level TTL).
+    // pause() only blocks *future* ticks — we also have to await
+    // waitForIdle() so an already-running tick finishes its
+    // updateStreaming loop before we start enumerating keys.
     const wasPaused = this.worker.paused;
-    if (this.worker.running && !wasPaused) this.worker.pause();
+    if (this.worker.running) {
+      if (!wasPaused) this.worker.pause();
+      await this.worker.waitForIdle();
+    }
     try {
       const deleted = await this.store.reset();
       this.store.resetStats();

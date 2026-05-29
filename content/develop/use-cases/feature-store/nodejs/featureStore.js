@@ -175,12 +175,17 @@ class FeatureStore {
    * stops, the streaming fields drop out while the batch-materialized
    * fields remain populated under their longer key-level `EXPIRE`.
    *
-   * `HEXPIRE` returns one status code per field: 1 = TTL set,
-   * 2 = skipped under a conditional flag, 0 = no such field,
-   * -2 = no such key. We just `HSET` every field on the same call,
-   * so any code other than 1 means the per-field TTL invariant did
-   * not hold — the mixed-staleness story relies on every streaming
-   * field carrying a fresh TTL after the write, so failure is loud.
+   * `HEXPIRE` returns one status code per field:
+   *   1 = TTL set / updated,
+   *   2 = the expiry was 0 or in the past, so Redis deleted the field
+   *       instead of applying a TTL,
+   *   0 = an `NX | XX | GT | LT` conditional flag was specified and not
+   *       met (we never use one here),
+   *   -2 = no such field, or no such key.
+   * We just `HSET` every field on the same call, so any code other
+   * than 1 means the per-field TTL invariant did not hold — the
+   * mixed-staleness story relies on every streaming field carrying a
+   * fresh TTL after the write, so failure is loud.
    *
    * @param {string} entityId
    * @param {FeatureMap} fields

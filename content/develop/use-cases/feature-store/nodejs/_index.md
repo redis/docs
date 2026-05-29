@@ -225,11 +225,15 @@ async bulkLoad(rows, ttlSeconds) {
 }
 ```
 
-`multi()` in node-redis 5 wraps the batched commands in `MULTI/EXEC`, so the
-whole batch runs as one transaction on the server. That gives all-or-nothing
-semantics inside the batch but does block the server for its duration, which
-is what you want for an ingestion script that runs end-to-end — not for a
-hot-path serving call. (See
+`multi().exec()` in node-redis 5 wraps the batched commands in `MULTI/EXEC`,
+so Redis runs the queued commands contiguously and returns the replies in
+order. Note that Redis transactions do *not* roll back commands that already
+succeeded if a later command returns an error — node-redis surfaces those
+errors by rejecting `exec()` with a `MultiErrorReply` whose `replies` array
+still contains the successful results. For independent bulk-ingestion
+commands that don't need the `MULTI/EXEC` wrapper at all,
+`multi().execAsPipeline()` ships the same batch in one round trip with
+slightly lower server-side overhead. (See
 [transactions and pipelining]({{< relref "/develop/clients/nodejs/transpipe" >}})
 for the full mental model.)
 
@@ -367,14 +371,19 @@ One round trip for the whole batch — the demo regularly returns 100 users in
 2-3 ms against a local Redis. On a real network the round trip dominates;
 pipelining is what keeps batch scoring practical.
 
-For very large batches on a clustered deployment, the same shape generalizes
-to one pipeline per shard. node-redis's
+For very large batches on a clustered deployment, the shape changes: a single
+`multi().exec()` is bound to one shard, because `MULTI/EXEC` cannot span hash
+slots, so the same `batchGetFeatures` call can only serve keys that hash to
+the same shard. node-redis's
 [cluster client](https://github.com/redis/node-redis/blob/master/docs/clustering.md)
-dispatches the per-user `hmGet` calls to the right shard transparently — you
-still pay one round trip per shard rather than one for the whole batch. For
-very latency-sensitive batch inference, group users by hash slot
-(`cluster.calculateSlot(key)`) and issue one `multi().exec()` per shard in
-parallel.
+routes non-pipelined `hmGet` calls to the right shard transparently — so on a
+cluster, fan out `await Promise.all(ids.map((id) => client.hmGet(...)))` and
+the client pipelines per-shard for you. For very latency-sensitive batch
+inference where the request-side cost of that fan-out matters, group the IDs
+by hash slot ahead of time and issue one `multi().exec()` per shard in
+parallel: each shard's batch then runs as one round trip. A hash tag like
+`fs:user:{vip}:u0001` forces a known set of keys onto the same shard so one
+`multi()` can cover all of them in a single round trip.
 
 ## The streaming worker
 
@@ -620,16 +629,18 @@ skew.
 ### Pipeline batch reads across shards
 
 On a single Redis instance, pipelining `HMGET` across `N` users through
-`multi().exec()` is one round trip. On a Redis Cluster, the keys land on
-different shards — node-redis's cluster client dispatches each `hmGet` to
-the right shard transparently, but you still pay one round trip per shard
-rather than one for the whole batch. For very latency-sensitive batch
-inference, group users by hash slot and issue one `multi().exec()` per
-shard in parallel.
+`multi().exec()` is one round trip. A Redis Cluster is different in two ways:
+`MULTI/EXEC` is bound to one shard, so a single `multi()` cannot span keys
+that hash to different shards; and the keys for a typical user batch will
+land on multiple shards. For batch reads on a cluster, fan out parallel
+`hmGet` calls with `Promise.all` — node-redis's cluster client pipelines
+the calls per-shard automatically — or, for tighter control, group the IDs
+by hash slot ahead of time and issue one `multi().exec()` per shard in
+parallel.
 
 For a small number of frequently-queried users (a top-N customer list, for
 example), a hash tag like `fs:user:{vip}:u0001` forces the keys onto the
-same shard and lets one pipeline serve them all in one round trip.
+same shard and lets one `multi().exec()` serve them all in one round trip.
 
 ### Make HEXPIRE part of every streaming write
 

@@ -382,6 +382,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       if (!confirm("Drop every user from the store?")) return;
       const r = await fetch("/reset", { method: "POST" });
       const d = await r.json();
+      if (!r.ok) { setStatus(d.error || "Reset failed.", "error"); return; }
       setStatus(`Reset. Dropped ${d.deleted} user(s).`, "ok");
       await refresh();
     });
