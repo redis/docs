@@ -99,13 +99,21 @@ public class StreamingWorker {
      * might still be writing to.
      */
     public void waitForIdle() {
+        // Reset cannot safely proceed while a tick is mid-write, so an
+        // interrupt during the wait must NOT short-circuit out with
+        // tickInFlight still true. Save the interrupt status, keep
+        // looping until the tick clears, then restore the flag so the
+        // caller can act on it if they care.
+        boolean interrupted = false;
         while (tickInFlight.get()) {
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                return;
+                interrupted = true;
             }
+        }
+        if (interrupted) {
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -114,24 +122,40 @@ public class StreamingWorker {
     // ---------------------------------------------------------------
 
     private void run() {
-        while (running.get()) {
-            try {
-                Thread.sleep(tickMillis);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                break;
-            }
-            if (!running.get()) break;
-            if (paused.get()) continue;
+        try {
+            while (running.get()) {
+                try {
+                    Thread.sleep(tickMillis);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+                if (!running.get()) break;
 
-            tickInFlight.set(true);
-            try {
-                doTick();
-            } catch (Exception e) {
-                System.err.printf("[streaming-worker] tick failed: %s%n", e.getMessage());
-            } finally {
-                tickInFlight.set(false);
+                // Set tickInFlight *before* the pause check so a
+                // concurrent pause()+waitForIdle() can never see
+                // tickInFlight=false in the window between the pause
+                // check and the actual doTick call. The finally
+                // block clears the flag whether we paused, succeeded,
+                // or threw.
+                tickInFlight.set(true);
+                try {
+                    if (!paused.get()) {
+                        doTick();
+                    }
+                } catch (Exception e) {
+                    System.err.printf("[streaming-worker] tick failed: %s%n", e.getMessage());
+                } finally {
+                    tickInFlight.set(false);
+                }
             }
+        } finally {
+            // Whatever exits this thread — running flipping false,
+            // an interrupt, or any unexpected throw — must clear
+            // both the running and in-flight flags so a later start()
+            // can spin a fresh thread.
+            running.set(false);
+            tickInFlight.set(false);
         }
     }
 

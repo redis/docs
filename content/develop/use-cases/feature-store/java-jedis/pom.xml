@@ -30,8 +30,7 @@
 
   <dependencies>
     <!-- Redis client. Jedis 5.2+ ships per-field TTL bindings
-         (hexpire / httl / hpersist), and Jedis 6.2 is the most
-         recent line at the time of writing. -->
+         (hexpire / httl / hpersist); the demo pins 6.2.0. -->
     <dependency>
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>

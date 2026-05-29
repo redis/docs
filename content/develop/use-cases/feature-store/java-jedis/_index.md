@@ -528,8 +528,8 @@ connections from. Endpoints:
 * **Redis 7.4 or later.** [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) and
   [`HTTL`]({{< relref "/commands/httl" >}}) were added in Redis 7.4; the
   demo relies on per-field TTL for the mixed-staleness story.
-* **Java 17 or later.** The demo uses pattern-matching `switch`, records,
-  and text blocks.
+* **Java 17 or later.** The demo uses switch expressions with arrow
+  labels (`case "..." -> ...`), records, and text blocks.
 * **Jedis 5.2 or later.** The demo's `pom.xml` pins
   `redis.clients:jedis:6.2.0`. Field-level TTL bindings (`hexpire`, `httl`,
   `hpersist`) ship from Jedis 5.2.
@@ -604,9 +604,11 @@ is `fs:user:`. Pass `--no-reset` to keep existing data across restarts, or
 
 The guidance below focuses on the production concerns that are specific to
 running a feature store on Redis. For the generic Jedis production checklist
-— `JedisPool` sizing, TLS, AUTH/ACL, retry policy, sentinel/cluster
-failover — see the
+— `JedisPool` sizing, AUTH/ACL, retry policy, sentinel/cluster failover —
+see the
 [Jedis production usage guide]({{< relref "/develop/clients/jedis/produsage" >}}).
+For TLS specifically, follow the
+[connect-with-TLS recipe]({{< relref "/develop/clients/jedis/connect#connect-to-your-production-redis-with-tls" >}}).
 The feature-store demo runs against `localhost` with the defaults; a real
 deployment should harden the client first.
 
@@ -676,12 +678,19 @@ this reason.
 
 ### Size the JedisPool for the request shape
 
-The demo creates a `JedisPool` with `maxTotal=64` because each HTTP request
-borrows one connection for the duration of the handler. In production, size
-`maxTotal` to at least your expected concurrent request count plus the
-worker pool's borrow rate. Setting it too low forces requests to block
-waiting for a connection — a slow read-side cliff that doesn't show up
-under load tests with very few clients.
+Every `FeatureStore` helper method borrows a connection from the
+`JedisPool` for the duration of one Redis call (or one `Pipeline.sync()`)
+and returns it via the try-with-resources block. One HTTP handler can
+therefore borrow several connections sequentially — `/read`, for example,
+makes one `hmget` call, one `httl` call, and one `ttl` call, each of
+which is its own borrow.
+
+The demo uses `maxTotal=64`. In production, size `maxTotal` to comfortably
+exceed your peak concurrent borrow count: that's roughly
+`(concurrent HTTP handlers × Redis calls per handler in flight at once) +
+(background worker borrow rate)`. Setting it too low forces some borrows
+to block waiting for a returned connection — a slow read-side cliff that
+doesn't show up under load tests with very few clients.
 
 ### Inspect the store directly with redis-cli
 

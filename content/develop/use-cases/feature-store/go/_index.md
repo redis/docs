@@ -451,7 +451,11 @@ func (w *StreamingWorker) doTick(ctx context.Context) error {
     if len(ids) == 0 {
         return nil
     }
-    chosen := w.rng.Perm(len(ids))[:w.usersPerTick]
+    n := w.usersPerTick
+    if n > len(ids) {
+        n = len(ids)
+    }
+    chosen := w.rng.Perm(len(ids))[:n]
     nowMs := time.Now().UnixMilli()
     for _, idx := range chosen {
         fields := FeatureMap{
@@ -635,6 +639,22 @@ and the
 [connect-with-TLS recipe]({{< relref "/develop/clients/go/connect#connect-to-your-production-redis-with-tls" >}}).
 The feature-store demo runs against `localhost` with the defaults; a real
 deployment should harden the client first.
+
+### Plumb the right context to each call site
+
+go-redis takes a `context.Context` on every command, and the right context
+depends on the call site:
+
+* **Inference handlers**: pass `r.Context()` (the request context) into the
+  store calls. If the client hangs up, the in-flight `HMGET` is cancelled
+  promptly and the connection is returned to the pool — important under
+  sustained load.
+* **Background workers**: pass a server-lifetime context (a
+  `context.Background()`-derived one stored on the worker struct, as
+  `StreamingWorker` does). A worker driven off `r.Context()` would die on
+  the very next tick after its triggering request completes.
+* **Batch jobs**: a `context.WithTimeout` is the usual choice so a stuck
+  Redis can't hold the materialization pipeline open indefinitely.
 
 ### Pick the batch TTL to outlast a failed refresher
 

@@ -44,7 +44,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"log"
 	"net/http"
 	"sort"
 	"strconv"
@@ -116,12 +115,15 @@ func (d *FeatureStoreDemo) Reset(ctx context.Context) (int64, error) {
 }
 
 // ToggleWorker pauses or resumes the streaming worker. Starts the
-// goroutine if it wasn't running.
-func (d *FeatureStoreDemo) ToggleWorker(ctx context.Context) (paused, running bool) {
+// goroutine if it wasn't running. The worker owns its own
+// background-context lifecycle, so we don't plumb the request
+// context in here (it would cancel as soon as the HTTP response
+// completes and the worker would die on the next tick).
+func (d *FeatureStoreDemo) ToggleWorker() (paused, running bool) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	if !d.worker.IsRunning() {
-		d.worker.Start(ctx)
+		d.worker.Start()
 	}
 	if d.worker.IsPaused() {
 		d.worker.Resume()
@@ -288,7 +290,7 @@ func (s *httpServer) handleToggleWorker(w http.ResponseWriter, r *http.Request) 
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
-	paused, running := s.demo.ToggleWorker(r.Context())
+	paused, running := s.demo.ToggleWorker()
 	jsonResponse(w, http.StatusOK, map[string]any{
 		"paused":  paused,
 		"running": running,
@@ -495,7 +497,7 @@ func RunDemoServer(args []string) error {
 		return fmt.Errorf("seed materialize: %w", err)
 	}
 
-	worker.Start(ctx)
+	worker.Start()
 	defer worker.Stop()
 
 	srv := &httpServer{store: store, worker: worker, demo: demo}
@@ -508,7 +510,7 @@ func RunDemoServer(args []string) error {
 	fmt.Printf("Materialized %d user(s); streaming worker running.\n", seeded)
 
 	if err := hs.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		log.Fatalf("listen: %v", err)
+		return fmt.Errorf("listen: %w", err)
 	}
 	return nil
 }

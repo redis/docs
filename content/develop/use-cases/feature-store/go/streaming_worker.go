@@ -77,14 +77,20 @@ func NewStreamingWorker(store *FeatureStore, tick time.Duration, usersPerTick in
 
 // Start launches the goroutine that ticks. Safe to call when the
 // worker is already running (no-op in that case).
-func (w *StreamingWorker) Start(ctx context.Context) {
+//
+// The worker uses an internal `context.Background()`-derived context
+// rather than one passed in by the caller: the HTTP toggle handler
+// runs on a request-scoped context that cancels as soon as the
+// response completes, which would kill the worker on the very next
+// tick. Lifecycle is owned by ``Stop`` (and the internal ``stopCh``).
+func (w *StreamingWorker) Start() {
 	if !w.running.CompareAndSwap(false, true) {
 		return
 	}
 	w.paused.Store(false)
 	w.stopCh = make(chan struct{})
 	w.doneCh = make(chan struct{})
-	go w.run(ctx)
+	go w.run(context.Background())
 }
 
 // Stop signals the worker to exit and waits for any in-flight tick
@@ -140,7 +146,16 @@ func (w *StreamingWorker) ResetStats() {
 }
 
 func (w *StreamingWorker) run(ctx context.Context) {
-	defer close(w.doneCh)
+	// Whatever exits this goroutine — stopCh, ctx.Done(), or a future
+	// panic-recovery path — must clear `running` so a later Start()
+	// can spin a fresh goroutine. Without this, a one-shot ctx cancel
+	// (or any unexpected exit) leaves IsRunning() returning true
+	// forever, and ToggleWorker's CompareAndSwap refuses to restart.
+	defer func() {
+		w.running.Store(false)
+		w.tickInFlight.Store(false)
+		close(w.doneCh)
+	}()
 	t := time.NewTicker(w.tick)
 	defer t.Stop()
 	for {
@@ -150,12 +165,15 @@ func (w *StreamingWorker) run(ctx context.Context) {
 		case <-ctx.Done():
 			return
 		case <-t.C:
-			if w.paused.Load() {
-				continue
-			}
+			// Set tickInFlight *before* the pause check so a
+			// concurrent Pause()+WaitForIdle() can never see
+			// tickInFlight=false in the window between the pause
+			// check and the actual doTick call.
 			w.tickInFlight.Store(true)
-			if err := w.doTick(ctx); err != nil {
-				log.Printf("[streaming-worker] tick failed: %v", err)
+			if !w.paused.Load() {
+				if err := w.doTick(ctx); err != nil {
+					log.Printf("[streaming-worker] tick failed: %v", err)
+				}
 			}
 			w.tickInFlight.Store(false)
 		}
