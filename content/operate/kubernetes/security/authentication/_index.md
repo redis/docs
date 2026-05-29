@@ -1,0 +1,45 @@
+---
+Title: Authentication
+alwaysopen: false
+categories:
+- docs
+- operate
+- kubernetes
+description: Manage Redis Software cluster credentials, LDAP, SSO, and configuration secrets on Kubernetes.
+hideListLinks: true
+linkTitle: Authentication
+weight: 10
+---
+
+Authentication covers cluster credentials, external identity providers (LDAP and SAML SSO), and configuration secrets. The operator generates the initial cluster admin credentials, applies LDAP and SSO settings from the `RedisEnterpriseCluster` spec, and reads configuration values from Kubernetes Secrets you can update without a cluster restart.
+
+## How authentication works on Redis for Kubernetes
+
+- **Cluster credentials** are auto-generated at install and stored in a Kubernetes Secret named after the REC resource. Retrieve and update them with `kubectl`.
+- **LDAP** is configured on the `RedisEnterpriseCluster` spec. The operator applies the configuration through the Redis Software REST API.
+- **SAML SSO** is enabled on the REC spec. The operator configures the identity provider connection in Redis Software.
+- **Configuration secrets** let you store sensitive configuration items in Kubernetes Secrets that the operator references. Updates to the Secret reconcile automatically.
+
+## What's the same as Redis Software
+
+The underlying Redis Software behavior is unchanged. For concepts and reference details, see the existing Redis Software docs:
+
+- [LDAP authentication overview]({{< relref "/operate/rs/security/access-control/ldap" >}}) — server requirements, supported attributes, and the LDAP model.
+- [Enable role-based LDAP]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap" >}}) — concepts behind role-based LDAP.
+- [Map LDAP groups to roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}}) — group-to-role mapping rules.
+- [SAML single sign-on]({{< relref "/operate/rs/security/access-control/saml-sso" >}}) — identity provider requirements and SAML attribute mappings.
+- [Default user]({{< relref "/operate/rs/security/access-control/manage-users/default-user" >}}) — what the bootstrap admin account is for.
+
+## What's different on Kubernetes
+
+- **Initial credentials are auto-generated.** You don't choose them at install; you retrieve them from the credentials Secret after the REC is up.
+- **Change credentials by updating the Kubernetes Secret**, not by editing the user in the Cluster Manager UI.
+- **LDAP and SSO configuration is part of the REC spec.** The operator applies it through the Redis Software REST API, so the configuration is source-controlled.
+- **Sensitive values live in Kubernetes Secrets** (or HashiCorp Vault) instead of in Redis Software configuration files.
+
+## In this section
+
+- [Manage REC credentials]({{< relref "/operate/kubernetes/security/authentication/manage-rec-credentials" >}}) — retrieve and update the cluster admin credentials Secret.
+- [Configuration secrets]({{< relref "/operate/kubernetes/security/authentication/configuration-secrets" >}}) — store config items in Kubernetes Secrets and reconcile updates automatically.
+- [LDAP authentication]({{< relref "/operate/kubernetes/security/authentication/ldap" >}}) — configure LDAP for Cluster Manager and database access.
+- [SSO authentication]({{< relref "/operate/kubernetes/security/authentication/sso" >}}) — configure SAML single sign-on for the Cluster Manager UI.
