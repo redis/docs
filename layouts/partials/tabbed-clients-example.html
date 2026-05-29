@@ -80,7 +80,22 @@
     {{ if and (gt $redisCommandsLineLimitInt 0) (gt $estimatedVisualLineCount $redisCommandsLineLimitInt) }}
         {{ $hasCliTrim = true }}
     {{ end }}
-    {{ $redisCliContent := highlight $trimmedRedisCommands "plaintext" "linenos=false" }}
+    {{/* Render the redis-cli tab as an interactive terminal (form.redis-cli is
+         picked up by cli.js and executed inline). Only redis-cli is interactive;
+         other language tabs stay as static highlighted code. */}}
+    {{ $cliCommandLines := $tryItCommands }}
+    {{ if eq (len $cliCommandLines) 0 }}
+        {{ range $line := $redisCommandLines }}
+            {{ $trimmedCliLine := trim $line " \t\r" }}
+            {{ if $trimmedCliLine }}{{ $cliCommandLines = $cliCommandLines | append $trimmedCliLine }}{{ end }}
+        {{ end }}
+    {{ end }}
+    {{ $cliJoined := delimit $cliCommandLines "\n" }}
+    {{ $cliFormInner := htmlEscape $cliJoined }}
+    {{ $cliSourceAttr := replace (htmlEscape $cliJoined) "\n" "&#10;" }}
+    {{ $redisCliContent := printf "<form class=\"redis-cli overflow-y-auto max-h-80\" data-cli-source=\"%s\">\n%s\n</form>" $cliSourceAttr $cliFormInner | safeHTML }}
+    {{/* Trimming applies to static code blocks; the interactive terminal manages its own height. */}}
+    {{ $hasCliTrim = false }}
     {{ $cliTab := dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "limit" $redisCommandsLineLimit "limitInt" $redisCommandsLineLimitInt "lineCount" $redisCommandLineCount "visualLineCount" $estimatedVisualLineCount "hasCliTrim" $hasCliTrim "customFooterLinkText" $cliFooterLinkText "customFooterLinkUrl" $cliFooterLinkUrl }}
     {{ if gt (len $commands) 0 }}
         {{ $cliTab = merge $cliTab (dict "commands" $commands) }}
