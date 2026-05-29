@@ -157,3 +157,5 @@ for a single user under 1 ms, and pipeline batch reads across a hundred users.
 
 * [redis-py (Python)]({{< relref "/develop/use-cases/feature-store/redis-py" >}})
 * [node-redis (Node.js)]({{< relref "/develop/use-cases/feature-store/nodejs" >}})
+* [go-redis (Go)]({{< relref "/develop/use-cases/feature-store/go" >}})
+* [Jedis (Java)]({{< relref "/develop/use-cases/feature-store/java-jedis" >}})
