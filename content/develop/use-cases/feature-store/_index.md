@@ -156,3 +156,4 @@ updates real-time features with per-field TTL, retrieve any subset of features
 for a single user under 1 ms, and pipeline batch reads across a hundred users.
 
 * [redis-py (Python)]({{< relref "/develop/use-cases/feature-store/redis-py" >}})
+* [node-redis (Node.js)]({{< relref "/develop/use-cases/feature-store/nodejs" >}})
