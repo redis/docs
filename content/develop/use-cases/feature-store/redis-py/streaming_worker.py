@@ -16,6 +16,7 @@ the *mixed staleness* story made visible.
 
 from __future__ import annotations
 
+import logging
 import random
 import threading
 import time
@@ -73,6 +74,11 @@ class StreamingWorker:
         thread = self._thread
         if thread is not None:
             thread.join(timeout=2.0)
+            if thread.is_alive():
+                logging.getLogger(__name__).warning(
+                    "stop timed out; waiting for tick to complete",
+                )
+                thread.join()
         self._thread = None
 
     def pause(self) -> None:
