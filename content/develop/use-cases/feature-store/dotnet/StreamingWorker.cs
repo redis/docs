@@ -82,27 +82,28 @@ public sealed class StreamingWorker
 
     public async Task StopAsync()
     {
-        // Capture the task/CTS locally under the lifecycle lock so
-        // a concurrent StartAsync can't clear them on us before we
-        // get to await.
-        Task? task;
-        CancellationTokenSource? cts;
+        // Hold the lifecycle lock across the entire stop, including
+        // the await for the task to drain. Releasing the lock before
+        // the await would let a concurrent StartAsync spawn a
+        // successor task while the old task's outer finally is still
+        // about to run; the old finally then clears _running, leaving
+        // the new task running with IsRunning=false and unstoppable.
         await _lifecycleLock.WaitAsync();
         try
         {
             if (Interlocked.Exchange(ref _running, 0) != 1) return;
-            task = _task;
-            cts = _cts;
+            var task = _task;
+            var cts = _cts;
             _task = null;
             _cts = null;
+            cts?.Cancel();
+            try { if (task is not null) await task; }
+            catch (OperationCanceledException) { /* expected */ }
+            cts?.Dispose();
+            // The awaited task's outer finally already cleared
+            // _tickInFlight; nothing extra to do here.
         }
         finally { _lifecycleLock.Release(); }
-
-        cts?.Cancel();
-        try { if (task is not null) await task; }
-        catch (OperationCanceledException) { /* expected */ }
-        cts?.Dispose();
-        Interlocked.Exchange(ref _tickInFlight, 0);
     }
 
     public void Pause() => Interlocked.Exchange(ref _paused, 1);

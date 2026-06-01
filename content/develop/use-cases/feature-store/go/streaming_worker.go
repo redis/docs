@@ -49,6 +49,13 @@ type StreamingWorker struct {
 	rng          *rand.Rand
 	rngMu        sync.Mutex
 
+	// lifecycleMu serialises Start and Stop so a concurrent Start
+	// (e.g. from /worker/toggle) can't spawn a successor goroutine
+	// while a Stop is mid-wait on doneCh. Without it, the old
+	// goroutine's deferred running.Store(false) would clobber the
+	// new goroutine's running flag, leaving IsRunning() false and
+	// the new goroutine unstoppable.
+	lifecycleMu  sync.Mutex
 	running      atomic.Bool
 	paused       atomic.Bool
 	tickInFlight atomic.Bool
@@ -84,6 +91,8 @@ func NewStreamingWorker(store *FeatureStore, tick time.Duration, usersPerTick in
 // response completes, which would kill the worker on the very next
 // tick. Lifecycle is owned by ``Stop`` (and the internal ``stopCh``).
 func (w *StreamingWorker) Start() {
+	w.lifecycleMu.Lock()
+	defer w.lifecycleMu.Unlock()
 	if !w.running.CompareAndSwap(false, true) {
 		return
 	}
@@ -95,7 +104,14 @@ func (w *StreamingWorker) Start() {
 
 // Stop signals the worker to exit and waits for any in-flight tick
 // to settle. Safe to call multiple times.
+//
+// Holds lifecycleMu across the doneCh wait so a concurrent Start
+// can't reassign stopCh/doneCh while we're waiting on them — that
+// would leak the old goroutine and have the deferred
+// running.Store(false) clobber the new goroutine's running flag.
 func (w *StreamingWorker) Stop() {
+	w.lifecycleMu.Lock()
+	defer w.lifecycleMu.Unlock()
 	if !w.running.CompareAndSwap(true, false) {
 		return
 	}
