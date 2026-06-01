@@ -439,7 +439,7 @@ while not self._stop_event.is_set():
         self._tick_in_flight.clear()
 ```
 
-The point is that an external caller can do `pause() + wait_for_idle() + reset()` and be guaranteed the reset's `DEL` sweep runs only after the in-flight tick has drained. If the flag is set **inside** the `not paused` branch, a concurrent `pause` + `wait_for_idle` can fall straight through while the tick is still mid-write, and the streaming `HSET` recreates an entry the reset just enumerated for deletion — leaving a streaming-only hash with no key-level TTL. Audit-checklist row 30 covers this.
+The point is that an external caller can do `pause() + wait_for_idle() + reset()` and be guaranteed the reset's `DEL` sweep runs only after the in-flight tick has drained. If the flag is set **inside** the `not paused` branch, a concurrent `pause` + `wait_for_idle` can fall straight through while the tick is still mid-write, and the streaming `HSET` recreates an entry the reset just enumerated for deletion — leaving a streaming-only hash with no key-level TTL. Audit-checklist row 36 covers this.
 
 The outer `try/finally` (or `defer`, or `ensure`) wrapping the **whole tick loop** must also clear `running` and `tick_in_flight` on every exit path, so a worker that exits via an uncaught exception leaves the lifecycle state where the next `start()` can spin a fresh thread.
 
@@ -451,7 +451,7 @@ The same shape applies to .NET (`CancellationToken` from the request) and Rust (
 
 ### Worker stop semantics
 
-If the stop path uses a bounded `join` / `wait` / `await`, the timeout-expired branch must escalate — log + indefinite join, interrupt + wait, or fall through to a `waitForIdle()` on the in-flight flag. A bare `thread.join(timeout=N); thread = None` (drop the handle, move on) is silent thread abandonment, regardless of whether the daemon-thread shape lets the process exit cleanly. Audit-checklist row 31 covers this; the reference Python implementation shipped without it and was retrofitted after Codex flagged the same shape in the Ruby port.
+If the stop path uses a bounded `join` / `wait` / `await`, the timeout-expired branch must escalate — log + indefinite join, interrupt + wait, or fall through to a `waitForIdle()` on the in-flight flag. A bare `thread.join(timeout=N); thread = None` (drop the handle, move on) is silent thread abandonment, regardless of whether the daemon-thread shape lets the process exit cleanly. Audit-checklist row 37 covers this; the reference Python implementation shipped without it and was retrofitted after Codex flagged the same shape in the Ruby port.
 
 ### HEXPIRE pipeline reply shapes vary across clients
 
@@ -469,7 +469,7 @@ If the stop path uses a bounded `join` / `wait` / `await`, the timeout-expired b
 | redis-rb | `Array<Integer>` from `redis.pipelined { ... }` | Use `redis.call('HEXPIRE', key, ttl, 'FIELDS', n, *names)`; the typed binding is not stable on 5.4. |
 | redis-rs | `Vec<Vec<i64>>` — outer pipeline wraps the inner array, take `[0]` | `pipe.cmd("HEXPIRE")...query_async::<Vec<Vec<i64>>>(&mut conn)`. |
 
-In every client the helper must iterate the per-field codes and raise / throw on anything other than `1` (assuming no `NX | XX | GT | LT` flag is in use). A discarded reply or a check that only looks at the first element silently leaves the rest of the fields un-TTL'd. Audit-checklist row 29 covers this.
+In every client the helper must iterate the per-field codes and raise / throw on anything other than `1` (assuming no `NX | XX | GT | LT` flag is in use). A discarded reply or a check that only looks at the first element silently leaves the rest of the fields un-TTL'd. Audit-checklist row 35 covers this.
 
 `HTTL` follows the same per-field-array shape with `-1` (no TTL) and `-2` (missing field/key) sentinels. The helper must normalise to a per-field array even when the reply is `nil` / `None` / `null` for a missing key — default missing slots to `-2` so callers never index out of range.
 
