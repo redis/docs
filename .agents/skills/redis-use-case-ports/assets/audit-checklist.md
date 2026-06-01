@@ -480,6 +480,74 @@ The first form lets a caller pass `0` to bypass the bonus entirely (and a downst
 
 ---
 
+## 29. HEXPIRE / HTTL per-field reply-code checking
+
+**What to scan for:** every call site of `HEXPIRE`, `HEXPIREAT`, `HPEXPIRE`, `HPEXPIREAT`, `HTTL`, `HPTTL`, or any client-library typed wrapper around them. Look at how the per-field array reply is consumed.
+
+**Pass criterion:** `HEXPIRE`-family commands return one status code per requested field, not a single success/failure. Each code is:
+
+* `1` — TTL set / updated.
+* `2` — the expiry was `0` or in the past, so Redis deleted the field instead of attaching a TTL.
+* `0` — an `NX | XX | GT | LT` conditional flag was specified and not met.
+* `-2` — no such field, or no such key.
+
+The helper must **iterate the reply array and raise/throw on any code other than `1`** (when no conditional flag is in use), so the "every streaming write renews its TTL" invariant fails loudly rather than silently leaving a field with no expiry attached. A naked `await client.hexpire(...)` (or `pipe.hexpire(...)` whose result is discarded) is the wrong shape — the call can "succeed" at the RESP level and still have left every field un-TTL'd.
+
+`HTTL` returns the same array shape (per-field integer seconds, with `-2` for missing fields and `-1` for fields with no TTL). When the key is missing entirely, some libraries return a list-of-`-2` of the right length, others return `nil` / `None` / `null`. The helper must normalise to a per-field array of integers, defaulting missing/short replies to `-2` so callers never index out of range.
+
+**Sample audit prompt:**
+
+> For each port under `content/develop/use-cases/{{USE_CASE_NAME}}/`, locate every `HEXPIRE` (or family) call site and every `HTTL` call site. For HEXPIRE: confirm the helper iterates the per-field array and raises / throws on any code other than `1` (or documents why a specific non-`1` code is acceptable). A discarded reply or a check that only looks at the first element is a bug. For HTTL: confirm the helper normalises the reply to a per-field array even when the key is missing, with `-2` as the default for missing slots. Flag any port where a partial or `null` reply could cause an index-out-of-range error, a silent loss of the dead-letter signal, or a per-field TTL that never actually got set.
+
+**Why on list:** Feature-store use case, Codex independent review. The Python reference originally awaited `hexpire(...)` and discarded the per-field reply; for the streaming-feature-store pattern to work, every streaming write **must** renew the per-field TTL on every call. A single code of `2` (which means "Redis deleted the field because the expiry was already in the past") looks like success but is actually data loss. The defensive shim for HTTL was needed because redis-rs's typed wrapper, redis-rb's `call`-style return, and several of the pipelined clients all surface partial / `nil` arrays differently when the key has expired between the caller's check and the HTTL itself.
+
+---
+
+## 30. Pause-and-wait-idle race in worker-thread reset paths
+
+**What to scan for:** every worker-thread tick loop that supports `pause()` plus an external `reset` / `clear` / `purge` path. Look at where the in-flight flag (`tick_in_flight`, `_tickInFlight`, `Volatile.Read(ref _tickInFlight)`, etc.) is set relative to the `paused` check inside the tick loop.
+
+**Pass criterion:** the in-flight flag must be set to `true` (or `1`) **before** the pause check, with a `finally` / `defer` / `ensure` block clearing it on every exit path. The combination lets an external caller do:
+
+```
+worker.pause()           # stop future ticks
+worker.wait_for_idle()   # wait for the current tick to drain
+store.reset()            # safe to delete keys now
+worker.resume()
+```
+
+If the in-flight flag is set **inside** the `if not paused: ...` branch, there is a window between the pause check and the actual tick where a concurrent `pause()` + `wait_for_idle()` observes `tick_in_flight=false` AND `paused=true`, falls straight through, and runs the `DEL` sweep while the tick is mid-write. The streaming write then recreates a hash entry that was just enumerated for deletion — leaving a streaming-only hash with no key-level TTL. Symptom: "0 leftover keys" smoke test fails sporadically, often only under load.
+
+The lifecycle flags (`running`, `tick_in_flight`) must be cleared in an **outer** `try/finally` / `defer` (around the whole tick loop, not just one iteration) so a thread that exits via an uncaught exception or a panic leaves the worker in a state where `start()` can spin a fresh thread. Without the outer clear, the demo's "is the worker running?" indicator gets stuck on, and a subsequent `start()` becomes a no-op.
+
+**Sample audit prompt:**
+
+> Audit every worker-thread tick loop in the 9 client implementations under `content/develop/use-cases/{{USE_CASE_NAME}}/`. For each, verify (a) the in-flight flag is set to true BEFORE the `paused` check, not inside the `not paused` branch; (b) a finally / defer / ensure clears the in-flight flag on every exit path including the paused-and-skipped path; (c) an outer try/finally around the whole tick loop clears both `running` and the in-flight flag so a panic / uncaught exception doesn't strand the lifecycle state. Run a quick stress test: 5x `reset` + `bulk-load` against an active streaming worker; the final keyspace must contain 0 leftover streaming-only hashes. Flag any port where (a), (b), or (c) is missing — those ports can produce ghost entries under concurrent reset.
+
+**Why on list:** Feature-store use case. Codex flagged the bug first on the Go port; once articulated, the same shape needed fixing in 7 of the 8 sibling ports (only Node.js's single-threaded event loop was immune). The reference Python implementation **shipped without the fix** — Codex caught it on a later client, and Python wasn't retrofitted. Future Phase 1 reference implementations of streaming-worker-style use cases must adopt the pattern from the start.
+
+---
+
+## 31. Worker stop with bounded join + silent thread abandonment
+
+**What to scan for:** every `stop()` / `Stop()` / `StopAsync()` / shutdown method on a worker that owns a thread, task, or goroutine. Look at how the parent waits for the worker to exit.
+
+**Pass criterion:** if the wait is bounded (`thread.join(timeout=2.0)`, `worker.join(2000)`, `task.Wait(2000)`, etc.), the timeout-expired path must escalate, not silently move on. Acceptable shapes:
+
+* **Warn + indefinite wait.** Log a warning and call `thread.join()` (no timeout) so the parent at least observes that the stop took longer than the budget but never returns while the thread is still alive. This is the right shape for demos and well-behaved workers.
+* **Force-interrupt + wait.** Cancel the task's cancellation token, send `Thread.interrupt()`, send `SIGTERM`, etc., and only then return. The right shape for production code where the worker might be stuck in a blocking I/O call.
+* **Recovery via the in-flight flag.** Pair the bounded join with a `waitForIdle()` (polling the in-flight flag) that runs after the join. The in-flight flag's lifecycle (per row 30) is the eventual truth — even if the thread is still alive, once `tick_in_flight=false` the worker is safe to operate on. This is how Jedis and Lettuce ship in the feature-store ports.
+
+A bare `thread.join(timeout=N); self._thread = None` (drop the handle, move on) is the wrong shape. The thread is still running, holding a Redis connection, potentially writing during the next bulk-load. The demo "works" because Python daemon threads die when the process exits — but `stop()` was supposed to be a clean shutdown, and silently abandoning the thread defeats every test that relies on it.
+
+**Sample audit prompt:**
+
+> For each port under `content/develop/use-cases/{{USE_CASE_NAME}}/`, locate the worker's stop / shutdown method. If it uses a bounded join / wait (any timeout, any unit), verify one of these three recovery paths is present: (a) on timeout, log a warning and join indefinitely; (b) on timeout, force-interrupt the worker and then wait; (c) on timeout, fall through to a `waitForIdle()` (or equivalent in-flight-flag poll) that provides the actual safety guarantee. Flag any port where the timeout path is "set the handle to null and return" — that's silent thread abandonment, regardless of how the demo behaves under normal load.
+
+**Why on list:** Feature-store use case, Codex independent review of the Ruby port. The same shape was already in the Python reference (`thread.join(timeout=2.0)` then `self._thread = None`) but no earlier audit flagged it; Codex caught it on Ruby and the Python retrofit followed. Jedis / Lettuce had the bounded join but were saved by an explicit `waitForIdle()` after it — that's recovery shape (c) above, and it's the reason the bug never surfaced in those clients. Go / .NET / Rust / Node.js / PHP all use unbounded waits and are fine. The bug class is real even when masked by the in-flight-flag recovery; future ports should pick one shape and apply it consistently.
+
+---
+
 ## How to add a new row
 
 When a bug class is identified after this skill has been used:

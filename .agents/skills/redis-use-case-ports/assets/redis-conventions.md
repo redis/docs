@@ -416,6 +416,71 @@ The reference Python pattern is an `_emit_change_locked(...)` helper called insi
 
 See audit-checklist row 16 for the audit prompt.
 
+## Streaming-worker / background-task patterns
+
+These apply to any use case whose demo runs a long-lived in-process worker thread alongside the HTTP handler (streaming-feature-store updaters, background sync workers, CDC consumers, scheduled reindexers). The shape is similar to the pub/sub workers above but without the network primitive — the cross-port traps are about thread lifecycle and pause / wait-idle race conditions, not about ack handshakes.
+
+### Pre-flight in-flight flag before the pause check
+
+Every worker that exposes both `pause()` and `wait_for_idle()` (or equivalent) must set its `tick_in_flight` flag to `true` **before** the `paused` check inside the tick loop, with a `finally` / `defer` / `ensure` block that clears it on every exit path. The reference shape (Python-style pseudocode) is:
+
+```python
+while not self._stop_event.is_set():
+    self._stop_event.wait(timeout=self.tick_seconds)
+    if self._stop_event.is_set():
+        break
+    self._tick_in_flight.set()
+    try:
+        if not self._paused.is_set():
+            self._tick()
+    except Exception:
+        ...
+    finally:
+        self._tick_in_flight.clear()
+```
+
+The point is that an external caller can do `pause() + wait_for_idle() + reset()` and be guaranteed the reset's `DEL` sweep runs only after the in-flight tick has drained. If the flag is set **inside** the `not paused` branch, a concurrent `pause` + `wait_for_idle` can fall straight through while the tick is still mid-write, and the streaming `HSET` recreates an entry the reset just enumerated for deletion — leaving a streaming-only hash with no key-level TTL. Audit-checklist row 30 covers this.
+
+The outer `try/finally` (or `defer`, or `ensure`) wrapping the **whole tick loop** must also clear `running` and `tick_in_flight` on every exit path, so a worker that exits via an uncaught exception leaves the lifecycle state where the next `start()` can spin a fresh thread.
+
+### Worker lifetime decoupled from request lifetime
+
+Workers spawned from an HTTP request handler must not inherit the request's cancellation context. In Go specifically, calling `worker.Start(ctx)` with the `*http.Request.Context()` kills the worker as soon as the request completes — a particularly easy mistake because the Go community style strongly encourages passing `ctx` through everything. The fix is for `Start` to derive `context.Background()` (or use `context.WithCancel(context.Background())` for its own cancellation) internally; the HTTP `ctx` is only for the request's own work.
+
+The same shape applies to .NET (`CancellationToken` from the request) and Rust (`tokio_util::sync::CancellationToken` from the handler). The lifecycle of the worker is the lifetime of the **demo server process**, not the lifetime of any single request.
+
+### Worker stop semantics
+
+If the stop path uses a bounded `join` / `wait` / `await`, the timeout-expired branch must escalate — log + indefinite join, interrupt + wait, or fall through to a `waitForIdle()` on the in-flight flag. A bare `thread.join(timeout=N); thread = None` (drop the handle, move on) is silent thread abandonment, regardless of whether the daemon-thread shape lets the process exit cleanly. Audit-checklist row 31 covers this; the reference Python implementation shipped without it and was retrofitted after Codex flagged the same shape in the Ruby port.
+
+### HEXPIRE pipeline reply shapes vary across clients
+
+`HEXPIRE` returns one status code per requested field. Inside a pipeline / multi block the per-client decode shape varies:
+
+| Client | Pipeline-mode HEXPIRE reply | Notes |
+|---|---|---|
+| redis-py | `[int, int, ...]` flat list | `await pipe.execute()` gives back the per-field codes directly. |
+| node-redis 5.x | `MultiErrorReply` per failed code | Inside `multi/exec`. Use `execAsPipeline()` for a plain array reply if no transactional guarantee is needed. |
+| go-redis v9 | `[]int64` from `cmd.Result()` | Inspect via `redis.IntSliceCmd`. |
+| Jedis | `List<Long>` from `Response.get()` | After `pipeline.sync()`. |
+| Lettuce | `List<Long>` from `RedisFuture<List<Long>>.get()` | Use `async()` then `awaitAll` or `awaitOrCancel`. |
+| StackExchange.Redis | `RedisResult[]` — one per field | `(long)results[i]` to read each code. |
+| Predis 3 | `array<int>` from the `pipeline()` callback's return value | The typed `hexpire()` decode preserves the per-field shape. |
+| redis-rb | `Array<Integer>` from `redis.pipelined { ... }` | Use `redis.call('HEXPIRE', key, ttl, 'FIELDS', n, *names)`; the typed binding is not stable on 5.4. |
+| redis-rs | `Vec<Vec<i64>>` — outer pipeline wraps the inner array, take `[0]` | `pipe.cmd("HEXPIRE")...query_async::<Vec<Vec<i64>>>(&mut conn)`. |
+
+In every client the helper must iterate the per-field codes and raise / throw on anything other than `1` (assuming no `NX | XX | GT | LT` flag is in use). A discarded reply or a check that only looks at the first element silently leaves the rest of the fields un-TTL'd. Audit-checklist row 29 covers this.
+
+`HTTL` follows the same per-field-array shape with `-1` (no TTL) and `-2` (missing field/key) sentinels. The helper must normalise to a per-field array even when the reply is `nil` / `None` / `null` for a missing key — default missing slots to `-2` so callers never index out of range.
+
+### Stats counters across stateless and stateful runtimes
+
+Worker tick counts, write counts, and reads-per-second counters live in process memory for the threaded ports (Python, Node, Go, Jedis, Lettuce, Rust, .NET, Ruby). For PHP under `php -S`, where the demo server and the worker run as separate processes, the counters move into Redis under a `fs:control:*` / `<prefix>:control:*` keyspace and the demo server / worker both `INCRBY` / `GET` against them. This is the same pattern as the prefetch-cache PHP port's cross-process pause flags (row 5 + the PHP-specific section above) but generalised to any counter the UI needs to display.
+
+### Reference projects
+
+* [`content/develop/use-cases/feature-store/`](../../../content/develop/use-cases/feature-store/) — established this section's conventions. Each port has a `StreamingWorker` (or equivalent) implementing the pause-and-wait-idle pattern, the outer lifecycle try/finally, and the per-field HEXPIRE reply check.
+
 ## ML / vector-search use cases
 
 These apply to any use case whose helper has to embed text (or any other modality) into a vector and store the bytes in a Redis Search VECTOR field — recommendation engines, semantic search, RAG retrieval, classification feature stores. The shape is fundamentally different from the keyspace use cases because each port has to choose its own embedding library, and the library choice has real implications for setup ergonomics, performance, and which sentence encoder it ships.
