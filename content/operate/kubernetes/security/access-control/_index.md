@@ -17,14 +17,14 @@ Access control lets you manage Redis Software users, roles, ACLs, and role bindi
 
 You declare these `app.redislabs.com/v1alpha1` custom resources:
 
-| Resource | Purpose |
-|---|---|
-| `RedisEnterpriseUser` | A Redis Software user, with credentials in a Kubernetes Secret. |
-| `RedisEnterpriseACL` | A Redis ACL rule, mapped to a Redis Software ACL object. |
-| `RedisEnterpriseDatabaseRole` | A database-scoped role (management role and optional ACL) applied to selected REDBs. |
-| `RedisEnterpriseDatabaseRoleBinding` | Assigns a `RedisEnterpriseDatabaseRole` to a user. |
-| `RedisEnterpriseClusterRole` | A cluster-scoped role (management role and optional ACL) applied across all REDBs. |
-| `RedisEnterpriseClusterRoleBinding` | Assigns a `RedisEnterpriseClusterRole` to a user. |
+| Resource | Scope | Purpose |
+| --- | --- | --- |
+| `RedisEnterpriseUser` | — | A Redis Software user, with credentials in a Kubernetes Secret. |
+| `RedisEnterpriseACL` | — | A Redis ACL rule, mapped to a Redis Software ACL object. |
+| `RedisEnterpriseRole` | Database | A management role and/or ACL applied to one or more REDBs selected by `spec.scopes`. |
+| `RedisEnterpriseRoleBinding` | Database | Assigns a `RedisEnterpriseRole` to a user. |
+| `RedisEnterpriseClusterRole` | Cluster | A management role and/or ACL applied across every REDB in the cluster. |
+| `RedisEnterpriseClusterRoleBinding` | Cluster | Assigns a `RedisEnterpriseClusterRole` to a user. |
 
 When you apply one of these resources, the operator:
 
@@ -32,6 +32,38 @@ When you apply one of these resources, the operator:
 2. Creates or updates the matching object in Redis Software.
 3. Reports the resolved Redis Software UID and other state in the resource's `status`.
 4. Emits Kubernetes events on reconciliation problems.
+
+## Roles and bindings
+
+The role and binding CRDs follow the same pattern as Kubernetes' own RBAC: a `Role` paired with a `RoleBinding` for the narrower scope, and a `ClusterRole` paired with a `ClusterRoleBinding` for cluster-wide access. The narrower scope is the unqualified default — that's why `RedisEnterpriseRole` (no qualifier) is the database-scoped kind, while `RedisEnterpriseClusterRole` carries the explicit `Cluster` prefix.
+
+### Database scope vs. cluster scope
+
+| | `RedisEnterpriseRole` | `RedisEnterpriseClusterRole` |
+| --- | --- | --- |
+| Scope | One or more REDBs | Every REDB in the cluster |
+| Selects targets via | `spec.scopes` (REDB name or label selector) — required | No selector; applies cluster-wide |
+| `managementRole` values | `DBMember`, `DBViewer`, `None` | `Admin`, `ClusterMember`, `ClusterViewer`, `DBMember`, `DBViewer`, `UserManager`, `None` |
+| Binding kind | `RedisEnterpriseRoleBinding` | `RedisEnterpriseClusterRoleBinding` |
+
+A `RedisEnterpriseClusterRole` applies to REDBs even when they're represented by resources in other namespaces — the access flows through Redis Software, not through explicit REDB references.
+
+### What a role grants
+
+Every role carries permissions on two independent planes. Set either, or both:
+
+- **`spec.managementRole`** — Redis Software API and Cluster Manager UI permissions, chosen from the built-in roles listed in the table above. Same set of roles you'd assign in Cluster Manager today.
+- **`spec.acl`** — a reference to a `RedisEnterpriseACL`. The ACL controls Redis data-path access (commands, key patterns, categories). A role can reference at most one ACL; for different ACLs on different databases, create separate roles.
+
+### How a user gets permissions
+
+`RedisEnterpriseUser.spec` has no role references. Permissions reach a user through a binding:
+
+1. Create a `RedisEnterpriseACL` if you need data-path access.
+2. Create a `RedisEnterpriseRole` or `RedisEnterpriseClusterRole` that sets `managementRole`, references the ACL, or both.
+3. Create a `RedisEnterpriseRoleBinding` or `RedisEnterpriseClusterRoleBinding` whose `roleRef` points at the role and whose `subjects` list includes the user.
+
+The user's effective roles appear in `status.roles`. A user with no binding gets the Redis Software `none` role so it's never roleless, but it has zero permissions until a binding lands.
 
 ## What's the same as Redis Software
 
@@ -48,22 +80,19 @@ The underlying Redis Software behavior is unchanged. For concepts and reference 
 ## What's different on Kubernetes
 
 - **Resources are declarative.** You define users, roles, ACLs, and bindings in YAML and let the operator apply them. The Cluster Manager UI and REST API still work but are no longer the source of truth.
-- **Role assignment uses separate Binding resources.** In Redis Software, you assign roles by editing the user. On Kubernetes, `RedisEnterpriseUser.spec` has no role references. You create `RedisEnterpriseDatabaseRoleBinding` or `RedisEnterpriseClusterRoleBinding` resources instead.
+- **Role assignment lives on the binding, not the user.** In Redis Software, you assign roles by editing the user. On Kubernetes, you create a separate `RedisEnterpriseRoleBinding` or `RedisEnterpriseClusterRoleBinding`. See [Roles and bindings](#roles-and-bindings).
 - **Passwords live in Kubernetes Secrets.** Each `RedisEnterpriseUser` references one or more Secrets. A `Rotatable` mode supports two Secrets at once for zero-downtime rotation. The operator marks Kubernetes Secrets immutable to prevent in-place edits.
-- **A user with no binding still gets a role.** The operator assigns the Redis Software `none` role, which grants no permissions, so every user has at least one role. Permissions take effect only after you add a binding.
 
 ## Known limitations
 
-- Access control resources are reconciled only in the operator namespace. Password Secrets must live in the same namespace, and database scopes resolve to REDBs in that namespace.
-- A `RedisEnterpriseClusterRole` grants access cluster-wide, including to REDBs represented by resources in other namespaces. The access flows through Redis Software, not through explicit REDB references.
-- A role can reference at most one `RedisEnterpriseACL`. To apply different ACLs to different databases, create separate roles.
+Access control resources are reconciled only in the operator namespace. Password Secrets must live in the same namespace, and database scopes resolve to REDBs in that namespace.
 
 ## In this section
 
 - [Manage users]({{< relref "/operate/kubernetes/security/access-control/manage-users" >}}) — create `RedisEnterpriseUser` resources, rotate passwords, recover from lockouts.
 - [Manage roles]({{< relref "/operate/kubernetes/security/access-control/manage-roles" >}}) — create database and cluster roles with the right scope and management permissions.
 - [Manage ACLs]({{< relref "/operate/kubernetes/security/access-control/manage-acls" >}}) — create and update `RedisEnterpriseACL` resources used by roles.
-- [Manage role bindings]({{< relref "/operate/kubernetes/security/access-control/manage-bindings" >}}) — assign roles to users with `RedisEnterpriseDatabaseRoleBinding` and `RedisEnterpriseClusterRoleBinding`.
+- [Manage role bindings]({{< relref "/operate/kubernetes/security/access-control/manage-bindings" >}}) — assign roles to users with `RedisEnterpriseRoleBinding` and `RedisEnterpriseClusterRoleBinding`.
 - [Migrate from REDB rolesPermissions]({{< relref "/operate/kubernetes/security/access-control/migrate-rolespermissions" >}}) — move from the deprecated `RedisEnterpriseDatabase.spec.rolesPermissions` field to the new CRD model.
 
 ## Related topics
