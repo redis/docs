@@ -50,6 +50,7 @@ class StreamingWorker:
         self._thread: Optional[threading.Thread] = None
         self._stop_event = threading.Event()
         self._paused = threading.Event()
+        self._tick_in_flight = threading.Event()
 
         self._lock = threading.Lock()
         self._tick_count = 0
@@ -87,6 +88,22 @@ class StreamingWorker:
     def resume(self) -> None:
         self._paused.clear()
 
+    def wait_for_idle(self, timeout: float = 5.0) -> bool:
+        """Block until any in-flight tick has finished.
+
+        ``pause()`` only stops *future* ticks; callers (a reset that's
+        about to ``DEL`` every entity, for example) use this to flush a
+        mid-flight tick before they touch state the tick might still be
+        writing to. Returns ``True`` if the worker is idle, ``False``
+        on timeout.
+        """
+        deadline = time.monotonic() + timeout
+        while self._tick_in_flight.is_set():
+            if time.monotonic() >= deadline:
+                return False
+            time.sleep(0.02)
+        return True
+
     @property
     def is_paused(self) -> bool:
         return self._paused.is_set()
@@ -100,15 +117,30 @@ class StreamingWorker:
     # ------------------------------------------------------------------
 
     def _run(self) -> None:
-        while not self._stop_event.is_set():
-            if self._paused.is_set():
-                time.sleep(0.05)
-                continue
-            try:
-                self._tick()
-            except Exception as exc:
-                print(f"[streaming-worker] tick failed: {exc}")
-            self._stop_event.wait(timeout=self.tick_seconds)
+        try:
+            while not self._stop_event.is_set():
+                self._stop_event.wait(timeout=self.tick_seconds)
+                if self._stop_event.is_set():
+                    break
+                # Set tick_in_flight *before* the pause check so a
+                # concurrent pause + wait_for_idle can never observe
+                # tick_in_flight=False in the window between the pause
+                # check and the actual tick call. The finally block
+                # clears the flag whether we paused, succeeded, or
+                # raised.
+                self._tick_in_flight.set()
+                try:
+                    if not self._paused.is_set():
+                        self._tick()
+                except Exception as exc:
+                    print(f"[streaming-worker] tick failed: {exc}")
+                finally:
+                    self._tick_in_flight.clear()
+        finally:
+            # Clear tick_in_flight no matter how the loop exits so a
+            # later start() can spin a fresh thread with a clean
+            # in-flight slate.
+            self._tick_in_flight.clear()
 
     def _tick(self) -> None:
         ids = self.store.list_entity_ids(limit=500)

@@ -517,10 +517,14 @@ class FeatureStoreDemo:
         # tick can't recreate a user that was just enumerated for deletion
         # (streaming HSET creates the key if it's missing, and that would
         # leave behind a streaming-only hash with no key-level TTL).
+        # pause() only stops *future* ticks; wait_for_idle() flushes any
+        # tick that's already mid-write before the DEL sweep runs.
         was_paused = self.worker.is_paused
         if self.worker.is_running and not was_paused:
             self.worker.pause()
         try:
+            if self.worker.is_running:
+                self.worker.wait_for_idle()
             deleted = self.store.reset()
             self.store.reset_stats()
             self.worker.reset_stats()
