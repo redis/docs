@@ -35,7 +35,7 @@ obvious workarounds have real drawbacks:
     on one side and not the other.
 -   **Disk-backed online stores** hit a throughput wall when every user action
     has to update a dozen features simultaneously across millions of entities —
-    the IO mix of small concurrent writes is exactly what they are slowest at.
+    the I/O mix of small concurrent writes is exactly what they are slowest at.
 -   **Single-TTL stores** can't handle mixed staleness: batch features refreshed
     nightly coexist with streaming features updated every few seconds, and a
     single per-key expiry can't express both. Worse, a failed ingestion
