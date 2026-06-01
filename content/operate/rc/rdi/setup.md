@@ -59,7 +59,7 @@ Before you can set up your source connectivity and secrets, you need the AWS Acc
 
 Select **Save & exit** to exit pipeline setup. You'll come back here when you [define your source connection and data pipeline]({{<relref "/operate/rc/rdi/define">}}).
 
-## Set up AWS Private Link connectivity
+## Set up AWS Private Link connectivity {#set-up-connectivity}
 
 {{< note >}}
 If your source database is accessible via a public endpoint and you want to use public connectivity for your data pipeline, proceed to [Share source database credentials](#share-source-database-credentials).

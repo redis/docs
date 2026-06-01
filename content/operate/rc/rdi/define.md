@@ -125,7 +125,7 @@ You can add any [Debezium source property](https://debezium.io/documentation/ref
 
 ## Dataset
 
-In this step, you will select the database schemas, tables, and columns that you want to import and synchronize with your primary database.
+In this step, you'll select the database schemas, tables, and columns that you want to import and synchronize with your primary database.
 
 {{<image filename="images/rc/rdi/rdi-dataset-empty.png" alt="The dataset step." width=75% >}}
 
@@ -152,6 +152,8 @@ Select **Continue to transformations** to move to the **Transformations** step.
 {{<image filename="images/rc/rdi/rdi-continue-to-transformations-button.png" alt="The Continue to dataset button." width=200px >}}
 
 ## Transformations
+
+In this step, you'll choose how the pipeline will store your data in Redis.
 
 {{<image filename="images/rc/rdi/rdi-transformations.png" alt="The Transformations step." >}}
 
