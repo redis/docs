@@ -309,10 +309,13 @@ async fn reset(State(state): State<AppState>) -> impl IntoResponse {
 
 async fn toggle_worker(State(state): State<AppState>) -> impl IntoResponse {
     let _guard = state.demo_lock.lock().await;
+    // Three states: stopped → start (and leave unpaused);
+    // running + unpaused → pause; running + paused → resume.
+    // start() clears the paused flag, so a fall-through would pause
+    // the worker we just brought back up.
     if !state.worker.is_running() {
         state.worker.start().await;
-    }
-    if state.worker.is_paused() {
+    } else if state.worker.is_paused() {
         state.worker.resume();
     } else {
         state.worker.pause();

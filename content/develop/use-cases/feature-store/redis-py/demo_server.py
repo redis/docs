@@ -534,9 +534,14 @@ class FeatureStoreDemo:
         return {"deleted": deleted}
 
     def toggle_worker(self) -> dict:
+        # Three states: stopped → start (and leave unpaused);
+        # running + unpaused → pause; running + paused → resume.
+        # Avoid falling through start into the pause branch — start()
+        # clears the paused flag, so a fall-through pauses the worker
+        # we just brought back up.
         if not self.worker.is_running:
             self.worker.start()
-        if self.worker.is_paused:
+        elif self.worker.is_paused:
             self.worker.resume()
         else:
             self.worker.pause()

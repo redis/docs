@@ -526,9 +526,17 @@ class FeatureStoreDemo {
   }
 
   toggleWorker() {
-    if (!this.worker.running) this.worker.start();
-    if (this.worker.paused) this.worker.resume();
-    else this.worker.pause();
+    // Three states: stopped → start (and leave unpaused);
+    // running + unpaused → pause; running + paused → resume.
+    // start() clears the paused flag, so a fall-through pauses the
+    // worker we just brought back up.
+    if (!this.worker.running) {
+      this.worker.start();
+    } else if (this.worker.paused) {
+      this.worker.resume();
+    } else {
+      this.worker.pause();
+    }
     return { paused: this.worker.paused, running: this.worker.running };
   }
 }

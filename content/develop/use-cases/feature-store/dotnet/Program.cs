@@ -191,8 +191,12 @@ app.MapPost("/worker/toggle", async () =>
     await demoLock.WaitAsync();
     try
     {
+        // Three states: stopped → start (and leave unpaused);
+        // running + unpaused → pause; running + paused → resume.
+        // StartAsync() clears the paused flag, so a fall-through
+        // would pause the worker we just brought back up.
         if (!worker.IsRunning) await worker.StartAsync();
-        if (worker.IsPaused) worker.Resume();
+        else if (worker.IsPaused) worker.Resume();
         else worker.Pause();
         return Results.Json(new { paused = worker.IsPaused, running = worker.IsRunning });
     }

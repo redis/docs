@@ -66,8 +66,17 @@ class FeatureStoreDemo
 
   def toggle_worker
     @lock.synchronize do
-      @worker.start unless @worker.running?
-      @worker.paused? ? @worker.resume : @worker.pause
+      # Three states: stopped -> start (and leave unpaused);
+      # running + unpaused -> pause; running + paused -> resume.
+      # start clears the paused flag, so a fall-through would pause
+      # the worker we just brought back up.
+      if !@worker.running?
+        @worker.start
+      elsif @worker.paused?
+        @worker.resume
+      else
+        @worker.pause
+      end
       { paused: @worker.paused?, running: @worker.running? }
     end
   end

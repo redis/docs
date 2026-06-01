@@ -297,12 +297,16 @@ public sealed class FeatureStore
     }
 
     /// <summary>
-    /// Per-field TTL via <c>HTTL</c> (Redis 7.4+). Values are in
-    /// seconds (the StackExchange.Redis return is milliseconds; we
-    /// convert here for consistency with the other clients):
-    /// positive seconds remaining, -1 no field TTL, -2 field
-    /// (or key) missing.
+    /// Per-field TTL helper (Redis 7.4+). Returns whole seconds for
+    /// parity with the other clients: positive seconds remaining,
+    /// -1 no field TTL, -2 field (or key) missing.
     /// </summary>
+    /// <remarks>
+    /// <c>HashFieldGetTimeToLiveAsync</c> wraps <c>HPTTL</c> (not
+    /// <c>HTTL</c>), so the API returns milliseconds. We convert to
+    /// whole seconds here so the JSON shape matches Python, Node.js,
+    /// Go, Java, Rust, Ruby, and PHP, which all expose seconds.
+    /// </remarks>
     public async Task<Dictionary<string, long>> FieldTtlsSecondsAsync(
         string entityId, IReadOnlyList<string> fieldNames)
     {
@@ -315,7 +319,7 @@ public sealed class FeatureStore
         // any future version that might return a shorter or empty array.
         for (int i = 0; i < fieldNames.Count; i++)
         {
-            // HTTL returns ms remaining; negative sentinels pass
+            // HPTTL returns ms remaining; negative sentinels pass
             // through. Convert positive durations to whole seconds
             // for parity with the other clients' helpers.
             long v = i < ms.Length ? ms[i] : -2L;

@@ -328,8 +328,19 @@ function handle_worker_toggle(
     Client $redis, string $redisUri, string $keyPrefix,
     int $batchTtl, int $streamTtl, int $usersPerTick
 ): void {
-    // If the worker process died, respawn it.
+    // Three states: stopped → respawn (and leave unpaused);
+    // running + unpaused → pause; running + paused → resume.
+    // Capture liveness BEFORE the respawn so we can tell whether the
+    // call is "bring the worker back" vs. "flip the pause flag".
+    // Otherwise a respawn lands with whatever `fs:control:paused` was
+    // last set to, and the toggle pauses the worker we just spawned.
+    $wasRunning = pid_alive((int)$redis->get('fs:control:worker_pid'));
     spawn_worker_if_needed($redis, $redisUri, $keyPrefix, $batchTtl, $streamTtl, $usersPerTick);
+    if (!$wasRunning) {
+        $redis->set('fs:control:paused', '0');
+        send_json(200, ['paused' => false, 'running' => true]);
+        return;
+    }
     $paused = $redis->get('fs:control:paused') === '1';
     $redis->set('fs:control:paused', $paused ? '0' : '1');
     send_json(200, [

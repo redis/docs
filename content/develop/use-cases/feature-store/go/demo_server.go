@@ -122,10 +122,13 @@ func (d *FeatureStoreDemo) Reset(ctx context.Context) (int64, error) {
 func (d *FeatureStoreDemo) ToggleWorker() (paused, running bool) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
+	// Three states: stopped → start (and leave unpaused);
+	// running + unpaused → pause; running + paused → resume.
+	// Start() clears the paused flag, so a fall-through pauses the
+	// worker we just brought back up.
 	if !d.worker.IsRunning() {
 		d.worker.Start()
-	}
-	if d.worker.IsPaused() {
+	} else if d.worker.IsPaused() {
 		d.worker.Resume()
 	} else {
 		d.worker.Pause()

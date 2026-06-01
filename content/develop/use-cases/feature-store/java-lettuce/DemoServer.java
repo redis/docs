@@ -200,8 +200,12 @@ public class DemoServer {
         public Map<String, Boolean> toggleWorker() {
             lock.lock();
             try {
+                // Three states: stopped → start (and leave unpaused);
+                // running + unpaused → pause; running + paused → resume.
+                // start() clears the paused flag, so a fall-through
+                // would pause the worker we just brought back up.
                 if (!worker.isRunning()) worker.start();
-                if (worker.isPaused()) worker.resume();
+                else if (worker.isPaused()) worker.resume();
                 else worker.pause();
                 return Map.of(
                     "paused", worker.isPaused(),
