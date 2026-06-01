@@ -124,10 +124,13 @@ Here is the meaning of the fields:
 * `rbs`: current size of the client's read buffer in bytes. Added in Redis 7.0.
 * `lib-name` - the name of the client library that is being used.
 * `lib-ver` - the version of the client library.
-* `io-thread`: id of I/O thread assigned to the client. Added in Redis 8.0
+* `io-thread`: id of I/O thread assigned to the client. Added in Redis 8.0.
 * `tot-net-in`: total network input bytes read from this client.
 * `tot-net-out`: total network output bytes sent to this client.
 * `tot-cmds`: total count of commands this client executed.
+* `read-events`: number of read events for this client. Added in Redis 8.8
+* `parse-batch-cmd-sum`: cumulative number of commands parsed across all parsing batches for this client. Added in Redis 8.8
+* `parse-batch-cnt`: total number of parsing batches for this client. Divide `parse-batch-cmd-sum` by this value to get the client’s average commands per batch. Added in Redis 8.8
 
 The client flags can be a combination of:
 

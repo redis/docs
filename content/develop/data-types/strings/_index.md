@@ -11,9 +11,7 @@ categories:
 - rc
 - kubernetes
 - clients
-description: 'Introduction to Redis strings
-
-  '
+description: Introduction to Redis strings
 linkTitle: Strings
 title: Redis Strings
 weight: 10
@@ -113,7 +111,7 @@ By default, a single Redis string can be a maximum of 512 MB.
 
 ## Bitwise and bitfield operations
 
-To perform bitwise operations on a string, see the [bitmaps data type]({{< relref "/develop/data-types/bitmaps" >}}) docs. To store and manipulate integer values within a string, see the [bitfields data type]({{< relref "/develop/data-types/bitfields" >}}) docs.
+To perform bitwise operations on a string, see the [bitmaps data type]({{< relref "/develop/data-types/strings/bitmaps" >}}) docs. To store and manipulate integer values within a string, see the [bitfields data type]({{< relref "/develop/data-types/strings/bitfields" >}}) docs.
 
 ## Performance
 

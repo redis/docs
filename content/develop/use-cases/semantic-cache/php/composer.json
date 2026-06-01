@@ -1,0 +1,28 @@
+{
+    "name": "redis/semantic-cache-php",
+    "description": "Redis semantic-cache demo for the Redis docs, in PHP with Predis and transformers-php.",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "codewithkyrian/transformers": "^0.5",
+        "predis/predis": "^3.0",
+        "rindow/rindow-matlib-ffi": "~1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Redis\\SemanticCache\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "codewithkyrian/transformers-libsloader": true
+        },
+        "platform": {
+            "php": "8.2.0"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

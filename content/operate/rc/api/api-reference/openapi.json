@@ -7128,7 +7128,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BdbVersionUpgradeStatus"
+                  "$ref": "#/components/schemas/DatabaseVersionUpgradeStatus"
                 }
               }
             }
@@ -7933,7 +7933,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BdbVersionUpgradeStatus"
+                  "$ref": "#/components/schemas/DatabaseVersionUpgradeStatus"
                 }
               }
             }
@@ -10088,7 +10088,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BdbAvailableVersionsResponse"
+                  "$ref": "#/components/schemas/DatabaseAvailableVersionsResponse"
                 }
               }
             }
@@ -10700,7 +10700,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BdbAvailableVersionsResponse"
+                  "$ref": "#/components/schemas/DatabaseAvailableVersionsResponse"
                 }
               }
             }
@@ -11238,31 +11238,6 @@
           }
         },
         "description": "User update request"
-      },
-      "BdbVersionUpgradeStatus": {
-        "type": "object",
-        "properties": {
-          "databaseId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "targetRedisVersion": {
-            "type": "string"
-          },
-          "progress": {
-            "type": "number",
-            "format": "double"
-          },
-          "upgradeStatus": {
-            "type": "string",
-            "enum": [
-              "in-progress",
-              "in-progress-recovery-pending",
-              "done",
-              "failed"
-            ]
-          }
-        }
       },
       "PaymentMethods": {
         "type": "object",
@@ -13416,6 +13391,17 @@
           },
           "currentSkipEnd": {
             "type": "string"
+          }
+        }
+      },
+      "DatabaseAvailableVersionsResponse": {
+        "type": "object",
+        "properties": {
+          "targets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TargetVersion"
+            }
           }
         }
       },
@@ -15947,17 +15933,6 @@
         },
         "description": "Database tag"
       },
-      "BdbAvailableVersionsResponse": {
-        "type": "object",
-        "properties": {
-          "targets": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TargetVersion"
-            }
-          }
-        }
-      },
       "SubscriptionSpec": {
         "required": [
           "regions"
@@ -16020,6 +15995,31 @@
           }
         },
         "description": "Essentials database backup request message"
+      },
+      "DatabaseVersionUpgradeStatus": {
+        "type": "object",
+        "properties": {
+          "databaseId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "targetRedisVersion": {
+            "type": "string"
+          },
+          "progress": {
+            "type": "number",
+            "format": "double"
+          },
+          "upgradeStatus": {
+            "type": "string",
+            "enum": [
+              "in-progress",
+              "in-progress-recovery-pending",
+              "done",
+              "failed"
+            ]
+          }
+        }
       },
       "DatabaseModuleSpec": {
         "required": [
@@ -16430,7 +16430,7 @@
           },
           "multipleAvailabilityZones": {
             "type": "boolean",
-            "description": "Optional. Support deployment on multiple availability zones within the selected region. Default: 'false'",
+            "description": "Optional. Support deployment on multiple availability zones within the selected region. Default for Active-Active: matches the region's multi-AZ capability (true on multi-AZ regions, false on non-multi-AZ regions). Default for Pro / single-region: `false`.",
             "example": false
           },
           "preferredAvailabilityZones": {
@@ -16835,6 +16835,8 @@
               "SUBSCRIPTION_INVALID_REGION_NAME",
               "SUBSCRIPTION_INVALID_REGION_ID",
               "SUBSCRIPTION_BAD_PREFERRED_AZ_SIZE",
+              "SUBSCRIPTION_REGION_DOES_NOT_SUPPORT_MULTI_AZ",
+              "SUBSCRIPTION_AA_NON_MAZ_REGION_NOT_SUPPORTED",
               "SUBSCRIPTION_PREFERRED_AZ_INVALID_VALUE",
               "SUBSCRIPTION_PREFERRED_AZ_MUST_BE_DEFINED_ONCE",
               "SUBSCRIPTION_PREFERRED_AZ_IS_DISABLED",
@@ -17392,6 +17394,7 @@
               "PRIVATE_LINK_DELETING_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_A_SINGLE_REGION_SUBSCRIPTION",
               "PRIVATE_LINK_IS_NOT_SUPPORTED",
               "PRIVATE_LINK_SERVICE_ERROR",
+              "PRIVATE_LINK_SUBSCRIPTION_REACHED_MAX_DATABASES_COUNT",
               "PRIVATE_LINK_ALL_PRINCIPALS_MUST_BE_DELETED_BEFORE_DELETING_RESOURCE_LINK",
               "PRIVATE_LINK_DISASSOCIATE_CONNECTIONS_A_FLEXIBLE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_AN_ACTIVE_ACTIVE_SUBSCRIPTION",
               "PRIVATE_LINK_DISASSOCIATE_CONNECTIONS_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_A_SINGLE_REGION_SUBSCRIPTION",

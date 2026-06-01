@@ -89,6 +89,7 @@ The **Overview** summarizes the options used to create the subscription.
     | **Active-Active Redis** | Checked when Active-Active Redis is enabled for your subscription |
     | **Region** | Describes the region your subscription is deployed to |
     | **Availability Zones** | The availability zones your subscription is deployed in (Visible if you selected availability zones on creation) |
+    | **AWS Resource tags** | The tags applied to your resources in your BYOC account. Select the **Edit** button to manage your resource tags. See [Resource tags]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/resource-tags" >}}) for more information.<br/><br/>(Available only if [Redis Cloud Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) is enabled) |
 
 
 - The **Price** panel shows the monthly cost of your Redis Cloud Pro subscription.

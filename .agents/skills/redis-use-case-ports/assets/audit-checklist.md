@@ -545,6 +545,101 @@ A bare `thread.join(timeout=N); self._thread = None` (drop the handle, move on) 
 > For each port under `content/develop/use-cases/{{USE_CASE_NAME}}/`, locate the worker's stop / shutdown method. If it uses a bounded join / wait (any timeout, any unit), verify one of these three recovery paths is present: (a) on timeout, log a warning and join indefinitely; (b) on timeout, force-interrupt the worker and then wait; (c) on timeout, fall through to a `waitForIdle()` (or equivalent in-flight-flag poll) that provides the actual safety guarantee. Flag any port where the timeout path is "set the handle to null and return" — that's silent thread abandonment, regardless of how the demo behaves under normal load.
 
 **Why on list:** Feature-store use case, Codex independent review of the Ruby port. The same shape was already in the Python reference (`thread.join(timeout=2.0)` then `self._thread = None`) but no earlier audit flagged it; Codex caught it on Ruby and the Python retrofit followed. Jedis / Lettuce had the bounded join but were saved by an explicit `waitForIdle()` after it — that's recovery shape (c) above, and it's the reason the bug never surfaced in those clients. Go / .NET / Rust / Node.js / PHP all use unbounded waits and are fine. The bug class is real even when masked by the in-flight-flag recovery; future ports should pick one shape and apply it consistently.
+## 29. Embedder Predictor / Session is not always thread-safe on a shared instance
+
+**What to scan for:** the embedding wrapper's `encodeOne` / `encode_many` / `EncodeInternal` methods, and how the wrapper is reached from the HTTP handler. Particularly look at the handler executor (cached thread pool, `Executors.newCachedThreadPool`, async runtime with multiple workers, `HttpListener` callback) — does the wrapper hold any mutable state across calls, and is the underlying library documented as thread-safe?
+
+**Pass criterion:** the embedder is either (a) documented as thread-safe and used without synchronisation (e.g. ONNX Runtime's `InferenceSession`), (b) documented as not-thread-safe and the wrapper serialises every call (e.g. DJL `Predictor` wrapped in `synchronized` methods), or (c) the handler dispatcher is single-threaded so concurrency never arises. The wrapper's code or docstring should state which case applies so the reader doesn't have to derive it.
+
+This is **distinct from row 1** (which is about Redis connections and `MULTI/EXEC` interleaving). Row 1 is about transaction state on a shared Redis connection; this row is about model-inference state on a shared ML client.
+
+**Sample audit prompt:**
+
+> For each port under `content/develop/use-cases/{{USE_CASE_NAME}}/`, locate the embedding wrapper and the HTTP server's request executor. For each port, classify (a) thread-safe library with no app-level locking needed, (b) not-thread-safe library with explicit serialisation in the wrapper, or (c) single-threaded dispatcher so the question doesn't arise. Cite the line numbers. Flag any port where the wrapper shares mutable state across calls and the handler executor is multi-threaded but no synchronisation is in place. Verify by reading the library's docs / source for the underlying `Predictor` / `Pipeline` / `Session` type's thread-safety contract — don't trust the agent's choice without a citation.
+
+**Why on list:** Semantic-cache use case. The Jedis port shipped with a DJL `Predictor` shared across an `Executors.newCachedThreadPool` HTTP server, no synchronisation — Codex caught it. Jedis's `LocalEmbedder` was fixed by marking `encodeOne` / `encodeMany` `synchronized`. The Lettuce port (built after the Jedis lesson) included the synchronization from the start. The .NET port correctly uses an `InferenceSession` without locking because ONNX Runtime documents `Run` as thread-safe; the docstring calls that contract out so the reader knows why no lock is present. ([PR #3354 Codex review])
+
+---
+
+## 30. Library config keys that look real but don't take effect
+
+**What to scan for:** any place the demo configures a server-side limit (body size cap, connection timeout, max request bytes, max headers, etc.) by passing a named option to a library constructor. Check the **library's documented option names** — not what looks like it should work.
+
+**Pass criterion:** every limit the demo *advertises* in prose is actually enforced. The way to verify is to test the limit — send a request that should be rejected, confirm the response shape — not just look at the code. If the library doesn't expose the limit you need, the demo enforces the limit explicitly in user code (e.g. read at most N bytes, then check) and the prose accurately describes that path.
+
+**Sample audit prompt:**
+
+> For each port under `content/develop/use-cases/{{USE_CASE_NAME}}/`, identify every server-side limit the demo claims to enforce (POST body size, request timeout, connection cap, etc.). For each one, find the line of code that's supposed to enforce it. Then verify the option name against the library's current documentation (e.g. WEBrick's actual config keys, `com.sun.net.httpserver` knobs, `http.Server` fields, Express middleware names). Flag any limit whose enforcement relies on an option name the library doesn't recognise — those are silent no-ops.
+
+**Why on list:** Semantic-cache use case. The Ruby port passed `MaxRequestBodySize: MAX_BODY_BYTES` to `WEBrick::HTTPServer.new` — but `MaxRequestBodySize` is not a valid WEBrick option. The handler's `req.body` then read whatever the client sent. Codex flagged it ("the body cap is effectively a no-op") and the fix was an explicit `body_too_large?` check that examines `Content-Length` before reading the body. The class of bug is broader: any library configuration knob that's accepted as a keyword arg or property setter without validation can silently be ignored.
+
+---
+
+## 31. Lockfile pins a newer runtime than the manifest declares
+
+**What to scan for:** the manifest's declared minimum runtime version (PHP `^8.2` in `composer.json`, Ruby `>= 3.0` in `Gemfile`, Rust `rust-version = "1.74"` in `Cargo.toml`, Node `engines.node` in `package.json`) versus the actual transitive dependency requirements in the lockfile (`composer.lock`, `Gemfile.lock`, `Cargo.lock`, `package-lock.json`).
+
+**Pass criterion:** either (a) the lockfile resolves transitively to versions compatible with the manifest's declared minimum, or (b) the manifest declares the higher minimum that the lockfile actually requires. A common form of this bug: a transitive dependency bumps its own minimum-version requirement; lock resolution picks up the new transitive; the lockfile now demands a higher runtime than the manifest advertises, and `composer install` / `bundle install` fails for users on the declared minimum.
+
+For PHP specifically, the fix is to add `"platform": {"php": "8.2.0"}` (or whichever minimum) under `composer.json`'s `config` block — this pins Composer to resolve transitives compatible with that version. Other ecosystems have equivalents (Bundler's `ruby` directive in `Gemfile`, Cargo's `rust-version`, npm's `engines` enforcement via `engine-strict`).
+
+**Sample audit prompt:**
+
+> For each port that ships a lockfile under `content/develop/use-cases/{{USE_CASE_NAME}}/`, identify the manifest's declared minimum runtime version. Then grep the lockfile for transitive dependencies that declare their own minimum (`"php": ">=X"`, `required_ruby_version`, `rust-version`, etc.). Confirm the highest transitive minimum is ≤ the manifest's declared minimum. Flag any port where the lockfile demands a higher runtime than the manifest — that port's `*install` step fails for users on the documented minimum.
+
+**Why on list:** Semantic-cache use case. The PHP port's `composer.json` declared `"php": "^8.2"` while `composer.lock` resolved `symfony/string` v8.0.x, which requires `php >= 8.4`. Users on PHP 8.2 or 8.3 hit `composer install` failures. Fixed by adding `"platform": {"php": "8.2.0"}` to `composer.json`. Caught by Codex review. ([PR #3354])
+
+---
+
+## 32. NaN / Inf parsing via language-specific quirks
+
+**What to scan for:** every place a floating-point parameter is parsed from user-controlled input (CLI flag, environment variable, HTTP form field, JSON body). Look at the parsing function (`float()`, `parseFloat()`, `strconv.ParseFloat`, `(float)$x`, `Float()`, etc.).
+
+**Pass criterion:** strings like `"nan"`, `"inf"`, `"+infinity"`, `"-inf"` must not produce a value that bypasses downstream comparisons. The cross-language quirks:
+
+- **Python** `float("nan")` → actual NaN (IEEE-754); `is_finite` catches it.
+- **JavaScript** `parseFloat("nan")` → NaN; `Number.isFinite` catches it.
+- **Go** `strconv.ParseFloat("nan", 64)` → NaN; `math.IsNaN` catches it.
+- **PHP** `(float)"nan"` returns `0.0`, **not** NaN. `is_finite(0.0)` is true. The textual NaN reaches downstream code as `0.0` and silently corrupts any comparison.
+- **Rust** `"nan".parse::<f64>()` → `Ok(NaN)`; `is_finite` catches it.
+- **Java** `Double.parseDouble("NaN")` → actual NaN; `Double.isFinite` catches it.
+- **C#** `double.Parse("NaN", CultureInfo.InvariantCulture)` → NaN; `double.IsFinite` catches it.
+
+The robust pattern is **textual rejection before parsing**: lowercase the input, check membership in the set `{"nan", "inf", "infinity", "+inf", "-inf", "+infinity", "-infinity"}`, and only then call the language-native parser. The Python reference does this; the textual-rejection branch is what the PHP port needed and what Codex flagged when the env-var path bypassed it.
+
+**Sample audit prompt:**
+
+> For each port under `content/develop/use-cases/{{USE_CASE_NAME}}/`, locate every place a floating-point parameter is parsed from external input (CLI flag, env var, HTTP form field). For each parser, mentally run it against the inputs `"nan"`, `"inf"`, `"-inf"`, `"infinity"`, `"junk"`. Confirm each input is rejected (falls back to default, returns error, or clamps out of the meaningful range). Pay special attention to PHP's `(float)` cast and any other language where the implicit cast silently returns `0.0` on garbage input. Flag any path that admits a non-finite value to a downstream comparison.
+
+**Why on list:** Semantic-cache use case. PHP's `load_config()` parsed `SEMCACHE_THRESHOLD` with a bare `(float)` cast — `(float)"nan"` returned `0.0` silently, the `is_finite` check immediately downstream passed, and the cache's default threshold landed at `0.0`. Every paraphrase lookup became a miss. Codex flagged it; the fix was to route the env-var value through the same `clamp_threshold` helper the HTTP boundary already used (which textually rejects "nan" / "inf" before parsing). ([PR #3354 Codex review])
+
+---
+
+## 33. Per-language strings in HTML that's shared across language demos
+
+**What to scan for:** in any use case that copies the same `index.html` across all language demos verbatim (the standard pattern in `redis-use-case-ports`), audit the HTML for **hardcoded language-specific strings**: stack badge text (`"redis-py + sentence-transformers + ..."`), default values that the server should be authoritative on (default threshold, default port displayed in copy), code-block snippets that reference one language's syntax.
+
+**Pass criterion:** every per-language string in the shared HTML is populated at request time via `/state` (or equivalent boot-up handshake) rather than baked into the HTML literal. The handshake returns enough info that the JS can render: a `stack_label` string, a `default_threshold` number, any per-language config the badge / lede / placeholders need. The HTML opens with placeholder content (`"loading…"`) and the first call to `/state` overwrites it.
+
+**Sample audit prompt:**
+
+> For each port under `content/develop/use-cases/{{USE_CASE_NAME}}/`, diff `index.html` against the reference's `index.html` byte-for-byte. They should be identical. Then audit the reference's `index.html` for any string that names a specific language, library, model, or config default — those are exactly the strings that need to be populated from `/state` at runtime, not baked into the HTML. Flag any hardcoded per-language string in the reference HTML. Then verify the server's `/state` response includes the field the HTML reads, and that the JS sets the value on first render (typically inside a `refreshState` or equivalent on page load).
+
+**Why on list:** Semantic-cache use case. Codex caught a hardcoded `"redis-py + sentence-transformers + Python standard library HTTP server"` badge in the Node.js port's `index.html` — the agent had copied the reference HTML verbatim and the badge was telling Node.js users they were running Python. The fix was to add `stack_label` and `default_threshold` to `/state` and have the JS render both on first load. Same fix propagated to all 7 sibling demos. ([PR #3354 Codex review])
+
+---
+
+## 34. Docs wire-form snippets must show escaped TAG values
+
+**What to scan for:** every code block in the use case's `_index.md` that shows a literal `FT.SEARCH` (or `FT.AGGREGATE`) query string with a TAG predicate (`@tenant:{...}`, `@category:{...}`, `@brand:{...}`). Check whether the TAG value contains any character that Redis Search treats as TAG-value syntax: `.` `-` `,` `<` `>` `{` `}` `[` `]` `"` `'` `:` `;` `!` `@` `#` `$` `%` `^` `&` `*` `(` `)` `+` `=` `~` `|` space, backslash.
+
+**Pass criterion:** TAG values that contain any of those characters are shown **escaped** with a leading backslash on each special character. Wire-form blocks (in `text` code fences) show single backslashes (`gpt\-4\.5\-2026`); in-language source blocks (where the demo code is shown verbatim) show the right number of backslashes for that language's string-literal escape rules (double backslashes inside double-quoted Go / Java / Rust / C# strings; single backslashes inside PHP / Ruby single-quoted strings; etc.). Either way, the snippet a reader could paste into `redis-cli` works.
+
+**Sample audit prompt:**
+
+> For each `_index.md` under `content/develop/use-cases/{{USE_CASE_NAME}}/`, find every code block that contains a `FT.SEARCH` or `FT.AGGREGATE` query string with a `@<field>:{<value>}` TAG predicate. For each value, identify whether it contains any TAG-syntax character (`.`, `-`, `,`, `:`, `@`, `#`, `$`, space, backslash, etc.). Confirm those characters are backslash-escaped in the snippet at the right level for the code fence's surrounding context (single backslashes in `text` fences; whatever the language requires in source-code fences). Flag any snippet that shows an unescaped special character in a TAG value — that snippet would parse as multiple tokens if a reader pasted it into `redis-cli`.
+
+**Why on list:** Semantic-cache use case. Codex caught `@model_version:{gpt-4.5-2026}` in the .NET `_index.md` — the unescaped hyphens and dot mean a parser would see three tokens (`gpt`, `4`, `5-2026`) rather than one. The same defect was present in all 8 sibling `_index.md` files (inherited from the Python reference). A reader pasting the snippet into `redis-cli` would get a confused response and not know the docs were wrong. ([PR #3354 Codex review])
 
 ---
 

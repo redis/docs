@@ -17,7 +17,7 @@ description: 'Introduction to the Redis Geospatial data type
   '
 linkTitle: Geospatial
 title: Redis geospatial
-weight: 80
+weight: 40
 ---
 
 {{< command-group group="geo" title="Geospatial command summary" show_link=true >}}

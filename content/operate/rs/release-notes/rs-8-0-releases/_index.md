@@ -173,7 +173,7 @@ See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networ
 
 The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) is deprecated. We recommend transitioning to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
 
-V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) or use [new preconfigured dashboards]({{<relref "/integrate/prometheus-with-redis-enterprise#v2-metrics-dashboards">}}).
+V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) or use [new preconfigured dashboards]({{<relref "/integrate/prometheus-with-redis-enterprise#grafana-dashboards-for-redis-software">}}).
 
 As part of the transition to the metrics stream engine, some internal cluster manager alerts were deprecated in favor of external monitoring solutions. See the [alerts transition plan]({{<relref "/operate/rs/references/alerts/alerts-v1-to-v2">}}) for guidance.
 
@@ -214,6 +214,8 @@ The following table provides a snapshot of supported platforms as of this Redis 
 5. <a name="table-note-5"></a>Supported only if [FIPS was enabled during RHEL installation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/security_hardening/switching-rhel-to-fips-mode_security-hardening#proc_installing-the-system-with-fips-mode-enabled_switching-rhel-to-fips-mode) to ensure FIPS compliance.
 
 ## Known issues
+
+- RS196225: After upgrading to Redis Software version 8.0.x, previously working LDAP filters that use an `OR` clause to match multiple attributes can fail to find a unique DN for some users.
 
 - RS193156: Active Directory LDAP authentication can fail in the Cluster Manager UI after upgrading to Redis Software version 8.0.16-33 due to an issue with LDAP TLS client certificate handling. Users previously authenticated through Active Directory can no longer sign in to the Cluster Manager UI after the upgrade.
 

@@ -101,4 +101,5 @@ One of the following:
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+- [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+- [Search commands in MULTI/EXEC transactions and Lua scripts]({{< relref "/develop/ai/search-and-query/advanced-concepts/transactions" >}})
