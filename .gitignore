@@ -11,6 +11,7 @@
 **/__pycache__/
 venv/**
 node_modules/
+tmp/**
 package-lock.json 
 .hugo_build.lock
 .vscode/
