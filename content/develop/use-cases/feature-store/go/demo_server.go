@@ -222,9 +222,24 @@ func (s *httpServer) handleInspect(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
-	names := make([]string, 0, len(full))
-	for n := range full {
+	// Iterate the known schema (batch + streaming) plus any extras the
+	// hash carries. Expired streaming fields surface as ttl_seconds=-2
+	// in the Inspect view instead of silently disappearing, which is
+	// exactly the debugging view someone hits "Inspect" for.
+	seen := make(map[string]struct{}, len(DefaultBatchFields)+len(DefaultStreamingFields))
+	names := make([]string, 0, len(DefaultBatchFields)+len(DefaultStreamingFields)+len(full))
+	for _, n := range DefaultBatchFields {
 		names = append(names, n)
+		seen[n] = struct{}{}
+	}
+	for _, n := range DefaultStreamingFields {
+		names = append(names, n)
+		seen[n] = struct{}{}
+	}
+	for n := range full {
+		if _, ok := seen[n]; !ok {
+			names = append(names, n)
+		}
 	}
 	ttls, err := s.store.FieldTTLsSeconds(ctx, user, names)
 	if err != nil {
@@ -233,10 +248,14 @@ func (s *httpServer) handleInspect(w http.ResponseWriter, r *http.Request) {
 	}
 	rows := make([]map[string]any, 0, len(names))
 	for _, n := range names {
+		ttl, ok := ttls[n]
+		if !ok {
+			ttl = -2
+		}
 		rows = append(rows, map[string]any{
 			"name":        n,
 			"value":       full[n],
-			"ttl_seconds": ttls[n],
+			"ttl_seconds": ttl,
 		})
 	}
 	sort.Slice(rows, func(i, j int) bool {

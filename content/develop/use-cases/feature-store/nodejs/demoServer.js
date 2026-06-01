@@ -600,11 +600,23 @@ async function handleRequest(req, res, ctx) {
         sendJson(res, { exists: false, key_ttl_seconds: keyTtl });
         return;
       }
-      const fieldNames = Object.keys(full);
-      const ttls = await store.fieldTtlsSeconds(user, fieldNames);
+      // Iterate the known schema (batch + streaming) plus any
+      // extras the hash carries. Expired streaming fields surface
+      // as ttl_seconds=-2 instead of silently disappearing from the
+      // Inspect view, which is exactly the debugging view someone
+      // hits "Inspect" for.
+      const allNames = [...DEFAULT_BATCH_FIELDS, ...DEFAULT_STREAMING_FIELDS];
+      for (const n of Object.keys(full)) {
+        if (!allNames.includes(n)) allNames.push(n);
+      }
+      const ttls = await store.fieldTtlsSeconds(user, allNames);
       const keyTtl = await store.keyTtlSeconds(user);
-      const fields = fieldNames
-        .map((name) => ({ name, value: full[name], ttl_seconds: ttls[name] ?? -1 }))
+      const fields = allNames
+        .map((name) => ({
+          name,
+          value: full[name] ?? "",
+          ttl_seconds: ttls[name] ?? -2,
+        }))
         .sort((a, b) => a.name.localeCompare(b.name));
       sendJson(res, {
         exists: true,

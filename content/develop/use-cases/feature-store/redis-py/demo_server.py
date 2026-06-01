@@ -649,12 +649,22 @@ class FeatureStoreDemoHandler(BaseHTTPRequestHandler):
                 200,
             )
             return
-        ttls = self.store.field_ttls_seconds(user, full.keys())
+        # Iterate the known schema (batch + streaming) plus any
+        # extras the hash happens to carry. This makes expired
+        # streaming fields surface as ttl_seconds=-2 in the UI
+        # instead of silently disappearing, which is exactly the
+        # debugging view someone hits "Inspect" for.
+        all_names = list(DEFAULT_BATCH_FIELDS) + list(DEFAULT_STREAMING_FIELDS)
+        for n in full:
+            if n not in all_names:
+                all_names.append(n)
+        ttls = self.store.field_ttls_seconds(user, all_names)
         key_ttl = self.store.key_ttl_seconds(user)
         fields = sorted(
             [
-                {"name": n, "value": v, "ttl_seconds": ttls.get(n, -1)}
-                for n, v in full.items()
+                {"name": n, "value": full.get(n, ""),
+                 "ttl_seconds": ttls.get(n, -2)}
+                for n in all_names
             ],
             key=lambda r: r["name"],
         )

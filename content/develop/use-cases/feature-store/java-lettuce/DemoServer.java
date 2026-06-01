@@ -16,32 +16,41 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
 
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.api.StatefulRedisConnection;
 
 /**
- * Redis feature-store demo server (Jedis + JDK HttpServer).
+ * Redis feature-store demo server (Lettuce + JDK HttpServer).
  *
  * <p>Run with {@code mvn exec:java -Dexec.mainClass=DemoServer} and
- * visit {@code http://localhost:8088} to watch an online feature
+ * visit {@code http://localhost:8089} to watch an online feature
  * store at work: a batch materialization loads N users with a 24-hour
  * key-level TTL, a streaming worker overwrites a handful of users'
  * real-time features every second with a per-field {@code HEXPIRE},
  * and the inference panel reads any subset of features for any user
  * with {@code HMGET} in a single round trip.</p>
+ *
+ * <p>The Lettuce demo shares a single {@code StatefulRedisConnection}
+ * across the HTTP thread pool and the streaming worker — Lettuce
+ * connections are thread-safe and multiplexed, so no pool is
+ * required for this workload. See the walkthrough for when to add
+ * one anyway (blocking commands, very high contention).</p>
  */
 public class DemoServer {
 
     private static FeatureStore store;
     private static StreamingWorker worker;
     private static FeatureStoreDemo demo;
-    private static JedisPool jedisPool;
+    private static RedisClient redisClient;
+    /** Shared connection for non-pipelined reads (multiplexed across the HTTP pool). */
+    private static StatefulRedisConnection<String, String> redisConn;
+    /** Dedicated connection for the pipelined batched paths (auto-flush toggled). */
+    private static StatefulRedisConnection<String, String> redisPipelineConn;
 
     public static void main(String[] args) throws Exception {
         String host = "127.0.0.1";
-        int port = 8088;
-        String redisHost = "localhost";
-        int redisPort = 6379;
+        int port = 8089;
+        String redisUri = "redis://localhost:6379";
         String keyPrefix = "fs:user:";
         long batchTtlSeconds = 24L * 60L * 60L;
         long streamingTtlSeconds = 5L * 60L;
@@ -53,8 +62,7 @@ public class DemoServer {
             switch (args[i]) {
                 case "--host" -> host = args[++i];
                 case "--port" -> port = Integer.parseInt(args[++i]);
-                case "--redis-host" -> redisHost = args[++i];
-                case "--redis-port" -> redisPort = Integer.parseInt(args[++i]);
+                case "--redis-uri" -> redisUri = args[++i];
                 case "--key-prefix" -> keyPrefix = args[++i];
                 case "--batch-ttl-seconds" -> batchTtlSeconds = Long.parseLong(args[++i]);
                 case "--streaming-ttl-seconds" -> streamingTtlSeconds = Long.parseLong(args[++i]);
@@ -64,8 +72,8 @@ public class DemoServer {
                 case "-h", "--help" -> {
                     System.out.println(
                         "Usage: mvn exec:java -Dexec.mainClass=DemoServer " +
-                        "-Dexec.args=\"[--host H] [--port P] [--redis-host H] " +
-                        "[--redis-port P] [--key-prefix PFX] " +
+                        "-Dexec.args=\"[--host H] [--port P] [--redis-uri URI] " +
+                        "[--key-prefix PFX] " +
                         "[--batch-ttl-seconds S] [--streaming-ttl-seconds S] " +
                         "[--users-per-tick N] [--seed-users N] [--no-reset]\"");
                     return;
@@ -77,13 +85,16 @@ public class DemoServer {
             }
         }
 
-        JedisPoolConfig poolCfg = new JedisPoolConfig();
-        poolCfg.setMaxTotal(64);
-        poolCfg.setMaxIdle(32);
-        poolCfg.setMinIdle(4);
-        jedisPool = new JedisPool(poolCfg, redisHost, redisPort);
+        redisClient = RedisClient.create(redisUri);
+        // Two connections: the first is multiplexed across the HTTP
+        // thread pool and the streaming worker for ordinary
+        // (auto-flushed) commands; the second is reserved for the
+        // pipelined batched paths in FeatureStore so the auto-flush
+        // toggle never races with another caller's reads.
+        redisConn = redisClient.connect();
+        redisPipelineConn = redisClient.connect();
 
-        store = new FeatureStore(jedisPool, keyPrefix,
+        store = new FeatureStore(redisConn, redisPipelineConn, keyPrefix,
             batchTtlSeconds, streamingTtlSeconds);
         worker = new StreamingWorker(store, 1000L, usersPerTick, 1337L);
         demo = new FeatureStoreDemo(store, worker, 42L);
@@ -112,15 +123,17 @@ public class DemoServer {
 
         System.out.printf("Redis feature-store demo server listening on http://%s:%d%n", host, port);
         System.out.printf(
-            "Using Redis at %s:%d with key prefix '%s' (batch TTL %ds, streaming TTL %ds)%n",
-            redisHost, redisPort, keyPrefix, batchTtlSeconds, streamingTtlSeconds);
+            "Using Redis at %s with key prefix '%s' (batch TTL %ds, streaming TTL %ds)%n",
+            redisUri, keyPrefix, batchTtlSeconds, streamingTtlSeconds);
         System.out.printf("Materialized %d user(s); streaming worker running.%n", seeded);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("\nShutting down...");
             worker.stop();
             server.stop(0);
-            jedisPool.close();
+            redisConn.close();
+            redisPipelineConn.close();
+            redisClient.shutdown();
         }));
 
         Thread.currentThread().join();
@@ -163,11 +176,9 @@ public class DemoServer {
             try {
                 // Pause the streaming worker around the DEL sweep so a
                 // concurrent tick can't recreate a user that was just
-                // enumerated for deletion (streaming HSET creates the
-                // key if it's missing, and that would leave behind a
-                // streaming-only hash with no key-level TTL).
-                // pause() only blocks *future* ticks — waitForIdle()
-                // flushes an already-running tick before the DEL sweep.
+                // enumerated for deletion. pause() only blocks
+                // *future* ticks — waitForIdle() flushes an
+                // already-running tick before the DEL sweep starts.
                 boolean wasPaused = worker.isPaused();
                 if (worker.isRunning()) {
                     if (!wasPaused) worker.pause();
@@ -203,7 +214,7 @@ public class DemoServer {
     }
 
     // ---------------------------------------------------------------
-    // Handlers
+    // Handlers (identical to the Jedis demo apart from the request URI)
     // ---------------------------------------------------------------
 
     static class RootHandler implements HttpHandler {
@@ -408,7 +419,7 @@ public class DemoServer {
     }
 
     // ---------------------------------------------------------------
-    // HTTP plumbing
+    // HTTP plumbing (mirrors the Jedis demo verbatim)
     // ---------------------------------------------------------------
 
     private static void send(HttpExchange ex, int status, String contentType, String body) throws IOException {
@@ -578,7 +589,7 @@ public class DemoServer {
     }
 
     // ---------------------------------------------------------------
-    // HTML template
+    // HTML template (identical to the Jedis demo apart from the pill text)
     // ---------------------------------------------------------------
 
     private static final String HTML_TEMPLATE = """
@@ -587,7 +598,7 @@ public class DemoServer {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Redis Feature Store Demo (Jedis)</title>
+  <title>Redis Feature Store Demo (Lettuce)</title>
   <style>
     :root {
       --bg: #eef3f1;
@@ -690,7 +701,7 @@ public class DemoServer {
 </head>
 <body>
   <main>
-    <div class="pill">Jedis + JDK com.sun.net.httpserver</div>
+    <div class="pill">Lettuce + JDK com.sun.net.httpserver</div>
     <h1>Redis Feature Store Demo</h1>
     <p class="lede">
       A small fraud-scoring feature store. Each user is one Redis hash
@@ -700,7 +711,8 @@ public class DemoServer {
       <span class="badge stream">streaming</span> half (real-time
       signals, <code>__STREAM_TTL__</code>s per-field <code>HEXPIRE</code>).
       Inference reads any subset with one <code>HMGET</code>; batch
-      scoring pipelines <code>HMGET</code> across N users.
+      scoring pipelines <code>HMGET</code> across N users through one
+      connection-level flush.
     </p>
 
     <div class="grid">
@@ -712,8 +724,8 @@ public class DemoServer {
       <section class="panel">
         <h2>Materialize batch features</h2>
         <p>Calls <code>HSET</code> + <code>EXPIRE</code> for each user
-          through one Jedis <code>Pipeline</code>, so the whole batch
-          ships in one round trip.</p>
+          with auto-flush disabled, then one flush ships the whole
+          batch.</p>
         <label for="bulk-count">How many users</label>
         <input id="bulk-count" type="number" min="1" max="2000" value="200">
         <label for="bulk-ttl">Key-level TTL (seconds)</label>
@@ -766,8 +778,8 @@ public class DemoServer {
       <section class="panel">
         <h2>Batch scoring</h2>
         <p>Pipelined <code>HMGET</code> across N random users via
-          <code>Pipeline.sync()</code>. One network round trip for the
-          whole batch.</p>
+          Lettuce's connection-level flush. One network round trip for
+          the whole batch.</p>
         <label for="batch-count">How many users</label>
         <input id="batch-count" type="number" min="1" max="500" value="100">
         <button id="batch-button" class="secondary">Pipeline HMGET</button>
