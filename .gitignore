@@ -19,3 +19,11 @@ package-lock.json
 # Rust docs demos
 /content/develop/use-cases/rate-limiter/rust/target/
 /content/develop/use-cases/rate-limiter/rust/Cargo.lock
+/content/develop/use-cases/**/rust/target/
+/content/develop/use-cases/**/rust/Cargo.lock
+# Java / Maven build output for the docs demos
+/content/develop/use-cases/**/java-jedis/target/
+/content/develop/use-cases/**/java-lettuce/target/
+# .NET build output for the docs demos
+/content/develop/use-cases/**/dotnet/bin/
+/content/develop/use-cases/**/dotnet/obj/

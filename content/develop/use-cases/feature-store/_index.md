@@ -160,3 +160,5 @@ for a single user under 1 ms, and pipeline batch reads across a hundred users.
 * [go-redis (Go)]({{< relref "/develop/use-cases/feature-store/go" >}})
 * [Jedis (Java)]({{< relref "/develop/use-cases/feature-store/java-jedis" >}})
 * [Lettuce (Java)]({{< relref "/develop/use-cases/feature-store/java-lettuce" >}})
+* [redis-rs (Rust)]({{< relref "/develop/use-cases/feature-store/rust" >}})
+* [StackExchange.Redis (C#)]({{< relref "/develop/use-cases/feature-store/dotnet" >}})
