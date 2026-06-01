@@ -40,9 +40,9 @@ Before you can create your first Data Integration pipeline for a Redis Cloud sub
 
 ## Get required ARNs
 
-1. On the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Pipelines** tab.
+1. On the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Integration** tab.
 1. Select **Add pipeline**.
-    {{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The workspace section of the Pipelines tab for a database. Select Add pipeline to add a pipeline." width=80% >}}
+    {{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The workspace section of the Data Integration tab for a database. Select Add pipeline to add a pipeline." width=80% >}}
 1. Select **PostgreSQL** as the source database type.
     {{<image filename="images/rc/rdi/rdi-select-source-db.png" alt="The select source database type list." width=80% >}}
 1. Enter a name for your source database in the **Source name** field. This is a name for the source database that will appear on Redis Cloud.
@@ -108,10 +108,10 @@ If you lose any outputs, run `terraform output` to view them again.
 
 ## Resume pipeline setup
 
-1. Return to the [Redis Cloud console](https://cloud.redis.io/). Go to your target database and select the **Pipelines** tab.
+1. Return to the [Redis Cloud console](https://cloud.redis.io/). Go to your target database and select the **Data Integration** tab.
 1. You'll see a draft pipeline in the workspace you created. Select **More actions > Resume pipeline setup** to continue with pipeline setup.
 
-    {{<image filename="images/rc/rdi/rdi-workspace-resume-setup.png" alt="The workspace section of the Pipelines tab for a database with a draft pipeline. Select Resume pipeline setup to continue." width=80% >}}
+    {{<image filename="images/rc/rdi/rdi-workspace-resume-setup.png" alt="The workspace section of the Data Integration tab for a database with a draft pipeline. Select Resume pipeline setup to continue." width=80% >}}
 
 1. Continue to the **Source configuration** step.
 

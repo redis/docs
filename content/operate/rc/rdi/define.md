@@ -15,15 +15,15 @@ weight: 4
 
 After you have [prepared your source database]({{<relref "/operate/rc/rdi/setup">}}) and connection information, and [created the workspace for your pipeline]({{<relref "/operate/rc/rdi/create-workspace">}}), you can set up your new pipeline.
 
-In the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Pipelines** tab. You'll see your subscription's workspace. Select **Add pipeline** to add a pipeline to the workspace. 
+In the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Integration** tab. You'll see your subscription's workspace. Select **Add pipeline** to add a pipeline to the workspace. 
 
-You can also go to the **Pipelines** page from the left-hand menu and select **Add pipeline** from your workspace. Or, you can go to the **Pipelines** tab of your subscription and select **Add pipeline** from your workspace.
+You can also go to the **Pipelines** page from the left-hand menu and select **Add pipeline** from your workspace. Or, you can go to the **Data Integration** tab of your subscription and select **Add pipeline** from your workspace.
 
-{{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The workspace section of the Pipelines tab for a database. Select Add pipeline to add a pipeline." width=80% >}}
+{{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The workspace section of the Data Integration tab for a database. Select Add pipeline to add a pipeline." width=80% >}}
 
 If you've started to create a pipeline, you'll see a draft pipeline. Select **More actions > Resume pipeline setup** to continue with pipeline setup.
 
-{{<image filename="images/rc/rdi/rdi-workspace-resume-setup.png" alt="The workspace section of the Pipelines tab for a database with a draft pipeline. Select Resume pipeline setup to continue." width=80% >}}
+{{<image filename="images/rc/rdi/rdi-workspace-resume-setup.png" alt="The workspace section of the Data Integration tab for a database with a draft pipeline. Select Resume pipeline setup to continue." width=80% >}}
 
 Creating a pipeline is split into the following steps:
 
@@ -43,6 +43,7 @@ In the **Pipeline setup** step:
     - Oracle
     - SQL Server
     - PostgreSQL
+    - Snowflake _(Preview)_
     {{<image filename="images/rc/rdi/rdi-select-source-db.png" alt="The select source database type list and source name field." width=80% >}}
 
 1. Enter a name for your source database in the **Source name** field. This is a name for the source database that will appear on Redis Cloud.

@@ -13,17 +13,29 @@ hideListLinks: true
 weight: 4
 ---
 
-Use the **Data pipeline** tab in your database to view and edit your data pipeline.
+To view or manage your data pipeline, select it from your workspace from the **Data Integration** page or from the **Data Integration** tab in your subscription or database.
 
-The **Data pipeline** tab gives an overview of your data pipeline and lets you view your data stream metrics. 
-
+<!-- TODO: CHANGE IMAGE
 {{<image filename="images/rc/rdi/rdi-status-metrics-tables.png" alt="The select source database type list." width=80% >}}
+-->
 
-The **Status** table shows statistics for the whole data pipeline: 
-- **Status**: The status of the data pipeline. Possible statuses include:
+The pipeline page has the following tabs:
+
+- [Dashboard](#dashboard)
+- [Metrics](#metrics)
+- [Configuration](#configuration)
+- [Dataset](#dataset)
+- [Transformations](#transformations)
+
+The following sections describe each of these tabs.
+
+## Dashboard
+
+The **Dashboard** tab shows an overview and high-level statistics for the data pipeline.
+
+- **Pipeline health**: The status of the data pipeline. Possible statuses include:
     | Status | Description |
     |--------|-------------|
-    | **Initial Sync** | The data pipeline is ingesting all records from the source database into the target database. |
     | **Streaming** | The data pipeline is capturing new changes from the source database as they happen. Changes in the source database are added to the target database within a few seconds. |
     | **Stopped**| The data pipeline has been [stopped](#stop-and-restart-data-pipeline). |
     | **Error** | There is an error in the data pipeline. [Reset the pipeline](#reset-data-pipeline) and contact support if the issue persists. |
@@ -32,7 +44,9 @@ The **Status** table shows statistics for the whole data pipeline:
 - **Total filtered**: Total number of records filtered from being inserted into the target database.
 - **Total rejected**: Total number of records that could not be parsed or inserted into the target database.
 
-The **Data stream metrics** table shows the following metrics for each data stream:
+## Metrics
+
+The **Metrics** tab shows the following metrics for each data stream:
 | Metric | Description |
 |--------|-------------|
 | **Name** | Name of the data stream. Each stream corresponds to a table from the source database.  |
@@ -44,87 +58,103 @@ The **Data stream metrics** table shows the following metrics for each data stre
 | **Filtered** | Number of records from the source table that were filtered from being inserted into the target database. |
 | **Rejected** | Number of records from the source table that could not be parsed or inserted into the target database. |
 
-## Edit data pipeline
+### View metrics endpoints
 
-To change the data you want to ingest from the data pipeline:
+You can use [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}) to track and display metrics for the data pipeline. 
 
-1. From the **Data pipeline** tab, select **Edit**.
+To view the metrics endpoints for the source collector and pipeline processor, select **More actions**, and then **Show metrics**. You can add these endpoints as Prometheus targets to start tracking your RDI metrics.
 
-    {{<image filename="images/rc/rdi/rdi-edit-button.png" alt="The edit pipeline button." width=100px >}}
+Prometheus endpoints are exposed on Redis Cloud's internal network. To access this network, enable [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) or [AWS Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}). See [Prometheus and Grafana with Redis Cloud]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}) for more information.
 
-1. Select the Schema and Tables you want to migrate to the target database from the list. 
-    {{<image filename="images/rc/rdi/rdi-select-source-data.png" alt="The data modeling section. " width=75% >}}
+For more information about available RDI metrics, see [Observability]({{< relref "/integrate/redis-data-integration/observability" >}}).
 
-    Select **Manage Columns** to choose which columns you want to import.
+## Configuration
 
-    {{<image filename="images/rc/rdi/rdi-manage-columns.png" alt="The manage columns button." width=150px >}}
+The **Configuration** tab shows your source connectivity, secrets, and collector configuration properties. If you accidentally overwrite the access for your load balancer or secrets, you can find the required ARNs here.
 
-    You can select any number of columns from a table.
+### Edit collector properties
 
-    {{<image filename="images/rc/rdi/rdi-select-columns.png" alt="The manage columns screen, with a few columns selected from one table" width=75% >}}
+From the **Configuration** tab of your pipeline, select **Edit collector properties** to change your collector properties.
 
-    If any tables are missing a unique constraint, a warning will appear in the **Data modeling** section. Select **Manage columns** to select the columns that define a unique constraint for those tables.
+{{<image filename="images/rc/rdi/rdi-advanced-properties.png" alt="The advanced properties section." width=80% >}}
 
-    Select **Save** to save your column changes and go back to schema selection.
+You can add any [Debezium source property](https://debezium.io/documentation/reference/stable/connectors/) for your source database type in the **Collector source properties** section and any [Redis server Debezium sink property](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream) in the **Collector sink properties** section. Select **Save properties** to save the collector properties.
 
-    {{<image filename="images/rc/button-save.png" alt="The save button." width=100px >}}
+## Dataset
 
-    Select **Add schema** to add more database schemas.
+The **Dataset** tab shows the data from your source database that is ingested into your target database.
 
-    {{<image filename="images/rc/rdi/rdi-add-schema.png" alt="The add schema button." width=150px >}}
+### Edit dataset
+
+To change the dataset for your data pipeline:
+
+1. From the **Dataset** tab of your pipeline, select **Edit**.
+
+1. In the **Schemas** section, select the schema(s) you want to migrate to the target database from the list.
+
+    {{<image filename="images/rc/rdi/rdi-dataset-schema-selected.png" alt="The dataset step with a schema selected." width=75% >}}
+
+1. When you select a schema, you will see its tables in the **Tables** section. Redis Cloud will automatically select all tables for import. You can de-select any columns you do not wish to import to your Redis database.
+
+1. Select a table to view its columns in the **Columns** section. You can de-select any columns you do not wish to import.
+
+    {{<image filename="images/rc/rdi/rdi-select-columns.png" alt="The columns section, with a few columns selected from one table" width=75% >}}
+
+    If any tables are missing a unique key, a warning will appear in the **Data modeling** section. Select **Show affected** to filter the **Tables** section to the tables without a unique key.
     
-    Select **Delete** to delete a schema. You must have at least one schema to continue.
+    {{<image filename="images/rc/rdi/rdi-dataset-missing-unique-key.png" alt="The dataset step filtered to show tables that are missing a unique key." width=75% >}}
 
-    {{<image filename="images/rc/rdi/rdi-delete-schema.png" alt="The delete schema button." width=50px >}}
+    For these tables, select the key icon next to the column that defines a unique key. 
 
-    After you've selected the schemas and tables you want to sync, select **Continue**.
+    {{<image filename="images/rc/rdi/rdi-unique-key-selected.png" alt="The unique key icon." width=500px >}}
 
-     {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
-    
-1. Select the Redis data type to write keys to the target. You can choose **Hash** or **JSON** if the target database supports JSON. 
-    {{<image filename="images/rc/rdi/rdi-configure-new-pipeline.png" alt="The pipeline definition screen." width=75% >}}
-
-    You can also supply one or more [transformation job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) that specify how you want to transform the captured data before writing it to the target. Select **Upload jobs** to upload your job files.
-
-    {{<image filename="images/rc/rdi/rdi-transformation-jobs.png" alt="The transformation jobs section. Select Upload jobs to upload transformation jobs." >}}
-
-    When you upload job files, Redis Cloud will validate the job files to check for errors. 
-
-    Select **Continue**.
-    {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
-
-1. In the **Advanced properties** section, you can add any processor properties to control how the data is processed. See the [RDI configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}}) for all available processor properties.
-
-    {{<image filename="images/rc/rdi/rdi-processor-properties.png" alt="The advanced properties section with processor properties." >}}
-
-    Select **Continue**.
-    {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
+1. Select **Save changes** to save your changes.
 
 1. Review the tables you selected in and select how you want to update the data pipeline:
-
-    {{<image filename="images/rc/rdi/rdi-update-preferences.png" alt="The Select update preferences section." width=25% >}}
 
     - **Apply to new data changes only**: The data pipeline will only synchronize new updates to the schema and tables selected. The data pipeline will not ingest any data from new schemas or tables that are selected.
     - **Reset pipeline (re-process all data)**: The data pipeline will re-ingest all of the selected data.
     - **Flush cached data and reset pipeline**: The data pipeline will flush the target Redis database, and then re-ingest all of the selected data from the source database.
 
-1. Select **Apply changes**.
-
-    {{<image filename="images/rc/rdi/rdi-apply-changes.png" alt="The apply changes button." width=150px >}}
+1. Select **Apply changes** or **Apply and restart** to proceed.
 
 At this point, the data pipeline will apply the changes. If you selected **Reset pipeline** or **Flush cached data and reset pipeline**, the data pipeline will ingest data from the source database to the target database. After this initial sync is complete, the data pipeline enters the *change streaming* phase, where changes are captured as they happen.
 
 If you selected **Apply to new data changes only**, the data pipeline will enter the *change streaming* phase without ingesting data.
 
-## View metrics endpoints
+## Transformations
 
-You can use [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}) to track and display metrics for the data pipeline. 
+The **Transformations** tab shows the default data structure for records in your target database and any transformation jobs or processor properties you've set for your pipeline.
 
-To view the metrics endpoints for the source collector and pipeline processor, go to the **Data pipeline** tab and select **More actions**, and then **Show metrics**. You can add these endpoints as Prometheus targets to start tracking your RDI metrics.
+### Edit transformations
 
-Prometheus endpoints are exposed on Redis Cloud's internal network. To access this network, enable [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) or [AWS Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}). See [Prometheus and Grafana with Redis Cloud]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}) for more information.
+To edit any of the information in the **Transformations** tab:
 
-For more information about available RDI metrics, see [Observability]({{< relref "/integrate/redis-data-integration/observability" >}}).
+1. From the **Transformations** tab of your pipeline, select **Edit**.
+
+1. Select how your records will be stored in Redis. You can choose **Hash** or **JSON**.
+
+1. Under **Transformation jobs**, you can supply one or more [transformation job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) that specify how you want to transform the captured data before writing it to the target. Select **Upload jobs** to upload your job files. When you upload job files, Redis Cloud will validate the job files to check for errors. 
+
+1. Select **Edit advanced properties** to add any processor properties to control how the data is processed. 
+
+    {{<image filename="images/rc/rdi/rdi-processor-advanced-properties.png" alt="The Advanced Processor properties." >}}
+
+    See the [RDI configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}}) for all available processor properties.
+
+1. Select **Save changes**.
+
+1. Review your changes. 
+
+    Changing the data structure or processor properties requires the data pipeline to flush and re-ingest all of the data from the source database to avoid conflicts.
+
+    If you only changed transformation jobs, select how you want to update the data pipeline:
+
+    - **Apply to new data changes only**: The data pipeline will only synchronize new updates to the schema and tables selected. The data pipeline will not ingest any data from new schemas or tables that are selected.
+    - **Reset pipeline (re-process all data)**: The data pipeline will re-ingest all of the selected data.
+    - **Flush cached data and reset pipeline**: The data pipeline will flush the target Redis database, and then re-ingest all of the selected data from the source database.
+
+1. Select **Apply changes** or **Apply and restart** to proceed.
 
 ## Reset data pipeline
 
@@ -132,7 +162,7 @@ Resetting the data pipeline creates a new baseline snapshot from the current sta
 
 To reset the data pipeline and restart the ingest process:
 
-1. From the **Data pipeline** tab, select **More actions**, and then **Reset pipeline**.
+1. From your pipeline, select **More actions**, and then **Reset pipeline**.
 
 1. If you want to flush the database, check **Flush target database**. 
 
@@ -144,7 +174,7 @@ At this point, the data pipeline will re-ingest data from the source database to
 
 To stop the data pipeline from synchronizing new data:
 
-1. From the **Data pipeline** tab, select **More actions**, and then **Stop pipeline**.
+1. From your pipeline, select **More actions**, and then **Stop pipeline**.
 
 1. Select **Stop data pipeline** to confirm.
 
@@ -154,7 +184,7 @@ Stopping the data pipeline will suspend data processing. To restart the pipeline
 
 To delete the data pipeline:
 
-1. From the **Data pipeline** tab, select **More actions**, and then **Delete pipeline**.
+1. From your pipeline, select **More actions**, and then **Delete pipeline**.
 
 1. Select **Delete data pipeline** to confirm.
 

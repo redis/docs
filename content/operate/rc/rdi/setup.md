@@ -34,9 +34,9 @@ See the [RDI architecture overview]({{< relref "/integrate/redis-data-integratio
 
 Before you can set up your source connectivity and secrets, you need the AWS Account ID for your Redis Cloud cluster so that you can give it access to your connectivity and secrets. 
 
-1. On the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Pipelines** tab.
+1. On the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Integration** tab.
 1. Select **Add pipeline**.
-    {{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The workspace section of the Pipelines tab for a database. Select Add pipeline to add a pipeline." width=80% >}}
+    {{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The workspace section of the Data Integration tab for a database. Select Add pipeline to add a pipeline." width=80% >}}
 1. Select your source database type. The following database types are supported:
     - MySQL
     - mariaDB
