@@ -146,7 +146,7 @@ public sealed class FeatureStore
     ///   Redis deleted the field instead of applying a TTL.</item>
     ///   <item><c>ConditionNotMet</c> (= 0): NX/XX/GT/LT condition
     ///   not met (we never use one here).</item>
-    ///   <item><c>NotExist</c> (= -2): no such field, or no such key.</item>
+    ///   <item><c>NoSuchField</c> (= -2): no such field, or no such key.</item>
     /// </list>
     /// We always follow <c>HSET</c> with <c>HEXPIRE</c> so any code
     /// other than <c>Success</c> means the per-field TTL invariant
@@ -310,12 +310,15 @@ public sealed class FeatureStore
         if (fieldNames.Count == 0) return out_;
         var values = fieldNames.Select(f => (RedisValue)f).ToArray();
         var ms = await _db.HashFieldGetTimeToLiveAsync(KeyFor(entityId), values);
+        // SE.Redis 2.13 returns a flat long[] of length == fieldNames.Count
+        // (filled with -2s for a missing key). Coerce defensively against
+        // any future version that might return a shorter or empty array.
         for (int i = 0; i < fieldNames.Count; i++)
         {
             // HTTL returns ms remaining; negative sentinels pass
             // through. Convert positive durations to whole seconds
             // for parity with the other clients' helpers.
-            long v = ms[i];
+            long v = i < ms.Length ? ms[i] : -2L;
             out_[fieldNames[i]] = v < 0 ? v : v / 1000;
         }
         return out_;

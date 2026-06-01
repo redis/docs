@@ -23,6 +23,12 @@ path = "build_features_bin.rs"
 redis = { version = "0.27", features = ["tokio-comp", "aio", "connection-manager"] }
 tokio = { version = "1", features = ["full"] }
 axum = "0.7"
+# axum-extra ships an alternative Form extractor that uses
+# `serde_html_form` under the hood; unlike axum's default Form (backed
+# by serde_urlencoded) it deserializes repeated keys into `Vec<String>`,
+# which is what we need to accept the demo's `field=name1&field=name2`
+# request bodies.
+axum-extra = { version = "0.9", features = ["form"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 rand = "0.8"

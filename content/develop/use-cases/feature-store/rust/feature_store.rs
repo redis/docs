@@ -9,7 +9,6 @@
 use std::collections::BTreeMap;
 use std::sync::atomic::{AtomicI64, Ordering};
 use std::sync::Arc;
-use std::time::Duration;
 
 use redis::aio::ConnectionManager;
 use redis::{AsyncCommands, FromRedisValue, RedisResult, Value};
@@ -40,11 +39,6 @@ pub const DEFAULT_STREAMING_FIELDS: &[&str] = &[
 pub const DEFAULT_BATCH_TTL_SECONDS: u64 = 24 * 60 * 60;
 pub const DEFAULT_STREAMING_TTL_SECONDS: u64 = 5 * 60;
 pub const DEFAULT_KEY_PREFIX: &str = "fs:user:";
-
-/// Hard cap on how long a single redis call can block before the
-/// `tokio::time::timeout` wrapper bails out. Stops a stuck server from
-/// hanging the demo's web UI indefinitely.
-pub const REQUEST_TIMEOUT: Duration = Duration::from_secs(10);
 
 /// One feature value the helper knows how to encode.
 #[derive(Debug, Clone)]

@@ -70,7 +70,7 @@ var seeded = await store.BulkLoadAsync(
     BuildFeatures.SynthesizeUsers(seedUsers, demoSeed),
     batchTtlSeconds);
 
-worker.Start();
+await worker.StartAsync();
 
 var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.UseUrls($"http://{host}:{port}");
@@ -191,7 +191,7 @@ app.MapPost("/worker/toggle", async () =>
     await demoLock.WaitAsync();
     try
     {
-        if (!worker.IsRunning) worker.Start();
+        if (!worker.IsRunning) await worker.StartAsync();
         if (worker.IsPaused) worker.Resume();
         else worker.Pause();
         return Results.Json(new { paused = worker.IsPaused, running = worker.IsRunning });

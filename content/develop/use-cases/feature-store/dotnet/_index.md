@@ -87,6 +87,73 @@ is doing right now (`last_login_ts`, `last_device_id`, `tx_count_5m`,
 background task. The HTTP handlers in `Program.cs` read any subset of those
 features through `FeatureStore`'s helper class.
 
+## How it works
+
+There are three paths: a **batch path** that bulk-loads features once per
+materialization cycle, a **streaming path** that updates real-time features
+as events arrive, and an **inference path** that reads features on the
+request side.
+
+### Batch path (per materialization cycle)
+
+1. The batch job calls `BuildFeatures.SynthesizeUsers(N, seed)` (in
+   production, the equivalent computation lives in an offline pipeline
+   against the warehouse). The result is
+   `Dictionary<string, IReadOnlyDictionary<string, object>>` keyed by user
+   ID.
+2. `store.BulkLoadAsync(rows, ttlSeconds)` queues one
+   [`HSET`]({{< relref "/commands/hset" >}}) plus one
+   [`EXPIRE`]({{< relref "/commands/expire" >}}) per user on an `IBatch`,
+   calls `batch.Execute()` to ship the whole thing in one round trip, then
+   `Task.WhenAll` waits for every per-command reply.
+
+### Streaming path (per event)
+
+When a user does something (login, transaction, page view) the streaming
+layer computes whatever real-time signals fall out of that event and
+calls `store.UpdateStreamingAsync(userId, fields, ttlSeconds)`. That queues:
+
+1. An [`HSET`]({{< relref "/commands/hset" >}}) writing the new field values.
+   Redis is single-threaded per shard, so this is atomic against any
+   concurrent batch write on the same hash — no version columns, no locks.
+2. An [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) over exactly the
+   fields that were written, with the streaming TTL. Each streaming field
+   carries its own per-field expiry independent of the rest of the hash.
+   Stop the worker and these fields drop out one by one as their TTLs
+   elapse, while the batch fields remain populated under the longer
+   key-level TTL.
+
+### Inference path (per request)
+
+1. The model server picks the feature subset it needs (the schema is owned
+   by the model, not the store).
+2. It calls `store.GetFeaturesAsync(userId, names)`, which is one
+   [`HMGET`]({{< relref "/commands/hmget" >}}). StackExchange.Redis returns
+   the values in the same order as the requested fields, with
+   `RedisValue.Null` for any field that doesn't exist (or has expired).
+3. For batch inference, the model server calls
+   `store.BatchGetFeaturesAsync(userIds, names)`, which pipelines one
+   [`HMGET`]({{< relref "/commands/hmget" >}}) per user across all `N`
+   users in a single network round trip via `IBatch`.
+
+### Project layout
+
+The csproj sits at the project root with every C# source file next to it,
+mirroring every other client demo in this use case:
+
+```text
+feature-store/dotnet/
+├── FeatureStoreDemo.csproj
+├── Program.cs              — main() + ASP.NET Core minimal-API routes
+├── FeatureStore.cs         — FeatureStore class + EncodeValue + Stats record
+├── BuildFeatures.cs        — SynthesizeUsers + RunCliAsync
+├── StreamingWorker.cs      — background-task worker
+└── HtmlTemplate.cs         — inlined HTML page (C# 11 raw string literal)
+```
+
+Build and run with `dotnet run -c Release`. The `--mode build-features`
+flag short-circuits to the CLI builder before the HTTP server starts up.
+
 ## The feature-store helper
 
 The `FeatureStore` class wraps the read/write paths
@@ -270,7 +337,7 @@ TTL to each of those same fields. `HashFieldExpireAsync` returns one
   deleted the field instead of applying a TTL.
 * `ExpireResult.ConditionNotMet` (= `0`): an `NX | XX | GT | LT`
   conditional flag was specified and not met (we never use one here).
-* `ExpireResult.NotExist` (= `-2`): no such field, or no such key.
+* `ExpireResult.NoSuchField` (= `-2`): no such field, or no such key.
 
 We always follow `HSET` with `HEXPIRE` so any code other than `Success`
 means the per-field TTL invariant didn't hold — the helper throws an
@@ -543,12 +610,24 @@ The guidance below focuses on the production concerns specific to
 running a feature store on Redis. For the generic
 StackExchange.Redis production checklist —
 [`ConfigurationOptions`]({{< relref "/develop/clients/dotnet/connect" >}})
-tuning, AUTH/ACL, retry/backoff, error handling — see the
-[client guide]({{< relref "/develop/clients/dotnet" >}}). For TLS
-specifically, follow the
+tuning, AUTH/ACL, retry/backoff, multiplexer lifetime, and exception
+handling — see the
+[StackExchange.Redis production usage guide]({{< relref "/develop/clients/dotnet/produsage" >}}).
+For TLS specifically, follow the
 [connect-with-TLS recipe]({{< relref "/develop/clients/dotnet/connect#connect-to-your-production-redis-with-tls" >}}).
 The feature-store demo runs against `localhost` with the defaults; a real
 deployment should harden the client first.
+
+### Adopting the helper outside ASP.NET Core
+
+`FeatureStore.cs` omits `.ConfigureAwait(false)` on its `await` calls
+because ASP.NET Core 8 has no synchronization context — every `await`
+resumes on a thread-pool thread, so the flag is a no-op and just
+clutters the source. If you copy the helper into a context that *does*
+have a synchronization context (a Windows Forms or WPF app, classic
+ASP.NET, a Xamarin or MAUI UI thread, or a library that needs to play
+nicely with any consumer) add `.ConfigureAwait(false)` after every
+`await` to avoid deadlocking the UI thread on the resumption.
 
 ### Pick the batch TTL to outlast a failed refresher
 

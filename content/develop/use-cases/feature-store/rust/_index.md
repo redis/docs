@@ -83,6 +83,56 @@ right now (`last_login_ts`, `last_device_id`, `tx_count_5m`,
 Streams job. The HTTP handlers in `demo_server.rs` read any subset of those
 features through `feature_store.rs`'s helper struct.
 
+## How it works
+
+There are three paths: a **batch path** that bulk-loads features once per
+materialization cycle, a **streaming path** that updates real-time features
+as events arrive, and an **inference path** that reads features on the
+request side.
+
+### Batch path (per materialization cycle)
+
+1. The batch job calls `synthesize_users(N, seed)` (in production, the
+   equivalent computation lives in an offline pipeline against the
+   warehouse). The result is a `Vec<(String, FeatureMap)>` for every user
+   in this cycle.
+2. `store.bulk_load(&rows, ttl_seconds).await` queues one
+   [`HSET`]({{< relref "/commands/hset" >}}) plus one
+   [`EXPIRE`]({{< relref "/commands/expire" >}}) per user through a
+   non-transactional `redis::pipe()`, so the whole batch ships in a single
+   round trip.
+
+### Streaming path (per event)
+
+When a user does something (login, transaction, page view) the streaming
+layer computes whatever real-time signals fall out of that event and
+calls `store.update_streaming(user_id, &fields, ttl_seconds).await`. That
+queues:
+
+1. An [`HSET`]({{< relref "/commands/hset" >}}) writing the new field
+   values. Redis is single-threaded per shard, so this is atomic against
+   any concurrent batch write on the same hash — no version columns, no
+   locks.
+2. An [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) over exactly the
+   fields that were written, with the streaming TTL. Each streaming field
+   carries its own per-field expiry independent of the rest of the hash.
+   Stop the worker and these fields drop out one by one as their TTLs
+   elapse, while the batch fields remain populated under the longer
+   key-level TTL.
+
+### Inference path (per request)
+
+1. The model server picks the feature subset it needs (the schema is
+   owned by the model, not the store).
+2. It calls `store.get_features(user_id, &names).await`, which is one
+   [`HMGET`]({{< relref "/commands/hmget" >}}). Redis returns the values
+   in the same order as the requested fields, with `None` for any field
+   that doesn't exist (or has expired).
+3. For batch inference, the model server calls
+   `store.batch_get_features(&user_ids, &names).await`, which pipelines
+   one [`HMGET`]({{< relref "/commands/hmget" >}}) per user across all
+   `N` users in a single network round trip via `redis::pipe()`.
+
 ## The feature-store helper
 
 The `FeatureStore` struct wraps the read/write paths

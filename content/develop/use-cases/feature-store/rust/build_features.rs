@@ -78,14 +78,20 @@ pub async fn cli_main() -> redis::RedisResult<()> {
     let mut seed: u64 = 42;
 
     let args: Vec<String> = std::env::args().skip(1).collect();
+    let need_value = |flag: &str, idx: usize| -> &String {
+        args.get(idx + 1).unwrap_or_else(|| {
+            eprintln!("Missing value for {flag}");
+            std::process::exit(2);
+        })
+    };
     let mut i = 0usize;
     while i < args.len() {
         match args[i].as_str() {
-            "--redis-url" => { redis_url = args[i + 1].clone(); i += 2; }
-            "--count" => { count = args[i + 1].parse().unwrap_or(count); i += 2; }
-            "--ttl-seconds" => { ttl_seconds = args[i + 1].parse().unwrap_or(ttl_seconds); i += 2; }
-            "--key-prefix" => { key_prefix = args[i + 1].clone(); i += 2; }
-            "--seed" => { seed = args[i + 1].parse().unwrap_or(seed); i += 2; }
+            "--redis-url" => { redis_url = need_value("--redis-url", i).clone(); i += 2; }
+            "--count" => { count = need_value("--count", i).parse().unwrap_or(count); i += 2; }
+            "--ttl-seconds" => { ttl_seconds = need_value("--ttl-seconds", i).parse().unwrap_or(ttl_seconds); i += 2; }
+            "--key-prefix" => { key_prefix = need_value("--key-prefix", i).clone(); i += 2; }
+            "--seed" => { seed = need_value("--seed", i).parse().unwrap_or(seed); i += 2; }
             "-h" | "--help" => {
                 println!("Usage: build_features [--redis-url URL] [--count N] [--ttl-seconds S] [--key-prefix PREFIX] [--seed N]");
                 return Ok(());

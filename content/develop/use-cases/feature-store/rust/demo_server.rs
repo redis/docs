@@ -13,13 +13,17 @@ use std::sync::Arc;
 use std::time::{Duration, Instant};
 
 use axum::{
-    body::Bytes,
     extract::{Query, State},
     http::StatusCode,
     response::{Html, IntoResponse, Json},
     routing::{get, post},
     Router,
 };
+// `axum-extra`'s Form extractor wraps `serde_html_form`, which (unlike
+// axum's default `Form`/`serde_urlencoded`) keeps every value when a
+// form key repeats. That's what lets `field=a&field=b` deserialize as
+// `Vec<String>` in `ReadForm` and `BatchReadForm` below.
+use axum_extra::extract::Form;
 use serde::{Deserialize, Serialize};
 use tokio::sync::Mutex;
 
@@ -73,17 +77,23 @@ impl Default for Args {
 fn parse_args() -> Args {
     let mut a = Args::default();
     let argv: Vec<String> = std::env::args().skip(1).collect();
+    let need_value = |flag: &str, idx: usize| -> &String {
+        argv.get(idx + 1).unwrap_or_else(|| {
+            eprintln!("Missing value for {flag}");
+            std::process::exit(2);
+        })
+    };
     let mut i = 0usize;
     while i < argv.len() {
         match argv[i].as_str() {
-            "--host" => { a.host = argv[i + 1].clone(); i += 2; }
-            "--port" => { a.port = argv[i + 1].parse().unwrap_or(a.port); i += 2; }
-            "--redis-url" => { a.redis_url = argv[i + 1].clone(); i += 2; }
-            "--key-prefix" => { a.key_prefix = argv[i + 1].clone(); i += 2; }
-            "--batch-ttl-seconds" => { a.batch_ttl_seconds = argv[i + 1].parse().unwrap_or(a.batch_ttl_seconds); i += 2; }
-            "--streaming-ttl-seconds" => { a.streaming_ttl_seconds = argv[i + 1].parse().unwrap_or(a.streaming_ttl_seconds); i += 2; }
-            "--users-per-tick" => { a.users_per_tick = argv[i + 1].parse().unwrap_or(a.users_per_tick); i += 2; }
-            "--seed-users" => { a.seed_users = argv[i + 1].parse().unwrap_or(a.seed_users); i += 2; }
+            "--host" => { a.host = need_value("--host", i).clone(); i += 2; }
+            "--port" => { a.port = need_value("--port", i).parse().unwrap_or(a.port); i += 2; }
+            "--redis-url" => { a.redis_url = need_value("--redis-url", i).clone(); i += 2; }
+            "--key-prefix" => { a.key_prefix = need_value("--key-prefix", i).clone(); i += 2; }
+            "--batch-ttl-seconds" => { a.batch_ttl_seconds = need_value("--batch-ttl-seconds", i).parse().unwrap_or(a.batch_ttl_seconds); i += 2; }
+            "--streaming-ttl-seconds" => { a.streaming_ttl_seconds = need_value("--streaming-ttl-seconds", i).parse().unwrap_or(a.streaming_ttl_seconds); i += 2; }
+            "--users-per-tick" => { a.users_per_tick = need_value("--users-per-tick", i).parse().unwrap_or(a.users_per_tick); i += 2; }
+            "--seed-users" => { a.seed_users = need_value("--seed-users", i).parse().unwrap_or(a.seed_users); i += 2; }
             "--no-reset" => { a.reset_on_start = false; i += 1; }
             "-h" | "--help" => {
                 println!("Usage: demo_server [--host H] [--port P] [--redis-url URL] [--key-prefix PFX] [--batch-ttl-seconds S] [--streaming-ttl-seconds S] [--users-per-tick N] [--seed-users N] [--no-reset]");
@@ -250,14 +260,16 @@ async fn inspect(
     })))
 }
 
+#[derive(Deserialize)]
+struct BulkLoadForm { count: Option<i64>, ttl: Option<i64> }
+
 async fn bulk_load(
     State(state): State<AppState>,
-    body: Bytes,
+    Form(form): Form<BulkLoadForm>,
 ) -> impl IntoResponse {
     let _guard = state.demo_lock.lock().await;
-    let form = parse_form_multi(&body);
-    let count = clamp(parse_int(form.get("count").and_then(|v| v.first()), 200), 1, 2000) as usize;
-    let ttl = clamp(parse_int(form.get("ttl").and_then(|v| v.first()), 86400), 5, 172_800) as u64;
+    let count = clamp(form.count.unwrap_or(200), 1, 2000) as usize;
+    let ttl = clamp(form.ttl.unwrap_or(86400), 5, 172_800) as u64;
     let rows = synthesize_users(count, state.seed);
     let start = Instant::now();
     let loaded = match state.store.bulk_load(&rows, ttl).await {
@@ -311,24 +323,24 @@ async fn toggle_worker(State(state): State<AppState>) -> impl IntoResponse {
     }))
 }
 
+#[derive(Deserialize)]
+struct ReadForm {
+    user: Option<String>,
+    #[serde(default)]
+    field: Vec<String>,
+}
+
 async fn read(
     State(state): State<AppState>,
-    body: Bytes,
+    Form(form): Form<ReadForm>,
 ) -> impl IntoResponse {
-    let form = parse_form_multi(&body);
-    let user = form
-        .get("user")
-        .and_then(|v| v.first())
-        .cloned()
-        .unwrap_or_default();
+    let user = form.user.unwrap_or_default();
     if user.is_empty() {
         return (StatusCode::BAD_REQUEST,
             Json(serde_json::json!({"error": "user is required"})));
     }
     let fields: Vec<String> = form
-        .get("field")
-        .cloned()
-        .unwrap_or_default()
+        .field
         .into_iter()
         .filter(|f| !f.is_empty())
         .collect();
@@ -356,16 +368,20 @@ async fn read(
     })))
 }
 
+#[derive(Deserialize)]
+struct BatchReadForm {
+    count: Option<i64>,
+    #[serde(default)]
+    field: Vec<String>,
+}
+
 async fn batch_read(
     State(state): State<AppState>,
-    body: Bytes,
+    Form(form): Form<BatchReadForm>,
 ) -> impl IntoResponse {
-    let form = parse_form_multi(&body);
-    let count = clamp(parse_int(form.get("count").and_then(|v| v.first()), 100), 1, 500) as usize;
+    let count = clamp(form.count.unwrap_or(100), 1, 500) as usize;
     let mut fields: Vec<String> = form
-        .get("field")
-        .cloned()
-        .unwrap_or_default()
+        .field
         .into_iter()
         .filter(|f| !f.is_empty())
         .collect();
@@ -406,50 +422,6 @@ async fn batch_read(
 
 fn clamp(v: i64, lo: i64, hi: i64) -> i64 {
     v.max(lo).min(hi)
-}
-
-fn parse_int(s: Option<&String>, def: i64) -> i64 {
-    s.and_then(|v| v.parse::<i64>().ok()).unwrap_or(def)
-}
-
-/// Parse an `application/x-www-form-urlencoded` body into a
-/// multi-value map. `axum::Form` uses `serde_urlencoded` under the
-/// hood, which silently drops repeated keys — we need every
-/// `field=<name>` entry, so we parse the body manually.
-fn parse_form_multi(body: &Bytes) -> std::collections::HashMap<String, Vec<String>> {
-    let mut out: std::collections::HashMap<String, Vec<String>> = std::collections::HashMap::new();
-    let s = std::str::from_utf8(body).unwrap_or("");
-    if s.is_empty() { return out; }
-    for pair in s.split('&') {
-        let (k, v) = match pair.split_once('=') {
-            Some((k, v)) => (urldecode(k), urldecode(v)),
-            None => (urldecode(pair), String::new()),
-        };
-        out.entry(k).or_default().push(v);
-    }
-    out
-}
-
-/// Tiny URL decoder for `+` (space) and `%XX` (hex byte). UTF-8 safe
-/// because we buffer bytes and convert at the end.
-fn urldecode(s: &str) -> String {
-    let bytes = s.as_bytes();
-    let mut out: Vec<u8> = Vec::with_capacity(bytes.len());
-    let mut i = 0;
-    while i < bytes.len() {
-        match bytes[i] {
-            b'+' => { out.push(b' '); i += 1; }
-            b'%' if i + 2 < bytes.len() => {
-                if let Ok(byte) = u8::from_str_radix(&s[i + 1..i + 3], 16) {
-                    out.push(byte); i += 3;
-                } else {
-                    out.push(bytes[i]); i += 1;
-                }
-            }
-            c => { out.push(c); i += 1; }
-        }
-    }
-    String::from_utf8_lossy(&out).into_owned()
 }
 
 fn render_html_page(key_prefix: &str, streaming_ttl: u64, users_per_tick: usize) -> String {

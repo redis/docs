@@ -49,6 +49,11 @@ public sealed class StreamingWorker
 
     private CancellationTokenSource? _cts;
     private Task? _task;
+    // Serializes start/stop so a Ctrl+C-triggered StopAsync can't
+    // race with a /worker/toggle Start() (or vice versa). Without
+    // this, the two could each be observing or replacing _cts/_task
+    // while the other is mid-flight.
+    private readonly SemaphoreSlim _lifecycleLock = new(1, 1);
 
     public StreamingWorker(FeatureStore store, TimeSpan tick, int usersPerTick, int seed)
     {
@@ -62,21 +67,41 @@ public sealed class StreamingWorker
     // Lifecycle
     // ---------------------------------------------------------------
 
-    public void Start()
+    public async Task StartAsync()
     {
-        if (Interlocked.CompareExchange(ref _running, 1, 0) != 0) return;
-        Interlocked.Exchange(ref _paused, 0);
-        _cts = new CancellationTokenSource();
-        _task = Task.Run(() => RunAsync(_cts.Token));
+        await _lifecycleLock.WaitAsync();
+        try
+        {
+            if (Interlocked.CompareExchange(ref _running, 1, 0) != 0) return;
+            Interlocked.Exchange(ref _paused, 0);
+            _cts = new CancellationTokenSource();
+            _task = Task.Run(() => RunAsync(_cts.Token));
+        }
+        finally { _lifecycleLock.Release(); }
     }
 
     public async Task StopAsync()
     {
-        if (Interlocked.Exchange(ref _running, 0) != 1) return;
-        _cts?.Cancel();
-        try { if (_task is not null) await _task; }
+        // Capture the task/CTS locally under the lifecycle lock so
+        // a concurrent StartAsync can't clear them on us before we
+        // get to await.
+        Task? task;
+        CancellationTokenSource? cts;
+        await _lifecycleLock.WaitAsync();
+        try
+        {
+            if (Interlocked.Exchange(ref _running, 0) != 1) return;
+            task = _task;
+            cts = _cts;
+            _task = null;
+            _cts = null;
+        }
+        finally { _lifecycleLock.Release(); }
+
+        cts?.Cancel();
+        try { if (task is not null) await task; }
         catch (OperationCanceledException) { /* expected */ }
-        _task = null;
+        cts?.Dispose();
         Interlocked.Exchange(ref _tickInFlight, 0);
     }
 
