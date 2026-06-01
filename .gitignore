@@ -27,3 +27,8 @@ package-lock.json
 # .NET build output for the docs demos
 /content/develop/use-cases/**/dotnet/bin/
 /content/develop/use-cases/**/dotnet/obj/
+# PHP and Ruby build output for the docs demos
+/content/develop/use-cases/**/php/vendor/
+/content/develop/use-cases/**/php/composer.lock
+/content/develop/use-cases/**/ruby/.gems/
+/content/develop/use-cases/**/ruby/Gemfile.lock

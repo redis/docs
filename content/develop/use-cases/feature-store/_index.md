@@ -162,3 +162,5 @@ for a single user under 1 ms, and pipeline batch reads across a hundred users.
 * [Lettuce (Java)]({{< relref "/develop/use-cases/feature-store/java-lettuce" >}})
 * [redis-rs (Rust)]({{< relref "/develop/use-cases/feature-store/rust" >}})
 * [StackExchange.Redis (C#)]({{< relref "/develop/use-cases/feature-store/dotnet" >}})
+* [Predis (PHP)]({{< relref "/develop/use-cases/feature-store/php" >}})
+* [redis-rb (Ruby)]({{< relref "/develop/use-cases/feature-store/ruby" >}})
