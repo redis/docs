@@ -36,10 +36,6 @@ VCARD word_embeddings
 is the name of the key that holds the vector set.
 </details>
 
-## Related topics
-
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
@@ -59,3 +55,7 @@ is the name of the key that holds the vector set.
 [Integer reply](../../develop/reference/protocol-spec#integers): 0 if the key doesn't exist or the number of elements contained in the vector set.
 
 {{< /multitabs >}}
+
+## Related topics
+
+- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})

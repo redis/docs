@@ -76,10 +76,6 @@ TTL mykey
 GET mykey
 {{% /redis-cli %}}
 
-## See also
-
-[`TTL`]({{< relref "/commands/ttl" >}})
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
@@ -99,3 +95,7 @@ GET mykey
 [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
 
 {{< /multitabs >}}
+
+## See also
+
+[`TTL`]({{< relref "/commands/ttl" >}})

@@ -38,10 +38,6 @@ If the vector set was created using the `REDUCE` option for dimensionality reduc
 is the name of the key that holds the vector set.
 </details>
 
-## Related topics
-
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
@@ -65,3 +61,7 @@ One of the following:
 * [Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the key does not exist.
 
 {{< /multitabs >}}
+
+## Related topics
+
+- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
