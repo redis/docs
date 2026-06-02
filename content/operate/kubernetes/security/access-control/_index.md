@@ -65,6 +65,53 @@ Every role carries permissions on two independent planes. Set either, or both:
 
 The user's effective roles appear in `status.roles`. A user with no binding gets the Redis Software `none` role so it's never roleless, but it has zero permissions until a binding lands.
 
+### Worked example
+
+End-to-end: an ACL, a database-scoped role that uses it, a binding that hands the role to a user, and the user itself. All four resources live in the operator namespace.
+
+```yaml
+---
+apiVersion: app.redislabs.com/v1alpha1
+kind: RedisEnterpriseACL
+metadata:
+  name: read-only
+spec:
+  acl: "+@read ~*"
+---
+apiVersion: app.redislabs.com/v1alpha1
+kind: RedisEnterpriseRole
+metadata:
+  name: orders-viewer
+spec:
+  managementRole: DBViewer
+  scopes:
+  - name: orders
+  acls:
+  - name: read-only
+---
+apiVersion: app.redislabs.com/v1alpha1
+kind: RedisEnterpriseRoleBinding
+metadata:
+  name: alice-orders-viewer
+spec:
+  roleRef:
+    name: orders-viewer
+  subjects:
+  - name: alice
+---
+apiVersion: app.redislabs.com/v1alpha1
+kind: RedisEnterpriseUser
+metadata:
+  name: alice
+spec:
+  email: alice@example.com
+  username: alice
+  passwordSecrets:
+  - name: alice-password
+```
+
+After applying this and a Secret named `alice-password` with a `password` key, Alice can sign in to Redis Software with `DBViewer` permissions on the `orders` REDB and run read-only Redis commands on every key in that database.
+
 ## What's the same as Redis Software
 
 The underlying Redis Software behavior is unchanged. For concepts and reference details, see the existing Redis Software docs:

@@ -66,6 +66,16 @@ The new user has no permissions until you create a role binding. The operator as
 
 For the full schema, see [`RedisEnterpriseUser`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_user_api" >}}).
 
+### Use a generated username
+
+If you omit `spec.username`, the operator assigns one and reports it in `status.username`. Read it with:
+
+```sh
+kubectl get redisenterpriseuser alice -o jsonpath='{.status.username}'
+```
+
+Use that value when you reference the user from a binding's `subjects` list or when you sign in to Redis Software.
+
 ## Choose a password mode
 
 `spec.passwordMode` controls how passwords change.

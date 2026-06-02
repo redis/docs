@@ -57,6 +57,21 @@ spec:
 
 `kind` defaults to `RedisEnterpriseDatabase` and can be omitted.
 
+To scope a role to several databases by name, list each one as its own scope entry:
+
+```yaml
+spec:
+  managementRole: DBViewer
+  scopes:
+  - name: orders
+  - name: customers
+  - name: inventory
+  acls:
+  - name: read-only
+```
+
+Every ACL in `spec.acls` applies to every REDB in `spec.scopes`. If a database needs a different ACL, create a separate role for it.
+
 ### Scope a role by label selector
 
 Use a selector when you want the role to follow a set of REDBs that share labels, rather than naming each one:
