@@ -14,13 +14,6 @@
       "type": "string",
       "description": "A brief description of the page content"
     },
-    "categories": {
-      "type": "array",
-      "description": "Array of category tags for the page",
-      "items": {
-        "type": "string"
-      }
-    },
     "tableOfContents": {
       "$ref": "#/definitions/tableOfContents"
     },
@@ -51,10 +44,6 @@
     "since": {
       "type": "string",
       "description": "Redis version when the command was introduced (for command reference pages)"
-    },
-    "arity": {
-      "type": "integer",
-      "description": "Number of arguments the command accepts (for command reference pages)"
     },
     "key_specs": {
       "type": "array",
@@ -108,10 +97,6 @@
           "enum": ["beginner", "intermediate", "advanced"],
           "description": "Difficulty level of the example"
         },
-        "codetabsId": {
-          "type": "string",
-          "description": "DOM element ID of the codetabs container"
-        },
         "languages": {
           "type": "array",
           "description": "Array of language-specific code variants",
@@ -124,15 +109,11 @@
     "languageVariant": {
       "type": "object",
       "description": "A language-specific variant of a code example",
-      "required": ["id", "panelId"],
+      "required": ["id"],
       "properties": {
         "id": {
           "type": "string",
           "description": "Display name of the language (e.g., 'Python', 'Node.js', 'Java-Sync')"
-        },
-        "panelId": {
-          "type": "string",
-          "description": "DOM element ID of the code panel for this language"
         },
         "langId": {
           "type": "string",

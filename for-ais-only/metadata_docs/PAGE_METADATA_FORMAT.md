@@ -21,7 +21,6 @@ Redis documentation pages include AI-friendly metadata that helps AI agents unde
 
 ### Categorization Fields
 
-- **`categories`** (array): Category tags for the page (e.g., `["docs", "develop", "stack"]`)
 - **`scope`** (string): Scope or domain of the page content
 - **`topics`** (array): Related topics
 - **`relatedPages`** (array): Links to related documentation pages
@@ -35,7 +34,6 @@ Redis documentation pages include AI-friendly metadata that helps AI agents unde
 - **`command_flags`** (array): Flags associated with the command
 - **`acl_categories`** (array): ACL categories for the command
 - **`since`** (string): Redis version when the command was introduced
-- **`arity`** (integer): Number of arguments the command accepts
 - **`key_specs`** (array): Key specifications for the command
 
 ### Code Examples Fields
@@ -48,13 +46,13 @@ Redis documentation pages include AI-friendly metadata that helps AI agents unde
     - Used to indicate learning progression and dependencies between examples
     - Example: `["set_get"]` means this example requires understanding the "set_get" example first
     - Multiple dependencies: `["lpush_rpush", "lpop_rpop"]` indicates this example builds on both
-  - **`codetabsId`** (string, optional): DOM element ID of the codetabs container
   - **`languages`** (array): Array of language-specific code variants
     - **`id`** (string): Display name of the language (e.g., `"Python"`, `"Node.js"`, `"Java-Sync"`)
-    - **`panelId`** (string): DOM element ID of the code panel for this language
     - **`langId`** (string): Stable language identifier (e.g., `"python"`, `"javascript"`, `"java"`)
     - **`clientId`** (string): Stable client library identifier (e.g., `"redis-py"`, `"node-redis"`, `"lettuce"`)
     - **`clientName`** (string): Human-readable client library name (e.g., `"redis-py"`, `"Jedis"`, `"Lettuce"`)
+
+The DOM element IDs of the codetabs container and per-language code panels are not duplicated here — they are available directly on the rendered `<div class="codetabs">` element (see [Per-Codetabs Metadata](#per-codetabs-metadata)).
 
 ### Metadata Location Fields
 
@@ -74,7 +72,6 @@ Redis documentation pages include AI-friendly metadata that helps AI agents unde
   "title": "Redis data types",
   "description": "Overview of data types supported by Redis",
   "location": "head",
-  "categories": ["docs", "develop", "stack", "oss"],
   "tableOfContents": {
     "sections": [
       {
@@ -102,17 +99,14 @@ Redis documentation pages include AI-friendly metadata that helps AI agents unde
   "title": "String operations",
   "description": "Learn how to work with string values in Redis",
   "location": "head",
-  "categories": ["docs", "develop"],
   "codeExamples": [
     {
       "id": "set_get",
       "description": "Foundational: Set and retrieve string values using SET and GET",
       "difficulty": "beginner",
-      "codetabsId": "set_get_example",
       "languages": [
         {
           "id": "Python",
-          "panelId": "set_get_python",
           "langId": "python",
           "clientId": "redis-py",
           "clientName": "redis-py"
@@ -124,11 +118,9 @@ Redis documentation pages include AI-friendly metadata that helps AI agents unde
       "description": "Conditional SET operations: Use NX and XX options for atomic compare-and-set",
       "difficulty": "intermediate",
       "buildsUpon": ["set_get"],
-      "codetabsId": "setnx_xx_example",
       "languages": [
         {
           "id": "Python",
-          "panelId": "setnx_xx_python",
           "langId": "python",
           "clientId": "redis-py",
           "clientName": "redis-py"
@@ -139,11 +131,9 @@ Redis documentation pages include AI-friendly metadata that helps AI agents unde
       "id": "mset",
       "description": "Set and retrieve multiple values using MSET and MGET",
       "buildsUpon": ["set_get"],
-      "codetabsId": "mset_example",
       "languages": [
         {
           "id": "Python",
-          "panelId": "mset_python",
           "langId": "python",
           "clientId": "redis-py",
           "clientName": "redis-py"
@@ -162,7 +152,6 @@ Redis documentation pages include AI-friendly metadata that helps AI agents unde
   "description": "Set the string value of a key",
   "location": "body",
   "duplicateOf": "head:data-ai-metadata",
-  "categories": ["docs", "commands"],
   "codeExamples": [...]
 }
 ```
