@@ -266,16 +266,24 @@ Console.WriteLine($"Using Redis at {redisUri} with key prefix '{keyPrefix}' " +
 Console.WriteLine($"Materialized {seeded} user(s); streaming worker running.");
 
 var appTask = app.RunAsync();
+var shutdownTcs = new TaskCompletionSource();
 
-Console.CancelKeyPress += async (_, e) =>
+// Synchronous handler only — `async void` here would swallow any
+// exception from StopAsync into an unobserved task and return to
+// the runtime before the awaited cleanup completes. Signal a
+// completion source instead and let the main flow await the
+// shutdown chain in order, with normal exception propagation.
+Console.CancelKeyPress += (_, e) =>
 {
     e.Cancel = true;
     Console.WriteLine("\nShutting down...");
-    await worker.StopAsync();
-    await app.StopAsync();
-    await mux.CloseAsync();
+    shutdownTcs.TrySetResult();
 };
 
+await Task.WhenAny(appTask, shutdownTcs.Task);
+await worker.StopAsync();
+await app.StopAsync();
+await mux.CloseAsync();
 await appTask;
 return 0;
 
