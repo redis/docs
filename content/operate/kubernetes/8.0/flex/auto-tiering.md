@@ -36,7 +36,7 @@ For more information on node storage, see [Node persistent and ephemeral storage
 
 ## Create a Redis Enterprise cluster
 
-To deploy a Redis Enterprise cluster (REC) with Auto Tiering, you'll need to specify the following in the `redisOnFlashSpec` section of your [REC custom resource]({{< relref "/operate/kubernetes/8.0/7.22/reference/api/redis_enterprise_cluster_api" >}}):
+To deploy a Redis Enterprise cluster (REC) with Auto Tiering, you'll need to specify the following in the `redisOnFlashSpec` section of your [REC custom resource]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api" >}}):
 
 - enable Auto Tiering (`enabled: true`)
 - flash storage driver (`bigStoreDriver`)
