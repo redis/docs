@@ -51,7 +51,7 @@ The list shows the following information for each index. Several columns include
 |--------|-------------|
 | **Index name** | The name of the index. |
 | **Index prefix** | The key prefix that the index matches. Keys whose names start with this prefix are automatically indexed. |
-| **Index types** | The field types used in the index schema (for example, text, tag, numeric, vector). |
+| **Index types** | The field types used in the index schema (for example, TEXT, TAG, NUMERIC, and VECTOR). |
 | **Docs** | The number of documents currently indexed. |
 | **Records** | The total number of indexed field-value pairs across all documents. (A document with five fields counts as five records.) |
 | **Terms** | The number of unique words extracted from `TEXT` fields for full-text search. |
@@ -93,7 +93,7 @@ Choose **Use existing data** to build an index over keys that already exist in y
 
 Redis Insight opens the create-index page with a key browser on the left. Select a key to get started: Redis Insight uses it to generate a suggested indexing schema. The index then covers **all keys that share the same prefix**, not just the key you selected.
 
-After you select a key, Redis Insight inspects it and automatically detects its fields, presenting the suggested schema on the right. You can edit the index name (shown as **Define search index: `<name>`**) using the pencil icon next to it, and edit the **Index prefix** to control which keys the index matches.
+After you select a key, Redis Insight inspects it and automatically detects its fields, presenting the suggested schema on the right. You can edit the index name (shown as **Define search index: `<name>`**) using the **pencil** icon next to it, and edit the **Index prefix** to control which keys the index matches.
 
 The schema is shown in a table with the following columns:
 
@@ -110,7 +110,7 @@ The first time you create an index from existing data, Redis Insight shows a sho
 {{< /note >}}
 &nbsp;
 {{< note >}}
-Nested objects and arrays cannot be indexed directly. If Redis Insight detects one, it removes the field and shows a warning that explains why.
+Nested JSON objects and arrays cannot be indexed directly. If Redis Insight detects one, it removes the field and shows a warning that explains why.
 {{< /note >}}
 
 #### Configure field types
