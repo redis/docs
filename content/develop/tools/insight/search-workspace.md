@@ -17,7 +17,7 @@ title: Search workspace
 weight: 5
 ---
 
-The **Search** workspace in Redis Insight is a dedicated space for working with the [Redis Search]({{< relref "/develop/ai/search-and-query" >}}). From a single page you can browse the search indexes in your database, create new indexes from sample or existing data, build and run queries with a schema-aware editor, and save queries to a reusable library.
+The **Search** workspace in Redis Insight is a dedicated space for working with [Redis Search]({{< relref "/develop/ai/search-and-query" >}}). From a single page you can browse the search indexes in your database, create new indexes from sample or existing data, build and run queries with a schema-aware editor, and save queries to a reusable library.
 
 To open the workspace, select **Search** in the menu at the top of the screen.
 
@@ -39,7 +39,7 @@ The first time you open the Search workspace for a database that has no search i
 
 {{< image filename="images/ri/ri-search-welcome.png" alt="The Search workspace welcome screen" >}}
 
-Once your database contains at least one search index, the Search workspace opens to the index list instead.
+If your database contains at least one search index, the Search workspace opens to the index list instead.
 
 ## Search indexes list
 
