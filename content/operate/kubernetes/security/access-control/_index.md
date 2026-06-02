@@ -53,7 +53,7 @@ A `RedisEnterpriseClusterRole` applies to REDBs even when they're represented by
 Every role carries permissions on two independent planes. Set either, or both:
 
 - **`spec.managementRole`** — Redis Software API and Cluster Manager UI permissions, chosen from the built-in roles listed in the table above. Same set of roles you'd assign in Cluster Manager today.
-- **`spec.acl`** — a reference to a `RedisEnterpriseACL`. The ACL controls Redis data-path access (commands, key patterns, categories). A role can reference at most one ACL; for different ACLs on different databases, create separate roles.
+- **`spec.acls`** — a list of `RedisEnterpriseACL` references. Each ACL controls Redis data-path access (commands, key patterns, categories). Duplicate references are rejected; for different ACLs on different databases, create separate roles.
 
 ### How a user gets permissions
 
