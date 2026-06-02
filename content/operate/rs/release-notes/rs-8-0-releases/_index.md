@@ -113,6 +113,10 @@ The following changes affect behavior and validation in Redis Search:
 
 - Improved handling of expired records, memory constraints, and malformed fields.
 
+### OpenSSL version
+
+Redis Software version 8.0.16 and later requires OpenSSL 3.3 or later.
+
 ### Reserved ports
 
 Make sure the following ports are open before upgrading Redis Software.
