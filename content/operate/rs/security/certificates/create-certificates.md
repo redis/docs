@@ -108,116 +108,586 @@ You can also use the REST API.  To learn more, see [Update certificates]({{< rel
 
 ## Create CA-signed certificates
 
-You can use certificates signed by a [certificate authority](https://en.wikipedia.org/wiki/Certificate_authority) (CA).  
+You can use certificates signed by a [certificate authority](https://en.wikipedia.org/wiki/Certificate_authority) (CA) for Redis Software cluster security.
 
 For best results, use the following guidelines to create the certificates.
 
-### TLS certificate guidelines
+### Certificate requirements
 
-When you create certificates signed by a certificate authority, you need to create server certificates and client certificates.  The following provide guidelines that apply to both certificates and guidance for each certificate type. 
+- Certificates must include both of the following in the extended key usage extension:
 
-#### Guidelines for server and client certificates
+    - TLS Web Server Authentication (OID: 1.3.6.1.5.5.7.3.1)
 
-1.  Include the full [certificate chain](https://en.wikipedia.org/wiki/X.509#Certificate_chains_and_cross-certification) when creating certificate .PEM files for either server or client certificates.   
+    - TLS Web Client Authentication (OID: 1.3.6.1.5.5.7.3.2)
 
-1.  List (_chain_) certificates in the .PEM file in the following order:
+    {{<warning>}}
+Using certificate templates that only include Server Authentication will cause SSL and TLS errors.
+    {{</warning>}}
 
-    ``` text    
-    -----BEGIN CERTIFICATE-----    
-    Domain (leaf) certificate
+- Include the full certificate chain when creating certificate .PEM files. List certificates in order from leaf to root. Some deployments may not require the root CA in the certificate file.
+
+    ```sh
+    -----BEGIN CERTIFICATE-----
+    <Leaf/Domain Certificate>
     -----END CERTIFICATE-----
     -----BEGIN CERTIFICATE-----
-    Intermediate CA certificate
-    -----END CERTIFICATE----
+    <Intermediate CA Certificate>
+    -----END CERTIFICATE-----
     -----BEGIN CERTIFICATE-----
-    Trusted Root CA certificate
+    <Root CA Certificate>
     -----END CERTIFICATE-----
     ```
 
-#### Server certificate guidelines
+- The Subject Alternative Name (SAN) extension must include the following DNS entries based on your cluster's fully qualified domain name (FQDN):
 
-Server certificates support clusters.  
-
-In addition to the general guidelines described earlier, the following guidelines apply to server certificates:
-
-1.  Use the cluster's fully qualified domain name (FQDN) as the certificate Common Name (CN).
-
-1.  Set the following values according to the values specified by your security team or certificate authority:
-
-    - Country Name (C)
-    - State or Province Name (ST)
-    - Locality Name (L)
-    - Organization Name (O)
-    - Organization Unit  (OU)
-
-1.  The [Subject Alternative Name](https://en.wikipedia.org/wiki/Subject_Alternative_Name) (SAN) should include the following values based on the FQDN:
-
-    ``` text
+    ```ini
     dns=<cluster-fqdn>
     dns=*.<cluster-fqdn>
     dns=internal.<cluster-fqdn>
     dns=*.internal.<cluster-fqdn>
     ```
 
-1.  The Extended Key Usage attribute should be set to `TLS Web Client Authentication` and `TLS Web Server Authentication`.
+    For example, if the cluster FQDN is `redis.example.com`, the DNS entries include:
 
-1.  We strongly recommend using a strong hash algorithm, such as <nobr>SHA-256</nobr> or <nobr>SHA-512</nobr>.
-
-    Individual operating systems might limit access to specific algorithms.  For example, Ubuntu 20.04 [limits  access](https://manpages.ubuntu.com/manpages/focal/man7/crypto-policies.7.html) to <nobr>SHA-1</nobr>.  In such cases, Redis Software is limited to the features supported by the underlying operating system.
-
-
-#### Client certificate guidelines
-
-Client certificates support database connections.  
-
-In addition to the general guidelines described earlier, the following guidelines apply to client certificates:
-
-1.  The Extended Key Usage attribute should be set to `TLS Web Client Authentication`.
-
-1.  We strongly recommend using a strong hash algorithm, such as <nobr>SHA-256</nobr> or <nobr>SHA-512</nobr>.
-
-    Individual operating systems might limit access to specific algorithms.  For example, Ubuntu 20.04 [limits  access](https://manpages.ubuntu.com/manpages/focal/man7/crypto-policies.7.html) to <nobr>SHA-1</nobr>.  In such cases, Redis Software is limited to the features supported by the underlying operating system.
-
-### Create certificates
-
-The actual process of creating CA-signed certificates varies according to the CA.  In addition, your security team may have custom instructions that you need to follow. 
-
-Here, we demonstrate the general process using OpenSSL.  If your CA provides alternate tools, you should use those according to their instructions. 
-
-However you choose to create the certificates, be sure to incorporate the guidelines described earlier.
-
-1.  Create a private key.
-
-    ``` bash
-    $ openssl genrsa -out <key-file-name>.pem 2048
+    ```ini
+    dns=redis.example.com
+    dns=*.redis.example.com
+    dns=internal.redis.example.com
+    dns=*.internal.redis.example.com
     ```
 
-1.  Create a certificate signing request.
+- The key usage extension must include:
 
-    ``` bash
-    $ openssl req -new -key <key-file-name>.pem -out \
-       <key-file-name>.csr -config <csr-config-file>.cnf
+    - Digital Signature
+    
+    - Key Encipherment
+
+- Use the cluster's fully qualified domain name (FQDN) for the Common Name (CN).
+
+- Use SHA-256 or SHA-512 for the signature algorithm.
+
+    {{<note>}}
+SHA-1 is deprecated and may be blocked by some operating systems.
+    {{</note>}}
+
+- The minimum key size is 2048 bits RSA. 4096 bits is recommended for enhanced security.
+
+- A validity period of 1 year or less is recommended.
+
+### Create certificates with OpenSSL
+
+1. Create a configuration file named `redis-cert.cnf` with the following content:
+
+    ```ini
+    [req]
+    default_bits = 2048
+    prompt = no
+    default_md = sha256
+    distinguished_name = dn
+    req_extensions = v3_req
+
+    [dn]
+    C = US
+    ST = California
+    L = Los Angeles
+    O = Your Organization
+    CN = redis-cluster.example.com
+
+    [v3_req]
+    keyUsage = critical, digitalSignature, keyEncipherment
+    extendedKeyUsage = serverAuth, clientAuth
+    subjectAltName = @alt_names
+
+    [alt_names]
+    DNS.1 = redis-cluster.example.com
+    DNS.2 = *.redis-cluster.example.com
+    DNS.3 = internal.redis-cluster.example.com
+    DNS.4 = *.internal.redis-cluster.example.com
     ```
-    _Important:&nbsp;_ The .CNF file is a configuration file.  Check with your security team or certificate authority for help creating a valid configuration file for your environment.
 
-3.  Sign the private key using your certificate authority.
+    Replace `redis-cluster.example.com` with your cluster's FQDN and replace the `[dn]` section with your own details. Check with your security team or certificate authority for help creating a valid configuration file for your environment.
+
+1. Create a private key:
 
     ```sh
-    $ openssl x509 -req -in <key-file-name>.csr -signkey <key-file-name>.pem -out <cert-name>.pem
+    openssl genrsa -out redis-key.pem 2048
     ```
 
-    The signing process varies for each organization and CA vendor.  Consult your security team and certificate authority for specific instructions describing how to sign a certificate.
+    For enhanced security, use a 4096-bit key:
 
-4.  Upload the certificate to your cluster.
-
-    You can use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/certificate" >}}) to replace the existing certificates with new certificates:
-
-    ``` console
-    $ rladmin cluster certificate set <cert-name> certificate_file \
-       <cert-name>.pem key_file <key-file-name>.pem
+    ```sh
+    openssl genrsa -out redis-key.pem 4096
     ```
 
-    For a list of values supported by the `<cert-name>` parameter, see the [earlier table](#replace-self-signed).
+1. Create a certificate signing request (CSR):
 
-    You can also use the REST API.  To learn more, see [Update certificates]({{< relref "/operate/rs/security/certificates/updating-certificates#how-to-update-certificates" >}}).
+    ```sh
+    openssl req -new \
+        -key redis-key.pem \
+        -out redis-cert.csr \
+        -config redis-cert.cnf
+    ```
+
+1. [Verify the certificate signing request and submit it to your CA](#submit-csr-to-the-certificate-authority).
+
+1. [Create a certificate chain file](#create-a-certificate-chain-file).
+
+#### Submit CSR to the certificate authority
+
+1. Before submitting to your CA, verify the certificate signing request contains all required attributes:
+
+    ```sh
+    openssl req -text -noout -verify -in redis-cert.csr
+    ```
+
+    Check the output for the following:
+
+    - Subject contains the correct Common Name.
+
+    - Subject Alternative Names include all required DNS entries.
+
+    - Key Usage includes `Digital Signature, Key Encipherment`.
+
+    - Extended Key Usage includes `TLS Web Server Authentication, TLS Web Client Authentication`.
+
+1. Submit `redis-cert.csr` to your certificate authority for signing. The process varies by CA:
+
+    - For an internal CA, follow your organization's certificate request process.
+
+    - For a commercial CA, use their web portal or API.
+
+    - For testing or development purposes only, you can create a self-signed certificate:
+
+        ```sh
+        openssl x509 -req \
+          -in redis-cert.csr \
+          -signkey redis-key.pem \
+          -out redis-cert.pem \
+          -days 365 \
+          -extensions v3_req \
+          -extfile redis-cert.cnf
+        ```
+
+        {{<warning>}}
+Do not use self-signed certificates in production.
+        {{</warning>}}
+
+#### Create a certificate chain file
+
+After receiving the signed certificate from your CA, create a certificate chain file by combining the certificates in the correct order:
+
+```sh
+cat redis-cert.pem intermediate-ca.pem root-ca.pem > redis-cert-chain.pem
+```
+
+You must order your certificates as follows:
+
+1. Leaf certificate, which is your domain certificate.
+
+1. Intermediate CA certificates.
+
+1. Root CA certificate, which is optional depending on your deployment.
+
+### Create certificates with Windows Active Directory Certificate Services
+
+To create certificates using Windows Active Directory Certificate Services:
+
+1. Complete the [prerequisites](#windows-ad-prereqs).
+
+1. [Create a modified Web Server template](#create-certificate-template).
+
+1. [Publish the template](#publish-the-template).
+
+1. [Request a certificate using certreq](#request-a-certificate-using-certreq).
+
+1. [Export the certificate and private key](#export-certificate-and-private-key).
+
+#### Prerequisites {#windows-ad-prereqs}
+
+Before you can create certificates with Windows Active Directory Certificate Services, you need:
+
+- Access to Windows Active Directory Certificate Services.
+
+- Permissions to modify certificate templates.
+
+- Certificate Templates Console certtmpl.msc.
+
+#### Create certificate template
+
+The default Web Server template in Windows AD CS only includes Server Authentication. You must create a modified template that includes both Server and Client Authentication.
+
+1. Open the Certificate Templates Console as an administrator:
+
+    ```sh
+    certtmpl.msc
+    ```
+
+1. Right-click the **Web Server** template, then select **Duplicate Template**.
+
+1. In the **General** tab:
+
+    1. Set **Template name** to `Redis Software Server`.
+
+    1. Set the **Validity period** to 1 year.
+
+1. In the **Extensions** tab:
+
+    1. Select **Application Policies**.
+
+    1. Click **Edit** and verify both of the following are present:
+
+        - Server Authentication (1.3.6.1.5.5.7.3.1)
+
+        - Client Authentication (1.3.6.1.5.5.7.3.2)
+
+    1. If Client Authentication is missing, click **Add**, select **Client Authentication**, and click **OK**.
+
+1. In the **Subject Name** tab, select **Supply in the request** to allow specifying Subject Alternative Names during the certificate request.
+
+1. In the **Extensions** tab:
+
+    1. Select **Key Usage**.
+
+    1. Click **Edit**.
+
+    1. Make sure **Digital signature** and **Key encipherment** are selected.
+
+1. In the **Security** tab:
+
+    1. Add appropriate users and groups.
+
+    1. Grant **Read** and **Enroll** permissions.
+
+1. Click **OK** to save the template.
+
+#### Publish the template
+
+1. Open the Certification Authority console:
+
+    ```sh
+    certsrv.msc
+    ```
+
+1. Expand your CA.
+
+1. Right-click **Certificate Templates**, then select **New > Certificate Template to Issue**.
+
+1. Select `Redis Software Server` and click **OK**.
+
+#### Request a certificate using certreq
+
+1. Create a certificate request file `redis-cert.inf`:
+
+    ```ini
+    [NewRequest]
+    Subject = "CN=redis-cluster.example.com,O=Your Organization,L=City,ST=State,C=US"
+    KeyLength = 2048
+    KeySpec = 1
+    Exportable = TRUE
+    MachineKeySet = TRUE
+    ProviderName = "Microsoft RSA SChannel Cryptographic Provider"
+    RequestType = PKCS10
+
+    [Extensions]
+    2.5.29.17 = "{text}"
+    _continue_ = "dns=redis-cluster.example.com&"
+    _continue_ = "dns=*.redis-cluster.example.com&"
+    _continue_ = "dns=internal.redis-cluster.example.com&"
+    _continue_ = "dns=*.internal.redis-cluster.example.com"
+    ```
+
+    Replace `redis-cluster.example.com` with your cluster's FQDN.
+
+1. Generate the certificate request:
+
+    ```sh
+    certreq -new redis-cert.inf redis-cert.req
+    ```
+
+1. Submit the request to your CA:
+
+    ```sh
+    certreq -submit -config "CA-SERVER\CA-Name" redis-cert.req redis-cert.cer
+    ```
+
+1. Accept the issued certificate:
+
+    ```sh
+    certreq -accept redis-cert.cer
+    ```
+
+#### Export certificate and private key
+
+1. Open Certificate Manager:
+
+    ```sh
+    certlm.msc
+    ```
+
+1. Go to **Personal > Certificates**.
+
+1. Right-click your certificate, then select **All Tasks > Export**.
+
+1. Export the certificate with the private key:
+
+    1. Select **Yes, export the private key**.
+
+    1. Choose **Personal Information Exchange - PKCS #12 (.PFX)**.
+
+    1. Set a password.
+
+    1. Save as `redis-cert.pfx`.
+
+1. Convert the certificate and key to PEM format using OpenSSL:
+
+    1. Extract the certificate chain:
+
+        ```sh
+        openssl pkcs12 -in redis-cert.pfx -nokeys -out redis-cert.pem
+        ```
+
+    1. Extract the private key:
+        ```sh
+        openssl pkcs12 -in redis-cert.pfx -nocerts -out redis-key.pem -nodes
+        ```
+
+### Validate certificates
+
+Before you upload certificates to Redis Software, validate that they meet all requirements:
+
+1. Validate extended key usage:
+
+    ```sh
+    openssl x509 -in redis-cert-chain.pem -text -noout | grep -A 3 "Extended Key Usage"
+    ```
+
+    Expected output:
+
+    ```sh
+    X509v3 Extended Key Usage:
+        TLS Web Server Authentication, TLS Web Client Authentication
+    ```
+
+    If Client Authentication is missing, the certificate will fail. You must reissue the certificate with both Server and Client Authentication.
+
+1. Validate key usage:
+
+    ```bash
+    openssl x509 -in redis-cert-chain.pem -text -noout | grep -A 2 "Key Usage"
+    ```
+
+    Expected output:
+
+    ```text
+    X509v3 Key Usage: critical
+        Digital Signature, Key Encipherment
+    ```
+
+1. Validate Subject Alternative Names:
+
+    ```sh
+    openssl x509 -in redis-cert-chain.pem -text -noout | grep -A 10 "Subject Alternative Name"
+    ```
+
+    Expected output:
+
+    ```sh
+    X509v3 Subject Alternative Name:
+        DNS:redis-cluster.example.com
+        DNS:*.redis-cluster.example.com
+        DNS:internal.redis-cluster.example.com
+        DNS:*.internal.redis-cluster.example.com
+    ```
+
+1. Validate certificate chain:
+
+    1. Count the certificates in the chain:
+
+        ```sh
+        grep -c "BEGIN CERTIFICATE" redis-cert-chain.pem
+        ```
+
+        Expected output: 2 or 3 if the root CA is included.
+
+    1. View all certificates in the chain:
+
+        ```bash
+        openssl crl2pkcs7 -nocrl -certfile redis-cert-chain.pem | \
+            openssl pkcs7 -print_certs -text -noout | \
+            grep -E "Subject:|Issuer:"
+        ```
+
+    1. Verify the chain order. Each certificate's `Issuer` should match the `Subject` of the next certificate.
+
+1. Validate the signature algorithm:
+
+    ```bash
+    openssl x509 -in redis-cert-chain.pem -text -noout | grep "Signature Algorithm"
+    ```
+
+    Expected output: `sha256WithRSAEncryption` or `sha512WithRSAEncryption`.
+    
+    {{<note>}}
+Avoid `sha1WithRSAEncryption` because it is deprecated and might be blocked.
+    {{</note>}}
+
+1. Validate the public key size:
+
+    ```bash
+    openssl x509 -in redis-cert-chain.pem -text -noout | grep "Public-Key"
+    ```
+
+    Expected output: `Public-Key: (2048 bit)` or higher.
+
+1. Verify the private key matches the certificate:
+
+    1. Get the certificate modulus:
+
+        ```sh
+        openssl x509 -noout -modulus -in redis-cert-chain.pem | openssl md5
+        ```
+
+    1. Get the key modulus:
+
+        ```sh
+        openssl rsa -noout -modulus -in redis-key.pem | openssl md5
+        ```
+
+    1. If the MD5 hashes do not match, you have the wrong private key file.
+
+1. Verify the certificate is currently valid and not expired:
+
+    ```bash
+    openssl x509 -in redis-cert-chain.pem -noout -dates
+    ```
+
+### Install certificates
+
+After creating and validating your certificates, install them on the Redis Software cluster:
+
+1. Set restrictive file permissions for the private key:
+
+    ```bash
+    $ chmod 600 redis-key.pem
+    $ chown redislabs:redislabs redis-key.pem
+    ```
+
+1. Set readable file permissions for the certificate:
+
+    ```bash
+    $ chmod 644 redis-cert-chain.pem
+    $ chown redislabs:redislabs redis-cert-chain.pem
+    ```
+
+1. Replace the existing certificates with the new certificates using [`rladmin cluster certificate`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/certificate">}}):
+
+    ```bash
+    rladmin cluster certificate set <cert-name> \
+        certificate_file /path/to/redis-cert-chain.pem \
+        key_file /path/to/redis-key.pem
+    ```
+
+    Replace `<cert-name>` with the relevant certificate name:
+
+    | Value | Description |
+    |-------|-------------|
+    | `api` | REST API certificate |
+    | `cm` | Cluster Manager UI certificate |
+    | `metrics_exporter` | Metrics exporter certificate |
+    | `proxy` | Database endpoint proxy certificate |
+    | `syncer` | Synchronization process certificate |
+
+1. Check certificate status:
+
+    ```sh
+    rladmin status certificates
+    ```
+
+1. View certificate details:
+
+    ```sh
+    rladmin info cluster
+    ```
+
+### Troubleshooting
+
+#### SSLV3_ALERT_UNSUPPORTED_CERTIFICATE error
+
+If the certificate's extended key usage does not include TLS Web Client Authentication, the following error occurs:
+
+```sh
+[SSL: SSLV3_ALERT_UNSUPPORTED_CERTIFICATE] ssl/tls alert unsupported certificate
+```
+
+To fix this error:
+
+1. Validate extended key usage:
+
+    ```bash
+    openssl x509 -in redis-cert-chain.pem -text -noout | grep -A 3 "Extended Key Usage"
+    ```
+
+1. If Client Authentication is missing, reissue the certificate:
+
+    - For OpenSSL, add the following line to the configuration file.
+
+        ```ini
+        extendedKeyUsage = serverAuth, clientAuth
+        ```
+
+    - For Windows AD CS, modify the certificate template and add Client Authentication to **Application Policies**.
+
+#### CERTIFICATE_VERIFY_FAILED error
+
+If a `CERTIFICATE_VERIFY_FAILED` error occurs, the certificate chain is incomplete or in the wrong order.
+
+To fix this error:
+
+1. Verify the certificate chain order. Each certificate's `Issuer` should match the `Subject` of the next certificate.
+
+    ```sh
+    openssl crl2pkcs7 -nocrl -certfile redis-cert-chain.pem | \
+        openssl pkcs7 -print_certs -text -noout | \
+        grep -E "Subject:|Issuer:"
+    ```
+
+1. Rebuild the certificate chain in the correct order:
+
+    ```sh
+    -----BEGIN CERTIFICATE-----
+    <Leaf/Domain Certificate>
+    -----END CERTIFICATE-----
+    -----BEGIN CERTIFICATE-----
+    <Intermediate CA Certificate>
+    -----END CERTIFICATE-----
+    -----BEGIN CERTIFICATE-----
+    <Root CA Certificate>
+    -----END CERTIFICATE-----
+    ```
+
+#### Key values mismatch error
+
+If a `key_values_mismatch` error occurs, the private key does not match the certificate.
+
+Verify the private key matches the certificate:
+
+1. Get the certificate modulus:
+
+    ```sh
+    openssl x509 -noout -modulus -in redis-cert-chain.pem | openssl md5
+    ```
+
+1. Get the key modulus:
+
+    ```sh
+    openssl rsa -noout -modulus -in redis-key.pem | openssl md5
+    ```
+
+1. If the MD5 hashes don't match, you have the wrong private key file. To fix this error, find the correct private key file.
+
+#### Missing Subject Alternative Names
+
+If a certificate only has a Common Name, but no Subject Alternative Names, modern TLS implementations might reject it.
+
+To fix this issue, reissue the certificate with proper Subject Alternative Names, including all required DNS entries.
 
