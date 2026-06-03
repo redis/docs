@@ -30,15 +30,16 @@ to improve the availability of connections to Redis databases. Use this page
 to get a general overview of the concepts and then see the documentation for
 your client library to learn how to configure it for failover and failback.
 
-Note that not all clients currently support failover for [pub/sub]({{< relref "/develop/pubsub" >}})
-connections. The table below lists the clients that have basic failover and
-pub/sub failover support.
+## Supported client libraries
 
-| Client | Basic failover | Pub/sub failover |
-| :-- | :-- | :-- |
-| [Jedis]({{< relref "/develop/clients/jedis/failover" >}}) | Yes | No |
-| [redis-py]({{< relref "/develop/clients/redis-py/failover" >}}) | Yes  (Preview) | No |
-| [Lettuce]({{< relref "/develop/clients/lettuce/failover" >}}) | Yes (Preview) | Yes |
+The table below lists the clients that support client-side geographic failover
+along with their release state and available features.
+
+| Client | Basic failover | Pub/sub failover | OSS Cluster failover | Failback |
+| :-- | :-- | :-- | :-- | :-- |
+| [Jedis]({{< relref "/develop/clients/jedis/failover" >}}) | Yes | No | No | Yes |
+| [redis-py]({{< relref "/develop/clients/redis-py/failover" >}}) | Yes  (Preview) | Yes | Yes | Yes |
+| [Lettuce]({{< relref "/develop/clients/lettuce/failover" >}}) | Yes (Preview) | Yes | No | Yes |
 
 ## Concepts
 
