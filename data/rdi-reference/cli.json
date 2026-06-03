@@ -1,0 +1,3757 @@
+{
+  "name": "redis-di",
+  "params": [
+    {
+      "name": "version",
+      "param_type_name": "option",
+      "opts": ["--version"],
+      "type": {
+        "param_type": "Bool",
+        "name": "boolean"
+      },
+      "required": false,
+      "nargs": 1,
+      "multiple": false,
+      "default": false,
+      "envvar": null,
+      "help": "Show the version and exit.",
+      "is_flag": true,
+      "flag_value": true
+    },
+    {
+      "name": "help",
+      "param_type_name": "option",
+      "opts": ["--help"],
+      "type": {
+        "param_type": "Bool",
+        "name": "boolean"
+      },
+      "required": false,
+      "nargs": 1,
+      "multiple": false,
+      "default": false,
+      "envvar": null,
+      "help": "Show this message and exit.",
+      "is_flag": true,
+      "flag_value": true
+    }
+  ],
+  "help": "A command line tool to manage & configure Redis Data Integration",
+  "epilog": null,
+  "short_help": null,
+  "hidden": false,
+  "deprecated": false,
+  "commands": {
+    "add-context": {
+      "name": "add-context",
+      "params": [
+        {
+          "name": "context_name",
+          "param_type_name": "argument",
+          "opts": ["context-name"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null
+        },
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "rdi_namespace",
+          "param_type_name": "option",
+          "opts": ["--rdi-namespace"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "rdi",
+          "envvar": "RDI_NAMESPACE",
+          "help": "RDI Kubernetes namespace",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_host",
+          "param_type_name": "option",
+          "opts": ["--rdi-host"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_HOST",
+          "help": "Host/IP of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_port",
+          "param_type_name": "option",
+          "opts": ["--rdi-port"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 65535,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PORT",
+          "help": "Port of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_user",
+          "param_type_name": "option",
+          "opts": ["--rdi-user"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_USERNAME",
+          "help": "RDI Database Username",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key",
+          "param_type_name": "option",
+          "opts": ["--rdi-key"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Private key file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Client certificate file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cacert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cacert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "CA certificate file to verify with",
+          "is_flag": false
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Adds a new context",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "configure-rdi": {
+      "name": "configure-rdi",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "rdi_namespace",
+          "param_type_name": "option",
+          "opts": ["--rdi-namespace"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "rdi",
+          "envvar": "RDI_NAMESPACE",
+          "help": "RDI Kubernetes namespace",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_host",
+          "param_type_name": "option",
+          "opts": ["--rdi-host"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_HOST",
+          "help": "Host/IP of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_port",
+          "param_type_name": "option",
+          "opts": ["--rdi-port"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 65535,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PORT",
+          "help": "Port of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_user",
+          "param_type_name": "option",
+          "opts": ["--rdi-user"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_USERNAME",
+          "help": "RDI Database Username",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PASSWORD",
+          "help": "RDI Database Password",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key",
+          "param_type_name": "option",
+          "opts": ["--rdi-key"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Private key file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Client certificate file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cacert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cacert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "CA certificate file to verify with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-key-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Password for unlocking an encrypted private key",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_log_level",
+          "param_type_name": "option",
+          "opts": ["--rdi-log-level"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Log level for RDI components",
+          "is_flag": false
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Configures RDI db connection credentials",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "delete-all-contexts": {
+      "name": "delete-all-contexts",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "force",
+          "param_type_name": "option",
+          "opts": ["--force", "-f"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Force operation. Skips verification prompts",
+          "is_flag": true,
+          "flag_value": true
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Deletes all contexts",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "delete-context": {
+      "name": "delete-context",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "context_name",
+          "param_type_name": "argument",
+          "opts": ["context-name"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null
+        },
+        {
+          "name": "force",
+          "param_type_name": "option",
+          "opts": ["--force", "-f"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Force operation. Skips verification prompts",
+          "is_flag": true,
+          "flag_value": true
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Deletes a context",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "deploy": {
+      "name": "deploy",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "rdi_host",
+          "param_type_name": "option",
+          "opts": ["--rdi-host"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_HOST",
+          "help": "Host/IP of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_port",
+          "param_type_name": "option",
+          "opts": ["--rdi-port"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 65535,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PORT",
+          "help": "Port of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_user",
+          "param_type_name": "option",
+          "opts": ["--rdi-user"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_USERNAME",
+          "help": "RDI Database Username",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PASSWORD",
+          "help": "RDI Database Password",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key",
+          "param_type_name": "option",
+          "opts": ["--rdi-key"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Private key file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Client certificate file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cacert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cacert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "CA certificate file to verify with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-key-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Password for unlocking an encrypted private key",
+          "is_flag": false
+        },
+        {
+          "name": "directory",
+          "param_type_name": "option",
+          "opts": ["--dir"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": ".",
+          "envvar": null,
+          "help": "Directory containing RDI configuration",
+          "is_flag": false
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Deploys the RDI configurations including target",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "describe-job": {
+      "name": "describe-job",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "job_name",
+          "param_type_name": "argument",
+          "opts": ["job-name"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null
+        },
+        {
+          "name": "rdi_host",
+          "param_type_name": "option",
+          "opts": ["--rdi-host"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_HOST",
+          "help": "Host/IP of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_port",
+          "param_type_name": "option",
+          "opts": ["--rdi-port"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 65535,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PORT",
+          "help": "Port of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_user",
+          "param_type_name": "option",
+          "opts": ["--rdi-user"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_USERNAME",
+          "help": "RDI Database Username",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PASSWORD",
+          "help": "RDI Database Password",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key",
+          "param_type_name": "option",
+          "opts": ["--rdi-key"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Private key file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Client certificate file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cacert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cacert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "CA certificate file to verify with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-key-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Password for unlocking an encrypted private key",
+          "is_flag": false
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Describes a transformation engine's job",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "dump-support-package": {
+      "name": "dump-support-package",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "rdi_namespace",
+          "param_type_name": "option",
+          "opts": ["--rdi-namespace"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "rdi",
+          "envvar": "RDI_NAMESPACE",
+          "help": "RDI Kubernetes namespace",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_host",
+          "param_type_name": "option",
+          "opts": ["--rdi-host"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_HOST",
+          "help": "Host/IP of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_port",
+          "param_type_name": "option",
+          "opts": ["--rdi-port"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 65535,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PORT",
+          "help": "Port of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_user",
+          "param_type_name": "option",
+          "opts": ["--rdi-user"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_USERNAME",
+          "help": "RDI Database Username",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PASSWORD",
+          "help": "RDI Database Password",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key",
+          "param_type_name": "option",
+          "opts": ["--rdi-key"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Private key file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Client certificate file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cacert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cacert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "CA certificate file to verify with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-key-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Password for unlocking an encrypted private key",
+          "is_flag": false
+        },
+        {
+          "name": "directory",
+          "param_type_name": "option",
+          "opts": ["--dir"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": ".",
+          "envvar": null,
+          "help": "Directory where the support file should be generated",
+          "is_flag": false
+        },
+        {
+          "name": "dump_rejected",
+          "param_type_name": "option",
+          "opts": ["--dump-rejected"],
+          "type": {
+            "param_type": "Int",
+            "name": "integer"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Dumps rejected records",
+          "is_flag": false
+        },
+        {
+          "name": "trace_timeout",
+          "param_type_name": "option",
+          "opts": ["--trace-timeout"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 600,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Stops the trace after exceeding this timeout (in seconds)",
+          "is_flag": false
+        },
+        {
+          "name": "max_change_records",
+          "param_type_name": "option",
+          "opts": ["--max-change-records"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": null,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": 10,
+          "envvar": null,
+          "help": "Maximum traced change records",
+          "is_flag": false
+        },
+        {
+          "name": "trace_only_rejected",
+          "param_type_name": "option",
+          "opts": ["--trace-only-rejected"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Trace only rejected change records",
+          "is_flag": true,
+          "flag_value": true
+        },
+        {
+          "name": "log_days",
+          "param_type_name": "option",
+          "opts": ["--log-days"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 0,
+            "max": null,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": 2,
+          "envvar": null,
+          "help": "Number of days to look back for log files",
+          "is_flag": false
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Dumps RDI support package",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "get-rejected": {
+      "name": "get-rejected",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "rdi_host",
+          "param_type_name": "option",
+          "opts": ["--rdi-host"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_HOST",
+          "help": "Host/IP of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_port",
+          "param_type_name": "option",
+          "opts": ["--rdi-port"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 65535,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PORT",
+          "help": "Port of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_user",
+          "param_type_name": "option",
+          "opts": ["--rdi-user"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_USERNAME",
+          "help": "RDI Database Username",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PASSWORD",
+          "help": "RDI Database Password",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key",
+          "param_type_name": "option",
+          "opts": ["--rdi-key"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Private key file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Client certificate file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cacert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cacert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "CA certificate file to verify with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-key-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Password for unlocking an encrypted private key",
+          "is_flag": false
+        },
+        {
+          "name": "max_records",
+          "param_type_name": "option",
+          "opts": ["--max-records"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": null,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Maximum rejected records per DLQ",
+          "is_flag": false
+        },
+        {
+          "name": "oldest",
+          "param_type_name": "option",
+          "opts": ["--oldest", "-o"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Displays the oldest rejected records. If omitted, most recent records will be retrieved",
+          "is_flag": true,
+          "flag_value": true
+        },
+        {
+          "name": "dlq_name",
+          "param_type_name": "option",
+          "opts": ["--dlq-name"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Only prints the rejected records for the specified DLQ (Dead Letter Queue) name",
+          "is_flag": false
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Returns all the stored rejected entries",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "install": {
+      "name": "install",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "WARNING",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "file",
+          "param_type_name": "option",
+          "opts": ["-f", "--file"],
+          "type": {
+            "param_type": "Path",
+            "name": "file",
+            "exists": true,
+            "file_okay": true,
+            "dir_okay": false,
+            "writable": false,
+            "readable": true,
+            "allow_dash": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Path to a YAML configuration file for silent installation",
+          "is_flag": false
+        },
+        {
+          "name": "installation_dir",
+          "param_type_name": "option",
+          "opts": ["--installation-dir"],
+          "type": {
+            "param_type": "Path",
+            "name": "directory",
+            "exists": false,
+            "file_okay": false,
+            "dir_okay": true,
+            "writable": false,
+            "readable": true,
+            "allow_dash": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Custom installation directory",
+          "is_flag": false
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Installs RDI",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "list-contexts": {
+      "name": "list-contexts",
+      "params": [
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Lists all saved contexts",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "list-jobs": {
+      "name": "list-jobs",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "rdi_host",
+          "param_type_name": "option",
+          "opts": ["--rdi-host"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_HOST",
+          "help": "Host/IP of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_port",
+          "param_type_name": "option",
+          "opts": ["--rdi-port"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 65535,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PORT",
+          "help": "Port of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_user",
+          "param_type_name": "option",
+          "opts": ["--rdi-user"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_USERNAME",
+          "help": "RDI Database Username",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PASSWORD",
+          "help": "RDI Database Password",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key",
+          "param_type_name": "option",
+          "opts": ["--rdi-key"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Private key file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Client certificate file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cacert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cacert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "CA certificate file to verify with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-key-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Password for unlocking an encrypted private key",
+          "is_flag": false
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Lists transformation engine's jobs",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "monitor": {
+      "name": "monitor",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "rdi_namespace",
+          "param_type_name": "option",
+          "opts": ["--rdi-namespace"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "rdi",
+          "envvar": "RDI_NAMESPACE",
+          "help": "RDI Kubernetes namespace",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_host",
+          "param_type_name": "option",
+          "opts": ["--rdi-host"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_HOST",
+          "help": "Host/IP of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_port",
+          "param_type_name": "option",
+          "opts": ["--rdi-port"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 65535,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PORT",
+          "help": "Port of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_user",
+          "param_type_name": "option",
+          "opts": ["--rdi-user"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_USERNAME",
+          "help": "RDI Database Username",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PASSWORD",
+          "help": "RDI Database Password",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key",
+          "param_type_name": "option",
+          "opts": ["--rdi-key"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Private key file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Client certificate file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cacert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cacert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "CA certificate file to verify with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-key-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Password for unlocking an encrypted private key",
+          "is_flag": false
+        },
+        {
+          "name": "exporter_port",
+          "param_type_name": "option",
+          "opts": ["--exporter-port"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 65535,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": 9121,
+          "envvar": null,
+          "help": "HTTP port to start the exporter on",
+          "is_flag": false
+        },
+        {
+          "name": "collect_interval",
+          "param_type_name": "option",
+          "opts": ["--collect-interval"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 60,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": 5,
+          "envvar": null,
+          "help": "Metrics collection interval (seconds)",
+          "is_flag": false
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Monitors RDI by collecting metrics and exporting to Prometheus",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "reset": {
+      "name": "reset",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "rdi_host",
+          "param_type_name": "option",
+          "opts": ["--rdi-host"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_HOST",
+          "help": "Host/IP of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_port",
+          "param_type_name": "option",
+          "opts": ["--rdi-port"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 65535,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PORT",
+          "help": "Port of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_user",
+          "param_type_name": "option",
+          "opts": ["--rdi-user"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_USERNAME",
+          "help": "RDI Database Username",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PASSWORD",
+          "help": "RDI Database Password",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key",
+          "param_type_name": "option",
+          "opts": ["--rdi-key"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Private key file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Client certificate file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cacert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cacert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "CA certificate file to verify with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-key-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Password for unlocking an encrypted private key",
+          "is_flag": false
+        },
+        {
+          "name": "force",
+          "param_type_name": "option",
+          "opts": ["--force", "-f"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Force operation. Skips verification prompts",
+          "is_flag": true,
+          "flag_value": true
+        },
+        {
+          "name": "pause_for_confirmation",
+          "param_type_name": "option",
+          "opts": ["--pause-for-confirmation"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Pause for user confirmation if manual shutdown of collector required",
+          "is_flag": true,
+          "flag_value": true
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Resets the pipeline into initial full sync mode",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "scaffold": {
+      "name": "scaffold",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "db_type",
+          "param_type_name": "option",
+          "opts": ["--db-type"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "cassandra",
+              "mariadb",
+              "mongodb",
+              "mysql",
+              "oracle",
+              "postgresql",
+              "snowflake",
+              "sqlserver",
+              "spanner"
+            ],
+            "case_sensitive": false
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "DB type",
+          "is_flag": false
+        },
+        {
+          "name": "db_flavor",
+          "param_type_name": "option",
+          "opts": ["--db-flavor"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "mongodb-atlas",
+              "mongodb-replica-set",
+              "mongodb-sharded-cluster"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "DB flavor",
+          "is_flag": false
+        },
+        {
+          "name": "directory",
+          "param_type_name": "option",
+          "opts": ["--dir"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Directory containing RDI configuration",
+          "is_flag": false
+        },
+        {
+          "name": "preview",
+          "param_type_name": "option",
+          "opts": ["--preview"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Print the content of the scaffolded config file to CLI output",
+          "is_flag": false
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Generates configuration files for RDI",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "set-context": {
+      "name": "set-context",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "context_name",
+          "param_type_name": "argument",
+          "opts": ["context-name"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Sets a context to be the active one",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "set-secret": {
+      "name": "set-secret",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "rdi_namespace",
+          "param_type_name": "option",
+          "opts": ["--rdi-namespace"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "rdi",
+          "envvar": "RDI_NAMESPACE",
+          "help": "RDI Kubernetes namespace",
+          "is_flag": false
+        },
+        {
+          "name": "key",
+          "param_type_name": "argument",
+          "opts": ["key"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "RDI_REDIS_USERNAME",
+              "RDI_REDIS_PASSWORD",
+              "RDI_REDIS_CACERT",
+              "RDI_REDIS_CERT",
+              "RDI_REDIS_KEY",
+              "RDI_REDIS_KEY_PASSPHRASE",
+              "SOURCE_DB_USERNAME",
+              "SOURCE_DB_PASSWORD",
+              "SOURCE_DB_CACERT",
+              "SOURCE_DB_CERT",
+              "SOURCE_DB_KEY",
+              "SOURCE_DB_KEY_PASSWORD",
+              "TARGET_DB_USERNAME",
+              "TARGET_DB_PASSWORD",
+              "TARGET_DB_CACERT",
+              "TARGET_DB_CERT",
+              "TARGET_DB_KEY",
+              "TARGET_DB_KEY_PASSWORD",
+              "JWT_SECRET_KEY"
+            ],
+            "case_sensitive": true
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null
+        },
+        {
+          "name": "value",
+          "param_type_name": "argument",
+          "opts": ["value"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Creates a secret of a specified key",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "start": {
+      "name": "start",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "rdi_host",
+          "param_type_name": "option",
+          "opts": ["--rdi-host"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_HOST",
+          "help": "Host/IP of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_port",
+          "param_type_name": "option",
+          "opts": ["--rdi-port"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 65535,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PORT",
+          "help": "Port of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_user",
+          "param_type_name": "option",
+          "opts": ["--rdi-user"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_USERNAME",
+          "help": "RDI Database Username",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PASSWORD",
+          "help": "RDI Database Password",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key",
+          "param_type_name": "option",
+          "opts": ["--rdi-key"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Private key file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Client certificate file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cacert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cacert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "CA certificate file to verify with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-key-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Password for unlocking an encrypted private key",
+          "is_flag": false
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Starts the pipeline",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "status": {
+      "name": "status",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "rdi_namespace",
+          "param_type_name": "option",
+          "opts": ["--rdi-namespace"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "rdi",
+          "envvar": "RDI_NAMESPACE",
+          "help": "RDI Kubernetes namespace",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_host",
+          "param_type_name": "option",
+          "opts": ["--rdi-host"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_HOST",
+          "help": "Host/IP of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_port",
+          "param_type_name": "option",
+          "opts": ["--rdi-port"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 65535,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PORT",
+          "help": "Port of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_user",
+          "param_type_name": "option",
+          "opts": ["--rdi-user"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_USERNAME",
+          "help": "RDI Database Username",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PASSWORD",
+          "help": "RDI Database Password",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key",
+          "param_type_name": "option",
+          "opts": ["--rdi-key"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Private key file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Client certificate file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cacert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cacert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "CA certificate file to verify with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-key-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Password for unlocking an encrypted private key",
+          "is_flag": false
+        },
+        {
+          "name": "live",
+          "param_type_name": "option",
+          "opts": ["--live", "-l"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Live data flow monitoring",
+          "is_flag": true,
+          "flag_value": true
+        },
+        {
+          "name": "page_number",
+          "param_type_name": "option",
+          "opts": ["--page-number", "-p"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": null,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Set the page number (live mode only)",
+          "is_flag": false
+        },
+        {
+          "name": "page_size",
+          "param_type_name": "option",
+          "opts": ["--page-size", "-s"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": null,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Set the page size (live mode only)",
+          "is_flag": false
+        },
+        {
+          "name": "ingested_only",
+          "param_type_name": "option",
+          "opts": ["--ingested-only", "-i"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Display ingested data streams (live mode only)",
+          "is_flag": true,
+          "flag_value": true
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Displays the status of the pipeline end to end",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "stop": {
+      "name": "stop",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "rdi_host",
+          "param_type_name": "option",
+          "opts": ["--rdi-host"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_HOST",
+          "help": "Host/IP of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_port",
+          "param_type_name": "option",
+          "opts": ["--rdi-port"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 65535,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PORT",
+          "help": "Port of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_user",
+          "param_type_name": "option",
+          "opts": ["--rdi-user"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_USERNAME",
+          "help": "RDI Database Username",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PASSWORD",
+          "help": "RDI Database Password",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key",
+          "param_type_name": "option",
+          "opts": ["--rdi-key"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Private key file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Client certificate file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cacert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cacert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "CA certificate file to verify with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-key-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Password for unlocking an encrypted private key",
+          "is_flag": false
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Stops the pipeline",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "trace": {
+      "name": "trace",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "rdi_host",
+          "param_type_name": "option",
+          "opts": ["--rdi-host"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_HOST",
+          "help": "Host/IP of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_port",
+          "param_type_name": "option",
+          "opts": ["--rdi-port"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 65535,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PORT",
+          "help": "Port of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_user",
+          "param_type_name": "option",
+          "opts": ["--rdi-user"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_USERNAME",
+          "help": "RDI Database Username",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PASSWORD",
+          "help": "RDI Database Password",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key",
+          "param_type_name": "option",
+          "opts": ["--rdi-key"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Private key file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Client certificate file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cacert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cacert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "CA certificate file to verify with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-key-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Password for unlocking an encrypted private key",
+          "is_flag": false
+        },
+        {
+          "name": "max_change_records",
+          "param_type_name": "option",
+          "opts": ["--max-change-records"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": null,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": 10,
+          "envvar": null,
+          "help": "Maximum traced change records",
+          "is_flag": false
+        },
+        {
+          "name": "timeout",
+          "param_type_name": "option",
+          "opts": ["--timeout"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 600,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": 20,
+          "envvar": null,
+          "help": "Stops the trace after exceeding this timeout (in seconds)",
+          "is_flag": false
+        },
+        {
+          "name": "trace_only_rejected",
+          "param_type_name": "option",
+          "opts": ["--trace-only-rejected"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Trace only rejected change records",
+          "is_flag": true,
+          "flag_value": true
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Starts a trace session for troubleshooting data transformation",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    },
+    "upgrade": {
+      "name": "upgrade",
+      "params": [
+        {
+          "name": "log_level",
+          "param_type_name": "option",
+          "opts": ["--log-level", "-l"],
+          "type": {
+            "param_type": "Choice",
+            "name": "choice",
+            "choices": [
+              "TRACE",
+              "DEBUG",
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ],
+            "case_sensitive": false
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "INFO",
+          "envvar": null,
+          "help": null,
+          "is_flag": false
+        },
+        {
+          "name": "rdi_namespace",
+          "param_type_name": "option",
+          "opts": ["--rdi-namespace"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": "rdi",
+          "envvar": "RDI_NAMESPACE",
+          "help": "RDI Kubernetes namespace",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_host",
+          "param_type_name": "option",
+          "opts": ["--rdi-host"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_HOST",
+          "help": "Host/IP of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_port",
+          "param_type_name": "option",
+          "opts": ["--rdi-port"],
+          "type": {
+            "param_type": "IntRange",
+            "name": "integer range",
+            "min": 1,
+            "max": 65535,
+            "min_open": false,
+            "max_open": false,
+            "clamp": false
+          },
+          "required": true,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PORT",
+          "help": "Port of RDI Database",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_user",
+          "param_type_name": "option",
+          "opts": ["--rdi-user"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_USERNAME",
+          "help": "RDI Database Username",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": "RDI_REDIS_PASSWORD",
+          "help": "RDI Database Password",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key",
+          "param_type_name": "option",
+          "opts": ["--rdi-key"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Private key file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Client certificate file to authenticate with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_cacert",
+          "param_type_name": "option",
+          "opts": ["--rdi-cacert"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "CA certificate file to verify with",
+          "is_flag": false
+        },
+        {
+          "name": "rdi_key_password",
+          "param_type_name": "option",
+          "opts": ["--rdi-key-password"],
+          "type": {
+            "param_type": "String",
+            "name": "text"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": null,
+          "envvar": null,
+          "help": "Password for unlocking an encrypted private key",
+          "is_flag": false
+        },
+        {
+          "name": "force",
+          "param_type_name": "option",
+          "opts": ["--force", "-f"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Force operation. Skips verification prompts",
+          "is_flag": true,
+          "flag_value": true
+        },
+        {
+          "name": "help",
+          "param_type_name": "option",
+          "opts": ["--help"],
+          "type": {
+            "param_type": "Bool",
+            "name": "boolean"
+          },
+          "required": false,
+          "nargs": 1,
+          "multiple": false,
+          "default": false,
+          "envvar": null,
+          "help": "Show this message and exit.",
+          "is_flag": true,
+          "flag_value": true
+        }
+      ],
+      "help": "Upgrades RDI without losing data or downtime",
+      "epilog": null,
+      "short_help": null,
+      "hidden": false,
+      "deprecated": false
+    }
+  },
+  "chain": false
+}

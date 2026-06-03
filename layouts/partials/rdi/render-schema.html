@@ -1,0 +1,274 @@
+{{/*
+  rdi/render-schema
+
+  Recursive partial that renders a single schema node from the RDI config
+  JSON-Schema. Headings/prose are emitted as markdown so they pick up
+  Hugo's standard heading rendering (auto IDs, copy-link icons). The
+  Properties table is emitted as a raw HTML block, because markdown
+  table cells inside the percent-form shortcode HTML-escape their
+  inline HTML (so `<br/>` would otherwise display as literal text).
+
+  Context (passed in as a dict):
+    node      schema node to render
+    slug      accumulated slug for the anchor on this node
+    path      accumulated dotted path for the heading text
+    name      raw name of the current path segment
+    title     human-readable title for the heading (falls back to name)
+    level     markdown heading level (1 for root; 2+ for sub-sections)
+    isRoot    true only for the top-level call from the shortcode
+*/}}
+
+{{- $node    := .node -}}
+{{- $slug    := .slug -}}
+{{- $path    := .path -}}
+{{- $name    := .name -}}
+{{- $title   := .title -}}
+{{- $level   := .level -}}
+{{- $isRoot  := .isRoot -}}
+
+{{/* `oneOf` at the top level (e.g. targets): pick the first branch — same
+     choice the legacy generator made. */}}
+{{- $work := $node -}}
+{{- with $node.oneOf -}}{{- $work = index . 0 -}}{{- end -}}
+
+{{/* Step inside `patternProperties` ({".*": {...}}). */}}
+{{- $inner := $work -}}
+{{- $patternKey := "" -}}
+{{- with $work.patternProperties -}}
+  {{- range $k, $v := . -}}
+    {{- $patternKey = $k -}}
+    {{- $inner = $v -}}
+  {{- end -}}
+{{- end -}}
+{{- with $inner.oneOf -}}{{- $inner = index . 0 -}}{{- end -}}
+
+{{- $props := $inner.properties -}}
+{{- $required := $inner.required | default slice -}}
+{{- $hasRequiredList := false -}}
+{{- with $inner.required -}}{{- $hasRequiredList = true -}}{{- end -}}
+
+{{/* ---------- Section heading (skipped for the root call) ---------- */}}
+{{- if not $isRoot }}
+<a name="{{ $slug }}"></a>
+
+{{ strings.Repeat $level "#" }} {{ $path }}: {{ or $title $name }}
+
+{{ with $node.description }}{{ . | safeHTML }}
+
+{{ end }}
+{{- end }}
+
+{{/* ---------- Properties table (raw HTML block) ---------- */}}
+{{- if $props }}
+**Properties**{{ if $patternKey }} (key: <code>{{ $patternKey }}</code>){{ end }}
+
+<table>
+<thead>
+<tr><th>Name</th><th>Type</th><th>Description</th><th>Required</th></tr>
+</thead>
+<tbody>
+{{- range $childName, $childNode := $props }}
+
+{{- /* Anchor slug fragment: lowercase + keep only [a-z0-9_]. */ -}}
+{{- $slugFrag := lower $childName -}}
+{{- $slugFrag = replaceRE "[^a-z0-9_]" "" $slugFrag -}}
+{{- $childSlug := printf "%s%s" $slug $slugFrag -}}
+
+{{- /* is-complex: does this child warrant its own sub-section? */ -}}
+{{- $isComplex := false -}}
+{{- $cType := $childNode.type -}}
+{{- if eq (printf "%T" $cType) "string" -}}
+  {{- if or (eq $cType "object") (eq $cType "array") -}}{{- $isComplex = true -}}{{- end -}}
+{{- else if eq (printf "%T" $cType) "[]interface {}" -}}
+  {{- range $cType -}}
+    {{- if or (eq . "object") (eq . "array") -}}{{- $isComplex = true -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if $childNode.properties -}}{{- $isComplex = true -}}{{- end -}}
+{{- if $childNode.patternProperties -}}{{- $isComplex = true -}}{{- end -}}
+{{- if $childNode.items -}}{{- $isComplex = true -}}{{- end -}}
+{{- if $childNode.oneOf -}}{{- $isComplex = true -}}{{- end -}}
+{{- if $childNode.allOf -}}{{- $isComplex = true -}}{{- end -}}
+
+{{- /* Cell 1 (HTML): bold name (+ optional anchor link) + optional title */ -}}
+{{- $nameInner := printf "<strong>%s</strong>" (htmlEscape $childName) -}}
+{{- $nameCell := $nameInner -}}
+{{- if $isComplex -}}
+  {{- $nameCell = printf `<a href="#%s">%s</a>` $childSlug $nameInner -}}
+{{- end -}}
+{{- with $childNode.title -}}
+  {{- $nameCell = printf "%s<br/>(%s)" $nameCell (htmlEscape .) -}}
+{{- end -}}
+
+{{- /* Cell 2 (HTML): type, comma-joined for type arrays */ -}}
+{{- $typeCell := "" -}}
+{{- if eq (printf "%T" $cType) "string" -}}
+  {{- $typeCell = printf "<code>%s</code>" $cType -}}
+  {{- if eq $cType "array" -}}
+    {{- $itemType := "any" -}}
+    {{- with $childNode.items.type -}}{{- $itemType = . -}}{{- end -}}
+    {{- $typeCell = printf "<code>%s[]</code>" $itemType -}}
+  {{- end -}}
+{{- else if eq (printf "%T" $cType) "[]interface {}" -}}
+  {{- $parts := slice -}}
+  {{- range $cType -}}{{- $parts = $parts | append (printf "<code>%s</code>" .) -}}{{- end -}}
+  {{- $typeCell = delimit $parts ", " -}}
+{{- end -}}
+
+{{- /* Cell 3 (HTML): description (markdownified) + annotations */ -}}
+{{- $descHTML := "" -}}
+{{- with $childNode.description -}}{{- $descHTML = . | markdownify -}}{{- end -}}
+
+{{- /* markdownify wraps prose in <p>...</p>; strip the outer wrap so the
+       description sits inline with the annotations. */ -}}
+{{- $descHTML = $descHTML | string -}}
+{{- $descHTML = replaceRE "^<p>" "" $descHTML -}}
+{{- $descHTML = replaceRE "</p>\\s*$" "" $descHTML -}}
+
+{{- $extras := slice -}}
+{{- if isset $childNode "default" -}}
+  {{- $extras = $extras | append (printf "Default: <code>%s</code>" (jsonify (index $childNode "default"))) -}}
+{{- end -}}
+{{- if isset $childNode "const" -}}
+  {{- $extras = $extras | append (printf "Constant Value: <code>%s</code>" (jsonify (index $childNode "const"))) -}}
+{{- end -}}
+{{- with $childNode.enum -}}
+  {{- $items := slice -}}
+  {{- range . -}}{{- $items = $items | append (printf "<code>%s</code>" (jsonify .)) -}}{{- end -}}
+  {{- $extras = $extras | append (printf "Enum: %s" (delimit $items ", ")) -}}
+{{- end -}}
+{{- with $childNode.minimum -}}{{- $extras = $extras | append (printf "Minimum: <code>%v</code>" .) -}}{{- end -}}
+{{- with $childNode.maximum -}}{{- $extras = $extras | append (printf "Maximum: <code>%v</code>" .) -}}{{- end -}}
+{{- with $childNode.maxLength -}}{{- $extras = $extras | append (printf "Maximal Length: <code>%v</code>" .) -}}{{- end -}}
+{{- with $childNode.pattern -}}{{- $extras = $extras | append (printf "Pattern: <code>%s</code>" (htmlEscape .)) -}}{{- end -}}
+
+{{- range $extras -}}
+  {{- $descHTML = printf "%s<br/>%s" $descHTML . -}}
+{{- end -}}
+
+{{- /* Cell 4: required */ -}}
+{{- $reqCell := "" -}}
+{{- if $hasRequiredList -}}
+  {{- if in $required $childName -}}{{- $reqCell = "yes" -}}{{- else -}}{{- $reqCell = "no" -}}{{- end -}}
+{{- end -}}
+
+{{ printf "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>" $nameCell $typeCell $descHTML $reqCell | safeHTML }}
+{{- end }}
+</tbody>
+</table>
+
+{{ end }}{{/* end if $props */}}
+
+{{/* ---------- Schema-level annotations under the table ---------- */}}
+{{- if eq $inner.additionalProperties false }}
+**Additional Properties:** not allowed
+{{ end -}}
+
+{{- with $inner.minProperties }}
+**Minimal Properties:** {{ . }}
+{{ end -}}
+
+{{- with $inner.dependentRequired }}
+{{ range $dep, $needs := . -}}
+**If property *{{ $dep }}* is defined**, property/ies *{{ delimit $needs ", " }}* is/are required.
+
+{{ end -}}
+{{ end -}}
+
+{{- with $inner.examples }}
+{{- range . }}
+**Example**
+
+```yaml
+{{ . | transform.Remarshal "yaml" -}}
+```
+{{ end -}}
+{{ end -}}
+
+{{/* ---------- Recurse into complex child properties ---------- */}}
+{{- range $childName, $childNode := $props }}
+
+{{- $cType2 := $childNode.type -}}
+{{- $isComplex2 := false -}}
+{{- if eq (printf "%T" $cType2) "string" -}}
+  {{- if or (eq $cType2 "object") (eq $cType2 "array") -}}{{- $isComplex2 = true -}}{{- end -}}
+{{- else if eq (printf "%T" $cType2) "[]interface {}" -}}
+  {{- range $cType2 -}}
+    {{- if or (eq . "object") (eq . "array") -}}{{- $isComplex2 = true -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if $childNode.properties -}}{{- $isComplex2 = true -}}{{- end -}}
+{{- if $childNode.patternProperties -}}{{- $isComplex2 = true -}}{{- end -}}
+{{- if $childNode.items -}}{{- $isComplex2 = true -}}{{- end -}}
+{{- if $childNode.oneOf -}}{{- $isComplex2 = true -}}{{- end -}}
+{{- if $childNode.allOf -}}{{- $isComplex2 = true -}}{{- end -}}
+
+{{- if $isComplex2 }}
+
+{{- $segDisplay2 := $childName -}}
+{{- $segDisplay2 = replace $segDisplay2 "_" "\\_" -}}
+{{- $segDisplay2 = replace $segDisplay2 "[" "\\[" -}}
+{{- $segDisplay2 = replace $segDisplay2 "]" "\\]" -}}
+
+{{- $childPath := "" -}}
+{{- if $path -}}
+  {{- $childPath = printf "%s\\.%s" $path $segDisplay2 -}}
+{{- else -}}
+  {{- $childPath = $segDisplay2 -}}
+{{- end -}}
+
+{{- $isArray := false -}}
+{{- if eq (printf "%T" $cType2) "string" -}}
+  {{- if eq $cType2 "array" -}}{{- $isArray = true -}}{{- end -}}
+{{- end -}}
+{{- if $isArray -}}
+  {{- $childPath = printf "%s\\[\\]" $childPath -}}
+{{- end -}}
+
+{{- $slugFrag2 := lower $childName -}}
+{{- $slugFrag2 = replaceRE "[^a-z0-9_]" "" $slugFrag2 -}}
+{{- $childSlugAcc := printf "%s%s" $slug $slugFrag2 -}}
+
+{{ partial "rdi/render-schema.html" (dict
+    "node"   $childNode
+    "slug"   $childSlugAcc
+    "path"   $childPath
+    "name"   $childName
+    "title"  ($childNode.title | default "")
+    "level"  (add $level 1)
+    "isRoot" false
+) }}
+{{- end -}}
+{{- end -}}
+
+{{/* ---------- additionalProperties as named sub-section ---------- */}}
+{{- if reflect.IsMap $inner.additionalProperties }}
+{{- $apNode := $inner.additionalProperties -}}
+{{- $apPath := "" -}}
+{{- if $path -}}
+  {{- $apPath = printf "%s\\.additionalProperties" $path -}}
+{{- else -}}
+  {{- $apPath = "additionalProperties" -}}
+{{- end -}}
+
+{{- $apType := index $apNode "type" -}}
+{{- $apTitle := "" -}}
+{{- with $apNode.title -}}{{- $apTitle = . -}}{{- end -}}
+{{- if not $apTitle -}}
+  {{- if eq (printf "%T" $apType) "string" -}}
+    {{- $apTitle = $apType -}}
+  {{- else if eq (printf "%T" $apType) "[]interface {}" -}}
+    {{- $apTitle = delimit $apType "," -}}
+  {{- end -}}
+{{- end -}}
+
+{{ partial "rdi/render-schema.html" (dict
+    "node"   $apNode
+    "slug"   (printf "%sadditionalproperties" $slug)
+    "path"   $apPath
+    "name"   "additionalProperties"
+    "title"  $apTitle
+    "level"  (add $level 1)
+    "isRoot" false
+) }}
+{{- end -}}

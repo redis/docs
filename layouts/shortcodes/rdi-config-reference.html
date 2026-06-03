@@ -1,0 +1,29 @@
+{{/*
+  rdi-config-reference
+
+  Renders the RDI config-file reference from data/rdi-reference/config.json.
+
+  Use with the `%` shortcode form so the emitted markdown is processed:
+
+      {{% rdi-config-reference %}}
+
+  The shortcode emits:
+    1. The root schema's description (the page intro paragraph).
+    2. The Properties table for the root schema.
+    3. Recursive sub-sections for every complex child property.
+*/}}
+{{- $root := index site.Data "rdi-reference" "config" -}}
+{{- with $root }}
+{{ .description }}
+
+
+{{ partial "rdi/render-schema.html" (dict
+    "node"    .
+    "slug"    ""
+    "path"    ""
+    "name"    ""
+    "title"   ""
+    "level"   1
+    "isRoot"  true
+) }}
+{{- end }}
