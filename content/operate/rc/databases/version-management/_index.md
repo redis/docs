@@ -45,8 +45,8 @@ When a Redis version reaches **End-of-Life (EOL)**, Redis Cloud will automatical
 |---------|--------|--------|----------|-------|
 | **Redis 8.6** | STS | Preview | TBD | Essentials |
 | **Redis 8.4** | STS | GA | TBD | Essentials, Pro | 
-| **Redis 8.2** | LTS | GA | TBD | Essentials, Pro |
-| **Redis 8.0** | STS | Preview | TBD | Essentials<sup>[1](#table-note-1)</sup> |
+| **Redis 8.2** | LTS | GA | September 1, 2030 | Essentials, Pro |
+| **Redis 8.0** | STS | Preview | December 1, 2026 | Essentials<sup>[1](#table-note-1)</sup> |
 | **Redis 7.4** | LTS | GA | December 1, 2029 | Essentials, Pro |
 | **Redis 7.2** | LTS | GA | December 1, 2029 | Essentials, Pro |
 | **Redis 6.2** | LTS | GA | April 1, 2027 | Pro |
@@ -59,18 +59,20 @@ When a database version reaches End-of-Life (EOL), Redis Cloud will automaticall
 
 When creating a database, you select the database version (e.g., Redis 8.2). Redis Cloud automatically provides the latest patch version within that version.
 
-For existing databases: 
+For existing databases, minor version auto-upgrades apply differently by plan:
 
-- **Redis 8.4+**: Minor version auto-upgrades are available (with opt-out for Pro users)
-- **Redis 8.2 and earlier**: Auto-upgrade for minor versions is not supported; all upgrades must be done manually. See [Upgrade database version]({{< relref "/operate/rc/databases/version-management/upgrade-version" >}}) for more details.
+- **Essentials**: Minor version auto-upgrades apply for all Redis versions.
+- **Pro**: Minor version auto-upgrades apply for Redis 8.4 and later only (with opt-out available). For Redis 8.2 and earlier, minor upgrades must be done manually.
+
+See [Upgrade database version]({{< relref "/operate/rc/databases/version-management/upgrade-version" >}}) for more details.
 
 ### Plan differences
 
 | Feature | Essentials | Pro |
 |---------|------------|-----|
-| Minor version auto-upgrades (Redis 8.4+) | Always enabled, upgrades to latest minor version | Default enabled, can disable |
+| Minor version auto-upgrades | All versions, always enabled | Redis 8.4+ only, default enabled (can disable) |
 | Major version upgrades | Customer controlled | Customer controlled |
-| Manual upgrades | Yes | Yes |
+| Manual upgrades | Major upgrades only | Yes |
 | [Automatic upgrade time]({{< relref "/operate/rc/subscriptions/maintenance" >}}) | Standard - between 12 AM and 6 AM region time | Configurable - [Set maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}) |
 
 ## Manual upgrades
