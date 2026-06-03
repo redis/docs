@@ -108,7 +108,7 @@ RDI encrypts all network connections with TLS. The pipeline will process data fr
 Before you can create a data pipeline, you must have:
 
 - A [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) hosted on Amazon Web Services (AWS). This will be the target database.
-- One supported source database, hosted on an AWS EC2 instance, AWS RDS, or AWS Aurora:
+- One supported source database that is publicly accessible or hosted on an AWS EC2 instance, AWS RDS, or AWS Aurora:
 
 | Database | Versions | AWS RDS  Versions |
 |:---|:---|:---|
@@ -118,6 +118,8 @@ Before you can create a data pipeline, you must have:
 | PostgreSQL | 10, 11, 12, 13, 14, 15, 16 | 11, 12, 13, 14, 15, 16 |
 | AWS Aurora PostgreSQL | 15 | 15 |
 | SQL Server | 2017, 2019, 2022 | 2016, 2017, 2019, 2022 |
+| MongoDB | 6.0, 7.0, 8.0 | - |
+| Snowflake | - | - |
 
 
 {{< note >}}
@@ -126,11 +128,10 @@ Please be aware of the following limitations:
 - The target database must be a Redis Cloud Pro database hosted on Amazon Web Services (AWS). Redis Cloud Essentials databases and databases hosted on Google Cloud do not support Data Integration.
 - The target database must use [high availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}). It can use either single-zone or multi-zone high availability.
 - The target database can use TLS, but can not use mutual TLS.
-- The target database cannot be in the same subscription as another database that has a data pipeline.
 - Source databases must also be hosted on AWS.
 - You must use a [custom encryption key on AWS](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) to create the instance hosting the database.
 - One source database can only be synced to one target database.
-- You must be able to set up AWS PrivateLink to connect your source database to your target database. RDI only works with AWS PrivateLink and not VPC Peering or other private connectivity options.
+- If the source database is not publicly accessible, you must be able to set up AWS PrivateLink to connect your source database to your target database. RDI only works with AWS PrivateLink and not VPC Peering or other private connectivity options.
 - Mutual TLS is not supported for AWS RDS and AWS Aurora source databases.
 {{< /note >}} 
 

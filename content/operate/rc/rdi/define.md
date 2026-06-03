@@ -108,12 +108,13 @@ Select **Validate** to check that Redis Cloud can access your secrets.
 
 ### Source configuration {#source-configuration-section}
 
-In this section, you'll enter your database details. This depends on your database type, and includes:
+In this section, you'll enter your database details. This depends on your database type, and can include:
 
 - **Port**: The database's port
-- **Database**: Your database's name, or the root database *(PostgreSQL, Oracle only)*, or a comma-separated list of one or more databases you want to connect to *(SQL Server only)*
+- **Database(s)**: Your database's name, or the root database *(PostgreSQL, Oracle only)*, or a comma-separated list of one or more databases you want to connect to *(SQL Server and MongoDB only)*
 - **Database Server ID**: Unique ID for the replication client. Enter a number that is not used by any existing replication clients *(mySQL and mariaDB only)*
 - **PDB**: Name of the Oracle pluggable database *(Oracle only)*
+- **Connection string**: The connection information for your database *(MongoDB only)*
 
 Under **Collector properties**, Select **Edit advanced properties** to configure additional optional properties for your pipeline.
 
@@ -125,7 +126,11 @@ You can add any [Debezium source property](https://debezium.io/documentation/ref
 
 ## Dataset
 
-In this step, you'll select the database schemas, tables, and columns that you want to import and synchronize with your primary database.
+In this step, you'll select the data that you want to import and synchronize with your primary database. 
+
+{{< note >}}
+This step may change depending on your source database.
+{{< /note >}} 
 
 {{<image filename="images/rc/rdi/rdi-dataset-empty.png" alt="The dataset step." width=75% >}}
 
