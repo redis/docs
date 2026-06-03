@@ -37,7 +37,7 @@ Example use cases for this command:
 1. Client libraries may use Redis in order to test their own hashing algorithm, generating random keys and hashing them with both their local implementation and using Redis `CLUSTER KEYSLOT` command, then checking if the result is the same.
 2. Humans may use this command in order to check what is the hash slot, and then the associated Redis Cluster node, responsible for a given key.
 
-## Example
+## Examples
 
 ```
 > CLUSTER KEYSLOT somekey
