@@ -39,6 +39,7 @@ Do not use these tools for normal operations.
 | debuginfo | Collects cluster information. |
 | dmc-cli | Configure and monitor the DMC proxy. |
 | pdns_control | Sends commands to a running PowerDNS nameserver. |
+| [rdb-cli](https://github.com/redis/librdb) | Parse and convert RDB files. |
 | redis_ctl | Stops or starts Redis instances. |
 | rl_rdbloader | Load RDB backup files to a server. |
 | rlutil | Maintenance utility. |

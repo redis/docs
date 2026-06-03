@@ -183,61 +183,61 @@ Only sets the TTL/expiration if the key currently has no TTL/expiration. If the 
 Default increment (by 1), starting from 0 if the key does not exist:
 
 {{% redis-cli %}}
-DEL mykey
-INCREX mykey
-INCREX mykey
+DEL mykey1
+INCREX mykey1
+INCREX mykey1
 {{% /redis-cli %}}
 
 Increment by a specific integer using `BYINT`, including a negative increment to decrement:
 
 {{% redis-cli %}}
-SET mykey 100
-INCREX mykey BYINT 5
-INCREX mykey BYINT -10
+SET mykey2 100
+INCREX mykey2 BYINT 5
+INCREX mykey2 BYINT -10
 {{% /redis-cli %}}
 
 Increment by a floating-point number using `BYFLOAT`:
 
 {{% redis-cli %}}
-SET mykey 1.5
-INCREX mykey BYFLOAT 0.25
+SET mykey3 1.5
+INCREX mykey3 BYFLOAT 0.25
 {{% /redis-cli %}}
 
 Set an expiration on every increment with `EX`:
 
 {{% redis-cli %}}
-DEL mykey
-INCREX mykey BYINT 1 EX 100
-TTL mykey
+DEL mykey4
+INCREX mykey4 BYINT 1 EX 100
+TTL mykey4
 {{% /redis-cli %}}
 
 Use `ENX` to set an expiration only when the key has no existing TTL. The increment is always applied regardless:
 
 {{% redis-cli %}}
-SET mykey 10
-INCREX mykey BYINT 1 EX 100 ENX
-TTL mykey
-SET mykey 10 EX 500
-INCREX mykey BYINT 1 EX 10 ENX
-TTL mykey
+SET mykey5 10
+INCREX mykey5 BYINT 1 EX 100 ENX
+TTL mykey5
+SET mykey5 10 EX 500
+INCREX mykey5 BYINT 1 EX 10 ENX
+TTL mykey5
 {{% /redis-cli %}}
 
 Use `PERSIST` to remove the key's expiration while incrementing:
 
 {{% redis-cli %}}
-SET mykey 5 EX 1000
-TTL mykey
-INCREX mykey BYINT 1 PERSIST
-TTL mykey
+SET mykey6 5 EX 1000
+TTL mykey6
+INCREX mykey6 BYINT 1 PERSIST
+TTL mykey6
 {{% /redis-cli %}}
 
 Compare the default out-of-bounds behavior with `SATURATE` when the result would exceed `UBOUND`. By default the key is left untouched and the reply reports a zero delta; with `SATURATE` the result is capped at the bound and the reply reflects the saturated delta:
 
 {{% redis-cli %}}
-SET mykey 99
-INCREX mykey BYINT 5 UBOUND 100
-SET mykey 99
-INCREX mykey BYINT 5 UBOUND 100 SATURATE
+SET mykey7 99
+INCREX mykey7 BYINT 5 UBOUND 100
+SET mykey7 99
+INCREX mykey7 BYINT 5 UBOUND 100 SATURATE
 {{% /redis-cli %}}
 
 ## Pattern: window counter rate limiter

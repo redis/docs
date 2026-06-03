@@ -108,6 +108,8 @@ To upgrade a database:
         rladmin upgrade db <database name | database ID> redis_version <version> preserve_roles
         ```
 
+    - For module upgrade options, see [Upgrade modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}).
+
 1. Check the Redis database compatibility version for the database to confirm the upgrade.  
 
     To do so:

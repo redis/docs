@@ -17,7 +17,7 @@ type: integration
 weight: 1
 ---
 
-This is the first General Availability version of Redis Data Integration (RDI).
+Redis Data Integration (RDI) keeps your Redis cache in sync with a primary system-of-record database in near real time.
 
 RDI's purpose is to help Redis customers sync Redis Enterprise with live data from their slow disk based databases in order to:
 

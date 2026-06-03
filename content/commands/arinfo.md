@@ -1,6 +1,8 @@
 ---
 acl_categories:
-- ARRAY
+- "@read"
+- "@array"
+- "@slow"
 arguments:
 - key_spec_index: 0
   name: key
@@ -111,6 +113,12 @@ ARMSET myarray 0 "a" 1 "b" 100 "c"
 ARINSERT myarray "d"
 ARINFO myarray
 {{% /redis-cli %}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 
