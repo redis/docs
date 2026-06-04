@@ -19,7 +19,7 @@ Update urgency: `HIGH`: There are critical bugs that may affect a subset of user
 ### Bug fixes
 
 - [#15175](https://github.com/redis/redis/pull/15175), RediSearch/RediSearch[#9262](https://github.com/redisearch/redisearch/pull/9262) Redis fails to start on AArch64.
-- [#15163](https://github.com/redis/redis/pull/15163) `MULTI` queue memory incorrect memory accounting .
+- [#15163](https://github.com/redis/redis/pull/15163) `MULTI` queue memory incorrect memory accounting.
 - [#14581](https://github.com/redis/redis/pull/14581) Rare server hang at shutdown.
 - [#14545](https://github.com/redis/redis/pull/14545) ACL: AOF loading fails if ACL rules are changed and don't allow some commands in `MULTI`-`EXEC`.
 - [#14537](https://github.com/redis/redis/pull/14537) `SCAN`: restore original filter order (revert change introduced in 8.2).
