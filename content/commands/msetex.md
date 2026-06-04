@@ -119,17 +119,47 @@ A series of key/value pairs.
 
 ## Optional arguments
 
-<details open><summary><code>condition and expiration flags</code></summary>
+The following options modify the command's behavior. The condition options (`NX`, `XX`) are mutually exclusive, as are the expiration options (`EX`, `PX`, `EXAT`, `PXAT`, `KEEPTTL`).
 
-The `MSETEX` command supports a set of options that modify its behavior:
+<details open><summary><code>NX</code></summary>
 
-* `NX` -- Set the keys and their expiration time only if none of the specified keys exist.
-* `XX` -- Set the keys and their expiration time only if all of the specified keys already exist.
-* `EX seconds` -- Set the specified expiration time in seconds (a positive integer).
-* `PX milliseconds` -- Set the specified expiration time in milliseconds (a positive integer).
-* `EXAT unix-time-seconds` -- Set the specified Unix time in seconds (a positive integer) at which the key(s) will expire.
-* `PXAT unix-time-milliseconds` -- Set the specified Unix time in milliseconds (a positive integer) at which the key(s) will expire.
-* `KEEPTTL` -- Retain the time to live associated with the keys.
+Set the keys and their expiration time only if none of the specified keys exist.
+
+</details>
+
+<details open><summary><code>XX</code></summary>
+
+Set the keys and their expiration time only if all of the specified keys already exist.
+
+</details>
+
+<details open><summary><code>EX seconds</code></summary>
+
+Set the specified expiration time in seconds (a positive integer).
+
+</details>
+
+<details open><summary><code>PX milliseconds</code></summary>
+
+Set the specified expiration time in milliseconds (a positive integer).
+
+</details>
+
+<details open><summary><code>EXAT unix-time-seconds</code></summary>
+
+Set the specified Unix time in seconds (a positive integer) at which the keys will expire.
+
+</details>
+
+<details open><summary><code>PXAT unix-time-milliseconds</code></summary>
+
+Set the specified Unix time in milliseconds (a positive integer) at which the keys will expire.
+
+</details>
+
+<details open><summary><code>KEEPTTL</code></summary>
+
+Retain the time to live associated with the keys.
 
 </details>
 

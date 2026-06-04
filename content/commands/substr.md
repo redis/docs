@@ -61,10 +61,30 @@ Returns the substring of the string value stored at `key`, determined by the
 offsets `start` and `end` (both are inclusive).
 Negative offsets can be used in order to provide an offset starting from the end
 of the string.
-So -1 means the last character, -2 the penultimate and so forth.
+For example, -1 is the last character, -2 is the penultimate character, and so on.
 
 The function handles out of range requests by limiting the resulting range to
 the actual length of the string.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
+<details open><summary><code>start</code></summary>
+
+The start offset, zero-based. A negative value counts from the end of the string.
+
+</details>
+
+<details open><summary><code>end</code></summary>
+
+The end offset, zero-based and inclusive. A negative value counts from the end of the string.
+
+</details>
 
 ## Examples
 
