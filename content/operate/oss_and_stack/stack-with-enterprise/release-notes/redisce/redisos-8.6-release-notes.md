@@ -19,7 +19,7 @@ Update urgency: `HIGH`: There are critical bugs that may affect a subset of user
 ### Bug fixes
 
 - [#15175](https://github.com/redis/redis/pull/15175), RediSearch/RediSearch[#9262](https://github.com/redisearch/redisearch/pull/9262) Redis fails to start on AArch64.
-- [#15163](https://github.com/redis/redis/pull/15163) `MULTI` queue memory incorrect memory accounting .
+- [#15163](https://github.com/redis/redis/pull/15163) `MULTI` queue memory incorrect memory accounting.
 - [#15115](https://github.com/redis/redis/pull/15115) Under-copy in the Lua debugger.
 - [#15094](https://github.com/redis/redis/pull/15094) Cluster crash when `CLIENT KILL` unsubscribes `SSUBSCRIBE` client inside `EXEC`.
 - [#14963](https://github.com/redis/redis/pull/14963) `XREADGROUP`: consumer replication inconsistency.
