@@ -13,7 +13,7 @@ weight: 20
 
 Access control lets you manage Redis Software users, roles, ACLs, and role bindings as Kubernetes custom resources. The operator reconciles each resource into the corresponding Redis Software object, so you can use GitOps workflows and Kubernetes Secrets instead of working only through the Redis Software REST API or Cluster Manager UI.
 
-## How access control works on Redis for Kubernetes
+## How access control works on Redis Software for Kubernetes
 
 You declare these `app.redislabs.com/v1alpha1` custom resources:
 
@@ -144,5 +144,5 @@ Access control resources are reconciled only in the operator namespace. Password
 
 ## Related topics
 
-- [Redis for Kubernetes operator API reference]({{< relref "/operate/kubernetes/reference/api" >}}) — field-by-field specification for every CRD in the `app.redislabs.com/v1alpha1` group.
+- [Redis Software for Kubernetes operator API reference]({{< relref "/operate/kubernetes/reference/api" >}}) — field-by-field specification for every CRD in the `app.redislabs.com/v1alpha1` group.
 - [Redis databases (REDB)]({{< relref "/operate/kubernetes/re-databases" >}}) — the resources that role scopes resolve against.

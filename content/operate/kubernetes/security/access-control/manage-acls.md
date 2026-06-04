@@ -18,7 +18,7 @@ To grant a user the permissions in an ACL, reference the ACL from a role and bin
 
 ## Before you start
 
-- Requires Redis for Kubernetes operator 8.0.24-TBD or later.
+- Requires Redis Software for Kubernetes operator 8.0.24-TBD or later.
 - The `RedisEnterpriseACL` resource must live in the operator namespace.
 - The rule string uses Redis ACL syntax — key patterns, command categories, and explicit commands. See [Redis ACL overview]({{< relref "/operate/rs/security/access-control/redis-acl-overview" >}}) for the full syntax.
 
@@ -66,7 +66,7 @@ kubectl edit redisenterpriseacl read-only
 
 `status.observedGeneration` reaches the resource's `metadata.generation` once the update has been applied.
 
-Because an update changes effective permissions for every connected user, treat ACL changes the same way you would treat role changes — validate them on a non-production cluster first, and prefer creating a new ACL plus swapping the role reference if you need a safer rollout.
+An update changes effective permissions for every connected user. Treat ACL changes the same way as role changes: validate them on a non-production cluster first. For a safer rollout, create a new ACL and swap the role reference instead of editing the existing ACL in place.
 
 ## Inspect ACL status
 
