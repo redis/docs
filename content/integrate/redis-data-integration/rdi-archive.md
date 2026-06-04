@@ -6,7 +6,6 @@ categories:
 - operate
 - rc
 description: Describes where to view the preview version for RDI products
-draft: true
 linkTitle: Preview
 weight: 999
 ---
