@@ -208,9 +208,9 @@ async function executeCommands(dbid, pre, input, commands, animate) {
   try {
      const { replies } = await execute(commands, dbid);
      for (const [i, command] of commands.entries()) {
-      const { error, value } = replies[i];
+      const { error, value, status } = replies[i];
       try {
-        await writeLines(pre, input, command, error ? `(error) ${value}` : formatReply(value), animate, false);
+        await writeLines(pre, input, command, error ? `(error) ${value}` : formatReply(value, '', status), animate, false);
       } catch (err) {
         console.error(err);
         await writeLines(pre, input, command, `(fatal error) ${err.message}`, animate);
@@ -262,13 +262,17 @@ async function execute(commands, dbid = '') {
   return reply;
 }
 
-function formatReply(reply, indent = '') {
+function formatReply(reply, indent = '', status = false) {
   if (reply === null) {
     return '(nil)';
   }
 
   const type = typeof reply;
   if (type === 'string') {
+    // RESP simple string / status reply (e.g. PONG, OK): rendered without quotes
+    if (status) {
+      return reply;
+    }
     return `"${reply}"`;
   } else if (type === 'number') {
     return `(integer) ${reply}`;
