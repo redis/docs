@@ -116,6 +116,52 @@
 
   if (!props.length || !searchEl) return;
 
+  /* ---------- section index ----------
+     Identify the five top-level sections by the bare <a name="..."> tags
+     emitted next to each H2. For each section, capture:
+       headerEls — the elements between this anchor and the first
+                   `.rdi-prop` (the <p>-wrapped anchor itself, the <h2>,
+                   and the section description). Hidden when the
+                   section has no visible properties under the current
+                   filter, so empty sections don't leave dangling
+                   headings on the page.
+       props     — the property entries that belong to this section
+                   (everything up to the next section's anchor).
+       tocLink   — the corresponding "Jump to a section" markdown link
+                   at the top of the page; dimmed when empty. */
+  const sectionNames = ['sources', 'processors', 'targets', 'secret-providers', 'metadata'];
+  const sections = [];
+  for (let i = 0; i < sectionNames.length; i++) {
+    const name = sectionNames[i];
+    const anchor = document.querySelector(`a[name="${name}"]`);
+    if (!anchor) continue;
+    const startNode = anchor.closest('p') || anchor;
+    const nextAnchor = i + 1 < sectionNames.length
+      ? document.querySelector(`a[name="${sectionNames[i + 1]}"]`)
+      : null;
+    const endNode = nextAnchor ? (nextAnchor.closest('p') || nextAnchor) : null;
+
+    const headerEls = [];
+    const sectionProps = [];
+    let node = startNode;
+    let seenProp = false;
+    while (node && node !== endNode) {
+      if (node.matches && node.matches('[data-rdi-prop="true"]')) {
+        seenProp = true;
+        sectionProps.push(node);
+      } else if (!seenProp) {
+        headerEls.push(node);
+      }
+      node = node.nextElementSibling;
+    }
+    sections.push({
+      name,
+      headerEls,
+      props: sectionProps,
+      tocLink: document.querySelector(`a[href="#${name}"]`)
+    });
+  }
+
   /* ---------- filter ---------- */
 
   /* x-ui-expose mixes two dimensions ("processor:*" and "collector:*").
@@ -176,6 +222,21 @@
     counterEl.textContent = filtering
       ? `${visible} of ${props.length} shown`
       : `${props.length} properties`;
+
+    /* Hide section headings + descriptions for sections that have no
+       visible properties under the current filter. Also dim the TOC
+       entry so the "Jump to" list reflects what's available. */
+    for (const section of sections) {
+      const anyVisible = section.props.some(p => p.style.display !== 'none');
+      const hide = filtering && !anyVisible;
+      for (const el of section.headerEls) {
+        el.style.display = hide ? 'none' : '';
+      }
+      if (section.tocLink) {
+        section.tocLink.style.opacity = hide ? '0.4' : '';
+        section.tocLink.style.pointerEvents = hide ? 'none' : '';
+      }
+    }
   }
 
   applyFilter();
