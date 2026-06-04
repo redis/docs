@@ -65,7 +65,7 @@ You define your data model once, specifying the entities that matter (such as cu
 
 ## Data integration
 
-AI agents are only as reliable as the data they work with. [Redis Data Integration (RDI)]({{< relref "/operate/rc/databases/rdi" >}}) keeps your Redis Cloud database in sync with your existing relational databases, including Oracle, MySQL, PostgreSQL, and SQL Server, so agents always have access to current, accurate business data without querying slow primary databases directly.
+AI agents are only as reliable as the data they work with. [Redis Data Integration (RDI)]({{< relref "/operate/rc/rdi" >}}) keeps your Redis Cloud database in sync with your existing relational databases, including Oracle, MySQL, PostgreSQL, and SQL Server, so agents always have access to current, accurate business data without querying slow primary databases directly.
 
 RDI uses a data pipeline that performs an initial sync of your source data into Redis, then captures changes in real time. Updates from your primary database appear in Redis within seconds, eliminating stale data and cache misses. Your agents interact only with Redis, which provides fast and predictable query performance.
 

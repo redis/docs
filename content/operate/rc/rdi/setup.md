@@ -1,5 +1,8 @@
 ---
 Title: Prepare source database
+aliases:
+    - /operate/rc/databases/rdi/setup/
+    - /operate/rc/databases/rdi/setup
 alwaysopen: false
 categories:
 - docs
@@ -7,32 +10,12 @@ categories:
 - rc
 description: Prepare your source database, network setup, and database credentials for Data integration.
 hideListLinks: true
-weight: 2
+weight: 3
 ---
-
-## Create new data pipeline
-
-1. In the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Pipeline** tab.
-1. Select **Create pipeline**.
-    {{<image filename="images/rc/rdi/rdi-create-data-pipeline.png" alt="The create pipeline button." width=200px >}}
-1. Select your source database type. The following database types are supported:
-    - MySQL
-    - mariaDB
-    - Oracle
-    - SQL Server
-    - PostgreSQL
-    {{<image filename="images/rc/rdi/rdi-select-source-db.png" alt="The select source database type list." width=500px >}}
-1. If you know the size of your source database, enter it into the **Source dataset size** field.
-    {{<image filename="images/rc/rdi/rdi-source-dataset-size.png" alt="Enter the amount of source data you plan to ingest." width=400px >}}
-1. Under **Setup connectivity**, save the provided ARN and extract the AWS account ID for the account associated with your Redis Cloud cluster from it. 
-
-    {{<image filename="images/rc/rdi/rdi-setup-connectivity-arn.png" alt="The select source database type list." width=80% >}}
-
-    The AWS account ID is the string of numbers after `arn:aws:iam::` in the ARN. For example, if the ARN is `arn:aws:iam::123456789012:role/redis-data-pipeline`, the AWS account ID is `123456789012`.
 
 ## Prepare source database
 
-Before using the pipeline, you must first prepare your source database to use the Debezium connector for change data capture (CDC). See [Prerequisites]({{<relref "/operate/rc/databases/rdi#prerequisites">}}) to find a list of supported source databases and database versions.
+Before using the pipeline, you must first prepare your source database to use the Debezium connector for change data capture (CDC). See [Prerequisites]({{<relref "/operate/rc/rdi#prerequisites">}}) to find a list of supported source databases and database versions.
 
 See [Prepare source databases]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/">}}) to find steps for your database type:
 - Hosted on an AWS EC2 instance:
@@ -47,9 +30,42 @@ See [Prepare source databases]({{<relref "/integrate/redis-data-integration/data
 
 See the [RDI architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}}) for more information about CDC.
 
-## Set up connectivity
+## Get cluster account ID
 
-To ensure that you can connect your Redis Cloud database to the source database, you need to set up an endpoint service through AWS PrivateLink. 
+Before you can set up your source connectivity and secrets, you need the AWS Account ID for your Redis Cloud cluster so that you can give it access to your connectivity and secrets. 
+
+1. On the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Integration** tab.
+1. Select **Add pipeline**.
+    {{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The workspace section of the Data Integration tab for a database. Select Add pipeline to add a pipeline." width=80% >}}
+1. Select your source database type. The following database types are supported:
+    - MySQL
+    - mariaDB
+    - Oracle
+    - SQL Server
+    - PostgreSQL
+    {{<image filename="images/rc/rdi/rdi-select-source-db.png" alt="The select source database type list." width=80% >}}
+1. Enter a name for your source database in the **Source name** field. This is a name for the source database that will appear on Redis Cloud.
+1. Select **Continue to source** to move to the **Source configuration** step.
+
+    {{<image filename="images/rc/rdi/rdi-continue-to-source-button.png" alt="The select source database type list." width=200px >}}
+
+1. Under **Source connectivity**, save the provided ARN and extract the AWS account ID for the account associated with your Redis Cloud cluster from it. 
+
+    {{<image filename="images/rc/rdi/rdi-setup-connectivity-arn.png" alt="The Private Link Role ARN and availability zones." width=80% >}}
+
+    The AWS account ID is the string of numbers after `arn:aws:iam::` in the ARN. For example, if the ARN is `arn:aws:iam::123456789012:role/redis-data-pipeline`, the AWS account ID is `123456789012`.
+
+1. If your source database is accessible via the public endpoint and you want to use public connectivity for your data pipeline, select **Public endpoint** and save the **Redis Cloud outbound IP address** to add to your source database's allow list. 
+
+Select **Save & exit** to exit pipeline setup. You'll come back here when you [define your source connection and data pipeline]({{<relref "/operate/rc/rdi/define">}}).
+
+## Set up AWS Private Link connectivity {#set-up-connectivity}
+
+{{< note >}}
+If your source database is accessible via a public endpoint and you want to use public connectivity for your data pipeline, proceed to [Share source database credentials](#share-source-database-credentials).
+{{< /note >}} 
+
+If your source database is not accessible via a public endpoint, you need to set up an endpoint service through AWS PrivateLink to be able to connect to it.
 
 The following diagrams show the network setup for the different database setups:
 
@@ -137,7 +153,7 @@ To connect to your RDS or Aurora database, we recommend using a Lambda function 
 1. [Set up Lambda function connectivity](#setup-lambda-function) to route requests to your database.
 
 {{<note>}}
-If you have specific requirements that necessitate using RDS Proxy instead of the recommended Lambda function approach, see the [RDS Proxy setup guide]({{< relref "/operate/rc/databases/rdi/rds-proxy" >}}). Note that RDS Proxy is not recommended and does not work with PostgreSQL.
+If you have specific requirements that necessitate using RDS Proxy instead of the recommended Lambda function approach, see the [RDS Proxy setup guide]({{< relref "/operate/rc/rdi/rds-proxy" >}}). Note that RDS Proxy is not recommended and does not work with PostgreSQL.
 {{</note>}}
 
 ### Create network load balancer {#create-network-load-balancer-rds}
@@ -412,6 +428,6 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
 
 ## Next steps
 
-After you have set up your source database and prepared connectivity and credentials, select **Define source database** to [define your source connection and data pipeline]({{<relref "/operate/rc/databases/rdi/define">}}).
+After you have set up your source database and prepared connectivity and credentials, select **Define source database** to [define your source connection and data pipeline]({{<relref "/operate/rc/rdi/define">}}).
 
 {{<image filename="images/rc/rdi/rdi-define-source-database.png" alt="The define source database button." width=200px >}}
