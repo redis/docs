@@ -16,6 +16,7 @@ This page covers creating users, changing passwords, and recovering locked accou
 
 ## Before you start
 
+- Requires Redis for Kubernetes operator 8.0.24-TBD or later.
 - The `RedisEnterpriseUser` resource and every referenced password Secret must live in the operator namespace.
 - Passwords must satisfy the cluster's [password complexity rules]({{< relref "/operate/rs/security/access-control/manage-passwords/password-complexity-rules" >}}).
 - To assign roles, you need a `RedisEnterpriseRole` or `RedisEnterpriseClusterRole` and a matching binding. See [Manage roles]({{< relref "/operate/kubernetes/security/access-control/manage-roles" >}}).

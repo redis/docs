@@ -18,6 +18,7 @@ To grant a user the permissions in an ACL, reference the ACL from a role and bin
 
 ## Before you start
 
+- Requires Redis for Kubernetes operator 8.0.24-TBD or later.
 - The `RedisEnterpriseACL` resource must live in the operator namespace.
 - The rule string uses Redis ACL syntax — key patterns, command categories, and explicit commands. See [Redis ACL overview]({{< relref "/operate/rs/security/access-control/redis-acl-overview" >}}) for the full syntax.
 

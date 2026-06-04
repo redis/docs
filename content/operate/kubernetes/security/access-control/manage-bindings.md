@@ -29,6 +29,7 @@ The CRD model doesn't enforce a binding granularity — a single binding can lis
 
 ## Before you start
 
+- Requires Redis for Kubernetes operator 8.0.24-TBD or later.
 - The binding resource, the role it references, and any `RedisEnterpriseUser` subjects must all live in the operator namespace.
 - Create the role before the binding when possible. The operator still admits a binding that references a missing role — the binding stays unresolved until the role lands.
 
