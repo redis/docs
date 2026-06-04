@@ -273,7 +273,15 @@ function formatReply(reply, indent = '', status = false) {
     if (status) {
       return reply;
     }
-    return `"${reply}"`;
+    // Check if this is a stringified integer (for large integers that exceed JS safe range)
+    // Match strings that are purely numeric (with optional leading minus)
+    if (/^-?\d+$/.test(reply)) {
+      return `(integer) ${reply}`;
+    }
+    // Bulk string: quote it and escape inner quotes, backslashes and control
+    // characters the way redis-cli does (e.g. a JSON.GET payload renders as
+    // "{\"a\":1}" rather than a broken "{"a":1}").
+    return JSON.stringify(reply);
   } else if (type === 'number') {
     return `(integer) ${reply}`;
   } else if (Array.isArray(reply)) {
