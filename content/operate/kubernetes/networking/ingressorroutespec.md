@@ -12,7 +12,7 @@ weight: 30
 An Ingress is an API resource that provides a standardized and flexible way to manage external access to services running within a Kubernetes cluster.
 
 {{<warning>}}
-The community [Ingress-NGINX controller](https://github.com/kubernetes/ingress-nginx) (`kubernetes/ingress-nginx`) is retired. Best-effort maintenance ended in March 2026 and the project no longer ships releases, bug fixes, or security updates. If you are not already using it, use HAProxy or Istio, or migrate to a [Gateway API](https://gateway-api.sigs.k8s.io/) implementation.
+The community [Ingress-NGINX controller](https://github.com/kubernetes/ingress-nginx) (`kubernetes/ingress-nginx`) is retired. Best-effort maintenance ended in March 2026 and the project no longer ships releases, bug fixes, or security updates. If you are not already using it, use HAProxy or Istio.
 {{</warning>}}
 
 ## Install Ingress controller
@@ -31,9 +31,9 @@ Install your chosen Ingress controller, making sure `ssl-passthrough` is enabled
 1. Choose the API hostname and database hostname suffix you will use, replacing `<placeholders>` with your own values. The recommended formats are:
 
      * REC API hostname (`apiFqdnUrl`): `api-<rec-name>-<rec-namespace>.<subdomain>`
-     * Database hostname suffix (`dbFqdnSuffix`): `-db-<rec-name>-<rec-namespace>.<subdomain>`
+     * Database hostname suffix (`dbFqdnSuffix`): `.db-<rec-name>-<rec-namespace>.<subdomain>`
 
-     The operator appends each database name to `dbFqdnSuffix` to build the per-database hostname. For example, a database named `mydb` with the suffix above resolves to `mydb-db-<rec-name>-<rec-namespace>.<subdomain>`. For the wildcard DNS record, use `*` in place of the database name followed by the suffix.
+     The operator appends each database name to `dbFqdnSuffix` to build the per-database hostname. For example, a database named `mydb` with the suffix above resolves to `mydb.db-<rec-name>-<rec-namespace>.<subdomain>`. For the wildcard DNS record, replace the database name with `*`, which resolves to `*.db-<rec-name>-<rec-namespace>.<subdomain>`.
 
 1. Retrieve the `EXTERNAL-IP` of your Ingress controller's `LoadBalancer` service.
 
@@ -66,7 +66,7 @@ Edit the RedisEnterpriseCluster (REC) spec to add the `ingressOrRouteSpec` field
 kubectl patch rec <rec-name> --type merge --patch "{\"spec\": \
     {\"ingressOrRouteSpec\": \
       {\"apiFqdnUrl\": \"api-<rec-name>-<rec-namespace>.example.com\", \
-      \"dbFqdnSuffix\": \"-db-<rec-name>-<rec-namespace>.example.com\", \
+      \"dbFqdnSuffix\": \".db-<rec-name>-<rec-namespace>.example.com\", \
       \"ingressAnnotations\": \
        {\"kubernetes.io/ingress.class\": \"<ingress-controller>\", \
        \"<ingress-controller-annotation>/ssl-passthrough\": \"true\"}, \
@@ -84,7 +84,7 @@ Set `<ingress-controller>` to `haproxy` or `nginx`. The operator validates that 
 kubectl patch rec <rec-name> --type merge --patch "{\"spec\": \
      {\"ingressOrRouteSpec\": \
      {\"apiFqdnUrl\": \"api-<rec-name>-<rec-namespace>.example.com\" \ 
-     \"dbFqdnSuffix\": \"-db-<rec-name>-<rec-namespace>.example.com\", \
+     \"dbFqdnSuffix\": \".db-<rec-name>-<rec-namespace>.example.com\", \
      \"method\": \"openShiftRoute\"}}}"
 ```
 

@@ -12,7 +12,7 @@ weight: 5
 ---
 
 {{<warning>}}
-The community [Ingress-NGINX controller](https://github.com/kubernetes/ingress-nginx) (`kubernetes/ingress-nginx`) is retired. Best-effort maintenance ended in March 2026 and the project no longer ships releases, bug fixes, or security updates. If you are not already using it, use HAProxy or Istio as shown below, or migrate to a [Gateway API](https://gateway-api.sigs.k8s.io/) implementation.
+The community [Ingress-NGINX controller](https://github.com/kubernetes/ingress-nginx) (`kubernetes/ingress-nginx`) is retired. Best-effort maintenance ended in March 2026 and the project no longer ships releases, bug fixes, or security updates. If you are not already using it, use HAProxy or Istio as shown below.
 {{</warning>}}
 
 ## Prerequisites
