@@ -18,11 +18,13 @@ weight: 3
 Before using the pipeline, you must first prepare your source database to use the Debezium connector for change data capture (CDC). See [Prerequisites]({{<relref "/operate/rc/rdi#prerequisites">}}) to find a list of supported source databases and database versions.
 
 See [Prepare source databases]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/">}}) to find steps for your database type:
-- Hosted on an AWS EC2 instance:
+- Hosted on an AWS EC2 instance or publicly available:
     - [MySQL and mariaDB]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/my-sql-mariadb">}})
     - [Oracle]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle">}})
     - [SQL Server]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/sql-server">}})
     - [PostgreSQL]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql">}})
+    - [MongoDB]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/mongodb">}})
+    - [Snowflake]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/snowflake">}})
 - Hosted on AWS RDS or AWS Aurora:
     - [AWS Aurora PostgreSQL and AWS RDS PostgreSQL]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/aws-aurora-rds/aws-aur-pgsql">}})
     - [AWS Aurora MySQL and AWS RDS MySQL]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/aws-aurora-rds/aws-aur-mysql">}})
@@ -43,6 +45,8 @@ Before you can set up your source connectivity and secrets, you need the AWS Acc
     - Oracle
     - SQL Server
     - PostgreSQL
+    - MongoDB
+    - Snowflake
     {{<image filename="images/rc/rdi/rdi-select-source-db.png" alt="The select source database type list." width=80% >}}
 1. Enter a name for your source database in the **Source name** field. This is a name for the source database that will appear on Redis Cloud.
 1. Select **Continue to source** to move to the **Source configuration** step.
