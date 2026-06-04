@@ -6,12 +6,12 @@ categories:
 - ai
 description: Redis Iris is a suite of fully-managed services that give AI agents the context engine they need to reliably act on business data.
 hideListLinks: true
-linktitle: Context engine
-title: Context engine
+linktitle: Redis Iris context engine
+title: Redis Iris context engine
 weight: 30
 ---
 
-Context engine includes four services:
+Redis Iris context engine includes four services:
 
 - **[LangCache]({{< relref "/develop/ai/context-engine/langcache" >}})**: A semantic caching service that stores and reuses LLM responses for similar queries, reducing API costs and improving response latency.
 - **[Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}})**: A persistent memory service that maintains short-term session memory and long-term memory across agent interactions.
