@@ -338,8 +338,8 @@ _BROKEN_API_CLI_LINK = re.compile(
 # Markdown attributes, breaking the build. Convert them to the site's alert
 # shortcodes instead.
 _MYST_ADMONITION = re.compile(
-    r"^```\{(note|warning|tip|important|caution|danger|attention|hint|error)\}"
-    r"[^\n]*\n(.*?)\n```[ \t]*$",
+    r"^(`{3,})\{(note|warning|tip|important|caution|danger|attention|hint|error)\}"
+    r"[^\n]*\n(.*?)\n\1[ \t]*$",
     re.DOTALL | re.MULTILINE,
 )
 _ADMONITION_SHORTCODE = {
@@ -351,8 +351,8 @@ _ADMONITION_SHORTCODE = {
 
 
 def _myst_admonition_repl(m: re.Match) -> str:
-    sc = _ADMONITION_SHORTCODE[m.group(1)]
-    return f"{{{{< {sc} >}}}}\n{m.group(2)}\n{{{{< /{sc} >}}}}"
+    sc = _ADMONITION_SHORTCODE[m.group(2)]
+    return f"{{{{< {sc} >}}}}\n{m.group(3)}\n{{{{< /{sc} >}}}}"
 
 
 def _docs_redisvl_deep_repl(m: re.Match) -> str:
