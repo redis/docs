@@ -35,6 +35,26 @@ For help changing database settings, see [Edit database details](#edit-database-
 
 The **Configuration** screen is divided into sections, each dedicated to a specific category.  Note that not every section or setting is available to every [subscription plan]({{< relref "/operate/rc/subscriptions/" >}}).
 
+The Configuration tab is organized differently for Essentials and Pro databases. Select your plan type below.
+
+{{< multitabs id="db-configuration-tab"
+    tab1="Essentials"
+    tab2="Pro" >}}
+
+<!-- TODO (DOC-6673, Essentials): Replace this placeholder with the revamped Essentials Configuration tab documentation, using screenshots from staging. Cover:
+ - Info section (condensed, mostly read-only) — renamed from "General"
+ - Performance, Durability, and Security sections, reordered by importance with editable fields first
+ - Contextual recommendations (high memory utilization/eviction, throughput, high availability, persistence, plan upgrades)
+ - "Recommended" labels and on/off color coding (red = off, green = on)
+ - Collapse/expand behavior and the Expand/Collapse All control
+ - Alerts section: tooltip shown when checkboxes are disabled outside Edit mode
+ - Danger zone: exposed only in Edit mode
+-->
+
+_Documentation for the revamped Essentials Configuration tab is in progress._
+
+-tab-sep-
+
 ### General settings
 
 The **General** section defines basic properties about your database.
@@ -45,15 +65,15 @@ The available settings vary according to your plan, cloud provider, and design c
 |:--------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Database Name**         | The name given to your database                                                                                                                             |
 | **Subscription Name**     | The name for the subscription your database is a part of                                                                                                    |
-| **Public endpoint**       | Public URI used by any application or client to access the database. Redis Cloud Pro databases can [block the public endpoint]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}).                                                  |
-| **Private endpoint**      | Private endpoint URI available to approved clients; use CIDR allow list, VPC peering, or other connectivity options to enable access. (_Redis Cloud Pro only_) |
+| **Public endpoint**       | Public URI used by any application or client to access the database. You can [block the public endpoint]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}).                                                  |
+| **Private endpoint**      | Private endpoint URI available to approved clients; use CIDR allow list, VPC peering, or other connectivity options to enable access. |
 | **Tags**                  | A list of the [tags]({{< relref "/operate/rc/databases/tag-database" >}}) associated with the database. Select [Manage tags]({{< relref "/operate/rc/databases/tag-database#configuration-tab" >}}) to manage the database tags. |
 | **Vendor**                | The Cloud vendor hosting your database: AWS, Google Cloud, or Azure.                                                   |
 | **Region**                | The Cloud vendor region hosting your database                                                  |
 | **Type**                  | Displays 'Redis', 'Redis Stack' or 'memcached' based on the value selected when the database was created                                                    |
 | **Redis version**         | Redis version of the database                                                                                                                  |
-| **Auto Tiering**          | Checked when the subscription supports Auto Tiering (_Redis Cloud Pro only_)                                                               |
-| **Active-Active Redis**   | Checked when the database is part of an [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) relationship (_Redis Cloud Pro only_)                                                                                         |
+| **Auto Tiering**          | Checked when the subscription supports Auto Tiering                                                               |
+| **Active-Active Redis**   | Checked when the database is part of an [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) relationship                                                                                         |
 | **Creation time**         | Date and time the database was created                                                                                                                      |
 | **Last changed**          | Date and time of last update                                                                                                                                |
 | **Supported Protocol(s)** | Shows which version of RESP the database uses. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
@@ -63,16 +83,16 @@ The available settings vary according to your plan, cloud provider, and design c
 
 The **Performance** section describes the memory size, throughput, and hashing policy for a database.
 
-{{<image filename="images/rc/database-details-configuration-tab-scalability-flexible.png" alt="Use the Performance section to control the size, throughput, and hashing policy for a database." >}}
+<img src="../../../../images/rc/database-details-configuration-tab-scalability-flexible.png" alt="Use the Performance section to control the size, throughput, and hashing policy for a database.">
 
 | Setting name          |Description|
 |:----------------------|:----------|
 | **Dataset size** | Maximum size (in GB) for your dataset. See [Dataset size]({{< relref "/operate/rc/databases/configuration/sizing#dataset-size" >}}).  |
-| **Throughput**        | Defines [throughput]({{< relref "/operate/rc/databases/configuration/sizing#throughput" >}}) in terms of maximum operations per second for the database (_Redis Cloud Pro only_). |
+| **Throughput**        | Defines [throughput]({{< relref "/operate/rc/databases/configuration/sizing#throughput" >}}) in terms of maximum operations per second for the database. |
 | **Memory used**       | Memory currently used for your database.  |
-| **High availability**    | Replicates your data across multiple nodes; [available options]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) depend on your plan type  |
-| **Hashing policy**    | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}) (_Redis Cloud Pro only_).  |
-| **OSS Cluster API**       | Enables the [Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) for a database (_Redis Cloud Pro only_).<br/><br/>When this option is enabled, you cannot define a custom hashing policy.|
+| **High availability**    | Replicates your data across multiple nodes; see [available options]({{< relref "/operate/rc/databases/configuration/high-availability" >}})  |
+| **Hashing policy**    | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}).  |
+| **OSS Cluster API**       | Enables the [Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) for a database.<br/><br/>When this option is enabled, you cannot define a custom hashing policy.|
 
 To learn more about these settings and when to use them, see [Sizing]({{< relref "/operate/rc/databases/configuration/sizing" >}}) and [Database clustering]({{< relref "/operate/rc/databases/configuration/clustering" >}}).
 
@@ -80,34 +100,34 @@ To learn more about these settings and when to use them, see [Sizing]({{< relref
 
 The Durability section helps protect your data when problems occur.  These settings define replication, persistence, backup, and eviction policies.
 
-{{<image filename="images/rc/database-details-configuration-tab-durability-flexible.png" alt="Use the Durability  section to protect your data from unexpected problems." >}}
+<img src="../../../../images/rc/database-details-configuration-tab-durability-flexible.png" alt="Use the Durability section to protect your data from unexpected problems.">
 
 | Setting name             | Description                                                                                                                                                     |
 |:-------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Data persistence**     | Defines whether (and how) data is saved to disk; [available options]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) depend on your plan type |
+| **Data persistence**     | Defines whether (and how) data is saved to disk; see [available options]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) |
 | **Data eviction policy** | Configures which [policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies" >}}) is applied when your database reaches its memory limit        |
-| **Remote backup**        | When enabled, identifies a location and interval for [data backups]({{< relref "/operate/rc/databases/back-up-data" >}}). (_Paid plans only_)                |
-| **Active-Passive Redis** | When enabled, identifies a path to the [linked database]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}). (_Redis Cloud Pro only_)                                                               |
+| **Remote backup**        | When enabled, identifies a location and interval for [data backups]({{< relref "/operate/rc/databases/back-up-data" >}}).                |
+| **Active-Passive Redis** | When enabled, identifies a path to the [linked database]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}).                                                               |
 
 ### Security section
 
 The **Security** section helps you control access to your database.
 
-{{<image filename="images/rc/database-details-configuration-tab-security-flexible.png" alt="Use the Security settings to control access to your database." >}}
+<img src="../../../../images/rc/database-details-configuration-tab-security-flexible.png" alt="Use the Security settings to control access to your database.">
 
 |Setting name| Description                                                                                                                                                                    |
 |:-----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Default user** | When enabled, permits access using a simple password                                                                                                                           |
 | **Default user password** | Password for default user. A default password is assigned to the database on creation and may be updated. If you [block the public endpoint]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}), you can also turn on passwordless authentication for the default user here.  |
-| **CIDR allow list** | [Allow list]({{< relref "/operate/rc/security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database. (_Paid plans only_)                    |
-| **Transport layer security (TLS)** | Enables [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) (TLS) encryption for database access. (_Pro plans only_)  |
+| **CIDR allow list** | [Allow list]({{< relref "/operate/rc/security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database.                    |
+| **Transport layer security (TLS)** | Enables [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) (TLS) encryption for database access.  |
 
 ### Alerts section
 
 
 The **Alerts** section defines notification emails sent to your account and the conditions that trigger them.
 
-{{<image filename="images/rc/database-details-configuration-tab-alerts-flexible.png" alt="The Alerts section defines the notification emails and their triggering conditions." >}}
+<img src="../../../../images/rc/database-details-configuration-tab-alerts-flexible.png" alt="The Alerts section defines the notification emails and their triggering conditions.">
 
 The available alerts vary according to the plan type. See [Configure alerts]({{< relref "/operate/rc/databases/monitor-performance#configure-metric-alerts" >}}) for more information.
 
@@ -115,7 +135,7 @@ The available alerts vary according to the plan type. See [Configure alerts]({{<
 
 Actions in the **Danger Zone** are permanent and should not be taken lightly.
 
-{{<image filename="images/rc/database-details-configuration-tab-danger-flexible.png" alt="The Danger Zone includes activities that impact data, such as deleting a database.  Use with care." >}}
+<img src="../../../../images/rc/database-details-configuration-tab-danger-flexible.png" alt="The Danger Zone includes activities that impact data, such as deleting a database.  Use with care.">
 
 Here, you can:
 
@@ -123,6 +143,8 @@ Here, you can:
 - Flush the database (_Active-Active databases only_).
 
 For best results, we recommend [backing up data]({{< relref "/operate/rc/databases/back-up-data" >}}) before any danger zone actions.
+
+{{< /multitabs >}}
 
 ## Other actions and info
 
