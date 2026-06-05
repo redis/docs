@@ -91,6 +91,11 @@ Select whether you want your pipeline to connect to your database using **AWS Pr
 
 Enter the ARN of your [database credentials secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}}) in the **Credentials secret ARN** field.
 
+For Snowflake source databases, select the authentication method that matches the [credentials secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}}) you created:
+
+- **Password**: The credentials secret must contain both `username` and `password`.
+- **Key-pair**: The credentials secret must contain the `username` (if a `password` is present, it is ignored). Enter the ARN of your [client key secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}}) in the **Private Key Secret ARN** field. This secret must contain the private key in plain text PEM format.
+
 Under **Transit security**:
 
 - If your database requires TLS, select **TLS**. Enter the ARN of your [CA certificate secret]({{< relref "/operate/rc/rdi/setup#create-database-credentials-secrets" >}}) in the **CA Certificate Secret ARN** field.

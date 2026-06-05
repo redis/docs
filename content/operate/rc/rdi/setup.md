@@ -352,7 +352,7 @@ The required secrets depend on your source database's security configuration. Th
 | Security configuration | Required secrets |
 | :-- | :-- |
 | Username and password only | <ul><li>Credentials secret (username and password for the RDI pipeline user)</li></ul> |
-| Username and key pair only *(Snowflake source databases only)* | <ul><li>Credentials secret (username for the RDI pipeline user)</li><li>Client key secret</li></ul> |
+| Username and key pair only *(Snowflake source databases only)* | <ul><li>Credentials secret (username for the RDI pipeline user)</li><li>Private key secret</li></ul> |
 | TLS connection | <ul><li>Credentials secret (username and password for the RDI pipeline user)</li><li>CA Certificate secret (server certificate)</li></ul> |
 | mTLS connection | <ul><li>Credentials secret (username and password for the RDI pipeline user)</li><li>CA Certificate secret (server certificate)</li><li>Client certificate secret</li><li>Client key secret</li></ul> |
 | mTLS connection with client key passphrase | <ul><li>Credentials secret (username and password for the RDI pipeline user)</li><li>CA Certificate secret (server certificate)</li><li>Client certificate secret</li><li>Client key secret</li><li>Client key passphrase secret</li></ul> |
@@ -368,7 +368,8 @@ Select a tab to learn how to create the required secret.
       tab2="CA Certificate secret"
       tab3="Client certificate secret"
       tab4="Client key secret"
-      tab5="Client key passphrase secret" >}}
+      tab5="Client key passphrase secret"
+      tab6="Private key secret" >}}
 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Secrets Manager**. [Create a secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_secret.html) of type **Other type of secret** with the following settings:
 
@@ -430,6 +431,16 @@ Add the following permissions to your secret. Replace `<AWS ACCOUNT ID>` with th
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Secrets Manager**. [Create a secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_secret.html) of type **Other type of secret** with the following settings:
 
 - **Key/value pairs**: Select **Plaintext** and enter the client key passphrase.
+
+{{< embed-md "rc-rdi-secrets-encryption-permissions.md" >}}
+
+--tab-sep--
+
+This secret is required for Snowflake source databases that use key-pair authentication.
+
+In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Secrets Manager**. [Create a secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_secret.html) of type **Other type of secret** with the following settings:
+
+- **Key/value pairs**: Select **Plaintext** and enter the private key in plain text PEM format.
 
 {{< embed-md "rc-rdi-secrets-encryption-permissions.md" >}}
 
