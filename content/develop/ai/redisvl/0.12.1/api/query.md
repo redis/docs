@@ -81,8 +81,9 @@ expression.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
-#### `NOTE`
+{{< note >}}
 Learn more about vector queries in Redis: [https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search](https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search)
+{{< /note >}}
 
 #### `dialect(dialect)`
 
@@ -339,10 +340,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
@@ -455,8 +457,9 @@ Return the USE_SEARCH_HISTORY parameter for the query.
 * **Return type:**
   Optional[str]
 
-#### `NOTE`
+{{< note >}}
 **Runtime Parameters for Performance Tuning**
+{{< /note >}}
 
 VectorQuery supports runtime parameters for HNSW and SVS-VAMANA indexes that can be adjusted at query time without rebuilding the index:
 
@@ -569,8 +572,9 @@ distance threshold.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
-#### `NOTE`
+{{< note >}}
 Learn more about vector range queries: [https://redis.io/docs/interact/search-and-query/search/vectors/#range-query](https://redis.io/docs/interact/search-and-query/search/vectors/#range-query)
+{{< /note >}}
 
 #### `dialect(dialect)`
 
@@ -822,10 +826,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
@@ -938,8 +943,9 @@ Return the USE_SEARCH_HISTORY parameter for the query.
 * **Return type:**
   Optional[str]
 
-#### `NOTE`
+{{< note >}}
 **Runtime Parameters for Range Queries**
+{{< /note >}}
 
 VectorRangeQuery supports runtime parameters for controlling range search behavior:
 
@@ -1014,10 +1020,11 @@ Instantiates a AggregateHybridQuery object.
     within the query text. Defaults to None, as no modifications will be made to the
     text_scorer score.
 
-#### `NOTE`
+{{< note >}}
 AggregateHybridQuery uses FT.AGGREGATE commands which do NOT support runtime
 parameters. For runtime parameter support (ef_runtime, search_window_size, etc.),
 use VectorQuery or VectorRangeQuery which use FT.SEARCH commands.
+{{< /note >}}
 
 * **Raises:**
   * **ValueError** – If the text string is empty, or if the text string becomes empty after
@@ -1226,13 +1233,15 @@ Get the text weights.
 * **Return type:**
   Dictionary of word
 
-#### `NOTE`
+{{< note >}}
 The `stopwords` parameter in [HybridQuery](#hybridquery) (and `AggregateHybridQuery`) controls query-time stopword filtering (client-side).
 For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
 Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
+{{< /note >}}
 
-#### `NOTE`
+{{< note >}}
 **Runtime Parameters for Hybrid Queries**
+{{< /note >}}
 
 **Important:** AggregateHybridQuery uses FT.AGGREGATE commands which do NOT support runtime parameters.
 Runtime parameters (`ef_runtime`, `search_window_size`, `use_search_history`, `search_buffer_capacity`)
@@ -1522,10 +1531,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
@@ -1594,10 +1604,11 @@ Get the text weights.
 * **Return type:**
   Dictionary of word
 
-#### `NOTE`
+{{< note >}}
 The `stopwords` parameter in [TextQuery](#textquery) controls query-time stopword filtering (client-side).
 For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
 Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
+{{< /note >}}
 
 ## FilterQuery
 
@@ -1802,10 +1813,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
@@ -2053,10 +2065,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
