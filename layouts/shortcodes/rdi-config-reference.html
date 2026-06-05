@@ -22,6 +22,7 @@
 
 {{- $root := index site.Data "rdi-reference" "config" -}}
 {{- $order := slice "sources" "processors" "targets" "secret-providers" "metadata" -}}
+{{- $collections := index site.Data "rdi-reference" "collections" -}}
 
 <div class="rdi-config-toolbar sticky top-0 z-10 -mx-4 px-4 py-3 mb-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-700">
   <div class="flex flex-wrap items-center gap-3">
@@ -34,6 +35,15 @@
       <div id="rdi-config-suggestions"
            class="hidden absolute left-0 right-0 top-full mt-1 max-h-72 overflow-y-auto bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded shadow-lg z-20"></div>
     </div>
+    <label class="flex items-center gap-1.5 text-xs text-slate-700 dark:text-slate-300">
+      <span>Collection:</span>
+      <select id="rdi-config-collection" class="text-xs px-1.5 py-1 border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800">
+        <option value="">All properties</option>
+        {{- range $collections }}
+        <option value="{{ .id }}">{{ .name }}</option>
+        {{- end }}
+      </select>
+    </label>
     <label class="flex items-center gap-1.5 text-xs text-slate-700 dark:text-slate-300">
       <span>Processor:</span>
       <select id="rdi-config-processor" class="text-xs px-1.5 py-1 border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800">
@@ -70,7 +80,13 @@
     </label>
     <span id="rdi-config-counter" class="text-xs text-slate-500 dark:text-slate-400 ml-auto"></span>
   </div>
+  <div id="rdi-config-collection-desc"
+       class="hidden mt-2 px-3 py-2 text-sm text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/50 border-l-2 border-redis-red-500 rounded-r"></div>
 </div>
+
+<script id="rdi-collections-data" type="application/json">
+{{ $collections | jsonify | safeJS }}
+</script>
 
 {{ $root.description | safeHTML }}
 
@@ -108,13 +124,49 @@
   const searchEl   = document.getElementById('rdi-config-search');
   const reqEl      = document.getElementById('rdi-config-required');
   const depEl      = document.getElementById('rdi-config-hide-deprecated');
+  const collxnEl   = document.getElementById('rdi-config-collection');
   const procEl     = document.getElementById('rdi-config-processor');
   const collEl     = document.getElementById('rdi-config-collector');
   const dbEl       = document.getElementById('rdi-config-database');
   const counterEl  = document.getElementById('rdi-config-counter');
   const suggestEl  = document.getElementById('rdi-config-suggestions');
+  const collDescEl = document.getElementById('rdi-config-collection-desc');
 
   if (!props.length || !searchEl) return;
+
+  /* ---------- collections index ----------
+     The collections data block is emitted by the shortcode as a JSON
+     <script>. Build a lookup of { id → { paths Set, ancestors Set,
+     description string } } so the filter can quickly decide whether a
+     property belongs to (or is an ancestor of) a chosen collection. */
+  const collectionsRaw = (() => {
+    try { return JSON.parse(document.getElementById('rdi-collections-data').textContent); }
+    catch (e) { return []; }
+  })();
+  const collectionsById = {};
+  for (const c of collectionsRaw) {
+    const paths = new Set(c.properties || []);
+    const ancestors = new Set();
+    for (const p of paths) {
+      const parts = p.split('.');
+      for (let i = 1; i < parts.length; i++) ancestors.add(parts.slice(0, i).join('.'));
+    }
+    collectionsById[c.id] = { paths, ancestors, description: c.description || '', name: c.name || c.id };
+  }
+
+  /* A property is "in" a collection if it's listed explicitly, OR it's
+     a descendant of a listed container, OR it's an ancestor of a
+     listed property (so the container context still appears). */
+  function inCollection(propPath, c) {
+    if (c.paths.has(propPath)) return true;
+    if (c.ancestors.has(propPath)) return true;
+    // Descendant-of-listed-container check
+    const parts = propPath.split('.');
+    for (let i = parts.length - 1; i > 0; i--) {
+      if (c.paths.has(parts.slice(0, i).join('.'))) return true;
+    }
+    return false;
+  }
 
   /* ---------- section index ----------
      Identify the five top-level sections by the bare <a name="..."> tags
@@ -188,9 +240,11 @@
     const q             = (searchEl.value || '').toLowerCase().trim();
     const requiredOnly  = reqEl.checked;
     const hideDep       = depEl.checked;
+    const collxn        = collxnEl.value;
     const proc          = procEl.value;
     const coll          = collEl.value;
     const db            = dbEl.value;
+    const activeColl    = collxn ? collectionsById[collxn] : null;
     let visible = 0;
 
     for (const p of props) {
@@ -205,6 +259,7 @@
           if (!text.includes(q)) show = false;
         }
       }
+      if (activeColl && !inCollection(p.dataset.path, activeColl)) show = false;
       if (requiredOnly && p.dataset.required !== 'yes') show = false;
       if (hideDep && p.dataset.deprecated === 'true')   show = false;
       if (show) {
@@ -218,7 +273,16 @@
       if (show) visible++;
     }
 
-    const filtering = q || requiredOnly || hideDep || proc || coll || db;
+    /* Surface the active collection's description below the toolbar. */
+    if (activeColl && activeColl.description) {
+      collDescEl.innerHTML = '<strong>' + activeColl.name + ':</strong> ' + activeColl.description;
+      collDescEl.classList.remove('hidden');
+    } else {
+      collDescEl.classList.add('hidden');
+      collDescEl.innerHTML = '';
+    }
+
+    const filtering = q || requiredOnly || hideDep || collxn || proc || coll || db;
     counterEl.textContent = filtering
       ? `${visible} of ${props.length} shown`
       : `${props.length} properties`;
@@ -243,6 +307,7 @@
   searchEl.addEventListener('input', applyFilter);
   reqEl.addEventListener('change', applyFilter);
   depEl.addEventListener('change', applyFilter);
+  collxnEl.addEventListener('change', applyFilter);
   procEl.addEventListener('change', applyFilter);
   collEl.addEventListener('change', applyFilter);
   dbEl.addEventListener('change', applyFilter);
