@@ -154,6 +154,74 @@ def strip_empty_markdown_cells(repo_dir: Path) -> None:
             nb_path.write_text(json.dumps(data), encoding="utf-8")
 
 
+# A plain alphabetic token (no markdown/RST specials) so sphinx renders it as an
+# ordinary paragraph and it survives flattening as a standalone line we can find.
+_ADMONITION_SENTINEL = "REDISVLADMONITIONEND"
+_RST_ADMONITION_RE = re.compile(
+    r"^([ \t]*)\.\.[ \t]+"
+    r"(note|warning|tip|important|caution|danger|attention|hint|error|seealso)::",
+)
+
+
+def mark_rst_admonitions(repo_dir: Path) -> None:
+    """Append a sentinel paragraph to the end of every hand-authored .rst
+    admonition body, so the post-sphinx markdown carries an explicit end marker.
+
+    sphinx_markdown_builder flattens `.. note::`/`.. warning::`/... into a bare
+    `#### TITLE` heading with the body de-indented to column 0, discarding the
+    admonition's extent. For multi-block bodies (lists, code-blocks, several
+    paragraphs) that loses everything after the first paragraph. The body extent
+    is unambiguous in the .rst source (everything indented under the directive),
+    so we compute it here and drop a unique sentinel as the last body line. After
+    sphinx flattens, that sentinel marks the true end of the box for
+    `_convert_sentinel_boxes`. Docstring-origin admonitions live in .py and get
+    no sentinel, so they fall through to the first-paragraph `_SPHINX_BOX`.
+    """
+    for rst_path in repo_dir.glob("docs/**/*.rst"):
+        try:
+            lines = rst_path.read_text(encoding="utf-8").splitlines()
+        except (UnicodeDecodeError, OSError):
+            continue
+        out: list[str] = []
+        i, n = 0, len(lines)
+        changed = False
+        while i < n:
+            m = _RST_ADMONITION_RE.match(lines[i])
+            if not m:
+                out.append(lines[i])
+                i += 1
+                continue
+            directive_indent = len(m.group(1))
+            out.append(lines[i])
+            i += 1
+            # The body is the run of lines indented past the directive (blank
+            # lines belong to it too); it ends at the first line indented no
+            # further than the directive itself.
+            body_indent = None
+            last_nonblank = -1
+            j = i
+            while j < n:
+                stripped = lines[j].strip()
+                if stripped:
+                    indent = len(lines[j]) - len(lines[j].lstrip())
+                    if indent <= directive_indent:
+                        break
+                    if body_indent is None:
+                        body_indent = indent
+                    last_nonblank = j
+                j += 1
+            if last_nonblank < i or body_indent is None:
+                continue  # inline-arg or empty body: nothing to bound
+            out.extend(lines[i:last_nonblank + 1])
+            out.append("")
+            out.append(" " * body_indent + _ADMONITION_SENTINEL)
+            out.extend(lines[last_nonblank + 1:j])
+            i = j
+            changed = True
+        if changed:
+            rst_path.write_text("\n".join(out) + "\n", encoding="utf-8")
+
+
 def sphinx_build(repo_dir: Path, build_dir: Path) -> None:
     if build_dir.exists():
         shutil.rmtree(build_dir)
@@ -382,14 +450,20 @@ def _myst_admonition_repl(m: re.Match) -> str:
 
 # Non-notebook (.rst) pages are rendered by sphinx_markdown_builder, which turns
 # admonitions (.. warning::, .. note::, ...) into a "#### TITLE" heading rather
-# than a fenced directive. That output loses the admonition's extent, but the
-# builder glues the first body paragraph directly under the heading (no blank
-# line), so we wrap that paragraph in the matching shortcode. Multi-paragraph
-# admonitions are under-wrapped (only the first paragraph is boxed) — safe, valid
-# Hugo; over-wrapping would instead swallow unrelated body text that follows.
-# The body therefore ends at the first blank line, EOF, or the start of a
-# following block (another heading or a list item) even when no blank line
-# separates them, so a glued-on heading/list is never pulled into the shortcode.
+# than a fenced directive. That output loses the admonition's extent.
+#
+# Admonitions are handled in two stages. Hand-authored .rst admonitions are
+# tagged by mark_rst_admonitions() before sphinx runs, so their flattened body is
+# followed by a sentinel line; _convert_sentinel_boxes() consumes the full
+# multi-block body up to that sentinel. Whatever is left (docstring-origin
+# admonitions, which carry no sentinel) falls through to _SPHINX_BOX below.
+#
+# _SPHINX_BOX wraps just the first paragraph: the builder glues it directly under
+# the heading (no blank line), so the body ends at the first blank line, EOF, or
+# the start of a following block (another heading or list item) even with no
+# intervening blank line — a glued-on heading/list is never pulled in. Multi-
+# paragraph docstring admonitions are deliberately under-wrapped here: the blocks
+# that follow are autodoc scaffolding (Parameters/Returns/Raises), not note body.
 # Admonitions nested in a list item are indented by the builder ("  #### NOTE"),
 # so the heading may carry leading whitespace; we capture that indent and re-emit
 # the shortcode at the same level to keep it inside the list item.
@@ -412,6 +486,59 @@ def _sphinx_box_repl(m: re.Match) -> str:
     sc = _SPHINX_BOX_SHORTCODE[m.group(2)]
     body = m.group(3).rstrip()
     return f"{indent}{{{{< {sc} >}}}}\n{body}\n{indent}{{{{< /{sc} >}}}}"
+
+
+_SPHINX_BOX_TITLE_RE = re.compile(
+    r"^([ \t]*)#### (WARNING|NOTE|TIP|IMPORTANT|CAUTION|DANGER|ATTENTION|HINT|ERROR|SEE ALSO)"
+    r"[ \t]*$"
+)
+_HEADING_ANY_RE = re.compile(r"^[ \t]*#{1,6}[ \t]")
+_SENTINEL_LINE_RE = re.compile(r"^[ \t]*" + re.escape(_ADMONITION_SENTINEL) + r"[ \t]*$")
+
+
+def _convert_sentinel_boxes(text: str) -> str:
+    """Wrap sentinel-tagged admonitions (from mark_rst_admonitions) in shortcodes.
+
+    Walks line by line: at each bare "#### TITLE" heading, scans ahead for the
+    sentinel that marks the end of that admonition's body. The scan stops at the
+    next markdown heading, so a sentinel-less docstring "#### NOTE" can never
+    reach a later note's sentinel (each tagged note renders its own "#### TITLE"
+    immediately above its sentinel) — those headings are left untouched for the
+    first-paragraph _SPHINX_BOX fallback. When a sentinel is found, the whole
+    body up to it is emitted inside the shortcode and the sentinel line dropped.
+    """
+    lines = text.split("\n")
+    out: list[str] = []
+    i, n = 0, len(lines)
+    while i < n:
+        m = _SPHINX_BOX_TITLE_RE.match(lines[i])
+        if not m:
+            out.append(lines[i])
+            i += 1
+            continue
+        sidx = None
+        j = i + 1
+        while j < n:
+            if _SENTINEL_LINE_RE.match(lines[j]):
+                sidx = j
+                break
+            if _HEADING_ANY_RE.match(lines[j]):
+                break
+            j += 1
+        if sidx is None:
+            out.append(lines[i])
+            i += 1
+            continue
+        indent = m.group(1)
+        sc = _SPHINX_BOX_SHORTCODE[m.group(2)]
+        body = lines[i + 1:sidx]
+        while body and not body[-1].strip():
+            body.pop()
+        out.append(f"{indent}{{{{< {sc} >}}}}")
+        out.extend(body)
+        out.append(f"{indent}{{{{< /{sc} >}}}}")
+        i = sidx + 1
+    return "\n".join(out)
 
 
 def _docs_redisvl_deep_repl(m: re.Match) -> str:
@@ -463,7 +590,11 @@ def transform_page(src: Path, staging: Path, moved_slugs: list[str]) -> None:
     text = _BLOCKQUOTE_RE.sub("", text)
     text = _ANSI_RE.sub("", text)
     text = _MYST_ADMONITION.sub(_myst_admonition_repl, text)
+    text = _convert_sentinel_boxes(text)
     text = _SPHINX_BOX.sub(_sphinx_box_repl, text)
+    # Defensive: drop any sentinel that survived (e.g. a tagged admonition whose
+    # heading sphinx rendered unexpectedly) so the marker never leaks into output.
+    text = "\n".join(l for l in text.split("\n") if not _SENTINEL_LINE_RE.match(l))
     text = _DOCS_REDISVL_DEEP.sub(_docs_redisvl_deep_repl, text)
     text = _DOCS_REDISVL_SHALLOW.sub(
         lambda m: f"https://redis.io/docs/latest/develop/ai/redisvl/{m.group(1)}", text)
@@ -748,6 +879,7 @@ def sync_version(version: str, *, is_latest: bool, repo_dir: Path,
                   "redisvl requirement); continuing with the resolved version",
                   flush=True)
     strip_empty_markdown_cells(repo_dir)
+    mark_rst_admonitions(repo_dir)
     sphinx_build(repo_dir, build_dir)
     stage_markdown(repo_dir, build_dir, staging_dir)
     moved_slugs = move_numbered_user_guides(staging_dir, repo_dir)
