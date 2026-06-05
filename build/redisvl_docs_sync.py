@@ -335,6 +335,32 @@ _BROKEN_API_CLI_LINK = re.compile(
 )
 
 
+# Non-notebook (.rst) pages are rendered by sphinx_markdown_builder, which turns
+# admonitions (.. warning::, .. note::, ...) into a "#### TITLE" heading rather
+# than a fenced directive. That output loses the admonition's extent, but the
+# builder glues the first body paragraph directly under the heading (no blank
+# line), so we wrap that paragraph in the matching shortcode. Multi-paragraph
+# admonitions are under-wrapped (only the first paragraph is boxed) — safe, valid
+# Hugo; over-wrapping would instead swallow unrelated body text that follows.
+_SPHINX_BOX = re.compile(
+    r"^#### (WARNING|NOTE|TIP|IMPORTANT|CAUTION|DANGER|ATTENTION|HINT|ERROR|SEE ALSO)"
+    r"[ \t]*\n(.+?)(?=\n[ \t]*\n|\Z)",
+    re.DOTALL | re.MULTILINE,
+)
+_SPHINX_BOX_SHORTCODE = {
+    "WARNING": "warning", "CAUTION": "warning", "DANGER": "warning",
+    "ATTENTION": "warning", "ERROR": "warning",
+    "NOTE": "note", "IMPORTANT": "note", "SEE ALSO": "note",
+    "TIP": "tip", "HINT": "tip",
+}
+
+
+def _sphinx_box_repl(m: re.Match) -> str:
+    sc = _SPHINX_BOX_SHORTCODE[m.group(1)]
+    body = m.group(2).rstrip()
+    return f"{{{{< {sc} >}}}}\n{body}\n{{{{< /{sc} >}}}}"
+
+
 def _docs_redisvl_deep_repl(m: re.Match) -> str:
     return f'{{{{< relref "{m.group(1)}{m.group(2)}" >}}}}'
 
@@ -383,6 +409,7 @@ def transform_page(src: Path, staging: Path, moved_slugs: list[str]) -> None:
     text = src.read_text(encoding="utf-8")
     text = _BLOCKQUOTE_RE.sub("", text)
     text = _ANSI_RE.sub("", text)
+    text = _SPHINX_BOX.sub(_sphinx_box_repl, text)
     text = _DOCS_REDISVL_DEEP.sub(_docs_redisvl_deep_repl, text)
     text = _DOCS_REDISVL_SHALLOW.sub(
         lambda m: f"https://redis.io/docs/latest/develop/ai/redisvl/{m.group(1)}", text)
