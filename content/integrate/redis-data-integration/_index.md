@@ -45,7 +45,7 @@ transformations using a configuration system, so no coding is necessary. RDI sup
 
 RDI is also available as a fully managed service on Redis Cloud, removing the need to install or maintain the underlying infrastructure. Redis manages the compute, scaling, and upgrades for you. You define the source connection and pipeline configuration using the Redis Cloud console.
 
-The Cloud service currently supports AWS-hosted source databases (Amazon RDS, Amazon Aurora, and Amazon EC2) writing to a Redis Cloud Pro target database.
+The Cloud service currently supports AWS-hosted source databases (Amazon RDS, Amazon Aurora, and Amazon EC2), as well as MongoDB Atlas and Snowflake, writing to a Redis Cloud Pro target database.
 
 See [Data Integration]({{< relref "/operate/rc/rdi" >}}) in the Redis Cloud documentation for
 full setup instructions, prerequisites, and a quick start guide.

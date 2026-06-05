@@ -119,6 +119,7 @@ Before you can create a data pipeline, you must have:
 | AWS Aurora PostgreSQL | 15 | 15 |
 | SQL Server | 2017, 2019, 2022 | 2016, 2017, 2019, 2022 |
 | MongoDB | 6.0, 7.0, 8.0 | - |
+| MongoDB Atlas | 6.0, 7.0, 8.0 | - |
 | Snowflake | - | - |
 
 
@@ -128,7 +129,7 @@ Please be aware of the following limitations:
 - The target database must be a Redis Cloud Pro database hosted on Amazon Web Services (AWS). Redis Cloud Essentials databases and databases hosted on Google Cloud do not support Data Integration.
 - The target database must use [high availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}). It can use either single-zone or multi-zone high availability.
 - The target database can use TLS, but can not use mutual TLS.
-- Source databases must also be hosted on AWS.
+- If your source database is not publicly accessible, or if it is a MongoDB Atlas or Snowflake database, it must be hosted on AWS.
 - You must use a [custom encryption key on AWS](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) to create the instance hosting the database.
 - One source database can only be synced to one target database.
 - If the source database is not publicly accessible, you must be able to set up AWS PrivateLink to connect your source database to your target database. RDI only works with AWS PrivateLink and not VPC Peering or other private connectivity options.
