@@ -276,6 +276,31 @@ def compute_alias(src: Path) -> str:
     return rel
 
 
+def yaml_quote(value: str) -> str:
+    """Double-quote a scalar for YAML frontmatter when it needs it.
+
+    Plain YAML scalars cannot contain a colon followed by a space (and a few
+    other indicators), so titles like "Migrate an Index: ..." must be quoted.
+
+    Curly double quotes are normalized to ASCII up front so the value emitted
+    here is already in the form the later normalize_unicode_quotes pass would
+    produce. Otherwise that pass would rewrite a curly quote inside a quoted
+    scalar into an unescaped ASCII ", terminating the string early and
+    corrupting title/linkTitle.
+    """
+    value = value.replace("\u201c", '"').replace("\u201d", '"')
+    needs_quote = (
+        ": " in value
+        or '"' in value
+        or value.endswith(":")
+        or value != value.strip()
+        or value[:1] in "#&*!|>'\"%@`-?:,[]{}"
+    )
+    if not needs_quote:
+        return value
+    return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
+
+
 def compute_weight(src: Path, title: str) -> str | None:
     """Apply title-based override; otherwise prefix-from-filename (NN_*)."""
     if title in TITLE_WEIGHTS:
@@ -301,7 +326,7 @@ def format_page(src: Path, *, is_latest: bool) -> None:
     alias = compute_alias(src)
     is_index = src.name == "_index.md"
 
-    fm = ["---", f"linkTitle: {link_title}", f"title: {title}"]
+    fm = ["---", f"linkTitle: {yaml_quote(link_title)}", f"title: {yaml_quote(title)}"]
     if is_latest:
         fm.extend(["aliases:", f"- {alias}"])
     weight = compute_weight(src, title)
