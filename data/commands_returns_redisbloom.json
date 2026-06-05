@@ -1,0 +1,267 @@
+{
+  "_meta": {
+    "module": "redisbloom",
+    "returns_format_version": "1",
+    "scope_note": "Bloom filter (BF.*) and Cuckoo filter (CF.*) commands. All entries verified against Redis 8.2.1 + RedisBloom 8.2.0 via tools/resp_inspect.py.",
+    "universal_errors": "Per spec §6: `WRONGTYPE` if the key holds a value of an incompatible type, and module-not-loaded errors are not enumerated per command. Per-command operational errors (filter is full, item exists for BF.RESERVE, etc.) ARE enumerated where they're part of the documented contract."
+  },
+
+  "BF.RESERVE": {
+    "returns": {
+      "summary": "Confirms a new Bloom filter was created at the key.",
+      "resp2": {
+        "oneof": [
+          { "when": "success", "type": "simple_string", "value": "OK",
+            "summary": "Filter created with the requested error rate and capacity." },
+          { "when": "key already exists", "type": "simple_error",
+            "messages": [{ "value": "item exists",
+                           "summary": "A key already exists at this name. Use a different key or delete the existing one first." }] }
+        ]
+      },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "new filter",  "args": ["bf:demo", "0.01", "1000"], "resp2": "OK" },
+        { "label": "key exists",
+          "args": ["bf:demo", "0.01", "1000"],
+          "resp2": null,
+          "note": "Returns an error reply (`item exists`); the example shows null because errors are raised as exceptions by most client libraries." }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "BF.ADD": {
+    "returns": {
+      "summary": "Whether the item was newly added to the filter.",
+      "resp2": { "type": "integer",
+                 "summary": "1 if the item was newly added; 0 if it was probably already present (Bloom filters may report false positives)." },
+      "resp3": { "type": "boolean",
+                 "summary": "true if the item was newly added; false if it was probably already present (Bloom filters may report false positives)." },
+      "examples": [
+        { "label": "newly added",     "args": ["bf:demo", "item_a"], "resp2": 1, "resp3": true },
+        { "label": "probably present","args": ["bf:demo", "item_a"], "resp2": 0, "resp3": false }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "BF.MADD": {
+    "returns": {
+      "summary": "Per-item add results, one per requested item, in the same order as the request.",
+      "resp2": {
+        "type": "array",
+        "summary": "Per-item add results, in request order.",
+        "items": { "type": "integer",
+                   "summary": "1 if newly added, 0 if probably already present." }
+      },
+      "resp3": {
+        "type": "array",
+        "summary": "Per-item add results, in request order.",
+        "items": { "type": "boolean",
+                   "summary": "true if newly added, false if probably already present." }
+      },
+      "examples": [
+        { "label": "three new items", "args": ["bf:demo", "x", "y", "z"],
+          "resp2": [1, 1, 1], "resp3": [true, true, true] }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "BF.EXISTS": {
+    "returns": {
+      "summary": "Whether the item is probably in the filter.",
+      "resp2": { "type": "integer",
+                 "summary": "1 if the item is probably present (subject to the configured false-positive rate); 0 if definitely not." },
+      "resp3": { "type": "boolean",
+                 "summary": "true if the item is probably present (subject to the configured false-positive rate); false if definitely not." },
+      "examples": [
+        { "label": "probably present", "args": ["bf:demo", "item_a"], "resp2": 1, "resp3": true },
+        { "label": "definitely not",   "args": ["bf:demo", "unknown"], "resp2": 0, "resp3": false }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "BF.MEXISTS": {
+    "returns": {
+      "summary": "Per-item membership results, one per requested item, in the same order as the request.",
+      "resp2": {
+        "type": "array",
+        "summary": "Per-item membership results, in request order.",
+        "items": { "type": "integer",
+                   "summary": "1 if probably present, 0 if definitely not." }
+      },
+      "resp3": {
+        "type": "array",
+        "summary": "Per-item membership results, in request order.",
+        "items": { "type": "boolean",
+                   "summary": "true if probably present, false if definitely not." }
+      },
+      "examples": [
+        { "label": "mixed",
+          "args": ["bf:demo", "item_a", "unknown"],
+          "resp2": [1, 0], "resp3": [true, false] }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "BF.CARD": {
+    "returns": {
+      "summary": "Number of items added to the filter.",
+      "resp2": { "type": "integer",
+                 "summary": "Count of items added to the filter, or 0 if the key does not exist." },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "non-empty filter", "args": ["bf:demo"], "resp2": 5 },
+        { "label": "missing key",      "args": ["bf:demo:missing"], "resp2": 0 }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "BF.INFO": {
+    "returns": {
+      "summary": "Bloom filter metrics: capacity, current size, filter count, items inserted, and expansion rate. Field set is fixed; values are integers.",
+      "resp2": {
+        "type": "kv_array",
+        "summary": "Flat array of alternating metric name and integer value. Field set is fixed.",
+        "key_type": "bulk_string",
+        "value_type": { "type": "integer" },
+        "fields": [
+          { "name": "Capacity",                 "type": "integer", "summary": "Configured capacity at filter creation." },
+          { "name": "Size",                     "type": "integer", "summary": "Memory footprint in bytes." },
+          { "name": "Number of filters",        "type": "integer", "summary": "Number of sub-filters currently allocated (scales up under load)." },
+          { "name": "Number of items inserted", "type": "integer", "summary": "Total items added since the filter was created." },
+          { "name": "Expansion rate",           "type": "integer", "summary": "Configured expansion factor when a sub-filter fills." }
+        ]
+      },
+      "resp3": {
+        "type": "map",
+        "summary": "Map of metric name to integer value. Field set is fixed; keys are unordered.",
+        "key_type": "bulk_string",
+        "value_type": { "type": "integer" },
+        "fields": [
+          { "name": "Capacity",                 "type": "integer", "summary": "Configured capacity at filter creation." },
+          { "name": "Size",                     "type": "integer", "summary": "Memory footprint in bytes." },
+          { "name": "Number of filters",        "type": "integer", "summary": "Number of sub-filters currently allocated (scales up under load)." },
+          { "name": "Number of items inserted", "type": "integer", "summary": "Total items added since the filter was created." },
+          { "name": "Expansion rate",           "type": "integer", "summary": "Configured expansion factor when a sub-filter fills." }
+        ]
+      },
+      "examples": [
+        { "label": "default filter",
+          "args": ["bf:demo"],
+          "resp2": ["Capacity", 1000, "Size", 1480, "Number of filters", 1, "Number of items inserted", 5, "Expansion rate", 2],
+          "resp3": {"Capacity": 1000, "Size": 1480, "Number of filters": 1, "Number of items inserted": 5, "Expansion rate": 2} }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "CF.RESERVE": {
+    "returns": {
+      "summary": "Confirms a new Cuckoo filter was created at the key.",
+      "resp2": {
+        "oneof": [
+          { "when": "success", "type": "simple_string", "value": "OK" },
+          { "when": "key already exists", "type": "simple_error",
+            "messages": [{ "value": "item exists" }] }
+        ]
+      },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "new filter", "args": ["cf:demo", "1000"], "resp2": "OK" }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "CF.ADD": {
+    "returns": {
+      "summary": "Whether the item was added to the Cuckoo filter.",
+      "resp2": { "type": "integer",
+                 "summary": "1 if added successfully. The Cuckoo filter may report failures if it cannot find space; in practice this manifests as an error rather than 0." },
+      "resp3": { "type": "boolean",
+                 "summary": "true if added successfully." },
+      "examples": [
+        { "label": "added", "args": ["cf:demo", "item_a"], "resp2": 1, "resp3": true }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "CF.EXISTS": {
+    "returns": {
+      "summary": "Whether the item is probably in the Cuckoo filter.",
+      "resp2": { "type": "integer",
+                 "summary": "1 if the item is probably present (subject to the filter's false-positive rate); 0 if definitely not." },
+      "resp3": { "type": "boolean",
+                 "summary": "true if the item is probably present; false if definitely not." },
+      "examples": [
+        { "label": "probably present", "args": ["cf:demo", "item_a"], "resp2": 1, "resp3": true },
+        { "label": "definitely not",   "args": ["cf:demo", "unknown"], "resp2": 0, "resp3": false }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "CF.COUNT": {
+    "returns": {
+      "summary": "Approximate number of times the item was added (capped by filter precision; unlike Bloom filters, Cuckoo filters can count multi-insertions).",
+      "resp2": { "type": "integer",
+                 "summary": "Approximate count of how many times the item was added. May overcount due to hash collisions; will return 0 if the item is definitely not present." },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "present once", "args": ["cf:demo", "item_a"], "resp2": 1 }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "CF.INFO": {
+    "returns": {
+      "summary": "Cuckoo filter metrics: size, bucket layout, insertion/deletion counts, expansion settings.",
+      "resp2": {
+        "type": "kv_array",
+        "summary": "Flat array of alternating metric name and integer value. Field set is fixed.",
+        "key_type": "bulk_string",
+        "value_type": { "type": "integer" },
+        "fields": [
+          { "name": "Size",                     "type": "integer", "summary": "Memory footprint in bytes." },
+          { "name": "Number of buckets",        "type": "integer", "summary": "Bucket count in the filter." },
+          { "name": "Number of filters",        "type": "integer", "summary": "Number of sub-filters currently allocated." },
+          { "name": "Number of items inserted", "type": "integer", "summary": "Successful inserts since creation." },
+          { "name": "Number of items deleted",  "type": "integer", "summary": "Successful deletes since creation." },
+          { "name": "Bucket size",              "type": "integer", "summary": "Items per bucket." },
+          { "name": "Expansion rate",           "type": "integer", "summary": "Expansion factor when full." },
+          { "name": "Max iterations",           "type": "integer", "summary": "Max iterations attempted to make room before reporting failure." }
+        ]
+      },
+      "resp3": {
+        "type": "map",
+        "summary": "Map of metric name to integer value. Field set is fixed; keys are unordered.",
+        "key_type": "bulk_string",
+        "value_type": { "type": "integer" },
+        "fields": [
+          { "name": "Size",                     "type": "integer", "summary": "Memory footprint in bytes." },
+          { "name": "Number of buckets",        "type": "integer", "summary": "Bucket count in the filter." },
+          { "name": "Number of filters",        "type": "integer", "summary": "Number of sub-filters currently allocated." },
+          { "name": "Number of items inserted", "type": "integer", "summary": "Successful inserts since creation." },
+          { "name": "Number of items deleted",  "type": "integer", "summary": "Successful deletes since creation." },
+          { "name": "Bucket size",              "type": "integer", "summary": "Items per bucket." },
+          { "name": "Expansion rate",           "type": "integer", "summary": "Expansion factor when full." },
+          { "name": "Max iterations",           "type": "integer", "summary": "Max iterations attempted to make room before reporting failure." }
+        ]
+      },
+      "examples": [
+        { "label": "default filter",
+          "args": ["cf:demo"],
+          "resp2": ["Size", 1080, "Number of buckets", 512, "Number of filters", 1, "Number of items inserted", 3, "Number of items deleted", 0, "Bucket size", 2, "Expansion rate", 1, "Max iterations", 20],
+          "resp3": {"Size": 1080, "Number of buckets": 512, "Number of filters": 1, "Number of items inserted": 3, "Number of items deleted": 0, "Bucket size": 2, "Expansion rate": 1, "Max iterations": 20} }
+      ]
+    },
+    "returns_status": "verified"
+  }
+}

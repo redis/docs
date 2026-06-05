@@ -1,0 +1,704 @@
+{
+  "_meta": {
+    "note": "Sample output of the prose-extraction heuristic, applied by hand to 46 commands across core and modules. Demonstrates the auto/stub distribution and the kinds of structural detail that auto-extraction captures vs misses. All entries need a human pass before promoting to `verified`.",
+    "extracted_at": "2026-06-05",
+    "command_count": 46,
+    "tier_distribution": {
+      "auto_ship_ready": 23,
+      "auto_minor_review": 14,
+      "auto_with_notes": 7,
+      "stub": 2
+    }
+  },
+
+  "SET": {
+    "returns": {
+      "summary": "Whether the key was set, optionally returning the previous value with GET.",
+      "resp2": {
+        "oneof": [
+          { "when": "GET not specified, key was set",
+            "type": "simple_string", "value": "OK" },
+          { "when": "GET not specified, condition (NX/XX/IFEQ/IFNE/IFDEQ/IFDNE) failed",
+            "type": "null",
+            "summary": "Key was not set or not created." },
+          { "when": "GET specified",
+            "type": "bulk_string", "nullable": true,
+            "summary": "Previous value of the key, or null if the key did not exist before SET.",
+            "note": "Prose enumerates further sub-conditions per branch. Heuristic flattens them; verify if needed." }
+        ]
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "stub"
+  },
+
+  "GET": {
+    "returns": {
+      "summary": "Value of the key, or null if it does not exist.",
+      "resp2": {
+        "oneof": [
+          { "when": "key exists",          "type": "bulk_string", "summary": "Value of the key." },
+          { "when": "key does not exist",  "type": "null" }
+        ]
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "DEL": {
+    "returns": {
+      "summary": "Number of keys that were removed.",
+      "resp2": { "type": "integer", "summary": "Number of keys that were removed." },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "EXISTS": {
+    "returns": {
+      "summary": "Number of keys that exist from those specified as arguments.",
+      "resp2": { "type": "integer", "summary": "Number of keys that exist from those specified as arguments." },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "INCR": {
+    "returns": {
+      "summary": "Value of the key after the increment.",
+      "resp2": { "type": "integer", "summary": "Value of the key after the increment." },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "DECR": {
+    "returns": {
+      "summary": "Value of the key after decrementing it.",
+      "resp2": { "type": "integer", "summary": "Value of the key after decrementing it." },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "STRLEN": {
+    "returns": {
+      "summary": "Length of the string stored at key, or 0 when the key does not exist.",
+      "resp2": { "type": "integer", "summary": "Length of the string stored at key, or 0 when the key does not exist." },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "APPEND": {
+    "returns": {
+      "summary": "Length of the string after the append operation.",
+      "resp2": { "type": "integer", "summary": "Length of the string after the append operation." },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "TYPE": {
+    "returns": {
+      "summary": "Type of the key, or `none` when the key does not exist.",
+      "resp2": { "type": "simple_string", "summary": "Type of the key, or `none` when the key does not exist.",
+                 "note": "Possible values include string, list, hash, set, zset, stream, none. Not enumerated by extractor." },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "RENAME": {
+    "returns": {
+      "summary": "Confirms the rename succeeded.",
+      "resp2": { "type": "simple_string", "value": "OK" },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "COPY": {
+    "returns": {
+      "summary": "Whether the source key was copied.",
+      "resp2": {
+        "type": "integer",
+        "summary": "1 if source was copied, 0 if not."
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "EXPIRE": {
+    "returns": {
+      "summary": "Whether the expiry was set.",
+      "resp2": {
+        "type": "integer",
+        "summary": "1 if the timeout was set; 0 if the key doesn't exist or the operation was skipped."
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "FLUSHDB": {
+    "returns": {
+      "summary": "Confirms the database was flushed.",
+      "resp2": { "type": "simple_string", "value": "OK" },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "BGSAVE": {
+    "returns": {
+      "summary": "Confirms the background save was started or scheduled.",
+      "resp2": {
+        "oneof": [
+          { "when": "save started immediately",   "type": "simple_string", "value": "Background saving started" },
+          { "when": "save scheduled for later",   "type": "simple_string", "value": "Background saving scheduled" }
+        ]
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "HSET": {
+    "returns": {
+      "summary": "Number of fields that were added.",
+      "resp2": { "type": "integer", "summary": "Number of fields that were added." },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "HGET": {
+    "returns": {
+      "summary": "Value associated with the field, or null if missing.",
+      "resp2": {
+        "oneof": [
+          { "when": "field present",          "type": "bulk_string", "summary": "Value associated with the field." },
+          { "when": "field or key missing",   "type": "null" }
+        ]
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "HDEL": {
+    "returns": {
+      "summary": "Number of fields that were removed, excluding non-existing fields.",
+      "resp2": { "type": "integer", "summary": "Number of fields that were removed, excluding non-existing fields." },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "HKEYS": {
+    "returns": {
+      "summary": "Field names of the hash, or empty if the key does not exist.",
+      "resp2": {
+        "type": "array",
+        "items": { "type": "bulk_string", "summary": "Field name." },
+        "summary": "Field names of the hash, or empty if the key does not exist."
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "HVALS": {
+    "returns": {
+      "summary": "Values of the hash, or empty if the key does not exist.",
+      "resp2": {
+        "type": "array",
+        "items": { "type": "bulk_string", "summary": "Field value." },
+        "summary": "Values of the hash, or empty if the key does not exist."
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "HMGET": {
+    "returns": {
+      "summary": "Values associated with the requested fields, in order. Missing fields are null.",
+      "resp2": {
+        "type": "array",
+        "items": { "type": "bulk_string", "nullable": true,
+                   "summary": "Field value, or null if the field is not in the hash.",
+                   "note": "Per-field nullability inferred — prose says 'in the same order as requested' but does not explicitly call out null for missing fields. Verify." },
+        "summary": "Values associated with the requested fields, in order."
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "ZCARD": {
+    "returns": {
+      "summary": "Cardinality of the sorted set, or 0 if the key doesn't exist.",
+      "resp2": { "type": "integer", "summary": "Cardinality of the sorted set, or 0 if the key doesn't exist." },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "ZSCORE": {
+    "returns": {
+      "summary": "Score of the member, or null if the member or key is missing.",
+      "resp2": {
+        "oneof": [
+          { "when": "member exists", "type": "bulk_string",
+            "summary": "Score of the member (double-precision floating point) as a string." },
+          { "when": "member or key missing", "type": "null" }
+        ]
+      },
+      "resp3": {
+        "oneof": [
+          { "when": "member exists", "type": "double",
+            "summary": "Score of the member (double-precision floating point)." },
+          { "when": "member or key missing", "type": "null" }
+        ]
+      }
+    },
+    "returns_status": "auto"
+  },
+
+  "SISMEMBER": {
+    "returns": {
+      "summary": "Whether the element is a member of the set.",
+      "resp2": { "type": "integer", "summary": "1 if the element is a member of the set, 0 otherwise (including when the key does not exist)." },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "SCARD": {
+    "returns": {
+      "summary": "Cardinality of the set, or 0 if the key does not exist.",
+      "resp2": { "type": "integer", "summary": "Cardinality of the set, or 0 if the key does not exist." },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "LPUSH": {
+    "returns": {
+      "summary": "Length of the list after the push operation.",
+      "resp2": { "type": "integer", "summary": "Length of the list after the push operation." },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "LINDEX": {
+    "returns": {
+      "summary": "Element at the index, or null if the index is out of range.",
+      "resp2": {
+        "oneof": [
+          { "when": "index in range",      "type": "bulk_string", "summary": "Requested element." },
+          { "when": "index out of range",  "type": "null" }
+        ]
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "LPOP": {
+    "returns": {
+      "summary": "Popped element(s), or null if the key does not exist.",
+      "resp2": {
+        "oneof": [
+          { "when": "key does not exist",  "type": "null" },
+          { "when": "count argument omitted", "type": "bulk_string",
+            "summary": "Value of the first element." },
+          { "when": "count argument given", "type": "array",
+            "items": { "type": "bulk_string", "summary": "A popped element." },
+            "summary": "List of popped elements." }
+        ]
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "XADD": {
+    "returns": {
+      "summary": "ID of the added entry, or null when NOMKSTREAM is set and the key does not exist.",
+      "resp2": {
+        "oneof": [
+          { "when": "entry added",         "type": "bulk_string",
+            "summary": "ID of the added entry (auto-generated or supplied)." },
+          { "when": "NOMKSTREAM and key missing", "type": "null" }
+        ]
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "XLEN": {
+    "returns": {
+      "summary": "Number of entries in the stream at the key.",
+      "resp2": { "type": "integer", "summary": "Number of entries in the stream at the key." },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "XRANGE": {
+    "returns": {
+      "summary": "Stream entries with IDs matching the specified range.",
+      "resp2": {
+        "type": "array",
+        "summary": "Stream entries with IDs matching the specified range.",
+        "items": {
+          "type": "tuple",
+          "note": "Stream entry shape not described in source prose. Expected: [id, kv_array of fields]. Candidate for $ref to a shared `stream_entry` schema.",
+          "prefixItems": []
+        }
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "stub"
+  },
+
+  "OBJECT ENCODING": {
+    "returns": {
+      "summary": "Encoding of the object, or null if the key doesn't exist.",
+      "resp2": {
+        "oneof": [
+          { "when": "key exists",          "type": "bulk_string", "summary": "Encoding of the object." },
+          { "when": "key does not exist",  "type": "null" }
+        ]
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "ROLE": {
+    "returns": {
+      "summary": "Replication role and role-specific details.",
+      "resp2": {
+        "type": "tuple",
+        "summary": "First element is the role name; remaining elements depend on role.",
+        "prefixItems": [
+          { "name": "role", "type": "bulk_string",
+            "summary": "One of `master`, `slave`, `sentinel`." }
+        ],
+        "rest": { "type": "bulk_string",
+                  "note": "Role-specific tail not enumerated in source prose. Expected: per-role shape — master returns [replication_offset, [replica_descriptor...]]; slave returns [master_ip, master_port, link_status, replication_offset]; sentinel returns [[monitored_master_name...]]. Use the verification script to capture each." }
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "stub"
+  },
+
+  "TIME": {
+    "returns": {
+      "summary": "Server's current Unix time as seconds and microseconds.",
+      "resp2": {
+        "type": "tuple",
+        "prefixItems": [
+          { "name": "seconds",      "type": "bulk_string",
+            "summary": "Unix timestamp in seconds.",
+            "note": "Prose says 'Unix timestamp in seconds' — element type inferred as bulk_string (RESP2 array elements). Verify whether server emits as integer or string." },
+          { "name": "microseconds", "type": "bulk_string",
+            "summary": "Microseconds component of the current second." }
+        ]
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "PING": {
+    "returns": {
+      "summary": "PONG or the supplied message.",
+      "resp2": {
+        "oneof": [
+          { "when": "no argument", "type": "simple_string", "value": "PONG" },
+          { "when": "argument provided", "type": "bulk_string", "summary": "The provided argument echoed back." }
+        ]
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "ECHO": {
+    "returns": {
+      "summary": "The given string echoed back.",
+      "resp2": { "type": "bulk_string", "summary": "The given string." },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "DBSIZE": {
+    "returns": {
+      "summary": "Number of keys in the currently-selected database.",
+      "resp2": { "type": "integer", "summary": "Number of keys in the currently-selected database." },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "INFO": {
+    "returns": {
+      "summary": "Server statistics and configuration as a CRLF-delimited key/value text document.",
+      "resp2": {
+        "type": "bulk_string",
+        "summary": "Map of info fields, one field per line as `<field>:<value>`, with `#`-prefixed section headers and blank lines."
+      },
+      "resp3": {
+        "type": "verbatim_string",
+        "encoding": "txt",
+        "summary": "Map of info fields, one field per line as `<field>:<value>`, with `#`-prefixed section headers and blank lines."
+      }
+    },
+    "returns_status": "auto"
+  },
+
+  "CLIENT LIST": {
+    "returns": {
+      "summary": "Information and statistics about client connections.",
+      "resp2": {
+        "type": "bulk_string",
+        "summary": "One line per client, space-separated `key=value` pairs.",
+        "note": "Internal record format described informally in the CLIENT LIST page. Heuristic captures the wire-type but not the structured record schema."
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "auto"
+  },
+
+  "FT.SEARCH": {
+    "returns": {
+      "summary": "Search results matching the query.",
+      "resp2": {
+        "oneof": [
+          { "when": "success", "type": "array",
+            "summary": "First element is total results, followed by document IDs and their field-value pairs as arrays.",
+            "note": "Item shape not explicitly enumerated — implicitly a tuple of [total_results, ...(id, fields)] with conditional WITHSCORES/WITHPAYLOADS/NOCONTENT modifiers not captured here." },
+          { "when": "error", "type": "simple_error", "messages": [
+            { "value": "no such index" },
+            { "value": "syntax error in query" }
+          ]}
+        ]
+      },
+      "resp3": {
+        "oneof": [
+          { "when": "success", "type": "map", "fields": [
+            { "name": "total_results", "type": "integer", "summary": "Total number of results." },
+            { "name": "results", "type": "array",
+              "items": { "type": "map",
+                         "note": "Per-document map fields not enumerated by prose. Verify with resp_inspect.py." },
+              "summary": "Documents matching the query." },
+            { "name": "attributes", "type": "array",
+              "items": { "type": "bulk_string", "summary": "Attribute name." } },
+            { "name": "format", "type": "simple_string", "summary": "Result format." },
+            { "name": "warning", "type": "array",
+              "items": { "type": "bulk_string", "summary": "Warning message." } }
+          ]},
+          { "when": "error", "type": "simple_error", "messages": [
+            { "value": "no such index" },
+            { "value": "syntax error in query" }
+          ]}
+        ]
+      }
+    },
+    "returns_status": "auto"
+  },
+
+  "FT.INFO": {
+    "returns": {
+      "summary": "Index information and statistics.",
+      "resp2": {
+        "oneof": [
+          { "when": "success", "type": "kv_array",
+            "key_type": "bulk_string", "value_type": { "type": "bulk_string" },
+            "summary": "Index information and statistics as field-value pairs.",
+            "note": "Field set not enumerated by prose. Use resp_inspect.py to capture the actual keys." },
+          { "when": "error", "type": "simple_error", "messages": [{ "value": "no such index" }] }
+        ]
+      },
+      "resp3": {
+        "oneof": [
+          { "when": "success", "type": "map",
+            "key_type": "bulk_string", "value_type": { "type": "bulk_string" },
+            "summary": "Index information and statistics as a map.",
+            "note": "Field set not enumerated by prose. Use resp_inspect.py to capture the actual keys." },
+          { "when": "error", "type": "simple_error", "messages": [{ "value": "no such index" }] }
+        ]
+      }
+    },
+    "returns_status": "auto"
+  },
+
+  "FT.TAGVALS": {
+    "returns": {
+      "summary": "Distinct tag values for the named field.",
+      "resp2": {
+        "oneof": [
+          { "when": "success", "type": "array",
+            "items": { "type": "bulk_string", "summary": "Tag value." },
+            "summary": "Distinct tag values as bulk strings." },
+          { "when": "error", "type": "simple_error", "messages": [
+            { "value": "no such index" }, { "value": "not a tag field" }
+          ]}
+        ]
+      },
+      "resp3": {
+        "oneof": [
+          { "when": "success", "type": "set",
+            "items": { "type": "bulk_string", "summary": "Tag value." },
+            "summary": "Distinct tag values as a set of bulk strings." },
+          { "when": "error", "type": "simple_error", "messages": [
+            { "value": "no such index" }, { "value": "not a tag field" }
+          ]}
+        ]
+      }
+    },
+    "returns_status": "auto"
+  },
+
+  "JSON.GET": {
+    "returns": {
+      "summary": "JSON-encoded value at the path(s).",
+      "resp2": {
+        "type": "bulk_string",
+        "summary": "Serialised JSON. Single path → the value's serialisation. Multiple paths → a JSON object mapping each path to an array of serialisations.",
+        "note": "Content is a JSON document; structure inside the string varies per query and is not captured at the RESP level."
+      },
+      "resp3": {
+        "type": "bulk_string",
+        "summary": "Serialised JSON. Single path with `$` → array containing the value. Multiple paths → object mapping each path to an array of serialisations.",
+        "note": "RESP3 differs from RESP2 in that a single `$` path returns an array wrapper, not the raw value."
+      }
+    },
+    "returns_status": "auto"
+  },
+
+  "JSON.SET": {
+    "returns": {
+      "summary": "Confirms the path was set, or null/error when conditions are unmet.",
+      "resp2": {
+        "oneof": [
+          { "when": "success", "type": "simple_string", "value": "OK" },
+          { "when": "path missing and uncreatable, or NX/XX condition unmet", "type": "null" },
+          { "when": "error", "type": "simple_error", "messages": [
+            { "value": "expected ...", "summary": "Value is invalid." },
+            { "value": "Error occurred on position ... expected ...", "summary": "Path is invalid." },
+            { "value": "ERR new objects must be created at the root",
+              "summary": "Key does not exist and path is not root." },
+            { "value": "ERR wrong static path",
+              "summary": "Dynamic path expression has no matching locations." },
+            { "value": "ERR index out of bounds",
+              "summary": "Path refers to an array index outside the array bounds." },
+            { "value": "value out of range for ...",
+              "summary": "One or more values of a FP array are out of range for the given type." }
+          ]}
+        ]
+      },
+      "resp3": "same_as_resp2"
+    },
+    "returns_status": "stub"
+  },
+
+  "TS.RANGE": {
+    "returns": {
+      "summary": "Time-series samples in the requested range.",
+      "resp2": {
+        "oneof": [
+          { "when": "success", "type": "array",
+            "items": { "type": "tuple",
+                       "prefixItems": [
+                         { "name": "timestamp", "type": "integer", "summary": "Sample timestamp in ms." },
+                         { "name": "value",     "type": "bulk_string", "summary": "Sample value as a string." }
+                       ]},
+            "summary": "List of (timestamp, value) pairs." },
+          { "when": "error", "type": "simple_error", "messages": [
+            { "value": "invalid filter value" },
+            { "value": "wrong key type" },
+            { "value": "key does not exist" }
+          ]}
+        ]
+      },
+      "resp3": {
+        "oneof": [
+          { "when": "success", "type": "array",
+            "items": { "type": "tuple",
+                       "prefixItems": [
+                         { "name": "timestamp", "type": "integer", "summary": "Sample timestamp in ms." },
+                         { "name": "value",     "type": "double", "summary": "Sample value." }
+                       ]},
+            "summary": "List of (timestamp, value) pairs." },
+          { "when": "error", "type": "simple_error", "messages": [
+            { "value": "invalid filter value" },
+            { "value": "wrong key type" },
+            { "value": "key does not exist" }
+          ]}
+        ]
+      }
+    },
+    "returns_status": "auto"
+  },
+
+  "BF.ADD": {
+    "returns": {
+      "summary": "Whether the item was added to the Bloom filter.",
+      "resp2": {
+        "oneof": [
+          { "when": "success", "type": "integer",
+            "summary": "1 if added, 0 if probably already present." },
+          { "when": "error", "type": "simple_error", "messages": [
+            { "value": "invalid arguments" }, { "value": "wrong key type" },
+            { "value": "filter is full" }
+          ]}
+        ]
+      },
+      "resp3": {
+        "oneof": [
+          { "when": "success", "type": "boolean",
+            "summary": "true if added, false if probably already present." },
+          { "when": "error", "type": "simple_error", "messages": [
+            { "value": "invalid arguments" }, { "value": "wrong key type" },
+            { "value": "filter is full" }
+          ]}
+        ]
+      }
+    },
+    "returns_status": "auto"
+  },
+
+  "BF.EXISTS": {
+    "returns": {
+      "summary": "Whether the item probably exists in the Bloom filter.",
+      "resp2": {
+        "oneof": [
+          { "when": "success", "type": "integer",
+            "summary": "1 if probably in the filter, 0 if definitely not (or key missing)." },
+          { "when": "error", "type": "simple_error",
+            "messages": [{ "value": "invalid arguments" }] }
+        ]
+      },
+      "resp3": {
+        "oneof": [
+          { "when": "success", "type": "boolean",
+            "summary": "true if probably in the filter, false if definitely not (or key missing)." },
+          { "when": "error", "type": "simple_error",
+            "messages": [{ "value": "invalid arguments" }, { "value": "wrong key type" }] }
+        ]
+      }
+    },
+    "returns_status": "auto"
+  }
+}

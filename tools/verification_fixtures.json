@@ -1,0 +1,679 @@
+{
+  "_meta": {
+    "note": "Per-command verification fixtures. Each entry describes setup state, argument permutations to execute, and cleanup. The verifier runs setup once per command, executes each permutation against the live server in both RESP2 and RESP3, and compares the captured reply to the stored spec.",
+    "naming": "All scratch keys are prefixed `vfy:` to make cleanup obvious and avoid clashing with real data.",
+    "schema": {
+      "setup":        "list of [cmd, args...] tuples run before any permutations",
+      "permutations": "list of { label, args } pairs — `label` matches a `when` predicate in the spec",
+      "cleanup":      "list of [cmd, args...] tuples run after all permutations"
+    }
+  },
+
+  "_comment_strings": "String / scalar commands ----------------------------------",
+
+  "SET": {
+    "setup":        [],
+    "permutations": [
+      { "label": "default",       "args": ["vfy:str", "hello"] },
+      { "label": "NX on missing", "args": ["vfy:str:nx", "first", "NX"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:str", "vfy:str:nx"] ]
+  },
+  "GET": {
+    "setup":        [ ["SET", "vfy:get", "hello"] ],
+    "permutations": [
+      { "label": "key exists",         "args": ["vfy:get"] },
+      { "label": "key does not exist", "args": ["vfy:get:missing"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:get"] ]
+  },
+  "STRLEN": {
+    "setup":        [ ["SET", "vfy:strlen", "hello"] ],
+    "permutations": [
+      { "label": "key exists",  "args": ["vfy:strlen"] },
+      { "label": "key missing", "args": ["vfy:strlen:missing"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:strlen"] ]
+  },
+  "APPEND": {
+    "setup":        [ ["SET", "vfy:append", "abc"] ],
+    "permutations": [
+      { "label": "existing key", "args": ["vfy:append", "def"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:append"] ]
+  },
+  "GETRANGE": {
+    "setup":        [ ["SET", "vfy:getrange", "abcdefghij"] ],
+    "permutations": [
+      { "label": "in range",     "args": ["vfy:getrange", "0", "4"] },
+      { "label": "out of range", "args": ["vfy:getrange", "20", "30"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:getrange"] ]
+  },
+  "MSET": {
+    "setup":        [],
+    "permutations": [
+      { "label": "two pairs", "args": ["vfy:mset:a", "1", "vfy:mset:b", "2"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:mset:a", "vfy:mset:b"] ]
+  },
+  "MGET": {
+    "setup":        [ ["SET", "vfy:mget:a", "1"], ["SET", "vfy:mget:b", "2"] ],
+    "permutations": [
+      { "label": "mixed existing/missing", "args": ["vfy:mget:a", "vfy:mget:missing", "vfy:mget:b"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:mget:a", "vfy:mget:b"] ]
+  },
+  "INCR": {
+    "setup":        [ ["SET", "vfy:incr", "0"] ],
+    "permutations": [
+      { "label": "default", "args": ["vfy:incr"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:incr"] ]
+  },
+  "DECR": {
+    "setup":        [ ["SET", "vfy:decr", "10"] ],
+    "permutations": [
+      { "label": "default", "args": ["vfy:decr"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:decr"] ]
+  },
+  "INCRBY": {
+    "setup":        [ ["SET", "vfy:incrby", "0"] ],
+    "permutations": [
+      { "label": "positive", "args": ["vfy:incrby", "5"] },
+      { "label": "negative", "args": ["vfy:incrby", "-3"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:incrby"] ]
+  },
+  "INCRBYFLOAT": {
+    "setup":        [ ["SET", "vfy:incrf", "1.5"] ],
+    "permutations": [
+      { "label": "default", "args": ["vfy:incrf", "0.5"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:incrf"] ]
+  },
+
+  "_comment_generic": "Generic / key-lifecycle commands -------------------------",
+
+  "DEL": {
+    "setup":        [ ["SET", "vfy:del:a", "1"], ["SET", "vfy:del:b", "2"] ],
+    "permutations": [
+      { "label": "two existing",       "args": ["vfy:del:a", "vfy:del:b"] },
+      { "label": "no matching",        "args": ["vfy:del:missing"] }
+    ],
+    "cleanup":      []
+  },
+  "EXISTS": {
+    "setup":        [ ["SET", "vfy:exists:a", "1"] ],
+    "permutations": [
+      { "label": "one existing", "args": ["vfy:exists:a"] },
+      { "label": "missing",      "args": ["vfy:exists:missing"] },
+      { "label": "duplicates",   "args": ["vfy:exists:a", "vfy:exists:a"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:exists:a"] ]
+  },
+  "EXPIRE": {
+    "setup":        [ ["SET", "vfy:expire:a", "1"] ],
+    "permutations": [
+      { "label": "existing key", "args": ["vfy:expire:a", "60"] },
+      { "label": "missing key",  "args": ["vfy:expire:missing", "60"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:expire:a"] ]
+  },
+  "TTL": {
+    "setup":        [ ["SET", "vfy:ttl:a", "1", "EX", "60"], ["SET", "vfy:ttl:b", "1"] ],
+    "permutations": [
+      { "label": "with TTL",     "args": ["vfy:ttl:a"] },
+      { "label": "no TTL",       "args": ["vfy:ttl:b"] },
+      { "label": "missing",      "args": ["vfy:ttl:missing"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:ttl:a", "vfy:ttl:b"] ]
+  },
+  "TYPE": {
+    "setup":        [ ["SET", "vfy:type:str", "x"], ["HSET", "vfy:type:hash", "f", "v"] ],
+    "permutations": [
+      { "label": "string",  "args": ["vfy:type:str"] },
+      { "label": "hash",    "args": ["vfy:type:hash"] },
+      { "label": "missing", "args": ["vfy:type:missing"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:type:str", "vfy:type:hash"] ]
+  },
+  "RENAME": {
+    "setup":        [ ["SET", "vfy:rn:src", "1"] ],
+    "permutations": [
+      { "label": "default", "args": ["vfy:rn:src", "vfy:rn:dst"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:rn:dst"] ]
+  },
+  "COPY": {
+    "setup":        [ ["SET", "vfy:cp:src", "1"] ],
+    "permutations": [
+      { "label": "copied",        "args": ["vfy:cp:src", "vfy:cp:dst"] },
+      { "label": "dst exists",    "args": ["vfy:cp:src", "vfy:cp:dst"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:cp:src", "vfy:cp:dst"] ]
+  },
+  "UNLINK": {
+    "setup":        [ ["SET", "vfy:unlink:a", "1"] ],
+    "permutations": [
+      { "label": "one existing", "args": ["vfy:unlink:a"] }
+    ],
+    "cleanup":      []
+  },
+  "OBJECT ENCODING": {
+    "setup":        [ ["SET", "vfy:oe:str", "hello"] ],
+    "permutations": [
+      { "label": "string", "args": ["vfy:oe:str"] },
+      { "label": "missing","args": ["vfy:oe:missing"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:oe:str"] ]
+  },
+  "DBSIZE": {
+    "setup":        [],
+    "permutations": [
+      { "label": "default", "args": [] }
+    ],
+    "cleanup":      []
+  },
+
+  "_comment_hashes": "Hash commands -------------------------------------------",
+
+  "HSET": {
+    "setup":        [],
+    "permutations": [
+      { "label": "new fields",  "args": ["vfy:hset", "a", "1", "b", "2"] },
+      { "label": "update field","args": ["vfy:hset", "a", "9"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:hset"] ]
+  },
+  "HGET": {
+    "setup":        [ ["HSET", "vfy:hget", "f1", "v1"] ],
+    "permutations": [
+      { "label": "field present", "args": ["vfy:hget", "f1"] },
+      { "label": "field missing", "args": ["vfy:hget", "fx"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:hget"] ]
+  },
+  "HMGET": {
+    "setup":        [ ["HSET", "vfy:hmget", "f1", "v1", "f2", "v2"] ],
+    "permutations": [
+      { "label": "mix present/missing", "args": ["vfy:hmget", "f1", "fx", "f2"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:hmget"] ]
+  },
+  "HEXISTS": {
+    "setup":        [ ["HSET", "vfy:hexists", "f1", "v1"] ],
+    "permutations": [
+      { "label": "field exists",  "args": ["vfy:hexists", "f1"] },
+      { "label": "field missing", "args": ["vfy:hexists", "fx"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:hexists"] ]
+  },
+  "HKEYS": {
+    "setup":        [ ["HSET", "vfy:hkeys", "f1", "v1", "f2", "v2"] ],
+    "permutations": [
+      { "label": "existing", "args": ["vfy:hkeys"] },
+      { "label": "missing",  "args": ["vfy:hkeys:missing"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:hkeys"] ]
+  },
+  "HVALS": {
+    "setup":        [ ["HSET", "vfy:hvals", "f1", "v1", "f2", "v2"] ],
+    "permutations": [
+      { "label": "existing", "args": ["vfy:hvals"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:hvals"] ]
+  },
+  "HLEN": {
+    "setup":        [ ["HSET", "vfy:hlen", "f1", "v1", "f2", "v2"] ],
+    "permutations": [
+      { "label": "existing", "args": ["vfy:hlen"] },
+      { "label": "missing",  "args": ["vfy:hlen:missing"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:hlen"] ]
+  },
+  "HGETALL": {
+    "setup":        [ ["HSET", "vfy:hgetall", "f1", "v1", "f2", "v2"] ],
+    "permutations": [
+      { "label": "key exists",         "args": ["vfy:hgetall"] },
+      { "label": "key does not exist", "args": ["vfy:hgetall:missing"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:hgetall"] ]
+  },
+  "HDEL": {
+    "setup":        [ ["HSET", "vfy:hdel", "f1", "v1", "f2", "v2"] ],
+    "permutations": [
+      { "label": "delete existing", "args": ["vfy:hdel", "f1"] },
+      { "label": "delete missing",  "args": ["vfy:hdel", "fx"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:hdel"] ]
+  },
+
+  "_comment_lists": "List commands -------------------------------------------",
+
+  "LPUSH": {
+    "setup":        [],
+    "permutations": [
+      { "label": "default", "args": ["vfy:lpush", "a", "b", "c"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:lpush"] ]
+  },
+  "RPUSH": {
+    "setup":        [],
+    "permutations": [
+      { "label": "default", "args": ["vfy:rpush", "a", "b", "c"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:rpush"] ]
+  },
+  "LLEN": {
+    "setup":        [ ["RPUSH", "vfy:llen", "a", "b", "c"] ],
+    "permutations": [
+      { "label": "existing", "args": ["vfy:llen"] },
+      { "label": "missing",  "args": ["vfy:llen:missing"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:llen"] ]
+  },
+  "LINDEX": {
+    "setup":        [ ["RPUSH", "vfy:lindex", "a", "b", "c"] ],
+    "permutations": [
+      { "label": "in range",     "args": ["vfy:lindex", "1"] },
+      { "label": "out of range", "args": ["vfy:lindex", "99"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:lindex"] ]
+  },
+  "LRANGE": {
+    "setup":        [ ["RPUSH", "vfy:lrange", "a", "b", "c", "d"] ],
+    "permutations": [
+      { "label": "all",     "args": ["vfy:lrange", "0", "-1"] },
+      { "label": "subset",  "args": ["vfy:lrange", "1", "2"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:lrange"] ]
+  },
+  "LPOP": {
+    "setup":        [ ["RPUSH", "vfy:lpop", "a", "b", "c"] ],
+    "permutations": [
+      { "label": "no count",     "args": ["vfy:lpop"] },
+      { "label": "with count",   "args": ["vfy:lpop", "2"] },
+      { "label": "missing key",  "args": ["vfy:lpop:missing"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:lpop"] ]
+  },
+
+  "_comment_sets": "Set commands --------------------------------------------",
+
+  "SADD": {
+    "setup":        [],
+    "permutations": [
+      { "label": "new members", "args": ["vfy:sadd", "a", "b", "c"] },
+      { "label": "duplicates",  "args": ["vfy:sadd", "a", "b"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:sadd"] ]
+  },
+  "SCARD": {
+    "setup":        [ ["SADD", "vfy:scard", "a", "b", "c"] ],
+    "permutations": [
+      { "label": "existing", "args": ["vfy:scard"] },
+      { "label": "missing",  "args": ["vfy:scard:missing"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:scard"] ]
+  },
+  "SISMEMBER": {
+    "setup":        [ ["SADD", "vfy:sismember", "a"] ],
+    "permutations": [
+      { "label": "member exists",  "args": ["vfy:sismember", "a"] },
+      { "label": "member missing", "args": ["vfy:sismember", "b"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:sismember"] ]
+  },
+  "SMEMBERS": {
+    "setup":        [ ["SADD", "vfy:smembers", "a", "b", "c"] ],
+    "permutations": [
+      { "label": "existing", "args": ["vfy:smembers"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:smembers"] ]
+  },
+  "SREM": {
+    "setup":        [ ["SADD", "vfy:srem", "a", "b", "c"] ],
+    "permutations": [
+      { "label": "remove existing", "args": ["vfy:srem", "a"] },
+      { "label": "remove missing",  "args": ["vfy:srem", "x"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:srem"] ]
+  },
+
+  "_comment_zsets": "Sorted set commands ------------------------------------",
+
+  "ZADD": {
+    "setup":        [],
+    "permutations": [
+      { "label": "new members",       "args": ["vfy:zadd", "1.0", "a", "2.0", "b"] },
+      { "label": "INCR existing",     "args": ["vfy:zadd", "INCR", "0.5", "a"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:zadd"] ]
+  },
+  "ZCARD": {
+    "setup":        [ ["ZADD", "vfy:zcard", "1", "a", "2", "b"] ],
+    "permutations": [
+      { "label": "existing", "args": ["vfy:zcard"] },
+      { "label": "missing",  "args": ["vfy:zcard:missing"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:zcard"] ]
+  },
+  "ZSCORE": {
+    "setup":        [ ["ZADD", "vfy:zscore", "3.14", "member_a"] ],
+    "permutations": [
+      { "label": "member exists",     "args": ["vfy:zscore", "member_a"] },
+      { "label": "member missing",    "args": ["vfy:zscore", "member_b"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:zscore"] ]
+  },
+  "ZRANGE": {
+    "setup":        [ ["ZADD", "vfy:zrange", "1", "a", "2", "b", "3", "c"] ],
+    "permutations": [
+      { "label": "default",     "args": ["vfy:zrange", "0", "-1"] },
+      { "label": "WITHSCORES",  "args": ["vfy:zrange", "0", "-1", "WITHSCORES"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:zrange"] ]
+  },
+  "ZRANK": {
+    "setup":        [ ["ZADD", "vfy:zrank", "1", "a", "2", "b"] ],
+    "permutations": [
+      { "label": "member exists",  "args": ["vfy:zrank", "a"] },
+      { "label": "member missing", "args": ["vfy:zrank", "x"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:zrank"] ]
+  },
+
+  "_comment_streams": "Stream commands ----------------------------------------",
+
+  "XADD": {
+    "setup":        [],
+    "permutations": [
+      { "label": "auto id",      "args": ["vfy:xadd", "*", "f", "v"] },
+      { "label": "NOMKSTREAM",   "args": ["NOMKSTREAM", "vfy:xadd:noexist", "*", "f", "v"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:xadd"] ]
+  },
+  "XLEN": {
+    "setup":        [
+      ["XADD", "vfy:xlen", "*", "f", "v"],
+      ["XADD", "vfy:xlen", "*", "f", "w"]
+    ],
+    "permutations": [
+      { "label": "existing", "args": ["vfy:xlen"] },
+      { "label": "missing",  "args": ["vfy:xlen:missing"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:xlen"] ]
+  },
+  "XRANGE": {
+    "setup":        [
+      ["XADD", "vfy:xrange", "*", "f1", "v1"],
+      ["XADD", "vfy:xrange", "*", "f2", "v2"]
+    ],
+    "permutations": [
+      { "label": "all",      "args": ["vfy:xrange", "-", "+"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:xrange"] ]
+  },
+
+  "_comment_server": "Server-info commands ------------------------------------",
+
+  "PING": {
+    "setup":        [],
+    "permutations": [
+      { "label": "no argument",     "args": [] },
+      { "label": "with argument",   "args": ["hello"] }
+    ],
+    "cleanup":      []
+  },
+  "ECHO": {
+    "setup":        [],
+    "permutations": [
+      { "label": "default", "args": ["hello"] }
+    ],
+    "cleanup":      []
+  },
+  "TIME": {
+    "setup":        [],
+    "permutations": [
+      { "label": "default", "args": [] }
+    ],
+    "cleanup":      []
+  },
+  "ROLE": {
+    "setup":        [],
+    "permutations": [
+      { "label": "default", "args": [] }
+    ],
+    "cleanup":      []
+  },
+  "INFO": {
+    "setup":        [],
+    "permutations": [
+      { "label": "default",         "args": [] },
+      { "label": "specific section","args": ["server"] }
+    ],
+    "cleanup":      []
+  },
+  "CONFIG GET": {
+    "setup":        [],
+    "permutations": [
+      { "label": "single parameter", "args": ["maxmemory"] },
+      { "label": "glob match",       "args": ["max*"] }
+    ],
+    "cleanup":      []
+  },
+  "CLIENT INFO": {
+    "setup":        [],
+    "permutations": [
+      { "label": "default", "args": [] }
+    ],
+    "cleanup":      []
+  },
+  "CLIENT LIST": {
+    "setup":        [],
+    "permutations": [
+      { "label": "default", "args": [] }
+    ],
+    "cleanup":      []
+  },
+  "CLUSTER INFO": {
+    "setup":        [],
+    "permutations": [
+      { "label": "default", "args": [] }
+    ],
+    "cleanup":      []
+  },
+  "CLUSTER NODES": {
+    "setup":        [],
+    "permutations": [
+      { "label": "default", "args": [] }
+    ],
+    "cleanup":      []
+  },
+  "CLUSTER SHARDS": {
+    "setup":        [],
+    "permutations": [
+      { "label": "default", "args": [] }
+    ],
+    "cleanup":      []
+  },
+
+  "_comment_search": "RediSearch commands -------------------------------------",
+
+  "FT.SEARCH": {
+    "setup": [
+      ["FT.CREATE", "vfy:search_idx", "ON", "HASH", "PREFIX", "1", "vfy:doc:", "SCHEMA", "title", "TEXT", "country", "TAG"],
+      ["HSET", "vfy:doc:1", "title", "alpha",  "country", "UK"],
+      ["HSET", "vfy:doc:2", "title", "beta",   "country", "US"]
+    ],
+    "permutations": [
+      { "label": "default",      "args": ["vfy:search_idx", "*", "LIMIT", "0", "2"] },
+      { "label": "NOCONTENT",    "args": ["vfy:search_idx", "*", "NOCONTENT", "LIMIT", "0", "2"] },
+      { "label": "WITHSCORES",   "args": ["vfy:search_idx", "alpha", "WITHSCORES"] },
+      { "label": "WITHSORTKEYS", "args": ["vfy:search_idx", "*", "SORTBY", "country", "WITHSORTKEYS", "LIMIT", "0", "2"] }
+    ],
+    "cleanup": [
+      ["FT.DROPINDEX", "vfy:search_idx"],
+      ["DEL", "vfy:doc:1", "vfy:doc:2"]
+    ]
+  },
+  "FT.AGGREGATE": {
+    "setup": [
+      ["FT.CREATE", "vfy:agg_idx", "ON", "HASH", "PREFIX", "1", "vfy:agg:", "SCHEMA", "country", "TAG", "price", "NUMERIC", "SORTABLE"],
+      ["HSET", "vfy:agg:1", "country", "UK", "price", "10.0"],
+      ["HSET", "vfy:agg:2", "country", "UK", "price", "15.0"],
+      ["HSET", "vfy:agg:3", "country", "US", "price", "20.0"]
+    ],
+    "permutations": [
+      { "label": "GROUPBY + REDUCE", "args": ["vfy:agg_idx", "*", "GROUPBY", "1", "@country", "REDUCE", "COUNT", "0", "AS", "num"] },
+      { "label": "WITHCURSOR",       "args": ["vfy:agg_idx", "*", "GROUPBY", "1", "@country", "REDUCE", "COUNT", "0", "AS", "num", "WITHCURSOR", "COUNT", "1"] }
+    ],
+    "cleanup": [
+      ["FT.DROPINDEX", "vfy:agg_idx"],
+      ["DEL", "vfy:agg:1", "vfy:agg:2", "vfy:agg:3"]
+    ]
+  },
+  "FT.INFO": {
+    "setup": [
+      ["FT.CREATE", "vfy:info_idx", "ON", "HASH", "PREFIX", "1", "vfy:ifd:", "SCHEMA", "title", "TEXT"]
+    ],
+    "permutations": [
+      { "label": "existing index", "args": ["vfy:info_idx"] }
+    ],
+    "cleanup": [
+      ["FT.DROPINDEX", "vfy:info_idx"]
+    ]
+  },
+  "FT.TAGVALS": {
+    "setup": [
+      ["FT.CREATE", "vfy:tag_idx", "ON", "HASH", "PREFIX", "1", "vfy:tdoc:", "SCHEMA", "country", "TAG"],
+      ["HSET", "vfy:tdoc:1", "country", "UK"],
+      ["HSET", "vfy:tdoc:2", "country", "US"]
+    ],
+    "permutations": [
+      { "label": "existing tag field", "args": ["vfy:tag_idx", "country"] }
+    ],
+    "cleanup": [
+      ["FT.DROPINDEX", "vfy:tag_idx"],
+      ["DEL", "vfy:tdoc:1", "vfy:tdoc:2"]
+    ]
+  },
+
+  "_comment_json": "RedisJSON commands --------------------------------------",
+
+  "JSON.SET": {
+    "setup":        [],
+    "permutations": [
+      { "label": "default", "args": ["vfy:json", "$", "{\"a\":1,\"b\":\"hello\"}"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:json"] ]
+  },
+  "JSON.GET": {
+    "setup":        [ ["JSON.SET", "vfy:jget", "$", "{\"a\":1,\"b\":\"hello\"}"] ],
+    "permutations": [
+      { "label": "single path",     "args": ["vfy:jget", "$.a"] },
+      { "label": "root",            "args": ["vfy:jget", "$"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:jget"] ]
+  },
+  "JSON.TYPE": {
+    "setup":        [ ["JSON.SET", "vfy:jtype", "$", "{\"a\":1}"] ],
+    "permutations": [
+      { "label": "object root",     "args": ["vfy:jtype", "$"] },
+      { "label": "leaf path",       "args": ["vfy:jtype", "$.a"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:jtype"] ]
+  },
+  "JSON.OBJKEYS": {
+    "setup":        [ ["JSON.SET", "vfy:jok", "$", "{\"a\":1,\"b\":2}"] ],
+    "permutations": [
+      { "label": "default", "args": ["vfy:jok", "$"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:jok"] ]
+  },
+
+  "_comment_ts": "RedisTimeSeries commands --------------------------------",
+
+  "TS.ADD": {
+    "setup":        [],
+    "permutations": [
+      { "label": "auto timestamp",  "args": ["vfy:ts", "*", "1.0"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:ts"] ]
+  },
+  "TS.GET": {
+    "setup":        [ ["TS.ADD", "vfy:tsget", "1000", "1.0"], ["TS.ADD", "vfy:tsget", "2000", "2.0"] ],
+    "permutations": [
+      { "label": "default", "args": ["vfy:tsget"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:tsget"] ]
+  },
+  "TS.RANGE": {
+    "setup":        [
+      ["TS.ADD", "vfy:tsr", "1000", "1.0"],
+      ["TS.ADD", "vfy:tsr", "2000", "2.0"],
+      ["TS.ADD", "vfy:tsr", "3000", "3.0"]
+    ],
+    "permutations": [
+      { "label": "default", "args": ["vfy:tsr", "-", "+"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:tsr"] ]
+  },
+  "TS.INFO": {
+    "setup":        [ ["TS.ADD", "vfy:tsi", "*", "1.0"] ],
+    "permutations": [
+      { "label": "default", "args": ["vfy:tsi"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:tsi"] ]
+  },
+
+  "_comment_bloom": "RedisBloom commands -------------------------------------",
+
+  "BF.ADD": {
+    "setup":        [],
+    "permutations": [
+      { "label": "first add",      "args": ["vfy:bf", "item_a"] },
+      { "label": "duplicate add",  "args": ["vfy:bf", "item_a"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:bf"] ]
+  },
+  "BF.EXISTS": {
+    "setup":        [ ["BF.ADD", "vfy:bfe", "item_a"] ],
+    "permutations": [
+      { "label": "exists",       "args": ["vfy:bfe", "item_a"] },
+      { "label": "not present",  "args": ["vfy:bfe", "item_b"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:bfe"] ]
+  },
+  "BF.MEXISTS": {
+    "setup":        [ ["BF.ADD", "vfy:bfm", "item_a"] ],
+    "permutations": [
+      { "label": "mix", "args": ["vfy:bfm", "item_a", "item_b"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:bfm"] ]
+  },
+  "BF.INFO": {
+    "setup":        [ ["BF.RESERVE", "vfy:bfi", "0.01", "1000"] ],
+    "permutations": [
+      { "label": "default", "args": ["vfy:bfi"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:bfi"] ]
+  },
+  "CF.ADD": {
+    "setup":        [],
+    "permutations": [
+      { "label": "first add", "args": ["vfy:cf", "item_a"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:cf"] ]
+  },
+  "CF.EXISTS": {
+    "setup":        [ ["CF.ADD", "vfy:cfe", "item_a"] ],
+    "permutations": [
+      { "label": "exists",     "args": ["vfy:cfe", "item_a"] },
+      { "label": "missing",    "args": ["vfy:cfe", "item_b"] }
+    ],
+    "cleanup":      [ ["DEL", "vfy:cfe"] ]
+  }
+}

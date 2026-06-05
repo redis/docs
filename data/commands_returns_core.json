@@ -1,0 +1,474 @@
+{
+  "_meta": {
+    "module": "core",
+    "returns_format_version": "1",
+    "scope_note": "Hash, set, sorted-set and stream commands. All entries verified against Redis 8.2.1 via tools/resp_inspect.py. Examples reflect real observed replies.",
+    "universal_errors": "Per spec §6, transient and universal errors are not enumerated per command. Type-specific commands return `WRONGTYPE Operation against a key holding the wrong kind of value` when the target key holds a value of an incompatible type."
+  },
+
+  "HSET": {
+    "returns": {
+      "summary": "Number of fields newly added to the hash (existing fields updated in place do not count).",
+      "resp2": { "type": "integer",
+                 "summary": "Count of fields newly created. Updates to existing fields are not counted." },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "two new fields", "args": ["h", "f1", "v1", "f2", "v2"], "resp2": 2 },
+        { "label": "update existing", "args": ["h", "f1", "v9"],            "resp2": 0 }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "HGET": {
+    "returns": {
+      "summary": "Value of the field, or null if the field or key does not exist.",
+      "resp2": {
+        "oneof": [
+          { "when": "field exists in the hash", "type": "bulk_string",
+            "summary": "Value associated with the field." },
+          { "when": "field or key does not exist", "type": "null" }
+        ]
+      },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "field exists",  "args": ["h", "title"], "resp2": "Beloved" },
+        { "label": "field missing", "args": ["h", "nope"],  "resp2": null }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "HMGET": {
+    "returns": {
+      "summary": "Values for the requested fields, in the same order, with null in the position of any field not present in the hash.",
+      "resp2": {
+        "type": "array",
+        "summary": "Values for the requested fields, in the requested order. Missing fields are returned as null in their position.",
+        "items": {
+          "type": "bulk_string", "nullable": true,
+          "summary": "Field value, or null if the field is not in the hash. A missing key behaves the same as a hash with no matching fields (every position is null)."
+        }
+      },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "mixed present/missing", "args": ["h", "title", "nope", "country"],
+          "resp2": ["Beloved", null, "US"] }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "HGETALL": {
+    "returns": {
+      "summary": "All field-value pairs from the hash at the key, in arbitrary order. Empty if the key does not exist.",
+      "resp2": {
+        "type": "kv_array",
+        "summary": "Flat array of alternating field names and values, in arbitrary order. Empty array if the key does not exist.",
+        "key_type": "bulk_string",
+        "value_type": { "type": "bulk_string", "summary": "Field value." }
+      },
+      "resp3": {
+        "type": "map",
+        "summary": "Map of field names to values; map keys are unordered. Empty map if the key does not exist.",
+        "key_type": "bulk_string",
+        "value_type": { "type": "bulk_string", "summary": "Field value." }
+      },
+      "examples": [
+        { "label": "key exists",
+          "args": ["h"],
+          "resp2": ["title", "Beloved", "country", "US"],
+          "resp3": {"title": "Beloved", "country": "US"} },
+        { "label": "key missing",
+          "args": ["h:missing"],
+          "resp2": [],
+          "resp3": {} }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "HEXISTS": {
+    "returns": {
+      "summary": "Whether the field exists in the hash.",
+      "resp2": { "type": "integer",
+                 "summary": "1 if the field exists, 0 if it does not exist or the key is missing." },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "field exists",  "args": ["h", "title"], "resp2": 1 },
+        { "label": "field missing", "args": ["h", "nope"],  "resp2": 0 }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "HKEYS": {
+    "returns": {
+      "summary": "Field names of the hash, in arbitrary order. Empty if the key does not exist.",
+      "resp2": {
+        "type": "array",
+        "summary": "Field names of the hash, in arbitrary order. Empty array if the key does not exist.",
+        "items": { "type": "bulk_string", "summary": "Field name." }
+      },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "key exists",  "args": ["h"], "resp2": ["title", "country", "price"] }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "HVALS": {
+    "returns": {
+      "summary": "Field values of the hash, in arbitrary order. Empty if the key does not exist.",
+      "resp2": {
+        "type": "array",
+        "summary": "Field values of the hash, in arbitrary order. Empty array if the key does not exist.",
+        "items": { "type": "bulk_string", "summary": "Field value." }
+      },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "key exists", "args": ["h"], "resp2": ["Beloved", "US", "15.00"] }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "HLEN": {
+    "returns": {
+      "summary": "Number of fields in the hash.",
+      "resp2": { "type": "integer",
+                 "summary": "Number of fields in the hash, or 0 if the key does not exist." },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "key exists",  "args": ["h"],         "resp2": 3 },
+        { "label": "key missing", "args": ["h:missing"], "resp2": 0 }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "HDEL": {
+    "returns": {
+      "summary": "Number of fields actually removed (fields named but not present do not count).",
+      "resp2": { "type": "integer",
+                 "summary": "Number of fields removed from the hash. Named-but-absent fields and missing keys both contribute 0." },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "remove existing", "args": ["h", "title"], "resp2": 1 },
+        { "label": "remove missing",  "args": ["h", "nope"],  "resp2": 0 }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "HSTRLEN": {
+    "returns": {
+      "summary": "String length of the field's value, or 0 if the field or key does not exist.",
+      "resp2": { "type": "integer",
+                 "summary": "Length of the string stored at the field, or 0 if the field or key is missing. Note: returns 0 (not null) for absent fields." },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "field exists",  "args": ["h", "title"], "resp2": 7 },
+        { "label": "field missing", "args": ["h", "nope"],  "resp2": 0 }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "HINCRBY": {
+    "returns": {
+      "summary": "Value of the field after the increment.",
+      "resp2": { "type": "integer",
+                 "summary": "Field value after the increment. The field is created with value 0 before incrementing if it did not exist." },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "increment existing", "args": ["h", "counter", "5"], "resp2": 5 },
+        { "label": "increment again",    "args": ["h", "counter", "5"], "resp2": 10 }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "SADD": {
+    "returns": {
+      "summary": "Number of members newly added to the set (members already present are not counted).",
+      "resp2": { "type": "integer",
+                 "summary": "Count of members newly added. Members that were already in the set are not counted." },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "all new",    "args": ["s", "a", "b", "c"], "resp2": 3 },
+        { "label": "duplicate",  "args": ["s", "a"],           "resp2": 0 }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "SCARD": {
+    "returns": {
+      "summary": "Number of members in the set.",
+      "resp2": { "type": "integer",
+                 "summary": "Cardinality (number of members) of the set, or 0 if the key does not exist." },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "key exists",  "args": ["s"],         "resp2": 3 },
+        { "label": "key missing", "args": ["s:missing"], "resp2": 0 }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "SISMEMBER": {
+    "returns": {
+      "summary": "Whether the value is a member of the set.",
+      "resp2": { "type": "integer",
+                 "summary": "1 if the value is a member of the set, 0 if it is not or the key does not exist." },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "is member",     "args": ["s", "a"], "resp2": 1 },
+        { "label": "not member",    "args": ["s", "z"], "resp2": 0 }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "SMEMBERS": {
+    "returns": {
+      "summary": "All members of the set, in arbitrary order. Empty if the key does not exist.",
+      "resp2": {
+        "type": "array",
+        "summary": "All members of the set, in arbitrary order. Empty array if the key does not exist.",
+        "items": { "type": "bulk_string", "summary": "Member value." }
+      },
+      "resp3": {
+        "type": "set",
+        "summary": "All members of the set; sets are unordered by definition. Empty set if the key does not exist.",
+        "items": { "type": "bulk_string", "summary": "Member value." }
+      },
+      "examples": [
+        { "label": "key exists",
+          "args": ["s"],
+          "resp2": ["a", "b", "c"],
+          "resp3": ["a", "b", "c"],
+          "note": "RESP3 set is rendered here as a JSON array (per §3.1). Set semantics — unordered, unique — apply." }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "SREM": {
+    "returns": {
+      "summary": "Number of members actually removed (members named but not present do not count).",
+      "resp2": { "type": "integer",
+                 "summary": "Number of members removed from the set. Members not present and missing keys both contribute 0." },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "remove existing", "args": ["s", "a"], "resp2": 1 },
+        { "label": "remove missing",  "args": ["s", "z"], "resp2": 0 }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "ZADD": {
+    "returns": {
+      "summary": "Number of new members added (default), or the updated score (with INCR), or null when an XX/NX/LT/GT condition aborts the operation.",
+      "resp2": {
+        "oneof": [
+          { "when": "XX/NX/LT/GT aborted the operation", "type": "null",
+            "summary": "Operation aborted by a conflict with one of the XX/NX/LT/GT options." },
+          { "when": "CH not used", "type": "integer",
+            "summary": "Number of members newly added (not counting score updates)." },
+          { "when": "CH used", "type": "integer",
+            "summary": "Number of members newly added plus number whose score was changed." },
+          { "when": "INCR used", "type": "bulk_string",
+            "summary": "Updated score of the member, as a string." }
+        ]
+      },
+      "resp3": {
+        "oneof": [
+          { "when": "XX/NX/LT/GT aborted the operation", "type": "null" },
+          { "when": "CH not used", "type": "integer",
+            "summary": "Number of members newly added (not counting score updates)." },
+          { "when": "CH used", "type": "integer",
+            "summary": "Number of members newly added plus number whose score was changed." },
+          { "when": "INCR used", "type": "double",
+            "summary": "Updated score of the member." }
+        ]
+      },
+      "examples": [
+        { "label": "two new members", "args": ["z", "1", "a", "2", "b"], "resp2": 2 },
+        { "label": "INCR existing",   "args": ["z", "INCR", "0.5", "a"], "resp2": "1.5", "resp3": 1.5 }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "ZCARD": {
+    "returns": {
+      "summary": "Number of members in the sorted set.",
+      "resp2": { "type": "integer",
+                 "summary": "Cardinality (number of members) of the sorted set, or 0 if the key does not exist." },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "key exists", "args": ["z"], "resp2": 3 }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "ZSCORE": {
+    "returns": {
+      "summary": "Score of the member, or null if the member or key is missing.",
+      "resp2": {
+        "oneof": [
+          { "when": "member exists", "type": "bulk_string",
+            "summary": "Score of the member (double-precision floating point), as a string." },
+          { "when": "member or key missing", "type": "null" }
+        ]
+      },
+      "resp3": {
+        "oneof": [
+          { "when": "member exists", "type": "double",
+            "summary": "Score of the member." },
+          { "when": "member or key missing", "type": "null" }
+        ]
+      },
+      "examples": [
+        { "label": "member exists",  "args": ["z", "alpha"], "resp2": "1", "resp3": 1.0 },
+        { "label": "member missing", "args": ["z", "nope"],  "resp2": null }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "ZRANK": {
+    "returns": {
+      "summary": "Zero-based position of the member in ascending-score order, or null if the member or key is missing.",
+      "resp2": {
+        "oneof": [
+          { "when": "member exists", "type": "integer",
+            "summary": "Zero-based rank of the member in ascending-score order." },
+          { "when": "member or key missing", "type": "null" }
+        ]
+      },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "member exists",  "args": ["z", "beta"], "resp2": 1 },
+        { "label": "member missing", "args": ["z", "nope"], "resp2": null }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "ZRANGE": {
+    "returns": {
+      "summary": "Members in the specified range, in ascending score order. With WITHSCORES, each member is paired with its score, but RESP2 and RESP3 carry the pairing differently.",
+      "resp2": {
+        "oneof": [
+          { "when": "WITHSCORES not specified", "type": "array",
+            "summary": "Members in ascending score order; ties broken lexicographically.",
+            "items": { "type": "bulk_string", "summary": "Member." } },
+          { "when": "WITHSCORES specified", "type": "kv_array",
+            "summary": "Flat array of alternating member and score, in ascending score order. Scores are bulk strings encoding doubles.",
+            "key_type": "bulk_string",
+            "value_type": { "type": "bulk_string", "summary": "Score, as a string." } }
+        ]
+      },
+      "resp3": {
+        "oneof": [
+          { "when": "WITHSCORES not specified", "type": "array",
+            "summary": "Members in ascending score order; ties broken lexicographically.",
+            "items": { "type": "bulk_string", "summary": "Member." } },
+          { "when": "WITHSCORES specified", "type": "array",
+            "summary": "Array of [member, score] 2-tuples, in ascending score order.",
+            "items": {
+              "type": "tuple",
+              "prefixItems": [
+                { "name": "member", "type": "bulk_string" },
+                { "name": "score",  "type": "double" }
+              ]
+            } }
+        ]
+      },
+      "examples": [
+        { "label": "default range",
+          "args": ["z", "0", "-1"],
+          "resp2": ["alpha", "beta", "gamma"],
+          "resp3": ["alpha", "beta", "gamma"] },
+        { "label": "WITHSCORES",
+          "args": ["z", "0", "-1", "WITHSCORES"],
+          "resp2": ["alpha", "1", "beta", "2", "gamma", "3"],
+          "resp3": [["alpha", 1.0], ["beta", 2.0], ["gamma", 3.0]],
+          "note": "Structural divergence: RESP2 flattens member/score pairs into a single array; RESP3 emits each pair as a 2-tuple." }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "XADD": {
+    "returns": {
+      "summary": "ID of the added entry, or null with NOMKSTREAM when the key does not exist.",
+      "resp2": {
+        "oneof": [
+          { "when": "entry added", "type": "bulk_string",
+            "summary": "ID of the added entry, in `<ms>-<seq>` form. Auto-generated when `*` is supplied; otherwise the user-specified ID is returned." },
+          { "when": "NOMKSTREAM set and key does not exist", "type": "null" }
+        ]
+      },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "auto id",         "args": ["s", "*", "f", "v"],                 "resp2": "1780671400587-0",
+          "note": "ID format is `<ms>-<seq>`; the example value will differ across runs." },
+        { "label": "NOMKSTREAM miss", "args": ["NOMKSTREAM", "s:missing", "*", "f", "v"], "resp2": null }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "XLEN": {
+    "returns": {
+      "summary": "Number of entries in the stream.",
+      "resp2": { "type": "integer",
+                 "summary": "Number of entries in the stream at the key, or 0 if the key does not exist." },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "key exists",  "args": ["s"],         "resp2": 2 },
+        { "label": "key missing", "args": ["s:missing"], "resp2": 0 }
+      ]
+    },
+    "returns_status": "verified"
+  },
+
+  "XRANGE": {
+    "returns": {
+      "summary": "Stream entries within the specified ID range, in ascending ID order.",
+      "resp2": {
+        "type": "array",
+        "summary": "Stream entries within the specified ID range, in ascending ID order.",
+        "items": {
+          "type": "tuple",
+          "summary": "One stream entry: ID followed by its field/value pairs.",
+          "prefixItems": [
+            { "name": "id", "type": "bulk_string",
+              "summary": "Entry ID, in `<ms>-<seq>` form." },
+            { "name": "fields", "type": "kv_array",
+              "key_type": "bulk_string",
+              "value_type": { "type": "bulk_string" },
+              "summary": "Flat array of alternating field names and values, in insertion order." }
+          ]
+        }
+      },
+      "resp3": "same_as_resp2",
+      "examples": [
+        { "label": "two entries",
+          "args": ["s", "-", "+"],
+          "resp2": [
+            ["1780671400587-0", ["f1", "v1"]],
+            ["1780671400611-0", ["f2", "v2"]]
+          ] }
+      ]
+    },
+    "returns_status": "verified"
+  }
+}

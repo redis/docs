@@ -1,0 +1,3023 @@
+[
+  {
+    "command": "SET",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [
+          "vfy:str",
+          "hello"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": [
+              {
+                "path": "$",
+                "severity": "info",
+                "message": "spec type `null` not compatible with reply shape `string`"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": [
+              {
+                "path": "$",
+                "severity": "info",
+                "message": "spec type `null` not compatible with reply shape `string`"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "label": "NX on missing",
+        "args": [
+          "vfy:str:nx",
+          "first",
+          "NX"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": [
+              {
+                "path": "$",
+                "severity": "info",
+                "message": "spec type `null` not compatible with reply shape `string`"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": [
+              {
+                "path": "$",
+                "severity": "info",
+                "message": "spec type `null` not compatible with reply shape `string`"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": true
+  },
+  {
+    "command": "GET",
+    "permutations": [
+      {
+        "label": "key exists",
+        "args": [
+          "vfy:get"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "key does not exist",
+        "args": [
+          "vfy:get:missing"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "null",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "null",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "STRLEN",
+    "permutations": [
+      {
+        "label": "key exists",
+        "args": [
+          "vfy:strlen"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "key missing",
+        "args": [
+          "vfy:strlen:missing"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "APPEND",
+    "permutations": [
+      {
+        "label": "existing key",
+        "args": [
+          "vfy:append",
+          "def"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "GETRANGE",
+    "permutations": [
+      {
+        "label": "in range",
+        "args": [
+          "vfy:getrange",
+          "0",
+          "4"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "out of range",
+        "args": [
+          "vfy:getrange",
+          "20",
+          "30"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "MSET",
+    "permutations": [
+      {
+        "label": "two pairs",
+        "args": [
+          "vfy:mset:a",
+          "1",
+          "vfy:mset:b",
+          "2"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "MGET",
+    "permutations": [
+      {
+        "label": "mixed existing/missing",
+        "args": [
+          "vfy:mget:a",
+          "vfy:mget:missing",
+          "vfy:mget:b"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "INCR",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [
+          "vfy:incr"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "DECR",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [
+          "vfy:decr"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "INCRBY",
+    "permutations": [
+      {
+        "label": "positive",
+        "args": [
+          "vfy:incrby",
+          "5"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "negative",
+        "args": [
+          "vfy:incrby",
+          "-3"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "INCRBYFLOAT",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [
+          "vfy:incrf",
+          "0.5"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "DEL",
+    "permutations": [
+      {
+        "label": "two existing",
+        "args": [
+          "vfy:del:a",
+          "vfy:del:b"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "no matching",
+        "args": [
+          "vfy:del:missing"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "EXISTS",
+    "permutations": [
+      {
+        "label": "one existing",
+        "args": [
+          "vfy:exists:a"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "missing",
+        "args": [
+          "vfy:exists:missing"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "duplicates",
+        "args": [
+          "vfy:exists:a",
+          "vfy:exists:a"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "EXPIRE",
+    "permutations": [
+      {
+        "label": "existing key",
+        "args": [
+          "vfy:expire:a",
+          "60"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "missing key",
+        "args": [
+          "vfy:expire:missing",
+          "60"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "TTL",
+    "permutations": [
+      {
+        "label": "with TTL",
+        "args": [
+          "vfy:ttl:a"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "no TTL",
+        "args": [
+          "vfy:ttl:b"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "missing",
+        "args": [
+          "vfy:ttl:missing"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "TYPE",
+    "permutations": [
+      {
+        "label": "string",
+        "args": [
+          "vfy:type:str"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "hash",
+        "args": [
+          "vfy:type:hash"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "missing",
+        "args": [
+          "vfy:type:missing"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "RENAME",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [
+          "vfy:rn:src",
+          "vfy:rn:dst"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "COPY",
+    "permutations": [
+      {
+        "label": "copied",
+        "args": [
+          "vfy:cp:src",
+          "vfy:cp:dst"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "dst exists",
+        "args": [
+          "vfy:cp:src",
+          "vfy:cp:dst"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "UNLINK",
+    "permutations": [
+      {
+        "label": "one existing",
+        "args": [
+          "vfy:unlink:a"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "OBJECT ENCODING",
+    "permutations": [
+      {
+        "label": "string",
+        "args": [
+          "vfy:oe:str"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "missing",
+        "args": [
+          "vfy:oe:missing"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "null",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "null",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "DBSIZE",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "HSET",
+    "permutations": [
+      {
+        "label": "new fields",
+        "args": [
+          "vfy:hset",
+          "a",
+          "1",
+          "b",
+          "2"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "update field",
+        "args": [
+          "vfy:hset",
+          "a",
+          "9"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "HGET",
+    "permutations": [
+      {
+        "label": "field present",
+        "args": [
+          "vfy:hget",
+          "f1"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "field missing",
+        "args": [
+          "vfy:hget",
+          "fx"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "null",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "null",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "HMGET",
+    "permutations": [
+      {
+        "label": "mix present/missing",
+        "args": [
+          "vfy:hmget",
+          "f1",
+          "fx",
+          "f2"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "HEXISTS",
+    "permutations": [
+      {
+        "label": "field exists",
+        "args": [
+          "vfy:hexists",
+          "f1"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "field missing",
+        "args": [
+          "vfy:hexists",
+          "fx"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "HKEYS",
+    "permutations": [
+      {
+        "label": "existing",
+        "args": [
+          "vfy:hkeys"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "missing",
+        "args": [
+          "vfy:hkeys:missing"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "HVALS",
+    "permutations": [
+      {
+        "label": "existing",
+        "args": [
+          "vfy:hvals"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "HLEN",
+    "permutations": [
+      {
+        "label": "existing",
+        "args": [
+          "vfy:hlen"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "missing",
+        "args": [
+          "vfy:hlen:missing"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "HGETALL",
+    "permutations": [
+      {
+        "label": "key exists",
+        "args": [
+          "vfy:hgetall"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "map",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "key does not exist",
+        "args": [
+          "vfy:hgetall:missing"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "map",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "HDEL",
+    "permutations": [
+      {
+        "label": "delete existing",
+        "args": [
+          "vfy:hdel",
+          "f1"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "delete missing",
+        "args": [
+          "vfy:hdel",
+          "fx"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "LPUSH",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [
+          "vfy:lpush",
+          "a",
+          "b",
+          "c"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "RPUSH",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [
+          "vfy:rpush",
+          "a",
+          "b",
+          "c"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "LLEN",
+    "permutations": [
+      {
+        "label": "existing",
+        "args": [
+          "vfy:llen"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "missing",
+        "args": [
+          "vfy:llen:missing"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "LINDEX",
+    "permutations": [
+      {
+        "label": "in range",
+        "args": [
+          "vfy:lindex",
+          "1"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "out of range",
+        "args": [
+          "vfy:lindex",
+          "99"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "null",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "null",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "LRANGE",
+    "permutations": [
+      {
+        "label": "all",
+        "args": [
+          "vfy:lrange",
+          "0",
+          "-1"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "subset",
+        "args": [
+          "vfy:lrange",
+          "1",
+          "2"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": true
+  },
+  {
+    "command": "LPOP",
+    "permutations": [
+      {
+        "label": "no count",
+        "args": [
+          "vfy:lpop"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "with count",
+        "args": [
+          "vfy:lpop",
+          "2"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[2]",
+                "severity": "warn",
+                "message": "spec has no `items` for array \u2014 cannot verify item shape"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[2]",
+                "severity": "warn",
+                "message": "spec has no `items` for array \u2014 cannot verify item shape"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "label": "missing key",
+        "args": [
+          "vfy:lpop:missing"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "null",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "null",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "SADD",
+    "permutations": [
+      {
+        "label": "new members",
+        "args": [
+          "vfy:sadd",
+          "a",
+          "b",
+          "c"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "duplicates",
+        "args": [
+          "vfy:sadd",
+          "a",
+          "b"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "SCARD",
+    "permutations": [
+      {
+        "label": "existing",
+        "args": [
+          "vfy:scard"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "missing",
+        "args": [
+          "vfy:scard:missing"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "SISMEMBER",
+    "permutations": [
+      {
+        "label": "member exists",
+        "args": [
+          "vfy:sismember",
+          "a"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "member missing",
+        "args": [
+          "vfy:sismember",
+          "b"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "SMEMBERS",
+    "permutations": [
+      {
+        "label": "existing",
+        "args": [
+          "vfy:smembers"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": true
+  },
+  {
+    "command": "SREM",
+    "permutations": [
+      {
+        "label": "remove existing",
+        "args": [
+          "vfy:srem",
+          "a"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "remove missing",
+        "args": [
+          "vfy:srem",
+          "x"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "ZADD",
+    "permutations": [
+      {
+        "label": "new members",
+        "args": [
+          "vfy:zadd",
+          "1.0",
+          "a",
+          "2.0",
+          "b"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "INCR existing",
+        "args": [
+          "vfy:zadd",
+          "INCR",
+          "0.5",
+          "a"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "double",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "ZCARD",
+    "permutations": [
+      {
+        "label": "existing",
+        "args": [
+          "vfy:zcard"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "missing",
+        "args": [
+          "vfy:zcard:missing"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "ZSCORE",
+    "permutations": [
+      {
+        "label": "member exists",
+        "args": [
+          "vfy:zscore",
+          "member_a"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "double",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "member missing",
+        "args": [
+          "vfy:zscore",
+          "member_b"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "null",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "null",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "ZRANGE",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [
+          "vfy:zrange",
+          "0",
+          "-1"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "WITHSCORES",
+        "args": [
+          "vfy:zrange",
+          "0",
+          "-1",
+          "WITHSCORES"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$[0]",
+                "severity": "error",
+                "message": "spec type `bulk_string` not compatible with reply shape `array`"
+              },
+              {
+                "path": "$[1]",
+                "severity": "error",
+                "message": "spec type `bulk_string` not compatible with reply shape `array`"
+              },
+              {
+                "path": "$[2]",
+                "severity": "error",
+                "message": "spec type `bulk_string` not compatible with reply shape `array`"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "ZRANK",
+    "permutations": [
+      {
+        "label": "member exists",
+        "args": [
+          "vfy:zrank",
+          "a"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "member missing",
+        "args": [
+          "vfy:zrank",
+          "x"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "null",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "null",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "XADD",
+    "permutations": [
+      {
+        "label": "auto id",
+        "args": [
+          "vfy:xadd",
+          "*",
+          "f",
+          "v"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "NOMKSTREAM",
+        "args": [
+          "NOMKSTREAM",
+          "vfy:xadd:noexist",
+          "*",
+          "f",
+          "v"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": null,
+            "findings": [],
+            "server_error": "ResponseError: Invalid stream ID specified as stream command argument"
+          },
+          "resp3": {
+            "reply_shape": null,
+            "findings": [],
+            "server_error": "ResponseError: Invalid stream ID specified as stream command argument"
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "XLEN",
+    "permutations": [
+      {
+        "label": "existing",
+        "args": [
+          "vfy:xlen"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "missing",
+        "args": [
+          "vfy:xlen:missing"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "XRANGE",
+    "permutations": [
+      {
+        "label": "all",
+        "args": [
+          "vfy:xrange",
+          "-",
+          "+"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$[0]",
+                "severity": "info",
+                "message": "spec type `bulk_string` not compatible with reply shape `array`"
+              },
+              {
+                "path": "$[1]",
+                "severity": "info",
+                "message": "spec type `bulk_string` not compatible with reply shape `array`"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$[0]",
+                "severity": "info",
+                "message": "spec type `bulk_string` not compatible with reply shape `array`"
+              },
+              {
+                "path": "$[1]",
+                "severity": "info",
+                "message": "spec type `bulk_string` not compatible with reply shape `array`"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": true
+  },
+  {
+    "command": "PING",
+    "permutations": [
+      {
+        "label": "no argument",
+        "args": [],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "with argument",
+        "args": [
+          "hello"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "ECHO",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [
+          "hello"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "TIME",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "ROLE",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$[1]",
+                "severity": "info",
+                "message": "spec type `bulk_string` not compatible with reply shape `integer`"
+              },
+              {
+                "path": "$[2]",
+                "severity": "info",
+                "message": "spec type `bulk_string` not compatible with reply shape `array`"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$[1]",
+                "severity": "info",
+                "message": "spec type `bulk_string` not compatible with reply shape `integer`"
+              },
+              {
+                "path": "$[2]",
+                "severity": "info",
+                "message": "spec type `bulk_string` not compatible with reply shape `array`"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": true
+  },
+  {
+    "command": "INFO",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "specific section",
+        "args": [
+          "server"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "CONFIG GET",
+    "permutations": [
+      {
+        "label": "single parameter",
+        "args": [
+          "maxmemory"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "map",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "glob match",
+        "args": [
+          "max*"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "map",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": true
+  },
+  {
+    "command": "CLIENT INFO",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "CLIENT LIST",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "CLUSTER INFO",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [],
+        "protocols": {
+          "resp2": {
+            "reply_shape": null,
+            "findings": [],
+            "server_error": "ResponseError: This instance has cluster support disabled"
+          },
+          "resp3": {
+            "reply_shape": null,
+            "findings": [],
+            "server_error": "ResponseError: This instance has cluster support disabled"
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "CLUSTER NODES",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [],
+        "protocols": {
+          "resp2": {
+            "reply_shape": null,
+            "findings": [],
+            "server_error": "ResponseError: This instance has cluster support disabled"
+          },
+          "resp3": {
+            "reply_shape": null,
+            "findings": [],
+            "server_error": "ResponseError: This instance has cluster support disabled"
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "CLUSTER SHARDS",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [],
+        "protocols": {
+          "resp2": {
+            "reply_shape": null,
+            "findings": [],
+            "server_error": "ResponseError: This instance has cluster support disabled"
+          },
+          "resp3": {
+            "reply_shape": null,
+            "findings": [],
+            "server_error": "ResponseError: This instance has cluster support disabled"
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": true
+  },
+  {
+    "command": "FT.SEARCH",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [
+          "vfy:search_idx",
+          "*",
+          "LIMIT",
+          "0",
+          "2"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[0]",
+                "severity": "warn",
+                "message": "spec has no `items` for array \u2014 cannot verify item shape"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "map",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "NOCONTENT",
+        "args": [
+          "vfy:search_idx",
+          "*",
+          "NOCONTENT",
+          "LIMIT",
+          "0",
+          "2"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[0]",
+                "severity": "warn",
+                "message": "spec has no `items` for array \u2014 cannot verify item shape"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "map",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "WITHSCORES",
+        "args": [
+          "vfy:search_idx",
+          "alpha",
+          "WITHSCORES"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[0]",
+                "severity": "warn",
+                "message": "spec has no `items` for array \u2014 cannot verify item shape"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "map",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "WITHSORTKEYS",
+        "args": [
+          "vfy:search_idx",
+          "*",
+          "SORTBY",
+          "country",
+          "WITHSORTKEYS",
+          "LIMIT",
+          "0",
+          "2"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[0]",
+                "severity": "warn",
+                "message": "spec has no `items` for array \u2014 cannot verify item shape"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "map",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "FT.AGGREGATE",
+    "permutations": [
+      {
+        "label": "GROUPBY + REDUCE",
+        "args": [
+          "vfy:agg_idx",
+          "*",
+          "GROUPBY",
+          "1",
+          "@country",
+          "REDUCE",
+          "COUNT",
+          "0",
+          "AS",
+          "num"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[0]",
+                "severity": "warn",
+                "message": "spec has no `items` for array \u2014 cannot verify item shape"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "map",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "WITHCURSOR",
+        "args": [
+          "vfy:agg_idx",
+          "*",
+          "GROUPBY",
+          "1",
+          "@country",
+          "REDUCE",
+          "COUNT",
+          "0",
+          "AS",
+          "num",
+          "WITHCURSOR",
+          "COUNT",
+          "1"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[0]",
+                "severity": "warn",
+                "message": "spec has no `items` for array \u2014 cannot verify item shape"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[0]",
+                "severity": "info",
+                "message": "spec is map; got array (likely RESP2 flattening \u2014 verify the RESP3 reply)"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "FT.INFO",
+    "permutations": [
+      {
+        "label": "existing index",
+        "args": [
+          "vfy:info_idx"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[0]",
+                "severity": "warn",
+                "message": "spec has no `items` for array \u2014 cannot verify item shape"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "map",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "FT.TAGVALS",
+    "permutations": [
+      {
+        "label": "existing tag field",
+        "args": [
+          "vfy:tag_idx",
+          "country"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[0]",
+                "severity": "warn",
+                "message": "spec has no `items` for array \u2014 cannot verify item shape"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "JSON.SET",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [
+          "vfy:json",
+          "$",
+          "{\"a\":1,\"b\":\"hello\"}"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "JSON.GET",
+    "permutations": [
+      {
+        "label": "single path",
+        "args": [
+          "vfy:jget",
+          "$.a"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "root",
+        "args": [
+          "vfy:jget",
+          "$"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "string",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "string",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "JSON.TYPE",
+    "permutations": [
+      {
+        "label": "object root",
+        "args": [
+          "vfy:jtype",
+          "$"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$[0]",
+                "severity": "info",
+                "message": "spec type `bulk_string` not compatible with reply shape `array`"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "label": "leaf path",
+        "args": [
+          "vfy:jtype",
+          "$.a"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$[0]",
+                "severity": "info",
+                "message": "spec type `bulk_string` not compatible with reply shape `array`"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": true
+  },
+  {
+    "command": "JSON.OBJKEYS",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [
+          "vfy:jok",
+          "$"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$[0]",
+                "severity": "info",
+                "message": "spec type `bulk_string` not compatible with reply shape `array`"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$[0]",
+                "severity": "info",
+                "message": "spec type `bulk_string` not compatible with reply shape `array`"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": true
+  },
+  {
+    "command": "TS.ADD",
+    "permutations": [
+      {
+        "label": "auto timestamp",
+        "args": [
+          "vfy:ts",
+          "*",
+          "1.0"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "integer",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "TS.GET",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [
+          "vfy:tsget"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[0]",
+                "severity": "warn",
+                "message": "spec has no `items` for array \u2014 cannot verify item shape"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[0]",
+                "severity": "warn",
+                "message": "spec has no `items` for array \u2014 cannot verify item shape"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "TS.RANGE",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [
+          "vfy:tsr",
+          "-",
+          "+"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[0]",
+                "severity": "warn",
+                "message": "spec has no `items` for array \u2014 cannot verify item shape"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[0]",
+                "severity": "warn",
+                "message": "spec has no `items` for array \u2014 cannot verify item shape"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "TS.INFO",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [
+          "vfy:tsi"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "map",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": true
+  },
+  {
+    "command": "BF.ADD",
+    "permutations": [
+      {
+        "label": "first add",
+        "args": [
+          "vfy:bf",
+          "item_a"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "boolean",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "duplicate add",
+        "args": [
+          "vfy:bf",
+          "item_a"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "boolean",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "BF.EXISTS",
+    "permutations": [
+      {
+        "label": "exists",
+        "args": [
+          "vfy:bfe",
+          "item_a"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "boolean",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "not present",
+        "args": [
+          "vfy:bfe",
+          "item_b"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "boolean",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "BF.MEXISTS",
+    "permutations": [
+      {
+        "label": "mix",
+        "args": [
+          "vfy:bfm",
+          "item_a",
+          "item_b"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[0]",
+                "severity": "warn",
+                "message": "spec has no `items` for array \u2014 cannot verify item shape"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[0]",
+                "severity": "warn",
+                "message": "spec has no `items` for array \u2014 cannot verify item shape"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "BF.INFO",
+    "permutations": [
+      {
+        "label": "default",
+        "args": [
+          "vfy:bfi"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "array",
+            "findings": [
+              {
+                "path": "$|oneof[0]",
+                "severity": "warn",
+                "message": "spec has no `items` for array \u2014 cannot verify item shape"
+              }
+            ]
+          },
+          "resp3": {
+            "reply_shape": "map",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "CF.ADD",
+    "permutations": [
+      {
+        "label": "first add",
+        "args": [
+          "vfy:cf",
+          "item_a"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "boolean",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  },
+  {
+    "command": "CF.EXISTS",
+    "permutations": [
+      {
+        "label": "exists",
+        "args": [
+          "vfy:cfe",
+          "item_a"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "boolean",
+            "findings": []
+          }
+        }
+      },
+      {
+        "label": "missing",
+        "args": [
+          "vfy:cfe",
+          "item_b"
+        ],
+        "protocols": {
+          "resp2": {
+            "reply_shape": "integer",
+            "findings": []
+          },
+          "resp3": {
+            "reply_shape": "boolean",
+            "findings": []
+          }
+        }
+      }
+    ],
+    "setup_errors": [],
+    "cleanup_errors": [],
+    "stub": false
+  }
+]
