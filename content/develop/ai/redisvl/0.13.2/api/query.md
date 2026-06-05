@@ -459,7 +459,6 @@ Return the USE_SEARCH_HISTORY parameter for the query.
 
 {{< note >}}
 **Runtime Parameters for Performance Tuning**
-{{< /note >}}
 
 VectorQuery supports runtime parameters for HNSW and SVS-VAMANA indexes that can be adjusted at query time without rebuilding the index:
 
@@ -498,6 +497,7 @@ query = VectorQuery(
     search_buffer_capacity=30
 )
 ```
+{{< /note >}}
 
 ## VectorRangeQuery
 
@@ -945,7 +945,6 @@ Return the USE_SEARCH_HISTORY parameter for the query.
 
 {{< note >}}
 **Runtime Parameters for Range Queries**
-{{< /note >}}
 
 VectorRangeQuery supports runtime parameters for controlling range search behavior:
 
@@ -973,6 +972,7 @@ query = VectorRangeQuery(
     use_search_history='AUTO'  # SVS-VAMANA only
 )
 ```
+{{< /note >}}
 
 ## AggregateHybridQuery
 
@@ -1279,7 +1279,6 @@ Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
 
 {{< note >}}
 **Runtime Parameters for Hybrid Queries**
-{{< /note >}}
 
 **Important:** AggregateHybridQuery uses FT.AGGREGATE commands which do NOT support runtime parameters.
 Runtime parameters (`ef_runtime`, `search_window_size`, `use_search_history`, `search_buffer_capacity`)
@@ -1303,6 +1302,7 @@ query = HybridQuery(
     num_results=10,
 )
 ```
+{{< /note >}}
 
 ## HybridQuery
 
