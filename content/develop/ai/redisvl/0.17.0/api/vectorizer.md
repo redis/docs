@@ -5,10 +5,11 @@ url: '/develop/ai/redisvl/0.17.0/api/vectorizer/'
 ---
 
 
-#### `NOTE`
+{{< note >}}
 **Backwards Compatibility:** Several vectorizers have deprecated aliases
 available in the `redisvl.utils.vectorize.text` module for backwards
 compatibility:
+{{< /note >}}
 
 - `VoyageAITextVectorizer` → Use `VoyageAIVectorizer` instead
 - `VertexAITextVectorizer` → Use `VertexAIVectorizer` instead
@@ -41,11 +42,12 @@ Hugging Face’s vast collection of Sentence Transformers. These models are
 trained on a variety of datasets and tasks, ensuring versatility and
 robust performance across different embedding needs.
 
-#### `NOTE`
+{{< note >}}
 Some multimodal models can make use of sentence-transformers by passing
 PIL Image objects in place of strings (e.g. CLIP). To enable those use
 cases, this class follows the SentenceTransformer convention of hinting
 that it expects string inputs, but never enforcing it.
+{{< /note >}}
 
 Requirements:
 : - The sentence-transformers library must be installed with pip.
@@ -301,10 +303,11 @@ Return the type of vectorizer.
 
 <a id="vertexaivectorizer-api"></a>
 
-#### `NOTE`
+{{< note >}}
 For backwards compatibility, an alias `VertexAITextVectorizer` is available
 in the `redisvl.utils.vectorize.text` module. This alias is deprecated
 as of version 0.13.0 and will be removed in a future major release.
+{{< /note >}}
 
 ### `class VertexAIVectorizer(model='textembedding-gecko', api_config=None, dtype='float32', cache=None, *, dims=None)`
 
@@ -520,10 +523,11 @@ Return the type of vectorizer.
 
 <a id="bedrockvectorizer-api"></a>
 
-#### `NOTE`
+{{< note >}}
 For backwards compatibility, an alias `BedrockTextVectorizer` is available
 in the `redisvl.utils.vectorize.text` module. This alias is deprecated
 as of version 0.13.0 and will be removed in a future major release.
+{{< /note >}}
 
 ### `class BedrockVectorizer(model='amazon.titan-embed-text-v2:0', api_config=None, dtype='float32', cache=None, *, dims=None)`
 
@@ -632,10 +636,11 @@ Return the type of vectorizer.
 
 <a id="customvectorizer-api"></a>
 
-#### `NOTE`
+{{< note >}}
 For backwards compatibility, an alias `CustomTextVectorizer` is available
 in the `redisvl.utils.vectorize.text` module. This alias is deprecated
 as of version 0.13.0 and will be removed in a future major release.
+{{< /note >}}
 
 ### `class CustomVectorizer(embed, embed_many=None, aembed=None, aembed_many=None, dtype='float32', cache=None)`
 
@@ -709,10 +714,11 @@ Return the type of vectorizer.
 
 <a id="voyageaivectorizer-api"></a>
 
-#### `NOTE`
+{{< note >}}
 For backwards compatibility, an alias `VoyageAITextVectorizer` is available
 in the `redisvl.utils.vectorize.text` module. This alias is deprecated
 as of version 0.13.0 and will be removed in a future major release.
+{{< /note >}}
 
 ### `class VoyageAIVectorizer(model='voyage-3-large', api_config=None, dtype='float32', cache=None, *, dims=None)`
 
