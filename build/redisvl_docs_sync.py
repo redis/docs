@@ -390,10 +390,13 @@ def _myst_admonition_repl(m: re.Match) -> str:
 # The body therefore ends at the first blank line, EOF, or the start of a
 # following block (another heading or a list item) even when no blank line
 # separates them, so a glued-on heading/list is never pulled into the shortcode.
+# Admonitions nested in a list item are indented by the builder ("  #### NOTE"),
+# so the heading may carry leading whitespace; we capture that indent and re-emit
+# the shortcode at the same level to keep it inside the list item.
 _SPHINX_BOX = re.compile(
-    r"^#### (WARNING|NOTE|TIP|IMPORTANT|CAUTION|DANGER|ATTENTION|HINT|ERROR|SEE ALSO)"
+    r"^([ \t]*)#### (WARNING|NOTE|TIP|IMPORTANT|CAUTION|DANGER|ATTENTION|HINT|ERROR|SEE ALSO)"
     r"[ \t]*\n(.+?)"
-    r"(?=\n[ \t]*\n|\n#{1,6}[ \t]|\n[ \t]*[-*+][ \t]|\n[ \t]*[0-9]+[.)][ \t]|\Z)",
+    r"(?=\n[ \t]*\n|\n[ \t]*#{1,6}[ \t]|\n[ \t]*[-*+][ \t]|\n[ \t]*[0-9]+[.)][ \t]|\Z)",
     re.DOTALL | re.MULTILINE,
 )
 _SPHINX_BOX_SHORTCODE = {
@@ -405,9 +408,10 @@ _SPHINX_BOX_SHORTCODE = {
 
 
 def _sphinx_box_repl(m: re.Match) -> str:
-    sc = _SPHINX_BOX_SHORTCODE[m.group(1)]
-    body = m.group(2).rstrip()
-    return f"{{{{< {sc} >}}}}\n{body}\n{{{{< /{sc} >}}}}"
+    indent = m.group(1)
+    sc = _SPHINX_BOX_SHORTCODE[m.group(2)]
+    body = m.group(3).rstrip()
+    return f"{indent}{{{{< {sc} >}}}}\n{body}\n{indent}{{{{< /{sc} >}}}}"
 
 
 def _docs_redisvl_deep_repl(m: re.Match) -> str:
