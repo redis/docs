@@ -281,9 +281,17 @@ def yaml_quote(value: str) -> str:
 
     Plain YAML scalars cannot contain a colon followed by a space (and a few
     other indicators), so titles like "Migrate an Index: ..." must be quoted.
+
+    Curly double quotes are normalized to ASCII up front so the value emitted
+    here is already in the form the later normalize_unicode_quotes pass would
+    produce. Otherwise that pass would rewrite a curly quote inside a quoted
+    scalar into an unescaped ASCII ", terminating the string early and
+    corrupting title/linkTitle.
     """
+    value = value.replace("\u201c", '"').replace("\u201d", '"')
     needs_quote = (
         ": " in value
+        or '"' in value
         or value.endswith(":")
         or value != value.strip()
         or value[:1] in "#&*!|>'\"%@`-?:,[]{}"
