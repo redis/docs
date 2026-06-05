@@ -358,6 +358,26 @@ _IMAGE_STATIC = re.compile(r"!\[([^]]*)\]\(_static/([^)]+)\)")
 _BROKEN_API_CLI_LINK = re.compile(
     r'\[([^\]]+)\]\(\{\{<\s*relref\s+"(?:\.\./)?api/cli"\s*>\}\}\)'
 )
+# MyST/Sphinx admonition directives (```{warning} ... ```) survive nbconvert as
+# fenced blocks whose `{name}` info string Hugo's goldmark tries to parse as
+# Markdown attributes, breaking the build. Convert them to the site's alert
+# shortcodes instead.
+_MYST_ADMONITION = re.compile(
+    r"^(`{3,})\{(note|warning|tip|important|caution|danger|attention|hint|error)\}"
+    r"[^\n]*\n(.*?)\n\1[ \t]*$",
+    re.DOTALL | re.MULTILINE,
+)
+_ADMONITION_SHORTCODE = {
+    "note": "note", "important": "note",
+    "warning": "warning", "caution": "warning", "danger": "warning",
+    "attention": "warning", "error": "warning",
+    "tip": "tip", "hint": "tip",
+}
+
+
+def _myst_admonition_repl(m: re.Match) -> str:
+    sc = _ADMONITION_SHORTCODE[m.group(2)]
+    return f"{{{{< {sc} >}}}}\n{m.group(3)}\n{{{{< /{sc} >}}}}"
 
 
 def _docs_redisvl_deep_repl(m: re.Match) -> str:
@@ -408,6 +428,7 @@ def transform_page(src: Path, staging: Path, moved_slugs: list[str]) -> None:
     text = src.read_text(encoding="utf-8")
     text = _BLOCKQUOTE_RE.sub("", text)
     text = _ANSI_RE.sub("", text)
+    text = _MYST_ADMONITION.sub(_myst_admonition_repl, text)
     text = _DOCS_REDISVL_DEEP.sub(_docs_redisvl_deep_repl, text)
     text = _DOCS_REDISVL_SHALLOW.sub(
         lambda m: f"https://redis.io/docs/latest/develop/ai/redisvl/{m.group(1)}", text)
