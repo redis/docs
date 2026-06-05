@@ -387,9 +387,13 @@ def _myst_admonition_repl(m: re.Match) -> str:
 # line), so we wrap that paragraph in the matching shortcode. Multi-paragraph
 # admonitions are under-wrapped (only the first paragraph is boxed) — safe, valid
 # Hugo; over-wrapping would instead swallow unrelated body text that follows.
+# The body therefore ends at the first blank line, EOF, or the start of a
+# following block (another heading or a list item) even when no blank line
+# separates them, so a glued-on heading/list is never pulled into the shortcode.
 _SPHINX_BOX = re.compile(
     r"^#### (WARNING|NOTE|TIP|IMPORTANT|CAUTION|DANGER|ATTENTION|HINT|ERROR|SEE ALSO)"
-    r"[ \t]*\n(.+?)(?=\n[ \t]*\n|\Z)",
+    r"[ \t]*\n(.+?)"
+    r"(?=\n[ \t]*\n|\n#{1,6}[ \t]|\n[ \t]*[-*+][ \t]|\n[ \t]*[0-9]+[.)][ \t]|\Z)",
     re.DOTALL | re.MULTILINE,
 )
 _SPHINX_BOX_SHORTCODE = {
