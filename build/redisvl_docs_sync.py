@@ -454,6 +454,7 @@ def transform_page(src: Path, staging: Path, moved_slugs: list[str]) -> None:
     text = src.read_text(encoding="utf-8")
     text = _BLOCKQUOTE_RE.sub("", text)
     text = _ANSI_RE.sub("", text)
+    text = _MYST_ADMONITION.sub(_myst_admonition_repl, text)
     text = _SPHINX_BOX.sub(_sphinx_box_repl, text)
     text = _DOCS_REDISVL_DEEP.sub(_docs_redisvl_deep_repl, text)
     text = _DOCS_REDISVL_SHALLOW.sub(
