@@ -6,7 +6,7 @@ aliases:
 ---
 
 
-RedisVL is a Python library with a dedicated CLI to create, inspect, list, and delete Redis search indexes, inspect index statistics, and run the RedisVL MCP server.
+RedisVL is a Python library with a dedicated CLI to create, inspect, list, migrate, and delete Redis search indexes, inspect index statistics, and run the RedisVL MCP server.
 
 This notebook will walk through how to use the Redis Vector Library CLI (``rvl``).
 
@@ -35,6 +35,15 @@ The table below documents the current CLI tree. Use ``rvl index --help`` and ``r
 | `rvl index destroy` | delete an index and drop its indexed data |
 | `rvl stats` | display statistics for an existing Redis search index |
 | `rvl mcp` | run the RedisVL MCP server |
+| `rvl migrate wizard` | interactively build a migration plan and schema patch (experimental) |
+| `rvl migrate plan` | generate `migration_plan.yaml` from a patch or target schema (experimental) |
+| `rvl migrate apply` | execute a reviewed `drop_recreate` migration (experimental) |
+| `rvl migrate validate` | validate a completed migration and emit report artifacts (experimental) |
+| `rvl migrate rollback` | restore original vector bytes from a migration backup (experimental) |
+| `rvl migrate batch-plan` | generate a batch plan for multiple indexes (experimental) |
+| `rvl migrate batch-apply` | execute a batch migration with checkpoint state (experimental) |
+| `rvl migrate batch-resume` | resume an interrupted batch migration (experimental) |
+| `rvl migrate batch-status` | inspect batch migration checkpoint state (experimental) |
 
 Within data-plane commands, ``-i`` or ``--index`` targets an existing Redis index name and ``-s`` or ``--schema`` points to a schema YAML file. Shared Redis connection options such as ``--url``, ``--host``, and ``--port`` apply to ``rvl index`` and ``rvl stats``.
 
@@ -187,6 +196,30 @@ The ``rvl stats`` command returns basic information about an index. Use ``-i`` o
     ╰─────────────────────────────┴────────────╯
 
 
+## Migrate
+
+The ``rvl migrate`` command provides a full workflow for changing index schemas without losing data. Common use cases include vector quantization (float32 → float16), algorithm changes (HNSW → FLAT), and adding/removing fields.
+
+```bash
+# List available indexes
+rvl index listall --url redis://localhost:6379
+
+# Build a migration plan interactively
+rvl migrate wizard --index myindex --url redis://localhost:6379
+
+# Or generate from a schema patch file
+rvl migrate plan --index myindex --schema-patch patch.yaml --url redis://localhost:6379
+
+# Apply with backup and multi-worker quantization
+rvl migrate apply --plan migration_plan.yaml --url redis://localhost:6379 \
+  --backup-dir /tmp/backups --workers 4 --batch-size 500
+
+# Validate the result
+rvl migrate validate --plan migration_plan.yaml --url redis://localhost:6379
+```
+
+See the [Migration Guide]({{< relref "how_to_guides/migrate-indexes" >}}) for detailed usage, performance tuning, and examples.
+
 ## Optional arguments
 You can modify these commands with the below optional arguments
 
@@ -208,26 +241,21 @@ By default rvl first checks if you have `REDIS_URL` environment variable defined
 !rvl index listall --host localhost --port 6379
 ```
 
-    Indices:
-    1. vectorizers
-
-
-### Using SSL encryption
-If your Redis instance is configured to use SSL encryption then set the `--ssl` flag.
-You can similarly specify the username and password to construct the full Redis URL
-
-
-```python
 # NBVAL_SKIP
 # Not run in CI. This cell would block until the nbval cell timeout
 # connect to rediss://jane_doe:password123@localhost:6379
 !rvl index listall --user jane_doe -a password123 --ssl
+
+
+```python
+# connect to rediss://jane_doe:password123@localhost:6379
+!rvl index listall --user jane_doe -a password123 --ssl
 ```
+
+    Index deleted successfully
+
 
 
 ```python
 !rvl index destroy -i vectorizers
 ```
-
-    Index deleted successfully
-
