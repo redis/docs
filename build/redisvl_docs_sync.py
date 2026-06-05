@@ -380,6 +380,40 @@ def _myst_admonition_repl(m: re.Match) -> str:
     return f"{{{{< {sc} >}}}}\n{m.group(3)}\n{{{{< /{sc} >}}}}"
 
 
+# Non-notebook (.rst) pages are rendered by sphinx_markdown_builder, which turns
+# admonitions (.. warning::, .. note::, ...) into a "#### TITLE" heading rather
+# than a fenced directive. That output loses the admonition's extent, but the
+# builder glues the first body paragraph directly under the heading (no blank
+# line), so we wrap that paragraph in the matching shortcode. Multi-paragraph
+# admonitions are under-wrapped (only the first paragraph is boxed) — safe, valid
+# Hugo; over-wrapping would instead swallow unrelated body text that follows.
+# The body therefore ends at the first blank line, EOF, or the start of a
+# following block (another heading or a list item) even when no blank line
+# separates them, so a glued-on heading/list is never pulled into the shortcode.
+# Admonitions nested in a list item are indented by the builder ("  #### NOTE"),
+# so the heading may carry leading whitespace; we capture that indent and re-emit
+# the shortcode at the same level to keep it inside the list item.
+_SPHINX_BOX = re.compile(
+    r"^([ \t]*)#### (WARNING|NOTE|TIP|IMPORTANT|CAUTION|DANGER|ATTENTION|HINT|ERROR|SEE ALSO)"
+    r"[ \t]*\n(.+?)"
+    r"(?=\n[ \t]*\n|\n[ \t]*#{1,6}[ \t]|\n[ \t]*[-*+][ \t]|\n[ \t]*[0-9]+[.)][ \t]|\Z)",
+    re.DOTALL | re.MULTILINE,
+)
+_SPHINX_BOX_SHORTCODE = {
+    "WARNING": "warning", "CAUTION": "warning", "DANGER": "warning",
+    "ATTENTION": "warning", "ERROR": "warning",
+    "NOTE": "note", "IMPORTANT": "note", "SEE ALSO": "note",
+    "TIP": "tip", "HINT": "tip",
+}
+
+
+def _sphinx_box_repl(m: re.Match) -> str:
+    indent = m.group(1)
+    sc = _SPHINX_BOX_SHORTCODE[m.group(2)]
+    body = m.group(3).rstrip()
+    return f"{indent}{{{{< {sc} >}}}}\n{body}\n{indent}{{{{< /{sc} >}}}}"
+
+
 def _docs_redisvl_deep_repl(m: re.Match) -> str:
     return f'{{{{< relref "{m.group(1)}{m.group(2)}" >}}}}'
 
@@ -429,6 +463,7 @@ def transform_page(src: Path, staging: Path, moved_slugs: list[str]) -> None:
     text = _BLOCKQUOTE_RE.sub("", text)
     text = _ANSI_RE.sub("", text)
     text = _MYST_ADMONITION.sub(_myst_admonition_repl, text)
+    text = _SPHINX_BOX.sub(_sphinx_box_repl, text)
     text = _DOCS_REDISVL_DEEP.sub(_docs_redisvl_deep_repl, text)
     text = _DOCS_REDISVL_SHALLOW.sub(
         lambda m: f"https://redis.io/docs/latest/develop/ai/redisvl/{m.group(1)}", text)
