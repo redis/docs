@@ -276,6 +276,31 @@ def compute_alias(src: Path) -> str:
     return rel
 
 
+def yaml_quote(value: str) -> str:
+    """Double-quote a scalar for YAML frontmatter when it needs it.
+
+    Plain YAML scalars cannot contain a colon followed by a space (and a few
+    other indicators), so titles like "Migrate an Index: ..." must be quoted.
+
+    Curly double quotes are normalized to ASCII up front so the value emitted
+    here is already in the form the later normalize_unicode_quotes pass would
+    produce. Otherwise that pass would rewrite a curly quote inside a quoted
+    scalar into an unescaped ASCII ", terminating the string early and
+    corrupting title/linkTitle.
+    """
+    value = value.replace("\u201c", '"').replace("\u201d", '"')
+    needs_quote = (
+        ": " in value
+        or '"' in value
+        or value.endswith(":")
+        or value != value.strip()
+        or value[:1] in "#&*!|>'\"%@`-?:,[]{}"
+    )
+    if not needs_quote:
+        return value
+    return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
+
+
 def compute_weight(src: Path, title: str) -> str | None:
     """Apply title-based override; otherwise prefix-from-filename (NN_*)."""
     if title in TITLE_WEIGHTS:
@@ -301,7 +326,7 @@ def format_page(src: Path, *, is_latest: bool) -> None:
     alias = compute_alias(src)
     is_index = src.name == "_index.md"
 
-    fm = ["---", f"linkTitle: {link_title}", f"title: {title}"]
+    fm = ["---", f"linkTitle: {yaml_quote(link_title)}", f"title: {yaml_quote(title)}"]
     if is_latest:
         fm.extend(["aliases:", f"- {alias}"])
     weight = compute_weight(src, title)
@@ -333,6 +358,26 @@ _IMAGE_STATIC = re.compile(r"!\[([^]]*)\]\(_static/([^)]+)\)")
 _BROKEN_API_CLI_LINK = re.compile(
     r'\[([^\]]+)\]\(\{\{<\s*relref\s+"(?:\.\./)?api/cli"\s*>\}\}\)'
 )
+# MyST/Sphinx admonition directives (```{warning} ... ```) survive nbconvert as
+# fenced blocks whose `{name}` info string Hugo's goldmark tries to parse as
+# Markdown attributes, breaking the build. Convert them to the site's alert
+# shortcodes instead.
+_MYST_ADMONITION = re.compile(
+    r"^(`{3,})\{(note|warning|tip|important|caution|danger|attention|hint|error)\}"
+    r"[^\n]*\n(.*?)\n\1[ \t]*$",
+    re.DOTALL | re.MULTILINE,
+)
+_ADMONITION_SHORTCODE = {
+    "note": "note", "important": "note",
+    "warning": "warning", "caution": "warning", "danger": "warning",
+    "attention": "warning", "error": "warning",
+    "tip": "tip", "hint": "tip",
+}
+
+
+def _myst_admonition_repl(m: re.Match) -> str:
+    sc = _ADMONITION_SHORTCODE[m.group(2)]
+    return f"{{{{< {sc} >}}}}\n{m.group(3)}\n{{{{< /{sc} >}}}}"
 
 
 # Non-notebook (.rst) pages are rendered by sphinx_markdown_builder, which turns
