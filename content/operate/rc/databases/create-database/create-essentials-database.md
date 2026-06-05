@@ -44,11 +44,11 @@ This guide shows how to create a paid Essentials database.
 
 1. The **Type** of database controls the protocol and advanced capabilities. Leave this as **Redis** unless you have a legacy application that uses **Memcached**.
 
-1. Select your desired memory limit.
+1. Select your desired plan.
 
     {{<image filename="images/rc/subscription-new-fixed-tiers.png" alt="Available Essentials plans." >}}
 
-    For a comparison of available plans, see [Redis Cloud Essentials plans]({{< relref "/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details" >}}).
+    The plan determines the size of your database and other limits. For a comparison of available plans, see [Redis Cloud Essentials plans]({{< relref "/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details" >}}).
 
 1. Select **RAM** or **RAM + SSD (Flex)** to choose between a database that uses only RAM or one that uses both RAM and Flash memory. 
 

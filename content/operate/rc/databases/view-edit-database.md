@@ -22,8 +22,6 @@ To view the details of a database:
 
 4. Select the database name to open the **Database** page.
 
-    {{<image filename="images/rc/database-details-configuration-tab-general-flexible.png" alt="The Configuration tab of the Database details screen." >}}
-
 The **Database** screen lets you review:
 - Configuration details of a database
 - Graphs showing performance metrics
@@ -41,17 +39,68 @@ The Configuration tab is organized differently for Essentials and Pro databases.
     tab1="Essentials"
     tab2="Pro" >}}
 
-<!-- TODO (DOC-6673, Essentials): Replace this placeholder with the revamped Essentials Configuration tab documentation, using screenshots from staging. Cover:
- - Info section (condensed, mostly read-only) — renamed from "General"
- - Performance, Durability, and Security sections, reordered by importance with editable fields first
- - Contextual recommendations (high memory utilization/eviction, throughput, high availability, persistence, plan upgrades)
- - "Recommended" labels and on/off color coding (red = off, green = on)
- - Collapse/expand behavior and the Expand/Collapse All control
- - Alerts section: tooltip shown when checkboxes are disabled outside Edit mode
- - Danger zone: exposed only in Edit mode
--->
+### Performance & availability
 
-_Documentation for the revamped Essentials Configuration tab is in progress._
+The **Performance & availability** section defines the plan and backup settings of your database.
+
+<img src="../../../../images/rc/database-details-configuration-tab-performance-availability-essentials.png" alt="The Performance & availability section for an Essentials database.">
+
+| Setting name | Editable | Description |
+|---|---|---|
+| **Plan** | <span title="Yes">&#x2705; Yes</span> | The plan for your database. <br><br/>Your Essentials plan determines the size of your database and other limits. For a comparison of available plans, see [Redis Cloud Essentials plans]({{< relref "/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details" >}}). |
+| **High Availability** | <span title="Yes">&#x2705; Yes</span> | Whether and how your data replicates across multiple nodes; see [available options]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) |
+| **Data persistence** | <span title="Yes">&#x2705; Yes</span> | Defines whether (and how) data is saved to disk; see [available options]({{< relref "/operate/rc/databases/configuration/data-persistence" >}})  |
+| **Remote backup**  | <span title="Yes">&#x2705; Yes</span> | When enabled, identifies a location and interval for [data backups]({{< relref "/operate/rc/databases/back-up-data" >}}). |
+| **Data eviction policy** | <span title="Yes">&#x2705; Yes</span> | Configures which [policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies" >}}) is applied when your database reaches its memory limit |
+
+### Access
+
+The **Access** section shows the connection information for your database.
+
+<img src="../../../../images/rc/database-details-configuration-tab-access-essentials.png" alt="The Access section for an Essentials database." width=50%>
+
+Here, you can: 
+- View the number of active connections to your database.
+- View the Public endpoint of your database.
+- Select **Connect** to [connect to your database]({{< relref "/operate/rc/databases/connect" >}})
+
+### Data
+
+In the **Data** section, you can:
+
+<img src="../../../../images/rc/database-details-configuration-tab-data-essentials.png" alt="The Data section for an Essentials database." width=40%>
+
+- [Import data]({{< relref "/operate/rc/databases/import-data" >}}) into your database
+- Open [Redis Insight]({{< relref "/operate/rc/databases/connect/insight-cloud" >}}) to explore your data.
+
+### Security
+
+The **Security** section helps you control access to your database.
+
+<img src="../../../../images/rc/database-details-configuration-tab-security-essentials.png" alt="The Security section for an Essentials database.">
+
+| Setting name | Editable | Description |
+|---|---|---|
+| **Default user** | <span title="Yes">&#x2705; Yes</span> | When **On**, permits access using the `default` username with a simple password. Select **Configure** to turn off the default user or change the password. See [Default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) for more information. |
+| **CIDR allow list** | <span title="Yes">&#x2705; Yes</span> | [Allow list]({{< relref "/operate/rc/security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database. Select **Configure** to edit the CIDR allow list. |
+| **Transport layer security (TLS)** | <span title="Yes">&#x2705; Yes</span> | Select **Configure** to turn on [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) (TLS) encryption for database access. |
+
+### Database info
+
+The **Database info** section defines basic properties about your database.
+
+<img src="../../../../images/rc/database-details-configuration-tab-database-info-essentials.png" alt="The Database info section for an Essentials database.">
+
+| Setting name | Editable | Description |
+|---|---|---|
+| **Name** | <span title="Yes">&#x2705; Yes</span> | The name given to your database |
+| **ID** | <span title="No">&#x274c; No</span> | The database's numeric ID |
+| **Creation** | <span title="No">&#x274c; No</span> | Date the database was created |
+| **Last changed** | <span title="No">&#x274c; No</span> | Date of last update |
+| **Advanced Capabilities** | <span title="No">&#x274c; No</span> | This setting appears when an [advanced capability]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) is enabled for a database |
+| **Architecture** | <span title="No">&#x274c; No</span> | Shows whether the database runs in **RAM** or is a [**Flex**]() database |
+| **Version** | <span title="Yes">&#x2705; Yes</span> | The Redis version your database uses |
+| **Protocol** | <span title="Yes">&#x2705; Yes</span> | Shows which version of RESP the database uses. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
 
 -tab-sep-
 
@@ -59,7 +108,9 @@ _Documentation for the revamped Essentials Configuration tab is in progress._
 
 The **General** section defines basic properties about your database.
 
-The available settings vary according to your plan, cloud provider, and design choices.  For example, if you do not select an Advanced Capability when creating a database, the **Advanced Capabilities** setting is not displayed when you view its configuration details.
+<img src="../../../../images/rc/database-details-configuration-tab-general-flexible.png" alt="The Configuration tab of the Database details screen.">
+
+The available settings vary according to your cloud provider and design choices. 
 
 | Setting name              | Description                                                                                                                                                 |
 |:--------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------|
