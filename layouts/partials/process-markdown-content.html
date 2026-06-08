@@ -62,6 +62,11 @@
 {{- $content = $content | replaceRE "&gt;" ">" -}}
 {{- $content = $content | replaceRE "&amp;" "&" -}}
 
+{{- /* Process return-info shortcodes — inserts pre-rendered prose from
+       assets/returns-prose/. Must run before markdown-multitabs.html
+       because the injected content contains multitabs syntax. */ -}}
+{{- $content = partial "markdown-return-info.html" (dict "RawContent" $content "Page" .Page) -}}
+
 {{- /* Process multitabs shortcodes to expand tab content */ -}}
 {{- $content = partial "markdown-multitabs.html" (dict "RawContent" $content "Site" .Site) -}}
 {{- /* Final unescape of HTML entities */ -}}

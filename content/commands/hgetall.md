@@ -81,14 +81,4 @@ HGETALL myhash
 
 ## Return information
 
-{{< multitabs id="hgetall-return-info" 
-    tab1="RESP2" 
-    tab2="RESP3" >}}
-
-[Array reply](../../develop/reference/protocol-spec#arrays): a list of fields and their values, or an empty list when key does not exist.
-
--tab-sep-
-
-[Map reply](../../develop/reference/protocol-spec#maps): a map of fields and their values, or an empty list when key does not exist.
-
-{{< /multitabs >}}
+{{< return-info >}}

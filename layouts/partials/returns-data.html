@@ -1,0 +1,24 @@
+{{/*
+  returns-data partial
+
+  Looks up the current page's command entry across every
+  `commands_returns_<module>` data file. Returns the matched entry
+  (with `returns` and `returns_status` keys) or `false` if not found.
+
+  Skips files whose name ends `_shared` — those hold $ref targets only.
+
+  Usage:
+      {{ $entry := partial "returns-data.html" . }}
+      {{ if $entry }} ... {{ end }}
+*/}}
+
+{{- $cmdName := .Title -}}
+{{- $found := false -}}
+{{- range $key, $data := .Site.Data -}}
+  {{- if and (hasPrefix $key "commands_returns_") (not (hasSuffix $key "_shared")) -}}
+    {{- with index $data $cmdName -}}
+      {{- $found = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $found -}}

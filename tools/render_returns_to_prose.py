@@ -334,39 +334,74 @@ def render_examples(examples, cmd_name):
 
 
 def render_returns(returns, cmd_name=""):
-    """Render a full `returns` block to a markdown string with two
-    per-protocol sections, plus examples if present."""
-    out = []
+    """Render a full `returns` block to a markdown string with the two
+    per-protocol sections wrapped in a multitabs shortcode for human
+    rendering, plus an Examples section appended verbatim."""
+    proto_sections = {}
     for proto in (2, 3):
         key = f"resp{proto}"
         spec = returns.get(key)
         if isinstance(spec, str) and spec.startswith("same_as_"):
             other = "resp2" if "resp2" in spec else "resp3"
             spec = returns.get(other)
-        out.append(f"**RESP{proto}:**")
-        out.append("")
-        lines = render_spec(spec, proto)
-        out.extend(lines)
-        out.append("")
+        proto_sections[proto] = "\n".join(render_spec(spec, proto))
+
+    slug = cmd_name.lower().replace(" ", "-").replace(".", "-")
+    out = []
+    out.append(f'{{{{< multitabs id="{slug}-return-info"')
+    out.append('    tab1="RESP2"')
+    out.append('    tab2="RESP3" >}}')
+    out.append("")
+    out.append(proto_sections[2])
+    out.append("")
+    out.append("-tab-sep-")
+    out.append("")
+    out.append(proto_sections[3])
+    out.append("")
+    out.append("{{< /multitabs >}}")
+    out.append("")
     out.extend(render_examples(returns.get("examples", []), cmd_name))
     return "\n".join(out)
 
 
+def slug_for(cmd):
+    """Convert a command name to a filename slug (matches Hugo's URL-style)."""
+    return cmd.lower().replace(" ", "-").replace(".", ".")
+
+
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("specs", help="Path to a commands_returns_<module>.json file.")
+    p.add_argument("specs", nargs="+", help="Paths to commands_returns_*.json files.")
     p.add_argument("--cmd", help="Render only this command (uppercased).")
+    p.add_argument("--out-dir",
+                   help="Write one .md file per command to this directory "
+                        "(slug-based filename, no `## Return information` header).")
     args = p.parse_args()
 
-    data = json.loads(Path(args.specs).read_text())
-    for cmd, entry in data.items():
-        if cmd.startswith("_"):
-            continue
-        if args.cmd and cmd != args.cmd:
-            continue
-        print(f"\n## {cmd}\n")
-        print("## Return information\n")
-        print(render_returns(entry["returns"], cmd_name=cmd))
+    out_dir = Path(args.out_dir) if args.out_dir else None
+    if out_dir:
+        out_dir.mkdir(parents=True, exist_ok=True)
+
+    written = 0
+    for spec_path in args.specs:
+        data = json.loads(Path(spec_path).read_text())
+        for cmd, entry in data.items():
+            if cmd.startswith("_"):
+                continue
+            if args.cmd and cmd != args.cmd:
+                continue
+            body = render_returns(entry["returns"], cmd_name=cmd)
+            if out_dir:
+                f = out_dir / f"{slug_for(cmd)}.md"
+                f.write_text(body)
+                written += 1
+            else:
+                print(f"\n## {cmd}\n")
+                print("## Return information\n")
+                print(body)
+
+    if out_dir:
+        print(f"Wrote {written} files to {out_dir}", file=sys.stderr)
     return 0
 
 

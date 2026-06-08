@@ -78,18 +78,4 @@ HGET myhash field2
 
 ## Return information
 
-{{< multitabs id="hget-return-info" 
-    tab1="RESP2" 
-    tab2="RESP3" >}}
-
-One of the following:
-* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The value associated with the field.
-* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): If the field is not present in the hash or key does not exist.
-
--tab-sep-
-
-One of the following:
-* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The value associated with the field.
-* [Null reply](../../develop/reference/protocol-spec#nulls): If the field is not present in the hash or key does not exist.
-
-{{< /multitabs >}}
+{{< return-info >}}

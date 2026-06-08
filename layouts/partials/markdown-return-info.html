@@ -1,0 +1,25 @@
+{{- /*
+  Process return-info shortcodes in raw markdown content.
+
+  Called from `process-markdown-content.html` before the multitabs
+  partial. Replaces every `{{< return-info >}}` tag with the contents
+  of the corresponding pre-rendered prose file under
+  `assets/returns-prose/<slug>.md`. The injected content contains a
+  `{{< multitabs >}}` block which is then expanded by the subsequent
+  multitabs partial in the same pipeline.
+
+  Input dict:
+    - RawContent: markdown body string
+    - Page:       current Hugo page (for the title → slug derivation)
+*/ -}}
+
+{{- $content := .RawContent -}}
+{{- $title := .Page.Title -}}
+{{- $slug := $title | lower | replaceRE " " "-" -}}
+{{- $path := printf "assets/returns-prose/%s.md" $slug -}}
+{{- if fileExists $path -}}
+  {{- $body := readFile $path -}}
+  {{- /* The shortcode tag may appear with or without spaces. Match both. */ -}}
+  {{- $content = $content | replaceRE `\{\{<\s*return-info(\s+[^>]*)?\s*>\}\}` $body -}}
+{{- end -}}
+{{- return $content -}}

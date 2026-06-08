@@ -18,7 +18,9 @@
   "relatedPages": {{ .Params.relatedPages | jsonify }}{{ end }}{{ if .Params.scope }},
   "scope": {{ .Params.scope | jsonify }}{{ end }},
   "tableOfContents": {{ partial "toc-from-markdown.html" . }},
-  "codeExamples": {{ partial "code-examples-json.html" . }}
+  "codeExamples": {{ partial "code-examples-json.html" . }}{{ $returnsEntry := partial "returns-data.html" . }}{{ if $returnsEntry }},
+  "returns": {{ $returnsEntry.returns | jsonify }},
+  "returns_status": {{ $returnsEntry.returns_status | jsonify }}{{ end }}
 }
 ```
 

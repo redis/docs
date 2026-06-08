@@ -1,0 +1,78 @@
+{{/*
+  return-info shortcode
+
+  Renders the `## Return information` body for the current command page
+  by reading the pre-rendered prose file from `assets/returns-prose/`
+  and building a generic-tabs widget for the RESP2/RESP3 split.
+
+  The pre-rendered prose file is produced by
+  `tools/render_returns_to_prose.py` from the JSON spec in
+  `data/commands_returns_<module>.json`. The file's body is structured
+  as:
+
+      {{< multitabs id="..."
+          tab1="RESP2"
+          tab2="RESP3" >}}
+      <RESP2 content>
+      -tab-sep-
+      <RESP3 content>
+      {{< /multitabs >}}
+
+      **Examples:**
+      ...
+
+  We can't recursively expand the multitabs shortcode from inside this
+  shortcode (Hugo doesn't run shortcode resolution on dynamically-loaded
+  text). Instead, parse the prose file directly and call the
+  `components/generic-tabs.html` partial that multitabs itself uses.
+
+  Usage in source files:
+      ## Return information
+
+      {{< return-info >}}
+*/}}
+
+{{- $title := .Page.Title -}}
+{{- $slug := .Get "slug" | default ($title | lower | replaceRE " " "-") -}}
+{{- $path := printf "assets/returns-prose/%s.md" $slug -}}
+{{- if not (fileExists $path) -}}
+  <!-- return-info: no prose file at {{ $path }} for `{{ $title }}` -->
+{{- else -}}
+  {{- $body := readFile $path -}}
+
+  {{- /* Extract the RESP2 / RESP3 sections from inside the multitabs block. */ -}}
+  {{- $mtPattern := `(?s)\{\{<\s*multitabs[^>]*>\}\}\s*(.*?)\s*\{\{<\s*/multitabs\s*>\}\}` -}}
+  {{- $mtMatch := findRE $mtPattern $body 1 -}}
+  {{- $afterMt := "" -}}
+  {{- $resp2 := "" -}}
+  {{- $resp3 := "" -}}
+  {{- if $mtMatch -}}
+    {{- $mtBlock := index $mtMatch 0 -}}
+    {{- $inner := replaceRE `\{\{<\s*multitabs[^>]*>\}\}\s*` "" $mtBlock -}}
+    {{- $inner = replaceRE `\s*\{\{<\s*/multitabs\s*>\}\}` "" $inner -}}
+    {{- $parts := split $inner "-tab-sep-" -}}
+    {{- if ge (len $parts) 2 -}}
+      {{- $resp2 = index $parts 0 | strings.TrimSpace -}}
+      {{- $resp3 = index $parts 1 | strings.TrimSpace -}}
+    {{- end -}}
+    {{- /* Anything after the closing tag (Examples section, etc.) */ -}}
+    {{- $afterMt = replaceRE `(?s)^.*?\{\{<\s*/multitabs\s*>\}\}\s*` "" $body -}}
+  {{- end -}}
+
+  {{- /* Build tabs and render */ -}}
+  {{- if and $resp2 $resp3 -}}
+    {{- $tabs := slice
+        (dict "title" "RESP2" "content" ($resp2 | markdownify))
+        (dict "title" "RESP3" "content" ($resp3 | markdownify))
+    -}}
+    {{- partial "components/generic-tabs.html" (dict "id" (printf "%s-return-info" $slug) "tabs" $tabs) -}}
+    {{- if and $afterMt (gt (len (strings.TrimSpace $afterMt)) 0) -}}
+      <div class="returns-examples">
+      {{- $afterMt | strings.TrimSpace | markdownify -}}
+      </div>
+    {{- end -}}
+  {{- else -}}
+    {{- /* Fallback: render the whole file as markdown */ -}}
+    {{- $body | markdownify -}}
+  {{- end -}}
+{{- end -}}
