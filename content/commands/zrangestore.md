@@ -105,6 +105,52 @@ This command's behavior varies in clustered Redis environments. See the [multi-k
 
 This command is like [`ZRANGE`]({{< relref "/commands/zrange" >}}), but stores the result in the `<dst>` destination key.
 
+## Required arguments
+
+<details open><summary><code>dst</code></summary>
+
+The key to store the resulting sorted set in.
+
+</details>
+
+<details open><summary><code>src</code></summary>
+
+The source sorted-set key.
+
+</details>
+
+<details open><summary><code>min</code></summary>
+
+The start of the range. By default a zero-based index (negatives count from the end); a score bound with `BYSCORE`; or a lexicographical bound with `BYLEX`.
+
+</details>
+
+<details open><summary><code>max</code></summary>
+
+The end of the range, inclusive. Interpreted the same way as `min`.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>BYSCORE | BYLEX</code></summary>
+
+Interpret the range as a score range (`BYSCORE`) or a lexicographical range (`BYLEX`) instead of an index range.
+
+</details>
+
+<details open><summary><code>REV</code></summary>
+
+Reverse the ordering so results are returned from high to low.
+
+</details>
+
+<details open><summary><code>LIMIT offset count</code></summary>
+
+Skip `offset` matching members and return up to `count` of them. Requires `BYSCORE` or `BYLEX`. A negative `count` returns all remaining members.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

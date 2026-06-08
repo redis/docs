@@ -61,13 +61,35 @@ title: ZRANDMEMBER
 ---
 When called with just the `key` argument, return a random element from the sorted set value stored at `key`.
 
-If the provided `count` argument is positive, return an array of **distinct elements**.
+If the provided `count` argument is positive, return an array of distinct elements.
 The array's length is either `count` or the sorted set's cardinality ([`ZCARD`]({{< relref "/commands/zcard" >}})), whichever is lower.
 
-If called with a negative `count`, the behavior changes and the command is allowed to return the **same element multiple times**.
+If called with a negative `count`, the behavior changes and the command is allowed to return the same element multiple times.
 In this case, the number of returned elements is the absolute value of the specified `count`.
 
 The optional `WITHSCORES` modifier changes the reply so it includes the respective scores of the randomly selected elements from the sorted set.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>count</code></summary>
+
+The number of members to return. A positive `count` returns up to that many distinct members; a negative `count` returns exactly `|count|` members and may repeat them.
+
+</details>
+
+<details open><summary><code>WITHSCORES</code></summary>
+
+Also return the score of each returned member. Can only be used together with `count`.
+
+</details>
 
 ## Examples
 
@@ -78,7 +100,9 @@ ZRANDMEMBER dadi
 ZRANDMEMBER dadi -5 WITHSCORES
 {{% /redis-cli %}}
 
-## Specification of the behavior when count is passed
+## Details
+
+### Specification of the behavior when count is passed
 
 When the `count` argument is a positive value this command behaves as follows:
 

@@ -61,6 +61,26 @@ The `min` and `max` arguments have the same semantic as described for
 
 Note: the command has a complexity of just O(log(N)) because it uses elements ranks (see [`ZRANK`]({{< relref "/commands/zrank" >}})) to get an idea of the range. Because of this there is no need to do a work proportional to the size of the range.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>min</code></summary>
+
+The minimum score. The bound is inclusive unless prefixed with `(`. Use `-inf` for no lower bound.
+
+</details>
+
+<details open><summary><code>max</code></summary>
+
+The maximum score. The bound is inclusive unless prefixed with `(`. Use `+inf` for no upper bound.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
