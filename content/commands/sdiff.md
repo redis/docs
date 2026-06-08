@@ -67,6 +67,14 @@ SDIFF key1 key2 key3 = {b,d}
 
 Keys that do not exist are considered to be empty sets.
 
+## Required arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more set keys. The result is the members of the first set that are not present in any of the subsequent sets.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
