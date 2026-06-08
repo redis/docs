@@ -9,7 +9,6 @@ url: '/develop/ai/redisvl/0.18.0/api/vectorizer/'
 **Backwards Compatibility:** Several vectorizers have deprecated aliases
 available in the `redisvl.utils.vectorize.text` module for backwards
 compatibility:
-{{< /note >}}
 
 - `VoyageAITextVectorizer` → Use `VoyageAIVectorizer` instead
 - `VertexAITextVectorizer` → Use `VertexAIVectorizer` instead
@@ -18,6 +17,7 @@ compatibility:
 
 These aliases are deprecated as of version 0.13.0 and will be removed
 in a future major release.
+{{< /note >}}
 
 ## HFTextVectorizer
 
