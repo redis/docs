@@ -53,8 +53,9 @@ The embeddings cache can wrap any [vectorizer]({{< relref "utilities" >}}), addi
 
 LLMs are stateless. To have a conversation, you must include previous messages in each prompt. Message history manages this context, storing conversation turns and retrieving them when building prompts.
 
-#### NOTE
+{{< note >}}
 `SessionManager` and `SemanticSessionManager` have been renamed to `MessageHistory` and `SemanticMessageHistory`. The old names are deprecated and will be removed in a future release.
+{{< /note >}}
 
 ### Storage Model
 
