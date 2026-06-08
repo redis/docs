@@ -47,21 +47,23 @@ Flex requires the Speedb driver, while Auto Tiering can use either RocksDB or Sp
 
 ## Use cases
 
-The benefits associated with Flex are dependent on the use case.
+The benefits associated with Flex and Auto Tiering are dependent on the use case.
 
-Flex is ideal when your:
+Flex and Auto Tiering are ideal when your:
 
 - working set is significantly smaller than your dataset (high RAM hit rate)
 - average key size is smaller than average value size
 - most recent data is the most frequently used (high RAM hit rate)
 
-Flex is not recommended for:
+Flex and Auto Tiering are not recommended for:
 
-- Broad access patterns (any value could be pulled into RAM)
-- Large working sets (working set is stored in RAM)
-- Frequently moved data (moving to and from RAM too often can impact performance)
+- A large number of keys or long key names. With Auto Tiering, all key names are stored in RAM regardless of whether their values are on flash. High key count alone can exhaust the RAM limit even when individual key names are short.
+- Broad access patterns (any value could be pulled into RAM).
+- Large working sets (working set is stored in RAM).
+- Frequently moved data (moving to and from RAM too often can impact performance).
+- Large collection types (hashes, sets, or lists with millions of elements) whose total serialized size approaches or exceeds the RAM limit. Unlike scalar values, large collections cannot be partially offloaded to flash and must fit in RAM when accessed.
 
-Flex is not intended to be used for persistent storage. Redis Software database persistent and ephemeral storage should be on different disks, either local or attached.
+Flex and Auto Tiering are not intended to be used for persistent storage. Redis Software database persistent and ephemeral storage should be on different disks, either local or attached.
 
 ## Where is my data?
 
@@ -138,6 +140,8 @@ Keys or values larger than 4GB will be stored in RAM only, and warnings will app
 ```sh
 # WARNING: key too big for disk driver, size: 4703717276, key: subactinfo:htable
 ```
+
+If oversized keys consume the shard's available RAM, the shard can return out-of-memory errors even when flash storage has free space remaining.
 
 ## Next steps
 
