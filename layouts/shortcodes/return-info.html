@@ -36,19 +36,19 @@
   {{- $r2md := partial "returns/render-spec.html" (dict "node" $r2 "proto" "2") -}}
   {{- $r3md := partial "returns/render-spec.html" (dict "node" $r3 "proto" "3") -}}
 
+  {{- /* Per-protocol examples — each tab gets its own. */ -}}
+  {{- $examples := index $returns "examples" -}}
+  {{- if $examples -}}
+    {{- $r2ex := partial "returns/render-examples.html" (dict "examples" $examples "cmd" $cmd "proto" "2") -}}
+    {{- $r3ex := partial "returns/render-examples.html" (dict "examples" $examples "cmd" $cmd "proto" "3") -}}
+    {{- if $r2ex -}}{{- $r2md = printf "%s\n\n%s" $r2md $r2ex -}}{{- end -}}
+    {{- if $r3ex -}}{{- $r3md = printf "%s\n\n%s" $r3md $r3ex -}}{{- end -}}
+  {{- end -}}
+
   {{- $slug := $cmd | lower | replaceRE "[. ]" "-" -}}
   {{- $tabs := slice
       (dict "title" "RESP2" "content" ($r2md | markdownify))
       (dict "title" "RESP3" "content" ($r3md | markdownify))
   -}}
   {{- partial "components/generic-tabs.html" (dict "id" (printf "%s-return-info" $slug) "tabs" $tabs) -}}
-
-  {{- with index $returns "examples" -}}
-    {{- $exmd := partial "returns/render-examples.html" (dict "examples" . "cmd" $cmd) -}}
-    {{- if $exmd -}}
-      <div class="returns-examples">
-      {{- $exmd | markdownify -}}
-      </div>
-    {{- end -}}
-  {{- end -}}
 {{- end -}}

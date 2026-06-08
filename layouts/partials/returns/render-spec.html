@@ -20,9 +20,40 @@
 {{- $oneof := index $node "oneof" -}}
 {{- if $oneof -}}
   {{- $out = "One of the following:\n" -}}
+
+  {{- /* Walk branches, buffering consecutive simple_error ones so that
+         runs of 2+ get rendered as a single bullet with a sublist. */ -}}
+  {{- $pending := slice -}}
   {{- range $branch := $oneof -}}
-    {{- $b := partial "returns/render-branch.html" (dict "node" $branch "proto" $proto) -}}
-    {{- $out = printf "%s%s\n" $out $b -}}
+    {{- $btype := index $branch "type" | default "" -}}
+    {{- if eq $btype "simple_error" -}}
+      {{- $pending = $pending | append $branch -}}
+    {{- else -}}
+      {{- /* Flush any buffered error branches first */ -}}
+      {{- if $pending -}}
+        {{- if gt (len $pending) 1 -}}
+          {{- $g := partial "returns/render-error-group.html" (dict "branches" $pending "proto" $proto) -}}
+          {{- $out = printf "%s%s\n" $out $g -}}
+        {{- else -}}
+          {{- $b := partial "returns/render-branch.html" (dict "node" (index $pending 0) "proto" $proto) -}}
+          {{- $out = printf "%s%s\n" $out $b -}}
+        {{- end -}}
+        {{- $pending = slice -}}
+      {{- end -}}
+      {{- $b := partial "returns/render-branch.html" (dict "node" $branch "proto" $proto) -}}
+      {{- $out = printf "%s%s\n" $out $b -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* Flush trailing error buffer */ -}}
+  {{- if $pending -}}
+    {{- if gt (len $pending) 1 -}}
+      {{- $g := partial "returns/render-error-group.html" (dict "branches" $pending "proto" $proto) -}}
+      {{- $out = printf "%s%s\n" $out $g -}}
+    {{- else -}}
+      {{- $b := partial "returns/render-branch.html" (dict "node" (index $pending 0) "proto" $proto) -}}
+      {{- $out = printf "%s%s\n" $out $b -}}
+    {{- end -}}
   {{- end -}}
 {{- else -}}
   {{- $type := $node.type -}}

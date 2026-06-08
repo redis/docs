@@ -3,11 +3,17 @@
        Input dict:
          examples: list of example dicts (label, args, resp2, optional resp3, optional note)
          cmd:      command name string
+         proto:    optional. If "2" or "3", render only that protocol's
+                   reply value (no RESP2/RESP3 prefix) — used in the
+                   HTML tabs view where each tab shows one protocol.
+                   If empty, render the side-by-side form used by the
+                   .md/.json output paths.
 
        Returns: markdown string. Empty if there are no examples.
 */ -}}
 {{- $examples := .examples -}}
 {{- $cmd := .cmd -}}
+{{- $proto := .proto | default "" -}}
 {{- $out := "" -}}
 
 {{- if $examples -}}
@@ -29,7 +35,14 @@
     {{- if (isset $ex "resp3") -}}
       {{- $r3json = (index $ex "resp3") | jsonify -}}
     {{- end -}}
-    {{- if and $r3json (ne $r3json $r2json) -}}
+
+    {{- if eq $proto "2" -}}
+      {{- $out = printf "%s  - Reply: `%s`\n" $out $r2json -}}
+    {{- else if eq $proto "3" -}}
+      {{- $val := $r3json -}}
+      {{- if not $val -}}{{- $val = $r2json -}}{{- end -}}
+      {{- $out = printf "%s  - Reply: `%s`\n" $out $val -}}
+    {{- else if and $r3json (ne $r3json $r2json) -}}
       {{- $out = printf "%s  - RESP2: `%s`\n" $out $r2json -}}
       {{- $out = printf "%s  - RESP3: `%s`\n" $out $r3json -}}
     {{- else -}}

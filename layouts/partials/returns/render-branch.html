@@ -34,9 +34,11 @@
       {{- $val = index $m "value" | default "" -}}
     {{- end -}}
     {{- if gt $i 0 -}}{{- $msgList = printf "%s; " $msgList -}}{{- end -}}
-    {{- $msgList = printf "%s%s" $msgList $val -}}
+    {{- $msgList = printf "%s`%s`" $msgList $val -}}
   {{- end -}}
-  {{- $result = printf "* %s in these cases: %s." $link $msgList -}}
+  {{- /* New single-error format: include the `when` predicate as an
+         italic suffix (matching how other oneof branches render). */ -}}
+  {{- $result = printf "* %s: %s%s." $link $msgList $suffix -}}
 {{- else if eq $type "null" -}}
   {{- $result = printf "* %s%s." $link $suffix -}}
 {{- else if and (eq $type "simple_string") $value -}}

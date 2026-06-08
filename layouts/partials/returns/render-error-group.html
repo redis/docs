@@ -1,0 +1,43 @@
+{{- /* Render a run of consecutive simple_error branches as a single
+       bullet with a sub-list of cases. Used when a `oneof` has 2+
+       error branches in a row, to avoid the repetitive
+       "Simple error reply: ... / Simple error reply: ..." pattern.
+
+       Input dict:
+         branches: list of simple_error branch dicts (each has type=simple_error
+                   and one or more `messages` plus an optional `when`)
+         proto:    "2" or "3"
+
+       Returns: markdown — single bullet with nested sub-bullets,
+                no trailing newline.
+*/ -}}
+{{- $branches := .branches -}}
+{{- $proto := .proto -}}
+{{- $link := partial "returns/type-link.html" (dict "type" "simple_error" "proto" $proto) -}}
+
+{{- $out := printf "* %s, in any of the following cases:" $link -}}
+
+{{- range $b := $branches -}}
+  {{- $msgs := index $b "messages" | default (slice) -}}
+  {{- $msgList := "" -}}
+  {{- range $i, $m := $msgs -}}
+    {{- $val := "" -}}
+    {{- if (eq (printf "%T" $m) "string") -}}
+      {{- $val = $m -}}
+    {{- else -}}
+      {{- $val = index $m "value" | default "" -}}
+    {{- end -}}
+    {{- if gt $i 0 -}}{{- $msgList = printf "%s; " $msgList -}}{{- end -}}
+    {{- $msgList = printf "%s`%s`" $msgList $val -}}
+  {{- end -}}
+
+  {{- $when := index $b "when" -}}
+  {{- $suffix := "" -}}
+  {{- if and $when (not (in (slice "default" "success") $when)) -}}
+    {{- $suffix = printf " _(when %s)_" $when -}}
+  {{- end -}}
+
+  {{- $out = printf "%s\n  - %s%s" $out $msgList $suffix -}}
+{{- end -}}
+
+{{- return $out -}}
