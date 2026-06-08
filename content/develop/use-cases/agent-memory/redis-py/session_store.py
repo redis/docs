@@ -170,10 +170,12 @@ class AgentSession:
     ) -> SessionState:
         """Append a turn, bound the rolling window, refresh the TTL.
 
-        Read-modify-write is acceptable for a single-threaded demo;
-        production agents that share a thread across workers would
-        wrap this in ``WATCH`` / ``MULTI`` or a Lua script to avoid
-        last-writer-wins on the turn list.
+        Read-modify-write here is last-writer-wins on the turn list
+        if two concurrent turns reach the same thread; the demo never
+        triggers that race in practice (one browser, one turn at a
+        time) but a multi-worker agent that shares a thread id would
+        wrap this in ``WATCH`` / ``MULTI`` / ``EXEC`` or a Lua script
+        that does the append atomically server-side.
         """
         state = self.load(thread_id)
         if state is None:

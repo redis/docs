@@ -897,7 +897,7 @@ class AgentMemoryHandler(BaseHTTPRequestHandler):
             "events": [e.to_dict() for e in events],
             # ``recalled`` is populated by /turn; on plain /state reads
             # the UI keeps showing the last turn's result, which is
-            # the useful behaviour for an "agent" panel.
+            # the useful behavior for an "agent" panel.
             "recalled": [],
         }
 

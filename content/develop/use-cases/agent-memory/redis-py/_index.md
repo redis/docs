@@ -106,9 +106,9 @@ memory.create_index()  # idempotent
 
 # Write a memory. The same KNN that powers recall also runs here
 # at a tighter threshold so paraphrases of the same fact collapse.
-vec = embedder.encode_one("The user prefers dark mode.")
+vec = embedder.encode_one("The user prefers light mode in editors.")
 result = memory.remember(
-    text="The user prefers dark mode.",
+    text="The user prefers light mode in editors.",
     embedding=np.asarray(vec, dtype=np.float32),
     user="alice",
     namespace="default",
@@ -141,7 +141,7 @@ agent:mem:7c3f8a1b9e02
   "namespace": "default",
   "kind": "semantic",
   "source_thread": "9f3d2a4b8c61",
-  "text": "The user prefers dark mode.",
+  "text": "The user prefers light mode in editors.",
   "embedding": [0.013, -0.041, ...],
   "created_ts": 1715990400.12,
   "hit_count": 0
@@ -214,6 +214,18 @@ for event in events.recent(thread_id, count=20):
 
 The Stream is independent of the session Hash and the long-term JSON documents: it answers "what just happened" without competing with either of those for indexing or memory budget. Consumer groups (not used in this demo) would let downstream workers — summarizers, consolidators, audit pipelines — replay the log without losing position.
 
+## Concurrency caveats
+
+The three helpers above trade correctness under heavy concurrency for clarity. Each is fine on a single-process demo, but lifting the code into a real multi-worker agent surfaces three races worth knowing about:
+
+* **Working memory is read-modify-write.** `AgentSession.append_turn` calls [`HGETALL`]({{< relref "/commands/hgetall" >}}), mutates the `recent_turns` list in application code, and writes the Hash back with [`HSET`]({{< relref "/commands/hset" >}}). Two concurrent turns on the same thread can both read the same `recent_turns`, append different entries, and write back — last writer wins, the other turn is silently lost. The robust fix is either a [`WATCH`]({{< relref "/commands/watch" >}}) / [`MULTI`]({{< relref "/commands/multi" >}}) / [`EXEC`]({{< relref "/commands/exec" >}}) loop around the read-modify-write or a small [Lua script]({{< relref "/commands/eval" >}}) that does the append atomically server-side.
+
+* **Long-term dedup is not atomic.** `LongTermMemory.remember` runs a [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) KNN lookup, decides whether the candidate is a duplicate, and (if not) calls [`JSON.SET`]({{< relref "/commands/json.set" >}}). Two workers seeing the same fact in flight can each fail to see the other's not-yet-committed write and both insert a new memory. The pragmatic fix is to accept that the index will occasionally hold near-duplicates and run a background consolidator that periodically scans for memory pairs within a tight distance and merges them, rather than trying to make the write itself atomic.
+
+* **The active thread is server state.** The demo server keeps a single `current_thread_id` that `/new_thread` and `/reset` mutate under a lock; `handle_turn` reads it outside that lock, so a turn racing with a thread rotation can apply to the previous thread. This is cosmetic for a one-user browser demo. A multi-user agent would carry the thread id on the request itself rather than as shared server state.
+
+Those caveats are deliberate. A more conservative implementation would obscure the Redis-shaped parts of the pattern; the demo prioritizes a small, readable code path that maps directly onto the commands in the prose above.
+
 ## Pre-seeding long-term memory
 
 In a real deployment the memory store fills up organically as the agent reasons over user turns: each turn produces zero or more memories that flow into the store, with deduplication catching repeats. For the demo, `seed_memory.py` pre-loads a small set of mixed semantic and episodic memories so the very first recall query returns something useful ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/redis-py/seed_memory.py)):
@@ -229,7 +241,7 @@ memory.create_index()
 seed(memory, embedder, user="default", namespace="default")
 ```
 
-The seed list mixes long-lived facts and preferences (`semantic`) with snapshots of past sessions (`episodic`), so the demo can show how the `kind` filter narrows recall to one tier or the other.
+The seed list mixes long-lived facts and preferences (`semantic`) with snapshots of past sessions (`episodic`), so the **Kind to write** control in the demo has something to switch between when a new turn is being remembered.
 
 ## The interactive demo
 
@@ -276,9 +288,10 @@ The server holds one `LocalEmbedder`, one `AgentSession`, one `LongTermMemory`, 
 5.  Open <http://localhost:8086> and try some turns:
 
     *  **"Remind me which theme I prefer in editors."** — paraphrase of a seeded
-       semantic memory; you should see the "dark mode" memory recalled with a
-       cosine distance around 0.47, comfortably under the 0.55 default
-       recall threshold.
+       semantic memory ("The user dislikes dark mode and prefers a high-contrast
+       light theme..."). You should see that memory recalled with a cosine
+       distance around 0.47, comfortably under the 0.55 default recall
+       threshold.
     *  **"What did we discuss about the order-routing outage?"** — paraphrase of
        a seeded episodic memory; the postmortem memory should recall around
        0.44. Switch the **Kind to write** dropdown to `skip` so the question
@@ -287,7 +300,7 @@ The server holds one `LocalEmbedder`, one `AgentSession`, one `LongTermMemory`, 
        a seed; you should see the write **deduped** onto the existing memory
        at a cosine distance around 0.15, with `hit_count` ticking up in the
        memories table.
-    *  **"My favourite color is teal."** — unrelated to any seed; nothing
+    *  **"My favorite color is teal."** — unrelated to any seed; nothing
        recalls above the threshold (every seed lands above 0.8), and the new
        memory is written as `episodic` (or `semantic`, depending on the
        dropdown) under a fresh id.
