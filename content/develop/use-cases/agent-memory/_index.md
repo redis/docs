@@ -64,6 +64,7 @@ The following libraries, frameworks, and managed services build on Redis for age
 
 ## Code examples to build your own Redis agent memory
 
-The following guide shows how to build a small Redis-backed agent memory layer using only standard Redis commands — working memory in a hash per thread, long-term memory as JSON documents with a vector index, an event log in a stream, and per-tier TTLs for decay. It includes a runnable interactive demo where you can send turns, watch working memory update, see semantic recall against past memories, and inspect the event log.
+The following guides show how to build a small Redis-backed agent memory layer using only standard Redis commands — working memory in a hash per thread, long-term memory as JSON documents with a vector index, an event log in a stream, and per-tier TTLs for decay. Each guide includes a runnable interactive demo where you can send turns, watch working memory update, see semantic recall against past memories, and inspect the event log.
 
 * [redis-py (Python)]({{< relref "/develop/use-cases/agent-memory/redis-py" >}})
+* [node-redis (Node.js)]({{< relref "/develop/use-cases/agent-memory/nodejs" >}})
