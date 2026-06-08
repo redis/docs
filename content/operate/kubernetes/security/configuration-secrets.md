@@ -70,7 +70,7 @@ You can customize the credential secret name during cluster creation using the `
 The `clusterCredentialSecretName` field cannot be changed after cluster creation.
 {{</note>}}
 
-For detailed instructions, see [Customize the credential secret name]({{< relref "/operate/kubernetes/security/manage-rec-credentials#customize-the-credential-secret-name" >}}).
+For detailed instructions, see [Manage credentials]({{< relref "/operate/kubernetes/security/manage-credentials" >}}).
 
 ## TLS certificate configuration
 
@@ -150,7 +150,7 @@ Field names vary by deployment.
 
 ## See also
 
-- [Manage REC credentials]({{< relref "/operate/kubernetes/security/manage-rec-credentials" >}})
+- [Manage credentials]({{< relref "/operate/kubernetes/security/manage-credentials" >}})
 - [Manage REC certificates]({{< relref "/operate/kubernetes/security/manage-rec-certificates" >}})
 - [Add client certificates]({{< relref "/operate/kubernetes/security/add-client-certificates" >}})
 - [Redis Enterprise Cluster API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}})

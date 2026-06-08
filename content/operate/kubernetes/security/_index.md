@@ -17,7 +17,7 @@ Configure security settings for your Redis Enterprise deployment on Kubernetes. 
 
 Manage cluster credentials and authentication settings:
 
-- [Manage REC credentials]({{< relref "/operate/kubernetes/security/manage-rec-credentials" >}}) - Configure and manage Redis Enterprise cluster credentials
+- [Manage credentials]({{< relref "/operate/kubernetes/security/manage-credentials" >}}) - Retrieve and rotate REC admin credentials and REDB database passwords
 - [Configuration secrets]({{< relref "/operate/kubernetes/security/configuration-secrets" >}}) - Store Redis Enterprise configuration items in Kubernetes Secrets for automatic updates and secure management
 - [LDAP authentication]({{< relref "/operate/kubernetes/security/ldap" >}}) - Integrate with LDAP for centralized authentication
 - [SSO authentication]({{< relref "/operate/kubernetes/security/sso" >}}) - Enable SAML-based single sign-on for Cluster Manager UI access
