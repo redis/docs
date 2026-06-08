@@ -100,14 +100,20 @@ class AgentMemoryDemo {
     const vec = await this.embedder.encodeOne(text);
     const embedMs = performance.now() - t0;
 
+    // `setGoal` only touches the goal field so existing turns aren't
+    // wiped; `appendTurn` carries the request `user` through to the
+    // auto-create path so a first turn for a new thread doesn't land
+    // under the default user.
     let sessionAction;
     if (action === 'goal') {
-      await this.sessionStore.start(threadId, {
-        user, agent: 'demo-agent', goal: text,
+      await this.sessionStore.setGoal(threadId, text, {
+        user, agent: 'demo-agent',
       });
       sessionAction = 'goal_set';
     } else {
-      await this.sessionStore.appendTurn(threadId, { role, content: text });
+      await this.sessionStore.appendTurn(threadId, {
+        role, content: text, user, agent: 'demo-agent',
+      });
       sessionAction = `turn_appended:${role}`;
     }
 

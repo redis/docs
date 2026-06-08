@@ -100,15 +100,29 @@ export class AgentSession {
 
   // Append a turn, bound the rolling window, refresh the TTL.
   //
+  // `user` and `agent` are only consulted when the session does not
+  // yet exist — they seed the auto-created session so the
+  // working-memory hash matches the user the caller is operating
+  // against. On an existing session they're ignored; the original
+  // `start` values stand.
+  //
   // Read-modify-write here is last-writer-wins on the turn list if
   // two concurrent turns reach the same thread; the demo never
   // triggers that race in practice (one browser, one turn at a
   // time) but a multi-worker agent that shares a thread id would
   // wrap this in `WATCH` / `MULTI` / `EXEC` or a Lua script that
   // does the append atomically server-side.
-  async appendTurn(threadId, { role, content, ttlSeconds } = {}) {
+  async appendTurn(threadId, {
+    role, content, user, agent, ttlSeconds,
+  } = {}) {
     let state = await this.load(threadId);
-    if (!state) state = await this.start(threadId, { ttlSeconds });
+    if (!state) {
+      state = await this.start(threadId, {
+        user: user ?? 'default',
+        agent: agent ?? 'default',
+        ttlSeconds,
+      });
+    }
     state.recent_turns.push({ role, content, ts: Date.now() / 1000 });
     if (state.recent_turns.length > this.maxTurns) {
       state.recent_turns = state.recent_turns.slice(-this.maxTurns);
@@ -125,6 +139,29 @@ export class AgentSession {
     const state = await this.load(threadId);
     if (!state) return null;
     state.scratchpad = text;
+    state.last_active_ts = Date.now() / 1000;
+    const ttl = ttlSeconds !== undefined ? ttlSeconds : this.defaultTtlSeconds;
+    state.ttl_seconds = ttl;
+    await this._write(state, ttl);
+    return state;
+  }
+
+  // Update the goal field without touching turns or the scratchpad.
+  // Creates the session if it doesn't exist yet — setting a goal on
+  // a fresh thread is a sensible first step in the agent loop, so
+  // this method covers both the "rename the goal mid-session" and
+  // the "start a thread with this goal" cases.
+  async setGoal(threadId, text, { user, agent, ttlSeconds } = {}) {
+    const state = await this.load(threadId);
+    if (!state) {
+      return this.start(threadId, {
+        user: user ?? 'default',
+        agent: agent ?? 'default',
+        goal: text,
+        ttlSeconds,
+      });
+    }
+    state.goal = text;
     state.last_active_ts = Date.now() / 1000;
     const ttl = ttlSeconds !== undefined ? ttlSeconds : this.defaultTtlSeconds;
     state.ttl_seconds = ttl;

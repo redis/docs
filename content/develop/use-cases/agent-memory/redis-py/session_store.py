@@ -166,9 +166,17 @@ class AgentSession:
         thread_id: str,
         role: str,
         content: str,
+        user: str | None = None,
+        agent: str | None = None,
         ttl_seconds: int | None = None,
     ) -> SessionState:
         """Append a turn, bound the rolling window, refresh the TTL.
+
+        ``user`` and ``agent`` are only consulted when the session
+        does not yet exist — they seed the auto-created session so
+        the working-memory hash matches the user the caller is
+        operating against. On an existing session they're ignored;
+        the original ``start`` values stand.
 
         Read-modify-write here is last-writer-wins on the turn list
         if two concurrent turns reach the same thread; the demo never
@@ -179,7 +187,12 @@ class AgentSession:
         """
         state = self.load(thread_id)
         if state is None:
-            state = self.start(thread_id, ttl_seconds=ttl_seconds)
+            state = self.start(
+                thread_id,
+                user=user if user is not None else "default",
+                agent=agent if agent is not None else "default",
+                ttl_seconds=ttl_seconds,
+            )
         state.recent_turns.append(
             SessionTurn(role=role, content=content, ts=time.time())
         )
@@ -203,6 +216,37 @@ class AgentSession:
         if state is None:
             return None
         state.scratchpad = text
+        state.last_active_ts = time.time()
+        ttl = ttl_seconds if ttl_seconds is not None else self.default_ttl_seconds
+        state.ttl_seconds = ttl
+        self._write(state, ttl)
+        return state
+
+    def set_goal(
+        self,
+        thread_id: str,
+        text: str,
+        user: str | None = None,
+        agent: str | None = None,
+        ttl_seconds: int | None = None,
+    ) -> SessionState:
+        """Update the goal field without touching turns or the scratchpad.
+
+        Creates the session if it doesn't exist yet — setting a goal
+        on a fresh thread is a sensible first step in the agent loop,
+        so this method covers both the "rename the goal mid-session"
+        and the "start a thread with this goal" cases.
+        """
+        state = self.load(thread_id)
+        if state is None:
+            return self.start(
+                thread_id,
+                user=user if user is not None else "default",
+                agent=agent if agent is not None else "default",
+                goal=text,
+                ttl_seconds=ttl_seconds,
+            )
+        state.goal = text
         state.last_active_ts = time.time()
         ttl = ttl_seconds if ttl_seconds is not None else self.default_ttl_seconds
         state.ttl_seconds = ttl

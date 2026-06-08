@@ -297,9 +297,12 @@ The server holds one `LocalEmbedder`, one `AgentSession`, one `LongTermMemory`, 
        0.44. Switch the **Kind to write** dropdown to `skip` so the question
        itself doesn't enter long-term memory.
     *  **"I prefer concise answers without filler phrases."** — paraphrase of
-       a seed; you should see the write **deduped** onto the existing memory
-       at a cosine distance around 0.15, with `hit_count` ticking up in the
-       memories table.
+       a seeded *semantic* memory. Switch the **Kind to write** dropdown to
+       `semantic` so the dedup KNN runs in the same kind as the seed (dedup
+       is scoped per kind, on purpose, so an episodic write can't collapse
+       onto a semantic memory). You should then see the write **deduped**
+       onto the existing memory at a cosine distance around 0.15, with
+       `hit_count` ticking up in the memories table.
     *  **"My favorite color is teal."** — unrelated to any seed; nothing
        recalls above the threshold (every seed lands above 0.8), and the new
        memory is written as `episodic` (or `semantic`, depending on the

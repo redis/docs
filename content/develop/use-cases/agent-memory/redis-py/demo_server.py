@@ -35,7 +35,6 @@ import sys
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from threading import Lock
 from urllib.parse import parse_qs, urlparse
 
 import numpy as np
@@ -623,38 +622,42 @@ class AgentMemoryDemo:
         self.default_user = default_user
         self.default_namespace = default_namespace
         self.current_thread_id: str = session_store.new_thread_id()
-        self._lock = Lock()
+
+    # ``seed`` / ``new_thread`` / ``handle_turn`` all touch
+    # ``current_thread_id`` without coordination — see the walkthrough's
+    # "Concurrency caveats" section. The demo is single-user in
+    # practice, so the race never triggers; a multi-user agent would
+    # carry the thread id on each request instead of holding it as
+    # shared server state.
 
     def seed(self, user: str, namespace: str) -> int:
         """Drop everything in scope and pre-populate with seed memories."""
-        with self._lock:
-            self.memory.clear()
-            self.session_store.delete(self.current_thread_id)
-            self.event_log.clear(self.current_thread_id)
-            written = seed(
-                self.memory,
-                self.embedder,
-                user=user,
-                namespace=namespace,
-                source_thread="seed",
-            )
-            self.current_thread_id = self.session_store.new_thread_id()
-            return written
+        self.memory.clear()
+        self.session_store.delete(self.current_thread_id)
+        self.event_log.clear(self.current_thread_id)
+        written = seed(
+            self.memory,
+            self.embedder,
+            user=user,
+            namespace=namespace,
+            source_thread="seed",
+        )
+        self.current_thread_id = self.session_store.new_thread_id()
+        return written
 
     def new_thread(self, user: str, namespace: str) -> str:
         """Start a fresh thread. Long-term memory is unaffected."""
-        with self._lock:
-            self.event_log.clear(self.current_thread_id)
-            self.current_thread_id = self.session_store.new_thread_id()
-            self.session_store.start(
-                self.current_thread_id, user=user,
-                agent="demo-agent", goal="",
-            )
-            self.event_log.record(
-                self.current_thread_id, "thread_started",
-                f"user={user} namespace={namespace}",
-            )
-            return self.current_thread_id
+        self.event_log.clear(self.current_thread_id)
+        self.current_thread_id = self.session_store.new_thread_id()
+        self.session_store.start(
+            self.current_thread_id, user=user,
+            agent="demo-agent", goal="",
+        )
+        self.event_log.record(
+            self.current_thread_id, "thread_started",
+            f"user={user} namespace={namespace}",
+        )
+        return self.current_thread_id
 
     def handle_turn(
         self,
@@ -681,15 +684,25 @@ class AgentMemoryDemo:
         vec = self.embedder.encode_one(text)
         embed_ms = (time.perf_counter() - t0) * 1000
 
-        # Append to working memory or update the goal/scratchpad,
-        # depending on which button the user pressed.
+        # Append to working memory or update the goal, depending on
+        # which button the user pressed. ``set_goal`` only touches the
+        # goal field, so existing turns aren't wiped; ``append_turn``
+        # carries the request ``user`` through to the auto-create path
+        # so a first turn for a new thread doesn't land under the
+        # default user.
         if action == "goal":
-            self.session_store.start(
-                thread_id, user=user, agent="demo-agent", goal=text,
+            self.session_store.set_goal(
+                thread_id, text, user=user, agent="demo-agent",
             )
             session_action = "goal_set"
         else:
-            self.session_store.append_turn(thread_id, role=role, content=text)
+            self.session_store.append_turn(
+                thread_id,
+                role=role,
+                content=text,
+                user=user,
+                agent="demo-agent",
+            )
             session_action = f"turn_appended:{role}"
 
         # Recall before write.
