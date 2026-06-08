@@ -1,0 +1,68 @@
+{{- /* Render a tuple's prefixItems (named positions) and optional `rest`
+       as sub-bullets.
+
+       Input dict:
+         node:    the tuple ReplySpec (with .prefixItems and optional .rest)
+         proto:   "2" or "3"
+         indent:  current indent string
+
+       Returns: markdown lines, indented, with trailing newline.
+*/ -}}
+{{- $node := .node -}}
+{{- $proto := .proto -}}
+{{- $indent := .indent | default "" -}}
+{{- $out := "" -}}
+
+{{- range $i, $item := index $node "prefixItems" -}}
+  {{- $iname := index $item "name" | default (printf "[%d]" $i) -}}
+  {{- $when := index $item "when" -}}
+  {{- $optional := index $item "optional" -}}
+  {{- $iwhen := "" -}}
+  {{- if $when -}}{{- $iwhen = printf " _(when %s)_" $when -}}{{- end -}}
+  {{- $iopt := "" -}}
+  {{- if and $optional (not $when) -}}{{- $iopt = " _(optional)_" -}}{{- end -}}
+
+  {{- $oneof := index $item "oneof" -}}
+  {{- if $oneof -}}
+    {{- $out = printf "%s%s- `%s`%s%s: one of —\n" $out $indent $iname $iwhen $iopt -}}
+    {{- range $branch := $oneof -}}
+      {{- $bmd := partial "returns/render-branch.html" (dict "node" $branch "proto" $proto) -}}
+      {{- /* Add two-space sub-indent to each line of the branch output */ -}}
+      {{- range $line := split $bmd "\n" -}}
+        {{- $out = printf "%s%s  %s\n" $out $indent $line -}}
+      {{- end -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $itype := index $item "type" -}}
+    {{- if $itype -}}
+      {{- $ilink := partial "returns/type-link.html" (dict "type" $itype "proto" $proto) -}}
+      {{- $isum := index $item "summary" | default "" -}}
+      {{- $line := printf "%s- `%s`: %s%s%s" $indent $iname $ilink $iwhen $iopt -}}
+      {{- if $isum -}}{{- $line = printf "%s — %s" $line $isum -}}{{- end -}}
+      {{- $out = printf "%s%s\n" $out $line -}}
+      {{- /* Recurse for nested containers */ -}}
+      {{- if eq $itype "tuple" -}}
+        {{- $sub := partial "returns/render-tuple.html" (dict "node" $item "proto" $proto "indent" (printf "%s  " $indent)) -}}
+        {{- $out = printf "%s%s" $out $sub -}}
+      {{- else if eq $itype "array" -}}
+        {{- with $item.items -}}
+          {{- $sub := partial "returns/render-items.html" (dict "items" . "proto" $proto "indent" (printf "%s  " $indent)) -}}
+          {{- $out = printf "%s%s" $out $sub -}}
+        {{- end -}}
+      {{- else if or (eq $itype "map") (eq $itype "kv_array") -}}
+        {{- with $item.fields -}}
+          {{- $sub := partial "returns/render-fields.html" (dict "fields" . "proto" $proto "indent" (printf "%s  " $indent)) -}}
+          {{- $out = printf "%s%s" $out $sub -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with index $node "rest" -}}
+  {{- $out = printf "%s%s- Followed by repeating elements:\n" $out $indent -}}
+  {{- $sub := partial "returns/render-items.html" (dict "items" . "proto" $proto "indent" (printf "%s  " $indent)) -}}
+  {{- $out = printf "%s%s" $out $sub -}}
+{{- end -}}
+
+{{- return $out -}}

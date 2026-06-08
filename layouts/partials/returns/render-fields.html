@@ -1,0 +1,60 @@
+{{- /* Render a map/kv_array's `fields` enumeration as sub-bullets.
+
+       Input dict:
+         fields:  list of field specs
+         proto:   "2" or "3"
+         indent:  current indent string
+
+       Returns: markdown lines, indented, with trailing newline.
+*/ -}}
+{{- $fields := .fields -}}
+{{- $proto := .proto -}}
+{{- $indent := .indent | default "" -}}
+{{- $out := "" -}}
+
+{{- range $f := $fields -}}
+  {{- $fname := $f.name -}}
+  {{- $when := index $f "when" -}}
+  {{- $optional := index $f "optional" -}}
+  {{- $fwhen := "" -}}
+  {{- if $when -}}{{- $fwhen = printf " _(when %s)_" $when -}}{{- end -}}
+  {{- $fopt := "" -}}
+  {{- if and $optional (not $when) -}}{{- $fopt = " _(optional)_" -}}{{- end -}}
+
+  {{- $oneof := index $f "oneof" -}}
+  {{- if $oneof -}}
+    {{- $out = printf "%s%s- `%s`%s%s: one of —\n" $out $indent $fname $fwhen $fopt -}}
+    {{- range $branch := $oneof -}}
+      {{- $bmd := partial "returns/render-branch.html" (dict "node" $branch "proto" $proto) -}}
+      {{- range $line := split $bmd "\n" -}}
+        {{- $out = printf "%s%s  %s\n" $out $indent $line -}}
+      {{- end -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $ftype := index $f "type" -}}
+    {{- if $ftype -}}
+      {{- $flink := partial "returns/type-link.html" (dict "type" $ftype "proto" $proto) -}}
+      {{- $fsum := index $f "summary" | default "" -}}
+      {{- $line := printf "%s- `%s`: %s%s%s" $indent $fname $flink $fwhen $fopt -}}
+      {{- if $fsum -}}{{- $line = printf "%s — %s" $line $fsum -}}{{- end -}}
+      {{- $out = printf "%s%s\n" $out $line -}}
+      {{- /* Recurse for nested containers */ -}}
+      {{- if eq $ftype "tuple" -}}
+        {{- $sub := partial "returns/render-tuple.html" (dict "node" $f "proto" $proto "indent" (printf "%s  " $indent)) -}}
+        {{- $out = printf "%s%s" $out $sub -}}
+      {{- else if eq $ftype "array" -}}
+        {{- with $f.items -}}
+          {{- $sub := partial "returns/render-items.html" (dict "items" . "proto" $proto "indent" (printf "%s  " $indent)) -}}
+          {{- $out = printf "%s%s" $out $sub -}}
+        {{- end -}}
+      {{- else if or (eq $ftype "map") (eq $ftype "kv_array") -}}
+        {{- with $f.fields -}}
+          {{- $sub := partial "returns/render-fields.html" (dict "fields" . "proto" $proto "indent" (printf "%s  " $indent)) -}}
+          {{- $out = printf "%s%s" $out $sub -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $out -}}

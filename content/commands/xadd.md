@@ -343,18 +343,4 @@ eger) 2
 
 ## Return information
 
-{{< multitabs id="xadd-return-info" 
-    tab1="RESP2" 
-    tab2="RESP3" >}}
-
-One of the following:
-* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the original entry.
-* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the NOMKSTREAM option is given and the key doesn't exist.
-
--tab-sep-
-
-One of the following:
-* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the original entry.
-* [Null reply](../../develop/reference/protocol-spec#nulls): if the NOMKSTREAM option is given and the key doesn't exist.
-
-{{< /multitabs >}}
+{{< return-info >}}

@@ -1,0 +1,60 @@
+{{- /* Render a markdown link to the RESP protocol-spec for a given type tag.
+
+       Input dict:
+         type:   spec type tag (e.g. "bulk_string", "integer", "null", "kv_array")
+         proto:  "2" or "3" — affects the link text for the null type
+                 (RESP2 uses "Nil reply" linking to bulk-strings; RESP3 uses
+                  "Null reply" linking to nulls).
+
+       Returns: markdown link, e.g. `[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings)`.
+*/ -}}
+{{- $type := .type -}}
+{{- $proto := .proto -}}
+{{- $base := "../../develop/reference/protocol-spec" -}}
+
+{{- $text := "" -}}
+{{- $anchor := "" -}}
+
+{{- if eq $type "null" -}}
+  {{- if eq $proto "2" -}}
+    {{- $text = "Nil reply" -}}{{- $anchor = "bulk-strings" -}}
+  {{- else -}}
+    {{- $text = "Null reply" -}}{{- $anchor = "nulls" -}}
+  {{- end -}}
+{{- else if eq $type "simple_string" -}}
+  {{- $text = "Simple string reply" -}}{{- $anchor = "simple-strings" -}}
+{{- else if eq $type "bulk_string" -}}
+  {{- $text = "Bulk string reply" -}}{{- $anchor = "bulk-strings" -}}
+{{- else if eq $type "verbatim_string" -}}
+  {{- $text = "Verbatim string reply" -}}{{- $anchor = "verbatim-strings" -}}
+{{- else if eq $type "integer" -}}
+  {{- $text = "Integer reply" -}}{{- $anchor = "integers" -}}
+{{- else if eq $type "double" -}}
+  {{- $text = "Double reply" -}}{{- $anchor = "doubles" -}}
+{{- else if eq $type "boolean" -}}
+  {{- $text = "Boolean reply" -}}{{- $anchor = "booleans" -}}
+{{- else if eq $type "big_number" -}}
+  {{- $text = "Big number reply" -}}{{- $anchor = "big-numbers" -}}
+{{- else if eq $type "array" -}}
+  {{- $text = "Array reply" -}}{{- $anchor = "arrays" -}}
+{{- else if eq $type "map" -}}
+  {{- $text = "Map reply" -}}{{- $anchor = "maps" -}}
+{{- else if eq $type "set" -}}
+  {{- $text = "Set reply" -}}{{- $anchor = "sets" -}}
+{{- else if eq $type "push" -}}
+  {{- $text = "Push reply" -}}{{- $anchor = "pushes" -}}
+{{- else if eq $type "simple_error" -}}
+  {{- $text = "Simple error reply" -}}{{- $anchor = "simple-errors" -}}
+{{- else if eq $type "bulk_error" -}}
+  {{- $text = "Bulk error reply" -}}{{- $anchor = "bulk-errors" -}}
+{{- else if eq $type "kv_array" -}}
+  {{- /* kv_array is a flat alternating array at the wire level */ -}}
+  {{- $text = "Array reply" -}}{{- $anchor = "arrays" -}}
+{{- else if eq $type "tuple" -}}
+  {{- /* tuple is an array with positional shape at the wire level */ -}}
+  {{- $text = "Array reply" -}}{{- $anchor = "arrays" -}}
+{{- else -}}
+  {{- $text = $type -}}{{- $anchor = "" -}}
+{{- end -}}
+
+{{- return (printf "[%s](%s#%s)" $text $base $anchor) -}}

@@ -1,0 +1,79 @@
+{{- /* Render one branch of a oneof as a bulleted list item with optional
+       trailing italic `when` clause. Containers expand into sub-bullets.
+
+       Input dict:
+         node:   the branch ReplySpec
+         proto:  "2" or "3"
+
+       Returns: single bullet (possibly multi-line if expanded), no trailing newline.
+*/ -}}
+{{- $node := .node -}}
+{{- $proto := .proto -}}
+{{- $type := $node.type -}}
+{{- $when := index $node "when" -}}
+{{- $summary := index $node "summary" | default "" -}}
+{{- $value := index $node "value" -}}
+
+{{- $suffix := "" -}}
+{{- if and $when (not (in (slice "default" "success") $when)) -}}
+  {{- $suffix = printf " _(when %s)_" $when -}}
+{{- end -}}
+
+{{- $link := partial "returns/type-link.html" (dict "type" $type "proto" $proto) -}}
+
+{{- $result := "" -}}
+
+{{- if eq $type "simple_error" -}}
+  {{- $msgs := index $node "messages" | default (slice) -}}
+  {{- $msgList := "" -}}
+  {{- range $i, $m := $msgs -}}
+    {{- $val := "" -}}
+    {{- if (eq (printf "%T" $m) "string") -}}
+      {{- $val = $m -}}
+    {{- else -}}
+      {{- $val = index $m "value" | default "" -}}
+    {{- end -}}
+    {{- if gt $i 0 -}}{{- $msgList = printf "%s; " $msgList -}}{{- end -}}
+    {{- $msgList = printf "%s%s" $msgList $val -}}
+  {{- end -}}
+  {{- $result = printf "* %s in these cases: %s." $link $msgList -}}
+{{- else if eq $type "null" -}}
+  {{- $result = printf "* %s%s." $link $suffix -}}
+{{- else if and (eq $type "simple_string") $value -}}
+  {{- $body := printf "%s: `%s`." $link $value -}}
+  {{- if $summary -}}{{- $body = printf "%s %s" $body $summary -}}{{- end -}}
+  {{- $result = printf "* %s%s" $body $suffix -}}
+{{- else -}}
+  {{- $head := "" -}}
+  {{- if $summary -}}
+    {{- $head = printf "* %s: %s%s" $link $summary $suffix -}}
+  {{- else -}}
+    {{- $head = printf "* %s%s" $link $suffix -}}
+  {{- end -}}
+
+  {{- /* Container expansion */ -}}
+  {{- $tail := "" -}}
+  {{- if eq $type "array" -}}
+    {{- with $node.items -}}
+      {{- $tail = partial "returns/render-items.html" (dict "items" . "proto" $proto "indent" "  ") -}}
+    {{- end -}}
+  {{- else if eq $type "set" -}}
+    {{- with $node.items -}}
+      {{- $tail = partial "returns/render-items.html" (dict "items" . "proto" $proto "indent" "  ") -}}
+    {{- end -}}
+  {{- else if eq $type "tuple" -}}
+    {{- $tail = partial "returns/render-tuple.html" (dict "node" $node "proto" $proto "indent" "  ") -}}
+  {{- else if or (eq $type "map") (eq $type "kv_array") -}}
+    {{- with $node.fields -}}
+      {{- $tail = partial "returns/render-fields.html" (dict "fields" . "proto" $proto "indent" "  ") -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- if $tail -}}
+    {{- $result = printf "%s\n%s" $head (strings.TrimSuffix "\n" $tail) -}}
+  {{- else -}}
+    {{- $result = $head -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $result -}}

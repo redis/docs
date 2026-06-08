@@ -3,7 +3,7 @@
     "module": "core",
     "returns_format_version": "1",
     "scope_note": "Hash, set, sorted-set and stream commands. All entries verified against Redis 8.2.1 via tools/resp_inspect.py. Examples reflect real observed replies.",
-    "universal_errors": "Per spec §6, transient and universal errors are not enumerated per command. Type-specific commands return `WRONGTYPE Operation against a key holding the wrong kind of value` when the target key holds a value of an incompatible type."
+    "universal_errors": "Per spec §6, errors emitted uniformly across the family are documented here rather than per command: `WRONGTYPE Operation against a key holding the wrong kind of value` (type-specific commands when the key holds an incompatible value), `ERR wrong number of arguments for '<cmd>' command` (arity mismatch on any command), and module-not-loaded / transient operational errors (OOM, LOADING, MASTERDOWN, etc.). Command-specific errors — `hash value is not an integer` for HINCRBY, `INCR option supports a single increment-element pair` for ZADD, `Invalid stream ID specified as stream command argument` for XADD/XRANGE, etc. — ARE enumerated per command."
   },
 
   "HSET": {
@@ -178,9 +178,19 @@
 
   "HINCRBY": {
     "returns": {
-      "summary": "Value of the field after the increment.",
-      "resp2": { "type": "integer",
-                 "summary": "Field value after the increment. The field is created with value 0 before incrementing if it did not exist." },
+      "summary": "Value of the field after the increment, or an error when the field's current value isn't an integer or the result would overflow.",
+      "resp2": {
+        "oneof": [
+          { "when": "success", "type": "integer",
+            "summary": "Field value after the increment. The field is created with value 0 before incrementing if it did not exist." },
+          { "when": "field's stored value isn't an integer", "type": "simple_error",
+            "messages": [{ "value": "hash value is not an integer",
+                           "summary": "The field exists but its value can't be parsed as an integer." }] },
+          { "when": "result would overflow signed 64-bit integer range", "type": "simple_error",
+            "messages": [{ "value": "increment or decrement would overflow",
+                           "summary": "The increment would push the field's value outside the signed 64-bit range." }] }
+        ]
+      },
       "resp3": "same_as_resp2",
       "examples": [
         { "label": "increment existing", "args": ["h", "counter", "5"], "resp2": 5 },
@@ -272,7 +282,7 @@
 
   "ZADD": {
     "returns": {
-      "summary": "Number of new members added (default), or the updated score (with INCR), or null when an XX/NX/LT/GT condition aborts the operation.",
+      "summary": "Number of new members added (default), the updated score (with INCR), null when an XX/NX/LT/GT condition aborts the operation, or an error for incompatible option combinations or non-numeric scores.",
       "resp2": {
         "oneof": [
           { "when": "XX/NX/LT/GT aborted the operation", "type": "null",
@@ -282,7 +292,15 @@
           { "when": "CH used", "type": "integer",
             "summary": "Number of members newly added plus number whose score was changed." },
           { "when": "INCR used", "type": "bulk_string",
-            "summary": "Updated score of the member, as a string." }
+            "summary": "Updated score of the member, as a string." },
+          { "when": "INCR is given with more than one member", "type": "simple_error",
+            "messages": [{ "value": "INCR option supports a single increment-element pair" }] },
+          { "when": "XX and NX are both specified", "type": "simple_error",
+            "messages": [{ "value": "XX and NX options at the same time are not compatible" }] },
+          { "when": "GT, LT, or NX are combined in an unsupported way", "type": "simple_error",
+            "messages": [{ "value": "GT, LT, and/or NX options at the same time are not compatible" }] },
+          { "when": "a score argument is not a valid float", "type": "simple_error",
+            "messages": [{ "value": "value is not a valid float" }] }
         ]
       },
       "resp3": {
@@ -293,7 +311,15 @@
           { "when": "CH used", "type": "integer",
             "summary": "Number of members newly added plus number whose score was changed." },
           { "when": "INCR used", "type": "double",
-            "summary": "Updated score of the member." }
+            "summary": "Updated score of the member." },
+          { "when": "INCR is given with more than one member", "type": "simple_error",
+            "messages": [{ "value": "INCR option supports a single increment-element pair" }] },
+          { "when": "XX and NX are both specified", "type": "simple_error",
+            "messages": [{ "value": "XX and NX options at the same time are not compatible" }] },
+          { "when": "GT, LT, or NX are combined in an unsupported way", "type": "simple_error",
+            "messages": [{ "value": "GT, LT, and/or NX options at the same time are not compatible" }] },
+          { "when": "a score argument is not a valid float", "type": "simple_error",
+            "messages": [{ "value": "value is not a valid float" }] }
         ]
       },
       "examples": [
@@ -408,12 +434,21 @@
 
   "XADD": {
     "returns": {
-      "summary": "ID of the added entry, or null with NOMKSTREAM when the key does not exist.",
+      "summary": "ID of the added entry, null with NOMKSTREAM when the key does not exist, or an error when the supplied ID is malformed or not strictly greater than the stream's current top ID.",
       "resp2": {
         "oneof": [
           { "when": "entry added", "type": "bulk_string",
             "summary": "ID of the added entry, in `<ms>-<seq>` form. Auto-generated when `*` is supplied; otherwise the user-specified ID is returned." },
-          { "when": "NOMKSTREAM set and key does not exist", "type": "null" }
+          { "when": "NOMKSTREAM set and key does not exist", "type": "null" },
+          { "when": "supplied ID is not greater than the stream's current top ID", "type": "simple_error",
+            "messages": [{ "value": "The ID specified in XADD is equal or smaller than the target stream top item",
+                           "summary": "Stream entry IDs must be strictly increasing." }] },
+          { "when": "supplied ID is the special 0-0", "type": "simple_error",
+            "messages": [{ "value": "The ID specified in XADD must be greater than 0-0",
+                           "summary": "0-0 is reserved as a marker and may not be used as an entry ID." }] },
+          { "when": "supplied ID cannot be parsed", "type": "simple_error",
+            "messages": [{ "value": "Invalid stream ID specified as stream command argument",
+                           "summary": "The ID must be in `<ms>-<seq>` form, `<ms>`, or one of the auto-generation markers (`*`, `*-N`)." }] }
         ]
       },
       "resp3": "same_as_resp2",
@@ -442,22 +477,27 @@
 
   "XRANGE": {
     "returns": {
-      "summary": "Stream entries within the specified ID range, in ascending ID order.",
+      "summary": "Stream entries within the specified ID range in ascending ID order, or an error when a range bound cannot be parsed.",
       "resp2": {
-        "type": "array",
-        "summary": "Stream entries within the specified ID range, in ascending ID order.",
-        "items": {
-          "type": "tuple",
-          "summary": "One stream entry: ID followed by its field/value pairs.",
-          "prefixItems": [
-            { "name": "id", "type": "bulk_string",
-              "summary": "Entry ID, in `<ms>-<seq>` form." },
-            { "name": "fields", "type": "kv_array",
-              "key_type": "bulk_string",
-              "value_type": { "type": "bulk_string" },
-              "summary": "Flat array of alternating field names and values, in insertion order." }
-          ]
-        }
+        "oneof": [
+          { "when": "success", "type": "array",
+            "summary": "Stream entries within the specified ID range, in ascending ID order.",
+            "items": {
+              "type": "tuple",
+              "summary": "One stream entry: ID followed by its field/value pairs.",
+              "prefixItems": [
+                { "name": "id", "type": "bulk_string",
+                  "summary": "Entry ID, in `<ms>-<seq>` form." },
+                { "name": "fields", "type": "kv_array",
+                  "key_type": "bulk_string",
+                  "value_type": { "type": "bulk_string" },
+                  "summary": "Flat array of alternating field names and values, in insertion order." }
+              ]
+            } },
+          { "when": "a range bound cannot be parsed", "type": "simple_error",
+            "messages": [{ "value": "Invalid stream ID specified as stream command argument",
+                           "summary": "Range bounds must be `-`, `+`, `<ms>-<seq>`, `<ms>`, or `(<id>` for exclusive bounds." }] }
+        ]
       },
       "resp3": "same_as_resp2",
       "examples": [

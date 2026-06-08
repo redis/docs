@@ -1,25 +1,24 @@
-{{- /*
-  Process return-info shortcodes in raw markdown content.
+{{- /* Process return-info shortcodes in raw markdown content (called
+       from `process-markdown-content.html` for the .md and .json output
+       paths).
 
-  Called from `process-markdown-content.html` before the multitabs
-  partial. Replaces every `{{< return-info >}}` tag with the contents
-  of the corresponding pre-rendered prose file under
-  `assets/returns-prose/<slug>.md`. The injected content contains a
-  `{{< multitabs >}}` block which is then expanded by the subsequent
-  multitabs partial in the same pipeline.
+       Replaces every `{{< return-info >}}` tag with the markdown body
+       rendered directly from the page's entry in
+       `data/commands_returns_<module>.json`. Single source of truth —
+       no intermediate file reads.
 
-  Input dict:
-    - RawContent: markdown body string
-    - Page:       current Hugo page (for the title → slug derivation)
+       Input dict:
+         RawContent: markdown body string
+         Page:       current Hugo page
 */ -}}
 
 {{- $content := .RawContent -}}
-{{- $title := .Page.Title -}}
-{{- $slug := $title | lower | replaceRE " " "-" -}}
-{{- $path := printf "assets/returns-prose/%s.md" $slug -}}
-{{- if fileExists $path -}}
-  {{- $body := readFile $path -}}
-  {{- /* The shortcode tag may appear with or without spaces. Match both. */ -}}
+{{- $page := .Page -}}
+{{- $entry := partial "returns-data.html" $page -}}
+
+{{- if $entry -}}
+  {{- $body := partial "returns/render-returns-md.html" (dict "returns" $entry.returns "cmd" $page.Title) -}}
   {{- $content = $content | replaceRE `\{\{<\s*return-info(\s+[^>]*)?\s*>\}\}` $body -}}
 {{- end -}}
+
 {{- return $content -}}

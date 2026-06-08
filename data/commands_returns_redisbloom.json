@@ -3,7 +3,7 @@
     "module": "redisbloom",
     "returns_format_version": "1",
     "scope_note": "Bloom filter (BF.*) and Cuckoo filter (CF.*) commands. All entries verified against Redis 8.2.1 + RedisBloom 8.2.0 via tools/resp_inspect.py.",
-    "universal_errors": "Per spec §6: `WRONGTYPE` if the key holds a value of an incompatible type, and module-not-loaded errors are not enumerated per command. Per-command operational errors (filter is full, item exists for BF.RESERVE, etc.) ARE enumerated where they're part of the documented contract."
+    "universal_errors": "Per spec §6, errors that apply uniformly across the command family are documented here rather than per command: `WRONGTYPE Operation against a key holding the wrong kind of value` (key holds a non-filter type), `ERR wrong number of arguments for '<cmd>' command` (arity mismatch), and module-not-loaded errors. Command-specific operational errors (such as `non scaling filter is full` for BF.ADD/BF.MADD or `item exists` for BF.RESERVE/CF.RESERVE) ARE enumerated per command."
   },
 
   "BF.RESERVE": {
@@ -32,11 +32,26 @@
 
   "BF.ADD": {
     "returns": {
-      "summary": "Whether the item was newly added to the filter.",
-      "resp2": { "type": "integer",
-                 "summary": "1 if the item was newly added; 0 if it was probably already present (Bloom filters may report false positives)." },
-      "resp3": { "type": "boolean",
-                 "summary": "true if the item was newly added; false if it was probably already present (Bloom filters may report false positives)." },
+      "summary": "Whether the item was newly added to the filter, or an error when the filter is full and not configured to scale.",
+      "resp2": {
+        "oneof": [
+          { "when": "success", "type": "integer",
+            "summary": "1 if the item was newly added; 0 if it was probably already present (Bloom filters may report false positives)." },
+          { "when": "filter is full and was created with NONSCALING",
+            "type": "simple_error",
+            "messages": [{ "value": "non scaling filter is full",
+                           "summary": "The filter was created with NONSCALING and has no room for further items." }] }
+        ]
+      },
+      "resp3": {
+        "oneof": [
+          { "when": "success", "type": "boolean",
+            "summary": "true if the item was newly added; false if it was probably already present (Bloom filters may report false positives)." },
+          { "when": "filter is full and was created with NONSCALING",
+            "type": "simple_error",
+            "messages": [{ "value": "non scaling filter is full" }] }
+        ]
+      },
       "examples": [
         { "label": "newly added",     "args": ["bf:demo", "item_a"], "resp2": 1, "resp3": true },
         { "label": "probably present","args": ["bf:demo", "item_a"], "resp2": 0, "resp3": false }
@@ -47,18 +62,28 @@
 
   "BF.MADD": {
     "returns": {
-      "summary": "Per-item add results, one per requested item, in the same order as the request.",
+      "summary": "Per-item add results, in request order, or an error when the filter is full and not configured to scale.",
       "resp2": {
-        "type": "array",
-        "summary": "Per-item add results, in request order.",
-        "items": { "type": "integer",
-                   "summary": "1 if newly added, 0 if probably already present." }
+        "oneof": [
+          { "when": "success", "type": "array",
+            "summary": "Per-item add results, in request order.",
+            "items": { "type": "integer",
+                       "summary": "1 if newly added, 0 if probably already present." } },
+          { "when": "filter is full and was created with NONSCALING",
+            "type": "simple_error",
+            "messages": [{ "value": "non scaling filter is full" }] }
+        ]
       },
       "resp3": {
-        "type": "array",
-        "summary": "Per-item add results, in request order.",
-        "items": { "type": "boolean",
-                   "summary": "true if newly added, false if probably already present." }
+        "oneof": [
+          { "when": "success", "type": "array",
+            "summary": "Per-item add results, in request order.",
+            "items": { "type": "boolean",
+                       "summary": "true if newly added, false if probably already present." } },
+          { "when": "filter is full and was created with NONSCALING",
+            "type": "simple_error",
+            "messages": [{ "value": "non scaling filter is full" }] }
+        ]
       },
       "examples": [
         { "label": "three new items", "args": ["bf:demo", "x", "y", "z"],
@@ -180,11 +205,26 @@
 
   "CF.ADD": {
     "returns": {
-      "summary": "Whether the item was added to the Cuckoo filter.",
-      "resp2": { "type": "integer",
-                 "summary": "1 if added successfully. The Cuckoo filter may report failures if it cannot find space; in practice this manifests as an error rather than 0." },
-      "resp3": { "type": "boolean",
-                 "summary": "true if added successfully." },
+      "summary": "Whether the item was added to the Cuckoo filter, or an error when the filter is full and cannot accommodate further items.",
+      "resp2": {
+        "oneof": [
+          { "when": "success", "type": "integer",
+            "summary": "1 if added successfully." },
+          { "when": "filter has no space and cannot expand within MAXITERATIONS",
+            "type": "simple_error",
+            "messages": [{ "value": "Filter is full",
+                           "summary": "Cuckoo filter could not find a slot for the item within its `MAXITERATIONS` budget. Either the filter is genuinely full (with `EXPANSION 0`) or contention is high." }] }
+        ]
+      },
+      "resp3": {
+        "oneof": [
+          { "when": "success", "type": "boolean",
+            "summary": "true if added successfully." },
+          { "when": "filter has no space and cannot expand within MAXITERATIONS",
+            "type": "simple_error",
+            "messages": [{ "value": "Filter is full" }] }
+        ]
+      },
       "examples": [
         { "label": "added", "args": ["cf:demo", "item_a"], "resp2": 1, "resp3": true }
       ]

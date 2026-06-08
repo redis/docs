@@ -1,0 +1,86 @@
+{{- /* Render a ReplySpec to markdown.
+
+       Input dict:
+         node:    the ReplySpec dict (a oneof, typed node, or $ref)
+         proto:   "2" or "3"
+
+       Returns: multi-line markdown string. No leading indent on first line.
+                Nested expansion uses two-space sub-indent.
+
+       Companion partials:
+         - returns/render-branch.html
+         - returns/render-items.html
+         - returns/render-tuple.html
+         - returns/render-fields.html
+*/ -}}
+{{- $node := .node -}}
+{{- $proto := .proto -}}
+{{- $out := "" -}}
+
+{{- $oneof := index $node "oneof" -}}
+{{- if $oneof -}}
+  {{- $out = "One of the following:\n" -}}
+  {{- range $branch := $oneof -}}
+    {{- $b := partial "returns/render-branch.html" (dict "node" $branch "proto" $proto) -}}
+    {{- $out = printf "%s%s\n" $out $b -}}
+  {{- end -}}
+{{- else -}}
+  {{- $type := $node.type -}}
+  {{- if $type -}}
+    {{- $link := partial "returns/type-link.html" (dict "type" $type "proto" $proto) -}}
+    {{- $summary := $node.summary | default "" -}}
+    {{- $value := index $node "value" -}}
+
+    {{- if eq $type "null" -}}
+      {{- $out = printf "%s.\n" $link -}}
+    {{- else if and (eq $type "simple_string") $value -}}
+      {{- $line := printf "%s: `%s`." $link $value -}}
+      {{- if $summary -}}{{- $line = printf "%s %s" $line $summary -}}{{- end -}}
+      {{- $out = printf "%s\n" $line -}}
+    {{- else -}}
+      {{- /* Default leaf line: link + (optional) summary */ -}}
+      {{- if $summary -}}
+        {{- $out = printf "%s: %s\n" $link $summary -}}
+      {{- else -}}
+        {{- $out = printf "%s.\n" $link -}}
+      {{- end -}}
+
+      {{- /* Container expansion */ -}}
+      {{- if or (eq $type "array") (eq $type "set") -}}
+        {{- with $node.items -}}
+          {{- $sub := partial "returns/render-items.html" (dict "items" . "proto" $proto "indent" "  ") -}}
+          {{- $out = printf "%s%s" $out $sub -}}
+        {{- end -}}
+      {{- else if eq $type "tuple" -}}
+        {{- $sub := partial "returns/render-tuple.html" (dict "node" $node "proto" $proto "indent" "  ") -}}
+        {{- $out = printf "%s%s" $out $sub -}}
+      {{- else if or (eq $type "map") (eq $type "kv_array") -}}
+        {{- with $node.fields -}}
+          {{- $sub := partial "returns/render-fields.html" (dict "fields" . "proto" $proto "indent" "  ") -}}
+          {{- $out = printf "%s%s" $out $sub -}}
+        {{- end -}}
+      {{- end -}}
+
+      {{- /* simple_error / bulk_error: append messages list */ -}}
+      {{- if or (eq $type "simple_error") (eq $type "bulk_error") -}}
+        {{- $msgs := index $node "messages" -}}
+        {{- if $msgs -}}
+          {{- $msgList := "" -}}
+          {{- range $i, $m := $msgs -}}
+            {{- $val := "" -}}
+            {{- if (eq (printf "%T" $m) "string") -}}
+              {{- $val = $m -}}
+            {{- else -}}
+              {{- $val = index $m "value" | default "" -}}
+            {{- end -}}
+            {{- if gt $i 0 -}}{{- $msgList = printf "%s; " $msgList -}}{{- end -}}
+            {{- $msgList = printf "%s%s" $msgList $val -}}
+          {{- end -}}
+          {{- $out = printf "%sCases: %s.\n" $out $msgList -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $out -}}

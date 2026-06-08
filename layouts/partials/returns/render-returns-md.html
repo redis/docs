@@ -1,0 +1,51 @@
+{{- /* Render a full `returns` block as the markdown body used in the
+       `## Return information` section for the .md and .json AI-facing
+       outputs.
+
+       Input dict:
+         returns: the returns block (with resp2, resp3, optional examples)
+         cmd:     command name (used in examples)
+
+       Returns: markdown body, no leading or trailing newline.
+       Structure:
+         **RESP2:**
+
+         <rendered resp2 spec>
+
+         **RESP3:**
+
+         <rendered resp3 spec>
+
+         **Examples:**
+
+         <rendered examples>
+*/ -}}
+{{- $returns := .returns -}}
+{{- $cmd := .cmd -}}
+
+{{- /* Resolve same_as_* for each protocol */ -}}
+{{- $resp2 := index $returns "resp2" -}}
+{{- $resp3 := index $returns "resp3" -}}
+{{- if eq (printf "%T" $resp2) "string" -}}
+  {{- if eq $resp2 "same_as_resp3" -}}{{- $resp2 = $resp3 -}}{{- end -}}
+{{- end -}}
+{{- if eq (printf "%T" $resp3) "string" -}}
+  {{- if eq $resp3 "same_as_resp2" -}}{{- $resp3 = (index $returns "resp2") -}}{{- end -}}
+{{- end -}}
+
+{{- $resp2md := partial "returns/render-spec.html" (dict "node" $resp2 "proto" "2") -}}
+{{- $resp3md := partial "returns/render-spec.html" (dict "node" $resp3 "proto" "3") -}}
+
+{{- $out := "**RESP2:**\n\n" -}}
+{{- $out = printf "%s%s\n" $out (strings.TrimSuffix "\n" $resp2md) -}}
+{{- $out = printf "%s\n**RESP3:**\n\n" $out -}}
+{{- $out = printf "%s%s\n" $out (strings.TrimSuffix "\n" $resp3md) -}}
+
+{{- with index $returns "examples" -}}
+  {{- $exmd := partial "returns/render-examples.html" (dict "examples" . "cmd" $cmd) -}}
+  {{- if $exmd -}}
+    {{- $out = printf "%s\n%s" $out (strings.TrimSuffix "\n" $exmd) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $out -}}

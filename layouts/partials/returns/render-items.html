@@ -1,0 +1,40 @@
+{{- /* Render an array's items spec as a sub-bullet ("- Each item: …").
+       Recurses for nested containers.
+
+       Input dict:
+         items:   the items ReplySpec
+         proto:   "2" or "3"
+         indent:  current indent (e.g. "  ")
+
+       Returns: markdown lines, indented appropriately, with trailing newline.
+*/ -}}
+{{- $items := .items -}}
+{{- $proto := .proto -}}
+{{- $indent := .indent | default "" -}}
+
+{{- $type := $items.type -}}
+{{- $summary := index $items "summary" | default "" -}}
+{{- $link := partial "returns/type-link.html" (dict "type" $type "proto" $proto) -}}
+
+{{- $head := printf "%s- Each item: %s" $indent $link -}}
+{{- if $summary -}}
+  {{- $head = printf "%s — %s" $head $summary -}}
+{{- end -}}
+{{- $out := printf "%s\n" $head -}}
+
+{{- if eq $type "tuple" -}}
+  {{- $sub := partial "returns/render-tuple.html" (dict "node" $items "proto" $proto "indent" (printf "%s  " $indent)) -}}
+  {{- $out = printf "%s%s" $out $sub -}}
+{{- else if eq $type "array" -}}
+  {{- with $items.items -}}
+    {{- $sub := partial "returns/render-items.html" (dict "items" . "proto" $proto "indent" (printf "%s  " $indent)) -}}
+    {{- $out = printf "%s%s" $out $sub -}}
+  {{- end -}}
+{{- else if or (eq $type "map") (eq $type "kv_array") -}}
+  {{- with $items.fields -}}
+    {{- $sub := partial "returns/render-fields.html" (dict "fields" . "proto" $proto "indent" (printf "%s  " $indent)) -}}
+    {{- $out = printf "%s%s" $out $sub -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $out -}}

@@ -1,0 +1,45 @@
+{{- /* Render the `examples` list as a markdown bullet list.
+
+       Input dict:
+         examples: list of example dicts (label, args, resp2, optional resp3, optional note)
+         cmd:      command name string
+
+       Returns: markdown string. Empty if there are no examples.
+*/ -}}
+{{- $examples := .examples -}}
+{{- $cmd := .cmd -}}
+{{- $out := "" -}}
+
+{{- if $examples -}}
+  {{- $out = "**Examples:**\n\n" -}}
+  {{- range $ex := $examples -}}
+    {{- $label := index $ex "label" | default "" -}}
+    {{- $args := index $ex "args" | default (slice) -}}
+    {{- $argsStr := delimit $args " " -}}
+    {{- $head := printf "`%s %s`" $cmd $argsStr -}}
+    {{- $head = strings.TrimSpace $head -}}
+    {{- if $label -}}
+      {{- $head = printf "%s _(%s)_" $head $label -}}
+    {{- end -}}
+    {{- $out = printf "%s- %s\n" $out $head -}}
+
+    {{- /* Strict JSON-serialised comparison so `0 != false`, `1 != true` */ -}}
+    {{- $r2json := (index $ex "resp2") | jsonify -}}
+    {{- $r3json := "" -}}
+    {{- if (isset $ex "resp3") -}}
+      {{- $r3json = (index $ex "resp3") | jsonify -}}
+    {{- end -}}
+    {{- if and $r3json (ne $r3json $r2json) -}}
+      {{- $out = printf "%s  - RESP2: `%s`\n" $out $r2json -}}
+      {{- $out = printf "%s  - RESP3: `%s`\n" $out $r3json -}}
+    {{- else -}}
+      {{- $out = printf "%s  - Reply: `%s`\n" $out $r2json -}}
+    {{- end -}}
+
+    {{- with index $ex "note" -}}
+      {{- $out = printf "%s  - Note: %s\n" $out . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $out -}}
