@@ -1,5 +1,8 @@
 ---
 Title: Data Integration
+aliases:
+    - /operate/rc/databases/rdi/
+    - /operate/rc/databases/rdi
 alwaysopen: false
 categories:
 - docs
@@ -7,7 +10,7 @@ categories:
 - rc
 description: Use Redis Data Integration with Redis Cloud.
 hideListLinks: true
-weight: 99
+weight: 38
 tocEmbedHeaders: true
 ---
 
@@ -51,13 +54,13 @@ RDI is a good fit when:
 - Your app can tolerate *eventual* consistency of data in the Redis cache.
 - You want a self-managed solution or AWS based solution.
 - The source data changes frequently in small increments.
-- The source database has no more than 10K changes per second.
+- The source database has no more than 20K changes per second.
 - RDI throughput during [full sync]({{< relref "/integrate/redis-data-integration/data-pipelines#pipeline-lifecycle" >}})
-  stays below 30K records per second, assuming an average record size of 1KB and a pipeline without transformations.
+  stays below 60K records per second, assuming an average record size of 1KB and a pipeline without transformations.
 - RDI throughput during [CDC]({{< relref "/integrate/redis-data-integration/data-pipelines#pipeline-lifecycle" >}})
-  stays below 10K records per second, assuming an average record size of 1KB and a pipeline without transformations.
-- The total data size is no larger than 100GB, so a full sync completes in under an hour without exceeding the throughput
-  limits above.
+  stays below 20K records per second, assuming an average record size of 1KB and a pipeline without transformations.
+- The total data size is no larger than 200GB, so a full sync completes in under an hour without exceeding the throughput
+  limits above. RDI can ingest larger datasets, but it will take longer than an hour.
 - You don’t need to perform join operations on the data from several tables
   into a [nested Redis JSON object]({{< relref "/integrate/redis-data-integration/data-pipelines/data-denormalization#joining-one-to-many-relationships" >}}).
 - RDI supports the [data transformations]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) you need for your app.
@@ -94,9 +97,9 @@ For more info on how RDI works, see [RDI Architecture]({{<relref "/integrate/red
 
 ### Pipeline security
 
-Data pipelines are set up to ensure a high level of data security. Source database credentials and TLS secrets are stored in AWS secret manager and shared using the Kubernetes CSI driver for secrets. See [Share source database credentials]({{<relref "/operate/rc/databases/rdi/setup#share-source-database-credentials">}}) to learn how to share your source database credentials and TLS certificates with Redis Cloud.
+Data pipelines are set up to ensure a high level of data security. Source database credentials and TLS secrets are stored in AWS secret manager and shared using the Kubernetes CSI driver for secrets. See [Share source database credentials]({{<relref "/operate/rc/rdi/setup#share-source-database-credentials">}}) to learn how to share your source database credentials and TLS certificates with Redis Cloud.
 
-Connections to the source database use Java Database Connectivity (JDBC) through [AWS PrivateLink](https://aws.amazon.com/privatelink/), ensuring that the data pipeline is only exposed to the specific database endpoint. See [Set up connectivity]({{<relref "/operate/rc/databases/rdi/setup#set-up-connectivity">}}) to learn how to connect your PrivateLink to the Redis Cloud VPC.
+Connections to the source database use Java Database Connectivity (JDBC) through [AWS PrivateLink](https://aws.amazon.com/privatelink/), ensuring that the data pipeline is only exposed to the specific database endpoint. See [Set up connectivity]({{<relref "/operate/rc/rdi/setup#set-up-connectivity">}}) to learn how to connect your PrivateLink to the Redis Cloud VPC.
 
 RDI encrypts all network connections with TLS. The pipeline will process data from the source database in-memory and write it to the target database using a TLS connection. There are no external connections to your data pipeline except from Redis Cloud management services.
 
@@ -105,7 +108,7 @@ RDI encrypts all network connections with TLS. The pipeline will process data fr
 Before you can create a data pipeline, you must have:
 
 - A [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) hosted on Amazon Web Services (AWS). This will be the target database.
-- One supported source database, hosted on an AWS EC2 instance, AWS RDS, or AWS Aurora:
+- One supported source database that is publicly accessible or hosted on an AWS EC2 instance, AWS RDS, or AWS Aurora:
 
 | Database | Versions | AWS RDS  Versions |
 |:---|:---|:---|
@@ -115,6 +118,9 @@ Before you can create a data pipeline, you must have:
 | PostgreSQL | 10, 11, 12, 13, 14, 15, 16 | 11, 12, 13, 14, 15, 16 |
 | AWS Aurora PostgreSQL | 15 | 15 |
 | SQL Server | 2017, 2019, 2022 | 2016, 2017, 2019, 2022 |
+| MongoDB | 6.0, 7.0, 8.0 | - |
+| MongoDB Atlas | 6.0, 7.0, 8.0 | - |
+| Snowflake | - | - |
 
 
 {{< note >}}
@@ -123,21 +129,21 @@ Please be aware of the following limitations:
 - The target database must be a Redis Cloud Pro database hosted on Amazon Web Services (AWS). Redis Cloud Essentials databases and databases hosted on Google Cloud do not support Data Integration.
 - The target database must use [high availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}). It can use either single-zone or multi-zone high availability.
 - The target database can use TLS, but can not use mutual TLS.
-- The target database cannot be in the same subscription as another database that has a data pipeline.
-- Source databases must also be hosted on AWS.
+- If your source database is not publicly accessible, or if it is a MongoDB Atlas or Snowflake database, it must be hosted on AWS.
 - You must use a [custom encryption key on AWS](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) to create the instance hosting the database.
 - One source database can only be synced to one target database.
-- You must be able to set up AWS PrivateLink to connect your source database to your target database. RDI only works with AWS PrivateLink and not VPC Peering or other private connectivity options.
+- If the source database is not publicly accessible, you must be able to set up AWS PrivateLink to connect your source database to your target database. RDI only works with AWS PrivateLink and not VPC Peering or other private connectivity options.
 - Mutual TLS is not supported for AWS RDS and AWS Aurora source databases.
 {{< /note >}} 
 
 ## Get started
 
-To get started fast with RDI on Redis Cloud, see the [RDI Cloud quick start]({{<relref "operate/rc/databases/rdi/quick-start">}}) to create a data pipeline between a PostgreSQL source database and a Redis Cloud target database.
+To get started fast with RDI on Redis Cloud, see the [RDI Cloud quick start]({{<relref "operate/rc/rdi/quick-start">}}) to create a data pipeline between a PostgreSQL source database and a Redis Cloud target database.
 
 To create a new data pipeline, you need to:
 
-1. [Prepare your source database]({{<relref "/operate/rc/databases/rdi/setup">}}) and any associated credentials.
-2. [Define the source connection and data pipeline]({{<relref "/operate/rc/databases/rdi/define">}}) by selecting which tables to sync.
+1. [Create a Data Integration workspace]({{<relref "/operate/rc/rdi/create-workspace">}}) for your Pro subscription.
+1. [Prepare your source database]({{<relref "/operate/rc/rdi/setup">}}) and any associated credentials.
+1. [Define the source connection and data pipeline]({{<relref "/operate/rc/rdi/define">}}) by selecting which tables to sync.
 
-Once your data pipeline is defined, you can [view and edit]({{<relref "/operate/rc/databases/rdi/view-edit">}}) it.
+Once your data pipeline is defined, you can [view and edit]({{<relref "/operate/rc/rdi/view-edit">}}) it.

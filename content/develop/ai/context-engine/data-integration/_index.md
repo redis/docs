@@ -13,7 +13,7 @@ weight: 40
 
 Redis Data Integration (RDI) is a fully-managed data pipeline service that keeps your Redis Cloud database in sync with your existing relational databases in near real time. By streaming live data from your primary databases into Redis, RDI ensures that AI agents always have access to accurate, up-to-date business data without querying slow source databases directly.
 
-[Get started](#get-started) with RDI on [Redis Cloud]({{< relref "/operate/rc/databases/rdi" >}}) or explore the full [Redis Data Integration documentation]({{< relref "/integrate/redis-data-integration" >}}).
+[Get started](#get-started) with RDI on [Redis Cloud]({{< relref "/operate/rc/rdi" >}}) or explore the full [Redis Data Integration documentation]({{< relref "/integrate/redis-data-integration" >}}).
 
 ## Redis Data Integration overview
 
@@ -62,11 +62,11 @@ RDI on Redis Cloud is available in preview for Redis Cloud Pro databases hosted 
 
 To get started:
 
-1. [Prepare your source database]({{< relref "/operate/rc/databases/rdi/setup" >}}) and configure credentials and connectivity.
-2. [Define your data pipeline]({{< relref "/operate/rc/databases/rdi/define" >}}) by selecting which tables to sync and how to map them.
-3. [View and manage your pipeline]({{< relref "/operate/rc/databases/rdi/view-edit" >}}) once it's running.
+1. [Prepare your source database]({{< relref "/operate/rc/rdi/setup" >}}) and configure credentials and connectivity.
+2. [Define your data pipeline]({{< relref "/operate/rc/rdi/define" >}}) by selecting which tables to sync and how to map them.
+3. [View and manage your pipeline]({{< relref "/operate/rc/rdi/view-edit" >}}) once it's running.
 
-See the [RDI Cloud quick start]({{< relref "/operate/rc/databases/rdi/quick-start" >}}) to get up and running quickly with a PostgreSQL source database.
+See the [RDI Cloud quick start]({{< relref "/operate/rc/rdi/quick-start" >}}) to get up and running quickly with a PostgreSQL source database.
 
 -tab-sep-
 
