@@ -23,7 +23,7 @@ Connect applications to your Redis Enterprise databases:
 
 Choose the appropriate method for your environment to enable external access:
 
-- [Ingress routing]({{< relref "/operate/kubernetes/networking/ingress" >}}) - Use NGINX or HAProxy ingress controllers with `ingress` API resources
+- [Ingress routing]({{< relref "/operate/kubernetes/networking/ingress" >}}) - Use HAProxy ingress controller with `ingress` API resources (the community NGINX ingress controller is retired)
 - [Istio ingress routing]({{< relref "/operate/kubernetes/networking/istio-ingress" >}}) - Use Istio service mesh with `Gateway` and `VirtualService` API resources
 - [OpenShift routes]({{< relref "/operate/kubernetes/networking/routes" >}}) - Use OpenShift-specific route resources for external traffic
 
