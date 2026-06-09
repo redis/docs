@@ -135,7 +135,15 @@ class ConversationalAgent {
       embedding, // stored as JSON array of floats, required for JSON vector index
     });
 
-    // Track insertion order for recent-turn retrieval
+    // Track insertion order for recent-turn retrieval.
+    // Before trimming, collect any keys that will be evicted and delete their documents
+    // so message JSON and embeddings don't accumulate in Redis indefinitely.
+    const listLen = await this.redisClient.lLen(RECENT_KEY(this.sessionName));
+    const evictCount = listLen - (RECENT_WINDOW * 2 - 1); // -1 because we haven't pushed yet
+    if (evictCount > 0) {
+      const toEvict = await this.redisClient.lRange(RECENT_KEY(this.sessionName), 0, evictCount - 1);
+      if (toEvict.length) await this.redisClient.del(toEvict);
+    }
     await this.redisClient.rPush(RECENT_KEY(this.sessionName), key);
     await this.redisClient.lTrim(RECENT_KEY(this.sessionName), -RECENT_WINDOW * 2, -1);
   }
@@ -176,11 +184,14 @@ class ConversationalAgent {
       this._getSemanticMessages(userInput).catch(() => []),
     ]);
 
-    // Deduplicate by key, preserving recent turns first
+    // Deduplicate by key, then sort chronologically — keys encode timestamp so
+    // lexicographic order preserves insertion time across both result sets.
     const seen = new Set(recent.map((m) => m._key));
     const extra = semantic.filter((m) => !seen.has(m._key));
 
-    return [...recent, ...extra].map(({ role, content }) => ({ role, content }));
+    return [...recent, ...extra]
+      .sort((a, b) => (a._key < b._key ? -1 : a._key > b._key ? 1 : 0))
+      .map(({ role, content }) => ({ role, content }));
   }
 
   async chat(userInput) {

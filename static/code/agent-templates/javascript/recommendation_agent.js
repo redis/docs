@@ -207,9 +207,9 @@ class RecommendationAgent {
 
     console.log(`Processed ${merged.length} movies`);
 
-    // Drop existing index if present.
+    // Drop existing index and its documents so stale movie keys don't survive the reload.
     const indexExists = await this.redisClient.ft.info(INDEX_NAME).then(() => true).catch(() => false);
-    if (indexExists) await this.redisClient.ft.dropIndex(INDEX_NAME);
+    if (indexExists) await this.redisClient.ft.dropIndex(INDEX_NAME, { DD: true });
 
     await this.redisClient.ft.create(
       INDEX_NAME,
@@ -278,8 +278,13 @@ Return only valid JSON with no explanation or markdown.`;
     if (params.minReviews)    filterParts.push(`@ratingCount:[${params.minReviews} +inf]`);
     if (params.revenueFilter) filterParts.push(`@revenue:[${CONFIG.minRevenueFilter} +inf]`);
     if (params.genres?.length) {
-      // Redis TAG filter: match any of the requested genres
-      const tagList = params.genres.map((g) => g.replace(/[^a-zA-Z0-9 ]/g, '')).join('|');
+      // Redis TAG filter: match any of the requested genres.
+      // Spaces inside multi-word tags (e.g. "Science Fiction") must be backslash-escaped
+      // so RediSearch treats them as a single token rather than two separate terms.
+      const tagList = params.genres
+        .map((g) => g.replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/ +/g, '\\ '))
+        .filter(Boolean)
+        .join('|');
       if (tagList) filterParts.push(`@genres:{${tagList}}`);
     }
 

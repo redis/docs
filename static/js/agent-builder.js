@@ -490,7 +490,11 @@
             }
         }
 
-        if (selectedModel) {
+        const allowedModels = getModelChips(conversationState.selections.programmingLanguage).map(m => m.value);
+        if (selectedModel && !allowedModels.includes(selectedModel)) {
+            addMessage("Anthropic isn't supported for JavaScript — its API isn't OpenAI-compatible. Please choose from:", 'bot',
+                getModelChips(conversationState.selections.programmingLanguage));
+        } else if (selectedModel) {
             conversationState.selections.llmModel = selectedModel;
             const config = CONFIG.models[selectedModel];
 
