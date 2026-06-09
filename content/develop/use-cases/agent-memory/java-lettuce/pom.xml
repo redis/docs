@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.redis</groupId>
+  <artifactId>agent-memory-lettuce</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+
+  <name>Redis Agent Memory Demo (Lettuce)</name>
+  <description>
+    Interactive agent-memory demo backed by Redis Hashes, JSON,
+    Search, and Streams, using Lettuce for Redis access and DJL
+    (PyTorch) for local sentence embeddings.
+  </description>
+
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <lettuce.version>6.7.1.RELEASE</lettuce.version>
+    <djl.version>0.33.0</djl.version>
+    <json.version>20240303</json.version>
+  </properties>
+
+  <dependencies>
+    <!-- Redis client -->
+    <dependency>
+      <groupId>io.lettuce</groupId>
+      <artifactId>lettuce-core</artifactId>
+      <version>${lettuce.version}</version>
+    </dependency>
+
+    <!-- DJL (PyTorch) for sentence-transformers/all-MiniLM-L6-v2.
+         Mirrors the existing Lettuce vector-search docs example. -->
+    <dependency>
+      <groupId>ai.djl</groupId>
+      <artifactId>api</artifactId>
+      <version>${djl.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ai.djl.huggingface</groupId>
+      <artifactId>tokenizers</artifactId>
+      <version>${djl.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ai.djl.pytorch</groupId>
+      <artifactId>pytorch-model-zoo</artifactId>
+      <version>${djl.version}</version>
+    </dependency>
+
+    <!-- Lightweight JSON for HTTP responses and JSON document
+         payloads. -->
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>${json.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>agent-memory-lettuce</finalName>
+    <!--
+      index.html lives at the project root next to pom.xml so it sits
+      alongside the equivalent file in the sibling Node.js, Go, and
+      Jedis demos, but the JAR needs it on the classpath so the demo
+      runs from any working directory. This resource entry copies the
+      file into target/classes/ at build time without requiring a
+      second copy under src/main/resources/.
+    -->
+    <resources>
+      <resource>
+        <directory>${project.basedir}</directory>
+        <includes>
+          <include>index.html</include>
+        </includes>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <release>17</release>
+        </configuration>
+      </plugin>
+      <!-- Produce a fat jar so `java -jar target/agent-memory-lettuce.jar`
+           runs without juggling a classpath. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.5.3</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals><goal>shade</goal></goals>
+            <configuration>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
+              <transformers>
+                <transformer
+                  implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>com.redis.agentmem.DemoServer</mainClass>
+                </transformer>
+                <transformer
+                  implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+              </transformers>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.5.0</version>
+        <configuration>
+          <mainClass>com.redis.agentmem.DemoServer</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
