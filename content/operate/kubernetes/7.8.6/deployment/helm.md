@@ -55,15 +55,41 @@ To monitor the installation add the `--debug` flag. The installation runs severa
 
 ### Install from local directory
 
+If you need a local copy of the chart, for example to inspect it or customize values, use one of the following methods.
+
+**Pull the packaged chart (recommended).** `helm pull` fetches the exact packaged chart the Helm repository serves for the version you specify, matching what `helm install` from the repository would deploy.
+
+1. Add the Redis repository, if you haven't already.
+
+   ```sh
+   helm repo add <repo-name> https://helm.redis.io
+   ```
+
+2. Pull and unpack the chart. This creates a `redis-enterprise-operator` directory in your current location.
+
+   ```sh
+   helm pull <repo-name>/redis-enterprise-operator --version <chart-version> --untar
+   ```
+
+3. Install the Helm chart from the local directory.
+
+   ```sh
+   helm install <release-name> ./redis-enterprise-operator \
+       --namespace <namespace-name> \
+       --create-namespace
+   ```
+
+**Download the source code.** Alternatively, download the chart source from GitHub.
+
 1. Find the latest release on the [redis-enterprise-k8s-docs](https://github.com/RedisLabs/redis-enterprise-k8s-docs/releases) repo and download the `tar.gz` source code into a local directory.
 
 2. Install the Helm chart from your local directory.
 
-```sh
-helm install <release-name> <path-to-chart> \
-    --namespace <namespace-name> \
-    --create-namespace
-```
+   ```sh
+   helm install <release-name> <path-to-chart> \
+       --namespace <namespace-name> \
+       --create-namespace
+   ```
 
 To install with Openshift, add `--set openshift.mode=true`.
 
