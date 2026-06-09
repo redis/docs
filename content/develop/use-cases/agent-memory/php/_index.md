@@ -1,0 +1,379 @@
+---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+description: Build a Redis-backed agent memory layer in PHP with Predis, TransformersPHP, and standard Redis commands — working memory in a Hash, long-term semantic recall as JSON with a vector index, and an event log in a Stream.
+linkTitle: Predis example (PHP)
+title: Redis agent memory with Predis
+weight: 8
+---
+
+This guide shows you how to build a small Redis-backed agent memory layer in PHP with [Predis]({{< relref "/develop/clients/php" >}}) and the [TransformersPHP](https://transformers.codewithkyrian.com/) library, using only standard Redis commands — no agent-memory SDK, no managed service. It includes a local web server built on PHP's `stream_socket_server` so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
+
+The embedder is [TransformersPHP](https://transformers.codewithkyrian.com/) running the ONNX-exported [`Xenova/all-MiniLM-L6-v2`](https://huggingface.co/Xenova/all-MiniLM-L6-v2) model through ONNX Runtime via FFI, which is the same encoder the [Python example]({{< relref "/develop/use-cases/agent-memory/redis-py" >}}) uses. Embeddings produced by the two implementations are numerically very close — paraphrase distances drift by less than 0.02 — so a memory written by one demo can be recalled by the other against the same Redis instance, and the distance bands the Python walkthrough quotes carry over to this one without recalibration. One quirk worth flagging up front: TransformersPHP 0.6 accepts a `normalize: true` keyword on the `feature-extraction` / `embeddings` pipeline but silently returns un-normalized vectors anyway, so the `Embedder` wrapper L2-normalizes in PHP code before handing the vector to recall or dedup — see [Embedder.php](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/php/src/Embedder.php) for the workaround.
+
+## Overview
+
+The memory layer splits across three Redis primitives, each handling one tier:
+
+* **Working memory** for the active session is a [Hash]({{< relref "/develop/data-types/hashes" >}}) at `agent:session:<thread_id>` holding the goal, scratchpad, a rolling window of recent turns (as a JSON list inside one field), and a few audit timestamps. One [`HGETALL`]({{< relref "/commands/hgetall" >}}) returns the whole session in a single round trip; every write refreshes the key's [`EXPIRE`]({{< relref "/commands/expire" >}}) so idle sessions decay on their own.
+* **Long-term memory** is a set of [JSON]({{< relref "/develop/data-types/json" >}}) documents at `agent:mem:<id>`, each carrying the memory text, a 384-dimensional embedding vector, and tag fields for user, namespace, kind (episodic / semantic), and source thread. A single [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) index covers the [HNSW vector field]({{< relref "/develop/ai/search-and-query/vectors" >}}) and every metadata field, so one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call performs the KNN with the metadata pre-filter in the same round trip. Write-time deduplication runs the same KNN at insert time and skips a new memory whose nearest existing entry is within a tighter threshold.
+* **Event log** for the agent's actions and observations is a [Stream]({{< relref "/develop/data-types/streams" >}}) at `agent:events:<thread_id>`, appended with [`XADD MAXLEN ~`]({{< relref "/commands/xadd" >}}) so retention stays bounded automatically, replayed with [`XREVRANGE`]({{< relref "/commands/xrevrange" >}}).
+
+That gives you:
+
+* A single round trip per tier: one [`HGETALL`]({{< relref "/commands/hgetall" >}}) for the session, one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) for recall, one [`XADD`]({{< relref "/commands/xadd" >}}) for the event log. ([`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) itself is one round trip; the helper also issues one [`TTL`]({{< relref "/commands/ttl" >}}) call per returned row to populate `ttl_seconds` for the admin panel.)
+* Sub-millisecond reads on every step of the agent loop, so the memory layer doesn't dominate per-step latency.
+* Per-tier decay: short TTLs on working memory, longer on episodic memories, no TTL on semantic memories. Combined with a database-level [eviction policy]({{< relref "/develop/reference/eviction" >}}) (LFU is the common choice), memory stays bounded under pressure.
+* Scoping enforced inside the query: a recall query for `user=alice` will never see `user=bob`'s memories, because the TAG filter goes into the same [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call as the KNN.
+
+## How it works
+
+Each turn through the agent loop touches all three tiers in one pass: append to working memory, recall similar long-term memories, write the turn back as a new memory (with deduplication), and append one event to the log.
+
+### Per-turn flow
+
+1. The application calls `$embedder->encodeOne($text)` to turn the incoming turn into a 384-element `array` of floats, L2-normalized in PHP code (see the TransformersPHP normalization quirk noted above).
+2. `$session->appendTurn($threadId, role: ..., content: ...)` reads the per-thread Hash with [`HGETALL`]({{< relref "/commands/hgetall" >}}), appends the new turn to the rolling window in application code, trims it back to the configured maximum, and writes the Hash back with [`HSET`]({{< relref "/commands/hset" >}}) + [`EXPIRE`]({{< relref "/commands/expire" >}}) inside a [`MULTI/EXEC`]({{< relref "/commands/multi" >}}). The session TTL refreshes on every write so an active thread stays alive.
+3. `$memory->recall(queryEmbedding: $vec, user: ..., namespace: ..., k: 5)` runs [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) with a TAG pre-filter and a `KNN 5` clause. Redis returns the closest matching memories together with their cosine distances; memories beyond the recall threshold are dropped before they reach the agent so an unrelated query doesn't surface confident-looking false positives.
+4. `$memory->remember(text: ..., embedding: $vec, user: ..., namespace: ..., kind: ...)` runs the same KNN with a tighter dedup threshold. If an existing memory is within the threshold, the new write is skipped and the existing memory's `hit_count` is incremented with [`JSON.NUMINCRBY`]({{< relref "/commands/json.numincrby" >}}); otherwise a fresh JSON document is written with [`JSON.SET`]({{< relref "/commands/json.set" >}}) and a per-kind [`EXPIRE`]({{< relref "/commands/expire" >}}) — `episodic` defaults to seven days, `semantic` has no TTL by default.
+5. `$eventLog->record($threadId, $action, $detail)` appends one entry to the per-thread Stream with [`XADD MAXLEN ~`]({{< relref "/commands/xadd" >}}), bounding retention to roughly a thousand entries per thread without an explicit cleanup job.
+
+The embedding is computed once and reused for steps 3 and 4 — there's no point encoding the same text twice. Recall runs before the write, so the agent doesn't see its own just-written turn echoed back as a recalled memory.
+
+## The session store
+
+`AgentSession` wraps the working-memory Hash and the rolling turn window ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/php/src/AgentSession.php)):
+
+```php
+<?php
+
+use Predis\Client;
+use Redis\AgentMemory\AgentSession;
+
+$client = new Client(['scheme' => 'tcp', 'host' => 'localhost', 'port' => 6379]);
+$session = new AgentSession(
+    client: $client,
+    keyPrefix: 'agent:session:',
+    defaultTtlSeconds: 3600,  // one hour
+    maxTurns: 20,             // rolling window per thread
+);
+
+$threadId = $session->newThreadId();
+$session->start(
+    $threadId,
+    user: 'alice',
+    agent: 'demo-agent',
+    goal: "Plan next week's meetings.",
+);
+$session->appendTurn(
+    $threadId,
+    role: 'user',
+    content: 'Schedule a budget review with finance.',
+);
+$state = $session->load($threadId);
+echo $state['turn_count'] . ' '
+    . count($state['recent_turns']) . ' '
+    . $state['ttl_seconds'] . "\n";
+```
+
+The data model is one Hash per thread. The rolling turn window is stored as a JSON string in a single field so the whole session loads in one [`HGETALL`]({{< relref "/commands/hgetall" >}}) — the hash never grows in size or field count as the conversation goes on.
+
+```text
+agent:session:9f3d2a4b8c61
+  thread_id=9f3d2a4b8c61
+  user=alice
+  agent=demo-agent
+  goal=Plan next week's meetings.
+  scratchpad=Need to confirm finance's availability.
+  turn_count=4
+  created_ts=1715990400.12
+  last_active_ts=1715990650.83
+  recent_turns=[{"role":"user","content":"...","ts":...}, ...]
+```
+
+Every write — `start`, `appendTurn`, `setScratchpad` — runs the [`HSET`]({{< relref "/commands/hset" >}}) and [`EXPIRE`]({{< relref "/commands/expire" >}}) inside a [`MULTI`]({{< relref "/commands/multi" >}}) / [`EXEC`]({{< relref "/commands/exec" >}}) so a connection drop between the two writes can't leave the session without a TTL.
+
+## The long-term memory store
+
+`LongTermMemory` owns the JSON documents, the vector index, the recall query, and the write-time deduplication ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/php/src/LongTermMemory.php)):
+
+```php
+<?php
+
+use Redis\AgentMemory\Embedder;
+use Redis\AgentMemory\LongTermMemory;
+
+$memory = new LongTermMemory(
+    client: $client,
+    indexName: 'agentmem:idx',
+    keyPrefix: 'agent:mem:',
+    dedupThreshold: 0.20,   // cosine distance — tight at write time
+    recallThreshold: 0.55,  // looser at read time
+);
+$embedder = new Embedder();
+$memory->createIndex();  // idempotent
+
+// Write a memory. The same KNN that powers recall also runs here at
+// a tighter threshold so paraphrases of the same fact collapse.
+$vec = $embedder->encodeOne('The user prefers light mode in editors.');
+$result = $memory->remember(
+    text: 'The user prefers light mode in editors.',
+    embedding: $vec,
+    user: 'alice',
+    namespace: 'default',
+    kind: 'semantic',
+    sourceThread: '9f3d2a4b8c61',
+);
+printf("deduped=%s id=%s existing_distance=%s\n",
+    $result['deduped'] ? 'true' : 'false',
+    $result['id'],
+    var_export($result['existing_distance'], true));
+
+// Recall against a later question.
+$q = $embedder->encodeOne('Which theme does this user like?');
+$hits = $memory->recall(
+    queryEmbedding: $q,
+    user: 'alice',
+    namespace: 'default',
+    k: 5,
+);
+foreach ($hits as $h) {
+    printf("%.3f [%s] %s\n", $h['distance'], $h['kind'], $h['text']);
+}
+```
+
+### Data model
+
+Each memory is a JSON document at `agent:mem:<id>`. The embedding is a JSON array of floats so the document is human-readable from `redis-cli`; [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) still expects the *query* vector as raw `float32` bytes (the demo packs them with PHP's [`pack('g*', ...)`](https://www.php.net/manual/en/function.pack.php), which emits little-endian float32), regardless of how the indexed document stores it.
+
+```json
+agent:mem:7c3f8a1b9e02
+{
+  "id": "7c3f8a1b9e02",
+  "user": "alice",
+  "namespace": "default",
+  "kind": "semantic",
+  "source_thread": "9f3d2a4b8c61",
+  "text": "The user prefers light mode in editors.",
+  "embedding": [0.013, -0.041, ...],
+  "created_ts": 1715990400.12,
+  "hit_count": 0
+}
+```
+
+The Redis Search index is declared on the JSON document type with `AS` aliases so the query syntax stays compact:
+
+```text
+FT.CREATE agentmem:idx
+  ON JSON PREFIX 1 agent:mem:
+  SCHEMA
+    $.text          AS text          TEXT
+    $.user          AS user          TAG
+    $.namespace     AS namespace     TAG
+    $.kind          AS kind          TAG
+    $.source_thread AS source_thread TAG
+    $.created_ts    AS created_ts    NUMERIC SORTABLE
+    $.hit_count     AS hit_count     NUMERIC SORTABLE
+    $.embedding     AS embedding     VECTOR HNSW 6
+                                       TYPE FLOAT32 DIM 384
+                                       DISTANCE_METRIC COSINE
+```
+
+### The query
+
+Both recall and dedup share the same hybrid query: a TAG pre-filter in parentheses followed by `=>[KNN k @embedding $vec]`. With `DIALECT 2`, Redis applies the filter first and KNN-ranks only the matching documents.
+
+```text
+FT.SEARCH agentmem:idx
+  "(@user:{alice} @namespace:{default} @kind:{semantic})
+     =>[KNN 5 @embedding $vec AS distance]"
+  PARAMS 2 vec <384-float32-bytes>
+  SORTBY distance
+  RETURN 8 user namespace kind source_thread text created_ts hit_count distance
+  DIALECT 2
+```
+
+`distance` is the cosine *distance* (0 means identical, 2 means opposite). Recall and dedup share the same query shape; only the threshold differs — strict at write time so the index doesn't fill with paraphrases of the same fact, looser at read time so the agent gets a wider net of relevant memories.
+
+### Per-kind TTLs
+
+`remember` resolves the entry's TTL from the memory's `kind`:
+
+| Kind      | Default TTL | When to use it                                              |
+|-----------|-------------|-------------------------------------------------------------|
+| `episodic` | 7 days     | Snapshots from a specific session that should decay.        |
+| `semantic` | none       | Distilled facts and preferences the agent carries forward.  |
+
+You can override per write with `ttlSeconds: ...` on `remember`, or pass a different `ttlByKind: [...]` to the `LongTermMemory` constructor — for example, to give semantic memories a six-month TTL while leaving episodic memories at seven days.
+
+## The event log
+
+`AgentEventLog` is a thin wrapper over a per-thread Redis Stream ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/php/src/AgentEventLog.php)):
+
+```php
+<?php
+
+use Redis\AgentMemory\AgentEventLog;
+
+$events = new AgentEventLog(client: $client, maxLen: 1000);
+$events->record(
+    $threadId, 'turn_appended:user',
+    'Schedule a budget review with finance.',
+);
+$events->record(
+    $threadId, 'memory_written',
+    'wrote 7c3f8a1b9e02 as semantic',
+);
+
+foreach ($events->recent($threadId, 20) as $event) {
+    echo $event['action'] . ' ' . $event['detail'] . "\n";
+}
+```
+
+`record` calls [`XADD`]({{< relref "/commands/xadd" >}}) with `MAXLEN ~ 1000`. The tilde lets Redis trim in whole-node units instead of exactly-N units, which is much cheaper at the cost of overshooting the bound by up to a node's worth — the right tradeoff for an audit log where exact length doesn't matter.
+
+The Stream is independent of the session Hash and the long-term JSON documents: it answers "what just happened" without competing with either of those for indexing or memory budget. Consumer groups (not used in this demo) would let downstream workers — summarizers, consolidators, audit pipelines — replay the log without losing position.
+
+## Concurrency caveats
+
+The three helpers above trade correctness under heavy concurrency for clarity. Each is fine on a single-process demo, but lifting the code into a real multi-worker agent surfaces three races worth knowing about:
+
+* **Working memory is read-modify-write.** `AgentSession::appendTurn` calls [`HGETALL`]({{< relref "/commands/hgetall" >}}), mutates the `recent_turns` list in application code, and writes the Hash back with [`HSET`]({{< relref "/commands/hset" >}}). Two concurrent turns on the same thread can both read the same `recent_turns`, append different entries, and write back — last writer wins, the other turn is silently lost. The robust fix is either a [`WATCH`]({{< relref "/commands/watch" >}}) / [`MULTI`]({{< relref "/commands/multi" >}}) / [`EXEC`]({{< relref "/commands/exec" >}}) loop around the read-modify-write or a small [Lua script]({{< relref "/commands/eval" >}}) that does the append atomically server-side.
+
+* **Long-term dedup is not atomic.** `LongTermMemory::remember` runs a [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) KNN lookup, decides whether the candidate is a duplicate, and (if not) calls [`JSON.SET`]({{< relref "/commands/json.set" >}}). Two workers seeing the same fact in flight can each fail to see the other's not-yet-committed write and both insert a new memory. The pragmatic fix is to accept that the index will occasionally hold near-duplicates and run a background consolidator that periodically scans for memory pairs within a tight distance and merges them, rather than trying to make the write itself atomic.
+
+* **The active thread is server state.** The demo server keeps a single `currentThreadId` field on a `DemoState` object that `/new_thread` and `/reset` mutate; `handleTurn` reads it without coordination, so a turn racing with a thread rotation can apply to the previous thread. This is cosmetic for a one-user browser demo. A multi-user agent would carry the thread id on the request itself rather than as shared server state.
+
+* **`Embedder` is shared.** TransformersPHP's `pipeline` object is constructed once and reused across every request; the underlying ONNX session is *not* documented as thread-safe. PHP's request model usually makes this a non-issue (one process, one in-flight request at a time on the blocking demo server), but if you front this code with a thread-pool runtime like Swoole or ReactPHP, fence the embedder behind a mutex or per-worker instance.
+
+Those caveats are deliberate. A more conservative implementation would obscure the Redis-shaped parts of the pattern; the demo prioritizes a small, readable code path that maps directly onto the commands in the prose above.
+
+## Pre-seeding long-term memory
+
+In a real deployment the memory store fills up organically as the agent reasons over user turns: each turn produces zero or more memories that flow into the store, with deduplication catching repeats. For the demo, `SeedMemory.php` pre-loads a small set of mixed semantic and episodic memories so the very first recall query returns something useful ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/php/src/SeedMemory.php)):
+
+```php
+<?php
+
+use Redis\AgentMemory\Embedder;
+use Redis\AgentMemory\LongTermMemory;
+use Redis\AgentMemory\SeedMemory;
+
+$memory = new LongTermMemory(client: $client);
+$embedder = new Embedder();
+$memory->createIndex();
+SeedMemory::seed($memory, $embedder, user: 'default', namespace: 'default');
+```
+
+The seed list mixes long-lived facts and preferences (`semantic`) with snapshots of past sessions (`episodic`), so the **Kind to write** control in the demo has something to switch between when a new turn is being remembered.
+
+## The interactive demo
+
+`demo_server.php` runs a [`stream_socket_server`](https://www.php.net/manual/en/function.stream-socket-server.php) HTTP/1.1 loop on port 8090. PHP's built-in `php -S` dev server re-runs the entry script for each request and discards process state in between, which would force the ~80 MB ONNX model to reload on every turn; the single-process socket loop keeps the embedder, the Predis connection, and the demo state alive between requests. The HTML page exposes three live panels — working memory, recalled memories, event log — plus a memories table for admin actions. Endpoints:
+
+| Endpoint            | What it does                                                                    |
+|---------------------|---------------------------------------------------------------------------------|
+| `GET  /state`       | Index info, current session, in-scope long-term memories, and recent events.    |
+| `POST /turn`        | Embed the text, append to working memory, recall similar memories, optionally write a new memory (with dedup), append an event. |
+| `POST /new_thread`  | Start a fresh thread; long-term memory and other threads are untouched.         |
+| `POST /reset`       | Drop every long-term memory and re-seed the sample set.                         |
+| `POST /drop_memory` | Delete a single long-term memory by id.                                         |
+
+The server holds one `Embedder`, one `AgentSession`, one `LongTermMemory`, and one `AgentEventLog` for the lifetime of the process. The "current thread" is a single field on a `DemoState` object that the **New thread** button rotates — every browser tab inherits the same thread until you explicitly start a new one.
+
+## Run the demo locally
+
+1.  Clone the [`redis/docs`](https://github.com/redis/docs) repository and change into the
+    example directory:
+
+    ```bash
+    git clone https://github.com/redis/docs.git
+    cd docs/content/develop/use-cases/agent-memory/php
+    ```
+
+2.  Install the dependencies. TransformersPHP ships an installer plugin that downloads
+    the ONNX Runtime shared library for your platform; the `composer.json` in this
+    directory already allow-lists it.
+
+    ```bash
+    composer install
+    ```
+
+    PHP 8.1 or later is required, with the [`ffi`](https://www.php.net/manual/en/book.ffi.php)
+    extension enabled (it ships with the official PHP builds and the Homebrew formula on macOS).
+
+3.  Make sure a Redis instance with Redis Search and Redis JSON is running locally on
+    port 6379. [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack" >}})
+    ships both, or [Redis 8]({{< relref "/develop/ai/search-and-query" >}}) with the
+    Search and JSON modules enabled.
+
+4.  Pre-fetch the embedding model (optional). The demo will lazy-download the
+    [`Xenova/all-MiniLM-L6-v2`](https://huggingface.co/Xenova/all-MiniLM-L6-v2) ONNX
+    weights (around 80 MB) on the first request, but the wait is more obvious when
+    it lands inside the first turn rather than at startup:
+
+    ```bash
+    composer run download-model
+    ```
+
+5.  Start the demo server:
+
+    ```bash
+    php demo_server.php
+    ```
+
+6.  Open <http://localhost:8090> and try some turns:
+
+    *  **"Remind me which theme I prefer in editors."** — paraphrase of a seeded
+       semantic memory ("The user dislikes dark mode and prefers a high-contrast
+       light theme..."). You should see that memory recalled with a cosine
+       distance around 0.47, comfortably under the 0.55 default recall
+       threshold.
+    *  **"What did we discuss about the order-routing outage?"** — paraphrase of
+       a seeded episodic memory; the postmortem memory should recall around
+       0.44. Switch the **Kind to write** dropdown to `skip` so the question
+       itself doesn't enter long-term memory.
+    *  **"I prefer concise answers without filler phrases."** — paraphrase of
+       a seeded *semantic* memory. Switch the **Kind to write** dropdown to
+       `semantic` so the dedup KNN runs in the same kind as the seed (dedup
+       is scoped per kind, on purpose, so an episodic write can't collapse
+       onto a semantic memory). You should then see the write **deduped**
+       onto the existing memory at a cosine distance around 0.16 (the ONNX
+       Runtime FFI bindings TransformersPHP uses sit a hair behind the
+       PyTorch arithmetic the Python demo runs, so paraphrase distances are
+       a couple of hundredths higher than in the Python walkthrough), with
+       `hit_count` ticking up in the memories table.
+    *  **"My favorite color is teal."** — unrelated to any seed; nothing recalls
+       above the threshold (every seed lands above 0.8), and the new memory is
+       written as `episodic` (or `semantic`, depending on the dropdown) under a
+       fresh id.
+    *  Switch the **User** field to `bob` and re-ask any of the above — recall
+       returns nothing because the seed memories live under `default`. That's
+       the TAG pre-filter at work inside [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}).
+    *  Slide the **Recall threshold** down to 0.30 to see borderline paraphrases
+       drop out of the recall set, then back up to 0.70 to watch them return.
+
+    `Xenova/all-MiniLM-L6-v2` puts a faithful paraphrase in the 0.15 – 0.50
+    cosine-distance range, a loose paraphrase or related topic in the 0.50 – 0.80
+    range, and unrelated queries above 0.8 — which is what motivates the 0.55
+    default recall threshold and the 0.20 default dedup threshold. A stricter
+    embedding model (or a domain-tuned one) would let you tighten both; a
+    noisier one would push them up. The right thresholds are always a function
+    of the model, the corpus, and how conservative the agent needs to be about
+    accepting a memory as a match.
+
+The server is read/write against your local Redis. The default memory index is `agentmem:idx`, JSON keys live under `agent:mem:`, session Hashes under `agent:session:`, and event Streams under `agent:events:`. Useful flags:
+
+* `--host` — HTTP bind host (default `127.0.0.1`).
+* `--port` — HTTP bind port (default `8090`).
+* `--redis-host`, `--redis-port` — point the demo at a non-local Redis.
+* `--mem-index-name`, `--mem-key-prefix`, `--session-key-prefix`, `--event-key-prefix` — change the default key namespacing.
+* `--no-reset` — keep the existing long-term memories across restarts instead of dropping and re-seeding.
+* `--session-ttl-seconds` — change the working-memory TTL (default 3600).
+* `--dedup-threshold` — change the cosine-distance cutoff for write-time deduplication.
+* `--recall-threshold` — change the default cosine-distance cutoff for recall.

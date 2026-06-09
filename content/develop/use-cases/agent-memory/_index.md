@@ -73,3 +73,4 @@ The following guides show how to build a small Redis-backed agent memory layer u
 * [go-redis (Go)]({{< relref "/develop/use-cases/agent-memory/go" >}})
 * [Jedis (Java)]({{< relref "/develop/use-cases/agent-memory/java-jedis" >}})
 * [Lettuce (Java)]({{< relref "/develop/use-cases/agent-memory/java-lettuce" >}})
+* [Predis (PHP)]({{< relref "/develop/use-cases/agent-memory/php" >}})
