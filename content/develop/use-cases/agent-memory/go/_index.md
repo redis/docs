@@ -26,7 +26,7 @@ The memory layer splits across three Redis primitives, each handling one tier:
 
 That gives you:
 
-* A single round trip per tier: one [`HGETALL`]({{< relref "/commands/hgetall" >}}) for the session, one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) for recall, one [`XADD`]({{< relref "/commands/xadd" >}}) for the event log.
+* One Redis Search call per recall: [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) does the KNN + TAG pre-filter in a single round trip (a per-row [`TTL`]({{< relref "/commands/ttl" >}}) follow-up is the only other read the helper issues, just to populate the `ttl_seconds` field for the admin panel). Working memory is one [`HGETALL`]({{< relref "/commands/hgetall" >}}); the event log is one [`XADD`]({{< relref "/commands/xadd" >}}).
 * Sub-millisecond reads on every step of the agent loop, so the memory layer doesn't dominate per-step latency.
 * Per-tier decay: short TTLs on working memory, longer on episodic memories, no TTL on semantic memories. Combined with a database-level [eviction policy]({{< relref "/develop/reference/eviction" >}}) (LFU is the common choice), memory stays bounded under pressure.
 * Scoping enforced inside the query: a recall query for `user=alice` will never see `user=bob`'s memories, because the TAG filter goes into the same [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call as the KNN.
@@ -290,7 +290,7 @@ The server holds one `LocalEmbedder`, one `AgentSession`, one `LongTermMemory`, 
     cd docs/content/develop/use-cases/agent-memory/go
     ```
 
-2.  Resolve the dependencies. You'll need [Go 1.23](https://go.dev/dl/) or later:
+2.  Resolve the dependencies. You'll need [Go 1.26](https://go.dev/dl/) or later (the version `go.mod` declares — Hugot tracks recent toolchain releases):
 
     ```bash
     go mod tidy
@@ -350,6 +350,9 @@ The server holds one `LocalEmbedder`, one `AgentSession`, one `LongTermMemory`, 
 
 The server is read/write against your local Redis. The default memory index is `agentmem:idx`, JSON keys live under `agent:mem:`, session Hashes under `agent:session:`, and event Streams under `agent:events:`. Useful flags:
 
+* `--host` / `--port` — change the HTTP bind address (default `127.0.0.1:8090`).
+* `--redis-host` / `--redis-port` — point at a non-local Redis (default `localhost:6379`).
+* `--mem-index-name` / `--mem-key-prefix` / `--session-key-prefix` / `--event-key-prefix` — relocate the index name and the three key prefixes (e.g. to run several demos against one Redis without colliding).
 * `--no-reset` — keep the existing long-term memories across restarts instead of dropping and re-seeding.
 * `--session-ttl-seconds` — change the working-memory TTL (default 3600).
 * `--dedup-threshold` — change the cosine-distance cutoff for write-time deduplication.

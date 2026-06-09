@@ -134,10 +134,15 @@ func NewLongTermMemory(
 	if vectorDim <= 0 {
 		vectorDim = VectorDim
 	}
-	if dedupThreshold <= 0 {
+	// The thresholds are honoured as-is. Zero is a legitimate value
+	// ("exact matches only" for dedup, "nothing recalls" for recall)
+	// and negative numbers are clamped by the HTTP boundary anyway.
+	// Silently rewriting `0` to a default would make
+	// `--dedup-threshold 0` and `--recall-threshold 0` uncallable.
+	if dedupThreshold < 0 {
 		dedupThreshold = DefaultDedupThreshold
 	}
-	if recallThreshold <= 0 {
+	if recallThreshold < 0 {
 		recallThreshold = DefaultRecallThreshold
 	}
 	if ttlByKind == nil {
@@ -300,13 +305,19 @@ func (m *LongTermMemory) Remember(ctx context.Context, p RememberParams) (WriteR
 		ttl = m.TTLByKind[kind]
 	}
 
-	if _, err := m.Client.JSONSet(ctx, key, "$", doc).Result(); err != nil {
-		return WriteResult{}, fmt.Errorf("JSON.SET: %w", err)
-	}
-	if ttl != nil && *ttl > 0 {
-		if _, err := m.Client.Expire(ctx, key, time.Duration(*ttl)*time.Second).Result(); err != nil {
-			return WriteResult{}, fmt.Errorf("EXPIRE: %w", err)
+	// MULTI/EXEC so JSON.SET and EXPIRE either both apply or neither
+	// does. A connection drop (or context cancellation) between the
+	// two writes would otherwise leave the memory without an expiry
+	// — the index entry would still be there, but the document would
+	// outlive its intended `kind`-derived TTL.
+	if _, err := m.Client.TxPipelined(ctx, func(pipe redis.Pipeliner) error {
+		pipe.JSONSet(ctx, key, "$", doc)
+		if ttl != nil && *ttl > 0 {
+			pipe.Expire(ctx, key, time.Duration(*ttl)*time.Second)
 		}
+		return nil
+	}); err != nil {
+		return WriteResult{}, fmt.Errorf("remember MULTI/EXEC: %w", err)
 	}
 	return WriteResult{ID: id, Deduped: false, ExistingDistance: existingDistance}, nil
 }
