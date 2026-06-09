@@ -286,7 +286,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       <section class="panel">
         <h2>Index state</h2>
         <div id="index-state"></div>
-        <button id="reset-button" class="danger">Clear everything and re-seed</button>
+        <button id="reset-button" class="danger">Clear long-term memory and re-seed</button>
       </section>
 
       <section class="panel wide">

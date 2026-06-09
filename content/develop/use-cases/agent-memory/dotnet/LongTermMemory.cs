@@ -320,11 +320,15 @@ public sealed class LongTermMemory
     }
 
     public List<MemoryRecord> ListMemories(
-        string? user = null,
-        string? @namespace = null,
+        string? user = "default",
+        string? @namespace = "default",
         string? kind = null,
         int limit = 100)
     {
+        // Match `Recall`'s defaults so listing and KNN recall agree
+        // on which memories are in scope for the same caller inputs.
+        // Pass `null` (or `""`) on either argument to opt out of the
+        // TAG filter and list across every scope.
         string filterClause = BuildFilterClause(user, @namespace, kind);
         var query = new Query(filterClause)
             .ReturnFields(
