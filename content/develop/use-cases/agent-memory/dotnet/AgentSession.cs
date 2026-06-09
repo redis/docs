@@ -259,11 +259,18 @@ public sealed class AgentSession
 
         // MULTI/EXEC so HSET and EXPIRE either both apply or neither
         // does. A connection drop between the two writes would
-        // otherwise leave the session without a TTL.
+        // otherwise leave the session without a TTL. We check the
+        // return value of Execute() — there's no WATCH on this
+        // transaction so a false here means the server rejected the
+        // batch (out of memory, OOM script kill, etc.); surface it
+        // rather than letting the in-memory state drift from Redis.
         var tx = _db.CreateTransaction();
         _ = tx.HashSetAsync(key, entries);
         _ = tx.KeyExpireAsync(key, TimeSpan.FromSeconds(ttl));
-        tx.Execute();
+        if (!tx.Execute())
+        {
+            throw new RedisServerException("session write MULTI/EXEC was discarded");
+        }
     }
 
     private static IReadOnlyList<SessionTurn> TryDeserializeTurns(string blob)

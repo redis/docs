@@ -250,8 +250,27 @@ public sealed class LongTermMemory
         };
         long? ttl = ttlSeconds ?? ResolveTtl(kind);
 
-        _json.Set(key, "$", doc);
-        if (ttl is long t) _db.KeyExpire(key, TimeSpan.FromSeconds(t));
+        // MULTI/EXEC so JSON.SET and EXPIRE either both apply or
+        // neither does. A connection drop between the two writes
+        // would otherwise leave the memory without an expiry — the
+        // index entry would still be there, but an `episodic` doc
+        // would outlive its intended seven-day TTL.
+        //
+        // NRedisStack exposes its JSON helpers only on `IDatabase`,
+        // not on `ITransaction`, so we drop down to the raw
+        // `ExecuteAsync("JSON.SET", ...)` command for the transactional
+        // path. The document body is JSON text either way.
+        string docJson = JsonSerializer.Serialize(doc);
+        var tx = _db.CreateTransaction();
+        _ = tx.ExecuteAsync("JSON.SET", key, "$", docJson);
+        if (ttl is long t)
+        {
+            _ = tx.KeyExpireAsync(key, TimeSpan.FromSeconds(t));
+        }
+        if (!tx.Execute())
+        {
+            throw new RedisServerException("remember MULTI/EXEC was discarded");
+        }
         return new WriteResult(Id: id, Deduped: false, ExistingDistance: nearestDistance);
     }
 

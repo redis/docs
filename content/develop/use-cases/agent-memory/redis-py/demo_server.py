@@ -473,8 +473,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         return;
       }
       if (payload.write_skipped) {
+        const msg = payload.client_action === 'goal'
+          ? 'Goal set; no long-term memory was written for this action.'
+          : 'Memory write skipped (kind = skip).';
         $('#last-write').innerHTML =
-          '<span class="meta">Memory write skipped (kind = skip).</span>';
+          '<span class="meta">' + msg + '</span>';
         return;
       }
       if (payload.deduped) {
@@ -536,6 +539,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       };
       try {
         const payload = await postForm('/turn', params);
+        // Stamp the client-side action onto the payload so
+        // `renderLastWrite` can tell "Set as goal" (which the server
+        // returns with `write_skipped=true`) apart from an actual
+        // `kind=skip` turn.
+        payload.client_action = actionKind;
         lastPayload = payload;
         renderLastWrite(payload);
         await refreshState();
@@ -916,8 +924,26 @@ class AgentMemoryHandler(BaseHTTPRequestHandler):
 
     # ---- HTTP plumbing ----------------------------------------------
 
+    # Cap POST bodies so a runaway client (or a ``curl --data-binary
+    # @big-file`` by mistake) can't make the server buffer unbounded
+    # data before the handler runs. The demo's largest legitimate
+    # body is a few hundred bytes of form-encoded query fields; 1 MiB
+    # is a generous ceiling matching the Node, .NET, Rust, and Go
+    # demos.
+    _MAX_BODY_BYTES = 1 * 1024 * 1024
+
     def _read_form(self) -> dict[str, list[str]]:
         length = int(self.headers.get("Content-Length", "0"))
+        if length < 0:
+            length = 0
+        if length > self._MAX_BODY_BYTES:
+            # Read and discard so the connection stays in a sane state,
+            # then raise — the handler's wrapper converts this into a
+            # 500 with a JSON body the demo UI can render.
+            self.rfile.read(min(length, self._MAX_BODY_BYTES))
+            raise ValueError(
+                f"request body exceeds {self._MAX_BODY_BYTES} bytes"
+            )
         raw = self.rfile.read(length).decode("utf-8") if length else ""
         return parse_qs(raw)
 

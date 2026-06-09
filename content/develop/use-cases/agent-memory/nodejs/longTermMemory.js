@@ -360,7 +360,7 @@ export class LongTermMemory {
       LIMIT: { from: 0, size: limit },
     });
     const out = [];
-    for (const doc of result.documents) {
+    for (const doc of result.documents || []) {
       const memoryId = this._stripPrefix(doc.id);
       const ttl = await this.client.ttl(this.memoryKey(memoryId));
       out.push({

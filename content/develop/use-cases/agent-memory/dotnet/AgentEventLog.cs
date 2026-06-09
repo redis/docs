@@ -77,10 +77,19 @@ public sealed class AgentEventLog
     }
 
     /// <summary>Return the most recent events, newest first.</summary>
+    /// <remarks>
+    /// <para>StackExchange.Redis swaps the <c>minId</c> / <c>maxId</c>
+    /// arguments when it issues <c>XREVRANGE</c> under
+    /// <see cref="Order.Descending"/>, so the caller still passes
+    /// "low, high" in natural order (<c>-</c> / <c>+</c>). Passing
+    /// them the other way around — <c>+</c> / <c>-</c> — would issue
+    /// <c>XREVRANGE key - +</c>, which Redis interprets as an empty
+    /// range and returns nothing.</para>
+    /// </remarks>
     public List<AgentEvent> Recent(string threadId, int count = 20)
     {
         var entries = _db.StreamRange(
-            StreamKey(threadId), "+", "-", count: count, messageOrder: Order.Descending);
+            StreamKey(threadId), "-", "+", count: count, messageOrder: Order.Descending);
         var out_ = new List<AgentEvent>(entries.Length);
         foreach (var entry in entries)
         {

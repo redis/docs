@@ -413,8 +413,11 @@
         return;
       }
       if (payload.write_skipped) {
+        const msg = payload.client_action === 'goal'
+          ? 'Goal set; no long-term memory was written for this action.'
+          : 'Memory write skipped (kind = skip).';
         $('#last-write').innerHTML =
-          '<span class="meta">Memory write skipped (kind = skip).</span>';
+          '<span class="meta">' + msg + '</span>';
         return;
       }
       if (payload.deduped) {
@@ -476,6 +479,11 @@
       };
       try {
         const payload = await postForm('/turn', params);
+        // Stamp the client-side action onto the payload so
+        // `renderLastWrite` can tell "Set as goal" (which the server
+        // returns with `write_skipped=true`) apart from an actual
+        // `kind=skip` turn.
+        payload.client_action = actionKind;
         lastPayload = payload;
         renderLastWrite(payload);
         await refreshState();
