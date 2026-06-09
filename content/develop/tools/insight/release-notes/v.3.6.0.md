@@ -33,12 +33,6 @@ This is the General Availability (GA) release of Redis Insight 3.6.0, which incl
 - [#5835](https://github.com/redis/RedisInsight/issues/5835) Fixed missing scrollbar on the database list when the viewport height was too small to fit all rows.
 - [#5847](https://github.com/redis/RedisInsight/issues/5847) Fixed missing scrollbar in tables across the app at constrained heights, restoring scrollability after the 3.4.2 regression.
 
-### New Contributors
-
-- @pierrelambert authored the original Geodata Workbench plugin in https://github.com/redis/RedisInsight/pull/5922
-- @kingkyylian made their first contribution in https://github.com/redis/RedisInsight/pull/5889
-- @VaskoAtanasovRedis made their first contribution in https://github.com/redis/RedisInsight/pull/6030
-
 **Full Changelog**: https://github.com/redis/RedisInsight/compare/3.4.2...3.6.0
 
 **SHA-512 Checksums**
