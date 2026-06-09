@@ -205,10 +205,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       <section class="panel wide">
         <h2>Send a turn</h2>
         <p>The server appends the turn to working memory, recalls the
-        top-k long-term memories by cosine similarity (with the
-        user / namespace / kind filter applied inside
-        <code>FT.SEARCH</code>), tries to write the turn back as a
-        memory with deduplication against existing entries, and
+        top-k long-term memories by cosine similarity (scoped by the
+        user and namespace filter inside <code>FT.SEARCH</code>),
+        tries to write the turn back as a memory with deduplication
+        against existing entries of the same <code>kind</code>, and
         appends one event to the stream.</p>
         <label for="q-text">Turn content</label>
         <textarea id="q-text"

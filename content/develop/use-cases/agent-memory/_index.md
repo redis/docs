@@ -68,3 +68,5 @@ The following guides show how to build a small Redis-backed agent memory layer u
 
 * [redis-py (Python)]({{< relref "/develop/use-cases/agent-memory/redis-py" >}})
 * [node-redis (Node.js)]({{< relref "/develop/use-cases/agent-memory/nodejs" >}})
+* [NRedisStack (C#)]({{< relref "/develop/use-cases/agent-memory/dotnet" >}})
+* [redis-rs (Rust)]({{< relref "/develop/use-cases/agent-memory/rust" >}})
