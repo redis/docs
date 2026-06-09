@@ -22,8 +22,17 @@ To run this code:
         export REDIS_PORT=your_redis_port
         export REDIS_PASSWORD=your_redis_password
 
-    Note: this template uses the OpenAI SDK with a configurable base URL. It works with
-    OpenAI directly and with any provider that exposes an OpenAI-compatible API endpoint.
+        Embeddings use a separate client so you can mix providers:
+        export EMBEDDING_API_KEY=your_embedding_api_key
+            (optional - defaults to LLM_API_KEY)
+        export EMBEDDING_API_BASE_URL=your_embedding_base_url
+            (optional - defaults to LLM_API_BASE_URL)
+        export EMBEDDING_MODEL=text-embedding-3-small
+            (optional - for Ollama use nomic-embed-text; for OpenAI use text-embedding-3-small)
+
+    Note: this template uses the OpenAI SDK with a configurable base URL. Chat completions
+    and embeddings are configured independently, so you can use any OpenAI-compatible
+    provider for each. For example: Anthropic for chat + OpenAI (or Ollama) for embeddings.
 
     Requires Redis Stack or Redis 8+ with Search module enabled.
 '''
@@ -185,6 +194,13 @@ class KnowledgeAssistant:
         self.llm = openai.OpenAI(api_key=self.llm_api_key, base_url=self.llm_base_url)
         print(f'LLM configured: {self.llm_model}')
 
+        # Embeddings can use a different provider than chat completions.
+        # For Anthropic users: set EMBEDDING_API_KEY and EMBEDDING_API_BASE_URL to an
+        # OpenAI-compatible embedding endpoint (e.g. OpenAI, or Ollama with nomic-embed-text).
+        embedding_api_key = os.getenv('EMBEDDING_API_KEY') or self.llm_api_key
+        embedding_base_url = os.getenv('EMBEDDING_API_BASE_URL') or self.llm_base_url
+        self.embedder = openai.OpenAI(api_key=embedding_api_key, base_url=embedding_base_url)
+
         # redisvl is used only for index creation; all queries use redis-py directly.
         doc_index = SearchIndex(IndexSchema.from_dict(_DOC_SCHEMA), redis_client=self.client)
         cache_index = SearchIndex(IndexSchema.from_dict(_CACHE_SCHEMA), redis_client=self.client)
@@ -219,7 +235,7 @@ class KnowledgeAssistant:
         return chunks
 
     def _embed(self, text):
-        resp = self.llm.embeddings.create(model=EMBEDDING_MODEL, input=text[:8000])
+        resp = self.embedder.embeddings.create(model=EMBEDDING_MODEL, input=text[:8000])
         return resp.data[0].embedding
 
     def _to_bytes(self, embedding):
@@ -316,10 +332,15 @@ class KnowledgeAssistant:
                 query_params={'BLOB': self._to_bytes(query_embedding)}
             )
             if result.docs:
-                doc = self._decode_doc(result.docs[0])
+                raw = result.docs[0]
+                def d(val):
+                    return val.decode('utf-8', errors='replace') if isinstance(val, bytes) else (val or '')
+                distance  = float(d(getattr(raw, 'distance',  '1.0')))
+                response  = d(getattr(raw, 'response',  ''))
+                citations = d(getattr(raw, 'citations', '[]'))
                 # vector_distance for cosine: 0=identical, 1=orthogonal. Hit when similarity > CACHE_THRESHOLD.
-                if float(doc.get('distance', '1.0')) < (1.0 - CACHE_THRESHOLD):
-                    return doc.get('response', ''), json.loads(doc.get('citations', '[]'))
+                if distance < (1.0 - CACHE_THRESHOLD) and response:
+                    return response, json.loads(citations)
         except Exception:
             pass
         return None, None

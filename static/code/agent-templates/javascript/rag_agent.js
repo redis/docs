@@ -18,8 +18,15 @@
  *     LLM_MODEL=your_model               (optional - default: ${CONFIG.models[formData.llmModel].defaultModel})
  *     REDIS_URL=redis://host:port         (or REDIS_HOST / REDIS_PORT / REDIS_PASSWORD)
  *
- *   Note: this template uses the OpenAI SDK with a configurable base URL. It works with
- *   OpenAI directly and with any provider that exposes an OpenAI-compatible API endpoint.
+ *     Embeddings use a separate client so you can mix providers:
+ *     EMBEDDING_API_KEY=your_key          (optional - defaults to LLM_API_KEY)
+ *     EMBEDDING_API_BASE_URL=your_url     (optional - defaults to LLM_API_BASE_URL)
+ *     EMBEDDING_MODEL=text-embedding-3-small
+ *                                         (optional - for Ollama use nomic-embed-text)
+ *
+ *   Note: this template uses the OpenAI SDK with a configurable base URL. Chat completions
+ *   and embeddings are configured independently, so you can use any OpenAI-compatible
+ *   provider for each. For example: Anthropic for chat + OpenAI (or Ollama) for embeddings.
  *
  *   Run:
  *     node rag_agent.js
@@ -154,6 +161,14 @@ class KnowledgeAssistant {
         this.llmModel = process.env.LLM_MODEL || '${CONFIG.models[formData.llmModel].defaultModel}';
         console.log(`LLM configured: ${this.llmModel}`);
 
+        // Embeddings can use a different provider than chat completions.
+        // For Anthropic users: set EMBEDDING_API_KEY and EMBEDDING_API_BASE_URL to an
+        // OpenAI-compatible embedding endpoint (e.g. OpenAI, or Ollama with nomic-embed-text).
+        this.embedder = new OpenAI({
+            apiKey: process.env.EMBEDDING_API_KEY || process.env.LLM_API_KEY,
+            baseURL: process.env.EMBEDDING_API_BASE_URL || process.env.LLM_API_BASE_URL || '${CONFIG.models[formData.llmModel].baseUrl}'
+        });
+
         await this._createIndexes();
     }
 
@@ -250,7 +265,7 @@ class KnowledgeAssistant {
     }
 
     async _embed(text) {
-        const resp = await this.llm.embeddings.create({
+        const resp = await this.embedder.embeddings.create({
             model: EMBEDDING_MODEL,
             input: text.slice(0, 8000)
         });
