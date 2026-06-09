@@ -22,7 +22,7 @@ Benefits of using cert-manager include:
 
 - **Automatic certificate renewal**: cert-manager handles certificate rotation before expiration.
 - **Standardized management**: Use the same certificate management approach across your Kubernetes infrastructure.
-- **Multiple certificate authorities**: Support for Let's Encrypt, private CAs, Vault, and more.
+- **Multiple certificate authorities**: Support for private CAs, Vault, and other issuers that provide the root CA certificate.
 - **Automatic propagation**: For Active-Active databases, certificate changes automatically sync across all participating clusters.
 
 {{<warning>}}The cert-manager integration uses Kubernetes secrets. It is not compatible with Vault-based secret management (when `clusterCredentialSecretType: vault`). See [HashiCorp Vault integration]({{< relref "/operate/kubernetes/8.0.18/security/vault" >}}) for details.{{</warning>}}
@@ -203,42 +203,15 @@ No manual intervention is required.
 
 ## Use production certificate authorities
 
-### Let's Encrypt
+### Let's Encrypt and ACME issuers
 
-For production environments, you can use Let's Encrypt:
+{{<warning>}}
+Don't use Let's Encrypt or other ACME issuers with this integration. ACME issuers don't populate the `ca.crt` field in the generated TLS secret, so the secret doesn't include the root CA certificate.
 
-```yaml
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt-prod
-spec:
-  acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
-    email: admin@example.com
-    privateKeySecretRef:
-      name: letsencrypt-prod-account-key
-    solvers:
-      - http01:
-          ingress:
-            class: nginx
-```
+Redis Software requires the root CA certificate to build a complete certificate chain. Without it, the cluster can't establish trust for the certificate and rejects it. This is a limitation in how Redis Software handles certificates, not specific to Kubernetes.
+{{</warning>}}
 
-Then reference this issuer in your `Certificate` resources:
-
-```yaml
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: redis-api-cert
-spec:
-  secretName: redis-api-tls
-  issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
-  dnsNames:
-    - redis-api.example.com
-```
+For production environments, use an issuer that provides the full certificate chain, such as a private CA or HashiCorp Vault.
 
 ### Private CA
 
@@ -336,8 +309,6 @@ kubectl logs -n cert-manager deployment/cert-manager
 Common issues:
 
 - **Issuer not ready**: Verify your `Issuer` or `ClusterIssuer` is configured correctly.
-- **DNS validation failure**: For ACME issuers, ensure DNS records are correctly configured.
-- **Rate limits**: Let's Encrypt has rate limits. Use the staging environment for testing.
 
 ### Operator not detecting certificate changes
 
