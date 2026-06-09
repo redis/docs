@@ -39,8 +39,8 @@ class ConversationalAgent {
     this.messageCount = 0;
     this._dimValidated = false;
 
-    this.llmApiKey = process.env.LLM_API_KEY;
-    if (!this.llmApiKey) throw new Error('LLM_API_KEY environment variable is required');
+    // For local providers (e.g. Ollama), any non-empty string works. For hosted providers, use your real key.
+    this.llmApiKey = process.env.LLM_API_KEY || 'no-key-needed';
 
     this.llmBaseUrl = process.env.LLM_API_BASE_URL || '${CONFIG.models[formData.llmModel].baseUrl}';
     this.llmModel   = process.env.LLM_MODEL         || '${CONFIG.models[formData.llmModel].defaultModel}';
@@ -137,18 +137,17 @@ class ConversationalAgent {
 
     // Track insertion order for recent-turn retrieval
     await this.redisClient.rPush(RECENT_KEY(this.sessionName), key);
-    await this.redisClient.lTrim(RECENT_KEY(this.sessionName), -RECENT_WINDOW * 4, -1);
+    await this.redisClient.lTrim(RECENT_KEY(this.sessionName), -RECENT_WINDOW * 2, -1);
   }
 
   async _getRecentMessages() {
-    const keys = await this.redisClient.lRange(RECENT_KEY(this.sessionName), 0, -1);
+    const keys = await this.redisClient.lRange(RECENT_KEY(this.sessionName), -(RECENT_WINDOW * 2), -1);
     if (!keys.length) return [];
     const docs = await this.redisClient.json.mGet(keys, '$');
-    return docs
-      .filter(Boolean)
-      .flatMap((d) => d)
-      .filter(Boolean)
-      .map((m) => ({ role: m.role, content: m.content, _key: m._key }));
+    return keys
+      .map((key, i) => ({ key, doc: docs[i]?.[0] }))
+      .filter(({ doc }) => doc != null)
+      .map(({ key, doc }) => ({ role: doc.role, content: doc.content, _key: key }));
   }
 
   async _getSemanticMessages(query) {

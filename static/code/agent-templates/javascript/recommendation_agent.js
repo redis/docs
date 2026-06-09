@@ -98,8 +98,8 @@ function validateQueryParams(raw) {
 
 class RecommendationAgent {
   constructor() {
-    this.llmApiKey = process.env.LLM_API_KEY;
-    if (!this.llmApiKey) throw new Error('LLM_API_KEY environment variable is required');
+    // For local providers (e.g. Ollama), any non-empty string works. For hosted providers, use your real key.
+    this.llmApiKey = process.env.LLM_API_KEY || 'no-key-needed';
 
     this.llmBaseUrl = process.env.LLM_API_BASE_URL || '${CONFIG.models[formData.llmModel].baseUrl}';
     this.llmModel   = process.env.LLM_MODEL         || '${CONFIG.models[formData.llmModel].defaultModel}';
@@ -133,7 +133,7 @@ class RecommendationAgent {
   async _indexExists() {
     try {
       const info = await this.redisClient.ft.info(INDEX_NAME);
-      return parseInt(info.numDocs) > 0;
+      return parseInt(info.num_docs) > 0;
     } catch {
       return false;
     }
@@ -207,12 +207,9 @@ class RecommendationAgent {
 
     console.log(`Processed ${merged.length} movies`);
 
-    // Drop existing index if present, ignoring "index not found" errors only.
-    try {
-      await this.redisClient.ft.dropIndex(INDEX_NAME);
-    } catch (err) {
-      if (!err.message?.includes('Unknown Index name')) throw err;
-    }
+    // Drop existing index if present.
+    const indexExists = await this.redisClient.ft.info(INDEX_NAME).then(() => true).catch(() => false);
+    if (indexExists) await this.redisClient.ft.dropIndex(INDEX_NAME);
 
     await this.redisClient.ft.create(
       INDEX_NAME,
