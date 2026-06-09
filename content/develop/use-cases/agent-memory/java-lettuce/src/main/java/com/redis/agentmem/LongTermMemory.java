@@ -139,7 +139,7 @@ public final class LongTermMemory {
         this.indexNameBytes = indexName.getBytes(StandardCharsets.UTF_8);
         this.keyPrefixBytes = keyPrefix.getBytes(StandardCharsets.UTF_8);
         this.vectorDim = vectorDim > 0 ? vectorDim : VECTOR_DIM_DEFAULT;
-        // Thresholds are honoured as-is. Zero is a legitimate value
+        // Thresholds are honored as-is. Zero is a legitimate value
         // ("exact matches only" for dedup, "nothing recalls" for
         // recall); silently rewriting them would make
         // --dedup-threshold 0 uncallable.
@@ -187,10 +187,12 @@ public final class LongTermMemory {
                 .add("DIM").add(vectorDim)
                 .add("DISTANCE_METRIC").add("COSINE");
         try {
-            sync.dispatch(
-                    ModuleCommand.FT_CREATE,
-                    new StatusOutput<>(ByteArrayCodec.INSTANCE),
-                    args);
+            synchronized (txLock) {
+                sync.dispatch(
+                        ModuleCommand.FT_CREATE,
+                        new StatusOutput<>(ByteArrayCodec.INSTANCE),
+                        args);
+            }
         } catch (RedisException ex) {
             if (!String.valueOf(ex.getMessage()).contains("Index already exists")) {
                 throw ex;
@@ -203,10 +205,12 @@ public final class LongTermMemory {
                 .add(indexNameBytes);
         if (deleteDocuments) args.add("DD");
         try {
-            sync.dispatch(
-                    ModuleCommand.FT_DROPINDEX,
-                    new StatusOutput<>(ByteArrayCodec.INSTANCE),
-                    args);
+            synchronized (txLock) {
+                sync.dispatch(
+                        ModuleCommand.FT_DROPINDEX,
+                        new StatusOutput<>(ByteArrayCodec.INSTANCE),
+                        args);
+            }
         } catch (RedisException ex) {
             String msg = String.valueOf(ex.getMessage()).toLowerCase(Locale.ROOT);
             if (!msg.contains("no such index") && !msg.contains("unknown index name")) {
@@ -267,7 +271,7 @@ public final class LongTermMemory {
         doc.put("kind", kind);
         doc.put("source_thread", sourceThread == null ? "" : sourceThread);
         doc.put("text", text == null ? "" : text);
-        // org.json's JSONObject.put(String, Object) serialises a
+        // org.json's JSONObject.put(String, Object) serializes a
         // float[] as a JSON array of numbers — exactly what the JSON
         // vector field expects at index time.
         doc.put("embedding", embedding);
@@ -280,7 +284,7 @@ public final class LongTermMemory {
         // MULTI/EXEC so JSON.SET and EXPIRE either both apply or
         // neither does — a connection drop between the two writes
         // would otherwise leave an episodic memory without its
-        // intended seven-day TTL. The shared `txLock` serialises
+        // intended seven-day TTL. The shared `txLock` serializes
         // this whole MULTI…EXEC span against any other transaction
         // on the connection.
         TransactionResult txResult;
@@ -339,10 +343,12 @@ public final class LongTermMemory {
                 .add(indexNameBytes);
         List<Object> raw;
         try {
-            raw = sync.dispatch(
-                    ModuleCommand.FT_INFO,
-                    new NestedMultiOutput<>(ByteArrayCodec.INSTANCE),
-                    args);
+            synchronized (txLock) {
+                raw = sync.dispatch(
+                        ModuleCommand.FT_INFO,
+                        new NestedMultiOutput<>(ByteArrayCodec.INSTANCE),
+                        args);
+            }
         } catch (RedisException ignored) {
             return out;
         }
@@ -368,28 +374,35 @@ public final class LongTermMemory {
                 .add("LIMIT").add(0).add(limit)
                 .add("DIALECT").add(2);
 
-        List<Object> raw;
-        try {
-            raw = sync.dispatch(
-                    ModuleCommand.FT_SEARCH,
-                    new NestedMultiOutput<>(ByteArrayCodec.INSTANCE),
-                    args);
-        } catch (RedisException ex) {
-            return new ArrayList<>();
+        // Hold `txLock` for the whole FT.SEARCH + per-row TTL fetch
+        // so this batch of commands lands together on the connection
+        // and can't get tangled with another helper's MULTI/EXEC.
+        synchronized (txLock) {
+            List<Object> raw;
+            try {
+                raw = sync.dispatch(
+                        ModuleCommand.FT_SEARCH,
+                        new NestedMultiOutput<>(ByteArrayCodec.INSTANCE),
+                        args);
+            } catch (RedisException ex) {
+                return new ArrayList<>();
+            }
+            List<SearchHit> hits = parseAllHits(raw);
+            List<MemoryRecord> out = new ArrayList<>(hits.size());
+            for (SearchHit hit : hits) {
+                String memoryId = stripPrefix(hit.id);
+                long ttl = sync.ttl(memoryKeyBytes(memoryId));
+                Long ttlSeconds = ttl > 0 ? ttl : null;
+                out.add(toRecord(memoryId, hit, null, ttlSeconds));
+            }
+            return out;
         }
-        List<SearchHit> hits = parseAllHits(raw);
-        List<MemoryRecord> out = new ArrayList<>(hits.size());
-        for (SearchHit hit : hits) {
-            String memoryId = stripPrefix(hit.id);
-            long ttl = sync.ttl(memoryKeyBytes(memoryId));
-            Long ttlSeconds = ttl > 0 ? ttl : null;
-            out.add(toRecord(memoryId, hit, null, ttlSeconds));
-        }
-        return out;
     }
 
     public boolean deleteMemory(String memoryId) {
-        return sync.del(memoryKeyBytes(memoryId)) > 0L;
+        synchronized (txLock) {
+            return sync.del(memoryKeyBytes(memoryId)) > 0L;
+        }
     }
 
     public long clear() {
@@ -425,23 +438,28 @@ public final class LongTermMemory {
                 .add("PARAMS").add(2).add("vec".getBytes(StandardCharsets.UTF_8)).add(vecBytes)
                 .add("DIALECT").add(2);
 
-        List<Object> raw = sync.dispatch(
-                ModuleCommand.FT_SEARCH,
-                new NestedMultiOutput<>(ByteArrayCodec.INSTANCE),
-                args);
-        List<SearchHit> hits = parseAllHits(raw);
-        List<MemoryRecord> out = new ArrayList<>(hits.size());
-        for (SearchHit hit : hits) {
-            // `hit.id` is the full Redis key (e.g. `agent:mem:abc123`).
-            // Strip the prefix so the returned record exposes only
-            // the opaque id the UI and `deleteMemory` work with.
-            String memoryId = stripPrefix(hit.id);
-            long ttl = sync.ttl(memoryKeyBytes(memoryId));
-            Long ttlSeconds = ttl > 0 ? ttl : null;
-            Double distance = parseDoubleOrNull(hit.fields.get("distance"));
-            out.add(toRecord(memoryId, hit, distance, ttlSeconds));
+        // Same connection-discipline as `listMemories`: hold the
+        // shared lock for FT.SEARCH + the per-row TTL fetches so the
+        // batch can't tangle with a MULTI/EXEC on another helper.
+        synchronized (txLock) {
+            List<Object> raw = sync.dispatch(
+                    ModuleCommand.FT_SEARCH,
+                    new NestedMultiOutput<>(ByteArrayCodec.INSTANCE),
+                    args);
+            List<SearchHit> hits = parseAllHits(raw);
+            List<MemoryRecord> out = new ArrayList<>(hits.size());
+            for (SearchHit hit : hits) {
+                // `hit.id` is the full Redis key (e.g. `agent:mem:abc123`).
+                // Strip the prefix so the returned record exposes only
+                // the opaque id the UI and `deleteMemory` work with.
+                String memoryId = stripPrefix(hit.id);
+                long ttl = sync.ttl(memoryKeyBytes(memoryId));
+                Long ttlSeconds = ttl > 0 ? ttl : null;
+                Double distance = parseDoubleOrNull(hit.fields.get("distance"));
+                out.add(toRecord(memoryId, hit, distance, ttlSeconds));
+            }
+            return out;
         }
-        return out;
     }
 
     private void bumpHitCount(String memoryId) {
@@ -449,14 +467,18 @@ public final class LongTermMemory {
             // Fire-and-forget — the doc may have expired between
             // recall and bump, and discarding the error keeps the
             // demo from blowing up on that race; we just lose the
-            // hit-count update.
-            sync.dispatch(
-                    ModuleCommand.JSON_NUMINCRBY,
-                    new ValueOutput<>(ByteArrayCodec.INSTANCE),
-                    new CommandArgs<>(ByteArrayCodec.INSTANCE)
-                            .add(memoryKeyBytes(memoryId))
-                            .add("$.hit_count")
-                            .add(1));
+            // hit-count update. The shared lock keeps the
+            // JSON.NUMINCRBY from landing inside another helper's
+            // open MULTI on the connection.
+            synchronized (txLock) {
+                sync.dispatch(
+                        ModuleCommand.JSON_NUMINCRBY,
+                        new ValueOutput<>(ByteArrayCodec.INSTANCE),
+                        new CommandArgs<>(ByteArrayCodec.INSTANCE)
+                                .add(memoryKeyBytes(memoryId))
+                                .add("$.hit_count")
+                                .add(1));
+            }
         } catch (RedisException ignored) {
             // memory expired or path not found
         }

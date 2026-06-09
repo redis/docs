@@ -31,14 +31,17 @@ public final class AgentEventLog {
     public static final long DEFAULT_MAX_LEN = 1000L;
 
     private final RedisCommands<byte[], byte[]> sync;
+    private final Object txLock;
     private final String keyPrefix;
     private final long maxLen;
 
     public AgentEventLog(
             StatefulRedisConnection<byte[], byte[]> connection,
+            Object txLock,
             String keyPrefix,
             long maxLen) {
         this.sync = connection.sync();
+        this.txLock = txLock;
         this.keyPrefix = keyPrefix;
         this.maxLen = maxLen > 0 ? maxLen : DEFAULT_MAX_LEN;
     }
@@ -73,19 +76,33 @@ public final class AgentEventLog {
         putUtf8(fields, "ts", String.format(Locale.ROOT, "%.6f", unixSecs()));
 
         XAddArgs args = XAddArgs.Builder.maxlen(maxLen).approximateTrimming();
-        String id = sync.xadd(streamKeyBytes(threadId), args, fields);
+        // The shared `txLock` serializes this XADD against any
+        // MULTI/EXEC span the session or memory helpers might have
+        // open on the same connection. Without the lock a concurrent
+        // `XADD` would land inside the other thread's transaction
+        // and the demo would see surprising results.
+        String id;
+        synchronized (txLock) {
+            id = sync.xadd(streamKeyBytes(threadId), args, fields);
+        }
         return id == null ? "" : id;
     }
 
     /** Return the most recent events, newest first. */
     public List<AgentEvent> recent(String threadId, int count) {
         // `xrevrange` walks the stream from the highest id back to the
-        // lowest, so an unbounded range with `Limit.from(count)`
+        // lowest, so an unbounded range with {@code Limit.from(count)}
         // returns the most recent {@code count} entries newest-first.
-        List<StreamMessage<byte[], byte[]>> entries = sync.xrevrange(
-                streamKeyBytes(threadId),
-                Range.unbounded(),
-                Limit.from(count));
+        // Locked against {@code txLock} for the same reason
+        // {@code record} is — an unguarded read can otherwise land
+        // inside another helper's open MULTI on the shared connection.
+        List<StreamMessage<byte[], byte[]>> entries;
+        synchronized (txLock) {
+            entries = sync.xrevrange(
+                    streamKeyBytes(threadId),
+                    Range.unbounded(),
+                    Limit.from(count));
+        }
         List<AgentEvent> out = new ArrayList<>(entries.size());
         for (StreamMessage<byte[], byte[]> msg : entries) {
             Map<String, String> body = new LinkedHashMap<>();
@@ -106,7 +123,9 @@ public final class AgentEventLog {
 
     /** Drop the entire stream for a thread. */
     public boolean clear(String threadId) {
-        return sync.del(streamKeyBytes(threadId)) > 0L;
+        synchronized (txLock) {
+            return sync.del(streamKeyBytes(threadId)) > 0L;
+        }
     }
 
     private static void putUtf8(Map<byte[], byte[]> fields, String name, String value) {

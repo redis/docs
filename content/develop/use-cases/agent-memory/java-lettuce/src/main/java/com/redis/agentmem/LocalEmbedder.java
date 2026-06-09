@@ -23,12 +23,12 @@ import java.util.List;
  * decimal place).
  *
  * <p>DJL's {@link TextEmbeddingTranslatorFactory} returns mean-pooled
- * vectors. They are normalised by default for cosine similarity, but
+ * vectors. They are normalized by default for cosine similarity, but
  * the demo L2-normalises the result explicitly in {@link #encodeOne}
  * before returning. That belt-and-braces step makes the cosine
  * distance reported by Redis Search numerically equivalent to what
  * the Python and Go ports produce, regardless of whether a future
- * DJL release tweaks its default normalisation behaviour.
+ * DJL release tweaks its default normalization behavior.
  */
 public final class LocalEmbedder implements AutoCloseable {
 
@@ -87,14 +87,14 @@ public final class LocalEmbedder implements AutoCloseable {
 
     /**
      * Encode a single string. Returns a {@code float[]} of length
-     * {@link #dim()}, L2-normalised in place.
+     * {@link #dim()}, L2-normalized in place.
      *
      * <p>The DJL PyTorch {@code Predictor} is not thread-safe — its
      * underlying NDManager and tokenizer state mutate per call. The
      * demo server uses a cached thread pool, so two browser tabs
      * could land on different handler threads and call this method
      * concurrently. We {@code synchronized}-guard both encode entry
-     * points to serialise access to the shared predictor; encoding
+     * points to serialize access to the shared predictor; encoding
      * is the bottleneck either way and a single CPU-bound model
      * won't usefully run two requests in parallel. A higher-
      * throughput deployment would replace this with a small pool

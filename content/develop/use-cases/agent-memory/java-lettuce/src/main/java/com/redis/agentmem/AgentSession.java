@@ -22,7 +22,7 @@ import java.util.UUID;
  * <p>Each session is one Hash document at
  * {@code agent:session:{threadId}}. The hash holds the running
  * scratchpad, the current goal, a rolling window of recent turns
- * (serialised as a JSON list to fit in one field), and a few audit
+ * (serialized as a JSON list to fit in one field), and a few audit
  * fields. One {@code HGETALL} returns the whole session in a single
  * round trip on every step of the agent loop.
  *
@@ -32,7 +32,7 @@ import java.util.UUID;
  *
  * <p>The Lettuce connection is shared with {@link LongTermMemory}
  * and {@link AgentEventLog}; the {@code txLock} passed in at
- * construction time serialises {@code MULTI}/{@code EXEC} spans
+ * construction time serializes {@code MULTI}/{@code EXEC} spans
  * across the three helpers so concurrent transactions on the same
  * connection don't interleave queued commands.
  */
@@ -108,7 +108,16 @@ public final class AgentSession {
     /** Return the session state, or {@code null} if it has expired. */
     public SessionState load(String threadId) {
         byte[] key = sessionKeyBytes(threadId);
-        Map<byte[], byte[]> raw = sync.hgetall(key);
+        // Lock the HGETALL+TTL pair against the shared connection's
+        // transaction state — an unguarded read can otherwise land
+        // inside another helper's open MULTI/EXEC and the demo would
+        // see queued responses come back as null.
+        Map<byte[], byte[]> raw;
+        long ttl;
+        synchronized (txLock) {
+            raw = sync.hgetall(key);
+            ttl = sync.ttl(key);
+        }
         if (raw == null || raw.isEmpty()) return null;
         Map<String, String> fields = new LinkedHashMap<>();
         for (Map.Entry<byte[], byte[]> e : raw.entrySet()) {
@@ -116,7 +125,6 @@ public final class AgentSession {
                     new String(e.getKey(), StandardCharsets.UTF_8),
                     new String(e.getValue(), StandardCharsets.UTF_8));
         }
-        long ttl = sync.ttl(key);
         if (ttl < 0) ttl = 0;
         return new SessionState(
                 threadId,
@@ -202,7 +210,9 @@ public final class AgentSession {
 
     /** Drop the session immediately. Returns {@code true} if it existed. */
     public boolean delete(String threadId) {
-        return sync.del(sessionKeyBytes(threadId)) > 0L;
+        synchronized (txLock) {
+            return sync.del(sessionKeyBytes(threadId)) > 0L;
+        }
     }
 
     public StatefulRedisConnection<byte[], byte[]> connection() {
@@ -235,7 +245,7 @@ public final class AgentSession {
         putUtf8(mapping, "recent_turns", turnsArr.toString());
 
         // MULTI/EXEC so HSET and EXPIRE either both apply or neither
-        // does. The shared `txLock` serialises this whole MULTI…EXEC
+        // does. The shared `txLock` serializes this whole MULTI…EXEC
         // span against any other transaction on the same connection
         // — Lettuce's transaction state is connection-scoped, so two
         // concurrent threads queueing into the same MULTI would

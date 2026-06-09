@@ -85,7 +85,7 @@ public final class DemoServer {
             return;
         }
 
-        // The shared `txLock` serialises MULTI/EXEC spans across the
+        // The shared `txLock` serializes MULTI/EXEC spans across the
         // three helpers (working memory, long-term memory, event
         // log) so the cached-thread-pool handlers can't interleave
         // their queued commands. Lettuce connections are otherwise
@@ -109,7 +109,7 @@ public final class DemoServer {
                 null);
         memory.createIndex();
         AgentEventLog events = new AgentEventLog(
-                connection, args.eventKeyPrefix, AgentEventLog.DEFAULT_MAX_LEN);
+                connection, txLock, args.eventKeyPrefix, AgentEventLog.DEFAULT_MAX_LEN);
 
         System.out.println("Loading embedding model "
                 + "(first run downloads the PyTorch weights)...");
@@ -162,7 +162,7 @@ public final class DemoServer {
      * Demo state: working memory, long-term memory, event log.
      *
      * <p>{@code seedAll} / {@code newThread} / {@code handleTurn}
-     * all touch {@code currentThreadId} — synchronised through the
+     * all touch {@code currentThreadId} — synchronized through the
      * mutex below, but the lock is released between operations so a
      * turn racing with a thread rotation can capture the old id and
      * apply to the previous thread. The demo is single-user in

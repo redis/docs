@@ -42,7 +42,7 @@ Each turn through the agent loop touches all three tiers in one pass: append to 
 1. The application calls `embedder.encodeOne(text)` to turn the incoming turn into a 384-element `float[]`.
 2. `session.appendTurn(threadId, role, content, user, agent, null)` reads the per-thread Hash with [`HGETALL`]({{< relref "/commands/hgetall" >}}), appends the new turn to the rolling window in application code, trims it back to the configured maximum, and writes the Hash back with [`HSET`]({{< relref "/commands/hset" >}}) + [`EXPIRE`]({{< relref "/commands/expire" >}}) inside Lettuce's `multi()` / `exec()` transaction. The session TTL refreshes on every write so an active thread stays alive.
 3. `memory.recall(vec, user, namespace, null, 5, threshold)` issues `FT.SEARCH` via `dispatch()` with a TAG pre-filter and a `KNN 5` clause. Redis returns the closest matching memories together with their cosine distances; memories beyond the recall threshold are dropped before they reach the agent so an unrelated query doesn't surface confident-looking false positives.
-4. `memory.remember(text, vec, user, namespace, kind, threadId, null)` runs the same KNN with a tighter dedup threshold. If an existing memory is within the threshold, the new write is skipped and the existing memory's `hit_count` is incremented with `JSON.NUMINCRBY` (also via `dispatch()`); otherwise a fresh JSON document is written with `JSON.SET` and a per-kind [`EXPIRE`]({{< relref "/commands/expire" >}}) inside the same `multi()` transaction.
+4. `memory.remember(text, vec, user, namespace, kind, threadId, null)` runs the same KNN with a tighter dedup threshold. If an existing memory is within the threshold, the new write is skipped and the existing memory's `hit_count` is incremented with `JSON.NUMINCRBY` (also via `dispatch()`) — best-effort: if the memory's TTL has elapsed between the recall and the bump, the increment quietly fails and the hit count for that recall is lost. Otherwise a fresh JSON document is written with `JSON.SET` and a per-kind [`EXPIRE`]({{< relref "/commands/expire" >}}) inside the same `multi()` transaction.
 5. `events.record(threadId, action, detail)` appends one entry to the per-thread Stream with [`XADD MAXLEN ~`]({{< relref "/commands/xadd" >}}) (`XAddArgs.Builder.maxlen(N).approximateTrimming()`), bounding retention to roughly a thousand entries per thread without an explicit cleanup job.
 
 The embedding is computed once and reused for steps 3 and 4 — there's no point encoding the same text twice. Recall runs before the write, so the agent doesn't see its own just-written turn echoed back as a recalled memory.
@@ -54,11 +54,21 @@ The embedding is computed once and reused for steps 3 and 4 — there's no point
 ```java
 import com.redis.agentmem.AgentSession;
 import com.redis.agentmem.SessionState;
+import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.codec.ByteArrayCodec;
+import io.lettuce.core.protocol.ProtocolVersion;
 
 RedisClient client = RedisClient.create("redis://localhost:6379");
+// Pin to RESP2 so FT.SEARCH / FT.INFO reply with the flat arrays
+// the helper's parser expects (Lettuce 6.7 otherwise negotiates
+// RESP3 against Redis 7+ and wraps the same data in a map shape —
+// see the "Sending FT.* / JSON.* commands through Lettuce" section
+// below for the longer story).
+client.setOptions(ClientOptions.builder()
+        .protocolVersion(ProtocolVersion.RESP2)
+        .build());
 StatefulRedisConnection<byte[], byte[]> connection = client.connect(ByteArrayCodec.INSTANCE);
 
 // Shared lock across helpers so concurrent MULTI/EXEC spans on the
@@ -92,7 +102,7 @@ agent:session:9f3d2a4b8c61
   recent_turns=[{"role":"user","content":"...","ts":...}, ...]
 ```
 
-Every write — `start`, `appendTurn`, `setGoal` — runs the [`HSET`]({{< relref "/commands/hset" >}}) and [`EXPIRE`]({{< relref "/commands/expire" >}}) inside `multi()` / `exec()` so a connection drop between the two writes can't leave the session without a TTL. The shared `txLock` serialises this whole MULTI…EXEC span against any other transaction on the connection — Lettuce's transaction state is connection-scoped, so two concurrent handler threads queueing into the same MULTI would interleave their writes.
+Every write — `start`, `appendTurn`, `setGoal` — runs the [`HSET`]({{< relref "/commands/hset" >}}) and [`EXPIRE`]({{< relref "/commands/expire" >}}) inside `multi()` / `exec()` so a connection drop between the two writes can't leave the session without a TTL. The shared `txLock` serializes this whole MULTI…EXEC span against any other transaction on the connection — Lettuce's transaction state is connection-scoped, so two concurrent handler threads queueing into the same MULTI would interleave their writes.
 
 ## The long-term memory store
 
@@ -268,13 +278,13 @@ The three helpers above trade correctness under heavy concurrency for clarity. E
 
 * **Long-term dedup is not atomic.** `LongTermMemory.remember` runs a [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) KNN lookup, decides whether the candidate is a duplicate, and (if not) calls [`JSON.SET`]({{< relref "/commands/json.set" >}}). Two workers seeing the same fact in flight can each fail to see the other's not-yet-committed write and both insert a new memory. The pragmatic fix is to accept that the index will occasionally hold near-duplicates and run a background consolidator that periodically scans for memory pairs within a tight distance and merges them, rather than trying to make the write itself atomic.
 
-* **The active thread is server state.** The demo server keeps a single `currentThreadId` synchronised through an explicit mutex; `seedAll`, `newThread`, and `handleTurn` each release the lock between operations, so a turn racing with a thread rotation can capture the old id and apply to the previous thread. This is cosmetic for a one-user browser demo. A multi-user agent would carry the thread id on the request itself rather than as shared server state.
+* **The active thread is server state.** The demo server keeps a single `currentThreadId` synchronized through an explicit mutex; `seedAll`, `newThread`, and `handleTurn` each release the lock between operations, so a turn racing with a thread rotation can capture the old id and apply to the previous thread. This is cosmetic for a one-user browser demo. A multi-user agent would carry the thread id on the request itself rather than as shared server state.
 
 Two concerns specific to Java + Lettuce:
 
 * `LocalEmbedder.encodeOne` / `encodeMany` are `synchronized` because the underlying `Predictor` is not thread-safe. The demo's `Executors.newCachedThreadPool` could otherwise call into one predictor from several handler threads at once and corrupt the inference state. A higher-throughput deployment would replace that lock with a small pool of `Predictor` instances or a dedicated single-threaded inference executor.
 
-* All three helpers share a single Lettuce connection. Lettuce connections are thread-safe for individual command dispatch, but transaction state (`MULTI` / queued commands / `EXEC`) is connection-scoped — two concurrent threads queueing into the same `MULTI` would interleave their writes and each thread's `EXEC` would return a mix of replies. The shared `txLock` passed into both `AgentSession` and `LongTermMemory` serialises the entire `MULTI…EXEC` span across all three helpers. A higher-throughput deployment would use a small pool of connections via Lettuce's `ConnectionPoolSupport` instead.
+* All three helpers share a single Lettuce connection. Lettuce connections are thread-safe for individual command dispatch, but transaction state (`MULTI` / queued commands / `EXEC`) is connection-scoped — two concurrent threads queueing into the same `MULTI` would interleave their writes and each thread's `EXEC` would return a mix of replies. The shared `txLock` is passed into all three helpers (`AgentSession`, `LongTermMemory`, and `AgentEventLog`) and is held around every Redis call they issue, not only the `MULTI…EXEC` spans. That serializes every operation on the connection, which is fine for a single-user demo but trades concurrency for safety; a higher-throughput deployment would use a small pool of connections via Lettuce's `ConnectionPoolSupport` instead so handlers can run their commands in parallel.
 
 Those caveats are deliberate. A more conservative implementation would obscure the Redis-shaped parts of the pattern; the demo prioritises a small, readable code path that maps directly onto the commands in the prose above.
 

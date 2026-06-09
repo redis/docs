@@ -23,7 +23,7 @@ import java.util.List;
  * decimal place).
  *
  * <p>DJL's {@link TextEmbeddingTranslatorFactory} returns mean-pooled,
- * L2-normalised vectors by default, so a Redis Search index declared
+ * L2-normalized vectors by default, so a Redis Search index declared
  * with {@code DISTANCE_METRIC COSINE} returns scores that are
  * directly comparable across entries. The model is downloaded into
  * the local DJL cache on the first call; every later call runs
@@ -93,7 +93,7 @@ public final class LocalEmbedder implements AutoCloseable {
      * demo server uses a cached thread pool, so two browser tabs
      * could land on different handler threads and call this method
      * concurrently. We {@code synchronized}-guard both encode entry
-     * points to serialise access to the shared predictor; encoding
+     * points to serialize access to the shared predictor; encoding
      * is the bottleneck either way and a single CPU-bound model
      * won't usefully run two requests in parallel. A higher-
      * throughput deployment would replace this with a small pool

@@ -117,7 +117,7 @@ public final class LongTermMemory {
         this.indexName = indexName;
         this.keyPrefix = keyPrefix;
         this.vectorDim = vectorDim > 0 ? vectorDim : VECTOR_DIM_DEFAULT;
-        // Thresholds are honoured as-is. Zero is a legitimate value
+        // Thresholds are honored as-is. Zero is a legitimate value
         // ("exact matches only" for dedup, "nothing recalls" for
         // recall); silently rewriting them would make
         // --dedup-threshold 0 uncallable.
@@ -271,7 +271,7 @@ public final class LongTermMemory {
         doc.put("kind", kind);
         doc.put("source_thread", sourceThread == null ? "" : sourceThread);
         doc.put("text", text == null ? "" : text);
-        // org.json's JSONObject.put(String, Object) serialises a
+        // org.json's JSONObject.put(String, Object) serializes a
         // float[] as a JSON array of numbers — exactly what the JSON
         // vector field expects at index time.
         doc.put("embedding", embedding);

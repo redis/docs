@@ -147,7 +147,7 @@ public final class DemoServer {
      * Demo state: working memory, long-term memory, event log.
      *
      * <p>{@code seedAll} / {@code newThread} / {@code handleTurn}
-     * all touch {@code currentThreadId} — synchronised through the
+     * all touch {@code currentThreadId} — synchronized through the
      * mutex below, but the lock is released between operations so a
      * turn racing with a thread rotation can capture the old id and
      * apply to the previous thread. The demo is single-user in

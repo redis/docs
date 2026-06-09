@@ -19,7 +19,7 @@ import java.util.UUID;
  * <p>Each session is one Hash document at
  * {@code agent:session:{threadId}}. The hash holds the running
  * scratchpad, the current goal, a rolling window of recent turns
- * (serialised as a JSON list to fit in one field), and a few audit
+ * (serialized as a JSON list to fit in one field), and a few audit
  * fields. One {@code HGETALL} returns the whole session in a single
  * round trip on every step of the agent loop.
  *
