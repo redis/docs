@@ -116,6 +116,13 @@ func (e *LocalEmbedder) Close() error {
 // EncodeOne returns a 384-element float32 vector for the input string.
 // The vector is L2-normalised so cosine distance against another
 // normalised vector reduces to 1 - dot product.
+//
+// Hugot reuses the same backing slice across calls on a given
+// pipeline, so the returned vector is copied before normalising —
+// otherwise overlapping `/turn` handlers on the shared embedder
+// would race on the same buffer and either corrupt the stored
+// embedding or hand the recall path a vector that's already been
+// overwritten by the next request.
 func (e *LocalEmbedder) EncodeOne(ctx context.Context, text string) ([]float32, error) {
 	out, err := e.pipeline.RunPipeline(ctx, []string{text})
 	if err != nil {
@@ -124,8 +131,9 @@ func (e *LocalEmbedder) EncodeOne(ctx context.Context, text string) ([]float32, 
 	if len(out.Embeddings) == 0 {
 		return nil, fmt.Errorf("pipeline returned no embeddings")
 	}
-	normalizeInPlace(out.Embeddings[0])
-	return out.Embeddings[0], nil
+	vec := append([]float32(nil), out.Embeddings[0]...)
+	normalizeInPlace(vec)
+	return vec, nil
 }
 
 // EncodeMany batches several strings in a single pipeline call so the
@@ -149,10 +157,16 @@ func (e *LocalEmbedder) EncodeMany(ctx context.Context, texts []string) ([][]flo
 			len(out.Embeddings), len(texts),
 		)
 	}
+	// Copy each row off the pipeline's reusable backing slice — see
+	// the comment on `EncodeOne` for why. The seed loader is the
+	// usual caller here and doesn't itself race, but the contract
+	// has to hold for any future caller that does.
+	vecs := make([][]float32, len(out.Embeddings))
 	for i := range out.Embeddings {
-		normalizeInPlace(out.Embeddings[i])
+		vecs[i] = append([]float32(nil), out.Embeddings[i]...)
+		normalizeInPlace(vecs[i])
 	}
-	return out.Embeddings, nil
+	return vecs, nil
 }
 
 // normalizeInPlace L2-normalises a vector so it has unit length.

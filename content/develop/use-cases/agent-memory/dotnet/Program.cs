@@ -65,7 +65,15 @@ public static class Program
             return 2;
         }
 
-        ConnectionMultiplexer mux;
+        // Resources held for the lifetime of the process. Declared
+        // here so the try/finally below disposes them on every exit
+        // path, including the early `return 1` branches that follow
+        // a successful Redis connect or model load.
+        ConnectionMultiplexer? mux = null;
+        LocalEmbedder? embedder = null;
+        HttpListener? listener = null;
+        try
+        {
         try
         {
             mux = ConnectionMultiplexer.Connect(new ConfigurationOptions
@@ -101,7 +109,6 @@ public static class Program
 
         Console.WriteLine(
             "Loading embedding model (first run downloads ~90 MB of ONNX weights)...");
-        LocalEmbedder embedder;
         try
         {
             embedder = LocalEmbedder.CreateAsync().GetAwaiter().GetResult();
@@ -141,7 +148,7 @@ public static class Program
             .Replace("__MEM_INDEX__", args.MemIndexName)
             .Replace("__EVENT_PREFIX__", args.EventKeyPrefix);
 
-        var listener = new HttpListener();
+        listener = new HttpListener();
         // HttpListener prefixes need a trailing slash; '+' wildcard
         // would require admin rights on macOS/Linux, so we bind to
         // the literal host string. 127.0.0.1 keeps the demo off the
@@ -203,10 +210,14 @@ public static class Program
             });
         }
 
-        try { listener.Close(); } catch { /* best-effort */ }
-        embedder.Dispose();
-        mux.Dispose();
         return 0;
+        }
+        finally
+        {
+            try { listener?.Close(); } catch { /* best-effort */ }
+            embedder?.Dispose();
+            mux?.Dispose();
+        }
     }
 
     // ------------------------------------------------------------------
