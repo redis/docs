@@ -225,7 +225,7 @@ The three helpers above trade correctness under heavy concurrency for clarity. E
 
 * **The active thread is server state.** The demo server keeps a single `CurrentThreadId` that `/new_thread` and `/reset` mutate. `HandleTurn` reads it without coordination, so a turn racing with a thread rotation can apply to the previous thread. This is cosmetic for a one-user browser demo. A multi-user agent would carry the thread id on the request itself rather than as shared server state.
 
-Those caveats are deliberate. A more conservative implementation would obscure the Redis-shaped parts of the pattern; the demo prioritises a small, readable code path that maps directly onto the commands in the prose above.
+Those caveats are deliberate. A more conservative implementation would obscure the Redis-shaped parts of the pattern; the demo prioritizes a small, readable code path that maps directly onto the commands in the prose above.
 
 ## Pre-seeding long-term memory
 
@@ -326,7 +326,7 @@ The server holds one `LocalEmbedder`, one `AgentSession`, one `LongTermMemory`, 
     are always a function of the model, the corpus, and how conservative the
     agent needs to be about accepting a memory as a match.
 
-The server is read/write against your local Redis. The default memory index is `agentmem:idx`, JSON keys live under `agent:mem:`, session Hashes under `agent:session:`, and event Streams under `agent:events:`. Useful flags (pass them after `--`, e.g. `dotnet run -- --no-reset`):
+The server is read/write against your local Redis. The default memory index is `agentmem:idx`, JSON keys live under `agent:mem:`, session Hashes under `agent:session:`, and event Streams under `agent:events:`. Useful flags (pass them after `--`, for example `dotnet run -- --no-reset`):
 
 * `--no-reset` — keep the existing long-term memories across restarts instead of dropping and re-seeding.
 * `--session-ttl-seconds` — change the working-memory TTL (default 3600).

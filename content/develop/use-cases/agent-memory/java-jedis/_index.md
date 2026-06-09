@@ -226,7 +226,7 @@ The three helpers above trade correctness under heavy concurrency for clarity. E
 
 A separate concern specific to Java + DJL: the `LocalEmbedder.encodeOne` / `encodeMany` methods are `synchronized` because the underlying `Predictor` is not thread-safe. The demo's `Executors.newCachedThreadPool` could otherwise call into one predictor from several handler threads at once and corrupt the inference state. A higher-throughput deployment would replace that lock with a small pool of `Predictor` instances or a dedicated single-threaded inference executor.
 
-Those caveats are deliberate. A more conservative implementation would obscure the Redis-shaped parts of the pattern; the demo prioritises a small, readable code path that maps directly onto the commands in the prose above.
+Those caveats are deliberate. A more conservative implementation would obscure the Redis-shaped parts of the pattern; the demo prioritizes a small, readable code path that maps directly onto the commands in the prose above.
 
 ## Pre-seeding long-term memory
 
@@ -337,7 +337,7 @@ The server is read/write against your local Redis. The default memory index is `
 
 * `--host` / `--port` — change the HTTP bind address (default `127.0.0.1:8092`).
 * `--redis-host` / `--redis-port` — point at a non-local Redis (default `localhost:6379`).
-* `--mem-index-name` / `--mem-key-prefix` / `--session-key-prefix` / `--event-key-prefix` — relocate the index name and the three key prefixes (e.g. to run several demos against one Redis without colliding).
+* `--mem-index-name` / `--mem-key-prefix` / `--session-key-prefix` / `--event-key-prefix` — relocate the index name and the three key prefixes (to run several demos against one Redis without colliding, for example).
 * `--no-reset` — keep the existing long-term memories across restarts instead of dropping and re-seeding.
 * `--session-ttl-seconds` — change the working-memory TTL (default 3600).
 * `--dedup-threshold` — change the cosine-distance cutoff for write-time deduplication.

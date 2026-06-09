@@ -286,7 +286,7 @@ Two concerns specific to Java + Lettuce:
 
 * All three helpers share a single Lettuce connection. Lettuce connections are thread-safe for individual command dispatch, but transaction state (`MULTI` / queued commands / `EXEC`) is connection-scoped — two concurrent threads queueing into the same `MULTI` would interleave their writes and each thread's `EXEC` would return a mix of replies. The shared `txLock` is passed into all three helpers (`AgentSession`, `LongTermMemory`, and `AgentEventLog`) and is held around every Redis call they issue, not only the `MULTI…EXEC` spans. That serializes every operation on the connection, which is fine for a single-user demo but trades concurrency for safety; a higher-throughput deployment would use a small pool of connections via Lettuce's `ConnectionPoolSupport` instead so handlers can run their commands in parallel.
 
-Those caveats are deliberate. A more conservative implementation would obscure the Redis-shaped parts of the pattern; the demo prioritises a small, readable code path that maps directly onto the commands in the prose above.
+Those caveats are deliberate. A more conservative implementation would obscure the Redis-shaped parts of the pattern; the demo prioritizes a small, readable code path that maps directly onto the commands in the prose above.
 
 ## Pre-seeding long-term memory
 
@@ -397,7 +397,7 @@ The server is read/write against your local Redis. The default memory index is `
 
 * `--host` / `--port` — change the HTTP bind address (default `127.0.0.1:8093`).
 * `--redis-host` / `--redis-port` — point at a non-local Redis (default `localhost:6379`).
-* `--mem-index-name` / `--mem-key-prefix` / `--session-key-prefix` / `--event-key-prefix` — relocate the index name and the three key prefixes (e.g. to run several demos against one Redis without colliding).
+* `--mem-index-name` / `--mem-key-prefix` / `--session-key-prefix` / `--event-key-prefix` — relocate the index name and the three key prefixes (to run several demos against one Redis without colliding, for example).
 * `--no-reset` — keep the existing long-term memories across restarts instead of dropping and re-seeding.
 * `--session-ttl-seconds` — change the working-memory TTL (default 3600).
 * `--dedup-threshold` — change the cosine-distance cutoff for write-time deduplication.

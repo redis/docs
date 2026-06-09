@@ -234,7 +234,7 @@ The three helpers above trade correctness under heavy concurrency for clarity. E
 
 * **The active thread is server state.** The demo server keeps a single `currentThreadId` that `/new_thread` and `/reset` mutate. `handleTurn` reads it without coordination, so a turn racing with a thread rotation can apply to the previous thread. This is cosmetic for a one-user browser demo. A multi-user agent would carry the thread id on the request itself rather than as shared server state.
 
-Those caveats are deliberate. A more conservative implementation would obscure the Redis-shaped parts of the pattern; the demo prioritises a small, readable code path that maps directly onto the commands in the prose above.
+Those caveats are deliberate. A more conservative implementation would obscure the Redis-shaped parts of the pattern; the demo prioritizes a small, readable code path that maps directly onto the commands in the prose above.
 
 ## Pre-seeding long-term memory
 

@@ -312,7 +312,11 @@ func (m *LongTermMemory) Remember(ctx context.Context, p RememberParams) (WriteR
 	// outlive its intended `kind`-derived TTL.
 	if _, err := m.Client.TxPipelined(ctx, func(pipe redis.Pipeliner) error {
 		pipe.JSONSet(ctx, key, "$", doc)
-		if ttl != nil && *ttl > 0 {
+		// `nil` is the "no TTL" sentinel; an explicit zero falls
+		// through to `EXPIRE key 0`, which Redis treats as immediate
+		// expiry — same contract as the Python, Node, Rust, .NET,
+		// Java, PHP, and Ruby ports.
+		if ttl != nil {
 			pipe.Expire(ctx, key, time.Duration(*ttl)*time.Second)
 		}
 		return nil
