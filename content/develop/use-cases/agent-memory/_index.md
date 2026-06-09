@@ -74,3 +74,4 @@ The following guides show how to build a small Redis-backed agent memory layer u
 * [Jedis (Java)]({{< relref "/develop/use-cases/agent-memory/java-jedis" >}})
 * [Lettuce (Java)]({{< relref "/develop/use-cases/agent-memory/java-lettuce" >}})
 * [Predis (PHP)]({{< relref "/develop/use-cases/agent-memory/php" >}})
+* [redis-rb (Ruby)]({{< relref "/develop/use-cases/agent-memory/ruby" >}})
