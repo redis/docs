@@ -14,10 +14,15 @@
  *     LLM_API_KEY=your_${formData.llmModel.toLowerCase()}_api_key
  *     LLM_API_BASE_URL=your_base_url    (optional, default: ${CONFIG.models[formData.llmModel].baseUrl})
  *     LLM_MODEL=your_model_name         (optional, default: ${CONFIG.models[formData.llmModel].defaultModel})
- *     EMBEDDING_MODEL=your_embed_model  (optional, default: text-embedding-3-small)
- *     VECTOR_DIM=1536                   (optional, must match your embedding model's output dimension)
  *     REDIS_URL=redis://localhost:6379
  *       (or use REDIS_HOST, REDIS_PORT, REDIS_PASSWORD, REDIS_USERNAME separately)
+ *
+ *     Embeddings use a separate client so you can mix providers:
+ *     EMBEDDING_API_KEY=your_key        (optional - defaults to LLM_API_KEY)
+ *     EMBEDDING_API_BASE_URL=your_url   (optional - defaults to LLM_API_BASE_URL)
+ *     EMBEDDING_MODEL=your_embed_model  (optional, default: text-embedding-3-small;
+ *                                        for Ollama use nomic-embed-text)
+ *     VECTOR_DIM=1536                   (optional, must match your embedding model's output dimension)
  */
 
 require('dotenv').config();
@@ -46,6 +51,16 @@ class ConversationalAgent {
     this.llmModel   = process.env.LLM_MODEL         || '${CONFIG.models[formData.llmModel].defaultModel}';
 
     this.openai = new OpenAI({ apiKey: this.llmApiKey, baseURL: this.llmBaseUrl });
+
+    // Embeddings can use a different provider than chat completions.
+    // For Ollama users: set EMBEDDING_MODEL=nomic-embed-text (no extra keys needed).
+    // For Anthropic users: set EMBEDDING_API_KEY and EMBEDDING_API_BASE_URL to an
+    // OpenAI-compatible embedding endpoint (e.g. OpenAI or Ollama).
+    this.embedder = new OpenAI({
+      apiKey:  process.env.EMBEDDING_API_KEY  || this.llmApiKey,
+      baseURL: process.env.EMBEDDING_API_BASE_URL || this.llmBaseUrl,
+    });
+
     this.redisClient = null;
   }
 
@@ -97,7 +112,7 @@ class ConversationalAgent {
   }
 
   async _embed(text) {
-    const response = await this.openai.embeddings.create({
+    const response = await this.embedder.embeddings.create({
       model: EMBEDDING_MODEL,
       input: text,
     });

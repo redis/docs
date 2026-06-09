@@ -274,15 +274,18 @@ Return only valid JSON with no explanation or markdown.`;
 
     // Build filter parts — genres now filtered in Redis via TAG, not in JavaScript
     const filterParts = [];
-    if (params.minRating)     filterParts.push(`@avgRating:[${params.minRating} +inf]`);
-    if (params.minReviews)    filterParts.push(`@ratingCount:[${params.minReviews} +inf]`);
+    if (params.minRating != null)  filterParts.push(`@avgRating:[${params.minRating} +inf]`);
+    if (params.minReviews != null) filterParts.push(`@ratingCount:[${params.minReviews} +inf]`);
     if (params.revenueFilter) filterParts.push(`@revenue:[${CONFIG.minRevenueFilter} +inf]`);
     if (params.genres?.length) {
       // Redis TAG filter: match any of the requested genres.
-      // Spaces inside multi-word tags (e.g. "Science Fiction") must be backslash-escaped
-      // so RediSearch treats them as a single token rather than two separate terms.
+      // Hyphens (e.g. "Film-Noir") and spaces (e.g. "Science Fiction") are stored intact
+      // at ingest, so they must be preserved and backslash-escaped in the query rather
+      // than stripped, otherwise hyphenated and multi-word genres never match.
       const tagList = params.genres
-        .map((g) => g.replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/ +/g, '\\ '))
+        .map((g) => g.replace(/[^a-zA-Z0-9 \-]/g, '').trim()
+          .replace(/-/g, '\\-')
+          .replace(/ +/g, '\\ '))
         .filter(Boolean)
         .join('|');
       if (tagList) filterParts.push(`@genres:{${tagList}}`);
