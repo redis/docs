@@ -346,7 +346,19 @@ func (m *LongTermMemory) Recall(ctx context.Context, p RecallParams) ([]MemoryRe
 	if p.DistanceThreshold != nil {
 		threshold = *p.DistanceThreshold
 	}
-	candidates, err := m.nearest(ctx, p.QueryEmbedding, p.User, p.Namespace, p.Kind, k)
+	// Match `Remember` defaulting so a Recall called with empty
+	// user/namespace stays scoped to the same `"default"` keys writes
+	// land under, not the unscoped `(*)` shape `buildMemoryFilter`
+	// would otherwise produce.
+	user := p.User
+	if user == "" {
+		user = "default"
+	}
+	ns := p.Namespace
+	if ns == "" {
+		ns = "default"
+	}
+	candidates, err := m.nearest(ctx, p.QueryEmbedding, user, ns, p.Kind, k)
 	if err != nil {
 		return nil, err
 	}
@@ -463,6 +475,15 @@ func (m *LongTermMemory) ListMemories(
 ) ([]MemoryRecord, error) {
 	if limit <= 0 {
 		limit = 100
+	}
+	// Match `Remember` defaulting so a list called with an empty
+	// user/namespace stays scoped to the same `"default"` keys
+	// `Remember` writes under, not an unscoped `(*)` query.
+	if user == "" {
+		user = "default"
+	}
+	if namespace == "" {
+		namespace = "default"
 	}
 	filterClause := buildMemoryFilter(user, namespace, kind)
 	res, err := m.Client.FTSearchWithArgs(ctx,

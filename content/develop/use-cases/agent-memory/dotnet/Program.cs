@@ -235,8 +235,8 @@ public static class Program
             if (path == "/state")
             {
                 var qs = HttpUtility.ParseQueryString(req.Url?.Query ?? "");
-                string user = qs["user"] ?? demo.DefaultUser;
-                string @namespace = qs["namespace"] ?? demo.DefaultNamespace;
+                string user = OrDefault(qs["user"], demo.DefaultUser);
+                string @namespace = OrDefault(qs["namespace"], demo.DefaultNamespace);
                 SendJson(ctx, BuildState(demo, session, memory, events, embedder, user, @namespace));
                 return;
             }
@@ -260,12 +260,12 @@ public static class Program
                 double threshold = ClampThreshold(form["threshold"], memory.RecallThreshold);
                 var payload = demo.HandleTurn(
                     text: text,
-                    user: form["user"] ?? "default",
-                    @namespace: form["namespace"] ?? "default",
-                    kind: form["kind"] ?? "episodic",
-                    role: form["role"] ?? "user",
+                    user: OrDefault(form["user"], "default"),
+                    @namespace: OrDefault(form["namespace"], "default"),
+                    kind: OrDefault(form["kind"], "episodic"),
+                    role: OrDefault(form["role"], "user"),
                     threshold: threshold,
-                    action: form["action"] ?? "turn");
+                    action: OrDefault(form["action"], "turn"));
                 SendJson(ctx, payload);
                 return;
             }
@@ -273,8 +273,8 @@ public static class Program
             if (path == "/new_thread")
             {
                 string threadId = demo.NewThread(
-                    user: form["user"] ?? "default",
-                    @namespace: form["namespace"] ?? "default");
+                    user: OrDefault(form["user"], "default"),
+                    @namespace: OrDefault(form["namespace"], "default"));
                 SendJson(ctx, new { thread_id = threadId });
                 return;
             }
@@ -282,8 +282,8 @@ public static class Program
             if (path == "/reset")
             {
                 int seeded = demo.SeedAll(
-                    user: form["user"] ?? "default",
-                    @namespace: form["namespace"] ?? "default");
+                    user: OrDefault(form["user"], "default"),
+                    @namespace: OrDefault(form["namespace"], "default"));
                 SendJson(ctx, new { seeded });
                 return;
             }
@@ -464,6 +464,14 @@ public static class Program
         if (!double.IsFinite(d)) return fallback;
         return Math.Max(0.0, Math.Min(2.0, d));
     }
+
+    // Empty form / query values are common when the JS client posts
+    // an unedited input. `??` only catches `null`, not `""`, so
+    // without this helper an empty `user` would flow into the TAG
+    // filter as `""` and the recall query would silently drop the
+    // scope — Python / Node / Go all normalize via the same shape.
+    private static string OrDefault(string? value, string fallback)
+        => string.IsNullOrEmpty(value) ? fallback : value;
 
     // ------------------------------------------------------------------
     // Help text
