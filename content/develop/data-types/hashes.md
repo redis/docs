@@ -70,7 +70,7 @@ as well, like [`HINCRBY`]({{< relref "/commands/hincrby" >}}):
 
 You can find the [full list of hash commands in the documentation]({{< relref "/commands#hash" >}}).
 
-It is worth noting that small hashes (i.e., a few elements with small values) are
+It is worth noting that small hashes (for example, a few elements with small values) are
 encoded in special way in memory that make them very memory efficient.
 
 ## Examples
