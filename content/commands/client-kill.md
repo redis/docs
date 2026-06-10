@@ -140,32 +140,78 @@ The new format:
     CLIENT KILL <filter> <value> ... ... <filter> <value>
 
 With the new form it is possible to kill clients by different attributes
-instead of killing just by address. The following filters are available:
+instead of killing just by address. See below for the list of supported filters.
 
-* `CLIENT KILL ADDR ip:port`. This is exactly the same as the old three-arguments behavior.
-* `CLIENT KILL LADDR ip:port`. Kill all clients connected to specified local (bind) address.
-* `CLIENT KILL ID client-id`. Allows to kill a client by its unique `ID` field. Client `ID`'s are retrieved using the [`CLIENT LIST`]({{< relref "/commands/client-list" >}}) command.
-* `CLIENT KILL TYPE type`, where *type* is one of `normal`, `master`, `replica` and `pubsub`. This closes the connections of **all the clients** in the specified class. Note that clients blocked into the [`MONITOR`]({{< relref "/commands/monitor" >}}) command are considered to belong to the `normal` class.
-* `CLIENT KILL USER username`. Closes all the connections that are authenticated with the specified [ACL]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) username, however it returns an error if the username does not map to an existing ACL user.
-* `CLIENT KILL SKIPME yes/no`. By default this option is set to `yes`, that is, the client calling the command will not get killed, however setting this option to `no` will have the effect of also killing the client calling the command.
-* `CLIENT KILL MAXAGE maxage`. Closes all the connections that are older than the specified age, in seconds. Added in Redis v7.4.
-
-It is possible to provide multiple filters at the same time. The command will handle multiple filters via logical AND. For example:
+It is possible to provide multiple filters at the same time. Multiple filters are combined using logical AND.
 
     CLIENT KILL addr 127.0.0.1:12345 type pubsub
 
-is valid and will kill only a pubsub client with the specified address. This format containing multiple filters is rarely useful currently.
+is valid and will kill only a pubsub client with the specified address.
 
-When the new form is used the command no longer returns `OK` or an error, but instead the number of killed clients, that may be zero.
+When the new form is used the command no longer returns `OK` or an error, but instead the number of killed clients, which may be zero.
 
-## CLIENT KILL and Redis Sentinel
+## Optional arguments
+
+Provide the legacy `ip:port` argument to close a client by address, or one or more of the following filters, which can be combined to select the clients to close.
+
+<details open><summary><code>ip:port</code></summary>
+
+Close the client at the given address. This is the legacy single-argument form.
+
+</details>
+
+<details open><summary><code>ID client-id</code></summary>
+
+Close only the client with the given unique ID.
+
+</details>
+
+<details open><summary><code>TYPE NORMAL | MASTER | SLAVE | REPLICA | PUBSUB</code></summary>
+
+Close only clients of the given type.
+
+</details>
+
+<details open><summary><code>USER username</code></summary>
+
+Close only clients authenticated as the given ACL user.
+
+</details>
+
+<details open><summary><code>ADDR ip:port</code></summary>
+
+Close only clients connected from the given address.
+
+</details>
+
+<details open><summary><code>LADDR ip:port</code></summary>
+
+Close only clients connected to the given local (server) address.
+
+</details>
+
+<details open><summary><code>SKIPME YES | NO</code></summary>
+
+Whether to skip the calling client (`YES`, the default) or allow it to be closed too (`NO`).
+
+</details>
+
+<details open><summary><code>MAXAGE maxage</code></summary>
+
+Close only clients older than the given age, in seconds.
+
+</details>
+
+## Details
+
+### CLIENT KILL and Redis Sentinel
 
 Recent versions of Redis Sentinel (Redis 2.8.12 or greater) use CLIENT KILL
 in order to kill clients when an instance is reconfigured, in order to
 force clients to perform the handshake with one Sentinel again and update
 its configuration.
 
-## Notes
+### Notes
 
 Due to the single-threaded nature of Redis, it is not possible to
 kill a client connection while it is executing a command. From

@@ -48,6 +48,14 @@ When turned on, the current client will not change LFU/LRU stats, unless it send
 
 When turned off, the client touches LFU/LRU stats just as a normal client.
 
+## Required arguments
+
+<details open><summary><code>ON | OFF</code></summary>
+
+Turn off (`ON`) or on (`OFF`) updates to keys' last-access time and LFU counter for commands issued by this connection.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

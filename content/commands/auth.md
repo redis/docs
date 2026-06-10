@@ -73,7 +73,25 @@ defined in the ACL list (see [`ACL SETUSER`]({{< relref "/commands/acl-setuser" 
 
 When ACLs are used, the single argument form of the command, where only the password is specified, assumes that the implicit username is "default".
 
-## Security notice
+## Required arguments
+
+<details open><summary><code>password</code></summary>
+
+The password to authenticate with. With `requirepass`, this is the server password; with ACLs, it is the user's password.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>username</code></summary>
+
+The ACL username to authenticate as. If omitted, the `default` user is used.
+
+</details>
+
+## Details
+
+### Security notice
 
 Because of the high performance nature of Redis, it is possible to try
 a lot of passwords in parallel in very short time, so make sure to generate a
