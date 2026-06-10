@@ -76,7 +76,6 @@ RDI is not a good fit when:
 - Your app needs *immediate* cache consistency (or a hard limit on latency) rather
   than *eventual* consistency.
 - You need *transactional* consistency between the source and target databases.
-- The data is ingested from two replicas of Active-Active at the same time.
 - The app must *write* data to the Redis cache, which then updates the source database
   (write-behind/write-through patterns).
 - Your data set will only ever be small.
