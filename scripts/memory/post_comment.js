@@ -56,7 +56,7 @@ async function postCommitStatus(repo, sha, related, sourceUrl, token) {
 
   await githubRequest('POST', `/repos/${repo}/statuses/${sha}`, {
     state: 'success',
-    context: '🧠 Redis Repository Memory',
+    context: 'Redis Repository Memory',
     description,
     target_url: sourceUrl,
   }, token);
