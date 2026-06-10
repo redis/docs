@@ -78,15 +78,6 @@ redis> LRANGE mylist 0 -1
 2) "five"
 {{< /clients-example>}}
 
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-RPUSH mylist "one" "two" "three" "four" "five"
-LPOP mylist
-LPOP mylist 2
-LRANGE mylist 0 -1
-{{% /redis-cli %}}
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

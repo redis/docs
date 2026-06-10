@@ -60,14 +60,6 @@ redis> LLEN mylist
 (integer) 2
 {{< /clients-example >}}
 
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-LPUSH mylist "World"
-LPUSH mylist "Hello"
-LLEN mylist
-{{% /redis-cli %}}
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

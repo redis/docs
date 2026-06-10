@@ -53,15 +53,14 @@ only handles string values.
 
 ## Examples
 
-{{% redis-cli %}}
-GET nonexisting
-SET mykey "Hello"
-GET mykey
-{{% /redis-cli %}}
-
-### Code examples
-
-{{< clients-example set="set_and_get" step="get" description="Foundational: Retrieve the string value of a key using GET (returns nil if key doesn't exist)" difficulty="beginner" />}}
+{{< clients-example set="set_and_get" step="get" description="Foundational: Retrieve the string value of a key using GET (returns nil if key doesn't exist)" difficulty="beginner" >}}
+> GET nonexisting
+(nil)
+> SET mykey "Hello"
+"OK"
+> GET mykey
+"Hello"
+{{< /clients-example >}}
 
 ## Redis Software and Redis Cloud compatibility
 

@@ -65,14 +65,6 @@ redis> HGETALL myhash
 4) "World"
 {{< /clients-example >}}
 
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-HSET myhash field1 "Hello"
-HSET myhash field2 "World"
-HGETALL myhash
-{{% /redis-cli %}}
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

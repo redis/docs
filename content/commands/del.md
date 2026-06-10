@@ -71,14 +71,6 @@ A key is ignored if it does not exist.
 (integer) 2
 {{< /clients-example >}}
 
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-SET key1 "Hello"
-SET key2 "World"
-DEL key1 key2 key3
-{{% /redis-cli %}}
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
