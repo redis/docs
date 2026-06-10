@@ -5,9 +5,10 @@ categories:
 - docs
 - operate
 - kubernetes
+aliases: [/operate/kubernetes/security/cert-manager/]
 description: Automate TLS certificate management for Redis for Kubernetes using cert-manager.
 linkTitle: cert-manager
-weight: 89
+weight: 20
 ---
 
 [cert-manager](https://cert-manager.io/) is a Kubernetes add-on that automates the management and issuance of TLS certificates. The Redis operator integrates with cert-manager, so you can use automatically managed certificates for:
@@ -173,7 +174,7 @@ spec:
         port: 636
 ```
 
-For more details on LDAP configuration, see [Enable LDAP authentication]({{< relref "/operate/kubernetes/security/ldap" >}}).
+For more details on LDAP configuration, see [Enable LDAP authentication]({{< relref "/operate/kubernetes/security/authentication/ldap" >}}).
 
 ## Active-Active databases with automatic certificate sync
 
@@ -371,7 +372,7 @@ If you encounter certificate chain validation errors:
 ## See also
 
 - [cert-manager documentation](https://cert-manager.io/docs/)
-- [Manage REC certificates]({{< relref "/operate/kubernetes/security/manage-rec-certificates" >}})
+- [Manage REC certificates]({{< relref "/operate/kubernetes/security/certificates/manage-rec-certificates" >}})
 - [RedisEnterpriseCluster API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}})
 - [RedisEnterpriseDatabase API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}})
 - [HashiCorp Vault integration]({{< relref "/operate/kubernetes/security/vault" >}})
