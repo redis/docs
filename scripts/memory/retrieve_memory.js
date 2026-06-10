@@ -7,7 +7,7 @@ const OpenAI = require('openai');
 const INDEX_NAME = 'repo_memory_idx';
 const KEY_PREFIX = 'memory:';
 const VECTOR_DIM = 1536;
-const SIMILARITY_THRESHOLD = 0.75; // cosine distance [0,2]; lower = more similar
+const SIMILARITY_THRESHOLD = 0.60; // cosine distance [0,2]; lower = more similar
 const TOP_K = 10;
 const MAX_RESULTS = 5;
 
