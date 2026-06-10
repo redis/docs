@@ -44,7 +44,7 @@ You can use hashes to represent basic objects and to store groupings of counters
 
 {{< /clients-example >}}
 
-While hashes are handy to represent *objects*, actually the number of fields you can
+While hashes are used to represent *objects*, actually the number of fields you can
 put inside a hash has no practical limits (other than available memory), so you can use
 hashes in many different ways inside your application.
 
