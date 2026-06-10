@@ -65,8 +65,9 @@ expression.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
-#### `NOTE`
+{{< note >}}
 Learn more about vector queries in Redis: [https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search](https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search)
+{{< /note >}}
 
 #### `dialect(dialect)`
 
@@ -276,10 +277,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
@@ -417,8 +419,9 @@ distance threshold.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
-#### `NOTE`
+{{< note >}}
 Learn more about vector range queries: [https://redis.io/docs/interact/search-and-query/search/vectors/#range-query](https://redis.io/docs/interact/search-and-query/search/vectors/#range-query)
+{{< /note >}}
 
 #### `dialect(dialect)`
 
@@ -638,10 +641,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
@@ -979,10 +983,11 @@ Get the text weights.
 * **Return type:**
   Dictionary of word
 
-#### `NOTE`
+{{< note >}}
 The `stopwords` parameter in [HybridQuery](#hybridquery) (and `AggregateHybridQuery`) controls query-time stopword filtering (client-side).
 For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
 Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
+{{< /note >}}
 
 ## TextQuery
 
@@ -1252,10 +1257,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
@@ -1324,10 +1330,11 @@ Get the text weights.
 * **Return type:**
   Dictionary of word
 
-#### `NOTE`
+{{< note >}}
 The `stopwords` parameter in [TextQuery](#textquery) controls query-time stopword filtering (client-side).
 For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
 Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
+{{< /note >}}
 
 ## FilterQuery
 
@@ -1532,10 +1539,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
@@ -1783,10 +1791,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 

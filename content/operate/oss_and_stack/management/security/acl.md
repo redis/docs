@@ -289,6 +289,7 @@ The following is a list of command categories and their meanings:
 
 * <a id="admin"></a>**admin** - Administrative commands. Normal applications will never need to use
   these. Includes [`REPLICAOF`](/commands/replicaof), [`CONFIG`](/commands/config), [`DEBUG`](/commands/debug), [`SAVE`](/commands/save), [`MONITOR`](/commands/monitor), [`ACL`](/commands/acl), [`SHUTDOWN`](/commands/shutdown), etc.
+* <a id="array"></a>**array** - Data type: all array related commands.
 * <a id="bitmap"></a>**bitmap** - Data type: all bitmap related commands.
 * <a id="blocking"></a>**blocking** - Potentially blocking the connection until released by another
   command.

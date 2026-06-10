@@ -1,6 +1,8 @@
 ---
 acl_categories:
-- '@array'
+- "@read"
+- "@array"
+- "@fast"
 arguments:
 - key_spec_index: 0
   name: key
@@ -57,6 +59,12 @@ ARSET myarray 0 "a"
 ARSET myarray 5 "b"
 ARCOUNT myarray
 {{% /redis-cli %}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

@@ -27,4 +27,6 @@ This section provides practical examples and reference implementations for commo
 * [Pub/sub messaging]({{< relref "/develop/use-cases/pub-sub" >}}) - Broadcast real-time events to many consumers with channel and pattern subscriptions
 * [Streaming]({{< relref "/develop/use-cases/streaming" >}}) - Process ordered event streams with consumer groups, replay, and configurable retention
 * [Recommendation engine]({{< relref "/develop/use-cases/recommendation-engine" >}}) - Serve personalized recommendations under tight latency budgets by combining vector similarity with structured filters in a single Redis call
+* [Feature store]({{< relref "/develop/use-cases/feature-store" >}}) - Serve pre-computed ML features on the request path with mixed batch-and-streaming freshness using per-field TTL
 * [Semantic cache]({{< relref "/develop/use-cases/semantic-cache" >}}) - Reuse LLM responses for semantically similar queries to cut token costs and skip multi-second model calls on near-duplicate prompts
+* [Agent memory]({{< relref "/develop/use-cases/agent-memory" >}}) - Give AI agents persistent memory that spans sessions and tasks — working memory per thread, long-term semantic recall, and a time-ordered event log on one Redis instance

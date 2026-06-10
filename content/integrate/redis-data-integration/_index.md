@@ -17,7 +17,7 @@ type: integration
 weight: 1
 ---
 
-This is the first General Availability version of Redis Data Integration (RDI).
+Redis Data Integration (RDI) keeps your Redis cache in sync with a primary system-of-record database in near real time.
 
 RDI's purpose is to help Redis customers sync Redis Enterprise with live data from their slow disk based databases in order to:
 
@@ -39,11 +39,16 @@ RDI keeps a Redis cache up to date with changes in the primary database, using a
 [*Change Data Capture (CDC)*](https://en.wikipedia.org/wiki/Change_data_capture) mechanism.
 It also lets you *transform* the data from relational tables into convenient
 and fast data structures that match your app's requirements. You specify the
-transformations using a configuration system, so no coding is necessary.
+transformations using a configuration system, so no coding is necessary. RDI supports both standard Redis databases and [Active-Active (CRDB)](https://redis.io/active-active/) replication targets.
 
-{{<note>}}
-RDI is supported with Redis databases or [CRDB](https://redis.io/active-active/) (Active Active Replication) targets, and is also available on [Redis Cloud]({{< relref "/operate/rc/databases/rdi" >}}). 
-{{</note>}}
+## RDI in Redis Cloud
+
+RDI is also available as a fully managed service on Redis Cloud, removing the need to install or maintain the underlying infrastructure. Redis manages the compute, scaling, and upgrades for you. You define the source connection and pipeline configuration using the Redis Cloud console.
+
+The Cloud service currently supports AWS-hosted source databases (Amazon RDS, Amazon Aurora, and Amazon EC2), as well as MongoDB Atlas and Snowflake, writing to a Redis Cloud Pro target database.
+
+See [Data Integration]({{< relref "/operate/rc/rdi" >}}) in the Redis Cloud documentation for
+full setup instructions, prerequisites, and a quick start guide.
 
 ## Features
 

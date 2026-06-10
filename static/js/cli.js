@@ -81,33 +81,10 @@ function shouldAnimate(cli) {
 }
 
 function getCommandsToExecute(cli) {
-  const fromUrl = getCommandsFromUrl();
-  if (fromUrl) return fromUrl;
-
   const textContent = cli.textContent.trim();
   if (!textContent) return;
 
   return textContent.split('\n').map(x => x.trim());
-}
-
-function getCommandsFromUrl() {
-  try {
-    const params = new URLSearchParams(window.location.search);
-    const raw = params.get('commands');
-    if (!raw) return;
-    if (params.get('autorun') !== 'true') return;
-
-    const b64 = raw.replace(/-/g, '+').replace(/_/g, '/');
-    const padded = b64 + '==='.slice((b64.length + 3) % 4);
-    const json = decodeURIComponent(escape(atob(padded)));
-    const commands = JSON.parse(json);
-    if (!Array.isArray(commands)) return;
-
-    const cleaned = commands.map(c => String(c).trim()).filter(Boolean);
-    return cleaned.length ? cleaned : undefined;
-  } catch (err) {
-    console.warn('cli: failed to parse commands from URL', err);
-  }
 }
 
 function createPre(cli) {
@@ -262,9 +239,43 @@ async function execute(commands, dbid = '') {
   return reply;
 }
 
+// Quote and escape a bulk string exactly like redis-cli's sdscatrepr: operate
+// on the raw UTF-8 bytes, use the named escapes \\ " \n \r \t \a \b, leave
+// printable ASCII (0x20-0x7e) literal, and emit \xHH (lowercase) for every
+// other byte. This mirrors the native CLI byte-for-byte, e.g. a NUL renders as
+// "\x00" (not JSON's "\u0000") and "é" as "\xc3\xa9".
+function reprString(str) {
+  const bytes = new TextEncoder().encode(str);
+  let out = '"';
+  for (const b of bytes) {
+    switch (b) {
+      case 0x5c: out += '\\\\'; break;
+      case 0x22: out += '\\"'; break;
+      case 0x0a: out += '\\n'; break;
+      case 0x0d: out += '\\r'; break;
+      case 0x09: out += '\\t'; break;
+      case 0x07: out += '\\a'; break;
+      case 0x08: out += '\\b'; break;
+      default:
+        out += (b >= 0x20 && b <= 0x7e)
+          ? String.fromCharCode(b)
+          : `\\x${b.toString(16).padStart(2, '0')}`;
+    }
+  }
+  return out + '"';
+}
+
 function formatReply(reply, indent = '', status = false) {
   if (reply === null) {
     return '(nil)';
+  }
+
+  // Out-of-range 64-bit integers are tagged by the backend (safe_json_integers)
+  // as {$int: "<decimal>"} so they survive JSON without precision loss and stay
+  // distinct from numeric bulk strings. Render them as a plain integer reply.
+  if (typeof reply === 'object' && !Array.isArray(reply)
+      && typeof reply.$int === 'string') {
+    return `(integer) ${reply.$int}`;
   }
 
   const type = typeof reply;
@@ -273,10 +284,9 @@ function formatReply(reply, indent = '', status = false) {
     if (status) {
       return reply;
     }
-    // Bulk string: quote it and escape inner quotes, backslashes and control
-    // characters the way redis-cli does (e.g. a JSON.GET payload renders as
-    // "{\"a\":1}" rather than a broken "{"a":1}").
-    return JSON.stringify(reply);
+    // Bulk string: quote and escape it byte-for-byte the way redis-cli does
+    // (e.g. a JSON.GET payload renders as "{\"a\":1}" and a NUL byte as "\x00").
+    return reprString(reply);
   } else if (type === 'number') {
     return `(integer) ${reply}`;
   } else if (Array.isArray(reply)) {

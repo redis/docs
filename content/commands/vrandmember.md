@@ -108,10 +108,6 @@ is the name of the key that holds the vector set.
 specifies the number of elements to return. Positive values return distinct elements; negative values allow duplicates.
 </details>
 
-## Related topics
-
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
@@ -137,3 +133,7 @@ One of the following:
 * [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown keys when a count is specified.
 
 {{< /multitabs >}}
+
+## Related topics
+
+- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})

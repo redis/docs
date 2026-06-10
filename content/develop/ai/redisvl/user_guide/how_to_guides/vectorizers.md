@@ -7,19 +7,19 @@ weight: 04
 ---
 
 
-This guide demonstrates how to create embeddings using RedisVL's built-in text vectorizers. RedisVL supports multiple embedding providers: OpenAI, HuggingFace, Vertex AI, Cohere, Mistral AI, Amazon Bedrock, VoyageAI, and custom vectorizers.
+This guide demonstrates how to create embeddings using RedisVL's built-in text vectorizers. RedisVL supports multiple embedding providers: OpenAI, HuggingFace, Ollama, Vertex AI, Cohere, Mistral AI, Amazon Bedrock, VoyageAI, and custom vectorizers.
 
 ## Prerequisites
 
 Before you begin, ensure you have:
 - Installed RedisVL: `pip install redisvl`
 - A running Redis instance ([Redis 8+](https://redis.io/downloads/) or [Redis Cloud](https://redis.io/cloud))
-- API keys for the embedding providers you plan to use
+- API keys or local model servers for the embedding providers you plan to use
 
 ## What You'll Learn
 
 By the end of this guide, you will be able to:
-- Create embeddings using multiple providers (OpenAI, HuggingFace, Cohere, etc.)
+- Create embeddings using multiple providers (OpenAI, HuggingFace, Ollama, Cohere, etc.)
 - Use synchronous and asynchronous embedding methods
 - Batch embed multiple texts efficiently
 - Build custom vectorizers for your own embedding functions
@@ -217,6 +217,58 @@ test[:10]
 ```python
 # You can also create many embeddings at once
 embeddings = hf.embed_many(sentences, as_buffer=True)
+
+```
+
+### Ollama
+
+[Ollama](https://ollama.com/) lets you run embedding models locally. RedisVL supports Ollama through the `OllamaTextVectorizer`.
+
+Install the Python client and pull an embedding model before running this example:
+
+```bash
+pip install 'redisvl[ollama]'
+ollama pull nomic-embed-text
+```
+
+Make sure the Ollama daemon is running with `ollama serve`. By default, the Ollama client uses `OLLAMA_HOST` if set, otherwise it connects to `http://localhost:11434`. To connect to a custom Ollama server explicitly, pass `host="http://your-host:11434"` when creating the vectorizer.
+
+
+```python
+from redisvl.utils.vectorize import OllamaTextVectorizer
+
+ollama_model = os.environ.get("OLLAMA_MODEL", "nomic-embed-text")
+
+try:
+    ollama = OllamaTextVectorizer(model=ollama_model)
+
+    test = ollama.embed("This is a test sentence.")
+    print("Vector dimensions:", len(test))
+    print(test[:10])
+except (ImportError, ConnectionError, ValueError) as exc:
+    print("Skipping Ollama example:", exc)
+    ollama = None
+
+```
+
+
+```python
+if ollama is not None:
+    embeddings = ollama.embed_many(sentences, batch_size=2)
+    print("Number of embeddings:", len(embeddings))
+    print("Vector dimensions:", len(embeddings[0]))
+else:
+    print("Skipping: run the Ollama cell above with a running Ollama server and pulled model.")
+
+```
+
+
+```python
+if ollama is not None:
+    embeddings = await ollama.aembed_many(sentences, batch_size=2)
+    print("Number of async embeddings:", len(embeddings))
+else:
+    print("Skipping: run the Ollama cell above with a running Ollama server and pulled model.")
 
 ```
 

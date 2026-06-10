@@ -1,0 +1,18 @@
+{
+    "name": "redis/feature-store-php-demo",
+    "description": "Redis online feature store demo using Predis (PHP).",
+    "require": {
+        "php": ">=8.1",
+        "predis/predis": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "RedisFeatureStoreDemo\\": "src/"
+        }
+    },
+    "scripts": {
+        "start": "php -S 127.0.0.1:8094 demo_server.php",
+        "build-features": "php build_features.php",
+        "worker": "php streaming_worker.php"
+    }
+}

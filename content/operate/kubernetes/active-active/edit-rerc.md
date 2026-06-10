@@ -26,7 +26,7 @@ The following example edits the `dbFqdnSuffix` field for the RERC named `rerc-oh
 
 ```sh
 kubectl patch rerc rerc-ohare --type merge --patch \
-'{"spec":{"dbFqdnSuffix": "-example2-cluster-rec-chicago-ns-illinois.example.com"}}'
+'{"spec":{"dbFqdnSuffix": ".example2-cluster-rec-chicago-ns-illinois.example.com"}}'
 ```
 
 ## Update RERC secret

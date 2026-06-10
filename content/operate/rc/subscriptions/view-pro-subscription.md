@@ -39,11 +39,13 @@ In addition, you can view and edit the following subscription details:
 
 2.  The **Overview** tab displays subscription settings for your Redis Cloud Pro subscription.
 
-3.  The **Connectivity** tab lets you limit access to the subscription by defining a VPC peering or other connectivity options.
+3. The **Data integration** tab displays your Data integration workspace and pipelines.
 
-4.  The **Security** tab lets you set security settings for the databases in your subscription.
+4.  The **Connectivity** tab lets you limit access to the subscription by defining a VPC peering or other connectivity options.
 
-5.  The **Regions** tab lets you manage the regions in your Active-Active subscription (_Active-Active subscriptions only_).
+5.  The **Security** tab lets you set security settings for the databases in your subscription.
+
+6.  The **Regions** tab lets you manage the regions in your Active-Active subscription (_Active-Active subscriptions only_).
 
 The following sections provide more info.
 
@@ -111,6 +113,10 @@ The **Overview** summarizes the options used to create the subscription.
   If your subscription is attached to a cloud account, the details appear in the panel header.
 
 - The **Redis price** panel breaks down your subscription price.
+
+## **Data Integration** tab
+
+The **Data integration** tab displays your Data integration workspace and pipelines. See [Data integration]({{< relref "/operate/rc/rdi" >}}) for more information.
 
 ## **Connectivity** tab
 

@@ -153,11 +153,13 @@ View and manage the list of consumer groups. See existing consumers in a given c
 
 {{< image filename="images/ri/ri-streams.png" alt="Redis Streams support" >}}
 
-### Search features
+### Search workspace
 
-If you're using the indexing, querying, or full-text search features of Redis Open Source, Redis Insight provides UI controls to quickly and conveniently run search queries against a preselected index. You can also create a secondary index of your data in a dedicated pane.
+The dedicated **Search** workspace lets you work with [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) from a single page: browse the search indexes in your database, create indexes from sample or existing data, build and run queries with a schema-aware editor that includes Profile and Explain actions, and save queries to a reusable Query Library. You can also move between the Browser and Search workspaces to make data searchable and view the indexes associated with a key.
 
-{{< image filename="images/ri/ri-search.png" alt="Search features" >}}
+Read more about this feature [here]({{< relref "/develop/tools/insight/search-workspace" >}}).
+
+{{< image filename="images/ri/ri-search-indexes-list.png" alt="The Search workspace" >}}
 
 ### Bulk actions
 
