@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh pr view *)",
+      "Bash(gh api repos/*/pulls/*/comments*)",
+      "Bash(gh api repos/*/issues/*/comments*)"
+    ],
+    "additionalDirectories": [
+      "/tmp"
+    ]
+  },
+  "sandbox": {
+    "excludedCommands": ["gh"]
+  }
+}
