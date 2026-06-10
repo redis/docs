@@ -201,5 +201,5 @@ In practice, your hashes are limited only by the overall memory on the VMs hosti
 
 ## Learn more
 
-* [Redis Hashes Explained](https://www.youtube.com/watch?v=-KdITaRkQ-U) is a short, comprehensive video explainer covering Redis hashes.
+* [Redis Hashes Explained](https://www.youtube.com/watch?v=-KdITaRkQ-U) is a short, comprehensive video that explains Redis hashes.
 * [Redis University's RU101](https://university.redis.com/courses/ru101/) covers Redis hashes in detail.
