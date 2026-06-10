@@ -49,6 +49,20 @@ function buildMarkdown(related, context, sourceUrl) {
   return lines.join('\n');
 }
 
+async function postCommitStatus(repo, sha, related, sourceUrl, token) {
+  const description = related.length === 0
+    ? 'No related prior context found'
+    : `Found ${related.length} related item${related.length === 1 ? '' : 's'}: ${related[0].title}`.slice(0, 140);
+
+  await githubRequest('POST', `/repos/${repo}/statuses/${sha}`, {
+    state: 'success',
+    context: '🧠 Redis Repository Memory',
+    description,
+    target_url: sourceUrl,
+  }, token);
+  console.log(`posted_commit_status sha=${sha?.slice(0, 7)} related=${related.length}`);
+}
+
 async function postOrUpdatePrComment(repo, prNumber, body, token) {
   const comments = await githubRequest('GET', `/repos/${repo}/issues/${prNumber}/comments`, null, token);
   const existing = comments.find(c => typeof c.body === 'string' && c.body.includes(COMMENT_MARKER));
@@ -84,6 +98,9 @@ async function main() {
   if (context.prNumber) {
     await postOrUpdatePrComment(repo, context.prNumber, markdown, token);
   } else {
+    // Post commit status so results are visible on the commit without opening Actions
+    await postCommitStatus(repo, context.sha, related, sourceUrl, token);
+
     const summaryPath = process.env.GITHUB_STEP_SUMMARY;
     if (summaryPath) {
       fs.appendFileSync(summaryPath, markdown + '\n');
