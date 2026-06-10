@@ -175,7 +175,7 @@ def run_scan(argv):
         files = glob.glob(os.path.join(root, "content", "**", "*.md"), recursive=True)
     else:
         files = [a for a in argv if a != "--scan"]
-        root = find_root(files[0]) if files else find_root(os.getcwd())
+        root = (find_root(files[0]) if files else find_root(os.getcwd())) or os.getcwd()
     total_hard = total_soft = files_with_hard = 0
     sample_hard, sample_soft = [], []
     by_type = {}
