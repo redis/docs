@@ -12,32 +12,29 @@ const TOP_K = 10;
 const MAX_RESULTS = 5;
 
 async function ensureIndex(client) {
-  try {
-    await client.ft.info(INDEX_NAME);
-  } catch (err) {
-    if (!err.message?.includes('Unknown Index name')) throw err;
-    await client.ft.create(
-      INDEX_NAME,
-      {
-        type: { type: SchemaFieldTypes.TAG },
-        repo: { type: SchemaFieldTypes.TAG },
-        title: { type: SchemaFieldTypes.TEXT, WEIGHT: 2 },
-        body_summary: { type: SchemaFieldTypes.TEXT },
-        source_url: { type: SchemaFieldTypes.TEXT, NOSTEM: true },
-        created_at: { type: SchemaFieldTypes.TEXT },
-        tags: { type: SchemaFieldTypes.TAG, SEPARATOR: ',' },
-        embedding: {
-          type: SchemaFieldTypes.VECTOR,
-          ALGORITHM: VectorAlgorithms.HNSW,
-          TYPE: 'FLOAT32',
-          DIM: VECTOR_DIM,
-          DISTANCE_METRIC: 'COSINE',
-        },
+  const exists = await client.ft.info(INDEX_NAME).then(() => true).catch(() => false);
+  if (exists) return;
+  await client.ft.create(
+    INDEX_NAME,
+    {
+      type: { type: SchemaFieldTypes.TAG },
+      repo: { type: SchemaFieldTypes.TAG },
+      title: { type: SchemaFieldTypes.TEXT, WEIGHT: 2 },
+      body_summary: { type: SchemaFieldTypes.TEXT },
+      source_url: { type: SchemaFieldTypes.TEXT, NOSTEM: true },
+      created_at: { type: SchemaFieldTypes.TEXT },
+      tags: { type: SchemaFieldTypes.TAG, SEPARATOR: ',' },
+      embedding: {
+        type: SchemaFieldTypes.VECTOR,
+        ALGORITHM: VectorAlgorithms.HNSW,
+        TYPE: 'FLOAT32',
+        DIM: VECTOR_DIM,
+        DISTANCE_METRIC: 'COSINE',
       },
-      { ON: 'HASH', PREFIX: KEY_PREFIX }
-    );
-    console.log(`created index: ${INDEX_NAME}`);
-  }
+    },
+    { ON: 'HASH', PREFIX: KEY_PREFIX }
+  );
+  console.log(`created index: ${INDEX_NAME}`);
 }
 
 async function main() {
