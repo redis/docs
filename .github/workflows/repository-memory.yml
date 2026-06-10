@@ -1,0 +1,45 @@
+name: Redis Repository Memory
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+    types:
+      - opened
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  memory:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: scripts/memory
+        run: npm install
+
+      - name: Collect context
+        run: node scripts/memory/collect_context.js
+
+      - name: Retrieve and store memory
+        env:
+          REDIS_URL: ${{ secrets.MEMORY_REDIS_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node scripts/memory/retrieve_memory.js
+
+      - name: Post result
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/memory/post_comment.js
