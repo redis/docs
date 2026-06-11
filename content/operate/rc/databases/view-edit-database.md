@@ -98,7 +98,7 @@ The **Database info** section defines basic properties about your database.
 | **Creation** | <span title="No">&#x274c; No</span> | Date the database was created |
 | **Last changed** | <span title="No">&#x274c; No</span> | Date of last update |
 | **Advanced Capabilities** | <span title="No">&#x274c; No</span> | This setting appears when an [advanced capability]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) is enabled for a database |
-| **Architecture** | <span title="No">&#x274c; No</span> | Shows whether the database runs in **RAM** or is a [**Flex**]() database |
+| **Architecture** | <span title="No">&#x274c; No</span> | Shows whether the database runs in **RAM** or is a [**Flex**]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}) database |
 | **Version** | <span title="Yes">&#x2705; Yes</span> | The Redis version your database uses |
 | **Protocol** | <span title="Yes">&#x2705; Yes</span> | Shows which version of RESP the database uses. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
 
@@ -204,6 +204,8 @@ The **View Database** screen also has tabs that let you view:
 - **Metrics**: a series of graphs showing database performance over time.  See [Monitor performance]({{< relref "/operate/rc/databases/monitor-performance" >}}) for more information.
 
 - **Slowlog**: a log showing recent [slow queries]({{< relref "/commands/slowlog" >}}) run against your database.  The log displays when the action started, the duration, the complexity of the operation, and any parameters passed to the operation.
+
+- **Alerts** (_Essentials databases only_): the notification emails sent to your account and the conditions that trigger them.  See [Configure alerts]({{< relref "/operate/rc/databases/monitor-performance#configure-metric-alerts" >}}) for more information.
 
 
 ## Edit database details

@@ -81,7 +81,7 @@ For more detailed analysis, consider using [Redis Insight]({{< relref "/develop/
 
 Depending on your subscription plan, you can enable alerts for several metrics for a given database.
 
-To do so, go to the **Configuration** tab of the database and then locate the **Alerts** section. 
+To do so, locate the alerts settings for your database: for Essentials databases, select the **Alerts** tab on the database screen; for Pro databases, go to the **Configuration** tab and locate the **Alerts** section. 
 
 | Setting name | Description | Default Value | Accepted Range |
 |---|---|---|---|
