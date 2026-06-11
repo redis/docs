@@ -28,10 +28,10 @@ When adding a new entry, use this schema:
 
 **Status:** established
 **Source:** `.agents/skills/redis-use-case-ports/SKILL.md` synthesis, targeted audit, and cross-client diff workflow.
-**What to check:** For changes under `content/develop/use-cases/` or client examples, compare equivalent behavior across all touched client implementations and their guides.
-**Pass criterion:** Shared helper APIs, demo behavior, constants, error handling, return shapes, and prose claims are consistent unless a per-client deviation is explicit and justified.
+**What to check:** For changes under `content/develop/use-cases/` or client examples, compare equivalent behavior across touched client implementations, shared use-case prose such as `_index.md`, and the relevant sibling guides or reference implementation even when no client directory changed.
+**Pass criterion:** Shared helper APIs, demo behavior, constants, error handling, return shapes, and prose claims are consistent across shared pages and client-specific guides unless a per-client deviation is explicit and justified.
 **False-positive guard:** Do not require byte-for-byte code similarity; language idioms, library APIs, and runtime constraints can justify different implementations.
-**Suggested review prompt:** Compare the touched client implementation against its siblings and the reference implementation. Report only divergences that change behavior, docs truth, or user expectations.
+**Suggested review prompt:** Compare the touched use-case page, client implementation, or guide against its siblings and the reference implementation. Report only divergences that change behavior, docs truth, or user expectations.
 
 ## Generated Docs Or Data Drift
 
