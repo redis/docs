@@ -131,8 +131,9 @@ results = index.query(query)
 
 Use when neither pure keyword search nor pure semantic search gives good enough results. Common in RAG applications where you want both exact matches and semantic understanding.
 
-#### NOTE
+{{< note >}}
 HybridQuery requires Redis >= 8.4.0 and redis-py >= 7.1.0.
+{{< /note >}}
 
 ### AggregateHybridQuery
 
@@ -273,8 +274,9 @@ query = SQLQuery("""
 
 Use when your team is more comfortable with SQL syntax, or when integrating with tools that generate SQL.
 
-#### NOTE
+{{< note >}}
 SQLQuery requires the optional `sql-redis` package. Install with: `pip install redisvl[sql-redis]`
+{{< /note >}}
 
 For comprehensive examples including geographic filtering, date functions, and vector search, see the [SQL to Redis Queries guide]({{< relref "../user_guide/how_to_guides/sql_to_redis_queries" >}}).
 

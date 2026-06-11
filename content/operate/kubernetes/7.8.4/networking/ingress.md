@@ -12,18 +12,21 @@ weight: 5
 url: '/operate/kubernetes/7.8.4/networking/ingress/'
 ---
 
+{{<warning>}}
+The community [Ingress-NGINX controller](https://github.com/kubernetes/ingress-nginx) (`kubernetes/ingress-nginx`) is retired. Best-effort maintenance ended in March 2026 and the project no longer ships releases, bug fixes, or security updates. If you are not already using it, use HAProxy or Istio as shown below, or migrate to a [Gateway API](https://gateway-api.sigs.k8s.io/) implementation.
+{{</warning>}}
+
 ## Prerequisites
 
 Before creating an Ingress, you'll need:
 
  - A RedisEnterpriseDatabase (REDB) with TLS enabled for client connections
- - A supported Ingress controller with `ssl-passthrough` enabled
-    - [Ingress-NGINX Controller](https://kubernetes.github.io/ingress-nginx/deploy/)
-        - Be sure to use the `kubernetes/ingress-nginx` controller and NOT the `nginxinc/kubernetes-ingress` controller.
+ - An Ingress controller with `ssl-passthrough` enabled. Options include:
     - [HAProxy Ingress](https://haproxy-ingress.github.io/docs/getting-started/)
+    - [Ingress-NGINX Controller](https://kubernetes.github.io/ingress-nginx/deploy/) (retired; existing deployments only)
     - To use Istio for your Ingress resources, see [Configure Istio for external routing]({{< relref "/operate/kubernetes/7.8.4/networking/istio-ingress.md" >}})
 
-{{<note>}}Make sure your Ingress controller has `ssl-passthrough`enabled. This is enabled by default for HAProxy, but disabled by default for NGINX. See the [NGINX User Guide](https://kubernetes.github.io/ingress-nginx/user-guide/tls/#ssl-passthrough) for details. {{</note>}}
+{{<note>}}Make sure your Ingress controller has `ssl-passthrough` enabled. It is on by default for HAProxy and off by default for Ingress-NGINX. For Ingress-NGINX, start the controller with the `--enable-ssl-passthrough` flag. See the [Ingress-NGINX TLS guide](https://kubernetes.github.io/ingress-nginx/user-guide/tls/#ssl-passthrough) for details.{{</note>}}
 
 ## Create an Ingress resource
 
@@ -45,7 +48,7 @@ Before creating an Ingress, you'll need:
 
 1. Create a DNS entry that resolves your chosen database hostname to the IP address for the Ingress controller's LoadBalancer.  
 
-1. Create the Ingress resource YAML file.  
+1. Create the Ingress resource YAML file.
 
     ``` YAML
     apiVersion: networking.k8s.io/v1
@@ -55,6 +58,7 @@ Before creating an Ingress, you'll need:
       annotations:
         <controller-specific-annotations-below>
     spec:
+      ingressClassName: <haproxy | nginx>
       rules:
       - host: <my-db-hostname>
         http:
@@ -66,23 +70,23 @@ Before creating an Ingress, you'll need:
                 name: <db-name>
                 port:
                   name: redis
-    ```  
-
-    For HAProxy, insert the following into the `annotations` section:  
-
-    ``` YAML
-    kubernetes.io/ingress.class: haproxy
-     ingress.kubernetes.io/ssl-passthrough: "true"
     ```
 
-    For NGINX, insert the following into the `annotations` section:  
+    Set `ingressClassName` to match the `IngressClass` your controller installed. The deprecated `kubernetes.io/ingress.class` annotation is no longer accepted by recent controller versions, so use `ingressClassName` instead.
+
+    For HAProxy, add the following annotation:
 
     ``` YAML
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-    ```  
+    ingress.kubernetes.io/ssl-passthrough: "true"
+    ```
 
-    The `ssl-passthrough` annotation is required to allow access to the database. The specific format changes depending on your Ingress controller and any additional customizations. See [NGINX Configuration annotations](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/) and [HAProxy Ingress Options](https://www.haproxy.com/documentation/kubernetes/latest/configuration/ingress/) for updated annotation formats.  
+    For Ingress-NGINX, add the following annotation:
+
+    ``` YAML
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    ```
+
+    The `ssl-passthrough` annotation is required to allow access to the database. The exact format depends on your Ingress controller and any additional customizations. See [Ingress-NGINX annotations](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/) and [HAProxy Ingress configuration keys](https://haproxy-ingress.github.io/docs/configuration/keys/) for current annotation formats.
 
 ## Test your external access  
 

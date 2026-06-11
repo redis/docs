@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>AgentMemoryDemo</RootNamespace>
+    <AssemblyName>AgentMemoryDemo</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <InvariantGlobalization>false</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Redis client. NRedisStack adds Search, JSON, and Streams
+         helpers on top of StackExchange.Redis; this demo uses all
+         three subsystems. -->
+    <PackageReference Include="NRedisStack" Version="1.4.0" />
+
+    <!-- ONNX Runtime to run the sentence-transformers MiniLM model
+         locally. The CPU EP works on macOS/Linux/Windows without
+         native install steps. -->
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.20.1" />
+
+    <!-- BertTokenizer reads the standard MiniLM vocab.txt; this is
+         the shortest path to producing the exact input_ids the ONNX
+         export expects. -->
+    <PackageReference Include="Microsoft.ML.Tokenizers" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Ship index.html next to the binary so the HttpListener can
+         load it from disk at startup; the demo expects the file to
+         sit beside AgentMemoryDemo.dll. -->
+    <None Include="index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -89,9 +89,10 @@ schema = IndexSchema.from_dict({
 })
 ```
 
-#### `NOTE`
+{{< note >}}
 The fields attribute in the schema must contain unique field names to ensure
 correct and unambiguous field references.
+{{< /note >}}
 
 Create a new model by parsing and validating input data from keyword arguments.
 
@@ -686,8 +687,9 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
   - hnsw: Graph-based approximate search. Fast with high recall (95-99%). Best for general use.
   - svs-vamana: SVS-VAMANA (Scalable Vector Search with VAMANA graph algorithm) provides fast approximate nearest neighbor search with optional compression support. This algorithm is optimized for Intel hardware and offers reduced memory usage through vector compression.
 
-  #### NOTE
+  {{< note >}}
   For detailed algorithm comparison and selection guidance, see [Vector Algorithm Comparison](#vector-algorithm-comparison).
+  {{< /note >}}
 - datatype: Float precision (bfloat16, float16, float32, float64). Note: SVS-VAMANA only supports float16 and float32.
 - distance_metric: Similarity metric (COSINE, L2, IP).
 - initial_cap: Initial capacity hint for memory allocation (optional).

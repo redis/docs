@@ -114,10 +114,6 @@ So, the additional amount of memory is approximately `0.33 × 64 × 8 ≈ 169.6`
 If you don't have a recall quality problem, the default is acceptable, and uses a minimal amount of memory.
 </details>
 
-## Related topics
-
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
@@ -141,3 +137,7 @@ One of the following:
 * [Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the command was malformed.
 
 {{< /multitabs >}}
+
+## Related topics
+
+- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})

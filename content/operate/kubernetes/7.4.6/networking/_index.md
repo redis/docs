@@ -14,7 +14,7 @@ url: '/operate/kubernetes/7.4.6/networking/'
 
 Redis Enterprise for Kubernetes supports several ways to route external traffic to your RedisEnterpriseCluster:
 
-- Ingress controllers [HAProxy](https://haproxy-ingress.github.io/) and [NGINX](https://kubernetes.github.io/ingress-nginx/) require an `ingress` API resource.
+- Ingress controllers [HAProxy](https://haproxy-ingress.github.io/) and [Ingress-NGINX](https://kubernetes.github.io/ingress-nginx/) (retired; existing deployments only) require an `ingress` API resource.
 - [Istio](https://istio.io/latest/docs/setup/getting-started/) requires `Gateway` and `VirtualService` API resources.
 - OpenShift uses [routes]({{< relref "/operate/kubernetes/7.4.6/networking/routes.md" >}}) to route external traffic.
 - The RedisEnterpriseActiveActiveDatabase (REAADB) requires any of the above routing methods to be configured in the RedisEnterpriseCluster (REC) with the `ingressOrRouteSpec` field.
@@ -27,7 +27,7 @@ Redis Enterprise supports three [types of services](https://kubernetes.io/docs/c
 
 By default, the operator creates a `ClusterIP` type service, which exposes a cluster-internal IP and that can only be accessed from within the K8s cluster. For requests to be routed from outside the K8s cluster, you need an [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) (or [route](https://docs.openshift.com/container-platform/4.12/networking/routes/route-configuration.html) if you are using OpenShift). See [kubernetes.io](https://kubernetes.io/docs/) for more details on [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) and [Ingress controllers](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/).
 
-* To use NGINX or HAProxy Ingress controllers, see [Ingress routing]({{< relref "/operate/kubernetes/7.4.6/networking/ingress.md" >}}).
+* To use HAProxy as an Ingress controller, see [Ingress routing]({{< relref "/operate/kubernetes/7.4.6/networking/ingress.md" >}}). The community NGINX ingress controller is retired.
 * To use OpenShift routes, see [OpenShift routes]({{< relref "/operate/kubernetes/7.4.6/networking/routes.md" >}}).
 * To use Istio as an Ingress controller, see [Istio Ingress routing]({{< relref "/operate/kubernetes/7.4.6/networking/istio-ingress.md" >}})
 

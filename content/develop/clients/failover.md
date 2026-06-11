@@ -28,11 +28,18 @@ Some Redis client libraries support
 [Client-side geographic failover](https://en.wikipedia.org/wiki/Failover)
 to improve the availability of connections to Redis databases. Use this page
 to get a general overview of the concepts and then see the documentation for
-your client library to learn how to configure it for failover and failback:
+your client library to learn how to configure it for failover and failback.
 
-- [Jedis]({{< relref "/develop/clients/jedis/failover" >}})
-- [redis-py]({{< relref "/develop/clients/redis-py/failover" >}}) (preview)
-- [Lettuce]({{< relref "/develop/clients/lettuce/failover" >}}) (preview)
+## Supported client libraries
+
+The table below lists the clients that support client-side geographic failover
+along with their release state and available features.
+
+| Client | Basic failover | Pub/sub failover | OSS Cluster failover | Failback |
+| :-- | :-- | :-- | :-- | :-- |
+| [Jedis]({{< relref "/develop/clients/jedis/failover" >}}) | Yes | No | No | Yes |
+| [redis-py]({{< relref "/develop/clients/redis-py/failover" >}}) | Yes  (Preview) | Yes | Yes | Yes |
+| [Lettuce]({{< relref "/develop/clients/lettuce/failover" >}}) | Yes (Preview) | Yes | No | Yes |
 
 ## Concepts
 
