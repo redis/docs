@@ -488,11 +488,11 @@ StatefulRedisMultiDbPubSubConnection<String, String> publisher =
 publisher.sync().publish("news", "Hello World");
 ```
 
-{{< note >}}The main difference from a non-failover client is that messages are
-delivered asynchronously to a `RedisPubSubListener` rather than being retrieved
-by polling. Apart from obtaining the connection with `connectPubSub()`, the
-subscription and publishing API is the same as for a standard Lettuce Pub/Sub
-connection.
+{{< note >}}The only addition over a standard Lettuce Pub/Sub connection is that
+you obtain the connection with `connectPubSub()` on the `MultiDbClient`. The
+subscription and publishing API is otherwise identical, but the active
+subscriptions and registered listeners are automatically migrated to the new
+database when a failover occurs.
 
 Message loss can still occur if the failover events happen in the reverse order,
 with the publisher failing over to the new database before the subscriber.
