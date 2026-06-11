@@ -10,6 +10,9 @@
 {{ $difficulty := .difficulty }}
 {{ $buildsUpon := .buildsUpon }}
 {{ $tryItCommands := .tryItCommands }}
+{{ $isPrereq := .isPrereq }}
+{{ $needsPrereq := .needsPrereq }}
+{{ $exampleSet := .exampleSet }}
 
 {{- /* Build metadata map for each language/client combination */ -}}
 {{- $codetabsMeta := dict -}}
@@ -72,9 +75,9 @@
 
 <!-- spellchecker-disable -->
 {{- if $exampleId -}}
-<a id="{{ $exampleId }}" class="relative"{{ if $description }} data-description="{{ $description | htmlEscape }}"{{ end }}{{ if $difficulty }} data-difficulty="{{ $difficulty | htmlEscape }}"{{ end }}{{ if $buildsUpon }} data-builds-upon="{{ delimit $buildsUpon "," }}"{{ end }} data-codetabs-id="{{ $id }}"></a>
+<a id="{{ $exampleId }}" class="relative"{{ if $description }} data-description="{{ $description | htmlEscape }}"{{ end }}{{ if $difficulty }} data-difficulty="{{ $difficulty | htmlEscape }}"{{ end }}{{ if $buildsUpon }} data-builds-upon="{{ delimit $buildsUpon "," }}"{{ end }}{{ if $isPrereq }} data-prereq="true"{{ end }}{{ if $needsPrereq }} data-needs-prereq="true"{{ end }}{{ if $exampleSet }} data-example-set="{{ $exampleSet }}"{{ end }} data-codetabs-id="{{ $id }}"></a>
 {{- end -}}
-<div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}" data-codetabs-meta="{{ $codetabsMetaJson | htmlEscape }}"{{ if $tryItCommands }} {{ printf "data-tryit-commands=\"%s\"" ($tryItCommands | jsonify | htmlEscape) | safeHTMLAttr }}{{ end }}>
+<div class="codetabs cli group box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}" data-codetabs-meta="{{ $codetabsMetaJson | htmlEscape }}">
     <!-- Language selector dropdown with controls -->
     <div class="codetabs-header flex flex-col px-4 py-2 bg-slate-900 rounded-t-lg">
         <div class="flex items-start justify-between">
@@ -269,12 +272,54 @@
 <script>
 // Registry for Try It CLI commands (populated per codetabs instance)
 window._tryItCommands = window._tryItCommands || {};
+// Registry for per-set prerequisite setup commands (populated by prereq blocks)
+window._tryItPrereqs = window._tryItPrereqs || {};
 
 // Global function to open Try It CLI with pre-populated commands
 window.openTryItCli = window.openTryItCli || function(button) {
     const codetabsId = button.getAttribute('data-codetabs-id');
-    const commands = window._tryItCommands[codetabsId];
-    if (!commands || !commands.length) return;
+    const anchor = document.querySelector('a[data-codetabs-id="' + codetabsId + '"]');
+
+    const commands = [];
+
+    if (anchor && anchor.getAttribute('data-needs-prereq') === 'true') {
+        // Explicit prerequisite model: replay only this set's setup commands
+        // (the block flagged prereq="true"), then this example's own commands.
+        const set = anchor.getAttribute('data-example-set');
+        const prereqs = (set && window._tryItPrereqs) ? window._tryItPrereqs[set] : null;
+        if (prereqs && prereqs.length) commands.push.apply(commands, prereqs);
+        const own = window._tryItCommands[codetabsId];
+        if (own && own.length) commands.push.apply(commands, own);
+    } else {
+        // Legacy transitive data-builds-upon chain: accumulate the commands of
+        // every block this example builds upon (transitively), in dependency
+        // order, so the session is seeded with predecessor state.
+        const orderedIds = [];
+        const seen = {};
+        const collect = function(id) {
+            if (!id || seen[id]) return;
+            seen[id] = true;
+            const a = document.querySelector('a[data-codetabs-id="' + id + '"]');
+            if (a) {
+                const buildsUpon = a.getAttribute('data-builds-upon');
+                if (buildsUpon) {
+                    buildsUpon.split(',').forEach(function(stepId) {
+                        stepId = stepId.trim();
+                        if (!stepId) return;
+                        const prereq = document.getElementById(stepId);
+                        if (prereq) collect(prereq.getAttribute('data-codetabs-id'));
+                    });
+                }
+            }
+            orderedIds.push(id);
+        };
+        collect(codetabsId);
+        orderedIds.forEach(function(id) {
+            const cmds = window._tryItCommands[id];
+            if (cmds && cmds.length) commands.push.apply(commands, cmds);
+        });
+    }
+    if (!commands.length) return;
 
     // URL-safe base64 of the JSON payload, no padding. Avoids the %5C%22
     // patterns produced by raw JSON+encodeURIComponent, which trigger
@@ -484,6 +529,9 @@ window.toggleCliOutputForCodetabs = window.toggleCliOutputForCodetabs || functio
     const codetabsId = '{{ $id }}';
     {{ if $tryItCommands }}
     window._tryItCommands[codetabsId] = {{ $tryItCommands | jsonify | safeJS }};
+    {{ if and $isPrereq $exampleSet }}
+    window._tryItPrereqs[{{ $exampleSet | jsonify | safeJS }}] = window._tryItCommands[codetabsId];
+    {{ end }}
     {{ end }}
     const langSelect = document.getElementById('lang-select-' + codetabsId);
 

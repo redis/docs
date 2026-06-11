@@ -156,11 +156,19 @@
     {{ end }}
 {{ end }}
 
-{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter "exampleId" $step "description" $description "difficulty" $difficulty }}
+{{ $isPrereq := eq (.Scratch.Get "prereq") "true" }}
+{{ $needsPrereq := eq (.Scratch.Get "needs_prereq") "true" }}
+{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter "exampleId" $step "description" $description "difficulty" $difficulty "exampleSet" $id }}
 {{ if gt (len $buildsUpon) 0 }}
   {{ $params = merge $params (dict "buildsUpon" $buildsUpon) }}
 {{ end }}
 {{ if gt (len $tryItCommands) 0 }}
   {{ $params = merge $params (dict "tryItCommands" $tryItCommands) }}
+{{ end }}
+{{ if $isPrereq }}
+  {{ $params = merge $params (dict "isPrereq" true) }}
+{{ end }}
+{{ if $needsPrereq }}
+  {{ $params = merge $params (dict "needsPrereq" true) }}
 {{ end }}
 {{ partial "tabs/wrapper.html" $params }}
