@@ -203,42 +203,19 @@ No manual intervention is required.
 
 ## Use production certificate authorities
 
-### Let's Encrypt
+### Let's Encrypt and ACME issuers
 
-For production environments, you can use Let's Encrypt:
+You can use Let's Encrypt and other ACME issuers, but not as an out-of-the-box integration. ACME issuers don't populate the `ca.crt` field of the generated TLS secret with the root certificate, so the secret that cert-manager creates doesn't include the full certificate chain.
 
-```yaml
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt-prod
-spec:
-  acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
-    email: admin@example.com
-    privateKeySecretRef:
-      name: letsencrypt-prod-account-key
-    solvers:
-      - http01:
-          ingress:
-            class: nginx
-```
+Redis Software needs the full chain, including the root CA, to trust the certificate. Whenever cert-manager doesn't populate `ca.crt` with the root certificate, supply the full chain yourself:
 
-Then reference this issuer in your `Certificate` resources:
+1. Assemble the full certificate chain, including the root CA certificate.
+1. Create a Kubernetes secret that contains the full chain.
+1. Reference that secret in your Redis custom resource instead of the secret that cert-manager generates.
 
-```yaml
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: redis-api-cert
-spec:
-  secretName: redis-api-tls
-  issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
-  dnsNames:
-    - redis-api.example.com
-```
+{{<note>}}This applies to any issuer that doesn't populate `ca.crt` with the root certificate, not only Let's Encrypt.{{</note>}}
+
+For production environments where the issuer supplies the full chain automatically, such as a private CA or HashiCorp Vault, no extra steps are required.
 
 ### Private CA
 
