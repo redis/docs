@@ -58,6 +58,22 @@ For nested data types, the optional `SAMPLES` option can be provided, where
 `count` is the number of sampled nested values. The samples are averaged to estimate the total size.
 By default, this option is set to `5`. To sample the all of the nested values, use `SAMPLES 0`.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The key to report memory usage for.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>SAMPLES count</code></summary>
+
+The number of sampled nested values for aggregate types. `0` samples all of them; the default is 5.
+
+</details>
+
 ## Examples
 
 With Redis v7.2.0 64-bit and **jemalloc**, the empty string measures as follows:

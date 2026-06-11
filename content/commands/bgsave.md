@@ -58,6 +58,14 @@ command.
 
 See the [persistence documentation]({{< relref "/operate/oss_and_stack/management/persistence" >}}) for detailed information.
 
+## Optional arguments
+
+<details open><summary><code>SCHEDULE</code></summary>
+
+Schedule the save to run after any in-progress `BGSAVE` finishes, instead of returning an error.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
