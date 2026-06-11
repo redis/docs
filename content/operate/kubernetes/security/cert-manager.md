@@ -21,7 +21,7 @@ Benefits of using cert-manager include:
 
 - **Automatic certificate renewal**: cert-manager handles certificate rotation before expiration.
 - **Standardized management**: Use the same certificate management approach across your Kubernetes infrastructure.
-- **Multiple certificate authorities**: Support for private CAs, Vault, and other issuers that provide the root CA certificate.
+- **Multiple certificate authorities**: Support for Let's Encrypt, private CAs, Vault, and more.
 - **Automatic propagation**: For Active-Active databases, certificate changes automatically sync across all participating clusters.
 
 {{<warning>}}The cert-manager integration uses Kubernetes secrets. It is not compatible with Vault-based secret management (when `clusterCredentialSecretType: vault`). See [HashiCorp Vault integration]({{< relref "/operate/kubernetes/security/vault" >}}) for details.{{</warning>}}
@@ -204,13 +204,17 @@ No manual intervention is required.
 
 ### Let's Encrypt and ACME issuers
 
-{{<warning>}}
-Don't use Let's Encrypt or other ACME issuers with this integration. ACME issuers don't populate the `ca.crt` field in the generated TLS secret, so the secret doesn't include the root CA certificate.
+You can use Let's Encrypt and other ACME issuers, but not as an out-of-the-box integration. ACME issuers don't populate the `ca.crt` field of the generated TLS secret with the root certificate, so the secret that cert-manager creates doesn't include the full certificate chain.
 
-Redis Software requires the root CA certificate to build a complete certificate chain. Without it, the cluster can't establish trust for the certificate and rejects it. This is a limitation in how Redis Software handles certificates, not specific to Kubernetes.
-{{</warning>}}
+Redis Software needs the full chain, including the root CA, to trust the certificate. Whenever cert-manager doesn't populate `ca.crt` with the root certificate, supply the full chain yourself:
 
-For production environments, use an issuer that provides the full certificate chain, such as a private CA or HashiCorp Vault.
+1. Assemble the full certificate chain, including the root CA certificate.
+1. Create a Kubernetes secret that contains the full chain.
+1. Reference that secret in your Redis custom resource instead of the secret that cert-manager generates.
+
+{{<note>}}This applies to any issuer that doesn't populate `ca.crt` with the root certificate, not only Let's Encrypt.{{</note>}}
+
+For production environments where the issuer supplies the full chain automatically, such as a private CA or HashiCorp Vault, no extra steps are required.
 
 ### Private CA
 
@@ -308,6 +312,8 @@ kubectl logs -n cert-manager deployment/cert-manager
 Common issues:
 
 - **Issuer not ready**: Verify your `Issuer` or `ClusterIssuer` is configured correctly.
+- **DNS validation failure**: For ACME issuers, ensure DNS records are correctly configured.
+- **Rate limits**: Let's Encrypt has rate limits. Use the staging environment for testing.
 
 ### Operator not detecting certificate changes
 
