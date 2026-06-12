@@ -165,16 +165,14 @@ A hash digest is a fixed-size numerical representation of a string value, comput
 
 ## Examples
 
-{{% redis-cli %}}
-SET mykey "Hello"
-GET mykey
-
-SET anotherkey "will expire in a minute" EX 60
-{{% /redis-cli %}}
-
-### Code examples
-
-{{< clients-example set="set_and_get" step="set" description="Foundational: Set the string value of a key using SET (creates key if needed, overwrites existing value, supports expiration options)" difficulty="beginner" />}}
+{{< clients-example set="set_and_get" step="set" description="Foundational: Set the string value of a key using SET (creates key if needed, overwrites existing value, supports expiration options)" difficulty="beginner" >}}
+> SET mykey "Hello"
+"OK"
+> GET mykey
+"Hello"
+> SET anotherkey "will expire in a minute" EX 60
+"OK"
+{{< /clients-example >}}
 
 ## Patterns
 

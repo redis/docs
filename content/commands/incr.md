@@ -76,14 +76,6 @@ representation of the integer.
 "11"
 {{< /clients-example >}}
 
-Give this command a try in the interactive console:
-
-{{% redis-cli %}}
-SET mykey "10"
-INCR mykey
-GET mykey
-{{% /redis-cli %}}
-
 ## Pattern: Counter
 
 The counter pattern is the most obvious thing you can do with Redis atomic

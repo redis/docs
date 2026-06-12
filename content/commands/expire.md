@@ -158,20 +158,6 @@ are now fixed.
 (integer) 10
 {{< /clients-example >}}
 
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-SET mykey "Hello"
-EXPIRE mykey 10
-TTL mykey
-SET mykey "Hello World"
-TTL mykey
-EXPIRE mykey 10 XX
-TTL mykey
-EXPIRE mykey 10 NX
-TTL mykey
-{{% /redis-cli %}}
-
 ## Pattern: Navigation session
 
 Imagine you have a web service and you are interested in the latest N pages

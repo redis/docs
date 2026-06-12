@@ -80,14 +80,6 @@ redis> LRANGE mylist 0 -1
 2) "world"
 {{< /clients-example >}}
 
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-RPUSH mylist "hello"
-RPUSH mylist "world"
-LRANGE mylist 0 -1
-{{% /redis-cli %}}
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

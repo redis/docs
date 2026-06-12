@@ -101,18 +101,6 @@ redis> LRANGE mylist 5 10
 (empty array)
 {{< /clients-example >}}
 
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-RPUSH mylist "one"
-RPUSH mylist "two"
-RPUSH mylist "three"
-LRANGE mylist 0 0
-LRANGE mylist -3 2
-LRANGE mylist -100 100
-LRANGE mylist 5 10
-{{% /redis-cli %}}
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

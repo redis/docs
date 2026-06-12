@@ -72,14 +72,8 @@ It can also take the following values:
 When no parameter is provided, the `default` option is assumed.
 
 {{< clients-example set="cmds_servermgmt" step="info" description="Foundational: Get server information and statistics using INFO (supports optional section filtering, returns key-value pairs)" difficulty="beginner" >}}
-INFO
+> INFO
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-INFO
-{{% /redis-cli %}}
 
 ## Notes
 

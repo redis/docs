@@ -88,17 +88,6 @@ If `key` doesn't exist, a new key holding a hash is created.
 6) "World"
 {{< /clients-example >}}
 
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-HSET myhash field1 "Hello"
-HGET myhash field1
-HSET myhash field2 "Hi" field3 "World"
-HGET myhash field2
-HGET myhash field3
-HGETALL myhash
-{{% /redis-cli %}}
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
