@@ -308,16 +308,21 @@
                 );
                 break;
 
-            case 'model':
-                suggestions = Object.entries(CONFIG.models).map(([key, config]) => ({
-                    value: key,
-                    label: config.name,
-                    icon: '🤖'
-                })).filter(s =>
-                    s.label.toLowerCase().includes(lowerInput) ||
-                    CONFIG.models[s.value].keywords.some(k => k.includes(lowerInput))
-                );
+            case 'model': {
+                const allowedModels = getModelChips(conversationState.selections.programmingLanguage).map(m => m.value);
+                suggestions = Object.entries(CONFIG.models)
+                    .filter(([key]) => allowedModels.includes(key))
+                    .map(([key, config]) => ({
+                        value: key,
+                        label: config.name,
+                        icon: '🤖'
+                    }))
+                    .filter(s =>
+                        s.label.toLowerCase().includes(lowerInput) ||
+                        CONFIG.models[s.value].keywords.some(k => k.includes(lowerInput))
+                    );
                 break;
+            }
         }
 
         return suggestions.slice(0, 5); // Limit to 5 suggestions
@@ -405,6 +410,19 @@
 
 
 
+    function getModelChips(language) {
+        const all = [
+            { value: 'openai', label: '🤖 OpenAI (GPT-4)' },
+            { value: 'anthropic', label: '🧠 Anthropic (Claude)' },
+            { value: 'llama3', label: '🦙 Llama 3' }
+        ];
+        // Anthropic's API is not OpenAI-compatible; JS templates use the OpenAI SDK
+        if (language === 'javascript') {
+            return all.filter(m => m.value !== 'anthropic');
+        }
+        return all;
+    }
+
     function processLanguageSelection(input) {
         let selectedLang = null;
 
@@ -426,8 +444,8 @@
         }
 
         if (selectedLang) {
-            // Check if it's Python (fully supported)
-            if (selectedLang === 'python') {
+            // Check if it's a fully supported language
+            if (selectedLang === 'python' || selectedLang === 'javascript') {
                 conversationState.selections.programmingLanguage = selectedLang;
                 const config = CONFIG.languages[selectedLang];
 
@@ -435,19 +453,16 @@
 
                 // Move to next step
                 conversationState.step = 'model';
-                addMessage('Finally, which AI model would you like to use?', 'bot', [
-                    { value: 'openai', label: '🤖 OpenAI (GPT-4)' },
-                    { value: 'anthropic', label: '🧠 Anthropic (Claude)' },
-                    { value: 'llama3', label: '🦙 Llama 3' }
-                ]);
+                addMessage('Finally, which AI model would you like to use?', 'bot', getModelChips(selectedLang));
             } else {
                 // Handle other languages with coming soon message
                 const config = CONFIG.languages[selectedLang];
                 const languageName = config.name;
 
-                addMessage(`${languageName} support is coming soon. Currently, only Python is fully supported.`, 'bot');
-                addMessage(`Would you like to build a Python agent instead?`, 'bot', [
-                    { value: 'python', label: 'Yes, use Python' },
+                addMessage(`${languageName} support is coming soon. Currently, Python and JavaScript (Node.js) are fully supported.`, 'bot');
+                addMessage(`Would you like to build an agent in a supported language instead?`, 'bot', [
+                    { value: 'python', label: 'Use Python' },
+                    { value: 'javascript', label: 'Use JavaScript (Node.js)' },
                     { value: 'wait', label: 'I\'ll wait for ' + languageName }
                 ]);
             }
@@ -475,7 +490,11 @@
             }
         }
 
-        if (selectedModel) {
+        const allowedModels = getModelChips(conversationState.selections.programmingLanguage).map(m => m.value);
+        if (selectedModel && !allowedModels.includes(selectedModel)) {
+            addMessage("Anthropic isn't supported for JavaScript — its API isn't OpenAI-compatible. Please choose from:", 'bot',
+                getModelChips(conversationState.selections.programmingLanguage));
+        } else if (selectedModel) {
             conversationState.selections.llmModel = selectedModel;
             const config = CONFIG.models[selectedModel];
 
@@ -487,11 +506,8 @@
                 generateAndDisplayCode();
             }, 1500);
         } else {
-            addMessage("I didn't recognize that model. Please choose from:", 'bot', [
-                { value: 'openai', label: '🤖 OpenAI (GPT-4)' },
-                { value: 'anthropic', label: '🧠 Anthropic (Claude)' },
-                { value: 'llama3', label: '🦙 Llama 3' }
-            ]);
+            addMessage("I didn't recognize that model. Please choose from:", 'bot',
+                getModelChips(conversationState.selections.programmingLanguage));
         }
     }
 
@@ -520,8 +536,7 @@
             java: '.java',
             csharp: '.cs'
         };
-        const base = window.HUGO_BASEURL || '';
-        const filename = `${base}code/agent-templates/${formData.programmingLanguage}/${formData.agentType}_agent${fileExtensions[formData.programmingLanguage]}`;
+        const filename = `/code/agent-templates/${formData.programmingLanguage}/${formData.agentType}_agent${fileExtensions[formData.programmingLanguage]}`;
 
         return loadTemplateFile(filename, formData) || genericTemplates[formData.programmingLanguage](formData);
     }
@@ -606,10 +621,13 @@ require('dotenv').config();
 class ${formData.agentName.replace(/\s+/g, '')} {
     constructor() {
         this.redisClient = redis.createClient({
-            host: process.env.REDIS_HOST || 'localhost',
-            port: process.env.REDIS_PORT || 6379
+            socket: {
+                host: process.env.REDIS_HOST || 'localhost',
+                port: parseInt(process.env.REDIS_PORT || '6379'),
+            },
+            password: process.env.REDIS_PASSWORD,
         });
-        this.llmApiKey = process.env.${formData.llmModel.toUpperCase()}_API_KEY;
+        this.llmApiKey = process.env.LLM_API_KEY || 'no-key-needed';
     }
 
     async processQuery(query) {
@@ -743,28 +761,16 @@ public class ${formData.agentName.replace(/\s+/g, '')}
         elements.codeSection.dataset.code = code;
         elements.codeSection.dataset.filename = getFilename(formData);
 
-        // Handle Jupyter button state based on selected model
+        // Jupyter notebook support is not yet available; keep the button disabled
         const tryJupyterBtn = document.getElementById('try-jupyter-btn');
         if (tryJupyterBtn) {
-            if (formData.llmModel !== 'openai') {
-                // Disable and grey out the button for non-OpenAI models
-                tryJupyterBtn.disabled = true;
-                tryJupyterBtn.style.backgroundColor = '#B8B8B8';
-                tryJupyterBtn.style.color = '#4B4F58';
-                tryJupyterBtn.style.borderColor = '#B8B8B8';
-                tryJupyterBtn.style.cursor = 'not-allowed';
-                tryJupyterBtn.style.opacity = '1';
-                tryJupyterBtn.title = 'Coming soon';
-            } else {
-                // Enable the button for OpenAI models
-                tryJupyterBtn.disabled = false;
-                tryJupyterBtn.style.backgroundColor = '';
-                tryJupyterBtn.style.color = '';
-                tryJupyterBtn.style.borderColor = '';
-                tryJupyterBtn.style.cursor = 'pointer';
-                tryJupyterBtn.style.opacity = '1';
-                tryJupyterBtn.title = 'Try your agent in a Jupyter notebook';
-            }
+            tryJupyterBtn.disabled = true;
+            tryJupyterBtn.style.backgroundColor = '#B8B8B8';
+            tryJupyterBtn.style.color = '#4B4F58';
+            tryJupyterBtn.style.borderColor = '#B8B8B8';
+            tryJupyterBtn.style.cursor = 'not-allowed';
+            tryJupyterBtn.style.opacity = '1';
+            tryJupyterBtn.title = 'Coming soon';
         }
 
         // Attach event listeners to code action buttons now that they're visible
