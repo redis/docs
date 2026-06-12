@@ -31,9 +31,13 @@ title: TOPK.INFO
 ---
 Returns number of required items (k), width, depth, and decay values of a given sketch.
 
-## Parameters
+## Required arguments
 
-* **key**: the name of the sketch.
+<details open><summary><code>key</code></summary>
+
+the name of the sketch.
+
+</details>
 
 ## Examples
 

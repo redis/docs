@@ -34,13 +34,21 @@ summary: Returns the active channels.
 syntax_fmt: PUBSUB CHANNELS [pattern]
 title: PUBSUB CHANNELS
 ---
-Lists the currently *active channels*.
+Lists the currently active Pub/Sub channels.
 
 An active channel is a Pub/Sub channel with one or more subscribers (excluding clients subscribed to patterns).
 
 If no `pattern` is specified, all the channels are listed, otherwise if pattern is specified only channels matching the specified glob-style pattern are listed.
 
-Cluster note: in a Redis Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, [`PUBSUB`]({{< relref "/commands/pubsub" >}})'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.
+Cluster note: in a Redis Cluster, clients can subscribe to every node and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, [`PUBSUB`]({{< relref "/commands/pubsub" >}})'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.
+
+## Optional arguments
+
+<details open><summary><code>pattern</code></summary>
+
+List only active channels whose names match the given glob-style pattern. If omitted, all active channels are listed.
+
+</details>
 
 ## Redis Software and Redis Cloud compatibility
 

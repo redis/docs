@@ -60,7 +60,23 @@ If the approximated cardinality estimated by the HyperLogLog changed after execu
 
 To call the command without elements but just the variable name is valid, this will result into no operation performed if the variable already exists, or just the creation of the data structure if the key does not exist (in the latter case 1 is returned).
 
-For an introduction to HyperLogLog data structure check the [`PFCOUNT`]({{< relref "/commands/pfcount" >}}) command page.
+For an introduction to the HyperLogLog data structure check its  [`data structure page`]({{< relref "/develop/data-types/probabilistic/hyperloglogs/" >}}) and the [`PFCOUNT`]({{< relref "/commands/pfcount" >}}) command page.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the HyperLogLog key.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>element [element ...]</code></summary>
+
+One or more elements to add to the HyperLogLog. With no elements, the command only creates the key if it does not already exist.
+
+</details>
 
 ## Examples
 

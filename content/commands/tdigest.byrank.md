@@ -52,7 +52,7 @@ Ranks for which the values should be retrieved.
 _n_-1 is the rank of the value of the largest observation, where _n_ denotes the number of observations that have been added to the sketch.
 </details>
 
-## Example
+## Examples
 
 {{< highlight bash >}}
 redis> TDIGEST.CREATE t COMPRESSION 1000

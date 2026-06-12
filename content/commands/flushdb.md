@@ -43,7 +43,7 @@ history:
 - - 4.0.0
   - Added the `ASYNC` flushing mode modifier.
 - - 6.2.0
-  - Added the `SYNC` flushing mode modifier.
+  - Added the `SYNC` flushing mode modifier. The default flush behavior is now configurable using the lazyfree-lazy-user-flush configuration directive.
 linkTitle: FLUSHDB
 railroad_diagram: /images/railroad/flushdb.svg
 since: 1.0.0
@@ -60,22 +60,21 @@ Delete all the keys of the currently selected DB.
 This command never fails.
 
 By default, `FLUSHDB` will synchronously flush all keys from the database.
-Starting with Redis 6.2, setting the **lazyfree-lazy-user-flush** configuration directive to "yes" changes the default flush mode to asynchronous.
+Starting with Redis 6.2, setting the `lazyfree-lazy-user-flush` configuration directive to `yes` changes the default flush mode to asynchronous.
 
-It is possible to use one of the following modifiers to dictate the flushing mode explicitly:
+## Optional arguments
 
-* `ASYNC`: flushes the database asynchronously
-* `SYNC`: flushes the database synchronously
+<details open><summary><code>ASYNC | SYNC</code></summary>
 
-## Notes
+Flush asynchronously (`ASYNC`) or synchronously (`SYNC`). The default is set by the `lazyfree-lazy-user-flush` configuration directive.
+
+</details>
+
+## Details
 
 * An asynchronous `FLUSHDB` command only deletes keys that were present at the time the command was invoked. Keys created during an asynchronous flush will be unaffected.
 * This command does not delete functions.
 * When using Redis Cluster, this command is identical to `FLUSHALL` since a Redis Cluster supports only one database with an ID of zero.
-
-## Behavior change history
-
-*   `>= 6.2.0`: Default flush behavior now configurable by the **lazyfree-lazy-user-flush** configuration directive.
 
 ## Redis Software and Redis Cloud compatibility
 

@@ -70,6 +70,26 @@ The exact behavior of this command is identical to the one of the [`INCRBYFLOAT`
 command, please refer to the documentation of [`INCRBYFLOAT`]({{< relref "/commands/incrbyfloat" >}}) for further
 information.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>field</code></summary>
+
+The field whose value to increment.
+
+</details>
+
+<details open><summary><code>increment</code></summary>
+
+The floating-point amount to add to the field's value. A negative value decrements the field instead.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

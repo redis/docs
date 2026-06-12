@@ -96,7 +96,55 @@ The optional `WITHSCORES` argument makes the command return both the element and
 its score, instead of the element alone.
 This option is available since Redis 2.0.
 
-## Exclusive intervals and infinity
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>min</code></summary>
+
+The minimum score. The bound is inclusive unless prefixed with `(`. Use `-inf` for no lower bound.
+
+</details>
+
+<details open><summary><code>max</code></summary>
+
+The maximum score. The bound is inclusive unless prefixed with `(`. Use `+inf` for no upper bound.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>WITHSCORES</code></summary>
+
+Also return the score of each member.
+
+</details>
+
+<details open><summary><code>LIMIT offset count</code></summary>
+
+Skip `offset` matching members and return up to `count` of them. A negative `count` returns all remaining members.
+
+</details>
+
+## Examples
+
+{{% redis-cli %}}
+ZADD myzset 1 "one"
+ZADD myzset 2 "two"
+ZADD myzset 3 "three"
+ZRANGEBYSCORE myzset -inf +inf
+ZRANGEBYSCORE myzset 1 2
+ZRANGEBYSCORE myzset (1 2
+ZRANGEBYSCORE myzset (1 (2
+{{% /redis-cli %}}
+
+## Details
+
+### Exclusive intervals and infinity
 
 `min` and `max` can be `-inf` and `+inf`, so that you are not required to know
 the highest or lowest score in the sorted set to get all elements from or up to
@@ -119,19 +167,7 @@ ZRANGEBYSCORE zset (5 (10
 
 Will return all the elements with `5 < score < 10` (5 and 10 excluded).
 
-## Examples
-
-{{% redis-cli %}}
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZRANGEBYSCORE myzset -inf +inf
-ZRANGEBYSCORE myzset 1 2
-ZRANGEBYSCORE myzset (1 2
-ZRANGEBYSCORE myzset (1 (2
-{{% /redis-cli %}}
-
-## Pattern: weighted random selection of an element
+### Pattern: weighted random selection of an element
 
 Normally `ZRANGEBYSCORE` is simply used in order to get range of items
 where the score is the indexed integer key, however it is possible to do less

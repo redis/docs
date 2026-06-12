@@ -51,6 +51,14 @@ Returns all fields and values of the hash stored at `key`.
 In the returned value, every field name is followed by its value, so the length
 of the reply is twice the size of the hash.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
 ## Examples
 
 {{< clients-example set="cmds_hash" step="hgetall" description="Foundational: Retrieve all fields and values from a hash using HGETALL (returns alternating field-value pairs, useful for loading entire hash data)" difficulty="beginner" >}}

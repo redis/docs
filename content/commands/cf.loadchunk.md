@@ -61,13 +61,6 @@ Iterator value associated with `data` (returned by [`CF.SCANDUMP`]({{< relref "c
 Current data chunk (returned by [`CF.SCANDUMP`]({{< relref "commands/cf.scandump/" >}}))
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly
-- [] on error (invalid arguments, wrong key type, wrong data, etc.)
-
 ## Examples
 
 See [`CF.SCANDUMP`]({{< relref "commands/cf.scandump/" >}}) for an example.

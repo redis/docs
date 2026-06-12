@@ -56,6 +56,20 @@ Given a sorted set representing a geospatial index, populated using the [`GEOADD
 
 The command can accept a variable number of arguments so it always returns an array of positions even when a single element is specified.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the geospatial index (a sorted set).
+
+</details>
+
+<details open><summary><code>member [member ...]</code></summary>
+
+One or more members whose longitude and latitude to return.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

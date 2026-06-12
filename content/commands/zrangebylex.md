@@ -81,7 +81,46 @@ Keep in mind that if `offset` is large, the sorted set needs to be traversed for
 `offset` elements before getting to the elements to return, which can add up to
 O(N) time complexity.
 
-## How to specify intervals
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>min</code></summary>
+
+The minimum member, compared lexicographically. Prefix with `[` for an inclusive bound or `(` for an exclusive bound; use `-` for the lowest possible value.
+
+</details>
+
+<details open><summary><code>max</code></summary>
+
+The maximum member, compared lexicographically. Prefix with `[` for an inclusive bound or `(` for an exclusive bound; use `+` for the highest possible value.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>LIMIT offset count</code></summary>
+
+Skip `offset` matching members and return up to `count` of them. A negative `count` returns all remaining members.
+
+</details>
+
+## Examples
+
+{{% redis-cli %}}
+ZADD myzset 0 a 0 b 0 c 0 d 0 e 0 f 0 g
+ZRANGEBYLEX myzset - [c
+ZRANGEBYLEX myzset - (c
+ZRANGEBYLEX myzset [aaa (g
+{{% /redis-cli %}}
+
+## Details
+
+### How to specify intervals
 
 Valid *start* and *stop* must start with `(` or `[`, in order to specify
 if the range item is respectively exclusive or inclusive.
@@ -91,7 +130,7 @@ instance the command **ZRANGEBYLEX myzset - +** is guaranteed to return
 all the elements in the sorted set, if all the elements have the same
 score.
 
-## Details on strings comparison
+### Details on strings comparison
 
 Strings are compared as binary array of bytes. Because of how the ASCII character
 set is specified, this means that usually this also have the effect of comparing
@@ -116,15 +155,6 @@ in the initial positions, the binary comparison will match the numerical
 comparison of the numbers. This can be used in order to implement range
 queries on 64 bit values. As in the example below, after the first 8 bytes
 we can store the value of the element we are actually indexing.
-
-## Examples
-
-{{% redis-cli %}}
-ZADD myzset 0 a 0 b 0 c 0 d 0 e 0 f 0 g
-ZRANGEBYLEX myzset - [c
-ZRANGEBYLEX myzset - (c
-ZRANGEBYLEX myzset [aaa (g
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

@@ -88,6 +88,28 @@ We can use an additional argument `BIT` to specify a bit index.
 So 0 is the first bit, 1 is the second bit, and so forth.
 For negative values, -1 is the last bit, -2 is the penultimate, and so forth.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the string.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>start end</code></summary>
+
+Count set bits only within the range from `start` to `end` (inclusive). By default these are byte offsets; negative values count from the end of the string.
+
+</details>
+
+<details open><summary><code>BYTE | BIT</code></summary>
+
+Interpret `start` and `end` as byte offsets (`BYTE`, the default) or bit offsets (`BIT`).
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -99,7 +121,9 @@ BITCOUNT mykey 1 1 BYTE
 BITCOUNT mykey 5 30 BIT
 {{% /redis-cli %}}
 
-## Pattern: real-time metrics using bitmaps
+## Details
+
+### Pattern: real-time metrics using bitmaps
 
 Bitmaps are a very space-efficient representation of certain kinds of
 information.
@@ -125,7 +149,7 @@ bitmaps][hbgc212fermurb]".
 
 [hbgc212fermurb]: http://blog.getspool.com/2011/11/29/fast-easy-realtime-metrics-using-redis-bitmaps
 
-## Performance considerations
+### Performance considerations
 
 In the above example of counting days, even after 10 years the application is
 online we still have just `365*10` bits of data per user, that is just 456 bytes

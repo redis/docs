@@ -49,6 +49,14 @@ title: HVALS
 ---
 Returns all values in the hash stored at `key`.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
 ## Examples
 
 {{< clients-example set="cmds_hash" step="hvals" description="Foundational: Retrieve all values from a hash using HVALS (returns only values without field names, useful when you only need the data)" difficulty="beginner" >}}

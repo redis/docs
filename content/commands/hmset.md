@@ -66,6 +66,20 @@ Sets the specified fields to their respective values in the hash stored at
 This command overwrites any specified fields already existing in the hash.
 If `key` does not exist, a new key holding a hash is created.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>field value [field value ...]</code></summary>
+
+One or more field-value pairs to set in the hash.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

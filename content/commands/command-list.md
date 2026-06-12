@@ -48,13 +48,15 @@ syntax_fmt: "COMMAND LIST [FILTERBY\_<MODULE\_module-name | ACLCAT\_category |\n
   \ PATTERN\_pattern>]"
 title: COMMAND LIST
 ---
-Return an array of the server's command names.
+Return an array of the Redis server's command names.
 
-You can use the optional _FILTERBY_ modifier to apply one of the following filters:
+## Optional arguments
 
- - **MODULE module-name**: get the commands that belong to the module specified by _module-name_.
- - **ACLCAT category**: get the commands in the [ACL category]({{< relref "operate/oss_and_stack/management/security/acl#command-categories" >}}) specified by _category_.
- - **PATTERN pattern**: get the commands that match the given glob-like _pattern_.
+<details open><summary><code>FILTERBY MODULE module-name | ACLCAT category | PATTERN pattern</code></summary>
+
+Filter the listed commands by module (`MODULE`), [ACL category]({{< relref "operate/oss_and_stack/management/security/acl#command-categories" >}}) (`ACLCAT`), or a glob-style name pattern (`PATTERN`).
+
+</details>
 
 ## Redis Software and Redis Cloud compatibility
 

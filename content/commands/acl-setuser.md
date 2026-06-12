@@ -98,12 +98,39 @@ For information on persisting ACLs, see the [ACL tutorial]({{< relref "/operate/
 
 The following documentation is a reference manual about the capabilities of this command, however our [ACL tutorial]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) may be a more gentle introduction to how the ACL system works in general.
 
-## ACL rules
+## Required arguments
+
+<details open><summary><code>username</code></summary>
+
+The user to create or modify.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>rule [rule ...]</code></summary>
+
+One or more ACL rules to apply to the user. See the [ACL rules](#acl-rules) section for the full list of rules.
+
+</details>
+
+## Examples
+
+```
+> ACL SETUSER alan allkeys +@string +@set -SADD >alanpassword
++OK
+> ACL SETUSER antirez heeyyyy
+(error) ERR Error in ACL SETUSER modifier 'heeyyyy': Syntax error
+```
+
+## Details
+
+### ACL rules
 
 Redis ACL rules are split into two categories: rules that define command permissions or _command rules_, and rules that define the user state or _user management rules_.
 This is a list of all the supported Redis ACL rules:
 
-### Command rules
+#### Command rules
 
 * `~<pattern>`: Adds the specified key pattern (glob style pattern, like in the [`KEYS`]({{< relref "/commands/keys" >}}) command), to the list of key patterns accessible by the user. This grants both read and write permissions to keys that match the pattern. You can add multiple key patterns to the same user. Example: `~objects:*`
 * `%R~<pattern>`: (Available in Redis 7.0 and later) Adds the specified read key pattern. This behaves similar to the regular key pattern but only grants permission to read from keys that match the given pattern. See [key permissions]({{< relref "/operate/oss_and_stack/management/security/acl#key-permissions" >}}) for more information.
@@ -122,7 +149,7 @@ This is a list of all the supported Redis ACL rules:
 * `-@<category>`: Like `+@<category>` but removes all the commands in the category instead of adding them.
 * `nocommands`: Alias for `-@all`. Removes all the commands, and the user is no longer able to execute anything.
 
-### User management rules
+#### User management rules
 
 * `on`: Set the user as active, it will be possible to authenticate as this user using `AUTH <username> <password>`.
 * `off`: Set user as not active, it will be impossible to log as this user. Please note that if a user gets disabled (set to off) after there are connections already authenticated with such a user, the connections will continue to work as expected. To also kill the old connections you can use [`CLIENT KILL`]({{< relref "/commands/client-kill" >}}) with the user option. An alternative is to delete the user with [`ACL DELUSER`]({{< relref "/commands/acl-deluser" >}}), that will result in all the connections authenticated as the deleted user to be disconnected.
@@ -134,16 +161,6 @@ This is a list of all the supported Redis ACL rules:
 * `(<rule list>)`: (Available in Redis 7.0 and later) Creates a new selector to match rules against. Selectors are evaluated after the user permissions, and are evaluated according to the order they are defined. If a command matches either the user permissions or any selector, it is allowed. See [selectors]({{< relref "operate/oss_and_stack/management/security/acl#selectors" >}}) for more information.
 * `clearselectors`: (Available in Redis 7.0 and later) Deletes all of the selectors attached to the user.
 * `reset`: Removes any capability from the user. They are set to off, without passwords, unable to execute any command, unable to access any key.
-
-## Examples
-
-```
-> ACL SETUSER alan allkeys +@string +@set -SADD >alanpassword
-+OK
-
-> ACL SETUSER antirez heeyyyy
-(error) ERR Error in ACL SETUSER modifier 'heeyyyy': Syntax error
-```
 
 ## Redis Software and Redis Cloud compatibility
 

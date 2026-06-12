@@ -71,6 +71,26 @@ so that such message does not get processed again, and as a side effect,
 the PEL entry about this message is also purged, releasing memory from the
 Redis server.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The stream key.
+
+</details>
+
+<details open><summary><code>group</code></summary>
+
+The consumer group name.
+
+</details>
+
+<details open><summary><code>id [id ...]</code></summary>
+
+One or more message IDs to acknowledge.
+
+</details>
+
 ## Examples
 
 ```

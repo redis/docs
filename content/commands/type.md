@@ -49,6 +49,14 @@ Returns the string representation of the type of the value stored at `key`.
 The different types that can be returned are: `string`, `list`, `set`, `zset`,
 `hash`, `stream`, and `vectorset`.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

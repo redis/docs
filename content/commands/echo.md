@@ -34,6 +34,14 @@ title: ECHO
 ---
 Returns `message`.
 
+## Required arguments
+
+<details open><summary><code>message</code></summary>
+
+The message to echo back.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

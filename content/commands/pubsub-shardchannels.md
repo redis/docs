@@ -34,13 +34,21 @@ summary: Returns the active shard channels.
 syntax_fmt: PUBSUB SHARDCHANNELS [pattern]
 title: PUBSUB SHARDCHANNELS
 ---
-Lists the currently *active shard channels*.
+Lists the currently active shard channels.
 
 An active shard channel is a Pub/Sub shard channel with one or more subscribers.
 
-If no `pattern` is specified, all the channels are listed, otherwise if pattern is specified only channels matching the specified glob-style pattern are listed.
+If no `pattern` is specified, all the channels are listed, otherwise if pattern is specified, only channels matching the specified glob-style pattern are listed.
 
 The information returned about the active shard channels are at the shard level and not at the cluster level.
+
+## Optional arguments
+
+<details open><summary><code>pattern</code></summary>
+
+List only active shard channels whose names match the given glob-style pattern. If omitted, all active shard channels are listed.
+
+</details>
 
 ## Examples
 

@@ -100,15 +100,56 @@ This command's behavior varies in clustered Redis environments. See the [multi-k
 
 
 The `XREADGROUP` command is a special version of the [`XREAD`]({{< relref "/commands/xread" >}}) command
-with support for consumer groups. Probably you will have to understand the
-[`XREAD`]({{< relref "/commands/xread" >}}) command before reading this page will makes sense.
+with support for consumer groups. See 
+[`XREAD`]({{< relref "/commands/xread" >}}) command before reading this page.
 
-Moreover, if you are new to streams, we recommend to read our
-[introduction to Redis Streams]({{< relref "/develop/data-types/streams" >}}).
-Make sure to understand the concept of consumer group in the introduction
-so that following how this command works will be simpler.
+If you are new to streams, see 
+[Introduction to Redis Streams]({{< relref "/develop/data-types/streams" >}}).
+Make sure you understand consumer groups in the introduction.
 
-## Consumer groups in 30 seconds
+## Required arguments
+
+<details open><summary><code>GROUP group consumer</code></summary>
+
+The consumer group and the consumer name to read as.
+
+</details>
+
+<details open><summary><code>STREAMS key [key ...] id [id ...]</code></summary>
+
+The keys to read from, followed by an ID for each key. Use `>` to read messages never delivered to any other consumer, or a specific ID to read from this consumer's pending list.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>COUNT count</code></summary>
+
+The maximum number of entries to return per stream.
+
+</details>
+
+<details open><summary><code>BLOCK milliseconds</code></summary>
+
+Block for up to this many milliseconds if no entries are available. `0` blocks indefinitely.
+
+</details>
+
+<details open><summary><code>CLAIM min-idle-time</code></summary>
+
+Claim messages that have been idle for at least this long (in milliseconds) before reading.
+
+</details>
+
+<details open><summary><code>NOACK</code></summary>
+
+Do not add the read messages to the PEL; treat them as acknowledged immediately.
+
+</details>
+
+## Details
+
+### Consumer groups in 30 seconds
 
 The difference between this command and the vanilla [`XREAD`]({{< relref "/commands/xread" >}}) is that this
 one supports consumer groups.
@@ -124,12 +165,12 @@ This is how to understand if you want to use a consumer group or not:
 1. If you have a stream and multiple clients, and you want all the clients to get all the messages, you do not need a consumer group.
 2. If you have a stream and multiple clients, and you want the stream to be *partitioned* or *sharded* across your clients, so that each client will get a sub set of the messages arriving in a stream, you need a consumer group.
 
-## Differences between XREAD and XREADGROUP
+### Differences between XREAD and XREADGROUP
 
 From the point of view of the syntax, the commands are almost the same,
 however `XREADGROUP` *requires* a special and mandatory option:
 
-    GROUP <group-name> <consumer-name>
+    GROUP `group-name` `consumer-name`
 
 The group name is just the name of a consumer group associated to the stream.
 The group is created using the [`XGROUP`]({{< relref "/commands/xgroup" >}}) command. The consumer name is the
@@ -161,7 +202,7 @@ be one of the following two:
 Like [`XREAD`]({{< relref "/commands/xread" >}}) the `XREADGROUP` command can be used in a blocking way. There
 are no differences in this regard.
 
-## The CLAIM option
+### The CLAIM option
 
 The `CLAIM` option was added as part of Redis 8.4. When `CLAIM min-idle-time` is specified, Redis will first try to claim messages which have been pending for at least min-idle-time milliseconds from the consumer group of each specified stream key. The pending messages with the highest idle time would be claimed first. Note that the `CLAIM min-idle-time` condition may become true for some pending entries during the `BLOCK milliseconds` period (if specified).
 
@@ -171,7 +212,7 @@ If there are no such messages, Redis will continue as normal (consume incoming m
 
 Messages that have been released back to the group using [`XNACK`]({{< relref "/commands/xnack" >}}), added in Redis 8.8, are immediately claimable since their delivery time is set to 0, satisfying any minimum idle time requirement.
 
-### Reply extension for claimed entries
+#### Reply extension for claimed entries
 
 When `CLAIM min-idle-time` is used, additional information is provided for each pending entry retrieved (similar to the reply of [`XPENDING`]({{< relref "/commands/xpending" >}})). For each claimed pending entry, the reply includes:
 
@@ -180,7 +221,7 @@ When `CLAIM min-idle-time` is used, additional information is provided for each 
 3. Milliseconds since the last time this entry was delivered
 4. Number of times this entry was previously delivered
 
-### Ordering guarantees
+#### Ordering guarantees
 
 Within each stream, entries are reported in the same order they were added by `XADD` (older first).
 
@@ -197,14 +238,14 @@ For example, if there are 20 idle pending entries and 200 incoming entries (in a
 - When calling `XREADGROUP ... CLAIM ...`, you would retrieve 220 entries in the reply
 - When calling `XREADGROUP ... COUNT 100 ... CLAIM ...`, you would retrieve the 20 idle pending entries + 80 incoming entries in the reply
 
-## What happens when a message is delivered to a consumer?
+### What happens when a message is delivered to a consumer?
 
 Two things:
 
 1. If the message was never delivered to anyone, that is, if we are talking about a new message, then a PEL (Pending Entries List) is created.
 2. If instead the message was already delivered to this consumer, and it is just re-fetching the same message again, then the *last delivery counter* is updated to the current time, and the *number of deliveries* is incremented by one. You can access those message properties using the [`XPENDING`]({{< relref "/commands/xpending" >}}) command.
 
-## Usage example
+### Usage example
 
 Normally you use the command like that in order to get new messages and
 process them. In pseudo-code:
@@ -241,7 +282,7 @@ consumers that are processing new things.
 
 To see how the command actually replies, please check the [`XREAD`]({{< relref "/commands/xread" >}}) command page.
 
-## What happens when a pending message is deleted?
+### What happens when a pending message is deleted?
 
 Entries may be deleted from the stream due to trimming with [`XADD`]({{< relref "/commands/xadd" >}}) or [`XTRIM`]({{< relref "/commands/xtrim" >}}),
 or explicit calls to [`XDEL`]({{< relref "/commands/xdel" >}}), [`XDELEX`]({{< relref "/commands/xdelex" >}}), or [`XACKDEL`]({{< relref "/commands/xackdel" >}}).
@@ -272,8 +313,7 @@ OK
          2) (nil)
 ```
 
-Reading the [Redis Streams introduction]({{< relref "/develop/data-types/streams" >}}) is highly
-suggested in order to understand more about the streams overall behavior
+See [Introduction to Redis streams]({{< relref "/develop/data-types/streams" >}}) to understand more about the overall behavior of Redis streams.
 and semantics.
 
 ## Redis Software and Redis Cloud compatibility
