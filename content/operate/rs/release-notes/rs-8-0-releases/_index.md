@@ -121,7 +121,11 @@ Redis Software version 8.0.16 and later requires OpenSSL 3.3 or later.
 
 Make sure the following ports are open before upgrading Redis Software.
 
-Ports reserved as of Redis Software version 8.0.18:
+The following port was added as a reserved port in Redis Software version 8.0.18; however, it is optional instead of reserved in Redis Software version 8.0.20-tba:
+
+| Port | Process name | Usage |
+|------|--------------|-------|
+| 3357 | reconciliation_tree_grpc | Internal communication |
 
 | Port | Process name | Usage | 
 |------|--------------|-------|
@@ -220,6 +224,8 @@ The following table provides a snapshot of supported platforms as of this Redis 
 ## Known issues
 
 - RS196225: After upgrading to Redis Software version 8.0.x, previously working LDAP filters that use an `OR` clause to match multiple attributes can fail to find a unique DN for some users.
+
+    This issue was fixed in Redis Software version 8.0.20-tba.
 
 - RS193156: Active Directory LDAP authentication can fail in the Cluster Manager UI after upgrading to Redis Software version 8.0.16-33 due to an issue with LDAP TLS client certificate handling. Users previously authenticated through Active Directory can no longer sign in to the Cluster Manager UI after the upgrade.
 

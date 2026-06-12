@@ -16,7 +16,7 @@ An API object that represents a [proxy](https://en.wikipedia.org/wiki/Proxy_serv
 |------|------------|-------------|
 | uid | integer | Unique ID of the proxy (read-only) |
 | backlog | integer | TCP listen queue backlog |
-| client_eviction | boolean (default: false) | If `true,`, enables client eviction based on `maxmemory_clients`. |
+| client_eviction | boolean (default: true) | If `true,`, enables client eviction based on `maxmemory_clients`. |
 | client_keepcnt | integer | Client TCP keepalive count |
 | client_keepidle | integer | Client TCP keepalive idle |
 | client_keepintvl | integer | Client TCP keepalive interval |
