@@ -282,43 +282,19 @@ window.openTryItCli = window.openTryItCli || function(button) {
 
     const commands = [];
 
+    // Try It seeding is driven solely by the explicit prereq model.
+    // data-builds-upon is metadata only (AI/markdown export) and is
+    // intentionally NOT consulted here.
     if (anchor && anchor.getAttribute('data-needs-prereq') === 'true') {
-        // Explicit prerequisite model: replay only this set's setup commands
-        // (the block flagged prereq="true"), then this example's own commands.
+        // Replay this set's prereq block (the one flagged prereq="true")
+        // before this example's own commands.
         const set = anchor.getAttribute('data-example-set');
         const prereqs = (set && window._tryItPrereqs) ? window._tryItPrereqs[set] : null;
         if (prereqs && prereqs.length) commands.push.apply(commands, prereqs);
-        const own = window._tryItCommands[codetabsId];
-        if (own && own.length) commands.push.apply(commands, own);
-    } else {
-        // Legacy transitive data-builds-upon chain: accumulate the commands of
-        // every block this example builds upon (transitively), in dependency
-        // order, so the session is seeded with predecessor state.
-        const orderedIds = [];
-        const seen = {};
-        const collect = function(id) {
-            if (!id || seen[id]) return;
-            seen[id] = true;
-            const a = document.querySelector('a[data-codetabs-id="' + id + '"]');
-            if (a) {
-                const buildsUpon = a.getAttribute('data-builds-upon');
-                if (buildsUpon) {
-                    buildsUpon.split(',').forEach(function(stepId) {
-                        stepId = stepId.trim();
-                        if (!stepId) return;
-                        const prereq = document.getElementById(stepId);
-                        if (prereq) collect(prereq.getAttribute('data-codetabs-id'));
-                    });
-                }
-            }
-            orderedIds.push(id);
-        };
-        collect(codetabsId);
-        orderedIds.forEach(function(id) {
-            const cmds = window._tryItCommands[id];
-            if (cmds && cmds.length) commands.push.apply(commands, cmds);
-        });
     }
+    const own = window._tryItCommands[codetabsId];
+    if (own && own.length) commands.push.apply(commands, own);
+
     if (!commands.length) return;
 
     // URL-safe base64 of the JSON payload, no padding. Avoids the %5C%22
