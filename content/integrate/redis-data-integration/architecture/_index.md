@@ -111,9 +111,9 @@ the backpressure mechanism.
 
 ## Supported sources
 
-RDI supports the following database sources using [Debezium Server](https://debezium.io/documentation/reference/stable/operations/debezium-server.html) connectors:
-
-{{< embed-md "rdi-supported-source-versions.md" >}}
+RDI supports a range of database sources using [Debezium Server](https://debezium.io/documentation/reference/stable/operations/debezium-server.html) connectors.
+See [Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
+for the full list of supported databases and versions.
 
 ## How RDI is deployed
 

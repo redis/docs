@@ -92,9 +92,11 @@ to find out if your use case is a good fit for RDI's features.
 
 ## Supported source databases
 
-RDI can capture data from any of the following sources:
-
-{{< embed-md "rdi-supported-source-versions.md" >}}
+RDI can capture data from a range of sources, including PostgreSQL, MySQL,
+MariaDB, Oracle, SQL Server, and MongoDB. See
+[Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
+for the full list of supported databases and versions, along with instructions
+to get each one ready for use with RDI.
 
 ## Continue learning with Redis University
 
