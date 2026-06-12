@@ -1,0 +1,61 @@
+[
+  {
+    "id": "getting-started",
+    "name": "Getting started",
+    "description": "A minimum set of properties to define a working RDI pipeline against a SQL source and a Redis target. Treat this as a starting point — most real pipelines will need a few more options.",
+    "properties": [
+      "metadata.name",
+      "sources.type",
+      "sources.name",
+      "sources.connection.SQL database.type",
+      "sources.connection.SQL database.host",
+      "sources.connection.SQL database.port",
+      "sources.connection.SQL database.database",
+      "sources.connection.SQL database.user",
+      "sources.connection.SQL database.password",
+      "sources.tables",
+      "targets.connection.type",
+      "targets.connection.host",
+      "targets.connection.port",
+      "targets.connection.password",
+      "processors.type",
+      "processors.error_handling"
+    ]
+  },
+  {
+    "id": "classic-optimization",
+    "name": "Classic processor tuning",
+    "description": "Properties most relevant when tuning the classic processor (batch sizing, deduplication, retry behaviour, replica wait).",
+    "properties": [
+      "processors.type",
+      "processors.read_batch_size",
+      "processors.read_batch_timeout_ms",
+      "processors.write_batch_size",
+      "processors.enable_async_processing",
+      "processors.batch_queue_size",
+      "processors.ack_queue_size",
+      "processors.dedup",
+      "processors.dedup_max_size",
+      "processors.initial_sync_processes",
+      "processors.idle_sleep_time_ms",
+      "processors.idle_streams_check_interval_ms",
+      "processors.busy_streams_check_interval_ms",
+      "processors.retry_max_attempts",
+      "processors.retry_initial_delay_ms",
+      "processors.retry_max_delay_ms",
+      "processors.wait_enabled",
+      "processors.wait_timeout",
+      "processors.retry_on_replica_failure",
+      "processors.dlq_max_messages"
+    ]
+  },
+  {
+    "id": "flink-optimization",
+    "name": "Flink processor tuning",
+    "description": "Properties most relevant when tuning the Apache Flink processor (Kubernetes deployments only). Includes everything under `processors.advanced`, which only applies to Flink.",
+    "properties": [
+      "processors.type",
+      "processors.advanced"
+    ]
+  }
+]

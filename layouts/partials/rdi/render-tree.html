@@ -1,0 +1,142 @@
+{{/*
+  rdi/render-tree
+
+  Recursive partial that renders the property subtree under one node as
+  a single flat list, depth-first:
+
+    - leaf properties first, alphabetical
+    - then each container property, alphabetical, followed inline by
+      its own subtree (recursion)
+
+  No section sub-headings are emitted — the dot-path name on each
+  property entry shows the hierarchy. The top-level <h2> heading is
+  emitted by the shortcode, not here.
+
+  Context (dict):
+    node             schema node to descend into (an object schema)
+    path             dotted display path of this node
+                     (e.g. "sources.connection.Spanner")
+    slug             accumulated slug used for anchors / IDs
+    isTopLevel       true on the first call from the shortcode for one
+                     of the five top-level sections; suppresses
+                     rendering this node itself, only its descendants
+    parentRequired   slice of names that the *enclosing* schema marks
+                     required (used to compute the `required` pill on
+                     this node's own entry, never on this call's leaves)
+    parentHasReqList true iff the enclosing schema has `required`
+*/}}
+
+{{- $node := .node -}}
+{{- $path := .path -}}
+{{- $slug := .slug -}}
+{{- $isTopLevel := .isTopLevel -}}
+{{- $parentRequired := .parentRequired | default slice -}}
+{{- $parentHasReqList := .parentHasReqList -}}
+
+{{/* Render *this* node as an entry, unless it's a top-level section
+     (handled by the shortcode). */}}
+{{- if not $isTopLevel -}}
+{{ partial "rdi/render-property.html" (dict
+    "displayPath"     $path
+    "slug"            $slug
+    "node"            $node
+    "isInRequiredList" (in $parentRequired (index (last 1 (split $path ".")) 0))
+    "parentHasReqList" $parentHasReqList
+) }}
+{{- end -}}
+
+{{/* Step inside the node to find its own properties.
+     Apply the same flattening rules used by render-schema:
+       - oneOf at this level → pick first branch
+       - patternProperties wrapper → step into the .* value
+       - inner oneOf → pick first branch
+     This lets us reach the actual properties dict regardless of how
+     the schema wraps it. */}}
+{{- $work := $node -}}
+{{- with $node.oneOf -}}{{- $work = index . 0 -}}{{- end -}}
+{{- $inner := $work -}}
+{{- with $work.patternProperties -}}
+  {{- range $k, $v := . -}}{{- $inner = $v -}}{{- end -}}
+{{- end -}}
+{{- /* When the inner schema's nested fields live under
+       `additionalProperties` (as an object schema) — e.g. `sources.tables`
+       — step into it too. The "additionalProperties" segment stays
+       invisible in the display path, matching how patternProperties keys
+       are hidden. */ -}}
+{{- if and (not $inner.properties) (not $inner.patternProperties) (reflect.IsMap $inner.additionalProperties) -}}
+  {{- $inner = $inner.additionalProperties -}}
+{{- end -}}
+{{- with $inner.oneOf -}}{{- $inner = index . 0 -}}{{- end -}}
+
+{{- $props := $inner.properties -}}
+{{- $childRequired := $inner.required | default slice -}}
+{{- $childHasReqList := false -}}
+{{- with $inner.required -}}{{- $childHasReqList = true -}}{{- end -}}
+
+{{/* Split children into leaves and containers. */}}
+{{- $leaves := slice -}}
+{{- $containers := slice -}}
+{{- range $childName, $childNode := $props -}}
+  {{- $cType := $childNode.type -}}
+
+  {{/* Object with structure → container */}}
+  {{- $isContainer := false -}}
+  {{- if eq (printf "%T" $cType) "string" -}}
+    {{- if eq $cType "object" -}}
+      {{- if or $childNode.properties $childNode.patternProperties $childNode.oneOf $childNode.allOf (reflect.IsMap $childNode.additionalProperties) -}}
+        {{- $isContainer = true -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- /* Array of objects → container */ -}}
+  {{- if and (eq (printf "%T" $cType) "string") (eq $cType "array") -}}
+    {{- with $childNode.items -}}
+      {{- if or .properties .patternProperties -}}{{- $isContainer = true -}}{{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- if $isContainer -}}
+    {{- $containers = $containers | append (dict "name" $childName "node" $childNode) -}}
+  {{- else -}}
+    {{- $leaves = $leaves | append (dict "name" $childName "node" $childNode) -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Alphabetise both buckets. */}}
+{{- $leaves := sort $leaves "name" -}}
+{{- $containers := sort $containers "name" -}}
+
+{{/* Render leaves first. */}}
+{{- range $leaf := $leaves -}}
+  {{- $childPath := printf "%s.%s" $path $leaf.name -}}
+  {{- $slugFrag := lower $leaf.name -}}
+  {{- $slugFrag = replaceRE "[^a-z0-9_]" "" $slugFrag -}}
+  {{- $childSlug := printf "%s%s" $slug $slugFrag -}}
+{{ partial "rdi/render-property.html" (dict
+    "displayPath"     $childPath
+    "slug"            $childSlug
+    "node"            $leaf.node
+    "isInRequiredList" (in $childRequired $leaf.name)
+    "parentHasReqList" $childHasReqList
+) }}
+{{- end -}}
+
+{{/* Then each container, followed inline by its own subtree. */}}
+{{- range $container := $containers -}}
+  {{- $childPath := printf "%s.%s" $path $container.name -}}
+  {{- $slugFrag := lower $container.name -}}
+  {{- $slugFrag = replaceRE "[^a-z0-9_]" "" $slugFrag -}}
+  {{- $childSlug := printf "%s%s" $slug $slugFrag -}}
+{{ partial "rdi/render-tree.html" (dict
+    "node"             $container.node
+    "path"             $childPath
+    "slug"             $childSlug
+    "isTopLevel"       false
+    "parentRequired"   $childRequired
+    "parentHasReqList" $childHasReqList
+) }}
+{{- end -}}
+
+{{/* `additionalProperties` is absorbed into the inner-stepping above
+     when this node uses it instead of `properties`/`patternProperties`,
+     so no separate recursion needed here. */}}
