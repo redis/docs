@@ -89,7 +89,10 @@ Example REAADB named `reaadb-boeing` linked to the REC named `rec-chicago` with 
 
 {{<embed-yaml "k8s/reaadb-boeing.md" "reaadb-boeing.yaml">}}
 
-{{<note>}}Sharding is disabled on Active-Active databases created with a `shardCount` of 1. Sharding cannot be enabled after database creation. {{</note>}}
+{{<note>}}
+- Sharding is disabled on Active-Active databases created with a `shardCount` of 1.
+- To enable sharding after database creation, update the `shardCount` in the REAADB file. Using other methods could cause data synchronization issues.
+{{</note>}}
 
 For more details on RERC fields, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api">}}).
 
