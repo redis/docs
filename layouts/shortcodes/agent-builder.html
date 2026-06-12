@@ -24,6 +24,7 @@
           <div class="suggestion-chips">
             <button class="suggestion-chip" data-suggestion="recommendation">🛍️ Recommendation Engine</button>
             <button class="suggestion-chip" data-suggestion="conversational">💬 Conversational Assistant</button>
+            <button class="suggestion-chip" data-suggestion="rag">🔍 Knowledge Assistant</button>
           </div>
         </div>
       </div>
@@ -90,5 +91,7 @@
 
 </div>
 
+<!-- Inject the Hugo-resolved base path for template file fetches -->
+<script>window.AGENT_TEMPLATE_BASE = "{{ "code/agent-templates" | relURL }}";</script>
 <!-- Load the agent builder JavaScript -->
 <script src="{{ "js/agent-builder.js" | relURL }}"></script>
