@@ -5,16 +5,20 @@ a doc build.
 
 Two modes:
   * Hook mode (default): reads the PostToolUse JSON blob on stdin, pulls
-    tool_input.file_path, validates that one markdown file. On a hard failure it
+    tool_input.file_path, validates that one markdown file. On a failure it
     prints to stderr and exits 2, which feeds the message back to Claude.
   * Scan mode (--scan [paths...] | --scan --all): validates the given files (or
     every content/**/*.md when --all) and prints a report. Used for dry-runs.
 
-Severity:
-  * hard  — image/image-card(image)/embed-code/embed-yaml/embed-md. These point
-            at concrete files (static/ or content/embeds/); a miss is a real bug.
-  * soft  — relref/image-card(url). Resolution is fuzzier (Hugo's GetPage does
-            section/anchor/relative magic), so misses are warnings only.
+What gets checked:
+  * file refs (image / image-card image / embed-code / embed-yaml / embed-md) —
+    these point at concrete files (static/ or content/embeds/); a miss is a real
+    build bug, so it always blocks.
+  * relref links — only ABSOLUTE targets (e.g. "/develop/clients/foo"), and only
+    those the current edit INTRODUCED (diff-scoped against git HEAD). Relative
+    refs are skipped: Hugo's global-lookup fallback can't be replicated cheaply,
+    and that's where false positives live. Resolution is a plain filesystem
+    check (no page index, no front-matter parsing) — see resolve_relref.
 """
 
 import sys
@@ -22,6 +26,7 @@ import os
 import re
 import json
 import glob
+import subprocess
 
 # (name, regex capturing the path in group 1, resolver key)
 HARD_RULES = [
@@ -31,16 +36,11 @@ HARD_RULES = [
     ("embed-yaml", re.compile(r'\{\{[<%]\s*embed-yaml\s+["\']([^"\']+)["\']'), "embeds"),
     ("embed-md",   re.compile(r'\{\{[<%]\s*embed-md\s+["\']([^"\']+)["\']'), "embeds"),
 ]
-# relref/image-card url resolution can't be replicated faithfully without Hugo
-# (global lookup, aliases, generated /commands pages), and Hugo itself only WARNs
-# on broken relrefs (config.toml: refLinksErrorLevel = "WARNING"). So these are
-# OFF by default to keep the hook false-positive-free. Flip CHECK_RELREF to True
-# (or set CHECK_SHORTCODE_RELREF=1 in the env) to surface them as non-blocking notes.
-CHECK_RELREF = os.environ.get("CHECK_SHORTCODE_RELREF") == "1"
-SOFT_RULES = [
-    ("relref",         re.compile(r'\{\{[<%]\s*relref\s+["\']([^"\']+)["\']'), "relref"),
-    ("image-card-url", re.compile(r'\{\{[<%]\s*image-card\s+[^>]*?\burl\s*=\s*["\']([^"\']+)["\']'), "relref"),
-]
+
+# relref is validated only for ABSOLUTE targets, diff-scoped to links the current
+# edit introduced (see head_relrefs). Set SHORTCODE_SKIP_RELREF=1 to turn it off.
+RELREF_DISABLED = os.environ.get("SHORTCODE_SKIP_RELREF") == "1"
+RELREF_RX = re.compile(r'\{\{[<%]\s*relref\s+["\']([^"\']+)["\']')
 
 
 def find_root(start):
@@ -106,67 +106,99 @@ def resolve_embeds(root, ref, _src):
     return exists_any(*cands)
 
 
-def resolve_relref(root, ref, src_file):
-    # strip anchor / query, then trailing slash
-    path = _strip_frag(ref).rstrip("/")
-    if not path:
-        return True  # pure anchor ref to current page
-    if path.startswith("/"):
-        bases = [os.path.join(root, "content", path.lstrip("/"))]
-    else:
-        cur = os.path.dirname(os.path.abspath(src_file))
-        bases = [os.path.join(cur, path), os.path.join(root, "content", path)]
-    candidates = []
-    for b in bases:
-        if b.endswith(".md"):
-            candidates.append(b)  # ref already carried the .md extension
-        else:
-            candidates += [b + ".md", os.path.join(b, "_index.md"), os.path.join(b, "index.md")]
-            if os.path.isdir(b):
-                candidates.append(b)  # section dir served without an _index.md
-    if exists_any(*candidates):
-        return True
-    # case-insensitive fallback (Hugo is lenient about case)
-    lc = {c.lower() for c in candidates}
-    for b in bases:
-        parent = os.path.dirname(b)
-        if os.path.isdir(parent):
-            for entry in os.listdir(parent):
-                if os.path.join(parent, entry).lower() in lc:
-                    return True
-    return False
-
-
 RESOLVERS = {
     "static": resolve_static,
     "static-code": resolve_static_code,
     "embeds": resolve_embeds,
-    "relref": resolve_relref,
 }
 
 
-def check_file(path, root):
-    """Return (hard_misses, soft_misses) as lists of (shortcode, ref)."""
+def is_abs_relref(ref):
+    """Only absolute, internal targets are resolvable confidently from disk."""
+    p = _strip_frag(ref).strip()
+    return p.startswith("/")
+
+
+def _norm_relref(ref):
+    """Reduce a relref target to a logical content path: drop anchor/query, a
+    trailing slash, an author-written /index.md|/_index.md|/index|/_index, or .md."""
+    path = _strip_frag(ref).rstrip("/")
+    for suf in ("/index.md", "/_index.md", "/index", "/_index"):
+        if path.endswith(suf):
+            return path[: -len(suf)]
+    if path.endswith(".md"):
+        path = path[:-3]
+    return path
+
+
+def resolve_relref(root, ref):
+    """Resolve an ABSOLUTE relref to a content page by trying the handful of
+    filesystem forms a Hugo logical path can take. No index, no front matter."""
+    path = _norm_relref(ref).lstrip("/")
+    if not path:
+        return True  # site root / current section
+    base = os.path.join(root, "content", path)
+    if os.path.isdir(base) or exists_any(
+        base + ".md",
+        os.path.join(base, "_index.md"),
+        os.path.join(base, "index.md"),
+    ):
+        return True
+    # case-insensitive fallback (the filesystem may be case-sensitive on CI)
+    parent, want = os.path.dirname(base), os.path.basename(base).lower()
+    if os.path.isdir(parent):
+        for e in os.listdir(parent):
+            stem = e[:-3] if e.endswith(".md") else e
+            if stem.lower() == want:
+                return True
+    return False
+
+
+def head_relrefs(path, root):
+    """relref targets in the committed (HEAD) version of the file, so only links
+    the current edit introduced get flagged. Returns None when the file isn't in
+    HEAD (new/untracked) or git is unavailable -> then every relref is checked."""
+    rel = os.path.relpath(os.path.abspath(path), root)
+    try:
+        out = subprocess.run(
+            ["git", "-C", root, "show", f"HEAD:{rel}"],
+            capture_output=True, text=True, timeout=5,
+        )
+    except Exception:
+        return None
+    if out.returncode != 0:
+        return None
+    return set(RELREF_RX.findall(out.stdout))
+
+
+def check_file(path, root, prior_relrefs=None):
+    """Return (broken, bad_links).
+      broken    = image/embed file refs that don't exist (always checked).
+      bad_links = absolute relrefs that don't resolve, minus any already present
+                  in prior_relrefs (so only newly-added links are flagged).
+    """
     try:
         with open(path, encoding="utf-8") as f:
             text = f.read()
     except (OSError, UnicodeDecodeError):
         return [], []
-    hard, soft = [], []
+    broken = []
     for name, rx, key in HARD_RULES:
         for m in rx.finditer(text):
             ref = m.group(1)
             if not RESOLVERS[key](root, ref, path):
-                hard.append((name, ref))
-    if CHECK_RELREF:
-        for name, rx, key in SOFT_RULES:
-            for m in rx.finditer(text):
-                ref = m.group(1)
-                if ref.startswith(("http://", "https://", "//", "mailto:")):
-                    continue
-                if not RESOLVERS[key](root, ref, path):
-                    soft.append((name, ref))
-    return hard, soft
+                broken.append((name, ref))
+    bad_links = []
+    if not RELREF_DISABLED:
+        for m in RELREF_RX.finditer(text):
+            ref = m.group(1)
+            if prior_relrefs is not None and ref in prior_relrefs:
+                continue  # pre-existing link, not introduced by this edit
+            if not is_abs_relref(ref):
+                continue  # relative / pure-anchor -> skip (can't resolve cheaply)
+            if not resolve_relref(root, ref):
+                bad_links.append(("relref", ref))
+    return broken, bad_links
 
 
 def run_scan(argv):
@@ -176,32 +208,34 @@ def run_scan(argv):
     else:
         files = [a for a in argv if a != "--scan"]
         root = (find_root(files[0]) if files else find_root(os.getcwd())) or os.getcwd()
-    total_hard = total_soft = files_with_hard = 0
-    sample_hard, sample_soft = [], []
+    total_broken = total_links = files_with_issue = 0
+    sample_broken, sample_links = [], []
     by_type = {}
     for fp in files:
-        hard, soft = check_file(fp, root)
-        if hard:
-            files_with_hard += 1
-            total_hard += len(hard)
-            for sc, ref in hard:
+        # scan mode checks ALL relrefs (prior=None), not just newly-added ones
+        broken, bad_links = check_file(fp, root, None)
+        if broken or bad_links:
+            files_with_issue += 1
+        if broken:
+            total_broken += len(broken)
+            for sc, ref in broken:
                 by_type[sc] = by_type.get(sc, 0) + 1
-                if len(sample_hard) < 40:
-                    sample_hard.append(f"{os.path.relpath(fp, root)}: {sc} -> {ref}")
-        if soft:
-            total_soft += len(soft)
-            for sc, ref in soft:
-                if len(sample_soft) < 40:
-                    sample_soft.append(f"{os.path.relpath(fp, root)}: {sc} -> {ref}")
+                if len(sample_broken) < 40:
+                    sample_broken.append(f"{os.path.relpath(fp, root)}: {sc} -> {ref}")
+        if bad_links:
+            total_links += len(bad_links)
+            for sc, ref in bad_links:
+                if len(sample_links) < 40:
+                    sample_links.append(f"{os.path.relpath(fp, root)}: {sc} -> {ref}")
     print(f"Scanned {len(files)} files under {root}")
-    print(f"HARD misses: {total_hard} across {files_with_hard} files  {dict(sorted(by_type.items()))}")
-    print(f"SOFT misses: {total_soft}")
-    if sample_hard:
-        print("\n--- sample HARD misses (these would block an edit) ---")
-        print("\n".join(sample_hard))
-    if sample_soft:
-        print("\n--- sample SOFT misses (warn only) ---")
-        print("\n".join(sample_soft))
+    print(f"BROKEN file refs: {total_broken}  {dict(sorted(by_type.items()))}")
+    print(f"BROKEN relref links (absolute, all): {total_links}")
+    if sample_broken:
+        print("\n--- sample broken file refs (always block) ---")
+        print("\n".join(sample_broken))
+    if sample_links:
+        print("\n--- sample broken absolute relrefs (block only when newly added) ---")
+        print("\n".join(sample_links))
     return 0
 
 
@@ -216,16 +250,17 @@ def run_hook():
     root = find_root(fp)
     if not root or "/content/" not in os.path.abspath(fp).replace(os.sep, "/") + "/":
         return 0
-    hard, soft = check_file(fp, root)
-    if not hard and not soft:
+    prior = head_relrefs(fp, root)
+    broken, bad_links = check_file(fp, root, prior)
+    if not broken and not bad_links:
         return 0
     lines = [f"Shortcode reference check for {os.path.relpath(fp, root)}:"]
-    for sc, ref in hard:
-        lines.append(f"  [broken] {sc} points at a file that does not exist: {ref}")
-    for sc, ref in soft:
-        lines.append(f"  [warn]   {sc} could not be resolved (verify it exists): {ref}")
+    for sc, ref in broken:
+        lines.append(f"  [broken file] {sc} points at a file that does not exist: {ref}")
+    for sc, ref in bad_links:
+        lines.append(f"  [broken link] relref target does not resolve to a page: {ref}")
     sys.stderr.write("\n".join(lines) + "\n")
-    return 2 if hard else 0
+    return 2
 
 
 if __name__ == "__main__":
