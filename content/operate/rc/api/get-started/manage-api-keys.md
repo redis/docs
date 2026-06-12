@@ -43,7 +43,7 @@ The **Copy** button copies the account key to the Clipboard.
 
 **API user keys** (also known as _secret keys_) are used as the value of the `x-api-secret-key` HTTP header used to authenticate a REST API request.
 
-In this context, _user_ refers to the account used to sign in to the Redis Cloud console.  Users must have an owner (read-write) or viewer (read-only) role.
+In this context, _user_ refers to the account used to sign in to the Redis Cloud console.  Users must have an owner (read-write), billing admin (read-write for billing tasks), viewer (read-only), or logs viewer (read-only for logs).
 
 Users can have more than one user key; however, users should not share user keys.
 
