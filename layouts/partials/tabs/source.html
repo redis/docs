@@ -1,3 +1,19 @@
 {{ $rawContent := readFile .contentPath }}
+{{/* When a contiguous "start-end" sliceRange is given, emit only that slice so the
+     step snippet stays small instead of re-embedding the whole file per step. */}}
+{{ with .sliceRange }}
+  {{ $bounds := split . "-" }}
+  {{ if eq (len $bounds) 2 }}
+    {{ $start := int (index $bounds 0) }}
+    {{ $end := int (index $bounds 1) }}
+    {{ $lines := split $rawContent "\n" }}
+    {{ $total := len $lines }}
+    {{ if and (ge $start 1) (le $start $total) (ge $end $start) }}
+      {{ if gt $end $total }}{{ $end = $total }}{{ end }}
+      {{ $slice := first (add (sub $end $start) 1) (after (sub $start 1) $lines) }}
+      {{ $rawContent = delimit $slice "\n" }}
+    {{ end }}
+  {{ end }}
+{{ end }}
 {{ $content := highlight $rawContent .language .options }}
 {{ return $content }}

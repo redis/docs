@@ -95,18 +95,48 @@
 
     {{ if and ($example) $langMatches }}
         {{ $examplePath := index $example "target" }}
-        {{ $options := printf "linenos=false" }}
+        {{ if hasPrefix $language "java" }}{{ $language = "java"}}{{ end }}
 
+        {{/* Per-step contiguous line range (from named_steps) drives slicing. */}}
+        {{ $namedRange := "" }}
         {{ if and (ne $step "") (isset $example "named_steps") (isset $example.named_steps $step) }}
-            {{ $options = printf "%s,hl_lines=%s" $options (index $example.named_steps $step) }}
+            {{ $namedRange = index $example.named_steps $step }}
+        {{ end }}
+        {{ $sliceable := and (ne $namedRange "") (not (strings.Contains $namedRange " ")) (eq (len (split $namedRange "-")) 2) }}
+
+        {{ $content := "" }}
+        {{ $fullFileKey := "" }}
+        {{ $hlRange := "" }}
+        {{ $emitFullTemplate := false }}
+        {{ $fullContent := "" }}
+
+        {{ if $sliceable }}
+            {{/* Default view: only the step's lines, shown in full (no dimming). */}}
+            {{ $sliceParams := dict "language" $language "contentPath" $examplePath "options" "linenos=false" "sliceRange" $namedRange }}
+            {{ $content = partial "tabs/source.html" $sliceParams }}
+            {{ $hlRange = $namedRange }}
+            {{ $fullFileKey = substr (md5 $examplePath) 0 10 }}
+
+            {{/* Embed the full highlighted file once per page, deduped by file path. */}}
+            {{ $seen := $.Page.Store.Get "tceFullKeys" }}
+            {{ if not $seen }}{{ $seen = slice }}{{ end }}
+            {{ if not (in $seen $examplePath) }}
+                {{ $emitFullTemplate = true }}
+                {{ $.Page.Store.Set "tceFullKeys" ($seen | append $examplePath) }}
+                {{ $fullParams := dict "language" $language "contentPath" $examplePath "options" "linenos=false" }}
+                {{ $fullContent = partial "tabs/source.html" $fullParams }}
+            {{ end }}
         {{ else }}
-            {{ if and (isset $example "highlight") (index $example "highlight") }}
+            {{/* Legacy path: whole file with hl_lines (no contiguous per-step range). */}}
+            {{ $options := printf "linenos=false" }}
+            {{ if ne $namedRange "" }}
+                {{ $options = printf "%s,hl_lines=%s" $options $namedRange }}
+            {{ else if and (isset $example "highlight") (index $example "highlight") }}
                 {{ $options = printf "%s,hl_lines=%s" $options (delimit (index $example "highlight") " ") }}
             {{ end }}
+            {{ $params := dict "language" $language "contentPath" $examplePath "options" $options }}
+            {{ $content = partial "tabs/source.html" $params }}
         {{ end }}
-        {{ if hasPrefix $language "java" }}{{ $language = "java"}}{{ end }}
-        {{ $params := dict "language" $language "contentPath" $examplePath "options" $options }}
-        {{ $content := partial "tabs/source.html" $params }}
 
         {{/* Extract binderId if it exists */}}
         {{ $binderId := index $example "binderId" }}
@@ -119,7 +149,7 @@
             {{ $displayName = "JavaScript (ioredis)" }}
         {{ end }}
 
-        {{ $clientTab := dict "title" $client "displayName" $displayName "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl") "binderId" $binderId }}
+        {{ $clientTab := dict "title" $client "displayName" $displayName "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl") "binderId" $binderId "fullFileKey" $fullFileKey "hlRange" $hlRange "emitFullTemplate" $emitFullTemplate "fullContent" $fullContent }}
         {{ if gt (len $commands) 0 }}
             {{ $clientTab = merge $clientTab (dict "commands" $commands) }}
         {{ end }}
