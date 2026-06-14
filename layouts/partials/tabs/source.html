@@ -1,19 +1,31 @@
 {{ $rawContent := readFile .contentPath }}
-{{/* When a contiguous "start-end" sliceRange is given, emit only that slice so the
-     step snippet stays small instead of re-embedding the whole file per step. */}}
+{{ $result := "" }}
+{{ $sliced := false }}
+{{/* When a contiguous "start-end" sliceRange is given, highlight the WHOLE file
+     first (so Chroma keeps full lexer context) and then slice the rendered line
+     spans. Slicing the raw text before highlighting would mis-colour a snippet
+     that begins inside a multi-line string or comment. */}}
 {{ with .sliceRange }}
   {{ $bounds := split . "-" }}
   {{ if eq (len $bounds) 2 }}
     {{ $start := int (index $bounds 0) }}
     {{ $end := int (index $bounds 1) }}
-    {{ $lines := split $rawContent "\n" }}
-    {{ $total := len $lines }}
+    {{ $full := highlight $rawContent $.language $.options | string }}
+    {{ $body := replaceRE `</code></pre></div>\s*$` "" $full }}
+    {{ $segs := split $body `<span class="line">` }}
+    {{ $lineSegs := after 1 $segs }}
+    {{ $total := len $lineSegs }}
     {{ if and (ge $start 1) (le $start $total) (ge $end $start) }}
       {{ if gt $end $total }}{{ $end = $total }}{{ end }}
-      {{ $slice := first (add (sub $end $start) 1) (after (sub $start 1) $lines) }}
-      {{ $rawContent = delimit $slice "\n" }}
+      {{ $selected := first (add (sub $end $start) 1) (after (sub $start 1) $lineSegs) }}
+      {{ $out := index $segs 0 }}
+      {{ range $selected }}{{ $out = print $out `<span class="line">` . }}{{ end }}
+      {{ $result = print $out `</code></pre></div>` | safeHTML }}
+      {{ $sliced = true }}
     {{ end }}
   {{ end }}
 {{ end }}
-{{ $content := highlight $rawContent .language .options }}
-{{ return $content }}
+{{ if not $sliced }}
+  {{ $result = highlight $rawContent .language .options }}
+{{ end }}
+{{ return $result }}
