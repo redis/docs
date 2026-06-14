@@ -180,7 +180,13 @@ function ensureFullFileView(panel) {
   const range = panel.getAttribute('data-hl-range');
   if (range) markHighlightedLines(view, range);
 
-  panel.appendChild(view);
+  // Place the full file where the slice was (before the footer), not at the end.
+  const stepView = panel.querySelector('.step-code-view');
+  if (stepView) {
+    stepView.insertAdjacentElement('afterend', view);
+  } else {
+    panel.appendChild(view);
+  }
   return true;
 }
 
