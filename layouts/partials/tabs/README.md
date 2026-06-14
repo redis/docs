@@ -23,5 +23,7 @@ step in the context of the whole file") toggle:
   page** (`data-legacy-src`); repeat occurrences are emitted empty
   (`data-legacy-clone`) and hydrated client-side from that single copy.
 
-Net effect: every distinct source file is embedded at most once per page.
+Net effect: each source file is embedded once per page. (The rare exception is a
+file used by *both* paths on one page — some steps with a range, some without —
+which yields one template plus one legacy copy; harmless and uncommon.)
 `build/check_page_sizes.py` (`make check_page_sizes`) guards against regrowth.

@@ -15,7 +15,11 @@ import sys
 
 logger = logging.getLogger("check_page_sizes")
 
-DEFAULT_WARN_MB = 5.0
+# The heaviest legitimate pages (e.g. the Streams tutorial, with many steps and
+# every client language) land around 7 MB. The default sits above that so the
+# check flags genuine regressions (the bug it guards against produced 40 MB+
+# pages) rather than the expected heavy pages. Override with --warn-mb.
+DEFAULT_WARN_MB = 10.0
 
 
 def parse_args() -> argparse.Namespace:
