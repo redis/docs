@@ -102,7 +102,23 @@
         {{ if and (ne $step "") (isset $example "named_steps") (isset $example.named_steps $step) }}
             {{ $namedRange = index $example.named_steps $step }}
         {{ end }}
-        {{ $sliceable := and (ne $namedRange "") (not (strings.Contains $namedRange " ")) (eq (len (split $namedRange "-")) 2) }}
+        {{/* Slice only for a well-formed, in-bounds "start-end" pair. named_steps is
+             generated from externally-sourced files, so guard against drift: a
+             malformed value (e.g. "5-", "5-x") would crash int and abort the build,
+             and an out-of-bounds start would make source.html fall back to the whole
+             file while the wrapper still emitted a template — double-embedding it. */}}
+        {{ $sliceable := false }}
+        {{ if and (ne $namedRange "") (findRE `^[0-9]+-[0-9]+$` $namedRange) }}
+            {{ $parts := split $namedRange "-" }}
+            {{ $rStart := int (index $parts 0) }}
+            {{ $rEnd := int (index $parts 1) }}
+            {{ if and (ge $rStart 1) (ge $rEnd $rStart) }}
+                {{ $total := len (split (readFile $examplePath) "\n") }}
+                {{ if le $rStart $total }}
+                    {{ $sliceable = true }}
+                {{ end }}
+            {{ end }}
+        {{ end }}
 
         {{ $content := "" }}
         {{ $fullFileKey := "" }}
@@ -119,7 +135,10 @@
             {{ $hlRange = $namedRange }}
             {{ $fullFileKey = substr (md5 $examplePath) 0 10 }}
 
-            {{/* Embed the full highlighted file once per page, deduped by file path. */}}
+            {{/* Embed the full highlighted file once per page, deduped by file path.
+                 .Page.Store persists across a page's output formats; this assumes the
+                 HTML output renders this partial (the .md/.json outputs process raw
+                 content and never invoke it, so they can't mark a file "seen" first). */}}
             {{ $seen := $.Page.Store.Get "tceFullKeys" }}
             {{ if not $seen }}{{ $seen = slice }}{{ end }}
             {{ if not (in $seen $examplePath) }}
