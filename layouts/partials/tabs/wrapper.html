@@ -181,6 +181,10 @@
             {{ else if $fullFileKey }}
             <div class="step-code-view">{{ index $tab "content" }}</div>
             {{ if index $tab "emitFullTemplate" }}<template id="tce-fullsrc-{{ $fullFileKey }}">{{ index $tab "fullContent" }}</template>{{ end }}
+            {{ else if index $tab "legacyCloneKey" }}
+            <div class="legacy-clone" data-legacy-clone="{{ index $tab "legacyCloneKey" }}"></div>
+            {{ else if index $tab "legacySrcKey" }}
+            <div data-legacy-src="{{ index $tab "legacySrcKey" }}">{{ index $tab "content" }}</div>
             {{ else }}
             {{ index $tab "content" }}
             {{ end }}

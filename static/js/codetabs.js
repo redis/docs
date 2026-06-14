@@ -184,6 +184,18 @@ function ensureFullFileView(panel) {
   return true;
 }
 
+// Repeat occurrences of a whole-file (no per-step range) example are emitted
+// empty; hydrate them by cloning the page's single static copy so the file is
+// embedded only once per page.
+function hydrateLegacyClones() {
+  document.querySelectorAll('[data-legacy-clone]').forEach((target) => {
+    if (target.childElementCount > 0) return;
+    const key = target.getAttribute('data-legacy-clone');
+    const source = document.querySelector('[data-legacy-src="' + key + '"]');
+    if (source) target.innerHTML = source.innerHTML;
+  });
+}
+
 function toggleVisibleLinesForCodetabs(button) {
   const codetabsId = button.getAttribute('data-codetabs-id');
   const codetabsContainer = document.getElementById(codetabsId);
@@ -322,6 +334,9 @@ function onchangeCodeTab(e) {
 
 // Initialize codetabs - script is deferred so DOM is already ready
 (function initCodetabs() {
+  // Fill repeat whole-file panels from the page's single static copy.
+  hydrateLegacyClones();
+
   // Helper function to normalize language names to match dropdown values
   function normalizeLangParam(langParam) {
     if (!langParam) return null;

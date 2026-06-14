@@ -109,6 +109,8 @@
         {{ $hlRange := "" }}
         {{ $emitFullTemplate := false }}
         {{ $fullContent := "" }}
+        {{ $legacySrcKey := "" }}
+        {{ $legacyCloneKey := "" }}
 
         {{ if $sliceable }}
             {{/* Default view: only the step's lines, shown in full (no dimming). */}}
@@ -127,15 +129,24 @@
                 {{ $fullContent = partial "tabs/source.html" $fullParams }}
             {{ end }}
         {{ else }}
-            {{/* Legacy path: whole file with hl_lines (no contiguous per-step range). */}}
-            {{ $options := printf "linenos=false" }}
-            {{ if ne $namedRange "" }}
-                {{ $options = printf "%s,hl_lines=%s" $options $namedRange }}
-            {{ else if and (isset $example "highlight") (index $example "highlight") }}
-                {{ $options = printf "%s,hl_lines=%s" $options (delimit (index $example "highlight") " ") }}
+            {{/* Legacy path: whole file with hl_lines (no contiguous per-step range).
+                 Embed the file inline once per page; repeats are cloned client-side. */}}
+            {{ $legacyKey := substr (md5 $examplePath) 0 10 }}
+            {{ $seenLegacy := $.Page.Store.Get "tceLegacyKeys" }}
+            {{ if not $seenLegacy }}{{ $seenLegacy = slice }}{{ end }}
+            {{ if in $seenLegacy $examplePath }}
+                {{ $legacyCloneKey = $legacyKey }}
+            {{ else }}
+                {{ $.Page.Store.Set "tceLegacyKeys" ($seenLegacy | append $examplePath) }}
+                {{ $legacySrcKey = $legacyKey }}
+                {{ $options := printf "linenos=false" }}
+                {{ if ne $namedRange "" }}
+                    {{ $options = printf "%s,hl_lines=%s" $options $namedRange }}
+                {{ else if and (isset $example "highlight") (index $example "highlight") }}
+                    {{ $options = printf "%s,hl_lines=%s" $options (delimit (index $example "highlight") " ") }}
+                {{ end }}
+                {{ $content = partial "tabs/source.html" (dict "language" $language "contentPath" $examplePath "options" $options) }}
             {{ end }}
-            {{ $params := dict "language" $language "contentPath" $examplePath "options" $options }}
-            {{ $content = partial "tabs/source.html" $params }}
         {{ end }}
 
         {{/* Extract binderId if it exists */}}
@@ -149,7 +160,7 @@
             {{ $displayName = "JavaScript (ioredis)" }}
         {{ end }}
 
-        {{ $clientTab := dict "title" $client "displayName" $displayName "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl") "binderId" $binderId "fullFileKey" $fullFileKey "hlRange" $hlRange "emitFullTemplate" $emitFullTemplate "fullContent" $fullContent }}
+        {{ $clientTab := dict "title" $client "displayName" $displayName "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl") "binderId" $binderId "fullFileKey" $fullFileKey "hlRange" $hlRange "emitFullTemplate" $emitFullTemplate "fullContent" $fullContent "legacySrcKey" $legacySrcKey "legacyCloneKey" $legacyCloneKey }}
         {{ if gt (len $commands) 0 }}
             {{ $clientTab = merge $clientTab (dict "commands" $commands) }}
         {{ end }}
