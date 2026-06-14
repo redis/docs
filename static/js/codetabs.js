@@ -198,7 +198,9 @@ function hydrateLegacyClones() {
     if (target.childElementCount > 0) return;
     const key = target.getAttribute('data-legacy-clone');
     const source = document.querySelector('[data-legacy-src="' + key + '"]');
-    if (source) target.innerHTML = source.innerHTML;
+    if (source) {
+      source.childNodes.forEach((node) => target.appendChild(node.cloneNode(true)));
+    }
   });
 }
 

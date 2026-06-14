@@ -39,7 +39,7 @@ def page_sizes(public_dir: str) -> list[tuple[int, str]]:
     sizes: list[tuple[int, str]] = []
     for root, _dirs, files in os.walk(public_dir):
         for name in files:
-            if name == "index.html":
+            if name.endswith(".html"):
                 path = os.path.join(root, name)
                 sizes.append((os.path.getsize(path), os.path.relpath(path, public_dir)))
     sizes.sort(reverse=True)

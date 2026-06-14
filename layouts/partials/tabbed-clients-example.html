@@ -133,7 +133,7 @@
             {{ $sliceParams := dict "language" $language "contentPath" $examplePath "options" "linenos=false" "sliceRange" $namedRange }}
             {{ $content = partial "tabs/source.html" $sliceParams }}
             {{ $hlRange = $namedRange }}
-            {{ $fullFileKey = substr (md5 $examplePath) 0 10 }}
+            {{ $fullFileKey = md5 $examplePath }}
 
             {{/* Embed the full highlighted file once per page, deduped by file path.
                  .Page.Store persists across a page's output formats; this assumes the
@@ -150,7 +150,7 @@
         {{ else }}
             {{/* Legacy path: whole file with hl_lines (no contiguous per-step range).
                  Embed the file inline once per page; repeats are cloned client-side. */}}
-            {{ $legacyKey := substr (md5 $examplePath) 0 10 }}
+            {{ $legacyKey := md5 $examplePath }}
             {{ $seenLegacy := $.Page.Store.Get "tceLegacyKeys" }}
             {{ if not $seenLegacy }}{{ $seenLegacy = slice }}{{ end }}
             {{ if in $seenLegacy $examplePath }}
