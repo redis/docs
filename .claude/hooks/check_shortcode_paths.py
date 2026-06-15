@@ -36,11 +36,16 @@ from collections import Counter
 # (name, regex capturing the path in group 1, resolver key). The pre-attribute
 # wildcard is [^}] (not [^>]) so a '>' inside an earlier attribute value (e.g.
 # alt="A > B") doesn't hide a later filename=/image=.
+# The pre-attribute body uses a tempered match (?:(?!\}\}).)*? — "any char until
+# the shortcode's closing }}" — so a '>' or '}' inside an earlier attribute value
+# (e.g. alt="A > B", alt="hash {slot}") can't hide a later filename=/image=, and
+# the match can't bleed into the next shortcode. (?![\w-]) stops "image" matching
+# "image-card".
 HARD_RULES = [
-    ("image",      re.compile(r'\{\{[<%]\s*image\s+[^}]*?\bfilename\s*=\s*["\']([^"\']+)["\']'), "static"),
-    ("image-card", re.compile(r'\{\{[<%]\s*image-card\s+[^}]*?\bimage\s*=\s*["\']([^"\']+)["\']'), "static"),
+    ("image",      re.compile(r'\{\{[<%]\s*image(?![\w-])(?:(?!\}\}).)*?\bfilename\s*=\s*["\']([^"\']+)["\']'), "static"),
+    ("image-card", re.compile(r'\{\{[<%]\s*image-card(?![\w-])(?:(?!\}\}).)*?\bimage\s*=\s*["\']([^"\']+)["\']'), "static"),
     ("embed-code", re.compile(r'\{\{[<%]\s*embed-code\s+["\']([^"\']+)["\']'), "static-code"),
-    ("embed-yaml", re.compile(r'\{\{[<%]\s*embed-yaml\s+["\']([^"\']+)["\']'), "embeds"),
+    ("embed-yaml", re.compile(r'\{\{[<%]\s*embed-yaml\s+["\']([^"\']+)["\']'), "embed-yaml"),
     ("embed-md",   re.compile(r'\{\{[<%]\s*embed-md\s+["\']([^"\']+)["\']'), "embeds"),
 ]
 
@@ -112,13 +117,21 @@ def resolve_static(root, ref, src_file):
     )
 
 
-def resolve_static_code(root, ref, _src):
-    rel = _strip_dots(_strip_frag(ref).lstrip("/"))
-    return exists_exact_any(os.path.join(root, "static", "code", rel),
-                            os.path.join(root, "static", "code", os.path.basename(rel)))
+def resolve_embed_code(root, ref, _src):
+    # embed-code does readFile "./static/code/<arg>" exactly, so the check is
+    # exact (and case-strict): no basename/extension/fragment leniency, which
+    # Hugo's readFile does not allow. Exact can't false-block a Hugo-valid embed.
+    return _exists_exact(os.path.join(root, "static", "code", ref.lstrip("/")))
+
+
+def resolve_embed_yaml(root, ref, _src):
+    # embed-yaml does readFile "./content/embeds/<arg>" exactly -> same exact check.
+    return _exists_exact(os.path.join(root, "content", "embeds", ref.lstrip("/")))
 
 
 def resolve_embeds(root, ref, _src):
+    # embed-md resolves via .Site.GetPage, which IS lenient (extensionless,
+    # basename, etc.), so accept the broader candidate set here.
     rel = _strip_frag(ref).lstrip("/")
     base = os.path.basename(rel)
     cands = []
@@ -133,7 +146,8 @@ def resolve_embeds(root, ref, _src):
 
 RESOLVERS = {
     "static": resolve_static,
-    "static-code": resolve_static_code,
+    "static-code": resolve_embed_code,
+    "embed-yaml": resolve_embed_yaml,
     "embeds": resolve_embeds,
 }
 
@@ -205,7 +219,11 @@ def _base_resolves(base):
     # block on case alone (this is the false-block-averse direction for links).
     parent, want = os.path.dirname(base), os.path.basename(base).lower()
     if os.path.isdir(parent):
-        for e in os.listdir(parent):
+        try:
+            entries = os.listdir(parent)
+        except OSError:
+            return True  # parent exists but unlistable -> fail open, don't block
+        for e in entries:
             stem = e[:-3] if e.endswith(".md") else e
             if stem.lower() == want:
                 return True
@@ -347,4 +365,7 @@ def run_hook():
 if __name__ == "__main__":
     if "--scan" in sys.argv:
         sys.exit(run_scan(sys.argv[1:]))
-    sys.exit(run_hook())
+    try:
+        sys.exit(run_hook())
+    except Exception:
+        sys.exit(0)  # never block an edit because of a hook bug (fail open)
