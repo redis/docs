@@ -64,6 +64,26 @@ performed.
 
 The range of values supported by `HINCRBY` is limited to 64 bit signed integers.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>field</code></summary>
+
+The field whose value to increment.
+
+</details>
+
+<details open><summary><code>increment</code></summary>
+
+The integer amount to add to the field's value.
+
+</details>
+
 ## Examples
 
 Since the `increment` argument is signed, both increment and decrement

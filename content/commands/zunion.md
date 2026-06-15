@@ -88,6 +88,40 @@ sorted set, it is returned to the client.
 
 For a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}).
 
+## Required arguments
+
+<details open><summary><code>numkeys</code></summary>
+
+The number of keys that follow.
+
+</details>
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more sorted-set keys to union.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>WEIGHTS weight [weight ...]</code></summary>
+
+A multiplication factor for each input set; each set's scores are multiplied by its weight before aggregation. Defaults to 1 for every set.
+
+</details>
+
+<details open><summary><code>AGGREGATE SUM | MIN | MAX | COUNT</code></summary>
+
+How to combine the scores of members that exist in multiple sets: `SUM` (the default), `MIN`, `MAX`, or `COUNT`.
+
+</details>
+
+<details open><summary><code>WITHSCORES</code></summary>
+
+Also return the score of each member.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

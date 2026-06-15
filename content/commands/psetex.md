@@ -61,6 +61,26 @@ title: PSETEX
 `PSETEX` works exactly like [`SETEX`]({{< relref "/commands/setex" >}}) with the sole difference that the expire
 time is specified in milliseconds instead of seconds.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
+<details open><summary><code>milliseconds</code></summary>
+
+The time to live, in milliseconds.
+
+</details>
+
+<details open><summary><code>value</code></summary>
+
+The value to set.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

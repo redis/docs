@@ -44,6 +44,20 @@ stream from the master.
 For more information about replication in Redis please check the
 [replication page]({{< relref "/operate/oss_and_stack/management/replication" >}}).
 
+## Required arguments
+
+<details open><summary><code>replicationid</code></summary>
+
+The replication ID of the master.
+
+</details>
+
+<details open><summary><code>offset</code></summary>
+
+The replication offset to resume from.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

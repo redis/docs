@@ -63,6 +63,14 @@ If you need to enable it, call `CONFIG SET latency-tracking yes`.
 
 To delete the latency histograms' data use the [`CONFIG RESETSTAT`]({{< relref "/commands/config-resetstat" >}}) command.
 
+## Optional arguments
+
+<details open><summary><code>command [command ...]</code></summary>
+
+One or more command names to return latency histograms for. If omitted, histograms for all commands are returned.
+
+</details>
+
 ## Examples
 
 ```

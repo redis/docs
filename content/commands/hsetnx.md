@@ -58,6 +58,26 @@ yet exist.
 If `key` does not exist, a new key holding a hash is created.
 If `field` already exists, this operation has no effect.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>field</code></summary>
+
+The field to set, only if it does not already exist.
+
+</details>
+
+<details open><summary><code>value</code></summary>
+
+The value to set.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

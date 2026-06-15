@@ -49,7 +49,22 @@ SET`.
 `CONFIG GET` takes multiple arguments, which are glob-style patterns.
 Any configuration parameter matching any of the patterns are reported as a list
 of key-value pairs.
-Example:
+
+You can obtain a list of all the supported configuration parameters by typing
+`CONFIG GET *` in an open `redis-cli` prompt.
+
+All the supported parameters have the same meaning of the equivalent
+configuration parameter used in the [redis.conf]({{< relref "/operate/oss_and_stack/management/config/" >}}) file. The provided link has links to the `redis.conf` files for Redis version 6.2 and greater. See the [Redis souce code repo](https://github.com/redis/redis) for earlier versions.
+
+## Required arguments
+
+<details open><summary><code>parameter [parameter ...]</code></summary>
+
+One or more configuration parameter names or glob-style patterns to retrieve.
+
+</details>
+
+## Examples
 
 ```
 redis> config get *max-*-entries* maxmemory
@@ -66,18 +81,6 @@ redis> config get *max-*-entries* maxmemory
 11) "zset-max-ziplist-entries"
 12) "128"
 ```
-
-You can obtain a list of all the supported configuration parameters by typing
-`CONFIG GET *` in an open `redis-cli` prompt.
-
-All the supported parameters have the same meaning of the equivalent
-configuration parameter used in the [redis.conf][hgcarr22rc] file:
-
-[hgcarr22rc]: http://github.com/redis/redis/raw/unstable/redis.conf
-
-Note that you should look at the redis.conf file relevant to the version you're
-working with as configuration options might change between versions. The link
-above is to the latest development version.
 
 ## Redis Software and Redis Cloud compatibility
 

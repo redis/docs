@@ -38,7 +38,7 @@ Resets a t-digest sketch: empties the sketch and re-initializes it.
 is the key name for an existing t-digest sketch.
 </details>
 
-## Example
+## Examples
 
 {{< highlight bash >}}
 redis> TDIGEST.RESET t

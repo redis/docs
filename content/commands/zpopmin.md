@@ -62,6 +62,22 @@ value that is higher than the sorted set's cardinality will not produce an
 error. When returning multiple elements, the one with the lowest score will
 be the first, followed by the elements with greater scores.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>count</code></summary>
+
+The number of members to pop. Without it, a single member is popped.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

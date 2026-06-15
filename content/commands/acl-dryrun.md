@@ -46,6 +46,28 @@ title: ACL DRYRUN
 Simulate the execution of a given command by a given user.
 This command can be used to test the permissions of a given user without having to enable the user or cause the side effects of running the command.
 
+## Required arguments
+
+<details open><summary><code>username</code></summary>
+
+The user to run the simulated command as.
+
+</details>
+
+<details open><summary><code>command</code></summary>
+
+The command to test.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>arg [arg ...]</code></summary>
+
+The arguments to pass to the tested command.
+
+</details>
+
 ## Examples
 
 ```

@@ -95,8 +95,68 @@ title: RESTORE-ASKING
 The `RESTORE-ASKING` command is an internal command.
 It is used by a Redis cluster master during slot migration.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key to create.
+
+</details>
+
+<details open><summary><code>ttl</code></summary>
+
+The time to live for the key, in milliseconds. `0` means no expiration. With `ABSTTL`, this is an absolute Unix timestamp in milliseconds.
+
+</details>
+
+<details open><summary><code>serialized-value</code></summary>
+
+The serialized value, as produced by `DUMP`.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>REPLACE</code></summary>
+
+Replace the key if it already exists.
+
+</details>
+
+<details open><summary><code>ABSTTL</code></summary>
+
+Interpret `ttl` as an absolute Unix timestamp in milliseconds rather than a relative time.
+
+</details>
+
+<details open><summary><code>IDLETIME seconds</code></summary>
+
+Set the key's idle time (for LRU eviction) to this many seconds.
+
+</details>
+
+<details open><summary><code>FREQ frequency</code></summary>
+
+Set the key's access-frequency counter (for LFU eviction) to this value.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="restore-asking-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

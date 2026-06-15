@@ -88,6 +88,34 @@ index for the destination key.
 The command returns zero when the `destination` key already exists. The
 `REPLACE` option removes the `destination` key before copying the value to it.
 
+## Required arguments
+
+<details open><summary><code>source</code></summary>
+
+The key to copy from.
+
+</details>
+
+<details open><summary><code>destination</code></summary>
+
+The key to copy to.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>DB destination-db</code></summary>
+
+Copy the key to the given database index instead of the current one.
+
+</details>
+
+<details open><summary><code>REPLACE</code></summary>
+
+Replace the destination key if it already exists.
+
+</details>
+
 ## Examples
 
 ```
