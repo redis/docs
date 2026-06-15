@@ -101,7 +101,7 @@ From the **Configuration** tab of your pipeline, select **Edit collector propert
 
 {{<image filename="images/rc/rdi/rdi-advanced-properties.png" alt="The advanced properties section." width=80% >}}
 
-You can add any [Debezium source property](https://debezium.io/documentation/reference/stable/connectors/) for your source database type in the **Collector source properties** section and any [Redis server Debezium sink property](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream) in the **Collector sink properties** section. Select **Save properties** to save the collector properties.
+You can add collector source properties in the **Collector source properties** section and collector sink properties in the **Collector sink properties** section. See the RDI configuration file reference for all available [collector source properties]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#sourcesadvancedsource" >}}) and [collector sink properties]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#sourcesadvancedsink" >}}). Select **Save properties** to save the collector properties.
 
 ## Dataset
 
