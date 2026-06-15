@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 8.6.2, 8.4.0, 8.2.1, 8.0.2, 7.4.3, 7.2.7, 6.2.13
-description: Bug fixes for Active-Active databases, LDAP, and ACLs. Internal fixes and improvements.
+description: Enabled `client_eviction` by default to fix an issue where a massive volume of traffic directed at a single hot key could cause high latency and out-of-memory errors. Bug fixes for Active-Active databases, LDAP, and ACLs. Internal fixes and improvements.
 linkTitle: 8.0.20-tba (June 2026)
 weight: 80
 ---
@@ -17,6 +17,8 @@ This is a maintenance release for ​[​Redis Software version 8.0.20](https://
 
 This version offers:
 
+- Enabled `client_eviction` by default to fix an issue where a massive volume of traffic directed at a single hot key could cause high latency and out-of-memory errors
+
 - Bug fixes for Active-Active databases
 
 - Bug fixes for LDAP and ACLs
@@ -24,6 +26,10 @@ This version offers:
 - Internal fixes and improvements
 
 ## New in this release
+
+### Enhancements
+
+- Enabled `client_eviction` by default to fix an issue where a massive volume of traffic directed at a single hot key could cause high latency and out-of-memory errors.
 
 ### Redis database versions
 
@@ -49,7 +55,7 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
-- RS185386: Enabled `client_eviction` by default to fix an issue where a massive volume of traffic directed as a single hot key could cause high latency and out-of-memory errors.
+- RS185386: Enabled `client_eviction` by default to fix an issue where a massive volume of traffic directed at a single hot key could cause high latency and out-of-memory errors.
 
 - RS190875: Fixed an issue where ciphers that use SHA-1 could not be removed when FIPS mode was enabled. FIPS mode now excludes SHA and CHACHA20 from `control_cipher_suites`.
 
