@@ -220,7 +220,7 @@ You can make direct changes to your database on the database page. Any changes y
 
 After you've made changes to your database, select **Review changes** to review your changes. If your changes result in any cost changes, you'll see the cost change there.
 
-<img src="../../../../images/rc/database-essentials-review-changes.png" alt="The Review changes button lets you review your changes and save them." width="100px">
+<img src="../../../../images/rc/database-essentials-review-changes.png" alt="The Review changes button lets you review your changes and save them." width="50%">
 
 From there, select **Confirm** or **Confirm & pay** to save your changes.
 
