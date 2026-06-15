@@ -178,6 +178,8 @@ The `certificate_subject_line` must:
 - Not contain spaces after the commas that separate attributes.
 
 - Exactly match the certificate's RFC 2253 subject.
+
+- Contain only one Organizational Unit (`OU`) value.
     {{</note>}}
 
 ### Authenticate REST API requests
@@ -220,6 +222,8 @@ The `certificate_subject_line` must:
 - Not contain spaces after the commas that separate attributes.
 
 - Exactly match the certificate's RFC 2253 subject.
+
+- Contain only one Organizational Unit (`OU`) value.
     {{</note>}}
 
 ### Authenticate database connections
