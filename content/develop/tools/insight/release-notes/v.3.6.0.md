@@ -39,12 +39,12 @@ This is the General Availability (GA) release of Redis Insight 3.6.0, which incl
 
 | Package                | SHA-512                                                                                  |
 | ---------------------- | ---------------------------------------------------------------------------------------- |
-| Windows                |                                                                                          |
-| Linux AppImage (x64)   |                                                                                          |
-| Linux AppImage (arm64) |                                                                                          |
-| Linux Debian (x64)     |                                                                                          |
-| Linux Debian (arm64)   |                                                                                          |
-| Linux RPM (x64)        |                                                                                          |
-| Linux RPM (arm64)      |                                                                                          |
-| MacOS Intel            |                                                                                          |
-| MacOS Apple silicon    |                                                                                          |
+| Windows                | vSOB8uYMGN5pFEwAVgXaUHmx+SLcfh4YVbfGrRW7NZhv467LvzSw3UQAI2Zj6smKQ5ZVkWX+WH9NZOn69owDYQ== |
+| Linux AppImage (x64)   | X8BOPIebctOtF+jd64Nj2Kjl1sAQaI+3AC8VQrJpqE0cNmoJUWOCuiSzDUE/exmG53glJVb0DQ4b2m4s9War2Q== |
+| Linux AppImage (arm64) | IRlVhj6LMNNiKJbGb4qGmQqrbZCBRWNU9tdTVHMA7XvRnbPEdHLBSZYnSLqoK1BqKc8ARHRWNBOXh6xxvNA0gg== |
+| Linux Debian (x64)     | Ak+w3K5Gc1Nj5CLpij2FDyj71tdg4q3a65+AhHwWnoRGlOtUc/QrSkycVpwR8Jz8W6ufgdVGLO7hWmwGfXuPuQ== |
+| Linux Debian (arm64)   | H4wYhkrkRDmUSNkH3/HtAItJzZTEkELL3N++xMmNNP6KpYF33rjNtRdm/VI4y+aPsv/P2wGjX/+SMdSZwwSt9A== |
+| Linux RPM (x64)        | CLaA5IH1D+fLz11Engm0/YExo3Jdobq/oXBrWst4wzW4Yb5P0ciJyL+p0PpkvSc4iT/mygmEolsjgB8zPdS7yA== |
+| Linux RPM (arm64)      | m5ul96vl+06sQ52PHdBjlS6h6KpQpCwdlECkcQdbUk8i+NYWMG2DxpHc7LayrYSs9E2RhTcLBpgcaoNxnOq7yQ== |
+| MacOS Intel            | q+rA5WH9sJolbDTK64J8HaNfaDYxEzhCP8MTCq/JRuyxgGNvQck25h3wC+w7omzl2VfCcXNH2wSBPAGKZUqV/A== |
+| MacOS Apple silicon    | sRwjNWWKyVJ26SHHIX6ENAnT1bs+XEtXC2cyzwYQXiS7iDz0rgKUd6bmtqpToBWLZK9GhU6g9VLU+73b8m54pw== |
