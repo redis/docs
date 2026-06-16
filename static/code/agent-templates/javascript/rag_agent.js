@@ -10,7 +10,7 @@
  *
  * To run this code:
  *   Install dependencies:
- *     npm install redis openai
+ *     npm install redis openai dotenv
  *
  *   Set environment variables:
  *     LLM_API_KEY=your_api_key_here
@@ -36,6 +36,7 @@
 
 'use strict';
 
+require('dotenv').config();
 const { createClient, SchemaFieldTypes, VectorAlgorithms } = require('redis');
 const OpenAI = require('openai');
 const readline = require('readline');
