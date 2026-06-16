@@ -503,34 +503,60 @@ select {
   @apply rounded-none p-0;
 }
 
-.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > code > .line:not(.hl),
-.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .lntable .lntd code > .lnt,
-.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]):not([data-fullfile-key]) .highlight .chroma > code > .line:not(.hl),
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]):not([data-fullfile-key]) .highlight .chroma > .lntable .lntd code > .lnt,
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]):not([data-fullfile-key]) .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
   @apply hidden;
 }
 
-.codetabs > .panel:where([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > code > .line:not(.hl),
-.codetabs > .panel:where([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .lntable .lntd code > .lnt,
-.codetabs > .panel:where([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
+.codetabs > .panel:where([aria-expanded]):not([data-lang="redis-cli"]):not([data-fullfile-key]) .highlight .chroma > code > .line:not(.hl),
+.codetabs > .panel:where([aria-expanded]):not([data-lang="redis-cli"]):not([data-fullfile-key]) .highlight .chroma > .lntable .lntd code > .lnt,
+.codetabs > .panel:where([aria-expanded]):not([data-lang="redis-cli"]):not([data-fullfile-key]) .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
   @apply opacity-60;
 }
 
-.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .language-Go > .hl {
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]):not([data-fullfile-key]) .highlight .chroma > .language-Go > .hl {
   tab-size: 3ch;
   left: -3ch;
   position: relative;
 }
 
-.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .language-C\# > .hl
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]):not([data-fullfile-key]) .highlight .chroma > .language-C\# > .hl
 {
   left: -8ch;
   position: relative;
 }
 
-.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]) .highlight .chroma > .language-Java > .hl
+.codetabs > .panel:not([aria-expanded]):not([data-lang="redis-cli"]):not([data-fullfile-key]) .highlight .chroma > .language-Java > .hl
 {
   left: -4ch;
   position: relative;
+}
+
+/* --- Sliced-snippet panels (data-fullfile-key): show the step slice by default, */
+/*     reveal the deduped full file (cloned from <template>) on eyeball expand. --- */
+.codetabs > .panel[data-fullfile-key] .full-file-view {
+  display: none;
+}
+
+.codetabs > .panel[data-fullfile-key][aria-expanded] .step-code-view {
+  display: none;
+}
+
+.codetabs > .panel[data-fullfile-key][aria-expanded] .full-file-view {
+  display: block;
+}
+
+/* When expanded, dim the context lines and keep the step's lines at full opacity. */
+.codetabs > .panel[data-fullfile-key][aria-expanded] .full-file-view .highlight .chroma > code > .line:not(.hl),
+.codetabs > .panel[data-fullfile-key][aria-expanded] .full-file-view .highlight .chroma > .lntable .lntd code > .lnt,
+.codetabs > .panel[data-fullfile-key][aria-expanded] .full-file-view .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
+  @apply opacity-60;
+}
+
+.codetabs > .panel[data-fullfile-key][aria-expanded] .full-file-view .highlight .chroma > code > .hl,
+.codetabs > .panel[data-fullfile-key][aria-expanded] .full-file-view .highlight .chroma > .lntable .lntd code > .hl {
+  opacity: 1 !important;
 }
 
 .codetabs > .panel .highlight .chroma > code > .hl,
