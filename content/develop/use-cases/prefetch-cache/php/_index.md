@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/prefetch-cache/predis
 categories:
 - docs
 - develop

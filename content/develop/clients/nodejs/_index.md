@@ -3,6 +3,8 @@ aliases:
 - /develop/connect/clients/nodejs
 - /connect/clients/nodejs/
 - /clients/nodejs/
+- /develop/clients/node-redis
+- /develop/clients/javascript
 categories:
 - docs
 - develop

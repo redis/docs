@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/agent-memory/node-redis
 categories:
 - docs
 - develop

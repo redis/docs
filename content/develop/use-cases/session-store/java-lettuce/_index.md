@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/session-store/lettuce
 categories:
 - docs
 - develop

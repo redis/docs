@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/prefetch-cache/lettuce
 categories:
 - docs
 - develop

@@ -3,6 +3,7 @@ aliases:
 - /develop/connect/clients/dotnet
 - /connect/clients/dotnet/
 - /clients/dotnet/
+- /develop/clients/stackexchange.redis
 categories:
 - docs
 - develop

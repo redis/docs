@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/streaming/lettuce
 categories:
 - docs
 - develop
