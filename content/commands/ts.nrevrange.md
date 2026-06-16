@@ -1,0 +1,453 @@
+---
+acl_categories:
+- '@read'
+- '@timeseries'
+arguments:
+- display_text: numkeys
+  name: numkeys
+  type: integer
+- display_text: key
+  key_spec_index: 0
+  multiple: true
+  name: key
+  type: key
+- display_text: fromTimestamp
+  name: fromTimestamp
+  type: string
+- display_text: toTimestamp
+  name: toTimestamp
+  type: string
+- display_text: latest
+  name: latest
+  optional: true
+  token: LATEST
+  type: pure-token
+- arguments:
+  - display_text: filter_by_ts_token
+    name: filter_by_ts_token
+    token: FILTER_BY_TS
+    type: pure-token
+  - display_text: ts
+    multiple: true
+    name: ts
+    type: integer
+  name: filter_by_ts_block
+  optional: true
+  type: block
+- arguments:
+  - display_text: filter_by_value_token
+    name: filter_by_value_token
+    token: FILTER_BY_VALUE
+    type: pure-token
+  - display_text: min
+    name: min
+    type: double
+  - display_text: max
+    name: max
+    type: double
+  name: filter_by_value_block
+  optional: true
+  type: block
+- arguments:
+  - display_text: count_token
+    name: count_token
+    token: COUNT
+    type: pure-token
+  - display_text: count
+    name: count
+    type: integer
+  name: count_block
+  optional: true
+  type: block
+- arguments:
+  - arguments:
+    - display_text: align_token
+      name: align_token
+      token: ALIGN
+      type: pure-token
+    - display_text: align
+      name: align
+      type: string
+    name: align_block
+    optional: true
+    type: block
+  - display_text: aggregation
+    name: aggregation
+    token: AGGREGATION
+    type: pure-token
+  - display_text: aggregators
+    name: aggregators
+    type: string
+  - display_text: bucketDuration
+    name: bucketDuration
+    type: integer
+  - arguments:
+    - display_text: buckettimestamp_token
+      name: buckettimestamp_token
+      token: BUCKETTIMESTAMP
+      type: pure-token
+    - arguments:
+      - display_text: start
+        name: start
+        token: start
+        type: pure-token
+      - display_text: start
+        name: start
+        token: '-'
+        type: pure-token
+      - display_text: end
+        name: end
+        token: end
+        type: pure-token
+      - display_text: end
+        name: end
+        token: +
+        type: pure-token
+      - display_text: mid
+        name: mid
+        token: mid
+        type: pure-token
+      - display_text: mid
+        name: mid
+        token: '~'
+        type: pure-token
+      name: bt
+      type: oneof
+    name: buckettimestamp_block
+    optional: true
+    type: block
+  - display_text: empty_token
+    name: empty_token
+    optional: true
+    token: EMPTY
+    type: pure-token
+  name: aggregation_block
+  optional: true
+  type: block
+arity: -5
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
+command_flags:
+- readonly
+- module
+- movablekeys
+complexity: O(numkeys*(n/m+k)) where n = Number of samples, m = Chunk size (samples
+  per chunk), k = Number of samples that are in the requested range
+description: Query a range across multiple time series in reverse direction, returning
+  the results pivoted by timestamp (one value column per key)
+group: timeseries
+hidden: false
+key_specs:
+- RO: true
+  access: true
+  begin_search:
+    spec:
+      index: 1
+    type: index
+  find_keys:
+    spec:
+      firstkey: 1
+      keynumidx: 0
+      keystep: 1
+    type: keynum
+linkTitle: TS.NREVRANGE
+module: TimeSeries
+railroad_diagram: /images/railroad/ts.nrevrange.svg
+since: 8.10.0
+stack_path: docs/data-types/timeseries
+summary: Query a range across multiple time series in reverse direction, returning
+  the results pivoted by timestamp (one value column per key)
+syntax_fmt: "TS.NREVRANGE numkeys key [key ...] fromTimestamp toTimestamp\n  [LATEST]\
+  \ [FILTER_BY_TS ts [ts ...]] [FILTER_BY_VALUE min max]\n  [COUNT count] [[ALIGN\
+  \ align] AGGREGATION aggregators\n  bucketDuration [BUCKETTIMESTAMP <start | - |\
+  \ end | + | mid | ~>]\n  [EMPTY]]"
+title: TS.NREVRANGE
+---
+Query a range across an explicit list of time series in the reverse direction, returning the results pivoted by timestamp with one value column per key. Rows are ordered by decreasing timestamp, and the value array in each row preserves the order of the input keys.
+
+{{< note >}}
+In a Redis cluster, all specified keys must hash to the same slot. `TS.NREVRANGE` is a single-shard command: it does not split a request across shards or merge replies from multiple shards.
+{{< /note >}}
+
+[Examples](#examples)
+
+## Required arguments
+
+<details open>
+<summary><code>numkeys</code></summary>
+
+is the number of time series keys that follow. It must be a positive integer and must equal the number of `key` arguments.
+</details>
+
+<details open>
+<summary><code>key [key ...]</code></summary>
+
+are the explicit time series keys to query. Key order and duplicate keys are significant: the output has one value column per `key` argument, in the order the keys are given. A repeated key produces a separate value column for each occurrence.
+</details>
+
+<details open>
+<summary><code>fromTimestamp</code></summary>
+
+is the start timestamp for the range query (integer Unix timestamp in milliseconds) or `-` to denote the timestamp of the earliest sample among the specified time series. The range is inclusive.
+</details>
+
+<details open>
+<summary><code>toTimestamp</code></summary>
+
+is the end timestamp for the range query (integer Unix timestamp in milliseconds) or `+` to denote the timestamp of the latest sample among the specified time series. The range is inclusive.
+</details>
+
+## Optional arguments
+
+<details open>
+<summary><code>LATEST</code></summary>
+
+is used when a time series is a compaction. With `LATEST`, TS.NREVRANGE also reports the compacted value of the latest, possibly partial, bucket, given that this bucket's start time falls within `[fromTimestamp, toTimestamp]`. Without `LATEST`, TS.NREVRANGE does not report the latest, possibly partial, bucket. When a time series is not a compaction, `LATEST` is ignored.
+
+The data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest, possibly partial, bucket is also required. In such a case, use `LATEST`.
+</details>
+
+<details open>
+<summary><code>FILTER_BY_TS ts...</code></summary>
+
+filters samples by a list of specific timestamps. A sample passes the filter if its exact timestamp is specified and falls within `[fromTimestamp, toTimestamp]`. Samples are filtered before pivoting.
+
+When used together with `AGGREGATION`: samples are filtered before being aggregated.
+</details>
+
+<details open>
+<summary><code>FILTER_BY_VALUE min max</code></summary>
+
+filters samples by minimum and maximum values. A sample passes the filter if its value is within the inclusive range `[min, max]`. `min` and `max` cannot be NaN values. Samples are filtered before pivoting.
+
+When used together with `AGGREGATION`: samples are filtered before being aggregated.
+</details>
+
+<details open>
+<summary><code>COUNT count</code></summary>
+
+limits the number of returned pivot rows, keeping the rows with the highest timestamps. The limit is applied after the per-timestamp merge.
+</details>
+
+<details open>
+<summary><code>ALIGN align</code></summary>
+
+is a time bucket alignment control for `AGGREGATION`. It controls the time bucket timestamps by changing the reference timestamp on which a bucket is defined.
+
+`align` values include:
+
+ - `start` or `-`: The reference timestamp will be the query start interval time (`fromTimestamp`) which can't be `-`
+ - `end` or `+`: The reference timestamp will be the query end interval time (`toTimestamp`) which can't be `+`
+ - A specific timestamp: align the reference timestamp to a specific time
+
+<note><b>Note:</b> When not provided, alignment is set to `0`.</note>
+</details>
+
+<details open>
+<summary><code>AGGREGATION aggregators bucketDuration</code></summary>
+
+aggregates samples into time buckets.
+
+Unlike [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}}), TS.NREVRANGE requires exactly one aggregator per key. The aggregators are given as separate, space-separated arguments — one per `key`, in the same order as the keys — and not as a single comma-joined token. The aggregator in position _i_ applies to the key in position _i_, and all keys share the same `bucketDuration`. The comma-joined form (for example `AGGREGATION min,avg,max`) is rejected.
+
+  - each `aggregator` is one of the following:
+
+    | aggregator   | Description                                                     |
+    | ------------ | --------------------------------------------------------------- |
+    | `avg`        | Arithmetic mean of all non-NaN values                           |
+    | `sum`        | Sum of all non-NaN values                                       |
+    | `min`        | Minimum non-NaN value                                           |
+    | `max`        | Maximum non-NaN value                                           |
+    | `range`      | Difference between the maximum and the minimum non-NaN values   |
+    | `count`      | Number of non-NaN values                                        |
+    | `countNaN`   | Number of NaN values                                            |
+    | `countAll`   | Number of values, including NaN and non-NaN                     |
+    | `first`      | The non-NaN value with the lowest timestamp in the bucket       |
+    | `last`       | The non-NaN value with the highest timestamp in the bucket      |
+    | `std.p`      | Population standard deviation of the non-NaN values             |
+    | `std.s`      | Sample standard deviation of the non-NaN values                 |
+    | `var.p`      | Population variance of the non-NaN values                       |
+    | `var.s`      | Sample variance of the non-NaN values                           |
+    | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values) |
+
+  - `bucketDuration` is the duration of each bucket, in milliseconds.
+
+  Without `ALIGN`, bucket start times are multiples of `bucketDuration`.
+
+  With `ALIGN align`, bucket start times are multiples of `bucketDuration` with remainder `align % bucketDuration`.
+
+  The first bucket start time is less than or equal to `fromTimestamp`.
+</details>
+
+<details open>
+<summary><code>[BUCKETTIMESTAMP bt]</code></summary>
+
+controls how bucket timestamps are reported.
+
+| `bt`             | Timestamp reported for each bucket                            |
+| ---------------- | ------------------------------------------------------------- |
+| `-` or `start`   | the bucket's start time (default)                             |
+| `+` or `end`     | the bucket's end time                                         |
+| `~` or `mid`     | the bucket's mid time (rounded down if not an integer)        |
+</details>
+
+<details open>
+<summary><code>[EMPTY]</code></summary>
+
+is a flag, which, when specified, reports aggregations also for empty buckets.
+
+| aggregator           | Value reported for each empty bucket |
+| -------------------- | ------------------------------------ |
+| `sum`, `count`       | `0`                                  |
+| `last`               | The value of the last sample before the bucket's start. `NaN` when no such sample. |
+| `twa`                | Average value over the bucket's timeframe based on linear interpolation of the last sample before the bucket's start and the first sample after the bucket's end. `NaN` when no such samples. |
+| `min`, `max`, `range`, `avg`, `first`, `std.p`, `std.s` | `NaN` |
+
+Regardless of the values of `fromTimestamp` and `toTimestamp`, no data is reported for buckets that end before the earliest sample or begin after the latest sample in the time series. When a bucket is reported for one key but a different key has no data in that bucket, that key's value cell is `NaN`.
+</details>
+
+## Examples
+
+<details open>
+<summary><b>Pivot raw samples from multiple series by timestamp</b></summary>
+
+Create two time series and add samples at partially overlapping timestamps.
+
+{{< highlight bash >}}
+127.0.0.1:6379> TS.CREATE sensor:1
+OK
+127.0.0.1:6379> TS.CREATE sensor:2
+OK
+127.0.0.1:6379> TS.MADD sensor:1 1000 10 sensor:1 2000 12
+1) (integer) 1000
+2) (integer) 2000
+127.0.0.1:6379> TS.MADD sensor:2 1000 20 sensor:2 3000 25
+1) (integer) 1000
+2) (integer) 3000
+{{< / highlight >}}
+
+Query both series and pivot the samples by timestamp. One row is returned for every distinct timestamp produced by at least one key, ordered from the highest timestamp to the lowest, with the values ordered by input key. A key with no sample at a row's timestamp has a `NaN` value cell.
+
+{{< highlight bash >}}
+127.0.0.1:6379> TS.NREVRANGE 2 sensor:1 sensor:2 - +
+1) 1) (integer) 3000
+   2) 1) NaN
+      2) 25
+2) 1) (integer) 2000
+   2) 1) 12
+      2) NaN
+3) 1) (integer) 1000
+   2) 1) 10
+      2) 20
+{{< / highlight >}}
+</details>
+
+<details open>
+<summary><b>Aggregate each series with a per-key aggregator</b></summary>
+
+In aggregation mode, supply exactly one aggregator per key, in key order. Here `sensor:1` is aggregated with `avg` and `sensor:2` with `sum`, both over 1000-millisecond buckets.
+
+{{< highlight bash >}}
+127.0.0.1:6379> TS.MADD sensor:1 1000 10 sensor:1 1100 20 sensor:1 2000 30
+1) (integer) 1000
+2) (integer) 1100
+3) (integer) 2000
+127.0.0.1:6379> TS.MADD sensor:2 1000 5 sensor:2 1100 15 sensor:2 2000 25
+1) (integer) 1000
+2) (integer) 1100
+3) (integer) 2000
+127.0.0.1:6379> TS.NREVRANGE 2 sensor:1 sensor:2 - + AGGREGATION avg sum 1000
+1) 1) (integer) 2000
+   2) 1) 30
+      2) 25
+2) 1) (integer) 1000
+   2) 1) 15
+      2) 20
+{{< / highlight >}}
+</details>
+
+<details open>
+<summary><b>Repeat a key to apply several aggregators to one series</b></summary>
+
+Because each value column maps to one key argument, you apply several aggregators to the same physical series by repeating its key. This query returns the `min` and the `max` of `sensor:1` per bucket as two separate value columns.
+
+{{< highlight bash >}}
+127.0.0.1:6379> TS.NREVRANGE 2 sensor:1 sensor:1 - + AGGREGATION min max 1000
+1) 1) (integer) 2000
+   2) 1) 30
+      2) 30
+2) 1) (integer) 1000
+   2) 1) 10
+      2) 20
+{{< / highlight >}}
+</details>
+
+## Details
+
+### Semantics
+
+`TS.NREVRANGE` behaves like running a compatible [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}}) over each input key and then performing a server-side outer join by timestamp. Rows are returned from the highest timestamp to the lowest.
+
+In raw mode (no `AGGREGATION`):
+
+- One row is returned for every distinct timestamp produced by at least one key.
+- If a key has no sample at that timestamp, that key's value cell is `NaN`.
+
+In aggregation mode (with `AGGREGATION`):
+
+- Exactly one aggregator applies to each key position; the aggregator at position _i_ maps to the key at position _i_.
+- All keys share one `bucketDuration`.
+- A missing bucket for one key is represented as `NaN` when another key emits that bucket timestamp.
+- With `EMPTY`, empty buckets can produce rows in which every value is `NaN`.
+
+### NaN values
+
+A `NaN` value cell can mean that a key had no sample (or no aggregation bucket) at the row's timestamp, or that the key stored or aggregated to a real `NaN`. These two cases are indistinguishable in the reply.
+
+| Case                                            | Cell value                                      |
+| ----------------------------------------------- | ----------------------------------------------- |
+| Key has a raw sample at the row timestamp        | The sample value                                |
+| Key has no raw sample at the row timestamp       | `NaN`                                           |
+| Key has aggregated data for the row bucket       | The aggregated value                            |
+| Key has no data for the row bucket               | `NaN`                                           |
+| Key stores or aggregates to a real `NaN`         | `NaN`, indistinguishable from missing data      |
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Not supported</span><br /> | <span title="Not supported">&#x274c; Flexible & Annual</span><br /><span title="Not supported">&#x274c; Free & Fixed</nobr></span> |  
+
+## Return information
+
+{{< multitabs id="ts-nrevrange-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of pivot rows, ordered by decreasing timestamp. Each row is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (the timestamp) and an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) values, one per key in input order. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong number of aggregators, wrong key type, etc.
+
+-tab-sep-
+
+One of the following:
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of pivot rows, ordered by decreasing timestamp. Each row is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (the timestamp) and an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) values, one per key in input order. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong number of aggregators, wrong key type, etc.
+
+{{< /multitabs >}}
+
+## See also
+
+[`TS.NRANGE`]({{< relref "commands/ts.nrange/" >}}) | [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}}) | [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}})
+
+## Related topics
+
+[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
