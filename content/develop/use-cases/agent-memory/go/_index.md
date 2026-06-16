@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/agent-memory/go-redis
 categories:
 - docs
 - develop

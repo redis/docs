@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/recommendation-engine/redis-rb
 categories:
 - docs
 - develop

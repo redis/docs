@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/rate-limiter/redis-rb
 categories:
 - docs
 - develop

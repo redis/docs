@@ -1,4 +1,7 @@
 ---
+aliases:
+- /develop/use-cases/feature-store/java
+- /develop/use-cases/feature-store/jedis
 categories:
 - docs
 - develop

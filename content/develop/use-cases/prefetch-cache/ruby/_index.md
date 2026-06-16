@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/prefetch-cache/redis-rb
 categories:
 - docs
 - develop

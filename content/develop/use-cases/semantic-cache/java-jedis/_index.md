@@ -1,4 +1,7 @@
 ---
+aliases:
+- /develop/use-cases/semantic-cache/java
+- /develop/use-cases/semantic-cache/jedis
 categories:
 - docs
 - develop

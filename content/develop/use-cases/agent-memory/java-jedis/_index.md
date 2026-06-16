@@ -1,4 +1,7 @@
 ---
+aliases:
+- /develop/use-cases/agent-memory/java
+- /develop/use-cases/agent-memory/jedis
 categories:
 - docs
 - develop

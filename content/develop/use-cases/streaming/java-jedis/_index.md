@@ -1,4 +1,7 @@
 ---
+aliases:
+- /develop/use-cases/streaming/java
+- /develop/use-cases/streaming/jedis
 categories:
 - docs
 - develop
