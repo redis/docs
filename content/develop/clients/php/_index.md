@@ -3,6 +3,7 @@ aliases:
 - /develop/connect/clients/php
 - /connect/clients/php/
 - /clients/php/
+- /develop/clients/predis
 categories:
 - docs
 - develop
