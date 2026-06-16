@@ -3,6 +3,8 @@ title: Redis Feature Form concepts
 description: Learn the workspace, resource graph, provider, secret, and serving model behind Redis Feature Form.
 linkTitle: Concepts
 weight: 30
+aliases:
+- /develop/ai/featureform/training-sets-and-feature-views/
 ---
 
 Redis Feature Form is a feature platform. It turns raw data from your existing systems into the values your models read at inference time. This page introduces the core concepts behind that workflow.

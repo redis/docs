@@ -3,6 +3,8 @@ title: Register providers
 description: Register storage, compute, and catalog providers in a Redis Feature Form workspace, and configure secret backends.
 linkTitle: Register providers
 weight: 30
+aliases:
+- /develop/ai/featureform/streaming/
 ---
 
 Register the providers and secret backends Redis Feature Form needs before you author features or transformations. Providers connect the workspace to external systems for storage, compute, serving, or catalog-backed access, and definitions files reference them by name.
