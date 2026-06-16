@@ -36,6 +36,10 @@ ndjson: json_transform
 serve_hugo:
 	@hugo serve
 
+# Passive post-build report of unusually large rendered pages (warn-only).
+check_page_sizes:
+	@python3 build/check_page_sizes.py public
+
 clean:
 	@rm -Rf ./public/
 	@rm -Rf ./resources/
