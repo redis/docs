@@ -20,6 +20,27 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "arget(string $key, int $index)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$index",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string|null",
+          "description": ""
+        }
+      }
     ]
   }
 }

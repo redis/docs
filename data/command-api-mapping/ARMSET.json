@@ -20,6 +20,27 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "armset(string $key, array $indexValueDictionary)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$indexValueDictionary",
+            "type": "array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
     ]
   }
 }

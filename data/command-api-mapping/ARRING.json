@@ -25,6 +25,32 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "arring(string $key, int $size, string ...$value)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$size",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
     ]
   }
 }

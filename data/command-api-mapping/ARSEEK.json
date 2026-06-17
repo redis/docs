@@ -20,6 +20,27 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "arseek(string $key, int $index)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$index",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
     ]
   }
 }

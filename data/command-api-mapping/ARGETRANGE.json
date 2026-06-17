@@ -25,6 +25,32 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "argetrange(string $key, int $start, int $end)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$end",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
     ]
   }
 }

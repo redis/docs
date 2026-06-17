@@ -20,6 +20,27 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "arinsert(string $key, string ...$value)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
     ]
   }
 }

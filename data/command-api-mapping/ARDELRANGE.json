@@ -20,6 +20,27 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "ardelrange(string $key, int ...$startEnd)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$startEnd",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -15,6 +15,22 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "arcount(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
     ]
   }
 }

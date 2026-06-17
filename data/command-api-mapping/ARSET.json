@@ -25,6 +25,32 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "arset(string $key, int $index, string ...$value)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$index",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
     ]
   }
 }

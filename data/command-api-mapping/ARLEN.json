@@ -15,6 +15,22 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "arlen(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
     ]
   }
 }

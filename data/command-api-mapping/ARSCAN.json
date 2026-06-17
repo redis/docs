@@ -30,6 +30,37 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "arscan(string $key, int $start, int $end, ?int $limit = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$end",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$limit",
+            "type": "?int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
     ]
   }
 }

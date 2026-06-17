@@ -25,6 +25,32 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "arlastitems(string $key, int $count, bool $reverse = false)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$count",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$reverse",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
     ]
   }
 }

@@ -35,6 +35,42 @@
           "description": ""
         }
       }
+    ],
+    "php": [
+      {
+        "signature": "arop(string $key, int $start, int $end, string $operation, $matchValue = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$end",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$operation",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$matchValue",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": ""
+        }
+      }
     ]
   }
 }
