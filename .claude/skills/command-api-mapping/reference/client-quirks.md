@@ -62,10 +62,23 @@ Translation rules:
   which splits these into separate named methods.
 
 ## go-redis (Go)
-- PascalCase methods, usually `AR`-prefixed mirroring the command (`ARSet`, `ARGet`); confirm
-  against source. Drop the `ctx context.Context` first param from `params` (it's context).
-- Return type is a `*XxxCmd` wrapper (`*StringCmd`, `*IntCmd`); keep it as the return type.
-- Doc comments are sparse `//` lines; often empty descriptions.
+- New command families get a dedicated `<type>_commands.go` at the repo root (e.g. arrays are in
+  `array_commands.go`). Read the `Cmdable`-style interface (e.g. `ArrayCmdable`) for clean
+  signatures; the `func (c cmdable) ...` impls add doc comments.
+- PascalCase methods, `AR`-prefixed mirroring the command (`ARSet`, `ARGet`, `ARGetRange`);
+  confirm against source.
+- **Keep `ctx context.Context` as the first param** — existing go-redis entries include it in
+  both the `signature` and `params` (with `description: "Context"`). (Do NOT drop it; earlier
+  guidance here was wrong.)
+- House style: `signature` is `MethodName(ctx context.Context, params) *XxxCmd` — the
+  `*XxxCmd` return wrapper is part of the signature and is also `returns.type` (`*IntCmd`,
+  `*StringCmd`, `*SliceCmd`, `*UintCmd`, `*MapStringInterfaceCmd`, custom `*AREntrySliceCmd`).
+  Varargs keep `...` in the type (`...string`, `...uint64`, `...AREntry`). Go grouped params
+  (`start, end uint64`) stay grouped in the signature but are listed individually in `params`.
+  Non-ctx descriptions left "".
+- **go-redis splits modes/options into many named methods** — the most granular client. `AROP`
+  becomes eight (`AROpSum`/`AROpMin`/`AROpMax`/`AROpAnd`/`AROpOr`/`AROpXor`/`AROpMatch`/`AROpUsed`),
+  `ARGREP` → `ARGrep` + `ARGrepWithValues`, `ARINFO` → `ARInfo` + `ARInfoFull`. List them all.
 
 ## jedis (Java, sync)
 - camelCase methods. Signature is `ReturnType methodName(Type param)`. Strip `final` modifiers.
