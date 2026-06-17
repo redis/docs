@@ -31,6 +31,54 @@
           "description": ""
         }
       }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long arcount(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the count of populated slots, or 0 if the key does not exist."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> arcount(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the count of populated slots, or 0 if the key does not exist."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> arcount(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the count of populated slots, or 0 if the key does not exist."
+        }
+      }
     ]
   }
 }

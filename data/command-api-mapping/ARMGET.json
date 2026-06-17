@@ -41,6 +41,69 @@
           "description": ""
         }
       }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<V> armget(K key, long... indices)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "indices",
+            "type": "long...",
+            "description": "the indices to get."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "a list of values (with null for empty slots)."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<V>> armget(K key, long... indices)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "indices",
+            "type": "long...",
+            "description": "the indices to get."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "a list of values (with null for empty slots)."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Value<V>> armget(K key, long... indices)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "indices",
+            "type": "long...",
+            "description": "the indices to get."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Value<V>>",
+          "description": "a list of values (with null for empty slots)."
+        }
+      }
     ]
   }
 }

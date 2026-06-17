@@ -61,6 +61,171 @@
           "description": ""
         }
       }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<IndexedValue<V>> arscan(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "List<IndexedValue<V>>",
+          "description": "a list of IndexedValue pairs."
+        }
+      },
+      {
+        "signature": "List<IndexedValue<V>> arscan(K key, long start, long end, long limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "limit",
+            "type": "long",
+            "description": "the maximum number of entries to return."
+          }
+        ],
+        "returns": {
+          "type": "List<IndexedValue<V>>",
+          "description": "a list of IndexedValue pairs."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<IndexedValue<V>>> arscan(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<IndexedValue<V>>>",
+          "description": "a list of IndexedValue pairs."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<IndexedValue<V>>> arscan(K key, long start, long end, long limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "limit",
+            "type": "long",
+            "description": "the maximum number of entries to return."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<IndexedValue<V>>>",
+          "description": "a list of IndexedValue pairs."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<IndexedValue<V>> arscan(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "Flux<IndexedValue<V>>",
+          "description": "a list of IndexedValue pairs."
+        }
+      },
+      {
+        "signature": "Flux<IndexedValue<V>> arscan(K key, long start, long end, long limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "limit",
+            "type": "long",
+            "description": "the maximum number of entries to return."
+          }
+        ],
+        "returns": {
+          "type": "Flux<IndexedValue<V>>",
+          "description": "a list of IndexedValue pairs."
+        }
+      }
     ]
   }
 }

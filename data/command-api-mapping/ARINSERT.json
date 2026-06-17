@@ -41,6 +41,126 @@
           "description": ""
         }
       }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long arinsert(K key, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value to insert."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the index used."
+        }
+      },
+      {
+        "signature": "Long arinsert(K key, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values to insert."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the last index used."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> arinsert(K key, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value to insert."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the index used."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> arinsert(K key, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values to insert."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the last index used."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> arinsert(K key, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value to insert."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the index used."
+        }
+      },
+      {
+        "signature": "Mono<Long> arinsert(K key, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values to insert."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the last index used."
+        }
+      }
     ]
   }
 }

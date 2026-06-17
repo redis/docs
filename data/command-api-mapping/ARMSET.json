@@ -41,6 +41,69 @@
           "description": ""
         }
       }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long armset(K key, Map<Long, V> indexValueMap)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "indexValueMap",
+            "type": "Map<Long, V>",
+            "description": "map of index to value pairs."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the number of new slots created."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> armset(K key, Map<Long, V> indexValueMap)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "indexValueMap",
+            "type": "Map<Long, V>",
+            "description": "map of index to value pairs."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the number of new slots created."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> armset(K key, Map<Long, V> indexValueMap)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "indexValueMap",
+            "type": "Map<Long, V>",
+            "description": "map of index to value pairs."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the number of new slots created."
+        }
+      }
     ]
   }
 }

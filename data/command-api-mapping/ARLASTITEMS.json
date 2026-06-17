@@ -51,6 +51,141 @@
           "description": ""
         }
       }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<V> arlastitems(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "the number of items to return."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "a list of values in insertion order."
+        }
+      },
+      {
+        "signature": "List<V> arlastitems(K key, long count, boolean rev)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "the number of items to return."
+          },
+          {
+            "name": "rev",
+            "type": "boolean",
+            "description": "true to return items in reverse insertion order, false for insertion order."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "a list of values."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<V>> arlastitems(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "the number of items to return."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "a list of values in insertion order."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<V>> arlastitems(K key, long count, boolean rev)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "the number of items to return."
+          },
+          {
+            "name": "rev",
+            "type": "boolean",
+            "description": "true to return items in reverse insertion order, false for insertion order."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "a list of values."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<V> arlastitems(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "the number of items to return."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "a list of values in insertion order."
+        }
+      },
+      {
+        "signature": "Flux<V> arlastitems(K key, long count, boolean rev)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "the number of items to return."
+          },
+          {
+            "name": "rev",
+            "type": "boolean",
+            "description": "true to return items in reverse insertion order, false for insertion order."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "a list of values."
+        }
+      }
     ]
   }
 }

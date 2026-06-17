@@ -41,6 +41,96 @@
           "description": ""
         }
       }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "ArrayInfo arinfo(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          }
+        ],
+        "returns": {
+          "type": "ArrayInfo",
+          "description": "the array metadata, or null if the key does not exist."
+        }
+      },
+      {
+        "signature": "ArrayInfoFull arinfoFull(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          }
+        ],
+        "returns": {
+          "type": "ArrayInfoFull",
+          "description": "the extended array metadata, or null if the key does not exist."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<ArrayInfo> arinfo(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<ArrayInfo>",
+          "description": "the array metadata, or null if the key does not exist."
+        }
+      },
+      {
+        "signature": "RedisFuture<ArrayInfoFull> arinfoFull(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<ArrayInfoFull>",
+          "description": "the extended array metadata, or null if the key does not exist."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<ArrayInfo> arinfo(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          }
+        ],
+        "returns": {
+          "type": "Mono<ArrayInfo>",
+          "description": "the array metadata, or null if the key does not exist."
+        }
+      },
+      {
+        "signature": "Mono<ArrayInfoFull> arinfoFull(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          }
+        ],
+        "returns": {
+          "type": "Mono<ArrayInfoFull>",
+          "description": "the extended array metadata, or null if the key does not exist."
+        }
+      }
     ]
   }
 }

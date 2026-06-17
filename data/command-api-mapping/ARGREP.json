@@ -120,6 +120,126 @@
           "description": ""
         }
       }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Long> argrep(K key, ArGrepArgs grepArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "grepArgs",
+            "type": "ArGrepArgs",
+            "description": "the grep arguments (range, predicates, flags)."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "a list of matching indices."
+        }
+      },
+      {
+        "signature": "List<IndexedValue<V>> argrepWithValues(K key, ArGrepArgs grepArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "grepArgs",
+            "type": "ArGrepArgs",
+            "description": "the grep arguments (range, predicates, flags)."
+          }
+        ],
+        "returns": {
+          "type": "List<IndexedValue<V>>",
+          "description": "a list of matching IndexedValue pairs."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Long>> argrep(K key, ArGrepArgs grepArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "grepArgs",
+            "type": "ArGrepArgs",
+            "description": "the grep arguments (range, predicates, flags)."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "a list of matching indices."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<IndexedValue<V>>> argrepWithValues(K key, ArGrepArgs grepArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "grepArgs",
+            "type": "ArGrepArgs",
+            "description": "the grep arguments (range, predicates, flags)."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<IndexedValue<V>>>",
+          "description": "a list of matching IndexedValue pairs."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Long> argrep(K key, ArGrepArgs grepArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "grepArgs",
+            "type": "ArGrepArgs",
+            "description": "the grep arguments (range, predicates, flags)."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "a list of matching indices."
+        }
+      },
+      {
+        "signature": "Flux<IndexedValue<V>> argrepWithValues(K key, ArGrepArgs grepArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "grepArgs",
+            "type": "ArGrepArgs",
+            "description": "the grep arguments (range, predicates, flags)."
+          }
+        ],
+        "returns": {
+          "type": "Flux<IndexedValue<V>>",
+          "description": "a list of matching IndexedValue pairs."
+        }
+      }
     ]
   }
 }

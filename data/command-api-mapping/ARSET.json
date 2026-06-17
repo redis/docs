@@ -51,6 +51,156 @@
           "description": ""
         }
       }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long arset(K key, long index, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to set."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value to store."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the number of new slots created (1 if new, 0 if updated)."
+        }
+      },
+      {
+        "signature": "Long arset(K key, long index, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the starting index."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values to store at consecutive indices."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the number of new slots created."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> arset(K key, long index, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to set."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value to store."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the number of new slots created (1 if new, 0 if updated)."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> arset(K key, long index, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the starting index."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values to store at consecutive indices."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the number of new slots created."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> arset(K key, long index, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to set."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value to store."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the number of new slots created (1 if new, 0 if updated)."
+        }
+      },
+      {
+        "signature": "Mono<Long> arset(K key, long index, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the starting index."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values to store at consecutive indices."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the number of new slots created."
+        }
+      }
     ]
   }
 }

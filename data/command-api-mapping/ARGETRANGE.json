@@ -51,6 +51,84 @@
           "description": ""
         }
       }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<V> argetrange(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "a list of values (with null for empty slots)."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<V>> argetrange(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "a list of values (with null for empty slots)."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Value<V>> argetrange(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Value<V>>",
+          "description": "a list of values (with null for empty slots)."
+        }
+      }
     ]
   }
 }

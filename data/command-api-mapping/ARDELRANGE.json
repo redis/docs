@@ -41,6 +41,141 @@
           "description": ""
         }
       }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long ardelrange(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the number of elements deleted."
+        }
+      },
+      {
+        "signature": "Long ardelrange(K key, ArrayIndexRange... ranges)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "ranges",
+            "type": "ArrayIndexRange...",
+            "description": "one or more ranges to delete."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the number of elements deleted."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> ardelrange(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the number of elements deleted."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> ardelrange(K key, ArrayIndexRange... ranges)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "ranges",
+            "type": "ArrayIndexRange...",
+            "description": "one or more ranges to delete."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the number of elements deleted."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> ardelrange(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the number of elements deleted."
+        }
+      },
+      {
+        "signature": "Mono<Long> ardelrange(K key, ArrayIndexRange... ranges)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "ranges",
+            "type": "ArrayIndexRange...",
+            "description": "one or more ranges to delete."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the number of elements deleted."
+        }
+      }
     ]
   }
 }

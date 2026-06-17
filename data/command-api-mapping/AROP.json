@@ -71,6 +71,345 @@
           "description": ""
         }
       }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "V aropAggregate(K key, long start, long end, ArAggregateType operation)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "operation",
+            "type": "ArAggregateType",
+            "description": "the aggregate operation."
+          }
+        ],
+        "returns": {
+          "type": "V",
+          "description": "the result as a value, or null if the range is empty or values are non-numeric."
+        }
+      },
+      {
+        "signature": "Long aropBitwise(K key, long start, long end, ArBitwiseType operation)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "operation",
+            "type": "ArBitwiseType",
+            "description": "the bitwise operation."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the result as a long."
+        }
+      },
+      {
+        "signature": "Long aropCount(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the count of non-empty elements."
+        }
+      },
+      {
+        "signature": "Long aropCount(K key, long start, long end, V matchValue)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "matchValue",
+            "type": "V",
+            "description": "the value to match."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the count of matching elements."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<V> aropAggregate(K key, long start, long end, ArAggregateType operation)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "operation",
+            "type": "ArAggregateType",
+            "description": "the aggregate operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<V>",
+          "description": "the result as a value, or null if the range is empty or values are non-numeric."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> aropBitwise(K key, long start, long end, ArBitwiseType operation)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "operation",
+            "type": "ArBitwiseType",
+            "description": "the bitwise operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the result as a long."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> aropCount(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the count of non-empty elements."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> aropCount(K key, long start, long end, V matchValue)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "matchValue",
+            "type": "V",
+            "description": "the value to match."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the count of matching elements."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<V> aropAggregate(K key, long start, long end, ArAggregateType operation)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "operation",
+            "type": "ArAggregateType",
+            "description": "the aggregate operation."
+          }
+        ],
+        "returns": {
+          "type": "Mono<V>",
+          "description": "the result as a value, or null if the range is empty or values are non-numeric."
+        }
+      },
+      {
+        "signature": "Mono<Long> aropBitwise(K key, long start, long end, ArBitwiseType operation)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "operation",
+            "type": "ArBitwiseType",
+            "description": "the bitwise operation."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the result as a long."
+        }
+      },
+      {
+        "signature": "Mono<Long> aropCount(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the count of non-empty elements."
+        }
+      },
+      {
+        "signature": "Mono<Long> aropCount(K key, long start, long end, V matchValue)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "matchValue",
+            "type": "V",
+            "description": "the value to match."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the count of matching elements."
+        }
+      }
     ]
   }
 }

@@ -41,6 +41,69 @@
           "description": ""
         }
       }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "V arget(K key, long index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to get."
+          }
+        ],
+        "returns": {
+          "type": "V",
+          "description": "the value at the index, or null if the index is empty or the key does not exist."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<V> arget(K key, long index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to get."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<V>",
+          "description": "the value at the index, or null if the index is empty or the key does not exist."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<V> arget(K key, long index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to get."
+          }
+        ],
+        "returns": {
+          "type": "Mono<V>",
+          "description": "the value at the index, or null if the index is empty or the key does not exist."
+        }
+      }
     ]
   }
 }

@@ -41,6 +41,69 @@
           "description": ""
         }
       }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long arseek(K key, long index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to seek to."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "1 if the key exists, 0 if it does not."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> arseek(K key, long index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to seek to."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "1 if the key exists, 0 if it does not."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> arseek(K key, long index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to seek to."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "1 if the key exists, 0 if it does not."
+        }
+      }
     ]
   }
 }

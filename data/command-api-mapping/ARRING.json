@@ -51,6 +51,156 @@
           "description": ""
         }
       }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long arring(K key, long size, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "size",
+            "type": "long",
+            "description": "the ring buffer size."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value to insert."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the index used."
+        }
+      },
+      {
+        "signature": "Long arring(K key, long size, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "size",
+            "type": "long",
+            "description": "the ring buffer size."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values to insert."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the last index used."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> arring(K key, long size, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "size",
+            "type": "long",
+            "description": "the ring buffer size."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value to insert."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the index used."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> arring(K key, long size, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "size",
+            "type": "long",
+            "description": "the ring buffer size."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values to insert."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the last index used."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> arring(K key, long size, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "size",
+            "type": "long",
+            "description": "the ring buffer size."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value to insert."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the index used."
+        }
+      },
+      {
+        "signature": "Mono<Long> arring(K key, long size, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "size",
+            "type": "long",
+            "description": "the ring buffer size."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values to insert."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the last index used."
+        }
+      }
     ]
   }
 }
