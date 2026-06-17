@@ -142,7 +142,7 @@ command_flags:
 complexity: O(numkeys*(n/m+k)) where n = Number of samples, m = Chunk size (samples
   per chunk), k = Number of samples that are in the requested range
 description: Query a range across multiple time series in reverse direction, returning
-  the results pivoted by timestamp (one value column per key)
+  the results pivoted by timestamp (one value per key)
 group: timeseries
 hidden: false
 key_specs:
@@ -164,17 +164,17 @@ railroad_diagram: /images/railroad/ts.nrevrange.svg
 since: 8.10.0
 stack_path: docs/data-types/timeseries
 summary: Query a range across multiple time series in reverse direction, returning
-  the results pivoted by timestamp (one value column per key)
+  the results pivoted by timestamp (one value per key)
 syntax_fmt: "TS.NREVRANGE numkeys key [key ...] fromTimestamp toTimestamp\n  [LATEST]\
   \ [FILTER_BY_TS ts [ts ...]] [FILTER_BY_VALUE min max]\n  [COUNT count] [[ALIGN\
   \ align] AGGREGATION aggregators\n  bucketDuration [BUCKETTIMESTAMP <start | - |\
   \ end | + | mid | ~>]\n  [EMPTY]]"
 title: TS.NREVRANGE
 ---
-Query a range across an explicit list of time series in the reverse direction, returning the results pivoted by timestamp with one value column per key. Rows are ordered by decreasing timestamp, and the value array in each row preserves the order of the input keys.
+Query a range across an explicit list of time series in the reverse direction, returning the results pivoted by timestamp with one value per key in each row. Rows are ordered by decreasing timestamp, and each row's values follow the order of the input keys.
 
 {{< note >}}
-In a Redis cluster, all specified keys must hash to the same slot. `TS.NREVRANGE` is a single-shard command: it does not split a request across shards or merge replies from multiple shards.
+In a Redis cluster, all specified keys must map to the same hash slot. `TS.NREVRANGE` is a [single hash slot]({{< relref "/operate/oss_and_stack/reference/cluster-spec#key-distribution-model" >}}) command; it does not split a request across shards or merge replies from multiple hash slots.
 {{< /note >}}
 
 [Examples](#examples)
@@ -190,7 +190,7 @@ is the number of time series keys that follow. It must be a positive integer and
 <details open>
 <summary><code>key [key ...]</code></summary>
 
-are the explicit time series keys to query. Key order and duplicate keys are significant: the output has one value column per `key` argument, in the order the keys are given. A repeated key produces a separate value column for each occurrence.
+are the explicit time series keys to query. Key order and duplicate keys are significant: the output has one value per `key` argument, in the order the keys are given. A repeated key produces a separate value for each occurrence.
 </details>
 
 <details open>
@@ -311,7 +311,7 @@ is a flag, which, when specified, reports aggregations also for empty buckets.
 | `twa`                | Average value over the bucket's timeframe based on linear interpolation of the last sample before the bucket's start and the first sample after the bucket's end. `NaN` when no such samples. |
 | `min`, `max`, `range`, `avg`, `first`, `std.p`, `std.s` | `NaN` |
 
-Regardless of the values of `fromTimestamp` and `toTimestamp`, no data is reported for buckets that end before the earliest sample or begin after the latest sample in the time series. When a bucket is reported for one key but a different key has no data in that bucket, that key's value cell is `NaN`.
+Regardless of the values of `fromTimestamp` and `toTimestamp`, no data is reported for buckets that end before the earliest sample or begin after the latest sample in the time series. When a bucket is reported for one key but a different key has no data in that bucket, that key's value is `NaN`.
 </details>
 
 ## Examples
@@ -322,22 +322,22 @@ Regardless of the values of `fromTimestamp` and `toTimestamp`, no data is report
 Create two time series and add samples at partially overlapping timestamps.
 
 {{< highlight bash >}}
-127.0.0.1:6379> TS.CREATE sensor:1
+127.0.0.1:6379> TS.CREATE {sensor}:1
 OK
-127.0.0.1:6379> TS.CREATE sensor:2
+127.0.0.1:6379> TS.CREATE {sensor}:2
 OK
-127.0.0.1:6379> TS.MADD sensor:1 1000 10 sensor:1 2000 12
+127.0.0.1:6379> TS.MADD {sensor}:1 1000 10 {sensor}:1 2000 12
 1) (integer) 1000
 2) (integer) 2000
-127.0.0.1:6379> TS.MADD sensor:2 1000 20 sensor:2 3000 25
+127.0.0.1:6379> TS.MADD {sensor}:2 1000 20 {sensor}:2 3000 25
 1) (integer) 1000
 2) (integer) 3000
 {{< / highlight >}}
 
-Query both series and pivot the samples by timestamp. One row is returned for every distinct timestamp produced by at least one key, ordered from the highest timestamp to the lowest, with the values ordered by input key. A key with no sample at a row's timestamp has a `NaN` value cell.
+Query both series and pivot the samples by timestamp. One row is returned for every distinct timestamp produced by at least one key, ordered from the highest timestamp to the lowest, with the values ordered by input key. A key with no sample at a row's timestamp has a `NaN` value.
 
 {{< highlight bash >}}
-127.0.0.1:6379> TS.NREVRANGE 2 sensor:1 sensor:2 - +
+127.0.0.1:6379> TS.NREVRANGE 2 {sensor}:1 {sensor}:2 - +
 1) 1) (integer) 3000
    2) 1) NaN
       2) 25
@@ -353,18 +353,18 @@ Query both series and pivot the samples by timestamp. One row is returned for ev
 <details open>
 <summary><b>Aggregate each series with a per-key aggregator</b></summary>
 
-In aggregation mode, supply exactly one aggregator per key, in key order. Here `sensor:1` is aggregated with `avg` and `sensor:2` with `sum`, both over 1000-millisecond buckets.
+In aggregation mode, supply exactly one aggregator per key, in key order. Here `{sensor}:1` is aggregated with `avg` and `{sensor}:2` with `sum`, both over 1000-millisecond buckets.
 
 {{< highlight bash >}}
-127.0.0.1:6379> TS.MADD sensor:1 1000 10 sensor:1 1100 20 sensor:1 2000 30
+127.0.0.1:6379> TS.MADD {sensor}:1 1000 10 {sensor}:1 1100 20 {sensor}:1 2000 30
 1) (integer) 1000
 2) (integer) 1100
 3) (integer) 2000
-127.0.0.1:6379> TS.MADD sensor:2 1000 5 sensor:2 1100 15 sensor:2 2000 25
+127.0.0.1:6379> TS.MADD {sensor}:2 1000 5 {sensor}:2 1100 15 {sensor}:2 2000 25
 1) (integer) 1000
 2) (integer) 1100
 3) (integer) 2000
-127.0.0.1:6379> TS.NREVRANGE 2 sensor:1 sensor:2 - + AGGREGATION avg sum 1000
+127.0.0.1:6379> TS.NREVRANGE 2 {sensor}:1 {sensor}:2 - + AGGREGATION avg sum 1000
 1) 1) (integer) 2000
    2) 1) 30
       2) 25
@@ -377,10 +377,10 @@ In aggregation mode, supply exactly one aggregator per key, in key order. Here `
 <details open>
 <summary><b>Repeat a key to apply several aggregators to one series</b></summary>
 
-Because each value column maps to one key argument, you apply several aggregators to the same physical series by repeating its key. This query returns the `min` and the `max` of `sensor:1` per bucket as two separate value columns.
+Because each value maps to one key argument, you apply several aggregators to the same physical series by repeating its key. This query returns the `min` and the `max` of `{sensor}:1` per bucket as two separate values.
 
 {{< highlight bash >}}
-127.0.0.1:6379> TS.NREVRANGE 2 sensor:1 sensor:1 - + AGGREGATION min max 1000
+127.0.0.1:6379> TS.NREVRANGE 2 {sensor}:1 {sensor}:1 - + AGGREGATION min max 1000
 1) 1) (integer) 2000
    2) 1) 30
       2) 30
@@ -399,7 +399,7 @@ Because each value column maps to one key argument, you apply several aggregator
 In raw mode (no `AGGREGATION`):
 
 - One row is returned for every distinct timestamp produced by at least one key.
-- If a key has no sample at that timestamp, that key's value cell is `NaN`.
+- If a key has no sample at that timestamp, that key's value is `NaN`.
 
 In aggregation mode (with `AGGREGATION`):
 
@@ -410,15 +410,15 @@ In aggregation mode (with `AGGREGATION`):
 
 ### NaN values
 
-A `NaN` value cell can mean that a key had no sample (or no aggregation bucket) at the row's timestamp, or that the key stored or aggregated to a real `NaN`. These two cases are indistinguishable in the reply.
+A `NaN` value can mean that a key had no sample (or no aggregation bucket) at the row's timestamp, or that the key stored or aggregated to a real `NaN`. These two cases are indistinguishable in the reply.
 
-| Case                                            | Cell value                                      |
+| Case                                            | Value                                           |
 | ----------------------------------------------- | ----------------------------------------------- |
 | Key has a raw sample at the row timestamp        | The sample value                                |
 | Key has no raw sample at the row timestamp       | `NaN`                                           |
 | Key has aggregated data for the row bucket       | The aggregated value                            |
 | Key has no data for the row bucket               | `NaN`                                           |
-| Key stores or aggregates to a real `NaN`         | `NaN`, indistinguishable from missing data      |
+| Key stores or aggregates to a real `NaN`         | `NaN`, indistinguishable from no data           |
 
 ## Redis Software and Redis Cloud compatibility
 

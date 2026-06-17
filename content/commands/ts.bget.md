@@ -99,9 +99,9 @@ is the inclusive lower-bound cursor for the read. The command selects samples wh
 | Value                | Name          | Description |
 | -------------------- | ------------- | ----------- |
 | Non-negative integer | Literal cursor | A Unix timestamp in milliseconds. Matching is inclusive. `0` is accepted and reads from the beginning. |
-| `-`                  | Earliest      | The timestamp of the earliest sample in the series, or `0` when the series is empty or missing. |
-| `+`                  | Latest        | The timestamp of the latest sample in the series, or `0` when the series is empty or missing. The cursor is inclusive, so the latest existing sample itself qualifies (aligned with [`TS.RANGE`]({{< relref "commands/ts.range/" >}})). With the default `min_count` of `1`, the call returns that sample immediately; with a larger `min_count`, it blocks until enough samples at or after that timestamp exist. Intended for the first call only. |
-| `$`                  | New           | The timestamp of the latest sample plus 1, or `0` when the series is empty or missing. Only samples reported after the command was received by the server qualify; the latest existing sample is excluded. |
+| `-`                  | Earliest      | The timestamp of the earliest sample in the series, or `0` when the series is empty or does not exist. |
+| `+`                  | Latest        | The timestamp of the latest sample in the series, or `0` when the series is empty or does not exist. The cursor is inclusive, so the latest existing sample itself qualifies (aligned with [`TS.RANGE`]({{< relref "commands/ts.range/" >}})). With the default `min_count` of `1`, the call returns that sample immediately; with a larger `min_count`, it blocks until enough samples at or after that timestamp exist. Intended for the first call only. |
+| `$`                  | New           | The timestamp of the latest sample plus 1, or `0` when the series is empty or does not exist. Only samples reported after the command was received by the server qualify; the latest existing sample is excluded. |
 
 The `+` and `$` semantics mirror the special IDs of [`XREAD`]({{< relref "commands/xread/" >}}) and [`XREADGROUP`]({{< relref "commands/xreadgroup/" >}}). The server resolves all sentinels exactly once, when the command is received, so the cursor stays stable while the client is blocked. Send `-`, `+`, and `$` to the server as-is; do not resolve them on the client side.
 
@@ -109,7 +109,7 @@ Use the following table to choose the cursor for the first call:
 
 | Goal                                          | First-call `timestamp` |
 | --------------------------------------------- | ---------------------- |
-| Read the full history, then tail              | `-` or `0`             |
+| Read the full history, then new samples       | `-` or `0`             |
 | Start from the current latest sample, inclusive | `+`                  |
 | Receive only samples added after the call     | `$`                    |
 
@@ -140,18 +140,18 @@ is the reply cap: the maximum number of samples to return. It must be a positive
 `MAX_COUNT` defaults to unlimited; set it explicitly when consuming large histories to bound the reply size and enable paging.
 </details>
 
-The `MIN_COUNT` and `MAX_COUNT` keyword pairs are optional and independent. Omit a pair entirely to apply the server default; do not send made-up defaults. When both are provided, emit the keyword tokens in uppercase and in the documented order (`MIN_COUNT` before `MAX_COUNT`). The server matches the tokens case-insensitively, but a keyword without a value, or any stray trailing token, is rejected as a wrong-arity error.
+The `MIN_COUNT` and `MAX_COUNT` keyword pairs are optional and independent. Omit a pair entirely to apply the server default. The keyword tokens are case-insensitive and can be given in any order. A keyword without a value, or any stray trailing token, is rejected as a wrong-arity error.
 
 ## Blocking and retrieval semantics
 
-- The command reads samples from `key` whose timestamp is greater than or equal to the resolved cursor.
+- From `key`, the command reads samples whose timestamp is greater than or equal to the resolved cursor.
 - If at least `min_count` matching samples are already available, the server returns immediately with up to `max_count` of the oldest qualifying samples.
-- If fewer than `min_count` matching samples are available and `timeout > 0`, the server blocks until `min_count` is reached, the timeout expires, or the key is removed. Each sample append ([`TS.ADD`]({{< relref "commands/ts.add/" >}}), [`TS.MADD`]({{< relref "commands/ts.madd/" >}}), [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}), and compaction-rule writes to the destination key) can wake the waiter.
+- If fewer than `min_count` matching samples are available and `timeout > 0`, the server blocks until `min_count` is reached, the timeout expires, or the key is removed. Each sample append ([`TS.ADD`]({{< relref "commands/ts.add/" >}}), [`TS.MADD`]({{< relref "commands/ts.madd/" >}}), [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}), and compaction-rule writes to the destination key) can unblock a blocked client.
 - On timeout, the server returns whatever is available, which can be empty or fewer than `min_count` samples. This is a successful reply, not an error.
-- If the key is removed while the client is blocked (`DEL`, `UNLINK`, `FLUSHDB`, `FLUSHALL`, expiry, or eviction), the server wakes the client and returns an empty list. This is a successful reply, not an error.
+- If the key is removed while the client is blocked (`DEL`, `UNLINK`, `FLUSHDB`, `FLUSHALL`, expiry, or eviction), the server returns an empty list to the blocked client. This is a successful reply, not an error.
 - If `timeout = 0`, the server never blocks: it returns the available matching samples immediately, even when fewer than `min_count` qualify.
 - Returned samples are sorted by increasing timestamp, including when samples were inserted out of order.
-- Multiple blocked clients waiting on the same key are independent waiters. One client receiving samples does not consume them for another client.
+- Multiple blocked clients waiting on the same key wait independently. One client receiving samples does not consume them for another client.
 
 ## Examples
 
