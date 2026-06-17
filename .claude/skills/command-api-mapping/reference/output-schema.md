@@ -84,3 +84,21 @@ redis-py) and rarely relevant to core/data-type commands.
 ./build/merge-command-api-mapping.sh /tmp/out.json         # → custom path
 python3 -c "import json; json.load(open('data/command-api-mapping.json'))"   # JSON sanity check
 ```
+
+**Sandbox:** the merge script creates a temp file with `mktemp` under `/var/folders/...`, which
+the default command sandbox blocks (`mkstemp failed … Operation not permitted`). Run the merge
+with the sandbox disabled.
+
+## Signature/returns conventions (observed from existing entries)
+
+These vary by client; match the house style or the tables render inconsistently:
+
+- **node_redis:** `signature` has **no return-type suffix**; `returns.type` is the **bare reply
+  type, no `Promise<>`** (e.g. signature `arSet(key: RedisArgument, index: number | string, value: RedisVariadicArgument)`,
+  returns `NumberReply`). See `client-quirks.md`.
+- **jedis / lettuce / nredisstack:** `signature` is `ReturnType methodName(params)` (return type
+  leads); `returns.type` repeats that return type.
+- **redis_py:** `signature` is `method(params)` with no return; `returns.type` is the Python type.
+- **go-redis:** `signature` is `MethodName(params) *XxxCmd`; `returns.type` is the `*XxxCmd` wrapper.
+
+When in doubt, open a few existing files for that client and copy the shape exactly.

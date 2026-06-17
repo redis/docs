@@ -29,8 +29,17 @@ Translation rules:
   `() =>` is the reply (`NumberReply`, `BlobStringReply | NullReply`, …). Render the signature
   return as `Promise<...>` of that reply where it reads naturally.
 - **No doc comments exist** — all `description` fields are `""`.
-- Suffix-variant files (`ARGREP_WITHVALUES.ts`) are overloads/options of the base command;
-  decide whether they're a separate row or fold into the base.
+- **House-style format (matches existing entries — important):** the `signature` string carries
+  **no return-type suffix** (write `arSet(key: RedisArgument, index: number | string, value: RedisVariadicArgument)`,
+  not `...): Promise<NumberReply>`), and `returns.type` is the **bare reply type without the
+  `Promise<>` wrapper** (`NumberReply`, `ArrayReply<BlobStringReply | NullReply>`). Keep the
+  node-redis RESP types verbatim (`RedisArgument`, `NumberReply`, custom option/reply types like
+  `ArGrepOptions`, `ArScanReply`).
+- **Suffix-variant files fold into the base command, they are not separate command files.**
+  `ARGREP_WITHVALUES.ts` is the WITHVALUES form of `ARGREP` (no such Redis command as
+  `ARGREP_WITHVALUES`). Put both `arGrep` and `arGrepWithValues` as two signature objects in
+  the single `ARGREP.json`. Cross-check the canonical command list in `data/commands*.json`
+  before creating a file — if the name isn't there, it's a variant to fold, not a new file.
 
 ## redis_py (Python)
 - snake_case methods (`ar_set`, `ar_get`). Signature without the `def`/`self`.
