@@ -73,7 +73,7 @@ function validateQueryParams(raw) {
     genres: Array.isArray(raw?.genres)
       ? raw.genres.filter((g) => typeof g === 'string' && g.trim())
       : null,
-    minRating: typeof raw?.minRating === 'number' && raw.minRating >= 0 && raw.minRating <= 10
+    minRating: typeof raw?.minRating === 'number' && raw.minRating >= 0 && raw.minRating <= 5
       ? raw.minRating
       : null,
     minReviews: typeof raw?.minReviews === 'number' && raw.minReviews > 0
@@ -239,7 +239,7 @@ class RecommendationAgent {
   async _parseUserQuery(userQuery) {
     const systemPrompt = `You are a movie recommendation assistant. Parse the user's query and return a JSON object with:
 - "genres": array of genre name strings or null
-- "minRating": minimum average rating (0-10) or null
+- "minRating": minimum average rating (0-5 star scale) or null
 - "minReviews": minimum review count or null
 - "maxResults": number of results (default 5, max 10)
 - "sortBy": one of "popularityScore", "avgRating", "ratingCount", "revenue"
@@ -315,7 +315,7 @@ Return only valid JSON with no explanation or markdown.`;
     movies.forEach((m, i) => {
       response += `${i + 1}. ${m.title}\n`;
       response += `   Genres: ${m.genres || 'N/A'}\n`;
-      response += `   Average Rating: ${parseFloat(m.avgRating || 0).toFixed(1)}/10 (${m.ratingCount || 0} reviews)\n`;
+      response += `   Average Rating: ${parseFloat(m.avgRating || 0).toFixed(1)}/5 (${m.ratingCount || 0} reviews)\n`;
       response += `   Popularity Score: ${parseFloat(m.popularityScore || 0).toFixed(1)}\n\n`;
     });
     return response;
