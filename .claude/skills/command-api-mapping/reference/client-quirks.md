@@ -73,10 +73,19 @@ Translation rules:
 - Drop trailing `CommandFlags flags = CommandFlags.None` optional param or note it.
 
 ## php (predis)
-- camelCase methods. Most signatures come from `@method` docblocks in `ClientInterface.php`
-  rather than concrete methods. Container commands (XGROUP/XINFO) expose subcommands via
-  `@method` entries in `src/Command/Container/`.
-- PHPDoc descriptions when present.
+- **`@method` docblocks in `src/ClientInterface.php` are the authoritative, complete source** —
+  including for new command families. Each line is `returnType methodname(typed $params...)`,
+  e.g. `int arset(string $key, int $index, string ...$value)`. Author directly from these;
+  no need to read the command classes under `src/Command/Redis/`.
+- House style (matches existing entries): method name **lowercase**; `signature` is
+  `methodname(params)` with **no return type**; `params` keep the leading `$`, `type` is the
+  declared PHP type with the variadic `...` dropped (`int ...$index` → name `$index`, type `int`),
+  untyped params (`$matchValue = null`) → type `mixed`; `returns.type` = the bare `@method`
+  return type (`int`, `array`, `string|null`, `mixed`).
+- Predis folds option flags into params rather than separate variants (e.g. `argrep` has a
+  `bool $withValues` param — no separate WITHVALUES method).
+- Container commands (XGROUP/XINFO) expose subcommands via `@method` entries in
+  `src/Command/Container/`. PHPDoc descriptions when present.
 
 ## redis_rs_sync / redis_rs_async (Rust)
 - snake_case methods inside the `implement_commands!` macro. Drop `&self`/`&mut self`.
