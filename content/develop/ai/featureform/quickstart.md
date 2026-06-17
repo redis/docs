@@ -32,7 +32,7 @@ If your Postgres provider uses `env:PG_PASSWORD`, make sure that variable exists
 
 ## 3. Register the demo providers
 
-See [Register providers]({{< relref "/develop/ai/featureform/register-providers" >}}) for steps to register the offline and online providers before applying resources.
+See the Providers and workpsaces page for steps to register the offline and online providers before applying resources.
 
 ## 4. Review the quickstart definitions file
 
@@ -86,3 +86,6 @@ client = ff.Client(host="127.0.0.1:9090", insecure=True, workspace="<workspace>"
 features = client.serve("demo_customer_feature_view", entity="C1001")
 print(features)
 ```
+
+
+

@@ -7,11 +7,11 @@ aliases:
 - /develop/ai/featureform/datasets-and-transformations/
 ---
 
-This page collects raw reference data for Redis Feature Form. Use it as a lookup—conceptual material lives in the [Concepts]({{< relref "/develop/ai/featureform/concepts" >}}) page, and task-oriented procedures live in the other pages in this section.
+This page collects reference data for Redis Feature Form. For help understaind the concepts behind Redis Feature Form, see [Concepts]({{< relref "/develop/ai/featureform/concepts" >}}). 
 
 ## Permissions
 
-Each built-in RBAC role is a fixed set of permissions. The role table on [Configure authentication and RBAC]({{< relref "/operate/featureform/configure-auth#built-in-roles" >}}) is the usual way to think about access; the catalog below is what the authorization service actually checks.
+The role table on [Configure authentication and RBAC]({{< relref "/operate/featureform/configure-auth#built-in-roles" >}}) summarizes which permissions each role grants; the table below lists every permission the authorization service checks. To grant a role on a workspace, see [Manage workspaces]({{< relref "/develop/ai/featureform/manage-workspace" >}}).
 
 | Permission ID | Category | Resource scope | What it grants |
 | --- | --- | --- | --- |
@@ -41,7 +41,7 @@ Each built-in RBAC role is a fixed set of permissions. The role table on [Config
 
 ## gRPC services
 
-This section indexes the public gRPC API surface exposed by Feature Form.
+This section lists the public gRPC services Feature Form exposes. Most users interact with these services indirectly through the `ff` CLI or the `featureform` Python client, both documented below.
 
 ### Service index
 
@@ -60,7 +60,7 @@ This section indexes the public gRPC API surface exposed by Feature Form.
 | `AuditService` | Audit log listing |
 | `VersionService` | Version compatibility and auth discovery metadata |
 
-### Notable service areas
+### Service operations
 
 - `WorkspaceService`: create, get, list, update, delete
 - `ProviderService`: register, get, list, update, delete
@@ -68,7 +68,7 @@ This section indexes the public gRPC API surface exposed by Feature Form.
 - `ApplyService`: apply and plan
 - `ResourceService`: per-resource get and list plus lineage, impact, versions, and workspace stats
 
-### Important apply fields
+### Apply request fields
 
 - `workspace_id`
 - `resources`
@@ -76,7 +76,7 @@ This section indexes the public gRPC API surface exposed by Feature Form.
 - `apply_strategy`
 - `execution_mode`
 
-### Common provider-related models
+### Provider config models
 
 - `PostgresConfig`
 - `SnowflakeConfig`
@@ -87,7 +87,7 @@ This section indexes the public gRPC API surface exposed by Feature Form.
 
 ## CLI
 
-This section documents the current public `ff` CLI surface.
+This section lists `ff` CLI commands and global flags. For usage in context, see [Define and deploy features]({{< relref "/develop/ai/featureform/define-and-deploy-features" >}}), [Manage workspaces]({{< relref "/develop/ai/featureform/manage-workspace" >}}), and [Register providers]({{< relref "/develop/ai/featureform/register-providers" >}}).
 
 ### Global flags
 
@@ -134,7 +134,7 @@ CLI behavior:
 
 ## Python client
 
-This section indexes the main public Python surface exported from `featureform`.
+This section lists the public symbols the `featureform` Python package exports. For usage, see [Define and deploy features]({{< relref "/develop/ai/featureform/define-and-deploy-features" >}}) to author a definitions file, and [Serve features]({{< relref "/develop/ai/featureform/serve-features" >}}) to read features at inference time.
 
 ### Client APIs
 
