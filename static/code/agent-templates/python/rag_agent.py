@@ -425,12 +425,14 @@ if __name__ == '__main__':
         # does not re-embed the same content on every startup.
         # To load your own documents instead: agent.load_directory('path/to/docs')
         index_info = agent.client.ft('knowledge_docs').info()
-        if int(index_info.get('num_docs', 0)) == 0:
+        # decode_responses=False means FT.INFO keys are bytes; normalise before lookup.
+        num_docs = int(index_info.get('num_docs') or index_info.get(b'num_docs') or 0)
+        if num_docs == 0:
             print('Empty index — ingesting sample documents...')
             for doc in SAMPLE_DOCS:
                 agent.ingest_document(doc['content'], doc['title'], doc['source'])
         else:
-            print(f"Index already contains {index_info.get('num_docs')} document(s). Skipping ingestion.")
+            print(f"Index already contains {num_docs} document(s). Skipping ingestion.")
 
         print('\nKnowledge Assistant ready. Type your questions or "quit" to exit.\n')
         while True:
