@@ -15,10 +15,22 @@ weight: 92
 ---
 ## Requirements
 
-RediSearch v2.6.36 requires:
+RediSearch v2.6.37 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.6.37 (June 2026)
+
+This is a maintenance release for Redis Search 2.6.
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+**Bug Fixes**
+
+• [[#10105](https://github.com/redisearch/redisearch/pull/10105)](https://github.com/RediSearch/RediSearch/pull/10105) FT.SEARCH and FT.AGGREGATE return Unknown argument errors on 2.8 shards during rolling upgrades when a newer coordinator injects internal query arguments. (MOD-16047) 
+• [[#9579](https://github.com/redisearch/redisearch/pull/9579)](https://github.com/RediSearch/RediSearch/pull/9579) Server becomes unresponsive when FT.CREATE is called with an extremely large number of fields. (MOD-6411) 
+• [[#9825](https://github.com/redisearch/redisearch/pull/9825)](https://github.com/RediSearch/RediSearch/pull/9825) FT.SYNUPDATE leaves the synonym map partially mutated when an update batch exceeds synonym or group-ID limits. (MOD-15402) 
+• [[#9534](https://github.com/redisearch/redisearch/pull/9534)](https://github.com/RediSearch/RediSearch/pull/9534) FT.INFO num_records is skewed for indexes with vector fields because vector entries are never decremented on deletion. (MOD-15487)
 
 ## v2.6.36 (May 2026)
 
