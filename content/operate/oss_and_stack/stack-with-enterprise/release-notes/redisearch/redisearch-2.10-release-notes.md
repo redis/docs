@@ -13,10 +13,23 @@ weight: 90
 ---
 ## Requirements
 
-RediSearch v2.10.30 requires:
+RediSearch v2.10.31 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.8
+
+## v2.10.31 (June 2026)
+
+This is a maintenance release for Redis Search 2.10.
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+**Bug Fixes**
+
+- [#9938](https://github.com/redisearch/redisearch/pull/9938) Server can crash in fork GC when the last document with an empty TAG value is deleted from an INDEXEMPTY WITHSUFFIXTRIE field. (MOD-15996) 
+- [#10104](https://github.com/redisearch/redisearch/pull/10104) FT.SEARCH and FT.AGGREGATE return Unknown argument errors on 2.10 shards during rolling upgrades when a newer coordinator injects internal query arguments. (MOD-16047) 
+- [#9578](https://github.com/redisearch/redisearch/pull/9578) Server can crash when FT.CREATE is called with an extremely large number of arguments or fields. (MOD-6411) 
+- [#9810](https://github.com/redisearch/redisearch/pull/9810) FT.SYNUPDATE leaves the synonym map partially mutated when an update batch exceeds synonym or group-ID limits. (MOD-15402) 
+- [#9533](https://github.com/redisearch/redisearch/pull/9533) FT.INFO num_records grows without bound for indexes with vector fields because vector records were counted on insert but never decremented. (MOD-15487)
 
 ## v2.10.30 (May 2026)
 
