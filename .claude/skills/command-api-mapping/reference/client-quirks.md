@@ -42,9 +42,24 @@ Translation rules:
   before creating a file — if the name isn't there, it's a variant to fold, not a new file.
 
 ## redis_py (Python)
-- snake_case methods (`ar_set`, `ar_get`). Signature without the `def`/`self`.
-- Google-style docstrings when present → param/return descriptions. Many core methods have none.
-- Module commands live in separate mixins (json/search/timeseries/vectorset).
+- Method names are the command lowercased with **no word separators** (`arset`, `arget`,
+  `argetrange`, `arlastitems` — not `ar_set`). Verify against the source; don't assume snake_case
+  splits.
+- New command families get a `Commands` mixin class in `redis/commands/core.py` (e.g.
+  `ArrayCommands`); module commands live in separate mixins under
+  `redis/commands/{json,search,timeseries,vectorset}/commands.py`. Methods carry `@overload`
+  stubs for sync/async — read the concrete `def` (the implementation), not the overloads.
+- House style (matches existing entries): signature = `method(typed params)` with `self`
+  stripped and **no return annotation**; varargs keep the star (`*values`, type `FieldT`;
+  `**kwargs`, type `Any`). `returns.type` is the **simplified base type** (`list`, `dict`, `int`)
+  or a meaningful scalar union (`bytes | str | None`, `int | None`); do **not** carry the
+  `X | Awaitable[X]` union — record the plain sync type.
+- **Descriptions are left `""`.** redis-py docstrings are prose paragraphs, not structured
+  `@param`/`@return` tags, and existing redis_py entries leave descriptions empty — don't
+  hand-extract prose into per-param fields.
+- redis-py exposes **one method per command**, folding options into params (`argrep` has
+  `withvalues`/`nocase` flags; `arop` takes `operation` + optional `value`) — unlike Lettuce,
+  which splits these into separate named methods.
 
 ## go-redis (Go)
 - PascalCase methods, usually `AR`-prefixed mirroring the command (`ARSet`, `ARGet`); confirm
