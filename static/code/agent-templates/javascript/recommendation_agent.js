@@ -133,7 +133,7 @@ class RecommendationAgent {
   async _indexExists() {
     try {
       const info = await this.redisClient.ft.info(INDEX_NAME);
-      return parseInt(info.num_docs) > 0;
+      return parseInt(info.num_docs ?? info.numDocs ?? '0') > 0;
     } catch {
       return false;
     }
