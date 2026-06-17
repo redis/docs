@@ -66,3 +66,9 @@ presence and find the method.
 **Network:** these calls hit `api.github.com` and `raw.githubusercontent.com`. The default
 command sandbox blocks `raw.githubusercontent.com` — run fetches with the sandbox disabled,
 or allow the host via `/sandbox`.
+
+**API rate limit:** unauthenticated `api.github.com` is capped at 60 requests/hour and the
+contents-listing calls burn through it fast (`"remaining": 0`). `raw.githubusercontent.com`
+does **not** count against that limit — once you know (or can guess) a file path, fetch it
+raw instead of listing via the API. Probe candidate filenames with
+`curl -s -o /dev/null -w "%{http_code}" <raw-url>`.

@@ -60,10 +60,24 @@ Translation rules:
   byte[]-vs-String duplicates.
 
 ## lettuce_sync / lettuce_async / lettuce_reactive (Java)
-- Same method names and params across the three; **only the return wrapper differs**:
-  sync `V`, async `RedisFuture<V>`, reactive `Mono<V>`/`Flux<V>`.
-- Read the sync interface, then mechanically wrap the return type for the other two.
-- JavaDoc present → descriptions (often shared across variants).
+- New command families get a dedicated interface trio:
+  `src/main/java/io/lettuce/core/api/{sync,async,reactive}/Redis<Area>Commands.java`
+  (e.g. the array type is `RedisArrayCommands.java` / `RedisArrayAsyncCommands.java` /
+  `RedisArrayReactiveCommands.java`). Signature format: `ReturnType methodName(Type param)`
+  (return type leads); params are `Type name` (no `$`), varargs type keeps the `...`
+  (`V... values` → name `values`, type `V...`).
+- **async = `RedisFuture<syncType>`** — a clean mechanical wrap of the sync return.
+- **reactive is NOT a mechanical wrap — read the reactive interface.** Scalars become
+  `Mono<T>`, but lists vary: a nullable-element list becomes `Flux<Value<V>>` (Lettuce's
+  null-safe wrapper, e.g. `armget`, `argetrange`), a non-null list becomes `Flux<V>`
+  (`arlastitems`), and typed-pair lists become `Flux<IndexedValue<V>>`. Don't guess these.
+- **One Redis command often maps to several Lettuce methods.** Lettuce expands options/modes
+  into distinct named methods: `AROP` → `aropAggregate`, `aropBitwise`, `aropCount` (×2);
+  `ARGREP` WITHVALUES → `argrepWithValues`; `ARINFO` FULL → `arinfoFull`; plus normal
+  varargs/scalar overloads (`arset`, `ardel`, `arinsert`, …). List them all in the command's file.
+- **JavaDoc is present and rich** → populate param (`@param`) and return (`@return`)
+  descriptions. The description text is **shared verbatim across all three variants** — only the
+  `returns.type` differs (sync `V` / async `RedisFuture<V>` / reactive `Mono<V>`).
 
 ## nredisstack_sync / nredisstack_async (C#)
 - PascalCase methods; async variants end in `Async` and return `Task<T>`.
