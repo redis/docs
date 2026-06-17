@@ -1,4 +1,7 @@
 ---
+aliases:
+- /connect/clients/rust/
+- /clients/rust/
 categories:
 - docs
 - develop

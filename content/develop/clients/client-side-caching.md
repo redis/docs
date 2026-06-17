@@ -1,5 +1,7 @@
 ---
-aliases: /develop/connect/clients/client-side-caching
+aliases:
+- /develop/connect/clients/client-side-caching
+- /manual/client-side-caching/
 categories:
 - docs
 - develop
@@ -90,6 +92,9 @@ The following client libraries support CSC from the stated version onwards:
 | [`redis-py`]({{< relref "/develop/clients/redis-py/connect#connect-using-client-side-caching" >}}) | v5.1.0 |
 | [`Jedis`]({{< relref "/develop/clients/jedis/connect#connect-using-client-side-caching" >}}) | v5.2.0 |
 | [`node-redis`]({{< relref "/develop/clients/nodejs/connect#connect-using-client-side-caching" >}}) | v5.1.0 |
+
+Note that some other clients support the [`CLIENT TRACKING`]({{< relref "/commands/client-tracking" >}}) command to configure CSC on the server, but this does not mean they support the
+features required for CSC themselves.
 
 ## Which commands can cache data?
 

@@ -1,4 +1,7 @@
 ---
+aliases:
+- /manual/optimization/benchmarks/
+- /management/optimization/benchmarks/
 categories:
 - docs
 - operate
@@ -18,6 +21,7 @@ against a Linux box.
 
 The following options are supported:
 
+{{< usage >}}
     Usage: redis-benchmark [-h <host>] [-p <port>] [-c <clients>] [-n <requests]> [-k <boolean>]
 
      -h <hostname>      Server hostname (default 127.0.0.1)
@@ -53,6 +57,7 @@ The following options are supported:
      -I                 Idle mode. Just open N idle connections and wait.
      --help             Output this help and exit.
      --version          Output version and exit.
+{{< /usage >}}
 
 You need to have a running Redis instance before launching the benchmark.
 A typical example would be:

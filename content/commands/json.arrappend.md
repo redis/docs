@@ -7,7 +7,6 @@ arguments:
 - name: key
   type: key
 - name: path
-  optional: true
   type: string
 - multiple: true
   name: value
@@ -35,7 +34,7 @@ since: 1.0.0
 stack_path: docs/data-types/json
 summary: Append one or more json values into the array at path after the last element
   in it.
-syntax_fmt: JSON.ARRAPPEND key [path] value [value ...]
+syntax_fmt: JSON.ARRAPPEND key path value [value ...]
 title: JSON.ARRAPPEND
 ---
 Append the JSON values into the array at `path` after the last element in it.
@@ -51,7 +50,7 @@ is the key to modify.
 
 <details open><summary><code>path</code></summary>
 
-is the JSONPath to specify.
+is the JSONPath to match.
 </details>
 
 <details open><summary><code>value</code></summary> 

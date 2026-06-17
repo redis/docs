@@ -14,6 +14,8 @@ url: '/operate/rs/7.4/clusters/configure/license-keys/'
 The cluster license key enables Redis Enterprise Software features and determines shard usage and limits.
 You can add or update a cluster key at any time.
 
+A single license can only be deployed on a single cluster. Each cluster, including passive or cold standby clusters used for disaster recovery, requires its own separate license, regardless of whether all clusters are active simultaneously.
+
 ## Trial mode
 
 Trial mode allows all features to be enabled during the trial period.
@@ -24,17 +26,7 @@ Trial mode requires a trial license. If you do not provide a license when you cr
 
 ## View cluster license key
 
-To view the cluster license key, use:
-
-- Cluster Manager UI
-
-    1. Go to **Cluster > Configuration > General > License** to see the cluster license details.
-
-    1. Select **Change** to view the cluster license key.
-
-- REST API - [`GET /v1/license`]({{< relref "/operate/rs/7.4/references/rest-api/requests/license#get-license" >}})
-
-    For a list of returned fields, see the [response section]({{< relref "/operate/rs/7.4/references/rest-api/requests/license#get-response" >}}).
+To view the cluster license key, use a [`GET /v1/license`]({{< relref "/operate/rs/7.4/references/rest-api/requests/license#get-license" >}}) REST API request. For a list of returned fields, see the [response section]({{< relref "/operate/rs/7.4/references/rest-api/requests/license#get-response" >}}).
 
 {{<note>}}
 As of version 7.2, Redis Enterprise enforces shard limits by shard types, RAM or flash, instead of the total number of shards. The flash shards limit only appears in the UI if Auto Tiering is enabled.

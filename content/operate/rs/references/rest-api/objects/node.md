@@ -34,6 +34,7 @@ An API object that represents a node in the cluster.
 | os_name | string | Operating system name (read-only) |
 | os_semantic_version | string | Full version number (read-only) |
 | os_version | string | Installed OS version (human-readable) (read-only) |
+| oss_cluster_ip_mapping | {{<code>}}[{<br />  "key": string,<br />  "value": object<br />}, ...]{{</code>}} | Per-node OSS cluster IP mapping by client subnet/hostname.<br />**key**: Client subnet/hostname key. Can be ipv4/ipv6 CIDR, hostname, or 'default'. |
 | persistent_storage_path | string | Persistent storage path (read-only) |
 | persistent_storage_size | number | Persistent storage size (bytes) (read- only) |
 | public_addr | string | Public IP address of node (deprecated as of Redis Software v4.3.3, use external_addr instead) |

@@ -27,6 +27,7 @@ Manage cluster credentials and authentication settings:
 Configure TLS certificates and encryption for secure communications:
 
 - [Manage REC certificates]({{< relref "/operate/kubernetes/security/manage-rec-certificates" >}}) - Configure cluster certificates for TLS encryption
+- [cert-manager integration]({{< relref "/operate/kubernetes/security/cert-manager" >}}) - Automate TLS certificate management with cert-manager
 - [Add client certificates]({{< relref "/operate/kubernetes/security/add-client-certificates" >}}) - Set up client certificate authentication for databases
 - [Internode encryption]({{< relref "/operate/kubernetes/security/internode-encryption" >}}) - Enable encryption between cluster nodes and configure custom certificates
 

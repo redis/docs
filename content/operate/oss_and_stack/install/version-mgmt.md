@@ -17,9 +17,9 @@ Redis Open Source provides comprehensive version management that prioritizes cus
 
 Redis uses a **MAJOR.MINOR.PATCH** versioning scheme:
 
-- **Major versions**: Significant changes that may include breaking changes (e.g., Redis 7 → Redis 8)
-- **Minor versions**: New features and improvements within a major version (e.g., 8.2 → 8.4 → 8.6)
-- **Patch versions**: Bug fixes and security updates (e.g., 8.2.1 → 8.2.2)
+- **Major versions**: Significant changes that may include breaking changes (for example, Redis 7 → Redis 8).
+- **Minor versions**: New features and improvements within a major version (for example, 8.2 → 8.4 → 8.6 → 8.8).
+- **Patch versions**: Bug fixes and security updates (for example, 8.6.1 → 8.6.2).
 
 ## Supported versions
 
@@ -29,6 +29,8 @@ Redis uses a **MAJOR.MINOR.PATCH** versioning scheme:
 
 | Version | Status | EOL Date |
 |---------|--------|----------|
+| **Redis 8.8** | GA | TBD |
+| **Redis 8.6** | GA | TBD |
 | **Redis 8.4** | GA | TBD |
 | **Redis 8.2** | GA | TBD |
 | **Redis 8.0** | GA | TBD |

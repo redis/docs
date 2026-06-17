@@ -13,6 +13,8 @@ description: Understand how to use Redis as a document database
 linkTitle: Document database
 stack: true
 title: Redis as a document database quick start guide
+aliases:
+- /get-started/document-database/
 weight: 2
 ---
 

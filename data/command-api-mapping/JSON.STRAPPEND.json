@@ -467,6 +467,58 @@
           "description": ""
         }
       }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "json_str_append(key: K, path: P, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path to the JSON string."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "The JSON string fragment to append."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The string length after the append operation."
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "json_str_append(key: K, path: P, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path to the JSON string."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "The JSON string fragment to append."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The string length after the append operation."
+        }
+      }
     ]
   }
 }

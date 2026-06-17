@@ -287,6 +287,68 @@
           "description": ""
         }
       }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "json_arr_trim(key: K, path: P, start: i64, stop: i64)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path to the target array."
+          },
+          {
+            "name": "start",
+            "type": "i64",
+            "description": "The inclusive start index to keep."
+          },
+          {
+            "name": "stop",
+            "type": "i64",
+            "description": "The inclusive stop index to keep."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The length of the array after trimming."
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "json_arr_trim(key: K, path: P, start: i64, stop: i64)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The key holding the JSON document."
+          },
+          {
+            "name": "path",
+            "type": "P",
+            "description": "The path to the target array."
+          },
+          {
+            "name": "start",
+            "type": "i64",
+            "description": "The inclusive start index to keep."
+          },
+          {
+            "name": "stop",
+            "type": "i64",
+            "description": "The inclusive stop index to keep."
+          }
+        ],
+        "returns": {
+          "type": "(RV)",
+          "description": "The length of the array after trimming."
+        }
+      }
     ]
   }
 }

@@ -1,6 +1,6 @@
 ---
 title: Error handling
-description: Learn how to handle errors when using NRedisStack.
+description: Learn how to handle errors when using StackExchange.Redis.
 linkTitle: Error handling
 scope: implementation
 relatedPages:
@@ -12,7 +12,10 @@ topics:
 weight: 60
 ---
 
-NRedisStack uses **exceptions** to signal errors. Code examples in the documentation often omit error handling for brevity, but it is essential in production code. This page explains how NRedisStack's error handling works and how to apply common error handling patterns.
+`StackExchange.Redis` uses **exceptions** to signal errors. Code examples in the
+documentation often omit error handling for brevity, but it is essential in production code.
+This page explains how error handling works in `StackExchange.Redis` and how to apply common
+error handling patterns.
 
 For an overview of error types and handling strategies, see [Error handling]({{< relref "/develop/clients/error-handling" >}}).
 See also [Production usage]({{< relref "/develop/clients/dotnet/produsage" >}})
@@ -21,7 +24,7 @@ app reliability.
 
 ## Exception types
 
-NRedisStack throws exceptions to signal errors. Common exception types include:
+`StackExchange.Redis` throws exceptions to signal errors. Common exception types include:
 
 | Exception | When it occurs | Recoverable | Recommended action |
 |---|---|---|---|
@@ -37,7 +40,7 @@ for a more detailed discussion of these errors and their causes.
 
 The [Error handling]({{< relref "/develop/clients/error-handling" >}}) overview
 describes four main patterns. The sections below show how to implement them in
-NRedisStack:
+`StackExchange.Redis`:
 
 ### Pattern 1: Fail fast
 
@@ -46,7 +49,6 @@ Catch specific exceptions that represent unrecoverable errors and re-throw them 
 for a full description):
 
 ```csharp
-using NRedisStack;
 using StackExchange.Redis;
 
 var muxer = ConnectionMultiplexer.Connect("localhost:6379");
@@ -104,7 +106,7 @@ for (int attempt = 0; attempt < maxRetries; attempt++) {
 ```
 
 See also [Timeouts]({{< relref "/develop/clients/dotnet/produsage#timeouts" >}})
-for more information on configuring timeouts in NRedisStack.
+for more information on configuring timeouts in `StackExchange.Redis`.
 
 ### Pattern 4: Log and continue
 
@@ -127,7 +129,6 @@ Error handling works the usual way with `async`/`await`, as shown in the
 example below:
 
 ```csharp
-using NRedisStack;
 using StackExchange.Redis;
 
 var muxer = ConnectionMultiplexer.Connect("localhost:6379");

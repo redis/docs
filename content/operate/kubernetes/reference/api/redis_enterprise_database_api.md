@@ -118,6 +118,13 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         </td>
         <td>false</td>
       </tr><tr>
+        <td><a href="#specconnectionsettings">connectionSettings</a></td>
+        <td>object</td>
+        <td>
+          Connection-related settings such as proxy connections and scheduling policy.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>dataInternodeEncryption</td>
         <td>boolean</td>
         <td>
@@ -281,6 +288,13 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td>[]object</td>
         <td>
           List of Redis Enteprise ACL and Role bindings to apply<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>searchOnBigstore</td>
+        <td>boolean</td>
+        <td>
+          Enables search module indexing on flash storage for Redis Flex (v2) databases. Only applicable when isRof=true and Redis version >= 8.6. Defaults to false.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -932,7 +946,14 @@ Target for automatic database backups.
         <td>interval</td>
         <td>integer</td>
         <td>
-          Backup Interval in seconds<br/>
+          Backup Interval in seconds. Specifies the time interval in seconds at which periodic backup is performed.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>intervalOffset</td>
+        <td>integer</td>
+        <td>
+          Backup Interval Offset in seconds. Specifies a time offset in seconds at which the periodic backup job starts. This can only be used if the backup interval is 24 hours (86400 seconds) or 12 hours (43200 seconds). The offset is relative to 00:00 UTC for 24-hour mode, and 00:00 + 12:00 UTC for 12-hour mode. If not specified, a random starting time (offset) is automatically chosen. The offset must be less than the backup interval.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -1124,6 +1145,13 @@ MountPointStorage
         </td>
         <td>true</td>
       </tr><tr>
+        <td>regionName</td>
+        <td>string</td>
+        <td>
+          Optional. Amazon S3 region name. If not specified, the region is auto-detected using a HEAD request to the bucket. For AWS GovCloud or other regions where auto-detection may not work, specify the region explicitly (e.g., "us-gov-east-1").<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>subdir</td>
         <td>string</td>
         <td>
@@ -1212,6 +1240,63 @@ MountPointStorage
 </table>
 
 
+### spec.connectionSettings
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+Connection-related settings such as proxy connections and scheduling policy.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>connectionLimitType</td>
+        <td>enum</td>
+        <td>
+          Connections limit type.<br/>
+          <br/>
+            <i>Enum</i>: per-thread, per-shard<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>connectionSchedulingPolicy</td>
+        <td>enum</td>
+        <td>
+          Controls how server-side connections are used when forwarding traffic to shards. Values: cmp: Closest to max_pipelined policy. Pick the connection with the most pipelined commands that has not reached the max_pipelined limit. mru: Try to use most recently used connections. spread: Try to use all connections. mnp: Minimal pipeline policy. Pick the connection with the least pipelined commands.<br/>
+          <br/>
+            <i>Enum</i>: cmp, mru, spread, mnp<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>globalMaxDedicatedConnections</td>
+        <td>integer</td>
+        <td>
+          Defines the maximum number of dedicated server connections for a given database. The total number across all workers. The default is 0 for unlimited. Defaults to 0, which means unlimited.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>internalConnections</td>
+        <td>integer</td>
+        <td>
+          The number of internal proxy connections. Defaults to 5 if unspecified.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>minDedicatedConnections</td>
+        <td>integer</td>
+        <td>
+          Number of dedicated server connections the DMC has per worker per shard. Defaults to 2 if unspecified.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
 ### spec.modulesList[]
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
@@ -1269,7 +1354,7 @@ Additional OSS cluster mode settings.
         <td>enableExternalAccess</td>
         <td>boolean</td>
         <td>
-          Toggles whether this database supports external access in OSS cluster mode. When enabled, advertised database topology includes the external endpoints for the Redis Enterprise nodes hosting the database shards. The external access mechanism (e.g., LoadBalancer services) is configured via the ossClusterSettings.externalAccessType field of the RedisEnterpriseCluster. When external access is enabled, the corresponding database secret will have the list of primary shard IPs in the oss_startup_nodes field.<br/>
+          Toggles whether this database supports external access in OSS cluster mode. When enabled, advertised database topology includes the external endpoints for the Redis Enterprise nodes hosting the database shards. The external access mechanism (e.g., LoadBalancer services) is configured via the ossClusterSettings.externalAccessType field of the RedisEnterpriseCluster. When external access is enabled, the corresponding database secret will have the list of primary shard IPs in the oss_startup_nodes field. Currently enabling OSS cluster API in conjunction with external access is not supported for active active databases.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -1333,7 +1418,7 @@ Connection to the Redis Enterprise Cluster.
         <td>clientKeySecret</td>
         <td>string</td>
         <td>
-          Secret that defines the client certificate and key used by the syncer in the target database cluster. The secret must have 2 keys in its map: "cert" which is the PEM encoded certificate, and "key" which is the PEM encoded private key.<br/>
+          Secret that defines the client certificate and key used by the syncer in the target database cluster. The secret must the following keys in it's data: - A key named 'cert'/'certificate'/'tls.crt' which is the PEM encoded certificate - A key named 'key'/'tls.key' which is the PEM encoded private key. - Optionally, a key named 'ca.crt', containing the public certificate of the root CA. If present, the root CA certificate is appended to the certificate provided in the 'tls.crt' (or equivalent) key, to form a full certificate chain. Otherwise, the certificate in 'cert'/'certificate'/'tls.crt' must include a full certificate chain inline. This key is typically populated by the cert-manager when it has access to the root certificate. Otherwise, it could be added manually.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -1347,7 +1432,7 @@ Connection to the Redis Enterprise Cluster.
         <td>serverCertSecret</td>
         <td>string</td>
         <td>
-          Secret that defines the server certificate used by the proxy in the source database cluster. The secret must have 1 key in its map: "cert" which is the PEM encoded certificate.<br/>
+          Secret that defines the server certificate used by the proxy in the source database cluster. The secret must have 1 key in its map named 'cert'/'certificate'/'tls.crt' which is the PEM encoded certificate.<br/>
         </td>
         <td>false</td>
       </tr><tr>

@@ -1,6 +1,7 @@
 ---
 aliases:
 - /develop/interact/search-and-query/advanced-concepts/scoring
+- /interact/search-and-query/advanced-concepts/scoring/
 categories:
 - docs
 - develop
@@ -79,6 +80,12 @@ FT.SEARCH myIndex "foo" SCORER TFIDF.DOCNORM
 ```
 
 ## BM25STD (default)
+
+{{< warning >}}
+Deleting or replacing an indexed document can temporarily affect the scores of other documents that contain any of the same terms.
+As a result, `FT.SEARCH` score values may be inaccurate until the Redis Search garbage collector runs and removes the stale term data.
+{{< /warning >}}
+
 
 A variation on the basic `TFIDF` scorer, see [this Wikipedia article for more info](https://en.wikipedia.org/wiki/Okapi_BM25).
 

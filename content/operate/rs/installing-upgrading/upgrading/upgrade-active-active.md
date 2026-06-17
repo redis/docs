@@ -148,3 +148,7 @@ If your Active-Active database uses modules:
     Verify that all CRDB database instances and their modules have been updated.
     Do you want to continue? (y/n): y
     ```
+
+## Upgrade limitations
+
+- When upgrading an Active-Active database from Redis 7.4 or earlier to version 8.0 or later, you cannot use module commands, such as [Redis Search](https://redis.io/docs/latest/commands/?group=search) and [JSON](https://redis.io/docs/latest/commands/?group=json) commands, until all Active-Active database instances in all participating clusters have been upgraded. These commands are not blocked automatically, and running these commands before finishing the upgrade process can cause syncer crashes.

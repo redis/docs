@@ -68,6 +68,12 @@ For a full list of fields and options, see the [RERC API reference]({{<relref "/
 
 For examples, see the [YAML examples]({{< relref "/operate/kubernetes/reference/yaml/active-active" >}}) section.
 
+### Manage certificates
+
+The operator automates Active-Active certificate updates. When you update the proxy or syncer certificate secret on a participating cluster's REC, the operator detects the change and propagates the new certificate to the other participating clusters.
+
+For details, see [Manage REC certificates]({{< relref "/operate/kubernetes/security/manage-rec-certificates" >}}) and [cert-manager integration]({{< relref "/operate/kubernetes/security/cert-manager" >}}).
+
 ### Limitations
 
 * Existing Redis databases cannot be migrated to a REAADB. (DOC-3594)
@@ -77,7 +83,7 @@ For examples, see the [YAML examples]({{< relref "/operate/kubernetes/reference/
 * Only global database options are supported, no support for specifying configuration per location.
 * No support for migration from old (`crdb-cli`) Active-Active database method to new Active-Active controller.
 * No support for REAADB with participating clusters co-located within the same Kubernetes cluster, except for a single designated local participating cluster.
-* Active-Active databases cannot be configured as [Redis Flex]({{< relref "/operate/kubernetes/re-clusters/redis-flex" >}}) deployments.
+* Active-Active databases cannot be configured as [Redis Flex]({{< relref "/operate/kubernetes/flex" >}}) deployments.
 
 ## More info
 

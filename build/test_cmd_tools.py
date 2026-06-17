@@ -224,13 +224,170 @@ class TestGenerateArgumentSections(unittest.TestCase):
 class TestGenerateReturnSection(unittest.TestCase):
     """Tests for generate_return_section function."""
 
-    def test_return_section_format(self):
-        """Test that return section has correct format."""
-        result = generate_return_section()
+    def test_no_schema_falls_back_to_placeholder(self):
+        """Test that missing reply_schema produces TODO placeholder text."""
+        result = generate_return_section({})
         self.assertIn("## Return information", result)
         self.assertIn("RESP2", result)
         self.assertIn("RESP3", result)
         self.assertIn("multitabs", result)
+        self.assertIn("TODO: Add RESP2 return information", result)
+        self.assertIn("TODO: Add RESP3 return information", result)
+
+    def test_none_command_data_falls_back_to_placeholder(self):
+        """Test that None command_data produces TODO placeholder text."""
+        result = generate_return_section(None)
+        self.assertIn("TODO: Add RESP2 return information", result)
+        self.assertIn("TODO: Add RESP3 return information", result)
+
+    def test_integer_schema(self):
+        """Test that an integer reply_schema generates Integer reply links."""
+        command_data = {
+            "reply_schema": {
+                "type": "integer",
+                "description": "The number of elements deleted."
+            }
+        }
+        result = generate_return_section(command_data)
+        self.assertIn("[Integer reply]", result)
+        self.assertIn("The number of elements deleted.", result)
+        self.assertNotIn("TODO:", result)
+
+    def test_string_schema(self):
+        """Test that a string reply_schema generates Bulk string reply links."""
+        command_data = {
+            "reply_schema": {
+                "type": "string",
+                "description": "The value at the given index."
+            }
+        }
+        result = generate_return_section(command_data)
+        self.assertIn("[Bulk string reply]", result)
+        self.assertIn("The value at the given index.", result)
+
+    def test_oneof_schema_resp2_uses_nil(self):
+        """Test that oneOf with null uses Nil reply for RESP2."""
+        command_data = {
+            "reply_schema": {
+                "oneOf": [
+                    {"type": "string", "description": "The value of the key."},
+                    {"type": "null", "description": "Key does not exist."}
+                ]
+            }
+        }
+        result = generate_return_section(command_data)
+        self.assertIn("One of the following:", result)
+        self.assertIn("[Bulk string reply]", result)
+        self.assertIn("[Nil reply]", result)
+
+    def test_oneof_schema_resp3_uses_null(self):
+        """Test that oneOf with null uses Null reply for RESP3 (not Nil)."""
+        command_data = {
+            "reply_schema": {
+                "oneOf": [
+                    {"type": "string", "description": "The value of the key."},
+                    {"type": "null", "description": "Key does not exist."}
+                ]
+            }
+        }
+        result = generate_return_section(command_data)
+        self.assertIn("[Null reply]", result)
+        # Nil reply should appear only in RESP2 section (before -tab-sep-)
+        parts = result.split("-tab-sep-")
+        self.assertIn("[Nil reply]", parts[0])
+        self.assertNotIn("[Nil reply]", parts[1])
+
+    def test_array_schema(self):
+        """Test that an array reply_schema generates Array reply links."""
+        command_data = {
+            "reply_schema": {
+                "type": "array",
+                "description": "A list of index-value pairs."
+            }
+        }
+        result = generate_return_section(command_data)
+        self.assertIn("[Array reply]", result)
+        self.assertIn("A list of index-value pairs.", result)
+
+    def test_object_schema_resp2_array_resp3_map(self):
+        """Test that an object reply_schema uses Array reply for RESP2 and Map reply for RESP3."""
+        command_data = {
+            "reply_schema": {
+                "type": "object",
+                "description": "Metadata about the array."
+            }
+        }
+        result = generate_return_section(command_data)
+        parts = result.split("-tab-sep-")
+        self.assertIn("[Array reply]", parts[0])
+        self.assertIn("[Map reply]", parts[1])
+
+    def test_number_schema_resp2_bulk_string(self):
+        """Test that a number reply_schema maps to Bulk string reply in RESP2."""
+        command_data = {
+            "reply_schema": {
+                "type": "number",
+                "description": "The score as a double."
+            }
+        }
+        result = generate_return_section(command_data)
+        parts = result.split("-tab-sep-")
+        self.assertIn("[Bulk string reply]", parts[0])
+        self.assertNotIn("[Double reply]", parts[0])
+
+    def test_number_schema_resp3_double(self):
+        """Test that a number reply_schema maps to Double reply in RESP3."""
+        command_data = {
+            "reply_schema": {
+                "type": "number",
+                "description": "The score as a double."
+            }
+        }
+        result = generate_return_section(command_data)
+        parts = result.split("-tab-sep-")
+        self.assertIn("[Double reply]", parts[1])
+        self.assertNotIn("[Bulk string reply]", parts[1])
+
+    def test_nested_oneof_within_oneof(self):
+        """Test that nested oneOf within a multi-option oneOf is indented correctly."""
+        command_data = {
+            "reply_schema": {
+                "oneOf": [
+                    {
+                        "oneOf": [
+                            {"type": "string", "description": "The element."},
+                            {"type": "number", "description": "Numeric element."}
+                        ]
+                    },
+                    {"type": "null", "description": "Key does not exist."}
+                ]
+            }
+        }
+        result = generate_return_section(command_data)
+        resp2 = result.split("-tab-sep-")[0]
+
+        # No TODO placeholders — all types were recognised
+        self.assertNotIn("TODO:", result)
+
+        # Outer bullet introduces the nested group
+        self.assertIn("* One of the following:", resp2)
+
+        # Inner bullets are indented with two spaces so they are visually subordinate
+        self.assertIn("  * [Bulk string reply]", resp2)
+        self.assertIn("  * [Bulk string reply]", resp2)  # number → bulk string in RESP2
+
+        # The null alternative is a flat outer bullet (not indented)
+        self.assertIn("* [Nil reply]", resp2)
+
+    def test_return_section_structure(self):
+        """Test that return section always has multitabs shortcode structure."""
+        result = generate_return_section({"reply_schema": {"type": "integer", "description": "Count."}})
+        self.assertIn("## Return information", result)
+        self.assertIn("{{< multitabs", result)
+        self.assertIn("tab1=\"RESP2\"", result)
+        self.assertIn("tab2=\"RESP3\"", result)
+        self.assertIn("-tab-sep-", result)
+        self.assertIn("{{< /multitabs >}}", result)
 
 
 class TestCreateCommandPage(unittest.TestCase):

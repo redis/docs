@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/vector-sets/
+- /manual/data-types/vector-sets/
 categories:
 - docs
 - develop
@@ -12,7 +15,7 @@ categories:
 description: Introduction to Redis vector sets
 linkTitle: Vector sets
 title: Redis vector sets
-weight: 55
+weight: 130
 ---
 
 {{< command-group group="module" url_group="vector_set" title="Vector set command summary" show_link=true >}}

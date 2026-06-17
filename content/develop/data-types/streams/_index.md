@@ -1,4 +1,9 @@
 ---
+aliases:
+- /manual/data-types/streams/
+- /data-types/streams/
+- /develop/data-types/streams-tutorial/
+- /io/data-structures/streams/
 categories:
 - docs
 - develop
@@ -12,7 +17,7 @@ categories:
 description: Introduction to Redis streams
 linkTitle: Streams
 title: Redis Streams
-weight: 60
+weight: 110
 ---
 
 {{< command-group group="stream" title="Stream command summary" show_link=true >}}
@@ -45,7 +50,7 @@ Beginning with Redis 8.6, Redis streams support idempotent message processing (a
 {{< /clients-example >}}
 
 * Read two stream entries starting at ID `1692632086370-0`:
-{{< clients-example set="stream_tutorial" step="xrange" description="Foundational: Retrieve stream entries within a range of IDs using XRANGE when you need to access historical data" >}}
+{{< clients-example set="stream_tutorial" step="xrange" description="Foundational: Retrieve stream entries within a range of IDs using XRANGE when you need to access historical data" max_lines="10" >}}
 > XRANGE race:france 1692632086370-0 + COUNT 2
 1) 1) "1692632086370-0"
    2) 1) "rider"
@@ -152,7 +157,7 @@ Redis Streams support all three of the query modes described above via different
 
 To query the stream by range we are only required to specify two IDs, *start* and *end*. The range returned will include the elements having start or end as ID, so the range is inclusive. The two special IDs `-` and `+` respectively mean the smallest and the greatest ID possible.
 
-{{< clients-example set="stream_tutorial" step="xrange_all" description="Foundational: Retrieve all entries in a stream using XRANGE with - and + special IDs" >}}
+{{< clients-example set="stream_tutorial" step="xrange_all" description="Foundational: Retrieve all entries in a stream using XRANGE with - and + special IDs" max_lines="10" >}}
 > XRANGE race:france - +
 1) 1) "1692632086370-0"
    2) 1) "rider"
@@ -209,7 +214,7 @@ Each entry returned is an array of two items: the ID and the list of field-value
 
 I have only a single entry in this range. However in real data sets, I could query for ranges of hours, or there could be many items in just two milliseconds, and the result returned could be huge. For this reason, [`XRANGE`]({{< relref "/commands/xrange" >}}) supports an optional **COUNT** option at the end. By specifying a count, I can just get the first *N* items. If I want more, I can get the last ID returned, increment the sequence part by one, and query again. Let's see this in the following example. Let's assume that the stream `race:france` was populated with 4 items. To start my iteration, getting 2 items per command, I start with the full range, but with a count of 2.
 
-{{< clients-example set="stream_tutorial" step="xrange_step_1" description="Practical pattern: Paginate stream entries using XRANGE with COUNT to retrieve results in batches" difficulty="intermediate" >}}
+{{< clients-example set="stream_tutorial" step="xrange_step_1" description="Practical pattern: Paginate stream entries using XRANGE with COUNT to retrieve results in batches" difficulty="intermediate" max_lines="10" >}}
 > XRANGE race:france - + COUNT 2
 1) 1) "1692632086370-0"
    2) 1) "rider"
@@ -233,7 +238,7 @@ I have only a single entry in this range. However in real data sets, I could que
 
 To continue the iteration with the next two items, I have to pick the last ID returned, that is `1692632094485-0`, and add the prefix `(` to it. The resulting exclusive range interval, that is `(1692632094485-0` in this case, can now be used as the new *start* argument for the next [`XRANGE`]({{< relref "/commands/xrange" >}}) call:
 
-{{< clients-example set="stream_tutorial" step="xrange_step_2" description="Practical pattern: Continue pagination using exclusive range syntax with ( prefix to skip the last retrieved entry" difficulty="intermediate" >}}
+{{< clients-example set="stream_tutorial" step="xrange_step_2" description="Practical pattern: Continue pagination using exclusive range syntax with ( prefix to skip the last retrieved entry" difficulty="intermediate" max_lines="10" >}}
 > XRANGE race:france (1692632094485-0 + COUNT 2
 1) 1) "1692632102976-0"
    2) 1) "rider"
@@ -291,7 +296,7 @@ When we do not want to access items by a range in a stream, usually what we want
 
 The command that provides the ability to listen for new messages arriving into a stream is called [`XREAD`]({{< relref "/commands/xread" >}}). It's a bit more complex than [`XRANGE`]({{< relref "/commands/xrange" >}}), so we'll start showing simple forms, and later the whole command layout will be provided.
 
-{{< clients-example set="stream_tutorial" step="xread" description="Foundational: Read entries from a stream starting from a specific ID using XREAD (non-blocking form)" >}}
+{{< clients-example set="stream_tutorial" step="xread" description="Foundational: Read entries from a stream starting from a specific ID using XREAD (non-blocking form)" max_lines="10" >}}
 > XREAD COUNT 2 STREAMS race:france 0
 1) 1) "race:france"
    2) 1) 1) "1692632086370-0"
@@ -385,6 +390,7 @@ Now it's time to zoom in to see the fundamental consumer group commands. They ar
 * [`XGROUP`]({{< relref "/commands/xgroup" >}}) is used in order to create, destroy and manage consumer groups.
 * [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) is used to read from a stream via a consumer group.
 * [`XACK`]({{< relref "/commands/xack" >}}) is the command that allows a consumer to mark a pending message as correctly processed.
+* [`XNACK`]({{< relref "/commands/xnack" >}}) is the command that allows a consumer to release pending messages back to the group without acknowledging them, making them immediately available for re-delivery to other consumers.
 * [`XACKDEL`]({{< relref "/commands/xackdel" >}}) combines acknowledgment and deletion in a single atomic operation with enhanced control over consumer group references.
 
 ## Creating a consumer group
@@ -674,6 +680,35 @@ The counter that you observe in the [`XPENDING`]({{< relref "/commands/xpending"
 
 When there are failures, it is normal that messages will be delivered multiple times, but eventually they usually get processed and acknowledged. However there might be a problem processing some specific message, because it is corrupted or crafted in a way that triggers a bug in the processing code. In such a case what happens is that consumers will continuously fail to process this particular message. Because we have the counter of the delivery attempts, we can use that counter to detect messages that for some reason are not processable. So once the deliveries counter reaches a given large number that you chose, it is probably wiser to put such messages in another stream and send a notification to the system administrator. This is basically the way that Redis Streams implements the *dead letter* concept.
 
+## Releasing messages back to the group: XNACK
+
+Starting with Redis 8.8, the [`XNACK`]({{< relref "/commands/xnack" >}}) command provides a way for consumers to explicitly release pending messages back to the group without acknowledging them. This is the opposite of claiming - instead of taking ownership of messages from other consumers, a consumer can release its own messages back to the group for immediate re-delivery.
+
+This capability addresses several common scenarios:
+
+1. **Graceful shutdown**: When a consumer is shutting down, it can release all its pending messages so other consumers can pick them up immediately without waiting for idle timeouts.
+
+2. **Consumer-side failures**: When a consumer encounters consumer-side issues (like network connectivity problems or resource constraints), it can release messages it cannot process rather than letting them sit idle.
+
+3. **Resource management**: A consumer under resource pressure can release complex or large messages that it cannot handle, allowing other consumers with more resources to process them.
+
+4. **Poison message handling**: A consumer can mark messages as permanently failed when it detects invalid or malicious content.
+
+The command provides three modes that control how the delivery counter is adjusted:
+
+- **SILENT**: Decrements the delivery counter, essentially "undoing" the delivery. Use this for graceful shutdowns or when the failure is unrelated to the message content.
+- **FAIL**: Keeps the delivery counter unchanged. Use this when the current consumer cannot handle the message but others might be able to.
+- **FATAL**: Sets the delivery counter to maximum value, marking the message as permanently failed for dead letter processing.
+
+Released messages are placed in a special "NACK zone" at the head of the consumer group's PEL, ensuring they are prioritized for re-delivery over other idle pending messages. This makes recovery much faster than traditional claiming mechanisms that rely on idle timeouts.
+
+```
+> XNACK mystream mygroup FAIL IDS 1 1526569498055-0
+(integer) 1
+```
+
+After NACKing, the message appears with an empty consumer in [`XPENDING`]({{< relref "/commands/xpending" >}}) output and becomes immediately available for claiming or consumption via [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) with the CLAIM option.
+
 ## Working with multiple consumer groups
 
 Redis Streams can be associated with multiple consumer groups, where each entry is delivered to all the stream's consumer groups. Within each consumer group, consumers handle a portion of the entries collaboratively. This design enables different applications or services to process the same stream data independently.
@@ -705,7 +740,7 @@ However we may want to do more than that, and the [`XINFO`]({{< relref "/command
 
 This command uses subcommands in order to show different information about the status of the stream and its consumer groups. For instance **XINFO STREAM <key>** reports information about the stream itself.
 
-{{< clients-example set="stream_tutorial" step="xinfo" description="Get detailed stream information including length, encoding, and consumer groups using XINFO STREAM" difficulty="intermediate" >}}
+{{< clients-example set="stream_tutorial" step="xinfo" description="Get detailed stream information including length, encoding, and consumer groups using XINFO STREAM" difficulty="intermediate" max_lines="10" >}}
 > XINFO STREAM race:italy
  1) "length"
  2) (integer) 5
@@ -745,7 +780,7 @@ As you can see in this and in the previous output, the [`XINFO`]({{< relref "/co
 
 The output of the example above, where the **GROUPS** subcommand is used, should be clear observing the field names. We can check in more detail the state of a specific consumer group by checking the consumers that are registered in the group.
 
-{{< clients-example set="stream_tutorial" step="xinfo_consumers" description="Get detailed consumer information for a group using XINFO CONSUMERS to monitor individual consumer status" difficulty="advanced" >}}
+{{< clients-example set="stream_tutorial" step="xinfo_consumers" description="Get detailed consumer information for a group using XINFO CONSUMERS to monitor individual consumer status" difficulty="advanced" max_lines="10" >}}
 > XINFO CONSUMERS race:italy italy_riders
 1) 1) "name"
    2) "Alice"

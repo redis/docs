@@ -81,3 +81,9 @@ For detailed upgrade instructions, see [Upgrade a Redis Software cluster]({{<rel
 {{<note>}}
 Redis Enterprise for Kubernetes has its own support lifecycle, which accounts for the Kubernetes distribution lifecycle. For details, see [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions">}}).
 {{</note>}}
+
+## Bundled Redis database versions
+
+Each cluster version of Redis Software includes a set of Redis database versions as follows:
+
+{{<embed-md "rs-bundled-db-versions.md">}}

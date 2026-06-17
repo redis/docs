@@ -22,9 +22,11 @@ To prevent this from happening, make sure your database is large enough to hold 
 |------------|-----------------|
 |  noeviction | New values aren't saved when memory limit is reached<br/><br/>When a database uses replication, this applies to the primary database |
 |  allkeys-lru | Keeps most recently used keys; removes least recently used (LRU) keys |
+|  allkeys-lrm | Keeps most recently modifed keys; removes least recently modified (LRM) keys |
 |  allkeys-lfu | Keeps frequently used keys; removes least frequently used (LFU) keys |
 |  allkeys-random | Randomly removes keys |
 |  volatile-lru | Removes least recently used keys with `expire` field set to true |
+|  volatile-lrm | Removes least recently modified keys with `expire` field set to true |
 |  volatile-lfu | Removes least frequently used keys with `expire` field set to true |
 |  volatile-random | Randomly removes keys with `expire` field set to true |
 |  volatile-ttl | Removes keys with `expire` field set to true and the shortest remaining time-to-live (TTL) value |

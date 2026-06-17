@@ -178,6 +178,7 @@ The following are the raw results from the benchmark in CSV format.
 
 ### JSON results
 
+{{< trimmable head="12" tail="8" >}}
 ```
 title,concurrency,rate,average latency,50.00%-tile,90.00%-tile,95.00%-tile,99.00%-tile,99.50%-tile,100.00%-tile
 [ping],1,22128.12,0.04,0.04,0.04,0.05,0.05,0.05,1.83
@@ -226,9 +227,11 @@ JSON.GET {key} message.code,16,89206.61,0.18,0.16,0.25,0.28,0.36,0.39,8.60
 [JSON.NUMINCRBY num . 1],16,78640.20,0.20,0.18,0.28,0.33,0.44,0.48,11.05
 [JSON.NUMMULTBY num . 2],16,77170.85,0.21,0.19,0.28,0.33,0.43,0.47,6.85
 ```
+{{< /trimmable >}}
 
 ### Lua using cjson
 
+{{< trimmable head="12" tail="8" >}}
 ```
 json-set-root.lua empty string,16,86817.84,0.18,0.17,0.26,0.31,0.39,0.42,9.36
 json-get-root.lua,16,90795.08,0.17,0.16,0.25,0.28,0.36,0.39,8.75
@@ -262,9 +265,11 @@ json-get-root.lua,16,18424.29,0.87,0.84,1.25,1.40,1.82,1.95,7.35
 json-set-path.lua message code 1,16,2251.07,7.10,6.98,7.14,7.22,11.00,12.79,21.14
 json-get-path.lua message code,16,3380.72,4.73,4.44,5.03,6.82,10.28,11.06,14.93
 ```
+{{< /trimmable >}}
 
 ### Lua using cmsgpack
 
+{{< trimmable head="12" tail="8" >}}
 ```
 msgpack-set-root.lua empty string,16,82592.66,0.19,0.18,0.27,0.31,0.38,0.42,10.18
 msgpack-get-root.lua,16,89561.41,0.18,0.16,0.25,0.29,0.37,0.40,9.52
@@ -298,3 +303,4 @@ msgpack-get-root.lua,16,2889.59,5.53,5.45,5.71,5.86,8.80,10.48,25.55
 msgpack-set-path.lua message code 1,16,2847.85,5.61,5.44,5.56,6.01,10.58,11.90,16.91
 msgpack-get-path.lua message code,16,5030.95,3.18,3.07,3.24,3.57,6.08,6.92,12.44
 ```
+{{< /trimmable >}}

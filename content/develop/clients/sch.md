@@ -59,12 +59,17 @@ if you select the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-vers
 protocol, which is a requirement for SCH. However, you can
 configure some parameters, such as the timeouts to use
 during maintenance.
-See the pages linked below to learn how to configure SCH for:
 
-- [redis-py]({{< relref "/develop/clients/redis-py/connect#connect-using-smart-client-handoffs-sch" >}})
-- [node-redis]({{< relref "/develop/clients/nodejs/connect#connect-using-smart-client-handoffs-sch" >}})
-- [Lettuce]({{< relref "/develop/clients/lettuce/connect#connect-using-smart-client-handoffs-sch" >}})
-- [go-redis]({{< relref "/develop/clients/go/connect#connect-using-smart-client-handoffs-sch" >}})
+The table below lists the Redis client libraries that support SCH,
+and the versions that added support for basic connections and
+[OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}) connections.
+
+| Client | Basic connection | OSS Cluster API |
+| :-- | :-- | :-- |
+| [redis-py]({{< relref "/develop/clients/redis-py/connect#connect-using-smart-client-handoffs-sch" >}}) | v7.0.0 | v7.2.0 |
+| [node-redis]({{< relref "/develop/clients/nodejs/connect#connect-using-smart-client-handoffs-sch" >}}) | v5.9.0 | v5.11.0 |
+| [Lettuce]({{< relref "/develop/clients/lettuce/connect#connect-using-smart-client-handoffs-sch" >}}) | v7.0.0 | - |
+| [go-redis]({{< relref "/develop/clients/go/connect#connect-using-smart-client-handoffs-sch" >}}) | v9.16.0 | v9.18.0 |
 
 ## SCH support in Redis server products
 
@@ -97,14 +102,13 @@ curl -k -X PUT -H "accept: application/json" \
 ```
 
 Redis Software uses relaxed timeouts to avoid command failures during
-database version upgrades. The support for pre-handoffs depends on
+database version upgrades. SCH is supported for Redis Software from v8.0.2 on,
+and OSS Cloud and OSS Cluster API from v8.0.16 on.
+
+The degree of support for pre-handoffs depends on
 the specific upgrade method you use, as detailed in the table below.
 
-| Upgrade method | SCH support | Expected behavior |
-| --- | --- | --- |
-| [Rolling upgrade]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#rolling-upgrade" >}}) | Full | New nodes and old ones removed sequentially. SCH pre-handoffs and relaxed timeouts greatly reduce disruptions during the upgrade. |
-| [In-place upgrade]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#in-place-upgrade" >}}) | Partial | Relaxed timeouts reduce errors but there are no pre-handoffs. Disconnections occur when processes are replaced during the upgrade, so clients should rely on auto-reconnect, which will cause brief lapses in service. |
-| [Maintenance mode]({{< relref "/operate/rs/clusters/maintenance-mode" >}}) | Full | SCH is fully supported during hardware or OS patching operations. Pre-handoffs and relaxed timeouts minimize application impact. |
+{{< embed-md "rs-sch-support.md" >}}
 
 ### Redis Enterprise for Kubernetes
 

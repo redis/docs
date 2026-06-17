@@ -52,22 +52,99 @@
 
 {{- /* Process each clients-example shortcode */ -}}
 {{- /* Pattern for paired shortcodes: {{< clients-example ... >}} content {{< /clients-example >}} */ -}}
-{{- $pattern := `\{\{<\s*clients-example\s+(?:set|id)="([^"]+)"(?:\s+step="([^"]*)")?(?:\s+description="([^"]*)")?(?:\s+difficulty="([^"]*)")?(?:\s+buildsUpon="([^"]*)")?[^>]*>\s*([\s\S]*?)\s*\{\{<\s*/clients-example\s*>\}\}` -}}
+{{- $pattern := `\{\{<\s*clients-example\s+([^>]*)>\s*([\s\S]*?)\s*\{\{<\s*/clients-example\s*>\}\}` -}}
 
 {{- /* Pattern for self-closing shortcodes: {{< clients-example ... />}} */ -}}
-{{- $selfClosingPattern := `\{\{<\s*clients-example\s+(?:set|id)="([^"]+)"(?:\s+step="([^"]*)")?(?:\s+description="([^"]*)")?(?:\s+difficulty="([^"]*)")?(?:\s+buildsUpon="([^"]*)")?[^/]*/>\}\}` -}}
+{{- $selfClosingPattern := `\{\{<\s*clients-example\s+([^>]*)/>\}\}` -}}
 
 {{- $processed := $content -}}
 {{- $matches := findRE $pattern $content -}}
 {{- $selfClosingMatches := findRE $selfClosingPattern $content -}}
 
 {{- range $match := $matches -}}
-  {{- $exampleId := replaceRE $pattern `$1` $match -}}
-  {{- $stepName := replaceRE $pattern `$2` $match -}}
-  {{- $description := replaceRE $pattern `$3` $match -}}
-  {{- $difficulty := replaceRE $pattern `$4` $match -}}
-  {{- $buildsUponStr := replaceRE $pattern `$5` $match -}}
-  {{- $cliContent := replaceRE $pattern `$6` $match -}}
+  {{- $attrs := replaceRE $pattern `$1` $match -}}
+  {{- $exampleId := "" -}}
+  {{- with findRESubmatch `(?:^|\s)(?:set|id)="([^"]+)"` $attrs -}}
+    {{- $exampleId = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $stepName := "" -}}
+  {{- with findRESubmatch `(?:^|\s)step="([^"]*)"` $attrs -}}
+    {{- $stepName = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $description := "" -}}
+  {{- with findRESubmatch `(?:^|\s)description="([^"]*)"` $attrs -}}
+    {{- $description = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $difficulty := "" -}}
+  {{- with findRESubmatch `(?:^|\s)difficulty="([^"]*)"` $attrs -}}
+    {{- $difficulty = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $buildsUponStr := "" -}}
+  {{- with findRESubmatch `(?:^|\s)buildsUpon="([^"]*)"` $attrs -}}
+    {{- $buildsUponStr = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $maxLines := 0 -}}
+  {{- with findRESubmatch `(?:^|\s)max_lines="([0-9]+)"` $attrs -}}
+    {{- $maxLines = int (index (index . 0) 1) -}}
+  {{- end -}}
+  {{- $cliContent := replaceRE $pattern `$2` $match -}}
+  {{- $cliContent = replaceRE "^\\s*\\}\\}\\s*" "" $cliContent -}}
+  {{- $cliContent = strings.TrimSpace $cliContent -}}
+  {{- if and $cliContent (gt $maxLines 0) -}}
+    {{- $cliLines := split $cliContent "\n" -}}
+    {{- $tailLines := $maxLines -}}
+    {{- $wrapCharsPerLine := 120 -}}
+    {{- $charTrimWidth := mul $maxLines $wrapCharsPerLine -}}
+    {{- $estimatedVisualLineCount := 0 -}}
+    {{- if gt $tailLines 8 -}}
+      {{- $tailLines = 8 -}}
+    {{- end -}}
+    {{- range $line := $cliLines -}}
+      {{- $lineLength := len $line -}}
+      {{- $wrappedLines := 1 -}}
+      {{- if gt $lineLength $wrapCharsPerLine -}}
+        {{- $wrappedLines = int (math.Ceil (div (float $lineLength) (float $wrapCharsPerLine))) -}}
+      {{- end -}}
+      {{- $estimatedVisualLineCount = add $estimatedVisualLineCount $wrappedLines -}}
+    {{- end -}}
+    {{- if gt $estimatedVisualLineCount (add $maxLines $tailLines 1) -}}
+      {{- $trimmedLines := slice -}}
+      {{- $headVisualLines := 0 -}}
+      {{- range $line := $cliLines -}}
+        {{- if lt $headVisualLines $maxLines -}}
+          {{- $trimmedLines = $trimmedLines | append $line -}}
+          {{- $wrappedLines := 1 -}}
+          {{- if gt (len $line) $wrapCharsPerLine -}}
+            {{- $wrappedLines = int (math.Ceil (div (float (len $line)) (float $wrapCharsPerLine))) -}}
+          {{- end -}}
+          {{- $headVisualLines = add $headVisualLines $wrappedLines -}}
+        {{- end -}}
+      {{- end -}}
+      {{- $trimmedLines = $trimmedLines | append "... output truncated for AI-facing Markdown ..." -}}
+      {{- $tailSlice := slice -}}
+      {{- $tailVisualLines := 0 -}}
+      {{- range $line := collections.Reverse $cliLines -}}
+        {{- $wrappedLines := 1 -}}
+        {{- if gt (len $line) $wrapCharsPerLine -}}
+          {{- $wrappedLines = int (math.Ceil (div (float (len $line)) (float $wrapCharsPerLine))) -}}
+        {{- end -}}
+        {{- if lt $tailVisualLines $tailLines -}}
+          {{- $tailSlice = $tailSlice | append $line -}}
+          {{- $tailVisualLines = add $tailVisualLines $wrappedLines -}}
+        {{- end -}}
+      {{- end -}}
+      {{- range $line := collections.Reverse $tailSlice -}}
+        {{- $trimmedLines = $trimmedLines | append $line -}}
+      {{- end -}}
+      {{- $cliContent = delimit $trimmedLines "\n" -}}
+    {{- else if and (eq (len $cliLines) 1) (gt (len $cliContent) (mul $charTrimWidth 2)) -}}
+      {{- $headChars := $charTrimWidth -}}
+      {{- $tailChars := $charTrimWidth -}}
+      {{- $head := substr $cliContent 0 $headChars -}}
+      {{- $tail := substr $cliContent (sub (len $cliContent) $tailChars) $tailChars -}}
+      {{- $cliContent = printf "%s\n... output truncated for AI-facing Markdown ...\n%s" $head $tail -}}
+    {{- end -}}
+  {{- end -}}
 
   {{- /* Unescape HTML entities in description */ -}}
   {{- if $description -}}
@@ -98,8 +175,8 @@
     {{- /* Build replacement with all languages */ -}}
     {{- $replacement := "" -}}
 
-    {{- /* Add section header for this example group */ -}}
-    {{- $replacement = printf "#### Code Examples\n\n" -}}
+    {{- /* Note: We don't emit a heading here - the source file provides the parent heading */ -}}
+    {{- /* This allows the description/metadata to fill the parent section, avoiding empty sections */ -}}
 
     {{- /* Add description if provided */ -}}
     {{- if $description -}}
@@ -173,7 +250,6 @@
 
     {{- /* Collect all language examples and build availability list */ -}}
     {{- $langExamples := slice -}}
-    {{- $redisCliLang := dict -}}
     {{- $availableLangs := slice -}}
 
     {{- /* Add Redis CLI to availability list if we have CLI content */ -}}
@@ -184,9 +260,7 @@
     {{- /* Collect all other languages */ -}}
     {{- range $lang, $langData := $exampleData -}}
       {{- if ne $lang "steps_commands" -}}
-        {{- if eq $lang "redis-cli" -}}
-          {{- $redisCliLang = dict "key" $lang "data" $langData -}}
-        {{- else -}}
+        {{- if ne $lang "redis-cli" -}}
           {{- $langCode := index $langData "language" -}}
           {{- $displayName := index $keyNames $lang -}}
           {{- if not $displayName -}}
@@ -203,7 +277,9 @@
 
     {{- /* Sort available languages alphabetically (except Redis CLI which stays first) */ -}}
     {{- $sortedLangs := slice -}}
-    {{- $sortedLangs = $sortedLangs | append "Redis CLI" -}}
+    {{- if in $availableLangs "Redis CLI" -}}
+      {{- $sortedLangs = $sortedLangs | append "Redis CLI" -}}
+    {{- end -}}
     {{- $otherLangs := slice -}}
     {{- range $lang := $availableLangs -}}
       {{- if ne $lang "Redis CLI" -}}
@@ -216,15 +292,14 @@
     {{- end -}}
     {{- $availableLangs = $sortedLangs -}}
 
+    {{- /* Add language availability summary first (before individual language examples) */ -}}
+    {{- $replacement = printf "%s**Available in:** %s\n\n" $replacement (delimit $availableLangs ", ") -}}
+
     {{- /* Add CLI example first if provided */ -}}
     {{- if $cliContent -}}
-      {{- /* Clean up the CLI content - remove leading/trailing whitespace and stray }} */ -}}
-      {{- $cliContent = replaceRE "^\\s*\\}\\}\\s*" "" $cliContent -}}
-      {{- $replacement = printf "%s**Redis CLI:**\n\n```\n%s\n```\n\n" $replacement $cliContent -}}
+      {{- /* Use H5 heading for Redis CLI - consistent with other language examples */ -}}
+      {{- $replacement = printf "%s##### Redis CLI\n\n```\n%s\n```\n\n" $replacement $cliContent -}}
     {{- end -}}
-
-    {{- /* Add language availability summary */ -}}
-    {{- $replacement = printf "%s**Available in:** %s\n\n" $replacement (delimit $availableLangs ", ") -}}
 
     {{- /* Sort language examples by display name (alphabetically) */ -}}
     {{- $sortedLangExamples := slice -}}
@@ -236,15 +311,6 @@
       {{- end -}}
     {{- end -}}
     {{- $langExamples = $sortedLangExamples -}}
-
-    {{- /* Rebuild language examples with Redis CLI first */ -}}
-    {{- if $redisCliLang -}}
-      {{- $finalLangs := slice $redisCliLang -}}
-      {{- range $langExample := $langExamples -}}
-        {{- $finalLangs = $finalLangs | append $langExample -}}
-      {{- end -}}
-      {{- $langExamples = $finalLangs -}}
-    {{- end -}}
 
     {{- /* Add code examples for each language */ -}}
     {{- range $langExample := $langExamples -}}
@@ -324,7 +390,8 @@
           {{- $codeFenceLang = "rust" -}}
         {{- end -}}
 
-        {{- $replacement = printf "%s**%s:**\n\n```%s\n%s\n```\n\n" $replacement $displayName $codeFenceLang $displayContent -}}
+        {{- /* Use H5 heading for each language - creates independently retrievable chunks for RAG */ -}}
+        {{- $replacement = printf "%s##### %s\n\n```%s\n%s\n```\n\n" $replacement $displayName $codeFenceLang $displayContent -}}
       {{- end -}}
     {{- end -}}
 
@@ -335,11 +402,27 @@
 
 {{- /* Process self-closing clients-example shortcodes (no CLI content between tags) */ -}}
 {{- range $match := $selfClosingMatches -}}
-  {{- $exampleId := replaceRE $selfClosingPattern `$1` $match -}}
-  {{- $stepName := replaceRE $selfClosingPattern `$2` $match -}}
-  {{- $description := replaceRE $selfClosingPattern `$3` $match -}}
-  {{- $difficulty := replaceRE $selfClosingPattern `$4` $match -}}
-  {{- $buildsUponStr := replaceRE $selfClosingPattern `$5` $match -}}
+  {{- $attrs := replaceRE $selfClosingPattern `$1` $match -}}
+  {{- $exampleId := "" -}}
+  {{- with findRESubmatch `(?:^|\s)(?:set|id)="([^"]+)"` $attrs -}}
+    {{- $exampleId = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $stepName := "" -}}
+  {{- with findRESubmatch `(?:^|\s)step="([^"]*)"` $attrs -}}
+    {{- $stepName = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $description := "" -}}
+  {{- with findRESubmatch `(?:^|\s)description="([^"]*)"` $attrs -}}
+    {{- $description = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $difficulty := "" -}}
+  {{- with findRESubmatch `(?:^|\s)difficulty="([^"]*)"` $attrs -}}
+    {{- $difficulty = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $buildsUponStr := "" -}}
+  {{- with findRESubmatch `(?:^|\s)buildsUpon="([^"]*)"` $attrs -}}
+    {{- $buildsUponStr = index (index . 0) 1 -}}
+  {{- end -}}
 
   {{- /* Unescape HTML entities in description */ -}}
   {{- if $description -}}
@@ -356,18 +439,15 @@
   {{- $clientExamples := index $.Site.Data.examples $exampleId -}}
 
   {{- /* Build the replacement content */ -}}
+  {{- /* Note: We don't emit a heading here - the source file provides the parent heading */ -}}
+  {{- /* This allows the description/metadata to fill the parent section, avoiding empty sections */ -}}
   {{- $replacement := "" -}}
 
-  {{- if or $description $difficulty -}}
-    {{- $replacement = printf "#### Code Examples\n\n" -}}
-    {{- if $description -}}
-      {{- $replacement = printf "%s%s\n\n" $replacement $description -}}
-    {{- end -}}
-    {{- if $difficulty -}}
-      {{- $replacement = printf "%s**Difficulty:** %s\n\n" $replacement (title $difficulty) -}}
-    {{- end -}}
-  {{- else -}}
-    {{- $replacement = "#### Code Examples\n\n" -}}
+  {{- if $description -}}
+    {{- $replacement = printf "%s\n\n" $description -}}
+  {{- end -}}
+  {{- if $difficulty -}}
+    {{- $replacement = printf "%s**Difficulty:** %s\n\n" $replacement (title $difficulty) -}}
   {{- end -}}
 
   {{- /* Extract commands used from steps_commands if available */ -}}
@@ -504,8 +584,9 @@
               {{- $codeFenceLang = "rust" -}}
             {{- end -}}
 
+            {{- /* Use H5 heading for each language - creates independently retrievable chunks for RAG */ -}}
             {{- if $displayContent -}}
-              {{- $replacement = printf "%s**%s:**\n\n```%s\n%s\n```\n\n" $replacement $displayName $codeFenceLang $displayContent -}}
+              {{- $replacement = printf "%s##### %s\n\n```%s\n%s\n```\n\n" $replacement $displayName $codeFenceLang $displayContent -}}
             {{- end -}}
           {{- end -}}
         {{- end -}}
@@ -521,4 +602,3 @@
 {{- end -}}
 
 {{- $processed -}}
-

@@ -25,7 +25,7 @@ You need at least [two participating clusters]({{< relref "/operate/rs/clusters/
 If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/databases/flash">}}), you cannot add participating clusters that run on RAM only.
 {{</note>}}
 
-Changes made from the Cluster Manager UI to an Active-Active database configuration only apply to the cluster you are editing. For global configuration changes across all clusters, use the `crdb-cli` command-line utility.
+For Redis Software versions earlier than 8.0.16, changes made from the Cluster Manager UI to an Active-Active database configuration only apply to the cluster you are editing. For global configuration changes across all clusters, use the `crdb-cli` command-line utility. As of Redis Software version 8.0.16, the Cluster Manager UI supports both global and local configuration changes for Active-Active databases.
 
 ## Memory limits
 
@@ -47,6 +47,33 @@ Factors to consider when sizing your database:
 It's also important to know Active-Active databases have a lower threshold for activating the eviction policy, because it requires propagation to all participating clusters. The eviction policy starts to evict keys when one of the Active-Active instances reaches 80% of its memory limit. 
 
 For more information on memory limits, see [Memory and performance]({{< relref "/operate/rs/databases/memory-performance/" >}}) or [Database memory limits]({{< relref "/operate/rs/databases/memory-performance/memory-limit.md" >}}).
+
+### Replication OOM protection
+
+When a shard in an Active-Active database reaches an out-of-memory (OOM) condition:
+
+1. Replication between that shard and its peers stops immediately.
+
+1. The syncer process sends commands to the affected shard to trigger garbage collection and free memory.
+
+If the database has no [eviction policy]({{<relref "/operate/rs/databases/memory-performance/eviction-policy/">}}) and no keys with [expiration times (TTL)]({{<relref "/develop/using-commands/keyspace#key-expiration">}}), no memory can be freed, which can lead to persistent replication failure and data desynchronization.
+
+To reduce this risk, Active-Active databases running Redis version 8.4 or later support a configurable memory buffer through the `replication_oom_threshold_percent` setting. This setting reserves a percentage of memory below `maxmemory` for internal replication operations.
+
+The `replication_oom_threshold_percent` setting works as follows:
+
+- If memory usage is below the threshold, all client writes proceed normally.
+
+- If memory usage exceeds the threshold, Redis blocks external client write commands with an out-of-memory error, but internal replication and garbage collection continue in the reserved buffer.
+
+- If memory reaches `maxmemory` despite the client block, the standard out-of-memory behavior applies to all operations, including replication.
+
+`replication_oom_threshold_percent` defaults to `5`, which means 5% of `maxmemory` is reserved. To adjust the reserved percentage, use an [update database configuration]({{<relref "operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
+
+```sh
+PUT https://<host>:<port>/v1/bdbs/<database_id>
+{ "replication_oom_threshold_percent": <integer from 0 to 20> }
+```
 
 ## Networking
 
@@ -86,6 +113,8 @@ Active-Active databases have the following limitations:
 - The `UNLINK` command is a blocking command for all types of keys.
 - Cross slot multi commands (such as `MSET`) are not supported with Active-Active databases.
 - The hashing policy can't be changed after database creation.
+- Database clustering cannot be enabled or turned off after database creation.
 - Active-Active databases cannot be configured as Redis Flex deployments.
 - Active-Active databases handle replication internally and do not support the `redis.set_repl()` function in Lua scripts.
 - If you enabled the default database password during the creation of an Active-Active database, you should not turn off the default database password because it could prevent the removal of participating database instances.
+- When upgrading an Active-Active database from Redis 7.4 or earlier to version 8.0 or later, you cannot use module commands, such as [Redis Search](https://redis.io/docs/latest/commands/?group=search) and [JSON](https://redis.io/docs/latest/commands/?group=json) commands, until all Active-Active database instances in all participating clusters have been upgraded. These commands are not blocked automatically, and running these commands before finishing the upgrade process can cause syncer crashes.

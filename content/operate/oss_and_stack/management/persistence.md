@@ -7,6 +7,8 @@ categories:
 description: How Redis writes data to disk
 linkTitle: Persistence
 title: Redis persistence
+aliases:
+- /management/persistence/
 weight: 7
 ---
 
