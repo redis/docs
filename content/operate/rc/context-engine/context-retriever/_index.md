@@ -15,7 +15,7 @@ bannerChildren: true
 
 Redis Context Retriever helps teams expose operational context to AI agents through schema-first retrieval. It models the entities, fields, keys, and relationships that matter to an agent workflow, then presents that context through a governed tool surface the agent can call at runtime. Context Retriever helps an AI agent understand what business objects exist, how they connect, and which paths are safe to use.
 
-When you set up Redis Context Retriever, you model the objects that matter to your agent workflow and connect the relationships between them. You can do this through the UI, the [Context Surfaces Python Client](https://pypi.org/project/context-surfaces/), or the `ctxctl` CLI (available when you install the Python client). Context Retriever uses those relationships to automatically create and deploy retrieval tools from your entity model.
+When you set up Redis Context Retriever, you model the objects that matter to your agent workflow and connect the relationships between them. You can do this through the UI, the [Context Surfaces Python Client](https://pypi.org/project/redis-context-retriever/), or the `ctxctl` CLI (available when you install the Python client). Context Retriever uses those relationships to automatically create and deploy retrieval tools from your entity model.
 
 When an agent needs context during execution, it calls the MCP tools Context Retriever exposes. Instead of guessing which tool to use or generating SQL, the agent follows the defined entity paths and gets back structured, live, operational context.
 
