@@ -124,7 +124,7 @@ for index, value in res13:
 
 # REMOVE_START
 assert res12 == 3
-assert res13 == [["0", "a"], ["1", "b"], ["3", "d"]]
+assert res13 == [[0, "a"], [1, "b"], [3, "d"]]
 r.delete("seq")
 # REMOVE_END
 

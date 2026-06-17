@@ -17,6 +17,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.*;
+import java.util.stream.Collectors;
 // HIDE_END
 
 public class ArraysExample {
@@ -55,15 +56,18 @@ public class ArraysExample {
 
             arsetArget2.block();
 
-            Mono<String> arsetArget3 = reactiveCommands.arget("events:1", 999).doOnNext(result -> {
-                System.out.println(result); // >>> null
-                // REMOVE_START
-                assertThat(result).isNull();
-                // REMOVE_END
-            });
-            // STEP_END
+            Mono<Optional<String>> arsetArget3 = reactiveCommands.arget("events:1", 999)
+                    .map(Optional::of)
+                    .defaultIfEmpty(Optional.empty())
+                    .doOnNext(result -> {
+                        System.out.println(result.orElse(null)); // >>> null
+                        // REMOVE_START
+                        assertThat(result).isEmpty();
+                        // REMOVE_END
+                    });
 
             arsetArget3.block();
+            // STEP_END
             // REMOVE_START
             reactiveCommands.del("events:1").block();
             // REMOVE_END
@@ -87,17 +91,19 @@ public class ArraysExample {
             armsetArmget1.block();
 
             Mono<List<String>> armsetArmget2 = reactiveCommands.armget("metrics", 0, 5, 100, 999)
-                    .map(value -> value.getValueOrElse(null))
                     .collectList()
+                    .map(values -> values.stream()
+                            .map(value -> value.getValueOrElse(null))
+                            .collect(Collectors.toList()))
                     .doOnNext(result -> {
                         System.out.println(result); // >>> [10, 20, 30, null]
                         // REMOVE_START
                         assertThat(result).isEqualTo(Arrays.asList("10", "20", "30", null));
                         // REMOVE_END
                     });
-            // STEP_END
 
             armsetArmget2.block();
+            // STEP_END
             // REMOVE_START
             reactiveCommands.del("metrics").block();
             // REMOVE_END
@@ -139,9 +145,9 @@ public class ArraysExample {
                 assertThat(result).isEqualTo(2L);
                 // REMOVE_END
             });
-            // STEP_END
 
             lenCount4.block();
+            // STEP_END
             // REMOVE_START
             reactiveCommands.del("sparse").block();
             // REMOVE_END
@@ -165,17 +171,19 @@ public class ArraysExample {
             argetrange1.block();
 
             Mono<List<String>> argetrange2 = reactiveCommands.argetrange("seq", 0, 3)
-                    .map(value -> value.getValueOrElse(null))
                     .collectList()
+                    .map(values -> values.stream()
+                            .map(value -> value.getValueOrElse(null))
+                            .collect(Collectors.toList()))
                     .doOnNext(result -> {
                         System.out.println(result); // >>> [a, b, null, d]
                         // REMOVE_START
                         assertThat(result).isEqualTo(Arrays.asList("a", "b", null, "d"));
                         // REMOVE_END
                     });
-            // STEP_END
 
             argetrange2.block();
+            // STEP_END
             // REMOVE_START
             reactiveCommands.del("seq").block();
             // REMOVE_END
@@ -218,9 +226,9 @@ public class ArraysExample {
                     })
                     // REMOVE_END
             ;
-            // STEP_END
 
             arscan2.block();
+            // STEP_END
             // REMOVE_START
             reactiveCommands.del("seq").block();
             // REMOVE_END
@@ -271,9 +279,9 @@ public class ArraysExample {
                 assertThat(result).isEqualTo(10L);
                 // REMOVE_END
             });
-            // STEP_END
 
             arinsert5.block();
+            // STEP_END
             // REMOVE_START
             reactiveCommands.del("log").block();
             // REMOVE_END
@@ -324,9 +332,9 @@ public class ArraysExample {
                 assertThat(result).isEqualTo("v3");
                 // REMOVE_END
             });
-            // STEP_END
 
             arring5.block();
+            // STEP_END
             // REMOVE_START
             reactiveCommands.del("readings").block();
             // REMOVE_END
@@ -358,9 +366,9 @@ public class ArraysExample {
                         assertThat(result).isEqualTo(Arrays.asList("v3", "v2", "v1"));
                         // REMOVE_END
                     });
-            // STEP_END
 
             arlastitems2.block();
+            // STEP_END
             // REMOVE_START
             reactiveCommands.del("readings").block();
             // REMOVE_END
@@ -409,9 +417,9 @@ public class ArraysExample {
                 assertThat(result).isEqualTo(1L);
                 // REMOVE_END
             });
-            // STEP_END
 
             arop4.block();
+            // STEP_END
             // REMOVE_START
             reactiveCommands.del("scores").block();
             // REMOVE_END
@@ -465,9 +473,9 @@ public class ArraysExample {
                     })
                     // REMOVE_END
             ;
-            // STEP_END
 
             argrep3.block();
+            // STEP_END
             // REMOVE_START
             reactiveCommands.del("log").block();
             // REMOVE_END
@@ -505,9 +513,9 @@ public class ArraysExample {
                 assertThat(result).isEqualTo(2L);
                 // REMOVE_END
             });
-            // STEP_END
 
             ardel3.block();
+            // STEP_END
             // REMOVE_START
             reactiveCommands.del("scores").block();
             // REMOVE_END
