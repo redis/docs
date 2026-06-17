@@ -170,7 +170,7 @@ Using certificate templates that only include Server Authentication will cause S
 SHA-1 is deprecated and may be blocked by some operating systems.
     {{</note>}}
 
-- The minimum key size is 2048 bits RSA. 4096 bits is recommended for enhanced security.
+- The minimum RSA key size is 2048 bits. 4096 bits is recommended for enhanced security.
 
 - A validity period of 1 year or less is recommended.
 
