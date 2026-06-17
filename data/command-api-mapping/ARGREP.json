@@ -1,0 +1,366 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arGrep(key: RedisArgument, start: ArGrepBound, end: ArGrepBound, predicates: Array<ArGrepPredicate>, options?: ArGrepOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "ArGrepBound",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "ArGrepBound",
+            "description": ""
+          },
+          {
+            "name": "predicates",
+            "type": "Array<ArGrepPredicate>",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "ArGrepOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<NumberReply>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "arGrepWithValues(key: RedisArgument, start: ArGrepBound, end: ArGrepBound, predicates: Array<ArGrepPredicate>, options?: ArGrepOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "ArGrepBound",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "ArGrepBound",
+            "description": ""
+          },
+          {
+            "name": "predicates",
+            "type": "Array<ArGrepPredicate>",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "ArGrepOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArGrepWithValuesReply",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "argrep(string $key, int $start, int $end, array $predicates, ?string $combinator = null, ?int $limit = null, bool $withValues = false, bool $noCase = false)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$end",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$predicates",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "$combinator",
+            "type": "?string",
+            "description": ""
+          },
+          {
+            "name": "$limit",
+            "type": "?int",
+            "description": ""
+          },
+          {
+            "name": "$withValues",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "$noCase",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Long> argrep(K key, ArGrepArgs grepArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "grepArgs",
+            "type": "ArGrepArgs",
+            "description": "the grep arguments (range, predicates, flags)."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "a list of matching indices."
+        }
+      },
+      {
+        "signature": "List<IndexedValue<V>> argrepWithValues(K key, ArGrepArgs grepArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "grepArgs",
+            "type": "ArGrepArgs",
+            "description": "the grep arguments (range, predicates, flags)."
+          }
+        ],
+        "returns": {
+          "type": "List<IndexedValue<V>>",
+          "description": "a list of matching IndexedValue pairs."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Long>> argrep(K key, ArGrepArgs grepArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "grepArgs",
+            "type": "ArGrepArgs",
+            "description": "the grep arguments (range, predicates, flags)."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "a list of matching indices."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<IndexedValue<V>>> argrepWithValues(K key, ArGrepArgs grepArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "grepArgs",
+            "type": "ArGrepArgs",
+            "description": "the grep arguments (range, predicates, flags)."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<IndexedValue<V>>>",
+          "description": "a list of matching IndexedValue pairs."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Long> argrep(K key, ArGrepArgs grepArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "grepArgs",
+            "type": "ArGrepArgs",
+            "description": "the grep arguments (range, predicates, flags)."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "a list of matching indices."
+        }
+      },
+      {
+        "signature": "Flux<IndexedValue<V>> argrepWithValues(K key, ArGrepArgs grepArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "grepArgs",
+            "type": "ArGrepArgs",
+            "description": "the grep arguments (range, predicates, flags)."
+          }
+        ],
+        "returns": {
+          "type": "Flux<IndexedValue<V>>",
+          "description": "a list of matching IndexedValue pairs."
+        }
+      }
+    ],
+    "redis_py": [
+      {
+        "signature": "argrep(name: KeyT, start: int, end: int, predicates: list[tuple[ArrayPredicateType, EncodableT]], combinator: ArrayPredicateCombinator | None = None, limit: int | None = None, withvalues: bool = False, nocase: bool = False)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "predicates",
+            "type": "list[tuple[ArrayPredicateType, EncodableT]]",
+            "description": ""
+          },
+          {
+            "name": "combinator",
+            "type": "ArrayPredicateCombinator | None",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "int | None",
+            "description": ""
+          },
+          {
+            "name": "withvalues",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "nocase",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARGrep(ctx context.Context, key string, start, end string, args *ARGrepArgs) *UintSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "args",
+            "type": "*ARGrepArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*UintSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ARGrepWithValues(ctx context.Context, key string, start, end string, args *ARGrepArgs) *AREntrySliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "args",
+            "type": "*ARGrepArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*AREntrySliceCmd",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
