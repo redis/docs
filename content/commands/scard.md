@@ -47,6 +47,14 @@ title: SCARD
 ---
 Returns the set cardinality (number of elements) of the set stored at `key`.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the set.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

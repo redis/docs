@@ -53,7 +53,7 @@ summary: Returns a list of the consumers in a consumer group.
 syntax_fmt: XINFO CONSUMERS key group
 title: XINFO CONSUMERS
 ---
-This command returns the list of consumers that belong to the `<groupname>` consumer group of the stream stored at `<key>`.
+This command returns the list of consumers that belong to the `groupname` consumer group of the stream stored at `key`.
 
 The following information is provided for each consumer in the group:
 
@@ -64,6 +64,20 @@ The following information is provided for each consumer in the group:
 
 Note that before Redis 7.2.0, **idle** used to denote the time passed since last successful interaction.
 In 7.2.0, **inactive** was added and **idle** was changed to denote the time passed since last attempted interaction.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The stream key.
+
+</details>
+
+<details open><summary><code>group</code></summary>
+
+The consumer group name.
+
+</details>
 
 ## Examples
 

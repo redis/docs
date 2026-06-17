@@ -43,27 +43,34 @@ syntax_fmt: SCRIPT DEBUG <YES | SYNC | NO>
 title: SCRIPT DEBUG
 ---
 Set the debug mode for subsequent scripts executed with [`EVAL`]({{< relref "/commands/eval" >}}). Redis includes a
-complete Lua debugger, codename LDB, that can be used to make the task of
+complete Lua debugger (LDB) that can be used to make the task of
 writing complex scripts much simpler. In debug mode Redis acts as a remote
-debugging server and a client, such as `redis-cli`, can execute scripts step by
-step, set breakpoints, inspect variables and more - for additional information
-about LDB refer to the [Redis Lua debugger]({{< relref "/develop/programmability/lua-debugging" >}}) page.
+debugging server and a client, such as [`redis-cli`]({{< relref "/develop/tools/cli" >}}), can execute scripts step by
+step, set breakpoints, inspect variables, and more. For additional information
+about LDB see the [Redis Lua debugger]({{< relref "/develop/programmability/lua-debugging" >}}) page.
 
-**Important note:** avoid debugging Lua scripts using your Redis production
+{{< warning >}}
+Avoid debugging Lua scripts using your production Redis
 server. Use a development server instead.
+{{< /warning >}}
 
-LDB can be enabled in one of two modes: asynchronous or synchronous. In
-asynchronous mode the server creates a forked debugging session that does not
-block and all changes to the data are **rolled back** after the session
-finishes, so debugging can be restarted using the same initial state. The
-alternative synchronous debug mode blocks the server while the debugging session
-is active and retains all changes to the data set once it ends.
+You can enable LDB in one of two modes: asynchronous or synchronous. In asynchronous mode, Redis creates a forked debugging session that does not block the server. Redis rolls back all data changes after the session ends, so you can restart debugging from the same initial state. In synchronous mode, Redis blocks the server while the debugging session is active and retains all data changes after the session ends.
 
-* `YES`. Enable non-blocking asynchronous debugging of Lua scripts (changes are discarded).
-* `SYNC`. Enable blocking synchronous debugging of Lua scripts (saves changes to data).
-* `NO`. Disables scripts debug mode.
 
-For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+
+For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please see [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+
+## Required arguments
+
+<details open><summary><code>YES | SYNC | NO</code></summary>
+
+Set the debugging mode:
+
+* `YES`: Enable non-blocking asynchronous debugging of Lua scripts (changes are discarded).
+* `SYNC`: Enable blocking synchronous debugging of Lua scripts (saves changes to data).
+* `NO`: Disable Lua script debug mode. Subsequent scripts run normally, without LDB.
+
+</details>
 
 ## Redis Software and Redis Cloud compatibility
 

@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/agent-memory/python
 categories:
 - docs
 - develop

@@ -71,6 +71,28 @@ By default, the command calculates the cardinality of the intersection of all gi
 When provided with the optional `LIMIT` argument (which defaults to 0 and means unlimited), if the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality.
 Such implementation ensures a significant speedup for queries where the limit is lower than the actual intersection cardinality.
 
+## Required arguments
+
+<details open><summary><code>numkeys</code></summary>
+
+The number of keys that follow.
+
+</details>
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more set keys to intersect.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>LIMIT limit</code></summary>
+
+Stop counting once the cardinality reaches `limit`. `0` (the default) means no limit.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

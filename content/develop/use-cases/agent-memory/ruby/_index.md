@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/agent-memory/redis-rb
 categories:
 - docs
 - develop

@@ -77,6 +77,20 @@ It returns an error when `key` does not exist.
 
 In Cluster mode, both `key` and `newkey` must be in the same **hash slot**, meaning that in practice only keys that have the same hash tag can be reliably renamed in cluster.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The key to rename.
+
+</details>
+
+<details open><summary><code>newkey</code></summary>
+
+The new key name. The command fails if a key with this name already exists.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

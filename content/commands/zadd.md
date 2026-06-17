@@ -118,53 +118,59 @@ members is created, like if the sorted set was empty. If the key exists but does
 
 The score values should be the string representation of a double precision floating point number. `+inf` and `-inf` values are valid values as well.
 
-ZADD options
----
+## Required arguments
 
-ZADD supports a list of options, specified after the name of the key and before
-the first score argument. Options are:
+<details open><summary><code>key</code></summary>
 
-* **XX**: Only update elements that already exist. Don't add new elements.
-* **NX**: Only add new elements. Don't update already existing elements.
-* **LT**: Only update existing elements if the new score is **less than** the current score. This flag doesn't prevent adding new elements.
-* **GT**: Only update existing elements if the new score is **greater than** the current score. This flag doesn't prevent adding new elements.
-* **CH**: Modify the return value from the number of new elements added, to the total number of elements changed (CH is an abbreviation of *changed*). Changed elements are **new elements added** and elements already existing for which **the score was updated**. So elements specified in the command line having the same score as they had in the past are not counted. Note: normally the return value of `ZADD` only counts the number of new elements added.
-* **INCR**: When this option is specified `ZADD` acts like [`ZINCRBY`]({{< relref "/commands/zincrby" >}}). Only one score-element pair can be specified in this mode.
+The name of the key that holds the sorted set.
 
-Note: The **GT**, **LT** and **NX** options are mutually exclusive.
+</details>
 
-Range of integer scores that can be expressed precisely
----
+<details open><summary><code>score member [score member ...]</code></summary>
 
-Redis sorted sets use a *double 64-bit floating point number* to represent the score. In all the architectures we support, this is represented as an **IEEE 754 floating point number**, that is able to represent precisely integer numbers between `-(2^53)` and `+(2^53)` included. In more practical terms, all the integers between -9007199254740992 and 9007199254740992 are perfectly representable. Larger integers, or fractions, are internally represented in exponential form, so it is possible that you get only an approximation of the decimal number, or of the very big integer, that you set as score.
+One or more score-member pairs to add or update. `score` is a double-precision floating-point number.
 
-Sorted sets 101
----
+</details>
 
-Sorted sets are sorted by their score in an ascending way.
-The same element only exists a single time, no repeated elements are
-permitted. The score can be modified both by `ZADD` that will update the
-element score, and as a side effect, its position on the sorted set, and
-by [`ZINCRBY`]({{< relref "/commands/zincrby" >}}) that can be used in order to update the score relatively to its
-previous value.
+## Optional arguments
 
-The current score of an element can be retrieved using the [`ZSCORE`]({{< relref "/commands/zscore" >}}) command,
-that can also be used to verify if an element already exists or not.
+`NX` and `XX` are mutually exclusive, as are `GT` and `LT`.
 
-For an introduction to sorted sets, see the data types page on [sorted
-sets][tdtss].
+<details open><summary><code>NX</code></summary>
 
-[tdtss]: /develop/data-types#sorted-sets
+Only add new members; do not update existing members.
 
-Elements with the same score
----
+</details>
 
-While the same element can't be repeated in a sorted set since every element
-is unique, it is possible to add multiple different elements *having the same score*. When multiple elements have the same score, they are *ordered lexicographically* (they are still ordered by score as a first key, however, locally, all the elements with the same score are relatively ordered lexicographically).
+<details open><summary><code>XX</code></summary>
 
-The lexicographic ordering used is binary, it compares strings as array of bytes.
+Only update existing members; do not add new members.
 
-If the user inserts all the elements in a sorted set with the same score (for example 0), all the elements of the sorted set are sorted lexicographically, and range queries on elements are possible using the command [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}) (Note: it is also possible to query sorted sets by range of scores using [`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}})).
+</details>
+
+<details open><summary><code>GT</code></summary>
+
+Only update an existing member if the new score is greater than the current score. Does not prevent adding new members.
+
+</details>
+
+<details open><summary><code>LT</code></summary>
+
+Only update an existing member if the new score is less than the current score. Does not prevent adding new members.
+
+</details>
+
+<details open><summary><code>CH</code></summary>
+
+Change the return value from the number of added members to the number of changed members (added plus updated).
+
+</details>
+
+<details open><summary><code>INCR</code></summary>
+
+Increment the member's score by `score` instead of setting it, behaving like `ZINCRBY`. Only one score-member pair may be given.
+
+</details>
 
 ## Examples
 
@@ -185,6 +191,39 @@ If the user inserts all the elements in a sorted set with the same score (for ex
 7) "three"
 8) "3"
 {{< /clients-example >}}
+
+## Details
+
+### Range of integer scores that can be expressed precisely
+
+Redis sorted sets use a double 64-bit floating-point number to represent the score. This format precisely represents integers between `-(2^53)` and `+(2^53)`, inclusive. In practical terms, you can store integers from -9007199254740992 to 9007199254740992 without losing precision. Redis represents larger integers and fractions in exponential form internally, so you may get only an approximation of the score you set.
+
+### Sorted sets 101
+
+Sorted sets are sorted by their score in an ascending way.
+The same element only exists a single time, no repeated elements are
+permitted. The score can be modified both by `ZADD` that will update the
+element score, and as a side effect, its position on the sorted set, and
+by [`ZINCRBY`]({{< relref "/commands/zincrby" >}}) that can be used in order to update the score relatively to its
+previous value.
+
+The current score of an element can be retrieved using the [`ZSCORE`]({{< relref "/commands/zscore" >}}) command,
+that can also be used to verify if an element already exists or not.
+
+For an introduction to sorted sets, see the data types page on [sorted
+sets][tdtss].
+
+[tdtss]: /develop/data-types#sorted-sets
+
+### Elements with the same score
+
+While the same element can't be repeated in a sorted set since every element
+is unique, it is possible to add multiple different elements *having the same score*. When multiple elements have the same score, they are *ordered lexicographically* (they are still ordered by score as a first key, however, locally, all the elements with the same score are relatively ordered lexicographically).
+
+The lexicographic ordering used is binary, it compares strings as array of bytes.
+
+If the user inserts all the elements in a sorted set with the same score (for example 0), all the elements of the sorted set are sorted lexicographically, and range queries on elements are possible using the command [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}) (Note: it is also possible to query sorted sets by range of scores using [`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}})).
+
 
 ## Redis Software and Redis Cloud compatibility
 

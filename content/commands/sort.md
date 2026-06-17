@@ -177,7 +177,55 @@ in descending order:
 SORT mylist LIMIT 0 5 ALPHA DESC
 ```
 
-## Sorting by external keys
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key to sort. It may hold a list, set, or sorted set.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>BY pattern</code></summary>
+
+Sort by the values of the external keys matched by `pattern` (each `*` is replaced by an element) instead of by the elements themselves. A pattern with no `*`, or a hash-field pattern that resolves the same for all elements, skips sorting.
+
+</details>
+
+<details open><summary><code>LIMIT offset count</code></summary>
+
+Return a slice of the sorted result: skip `offset` elements and return up to `count`.
+
+</details>
+
+<details open><summary><code>GET pattern [GET pattern ...]</code></summary>
+
+Return the values of the external keys matched by `pattern` for each sorted element. Use `GET #` to also return the element itself. May be given multiple times.
+
+</details>
+
+<details open><summary><code>ASC | DESC</code></summary>
+
+Sort in ascending (`ASC`, the default) or descending (`DESC`) order.
+
+</details>
+
+<details open><summary><code>ALPHA</code></summary>
+
+Sort the elements lexicographically instead of numerically.
+
+</details>
+
+<details open><summary><code>STORE destination</code></summary>
+
+Store the resulting list in `destination` instead of returning it.
+
+</details>
+
+## Details
+
+### Sorting by external keys
 
 Sometimes you want to sort elements using external keys as weights to compare
 instead of comparing the actual elements in the list, set or sorted set.
@@ -196,7 +244,7 @@ used to generate the keys that are used for sorting.
 These key names are obtained substituting the first occurrence of `*` with the
 actual value of the element in the list (`1`, `2` and `3` in this example).
 
-## Skip sorting the elements
+### Skip sorting the elements
 
 The `BY` option can also take a non-existent key, which causes `SORT` to skip
 the sorting operation.
@@ -207,7 +255,7 @@ below) without the overhead of sorting.
 SORT mylist BY nosort
 ```
 
-## Retrieving external keys
+### Retrieving external keys
 
 Our previous example returns just the sorted IDs.
 In some cases, it is more useful to get the actual objects instead of their IDs
@@ -228,7 +276,7 @@ It is also possible to `GET` the element itself using the special pattern `#`:
 SORT mylist BY weight_* GET object_* GET #
 ```
 
-## Restrictions for using external keys
+### Restrictions for using external keys
 
 Before 7.4, when enabling `Redis cluster-mode` there is no way to guarantee the existence of the external keys on the node which the command is processed on. In this case, any use of [`GET`]({{< relref "/commands/get" >}}) or `BY` which reference external key pattern will cause the command to fail with an error.
 
@@ -241,7 +289,7 @@ Full key read permissions can be set for the user by, for example, specifying `'
 You can check the [`ACL SETUSER`]({{< relref "/commands/acl-setuser" >}}) command manual for more information on setting ACL access rules.
 If full key read permissions aren't set, the command will fail with an error.
 
-## Storing the result of a SORT operation
+### Storing the result of a SORT operation
 
 By default, `SORT` returns the sorted elements to the client.
 With the `STORE` option, the result will be stored as a list at the specified
@@ -263,7 +311,7 @@ Note that for correctly implementing this pattern it is important to avoid
 multiple clients rebuilding the cache at the same time.
 Some kind of locking is needed here (for instance using [`SETNX`]({{< relref "/commands/setnx" >}})).
 
-## Using hashes in `BY` and `GET`
+### Using hashes in `BY` and `GET`
 
 It is possible to use `BY` and `GET` options against hash fields with the
 following syntax:

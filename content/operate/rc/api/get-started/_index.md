@@ -44,7 +44,7 @@ If you need to change or delete your account key, please [contact support](https
 
 ## User key
 
-The user key is a personal key that belongs to a specific user having the **Owner**, **Viewer**, or **Logs viewer** role.  User keys are assigned to users when they're created.  Keys can belong to only one user; however, a user may have multiple keys.
+The user key is a personal key that belongs to a specific user having the **Owner**, **Viewer**, **Billing admin**, or **Logs viewer** role.  User keys are assigned to users when they're created.  Keys can belong to only one user; however, a user may have multiple keys.
 
 You can view keys or copy their values _only_ during the [creation process]({{< relref "/operate/rc/api/get-started/manage-api-keys" >}}).
 

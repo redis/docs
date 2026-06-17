@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/leaderboard/predis
 categories:
 - docs
 - develop

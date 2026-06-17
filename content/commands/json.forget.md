@@ -41,3 +41,17 @@ See [`JSON.DEL`]({{< relref "commands/json.del/" >}}).
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="json-forget-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of paths deleted (0 or more).
+
+-tab-sep-
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of paths deleted (0 or more).
+
+{{< /multitabs >}}

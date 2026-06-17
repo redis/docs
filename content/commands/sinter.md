@@ -70,6 +70,14 @@ Keys that do not exist are considered to be empty sets.
 With one of the keys being an empty set, the resulting set is also empty (since
 set intersection with an empty set always results in an empty set).
 
+## Required arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more set keys to intersect.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

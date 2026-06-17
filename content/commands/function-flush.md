@@ -46,12 +46,17 @@ title: FUNCTION FLUSH
 ---
 Deletes all the libraries.
 
-Unless called with the optional mode argument, the `lazyfree-lazy-user-flush` configuration directive sets the effective behavior. Valid modes are:
-
-* `ASYNC`: Asynchronously flush the libraries.
-* `SYNC`: Synchronously flush the libraries.
+Unless called with the optional mode argument, the `lazyfree-lazy-user-flush` configuration directive sets the effective behavior.
 
 For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
+
+## Optional arguments
+
+<details open><summary><code>ASYNC | SYNC</code></summary>
+
+Flush the function libraries asynchronously (`ASYNC`) or synchronously (`SYNC`). The default is set by the `lazyfree-lazy-user-flush` configuration directive.
+
+</details>
 
 ## Redis Software and Redis Cloud compatibility
 

@@ -62,6 +62,20 @@ members.
 
 An error is returned when the value stored at `key` is not a set.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the set.
+
+</details>
+
+<details open><summary><code>member [member ...]</code></summary>
+
+One or more members to add to the set.
+
+</details>
+
 ## Examples
 
 {{< clients-example set="cmds_set" step="sadd" description="Foundational: Add one or more members to a set using SADD (creates set if needed, ignores duplicates, returns count of new members)" difficulty="beginner" >}}

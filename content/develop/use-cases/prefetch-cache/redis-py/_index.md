@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/prefetch-cache/python
 categories:
 - docs
 - develop

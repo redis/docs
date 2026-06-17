@@ -389,6 +389,43 @@ Note that `set_active_database()` is thread-safe.
 
 If you decide to implement manual failback, you will need a way for external systems to trigger this method in your application. For example, if your application exposes a REST API, you might consider creating a REST endpoint to call `set_active_database()`.
 
+## Pub/Sub and re-subscription
+
+`MultiDBClient` supports [Pub/Sub]({{< relref "/develop/pubsub" >}})
+messaging with automatic re-subscription to channels during failover.
+This means you don't have to detect failovers and re-subscribe manually:
+
+- **Subscriber failover**: When the active database becomes unhealthy, the
+  subscriber automatically reconnects to the next available database and
+  re-subscribes to the same channels.
+- **Publisher failover**: The publisher switches to the next available
+  database and continues publishing to the same channels.
+
+For reliable Pub/Sub delivery during failover, use `MultiDBClient` instances
+for *both* publishers and subscribers. Create a Pub/Sub interface from the
+client in the usual way using the `pubsub()` method, then subscribe to one or
+more channels:
+
+```py
+pubsub = client.pubsub()
+pubsub.subscribe("news", "alerts")
+
+# If a failover happens here, the subscriptions are automatically
+# re-established on the new active database.
+msg = pubsub.get_message(timeout=1.0)
+if msg:
+    print(msg)
+```
+
+Re-subscription happens transparently and is independent of any custom
+event listeners you register (see [Failover callbacks](#failover-callbacks)).
+
+{{< note >}}Message loss can still occur if the failover events happen in
+the reverse order, with the publisher failing over to the new database
+before the subscriber. Messages published during this window may not reach
+a subscriber that is still connected to the previous database.
+{{< /note >}}
+
 ## Behavior when all endpoints are unhealthy
 
 In the extreme case where no endpoint is healthy, a command will throw a `TemporaryUnavailableException`.

@@ -180,10 +180,13 @@
 
         {{ $hasCliTrim := and (eq (index $tab "title") "redis-cli") (index $tab "hasCliTrim") }}
         {{ $cliLimitInt := index $tab "limitInt" }}
+        {{ $fullFileKey := index $tab "fullFileKey" }}
+        {{ $hlRange := index $tab "hlRange" }}
         <div class="panel {{ if ne $i 0 }}panel-hidden{{ end }} w-full mt-0 {{ if not $showFooter}}pb-8{{end}}"
              id="{{ $pid }}"
              data-lang="{{ $dataLang }}"
              {{ if $hasCliTrim }}data-cli-trimmable="true" data-cli-preview-lines="{{ $cliLimitInt }}" style="--cli-preview-lines: {{ $cliLimitInt }};"{{ end }}
+             {{ if $fullFileKey }}data-fullfile-key="{{ $fullFileKey }}"{{ if $hlRange }} data-hl-range="{{ $hlRange }}"{{ end }}{{ end }}
              {{ if $binderId }}data-binder-id="{{ $binderId }}"{{ end }}
              {{ if $commands }}data-required-commands="{{ delimit $commands "," }}"{{ end }}
              data-codetabs-id="{{ $id }}"
@@ -194,6 +197,13 @@
             <div class="cli-output-shell cli-output-shell-trimmable">
                 {{ index $tab "content" }}
             </div>
+            {{ else if $fullFileKey }}
+            <div class="step-code-view">{{ index $tab "content" }}</div>
+            {{ if index $tab "emitFullTemplate" }}<template id="tce-fullsrc-{{ $fullFileKey }}">{{ index $tab "fullContent" }}</template>{{ end }}
+            {{ else if index $tab "legacyCloneKey" }}
+            <div class="legacy-clone" data-legacy-clone="{{ index $tab "legacyCloneKey" }}"></div>
+            {{ else if index $tab "legacySrcKey" }}
+            <div data-legacy-src="{{ index $tab "legacySrcKey" }}">{{ index $tab "content" }}</div>
             {{ else }}
             {{ index $tab "content" }}
             {{ end }}

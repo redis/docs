@@ -68,6 +68,20 @@ leftmost element to the rightmost element.
 So for instance the command `RPUSH mylist a b c` will result into a list
 containing `a` as first element, `b` as second element and `c` as third element.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the list.
+
+</details>
+
+<details open><summary><code>element [element ...]</code></summary>
+
+One or more values to append to the list.
+
+</details>
+
 ## Examples
 
 {{< clients-example set="cmds_list" step="rpush" description="Foundational: Add one or more elements to the tail of a list using RPUSH (creates list if needed, returns new list length)" difficulty="beginner" >}}

@@ -46,7 +46,18 @@ summary: Returns the internal encoding of a Redis object.
 syntax_fmt: OBJECT ENCODING key
 title: OBJECT ENCODING
 ---
-Returns the internal encoding for the Redis object stored at `<key>`
+Returns the internal encoding for the Redis object stored at `key`.
+
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
+## Details
 
 Redis objects can be encoded in different ways:
 

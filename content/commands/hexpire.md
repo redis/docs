@@ -95,17 +95,53 @@ You can clear the TTL using the [`HPERSIST`]({{< relref "/commands/hpersist" >}}
 Note that calling `HEXPIRE`/[`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}) with a zero TTL or
 [`HEXPIREAT`]({{< relref "/commands/hexpireat" >}})/[`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}) with a time in the past will result in the hash field being deleted.
 
-## Options
+## Required arguments
 
-The `HEXPIRE` command supports a set of options:
+<details open><summary><code>key</code></summary>
 
-* `NX` -- For each specified field, set expiration only when the field has no expiration.
-* `XX` -- For each specified field, set expiration only when the field has an existing expiration.
-* `GT` -- For each specified field, set expiration only when the new expiration is greater than current one.
-* `LT` -- For each specified field, set expiration only when the new expiration is less than current one.
+The name of the key that holds the hash.
 
-A non-volatile field is treated as an infinite TTL for the purpose of `GT` and `LT`.
-The `NX`, `XX`, `GT`, and `LT` options are mutually exclusive.
+</details>
+
+<details open><summary><code>seconds</code></summary>
+
+The time to live, in seconds. Each specified field is deleted after this many seconds.
+
+</details>
+
+<details open><summary><code>FIELDS numfields field [field ...]</code></summary>
+
+The hash fields to set expiration for. `numfields` is the number of fields, followed by that many field names.
+
+</details>
+
+## Optional arguments
+
+The following options modify the command's behavior. They are mutually exclusive.
+
+<details open><summary><code>NX</code></summary>
+
+For each specified field, set expiration only when the field has no expiration.
+
+</details>
+
+<details open><summary><code>XX</code></summary>
+
+For each specified field, set expiration only when the field has an existing expiration.
+
+</details>
+
+<details open><summary><code>GT</code></summary>
+
+For each specified field, set expiration only when the new expiration is greater than the current one. A non-volatile field is treated as an infinite TTL for the purposes of `GT`.
+
+</details>
+
+<details open><summary><code>LT</code></summary>
+
+For each specified field, set expiration only when the new expiration is less than the current one. A non-volatile field is treated as an infinite TTL for the purposes of `LT`.
+
+</details>
 
 ## Refreshing expires
 

@@ -57,6 +57,14 @@ The optional argument specifies how many entries to show. By default
 up to ten failures are returned. The special [`RESET`]({{< relref "/commands/reset" >}}) argument clears the log.
 Entries are displayed starting from the most recent.
 
+## Optional arguments
+
+<details open><summary><code>count | RESET</code></summary>
+
+The number of recent entries to return, or `RESET` to clear the log.
+
+</details>
+
 ## Examples
 
 ```
@@ -84,6 +92,8 @@ Entries are displayed starting from the most recent.
    19) "timestamp-last-updated"
    20) (integer) 1675361492408
 ```
+
+## Details
 
 Each log entry is composed of the following fields:
 

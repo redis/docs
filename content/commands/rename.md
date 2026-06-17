@@ -29,6 +29,9 @@ complexity: O(1)
 description: Renames a key and overwrites the destination.
 group: generic
 hidden: false
+history:
+- - 3.2.0
+  - The command no longer returns an error when source and destination names are the same.
 key_specs:
 - RW: true
   access: true
@@ -73,6 +76,20 @@ If `newkey` already exists it is overwritten, when this happens `RENAME` execute
 
 In Cluster mode, both `key` and `newkey` must be in the same **hash slot**, meaning that in practice only keys that have the same hash tag can be reliably renamed in cluster.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The key to rename.
+
+</details>
+
+<details open><summary><code>newkey</code></summary>
+
+The new key name. An existing key with this name is overwritten.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -80,10 +97,6 @@ SET mykey "Hello"
 RENAME mykey myotherkey
 GET myotherkey
 {{% /redis-cli %}}
-
-## Behavior change history
-
-*   `>= 3.2.0`: The command no longer returns an error when source and destination names are the same.
 
 ## Redis Software and Redis Cloud compatibility
 

@@ -69,6 +69,40 @@ title: HSCAN
 ---
 See [`SCAN`]({{< relref "/commands/scan" >}}) for `HSCAN` documentation.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>cursor</code></summary>
+
+The cursor value. Start an iteration with `0`, then use the cursor returned by each call as the argument to the next call.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>MATCH pattern</code></summary>
+
+Only return fields whose names match the given glob-style pattern.
+
+</details>
+
+<details open><summary><code>COUNT count</code></summary>
+
+A hint for the number of fields to return per iteration. The default is 10.
+
+</details>
+
+<details open><summary><code>NOVALUES</code></summary>
+
+Return only the field names, without their values.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

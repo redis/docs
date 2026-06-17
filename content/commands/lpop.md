@@ -63,6 +63,22 @@ By default, the command pops a single element from the beginning of the list.
 When provided with the optional `count` argument, the reply will consist of up
 to `count` elements, depending on the list's length.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the list.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>count</code></summary>
+
+The number of elements to pop. Without it, a single element is popped.
+
+</details>
+
 ## Examples
 
 {{< clients-example set="cmds_list" step="lpop" description="Foundational: Remove and return the first element(s) from a list using LPOP (supports optional count parameter to pop multiple elements)" difficulty="beginner" >}}

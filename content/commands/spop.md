@@ -68,6 +68,22 @@ By default, the command pops a single member from the set. When provided with
 the optional `count` argument, the reply will consist of up to `count` members,
 depending on the set's cardinality.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the set.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>count</code></summary>
+
+The number of members to pop. Without it, a single member is popped.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -82,7 +98,9 @@ SPOP myset 3
 SMEMBERS myset
 {{% /redis-cli %}}
 
-## Distribution of returned elements
+## Details
+
+### Distribution of returned elements
 
 Note that this command is not suitable when you need a guaranteed uniform distribution of the returned elements. For more information about the algorithms used for `SPOP`, look up both the Knuth sampling and Floyd sampling algorithms.
 

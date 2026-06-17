@@ -59,6 +59,20 @@ In that case, it is equal to [`SET`]({{< relref "/commands/set" >}}).
 When `key` already holds a value, no operation is performed.
 `SETNX` is short for "**SET** if **N**ot e**X**ists".
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
+<details open><summary><code>value</code></summary>
+
+The value to set, only if the key does not already exist.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -67,7 +81,9 @@ SETNX mykey "World"
 GET mykey
 {{% /redis-cli %}}
 
-## Design pattern: Locking with `SETNX`
+## Details
+
+### Design pattern: locking with `SETNX`
 
 **Please note that:**
 
@@ -90,7 +106,7 @@ If `SETNX` returns `0` the key is already locked by some other client.
 We can either return to the caller if it's a non blocking lock, or enter a loop
 retrying to hold the lock until we succeed or some kind of timeout expires.
 
-### Handling deadlocks
+#### Handling deadlocks
 
 In the above locking algorithm there is a problem: what happens if a client
 fails, crashes, or is otherwise not able to release the lock?

@@ -156,6 +156,69 @@ function toggleVisibleLines(evt) {
     .toggleAttribute('aria-expanded');
 }
 
+// Mark the lines covered by a Chroma hl_lines-style range (e.g. "11-14" or
+// "11-14 20-22") as highlighted, so the dimming CSS treats them as the step.
+function markHighlightedLines(view, range) {
+  let lines = view.querySelectorAll('.chroma > code > .line');
+  if (lines.length === 0) {
+    lines = view.querySelectorAll('.chroma > .lntable .lntd code > .line');
+  }
+  if (lines.length === 0) return;
+
+  range.trim().split(/\s+/).forEach((part) => {
+    const bounds = part.split('-');
+    const start = parseInt(bounds[0], 10);
+    const end = bounds.length > 1 ? parseInt(bounds[1], 10) : start;
+    if (isNaN(start)) return;
+    const last = isNaN(end) ? start : end;
+    for (let i = start; i <= last; i++) {
+      const line = lines[i - 1];
+      if (line) line.classList.add('hl');
+    }
+  });
+}
+
+// Lazily build the full-file view for a sliced-snippet panel by cloning the
+// page's deduped <template> for this file. Returns true once the view exists.
+function ensureFullFileView(panel) {
+  const key = panel.getAttribute('data-fullfile-key');
+  if (!key) return false;
+  if (panel.querySelector('.full-file-view')) return true;
+
+  const template = document.getElementById('tce-fullsrc-' + key);
+  if (!template || !template.content) return false;
+
+  const view = document.createElement('div');
+  view.className = 'full-file-view';
+  view.appendChild(template.content.cloneNode(true));
+
+  const range = panel.getAttribute('data-hl-range');
+  if (range) markHighlightedLines(view, range);
+
+  // Place the full file where the slice was (before the footer), not at the end.
+  const stepView = panel.querySelector('.step-code-view');
+  if (stepView) {
+    stepView.insertAdjacentElement('afterend', view);
+  } else {
+    panel.appendChild(view);
+  }
+  return true;
+}
+
+// Repeat occurrences of a whole-file (no per-step range) example are emitted
+// empty; hydrate them by cloning the page's single static copy so the file is
+// embedded only once per page.
+function hydrateLegacyClones() {
+  document.querySelectorAll('[data-legacy-clone]').forEach((target) => {
+    if (target.childElementCount > 0) return;
+    const key = target.getAttribute('data-legacy-clone');
+    const source = document.querySelector('[data-legacy-src="' + key + '"]');
+    if (source) {
+      source.childNodes.forEach((node) => target.appendChild(node.cloneNode(true)));
+    }
+  });
+}
+
 function toggleVisibleLinesForCodetabs(button) {
   const codetabsId = button.getAttribute('data-codetabs-id');
   const codetabsContainer = document.getElementById(codetabsId);
@@ -168,6 +231,12 @@ function toggleVisibleLinesForCodetabs(button) {
 
   if (visiblePanel.getAttribute('data-lang') === 'redis-cli') {
     return;
+  }
+
+  // Sliced-snippet panels keep only the step in the DOM; build the full file
+  // from the deduped template the first time it is revealed.
+  if (!visiblePanel.hasAttribute('aria-expanded')) {
+    ensureFullFileView(visiblePanel);
   }
 
   // Toggle aria-expanded attribute
@@ -288,6 +357,9 @@ function onchangeCodeTab(e) {
 
 // Initialize codetabs - script is deferred so DOM is already ready
 (function initCodetabs() {
+  // Fill repeat whole-file panels from the page's single static copy.
+  hydrateLegacyClones();
+
   // Helper function to normalize language names to match dropdown values
   function normalizeLangParam(langParam) {
     if (!langParam) return null;

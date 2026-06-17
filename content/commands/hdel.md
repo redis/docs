@@ -61,6 +61,20 @@ Deletes the hash if no fields remain.
 If `key` does not exist, it is treated as an empty hash and this command returns
 `0`.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>field [field ...]</code></summary>
+
+One or more fields to delete from the hash.
+
+</details>
+
 ## Examples
 
 {{< clients-example set="cmds_hash" step="hdel" description="Foundational: Delete one or more fields from a hash using HDEL (returns count of deleted fields, ignores non-existent fields)" difficulty="beginner" >}}

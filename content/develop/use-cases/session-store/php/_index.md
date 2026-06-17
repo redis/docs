@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/session-store/predis
 categories:
 - docs
 - develop

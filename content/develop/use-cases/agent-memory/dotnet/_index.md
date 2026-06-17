@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/agent-memory/stackexchange.redis
 categories:
 - docs
 - develop

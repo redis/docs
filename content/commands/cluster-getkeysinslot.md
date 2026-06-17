@@ -34,18 +34,29 @@ summary: Returns the key names in a hash slot.
 syntax_fmt: CLUSTER GETKEYSINSLOT slot count
 title: CLUSTER GETKEYSINSLOT
 ---
-The command returns an array of keys names stored in the contacted node and
-hashing to the specified hash slot. The maximum number of keys to return
-is specified via the `count` argument, so that it is possible for the user
-of this API to batch-processing keys.
 
-The main usage of this command is during rehashing of cluster slots from one
-node to another. The way the rehashing is performed is exposed in the Redis
-Cluster specification, or in a more simple to digest form, as an appendix
-of the [`CLUSTER SETSLOT`]({{< relref "/commands/cluster-setslot" >}}) command documentation.
+The command returns key names stored on the contacted node that hash to the specified `slot`. Use the `count` argument to limit the number of keys returned, which lets you process keys in batches.
+
+This command is mainly used when you reshard cluster slots from one node to another. For details, see the [Redis Cluster specification]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}) or the appendix in the [`CLUSTER SETSLOT`]({{< relref "/commands/cluster-setslot" >}}) documentation.
 
 {{< note >}}During atomic slot migration operations (available since Redis 8.4.0), keys being imported or trimmed will be filtered out from the results.
 {{< /note >}}
+
+## Required arguments
+
+<details open><summary><code>slot</code></summary>
+
+The hash slot to return key names from.
+
+</details>
+
+<details open><summary><code>count</code></summary>
+
+The maximum number of key names to return.
+
+</details>
+
+## Examples
 
 ```
 > CLUSTER GETKEYSINSLOT 7000 3

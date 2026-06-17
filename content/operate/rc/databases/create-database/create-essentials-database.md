@@ -32,10 +32,6 @@ This guide shows how to create a paid Essentials database.
 
     {{<image filename="images/rc/create-database-essentials-cloud-vendor.png" alt="The database name, cloud vendor, version, region, type, and durability settings.">}}
 
-1. Select **RAM** or **Flex** to choose between a database that uses only RAM or one that uses both RAM and Flash memory. 
-
-    Choose Flex for larger datasets and cost-efficient scale when you can tolerate single-digit millisecond latency for warm data. Choose RAM when you need the absolute lowest latency for all data. To learn more about Flex, see [Create a Flex database]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}).
-
 1. Redis will generate a database name for you. If you want to change it, you can do so in the **Name** field.  
 
 1. Choose a **Cloud vendor** for your database from the list. You can choose between **Amazon Web Services (AWS)**, **Google Cloud**, and **Microsoft Azure** for the Cloud Vendor. 
@@ -48,11 +44,15 @@ This guide shows how to create a paid Essentials database.
 
 1. The **Type** of database controls the protocol and advanced capabilities. Leave this as **Redis** unless you have a legacy application that uses **Memcached**.
 
-1. Select your desired memory limit.
+1. Select your desired plan.
 
     {{<image filename="images/rc/subscription-new-fixed-tiers.png" alt="Available Essentials plans." >}}
 
-    For a comparison of available plans, see [Redis Cloud Essentials plans]({{< relref "/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details" >}}).
+    The plan determines the size of your database and other limits. For a comparison of available plans, see [Redis Cloud Essentials plans]({{< relref "/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details" >}}).
+
+1. Select **RAM** or **RAM + SSD (Flex)** to choose between a database that uses only RAM or one that uses both RAM and Flash memory. 
+
+    Choose Flex for larger datasets and cost-efficient scale when you can tolerate single-digit millisecond latency for warm data. Choose RAM when you need the absolute lowest latency for all data. To learn more about Flex, see [Create a Flex database]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}).
 
 1. Choose your **High availability (replication)** settings.
 

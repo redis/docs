@@ -1,6 +1,6 @@
 To get the cost report using the REST API:
 
-1. Use [`POST /cost-report`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/createCostReport" >}}) to generate a cost report, with the request body containing the `startDate` and `endDate` for the report as well as any optional filters. Your account must have the **Owner** or **Viewer** role to generate a cost report through this endpoint.
+1. Use [`POST /cost-report`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/createCostReport" >}}) to generate a cost report, with the request body containing the `startDate` and `endDate` for the report as well as any optional filters. Your account must have the **Owner**, **Viewer**, or **Billing admin** role to generate a cost report through this endpoint.
 
     The response includes a `taskId` that you can use to track the status of the report generation.
 

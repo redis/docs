@@ -62,6 +62,14 @@ Starting with Redis 2.8 the return value in case of error changed:
 * The command returns `-2` if the key does not exist.
 * The command returns `-1` if the key exists but has no associated expire.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

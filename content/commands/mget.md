@@ -54,9 +54,16 @@ This command's behavior varies in clustered Redis environments. See the [multi-k
 {{< /note >}}
 
 Returns the values of all specified keys.
-For every key that does not hold a string value or does not exist, the special
-value `nil` is returned.
+For every key that does not hold a string value or does not exist, `nil` is returned.
 Because of this, the operation never fails.
+
+## Required arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more keys whose values to retrieve.
+
+</details>
 
 ## Examples
 

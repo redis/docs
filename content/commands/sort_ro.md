@@ -112,6 +112,46 @@ The `SORT_RO` variant was introduced in order to allow [`SORT`]({{< relref "/com
 
 See original [`SORT`]({{< relref "/commands/sort" >}}) for more details.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key to sort. It may hold a list, set, or sorted set.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>BY pattern</code></summary>
+
+Sort by the values of the external keys matched by `pattern` (each `*` is replaced by an element) instead of by the elements themselves. A pattern with no `*`, or a hash-field pattern that resolves the same for all elements, skips sorting.
+
+</details>
+
+<details open><summary><code>LIMIT offset count</code></summary>
+
+Return a slice of the sorted result: skip `offset` elements and return up to `count`.
+
+</details>
+
+<details open><summary><code>GET pattern [GET pattern ...]</code></summary>
+
+Return the values of the external keys matched by `pattern` for each sorted element. Use `GET #` to also return the element itself. May be given multiple times.
+
+</details>
+
+<details open><summary><code>ASC | DESC</code></summary>
+
+Sort in ascending (`ASC`, the default) or descending (`DESC`) order.
+
+</details>
+
+<details open><summary><code>ALPHA</code></summary>
+
+Sort the elements lexicographically instead of numerically.
+
+</details>
+
 ## Examples
 
 ```

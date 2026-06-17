@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/agent-memory/redis-rs
 categories:
 - docs
 - develop
@@ -12,7 +14,7 @@ title: Redis agent memory with redis-rs
 weight: 4
 ---
 
-This guide shows you how to build a small Redis-backed agent memory layer in Rust with [`redis-rs`]({{< relref "/develop/clients/redis-rs" >}}) and the [Candle](https://github.com/huggingface/candle) inference framework, using only standard Redis commands — no agent-memory SDK, no managed service. It includes a local web server built with [`tiny_http`](https://docs.rs/tiny_http) so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
+This guide shows you how to build a small Redis-backed agent memory layer in Rust with [`redis-rs`]({{< relref "/develop/clients/rust" >}}) and the [Candle](https://github.com/huggingface/candle) inference framework, using only standard Redis commands — no agent-memory SDK, no managed service. It includes a local web server built with [`tiny_http`](https://docs.rs/tiny_http) so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
 
 The embedder is [Candle](https://github.com/huggingface/candle) running the canonical [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) PyTorch checkpoint — the same weights the [Python]({{< relref "/develop/use-cases/agent-memory/redis-py" >}}) example loads. Candle reads the `.bin` weights directly, so the vectors produced here are bit-identical to the Python ones, and the distance bands the Python walkthrough quotes carry over to this demo without recalibration. A memory written by one demo can be recalled by the other against the same Redis instance.
 
