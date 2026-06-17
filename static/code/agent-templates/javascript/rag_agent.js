@@ -460,13 +460,15 @@ async function main() {
     // does not re-embed the same content on every startup.
     // To load your own documents instead: await agent.loadDirectory('path/to/docs');
     const indexInfo = await agent.client.ft.info(DOC_INDEX);
-    if (parseInt(indexInfo.numDocs ?? '0') === 0) {
+    // node-redis returns num_docs (snake_case); fall back to numDocs for safety
+    const numDocs = parseInt(indexInfo.num_docs ?? indexInfo.numDocs ?? '0');
+    if (isNaN(numDocs) || numDocs === 0) {
         console.log('Empty index — ingesting sample documents...');
         for (const doc of SAMPLE_DOCS) {
             await agent.ingestDocument(doc.content, doc.title, doc.source);
         }
     } else {
-        console.log(`Index already contains ${indexInfo.numDocs} document(s). Skipping ingestion.`);
+        console.log(`Index already contains ${numDocs} document(s). Skipping ingestion.`);
     }
 
     const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
