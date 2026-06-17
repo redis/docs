@@ -3,6 +3,8 @@ title: Redis Feature Form reference
 description: Reference data for the ff CLI, Python client, gRPC API, and RBAC permissions.
 linkTitle: Reference
 weight: 100
+aliases:
+- /develop/ai/featureform/datasets-and-transformations/
 ---
 
 This page collects raw reference data for Redis Feature Form. Use it as a lookup—conceptual material lives in the [Concepts]({{< relref "/develop/ai/featureform/concepts" >}}) page, and task-oriented procedures live in the other pages in this section.
@@ -36,3 +38,138 @@ Each built-in RBAC role is a fixed set of permissions. The role table on [Config
 | `audit.read` | audit | workspace or deployment | Read audit logs. |
 | `machine_credential.read` | machine credentials | workspace | Read machine credentials. |
 | `machine_credential.write` | machine credentials | workspace | Create, rotate, and revoke machine credentials. |
+
+## gRPC services
+
+This section indexes the public gRPC API surface exposed by Feature Form.
+
+### Service index
+
+| Service | Purpose |
+| --- | --- |
+| `WorkspaceService` | Workspace CRUD and lookup |
+| `ProviderService` | Workspace-scoped provider CRUD |
+| `SecretProviderService` | Workspace-scoped secret-provider CRUD |
+| `ApplyService` | Declarative graph apply and dry-run planning |
+| `ResourceService` | Graph browsing, lineage, search, versions, and workspace stats |
+| `CatalogService` | Physical catalog inspection |
+| `ServingService` | Online serving and serving metadata |
+| `DataframeService` | Dataframe plan resolution |
+| `RbacService` | Roles, permissions, access, and bindings |
+| `MachineCredentialService` | Machine credential lifecycle |
+| `AuditService` | Audit log listing |
+| `VersionService` | Version compatibility and auth discovery metadata |
+
+### Notable service areas
+
+- `WorkspaceService`: create, get, list, update, delete
+- `ProviderService`: register, get, list, update, delete
+- `SecretProviderService`: register, get, list, update, delete
+- `ApplyService`: apply and plan
+- `ResourceService`: per-resource get and list plus lineage, impact, versions, and workspace stats
+
+### Important apply fields
+
+- `workspace_id`
+- `resources`
+- `dry_run`
+- `apply_strategy`
+- `execution_mode`
+
+### Common provider-related models
+
+- `PostgresConfig`
+- `SnowflakeConfig`
+- `S3Config`
+- `SparkProviderConfig`
+- `ProviderHealth`
+- `SecretRef`
+
+## CLI
+
+This section documents the current public `ff` CLI surface.
+
+### Global flags
+
+Connection and transport:
+
+- `--server`, `-s`
+- `--grpc-server`
+- `--transport rest|grpc`
+- `--timeout`, `-t`
+- `--no-tls`
+
+Authentication:
+
+- `--token`
+- `--client-id`
+- `--client-secret`
+- `--issuer-url`
+
+CLI behavior:
+
+- `--output`, `-o`
+- `--config`
+- `--no-color`
+- `--skip-version-check`
+
+### Top-level commands
+
+- `ff version`
+- `ff ping`
+- `ff workspace`
+- `ff provider`
+- `ff secret-provider`
+- `ff apply`
+- `ff auth`
+- `ff rbac`
+- `ff machine-credential`
+- `ff audit`
+- `ff catalog`
+- `ff graph`
+- `ff scheduler`
+- `ff dataframe`
+- `ff config`
+
+## Python client
+
+This section indexes the main public Python surface exported from `featureform`.
+
+### Client APIs
+
+- `ff.Client`
+- `ff.WorkspaceClient`
+- `ff.ProviderClient`
+- `ff.SecretProviderClient`
+- `ff.ApplyResult`
+- `ff.ApplyWaitResult`
+
+### Common error types
+
+- `ff.FeatureformError`
+- `ff.ConnectionError`
+- `ff.InvalidArgumentError`
+- `ff.NotFoundError`
+- `ff.TimeoutError`
+- `ff.ValidationError`
+
+### Secret-provider and provider helpers
+
+- `ff.EnvSecretProvider`
+- `ff.VaultSecretProvider`
+- `ff.K8sSecretProvider`
+- `ff.PostgresProvider`
+- `ff.RedisProvider`
+- `ff.S3Provider`
+- `ff.SparkProvider`
+- `ff.get_postgres(name)`
+- `ff.get_provider(name)`
+
+### Core resource types
+
+- `ff.Entity`
+- `ff.Dataset`
+- `ff.Feature`
+- `ff.Label`
+- `ff.TrainingSet`
+- `ff.FeatureView`
