@@ -182,6 +182,32 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARDel(ctx context.Context, key string, indexes ...uint64) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "indexes",
+            "type": "...uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

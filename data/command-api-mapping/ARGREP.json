@@ -291,6 +291,76 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARGrep(ctx context.Context, key string, start, end string, args *ARGrepArgs) *UintSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "args",
+            "type": "*ARGrepArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*UintSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ARGrepWithValues(ctx context.Context, key string, start, end string, args *ARGrepArgs) *AREntrySliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "args",
+            "type": "*ARGrepArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*AREntrySliceCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

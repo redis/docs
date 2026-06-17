@@ -125,6 +125,32 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARMSet(ctx context.Context, key string, members ...AREntry) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...AREntry",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

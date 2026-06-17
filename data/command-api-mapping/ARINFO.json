@@ -152,6 +152,46 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARInfo(ctx context.Context, key string) *MapStringInterfaceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*MapStringInterfaceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ARInfoFull(ctx context.Context, key string) *MapStringInterfaceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*MapStringInterfaceCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

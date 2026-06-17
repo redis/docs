@@ -125,6 +125,32 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARMGet(ctx context.Context, key string, indexes ...uint64) *SliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "indexes",
+            "type": "...uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*SliceCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

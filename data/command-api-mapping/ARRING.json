@@ -227,6 +227,37 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARRing(ctx context.Context, key string, size uint64, values ...string) *UintCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "size",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*UintCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

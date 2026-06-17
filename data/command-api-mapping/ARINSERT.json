@@ -182,6 +182,32 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARInsert(ctx context.Context, key string, values ...string) *UintCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*UintCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

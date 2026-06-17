@@ -212,6 +212,37 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARLastItems(ctx context.Context, key string, count uint64, rev bool) *SliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "rev",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*SliceCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

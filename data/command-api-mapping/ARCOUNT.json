@@ -95,6 +95,27 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARCount(ctx context.Context, key string) *UintCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*UintCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

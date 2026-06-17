@@ -446,6 +446,245 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "AROpSum(ctx context.Context, key string, start, end uint64) *StringCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "AROpMin(ctx context.Context, key string, start, end uint64) *StringCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "AROpMax(ctx context.Context, key string, start, end uint64) *StringCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "AROpAnd(ctx context.Context, key string, start, end uint64) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "AROpOr(ctx context.Context, key string, start, end uint64) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "AROpXor(ctx context.Context, key string, start, end uint64) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "AROpMatch(ctx context.Context, key string, start, end uint64, value string) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "AROpUsed(ctx context.Context, key string, start, end uint64) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

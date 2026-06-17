@@ -257,6 +257,42 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARScan(ctx context.Context, key string, start, end uint64, args *ARScanArgs) *AREntrySliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "args",
+            "type": "*ARScanArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*AREntrySliceCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }

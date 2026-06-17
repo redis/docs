@@ -197,6 +197,32 @@
           "description": ""
         }
       }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARDelRange(ctx context.Context, key string, ranges ...ARRange) *UintCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "ranges",
+            "type": "...ARRange",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*UintCmd",
+          "description": ""
+        }
+      }
     ]
   }
 }
