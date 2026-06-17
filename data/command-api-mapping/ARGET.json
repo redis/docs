@@ -104,6 +104,27 @@
           "description": "the value at the index, or null if the index is empty or the key does not exist."
         }
       }
+    ],
+    "redis_py": [
+      {
+        "signature": "arget(name: KeyT, index: int)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bytes | str | None",
+          "description": ""
+        }
+      }
     ]
   }
 }

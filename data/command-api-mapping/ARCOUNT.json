@@ -79,6 +79,22 @@
           "description": "the count of populated slots, or 0 if the key does not exist."
         }
       }
+    ],
+    "redis_py": [
+      {
+        "signature": "arcount(name: KeyT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
     ]
   }
 }

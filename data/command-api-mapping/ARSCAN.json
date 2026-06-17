@@ -226,6 +226,37 @@
           "description": "a list of IndexedValue pairs."
         }
       }
+    ],
+    "redis_py": [
+      {
+        "signature": "arscan(name: KeyT, start: int, end: int, limit: int | None = None)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "int | None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list",
+          "description": ""
+        }
+      }
     ]
   }
 }

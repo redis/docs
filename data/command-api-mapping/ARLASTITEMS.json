@@ -186,6 +186,32 @@
           "description": "a list of values."
         }
       }
+    ],
+    "redis_py": [
+      {
+        "signature": "arlastitems(name: KeyT, count: int, rev: bool = False)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "rev",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list",
+          "description": ""
+        }
+      }
     ]
   }
 }

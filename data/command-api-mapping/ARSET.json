@@ -201,6 +201,32 @@
           "description": "the number of new slots created."
         }
       }
+    ],
+    "redis_py": [
+      {
+        "signature": "arset(name: KeyT, index: int, *values: FieldT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "*values",
+            "type": "FieldT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
     ]
   }
 }

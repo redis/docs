@@ -201,6 +201,32 @@
           "description": "the last index used."
         }
       }
+    ],
+    "redis_py": [
+      {
+        "signature": "arring(name: KeyT, size: int, *values: FieldT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "size",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "*values",
+            "type": "FieldT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
     ]
   }
 }

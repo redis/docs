@@ -240,6 +240,57 @@
           "description": "a list of matching IndexedValue pairs."
         }
       }
+    ],
+    "redis_py": [
+      {
+        "signature": "argrep(name: KeyT, start: int, end: int, predicates: list[tuple[ArrayPredicateType, EncodableT]], combinator: ArrayPredicateCombinator | None = None, limit: int | None = None, withvalues: bool = False, nocase: bool = False)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "predicates",
+            "type": "list[tuple[ArrayPredicateType, EncodableT]]",
+            "description": ""
+          },
+          {
+            "name": "combinator",
+            "type": "ArrayPredicateCombinator | None",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "int | None",
+            "description": ""
+          },
+          {
+            "name": "withvalues",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "nocase",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list",
+          "description": ""
+        }
+      }
     ]
   }
 }

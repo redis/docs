@@ -131,6 +131,27 @@
           "description": "the extended array metadata, or null if the key does not exist."
         }
       }
+    ],
+    "redis_py": [
+      {
+        "signature": "arinfo(name: KeyT, full: bool = False)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "full",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "dict",
+          "description": ""
+        }
+      }
     ]
   }
 }

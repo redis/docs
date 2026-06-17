@@ -161,6 +161,27 @@
           "description": "the last index used."
         }
       }
+    ],
+    "redis_py": [
+      {
+        "signature": "arinsert(name: KeyT, *values: FieldT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "*values",
+            "type": "FieldT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
     ]
   }
 }

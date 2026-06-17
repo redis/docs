@@ -104,6 +104,27 @@
           "description": "1 if the key exists, 0 if it does not."
         }
       }
+    ],
+    "redis_py": [
+      {
+        "signature": "arseek(name: KeyT, index: int)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
     ]
   }
 }

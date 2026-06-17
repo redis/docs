@@ -129,6 +129,32 @@
           "description": "a list of values (with null for empty slots)."
         }
       }
+    ],
+    "redis_py": [
+      {
+        "signature": "argetrange(name: KeyT, start: int, end: int)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list",
+          "description": ""
+        }
+      }
     ]
   }
 }

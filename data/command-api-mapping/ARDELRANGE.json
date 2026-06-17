@@ -176,6 +176,27 @@
           "description": "the number of elements deleted."
         }
       }
+    ],
+    "redis_py": [
+      {
+        "signature": "ardelrange(name: KeyT, *ranges: tuple[int, int])",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "*ranges",
+            "type": "tuple[int, int]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
     ]
   }
 }

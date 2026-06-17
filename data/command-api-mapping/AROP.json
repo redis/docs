@@ -410,6 +410,42 @@
           "description": "the count of matching elements."
         }
       }
+    ],
+    "redis_py": [
+      {
+        "signature": "arop(name: KeyT, start: int, end: int, operation: ArrayAggregateOperations, value: EncodableT | None = None)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "operation",
+            "type": "ArrayAggregateOperations",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "EncodableT | None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bytes | str | int | None",
+          "description": ""
+        }
+      }
     ]
   }
 }

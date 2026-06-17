@@ -79,6 +79,22 @@
           "description": "the logical length, or 0 if the key does not exist."
         }
       }
+    ],
+    "redis_py": [
+      {
+        "signature": "arlen(name: KeyT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
     ]
   }
 }

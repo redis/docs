@@ -104,6 +104,27 @@
           "description": "the number of new slots created."
         }
       }
+    ],
+    "redis_py": [
+      {
+        "signature": "armset(name: KeyT, mapping: Mapping[int, FieldT])",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "mapping",
+            "type": "Mapping[int, FieldT]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
     ]
   }
 }

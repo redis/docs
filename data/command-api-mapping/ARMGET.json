@@ -104,6 +104,27 @@
           "description": "a list of values (with null for empty slots)."
         }
       }
+    ],
+    "redis_py": [
+      {
+        "signature": "armget(name: KeyT, *indices: int)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "*indices",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list",
+          "description": ""
+        }
+      }
     ]
   }
 }
