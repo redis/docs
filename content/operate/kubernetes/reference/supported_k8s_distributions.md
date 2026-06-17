@@ -5,26 +5,25 @@ categories:
 - docs
 - operate
 - kubernetes
-description: Support matrix for the current Redis Enterprise for Kubernetes operator
+description: Support matrix for the current Redis Software for Kubernetes operator
 linkTitle: Supported distributions
 weight: 10
 ---
 
 ## Kubernetes version support
 
-Redis Enterprise for Kubernetes is compatible with [CNCF-conformant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes platforms. The operator follows standard Kubernetes APIs and practices and is designed to run consistently across certified Kubernetes environments.
+Redis Software for Kubernetes is compatible with [CNCF-conformant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes platforms. The operator follows standard Kubernetes APIs and practices and is designed to run consistently across certified Kubernetes environments.
 
-CNCF-conformant distributions include:
+Redis tests Redis Software for Kubernetes on the following platforms:
 
-- Amazon Elastic Kubernetes Service (EKS)
-- Azure Kubernetes Service (AKS)
+- Red Hat OpenShift
 - Google Kubernetes Engine (GKE)
 - Rancher Kubernetes Engine (RKE)
 - VMware Tanzu Kubernetes Grid Integrated Edition (TKGI)
-- VMware vSphere Kubernetes Grid (VKG)
-- Red Hat OpenShift
+- Azure Kubernetes Service (AKS)
+- Amazon Elastic Kubernetes Service (EKS)
 
-This list is not exhaustive. Any CNCF-conformant distribution running a supported Kubernetes version is supported.
+Redis also supports other CNCF-conformant distributions that run a supported Kubernetes version, even without explicit testing.
 
 The tables below use the following status icons:
 
