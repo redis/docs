@@ -1,0 +1,25 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arDelRange(key: RedisArgument, ranges: Array<ArDelRangeRange>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "ranges",
+            "type": "Array<ArDelRangeRange>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

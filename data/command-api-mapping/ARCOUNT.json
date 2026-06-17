@@ -1,0 +1,20 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arCount(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

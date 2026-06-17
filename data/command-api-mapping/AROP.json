@@ -1,0 +1,40 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arOp(key: RedisArgument, start: number | string, end: number | string, operation: ArOperation, value?: RedisArgument | number)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "operation",
+            "type": "ArOperation",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisArgument | number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "BlobStringReply | NumberReply | NullReply",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

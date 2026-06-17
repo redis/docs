@@ -1,0 +1,25 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arDel(key: RedisArgument, indices: ArIndex | Array<ArIndex>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "indices",
+            "type": "ArIndex | Array<ArIndex>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

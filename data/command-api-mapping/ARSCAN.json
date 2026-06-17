@@ -1,0 +1,35 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arScan(key: RedisArgument, start: number | string, end: number | string, options?: ArScanOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "ArScanOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArScanReply",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

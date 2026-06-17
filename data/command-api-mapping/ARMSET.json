@@ -1,0 +1,25 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arMSet(key: RedisArgument, entries: ArMSetEntries)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "entries",
+            "type": "ArMSetEntries",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

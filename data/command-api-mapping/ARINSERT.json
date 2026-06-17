@@ -1,0 +1,25 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arInsert(key: RedisArgument, values: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

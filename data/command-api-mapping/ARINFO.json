@@ -1,0 +1,25 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arInfo(key: RedisArgument, options?: ArInfoOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "ArInfoOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArInfoReply",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

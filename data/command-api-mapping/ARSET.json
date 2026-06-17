@@ -1,0 +1,30 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arSet(key: RedisArgument, index: number | string, value: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

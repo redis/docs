@@ -1,0 +1,30 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arLastItems(key: RedisArgument, count: number, options?: ArLastItemsOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "ArLastItemsOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<BlobStringReply | NullReply>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

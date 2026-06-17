@@ -1,0 +1,25 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arMGet(key: RedisArgument, indices: number | string | Array<number | string>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "indices",
+            "type": "number | string | Array<number | string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<BlobStringReply | NullReply>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

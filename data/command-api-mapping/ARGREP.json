@@ -1,0 +1,74 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arGrep(key: RedisArgument, start: ArGrepBound, end: ArGrepBound, predicates: Array<ArGrepPredicate>, options?: ArGrepOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "ArGrepBound",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "ArGrepBound",
+            "description": ""
+          },
+          {
+            "name": "predicates",
+            "type": "Array<ArGrepPredicate>",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "ArGrepOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<NumberReply>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "arGrepWithValues(key: RedisArgument, start: ArGrepBound, end: ArGrepBound, predicates: Array<ArGrepPredicate>, options?: ArGrepOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "ArGrepBound",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "ArGrepBound",
+            "description": ""
+          },
+          {
+            "name": "predicates",
+            "type": "Array<ArGrepPredicate>",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "ArGrepOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArGrepWithValuesReply",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
