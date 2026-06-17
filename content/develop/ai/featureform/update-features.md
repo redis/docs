@@ -28,7 +28,9 @@ Then apply:
 ```bash
 ff apply \
   --workspace <workspace-id> \
-  --file examples/featureform/docs/resources.py
+  --file examples/featureform/docs/resources.py \
+  --wait \
+  --wait-for finished
 ```
 
 ## When to use `--merge`

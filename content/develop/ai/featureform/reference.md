@@ -111,6 +111,7 @@ CLI behavior:
 - `--output`, `-o`
 - `--config`
 - `--no-color`
+- `--verbose`, `-v`
 - `--skip-version-check`
 
 ### Top-level commands

@@ -53,7 +53,9 @@ That file defines:
 ```bash
 ff apply \
   --workspace <workspace-id> \
-  --file examples/featureform/docs/resources.py
+  --file examples/featureform/docs/resources.py \
+  --wait \
+  --wait-for finished
 ```
 
 For a dry run first:
@@ -84,4 +86,3 @@ client = ff.Client(host="127.0.0.1:9090", insecure=True, workspace="<workspace>"
 features = client.serve("demo_customer_feature_view", entity="C1001")
 print(features)
 ```
-

@@ -111,18 +111,32 @@ Use this before large changes or whenever the file might be incomplete relative 
 
 ### Standard apply
 
-Apply the file:
+Apply the file and wait for it to finish:
 
 ```bash
 ff apply \
   --workspace <workspace-id> \
-  --file examples/featureform/docs/resources.py
+  --file examples/featureform/docs/resources.py \
+  --wait \
+  --wait-for finished
+```
+
+Without `--wait`, `ff apply` returns as soon as the server accepts the request and runs the job asynchronously. `--wait` blocks until the job reaches a target state: `--wait-for finished` waits for terminal success; `--wait-for running` returns as soon as the job is actively running.
+
+If you skip `--wait`, the response includes a job ID. Check the job's status and per-task progress with:
+
+```bash
+ff scheduler job get <job-id>
 ```
 
 ### Apply modes
 
 - **Default apply** replaces the workspace's current resource graph with the file.
-- **`--merge`** is safer for intentionally partial definition sets; resources omitted from the file aren't treated as deletions.
+- **`--merge`** applies a partial definition file without treating omitted resources as deletions.
+- **`--update`** is an advanced scheduler-backed mode that re-runs supported resources' normal update or incremental path, even when the graph definition is unchanged.
+- **`--full-rematerialize`** is an advanced scheduler-backed mode that forces full-refresh behavior on supported materialized resources.
+
+Use only one of `--merge`, `--update`, or `--full-rematerialize` at a time. Support for `--update` and `--full-rematerialize` is resource-family dependent — run `--plan` first to inspect the planned job, and pair them with `--wait` to see the outcome.
 
 ## Verify the apply
 
@@ -144,3 +158,5 @@ Common reasons:
 - **Secret can't be resolved.** A provider config uses a reference such as `env:PG_PASSWORD`, but the Feature Form server's environment doesn't expose that variable. Check the secret provider with `ff secret-provider get env --workspace <workspace-id>`.
 - **No resources to apply.** The entrypoint produced no resources. Make sure your file exports a `resources = [...]` list, or that auto-registration finds the resources you declared.
 - **Validation error.** The CLI prints the specific resource and field that failed; fix the file and re-run with `--plan`.
+
+For more detail, re-run with `--verbose` to enable debug logging to stderr. For most failures, though, the apply job itself surfaces clearer errors than the debug log — let `--wait` finish, or run `ff scheduler job get <job-id>`, before reaching for `--verbose`.
