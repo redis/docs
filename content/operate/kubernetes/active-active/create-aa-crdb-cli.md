@@ -69,7 +69,7 @@ You'll need to create DNS aliases to resolve your API hostname `<api-hostname>`,
   - Description: Combined with database name to create the Active-Active database hostname
   - Format: string
   - Example value: `-cluster.ijk.example.com`
-- [**REC admin credentials**]({{< relref "/operate/kubernetes/security/manage-rec-credentials" >}}) `<username> <password>`:
+- [**REC admin credentials**]({{< relref "/operate/kubernetes/security/manage-credentials" >}}) `<username> <password>`:
   - Description: Admin username and password for the REC stored in a secret
   - Format: string
   - Example value: username: `user@example.com`, password: `something`

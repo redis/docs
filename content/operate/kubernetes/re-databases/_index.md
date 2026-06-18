@@ -38,6 +38,7 @@ Explore advanced database features and configurations:
 Connect applications to your Redis Enterprise databases:
 
 - [Database connectivity]({{< relref "/operate/kubernetes/networking/database-connectivity" >}}) - Comprehensive guide to in-cluster and external database access, service discovery, and credentials management.
+- [Manage credentials]({{< relref "/operate/kubernetes/security/manage-credentials" >}}) - Retrieve and rotate REC admin credentials and REDB database passwords.
 - [Networking]({{< relref "/operate/kubernetes/networking" >}}) - Configure ingress, routes, and service exposure for database access
 - [Security]({{< relref "/operate/kubernetes/security" >}}) - Set up TLS, authentication, and access control for secure database connections
 
