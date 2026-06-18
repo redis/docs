@@ -16,7 +16,7 @@
   },
   "servers": [
     {
-      "url": "https://api.redislabs.com/v1"
+      "url": "https://api.redislabs.com"
     }
   ],
   "security": [
