@@ -27,12 +27,40 @@ import subprocess
 import sys
 import tempfile
 
-# Default = the exact digest the python-* launcher branches pin today.
-DEFAULT_IMAGE = (
-    "us-central1-docker.pkg.dev/redis-learning-378123/binderhub/"
-    "binder-python-base@sha256:"
-    "d28356e3f85b5d41c8324fcec7161b3a268a287b9025b590925829fda9aa71c1"
-)
+# Source file extension -> language. Drives base-image selection.
+EXT_LANGUAGE = {
+    ".py": "python", ".js": "node.js", ".go": "go",
+    ".java": "java", ".cs": "c#", ".php": "php", ".rb": "ruby", ".rs": "rust",
+}
+
+# Language -> BinderHub base image. Pin a digest here once confirmed against the
+# real image. Only python is verified today; other languages must be passed via
+# --image until their binder-<lang>-base digests are added here.
+BASE_IMAGES = {
+    "python": (
+        "us-central1-docker.pkg.dev/redis-learning-378123/binderhub/"
+        "binder-python-base@sha256:"
+        "d28356e3f85b5d41c8324fcec7161b3a268a287b9025b590925829fda9aa71c1"
+    ),
+}
+
+
+def detect_language(path):
+    return EXT_LANGUAGE.get(os.path.splitext(path)[1].lower())
+
+
+def resolve_image(path, override):
+    """Pick the base image: explicit --image wins, else map from source language."""
+    if override:
+        return override
+    lang = detect_language(path)
+    image = BASE_IMAGES.get(lang)
+    if not image:
+        raise SystemExit(
+            f"No base image known for language {lang!r} ({path}). "
+            f"Pass --image, or add the digest to BASE_IMAGES."
+        )
+    return image
 
 # Markers (Python comment prefix only, for this prototype).
 P = "#"
@@ -45,6 +73,19 @@ STEP_START, STEP_END = "STEP_START", "STEP_END"
 def _is(line, marker):
     s = line.strip()
     return s == f"{P} {marker}" or s == f"{P}{marker}" or s.startswith(f"{P} {marker} ")
+
+
+def read_markers(path):
+    """Pull BINDER_ID / KERNEL_NAME from the source header (for reporting/targeting)."""
+    info = {"binder_id": None, "kernel_name": None}
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            s = line.strip()
+            if s.startswith(f"{P} {BINDER_ID} "):
+                info["binder_id"] = s.split(BINDER_ID, 1)[1].strip()
+            elif s.startswith(f"{P} {KERNEL_NAME} "):
+                info["kernel_name"] = s.split(KERNEL_NAME, 1)[1].strip()
+    return info
 
 
 def parse_cells(path):
@@ -114,6 +155,7 @@ def to_notebook(cells, include_tests):
         if c["test"]:
             meta["tags"] = ["test"]
         nb_cells.append({
+            "id": f"cell{len(nb_cells)}",
             "cell_type": "code",
             "metadata": meta,
             "source": c["source"],
@@ -217,7 +259,8 @@ def report(executed):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("source", help="example source .py")
-    ap.add_argument("--image", default=DEFAULT_IMAGE)
+    ap.add_argument("--image", default=None,
+                    help="base image (defaults to the source language's image)")
     ap.add_argument("--mode", choices=["kernel", "script"], default="kernel",
                     help="kernel: real nbconvert (CI/amd64). "
                          "script: kernel-less exec (local/Apple Silicon).")
@@ -225,14 +268,19 @@ def main():
                     help="also write the stripped (shipped) notebook here")
     args = ap.parse_args()
 
+    image = resolve_image(args.source, args.image)
+    markers = read_markers(args.source)
     cells = parse_cells(args.source)
     n_test = sum(c["test"] for c in cells)
-    print(f"Parsed {len(cells)} cells ({n_test} test, {len(cells)-n_test} shipped) from {args.source}")
+    print(f"Source:   {args.source}")
+    print(f"Language: {detect_language(args.source)}  |  "
+          f"target branch: {markers['binder_id'] or '(no BINDER_ID)'}")
+    print(f"Parsed {len(cells)} cells ({n_test} test, {len(cells)-n_test} shipped)")
 
     test_nb = to_notebook(cells, include_tests=True)
-    img_name = args.image.split('@')[0].split('/')[-1]
+    img_name = image.split('@')[0].split('/')[-1]
     print(f"Executing test notebook in {img_name} (mode={args.mode}) ...")
-    executed = execute_in_image(test_nb, args.image, args.mode)
+    executed = execute_in_image(test_nb, image, args.mode)
 
     ok, failures = report(executed)
 
