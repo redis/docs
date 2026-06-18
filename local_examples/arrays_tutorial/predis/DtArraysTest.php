@@ -1,8 +1,8 @@
 // EXAMPLE: arrays_tutorial
 <?php
-// BINDER_ID php-arrays-tutorial
-
+// REMOVE_START
 use PHPUnit\Framework\TestCase;
+// REMOVE_END
 use Predis\Client as PredisClient;
 
 class DtArraysTest
