@@ -1,4 +1,5 @@
 # EXAMPLE: time_series_tutorial
+# BINDER_ID python-dt-timeseries
 # HIDE_START
 """
 Code samples for time series page:
