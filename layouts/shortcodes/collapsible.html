@@ -1,0 +1,49 @@
+{{- /*
+  collapsible: wraps content in a native <details> element that is collapsed
+  by default and expands on click. Unlike the `expand` shortcode, it has no
+  fixed height, so it handles long sections (CVE lists, supported platforms,
+  feature sets) without clipping.
+
+  Usage:
+    {{< collapsible "Supported platforms" >}}
+    ...markdown or HTML...
+    {{< /collapsible >}}
+
+  Or with named params:
+    {{< collapsible title="Supported platforms" open="true" >}}
+*/ -}}
+{{- $title := "" -}}
+{{- $open := false -}}
+{{- if .IsNamedParams -}}
+  {{- $title = .Get "title" -}}
+  {{- $open = eq (.Get "open") "true" -}}
+{{- else -}}
+  {{- $title = .Get 0 -}}
+{{- end -}}
+
+{{- /*
+  Always run the inner content through markdownify. These angle-bracket
+  shortcodes don't get markdown processing from the page, so we apply it here.
+  goldmark passes inline/raw HTML (such as <span> tags) through untouched, so
+  mixed HTML + markdown (tables, lists) renders correctly either way.
+*/ -}}
+{{- $inner := .Inner | markdownify -}}
+
+<details class="collapsible my-4 border border-redis-pen-700/10 rounded-md"{{ if $open }} open{{ end }}>
+  <summary class="collapsible-label cursor-pointer list-none px-4 py-3 font-medium select-none">
+    <div class="flex flex-row gap-3 items-center hover:text-redis-red-500 transition-colors ease-in-out duration-150">
+      {{- $title -}}
+      <div class="collapsible-chevron transition-transform duration-300 ease-in-out">
+        {{- partial "icons/chevron.html" -}}
+      </div>
+    </div>
+  </summary>
+  <div class="collapsible-content px-4 pb-4 pt-1">
+    {{- $inner -}}
+  </div>
+</details>
+
+<style>
+  .collapsible > summary::-webkit-details-marker { display: none; }
+  .collapsible[open] > summary .collapsible-chevron { transform: rotate(180deg); }
+</style>
