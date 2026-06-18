@@ -121,6 +121,11 @@ class NotebookBuilder:
             else:
                 logging.debug(f"Created cell {i} (preamble)")
 
+            # Tag test cells (from REMOVE blocks in keep_tests mode) so they can
+            # be executed for verification and stripped before shipping.
+            if block.get('is_test'):
+                cell.metadata['tags'] = ['test']
+
             cells.append(cell)
 
         logging.info(f"Created {len(cells)} notebook cells")

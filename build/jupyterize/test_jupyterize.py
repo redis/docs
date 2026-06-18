@@ -866,6 +866,7 @@ def main():
         test_language_detection()
         test_basic_conversion()
         test_hide_remove_blocks()
+        test_keep_tests_mode()
         test_javascript_file()
 
         # Edge case tests
@@ -1183,6 +1184,68 @@ public class TestExample {
             os.unlink(test_file)
         if os.path.exists(output_file):
             os.unlink(output_file)
+
+
+def test_keep_tests_mode():
+    """Test that --with-tests keeps REMOVE blocks as tagged 'test' cells."""
+    print("\nTesting keep-tests (test notebook) mode...")
+
+    test_content = """# EXAMPLE: test_keep
+# HIDE_START
+import redis
+r = redis.Redis()
+# HIDE_END
+
+# REMOVE_START
+r.delete("k")
+# REMOVE_END
+
+# STEP_START setit
+res = r.set("k", "v")
+print(res)
+# STEP_END
+# REMOVE_START
+assert res is True
+# REMOVE_END
+"""
+
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+        f.write(test_content)
+        test_file = f.name
+
+    ship_file = test_file.replace('.py', '.ipynb')
+    test_nb_file = test_file.replace('.py', '.test.ipynb')
+    try:
+        # Default (ship) mode: REMOVE content excluded, no test tags.
+        jupyterize(test_file, ship_file, verbose=False)
+        with open(ship_file) as f:
+            ship = json.load(f)
+        ship_src = ''.join(''.join(c['source']) for c in ship['cells'])
+        assert 'assert res is True' not in ship_src
+        assert 'r.delete' not in ship_src
+        assert all('test' not in c['metadata'].get('tags', []) for c in ship['cells'])
+
+        # With tests: REMOVE blocks kept as cells tagged 'test', in order.
+        jupyterize(test_file, test_nb_file, verbose=False, with_tests=True)
+        with open(test_nb_file) as f:
+            tnb = json.load(f)
+        test_cells = [c for c in tnb['cells'] if 'test' in c['metadata'].get('tags', [])]
+        assert len(test_cells) == 2, f"expected 2 test cells, got {len(test_cells)}"
+        tnb_src = ''.join(''.join(c['source']) for c in tnb['cells'])
+        assert 'assert res is True' in tnb_src
+        assert 'r.delete' in tnb_src
+        # The shipped notebook is the test notebook minus the tagged cells.
+        non_test = [c for c in tnb['cells'] if 'test' not in c['metadata'].get('tags', [])]
+        assert len(non_test) == len(ship['cells'])
+        # Test cells carry no step metadata (so stripping leaves steps intact).
+        assert all('step' not in c['metadata'] for c in test_cells)
+
+        print("✓ Keep-tests mode test passed")
+
+    finally:
+        for p in (test_file, ship_file, test_nb_file):
+            if os.path.exists(p):
+                os.unlink(p)
 
 
 if __name__ == '__main__':
