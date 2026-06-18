@@ -64,7 +64,7 @@ def resolve_image(path, override):
 
 # Markers (Python comment prefix only, for this prototype).
 P = "#"
-EXAMPLE, BINDER_ID, KERNEL_NAME = "EXAMPLE", "BINDER_ID", "KERNEL_NAME"
+EXAMPLE, BINDER_ID, KERNEL_NAME = "EXAMPLE:", "BINDER_ID", "KERNEL_NAME"
 HIDE_START, HIDE_END = "HIDE_START", "HIDE_END"
 REMOVE_START, REMOVE_END = "REMOVE_START", "REMOVE_END"
 STEP_START, STEP_END = "STEP_START", "STEP_END"
