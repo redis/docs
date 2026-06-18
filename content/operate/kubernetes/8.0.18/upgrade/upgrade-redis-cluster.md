@@ -155,6 +155,10 @@ We recommend upgrading the REC as soon as possible after updating the operator. 
 
 The Redis Enterprise cluster (REC) can be updated automatically or manually. To trigger automatic upgrade of the REC after the operator upgrade completes, specify `autoUpgradeRedisEnterprise: true` in your REC spec. If you don't have automatic upgrade enabled, follow the below steps for the manual upgrade.
 
+{{<warning>}}
+Automatic upgrade is incompatible with image digest hashes. If you set a `digestHash` in any image spec (`redisEnterpriseImageSpec`, `redisEnterpriseServicesRiggerImageSpec`, `bootstrapperImageSpec`, or `usageMeter.callHomeClient.imageSpec`) while `autoUpgradeRedisEnterprise` is `true`, the operator invalidates the REC spec and publishes a Kubernetes warning event. Remove all `digestHash` values before you enable automatic upgrade, or upgrade the cluster [manually](#edit-redisenterpriseimagespec-in-the-rec-spec) instead.
+{{</warning>}}
+
 Before beginning the upgrade of the Redis Enterprise cluster, check the [Redis Enterprise for Kubernetes release notes]({{<relref "/operate/kubernetes/release-notes">}}) to find the Redis Enterprise image tag for your target version.
 
 After the operator upgrade is complete, you can upgrade Redis Enterprise cluster (REC).
@@ -294,3 +298,17 @@ curl -sfk -u <rec_username>:<rec_password> -X POST -H "Content-Type: application
 ```
 
 After updating the modules with the Redis Software API, update the REDB custom resource to reflect the change.
+
+### Auto-upgrade blocked by image digest hashes
+
+If `autoUpgradeRedisEnterprise` is `true` and any image spec sets a `digestHash`, the operator invalidates the REC spec and blocks the upgrade until you remove the digest hashes. The REC enters the `InvalidUpgrade` state and the operator publishes a Kubernetes warning event describing the problem.
+
+1. **Check the REC events**: Review the event published on the REC.
+
+    ```sh
+    kubectl describe rec <cluster-name>
+    ```
+
+1. **Remove the digest hashes**: Delete the `digestHash` field from every image spec that sets it (`redisEnterpriseImageSpec`, `redisEnterpriseServicesRiggerImageSpec`, `bootstrapperImageSpec`, and `usageMeter.callHomeClient.imageSpec`). Once the spec no longer uses digest hashes, the operator revalidates it and the upgrade proceeds.
+
+Alternatively, set `autoUpgradeRedisEnterprise: false` and [upgrade the cluster manually](#edit-redisenterpriseimagespec-in-the-rec-spec), which supports digest hashes.
