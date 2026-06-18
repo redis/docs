@@ -21,17 +21,17 @@ This version offers:
 
 ## New in this release
 
-### Redis database versions
+### Redis database versions and feature sets
 
 Redis Software version 7.8.6 includes three Redis database versions: 7.4.0, 7.2.4, and 6.2.13.
 
 The [default Redis database version]({{<relref "/operate/rs/databases/configure/db-defaults#database-version">}}) is 7.4.
 
-### Redis module feature sets
-
 Redis Software comes packaged with several modules. As of version 7.8.2, Redis Software includes three feature sets, compatible with different Redis database versions.
 
 The following table shows which Redis modules are compatible with each Redis database version included in this release.
+
+{{< collapsible "Show feature set details" >}}
 
 | Redis database version | Compatible Redis modules |
 |------------------------|--------------------------|
@@ -41,11 +41,15 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 1. <a name="module-note-1"></a>RedisGraph end-of-life has been announced and will be removed in a future release. See the [RedisGraph end-of-life announcement](https://redis.io/blog/redisgraph-eol/) for more details.
 
+{{< /collapsible >}}
+
 ## Version changes
 
 ### Supported platforms
 
 The following table provides a snapshot of supported platforms as of this Redis Software release. See the [supported platforms reference]({{< relref "/operate/rs/references/supported-platforms" >}}) for more details about operating system compatibility.
+
+{{< collapsible "Show supported platforms" >}}
 
 <span title="Check mark icon">&#x2705;</span> Supported – The platform is supported for this version of Redis Software and Redis Stack modules.
 
@@ -78,6 +82,8 @@ The following table provides a snapshot of supported platforms as of this Redis 
 4. <a name="table-note-4"></a>[Docker images]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) of Redis Software are certified for development and testing only.
 
 5. <a name="table-note-5"></a>Supported only if [FIPS was enabled during RHEL installation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/security_hardening/switching-rhel-to-fips-mode_security-hardening#proc_installing-the-system-with-fips-mode-enabled_switching-rhel-to-fips-mode) to ensure FIPS compliance.
+
+{{< /collapsible >}}
 
 ## Downloads
 
@@ -131,7 +137,7 @@ Some CVEs announced for open source Redis do not affect Redis Software due to di
 
 Redis Software 7.8.6-tba supports open source Redis 7.4, 7.2, and 6.2. Below is the list of open source Redis CVEs and other security vulnerabilities fixed by version.
 
-Redis 7.4.x:
+{{< collapsible "Redis 7.4.x" >}}
 
 - (CVE-2026-23479) When a blocked client is evicted while re-executing a blocked command, an authenticated user may trigger a use-after-free and potentially lead to remote code execution.
 
@@ -181,7 +187,9 @@ Redis 7.4.x:
 
 - (CVE-2025-21605) An unauthenticated client can cause unlimited growth of output buffers until the server runs out of memory or is terminated, which can lead to denial-of-service.
 
-Redis 7.2.x:
+{{< /collapsible >}}
+
+{{< collapsible "Redis 7.2.x" >}}
 
 - (CVE-2026-23479) When a blocked client is evicted while re-executing a blocked command, an authenticated user may trigger a use-after-free and potentially lead to remote code execution.
 
@@ -239,7 +247,9 @@ Redis 7.2.x:
 
 - (CVE-2023-41053) Redis does not correctly identify keys accessed by `SORT_RO` and, as a result, may grant users executing this command access to keys that are not explicitly authorized by the ACL configuration. (Redis 7.2.1)
 
-Redis 7.0.x:
+{{< /collapsible >}}
+
+{{< collapsible "Redis 7.0.x" >}}
 
 - (CVE-2024-31449) An authenticated user may use a specially crafted Lua script to trigger a stack buffer overflow in the bit library, which may potentially lead to remote code execution.
 
@@ -273,7 +283,9 @@ Redis 7.0.x:
 
 - (CVE-2022-24735) By exploiting weaknesses in the Lua script execution environment, an attacker with access to Redis can inject Lua code that will execute with the (potentially higher) privileges of another Redis user. (Redis 7.0.0)
 
-Redis 6.2.x:
+{{< /collapsible >}}
+
+{{< collapsible "Redis 6.2.x" >}}
 
 - (CVE-2026-23479) When a blocked client is evicted while re-executing a blocked command, an authenticated user may trigger a use-after-free and potentially lead to remote code execution.
 
@@ -366,3 +378,5 @@ Redis 6.2.x:
 - (CVE-2021-29478) An integer overflow bug in Redis 6.2 could be exploited to corrupt the heap and potentially result with remote code execution. The vulnerability involves changing the default set-max-intset-entries configuration value, creating a large set key that consists of integer values and using the COPY command to duplicate it. The integer overflow bug exists in all versions of Redis starting with 2.6, where it could result with a corrupted RDB or DUMP payload, but not exploited through COPY (which did not exist before 6.2). (Redis 6.2.3)
 
 - (CVE-2021-29477) An integer overflow bug in Redis version 6.0 or newer could be exploited using the STRALGO LCS command to corrupt the heap and potentially result in remote code execution. The integer overflow bug exists in all versions of Redis starting with 6.0. (Redis 6.2.3)
+
+{{< /collapsible >}}
